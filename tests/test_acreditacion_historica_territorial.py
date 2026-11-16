@@ -55,6 +55,8 @@ def _sha256(path: Path) -> str:
 # Aragón adoptó el M06 durable 40656036271; su producto histórico 36321736287 se conserva
 # como caso fijo (fila de catálogo y receipt anteriores) para seguir ejercitando la acreditación.
 HISTORICAL_FIXTURES = ROOT / "tests/fixtures/acreditacion_historica"
+# T-349: lo que antes se copiaba del estado vivo (acreditaciones, manifiesto, contrato) sale de esta copia congelada.
+CONGELADO = HISTORICAL_FIXTURES / "congelado_25dd777"
 FIXTURE_CASES = {
     "aut02": (
         HISTORICAL_FIXTURES / "aragon_catalog_row_36321736287.yaml",
@@ -112,7 +114,7 @@ def _accreditation_rel(territory_id: str, run_id: int) -> str:
 def _copy_file(root: Path, rel: str) -> None:
     from herramientas.acreditar_producto_territorial_historico import _ruta_viva  # T-220: rutas selladas viejas
     rel = _ruta_viva(rel)
-    src = ROOT / rel
+    src = CONGELADO / rel  # T-349: nunca el estado vivo
     dst = root / rel
     dst.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(src, dst)
@@ -174,8 +176,13 @@ def _copy_case(territory_id: str) -> tuple[Path, tempfile.TemporaryDirectory, st
     for name in ("gate", "audit"):
         _copy_file(root, record["sealed_evidence"][name]["path"])
     manifest_rel = f"territorios/{territory_id}/evidencia/ejecuciones_completas/{run_id}.json"
-    if (ROOT / manifest_rel).is_file():
+    if (CONGELADO / manifest_rel).is_file():
         _copy_file(root, manifest_rel)
+    # T-349 (D-102): la cadena solo reutiliza un M06 registrado con id canónico exacto. Estos tests ejercitan la acreditación
+    # histórica y la fase productora, no el id: la COPIA temporal del recibo lleva el id canónico (estado tras regenerar).
+    copia = json.loads((root / receipt_rel).read_text(encoding="utf-8"))
+    copia["territory_id"] = territory_id
+    (root / receipt_rel).write_text(json.dumps(copia, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return root, td, receipt_rel, json.loads((root / receipt_rel).read_text(encoding="utf-8"))
 
 
@@ -215,10 +222,10 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
                 asset = _receipt(territory_id)
                 run_id = expected["run_id"]
                 record = json.loads(
-                    (ROOT / _accreditation_rel(territory_id, run_id)).read_text(encoding="utf-8")
+                    (CONGELADO / _accreditation_rel(territory_id, run_id)).read_text(encoding="utf-8")
                 )
-                gate_path = _sealed_path(ROOT, record, "gate")
-                audit_path = _sealed_path(ROOT, record, "audit")
+                gate_path = _sealed_path(CONGELADO, record, "gate")
+                audit_path = _sealed_path(CONGELADO, record, "audit")
                 self.assertEqual(expected["gate_sha"], _sha256(gate_path))
                 self.assertEqual(expected["audit_sha"], _sha256(audit_path))
                 self.assertEqual(
@@ -243,7 +250,7 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
                 )
 
                 result = derive_historical_territorial_producer(
-                    root_dir=ROOT,
+                    root_dir=CONGELADO,
                     territory_id=territory_id,
                     edition="2025",
                     receipt_rel=_receipt_rel(territory_id),
@@ -262,7 +269,7 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
                 self.assertEqual("PASS_WITH_EXCEPTIONS", result["audit"]["decision"])
 
         cyl = derive_historical_territorial_producer(
-            root_dir=ROOT,
+            root_dir=CONGELADO,
             territory_id="aut07",
             edition="2025",
             receipt_rel=_receipt_rel("aut07"),
@@ -429,7 +436,7 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
 
     def test_materialization_verifies_actions_archive_identity_and_exact_member_bytes(self):
         source_bytes = (
-            ROOT
+            CONGELADO
             / "territorios/aut02/evidencia/acreditaciones_historicas/36321736287/originales/puerta.json"
         ).read_bytes()
         with tempfile.TemporaryDirectory() as td:
@@ -500,7 +507,7 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
                 side_effect=AssertionError("planning must not consult Actions materialization"),
             ):
                 result = derive_historical_territorial_producer(
-                    root_dir=ROOT,
+                    root_dir=CONGELADO,
                     territory_id=territory_id,
                     edition="2025",
                     receipt_rel=_receipt_rel(territory_id),

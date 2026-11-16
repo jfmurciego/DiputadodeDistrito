@@ -500,188 +500,7 @@
    "sha256_csv": "cff8c12ea151ee20582dfc9fac2a59801a220e8a17d73d485bc20293be9a9c3d"
   }
  },
- "partidos": {
-  "congreso_alava": {
-   "blob_sha_m08": "d3fc88943f3b177aedc172a758785b7d9096c8e3",
-   "sha256_composicion": "a4507f48ddc8d95674949f533d9675cb1bb136b7125aca5c7c0f1a89d968f195",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "9d208c89b45c0ecf4f1994872f05a502b943fdd7cc8c62621df5489c4f26bf29"
-  },
-  "congreso_asturias": {
-   "blob_sha_m08": "9cfb9eecfd065e04360c4051c21c479db90639ad",
-   "sha256_composicion": "16a222a0928c730bfb7ddd60555f82b709a8fe0e34d4a545155fd6752d09d944",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "ce555a3217691c7ae5b39e9280935d91f0ce0c6fe01f4dc7a6b557a4ba8c0b1c"
-  },
-  "congreso_baleares": {
-   "blob_sha_m08": "f4803b7cbbedfeb951917c06ee1ba5ba0bfae033",
-   "sha256_composicion": "bcdca9175ecaead38582a2dfe32f61b60e71b717145968a1382d326f3d7cb0c4",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "c8ef884f544b05bdf02bfb0e5050b83ad80ca7e17b68c527988cce346acba065"
-  },
-  "congreso_burgos": {
-   "blob_sha_m08": "74e2223eb893f175d8861db1c07ec6a7f2ca4510",
-   "sha256_composicion": "75199071b7b9d2cc7607006c451c3b389fedc881bd3e52833a62198d87ef6214",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "22d0e89d1f9931e50da6fde5c4421f8da8afcbf48532030c5f7f6c3946300ea5"
-  },
-  "congreso_cadiz": {
-   "blob_sha_m08": "8546ec32dc1be59241c53caecedbb4007d19f4af",
-   "sha256_composicion": "9efad3ca2d728627586a5eefbaf28a9b497f7cdcc48c44f01d64998cbe512c78",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "530006df2963b71074033fabb10fee0769cd509117ed0702a0f4e35fa911bef1"
-  },
-  "congreso_cantabria": {
-   "blob_sha_m08": "a1da06e542e1285fd2422e651fd100a60bea41e2",
-   "sha256_composicion": "7bf80faa7fa1423dfb2fa16e31b8e87b9a1b0ccee7cf3a105e7a73128c40af25",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "a1f48c1433b29d9010ebcde328140ee658df9021ee69a962a354791e571433ea"
-  },
-  "congreso_castellon": {
-   "blob_sha_m08": "c7205b34b76b9ed34c19838afecc27fe9124f135",
-   "sha256_composicion": "faf0cd57d563c2a2ec22363f7dcd2b4cd88d21de8f16a345eb137a61a7f67ae9",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "d40ca3de992b090deeeb38da35bf806cd310c8de99be0c702a83e6b606449e63"
-  },
-  "congreso_ceuta": {
-   "blob_sha_m08": "a4832d2fc00cc3442113ff09801c3e198433b091",
-   "sha256_composicion": "0c0276b5b62ca585b38a7d02a1f708155256fe35e9928af939014e3c76c3a7af",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "1665fe8ce50499b9feb1d7b4e31c4745e631912f69b85cd1f58e460741b258b9"
-  },
-  "congreso_cuenca": {
-   "blob_sha_m08": "e29e727992f394a06e730933715684cf5421b5c1",
-   "sha256_composicion": "b742957de73b43e19db9512f9fdb686cfb731e7edb89ea62fef00b5b2dc14f1b",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "3917117c1cc0beec20707c43feb3ee39949870025d93a808d42031c85609facc"
-  },
-  "congreso_gerona": {
-   "blob_sha_m08": "be43a21eb06fe0b2b9464ba122339d24f2f476e3",
-   "sha256_composicion": "2b9e421dd8236727a42a2a2ca3fa77db5af10c41b4729a1fae2f5cdfc43f3a4c",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "2fc89720d66111f11aadcc86320bd05507a0a84e3c6961b9565f8d4ca75a6032"
-  },
-  "congreso_granada": {
-   "blob_sha_m08": "c66245657ddefc1de11baec0ff20d26de25900ef",
-   "sha256_composicion": "9cf457e6c2a8423fa78e429a7ec525191ce8270a7115019a503a483ee7109bcd",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "731a3e019c847253432bebedad7302c82492d9286160c9cfc35663862fea0de4"
-  },
-  "congreso_guadalajara": {
-   "blob_sha_m08": "4b459fd17245300468949ff20e2f119018d5c792",
-   "sha256_composicion": "866af96d6725859c3839c3c789d5f743c13e218c182c2ca2a21e77e3e45f3145",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "07f434c0b511238154f7de5d09c339f452e9fa37c84ada57c73215737eef7d93"
-  },
-  "congreso_huelva": {
-   "blob_sha_m08": "c7d817affd289cde0c069594366b0b4d929c628b",
-   "sha256_composicion": "b6e79d7bd464a5587ca98663ec3a22729c116a62d6c37527fdae133ff5e2a917",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "2454560fe5401a9db4b5d2a77b531a878fb392db4560d363d757473648b49ab5"
-  },
-  "congreso_huesca": {
-   "blob_sha_m08": "db4713cd49825d47c618325403e382476401686a",
-   "sha256_composicion": "e80ec32b04d6bcdb46de5f29b8064ab9ca26555f8c352f7b937fe5a02893b939",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "558edd5c4eb6243d798e0301f0fb8f7770b070a03ed7134f288053e2e0ef9fa5"
-  },
-  "congreso_las_palmas": {
-   "blob_sha_m08": "dc9480466ab380c928492c554cc1f11c7bdde9c2",
-   "sha256_composicion": "e817de3faad80aad9d78b2eeee006fcbdc96ba35789162c04b8894d3a6faf563",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "74f25a34893f50a7c846955fccd92fc9151f51cfdd3c997601dbc0fde484a9ea"
-  },
-  "congreso_leon": {
-   "blob_sha_m08": "fb9b05561399abd89a4c06bb3251d5d28712acc4",
-   "sha256_composicion": "295ee72e72479aa104d93d7f99b0e7d12fc72fd2835c025c74f8cac079dca9dd",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "a8460766899c79140e8ec6dfc9d7d2f4c9c5144d1fd24e82259c70945bd2d809"
-  },
-  "congreso_lerida": {
-   "blob_sha_m08": "95da3c81fe54d39d5c249d961d30fb9286729695",
-   "sha256_composicion": "c840bcd3261d9e18757b4184a8a7855eaaad57bd8e4eb0a4efadfe4882850707",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "89420ed2ecc6aaf55933086fcf36b1bc19e96e68a5f79dc290b031aa2eb0fdd3"
-  },
-  "congreso_melilla": {
-   "blob_sha_m08": "0359e7c88e9c1bc2c8f60a0615615e1dc6ac7276",
-   "sha256_composicion": "fdc1449d7dfc6cb385cb29aff9fb238724ec4566bd8b22e8b768abf47b436d0d",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "43ab4ac6fbe46ab67e028834ffb1ddc383782cbbe2f941c0a7702f2f23a7077c"
-  },
-  "congreso_murcia": {
-   "blob_sha_m08": "574d8ec0f1e61ac183c8b590c22141dacd75f17a",
-   "sha256_composicion": "e508964b031621bb1d80430ac4478b091f868be841cc42f4f39fa6936bff3d96",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "266c3f64399165bedede2765e96e181d78f80b28a80bcfc2c5d7b65a72479788"
-  },
-  "congreso_navarra": {
-   "blob_sha_m08": "0967d47647a8fc62faec9139809393a4c0dd0485",
-   "sha256_composicion": "fd0cf2bac1f6466b6f1d07ef04c3baa04abab73c1f2970720fdbd6614858d8d4",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "c911a7f00728a58b16978056cf2155e2a98f5df0945578c6fa0565241417b162"
-  },
-  "congreso_orense": {
-   "blob_sha_m08": "85aa91e079414ae53a062ab7bfff3e51effe02f5",
-   "sha256_composicion": "a8c192a962ebd0c22323f7a58a0bdd744a1c6038287381e9e36c4c20b555340d",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "89edc57de7b1ae0695ba2abae8782e5c0d56b97605c088179008bf9821825056"
-  },
-  "congreso_palencia": {
-   "blob_sha_m08": "a57583bcba9edd506c7a32b827166f4d0b7ae545",
-   "sha256_composicion": "3a6ce8ce35cdcef4f375975954a5f97a536515b1b6381c0aa69ba79a98128159",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "91cd3798124034c9646d58949acefce52d65e71e7ca1d08a3e8fa8a0cabcc86d"
-  },
-  "congreso_salamanca": {
-   "blob_sha_m08": "442c8201661af099714b6e9b49f133deb88f5794",
-   "sha256_composicion": "58712daa22f577d69ab78947cd48f79afbd15092b42afdd93704a0885ce95b42",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "336b27f78f4f9d801576bf96fd5e238529bc1c4f09a1d104ff37425acef64c84"
-  },
-  "congreso_santa_cruz_de_tenerife": {
-   "blob_sha_m08": "047b62cf96d9474c5dec9fa318e032b5da711133",
-   "sha256_composicion": "06ff3f2a92aab8c31e36223c61915dbe174fb8d95cdd9ba1e7a0488a47fd0d79",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "28bd7d1128121ac4ac06d5a9e2eaa618daf203460ce0df83ebf5d993ef627a00"
-  },
-  "congreso_segovia": {
-   "blob_sha_m08": "7b8441b18d177c1c1c6709395f912996a38b076d",
-   "sha256_composicion": "1e29a5b8abc3c4431e535ae5a00e0901c8fb6912899a3a1ea9cdc7bafa032d3e",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "0a2dc910af6815955a53414328a838ed62820eea545f686d43852e7fe1c7393c"
-  },
-  "congreso_soria": {
-   "blob_sha_m08": "9b819f8253137f1d6c44ad8ec54c4576e426ce58",
-   "sha256_composicion": "1921c37db90159bfbd5df9a8a025df33688ea1221515ecf2607147406f78fcac",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "26e9bc78dec42bede08628d29e181d19135b116c9a8d1ea6e57c88851a3fcc65"
-  },
-  "congreso_tarragona": {
-   "blob_sha_m08": "c0a648d366913547d9be1cab5f8d59c2756ebd81",
-   "sha256_composicion": "8b5f1e0dc6afb10d8a2bca45bae89b505996cdfee9e9bc19d39c4c26c766bcc1",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "ab706bd92a2b153e45fcc2ab7690f1c32f3e6f7f717226cc5adc62907133cae8"
-  },
-  "congreso_teruel": {
-   "blob_sha_m08": "16b291fb3157d8d03c46d45bc185d428f7c3c15d",
-   "sha256_composicion": "ec2fc9c75b7532324f2440018a1afa4657c6a635197be05c7ddc12c2c4f504f1",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "85e32b6168ce5a7b08a0f9654f7cd061727992b838183ccb9bf05814eb2ea593"
-  },
-  "congreso_valladolid": {
-   "blob_sha_m08": "52c92117dc16ff1f6139510b56c76c66b1b83567",
-   "sha256_composicion": "12fc9b06f9a02ebf981d637d6b8ba5fe70f061fb99e9c80a70a697dd5219c3cc",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "c54f9b0a40f844fac885d4242aacb41df5225ab7bd24264a48e874a3649953f8"
-  },
-  "congreso_zamora": {
-   "blob_sha_m08": "ab897447076206bb0b62b2a37945708a4dab85e2",
-   "sha256_composicion": "e7b4f3a71866478285c368f75714e812f736674e39215c14278b876a00831c15",
-   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
-   "sha256_csv": "6edb3fd88bddbe49dede7b6af11aeab7309ff00cd441c12755fa2fe0e4ae4f6c"
-  }
- },
+ "partidos": {},
  "partidos_runs": {
   "congreso350_madrid/42599356804": {
    "territorio": "congreso350_madrid",
@@ -1518,6 +1337,671 @@
     "ruta": "datos/resultados/runs/congreso_zaragoza_43041544479_desajustes.json",
     "sha256": "b471741fc5ec0807b10b0d721fedf9451f8089f67142a755215aafd236e7ece3"
    }
+  },
+  "nac01/43756171657": {
+   "territorio": "nac01",
+   "run_id": "43756171657",
+   "run_territorial": "43750441261",
+   "sha256_composicion": "a4507f48ddc8d95674949f533d9675cb1bb136b7125aca5c7c0f1a89d968f195",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "9d208c89b45c0ecf4f1994872f05a502b943fdd7cc8c62621df5489c4f26bf29",
+   "ruta": "datos/resultados/runs/nac01_43756171657_partidos.csv"
+  },
+  "nac02/43759317191": {
+   "territorio": "nac02",
+   "run_id": "43759317191",
+   "run_territorial": "43754629627",
+   "sha256_composicion": "f0567359e514e764c199850b7d49a55db8c9a187cb706693f7057788e5a7c759",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "3b753ce203f411eeea633eb992f3015fa588ea817f1f93d3dc9b93bf0f366983",
+   "ruta": "datos/resultados/runs/nac02_43759317191_partidos.csv",
+   "desajustes": {
+    "secciones": 2,
+    "pct_desajuste": 0.6348,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac02_43759317191_desajustes.json",
+    "sha256": "c3d08d45d273b965b77c41757a4222761480a6b6e70769a49b1f1d51a83d23c1"
+   }
+  },
+  "nac03/43760040662": {
+   "territorio": "nac03",
+   "run_id": "43760040662",
+   "run_territorial": "43754642510",
+   "sha256_composicion": "48c5032358939db056f4d9b1a4cc0662007cb2cee2468aaa696e4a685748fede",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "bce58f9fd2aa4fafa175a2ef2dcaaeb774edec28b091496146e57682fa32be8a",
+   "ruta": "datos/resultados/runs/nac03_43760040662_partidos.csv",
+   "desajustes": {
+    "secciones": 6,
+    "pct_desajuste": 0.1932,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac03_43760040662_desajustes.json",
+    "sha256": "78c90ef5535e11b911c32853526b8c5699cbad4973abfb186cb283e81a1570a7"
+   }
+  },
+  "nac04/43760565695": {
+   "territorio": "nac04",
+   "run_id": "43760565695",
+   "run_territorial": "43754886944",
+   "sha256_composicion": "7d81442fb34a9bd31200e3018b28031b4f8d88e274154d5c97bcd659389e73f5",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "ea70fdf99e0bd0be283994265fcac22de308951b9efc53a976e3d4da4ba2a231",
+   "ruta": "datos/resultados/runs/nac04_43760565695_partidos.csv",
+   "desajustes": {
+    "secciones": 3,
+    "pct_desajuste": 0.518,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac04_43760565695_desajustes.json",
+    "sha256": "64a42a73637ad0ba16fc7a0b3815e37b8494c5e2f9a4c595b225bb7d2a528f12"
+   }
+  },
+  "nac05/43760758129": {
+   "territorio": "nac05",
+   "run_id": "43760758129",
+   "run_territorial": "43755691825",
+   "sha256_composicion": "7635b7d07db46817242f602c92069657205bf1df4c865a91b9911ba40fea8b71",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "ddf53853be330cac8c961f495ed8372cc979d7cc6116cd3c477078c08c1340c9",
+   "ruta": "datos/resultados/runs/nac05_43760758129_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac05_43760758129_desajustes.json",
+    "sha256": "40585119ba30e4aecef4c4d33b18cacd75d28e91aa49faa4b875f5ab9f5ffdbe"
+   }
+  },
+  "nac06/43761252898": {
+   "territorio": "nac06",
+   "run_id": "43761252898",
+   "run_territorial": "43755921825",
+   "sha256_composicion": "d9e9816165136deb3818e07f32ad156c75544f522103b3bd268fa13342b1371c",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "4c3a22345d6e8816ff359bcbcea4b36a9c345e15f4c5efe41c5c79c95fe0039b",
+   "ruta": "datos/resultados/runs/nac06_43761252898_partidos.csv",
+   "desajustes": {
+    "secciones": 10,
+    "pct_desajuste": 0.8706,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac06_43761252898_desajustes.json",
+    "sha256": "3980ebf7e340aa79f092e66db1e42b4da96639f52203a202099a1ce43adee023"
+   }
+  },
+  "nac07/43763327156": {
+   "territorio": "nac07",
+   "run_id": "43763327156",
+   "run_territorial": "43757976344",
+   "sha256_composicion": "bcdca9175ecaead38582a2dfe32f61b60e71b717145968a1382d326f3d7cb0c4",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "c8ef884f544b05bdf02bfb0e5050b83ad80ca7e17b68c527988cce346acba065",
+   "ruta": "datos/resultados/runs/nac07_43763327156_partidos.csv"
+  },
+  "nac08/43763728403": {
+   "territorio": "nac08",
+   "run_id": "43763728403",
+   "run_territorial": "43757988864",
+   "sha256_composicion": "1b339f7dae8a7141d465775e16360a878cb2bb2f806716701dfdcf974a4e50e0",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "7574d436382c8174a996d21cb755f544da531187c8f302b813e65a54c6b6145c",
+   "ruta": "datos/resultados/runs/nac08_43763728403_partidos.csv",
+   "desajustes": {
+    "secciones": 9,
+    "pct_desajuste": 0.2395,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac08_43763728403_desajustes.json",
+    "sha256": "4c5e5721e27add65b32962c5aecce6a081020513eba64da45a9a8467034ab9b6"
+   }
+  },
+  "nac09/43763483520": {
+   "territorio": "nac09",
+   "run_id": "43763483520",
+   "run_territorial": "43758000236",
+   "sha256_composicion": "dadacec5fc2da4665eb0e5f6653b0ec1002096e0c36a24c75de8e13fb355561e",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "2d3f5d22eedb233c4b61aa298288c4deee67b1e4724ae74d5f93d776714b9a08",
+   "ruta": "datos/resultados/runs/nac09_43763483520_partidos.csv"
+  },
+  "nac10/43768394165": {
+   "territorio": "nac10",
+   "run_id": "43768394165",
+   "run_territorial": "43761310403",
+   "sha256_composicion": "025a26be2ee007db1f5364a8c693e9bfea109f272709c40e53bbafd7a704fe50",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "aad7a728829abaa627622cb93ef547e30042f860bacbec3e79e2fd2d5cb92ece",
+   "ruta": "datos/resultados/runs/nac10_43768394165_partidos.csv",
+   "desajustes": {
+    "secciones": 2,
+    "pct_desajuste": 0.3228,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac10_43768394165_desajustes.json",
+    "sha256": "f69e1f1cf04da80ead042d4a792f666cdb022e55632f4fb9d97e7d4b5df8a420"
+   }
+  },
+  "nac11/43769041417": {
+   "territorio": "nac11",
+   "run_id": "43769041417",
+   "run_territorial": "43761322715",
+   "sha256_composicion": "19679be0e0eadcc4f689dff054c55c927d6ca0e374b442364cbf0ff99fb356d0",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "8738ce6bd52449b69126b2cbfbeeee180e5c6195219dcdba37bf0dceb48588ee",
+   "ruta": "datos/resultados/runs/nac11_43769041417_partidos.csv"
+  },
+  "nac12/43769013184": {
+   "territorio": "nac12",
+   "run_id": "43769013184",
+   "run_territorial": "43761791985",
+   "sha256_composicion": "52289a941708ac01ddffb56c0031b985bcc955d3b8bf3dba1fda533202937126",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "12782c83721b01dfafd9d2831e89ed80ec3120f928983134c08a74d7a80f59ff",
+   "ruta": "datos/resultados/runs/nac12_43769013184_partidos.csv"
+  },
+  "nac13/43769610932": {
+   "territorio": "nac13",
+   "run_id": "43769610932",
+   "run_territorial": "43762018176",
+   "sha256_composicion": "2de3a5f4f6dafb67cba91d6bdf3efc10728a2926089163d61a66dec88a96a987",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "b5cb37ef11014782f58e081ae5e14cdabc55904a9b84baff785a28eba5a8bdbe",
+   "ruta": "datos/resultados/runs/nac13_43769610932_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac13_43769610932_desajustes.json",
+    "sha256": "112ce4f803a4cda409423fc6a010b9b3193fcba91cdb8926f20329d6d9290042"
+   }
+  },
+  "nac14/43773176478": {
+   "territorio": "nac14",
+   "run_id": "43773176478",
+   "run_territorial": "43763992154",
+   "sha256_composicion": "c7a539c7b7e079e395169792068d28b6cd0ca51b27feef0d869046f643b23d97",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "b6fc3906e97a366c274bd1d64185d3ed7d50be63bcbfe6df7aea52e883d77f78",
+   "ruta": "datos/resultados/runs/nac14_43773176478_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac14_43773176478_desajustes.json",
+    "sha256": "3b30163d733c48c5fb36113569bba6dc6096f83699f5c0dfdbcf054fbab0a96b"
+   }
+  },
+  "nac15/43774834805": {
+   "territorio": "nac15",
+   "run_id": "43774834805",
+   "run_territorial": "43764621629",
+   "sha256_composicion": "573e535e9d2b18911882029d7a3fd4ee99e6b517e63ab92505e969625180f06f",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "02d64e588993c82cf7cb65e89c1dfcbdf1b44568bdd09f697ce49cb6e867b7ae",
+   "ruta": "datos/resultados/runs/nac15_43774834805_partidos.csv",
+   "desajustes": {
+    "secciones": 14,
+    "pct_desajuste": 0.4707,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac15_43774834805_desajustes.json",
+    "sha256": "79aecffa1a6c85837029b09b1dfa12a83c5efa01d7b1fb2d52d6f203790c9e0f"
+   }
+  },
+  "nac16/43775578741": {
+   "territorio": "nac16",
+   "run_id": "43775578741",
+   "run_territorial": "43764632170",
+   "sha256_composicion": "fd0f6baa195f794705601ddeb0658048f48321b572b848d90b088c6324f47077",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "4c2f329ef7b9c8950cfe6ca8a60972994a49be7ce201a42eb9dd94e93152c23f",
+   "ruta": "datos/resultados/runs/nac16_43775578741_partidos.csv"
+  },
+  "nac17/43777503207": {
+   "territorio": "nac17",
+   "run_id": "43777503207",
+   "run_territorial": "43764643457",
+   "sha256_composicion": "6d76771870002515b7a98f3f559cbb2913610c19f6cb7491236fee44e0141559",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "5c3ec52aa3c61d65c20eacdce1cb612d04d2173ef6f7f4d7630270c5436c6bb3",
+   "ruta": "datos/resultados/runs/nac17_43777503207_partidos.csv"
+  },
+  "nac17/43784273078": {
+   "territorio": "nac17",
+   "run_id": "43784273078",
+   "run_territorial": "43781217551",
+   "sha256_composicion": "6d76771870002515b7a98f3f559cbb2913610c19f6cb7491236fee44e0141559",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "5c3ec52aa3c61d65c20eacdce1cb612d04d2173ef6f7f4d7630270c5436c6bb3",
+   "ruta": "datos/resultados/runs/nac17_43784273078_partidos.csv"
+  },
+  "nac18/43775697971": {
+   "territorio": "nac18",
+   "run_id": "43775697971",
+   "run_territorial": "43764654875",
+   "sha256_composicion": "deafbe7a6ce59ceed07513a30ece3c5c0a645ce3b02da25c5f82d3bb96f25a19",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "f300276344bb78e5eda433a2bbed6cfc46215be471cc91318c32c076c84905b5",
+   "ruta": "datos/resultados/runs/nac18_43775697971_partidos.csv"
+  },
+  "nac19/43778101275": {
+   "territorio": "nac19",
+   "run_id": "43778101275",
+   "run_territorial": "43764666420",
+   "sha256_composicion": "60dcf292393fd6907d810beb20db35f593a619db0598cc2a81984a41d8bfda4e",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "1560ff1b779ad7cfa4a2de562364a4fa15aaa3996075dbb81467a0933c7ea392",
+   "ruta": "datos/resultados/runs/nac19_43778101275_partidos.csv"
+  },
+  "nac20/43778046777": {
+   "territorio": "nac20",
+   "run_id": "43778046777",
+   "run_territorial": "43764679394",
+   "sha256_composicion": "af2f0e84c2d170c4d45a876208909517e4fd20546ec11fb9e0ab6e3db0d3b051",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "4da16bc8bc404e89f952228eea2342d4407aa250576a08a14dc9ef5f5127b219",
+   "ruta": "datos/resultados/runs/nac20_43778046777_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac20_43778046777_desajustes.json",
+    "sha256": "41f7cf86d2fd13aa975ce0310fbf0e8a2e1fa92dafac4ae5637d808b2eeb66a6"
+   }
+  },
+  "nac21/43779363183": {
+   "territorio": "nac21",
+   "run_id": "43779363183",
+   "run_territorial": "43765769898",
+   "sha256_composicion": "45931ee92a72714a74f79062499bf66d6c90802a69cef0b2a10eae5dcaf099ae",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "4b03e6fa17091a6ef822124cdd9a74f6b72eb8d2621bdad63c8e66ed710e7b91",
+   "ruta": "datos/resultados/runs/nac21_43779363183_partidos.csv"
+  },
+  "nac22/43783149315": {
+   "territorio": "nac22",
+   "run_id": "43783149315",
+   "run_territorial": "43772965482",
+   "sha256_composicion": "46a0ea44050cf43d1e241e64d46154c98b38f72c0d69a8e7ead9a3e7e2e95811",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "cc5a042f8a7db93ab1a032c3bbeda2fe5c0a385180f2679585b0a8b683b267c1",
+   "ruta": "datos/resultados/runs/nac22_43783149315_partidos.csv"
+  },
+  "nac23/43778534395": {
+   "territorio": "nac23",
+   "run_id": "43778534395",
+   "run_territorial": "43765782167",
+   "sha256_composicion": "391ea555a3c8ede9e745ad188d9d3c34411917a2def0c32898e3e320dc172eb8",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "915d5e50bf71079e217eb5ca08679517558a75c34318abf84cebfbdf561abe9c",
+   "ruta": "datos/resultados/runs/nac23_43778534395_partidos.csv",
+   "desajustes": {
+    "secciones": 6,
+    "pct_desajuste": 0.0,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac23_43778534395_desajustes.json",
+    "sha256": "0365c2abd006ab961ce7308aa2c147551e3ee17d1c8ee036b45dfd6637a4e4f5"
+   }
+  },
+  "nac24/43779319643": {
+   "territorio": "nac24",
+   "run_id": "43779319643",
+   "run_territorial": "43766201397",
+   "sha256_composicion": "0ca7b8c97f617f99b537b6f8cc502865dabf67a19181a1ff4450f1ab5ecc3bf8",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "02143bf57e837efc2094fbedc70cde23ffa1f27eeaa5e2672b5727d588a897ac",
+   "ruta": "datos/resultados/runs/nac24_43779319643_partidos.csv"
+  },
+  "nac25/43784056720": {
+   "territorio": "nac25",
+   "run_id": "43784056720",
+   "run_territorial": "43773580960",
+   "sha256_composicion": "5a6479d9995da8ff305ca3d6e99e35cd5869411229d78ea48b1b0071933cf868",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "ebe726f3edcec5e45f0cf8d95aef1dd64be86dcf18030a396a696698a64cbdc0",
+   "ruta": "datos/resultados/runs/nac25_43784056720_partidos.csv"
+  },
+  "nac26/43784360729": {
+   "territorio": "nac26",
+   "run_id": "43784360729",
+   "run_territorial": "43773865756",
+   "sha256_composicion": "b0c0cc8c7c9d9b64fcfb848e2fb64a1bc8db4d1663d26bf378302857f7f371ee",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "a833197684deb537ec8fccfdfa390525da1089f1e873b06b51bed1d92ad82b3a",
+   "ruta": "datos/resultados/runs/nac26_43784360729_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.3374,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac26_43784360729_desajustes.json",
+    "sha256": "129b6f8b38da33c5d5e5e09e13ef0d0877b14fb5df9ddd9c082c1507f5cb61f2"
+   }
+  },
+  "nac27/43784516230": {
+   "territorio": "nac27",
+   "run_id": "43784516230",
+   "run_territorial": "43774262901",
+   "sha256_composicion": "6b21b7c91b887c5fadd9b71f640da4f0504e0d866565df4416d7f14e63790922",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "635710950ea7c1d7ec2fe06647efbc33da14a1f3f335b75dfc4438d51b0213ab",
+   "ruta": "datos/resultados/runs/nac27_43784516230_partidos.csv",
+   "desajustes": {
+    "secciones": 4,
+    "pct_desajuste": 0.207,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac27_43784516230_desajustes.json",
+    "sha256": "19aca517c8feea4d2c17f186d4e8edec84a90260b4a369f7cd8327d94268031f"
+   }
+  },
+  "nac28/43785503828": {
+   "territorio": "nac28",
+   "run_id": "43785503828",
+   "run_territorial": "43778543060",
+   "sha256_composicion": "eaaf0bec2349369e9ca58646c31e312c8b39ca12ff17326d700498d988eaa293",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "f5dadc8f41c4446043d79a4e1408dba42054a132f1a665ec2474a9475952c3a2",
+   "ruta": "datos/resultados/runs/nac28_43785503828_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0289,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac28_43785503828_desajustes.json",
+    "sha256": "a6bacfb512667d0fc249e45267bae47aa4236ce7d0671ed7a4720ce73b73c038"
+   }
+  },
+  "nac29/43786348967": {
+   "territorio": "nac29",
+   "run_id": "43786348967",
+   "run_territorial": "43779396654",
+   "sha256_composicion": "c3c88066dce8f3deb47fe89eb065693200eafe627443656939f24e902dabbb63",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "520601abeae941856d9a1b598b043752447aa89fbded87fb10e1eceaf51a5eb5",
+   "ruta": "datos/resultados/runs/nac29_43786348967_partidos.csv",
+   "desajustes": {
+    "secciones": 2,
+    "pct_desajuste": 0.0641,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac29_43786348967_desajustes.json",
+    "sha256": "16012fc5e6c3baedb66b79d70defae8477c28ee76657e54d07f73ec30160717b"
+   }
+  },
+  "nac29/43801801527": {
+   "territorio": "nac29",
+   "run_id": "43801801527",
+   "run_territorial": "43798914850",
+   "sha256_composicion": "c3c88066dce8f3deb47fe89eb065693200eafe627443656939f24e902dabbb63",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "520601abeae941856d9a1b598b043752447aa89fbded87fb10e1eceaf51a5eb5",
+   "ruta": "datos/resultados/runs/nac29_43801801527_partidos.csv",
+   "desajustes": {
+    "secciones": 2,
+    "pct_desajuste": 0.0641,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac29_43801801527_desajustes.json",
+    "sha256": "b0009d773f74cc511e8d2f9f7641bf6d14f1f0c05c4f2d193ee6163ab744386e"
+   }
+  },
+  "nac30/43785618713": {
+   "territorio": "nac30",
+   "run_id": "43785618713",
+   "run_territorial": "43779852945",
+   "sha256_composicion": "e19f91be669b9cd75bf64cc1426cc595430c26fb61ef9a19fac7667275258a9b",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "8ae15098b6bfc3a271c1453766a37a5bcceb8cee55afdc2e6197261fad5c6c62",
+   "ruta": "datos/resultados/runs/nac30_43785618713_partidos.csv"
+  },
+  "nac31/43786392804": {
+   "territorio": "nac31",
+   "run_id": "43786392804",
+   "run_territorial": "43780088321",
+   "sha256_composicion": "6c5eaee0154fefe10f0404ae353648afddac28b0c2a4f2461ebe3408a5a1ae51",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "22ccfa207113399127f31c085d7e1a5748476ed9f4e9082d75f253ec5cc54e96",
+   "ruta": "datos/resultados/runs/nac31_43786392804_partidos.csv"
+  },
+  "nac32/43788009946": {
+   "territorio": "nac32",
+   "run_id": "43788009946",
+   "run_territorial": "43781442275",
+   "sha256_composicion": "21b55dcb2bfa5ca08678f607d30f810aece6100702099db5462dc5567f71875b",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "ca883c64acd806b5391cc3879c1523b74f4f3fd1c721fdc608b85a5a8b1bd0ef",
+   "ruta": "datos/resultados/runs/nac32_43788009946_partidos.csv"
+  },
+  "nac33/43787766893": {
+   "territorio": "nac33",
+   "run_id": "43787766893",
+   "run_territorial": "43781676796",
+   "sha256_composicion": "60b5b7b7419442367975c7dabcd0d0e243fe5f9b80fba048782a682b4f4793cf",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "e4ccf5266e558ec80dd8b3f9b627fe8e68fb77663f1d926634fb17c06403c2a5",
+   "ruta": "datos/resultados/runs/nac33_43787766893_partidos.csv"
+  },
+  "nac33/43795147177": {
+   "territorio": "nac33",
+   "run_id": "43795147177",
+   "run_territorial": "43791373285",
+   "sha256_composicion": "60b5b7b7419442367975c7dabcd0d0e243fe5f9b80fba048782a682b4f4793cf",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "e4ccf5266e558ec80dd8b3f9b627fe8e68fb77663f1d926634fb17c06403c2a5",
+   "ruta": "datos/resultados/runs/nac33_43795147177_partidos.csv"
+  },
+  "nac34/43789454074": {
+   "territorio": "nac34",
+   "run_id": "43789454074",
+   "run_territorial": "43782324079",
+   "sha256_composicion": "3a6ce8ce35cdcef4f375975954a5f97a536515b1b6381c0aa69ba79a98128159",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "91cd3798124034c9646d58949acefce52d65e71e7ca1d08a3e8fa8a0cabcc86d",
+   "ruta": "datos/resultados/runs/nac34_43789454074_partidos.csv"
+  },
+  "nac35/43790313521": {
+   "territorio": "nac35",
+   "run_id": "43790313521",
+   "run_territorial": "43782596037",
+   "sha256_composicion": "5f50662a1f66b0869ad182b0e3a600c7bc954a99ed7f4ac8b063df0f715cda5d",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "78a42ee28b73227ce6da3f9a18205ab3190e921f31b43269ead2846b741aa545",
+   "ruta": "datos/resultados/runs/nac35_43790313521_partidos.csv"
+  },
+  "nac36/43789633261": {
+   "territorio": "nac36",
+   "run_id": "43789633261",
+   "run_territorial": "43782609578",
+   "sha256_composicion": "9bebc8e69c956f83e254c26d5a981921ed5541a0592eb6e7aeb6b07f48c72070",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "74bdca7b0cc25cc99068f2dc09833daf4573cfdb0e25ee2f136750b246352b9d",
+   "ruta": "datos/resultados/runs/nac36_43789633261_partidos.csv",
+   "desajustes": {
+    "secciones": 2,
+    "pct_desajuste": 0.1169,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac36_43789633261_desajustes.json",
+    "sha256": "6ee41090bc764f79e3377c4ed6124abd9de579b44d405ede71ff2286d140dfb1"
+   }
+  },
+  "nac37/43791973018": {
+   "territorio": "nac37",
+   "run_id": "43791973018",
+   "run_territorial": "43785351956",
+   "sha256_composicion": "81c2b1c6e8ee731aa1d0f2e680592f2b1a5ab42b298eeda81c135b1b1e9bfe87",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "ee0f69f5b164506a7a92efc79fb12af1da7ceccb1cf72f032e63dd177e040bec",
+   "ruta": "datos/resultados/runs/nac37_43791973018_partidos.csv"
+  },
+  "nac38/43792098960": {
+   "territorio": "nac38",
+   "run_id": "43792098960",
+   "run_territorial": "43786229727",
+   "sha256_composicion": "572775632b6c31ba1848f642edc107c34095b8206a057bada42f653664e52979",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "b192b03a04030927927e8aa3ee408614cdfd018b077a2e8a7baa73d04e0682c1",
+   "ruta": "datos/resultados/runs/nac38_43792098960_partidos.csv"
+  },
+  "nac38/43801705986": {
+   "territorio": "nac38",
+   "run_id": "43801705986",
+   "run_territorial": "43798927529",
+   "sha256_composicion": "572775632b6c31ba1848f642edc107c34095b8206a057bada42f653664e52979",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "b192b03a04030927927e8aa3ee408614cdfd018b077a2e8a7baa73d04e0682c1",
+   "ruta": "datos/resultados/runs/nac38_43801705986_partidos.csv"
+  },
+  "nac39/43792749380": {
+   "territorio": "nac39",
+   "run_id": "43792749380",
+   "run_territorial": "43786502149",
+   "sha256_composicion": "6ada27518b9ae07eee1c337dfe42982355079b60f3f62e5e17c627f3361c08de",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "69a24d87308402dca26f773cfb7dafd7d14ed99e2e829baaa0278082d644fc3d",
+   "ruta": "datos/resultados/runs/nac39_43792749380_partidos.csv"
+  },
+  "nac40/43793248399": {
+   "territorio": "nac40",
+   "run_id": "43793248399",
+   "run_territorial": "43786736942",
+   "sha256_composicion": "1e29a5b8abc3c4431e535ae5a00e0901c8fb6912899a3a1ea9cdc7bafa032d3e",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "0a2dc910af6815955a53414328a838ed62820eea545f686d43852e7fe1c7393c",
+   "ruta": "datos/resultados/runs/nac40_43793248399_partidos.csv"
+  },
+  "nac41/43793379653": {
+   "territorio": "nac41",
+   "run_id": "43793379653",
+   "run_territorial": "43786750220",
+   "sha256_composicion": "a449b9a770ac384c4581c015f08d4836014763c1ce7d5080c0e64483eb40299d",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "550a98d8ea6933cadab7ba75dca112a826903c86721f25c36f6eba52f6d37854",
+   "ruta": "datos/resultados/runs/nac41_43793379653_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0629,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac41_43793379653_desajustes.json",
+    "sha256": "886866ded578e4922e6aee404762616cfaa9c06cfcf8abea1a66fa1f0a190f83"
+   }
+  },
+  "nac42/43793874826": {
+   "territorio": "nac42",
+   "run_id": "43793874826",
+   "run_territorial": "43788408190",
+   "sha256_composicion": "1921c37db90159bfbd5df9a8a025df33688ea1221515ecf2607147406f78fcac",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "26e9bc78dec42bede08628d29e181d19135b116c9a8d1ea6e57c88851a3fcc65",
+   "ruta": "datos/resultados/runs/nac42_43793874826_partidos.csv"
+  },
+  "nac43/43794008411": {
+   "territorio": "nac43",
+   "run_id": "43794008411",
+   "run_territorial": "43788811870",
+   "sha256_composicion": "aa81efd7edd09b1f524393eab0fcfefa5d3bb7a04b2185f43103644d26d09462",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "24d06d5c94fc1fc721e053fbc0c2a6a1b5fc6adbd5da930292457d99e8ae2a7a",
+   "ruta": "datos/resultados/runs/nac43_43794008411_partidos.csv"
+  },
+  "nac44/43795542897": {
+   "territorio": "nac44",
+   "run_id": "43795542897",
+   "run_territorial": "43790237705",
+   "sha256_composicion": "ec2fc9c75b7532324f2440018a1afa4657c6a635197be05c7ddc12c2c4f504f1",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "85e32b6168ce5a7b08a0f9654f7cd061727992b838183ccb9bf05814eb2ea593",
+   "ruta": "datos/resultados/runs/nac44_43795542897_partidos.csv"
+  },
+  "nac45/43796175523": {
+   "territorio": "nac45",
+   "run_id": "43796175523",
+   "run_territorial": "43791386692",
+   "sha256_composicion": "664bb7404a483bfdb4494592e98bb7e91dcf090923c127573b3c88195810dc96",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "98a6ae779b132392ce4bc2ffc1238c17e1ff633ca2367e7b7b0e7b2e5b477f37",
+   "ruta": "datos/resultados/runs/nac45_43796175523_partidos.csv",
+   "desajustes": {
+    "secciones": 2,
+    "pct_desajuste": 0.2104,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac45_43796175523_desajustes.json",
+    "sha256": "6e85e054b414efc9c62663519ae44fd7d8c2d32e7dee85a07b8da3687280adf0"
+   }
+  },
+  "nac46/43798079539": {
+   "territorio": "nac46",
+   "run_id": "43798079539",
+   "run_territorial": "43792317538",
+   "sha256_composicion": "f1fae4b06a4255931ddf3e6381bf7980c1c51db7ef4ae81c39d5ff12e946bb2e",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "bc7109e09d8399c5e86afc8b3807ebb6e01b886f6164d11422e0e12b262a42b6",
+   "ruta": "datos/resultados/runs/nac46_43798079539_partidos.csv",
+   "desajustes": {
+    "secciones": 22,
+    "pct_desajuste": 0.7652,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac46_43798079539_desajustes.json",
+    "sha256": "042de2dbf22db02bf838763409bfc1632b328af51d440dfefc0dfd8576f2d5b3"
+   }
+  },
+  "nac47/43797487792": {
+   "territorio": "nac47",
+   "run_id": "43797487792",
+   "run_territorial": "43792330350",
+   "sha256_composicion": "8bc409ed7bb073244e59f69a3fc0df0e3cb99eb0d5db4f24727d18a272890e6a",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "1a3495db9f6b05b59e58728a24766060378a15a4342abd67683caf7f2cbc510e",
+   "ruta": "datos/resultados/runs/nac47_43797487792_partidos.csv"
+  },
+  "nac48/43804714177": {
+   "territorio": "nac48",
+   "run_id": "43804714177",
+   "run_territorial": "43798940463",
+   "sha256_composicion": "92da24d7a320b5808bf25bd523daddd8141241a0ab28593c9668717f012264e4",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "fbafaebd19f119208b215de80145a6ec949687cd61b9971da436febef580d0b4",
+   "ruta": "datos/resultados/runs/nac48_43804714177_partidos.csv",
+   "desajustes": {
+    "secciones": 4,
+    "pct_desajuste": 0.0,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac48_43804714177_desajustes.json",
+    "sha256": "561b3b79256d796660fee2978f29788edbbb4d31b786cca2d9d34c36b4f9fa84"
+   }
+  },
+  "nac49/43804127706": {
+   "territorio": "nac49",
+   "run_id": "43804127706",
+   "run_territorial": "43798955456",
+   "sha256_composicion": "e7b4f3a71866478285c368f75714e812f736674e39215c14278b876a00831c15",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "6edb3fd88bddbe49dede7b6af11aeab7309ff00cd441c12755fa2fe0e4ae4f6c",
+   "ruta": "datos/resultados/runs/nac49_43804127706_partidos.csv"
+  },
+  "nac50/43804263815": {
+   "territorio": "nac50",
+   "run_id": "43804263815",
+   "run_territorial": "43798969769",
+   "sha256_composicion": "d5641387f11681c21e791140c98c0eb373aa1b50e6464e1bb9f0efd989d88ef9",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "2ed76472c067357adff8fe7634f49663e598b25a6e3bb53d06d56021ab39700f",
+   "ruta": "datos/resultados/runs/nac50_43804263815_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.1504,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac50_43804263815_desajustes.json",
+    "sha256": "1703c9fe3988d98ba13c6287f39c22c018642edf9ef39a9730128c68f9b260c7"
+   }
+  },
+  "nac51/43803972993": {
+   "territorio": "nac51",
+   "run_id": "43803972993",
+   "run_territorial": "43799202986",
+   "sha256_composicion": "0c0276b5b62ca585b38a7d02a1f708155256fe35e9928af939014e3c76c3a7af",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "1665fe8ce50499b9feb1d7b4e31c4745e631912f69b85cd1f58e460741b258b9",
+   "ruta": "datos/resultados/runs/nac51_43803972993_partidos.csv"
+  },
+  "nac52/43807441438": {
+   "territorio": "nac52",
+   "run_id": "43807441438",
+   "run_territorial": "43803279881",
+   "sha256_composicion": "fdc1449d7dfc6cb385cb29aff9fb238724ec4566bd8b22e8b768abf47b436d0d",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "43ab4ac6fbe46ab67e028834ffb1ddc383782cbbe2f941c0a7702f2f23a7077c",
+   "ruta": "datos/resultados/runs/nac52_43807441438_partidos.csv"
   }
  }
 }

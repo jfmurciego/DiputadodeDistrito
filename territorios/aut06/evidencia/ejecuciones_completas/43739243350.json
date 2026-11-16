@@ -1,0 +1,95 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "aut06",
+  "territory_name": "Cantabria",
+  "edition": "2025",
+  "execution_mode": "catalog_source",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "VALID",
+  "workflow_run_id": 43739243350,
+  "source_sha": "d4854f740a5bde3835055c2fb7aaf20ed473fbea",
+  "publication_mode_requested": "territorial_only",
+  "publication_mode_effective": "territorial_only",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "SUCCESS",
+  "completion_status": "COMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "NOT_REQUESTED",
+  "electoral_activation_status": "TERRITORIAL_ONLY",
+  "electoral_skip_reason": "alcance territorial solicitado",
+  "resumption": null,
+  "chain": {
+    "electoral_chain_requested": true,
+    "origin_run_id": null
+  },
+  "failed_phases": [],
+  "blocked_phases": [],
+  "out_of_scope_phases": [
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "skipped_source_gap_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 43739243350,
+      "artifact": "ddd-source-package-aut06-2025-43739243350",
+      "artifact_digest": "sha256:4fe119c80f7f560ea05313a528c8c66508ce6f8b1ba7dffe458092befcfedfee",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 43739243350,
+      "artifact": "ddd-state-43739243350-M06",
+      "artifact_digest": "sha256:0930fe1d5d5dfabb8c6f3df80cc4c9c7c945e37a8ce49f16aadd7b418891abc3",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "OUT_OF_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "OUT_OF_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-11-15T18:04:16.397803+00:00"
+}

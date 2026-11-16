@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.1.0",
+  "registry_role": "technical_preview_distribution",
+  "status_semantics": "PASS certifies geometry and packaging only; it does not mean politically publicable.",
+  "publication_policy": "docs/POLITICA_PUBLICABILIDAD.md",
+  "products": [
+    {
+      "id": "aragon",
+      "label": "Aragón",
+      "expected_districts": 67,
+      "source_path": "resultados/finales/aragon/distritos.geojson",
+      "viewer_path": "data/aragon/distritos.geojson",
+      "status": "PASS",
+      "technical_status": "PASS",
+      "publication_status": "BLOCKED",
+      "publication_blockers": ["P06", "P07", "P08", "P09", "G01"]
+    },
+    {
+      "id": "castilla_y_leon",
+      "label": "Castilla y León",
+      "expected_districts": 82,
+      "source_path": "resultados/finales/castilla_y_leon/distritos.geojson",
+      "viewer_path": "data/castilla_y_leon/distritos.geojson",
+      "status": "PASS",
+      "technical_status": "PASS",
+      "publication_status": "BLOCKED",
+      "publication_blockers": ["P05", "P06", "P07", "P08", "P09", "G01", "G02"]
+    }
+  ]
+}

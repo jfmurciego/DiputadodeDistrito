@@ -1,0 +1,15 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "aut09",
+  "territory_name": "Cataluña",
+  "edition": "2025",
+  "run_id": 43747840900,
+  "artifact_name": "ddd-electoral-package-aut09-2025-43747840900",
+  "artifact_sha256": "5497eaa5a9c493ceb554654d5128f0503ea10091ee88dac4c0939a163895538c",
+  "source_commit": "f06ee339f2215c473edfd29016500710802e0ea6",
+  "election_id": "cataluna_parlament_2024",
+  "declaration": "territorios/aut09/config/elecciones/cataluna_parlament_2024_vigente.yaml",
+  "election_date": "2024-05-12",
+  "electoral_identity_sha256": "1a2a1f2c19014b68164d716489292a680799b3b6f2144ba5a04269ec8e6caf16"
+}

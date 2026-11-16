@@ -1,10 +1,11 @@
-"""Version: 1.0.2; name: pre-M04 evidence pipeline tests; date: 2026-10-29.
+"""Version: 1.0.3; name: pre-M04 evidence pipeline tests; date: 2026-11-14.
 Scope: reaccredit only sources whose current evidence fails the topology gate.
-Status: candidate. Change/reason: the real-territory case runs on the frozen root aee8215e.
-Previous: legacy/tests/test_pre_m04_evidence_pipeline_v1.0.1_20261029.py.
+Status: candidate. Change/reason: T-322 the aut19 "pre-M04 missing" case runs on the frozen pre-r3 root (tests/fixtures/previo_r3), not on live state that a new P10 rewrites. Before (1.0.2): the real-territory case runs on the frozen root aee8215e.
+Previous: legacy/tests/test_pre_m04_evidence_pipeline_v1.0.2_20261029.py.
 """
 from __future__ import annotations
 
+from tests._previo_r3 import raiz_previo_r3
 import json
 import subprocess
 import sys
@@ -946,7 +947,8 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
         )
 
     def test_00_reuse_reaccredits_valid_source_when_pre_m04_is_missing(self):
-        source_catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
+        root = raiz_previo_r3(canonico=True)  # T-322: aut19 previo a r3; T-349: con ids canónicos (la fuente con id viejo ya no se reutiliza)
+        source_catalog = root / "configuracion/catalogo_preparacion.yaml"
         data = yaml.safe_load(source_catalog.read_text(encoding="utf-8")) or {}
         row = next(
             item for item in data["territories"]
@@ -973,7 +975,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                 edition="2025",
                 execution_mode="reuse",
                 catalog=catalog,
-                root_dir=ROOT,
+                root_dir=root,
                 optimization_algorithm="GerryChain 50",
                 force_selected_algorithm=True,
             )

@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac42",
+  "territory_name": "Congreso Soria",
+  "edition": "2025",
+  "run_id": 43793509791,
+  "artifact_name": "ddd-electoral-package-nac42-2025-43793509791",
+  "artifact_sha256": "c05d5c62017ca0532fefba5f732ced0eeae023c0468c1d167c7309222afab73c",
+  "source_commit": "62ad0d922ddd5c26319d871189cd3d6d836e8218",
+  "election_id": "congreso_soria_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "4c8a3d3f63f334f96904b61ca27ce2cfc242950408f39b1a944289ddd090551e"
+}

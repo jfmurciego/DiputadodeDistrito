@@ -1,5 +1,5 @@
-"""Version 1.0.3, 2026-10-28: the live CLM case checks the M06/M08 lineage rule, not a fixed mismatch.
-Previous bytes: legacy/tests/test_continuar_ultimo_resultado_valido_v1.0.2.py.
+"""Version 1.0.4, 2026-11-14: T-322 the CLM lineage case reads the frozen pre-r3 root (tests/fixtures/previo_r3), not live state.
+Previous bytes: legacy/tests/test_continuar_ultimo_resultado_valido_v1.0.3.py.
 """
 from __future__ import annotations
 
@@ -9,6 +9,7 @@ import unittest
 from pathlib import Path
 
 import yaml
+from tests._previo_r3 import raiz_previo_r3
 
 from herramientas.resolver_ejecucion_completa import build_plan
 
@@ -399,27 +400,25 @@ class ContinueFromLastValidTests(unittest.TestCase):
                 )
 
     def test_castilla_la_mancha_m08_reuse_follows_m06_lineage(self):
-        state = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text())
+        root = raiz_previo_r3(canonico=True)  # T-322: estado congelado previo a r3
+        state = yaml.safe_load((root / "configuracion/catalogo_preparacion.yaml").read_text())
         state = next(r for r in state["territories"] if r["territory_id"] == "aut08")["editions"]["2025"]
-        territorial = json.loads((ROOT / state["evidence"]["territorial_product"]).read_text())
-        electoral = json.loads((ROOT / state["evidence"]["electoral_product"]).read_text())
+        territorial = json.loads((root / state["evidence"]["territorial_product"]).read_text())
+        electoral = json.loads((root / state["evidence"]["electoral_product"]).read_text())
         plan = build_plan(
             territory="Castilla-La Mancha",
             edition="2025",
             execution_mode="reuse",
-            catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
-            root_dir=ROOT,
+            catalog=root / "configuracion/catalogo_preparacion.yaml",
+            root_dir=root,
             optimization_algorithm="Canónico",
             force_selected_algorithm=True,
         )
         self.assertEqual(plan["existing"]["territorial_product"]["run_id"], territorial["run_id"])
         # El M06 vigente se reutiliza siempre; el M08 sólo si su linaje (fase 02 de su run) es el M06 vigente (T-247:
         # antes exigía el mismo run, y la cadena 00 → 00 «Reutilizar» de la campaña deja M06 y M08 en runs distintos).
-        if m08_enlaza_m06_vigente(ROOT, "aut08", territorial, electoral):
-            self.assertEqual(plan["existing"]["electoral_product"]["run_id"], electoral["run_id"])
-        else:
-            self.assertFalse(plan["existing"]["electoral_product"]["run_id"])
-            self.assertFalse(plan["catalog_state"]["rejected_electoral_product"]["reusable"])
+        self.assertTrue(m08_enlaza_m06_vigente(root, "aut08", territorial, electoral))  # rama fijada por el fixture congelado
+        self.assertEqual(plan["existing"]["electoral_product"]["run_id"], electoral["run_id"])
 
     def test_workflow_accepts_future_label_without_exposing_interface_yet(self):
         workflow = (ROOT / ".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")

@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "congreso_alava",
+  "territory_id": "nac01",
   "territory_name": "Congreso Álava",
   "edition": "2025",
-  "run_id": 42940320710,
-  "artifact_name": "ddd-state-42940320710-M06",
-  "artifact_sha256": "d1a4a72a3e1273c69266915c17ab103e21c90583beb4932137256f516e87de3c",
-  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "run_id": 43750441261,
+  "artifact_name": "ddd-state-43750441261-M06",
+  "artifact_sha256": "035bb705d99bc1c5ee2765ba99a6d5712bb0da3f0e2314598c094a61b95571d9",
+  "source_commit": "36fdbb65da9d892ed2439c267f09f1a6775381b8",
   "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_alava/evidencia/generaciones_m06/42940320710.json"
+  "producer_manifest_path": "territorios/nac01/evidencia/generaciones_m06/43750441261.json"
 }

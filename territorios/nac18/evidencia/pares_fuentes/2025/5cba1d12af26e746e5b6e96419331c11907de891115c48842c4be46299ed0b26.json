@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "nac18",
+  "territory_name": "Congreso Granada",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_granada_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43764654875,
+    "artifact_name": "ddd-source-package-nac18-2025-43764654875",
+    "artifact_sha256": "a8392d41333ff591ed4301098ebe646348a541ec588571748a30126982c6a7d0",
+    "package_sha256": "2f040a8953f03b71f6bebf69d5bb5e9e3c98b91ba27c8647f4cad972be13d026",
+    "source_commit": "75c151eaca9b0dda7aeae077b08aa8a16dcbdda3",
+    "source_declaration": "territorios/nac18/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/nac18/evidencia/fuentes_territoriales/2025/5561a8659df3804f36697904937f7a9ef88c425abbbf8fb32e19aba6754d78fc/43764654875/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "5561a8659df3804f36697904937f7a9ef88c425abbbf8fb32e19aba6754d78fc",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "26d759a6d607a0175f713dc4e9e418abbabfaafa6f2e46baa8406511cc7913df",
+    "compatibility_identity_sha256": "8c0cfbe86a4eb9e35385a56b87a4760d9b1fa23d330f2c806a3f90cbf2c347ec",
+    "remote_verification": {
+      "run_id": 43764654875,
+      "artifact_id": 14182156582,
+      "artifact_name": "ddd-source-package-nac18-2025-43764654875",
+      "artifact_sha256": "a8392d41333ff591ed4301098ebe646348a541ec588571748a30126982c6a7d0",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43773790277,
+    "artifact_name": "ddd-electoral-package-nac18-2025-43773790277",
+    "artifact_sha256": "4859e68128548e85fe3b9faf112fd6d83359a960e739ba677fc0aab7ef074d66",
+    "source_commit": "6fe287eaf346de9fdc9dc8f0470f1924736c30d4",
+    "receipt_path": "territorios/nac18/evidencia/fuentes_electorales/2025/67599b305db32b0b5d51634b9c89b291d663ebf39275e7a6b685324062914832/43773790277/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_granada_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "67599b305db32b0b5d51634b9c89b291d663ebf39275e7a6b685324062914832",
+    "remote_verification": {
+      "run_id": 43773790277,
+      "artifact_id": 14185715932,
+      "artifact_name": "ddd-electoral-package-nac18-2025-43773790277",
+      "artifact_sha256": "4859e68128548e85fe3b9faf112fd6d83359a960e739ba677fc0aab7ef074d66",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "5561a8659df3804f36697904937f7a9ef88c425abbbf8fb32e19aba6754d78fc",
+  "electoral_compatibility_key": "67599b305db32b0b5d51634b9c89b291d663ebf39275e7a6b685324062914832",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/nac18/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "5cba1d12af26e746e5b6e96419331c11907de891115c48842c4be46299ed0b26"
+}

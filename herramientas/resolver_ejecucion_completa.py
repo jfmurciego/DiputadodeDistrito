@@ -1,15 +1,18 @@
 """Planificador de ejecución 00 con separación entre M06 y M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.1
-NOMBRE DE VERSIÓN: Reutilización territorial con linaje M06 independiente
-FECHA: 2026-11-12
+VERSIÓN: 1.1.2
+NOMBRE DE VERSIÓN: Paquete territorial registrado con id canónico exacto
+FECHA: 2026-11-15
 ESTADO: candidato
 QUÉ HACE: resuelve continuidad con evidencia durable de productos.
 CAMBIOS: descarta M08 con linaje territorial incompatible y conserva reutilización M06.
 MOTIVO: evitar que un producto electoral histórico bloquee un M06 territorial certificado.
 CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/resolver_ejecucion_completa_v1.1.0_20261112.py
+CAMBIOS 1.1.2 (T-349): el artefacto territorial registrado se compara con igualdad exacta con el id canónico (sin alias del id viejo);
+  descartar_registros_no_canonicos: en TODOS los modos, la fuente territorial, el M06, la fuente electoral y el M08 registrados
+  con id no canónico se descartan antes de planificar (catalog_state.non_canonical_discarded) y se preparan/generan de nuevo.
+ANTERIOR: legacy/herramientas/resolver_ejecucion_completa_v1.1.1_20261115.py
 """
 from __future__ import annotations
 
@@ -293,7 +296,7 @@ def _catalog_territorial_source(*, row: dict, state: dict, edition: str, root_di
         )
     artifact_name = str(prep.get("artifact_name") or "")
     expected_name = f"ddd-source-package-{territory_id}-{edition}-{run_id}"
-    if artifact_name not in {f"ddd-source-package-{v}-{edition}-{run_id}" for v in variantes(territory_id)}:
+    if artifact_name != expected_name:  # T-349: igualdad exacta con el id canónico (sin alias)
         raise ValueError(
             f"CATALOG_SOURCE_BLOCK: {row.get('name') or territory_id}: "
             f"artefacto territorial no coincide con run/territorio/edición: {artifact_name!r}"
@@ -341,7 +344,7 @@ def _catalog_territorial_source(*, row: dict, state: dict, edition: str, root_di
     territory = declaration.get("territory") or {}
     if (
         not str(declaration.get("schema") or "").startswith("ddd-territory-sources/")
-        or not mismo_territorio(str(territory.get("id") or ""), str(territory_id))
+        or str(territory.get("id") or "") != str(territory_id)  # T-349: id canónico exacto
         or str(territory.get("edition") or "") != str(edition)
     ):
         raise ValueError(
@@ -534,10 +537,70 @@ def classify_prepared_pair_failure(reason: str) -> dict:
     raise ValueError(f"ELECTORAL_PAIR_TECHNICAL_BLOCK: {text}")
 
 
+def descartar_registros_no_canonicos(state: dict, *, root_dir: Path, territory_id: str) -> tuple[dict, list[dict]]:
+    """T-349 (D-102): lo registrado con id no canónico no entra en la 00 en NINGÚN modo (ni se reutiliza ni se consume).
+
+    Devuelve una copia del estado con esas banderas en False y sin su evidencia, y la lista de lo descartado. El recibo
+    territorial (fuente), el M06, la fuente electoral y el M08 exigen `territory_id` exacto y nombre de artefacto con el id
+    canónico (se descarta lo que lleva un alias conocido del id, `variantes()`; un id ausente o de otro territorio lo
+    rechazan los validadores durables); si se descarta el M06 o la fuente electoral, cae también el M08 que derivó de ellos. Sin alias ni reescritura.
+    """
+    tid = str(territory_id)
+    out = dict(state)
+    evidence = dict(state.get("evidence") or {})
+    out["evidence"] = evidence
+    descartados: list[dict] = []
+
+    def _descartar(clave: str, bandera: str, motivo: str) -> None:
+        descartados.append({"objeto": clave, "motivo": motivo, "evidencia": evidence.get(clave)})
+        out[bandera] = False
+        evidence.pop(clave, None)
+
+    alias = [v for v in variantes(tid) if v != tid]
+
+    def _alias(valor: object) -> bool:
+        return bool(valor) and str(valor) != tid and str(valor) in alias
+
+    def _nombre_alias(nombre: object, prefijo: str) -> bool:
+        return any(str(nombre or "").startswith(f"{prefijo}-{v}-") for v in alias)
+
+    def _id(clave: str) -> str | None:
+        data = _core._load_json(evidence.get(clave), root_dir)
+        return str(data.get("territory_id") or "") if data else None
+
+    prep = state.get("preparation_evidence") or {}
+    if state.get("territorial_sources_prepared") and prep:
+        recibo = _core._load_json(prep.get("receipt_path"), root_dir) if prep.get("receipt_path") else {}
+        if _nombre_alias(prep.get("artifact_name"), "ddd-source-package") or _alias((recibo or {}).get("territory_id")):
+            descartados.append({"objeto": "territorial_source", "motivo": "ID_NO_CANONICO",
+                                "evidencia": prep.get("receipt_path")})
+            out["territorial_sources_prepared"] = False
+            out["preparation_evidence"] = {}
+    if state.get("territorial_product_available") and _alias(_id("territorial_product")):
+        _descartar("territorial_product", "territorial_product_available", "ID_NO_CANONICO")
+        if out.get("electoral_product_available"):
+            _descartar("electoral_product", "electoral_product_available", "M06_NO_REUTILIZABLE")
+    if state.get("electoral_source_prepared") and evidence.get("electoral_source"):
+        data = _core._load_json(evidence.get("electoral_source"), root_dir)
+        nombre = str(data.get("artifact_name") or "")
+        if data and (_alias(data.get("territory_id")) or _nombre_alias(nombre, "ddd-electoral-package")):
+            _descartar("electoral_source", "electoral_source_prepared", "ID_NO_CANONICO")
+            if out.get("electoral_product_available"):
+                _descartar("electoral_product", "electoral_product_available", "FUENTE_ELECTORAL_NO_REUTILIZABLE")
+    if out.get("electoral_product_available") and _alias(_id("electoral_product")):
+        _descartar("electoral_product", "electoral_product_available", "ID_NO_CANONICO")
+    if descartados and out.get("last_valid_checkpoint"):
+        # El checkpoint apunta al run que produjo lo descartado: no da run_id de respaldo a nada de lo anterior.
+        out["last_valid_checkpoint"] = {}
+    return out, descartados
+
+
 def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Path, root_dir: Path,
                optimization_algorithm: str = "Canónico", force_selected_algorithm: bool = False,
                explicit_territorial_source: dict | None = None) -> dict:
     row = _core.lookup(territory, edition, catalog)
+    row, non_canonical_discarded = descartar_registros_no_canonicos(
+        row, root_dir=root_dir, territory_id=str(row["territory_id"]))
     state = row
     evidence = state.get("evidence") or {}
     territorial_evidence = _core._load_json(evidence.get("territorial_product"), root_dir)
@@ -794,6 +857,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
             "electoral_source_prepared": electoral_source_ready,
             "electoral_product_available": electoral_product_ready,
             "rejected_electoral_product": rejected_electoral_product,
+            "non_canonical_discarded": non_canonical_discarded,
             "territorial_certification": state.get("territorial_certification"),
             "preparation_evidence": prep,
             "catalog_preparation_evidence": catalog_prep,

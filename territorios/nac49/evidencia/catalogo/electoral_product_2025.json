@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_zamora",
+  "territory_id": "nac49",
   "territory_name": "Congreso Zamora",
   "edition": "2025",
-  "run_id": 43040878307,
-  "artifact_name": "ddd-state-43040878307-M08",
-  "artifact_sha256": "2d01aea7383622b3bbe596e0efd206724e0e0abd840c007dcc72c9bc50064bac",
-  "source_commit": "44b6e4f384aa9bb2b33474db5a3b76cb8c4cbb8d",
+  "run_id": 43804127706,
+  "artifact_name": "ddd-state-43804127706-M08",
+  "artifact_sha256": "d96c9f758fa044d89621ed766d37418c5ebc0c82b3383c6657b5d181d8501534",
+  "source_commit": "dd2b3b0e71da6afc3d9a621255e11266e1e8e224",
   "stage": "M08"
 }

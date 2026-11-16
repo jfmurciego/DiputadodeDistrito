@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "canarias",
+  "territory_id": "aut05",
   "territory_name": "Canarias",
   "edition": "2025",
-  "run_id": 43011642069,
-  "artifact_name": "ddd-state-43011642069-M06",
-  "artifact_sha256": "54183891c3b7955cc9cef5ad016e20b430138953de90437ee959eb4109ca09d2",
-  "source_commit": "9f8bcf4cc048f66f82ff78df42ef7ec4560f3c76",
+  "run_id": 43728972913,
+  "artifact_name": "ddd-state-43728972913-M06",
+  "artifact_sha256": "a3bfb42e357f03dc4fb033d8af6e935ebda5aead9ec26466bb58ffc6a81c90d1",
+  "source_commit": "a57c6f9d2c4563d7fc4c969e0adece533b9b6e53",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/canarias/evidencia/generaciones_m06/43011642069.json"
+  "producer_manifest_path": "territorios/aut05/evidencia/generaciones_m06/43728972913.json"
 }

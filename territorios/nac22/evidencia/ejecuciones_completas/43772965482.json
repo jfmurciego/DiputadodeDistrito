@@ -1,0 +1,95 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "nac22",
+  "territory_name": "Congreso Huesca",
+  "edition": "2025",
+  "execution_mode": "catalog_source",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "VALID",
+  "workflow_run_id": 43772965482,
+  "source_sha": "d350436502daaa745b62d7d8ab33372071a8692e",
+  "publication_mode_requested": "territorial_only",
+  "publication_mode_effective": "territorial_only",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "SUCCESS",
+  "completion_status": "COMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "NOT_REQUESTED",
+  "electoral_activation_status": "TERRITORIAL_ONLY",
+  "electoral_skip_reason": "alcance territorial solicitado",
+  "resumption": null,
+  "chain": {
+    "electoral_chain_requested": true,
+    "origin_run_id": null
+  },
+  "failed_phases": [],
+  "blocked_phases": [],
+  "out_of_scope_phases": [
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "skipped_source_gap_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 43772965482,
+      "artifact": "ddd-source-package-nac22-2025-43772965482",
+      "artifact_digest": "sha256:5eb0cd85d8e328aaac758a4a280374e8a3680a548a39003ded7b1b0a7da17eaf",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 43772965482,
+      "artifact": "ddd-state-43772965482-M06",
+      "artifact_digest": "sha256:e327dda7f100c875c8f53dfdf2c879d3e1dffc6cab5bf688abb27a1aa3074129",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "OUT_OF_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "OUT_OF_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-11-16T00:50:47.656815+00:00"
+}

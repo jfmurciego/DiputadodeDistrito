@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "congreso_badajoz",
+  "territory_id": "nac06",
   "territory_name": "Congreso Badajoz",
   "edition": "2025",
-  "run_id": 42940345930,
-  "artifact_name": "ddd-state-42940345930-M06",
-  "artifact_sha256": "c1a72a38a8bc8c4ac54d2023495e6c0a17c681a7b46bcca4288d3672960d1869",
-  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "run_id": 43755921825,
+  "artifact_name": "ddd-state-43755921825-M06",
+  "artifact_sha256": "a5b47d70b387a5e58c283ad98190a8cd4b03afa65ca318ff425cd611b72ada7e",
+  "source_commit": "200ce388adbc357161a606a5d2fc8be54de160c0",
   "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_badajoz/evidencia/generaciones_m06/42940345930.json"
+  "producer_manifest_path": "territorios/nac06/evidencia/generaciones_m06/43755921825.json"
 }

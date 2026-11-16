@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac09",
+  "territory_name": "Congreso Burgos",
+  "edition": "2025",
+  "run_id": 43763027383,
+  "artifact_name": "ddd-electoral-package-nac09-2025-43763027383",
+  "artifact_sha256": "9f145dce165b5b35f94342b127ea1df09698f1cff9df54c30714e3863c4e8862",
+  "source_commit": "132e4ae08dd2c9a7c1c0804975e3e5185a462662",
+  "election_id": "congreso_burgos_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "2a1370921ccf64b06b6a30ae5ff11b44e6a4c1cfd0b5c92623cd7102a07dc9fc"
+}

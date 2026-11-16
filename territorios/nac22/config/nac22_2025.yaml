@@ -67,6 +67,13 @@ territory_contract:
   population_floor_ratio: 0.85
   population_cap_ratio: 1.15
   target_tolerance_ratio: 0.15
+  require_graph_contiguity: true
+  require_single_admin_level_1_per_district: true
+  require_municipality_discipline: true
+  oversized_municipality_rule: split_only_above_hard_cap
+  municipality_atomicity_limit_ratio: 1.15
+  require_auditable_district_catalogue: true
+  status: generation_ready
   limits_profile: exception
   limits_exception_rationale: 'Reglas del Congreso aprobadas por el propietario: suelo
     85 %, techo 115 %, y un municipio que cabe bajo el techo no se divide. Piloto
@@ -77,13 +84,6 @@ territory_contract:
     (Huesca: 1 componente, 0 solapes); referencia temporal 2023 contemporánea de la
     elección general de 2023'
   limits_exception_decided_at: '2026-10-30'
-  require_graph_contiguity: true
-  require_single_admin_level_1_per_district: true
-  require_municipality_discipline: true
-  oversized_municipality_rule: split_only_above_hard_cap
-  municipality_atomicity_limit_ratio: 1.15
-  require_auditable_district_catalogue: true
-  status: generation_ready
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: *id001
@@ -198,9 +198,9 @@ validation:
     section_year: 2023
     population_total: 226878
     target_section_count: 286
-    package_sha256: 4912eea85523c456f7297e406b76b184b23fc3b46b2cd4aca0c48d908a168330
-    compatibility_report_sha256: e069f794fb11bf08c36a6b2042d036a3d09a92bbf6145fad52039985ddd12f49
-    compatibility_identity_sha256: c5ee625edad04be765b04e380ff044934663db3be98cb2c9024e4495b1c3d1de
+    package_sha256: 25a2511f8065c0efd8a553a473d8df08a9488009d5e1f819b24172c9a9f5d458
+    compatibility_report_sha256: 4d56766a46a03688f263e0f5d6186f835549e310ee1fd1774121f4181a16c616
+    compatibility_identity_sha256: 3429ea5558a00b006d0eab3c7fd2b7e10699c4e83f891d66aedd3db7a4cd62ab
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -257,7 +257,7 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2023.zip
-        sha256: 12da75b0ae905341f5865a229bbda5d916a1edf1b5f11f80b376304566a81eb2
+        sha256: 0a0c1f931c15cdcd16660d00d33e4be9afba36031c2fef9e4dabc9578906ff0f
         bytes: 959780
   runtime:
     section_id_field: CUSEC_KEY
@@ -271,12 +271,12 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: 1211d0a80351de33198b4b58d6dcc885ced1c229104038daf1a097745472e2fb
+  contract_sha256: bad4d049805cd612b89223709436315620ba40fa86fe6d56131f191822380cdd
 generation_state:
   source_prepared: true
   generation_enabled: true
-  package_sha256: 4912eea85523c456f7297e406b76b184b23fc3b46b2cd4aca0c48d908a168330
-  compatibility_identity_sha256: c5ee625edad04be765b04e380ff044934663db3be98cb2c9024e4495b1c3d1de
+  package_sha256: 25a2511f8065c0efd8a553a473d8df08a9488009d5e1f819b24172c9a9f5d458
+  compatibility_identity_sha256: 3429ea5558a00b006d0eab3c7fd2b7e10699c4e83f891d66aedd3db7a4cd62ab
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 9467ff08186169c8b4aec49bc9bde0fd30f976c49d0fa93ba85636beb0680ed4
@@ -308,7 +308,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2023.zip
-    sha256: 12da75b0ae905341f5865a229bbda5d916a1edf1b5f11f80b376304566a81eb2
+    sha256: 0a0c1f931c15cdcd16660d00d33e4be9afba36031c2fef9e4dabc9578906ff0f
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
@@ -326,6 +326,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 41057319037
-  pre_m04_source_commit: 8d45688704658c9dd9f099d6f489470299becdea
-  pre_m04_artifact_sha256: 34ab80094158f6f2d89cb1a4f9e45fc76cd3633774b8c77ea370bd3b88b2d067
+  pre_m04_run_id: 43772965482
+  pre_m04_source_commit: cbb1de30df9e9d30579a08acce2fa4fa51baf115
+  pre_m04_artifact_sha256: 07b53e030e82eeae727190aceaa100726ffedf170587495c0ce5f8acdc320264

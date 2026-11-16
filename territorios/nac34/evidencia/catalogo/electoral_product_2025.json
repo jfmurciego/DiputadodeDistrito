@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_palencia",
+  "territory_id": "nac34",
   "territory_name": "Congreso Palencia",
   "edition": "2025",
-  "run_id": 43016085888,
-  "artifact_name": "ddd-state-43016085888-M08",
-  "artifact_sha256": "f3b6f957c70a27da6cfeda275b729aae0d6d40bec74556638a988dbd71a0af33",
-  "source_commit": "37f628b85b8e64083245b2e59c38d071ff4bf31a",
+  "run_id": 43789454074,
+  "artifact_name": "ddd-state-43789454074-M08",
+  "artifact_sha256": "df0bb8b49e283061a92b0425180e3b8a299d67eefa57978703d608c0d1d6f60e",
+  "source_commit": "9338a37743328580dd1d8d4022cd7cb495869daa",
   "stage": "M08"
 }

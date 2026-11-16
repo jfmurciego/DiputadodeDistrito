@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "congreso_lugo",
+  "territory_id": "nac27",
   "territory_name": "Congreso Lugo",
   "edition": "2025",
-  "run_id": 42991580539,
-  "artifact_name": "ddd-state-42991580539-M06",
-  "artifact_sha256": "83603d2d31fd032ef415d49aa9940223e6ba231ffe75591b1765e817fe6e11b4",
-  "source_commit": "48716f6314fe92973436599417e7be4886bbe0c2",
+  "run_id": 43774262901,
+  "artifact_name": "ddd-state-43774262901-M06",
+  "artifact_sha256": "5d45853394058a1377d13312e6e39f284e4626bbbe2475bd2034c63019288109",
+  "source_commit": "2e58f6860dcac5c34b824fa0c919bd530dfc3230",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_lugo/evidencia/generaciones_m06/42991580539.json"
+  "producer_manifest_path": "territorios/nac27/evidencia/generaciones_m06/43774262901.json"
 }

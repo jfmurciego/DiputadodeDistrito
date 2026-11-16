@@ -1,0 +1,1066 @@
+territories:
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/aut01/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/aut01/evidencia/fuentes_electorales/2025/995430f5ad831c5844c0777dae4936bc2b82af0113ea73a272c912aa0a3f8395/42463442007/receipt.json
+        prepared_source_pair: territorios/aut01/evidencia/pares_fuentes/2025/008152d29f59f501fe1cd9fdb4a2f1cf790686b8feab8822432274eede5d1acc.json
+        territorial_product: territorios/aut01/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-aut01-2025-43639991903
+        receipt_path: territorios/aut01/evidencia/fuentes_territoriales/2025/79b1640f3bccc1a06d680fc03494135e73360f80bdd25714b0a5cd26c21556f2/43639991903/receipt.json
+        run_id: 43639991903
+      territorial_sources_prepared: true
+  name: Andalucía
+  territory_id: aut01
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/aut02/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/aut02/evidencia/fuentes_electorales/2025/9389e4386eae823a44d4180957676f42fcc5f5cabf899bf442ce6cc28400b8af/40896686254/receipt.json
+        prepared_source_pair: territorios/aut02/evidencia/pares_fuentes/2025/b52021ffe6d7e3e80d382abc7e0c0bba827d886aa5580b9abf83c38c0451bf47.json
+        territorial_product: territorios/aut02/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-aut02-2025-43640002217
+        receipt_path: territorios/aut02/evidencia/fuentes_territoriales/2025/91758e3034623e6e2b9c399a4347d0827e8cbbd5c7663a9a28d334ac958f5fc9/43640002217/receipt.json
+        run_id: 43640002217
+      territorial_sources_prepared: true
+  name: Aragón
+  territory_id: aut02
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/aut03/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/aut03/evidencia/fuentes_electorales/2025/b76fa3a26064246b9f90edd7d378b73250c5304dc25e60380245a402cb930be8/40693720831/receipt.json
+        prepared_source_pair: territorios/aut03/evidencia/pares_fuentes/2025/96f6b6b1fa3e548dabea41b1aee41731cc974a4a97c07935aca74f7096e502fb.json
+        territorial_product: territorios/aut03/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-aut03-2025-43640013123
+        receipt_path: territorios/aut03/evidencia/fuentes_territoriales/2025/ea6debdcbd442ab9567cce7ea73e7511b42a0c55d0f30c4c691576d32485684b/43640013123/receipt.json
+        run_id: 43640013123
+      territorial_sources_prepared: true
+  name: Principado de Asturias
+  territory_id: aut03
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/aut04/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/aut04/evidencia/fuentes_electorales/2025/b66076b1a479a6ef255f0460de34adf8274e0b307bd9e18c350ef85d24292437/40955056606/receipt.json
+        prepared_source_pair: territorios/aut04/evidencia/pares_fuentes/2025/2a8ec31fdd7b769abc01cfa4cbedaa2a7b743327f173184cd85d2433d89de4eb.json
+        territorial_product: territorios/aut04/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-aut04-2025-43640023838
+        receipt_path: territorios/aut04/evidencia/fuentes_territoriales/2025/2656685909d4624911a6b30d0c2a25e257b23b50b584e97105a5db4867fcc4be/43640023838/receipt.json
+        run_id: 43640023838
+      territorial_sources_prepared: true
+  name: Islas Baleares
+  territory_id: aut04
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/aut05/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/aut05/evidencia/fuentes_electorales/2025/3d6ea40b409231569f1f6240b06660f73c2cab44984296754f5ca4eda023da34/42521092889/receipt.json
+        prepared_source_pair: territorios/aut05/evidencia/pares_fuentes/2025/9de267ffb50cac1f1c6c2c59b8aa4310f17e229fd9eb501e6cf704c31ebda814.json
+        territorial_product: territorios/aut05/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-aut05-2025-43640033803
+        receipt_path: territorios/aut05/evidencia/fuentes_territoriales/2025/2a4a3c7162ccd9cacc405065f71cebb737dd9fc643dbb0723b95d28967c16471/43640033803/receipt.json
+        run_id: 43640033803
+      territorial_sources_prepared: true
+  name: Canarias
+  territory_id: aut05
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/aut06/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/aut06/evidencia/fuentes_electorales/2025/2ad5283d539ec817bb68b8e9862ced3fafa0168ad8e658f48e1b623a6aed45b2/42707820760/receipt.json
+        prepared_source_pair: territorios/aut06/evidencia/pares_fuentes/2025/e6f708de40a73a4b2941809203619e18a79b4548b69b08af486739bc44c40311.json
+        territorial_product: territorios/aut06/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-aut06-2025-43640043210
+        receipt_path: territorios/aut06/evidencia/fuentes_territoriales/2025/91b047fb2403365b8558196602ecf8ca0f536baeb279a379fdce72c271e93aa0/43640043210/receipt.json
+        run_id: 43640043210
+      territorial_sources_prepared: true
+  name: Cantabria
+  territory_id: aut06
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/aut08/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/aut08/evidencia/fuentes_electorales/2025/c4a03521682f6b68d6648fdd6ad72a37a697df36d410675a9414746b90359bcf/40690624792/receipt.json
+        prepared_source_pair: territorios/aut08/evidencia/pares_fuentes/2025/c8d8bc1e482267ed15f985168ea0ea537589fa5e2d0ac75fa65f8d2b7489120c.json
+        territorial_product: territorios/aut08/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-aut08-2025-43640061481
+        receipt_path: territorios/aut08/evidencia/fuentes_territoriales/2025/d4b258fe493a4d0c0a668040cc3f98889a489133f5c89f2e23f83e86fce0c289/43640061481/receipt.json
+        run_id: 43640061481
+      territorial_sources_prepared: true
+  name: Castilla-La Mancha
+  territory_id: aut08
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/aut07/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/aut07/evidencia/fuentes_electorales/2025/988be947d2ff82e2d6dfe9a18a4ac0590d8b752a216bc97e814a480097ecf5ea/42521090842/receipt.json
+        prepared_source_pair: territorios/aut07/evidencia/pares_fuentes/2025/3f2c6ef7aafa96ff9e6a29582e4fe21be426ad7afdde8d65e33af0b06b5a2adf.json
+        territorial_product: territorios/aut07/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-aut07-2025-43640052186
+        receipt_path: territorios/aut07/evidencia/fuentes_territoriales/2025/74830da97b9c4fe1c260a90840fc099ad2594f1533c90c63cae4eeb755bf0f30/43640052186/receipt.json
+        run_id: 43640052186
+      territorial_sources_prepared: true
+  name: Castilla y León
+  territory_id: aut07
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/aut09/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/aut09/evidencia/fuentes_electorales/2025/9512fde80f903cbe93eab4be4695612da01cd7a420d7840e4d04834985a46e18/43036592492/receipt.json
+        prepared_source_pair: territorios/aut09/evidencia/pares_fuentes/2025/3090588ad0a3e96eb59dbfc5eb7260f1eda08a00b670c1287cebf36c48586087.json
+        territorial_product: territorios/aut09/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-aut09-2025-43640071031
+        receipt_path: territorios/aut09/evidencia/fuentes_territoriales/2025/699b33dca6a72d49f9f0057e175ba26c44d751ad0543a96af6624bc7fb99790e/43640071031/receipt.json
+        run_id: 43640071031
+      territorial_sources_prepared: true
+  name: Cataluña
+  territory_id: aut09
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/aut10/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/aut10/evidencia/fuentes_electorales/2025/d57a97ef4e9ce51736a9fb0239591fe4cb1bce023d3fecba0b2f48734af757a4/40956462986/receipt.json
+        prepared_source_pair: territorios/aut10/evidencia/pares_fuentes/2025/dabb1f70e89c22e128269f4ef63f8701763a8e9155a46053330ec0ea42ad10f0.json
+        territorial_product: territorios/aut10/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-aut10-2025-43640080386
+        receipt_path: territorios/aut10/evidencia/fuentes_territoriales/2025/2a3965a20955227ede94ec4fb961f0e42db1e01a75c8f60debdcfa3c5b9c287e/43640080386/receipt.json
+        run_id: 43640080386
+      territorial_sources_prepared: true
+  name: Comunidad Valenciana
+  territory_id: aut10
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/aut11/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/aut11/evidencia/fuentes_electorales/2025/e3963afbdaaefc34551d19d08eb4819e66266697dc33b6469b5b5aca318e3350/42720735134/receipt.json
+        prepared_source_pair: territorios/aut11/evidencia/pares_fuentes/2025/a36c706c2ace1048916be9b85201e5605faad6ff98f417f3625bd88b4593f61d.json
+        territorial_product: territorios/aut11/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-aut11-2025-43698495438
+        receipt_path: territorios/aut11/evidencia/fuentes_territoriales/2025/6148e69fd3c6a1761307a646f8a66a42d5643c98acae14c40332988d3ee820ae/43698495438/receipt.json
+        run_id: 43698495438
+      territorial_sources_prepared: true
+  name: Extremadura
+  territory_id: aut11
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/aut12/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/aut12/evidencia/fuentes_electorales/2025/af07c8d3bce5a45f63afd1c5d5eca0423a7713f71b4fbbb6c812f2509f51f230/40389705458/receipt.json
+        prepared_source_pair: territorios/aut12/evidencia/pares_fuentes/2025/fe42fdfcdd620e55448d873059c973d77afcd31f7f7d28ab396088458d612914.json
+        territorial_product: territorios/aut12/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-aut12-2025-43645451541
+        receipt_path: territorios/aut12/evidencia/fuentes_territoriales/2025/1651ec81b1367df37949d4418d7decc2339e7d5c327183f60db74b6b4e4c7344/43645451541/receipt.json
+        run_id: 43645451541
+      territorial_sources_prepared: true
+  name: Galicia
+  territory_id: aut12
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/aut13/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/aut13/evidencia/fuentes_electorales/2025/66b8d0cd823a4a29607a1553595c2a79c2d6ddbae51d432f5cd158dfec29d9ba/40773465956/receipt.json
+        prepared_source_pair: territorios/aut13/evidencia/pares_fuentes/2025/4e4ba55364eb2c69b3d497847c93339e6c99dfea41fa686ae389fbb8c57fdeb8.json
+        territorial_product: territorios/aut13/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-aut13-2025-43645460677
+        receipt_path: territorios/aut13/evidencia/fuentes_territoriales/2025/ae8b62dace85159af12c5bce3a8be15d2ab5c11dc2ed9a82c88ff7679cc21178/43645460677/receipt.json
+        run_id: 43645460677
+      territorial_sources_prepared: true
+  name: Comunidad de Madrid
+  territory_id: aut13
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/aut14/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/aut14/evidencia/fuentes_electorales/2025/bb4afc30bfd7530f7ea02f4a879b3eb7f029ed851899b925935a80c98e3add6a/40954443883/receipt.json
+        prepared_source_pair: territorios/aut14/evidencia/pares_fuentes/2025/317d547fe0411fef0b13452c23e42ac55050a3243a80961f95a829c7a817db2d.json
+        territorial_product: territorios/aut14/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-aut14-2025-43645469554
+        receipt_path: territorios/aut14/evidencia/fuentes_territoriales/2025/978680ebfa479e02db3be6101e0f1fb25fc958911b93b9ad8b07a53d88c6b708/43645469554/receipt.json
+        run_id: 43645469554
+      territorial_sources_prepared: true
+  name: Región de Murcia
+  territory_id: aut14
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/aut15/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/aut15/evidencia/fuentes_electorales/2025/ac4fd5f21ab07fe8db6d056bdb71454d9a6ecdb69fa12e4f72983e6356ca141f/40838170635/receipt.json
+        prepared_source_pair: territorios/aut15/evidencia/pares_fuentes/2025/4e2ececa3fb041c30e66094b055167bae813edf5be2d3a73b538c71dbebb56fc.json
+        territorial_product: territorios/aut15/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-aut15-2025-43645478667
+        receipt_path: territorios/aut15/evidencia/fuentes_territoriales/2025/cc5f8c73bb56301faa02bcb76317f34c1d3e14fe275c63afaee3ff97f72609f5/43645478667/receipt.json
+        run_id: 43645478667
+      territorial_sources_prepared: true
+  name: Comunidad Foral de Navarra
+  territory_id: aut15
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/aut16/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/aut16/evidencia/fuentes_electorales/2025/32e2c695b91acc6bae9c8b0455b7678b814bf66dc374c741f94622693ff703ab/43036604667/receipt.json
+        prepared_source_pair: territorios/aut16/evidencia/pares_fuentes/2025/76289209d07c2899e8fe0912ce928df512a7e3a1a29efa942c63871a8d7c29ac.json
+        territorial_product: territorios/aut16/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-aut16-2025-43645488129
+        receipt_path: territorios/aut16/evidencia/fuentes_territoriales/2025/08961b83ea2904cc47220dfc00f71b0716a49fdcec719e7482c5c33db13273d2/43645488129/receipt.json
+        run_id: 43645488129
+      territorial_sources_prepared: true
+  name: País Vasco
+  territory_id: aut16
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/aut17/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/aut17/evidencia/fuentes_electorales/2025/35a5a19b40d7d19c48d53eadfdcc2f045be0cc239ba3266c18389c1b0d09e951/40850322464/receipt.json
+        prepared_source_pair: territorios/aut17/evidencia/pares_fuentes/2025/b5a3bc5961e4bfaa84b79820100f51105d8518f600780195d6b1838304d474bd.json
+        territorial_product: territorios/aut17/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-aut17-2025-43645497921
+        receipt_path: territorios/aut17/evidencia/fuentes_territoriales/2025/0c9c86eb040c1a26bb60a2188d411f2f4ff4484ae3e87b5f415f0adc7e113636/43645497921/receipt.json
+        run_id: 43645497921
+      territorial_sources_prepared: true
+  name: La Rioja
+  territory_id: aut17
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/aut18/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/aut18/evidencia/fuentes_electorales/2025/a030a3e1892b4fd6943caef31f04f339ec7f31414e7e9baf51a361c1e068cd5e/40773443591/receipt.json
+        prepared_source_pair: territorios/aut18/evidencia/pares_fuentes/2025/43ce033b960a05ee9bfeff48c913a06b288c498729213cf59789b4ef1e9e70d8.json
+        territorial_product: territorios/aut18/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-aut18-2025-43645507829
+        receipt_path: territorios/aut18/evidencia/fuentes_territoriales/2025/249dd20fc5dbadceec0cf2d4ed0cd3c9bf9fba5a8a03c613ccd4f1eee568498c/43645507829/receipt.json
+        run_id: 43645507829
+      territorial_sources_prepared: true
+  name: Ceuta
+  territory_id: aut18
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/aut19/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/aut19/evidencia/fuentes_electorales/2025/8ac3f49c633f1be8ba441bf1290dc79c1a4b30b2bac0033f9c2699e73c1fd019/40832114779/receipt.json
+        prepared_source_pair: territorios/aut19/evidencia/pares_fuentes/2025/f545e3ed494cab6b0c44ede7f34152268b0d028fa8bd4327d0c3e4729da336d4.json
+        territorial_product: territorios/aut19/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-aut19-2025-43645525636
+        receipt_path: territorios/aut19/evidencia/fuentes_territoriales/2025/df011bdb65a8d5084eaa825e727884b00d3b8809dfa137f9d4013f2bf58f135a/43645525636/receipt.json
+        run_id: 43645525636
+      territorial_sources_prepared: true
+  name: Melilla
+  territory_id: aut19
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac01/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac01/evidencia/fuentes_electorales/2025/4f920eb6eba9ea922f3007b741ced4e85036efae35088e17836aadbb5b31e4ae/41239750223/receipt.json
+        prepared_source_pair: territorios/nac01/evidencia/pares_fuentes/2025/29577f2efcc4d643fc6a1b7c5c88313ecdc936fe32bee397f971f1b5dfd49d0b.json
+        territorial_product: territorios/nac01/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac01-2025-43645534913
+        receipt_path: territorios/nac01/evidencia/fuentes_territoriales/2025/a48493b744d72550a0648a74f0da4e4068db81c73385c09d3ec06b1d3e5576f2/43645534913/receipt.json
+        run_id: 43645534913
+      territorial_sources_prepared: true
+  name: Congreso Álava
+  territory_id: nac01
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac02/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac02/evidencia/fuentes_electorales/2025/024e50f3973fbd525d3a3bd3f2e0fb20d1f0edd510eea1af15b9b8b3811cfe02/41239755540/receipt.json
+        prepared_source_pair: territorios/nac02/evidencia/pares_fuentes/2025/cab052dbdcaf36b292acc9769ee1c419978d21d0fc0252cf73854bc251af7dc8.json
+        territorial_product: territorios/nac02/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac02-2025-43650090622
+        receipt_path: territorios/nac02/evidencia/fuentes_territoriales/2025/63179bee9a73e37579d118f6c6b1a27faffe09a50c7136eff0b209bbcd20e274/43650090622/receipt.json
+        run_id: 43650090622
+      territorial_sources_prepared: true
+  name: Congreso Albacete
+  territory_id: nac02
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac03/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac03/evidencia/fuentes_electorales/2025/b1de5f6a5a140f72c8fa242ae6dde459ad232165849a848477037f1871654c82/42463675548/receipt.json
+        prepared_source_pair: territorios/nac03/evidencia/pares_fuentes/2025/f8ffc966848c226fc610c12b2fb262768a3736bb8ad88a986df68e1c820d7256.json
+        territorial_product: territorios/nac03/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac03-2025-43650100325
+        receipt_path: territorios/nac03/evidencia/fuentes_territoriales/2025/52d5eb1cfde9fa98d66c5adade4cde3e501b9aa3c3ec54b8f344a046c32ddca3/43650100325/receipt.json
+        run_id: 43650100325
+      territorial_sources_prepared: true
+  name: Congreso Alicante
+  territory_id: nac03
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac04/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac04/evidencia/fuentes_electorales/2025/4ec8ae00ed211a167735c2d8a9a21b56d8c4710c51c599b8fb2f5a9df35e680c/41239766467/receipt.json
+        prepared_source_pair: territorios/nac04/evidencia/pares_fuentes/2025/a94d24b963d41e3585e0650658db7f7406b53d5ce2755546fd698a6a82221e2c.json
+        territorial_product: territorios/nac04/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac04-2025-43650110521
+        receipt_path: territorios/nac04/evidencia/fuentes_territoriales/2025/c888558be6c2efdbd3a52b103bce956d3bf164fa948d356c1fa18120856d0623/43650110521/receipt.json
+        run_id: 43650110521
+      territorial_sources_prepared: true
+  name: Congreso Almería
+  territory_id: nac04
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac05/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac05/evidencia/fuentes_electorales/2025/26cdfa3cc8b521adf3c49682e08a5b5db4469afe373d7030586082a5cc8b7dae/41235288504/receipt.json
+        prepared_source_pair: territorios/nac05/evidencia/pares_fuentes/2025/0d49207a4ae0e8b29eb5c4e899693aab77b8b49230f8efff5e1bf55afc76bd9b.json
+        territorial_product: territorios/nac05/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac05-2025-43650119878
+        receipt_path: territorios/nac05/evidencia/fuentes_territoriales/2025/70099414314869f03817d5075989c6de17e101aa1278029fe95dfd00e0d26a06/43650119878/receipt.json
+        run_id: 43650119878
+      territorial_sources_prepared: true
+  name: Congreso Ávila
+  territory_id: nac05
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac06/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac06/evidencia/fuentes_electorales/2025/cb1dfe01a462d120c8f9f8dd9d3139d2a4a726a1fefae57a5e2ff7dab6915183/41239771818/receipt.json
+        prepared_source_pair: territorios/nac06/evidencia/pares_fuentes/2025/5ce0eb79edc0b1e055267eade402ad81bdeb78598ae9298138c923d132db4d48.json
+        territorial_product: territorios/nac06/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac06-2025-43650129661
+        receipt_path: territorios/nac06/evidencia/fuentes_territoriales/2025/f5201bb87283d24e1929245689bbbbea163b2c632d6762db160b8ab3f9f87cfc/43650129661/receipt.json
+        run_id: 43650129661
+      territorial_sources_prepared: true
+  name: Congreso Badajoz
+  territory_id: nac06
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac07/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac07/evidencia/fuentes_electorales/2025/595c78426252663b1a5358beea463781185a82f3f3433630d9882e73a88c2867/41465837048/receipt.json
+        prepared_source_pair: territorios/nac07/evidencia/pares_fuentes/2025/61ff422e7d315ed96f2726e58a6e7e47681d3ec0022b7cbd4e6a0b5a9426913e.json
+        territorial_product: territorios/nac07/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac07-2025-43650139990
+        receipt_path: territorios/nac07/evidencia/fuentes_territoriales/2025/ea7b07c222103fdec77b72b89fdedd4a3c25426f1a6cc632d8bc191d998adb32/43650139990/receipt.json
+        run_id: 43650139990
+      territorial_sources_prepared: true
+  name: Congreso Baleares
+  territory_id: nac07
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac08/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac08/evidencia/fuentes_electorales/2025/e8203257f78dee511e0b5e1592611d712f6ae45c76c443a84a164e3983b652af/42489980111/receipt.json
+        prepared_source_pair: territorios/nac08/evidencia/pares_fuentes/2025/b90ce4e74864fa080e919a3efd423cc33226eb298fc20decdb8a3b48293dff3a.json
+        territorial_product: territorios/nac08/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac08-2025-43650150584
+        receipt_path: territorios/nac08/evidencia/fuentes_territoriales/2025/b1f93af9346ad61e9401a916ea5b981b0cb0809cf0287171490f44f0d12aa475/43650150584/receipt.json
+        run_id: 43650150584
+      territorial_sources_prepared: true
+  name: Congreso Barcelona
+  territory_id: nac08
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac09/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac09/evidencia/fuentes_electorales/2025/3048f185c01af3e5a400066e7aba00671de47b42042b2471c2bebee097cb291a/41239782586/receipt.json
+        prepared_source_pair: territorios/nac09/evidencia/pares_fuentes/2025/5175fb880e69682661a5473eca370a452b728d3cae86ba0ced4399baac993b3a.json
+        territorial_product: territorios/nac09/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac09-2025-43650160733
+        receipt_path: territorios/nac09/evidencia/fuentes_territoriales/2025/c9942ecc2735678c52065cee5bdc6eba2e752a87818c740b382f820cc178ef6e/43650160733/receipt.json
+        run_id: 43650160733
+      territorial_sources_prepared: true
+  name: Congreso Burgos
+  territory_id: nac09
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac10/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac10/evidencia/fuentes_electorales/2025/fd390f036b51e5bb85fb619ce3b5d2b16827be5e74c8291995d0d41bb1dcbade/41239788468/receipt.json
+        prepared_source_pair: territorios/nac10/evidencia/pares_fuentes/2025/f8f3ff6511a15e7f73e802dfcc54dd45b8e5c296b6c408c88e6fc85504399b79.json
+        territorial_product: territorios/nac10/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac10-2025-43650170423
+        receipt_path: territorios/nac10/evidencia/fuentes_territoriales/2025/2a1a7b35951489b1304bae46171a4a89e31abbab71b103be7967e7b991c8658b/43650170423/receipt.json
+        run_id: 43650170423
+      territorial_sources_prepared: true
+  name: Congreso Cáceres
+  territory_id: nac10
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac11/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac11/evidencia/fuentes_electorales/2025/e7bad8cb9552ba46cc1ce96c9b06c0021fb6848a5bf8e946c931b9cf3f4029d9/41465820761/receipt.json
+        prepared_source_pair: territorios/nac11/evidencia/pares_fuentes/2025/c61f13ea3804251c5ea9fa39b7d4d8272df1e4e5d5807a914d1de9c6ef9b4182.json
+        territorial_product: territorios/nac11/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac11-2025-43650180523
+        receipt_path: territorios/nac11/evidencia/fuentes_territoriales/2025/346b9390b5d2bbf58b69ebc2c87d9347163f57aa0bc6ebcb75d76908b53d2252/43650180523/receipt.json
+        run_id: 43650180523
+      territorial_sources_prepared: true
+  name: Congreso Cádiz
+  territory_id: nac11
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac12/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac12/evidencia/fuentes_electorales/2025/edc1431446e17982e9143687d587d8ab6c7a468907295f7be0f207c812bce6d1/41239799217/receipt.json
+        prepared_source_pair: territorios/nac12/evidencia/pares_fuentes/2025/8bbe77deb9c92332e6b8b61310217afa1d5be4d24eb252319b98f2943a3406c6.json
+        territorial_product: territorios/nac12/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac12-2025-43651935343
+        receipt_path: territorios/nac12/evidencia/fuentes_territoriales/2025/24201e2622788035e09c02eba2c022353f6fd033f27b99c0e46e85f626832a9e/43651935343/receipt.json
+        run_id: 43651935343
+      territorial_sources_prepared: true
+  name: Congreso Castellón
+  territory_id: nac12
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac13/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac13/evidencia/fuentes_electorales/2025/630a53d22aa8839036f217167de1fced81ae36f4aaca31cd8a1f3d2aadc1888d/41239804426/receipt.json
+        prepared_source_pair: territorios/nac13/evidencia/pares_fuentes/2025/8f01feca87df2adb0ec5b49a6f7ad3167f25b0c6439508202d19654e6cfcc015.json
+        territorial_product: territorios/nac13/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac13-2025-43651946304
+        receipt_path: territorios/nac13/evidencia/fuentes_territoriales/2025/4658a851a87ad9a8374072444b63f3c2ebb3410f2969a5161c30eda19295c417/43651946304/receipt.json
+        run_id: 43651946304
+      territorial_sources_prepared: true
+  name: Congreso Ciudad Real
+  territory_id: nac13
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac14/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac14/evidencia/fuentes_electorales/2025/2c6b84f7b0ff5317d3c12aa8b7b195332e8b2d282a460a20241fbb4d6a3fa3bd/41239809492/receipt.json
+        prepared_source_pair: territorios/nac14/evidencia/pares_fuentes/2025/96d55857b5d52415c7d3731cfe24e4483768767e0c8ae53f51f3a172a079cc6e.json
+        territorial_product: territorios/nac14/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac14-2025-43651957259
+        receipt_path: territorios/nac14/evidencia/fuentes_territoriales/2025/c634da1344225bb2f8670858948bc371708f707f01f76c14eaa51ff57c7b04b3/43651957259/receipt.json
+        run_id: 43651957259
+      territorial_sources_prepared: true
+  name: Congreso Córdoba
+  territory_id: nac14
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac15/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac15/evidencia/fuentes_electorales/2025/1e07330a56680771cc6c920fad75cbfa0efd30938dfcd8ca4f15387b6a219091/41239814650/receipt.json
+        prepared_source_pair: territorios/nac15/evidencia/pares_fuentes/2025/0edcee83874afdffefd871bd37738611d53f1a4d8c98d794ace159926d78e2cc.json
+        territorial_product: territorios/nac15/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac15-2025-43651967770
+        receipt_path: territorios/nac15/evidencia/fuentes_territoriales/2025/fbf68df81975cbaa7fe6ee0028d0bc16a5a58c0a0bc769b568d64d0fc84c1f95/43651967770/receipt.json
+        run_id: 43651967770
+      territorial_sources_prepared: true
+  name: Congreso La Coruña
+  territory_id: nac15
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac16/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac16/evidencia/fuentes_electorales/2025/b0cbccd6e4ca463e8b42fe602e7b9eace43abd0b022971272ce293fb819c58f7/41236657374/receipt.json
+        prepared_source_pair: territorios/nac16/evidencia/pares_fuentes/2025/26ab70d72f02dc1a422bb42c49fe54bd7945bafe70fb98d3280fb2ffa9fff6f0.json
+        territorial_product: territorios/nac16/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac16-2025-43651979100
+        receipt_path: territorios/nac16/evidencia/fuentes_territoriales/2025/05638cd93d053839a67c5145b97be8833dd44c83b0c234947529cd3148e3c336/43651979100/receipt.json
+        run_id: 43651979100
+      territorial_sources_prepared: true
+  name: Congreso Cuenca
+  territory_id: nac16
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac17/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac17/evidencia/fuentes_electorales/2025/a03b34676e4217823ee656f307a84c832a305ab6db19461e28c043a60e80bc8f/41239820081/receipt.json
+        prepared_source_pair: territorios/nac17/evidencia/pares_fuentes/2025/9c4dfa40bc7d8971922cc125d0a8f02ac45a3fc845811b56d76992c72910f3cc.json
+        territorial_product: territorios/nac17/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac17-2025-43651989454
+        receipt_path: territorios/nac17/evidencia/fuentes_territoriales/2025/33b6ff372aca5c1449a55bc35ea80d7a3549514b9fc258a2d324a75679680ac5/43651989454/receipt.json
+        run_id: 43651989454
+      territorial_sources_prepared: true
+  name: Congreso Gerona
+  territory_id: nac17
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac18/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac18/evidencia/fuentes_electorales/2025/dd0dd9e03aa8c8f9c39bb8dde4b95e3c2822a6e1491b91f3a0e99ee7b62de4d5/41239825488/receipt.json
+        prepared_source_pair: territorios/nac18/evidencia/pares_fuentes/2025/94c196621c8f37380c8ba79069268acec8873d0321045136cd248b622bd37a7e.json
+        territorial_product: territorios/nac18/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac18-2025-43652000219
+        receipt_path: territorios/nac18/evidencia/fuentes_territoriales/2025/95e2db3fd6e20fdd0cc062700440e18d6608b95c31f9e21e07e5ac043fe6fd10/43652000219/receipt.json
+        run_id: 43652000219
+      territorial_sources_prepared: true
+  name: Congreso Granada
+  territory_id: nac18
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac19/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac19/evidencia/fuentes_electorales/2025/f421d566485bcdc53d2c1f281efbb5210e1a5df8af79b7dc00a03cdfdf055d03/41236827273/receipt.json
+        prepared_source_pair: territorios/nac19/evidencia/pares_fuentes/2025/8e2ca58bb58ccfa32fd273ffc148de7417903eb55be4c99f088f26625449b5c1.json
+        territorial_product: territorios/nac19/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac19-2025-43652010786
+        receipt_path: territorios/nac19/evidencia/fuentes_territoriales/2025/42b08a34df58de758a5e613785d720572b618519a804764b5b03844245b86c10/43652010786/receipt.json
+        run_id: 43652010786
+      territorial_sources_prepared: true
+  name: Congreso Guadalajara
+  territory_id: nac19
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac20/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac20/evidencia/fuentes_electorales/2025/d1051888a14ed29231c3a98cc0b7c5c77cfc90599ef0417b00fcb7336b114b88/41239830502/receipt.json
+        prepared_source_pair: territorios/nac20/evidencia/pares_fuentes/2025/9651126a3a22e99dd8d141cdc83ea292db8efd423747fd9739bcc78a505cda5e.json
+        territorial_product: territorios/nac20/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac20-2025-43652021243
+        receipt_path: territorios/nac20/evidencia/fuentes_territoriales/2025/9b632e37e5042735600c2cd0fc2dcccb16120655fb7dd33f81a4de02d571a5a0/43652021243/receipt.json
+        run_id: 43652021243
+      territorial_sources_prepared: true
+  name: Congreso Guipúzcoa
+  territory_id: nac20
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac21/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac21/evidencia/fuentes_electorales/2025/deb0fbf1e626ccccc6a1e0f0420f93779e92be4da48d4f6e58e8dd1b9bd9d99a/41239835955/receipt.json
+        prepared_source_pair: territorios/nac21/evidencia/pares_fuentes/2025/bf33d2ba8fd21650e79feaf4905b3c2873e4580e28939d0eb96e83ba3310de14.json
+        territorial_product: territorios/nac21/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac21-2025-43652031737
+        receipt_path: territorios/nac21/evidencia/fuentes_territoriales/2025/9a689b442eeb3c935c13872bbffd8d419d457e1d1283d460803794c9a394c348/43652031737/receipt.json
+        run_id: 43652031737
+      territorial_sources_prepared: true
+  name: Congreso Huelva
+  territory_id: nac21
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac22/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac22/evidencia/fuentes_electorales/2025/155b87799654f901f12a7596bcc86c7423d5da9ee848b6df275689df502ca422/41194293941/receipt.json
+        prepared_source_pair: territorios/nac22/evidencia/pares_fuentes/2025/e279142c864244c454d08a80d936d436ce3a8497b367aaf482e1bea16c098b18.json
+        territorial_product: territorios/nac22/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac22-2025-43654075593
+        receipt_path: territorios/nac22/evidencia/fuentes_territoriales/2025/4ac382c4bc92b120b42dc83056c6ea23ae24a3552344634d9728197b71beeae8/43654075593/receipt.json
+        run_id: 43654075593
+      territorial_sources_prepared: true
+  name: Congreso Huesca
+  territory_id: nac22
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac23/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac23/evidencia/fuentes_electorales/2025/0a0920bcd99d4bb67e789d0996f800b0cbade5ff38d912ced9baeb5a8304438c/41239841417/receipt.json
+        prepared_source_pair: territorios/nac23/evidencia/pares_fuentes/2025/6a04a5cdb0ca79f5630ff6f104162cd194b78192f08c046eec86daf681a98a21.json
+        territorial_product: territorios/nac23/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac23-2025-43654085400
+        receipt_path: territorios/nac23/evidencia/fuentes_territoriales/2025/ae0bcc70ecfd43e9860a388d5471b0c44c2b8e4d1fab2a08a672bbd7e19433ca/43654085400/receipt.json
+        run_id: 43654085400
+      territorial_sources_prepared: true
+  name: Congreso Jaén
+  territory_id: nac23
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac24/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac24/evidencia/fuentes_electorales/2025/a57d170628ef34e459163cee84bbc310d5225cd1d586a8a771419bb3a66a5e35/41239847787/receipt.json
+        prepared_source_pair: territorios/nac24/evidencia/pares_fuentes/2025/ec2b27c201a17fceca9b44d38785522c8676e1b0018c7aa2cbb6ce967b5f5f46.json
+        territorial_product: territorios/nac24/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac24-2025-43654094711
+        receipt_path: territorios/nac24/evidencia/fuentes_territoriales/2025/44209d956505b33ab0b815fa581bd303d17716c67dcc2afe220c1ee456b91396/43654094711/receipt.json
+        run_id: 43654094711
+      territorial_sources_prepared: true
+  name: Congreso León
+  territory_id: nac24
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac25/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac25/evidencia/fuentes_electorales/2025/613cb73be2446e2fc25ccddbc8ff56f4d3f02edc6600bb0c391f173398f57245/41239853848/receipt.json
+        prepared_source_pair: territorios/nac25/evidencia/pares_fuentes/2025/ce3113b33666b565750fee12fc6fdc256cb80fde01b3ed4dc5aadd65ae5b2df2.json
+        territorial_product: territorios/nac25/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac25-2025-43654103920
+        receipt_path: territorios/nac25/evidencia/fuentes_territoriales/2025/9503923e60a27a4887a9a882a490452b072391a7b0afc5a2812a4b206572a402/43654103920/receipt.json
+        run_id: 43654103920
+      territorial_sources_prepared: true
+  name: Congreso Lérida
+  territory_id: nac25
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac26/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac26/evidencia/fuentes_electorales/2025/6e544aa5f7d7e5f16ffa23ff442d528a7948beb2bb2021526c16c8268b1c2886/41239859752/receipt.json
+        prepared_source_pair: territorios/nac26/evidencia/pares_fuentes/2025/d7f15db5d44606c008e0a56058ee782a8c526d63d160a528be837a66bb79eafc.json
+        territorial_product: territorios/nac26/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac26-2025-43654112740
+        receipt_path: territorios/nac26/evidencia/fuentes_territoriales/2025/e0419f020f02f39ab9774b9494225ad710d16892fd9d4805af7070dd5ffe5020/43654112740/receipt.json
+        run_id: 43654112740
+      territorial_sources_prepared: true
+  name: Congreso La Rioja
+  territory_id: nac26
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac27/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac27/evidencia/fuentes_electorales/2025/339edf67d8e73c4feb82e4a93f4f054bcaff752740334909fad44b177aa43ef4/41239865976/receipt.json
+        prepared_source_pair: territorios/nac27/evidencia/pares_fuentes/2025/e4e97c5fbb0e722c00699a9b32d0cf800a90f57be45c5d570a0f4cf87d5b9422.json
+        territorial_product: territorios/nac27/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac27-2025-43654121494
+        receipt_path: territorios/nac27/evidencia/fuentes_territoriales/2025/df202710aecb153436135103dbbede1cdf9c63831a5ca073fbdafb9b4a026bbc/43654121494/receipt.json
+        run_id: 43654121494
+      territorial_sources_prepared: true
+  name: Congreso Lugo
+  territory_id: nac27
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac28/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac28/evidencia/fuentes_electorales/2025/faa3ecb7c23a9be27c8e636b44e5a04d708f12e2ac9d40e235311a1bdbd72179/41611821388/receipt.json
+        prepared_source_pair: territorios/nac28/evidencia/pares_fuentes/2025/5772cae5b6abceb2397defc396d7331e11ec294cbefdd9d714db7a2cce6daec5.json
+        territorial_product: territorios/nac28/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac28-2025-43654131046
+        receipt_path: territorios/nac28/evidencia/fuentes_territoriales/2025/e18d857401acd1fcaf8a04de7f17158a44350229911504a8faf01710e4df66b3/43654131046/receipt.json
+        run_id: 43654131046
+      territorial_sources_prepared: true
+  name: Congreso Madrid
+  territory_id: nac28
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac29/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac29/evidencia/fuentes_electorales/2025/6bfa6549044d57ab94011df2e33d58cd0d1dcb859a117dcf6cd59b818bc07905/42489981909/receipt.json
+        prepared_source_pair: territorios/nac29/evidencia/pares_fuentes/2025/118cccdb9a9afa72367051c0cfa4d92b41524e35ec8b8feb0327760bfc1fb1cd.json
+        territorial_product: territorios/nac29/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac29-2025-43654141157
+        receipt_path: territorios/nac29/evidencia/fuentes_territoriales/2025/251828d9c983e66541b5391038371c3ab4c6b6c223d71333689f6be4c48dba5b/43654141157/receipt.json
+        run_id: 43654141157
+      territorial_sources_prepared: true
+  name: Congreso Málaga
+  territory_id: nac29
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac30/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac30/evidencia/fuentes_electorales/2025/da89a45a5d057341a6cdeedda30754bd23c97cc15397c1dbca88e6dac41f6ac7/41613691816/receipt.json
+        prepared_source_pair: territorios/nac30/evidencia/pares_fuentes/2025/ed71f8585afa9479bad225100308e55ea745b39721b3dd1068e34561ab5ee630.json
+        territorial_product: territorios/nac30/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac30-2025-43654150908
+        receipt_path: territorios/nac30/evidencia/fuentes_territoriales/2025/6f4898586bfb3e709079c20a19e54d52ae494e00013f99c58b9b2617314efd0f/43654150908/receipt.json
+        run_id: 43654150908
+      territorial_sources_prepared: true
+  name: Congreso Murcia
+  territory_id: nac30
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac31/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac31/evidencia/fuentes_electorales/2025/4394ab125b595f91a5d69069b0276e322ba6af2ca3bbd2acb16bc595bb13b9d3/41239887617/receipt.json
+        prepared_source_pair: territorios/nac31/evidencia/pares_fuentes/2025/a84c449cfcfdc7148141e0692a4eae91d9aa3ef842b5e0eec5fca6dbfd0f458d.json
+        territorial_product: territorios/nac31/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac31-2025-43654160684
+        receipt_path: territorios/nac31/evidencia/fuentes_territoriales/2025/2c104d37982141778b52bf2fde6fb5c0303aae79163d65321abc393709ae397e/43654160684/receipt.json
+        run_id: 43654160684
+      territorial_sources_prepared: true
+  name: Congreso Navarra
+  territory_id: nac31
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac32/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac32/evidencia/fuentes_electorales/2025/e6d0f9c9083e2b30b604145d2f2e05adf93b1fff3c51244f45d136c9440ae829/41239892753/receipt.json
+        prepared_source_pair: territorios/nac32/evidencia/pares_fuentes/2025/69a968f6d481afaf7e7fea8e02c8ab42a0dc33fb79727d84cb27bc5c41ff6696.json
+        territorial_product: territorios/nac32/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac32-2025-43662680429
+        receipt_path: territorios/nac32/evidencia/fuentes_territoriales/2025/eb237b8a2cdceb0b828a0838cc0c7818c6c4067e47130d0fccb10d20821ba539/43662680429/receipt.json
+        run_id: 43662680429
+      territorial_sources_prepared: true
+  name: Congreso Orense
+  territory_id: nac32
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac33/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac33/evidencia/fuentes_electorales/2025/815921ec4064eeba680988044d82905e5cade7b6b7eda8eb6e4421234ae3a825/41239897911/receipt.json
+        prepared_source_pair: territorios/nac33/evidencia/pares_fuentes/2025/c37c091cfaa3abf417bfc1151a0f74b8eaa924fa5966bac616449d6b18e8901d.json
+        territorial_product: territorios/nac33/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac33-2025-43662690007
+        receipt_path: territorios/nac33/evidencia/fuentes_territoriales/2025/7dac5cedc5554fafbdfef9315ffbaba0f79e5f29402be4d1744bf4e52caa8d1a/43662690007/receipt.json
+        run_id: 43662690007
+      territorial_sources_prepared: true
+  name: Congreso Asturias
+  territory_id: nac33
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac34/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac34/evidencia/fuentes_electorales/2025/835619e9c7233e0ccc6c9cacd8f18bcaa5c26e73dc4013c30e2f555b6b628c9a/41235462609/receipt.json
+        prepared_source_pair: territorios/nac34/evidencia/pares_fuentes/2025/001c856efe99ea6fb1866523e5d51a3f3f48d54242eb5e106f193bb824465f18.json
+        territorial_product: territorios/nac34/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac34-2025-43662699421
+        receipt_path: territorios/nac34/evidencia/fuentes_territoriales/2025/c2023548aa7203d1b6f6f0b2a935948c04efb191645debe95b0359bc09e5c15e/43662699421/receipt.json
+        run_id: 43662699421
+      territorial_sources_prepared: true
+  name: Congreso Palencia
+  territory_id: nac34
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac35/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac35/evidencia/fuentes_electorales/2025/291e65f01ed409290cd8c685c8f80e14414edbd37e2ffa574a7862e9a2ecfd4b/41432561787/receipt.json
+        prepared_source_pair: territorios/nac35/evidencia/pares_fuentes/2025/a3f2cf94231c6215b6cb5eeac73d577d04c5f828533d7db365456f441c6a9035.json
+        territorial_product: territorios/nac35/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac35-2025-43662709222
+        receipt_path: territorios/nac35/evidencia/fuentes_territoriales/2025/ea334caf1a4d7761683c5fedb320a91e9c92d43ed98d9dd754ef757752925ad3/43662709222/receipt.json
+        run_id: 43662709222
+      territorial_sources_prepared: true
+  name: Congreso Las Palmas
+  territory_id: nac35
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac36/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac36/evidencia/fuentes_electorales/2025/308c2da9a4d943a975a9bddfce3ab8c4548386719c447394ae6e827c4cc3f7db/41239903028/receipt.json
+        prepared_source_pair: territorios/nac36/evidencia/pares_fuentes/2025/da60eabd85abcd684d6c2927b643b5ca77563b2a0a9a71feb494d905669d0388.json
+        territorial_product: territorios/nac36/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac36-2025-43662718842
+        receipt_path: territorios/nac36/evidencia/fuentes_territoriales/2025/85edd2e79d349e8a2328bc599fafdce432ad60e2170cc2cf5da1efdcb71ca385/43662718842/receipt.json
+        run_id: 43662718842
+      territorial_sources_prepared: true
+  name: Congreso Pontevedra
+  territory_id: nac36
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac37/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac37/evidencia/fuentes_electorales/2025/98bbcaab7ca5b91879fbdf67f680ac886b0ae774212430c06e071fa4e190faad/41239908359/receipt.json
+        prepared_source_pair: territorios/nac37/evidencia/pares_fuentes/2025/a3f54f25701ef149d6df622f412ff511fb94a5ab5391bed84ce27db1dc6e4d9f.json
+        territorial_product: territorios/nac37/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac37-2025-43662728262
+        receipt_path: territorios/nac37/evidencia/fuentes_territoriales/2025/7df140cd701263761db7516119e57461375fb2178e3313ce5e918d35026e5b1f/43662728262/receipt.json
+        run_id: 43662728262
+      territorial_sources_prepared: true
+  name: Congreso Salamanca
+  territory_id: nac37
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac38/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac38/evidencia/fuentes_electorales/2025/a990a414e34865c72ba8902ce6f691e48970933f793c8ab38796093676c6f536/41239515252/receipt.json
+        prepared_source_pair: territorios/nac38/evidencia/pares_fuentes/2025/281ded9a6026099c6240c646c234f20705a9aba68220e8a31ac15a039bc12e4b.json
+        territorial_product: territorios/nac38/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac38-2025-43662742736
+        receipt_path: territorios/nac38/evidencia/fuentes_territoriales/2025/6d1ec162a1dc11f5f2e500b498ed5bf83a55d3b662db231c9ec1528bd4c6af46/43662742736/receipt.json
+        run_id: 43662742736
+      territorial_sources_prepared: true
+  name: Congreso Santa Cruz de Tenerife
+  territory_id: nac38
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac39/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac39/evidencia/fuentes_electorales/2025/3f5b23bf3ad78e674bf020c29906afbbabd0706248dc410502069d8bb4acaf1b/41239913823/receipt.json
+        prepared_source_pair: territorios/nac39/evidencia/pares_fuentes/2025/158e44483cc28908fc6b242781c20b4a58d6755d7a8e6306969cad6611dae2e7.json
+        territorial_product: territorios/nac39/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac39-2025-43662752623
+        receipt_path: territorios/nac39/evidencia/fuentes_territoriales/2025/06e0ca905be23fddebc5cb7973372f66092ef978ad1e55ea45d25d012ceee810/43662752623/receipt.json
+        run_id: 43662752623
+      territorial_sources_prepared: true
+  name: Congreso Cantabria
+  territory_id: nac39
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac40/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac40/evidencia/fuentes_electorales/2025/4bca7fef1bff38a856c1be9861cb0096afeb8621c45de88bdf67eaa07e6cd04c/41235628457/receipt.json
+        prepared_source_pair: territorios/nac40/evidencia/pares_fuentes/2025/11f94d3495401a72fe415f131b7a62a7eeef7ef8f5281e3a8e3ed14bec680a6c.json
+        territorial_product: territorios/nac40/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac40-2025-43662762669
+        receipt_path: territorios/nac40/evidencia/fuentes_territoriales/2025/ed08ff50c0a47cbf8edd8138310e89c8c2306849e6d358478b92f080e9f0a710/43662762669/receipt.json
+        run_id: 43662762669
+      territorial_sources_prepared: true
+  name: Congreso Segovia
+  territory_id: nac40
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac41/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac41/evidencia/fuentes_electorales/2025/e621f70cd455325efd4d5718605b3085764905e4a6549006aa6ec556534b3041/41239919571/receipt.json
+        prepared_source_pair: territorios/nac41/evidencia/pares_fuentes/2025/cb79f6e4011e57e45764794c8ff7d02d2c4aabd12a959f68cbdce6031f38ab5d.json
+        territorial_product: territorios/nac41/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac41-2025-43662772532
+        receipt_path: territorios/nac41/evidencia/fuentes_territoriales/2025/1fe1f38be294a03749eb77068d491f8d5965de52d88394c22ab9185120ca5dec/43662772532/receipt.json
+        run_id: 43662772532
+      territorial_sources_prepared: true
+  name: Congreso Sevilla
+  territory_id: nac41
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac42/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac42/evidencia/fuentes_electorales/2025/7a4b0bacfa1c54d0992d1947112cb6676d0edb1b48ea152d8fadce98b5cd7b3b/41235804865/receipt.json
+        prepared_source_pair: territorios/nac42/evidencia/pares_fuentes/2025/b73e7070cb80f9db457a63722fa4bdfc0f6d6a4a369eba0588a25e0357c02ed6.json
+        territorial_product: territorios/nac42/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac42-2025-43664052017
+        receipt_path: territorios/nac42/evidencia/fuentes_territoriales/2025/4d14ca9cecb11a4c1cd149f8091495c8f88ba5751573753a2a1696a88ebf371a/43664052017/receipt.json
+        run_id: 43664052017
+      territorial_sources_prepared: true
+  name: Congreso Soria
+  territory_id: nac42
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac43/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac43/evidencia/fuentes_electorales/2025/05ee98c2e9f9e0e4d18c306351f5d35c701d2074bd7c0d061e5c07817e95d22b/41239925359/receipt.json
+        prepared_source_pair: territorios/nac43/evidencia/pares_fuentes/2025/40740f8c1f08ee810e1b3efa102fb98d93a447732332f99f8e356db93322ea7e.json
+        territorial_product: territorios/nac43/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac43-2025-43664060568
+        receipt_path: territorios/nac43/evidencia/fuentes_territoriales/2025/ce03614466cccd2dad941cc562ad07d9b2198f300ee7335cb89ee359534be604/43664060568/receipt.json
+        run_id: 43664060568
+      territorial_sources_prepared: true
+  name: Congreso Tarragona
+  territory_id: nac43
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac44/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac44/evidencia/fuentes_electorales/2025/672246c160d11ced224250bfe9f0ad643360584d7226f127b8c8e8ad97b2f240/41235977145/receipt.json
+        prepared_source_pair: territorios/nac44/evidencia/pares_fuentes/2025/cae6a511035ddf63d9ac7ef89536c65041f9cff457fe64a6325f93867ffa5bd5.json
+        territorial_product: territorios/nac44/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac44-2025-43664069293
+        receipt_path: territorios/nac44/evidencia/fuentes_territoriales/2025/9a1c7e63bb5c2e0df8f924111df7e4e0caabe0568defad520d74aabaaf76576e/43664069293/receipt.json
+        run_id: 43664069293
+      territorial_sources_prepared: true
+  name: Congreso Teruel
+  territory_id: nac44
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac45/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac45/evidencia/fuentes_electorales/2025/4dd57830c9af64008f2ab76d1c4e53e64902ba3ae3a1b7a8f7700c93d1876b7a/41239931236/receipt.json
+        prepared_source_pair: territorios/nac45/evidencia/pares_fuentes/2025/044bfae7409d4442081989997a55e357f59b573e540a3b830bb2476435c4cea0.json
+        territorial_product: territorios/nac45/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac45-2025-43664078379
+        receipt_path: territorios/nac45/evidencia/fuentes_territoriales/2025/e219ae6c98a82271326f621b5adc2fb6e43b56d3e37668e59f6d48a11274586b/43664078379/receipt.json
+        run_id: 43664078379
+      territorial_sources_prepared: true
+  name: Congreso Toledo
+  territory_id: nac45
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac46/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac46/evidencia/fuentes_electorales/2025/6bd17d9ab40a695c5a622d5fe90ca0e988c35b0221bd04f87509d9bb947aaacc/41239936932/receipt.json
+        prepared_source_pair: territorios/nac46/evidencia/pares_fuentes/2025/1f1c1081dd788a45c488ed4def021cb7544c4d66ea2204ce014faa70387d2b5b.json
+        territorial_product: territorios/nac46/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac46-2025-43664087770
+        receipt_path: territorios/nac46/evidencia/fuentes_territoriales/2025/2d58ce4e19119e918449a8a4d87be13138e8650dc2db0ff9b14de68a4183a0b3/43664087770/receipt.json
+        run_id: 43664087770
+      territorial_sources_prepared: true
+  name: Congreso Valencia
+  territory_id: nac46
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac47/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac47/evidencia/fuentes_electorales/2025/bf1518a803f3c17f7a49bde54c860ef9818e66d31788de2135100b351bbbcefc/41239942087/receipt.json
+        prepared_source_pair: territorios/nac47/evidencia/pares_fuentes/2025/7c5b5b5ecaec174567226bd6517407999711274dd44a35b8fbf5730dba678837.json
+        territorial_product: territorios/nac47/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac47-2025-43664097182
+        receipt_path: territorios/nac47/evidencia/fuentes_territoriales/2025/5ceb1ad5ef52e0a57f3c1d846abf27ea2e1e4e50d3f1e971bf6e118cc45298a8/43664097182/receipt.json
+        run_id: 43664097182
+      territorial_sources_prepared: true
+  name: Congreso Valladolid
+  territory_id: nac47
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac48/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac48/evidencia/fuentes_electorales/2025/4011658bdfb867288263aab9cc7621a987b1b569a1e3bdfc71d60a733d8fea6b/41239947749/receipt.json
+        prepared_source_pair: territorios/nac48/evidencia/pares_fuentes/2025/a00b60911ff39ac4097f8565bf4abc9fd8d90988605c96782f1578ebe204e939.json
+        territorial_product: territorios/nac48/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac48-2025-43664106564
+        receipt_path: territorios/nac48/evidencia/fuentes_territoriales/2025/ae559a0881725fe62f44fe19130de7c6922944ec3b29056a433a6c089a487351/43664106564/receipt.json
+        run_id: 43664106564
+      territorial_sources_prepared: true
+  name: Congreso Vizcaya
+  territory_id: nac48
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac49/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac49/evidencia/fuentes_electorales/2025/81aa6580b3fb902a0f3a54c85dd4a2745f2830cec119cc01e50c6722c85a04ff/41236149824/receipt.json
+        prepared_source_pair: territorios/nac49/evidencia/pares_fuentes/2025/9456a3656fd980295e4100f3e8ea2fd0d288d249938586a8cd3e189a089e6595.json
+        territorial_product: territorios/nac49/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac49-2025-43664116102
+        receipt_path: territorios/nac49/evidencia/fuentes_territoriales/2025/8a2ad90a67c869ae226c690dd31b1e72a4a48333ef76e2387bc442501af9ccb8/43664116102/receipt.json
+        run_id: 43664116102
+      territorial_sources_prepared: true
+  name: Congreso Zamora
+  territory_id: nac49
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac50/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac50/evidencia/fuentes_electorales/2025/c47b71a53a40450fd33bcb29d4a30190970e1b31806e26b4891b59db7b0943b6/41239953681/receipt.json
+        prepared_source_pair: territorios/nac50/evidencia/pares_fuentes/2025/1c7a2bca176538bb2bd05dc7c947f2e3beb817bf019718d8962d761ebdc9b631.json
+        territorial_product: territorios/nac50/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac50-2025-43664125813
+        receipt_path: territorios/nac50/evidencia/fuentes_territoriales/2025/adc77957e958848806a9b804f581eed7b2a8051a263f1a5c6c49421eb3a4503d/43664125813/receipt.json
+        run_id: 43664125813
+      territorial_sources_prepared: true
+  name: Congreso Zaragoza
+  territory_id: nac50
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac51/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac51/evidencia/fuentes_electorales/2025/23293ea2c8ee1151c5fd94cd64b472867a304efd32f75ef2b9ae9e0dcf373b4f/42488846588/receipt.json
+        prepared_source_pair: territorios/nac51/evidencia/pares_fuentes/2025/5b85f3875068e95ec3e1df11d8b42eac69212011e02a296f64a00b0c662d3c8d.json
+        territorial_product: territorios/nac51/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac51-2025-43664135123
+        receipt_path: territorios/nac51/evidencia/fuentes_territoriales/2025/467cc91a3be27b7f0ef79f35ea7b29495134ceb83609c6e03cdd213471596ca4/43664135123/receipt.json
+        run_id: 43664135123
+      territorial_sources_prepared: true
+  name: Congreso Ceuta
+  territory_id: nac51
+- editions:
+    '2025':
+      electoral_source_prepared: true
+      evidence:
+        electoral_product: territorios/nac52/evidencia/catalogo/electoral_product_2025.json
+        electoral_source: territorios/nac52/evidencia/fuentes_electorales/2025/2cceadcf877ec84018cd247c26f0cc744e4e54e7829c243f4cd6af6b1bf1c3b4/41236491113/receipt.json
+        prepared_source_pair: territorios/nac52/evidencia/pares_fuentes/2025/c9abeb289e806d126bb44b093b47b7971c92d3eff4954a42b0d06a879c279220.json
+        territorial_product: territorios/nac52/evidencia/catalogo/territorial_product_2025.json
+      preparation_evidence:
+        artifact_name: ddd-source-package-nac52-2025-43664144395
+        receipt_path: territorios/nac52/evidencia/fuentes_territoriales/2025/a9762edb7d6fa640133ad69d22c252a07cdab63f6fc53d2992e3db0e8ac1f732/43664144395/receipt.json
+        run_id: 43664144395
+      territorial_sources_prepared: true
+  name: Congreso Melilla
+  territory_id: nac52

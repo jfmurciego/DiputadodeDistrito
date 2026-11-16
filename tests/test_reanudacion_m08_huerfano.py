@@ -1,7 +1,7 @@
-"""Version: 1.0.4; name: orphan M08 recovery tests; date: 2026-10-29.
+"""Version: 1.0.5; name: orphan M08 recovery tests; date: 2026-11-14.
 Scope: fail-closed recovery and exact durable M06/M08 lineage.
-Status: candidate. Change/reason: the Ceuta regression accepts a newer certified M06 (reuse) or, without one, requires a rebuild; it no longer pins the absence of a product.
-Previous: legacy/tests/test_reanudacion_m08_huerfano_v1.0.3.py.
+Status: candidate. Change/reason: T-322 the Castilla-La Mancha regression reads a frozen fixture of aut08 before campaign r3 (tests/fixtures/previo_r3, sha256 in MANIFEST.json) instead of the live state, and asserts that a new P10 gives DURABLE_LINEAGE_INCOMPATIBLE.
+Previous: legacy/tests/test_reanudacion_m08_huerfano_v1.0.4.py.
 """
 from __future__ import annotations
 
@@ -39,6 +39,7 @@ from tests.test_registro_producto_electoral_concurrencia import (
 
 ROOT = Path(__file__).resolve().parents[1]
 from tests._raiz_congelada import frozen_root  # noqa: E402
+from tests._previo_r3 import raiz_previo_r3  # noqa: E402
 FULL = ROOT / ".github" / "workflows" / "ejecucion-completa-proyecto.yml"
 MANIFEST_WRITER = ROOT / "herramientas" / "escribir_manifest_ejecucion_completa.py"
 
@@ -628,6 +629,7 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
         persisted_false_runs: tuple[int, ...],
         expected_plan_block: str | None = None,
         expected_rebuild: bool = False,
+        expected_scan_status: str = "CANDIDATE",
     ) -> None:
         if expected_plan_block is None:
             plan = build_plan(
@@ -670,7 +672,9 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
             territory_id=territory_id,
             edition="2025",
         )
-        self.assertEqual(scan_result["status"], "CANDIDATE")
+        self.assertEqual(scan_result["status"], expected_scan_status)
+        if expected_scan_status != "CANDIDATE":
+            return
         self.assertEqual(scan_result["candidate_count"], 1)
         self.assertEqual(scan_result["candidate"]["run_id"], failed_candidate_run)
         for run_id in persisted_false_runs:
@@ -728,7 +732,9 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
         # Regla, no instantánea: el M08 vigente sólo se reutiliza si su
         # manifiesto productor lo liga al M06 vigente; si procede de otro M06
         # se rechaza sin fabricar pareja. Vale para cualquier ejecución futura.
-        evidence_root = ROOT / "territorios" / "aut08" / "evidencia"
+        # T-322: raíz congelada (aut08 previo a r3, sha256 en MANIFEST.json); un P10 nuevo no la toca.
+        root = raiz_previo_r3(canonico=True)
+        evidence_root = root / "territorios" / "aut08" / "evidencia"
         territorial = json.loads(
             (evidence_root / "catalogo" / "territorial_product_2025.json").read_text(encoding="utf-8")
         )
@@ -751,27 +757,35 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
         self.assertEqual(phase04["artifact"], electoral["artifact_name"])
         self.assertEqual(phase04["result"], "success")
         same_lineage = phase02["artifact"] == territorial["artifact_name"]
+        self.assertTrue(same_lineage)  # el fixture congelado fija la rama «M08 enlazado»; un cambio de datos no puede probar la contraria
 
         plan = build_plan(
             territory="Castilla-La Mancha", edition="2025", execution_mode="reuse",
-            catalog=ROOT / "configuracion/catalogo_preparacion.yaml", root_dir=ROOT,
+            catalog=root / "configuracion/catalogo_preparacion.yaml", root_dir=root,
         )
         self.assertEqual(plan["existing"]["territorial_product"]["run_id"], current_run)
-        if same_lineage:
-            self.assertEqual(plan["existing"]["electoral_product"]["run_id"], electoral["run_id"])
-        else:
-            self.assertFalse(plan["existing"]["electoral_product"]["run_id"])
-            self.assertFalse(plan["catalog_state"]["rejected_electoral_product"]["reusable"])
+        self.assertEqual(plan["existing"]["electoral_product"]["run_id"], electoral["run_id"])
 
-        result = scan(root_dir=ROOT, territory_id="aut08", edition="2025")
+        result = scan(root_dir=root, territory_id="aut08", edition="2025")
         self.assertEqual(result["status"], "NONE")
         self.assertEqual(result["reason"], "NO_PENDING_FAILED_INCORPORATION")
         self.assertIsNone(result["absence_barrier_run_id"])
         self.assertEqual(result["retired_candidates"], [])
         self.assertEqual(
-            structural_candidates(root_dir=ROOT, territory_id="aut08", edition="2025"),
+            structural_candidates(root_dir=root, territory_id="aut08", edition="2025"),
             [],
         )
+
+        # Un P10 nuevo (artefacto/sha del M06 distinto) deja el M08 antiguo huérfano: la puerta no se relaja.
+        product = evidence_root / "catalogo" / "territorial_product_2025.json"
+        payload = json.loads(product.read_text(encoding="utf-8"))
+        payload["artifact_sha256"] = "f" * 64
+        product.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "DURABLE_LINEAGE_INCOMPATIBLE"):
+            build_plan(
+                territory="Castilla-La Mancha", edition="2025", execution_mode="reuse",
+                catalog=root / "configuracion/catalogo_preparacion.yaml", root_dir=root,
+            )
 
     def test_baleares_36573474139_territorial_failure_never_becomes_m08_candidate(self):
         manifest_path = (
@@ -851,6 +865,9 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
             failed_candidate_run=36482903970,
             persisted_false_runs=(36529371312,),
             expected_rebuild=True,
+            # T-349 (D-102): el manifiesto del run 36482903970 (congelado en aee8215e) lleva el id viejo: su M08 huérfano
+            # ya no se registra como candidato; la 00 lo reincorpora de nuevo (run_incorporate, comprobado arriba).
+            expected_scan_status="NONE",
         )
 
 

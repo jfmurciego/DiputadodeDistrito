@@ -1,0 +1,32 @@
+{
+ "eleccion": "201512",
+ "documentos": [
+  {
+   "boe": "BOE-A-0000-2",
+   "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+   "papel": "proclamadas"
+  }
+ ],
+ "provincias": {
+  "01": {
+   "junta": "ARABA/ÁLAVA",
+   "congreso": [
+    "1. PARTIDO SOCIALISTA OBRERO ESPAÑOL (PSOE)",
+    "7. ZZ POPULAR: ALFA ALIANZA, BETA BLOQUE (AA-BB)"
+   ]
+  },
+  "02": {
+   "junta": "ALBACETE",
+   "congreso": [
+    "7. ZZ POPULAR: ALFA ALIANZA, GAMMA GRUPO (AA-GG)"
+   ]
+  },
+  "03": {
+   "junta": "ALICANTE/ALACANT",
+   "congreso": [
+    "7. ZZ POPULAR: ALFA ALIANZA, BETA BLOQUE (AA-BB)",
+    "8. ZZ POPULAR EN COMÚN: ALFA ALIANZA (AA)"
+   ]
+  }
+ }
+}

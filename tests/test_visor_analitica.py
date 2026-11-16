@@ -1,63 +1,70 @@
 # -*- coding: utf-8 -*-
-"""T-174: la analítica opcional (Cloudflare Web Analytics) no se inyecta sin token y, con token, solo carga el beacon de Cloudflare.
+"""T-294: contador propio sin datos personales en los visores (sustituye al bloque Cloudflare Web Analytics de T-174).
 
-PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.0 · FECHA: 2026-11-10 · ESTADO: candidato · ANTERIOR: ninguna (fichero nuevo)
-Ejecuta el bloque real de cada página en Node con un DOM mínimo; valores esperados literales.
+PROYECTO: Diputado de Distrito · VERSIÓN: 2.2.0 · FECHA: 2026-11-15 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_visor_analitica_v2.1.0_20261115.py
+CAMBIOS 2.2.0: T-348, la frase de Cloudflare/NEL también en nacional y Congreso. 2.1.0: T-346, línea de Cloudflare/NEL en V1, V3 y textos.md. 2.0.0: el beacon es un único sendBeacon con la ruta al subdominio propio; V1, V2 y V3 lo llevan, nacional no; sin cookies ni almacenamiento.
 """
-import json, re, shutil, subprocess, unittest
+import re, unittest
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
-PAGINAS = ["visor/index.html", "visor/nacional/index.html", "visor/v2/index.html"]
-BLOQUE = re.compile(r"<!-- ANALITICA:INICIO.*?-->\s*<script>(.*?)</script>\s*<!-- ANALITICA:FIN -->", re.S)
-HARNESS = """
-const els=[];const mk=t=>({t,attrs:{},style:{},children:[],setAttribute(k,v){this.attrs[k]=v},appendChild(c){this.children.push(c);return c}});
-const doc={createElement:mk,createTextNode:s=>({text:s}),body:mk('body'),head:mk('head')};
-global.document=doc;
-global.window={};
-// cualquier acceso a almacenamiento o cookies es un fallo
-Object.defineProperty(doc,'cookie',{set(){throw new Error('cookie')},get(){throw new Error('cookie')}});
-global.localStorage=new Proxy({},{get(){throw new Error('storage')}});
-global.sessionStorage=global.localStorage;
-%s
-console.log(JSON.stringify({body:doc.body.children.length,head:doc.head.children.map(s=>({src:s.src,cfg:s.attrs['data-cf-beacon']}))}));
-"""
+CON = ["visor/index.html", "visor/v2/index.html", "visor/v3/index.html"]
+SIN = ["visor/nacional/index.html"]
+SCRIPT = re.compile(r"(?s)<script>(.*?)</script>")
+PROHIBIDO = re.compile(r"cookie|localStorage|sessionStorage|credentials|fetch\(|XMLHttpRequest|cloudflareinsights", re.I)
+OSM_TXT = "el mapa de fondo lo sirve OpenStreetMap, que ve la dirección IP"
+OSM_VISORES = {"visor/app.js", "visor/nacional/nacional.js", "visor/congreso/congreso.js"}
+TEXTO = "No usa cookies ni guarda nada en tu dispositivo, no registra tu dirección IP"
 
 
-def ejecutar(codigo):
-    r = subprocess.run(["node", "-e", HARNESS % codigo], capture_output=True, text=True, timeout=30)
-    assert r.returncode == 0, r.stderr
-    return json.loads(r.stdout)
+class Contador(unittest.TestCase):
+    def test_visores_con_contador_un_solo_beacon_limpio(self):
+        for p in CON:
+            html = (RAIZ / p).read_text(encoding="utf-8")
+            propios = [s for s in SCRIPT.findall(html) if "contador." in s]
+            self.assertEqual(len(propios), 1, p)
+            self.assertIsNone(PROHIBIDO.search(propios[0]), p)
+            self.assertNotIn("cloudflareinsights", html, p)
 
+    def test_visores_sin_contador(self):
+        for p in SIN:
+            html = (RAIZ / p).read_text(encoding="utf-8")
+            self.assertNotIn("contador.", html, p)
+            self.assertNotIn("cloudflareinsights", html, p)
 
-@unittest.skipUnless(shutil.which("node"), "node no disponible")
-class Analitica(unittest.TestCase):
-    def codigo(self, pagina):
-        m = BLOQUE.search((RAIZ / pagina).read_text(encoding="utf-8"))
-        self.assertIsNotNone(m, pagina)
-        return m.group(1)
+    def test_texto_de_transparencia_en_cada_visor(self):
+        for p in ("visor/index.html", "visor/v3/index.html", "web/textos.md"):
+            self.assertIn(TEXTO, (RAIZ / p).read_text(encoding="utf-8"), p)
 
-    def test_bloques_identicos_y_token_vacio_en_el_repo(self):
-        codigos = {self.codigo(p) for p in PAGINAS}
-        self.assertEqual(len(codigos), 1)
-        self.assertIn('TOKEN=""', codigos.pop())
+    def test_linea_cloudflare_nel_en_cada_texto(self):
+        # T-346: el sitio lo sirve Cloudflare; los informes NEL/Report-To del navegador incluyen la IP.
+        for p in ("visor/index.html", "visor/v3/index.html", "web/textos.md"):
+            tx = (RAIZ / p).read_text(encoding="utf-8")
+            self.assertIn("el sitio lo sirve Cloudflare", tx, p)
+            self.assertIn("NEL/Report-To, hacia a.nel.cloudflare.com", tx, p)
+            self.assertIn("incluyen tu dirección IP", tx, p)
+        for p in ("visor/nacional/index.html", "visor/congreso/index.html"):  # T-348: sin párrafo de contador
+            tx = (RAIZ / p).read_text(encoding="utf-8")
+            self.assertIn("el sitio lo sirve Cloudflare", tx, p)
+            self.assertIn("NEL/Report-To, hacia a.nel.cloudflare.com", tx, p)
+            self.assertNotIn("Medición de visitas", tx, p)
 
-    def test_sin_token_no_inyecta_nada(self):
-        for p in PAGINAS:
-            self.assertEqual(ejecutar(self.codigo(p)), {"body": 0, "head": []}, p)
+    def test_osm_declarado_solo_donde_se_cargan_teselas(self):
+        cargan = {str(p.relative_to(RAIZ)) for p in (RAIZ / "visor").rglob("*.js")
+                  if "vendor" not in p.parts and "tile.openstreetmap.org" in p.read_text(encoding="utf-8")}
+        self.assertEqual(cargan, OSM_VISORES)  # V2 y V3 no cargan teselas: no lo declaran
+        self.assertIn(OSM_TXT, (RAIZ / "visor/index.html").read_text(encoding="utf-8"))
+        nota = "El mapa de fondo lo sirve OpenStreetMap, que ve la dirección IP de quien lo consulta."
+        for p in ("visor/nacional/index.html", "visor/congreso/index.html"):
+            self.assertIn(nota, (RAIZ / p).read_text(encoding="utf-8"), p)
+        for p in ("visor/v2/index.html", "visor/v3/index.html", "web/textos.md"):
+            self.assertNotIn("OpenStreetMap", (RAIZ / p).read_text(encoding="utf-8"), p)
 
-    def test_con_token_solo_el_beacon_de_cloudflare(self):
-        for p in PAGINAS:
-            c = self.codigo(p).replace('TOKEN=""', 'TOKEN="abc123"')
-            r = ejecutar(c)
-            self.assertEqual(r["body"], 1, p)  # solo el aviso
-            self.assertEqual(r["head"], [{"src": "https://static.cloudflareinsights.com/beacon.min.js",
-                                          "cfg": '{"token":"abc123"}'}], p)
-
-    def test_el_resto_de_hosts_no_cambia(self):
-        for p in PAGINAS:
-            hosts = set(re.findall(r"https?://([^/\"' ]+)", self.codigo(p)))
-            self.assertEqual(hosts, {"static.cloudflareinsights.com", "developers.cloudflare.com"}, p)
+    def test_rutas_servidas_estan_en_la_lista_blanca(self):
+        rutas = re.search(r"RUTAS = \[(.*?)\]", (RAIZ / "herramientas/contador_worker/worker.js").read_text(encoding="utf-8")).group(1)
+        for r in ('"/v1/"', '"/v2/"', '"/v3/"'):
+            self.assertIn(r, rutas)
 
 
 if __name__ == "__main__":

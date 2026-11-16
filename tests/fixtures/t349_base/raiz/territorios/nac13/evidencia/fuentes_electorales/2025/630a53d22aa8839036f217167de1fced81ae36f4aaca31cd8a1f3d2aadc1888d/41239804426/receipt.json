@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_ciudad_real",
+  "territory_name": "Congreso Ciudad Real",
+  "edition": "2025",
+  "run_id": 41239804426,
+  "artifact_name": "ddd-electoral-package-congreso_ciudad_real-2025-41239804426",
+  "artifact_sha256": "98a9355fe74c86df7665dd4dab443be6e06d8c6ca0132ae0e4892baa70aea9e5",
+  "source_commit": "5218c0e9d47db27ed3ea8c937f8606c967225833",
+  "election_id": "congreso_ciudad_real_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "630a53d22aa8839036f217167de1fced81ae36f4aaca31cd8a1f3d2aadc1888d"
+}

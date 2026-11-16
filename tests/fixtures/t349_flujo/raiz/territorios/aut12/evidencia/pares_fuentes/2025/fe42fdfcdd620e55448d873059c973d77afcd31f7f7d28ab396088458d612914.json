@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "galicia",
+  "territory_name": "Galicia",
+  "edition": "2025",
+  "election": {
+    "election_id": "galicia_parlamento_2024",
+    "election_date": "2024-02-18"
+  },
+  "references": {
+    "population": {
+      "required_year": 2024,
+      "year": 2024,
+      "reference_date": "2024-01-01"
+    },
+    "sectioning": {
+      "required_year": 2024,
+      "year": 2024,
+      "reference_label": "Secciones_2024"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 40690688352,
+    "artifact_name": "ddd-source-package-galicia-2025-40690688352",
+    "artifact_sha256": "20d7850a31f2ae24fb25d4a58726589fa5938da8691bfb41e7b1f1722661622b",
+    "package_sha256": "891470ada7696896661e9987cd5bf47c6a7332886bbb0669d4d6e3a6ae49b04d",
+    "source_commit": "8940b848734cc05516ead27b48378493aa9aeddb",
+    "source_declaration": "territorios/galicia/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/galicia/evidencia/fuentes_territoriales/2025/a2faa887c50bbdba51496cb55b9035af308629d94f6557a6e5fe6a5fb6756894/40690688352/receipt.json",
+    "population_year": 2024,
+    "section_year": 2024,
+    "territorial_identity_sha256": "a2faa887c50bbdba51496cb55b9035af308629d94f6557a6e5fe6a5fb6756894",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "eac810f98aea3cd2aac78e5984c89ee5548b13bda9736b926503b41dd723af33",
+    "compatibility_identity_sha256": "b1de69fa6f311928d4d4e983561f89591522162c1b41a68b2f7df8dfa179d268",
+    "remote_verification": {
+      "run_id": 40690688352,
+      "artifact_id": 12819127873,
+      "artifact_name": "ddd-source-package-galicia-2025-40690688352",
+      "artifact_sha256": "20d7850a31f2ae24fb25d4a58726589fa5938da8691bfb41e7b1f1722661622b",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 40389705458,
+    "artifact_name": "ddd-electoral-package-galicia-2025-40389705458",
+    "artifact_sha256": "58b1d99c27cce39a55129484d9d2a3f8ebcd5748bb3a063c813440bc209e60e2",
+    "source_commit": "164a2d6044282f01702046596b087b8d688af71d",
+    "receipt_path": "territorios/galicia/evidencia/fuentes_electorales/2025/af07c8d3bce5a45f63afd1c5d5eca0423a7713f71b4fbbb6c812f2509f51f230/40389705458/receipt.json",
+    "provenance_reference": "territorios/galicia/config/elecciones/galicia_parlamento_vigente.yaml",
+    "election_id": "galicia_parlamento_2024",
+    "election_date": "2024-02-18",
+    "electoral_identity_sha256": "af07c8d3bce5a45f63afd1c5d5eca0423a7713f71b4fbbb6c812f2509f51f230",
+    "remote_verification": {
+      "run_id": 40389705458,
+      "artifact_id": 12680924409,
+      "artifact_name": "ddd-electoral-package-galicia-2025-40389705458",
+      "artifact_sha256": "58b1d99c27cce39a55129484d9d2a3f8ebcd5748bb3a063c813440bc209e60e2",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "a2faa887c50bbdba51496cb55b9035af308629d94f6557a6e5fe6a5fb6756894",
+  "electoral_compatibility_key": "af07c8d3bce5a45f63afd1c5d5eca0423a7713f71b4fbbb6c812f2509f51f230",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/galicia/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "fe42fdfcdd620e55448d873059c973d77afcd31f7f7d28ab396088458d612914"
+}

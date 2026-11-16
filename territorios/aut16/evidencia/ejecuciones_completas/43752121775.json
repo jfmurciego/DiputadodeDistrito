@@ -1,0 +1,92 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "aut16",
+  "territory_name": "País Vasco",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "REUSED_EXISTING_PRODUCT",
+  "workflow_run_id": 43752121775,
+  "source_sha": "36fdbb65da9d892ed2439c267f09f1a6775381b8",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "SUCCESS",
+  "completion_status": "COMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "COMPLETE",
+  "electoral_activation_status": "FULL_PAIR_READY",
+  "electoral_skip_reason": null,
+  "resumption": null,
+  "chain": {
+    "electoral_chain_requested": false,
+    "origin_run_id": 43747089801
+  },
+  "failed_phases": [],
+  "blocked_phases": [],
+  "out_of_scope_phases": [],
+  "skipped_source_gap_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 43747089801,
+      "artifact": "ddd-source-package-aut16-2025-43747089801",
+      "artifact_digest": "sha256:2a82c96399054be8fb2553e0ab19d5bfad24855904eb23c2ea2cd0945860f49b",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 43747089801,
+      "artifact": "ddd-state-43747089801-M06",
+      "artifact_digest": "sha256:918cb56cbc93f440591d615c456fdf7e77a6b24153119d3cfa3f333a735c05a0",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 43751710017,
+      "artifact": "ddd-electoral-package-aut16-2025-43751710017",
+      "artifact_digest": "sha256:7ab5f35565692e672694669e69fc88a937f268bde9dd87c603d36222c96ab33f",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "ACQUIRE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 43752121775,
+      "artifact": "ddd-state-43752121775-M08",
+      "artifact_digest": "sha256:887c66f4ab429f26f8a4022937484113e869ffd5bde4414529d186714c59830b",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-11-15T19:41:16.193713+00:00"
+}

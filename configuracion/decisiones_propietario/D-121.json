@@ -1,0 +1,27 @@
+{
+ "id": "D-121",
+ "fecha": "2026-11-15",
+ "decide": "propietario",
+ "fuente": "docs/PLAN.md, D-121 (Plan 1.0.50, #817)",
+ "texto": "D-121 (15-11, propietario). Histórico, elección de 2015-12: en las 13 provincias donde el BOE nombra a la federación regional de IU, la candidatura se acepta como familia IU ↔ «IU-UPeC» del espejo. Es una equivalencia de familia política declarada por el propietario, no deducida de los votos. Provincias (código INE, según el informe de T-345): 04, 11, 14, 18, 21, 23, 29, 41 (IULV-CA), 38 (IUC), 03, 12, 46 («UNITAT POPULAR… (EUPV-UPeC)») y 52 Melilla (candidatura sin «UPeC»). Con D-120, las 312 provincias-elecciones quedan acreditadas.",
+ "sha256_texto": "a53b8f48c60218f15e60396f6776d6bc59c2aea04bfeba765bacbb3f4f5f772e",
+ "eleccion": "201512",
+ "sigla_boe": "COALICIÓN «UNIDAD POPULAR»",
+ "sigla_espejo": "IU-UPeC",
+ "provincias": [
+  "03",
+  "04",
+  "11",
+  "12",
+  "14",
+  "18",
+  "21",
+  "23",
+  "29",
+  "38",
+  "41",
+  "46",
+  "52"
+ ],
+ "aviso": "equivalencia de familia política declarada por el propietario, no deducida de los votos ni acreditada por el BOE"
+}

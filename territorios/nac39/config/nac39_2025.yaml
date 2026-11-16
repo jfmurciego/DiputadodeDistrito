@@ -67,12 +67,6 @@ territory_contract:
   population_floor_ratio: 0.85
   population_cap_ratio: 1.15
   target_tolerance_ratio: 0.15
-  limits_profile: exception
-  limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
-    piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
-    se divide.'
-  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits
-  limits_exception_decided_at: '2026-10-31'
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true
@@ -80,6 +74,12 @@ territory_contract:
   municipality_atomicity_limit_ratio: 1.15
   require_auditable_district_catalogue: true
   status: generation_ready
+  limits_profile: exception
+  limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
+    piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
+    se divide.'
+  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits
+  limits_exception_decided_at: '2026-10-31'
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: *id001
@@ -201,9 +201,9 @@ validation:
     section_year: 2023
     population_total: 588387
     target_section_count: 460
-    package_sha256: 5c407f04024738615754b0ddce90a7607e3bb068916e327ceee1df12f97c4abc
-    compatibility_report_sha256: 930be7a37cbf7bb9dba5ab65bedc960a5d28e8c338982371d2962897f02c67b1
-    compatibility_identity_sha256: 452dea7fbdf82ee9fe48745c7a971db5cfaa908449713c8f669e0444673f52c2
+    package_sha256: f7c2d59e164e70c11003b2b653b8cb9d9fde6c5d436f5dc3d98be2c391ef2bf3
+    compatibility_report_sha256: d8a991d49879ff202198f33f687fa8a4f97086ae466618a6c8d75251d02a0bcc
+    compatibility_identity_sha256: f428bdec3752ddf7313aadf6f18e81707310ab8dfccfa3e5014d30f01eba1daa
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -260,7 +260,7 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2023.zip
-        sha256: ae057570b86b658ab025d81f2dd16ba2219d3d2635b6fa3a42268551a904f55b
+        sha256: c5e61490d795aac9dd166421c2690aaa92faca7c32029c0fb6948dcc59716801
         bytes: 688235
   runtime:
     section_id_field: CUSEC_KEY
@@ -274,12 +274,12 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: 0508fc4466ab047d529792cbe65b6261cb10ae2241e3e97926144c98135f82f9
+  contract_sha256: 2a910189da53478389366773a644441a6bbdb8ff45ba158681aa1b3545d9920c
 generation_state:
   source_prepared: true
   generation_enabled: true
-  package_sha256: 5c407f04024738615754b0ddce90a7607e3bb068916e327ceee1df12f97c4abc
-  compatibility_identity_sha256: 452dea7fbdf82ee9fe48745c7a971db5cfaa908449713c8f669e0444673f52c2
+  package_sha256: f7c2d59e164e70c11003b2b653b8cb9d9fde6c5d436f5dc3d98be2c391ef2bf3
+  compatibility_identity_sha256: f428bdec3752ddf7313aadf6f18e81707310ab8dfccfa3e5014d30f01eba1daa
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 6c528643ca8972c7fe013104e01e8197e5975d6db31a36dc86c271d5353d6edf
@@ -311,7 +311,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2023.zip
-    sha256: ae057570b86b658ab025d81f2dd16ba2219d3d2635b6fa3a42268551a904f55b
+    sha256: c5e61490d795aac9dd166421c2690aaa92faca7c32029c0fb6948dcc59716801
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
@@ -329,6 +329,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 41292096436
-  pre_m04_source_commit: a3601ef7e9c792239d59d12e28989399cc60a4f9
-  pre_m04_artifact_sha256: bb7087d05d19b1c1ac8541d1f25f0d85e577a9b3af3753bf15e57d844d0042a4
+  pre_m04_run_id: 43786502149
+  pre_m04_source_commit: 3d1cd421ea3d5d09d6b08ea23192f8bb40e0cbbd
+  pre_m04_artifact_sha256: aecf5be954857f6dce0f130a626b9718dd9341d201f533ab1704dc0ae55908f4

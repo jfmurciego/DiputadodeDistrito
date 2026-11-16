@@ -819,6 +819,174 @@
    "sha256_csv": "aafc159d0c84bbab14ab368c0df89428654cce827be665c1dcce9753d35957c5",
    "ruta": "datos/composicion/runs/aragon_43011616681.csv"
   },
+  "aut01/43728682179": {
+   "territorio": "aut01",
+   "run_id": "43728682179",
+   "secciones": 6029,
+   "sha256_csv": "bfd0ca2f59c744494dea4edeb367857d1d2645b7143cf25eb0d9c14531ca52ff",
+   "ruta": "datos/composicion/runs/aut01_43728682179.csv"
+  },
+  "aut02/43728693144": {
+   "territorio": "aut02",
+   "run_id": "43728693144",
+   "secciones": 1463,
+   "sha256_csv": "9578b8245f691dfd57b8eb6a2de75bef1739d626a16ee395a4d14da7c9a35482",
+   "ruta": "datos/composicion/runs/aut02_43728693144.csv"
+  },
+  "aut02/43739218361": {
+   "territorio": "aut02",
+   "run_id": "43739218361",
+   "secciones": 1463,
+   "sha256_csv": "9578b8245f691dfd57b8eb6a2de75bef1739d626a16ee395a4d14da7c9a35482",
+   "ruta": "datos/composicion/runs/aut02_43739218361.csv"
+  },
+  "aut03/43728705200": {
+   "territorio": "aut03",
+   "run_id": "43728705200",
+   "secciones": 832,
+   "sha256_csv": "256109845b5b00bd4c076a700bb3322a6fc806b5b07f5ce323a7d30144489c19",
+   "ruta": "datos/composicion/runs/aut03_43728705200.csv"
+  },
+  "aut03/43739230787": {
+   "territorio": "aut03",
+   "run_id": "43739230787",
+   "secciones": 832,
+   "sha256_csv": "256109845b5b00bd4c076a700bb3322a6fc806b5b07f5ce323a7d30144489c19",
+   "ruta": "datos/composicion/runs/aut03_43739230787.csv"
+  },
+  "aut04/43728716862": {
+   "territorio": "aut04",
+   "run_id": "43728716862",
+   "secciones": 670,
+   "sha256_csv": "4cb4cb117915b9aaa7c8fa2c1c20dbd04d3eddcde85d62e5782985ba5adee1ca",
+   "ruta": "datos/composicion/runs/aut04_43728716862.csv"
+  },
+  "aut05/43728972913": {
+   "territorio": "aut05",
+   "run_id": "43728972913",
+   "secciones": 1396,
+   "sha256_csv": "d8d511bba3b49bd3140b65384466d930b19a63f6354d59cb98478a190908295c",
+   "ruta": "datos/composicion/runs/aut05_43728972913.csv"
+  },
+  "aut06/43739243350": {
+   "territorio": "aut06",
+   "run_id": "43739243350",
+   "secciones": 460,
+   "sha256_csv": "a6f03a3c55a5b68f1a6e4db81cd1cf57c5456096d38e32b6dda64945463a4320",
+   "ruta": "datos/composicion/runs/aut06_43739243350.csv"
+  },
+  "aut07/43739255985": {
+   "territorio": "aut07",
+   "run_id": "43739255985",
+   "secciones": 3506,
+   "sha256_csv": "a4e4335cf29a13aaf525a9f161e0e500e976a4f9eba0ab588fd301e2b2832b47",
+   "ruta": "datos/composicion/runs/aut07_43739255985.csv"
+  },
+  "aut08/43739268213": {
+   "territorio": "aut08",
+   "run_id": "43739268213",
+   "secciones": 1954,
+   "sha256_csv": "3969e98a76170999d138b2b8037cdb700b073abc4a18c8e3e0ed96bc3570bb21",
+   "ruta": "datos/composicion/runs/aut08_43739268213.csv"
+  },
+  "aut09/43743381120": {
+   "territorio": "aut09",
+   "run_id": "43743381120",
+   "secciones": 5117,
+   "sha256_csv": "511f82e6b9a8ad4c9f274ee3bac1befc0748e6f88d4e9bfd5e5d4d23599b065f",
+   "ruta": "datos/composicion/runs/aut09_43743381120.csv"
+  },
+  "aut10/43743635181": {
+   "territorio": "aut10",
+   "run_id": "43743635181",
+   "secciones": 3503,
+   "sha256_csv": "145af5b1a910db96863f1ef7a985744f70ae8c59b65da4f6f1f734df885816a3",
+   "ruta": "datos/composicion/runs/aut10_43743635181.csv"
+  },
+  "aut11/43698495438": {
+   "territorio": "aut11",
+   "run_id": "43698495438",
+   "secciones": 964,
+   "sha256_csv": "86d45f5c9d0988f4211f92fc65a50c1493d6044eba5656e5dc7ad4c5c7ea2c11",
+   "ruta": "datos/composicion/runs/aut11_43698495438.csv"
+  },
+  "aut11/43720213000": {
+   "territorio": "aut11",
+   "run_id": "43720213000",
+   "secciones": 964,
+   "sha256_csv": "86d45f5c9d0988f4211f92fc65a50c1493d6044eba5656e5dc7ad4c5c7ea2c11",
+   "ruta": "datos/composicion/runs/aut11_43720213000.csv"
+  },
+  "aut11/43743646822": {
+   "territorio": "aut11",
+   "run_id": "43743646822",
+   "secciones": 964,
+   "sha256_csv": "86d45f5c9d0988f4211f92fc65a50c1493d6044eba5656e5dc7ad4c5c7ea2c11",
+   "ruta": "datos/composicion/runs/aut11_43743646822.csv"
+  },
+  "aut12/43743658384": {
+   "territorio": "aut12",
+   "run_id": "43743658384",
+   "secciones": 2141,
+   "sha256_csv": "536e5eea5f2ea418347954f17f0c40912280fffe407e26f90a738b3ea45776ae",
+   "ruta": "datos/composicion/runs/aut12_43743658384.csv"
+  },
+  "aut12/43750427977": {
+   "territorio": "aut12",
+   "run_id": "43750427977",
+   "secciones": 2141,
+   "sha256_csv": "536e5eea5f2ea418347954f17f0c40912280fffe407e26f90a738b3ea45776ae",
+   "ruta": "datos/composicion/runs/aut12_43750427977.csv"
+  },
+  "aut13/43743669986": {
+   "territorio": "aut13",
+   "run_id": "43743669986",
+   "secciones": 4479,
+   "sha256_csv": "e829710e942f313b579a09e1bc5fc96a48e375b87a5e8c421764ca07d606d154",
+   "ruta": "datos/composicion/runs/aut13_43743669986.csv"
+  },
+  "aut14/43747068843": {
+   "territorio": "aut14",
+   "run_id": "43747068843",
+   "secciones": 1223,
+   "sha256_csv": "04c94f2ff809fb9b5e8a1b096ffbca98d61f5d02d3e5c2128428f38080ca53b2",
+   "ruta": "datos/composicion/runs/aut14_43747068843.csv"
+  },
+  "aut15/43747078883": {
+   "territorio": "aut15",
+   "run_id": "43747078883",
+   "secciones": 578,
+   "sha256_csv": "dd6882b5927ec0a650e5232fd5d9986f44110abb7d9785bf8fce06bccec59853",
+   "ruta": "datos/composicion/runs/aut15_43747078883.csv"
+  },
+  "aut16/43747089801": {
+   "territorio": "aut16",
+   "run_id": "43747089801",
+   "secciones": 1713,
+   "sha256_csv": "e5bb2f9a83d564abc5a1abdeefb62f71ef261b9a9e753f9b14afcb912f73bb68",
+   "ruta": "datos/composicion/runs/aut16_43747089801.csv"
+  },
+  "aut17/43749332670": {
+   "territorio": "aut17",
+   "run_id": "43749332670",
+   "secciones": 343,
+   "sha256_csv": "89af9031a66a8fa01121e7ee532cfe0a2c8963ca621361f5839f79769c7e720a",
+   "ruta": "datos/composicion/runs/aut17_43749332670.csv"
+  },
+  "aut18/43749637927": {
+   "territorio": "aut18",
+   "run_id": "43749637927",
+   "secciones": 56,
+   "sha256_csv": "7caceb283fc2a2f61bc4904eb363411459386c40fb80b5df44140871c89c2795",
+   "ruta": "datos/composicion/runs/aut18_43749637927.csv"
+  },
+  "aut19/43750065634": {
+   "territorio": "aut19",
+   "run_id": "43750065634",
+   "secciones": 44,
+   "sha256_csv": "ff0230560101719270ddf9368eb284d552ee0343f444ddab2751182bcd889560",
+   "ruta": "datos/composicion/runs/aut19_43750065634.csv"
+  },
   "canarias/42504381511": {
    "territorio": "canarias",
    "run_id": "42504381511",
@@ -1693,6 +1861,398 @@
    "secciones": 44,
    "sha256_csv": "ff0230560101719270ddf9368eb284d552ee0343f444ddab2751182bcd889560",
    "ruta": "datos/composicion/runs/melilla_43045458268.csv"
+  },
+  "nac01/43750441261": {
+   "territorio": "nac01",
+   "run_id": "43750441261",
+   "secciones": 240,
+   "sha256_csv": "a4507f48ddc8d95674949f533d9675cb1bb136b7125aca5c7c0f1a89d968f195",
+   "ruta": "datos/composicion/runs/nac01_43750441261.csv"
+  },
+  "nac02/43754629627": {
+   "territorio": "nac02",
+   "run_id": "43754629627",
+   "secciones": 294,
+   "sha256_csv": "f0567359e514e764c199850b7d49a55db8c9a187cb706693f7057788e5a7c759",
+   "ruta": "datos/composicion/runs/nac02_43754629627.csv"
+  },
+  "nac03/43754642510": {
+   "territorio": "nac03",
+   "run_id": "43754642510",
+   "secciones": 1236,
+   "sha256_csv": "48c5032358939db056f4d9b1a4cc0662007cb2cee2468aaa696e4a685748fede",
+   "ruta": "datos/composicion/runs/nac03_43754642510.csv"
+  },
+  "nac04/43754886944": {
+   "territorio": "nac04",
+   "run_id": "43754886944",
+   "secciones": 459,
+   "sha256_csv": "7d81442fb34a9bd31200e3018b28031b4f8d88e274154d5c97bcd659389e73f5",
+   "ruta": "datos/composicion/runs/nac04_43754886944.csv"
+  },
+  "nac05/43755691825": {
+   "territorio": "nac05",
+   "run_id": "43755691825",
+   "secciones": 311,
+   "sha256_csv": "7635b7d07db46817242f602c92069657205bf1df4c865a91b9911ba40fea8b71",
+   "ruta": "datos/composicion/runs/nac05_43755691825.csv"
+  },
+  "nac06/43755921825": {
+   "territorio": "nac06",
+   "run_id": "43755921825",
+   "secciones": 553,
+   "sha256_csv": "d9e9816165136deb3818e07f32ad156c75544f522103b3bd268fa13342b1371c",
+   "ruta": "datos/composicion/runs/nac06_43755921825.csv"
+  },
+  "nac07/43757976344": {
+   "territorio": "nac07",
+   "run_id": "43757976344",
+   "secciones": 670,
+   "sha256_csv": "bcdca9175ecaead38582a2dfe32f61b60e71b717145968a1382d326f3d7cb0c4",
+   "ruta": "datos/composicion/runs/nac07_43757976344.csv"
+  },
+  "nac08/43757988864": {
+   "territorio": "nac08",
+   "run_id": "43757988864",
+   "secciones": 3642,
+   "sha256_csv": "1b339f7dae8a7141d465775e16360a878cb2bb2f806716701dfdcf974a4e50e0",
+   "ruta": "datos/composicion/runs/nac08_43757988864.csv"
+  },
+  "nac09/43758000236": {
+   "territorio": "nac09",
+   "run_id": "43758000236",
+   "secciones": 582,
+   "sha256_csv": "dadacec5fc2da4665eb0e5f6653b0ec1002096e0c36a24c75de8e13fb355561e",
+   "ruta": "datos/composicion/runs/nac09_43758000236.csv"
+  },
+  "nac10/43761310403": {
+   "territorio": "nac10",
+   "run_id": "43761310403",
+   "secciones": 412,
+   "sha256_csv": "025a26be2ee007db1f5364a8c693e9bfea109f272709c40e53bbafd7a704fe50",
+   "ruta": "datos/composicion/runs/nac10_43761310403.csv"
+  },
+  "nac11/43761322715": {
+   "territorio": "nac11",
+   "run_id": "43761322715",
+   "secciones": 926,
+   "sha256_csv": "19679be0e0eadcc4f689dff054c55c927d6ca0e374b442364cbf0ff99fb356d0",
+   "ruta": "datos/composicion/runs/nac11_43761322715.csv"
+  },
+  "nac12/43761791985": {
+   "territorio": "nac12",
+   "run_id": "43761791985",
+   "secciones": 444,
+   "sha256_csv": "52289a941708ac01ddffb56c0031b985bcc955d3b8bf3dba1fda533202937126",
+   "ruta": "datos/composicion/runs/nac12_43761791985.csv"
+  },
+  "nac13/43762018176": {
+   "territorio": "nac13",
+   "run_id": "43762018176",
+   "secciones": 420,
+   "sha256_csv": "2de3a5f4f6dafb67cba91d6bdf3efc10728a2926089163d61a66dec88a96a987",
+   "ruta": "datos/composicion/runs/nac13_43762018176.csv"
+  },
+  "nac14/43763992154": {
+   "territorio": "nac14",
+   "run_id": "43763992154",
+   "secciones": 621,
+   "sha256_csv": "c7a539c7b7e079e395169792068d28b6cd0ca51b27feef0d869046f643b23d97",
+   "ruta": "datos/composicion/runs/nac14_43763992154.csv"
+  },
+  "nac15/43764621629": {
+   "territorio": "nac15",
+   "run_id": "43764621629",
+   "secciones": 886,
+   "sha256_csv": "573e535e9d2b18911882029d7a3fd4ee99e6b517e63ab92505e969625180f06f",
+   "ruta": "datos/composicion/runs/nac15_43764621629.csv"
+  },
+  "nac16/43764632170": {
+   "territorio": "nac16",
+   "run_id": "43764632170",
+   "secciones": 310,
+   "sha256_csv": "fd0f6baa195f794705601ddeb0658048f48321b572b848d90b088c6324f47077",
+   "ruta": "datos/composicion/runs/nac16_43764632170.csv"
+  },
+  "nac17/43764643457": {
+   "territorio": "nac17",
+   "run_id": "43764643457",
+   "secciones": 536,
+   "sha256_csv": "6d76771870002515b7a98f3f559cbb2913610c19f6cb7491236fee44e0141559",
+   "ruta": "datos/composicion/runs/nac17_43764643457.csv"
+  },
+  "nac17/43781217551": {
+   "territorio": "nac17",
+   "run_id": "43781217551",
+   "secciones": 536,
+   "sha256_csv": "6d76771870002515b7a98f3f559cbb2913610c19f6cb7491236fee44e0141559",
+   "ruta": "datos/composicion/runs/nac17_43781217551.csv"
+  },
+  "nac18/43764654875": {
+   "territorio": "nac18",
+   "run_id": "43764654875",
+   "secciones": 672,
+   "sha256_csv": "deafbe7a6ce59ceed07513a30ece3c5c0a645ce3b02da25c5f82d3bb96f25a19",
+   "ruta": "datos/composicion/runs/nac18_43764654875.csv"
+  },
+  "nac19/43764666420": {
+   "territorio": "nac19",
+   "run_id": "43764666420",
+   "secciones": 400,
+   "sha256_csv": "60dcf292393fd6907d810beb20db35f593a619db0598cc2a81984a41d8bfda4e",
+   "ruta": "datos/composicion/runs/nac19_43764666420.csv"
+  },
+  "nac20/43764679394": {
+   "territorio": "nac20",
+   "run_id": "43764679394",
+   "secciones": 548,
+   "sha256_csv": "af2f0e84c2d170c4d45a876208909517e4fd20546ec11fb9e0ab6e3db0d3b051",
+   "ruta": "datos/composicion/runs/nac20_43764679394.csv"
+  },
+  "nac21/43765769898": {
+   "territorio": "nac21",
+   "run_id": "43765769898",
+   "secciones": 371,
+   "sha256_csv": "45931ee92a72714a74f79062499bf66d6c90802a69cef0b2a10eae5dcaf099ae",
+   "ruta": "datos/composicion/runs/nac21_43765769898.csv"
+  },
+  "nac22/43772965482": {
+   "territorio": "nac22",
+   "run_id": "43772965482",
+   "secciones": 286,
+   "sha256_csv": "46a0ea44050cf43d1e241e64d46154c98b38f72c0d69a8e7ead9a3e7e2e95811",
+   "ruta": "datos/composicion/runs/nac22_43772965482.csv"
+  },
+  "nac23/43765782167": {
+   "territorio": "nac23",
+   "run_id": "43765782167",
+   "secciones": 507,
+   "sha256_csv": "391ea555a3c8ede9e745ad188d9d3c34411917a2def0c32898e3e320dc172eb8",
+   "ruta": "datos/composicion/runs/nac23_43765782167.csv"
+  },
+  "nac24/43766201397": {
+   "territorio": "nac24",
+   "run_id": "43766201397",
+   "secciones": 447,
+   "sha256_csv": "0ca7b8c97f617f99b537b6f8cc502865dabf67a19181a1ff4450f1ab5ecc3bf8",
+   "ruta": "datos/composicion/runs/nac24_43766201397.csv"
+  },
+  "nac25/43773580960": {
+   "territorio": "nac25",
+   "run_id": "43773580960",
+   "secciones": 388,
+   "sha256_csv": "5a6479d9995da8ff305ca3d6e99e35cd5869411229d78ea48b1b0071933cf868",
+   "ruta": "datos/composicion/runs/nac25_43773580960.csv"
+  },
+  "nac26/43773865756": {
+   "territorio": "nac26",
+   "run_id": "43773865756",
+   "secciones": 343,
+   "sha256_csv": "b0c0cc8c7c9d9b64fcfb848e2fb64a1bc8db4d1663d26bf378302857f7f371ee",
+   "ruta": "datos/composicion/runs/nac26_43773865756.csv"
+  },
+  "nac27/43774262901": {
+   "territorio": "nac27",
+   "run_id": "43774262901",
+   "secciones": 279,
+   "sha256_csv": "6b21b7c91b887c5fadd9b71f640da4f0504e0d866565df4416d7f14e63790922",
+   "ruta": "datos/composicion/runs/nac27_43774262901.csv"
+  },
+  "nac28/43778543060": {
+   "territorio": "nac28",
+   "run_id": "43778543060",
+   "secciones": 4479,
+   "sha256_csv": "eaaf0bec2349369e9ca58646c31e312c8b39ca12ff17326d700498d988eaa293",
+   "ruta": "datos/composicion/runs/nac28_43778543060.csv"
+  },
+  "nac29/43779396654": {
+   "territorio": "nac29",
+   "run_id": "43779396654",
+   "secciones": 1084,
+   "sha256_csv": "c3c88066dce8f3deb47fe89eb065693200eafe627443656939f24e902dabbb63",
+   "ruta": "datos/composicion/runs/nac29_43779396654.csv"
+  },
+  "nac29/43798914850": {
+   "territorio": "nac29",
+   "run_id": "43798914850",
+   "secciones": 1084,
+   "sha256_csv": "c3c88066dce8f3deb47fe89eb065693200eafe627443656939f24e902dabbb63",
+   "ruta": "datos/composicion/runs/nac29_43798914850.csv"
+  },
+  "nac30/43779852945": {
+   "territorio": "nac30",
+   "run_id": "43779852945",
+   "secciones": 1223,
+   "sha256_csv": "e19f91be669b9cd75bf64cc1426cc595430c26fb61ef9a19fac7667275258a9b",
+   "ruta": "datos/composicion/runs/nac30_43779852945.csv"
+  },
+  "nac31/43780088321": {
+   "territorio": "nac31",
+   "run_id": "43780088321",
+   "secciones": 578,
+   "sha256_csv": "6c5eaee0154fefe10f0404ae353648afddac28b0c2a4f2461ebe3408a5a1ae51",
+   "ruta": "datos/composicion/runs/nac31_43780088321.csv"
+  },
+  "nac32/43781442275": {
+   "territorio": "nac32",
+   "run_id": "43781442275",
+   "secciones": 257,
+   "sha256_csv": "21b55dcb2bfa5ca08678f607d30f810aece6100702099db5462dc5567f71875b",
+   "ruta": "datos/composicion/runs/nac32_43781442275.csv"
+  },
+  "nac33/43781676796": {
+   "territorio": "nac33",
+   "run_id": "43781676796",
+   "secciones": 832,
+   "sha256_csv": "60b5b7b7419442367975c7dabcd0d0e243fe5f9b80fba048782a682b4f4793cf",
+   "ruta": "datos/composicion/runs/nac33_43781676796.csv"
+  },
+  "nac33/43791373285": {
+   "territorio": "nac33",
+   "run_id": "43791373285",
+   "secciones": 832,
+   "sha256_csv": "60b5b7b7419442367975c7dabcd0d0e243fe5f9b80fba048782a682b4f4793cf",
+   "ruta": "datos/composicion/runs/nac33_43791373285.csv"
+  },
+  "nac34/43782324079": {
+   "territorio": "nac34",
+   "run_id": "43782324079",
+   "secciones": 275,
+   "sha256_csv": "3a6ce8ce35cdcef4f375975954a5f97a536515b1b6381c0aa69ba79a98128159",
+   "ruta": "datos/composicion/runs/nac34_43782324079.csv"
+  },
+  "nac35/43782596037": {
+   "territorio": "nac35",
+   "run_id": "43782596037",
+   "secciones": 715,
+   "sha256_csv": "5f50662a1f66b0869ad182b0e3a600c7bc954a99ed7f4ac8b063df0f715cda5d",
+   "ruta": "datos/composicion/runs/nac35_43782596037.csv"
+  },
+  "nac36/43782609578": {
+   "territorio": "nac36",
+   "run_id": "43782609578",
+   "secciones": 727,
+   "sha256_csv": "9bebc8e69c956f83e254c26d5a981921ed5541a0592eb6e7aeb6b07f48c72070",
+   "ruta": "datos/composicion/runs/nac36_43782609578.csv"
+  },
+  "nac37/43785351956": {
+   "territorio": "nac37",
+   "run_id": "43785351956",
+   "secciones": 532,
+   "sha256_csv": "81c2b1c6e8ee731aa1d0f2e680592f2b1a5ab42b298eeda81c135b1b1e9bfe87",
+   "ruta": "datos/composicion/runs/nac37_43785351956.csv"
+  },
+  "nac38/43786229727": {
+   "territorio": "nac38",
+   "run_id": "43786229727",
+   "secciones": 681,
+   "sha256_csv": "572775632b6c31ba1848f642edc107c34095b8206a057bada42f653664e52979",
+   "ruta": "datos/composicion/runs/nac38_43786229727.csv"
+  },
+  "nac38/43798927529": {
+   "territorio": "nac38",
+   "run_id": "43798927529",
+   "secciones": 681,
+   "sha256_csv": "572775632b6c31ba1848f642edc107c34095b8206a057bada42f653664e52979",
+   "ruta": "datos/composicion/runs/nac38_43798927529.csv"
+  },
+  "nac39/43786502149": {
+   "territorio": "nac39",
+   "run_id": "43786502149",
+   "secciones": 460,
+   "sha256_csv": "6ada27518b9ae07eee1c337dfe42982355079b60f3f62e5e17c627f3361c08de",
+   "ruta": "datos/composicion/runs/nac39_43786502149.csv"
+  },
+  "nac40/43786736942": {
+   "territorio": "nac40",
+   "run_id": "43786736942",
+   "secciones": 276,
+   "sha256_csv": "1e29a5b8abc3c4431e535ae5a00e0901c8fb6912899a3a1ea9cdc7bafa032d3e",
+   "ruta": "datos/composicion/runs/nac40_43786736942.csv"
+  },
+  "nac41/43786750220": {
+   "territorio": "nac41",
+   "run_id": "43786750220",
+   "secciones": 1364,
+   "sha256_csv": "a449b9a770ac384c4581c015f08d4836014763c1ce7d5080c0e64483eb40299d",
+   "ruta": "datos/composicion/runs/nac41_43786750220.csv"
+  },
+  "nac42/43788408190": {
+   "territorio": "nac42",
+   "run_id": "43788408190",
+   "secciones": 216,
+   "sha256_csv": "1921c37db90159bfbd5df9a8a025df33688ea1221515ecf2607147406f78fcac",
+   "ruta": "datos/composicion/runs/nac42_43788408190.csv"
+  },
+  "nac43/43788811870": {
+   "territorio": "nac43",
+   "run_id": "43788811870",
+   "secciones": 542,
+   "sha256_csv": "aa81efd7edd09b1f524393eab0fcfefa5d3bb7a04b2185f43103644d26d09462",
+   "ruta": "datos/composicion/runs/nac43_43788811870.csv"
+  },
+  "nac44/43790237705": {
+   "territorio": "nac44",
+   "run_id": "43790237705",
+   "secciones": 284,
+   "sha256_csv": "ec2fc9c75b7532324f2440018a1afa4657c6a635197be05c7ddc12c2c4f504f1",
+   "ruta": "datos/composicion/runs/nac44_43790237705.csv"
+  },
+  "nac45/43791386692": {
+   "territorio": "nac45",
+   "run_id": "43791386692",
+   "secciones": 530,
+   "sha256_csv": "664bb7404a483bfdb4494592e98bb7e91dcf090923c127573b3c88195810dc96",
+   "ruta": "datos/composicion/runs/nac45_43791386692.csv"
+  },
+  "nac46/43792317538": {
+   "territorio": "nac46",
+   "run_id": "43792317538",
+   "secciones": 1823,
+   "sha256_csv": "f1fae4b06a4255931ddf3e6381bf7980c1c51db7ef4ae81c39d5ff12e946bb2e",
+   "ruta": "datos/composicion/runs/nac46_43792317538.csv"
+  },
+  "nac47/43792330350": {
+   "territorio": "nac47",
+   "run_id": "43792330350",
+   "secciones": 565,
+   "sha256_csv": "8bc409ed7bb073244e59f69a3fc0df0e3cb99eb0d5db4f24727d18a272890e6a",
+   "ruta": "datos/composicion/runs/nac47_43792330350.csv"
+  },
+  "nac48/43798940463": {
+   "territorio": "nac48",
+   "run_id": "43798940463",
+   "secciones": 933,
+   "sha256_csv": "92da24d7a320b5808bf25bd523daddd8141241a0ab28593c9668717f012264e4",
+   "ruta": "datos/composicion/runs/nac48_43798940463.csv"
+  },
+  "nac49/43798955456": {
+   "territorio": "nac49",
+   "run_id": "43798955456",
+   "secciones": 319,
+   "sha256_csv": "e7b4f3a71866478285c368f75714e812f736674e39215c14278b876a00831c15",
+   "ruta": "datos/composicion/runs/nac49_43798955456.csv"
+  },
+  "nac50/43798969769": {
+   "territorio": "nac50",
+   "run_id": "43798969769",
+   "secciones": 884,
+   "sha256_csv": "d5641387f11681c21e791140c98c0eb373aa1b50e6464e1bb9f0efd989d88ef9",
+   "ruta": "datos/composicion/runs/nac50_43798969769.csv"
+  },
+  "nac51/43799202986": {
+   "territorio": "nac51",
+   "run_id": "43799202986",
+   "secciones": 56,
+   "sha256_csv": "0c0276b5b62ca585b38a7d02a1f708155256fe35e9928af939014e3c76c3a7af",
+   "ruta": "datos/composicion/runs/nac51_43799202986.csv"
+  },
+  "nac52/43803279881": {
+   "territorio": "nac52",
+   "run_id": "43803279881",
+   "secciones": 44,
+   "sha256_csv": "fdc1449d7dfc6cb385cb29aff9fb238724ec4566bd8b22e8b768abf47b436d0d",
+   "ruta": "datos/composicion/runs/nac52_43803279881.csv"
   },
   "pais_vasco/43041060549": {
    "territorio": "pais_vasco",

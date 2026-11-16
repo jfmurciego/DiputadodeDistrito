@@ -92,13 +92,13 @@ territory_contract:
   population_floor_ratio: 0.8
   population_cap_ratio: 1.75
   target_tolerance_ratio: 0.12
-  limits_profile: standard-1.0.0
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true
   oversized_municipality_rule: split_only_above_hard_cap
   municipality_atomicity_limit_ratio: 1.25
   require_auditable_district_catalogue: true
+  limits_profile: standard-1.0.0
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes:
@@ -248,23 +248,35 @@ validation:
     '11001':
       decided_at: '2026-10-29'
       decided_by: propietario
-      reason: 'Distrito de municipio rural bajo el suelo que no admite reparación (Andalucía en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25): 52.719 hab., 0,66 de la media.'
-      evidence: 'run 40952332904; docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — Población — exención de suelo por municipio en Andalucía»; mecanismo #343'
+      reason: 'Distrito de municipio rural bajo el suelo que no admite reparación
+        (Andalucía en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25): 52.719 hab.,
+        0,66 de la media.'
+      evidence: 'run 40952332904; docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — Población
+        — exención de suelo por municipio en Andalucía»; mecanismo #343'
     '11002':
       decided_at: '2026-10-29'
       decided_by: propietario
-      reason: 'Distrito de municipio rural bajo el suelo que no admite reparación (Andalucía en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25): 20.261 hab., 0,25 de la media.'
-      evidence: 'run 40952332904; docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — Población — exención de suelo por municipio en Andalucía»; mecanismo #343'
+      reason: 'Distrito de municipio rural bajo el suelo que no admite reparación
+        (Andalucía en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25): 20.261 hab.,
+        0,25 de la media.'
+      evidence: 'run 40952332904; docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — Población
+        — exención de suelo por municipio en Andalucía»; mecanismo #343'
     '11005':
       decided_at: '2026-10-29'
       decided_by: propietario
-      reason: 'Distrito de municipio rural bajo el suelo que no admite reparación (Andalucía en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25): 35.805 hab., 0,45 de la media.'
-      evidence: 'run 40952332904; docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — Población — exención de suelo por municipio en Andalucía»; mecanismo #343'
+      reason: 'Distrito de municipio rural bajo el suelo que no admite reparación
+        (Andalucía en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25): 35.805 hab.,
+        0,45 de la media.'
+      evidence: 'run 40952332904; docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — Población
+        — exención de suelo por municipio en Andalucía»; mecanismo #343'
     '41001':
       decided_at: '2026-10-29'
       decided_by: propietario
-      reason: 'Distrito de municipio rural bajo el suelo que no admite reparación (Andalucía en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25): 55.814 hab., 0,70 de la media.'
-      evidence: 'run 40952332904; docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — Población — exención de suelo por municipio en Andalucía»; mecanismo #343'
+      reason: 'Distrito de municipio rural bajo el suelo que no admite reparación
+        (Andalucía en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25): 55.814 hab.,
+        0,70 de la media.'
+      evidence: 'run 40952332904; docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — Población
+        — exención de suelo por municipio en Andalucía»; mecanismo #343'
   source_baseline:
     schema: ddd.source-baseline/1.0
     edition: '2025'
@@ -272,9 +284,9 @@ validation:
     section_year: 2025
     population_total: 8676713
     target_section_count: 6029
-    package_sha256: 2cfec239eb9b6cf57083b985504e76fd3055f8425989c2aa1589f060afe0aa37
-    compatibility_report_sha256: c0550f29f74c7ed1b4bd8894fcbfbdc0b0283964898f527454bc00ca8544a6f4
-    compatibility_identity_sha256: 4d75bcab25a4bba27656fcf6184e510ab61718c222e213befa04fd8ec96cbc02
+    package_sha256: dd360c50e2cc1f9b850fe3b270ffe612e80abbd39dd530eb97f96f3f75e1a5f2
+    compatibility_report_sha256: 697b310fdfc2dc9b7da04670e5f89281c3c04da6428f55d8b76c2b0e6e035091
+    compatibility_identity_sha256: 23e2a4a7f79b8d6a28255095036b5ca7d54e8e3556c167f43720051015e08435
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -331,8 +343,8 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2025.zip
-        sha256: 11e034f6e8d816813c7e7ec40b98f7a208309a142b2c62d8d9ebaaf10d8be249
-        bytes: 11050249
+        sha256: 71bbbc4ecf1f0e76ad32b688ad20346ef9b9a55767806ecb6a0f7c613d8328a9
+        bytes: 11050248
   runtime:
     section_id_field: CUSEC_KEY
     population_field: POP_2025
@@ -345,12 +357,12 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: ceb5670c328da29c39651ccc994621416555963537c621cf5ff4766e678ff6ab
+  contract_sha256: 14e37c3357c8bee1043f9c0bed15f7ea3151c0a17f1d79fa708caf935b2dd0d0
 generation_state:
   source_prepared: true
   generation_enabled: true
-  package_sha256: 2cfec239eb9b6cf57083b985504e76fd3055f8425989c2aa1589f060afe0aa37
-  compatibility_identity_sha256: 4d75bcab25a4bba27656fcf6184e510ab61718c222e213befa04fd8ec96cbc02
+  package_sha256: dd360c50e2cc1f9b850fe3b270ffe612e80abbd39dd530eb97f96f3f75e1a5f2
+  compatibility_identity_sha256: 23e2a4a7f79b8d6a28255095036b5ca7d54e8e3556c167f43720051015e08435
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 0333c1f5d99a3737eaa6c775fc12c2ab32ce3659a2806b9a5e9b2689dad1a996
@@ -382,7 +394,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2025.zip
-    sha256: 11e034f6e8d816813c7e7ec40b98f7a208309a142b2c62d8d9ebaaf10d8be249
+    sha256: 71bbbc4ecf1f0e76ad32b688ad20346ef9b9a55767806ecb6a0f7c613d8328a9
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
@@ -400,6 +412,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 40946875467
-  pre_m04_source_commit: 697f9c28cd6d7e0ef65a21c2111edfe92566b676
-  pre_m04_artifact_sha256: 90fb41da3aeff32617d283000b10dbdd558305e8bb3d95222c4fd216892ebf53
+  pre_m04_run_id: 43728682179
+  pre_m04_source_commit: f61adbc4a23e024149ca34748512a53e605aa348
+  pre_m04_artifact_sha256: 3827df67c88d8c93102bfe00a81a762eeaa850a2356d6e7ed75ba9c077bacdac

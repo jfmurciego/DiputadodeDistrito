@@ -32,6 +32,7 @@ subdominio `contador` del DNS. Nada queda en los dispositivos de los visitantes.
   el origen podría agotar el tope total y parar el recuento ese día, sin más efecto). Rutas fuera de la lista blanca se descartan.
 - Lista blanca de rutas y orígenes: constantes `RUTAS` y `ORIGENES` en `worker.js` (cambiarlas exige PR). Solo se acepta el dominio propio: el sitio en `jfmurciego.github.io/DiputadodeDistrito/` tiene subruta y
   no coincidiría con la lista.
-- La línea del visor y el texto del pie se añaden en una segunda tanda de la PR, tras fusionarse T-310.
-- Línea del visor: `<script>navigator.sendBeacon&&navigator.sendBeacon("https://contador.diputadodedistrito.es/v",location.pathname)</script>`.
+- La línea del contador ya está en los visores V1, V2 y V3 (`/nacional/` no lleva contador); mientras el Worker no esté desplegado,
+  el navegador envía la señal y el subdominio no responde: no afecta a la página. Publicar el sitio es un paso aparte.
+- Línea del visor: `<script>navigator.sendBeacon&&navigator.sendBeacon("https://contador.diputadodedistrito.es/v",location.pathname.replace(/index\.html$/,""))</script>`.
   Los visores no tienen hoy CSP, así que no hay `connect-src` que ajustar; si se añade, incluir ese host.

@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13867943619,
+      "artifact_name": "ddd-audit-43045468808",
+      "artifact_sha256": "4731a3ed5994e0bfa17c4b053c90525439483d02a3a82a569418afd3ee91e89e",
+      "run_id": 43045468808,
+      "size_in_bytes": 10720
+    },
+    "m04": {
+      "artifact_id": 13868456886,
+      "artifact_name": "ddd-state-43045468808-M04",
+      "artifact_sha256": "af90153e951f26c5394e4faa66430b2b04542f27ceddf80268d048983666ddbf",
+      "run_id": 43045468808,
+      "size_in_bytes": 87434458
+    },
+    "m05": {
+      "artifact_id": 13868536899,
+      "artifact_name": "ddd-state-43045468808-M05",
+      "artifact_sha256": "b13368cf736d392c57756824be06d29e02fe22ed53683b4ab2de9235e3467fe2",
+      "run_id": 43045468808,
+      "size_in_bytes": 89570629
+    },
+    "m06": {
+      "artifact_id": 13867423828,
+      "artifact_name": "ddd-state-43045468808-M06",
+      "artifact_sha256": "5bf779c702b38d67b2410a5c182a86bb1eedf2fc68b1915669b485ce1e8a3de3",
+      "run_id": 43045468808,
+      "size_in_bytes": 94916993
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "aac8d1d3d228b94fff0e3da6abb82f405e15a924e6bf4de546255325b2531f07",
+        "size_in_bytes": 401
+      },
+      "extremadura_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "9b6d14c43f458b0e2fea17a176a0a3022bddce39b570878cc8c783907e149b64",
+        "size_in_bytes": 57284
+      },
+      "optimization_execution.json": {
+        "sha256": "3d3cbf29d06ae84aaf20819588ba57293abcb88e9579c10322db0ed0e96499f1",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "5fbc9935247dc8fe2bfabf84018cab7988fb7a140362313169d0faf2fdf7182a",
+        "size_in_bytes": 1465
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "5fbc9935247dc8fe2bfabf84018cab7988fb7a140362313169d0faf2fdf7182a",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/extremadura/config/extremadura_2025.yaml",
+    "sha256": "2dfb04731967e1dbae05bdc7c7521e157c10d3e14cbd9ef18821af21bc9a549e"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "19c5ebdbef095f2f14168e377977b725e21f95c1cc9c3d868c4d4709743a7028",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "vigente",
+      "generador": "vigente",
+      "huella_resultado": "338af655c017a53420db37177986e8277d141ff2a8b6b1ea2efe4c5059a98974",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.12300338445618482,
+          "fuera_tolerancia": 1,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.10381214132121955,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "94bd4b18b7f64e2281e3ab1d12090db7fb65d5bcfe4a06c7b6ef407b18b40769",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
+    "edition": "2025",
+    "territory_id": "extremadura",
+    "territory_name": "Extremadura",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 43045468808,
+    "workflow_sha": "09ba9a2f38fc81b54348607e40b32d0a146e255b"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13868456886,
+      "artifact_name": "ddd-state-43045468808-M04",
+      "artifact_sha256": "af90153e951f26c5394e4faa66430b2b04542f27ceddf80268d048983666ddbf",
+      "run_id": 43045468808,
+      "size_in_bytes": 87434458
+    },
+    "source_manifest_sha256": "0610310f2704581bef1deccea4494f7c685cdf26c00b64e7e8511475f2f28a58",
+    "source_package_artifact": {
+      "artifact_id": 13722066591,
+      "artifact_name": "ddd-source-package-extremadura-2025-42720735134",
+      "artifact_sha256": "9d50ad9459baa8c275927668e553c3fd09285dc28b8027d2c7746fd7c0c68158",
+      "run_id": 42720735134,
+      "size_in_bytes": 81051251
+    }
+  },
+  "manifest_sha256": "17e1222e06fb43148cb575bce781f58c8ab36965d2c84b52143eddc9caaec298",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

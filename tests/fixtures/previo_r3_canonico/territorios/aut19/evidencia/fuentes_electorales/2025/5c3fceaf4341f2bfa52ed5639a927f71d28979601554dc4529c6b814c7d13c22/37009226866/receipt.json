@@ -1,0 +1,16 @@
+{
+  "artifact_name": "ddd-electoral-package-aut19-2025-37009226866",
+  "artifact_sha256": "5367f41680668857ffa988eeecd11698b883ed1f1dbbd0fe076ef61273bd059c",
+  "declaration": null,
+  "edition": "2025",
+  "election_date": "2023-05-28",
+  "election_id": "melilla_asamblea_local_2023",
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "electoral_identity_sha256": "5c3fceaf4341f2bfa52ed5639a927f71d28979601554dc4529c6b814c7d13c22",
+  "kind": "electoral_source",
+  "run_id": 37009226866,
+  "schema": "ddd.catalog-evidence/1.0",
+  "source_commit": "d1cf5937ea3e0f0c99e10e8d1865154fe32704f9",
+  "territory_id": "aut19",
+  "territory_name": "Melilla"
+}

@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "aut08",
+  "territory_name": "Castilla-La Mancha",
+  "edition": "2025",
+  "run_id": 43640061481,
+  "source_commit": "903c070fd5a4ea2d39902d0f55bb20a384f5d544",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 43640061481,
+    "artifact_name": "ddd-source-package-aut08-2025-43640061481",
+    "artifact_sha256": "03ac37ba916c1ad6ba6357a638321ac11e5d41920b10923336096e1dd903cdf8",
+    "package_sha256": "d601e87101c28fab18fc48778854617e20f354ae8bc353265f5e195fdebf56fc",
+    "compatibility_identity_sha256": "6d495d0ead09d91ddc4861b3f516ae238e3f09713ec47cc4bb4b290150e8a09b",
+    "territorial_identity_sha256": "d4b258fe493a4d0c0a668040cc3f98889a489133f5c89f2e23f83e86fce0c289",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "blocked_phases": [],
+  "completion_status": "COMPLETE",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "failed_phases": [],
+  "generated_at": "2026-09-28T09:43:00.578809+00:00",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_evidence_status": "VALID",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "phases": [
+    {
+      "artifact": "ddd-source-package-aut12-2025-36345716757",
+      "artifact_digest": "sha256:367869c2149d753d1159cd0fcb4771593f98ca6c05c43277b88b0000afb09602",
+      "executed": false,
+      "name": "01 · Preparación de Datos Territoriales",
+      "phase_decision": "READY",
+      "result": "skipped",
+      "run_id": 36345716757,
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": "ddd-state-36403519566-M06",
+      "artifact_digest": "sha256:12529f8c76eb46e661a28d546d09cd5d33e8e9db331c1f435d72d6adbbdc3733",
+      "executed": true,
+      "name": "02 · Generación de Distritos Autonómicos",
+      "phase_decision": "PASS_WITH_EXCEPTIONS",
+      "result": "success",
+      "run_id": 36403519566,
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": "ddd-electoral-package-aut12-2025-36136559051",
+      "artifact_digest": "sha256:59392e194397ea965fde76a5a68fe97519d08e6c175f4328d3830fc72d102db2",
+      "executed": false,
+      "name": "03 · Preparación de Resultados Electorales",
+      "phase_decision": "ACQUIRE",
+      "result": "skipped",
+      "run_id": 36136559051,
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": "ddd-state-36403519566-M08",
+      "artifact_digest": "sha256:c0fd18457e228aaf1d63f4e832f1601a02ae30e31512e90971b6812562b5c513",
+      "executed": true,
+      "name": "04 · Incorporación de Resultados Electorales",
+      "phase_decision": "PASS_WITH_EXCEPTIONS",
+      "result": "success",
+      "run_id": 36403519566,
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": true,
+      "name": "05 · Publicación del Visor",
+      "phase_decision": null,
+      "result": "success",
+      "run_id": 36403519566,
+      "validation_decision": null
+    }
+  ],
+  "publication_mode_effective": "electoral",
+  "publication_mode_requested": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": true,
+  "resumption": null,
+  "schema": "ddd.full-run-manifest/2.1",
+  "source_sha": "61763602fc0cdbd0bea4f6b615c4e1dd422bc9af",
+  "status": "SUCCESS",
+  "territory_id": "aut12",
+  "territory_name": "Galicia",
+  "workflow_run_id": 36403519566
+}

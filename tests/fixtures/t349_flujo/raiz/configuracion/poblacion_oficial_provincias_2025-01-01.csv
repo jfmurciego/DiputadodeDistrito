@@ -1,0 +1,60 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.0.0
+# FECHA: 2026-11-09
+# ANTERIOR: ninguna (fichero nuevo)
+# FUENTE: Real Decreto 1117/2025, de 3 de diciembre (BOE-A-2025-25362), anexo: cifras oficiales de población a 1-1-2025. https://www.boe.es/diario_boe/xml.php?id=BOE-A-2025-25362
+# SHA256_XML: c557f3932692291d19956e05748ca5f0aeaeeb5947bf56eeacc361bd11ae3d69
+# Total 49114494. Dato oficial transcrito del XML del BOE; NO es el padrón por secciones (tabla INE 65034).
+codigo,provincia_boe,poblacion
+01,Araba/Álava,342161
+02,Albacete,390406
+03,Alicante/Alacant,2030037
+04,Almería,773577
+05,Ávila,159887
+06,Badajoz,663886
+07,"Balears, Illes",1237480
+08,Barcelona,5983325
+09,Burgos,361556
+10,Cáceres,387752
+11,Cádiz,1257041
+12,Castellón/Castelló,627173
+13,Ciudad Real,494407
+14,Córdoba,772153
+15,"Coruña, A",1135612
+16,Cuenca,198216
+17,Girona,832026
+18,Granada,942618
+19,Guadalajara,285390
+20,Gipuzkoa,733365
+21,Huelva,535703
+22,Huesca,230624
+23,Jaén,617604
+24,León,446771
+25,Lleida,456106
+26,"Rioja, La",327286
+27,Lugo,325759
+28,Madrid,7137031
+29,Málaga,1791092
+30,Murcia,1589138
+31,Navarra,683500
+32,Ourense,305573
+33,Asturias,1013529
+34,Palencia,158687
+35,"Palmas, Las",1167555
+36,Pontevedra,946225
+37,Salamanca,328779
+38,Santa Cruz de Tenerife,1082421
+39,Cantabria,593964
+40,Segovia,158470
+41,Sevilla,1976624
+42,Soria,90234
+43,Tarragona,874808
+44,Teruel,136197
+45,Toledo,750815
+46,Valencia/València,2758633
+47,Valladolid,528841
+48,Bizkaia,1166816
+49,Zamora,165275
+50,Zaragoza,991991
+51,Ceuta,83595
+52,Melilla,86780

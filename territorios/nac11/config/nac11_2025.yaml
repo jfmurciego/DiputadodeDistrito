@@ -201,8 +201,11 @@ validation:
     '11031':
       decided_at: '2026-11-01'
       decided_by: propietario
-      reason: 'San Fernando: municipio entero bajo el suelo que no completa distrito sin partirse (POPULATION_HARD_BLOCK de la 02, T-02b); la exención se aplica por el campo de municipio (M05 7.8.7).'
-      evidence: 'PR #380; docs/REGISTRO_DE_CAMBIOS.md «2026-11-01 — T-02b» y «2026-11-02 — T-24»; docs/PLAN.md T-24'
+      reason: 'San Fernando: municipio entero bajo el suelo que no completa distrito
+        sin partirse (POPULATION_HARD_BLOCK de la 02, T-02b); la exención se aplica
+        por el campo de municipio (M05 7.8.7).'
+      evidence: 'PR #380; docs/REGISTRO_DE_CAMBIOS.md «2026-11-01 — T-02b» y «2026-11-02
+        — T-24»; docs/PLAN.md T-24'
   partition_apportionment_audit: {}
   source_baseline:
     schema: ddd.source-baseline/1.0
@@ -211,9 +214,9 @@ validation:
     section_year: 2023
     population_total: 1254866
     target_section_count: 926
-    package_sha256: 29b9604d8a617e6a0dff74e0a67d738211bd0771a525c954d9fa214eaf6709cb
-    compatibility_report_sha256: 89343699d9c95543967b588e23f0e5d30cc88511d94a679b08c023eb9edac759
-    compatibility_identity_sha256: bd2bafc2ff00182caa1c02a43f0437f39149c6d7c0066f73a74ba789b58c8c66
+    package_sha256: bc1a62ff52c956213d3b58c49e04066def1ccd021fd1eb350c12c751e11be4ce
+    compatibility_report_sha256: 04f1d878fec2ddfce920d43c1dac6dcf3db3d3e992a5231b1094589faa179cd6
+    compatibility_identity_sha256: 4edcdd651a9cf479debec5cf4b965517093aff422d4f2d4d270662691666fc06
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -270,7 +273,7 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2023.zip
-        sha256: 9dac622d4e7849895bd0dd7b2bc95b835d96f81de5879e325c312ef503e95f5d
+        sha256: 923bc1f1731ab494b16d4504b95557752f40417e51676d400ff2c134b29022f5
         bytes: 1591978
   runtime:
     section_id_field: CUSEC_KEY
@@ -284,12 +287,12 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: 1dc9cc3305dff0b9dec395b37d00714ce715fb5ceeebf81effab3b922ff50a09
+  contract_sha256: 319df00f2957e79d9d53fd0ca0af0abd33530541d7bb29d9b594317ea12410b4
 generation_state:
   source_prepared: true
   generation_enabled: true
-  package_sha256: 29b9604d8a617e6a0dff74e0a67d738211bd0771a525c954d9fa214eaf6709cb
-  compatibility_identity_sha256: bd2bafc2ff00182caa1c02a43f0437f39149c6d7c0066f73a74ba789b58c8c66
+  package_sha256: bc1a62ff52c956213d3b58c49e04066def1ccd021fd1eb350c12c751e11be4ce
+  compatibility_identity_sha256: 4edcdd651a9cf479debec5cf4b965517093aff422d4f2d4d270662691666fc06
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: af594651d3c603ef61acea97299cfdab14c0cb429de1153104e35b7b4d21da71
@@ -321,7 +324,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2023.zip
-    sha256: 9dac622d4e7849895bd0dd7b2bc95b835d96f81de5879e325c312ef503e95f5d
+    sha256: 923bc1f1731ab494b16d4504b95557752f40417e51676d400ff2c134b29022f5
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
@@ -339,6 +342,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 41465820761
-  pre_m04_source_commit: 9615f2d13ca9c227a489da8080352efaa556e918
-  pre_m04_artifact_sha256: 7fbca91f56d4d44d94beb0c04543f927cdfdf0f6e40daead242f8ec9df0f1c13
+  pre_m04_run_id: 43761322715
+  pre_m04_source_commit: ed7b5b16da62b90b088f8bbb791bfb3f1c6f4590
+  pre_m04_artifact_sha256: cf390f700154c5b79310c421a11d5b3674904acd584384032a036f769a88062a

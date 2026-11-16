@@ -1,0 +1,92 @@
+{
+  "blocked_phases": [],
+  "chain": {
+    "electoral_chain_requested": false,
+    "origin_run_id": null
+  },
+  "completion_status": "COMPLETE",
+  "edition": "2025",
+  "electoral_activation_status": "FULL_PAIR_READY",
+  "electoral_skip_reason": null,
+  "electoral_status": "COMPLETE",
+  "execution_mode": "catalog_source",
+  "failed_phases": [],
+  "generated_at": "2026-11-08T18:11:54.525925+00:00",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_evidence_status": "VALID",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "out_of_scope_phases": [],
+  "phases": [
+    {
+      "artifact": "ddd-source-package-aut19-2025-40832114779",
+      "artifact_digest": "sha256:db0c191d868c248133c64d58f21706ccfb9686301c0d50270e09262b47fc8ccb",
+      "executed": false,
+      "name": "01 · Preparación de Datos Territoriales",
+      "phase_decision": "READY",
+      "result": "skipped",
+      "run_id": 40832114779,
+      "scope": "IN_SCOPE",
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": "ddd-state-42504386196-M06",
+      "artifact_digest": "sha256:a7e973b0bb1e66257f397a96fc91a5a8cacf5a427f8be98ee85641b5eddb57f6",
+      "executed": true,
+      "name": "02 · Generación de Distritos Autonómicos",
+      "phase_decision": "PASS",
+      "result": "success",
+      "run_id": 42504386196,
+      "scope": "IN_SCOPE",
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": "ddd-electoral-package-aut19-2025-40832114779",
+      "artifact_digest": "sha256:313f6bb32b12fa65f62685a1fe49faf86314c82209182a80531f9781af308245",
+      "executed": false,
+      "name": "03 · Preparación de Resultados Electorales",
+      "phase_decision": "ACQUIRE",
+      "result": "skipped",
+      "run_id": 40832114779,
+      "scope": "IN_SCOPE",
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": "ddd-state-42504386196-M08",
+      "artifact_digest": "sha256:c053eba12b2a890fa9c4638e8e94e55075e56bf51251ad8d65d0cc5e57015a89",
+      "executed": true,
+      "name": "04 · Incorporación de Resultados Electorales",
+      "phase_decision": "PASS",
+      "result": "success",
+      "run_id": 42504386196,
+      "scope": "IN_SCOPE",
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": false,
+      "name": "05 · Publicación del Visor",
+      "phase_decision": null,
+      "result": "skipped",
+      "run_id": null,
+      "scope": "IN_SCOPE",
+      "validation_decision": null
+    }
+  ],
+  "publication_mode_effective": "electoral",
+  "publication_mode_requested": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "resumption": null,
+  "schema": "ddd.full-run-manifest/2.1",
+  "skipped_source_gap_phases": [],
+  "source_sha": "77333d60afad865e557827c68afd990e8e6c9909",
+  "status": "SUCCESS",
+  "territorial_status": "CERTIFIED",
+  "territory_id": "aut19",
+  "territory_name": "Melilla",
+  "workflow_run_id": 42504386196
+}

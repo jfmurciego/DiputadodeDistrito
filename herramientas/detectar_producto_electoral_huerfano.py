@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+# VERSIÓN: 1.0.1
+# NOMBRE DE VERSIÓN: id canónico exacto (T-349)
+# FECHA: 2026-11-15
+# CAMBIOS 1.0.1 (T-349, D-102): solo registra recibos desde manifiestos de run con el territory_id canónico exacto.
+# MOTIVO: la r4 se paró en aut11 al reutilizar un registro con id viejo.
+# ANTERIOR: legacy/herramientas/detectar_producto_electoral_huerfano_pre_t349_20261115.py (1.0.0: versión de origin/main, sin cabecera numerada)
 from __future__ import annotations
 
 import argparse
@@ -183,7 +189,7 @@ def _candidate_state(
     for path in sorted(manifest_dir.glob("*.json")):
         manifest = _json(path)
         if (
-            not mismo_territorio(str(manifest.get("territory_id") or ""), str(territory_id))
+            str(manifest.get("territory_id") or "") != str(territory_id)  # T-349 (D-102): el recibo que se persiste exige manifiesto con id canónico exacto
             or str(manifest.get("edition") or "") != str(edition)
         ):
             continue

@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac40",
+  "territory_name": "Congreso Segovia",
+  "edition": "2025",
+  "run_id": 43792544180,
+  "artifact_name": "ddd-electoral-package-nac40-2025-43792544180",
+  "artifact_sha256": "30a0bad946cda822bfb3be7fae4c2900ac83a64db3624de7578ba046c616ae72",
+  "source_commit": "0bcd29ff3852fff1ea65bdab707f92461c7b7139",
+  "election_id": "congreso_segovia_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "cca0636279d7a5287aabc4a354acb3b19b8fb78586bf596616d4f80e7a40abc2"
+}

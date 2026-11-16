@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_albacete",
+  "territory_id": "nac02",
   "territory_name": "Congreso Albacete",
   "edition": "2025",
-  "run_id": 42952791883,
-  "artifact_name": "ddd-state-42952791883-M08",
-  "artifact_sha256": "358114a86bda9720e7026d899c33e34bf870435ea327992bc50acef27a0a3268",
-  "source_commit": "56d885ab860721509ae8422153780b6fc871a4de",
+  "run_id": 43759317191,
+  "artifact_name": "ddd-state-43759317191-M08",
+  "artifact_sha256": "4e6be30fbe8f9de36daf634fc809138345a26cf50124baa60d5b5c2125fa01eb",
+  "source_commit": "03ba53994361b1616f8a2f21e33fe77f6d18e625",
   "stage": "M08"
 }

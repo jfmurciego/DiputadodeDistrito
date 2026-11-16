@@ -1,7 +1,7 @@
-"""Version: 1.0.5; name: full execution planning tests; date: 2026-10-29.
+"""Version: 1.0.6; name: full execution planning tests; date: 2026-11-14.
 Scope: 00 planning, durable evidence gates, and incompatible product replanning.
-Status: candidate. Change/reason: the 00 ends with encadenar_par_y_04 (automatic pair activation and 04).
-Previous: legacy/tests/test_ejecucion_completa_v1.0.4.py.
+Status: candidate. Change/reason: T-322 the Castilla-La Mancha durable-reuse case reads the frozen pre-r3 root (tests/fixtures/previo_r3), not live state.
+Previous: legacy/tests/test_ejecucion_completa_v1.0.5.py.
 """
 from __future__ import annotations
 
@@ -12,6 +12,7 @@ import unittest
 from unittest import mock
 import yaml
 
+from tests._previo_r3 import raiz_previo_r3
 from herramientas.resolver_ejecucion_completa import _run_from_artifact, build_plan
 from herramientas.escribir_manifest_ejecucion_completa import optimization_lineage
 
@@ -983,7 +984,8 @@ def m08_enlaza_m06_vigente(root, territory_id, territorial, electoral):
 
 class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
     def test_current_complete_product_is_durable_and_reusable(self):
-        data = load(ROOT / "configuracion/catalogo_preparacion.yaml")
+        root = raiz_previo_r3(canonico=True)  # T-322: estado congelado previo a r3
+        data = load(root / "configuracion/catalogo_preparacion.yaml")
         row = next(
             r for r in data["territories"]
             if r["territory_id"] == "aut08"
@@ -996,9 +998,10 @@ class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
         self.assertIn(checkpoint["stage"], {"M06", "M08"})
         current_run = checkpoint["run_id"]
         self.assertIsInstance(current_run, int)
-        territorial = json.loads((ROOT / state["evidence"]["territorial_product"]).read_text())
-        electoral = json.loads((ROOT / state["evidence"]["electoral_product"]).read_text())
-        enlazado = m08_enlaza_m06_vigente(ROOT, "aut08", territorial, electoral)
+        territorial = json.loads((root / state["evidence"]["territorial_product"]).read_text())
+        electoral = json.loads((root / state["evidence"]["electoral_product"]).read_text())
+        enlazado = m08_enlaza_m06_vigente(root, "aut08", territorial, electoral)
+        self.assertTrue(enlazado)  # rama fijada por el fixture congelado
         # T-247: el checkpoint es el run del M06 (stage M06) o el del M08 enlazado a él (stage M08, puede ser la 00
         # hija «Reutilizar»); antes exigía que fuera siempre el run del M06.
         if checkpoint["stage"] == "M08":
@@ -1010,16 +1013,12 @@ class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
             territory="Castilla-La Mancha",
             edition="2025",
             execution_mode="reuse",
-            catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
-            root_dir=ROOT,
+            catalog=root / "configuracion/catalogo_preparacion.yaml",
+            root_dir=root,
         )
         self.assertEqual(plan["existing"]["territorial_product"]["run_id"], territorial["run_id"])
         # Regla de linaje: el M08 sólo se reutiliza si su run enlaza (fase 02) el M06 vigente.
-        if enlazado:
-            self.assertEqual(plan["existing"]["electoral_product"]["run_id"], electoral["run_id"])
-        else:
-            self.assertFalse(plan["existing"]["electoral_product"]["run_id"])
-            self.assertFalse(plan["catalog_state"]["rejected_electoral_product"]["reusable"])
+        self.assertEqual(plan["existing"]["electoral_product"]["run_id"], electoral["run_id"])
 
 
 class TerritorialSourceVerificationShellTests(unittest.TestCase):

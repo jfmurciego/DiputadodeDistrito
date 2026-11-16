@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac52",
+  "territory_name": "Congreso Melilla",
+  "edition": "2025",
+  "run_id": 43807081485,
+  "artifact_name": "ddd-electoral-package-nac52-2025-43807081485",
+  "artifact_sha256": "3d5ea7b01142dc367400e35ec6ae47ae94532688394ded3ee8a71aa2567888da",
+  "source_commit": "deafaf7f163e52ed9f74b80a9d5da6462c4196b7",
+  "election_id": "congreso_melilla_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "e029ddf09014079c4e19fba6464b86818daed997b872ffba2d2e3ef132ad061d"
+}

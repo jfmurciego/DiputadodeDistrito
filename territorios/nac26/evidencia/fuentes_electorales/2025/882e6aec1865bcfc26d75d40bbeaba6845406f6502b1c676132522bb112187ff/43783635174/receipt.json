@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac26",
+  "territory_name": "Congreso La Rioja",
+  "edition": "2025",
+  "run_id": 43783635174,
+  "artifact_name": "ddd-electoral-package-nac26-2025-43783635174",
+  "artifact_sha256": "90c156193592dea240e139bb065abf05ad862fb7cdc4eaef9b7d0816b67b2b1f",
+  "source_commit": "55a23ba6711fe28924acc0993437e735bea4eb41",
+  "election_id": "congreso_la_rioja_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "882e6aec1865bcfc26d75d40bbeaba6845406f6502b1c676132522bb112187ff"
+}

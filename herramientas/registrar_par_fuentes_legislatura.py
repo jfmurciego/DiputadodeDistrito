@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+# VERSIÓN: 1.0.1
+# NOMBRE DE VERSIÓN: id canónico exacto (T-349)
+# FECHA: 2026-11-15
+# CAMBIOS 1.0.1 (T-349, D-102): par, receipts de lado, fila del catálogo y recibo del M06 del par con id canónico exacto; la huella sellada con el id viejo se reconoce (SOLO_LECTURA_RECONCILIACION) pero no se acepta (PAIR_ID_NO_CANONICO).
+# MOTIVO: la r4 se paró en aut11 al reutilizar un registro con id viejo.
+# ANTERIOR: legacy/herramientas/registrar_par_fuentes_legislatura_pre_t349_20261115.py (1.0.0: versión de origin/main, sin cabecera numerada)
 # CAMBIOS (T-230b, 2026-11-11): register_pair es idempotente ante el campo derivado territorial_product_reuse.
 #   MOTIVO: Congreso Álava (activación 42952637226) dio PAIR_BLOCK porque el par guardado se registró antes del
 #   M06 (NO_TERRITORIAL_PRODUCT) y al rederivarlo el campo cambia aunque fuentes y pair_sha256 son los mismos.
@@ -87,7 +93,7 @@ def _historical_product_reuse(root: Path, *, plan: dict, current_identity: str) 
     import yaml
     catalog = yaml.safe_load((root / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")) or {}
     row = next(
-        (r for r in catalog.get("territories") or [] if mismo_territorio(str(r.get("territory_id") or ""), str(plan["territory_id"]))),
+        (r for r in catalog.get("territories") or [] if str(r.get("territory_id") or "") == str(plan["territory_id"])),  # T-349: exacto
         None,
     )
     state = ((row or {}).get("editions") or {}).get(str(plan["project_edition"])) or {}
@@ -109,7 +115,7 @@ def _historical_product_reuse(root: Path, *, plan: dict, current_identity: str) 
     lineage = _json(ruta_existente(root, lineage_rel))
     if (
         lineage.get("schema") != "ddd.territorial-product-source-lineage/1.0"
-        or not mismo_territorio(str(lineage.get("territory_id") or ""), str(str(plan["territory_id"])))
+        or not mismo_territorio(str(lineage.get("territory_id") or ""), str(plan["territory_id"]))  # SOLO_LECTURA_RECONCILIACION: linaje ya sellado (T-349, D-102)
     ):
         return {
             "available": True,
@@ -118,6 +124,9 @@ def _historical_product_reuse(root: Path, *, plan: dict, current_identity: str) 
             "product_receipt_path": product_rel,
             "lineage_path": lineage_rel,
         }
+    if str(product.get("territory_id") or "") != str(plan["territory_id"]):
+        # T-349 (D-102): la reconciliación del linaje solo reconoce; el M06 que entra al par exige id exacto en su recibo.
+        return {"available": True, "geometric_reuse_compatible": False, "reason": "PRODUCT_ID_NO_CANONICO", "product_receipt_path": product_rel}
     source_identity = str((lineage.get("territorial_source") or {}).get("territorial_identity_sha256") or "")
     try:
         compatible = geometric_reuse_compatible(
@@ -333,7 +342,7 @@ def validate_pair_receipt(
     edition = str(pair.get("edition") or "")
     if not territory_id or not edition:
         raise PreparedSourcePairBlock("PAIR_BLOCK: identidad territorial/edición incompleta")
-    if expected_territory_id is not None and not mismo_territorio(territory_id, str(expected_territory_id)):
+    if expected_territory_id is not None and territory_id != str(expected_territory_id):  # T-349: id canónico exacto
         raise PreparedSourcePairBlock("PAIR_BLOCK: territorio del par no coincide")
     if expected_edition is not None and edition != str(expected_edition):
         raise PreparedSourcePairBlock("PAIR_BLOCK: edición del par no coincide")
@@ -366,6 +375,9 @@ def validate_pair_receipt(
     )
     if territorial_id["territorial_identity_sha256"] != str(territorial.get("territorial_identity_sha256") or ""):
         raise PreparedSourcePairBlock("PAIR_BLOCK: identidad territorial del receipt no reconcilia")
+    if str(territorial_id["territory_id"]) != str(territory_id):
+        # T-349 (D-102), SOLO_LECTURA_RECONCILIACION: la huella vieja se reconoce, pero el par no se acepta.
+        raise PreparedSourcePairBlock("PAIR_BLOCK: PAIR_ID_NO_CANONICO: identidad territorial sellada con id no canónico")
     if str(pair.get("geometric_compatibility_key") or "") != territorial_id["territorial_identity_sha256"]:
         raise PreparedSourcePairBlock("PAIR_BLOCK: clave geométrica no coincide con la identidad territorial acreditada")
 
@@ -387,7 +399,7 @@ def validate_pair_receipt(
             raise PreparedSourcePairBlock(f"PAIR_BLOCK: falta receipt durable de {label}")
         side_path = ruta_existente(root, rel)
         receipt = _json(side_path)
-        if not mismo_territorio(str(receipt.get("territory_id") or ""), str(territory_id)):
+        if str(receipt.get("territory_id") or "") != str(territory_id):  # T-349: id canónico exacto
             raise PreparedSourcePairBlock(f"PAIR_BLOCK: receipt de {label} contradice territory_id")
         if str(receipt.get("edition") or "") != edition:
             raise PreparedSourcePairBlock(f"PAIR_BLOCK: receipt de {label} contradice edition")

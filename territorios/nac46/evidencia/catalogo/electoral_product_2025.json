@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_valencia",
+  "territory_id": "nac46",
   "territory_name": "Congreso Valencia",
   "edition": "2025",
-  "run_id": 43041144007,
-  "artifact_name": "ddd-state-43041144007-M08",
-  "artifact_sha256": "e6f094f090d5851fefb4879cc0d897502a19b84a0ae782c012d1a1ed6dd543c7",
-  "source_commit": "96e5e41379b7a4d4520314ce551335bf6137c52a",
+  "run_id": 43798079539,
+  "artifact_name": "ddd-state-43798079539-M08",
+  "artifact_sha256": "2b6de69069c8849c6884c401339aef110b68ba162961bea659c1747d2ec5578d",
+  "source_commit": "b73ea0fddfcbbec764d73e443b698a1e77089d30",
   "stage": "M08"
 }

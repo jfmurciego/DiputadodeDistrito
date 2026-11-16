@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac18",
+  "territory_name": "Congreso Granada",
+  "edition": "2025",
+  "run_id": 43773790277,
+  "artifact_name": "ddd-electoral-package-nac18-2025-43773790277",
+  "artifact_sha256": "4859e68128548e85fe3b9faf112fd6d83359a960e739ba677fc0aab7ef074d66",
+  "source_commit": "6fe287eaf346de9fdc9dc8f0470f1924736c30d4",
+  "election_id": "congreso_granada_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "67599b305db32b0b5d51634b9c89b291d663ebf39275e7a6b685324062914832"
+}

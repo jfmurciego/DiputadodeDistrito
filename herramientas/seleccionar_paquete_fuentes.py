@@ -15,7 +15,8 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
+
+RC_ID_NO_CANONICO = 3  # T-336
 
 REQUIRED_BUNDLE_FILES = {
     "declaracion_materializacion.json",
@@ -101,7 +102,8 @@ def validate_prepared_package(
     reasons.extend(copy_reasons)
 
     declared_territory = str(manifest.get("territory_id") or "").strip()
-    if declared_territory and not mismo_territorio(str(declared_territory), str(territory_id)):
+    # T-336: igualdad EXACTA con el id canónico; un paquete con id legacy se rechaza (sin alias ni reescritura).
+    if declared_territory and declared_territory != str(territory_id):
         reasons.append(f"territorio de manifiesto distinto: {declared_territory} != {territory_id}")
 
     bundle = package / str(manifest.get("path") or "")
@@ -129,7 +131,7 @@ def validate_prepared_package(
                 ("decisión", decision),
             ):
                 actual_territory = str(document.get("territory_id") or "").strip()
-                if not mismo_territorio(str(actual_territory), str(territory_id)):
+                if actual_territory != str(territory_id):
                     reasons.append(f"territorio en {label} distinto: {actual_territory or 'vacío'} != {territory_id}")
                 if str(document.get("edition")) != str(edition):
                     reasons.append(f"edición en {label} distinta: {document.get('edition')} != {edition}")
@@ -266,7 +268,12 @@ def main() -> int:
         section_year=args.section_year,
     )
     print(json.dumps({"valid": valid, "reasons": reasons}, ensure_ascii=False))
-    return 0 if valid else 2
+    if valid:
+        return 0
+    # T-336: rechazo SOLO por id de territorio no canónico = rc propio (la preparación re-adquiere); otro rechazo = 2.
+    if reasons and all(r.startswith(("territorio de manifiesto distinto", "territorio en ", "informe de compatibilidad pertenece a otro territorio")) for r in reasons):
+        return RC_ID_NO_CANONICO
+    return 2
 
 
 if __name__ == "__main__":

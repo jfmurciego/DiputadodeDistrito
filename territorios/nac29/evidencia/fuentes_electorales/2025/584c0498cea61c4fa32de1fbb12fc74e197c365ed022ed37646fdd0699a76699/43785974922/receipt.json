@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac29",
+  "territory_name": "Congreso Málaga",
+  "edition": "2025",
+  "run_id": 43785974922,
+  "artifact_name": "ddd-electoral-package-nac29-2025-43785974922",
+  "artifact_sha256": "fe3136554fe3ad0509ae110c40f3b6685227a90115047b26d5b0ea7819579714",
+  "source_commit": "ac07db378ebbffb4adcf42c14aeffffb35248f8a",
+  "election_id": "congreso_malaga_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "584c0498cea61c4fa32de1fbb12fc74e197c365ed022ed37646fdd0699a76699"
+}

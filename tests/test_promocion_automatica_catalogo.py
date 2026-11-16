@@ -8,6 +8,8 @@ from pathlib import Path
 
 import yaml
 
+from ddd_core.territorio_ids import id_legacy
+
 from herramientas.catalogo_territorios import format_territory_label, load_master
 from herramientas.catalogo_preparacion import lookup
 from herramientas.resolver_fuentes_territorio import territories
@@ -70,9 +72,10 @@ class AutomaticCatalogPromotionTests(unittest.TestCase):
         # Regla, no instantánea: la evidencia nombra el paquete de su propio run y fija
         # digests SHA-256 completos; cada ejecución desde el principio registra uno nuevo.
         self.assertIsInstance(evidence["run_id"], int)
-        self.assertEqual(
+        # T-322: invariante de forma, no de id; un P10 nuevo nombra el paquete con el id canónico (aut11) y uno antiguo con el legacy.
+        self.assertIn(
             evidence["artifact_name"],
-            f"ddd-source-package-extremadura-2025-{evidence['run_id']}",
+            {f"ddd-source-package-{ident}-2025-{evidence['run_id']}" for ident in ("aut11", id_legacy("aut11"))},
         )
         self.assertRegex(evidence["artifact_sha256"], r"^[0-9a-f]{64}$")
         self.assertRegex(evidence["package_sha256"], r"^[0-9a-f]{64}$")

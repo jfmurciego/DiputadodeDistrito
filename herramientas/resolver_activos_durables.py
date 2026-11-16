@@ -1,11 +1,12 @@
 """Resolver de activos durables M06/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.1
-NOMBRE DE VERSIÓN: M08 sin linaje productor se rechaza, no bloquea
-FECHA: 2026-11-12
+VERSIÓN: 1.3.0
+NOMBRE DE VERSIÓN: Recibos M06/M08/electoral con id canónico exacto
+FECHA: 2026-11-15
 ESTADO: candidato
 QUÉ HACE: valida activos territoriales/electorales y sus manifiestos de productor.
+CAMBIOS 1.3.0: T-349 (D-102): el recibo de M06, M08 y fuente electoral exige territory_id igual al canónico; con id viejo el M08 y el recibo electoral se descartan (rejected_electoral_product/rejected_electoral_source) y se preparan de nuevo; el M06 bloquea con DURABLE_ASSET_ID_NO_CANONICO.
 CAMBIOS 1.2.0: T-166, si la fase 04 del manifiesto no enlaza el M08 del catálogo (04 en failure, digest vacío) o no es
   una fase productora válida, el M08 se rechaza (rejected_electoral_product, reusable=false) y la 00 lo reincorpora, solo si la 04 estaba en
   failure o sin digest; el resto de defectos de la fase productora siguen bloqueando.
@@ -13,7 +14,7 @@ CAMBIOS 1.1.1: compara la fuente M06 standalone con el artefacto territorial dec
 MOTIVO: la 00 hija «Reutilizar» encadenada fallaba siempre en Planificar (DURABLE_LINEAGE_INCOMPATIBLE: electoral_product)
   y dejaba el eslabón electoral sin hacer; un receipt auténtico cuyo manifiesto no prueba la 04 no es reutilizable.
 CAMBIOS 1.2.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/resolver_activos_durables_v1.2.0_20261112.py
+ANTERIOR: legacy/herramientas/resolver_activos_durables_v1.2.1_20261115.py
 """
 from __future__ import annotations
 
@@ -86,12 +87,16 @@ def _receipt(
     edition: str,
     stage: str | None = None,
     require_decision: bool = False,
+    exact_id: bool = False,
 ) -> dict:
     payload = _load_json(root, rel, label=kind)
     if payload.get("schema") != "ddd.catalog-evidence/1.0" or payload.get("kind") != kind:
         _block("DURABLE_ASSET_IDENTITY_INVALID", f"{kind}: schema/kind no coincide")
     if not mismo_territorio(str(payload.get("territory_id") or ""), str(territory_id)) or str(payload.get("edition") or "") != str(edition):
         _block("DURABLE_ASSET_IDENTITY_INVALID", f"{kind}: territorio/edición no coincide")
+    if exact_id and str(payload.get("territory_id") or "") != str(territory_id):
+        # T-349 (D-102): lo que la cadena reutiliza exige el id canónico exacto; el id viejo solo vale para leer lo publicado.
+        _block("DURABLE_ASSET_ID_NO_CANONICO", f"{kind}: territory_id={payload.get('territory_id')!r} != {territory_id!r}")
     run_id = _run_id(payload.get("run_id"), label=kind)
     artifact = str(payload.get("artifact_name") or "")
     if not artifact:
@@ -135,7 +140,7 @@ def _validate_m06_manifest(
     except (TypeError, ValueError):
         manifest_run = manifest_attempt = 0
     if (
-        not mismo_territorio(str(identity.get("territory_id") or ""), str(territory_id))
+        not mismo_territorio(str(identity.get("territory_id") or ""), str(territory_id))  # el id exacto lo exige el recibo (_receipt)
         or str(identity.get("edition") or "") != str(edition)
         or manifest_run != run_id
         or manifest_attempt <= 0
@@ -426,6 +431,7 @@ def validate_durable_assets(
             edition=edition,
             stage="M06",
             require_decision=True,
+            exact_id=True,
         )
         manifest = None
         historical_accreditation = None
@@ -510,40 +516,62 @@ def validate_durable_assets(
                 )
 
     electoral_source = None
+    rejected_electoral_source = None
     if state.get("electoral_source_prepared"):
-        electoral_source = _receipt(
-            root,
-            evidence.get("electoral_source"),
-            kind="electoral_source",
-            territory_id=territory_id,
-            edition=edition,
-        )
-        election_id = str(electoral_source.get("election_id") or "")
-        if not election_id or (expected_election_id and election_id != expected_election_id):
-            _block("DURABLE_ASSET_IDENTITY_INVALID", "electoral_source: election_id no coincide con el registro vigente")
+        try:
+            electoral_source = _receipt(
+                root,
+                evidence.get("electoral_source"),
+                kind="electoral_source",
+                territory_id=territory_id,
+                edition=edition,
+                exact_id=True,
+            )
+        except DurableAssetBlock as exc:
+            if not str(exc).startswith("DURABLE_ASSET_ID_NO_CANONICO:"):
+                raise
+            # T-349 (D-102): un recibo electoral con id no canónico no se reutiliza: se prepara de nuevo (03) y, con él, el M08.
+            electoral_source = None
+            rejected_electoral_source = {"reason": str(exc), "reusable": False}
+        if electoral_source is not None:
+            election_id = str(electoral_source.get("election_id") or "")
+            if not election_id or (expected_election_id and election_id != expected_election_id):
+                _block("DURABLE_ASSET_IDENTITY_INVALID", "electoral_source: election_id no coincide con el registro vigente")
 
     electoral_product = None
     rejected_electoral_product = None
-    if state.get("electoral_product_available"):
+    if rejected_electoral_source is not None:
+        # El M08 se derivó de un recibo electoral no reutilizable: se reincorpora con el recibo nuevo.
+        rejected_electoral_product = {"asset": None, "reason": f"electoral_source no reutilizable: {rejected_electoral_source['reason']}", "reusable": False}
+    elif state.get("electoral_product_available"):
         # El M08 debe ser auténtico y válido ANTES de evaluar si pertenece al
         # M06 territorial vigente. Permiten descartarlo para una reincorporación nueva: (a) esa discrepancia de
         # linaje (fuente o M06) y (b) T-166, que su run no llegara a producirlo (fase 04 en failure o sin digest);
         # cualquier otro defecto bloquea.
-        electoral_product = _receipt(
-            root,
-            evidence.get("electoral_product"),
-            kind="electoral_product",
-            territory_id=territory_id,
-            edition=edition,
-            stage="M08",
-        )
-        manifest = _manifest(
+        try:
+            electoral_product = _receipt(
+                root,
+                evidence.get("electoral_product"),
+                kind="electoral_product",
+                territory_id=territory_id,
+                edition=edition,
+                stage="M08",
+                exact_id=True,
+            )
+        except DurableAssetBlock as exc:
+            if not str(exc).startswith("DURABLE_ASSET_ID_NO_CANONICO:"):
+                raise
+            # T-349 (D-102): un M08 registrado con id no canónico no se reutiliza: se descarta y se reincorpora de nuevo.
+            electoral_product = None
+            rejected_electoral_product = {"asset": None, "reason": str(exc), "reusable": False}
+        manifest = None if electoral_product is None else _manifest(
             root, territory_id, edition, electoral_product["run_id"],
             receipt=electoral_product, contract_path=state.get("contract_path"),
         )
-        phase_04 = _phase(manifest, "04 ·")
+        phase_04 = _phase(manifest, "04 ·") if electoral_product is not None else {}
         try:
-            _producer_phase_asset(phase_04, electoral_product, label="electoral_product")
+            if electoral_product is not None:
+                _producer_phase_asset(phase_04, electoral_product, label="electoral_product")
         except DurableAssetBlock as exc:
             # T-166: solo se descarta el M08 cuyo run NO llegó a producirlo: fase 04 en failure o sin digest de
             # artefacto (receipt registrado a partir de una 04 fallida). Cualquier otro defecto de la fase
@@ -605,4 +633,5 @@ def validate_durable_assets(
         "electoral_source": electoral_source,
         "electoral_product": electoral_product,
         "rejected_electoral_product": rejected_electoral_product,
+        "rejected_electoral_source": rejected_electoral_source,
     }

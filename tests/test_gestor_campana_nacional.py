@@ -1,8 +1,8 @@
-"""Regresiones del gestor nacional, versión 0.0.7, 2026-10-29.
+"""Regresiones del gestor nacional, versión 0.0.8, 2026-11-14.
 Alcance: planificación pura y cierre de acreditación; estado: candidato.
-Cambio/motivo: el caso histórico de Extremadura (sin par electoral) se evalúa sobre la raíz congelada
+Cambio/motivo (0.0.8, T-322): los casos de aut12 (ruta y linaje) usan la raíz congelada previa a r3 (tests/fixtures/previo_r3). Antes (0.0.7): el caso histórico de Extremadura (sin par electoral) se evalúa sobre la raíz congelada
 aee8215e; Extremadura ya tiene fuente electoral y par en main.
-Anterior: legacy/tests/test_gestor_campana_nacional_v0.0.6_20261029.py.
+Anterior: legacy/tests/test_gestor_campana_nacional_v0.0.7_20261114.py.
 """
 import copy, json, os, re, shutil, subprocess, sys, tempfile, unittest
 import yaml
@@ -14,6 +14,7 @@ from herramientas.gestor_campana_nacional import (
 
 ROOT=Path(__file__).resolve().parents[1]
 from tests._raiz_congelada import frozen_root  # noqa: E402
+from tests._previo_r3 import raiz_previo_r3  # noqa: E402
 
 def freeze(manifest):
  manifest["manifest_sha256"]=_sha_payload({k:v for k,v in manifest.items() if k!="manifest_sha256"})
@@ -35,7 +36,7 @@ def generation_fixture(root, mode="territorial_only", with_receipt=True):
              "herramientas/construir_unidades_internas_m04.py"):
   (root/rel).parent.mkdir(exist_ok=True)
   shutil.copy(ROOT/rel,root/rel)
- prep={"run_id":7,"artifact_name":"ddd-source-package-cantabria-2025-7",
+ prep={"run_id":7,"artifact_name":"ddd-source-package-aut06-2025-7",
        "artifact_sha256":"a"*64,"package_sha256":"b"*64,
        "compatibility_identity_sha256":"c"*64,"population_year":2023,
        "section_year":2023,"source_commit":"d"*40,"receipt_path":"receipt.json"}
@@ -45,7 +46,7 @@ def generation_fixture(root, mode="territorial_only", with_receipt=True):
   "population_total":evidence["graph"]["population"],"target_section_count":evidence["graph"]["nodes"],
   "package_sha256":prep["package_sha256"],"compatibility_report_sha256":"9"*64,
   "compatibility_identity_sha256":prep["compatibility_identity_sha256"]}
- evidence.update(run_id=7,source_commit="e"*40,artifact_name="ddd-state-7-M03U",artifact_sha256="f"*64)
+ evidence.update(run_id=7,source_commit="e"*40,artifact_name="ddd-state-7-M03U",artifact_sha256="f"*64,territory_id="aut06")  # T-349 (D-102): evidencia de primera generación con id canónico exacto
  evidence["source"].update({k:v for k,v in prep.items() if k!="receipt_path"})
  evidence["graph"]["artifact_name"]="ddd-state-7-M03"
  evidence["partitioning"]["job_artifact_name"]="ddd-internal-units-7"
@@ -325,7 +326,7 @@ class NationalCampaignTests(unittest.TestCase):
 
  def test_matrix_rejects_unblocked_route_mismatch_and_inconsistent_blockers(self):
   m=build_manifest(selected=["aut12"],publication_mode="electoral",
-                   source_sha="a"*40,strategy="Canónico",campaign_instance="route-negative",root=ROOT)
+                   source_sha="a"*40,strategy="Canónico",campaign_instance="route-negative",root=raiz_previo_r3(canonico=True))
   row=m["territories"][0]
   self.assertEqual(row["preflight_status"],"PRODUCT_REUSE_READY")
   drift=copy.deepcopy(m)
@@ -342,7 +343,7 @@ class NationalCampaignTests(unittest.TestCase):
  def test_manifest_freezes_all_lineage_and_rejects_electoral_source_drift(self):
   from herramientas.gestor_campana_nacional import _campaign_lineage_identity
   m=build_manifest(selected=["aut12"],publication_mode="electoral",
-                   source_sha="a"*40,strategy="Canónico",campaign_instance="lineage-check",root=ROOT)
+                   source_sha="a"*40,strategy="Canónico",campaign_instance="lineage-check",root=raiz_previo_r3(canonico=True))
   row=m["territories"][0]
   self.assertEqual(row["preflight_status"],"PRODUCT_REUSE_READY")
   self.assertEqual(set(row["execution_lineage"]),{"territorial_source","territorial_product","electoral_source","electoral_product"})

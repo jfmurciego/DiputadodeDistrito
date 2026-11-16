@@ -1,10 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Galicia
 # COMPONENTE: fuente electoral oficial vigente para la edición territorial 2025
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.0.1
+# CAMBIOS 1.0.1 (T-353): territory_id y rutas con el id canónico (id viejo fuera).
+# ANTERIOR: legacy/territorios/aut12/config/elecciones/galicia_parlamento_vigente_v1.0.0_20261115.yaml
 # FECHA: 2026-09-19
 schema: ddd-election-official-source-declaration/1.0
-territory_id: galicia
+territory_id: aut12
 election_id: galicia_parlamento_2024
 election_date: '2024-02-18'
 selection_mode: all_required

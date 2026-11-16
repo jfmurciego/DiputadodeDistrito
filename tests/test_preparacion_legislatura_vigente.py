@@ -24,6 +24,7 @@ from herramientas.registrar_par_fuentes_legislatura import (
     build_pair,
 )
 from herramientas.resolver_fuentes_territorio import build_declaration
+from herramientas import resolver_preparacion_legislatura as rpl_t349
 from herramientas.resolver_preparacion_legislatura import _electoral_plan, resolve, validate_matrix
 
 from herramientas.catalogo_territorios import load_pilot_territories  # noqa: E402
@@ -34,6 +35,24 @@ MATRIX = ROOT / "configuracion/preparacion_legislatura_vigente.yaml"
 REGISTRY = ROOT / "configuracion/registro_electoral.yaml"
 TEMPORAL = ROOT / "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json"
 CATALOG = ROOT / "configuracion/catalogo_preparacion.yaml"
+
+
+_RAIZ_T349 = None
+
+
+def _raiz_congelada_t349() -> Path:
+    """T-349: estado registrado congelado (tests/fixtures/t349_flujo, git show del commit base) con el código enlazado."""
+    global _RAIZ_T349
+    if _RAIZ_T349 is None:
+        import atexit, os, shutil, tempfile
+        td = Path(tempfile.mkdtemp(prefix="t349_plv_"))
+        atexit.register(shutil.rmtree, td, True)
+        raiz = td / "r"
+        shutil.copytree(ROOT / "tests/fixtures/t349_flujo/raiz", raiz)
+        for d in ("modulos", "herramientas", "ddd_core"):
+            os.symlink(ROOT / d, raiz / d)
+        _RAIZ_T349 = raiz
+    return _RAIZ_T349
 
 
 class CurrentLegislaturePreparationTests(unittest.TestCase):
@@ -240,12 +259,14 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(plan["definitive_gap"]["gap_candidate_votes"], 0)
 
     def test_aragon_source_receipt_is_repaired_without_reacquiring_historical_product(self):
-        plan = resolve(ROOT, "Aragón")["plans"][0]
+        froz = _raiz_congelada_t349()  # T-349: estado congelado, no el vivo
+        froz_cat = froz / "configuracion/catalogo_preparacion.yaml"
+        plan = resolve(froz, "Aragón")["plans"][0]
         candidate = plan["territorial_candidate"]
         # Regla: el candidato es el receipt durable que el catálogo declara vigente
         # (F10 independiente si sigue sin promover; si no, la preparación).
         live = next(
-            r for r in yaml.safe_load(CATALOG.read_text(encoding="utf-8"))["territories"]
+            r for r in yaml.safe_load(froz_cat.read_text(encoding="utf-8"))["territories"]
             if r["territory_id"] == "aut02"
         )["editions"]["2025"]
         declared = live.get("independent_source_evidence") or live["preparation_evidence"]
@@ -254,10 +275,16 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(candidate["reason"], "TERRITORIAL_DURABLE_CANDIDATE")
         self.assertEqual(plan["territorial_action"], "REUSE_TEMPORAL_SUBSTITUTION")
         self.assertEqual(plan["territorial_admissibility"], "ADMISSIBLE_TEMPORAL_SUBSTITUTION")
-        self.assertEqual(plan["electoral_action"], "REUSE")
-        self.assertEqual(plan["electoral_admissibility"], "ADMISSIBLE")
+        # T-349: el recibo electoral de Aragón del commit base (fixture congelada) lleva el id legacy: no es reutilizable.
+        fix = ROOT / "tests/fixtures/t349_base/raiz"
+        cat = yaml.safe_load((fix / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
+        rel = next(r for r in cat["territories"] if r["territory_id"] == "aut02")["editions"]["2025"]["evidence"]["electoral_source"]
+        eleccion = json.loads((fix / rel).read_text(encoding="utf-8"))["election_id"]
+        c = rpl_t349._electoral_candidate(froz, "aut02", {"electoral_source_prepared": True, "evidence": {"electoral_source": str(fix / rel)}}, eleccion)
+        self.assertEqual(c["reason"], "ELECTORAL_ID_NO_CANONICO")
+        self.assertEqual(rpl_t349._electoral_admissibility("ACQUIRE", c), "NOT_ACCREDITED")
         state = next(
-            r for r in yaml.safe_load(CATALOG.read_text(encoding="utf-8"))["territories"]
+            r for r in yaml.safe_load(froz_cat.read_text(encoding="utf-8"))["territories"]
             if r["territory_id"] == "aut02"
         )["editions"]["2025"]
         self.assertTrue(state["territorial_product_available"])
@@ -265,10 +292,10 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         # cual sea la última ejecución completa registrada (el checkpoint avanza a M08 con la 04).
         checkpoint = state["last_valid_checkpoint"]
         self.assertIn(checkpoint["stage"], {"M06", "M08"})
-        product = json.loads(ruta_existente(ROOT, state["evidence"]["territorial_product"]).read_text(encoding="utf-8"))
+        product = json.loads(ruta_existente(froz, state["evidence"]["territorial_product"]).read_text(encoding="utf-8"))
         # El M06 puede salir de un run posterior que reutiliza la fuente (p. ej. GerryChain 50):
         # su manifiesto productor debe declarar como paquete fuente la preparación vigente.
-        producer = json.loads(ruta_existente(ROOT, product["producer_manifest_path"]).read_text(encoding="utf-8"))  # T-220
+        producer = json.loads(ruta_existente(froz, product["producer_manifest_path"]).read_text(encoding="utf-8"))  # T-220
         source = producer["inputs"]["source_package_artifact"]
         # T-312: invariante de linaje, no run fijo. Una preparación posterior que reutiliza el mismo
         # paquete P10 (otro run, mismo package_sha256 y compatibilidad) conserva el M06 vigente.
@@ -276,7 +303,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         if prep["run_id"] == source["run_id"]:
             self.assertEqual(prep["artifact_sha256"], source["artifact_sha256"])
         else:
-            receipts = sorted((ROOT / "territorios" / "aut02" / "evidencia" / "fuentes_territoriales" / "2025")
+            receipts = sorted((froz / "territorios" / "aut02" / "evidencia" / "fuentes_territoriales" / "2025")
                               .glob(f"*/{source['run_id']}/receipt.json"))
             self.assertEqual(len(receipts), 1, f"sin receipt durable del paquete fuente del M06 ({source['run_id']})")
             producer_receipt = json.loads(receipts[0].read_text(encoding="utf-8"))
@@ -319,15 +346,20 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
             plan = resolve(ROOT, "Castilla y León")["plans"][0]
 
         candidate = plan["territorial_candidate"]
+        # T-349: el paquete histórico lleva el id legacy en el nombre del artefacto: sin alias no es reutilizable.
+        self.assertEqual(candidate["reason"], "TERRITORIAL_ID_NO_CANONICO")
+        self.assertEqual(candidate["registered_artifact_name"], "ddd-source-package-castilla_y_leon-2025-35610439734")
+        # La reparación del receipt se sigue evaluando con el id canónico: mismo run, mismos SHA y misma ruta de receipt.
+        import tempfile
+        canonico = dict(state, preparation_evidence=dict(state["preparation_evidence"], artifact_name="ddd-source-package-aut07-2025-35610439734"))
+        with tempfile.TemporaryDirectory() as td, mock.patch(
+            "herramientas.resolver_preparacion_legislatura._catalog_state",
+            return_value=({"territory_id": "aut07"}, canonico),
+        ):
+            candidate = resolve(ROOT, "Castilla y León")["plans"][0]["territorial_candidate"]
         self.assertEqual(candidate["run_id"], 35610439734)
-        self.assertEqual(
-            candidate["artifact_name"],
-            "ddd-source-package-castilla_y_leon-2025-35610439734",
-        )
-        self.assertEqual(
-            candidate["package_sha256"],
-            "37eecb1a37e7bde56246a04866b09056e73088c91064043604d9ba22bf015752",
-        )
+        self.assertEqual(candidate["artifact_name"], "ddd-source-package-aut07-2025-35610439734")
+        self.assertEqual(candidate["package_sha256"], "37eecb1a37e7bde56246a04866b09056e73088c91064043604d9ba22bf015752")
         self.assertEqual(
             candidate["receipt_path"],
             "territorios/aut07/evidencia/fuentes_territoriales/2025/380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c/35610439734/receipt.json",
@@ -562,11 +594,26 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         remote = {
             "schema": "ddd.prepared-source-pair-artifact-verification/1.0",
         }
-        with self.assertRaises(PreparedSourcePairBlock) as ctx:
-            build_pair(root_dir=ROOT, territory="Canarias", remote_verification=remote)
+        # T-349: estado congelado del commit base (sin mocks). (a) Preparación territorial parcial: el par no se materializa.
+        import shutil, tempfile
+        with tempfile.TemporaryDirectory() as td:
+            raiz = Path(td) / "r"
+            shutil.copytree(_raiz_congelada_t349(), raiz, symlinks=True)
+            cat_path = raiz / "configuracion/catalogo_preparacion.yaml"
+            cat = yaml.safe_load(cat_path.read_text(encoding="utf-8"))
+            st = next(r for r in cat["territories"] if r["territory_id"] == "aut05")["editions"]["2025"]
+            st["territorial_sources_prepared"] = False
+            st.pop("preparation_evidence", None)
+            cat_path.write_text(yaml.safe_dump(cat, allow_unicode=True, sort_keys=False), encoding="utf-8")
+            with self.assertRaises(PreparedSourcePairBlock) as ctx:
+                build_pair(root_dir=raiz, territory="Canarias", remote_verification=remote)
         message = str(ctx.exception)
         self.assertIn("PAIR_BLOCK", message)
         self.assertIn("territorial", message.lower())
+        # (b) Estado real: territorial reutilizable, pero el registro electoral lleva el id viejo → ACQUIRE → sin par.
+        with self.assertRaises(PreparedSourcePairBlock) as ctx:
+            build_pair(root_dir=_raiz_congelada_t349(), territory="Canarias", remote_verification=remote)
+        self.assertEqual(str(ctx.exception), "PAIR_BLOCK: fuente electoral efectiva no acreditada: ACQUIRE")
 
     def test_territorial_identity_change_blocks_geometric_reuse(self):
         historical = territorial_identity(
@@ -811,13 +858,40 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
 
 class PreparedPairIntegrationRegressionTests(unittest.TestCase):
     def test_melilla_reusable_candidate_builds_pair_with_compatibility_metadata(self):
-        plan = resolve(ROOT, "Melilla")["plans"][0]
+        froz = _raiz_congelada_t349()  # T-349: estado congelado, no el vivo
+        # T-349: el recibo electoral de Melilla del commit base (fixture congelada) lleva el id legacy → se prepara de nuevo;
+        # el caso REUSE usa una copia con el id canónico (aut19) y su artefacto canónico.
+        import tempfile
+        from herramientas import resolver_preparacion_legislatura as rpl
+        _orig = rpl._catalog_state
+        _tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(_tmp.cleanup)
+        fix = ROOT / "tests/fixtures/t349_base/raiz"
+        fix_cat = yaml.safe_load((fix / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
+        fix_rel = next(r for r in fix_cat["territories"] if r["territory_id"] == "aut19")["editions"]["2025"]["evidence"]["electoral_source"]
+        congelado = json.loads((fix / fix_rel).read_text(encoding="utf-8"))
+        self.assertEqual(congelado["territory_id"], __import__("ddd_core.territorio_ids", fromlist=["x"]).id_legacy("aut19"))
+        c_viejo = rpl._electoral_candidate(froz, "aut19", {"electoral_source_prepared": True, "evidence": {"electoral_source": str(fix / fix_rel)}},
+                                           congelado["election_id"])
+        self.assertEqual(c_viejo["reason"], "ELECTORAL_ID_NO_CANONICO")
+
+        def _state_canonico(root, territory_id, edition):
+            row, st = _orig(root, territory_id, edition)
+            receipt = dict(congelado, territory_id="aut19", artifact_name=f"ddd-electoral-package-aut19-2025-{congelado['run_id']}")
+            out = Path(_tmp.name) / "receipt.json"
+            out.write_text(json.dumps(receipt), encoding="utf-8")
+            return row, {**st, "evidence": {**st["evidence"], "electoral_source": str(out)}}
+
+        patcher = mock.patch.object(rpl, "_catalog_state", _state_canonico)
+        patcher.start()
+        self.addCleanup(patcher.stop)
+        plan = resolve(froz, "Melilla")["plans"][0]
         self.assertEqual(plan["territorial_action"], "REUSE")
         self.assertEqual(plan["electoral_action"], "REUSE")
 
         territorial = plan["territorial_candidate"]
         electoral = plan["electoral_candidate"]
-        catalog = yaml.safe_load(CATALOG.read_text(encoding="utf-8"))
+        catalog = yaml.safe_load((froz / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
         state = next(
             row for row in catalog["territories"]
             if row["territory_id"] == "aut19"
@@ -856,7 +930,7 @@ class PreparedPairIntegrationRegressionTests(unittest.TestCase):
         }
 
         pair = build_pair(
-            root_dir=ROOT,
+            root_dir=froz,
             territory="Melilla",
             remote_verification=remote,
         )
