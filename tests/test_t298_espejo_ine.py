@@ -237,7 +237,14 @@ class EspejoIne(unittest.TestCase):
                 mock.patch.object(b, "_identidad_contrato", lambda t: {"package_sha256": "ab" * 32, "contrato_sha256": "1"}), \
                 contextlib.redirect_stdout(buf):
             self.assertEqual(b.entradas(a), 1)
-        txt = buf.getvalue()
+        buf2 = io.StringIO()
+        with mock.patch.object(b, "paquete_p10_desde_r2", mock.Mock(side_effect=b.PaqueteP10Corrupto("x"))), \
+                mock.patch.object(b, "_identidad_contrato", lambda t: {"package_sha256": "ab" * 32, "contrato_sha256": "1"}), \
+                contextlib.redirect_stdout(buf2):
+            self.assertEqual(b.entradas(a), 1)
+        txt = buf.getvalue() + buf2.getvalue()
+        self.assertIn("CORRUPTO", buf2.getvalue())
+        self.assertIn("P71", buf2.getvalue())
         self.assertIn("P70", txt)
         self.assertIn("P71", txt)
         self.assertIn("nac42", txt)

@@ -8,7 +8,7 @@ NOMBRE DE VERSIÓN: Batería del motor
 FECHA: 2026-11-16
 ESTADO: candidato
 CAMBIOS 1.4.3 (T-384): el error BATERIA_FALTA_PAQUETE_P10 remite a «P70 Archivo · P71 archivar · paquete de fuentes de un territorio»
-  (el workflow bateria-motor y su entrada archivar_p10 ya no existen: P80, D-132). Solo cambia el texto; sin run id ni parámetros técnicos (D-130).
+  (el workflow bateria-motor y su entrada archivar_p10 ya no existen: P80, D-132). Solo cambia el texto (también BATERIA_PAQUETE_P10_CORRUPTO); sin run id ni parámetros técnicos (D-130).
 CAMBIOS 1.4.2 (T-297): el recuento de candidatos cuenta el candidato exacto de Deslinde 1.1 (generador «exacto», solo con D8 y
   cuando aporta plan): esperados = 1 + N (+1 exhaustivo) (+1 exacto) (+1 vigente que compite); el exacto no es una cadena.
 CAMBIOS 1.4.1 (T-304): `entradas_uno` decide REUSE ANTES de ejecutar_fuentes_workflow (resolve_source_action sin fuente oficial disponible: o REUSE o
@@ -533,7 +533,7 @@ def entradas(args) -> int:
             try:
                 paquete = paquete_p10_desde_r2(t, out)
             except PaqueteP10Corrupto as exc:
-                print(f"::error::BATERIA_PAQUETE_P10_CORRUPTO {t}: {exc}. Vuelve a archivarlo (archivar_p10=<run de P10 de {t}>).", flush=True)
+                print(f"::error::BATERIA_PAQUETE_P10_CORRUPTO {t}: {exc}. Vuelve a archivarlo con «P70 Archivo · P71 archivar · paquete de fuentes de un territorio» ({t}).", flush=True)
                 fallos += 1
                 continue
             if paquete is None:
