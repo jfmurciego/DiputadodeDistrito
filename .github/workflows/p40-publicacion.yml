@@ -8,6 +8,7 @@
 # MOTIVO: un solo botón sin parámetros técnicos: «qué publicar» (solo el sitio | territorios), `territorios` (códigos) y `simular` (marcado por defecto).
 #   Sin run id: el código toma del registro durable la última 00 completa con la puerta 04 en verde de cada territorio (herramientas/p40_resolver.py). Siempre «Sitio completo».
 #   P40 NO exige un artefacto M06 vivo (el M06 sale del blob del registro, D-133): se quitan la comprobación de M06 vivo de la cadena y los outputs del M06 que nadie consumía.
+#   `simular` llega VACÍO por workflow_call (la 00): vacío = no simulado (solo el valor `true` simula).
 #   El M08 caducado en Actions solo avisa (el publicador lo recupera de R2, 3.16.0 del publicador).
 # ANTERIOR: ninguna (fichero nuevo); sustituye a legacy/workflows/desplegar-visor-publico_v3.6.0_20261116.yml, legacy/workflows/cadena-publicacion_v1.1.0_20261116.yml
 #   y legacy/workflows/_reutilizable-publicar-sitio_v3.17.0_20261116.yml
@@ -85,6 +86,14 @@ jobs:
             out="$(python3 herramientas/p40_resolver.py territorios --territorios "$TERRITORIOS")"
             echo "$out" | jq .
             ids="$(jq -r .production_run_ids <<<"$out")"
+            # Las 00 más recientes que la elegida y descartadas (fallidas o sin la 04 en verde) NO se saltan en silencio.
+            jq -r '.territorios[] | . as $t | $t.descartadas[] | "::warning::P40_00_DESCARTADA \($t.territory_id): 00 \(.run) (\(.motivo)); se publica la 00 \($t.run_00)"' <<<"$out"
+            {
+              echo "### P40: 00 elegida por territorio"
+              echo "| Territorio | 00 elegida | Run publicado | 00 más recientes descartadas |"
+              echo "|---|---|---|---|"
+              jq -r '.territorios[] | "| \(.territory_id) | \(.run_00) | \(.publish_run_id) | \([.descartadas[] | "\(.run): \(.motivo)"] | if length == 0 then "—" else join("; ") end) |"' <<<"$out"
+            } >> "$GITHUB_STEP_SUMMARY"
             vivo() { gh api "repos/$GITHUB_REPOSITORY/actions/runs/$1/artifacts?per_page=100" \
               --jq "[.artifacts[] | select(.expired == false and .name == \"$2\")] | length" 2>/dev/null || echo 0; }
             while IFS=$'\t' read -r pub m08; do

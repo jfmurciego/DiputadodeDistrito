@@ -12,7 +12,7 @@ ANTERIOR: ninguna (fichero nuevo)
 QUÉ HACE: `territorios --territorios aut01,nac42 [--root .]` toma, de cada territorio, la ÚLTIMA 00 completa (status SUCCESS) cuya puerta 04 está en
   verde en `territorios/<id>/evidencia/ejecuciones_completas/<run>.json` (misma validación que `resolver_cadena_publicacion.py`; si fue «Reutilizar»
   se publica el run origen de la 04). Imprime un JSON con `production_run_ids` (separados por espacios; todo o nada: un territorio sin run válido
-  rechaza el lote) y el detalle. Los errores salen por stderr (`::error::P40_…`) con rc 1; stdout solo lleva el resultado.
+  rechaza el lote) y el detalle; `descartadas` lista, por territorio, las 00 más recientes que la elegida y se saltaron (con su motivo). Los errores salen por stderr (`::error::P40_…`) con rc 1; stdout solo lleva el resultado.
   No descarga ni exige artefactos de Actions: el M06 sale del blob del registro (D-133).
 """
 from __future__ import annotations
@@ -38,11 +38,14 @@ def _candidatos(root: Path, territorio: str) -> list[str]:
 def ultima_valida(root: Path, territorio: str) -> dict:
     from resolver_cadena_publicacion import resolver
     vistos: list[str] = []
+    descartadas: list[dict] = []
     for run in _candidatos(root, territorio):
         r = resolver(root, run)
         if r["status"] == "READY":
+            r["descartadas"] = descartadas  # las 00 MÁS RECIENTES que la elegida y se saltaron (no se publican en silencio)
             return r
         vistos.append(f"{run}:{'+'.join(r['reasons'])}")
+        descartadas.append({"run": run, "motivo": "+".join(r["reasons"])})
     raise ValueError(f"P40_SIN_00_VALIDA: {territorio} no tiene ninguna 00 completa con la puerta 04 en verde"
                      + (f" (vistas: {', '.join(vistos[:3])})" if vistos else ""))
 
@@ -70,7 +73,8 @@ def territorios(root: Path, texto: str) -> dict:
     return {
         "production_run_ids": " ".join(runs),
         "territorios": [{"territory_id": t, "run_00": r["requested_run_id"], "publish_run_id": r["publish_run_id"],
-                         "m08_artifact": r["m08_artifact"]} for t, r in sorted(sel.items())],
+                         "m08_artifact": r["m08_artifact"], "descartadas": r["descartadas"]}
+                        for t, r in sorted(sel.items())],
     }
 
 

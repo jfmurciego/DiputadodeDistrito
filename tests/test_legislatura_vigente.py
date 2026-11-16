@@ -117,6 +117,11 @@ class Plan(unittest.TestCase):
         self.assertIn("| 1 | ES-NAC-22-20230723 | Congreso Huesca | PUBLICADO |", md)
 
 
+REGISTRO_VALIDO = {"status": "SUCCESS", "phases": [
+    {"name": "02 · G", "validation_decision": "VALIDADO", "phase_decision": "PASS", "run_id": 1, "artifact": "a"},
+    {"name": "04 · I", "validation_decision": "VALIDADO", "phase_decision": "PASS_WITH_EXCEPTIONS", "run_id": 1, "artifact": "b"}]}
+
+
 class Lanzar(unittest.TestCase):
     """Simula GitHub: cada dispatch de 00 crea un run que termina en el siguiente sondeo."""
 
@@ -125,6 +130,7 @@ class Lanzar(unittest.TestCase):
         self.dispatched = []
         self.n = 100
         self.clock = 0.0
+        self.registro = lambda tid, run: REGISTRO_VALIDO  # T-372: registro de la 00 en main (por defecto ya está y es válido)
 
     def fake_dispatch(self, wf, inputs):
         self.dispatched.append((wf, dict(inputs)))
@@ -151,6 +157,7 @@ class Lanzar(unittest.TestCase):
         plan = {"territorios": rows}
         with mock.patch.object(lv, "dispatch", self.fake_dispatch), \
                 mock.patch.object(lv, "list_runs", self.fake_list), \
+                mock.patch.object(lv, "registro_00", lambda tid, run: self.registro(tid, run)), \
                 mock.patch.object(lv, "_now", lambda: "2026-11-07T09:00:00Z"), \
                 mock.patch.object(lv.time, "sleep", lambda s: setattr(self, "clock", self.clock + s)), \
                 mock.patch.object(lv.time, "time", lambda: self.clock):
@@ -189,6 +196,27 @@ class Lanzar(unittest.TestCase):
         self.assertTrue(p40 and all(i == {"que_publicar": "Territorios", "territorios": i["territorios"], "simular": False} for i in p40), p40)
         self.assertNotIn("c", [i["territorios"] for i in p40])
         self.assertNotIn("C", [d[1].get("territory_id") for d in self.dispatched])
+
+    def test_p40_espera_al_registro_de_su_00_y_falla_cerrado(self):  # T-372: P40 elige la última 00 del registro de main
+        rows = [self.row("D", "publicar", "77")]
+        self.registro = lambda tid, run: None  # el registro de la 00 nunca llega a main
+        report = self.campaign(rows, test_first=False)
+        self.assertNotIn(lv.WF_05, [d[0] for d in self.dispatched])  # no se lanza P40: publicaría una 00 anterior
+        self.assertTrue(report[0]["resultado"].startswith("FALLO P40 sin lanzar"), report)
+
+    def test_p40_no_se_lanza_si_la_00_no_tiene_la_04_en_verde(self):
+        rows = [self.row("D", "publicar", "77")]
+        malo = {"status": "SUCCESS", "phases": [REGISTRO_VALIDO["phases"][0],
+                                                {"name": "04 · I", "validation_decision": "BLOQUEADO", "run_id": 1, "artifact": None}]}
+        self.registro = lambda tid, run: malo
+        report = self.campaign(rows, test_first=False)
+        self.assertNotIn(lv.WF_05, [d[0] for d in self.dispatched])
+        self.assertIn("no está completa con la 04 en verde", report[0]["resultado"])
+
+    def test_registro_valido_exige_success_y_las_dos_puertas(self):
+        self.assertTrue(lv.registro_valido(REGISTRO_VALIDO))
+        self.assertFalse(lv.registro_valido({**REGISTRO_VALIDO, "status": "FAILED"}))
+        self.assertFalse(lv.registro_valido({"status": "SUCCESS", "phases": REGISTRO_VALIDO["phases"][1:]}))  # sin 02
 
     def test_prueba_fallida_detiene_la_campana(self):
         report = self.campaign([self.row("Fallo"), self.row("B")])

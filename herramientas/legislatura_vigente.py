@@ -305,6 +305,27 @@ def dispatch(workflow: str, inputs: dict) -> None:
     _gh(*args)
 
 
+def registro_00(territory_id: str, run_id: str) -> dict | None:
+    """Registro durable de la 00 en `main` (None si aún no está; otro error de gh = GestorError)."""
+    p = subprocess.run(["gh", "api", "-H", "Accept: application/vnd.github.raw",
+                        f"repos/{_repo()}/contents/territorios/{territory_id}/evidencia/ejecuciones_completas/{run_id}.json?ref=main"],
+                       capture_output=True, text=True)
+    if p.returncode == 0:
+        return json.loads(p.stdout)
+    if "404" in p.stderr or "Not Found" in p.stderr:
+        return None
+    raise GestorError(f"gh api registro 00 {run_id}: {p.stderr.strip()}")
+
+
+def registro_valido(rec: dict) -> bool:
+    """Misma exigencia que `resolver_cadena_publicacion`: SUCCESS y puertas 02 y 04 VALIDADAS con run y artefacto."""
+    def ok(prefijo: str) -> bool:
+        f = next((x for x in rec.get("phases") or [] if isinstance(x, dict) and str(x.get("name", "")).startswith(prefijo)), {})
+        return (f.get("validation_decision") == "VALIDADO" and f.get("phase_decision") in ("PASS", "PASS_WITH_EXCEPTIONS")
+                and f.get("run_id") not in (None, "") and bool(f.get("artifact")))
+    return rec.get("status") == "SUCCESS" and ok("04") and ok("02")
+
+
 def _now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -318,6 +339,7 @@ class Territorio:
         self.row, self.algorithm, self.log = row, algorithm, log
         self.fase, self.since, self.run_id, self.resultado = "pendiente", "", row.get("run_id") or "", ""
         self.idle_since = 0.0
+        self.espera_registro = 0.0
 
     @property
     def tid(self) -> str:
@@ -352,6 +374,17 @@ class Territorio:
 
     def publish(self) -> None:
         """Una sola 05 del Gestor a la vez: la 05 no lleva el run en su nombre y se identifica por orden."""
+        # T-372: P40 elige la última 00 válida del REGISTRO de `main`; si el registro de la 00 del Gestor aún no está, publicaría una anterior.
+        # Fallo cerrado: no se lanza hasta ver en `main` el registro de esta 00 con la 04 en verde (espera ≤ 20 min); si no es válido, FALLO.
+        rec = registro_00(self.row["territory_id"], self.run_id)
+        if rec is None:
+            self.espera_registro = self.espera_registro or time.time()
+            if time.time() - self.espera_registro > 1200:
+                self._end(f"FALLO P40 sin lanzar: el registro de la 00 {self.run_id} no llegó a main")
+            return
+        if not registro_valido(rec):
+            self._end(f"FALLO P40 sin lanzar: la 00 {self.run_id} no está completa con la 04 en verde")
+            return
         self.since = _now()
         # T-372: P40 toma del registro durable la última 00 completa con la 04 en verde del territorio (ya no se pasa el run).
         dispatch(WF_05, {"que_publicar": "Territorios", "territorios": self.row["territory_id"], "simular": False})

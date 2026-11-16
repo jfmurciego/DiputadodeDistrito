@@ -231,7 +231,7 @@ class PasoResolver(Congelado):
 
     def gh_falso(self, tmp, cuerpo="echo 0"):
         b = Path(tmp) / "bin"
-        b.mkdir()
+        b.mkdir(exist_ok=True)
         (b / "gh").write_text(f"#!/bin/bash\n{cuerpo}\n")
         (b / "gh").chmod(0o755)
         return b
@@ -246,6 +246,33 @@ class PasoResolver(Congelado):
             self.assertEqual((out["production_run_id"], out["publicar"]), ("500", "true"))
             self.assertNotIn("M06", r.stdout + r.stderr)
             self.assertIn("M08_ARTEFACTO_CADUCADO=ddd-state-500-04", r.stdout)  # solo aviso
+
+    def test_00_mas_recientes_descartadas_avisan_y_van_a_la_tabla(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            registro_00(root, "aut01", "100")
+            registro_00(root, "aut01", "300", ok04=False)
+            registro_00(root, "aut01", "400", ok=False)
+            r, out = self.ejecutar(root, self.gh_falso(tmp), QUE="Territorios", TERRITORIOS="aut01", SIMULAR="true")
+            self.assertEqual(r.returncode, 0, r.stderr)
+            self.assertEqual(out["production_run_id"], "100")
+            self.assertIn("::warning::P40_00_DESCARTADA aut01: 00 400 (EJECUCION_00_NO_SUCCESS=FAILED", r.stdout)
+            self.assertIn("::warning::P40_00_DESCARTADA aut01: 00 300 (PUERTA_04_NO_VALIDADA", r.stdout)
+            tabla = (root / "sum.md").read_text()
+            self.assertIn("| aut01 | 100 | 100 |", tabla)
+            self.assertIn("400: EJECUCION_00_NO_SUCCESS=FAILED", tabla)
+            registro_00(root, "aut02", "200")
+            r, out = self.ejecutar(root, self.gh_falso(tmp), QUE="Territorios", TERRITORIOS="aut02", SIMULAR="true")
+            self.assertNotIn("DESCARTADA", r.stdout)
+            self.assertIn("| aut02 | 200 | 200 | — |", (root / "sum.md").read_text())
+
+    def test_simular_vacio_desde_workflow_call_es_no_simulado(self):
+        # La 00 llama por workflow_call sin `simular`: llega vacío y se publica (solo el valor `true` simula). Sin probar en Actions.
+        self.assertIn('publicar=true; [[ "$SIMULAR" != true ]] || publicar=false', self.txt)
+        self.assertIn("vacío = no simulado", self.txt)
+        with tempfile.TemporaryDirectory() as tmp:
+            r, out = self.ejecutar(Path(tmp), self.gh_falso(tmp), SIMULAR="", RUN_IDS="9")
+            self.assertEqual((r.returncode, out["publicar"]), (0, "true"))
 
     def test_simular_resuelve_y_no_publica(self):
         with tempfile.TemporaryDirectory() as tmp:
