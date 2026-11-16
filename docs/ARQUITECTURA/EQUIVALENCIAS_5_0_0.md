@@ -39,7 +39,7 @@ su traslado a ARC, después del corte.
 | `incorporacion-resultados-electorales.yml` | 04 Incorporación de Resultados Electorales | P40 Resultados electorales | P40 Resultados electorales |
 | `desplegar-visor-publico.yml` | 05 Publicación del Visor | P50 Publicación | P50 Publicación |
 | `cadena-publicacion.yml` | 05 Cadena de Publicación | P50 Publicación | P50 Publicación — Cadena |
-| `publicar-version-mapa.yml` | Publicar versión de mapa | P60 Publicación académica | P60 Publicación académica |
+| `p50-publicacion-academica.yml` | Publicar versión de mapa (publicar-version-mapa.yml, T-370) | P50 Publicación académica | P50 Publicación académica |
 | `p70-archivo.yml` | ARC Archivo — Poda de R2 / Recuperar producto electoral / Automático — Mantenimiento (T-368) | P70 Archivo | P70 Archivo |
 
 ## Productos

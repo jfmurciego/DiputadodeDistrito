@@ -230,9 +230,10 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
         for tecnica in ("territory_id", "source_run_id", "artifact_sha256", "source_commit", "caduca_antes", "sha256_lista"):
             self.assertNotIn(tecnica, boton)
 
-        publication = dispatch_inputs(WORKFLOWS / "publicar-version-mapa.yml")
-        self.assertEqual(publication["territory_id"]["type"], "string")
-        self.assertNotIn("options", publication["territory_id"])
+        publication = dispatch_inputs(WORKFLOWS / "p50-publicacion-academica.yml")
+        self.assertEqual(publication["territorios"]["type"], "string")
+        self.assertNotIn("options", publication["territorios"])
+        self.assertEqual(set(publication), {"territorios"})
 
 
 if __name__ == "__main__":

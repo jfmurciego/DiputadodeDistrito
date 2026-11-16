@@ -164,13 +164,13 @@ class CodautoPreparationContractTests(unittest.TestCase):
                 "generar-alternativas-territoriales.yml",
                 "gestor-campanas.yml",
                 "incorporacion-resultados-electorales.yml",
+                "p50-publicacion-academica.yml",  # T-370: P50 Publicación académica
                 "p70-archivo.yml",  # T-368: P70 Archivo (poda, recuperación, archivo diario y composición M06)
                 "p80-verificacion-motor.yml",  # T-369: P80 Verificación del motor
                 "preparacion-fuentes.yml",
                 "preparacion-legislatura-vigente.yml",
                 "preparacion-resultados-electorales.yml",
                 "produccion-distritos.yml",
-                "publicar-version-mapa.yml",
             ],
         )
 

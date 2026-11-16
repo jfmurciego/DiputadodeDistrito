@@ -54,17 +54,14 @@ class CadenaPublicacionWorkflowTests(unittest.TestCase):
     def test_simulacion_por_defecto_y_publicar_solo_con_modo_explicito(self):
         inputs = self.wf[True]["workflow_dispatch"]["inputs"]
         self.assertEqual(inputs["modo"]["default"], "simulacion")
-        for job in ("visor", "version_mapa"):
-            self.assertIn("needs.resolver.outputs.publicar == 'true'", self.wf["jobs"][job]["if"])
+        self.assertIn("needs.resolver.outputs.publicar == 'true'", self.wf["jobs"]["visor"]["if"])
+        self.assertNotIn("version", inputs)  # T-370: la versión del mapa va en P50 Publicación académica
 
-    def test_visor_y_mapa_reciben_el_mismo_run_y_el_mismo_sha(self):
+    def test_la_cadena_solo_lanza_el_visor_con_el_mismo_run_y_sha(self):
         visor = self.wf["jobs"]["visor"]
-        mapa = self.wf["jobs"]["version_mapa"]
+        self.assertEqual(set(self.wf["jobs"]), {"resolver", "visor"})  # T-370: sin job version_mapa
         self.assertEqual(visor["uses"], "./.github/workflows/desplegar-visor-publico.yml")
-        self.assertEqual(mapa["uses"], "./.github/workflows/publicar-version-mapa.yml")
         self.assertEqual(visor["with"]["production_run_id"], "${{ needs.resolver.outputs.publish_run_id }}")
-        self.assertEqual(mapa["with"]["production_run_id"], "${{ needs.resolver.outputs.publish_run_id }}")
-        self.assertEqual(visor["with"]["source_sha"], mapa["with"]["source_sha"])
         self.assertEqual(visor["with"]["source_sha"], "${{ needs.resolver.outputs.source_sha }}")
 
 

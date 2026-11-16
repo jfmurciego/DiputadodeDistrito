@@ -1,0 +1,167 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.0.0
+# FECHA: 2026-11-16
+# ESTADO: candidato
+# CAMBIOS: T-370 (D-133, migración paso 4): fichero nuevo; sustituye a publicar-version-mapa.yml 1.1.2 («P60 Publicación académica»).
+# MOTIVO: un solo botón sin parámetros técnicos: territorios (códigos o «todos» = los publicados). El M06 sale del visor
+#   (blob de orchestracion/publicaciones_visor.json con su sha256, no un artefacto de Actions). Versión automática (D-88/D-94).
+# ANTERIOR: ninguna (fichero nuevo); sustituye a legacy/workflows/publicar-version-mapa_v1.1.2_20261116.yml
+# Publica mapas como versión inmutable: manifiesto SHA-256, atestación SLSA firmada con Sigstore y GitHub Release.
+# Una Release por lote, `mapas-v<versión>`, con todos los territorios elegidos; la integración Zenodo–GitHub la archiva
+# y le asigna un DOI (uno por versión de la serie). Versión: 1.0.0 la primera; sube la menor si cambia el mapa; se NIEGA si no cambia.
+# El entorno `publicacion`, la atestación y el empaquetado determinista son los de la versión anterior.
+name: P50 Publicación académica
+
+on:
+  workflow_dispatch:
+    inputs:
+      territorios:
+        description: "Códigos separados por comas (p. ej. aut01,nac42) o todos (los publicados en el visor)"
+        required: true
+        default: todos
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ddd-p50-publicacion-academica
+  cancel-in-progress: false
+  queue: max
+
+jobs:
+  resolver:
+    name: Resolver territorios y versión
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      version: ${{ steps.r.outputs.version }}
+      tag: ${{ steps.r.outputs.tag }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - id: r
+        name: Resolver
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TERRITORIOS: ${{ inputs.territorios }}
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/releases" --paginate --jq '.[].tag_name' > tags.txt
+          ult="$(python3 herramientas/p50_resolver.py ultima --tags tags.txt)"
+          previo=""
+          if [[ -n "$ult" ]]; then
+            id="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$ult" --jq '[.assets[] | select(.name=="MAPAS.json")][0].id // empty')"
+            if [[ -n "$id" ]]; then
+              gh api "repos/$GITHUB_REPOSITORY/releases/assets/$id" -H "Accept: application/octet-stream" > MAPAS_previo.json
+              previo=MAPAS_previo.json
+            fi
+          fi
+          python3 herramientas/p50_resolver.py plan --territorios "$TERRITORIOS" --tags tags.txt --previo "$previo" > plan.json
+          jq . plan.json
+          echo "version=$(jq -r .version plan.json)" >> "$GITHUB_OUTPUT"
+          echo "tag=$(jq -r .tag plan.json)" >> "$GITHUB_OUTPUT"
+          {
+            echo "### P50 Publicación académica"
+            echo "- Versión: $(jq -r .version plan.json) · Release: $(jq -r .tag plan.json)"
+            echo "- Territorios: $(jq -r '[.territorios[].territory_id] | join(", ")' plan.json)"
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: p50-plan
+          path: plan.json
+
+  publicar:
+    needs: resolver
+    runs-on: ubuntu-latest
+    environment: publicacion          # entorno de la versión anterior, sin cambios
+    permissions:
+      contents: write                 # crear la Release
+      actions: read                   # descargar el plan del resolutor
+      id-token: write                 # OIDC para Sigstore
+      attestations: write             # registrar la atestación
+    env:
+      V: ${{ needs.resolver.outputs.version }}
+      TAG: ${{ needs.resolver.outputs.tag }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: p50-plan
+          github-token: ${{ github.token }}
+
+      - name: Descargar M06 del visor (sha256 verificado)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          while IFS=$'\t' read -r T RUN BLOB SHA; do
+            python3 herramientas/p50_resolver.py blob --repo "$GITHUB_REPOSITORY" --blob-sha "$BLOB" --sha256 "$SHA" \
+              --salida "paquetes/$T/productos/${T}_m06_${RUN}.zip"
+          done < <(jq -r '.territorios[] | [.territory_id, .run_id, .blob_sha, .sha256] | @tsv' plan.json)
+
+      - name: Añadir contexto de linaje
+        run: |
+          set -euo pipefail
+          export SRC_SHA="$(git rev-parse HEAD)"
+          while IFS=$'\t' read -r T RUN BLOB SHA; do
+            test -d "territorios/$T" || { echo "::error::Territorio desconocido: $T"; exit 1; }
+            mkdir -p "paquetes/$T/contexto"
+            cp -r "territorios/$T/config" "paquetes/$T/contexto/config"
+            cp configuracion/controles_obligatorios.yaml "paquetes/$T/contexto/"
+            cp CITATION.cff "paquetes/$T/"
+            T="$T" RUN="$RUN" BLOB="$BLOB" SHA="$SHA" python3 - <<PY
+          import json, os, datetime
+          t = os.environ["T"]
+          json.dump({
+            "schema": "ddd.version-mapa/1.0",
+            "territory_id": t,
+            "version": os.environ["V"],
+            "source_run_id": os.environ["RUN"],
+            "production_run_id": None,
+            "source_commit": os.environ["SRC_SHA"],
+            "m06_blob_sha": os.environ["BLOB"],
+            "m06_sha256": os.environ["SHA"],
+            "published_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            "oficial": False,
+          }, open(f"paquetes/{t}/LINAJE.json", "w"), ensure_ascii=False, indent=2)
+          PY
+          done < <(jq -r '.territorios[] | [.territory_id, .run_id, .blob_sha, .sha256] | @tsv' plan.json)
+
+      - name: Manifiesto SHA-256
+        run: |
+          set -euo pipefail
+          for d in paquetes/*/; do
+            (cd "$d" && find . -type f ! -name SHA256SUMS -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS && cat SHA256SUMS)
+          done
+
+      - name: Empaquetar de forma determinista
+        run: |
+          set -euo pipefail
+          mkdir -p salida
+          for d in paquetes/*/; do
+            T="$(basename "$d")"
+            out="salida/ddd-${T}-v${V}.tar.gz"
+            tar --sort=name --mtime='1980-01-01 00:00Z' --owner=0 --group=0 --numeric-owner \
+                -czf "$out" -C "paquetes/$T" .
+          done
+          (cd salida && sha256sum ddd-*-v*.tar.gz > SHA256SUMS)
+          cp plan.json salida/PLAN.json
+          jq '.mapa' plan.json > salida/MAPAS.json
+
+      - name: Atestación de procedencia (SLSA, Sigstore)
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: salida/ddd-*-v*.tar.gz
+
+      - name: Crear Release (Zenodo la archiva y asigna DOI)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          sha="$(git rev-parse HEAD)"
+          gh release create "$TAG" salida/ddd-*-v*.tar.gz salida/SHA256SUMS salida/MAPAS.json --target "$sha" \
+            --title "Mapas v${V}" \
+            --notes "Mapas v${V} ($(jq -r '.territorios | length' plan.json) territorios) sobre el commit ${sha}. Verificar con: gh attestation verify <paquete>.tar.gz --repo ${GITHUB_REPOSITORY}. Mapas de investigación sin valor oficial."
