@@ -60,10 +60,10 @@
   }
  },
  "resumen": {
-  "territorios": 83,
-  "productos": 559,
+  "territorios": 95,
+  "productos": 583,
   "errores": 0,
-  "avisos": 247
+  "avisos": 259
  },
  "territorios": {
   "andalucia": {
@@ -1037,6 +1037,390 @@
     }
    ]
   },
+  "aut14": {
+   "fuente_territorial": {
+    "run_id": "43747068843",
+    "package_sha256": "d2b63491275a270210ee326443d3ce9d7223ab3a6155a2d58e58ffc7b67e3046",
+    "artifact_sha256": "9a90eb1b8ce385c736dba65d07cd17263885a00cbaa6434015352c18b170a433",
+    "territorial_identity_sha256": "d4b95774189be423a25f70f32e3ab491dfeae81a96704b393afa1419b109bfe3",
+    "receipt_path": "territorios/aut14/evidencia/fuentes_territoriales/2025/d4b95774189be423a25f70f32e3ab491dfeae81a96704b393afa1419b109bfe3/43747068843/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023
+   },
+   "fuente_electoral": {
+    "receipt_path": "territorios/aut14/evidencia/fuentes_electorales/2025/c52f86091c47dac058dfe5e665fe5143ab1f4c38691bc1a4878272cd3601358d/43752454884/receipt.json",
+    "identity_sha256": "c52f86091c47dac058dfe5e665fe5143ab1f4c38691bc1a4878272cd3601358d"
+   },
+   "doi": null,
+   "productos": [
+    {
+     "producto": "M06",
+     "id": "m06-aut14-43752744562",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43752744562",
+     "vigente": true,
+     "sha256": "6da7a8ad810cd6f0828783d06bb777fa352b8c646c42e8aca90ae9163fdec0e3",
+     "copia_git": {
+      "blob_sha": "62969cb9042af031f92b3d93833405c6767f0e55",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-aut14-43752744562",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43752744562",
+     "vigente": true,
+     "sha256": "86126ae46f69aeed496f79f82341e68d30cea266de999a2b16c1130bd42a19d4",
+     "copia_git": {
+      "blob_sha": "c0fdfb2f6ca7e5a696418b65ae73cee7137a3d00",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "resultados",
+     "id": "resultados-aut14",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43752744562",
+     "vigente": true,
+     "sha256": "9b0d88440f95f00c8379f3b3e49b1b44242722eef7b3dbc57129c68a5e2f292e",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/resultados/aut14.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "86126ae46f69aeed496f79f82341e68d30cea266de999a2b16c1130bd42a19d4"
+    }
+   ]
+  },
+  "aut15": {
+   "fuente_territorial": {
+    "run_id": "43747078883",
+    "package_sha256": "f2727d9ece68f5bf7904718f918c3a4cabe0eff9dde2040fbea9dba343725a92",
+    "artifact_sha256": "ea178fea08564203e5fcb0d58befa0d10a90dadf8223eecda1090f73c9db455d",
+    "territorial_identity_sha256": "403ba02207370216c69e84eb8ecb1ef8b9599a18562b17d2e4f9dcb38526863e",
+    "receipt_path": "territorios/aut15/evidencia/fuentes_territoriales/2025/403ba02207370216c69e84eb8ecb1ef8b9599a18562b17d2e4f9dcb38526863e/43747078883/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023
+   },
+   "fuente_electoral": {
+    "receipt_path": "territorios/aut15/evidencia/fuentes_electorales/2025/b0ded67fd94bf85cdef3d976532bb0d5bf568f87d74037b993dd4546a27fa610/43752986224/receipt.json",
+    "identity_sha256": "b0ded67fd94bf85cdef3d976532bb0d5bf568f87d74037b993dd4546a27fa610"
+   },
+   "doi": null,
+   "productos": [
+    {
+     "producto": "M06",
+     "id": "m06-aut15-43753347645",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43753347645",
+     "vigente": true,
+     "sha256": "4b3432536c633a4b3d6d2b94149847330b0c2d1f9afcc69f48aaeb8c1ceaf9c2",
+     "copia_git": {
+      "blob_sha": "a4ba2ac05a70171b20080dfbb07888bf1b594059",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-aut15-43753347645",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43753347645",
+     "vigente": true,
+     "sha256": "e537b75acfcfa8588518d8cac88911d5a7caa28381e2d3de8eca156bf34120cc",
+     "copia_git": {
+      "blob_sha": "177ec32d5c031c462f545a6487989507b1935dab",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "resultados",
+     "id": "resultados-aut15",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43753347645",
+     "vigente": true,
+     "sha256": "b71fb269e4a0feb6a55b58f13299043986903ebc6d698ac096f1ccb676790644",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/resultados/aut15.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "e537b75acfcfa8588518d8cac88911d5a7caa28381e2d3de8eca156bf34120cc"
+    }
+   ]
+  },
+  "aut16": {
+   "fuente_territorial": {
+    "run_id": "43747089801",
+    "package_sha256": "8d487ba8cc73c393a03638b3bb908772d1d427692eb674d82e5480642fe8b228",
+    "artifact_sha256": "2a82c96399054be8fb2553e0ab19d5bfad24855904eb23c2ea2cd0945860f49b",
+    "territorial_identity_sha256": "02bb7e6fcc210b403cd60eed8eb73dbbcf90e14c051b796bd99fc7872e5aa922",
+    "receipt_path": "territorios/aut16/evidencia/fuentes_territoriales/2025/02bb7e6fcc210b403cd60eed8eb73dbbcf90e14c051b796bd99fc7872e5aa922/43747089801/receipt.json",
+    "population_year": 2024,
+    "section_year": 2024
+   },
+   "fuente_electoral": {
+    "receipt_path": "territorios/aut16/evidencia/fuentes_electorales/2025/832897e0caeadcac133c221a4b07b2d41c90b75f9f72ef151f2f39b0c9c9aae5/43751710017/receipt.json",
+    "identity_sha256": "832897e0caeadcac133c221a4b07b2d41c90b75f9f72ef151f2f39b0c9c9aae5"
+   },
+   "doi": null,
+   "productos": [
+    {
+     "producto": "M06",
+     "id": "m06-aut16-43752121775",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43752121775",
+     "vigente": true,
+     "sha256": "7e9b0fbc4b8ef3ad4dd4a24d139fec359cc468f242394ca238008e63eaabd4e6",
+     "copia_git": {
+      "blob_sha": "329b92c479fdb0ddd1cd959032e817619881e5d5",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-aut16-43752121775",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43752121775",
+     "vigente": true,
+     "sha256": "5dc7063af3bc1d03c031e2a361b3abdad1d81397e8ccdccf1abe527fa5306486",
+     "copia_git": {
+      "blob_sha": "4d0fa4fa1b0e5526ec6dd418e96499709dc5476a",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "resultados",
+     "id": "resultados-aut16",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43752121775",
+     "vigente": true,
+     "sha256": "731eec4d6e65d7332241200c407e1d34dd4835fe90e9d85852e21daf73ea1c70",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/resultados/aut16.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "5dc7063af3bc1d03c031e2a361b3abdad1d81397e8ccdccf1abe527fa5306486"
+    }
+   ]
+  },
+  "aut17": {
+   "fuente_territorial": {
+    "run_id": "43749332670",
+    "package_sha256": "5097f01bd80e2af393d36e52cfd60716b4cf7984154e4326be38777c84102f62",
+    "artifact_sha256": "e5f79554fca47187001f86a99c6cba31891dce8fad7fc1f71bbad4267e86c557",
+    "territorial_identity_sha256": "1f4fde781f7fb32c2188c4dc94c4637095aee1e59b3374c51069b29c9dd1e1ff",
+    "receipt_path": "territorios/aut17/evidencia/fuentes_territoriales/2025/1f4fde781f7fb32c2188c4dc94c4637095aee1e59b3374c51069b29c9dd1e1ff/43749332670/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023
+   },
+   "fuente_electoral": {
+    "receipt_path": "territorios/aut17/evidencia/fuentes_electorales/2025/14215b63a2735c725d740a4cb5c6afc13e7caafd83f1b2076a1489bdbe86cb63/43753555684/receipt.json",
+    "identity_sha256": "14215b63a2735c725d740a4cb5c6afc13e7caafd83f1b2076a1489bdbe86cb63"
+   },
+   "doi": null,
+   "productos": [
+    {
+     "producto": "M06",
+     "id": "m06-aut17-43754082828",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43754082828",
+     "vigente": true,
+     "sha256": "939157f5fe6088cf298adccf6caef4aa672b111ad03785bf1d5a9f0d813ffd6c",
+     "copia_git": {
+      "blob_sha": "6dd97984c0056af71703c59f44038147a01ffe7e",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-aut17-43754082828",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43754082828",
+     "vigente": true,
+     "sha256": "b7c0d978cfa562a718bd867e476cc34ad55d10bd054518e686ef17babb73fadf",
+     "copia_git": {
+      "blob_sha": "3db9bd87755d60c32d0aca25a03229534b537737",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "resultados",
+     "id": "resultados-aut17",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43754082828",
+     "vigente": true,
+     "sha256": "78ba85ef2e571c1d71d71e70e2b23551f6ff33621f399007d2b916af536701b8",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/resultados/aut17.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "b7c0d978cfa562a718bd867e476cc34ad55d10bd054518e686ef17babb73fadf"
+    }
+   ]
+  },
+  "aut18": {
+   "fuente_territorial": {
+    "run_id": "43749637927",
+    "package_sha256": "b6d7e221ee86d4760236bf3a901c8f33372bb2fd9c27883ebba980d01eb9d128",
+    "artifact_sha256": "1b9b5e475a37227c4a5c9c6df7d892c61bcfb64bf23401089c0cf216bd961822",
+    "territorial_identity_sha256": "2cdeea2b02fe2bd6d328393f3c9ab25f8f996c90f73d0e583fd5f9c6a02e60ab",
+    "receipt_path": "territorios/aut18/evidencia/fuentes_territoriales/2025/2cdeea2b02fe2bd6d328393f3c9ab25f8f996c90f73d0e583fd5f9c6a02e60ab/43749637927/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023
+   },
+   "fuente_electoral": {
+    "receipt_path": "territorios/aut18/evidencia/fuentes_electorales/2025/e5f75042af2d0d9e2b2fc187020ad91f0561e4c6c5d864736a09b9b149c06254/43754815487/receipt.json",
+    "identity_sha256": "e5f75042af2d0d9e2b2fc187020ad91f0561e4c6c5d864736a09b9b149c06254"
+   },
+   "doi": null,
+   "productos": [
+    {
+     "producto": "M06",
+     "id": "m06-aut18-43755466122",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43755466122",
+     "vigente": true,
+     "sha256": "2cda281878cd963e871cd05e12eeabd632de10cb8fecb4cdda26a151440fbdfa",
+     "copia_git": {
+      "blob_sha": "2fdfa9f7d203240b412aad32e50b9949a0f95b42",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-aut18-43755466122",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43755466122",
+     "vigente": true,
+     "sha256": "55897fb495e3311ca441805f0dcd26a9ea152bc95985f40511865e063c2dee91",
+     "copia_git": {
+      "blob_sha": "0716e68c0d93571cf9d3f2e3cca28fa38198103c",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "resultados",
+     "id": "resultados-aut18",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43755466122",
+     "vigente": true,
+     "sha256": "032029f787958c5004db7d830ad6646b29b6cac17c3e12f1f60c1f1264b2a49b",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/resultados/aut18.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "55897fb495e3311ca441805f0dcd26a9ea152bc95985f40511865e063c2dee91"
+    }
+   ]
+  },
+  "aut19": {
+   "fuente_territorial": {
+    "run_id": "43750065634",
+    "package_sha256": "19d4a84f562a9db9fad5d41e68603ab5269609e280f83d1d5a23d231181d1d61",
+    "artifact_sha256": "3d1100768f781af25db7101df9a837cb42b55c96a99471f82e4bc92b0b4d2e66",
+    "territorial_identity_sha256": "080b9483c3c7dcfb0a5e78d600c1c7e83d3329c1273662274e1d6d1bbe31471b",
+    "receipt_path": "territorios/aut19/evidencia/fuentes_territoriales/2025/080b9483c3c7dcfb0a5e78d600c1c7e83d3329c1273662274e1d6d1bbe31471b/43750065634/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023
+   },
+   "fuente_electoral": {
+    "receipt_path": "territorios/aut19/evidencia/fuentes_electorales/2025/d7ed9810d900c5f6130df8d8261e4011b22bca439e487a7bdbbd4d18a96df005/43755195449/receipt.json",
+    "identity_sha256": "d7ed9810d900c5f6130df8d8261e4011b22bca439e487a7bdbbd4d18a96df005"
+   },
+   "doi": null,
+   "productos": [
+    {
+     "producto": "M06",
+     "id": "m06-aut19-43755885850",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43755885850",
+     "vigente": true,
+     "sha256": "2dc91f69a2a85cb9d696b06d30cc49a1bc9bb11fc721e90f6aa1ac2118e8b571",
+     "copia_git": {
+      "blob_sha": "aa0a26983cac9a4bc440a1465b0cb561b1d251a3",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-aut19-43755885850",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43755885850",
+     "vigente": true,
+     "sha256": "9407dea1c7a36e1d88f799dd71f0e678b49bc44b1f6844920a2cb3424f6d30f7",
+     "copia_git": {
+      "blob_sha": "3c1dde9da0e541ffd195aceb2658e65588586cb4",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "resultados",
+     "id": "resultados-aut19",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43755885850",
+     "vigente": true,
+     "sha256": "4701421bb8851ead100eccc24a1c6c702a4ec9ea8d1a1e9227028b43a4713266",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/resultados/aut19.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "9407dea1c7a36e1d88f799dd71f0e678b49bc44b1f6844920a2cb3424f6d30f7"
+    }
+   ]
+  },
   "canarias": {
    "fuente_territorial": {
     "run_id": "43728972913",
@@ -1777,22 +2161,6 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
-    },
-    {
-     "producto": "resultados",
-     "id": "resultados-ceuta",
-     "eleccion": "2023-07-23",
-     "eleccion_declarada": false,
-     "run_id": "43052923691",
-     "vigente": true,
-     "sha256": "032029f787958c5004db7d830ad6646b29b6cac17c3e12f1f60c1f1264b2a49b",
-     "copia_git": {
-      "blob_sha": null,
-      "ruta": "datos/resultados/ceuta.csv"
-     },
-     "copias_r2": [],
-     "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "746fa652f2fc024a012d2122a55941f2d9c8d8f1243c1fb95fd3a13db966073a"
     }
    ]
   },
@@ -1922,22 +2290,6 @@
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
      "origen_sha256": "dab6ea00ad906133f145948839ef7c1a4f79c49795715a3ff95e6aff00b84c89"
-    },
-    {
-     "producto": "resultados",
-     "id": "resultados-comunidad_foral_de_navarra",
-     "eleccion": "2023-07-23",
-     "eleccion_declarada": false,
-     "run_id": "43052874017",
-     "vigente": true,
-     "sha256": "65b1e70756b1b3628e76bb498b9083a9a891fbf45e62907283c87326e3b19285",
-     "copia_git": {
-      "blob_sha": null,
-      "ruta": "datos/resultados/comunidad_foral_de_navarra.csv"
-     },
-     "copias_r2": [],
-     "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "73d0dc9afa3f3c3735de968926a63464055f602edcf636c70650c6cdaae3a8c0"
     }
    ]
   },
@@ -2161,38 +2513,6 @@
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
      "origen_sha256": "44bd4d794d2ef99f0bf924bb0b43df29956e758c59310c434190babe1a50ed41"
-    },
-    {
-     "producto": "datos_abiertos",
-     "id": "datos-abiertos-congreso_alava",
-     "eleccion": "2023-07-23",
-     "eleccion_declarada": false,
-     "run_id": "42983088643",
-     "vigente": true,
-     "sha256": "d7dfd66e25845e240429aa9e69b760257a837a9fdc1a039a490090d17ae25cd6",
-     "copia_git": {
-      "blob_sha": "306e070a364e5e38e7f5fb04bf40d5d0a515a70e",
-      "ruta": "datos_abiertos/congreso_alava/distritos.geojson"
-     },
-     "copias_r2": [],
-     "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "56da2c371dd0fec78a44ebf49d62af70d27e2b7a4aef9d1a8015bdce8b0dc9c9"
-    },
-    {
-     "producto": "resultados",
-     "id": "resultados-congreso_alava",
-     "eleccion": "2023-07-23",
-     "eleccion_declarada": false,
-     "run_id": "42983088643",
-     "vigente": true,
-     "sha256": "9092a5f63aaaa4ad4f8b5100af11bb4c54ab9238b68368ac761b4a38f0e11ca1",
-     "copia_git": {
-      "blob_sha": null,
-      "ruta": "datos/resultados/congreso_alava.csv"
-     },
-     "copias_r2": [],
-     "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "d850c12672e7a751b4728e5431a6297e7ce039f67ff030aad6e15238eb31a09d"
     }
    ]
   },
@@ -2317,38 +2637,6 @@
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
      "origen_sha256": "e9506b80a511cc8c4d0e56be2bc842420edd4ee38610ae301a16a2f119b15f06"
-    },
-    {
-     "producto": "datos_abiertos",
-     "id": "datos-abiertos-congreso_albacete",
-     "eleccion": "2023-07-23",
-     "eleccion_declarada": false,
-     "run_id": "42952791883",
-     "vigente": true,
-     "sha256": "8d2f13fa5609738aa711313eb37d605b7e28f6f5d769baf901477546c4dd86da",
-     "copia_git": {
-      "blob_sha": "e9cd8ab60ff8b02db836f7a04468ab65da1d1f5e",
-      "ruta": "datos_abiertos/congreso_albacete/distritos.geojson"
-     },
-     "copias_r2": [],
-     "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "ff83d22f1824ecf6fae310bcfb60e9b1fae8973a2257f53a3c0cfcffcd351597"
-    },
-    {
-     "producto": "resultados",
-     "id": "resultados-congreso_albacete",
-     "eleccion": "2023-07-23",
-     "eleccion_declarada": false,
-     "run_id": "42952791883",
-     "vigente": true,
-     "sha256": "d921a10ffe44327bf3c553e0bc42bfd7952322ecaef4efed18edef68f76f204f",
-     "copia_git": {
-      "blob_sha": null,
-      "ruta": "datos/resultados/congreso_albacete.csv"
-     },
-     "copias_r2": [],
-     "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "c25816b35e4f582a178d6502db02c9b847900a8179c959ad0bcced5b62810e41"
     }
    ]
   },
@@ -2443,38 +2731,6 @@
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
      "origen_sha256": "36416fd503d223fed8be1ebbe58731df80f3288e35514cb745eb6c6a06e1d443"
-    },
-    {
-     "producto": "datos_abiertos",
-     "id": "datos-abiertos-congreso_alicante",
-     "eleccion": "2023-07-23",
-     "eleccion_declarada": false,
-     "run_id": "42940331557",
-     "vigente": true,
-     "sha256": "1acce9d01ed98bf41d8fcf34806dfe4406d34998b688da87b79e22bcb32adf67",
-     "copia_git": {
-      "blob_sha": "565f756cc0765ca6c69c750184fe0c170608129b",
-      "ruta": "datos_abiertos/congreso_alicante/distritos.geojson"
-     },
-     "copias_r2": [],
-     "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "7d73070429f0e9c2731f6b0a07e6a8205e103de8d0720010958337cf55728ad7"
-    },
-    {
-     "producto": "resultados",
-     "id": "resultados-congreso_alicante",
-     "eleccion": "2023-07-23",
-     "eleccion_declarada": false,
-     "run_id": "42953235024",
-     "vigente": true,
-     "sha256": "ee7d4ab5bb3cad5dc84cee22235d89e8bd4ae5db84266e5f701b9a41c5d17047",
-     "copia_git": {
-      "blob_sha": null,
-      "ruta": "datos/resultados/congreso_alicante.csv"
-     },
-     "copias_r2": [],
-     "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "b74f68cddf7a42c8490dd2422c2b6821665f4bcfb039f4e90b7834c912c3e03b"
     }
    ]
   },
@@ -2599,38 +2855,6 @@
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
      "origen_sha256": "869fba8930ef436c53658fedf8d86a0da1068c941feac94652ef4e5155cffcde"
-    },
-    {
-     "producto": "datos_abiertos",
-     "id": "datos-abiertos-congreso_almeria",
-     "eleccion": "2023-07-23",
-     "eleccion_declarada": false,
-     "run_id": "42940336572",
-     "vigente": true,
-     "sha256": "e6c51232f42b00aab518a590a0e44b2b5461131f098a88ed6c7eedf2c5fcc362",
-     "copia_git": {
-      "blob_sha": "3ea15ba6944378bd353b4ff245c0018dc158da99",
-      "ruta": "datos_abiertos/congreso_almeria/distritos.geojson"
-     },
-     "copias_r2": [],
-     "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "a020cb1aaa8815f186485112ccb095249f46359d27ead3791939c57dfcba73a0"
-    },
-    {
-     "producto": "resultados",
-     "id": "resultados-congreso_almeria",
-     "eleccion": "2023-07-23",
-     "eleccion_declarada": false,
-     "run_id": "42952468083",
-     "vigente": true,
-     "sha256": "2436105a9fd0521109691c0f7cbf12ca7c61008acca911d8a56446420f97bd5d",
-     "copia_git": {
-      "blob_sha": null,
-      "ruta": "datos/resultados/congreso_almeria.csv"
-     },
-     "copias_r2": [],
-     "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "67a368c7e36007a8cfebf718c8dd280eeb0272e974551b239a17553bd56d3d97"
     }
    ]
   },
@@ -2851,38 +3075,6 @@
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
      "origen_sha256": "1dbc9e4be04d22053d7d09cad006f9fbc57ca10874b499ebc5e18ecff1fdde86"
-    },
-    {
-     "producto": "datos_abiertos",
-     "id": "datos-abiertos-congreso_avila",
-     "eleccion": "2023-07-23",
-     "eleccion_declarada": false,
-     "run_id": "42940341213",
-     "vigente": true,
-     "sha256": "c173adc9899e2e6af3533d8711cc1e0991d5723fff5dc0058ef2473f29b0defe",
-     "copia_git": {
-      "blob_sha": "fe0746bf3dc404decc09d3d87271b0582ce5c888",
-      "ruta": "datos_abiertos/congreso_avila/distritos.geojson"
-     },
-     "copias_r2": [],
-     "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "c001e41743878c5e99bbcb4e772657f664c6e49633c5a9d8bd609daaf7503b73"
-    },
-    {
-     "producto": "resultados",
-     "id": "resultados-congreso_avila",
-     "eleccion": "2023-07-23",
-     "eleccion_declarada": false,
-     "run_id": "42948760863",
-     "vigente": true,
-     "sha256": "ffafaa3c13379f0ee25a2f476e8a9ec13f0d28a794492ac842c9404614af949e",
-     "copia_git": {
-      "blob_sha": null,
-      "ruta": "datos/resultados/congreso_avila.csv"
-     },
-     "copias_r2": [],
-     "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "2fd11b04aa89795809b11d79dabd93eee97c32a88ad87e258ba23b87ca5c49e7"
     }
    ]
   },
@@ -3007,38 +3199,6 @@
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
      "origen_sha256": "a5aa31223a5ffc5c3a256160fb3d10986f09928fe0e8f696d735b76d26839c2f"
-    },
-    {
-     "producto": "datos_abiertos",
-     "id": "datos-abiertos-congreso_badajoz",
-     "eleccion": "2023-07-23",
-     "eleccion_declarada": false,
-     "run_id": "42940345930",
-     "vigente": true,
-     "sha256": "63b14cfe88388df56948ca2b36f28cca9860d03c6e788a68bc83dfbf93358de6",
-     "copia_git": {
-      "blob_sha": "d407eaebe825605eda69123215a1b1682c390dc2",
-      "ruta": "datos_abiertos/congreso_badajoz/distritos.geojson"
-     },
-     "copias_r2": [],
-     "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "6a5f71818f7589e0f749529c3e8bc20b3fb48cd502082502531685c71ca19bab"
-    },
-    {
-     "producto": "resultados",
-     "id": "resultados-congreso_badajoz",
-     "eleccion": "2023-07-23",
-     "eleccion_declarada": false,
-     "run_id": "42949289470",
-     "vigente": true,
-     "sha256": "666f272dbad94e2bd525e649bec48587e87f3b428a99983415f1177dd7128549",
-     "copia_git": {
-      "blob_sha": null,
-      "ruta": "datos/resultados/congreso_badajoz.csv"
-     },
-     "copias_r2": [],
-     "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "5f010bbc7e6b42d8b5cbac37c26df4bb1cb3043871222124ed542e551a2a90b9"
     }
    ]
   },
@@ -9469,22 +9629,6 @@
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
      "origen_sha256": "10e672487c837fa47d09f9d2345dfcc685fdde122e8da0d59d796808bda85f7b"
-    },
-    {
-     "producto": "resultados",
-     "id": "resultados-la_rioja",
-     "eleccion": "2023-07-23",
-     "eleccion_declarada": false,
-     "run_id": "43007066596",
-     "vigente": true,
-     "sha256": "9cbe8b178f62ab87499354cade92cef5e31b9f80bfb88b97929d3941a545f1d7",
-     "copia_git": {
-      "blob_sha": null,
-      "ruta": "datos/resultados/la_rioja.csv"
-     },
-     "copias_r2": [],
-     "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "551837610769aff28db91e068bfd1b5c527c67ad03ebaf47274a3e97ecc1103b"
     }
    ]
   },
@@ -9708,22 +9852,486 @@
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
      "origen_sha256": "0d3e73ea260199fa43bae7c6be94d03fd8a9118fdb91d60b487bc4e11cdd50a9"
-    },
+    }
+   ]
+  },
+  "nac01": {
+   "fuente_territorial": {
+    "run_id": "43750441261",
+    "package_sha256": "790631ca0fff88f16e05262ff511a9032782a0f18b98b8c036bae1a5e1391ba2",
+    "artifact_sha256": "ea3fc9ac4ebe954acabec829dd506a1d482d28d85f60c70926812cc6dd4053d8",
+    "territorial_identity_sha256": "c912f35813c1976ee85ad69b46150046dd9a884f6a42eb28327f379b546be133",
+    "receipt_path": "territorios/nac01/evidencia/fuentes_territoriales/2025/c912f35813c1976ee85ad69b46150046dd9a884f6a42eb28327f379b546be133/43750441261/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023
+   },
+   "fuente_electoral": {
+    "receipt_path": "territorios/nac01/evidencia/fuentes_electorales/2025/a61086175809b61e150dc58213a24f77ebac68fdb3eb7dbcfc2247f6392dd820/43755542238/receipt.json",
+    "identity_sha256": "a61086175809b61e150dc58213a24f77ebac68fdb3eb7dbcfc2247f6392dd820"
+   },
+   "doi": null,
+   "productos": [
     {
-     "producto": "resultados",
-     "id": "resultados-melilla",
+     "producto": "M06",
+     "id": "m06-nac01-43756171657",
      "eleccion": "2023-07-23",
      "eleccion_declarada": false,
-     "run_id": "43051007542",
+     "run_id": "43756171657",
      "vigente": true,
-     "sha256": "4701421bb8851ead100eccc24a1c6c702a4ec9ea8d1a1e9227028b43a4713266",
+     "sha256": "913e0fb71e3b88b56b0557c9cc0cf2ae11e48eb5bcb8772b46483e4f0696e574",
      "copia_git": {
-      "blob_sha": null,
-      "ruta": "datos/resultados/melilla.csv"
+      "blob_sha": "32dd890a57f54e2aff99836bd358b8c284ad228b",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-nac01-43756171657",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43756171657",
+     "vigente": true,
+     "sha256": "767c8ad41d8bef5cd11b5eb8c2ec7344b75b41a103bd0915929b6e546ab9b9a3",
+     "copia_git": {
+      "blob_sha": "4d22c137258b89846a72efe7b61654020f451fcd",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "datos_abiertos",
+     "id": "datos-abiertos-nac01",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43756171657",
+     "vigente": true,
+     "sha256": "7795bc99e0a10e39a9c6894e39f762a9ccc8add882023532401028aa2634e638",
+     "copia_git": {
+      "blob_sha": "32dd890a57f54e2aff99836bd358b8c284ad228b",
+      "ruta": "datos_abiertos/nac01/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "a93cc0771243ccf0f3a721bf6ea1d5e59a524cf40fa85aad39b4edbf5a3b973b"
+     "origen_sha256": "913e0fb71e3b88b56b0557c9cc0cf2ae11e48eb5bcb8772b46483e4f0696e574"
+    },
+    {
+     "producto": "resultados",
+     "id": "resultados-nac01",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43756171657",
+     "vigente": true,
+     "sha256": "9092a5f63aaaa4ad4f8b5100af11bb4c54ab9238b68368ac761b4a38f0e11ca1",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/resultados/nac01.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "767c8ad41d8bef5cd11b5eb8c2ec7344b75b41a103bd0915929b6e546ab9b9a3"
+    }
+   ]
+  },
+  "nac02": {
+   "fuente_territorial": {
+    "run_id": "43754629627",
+    "package_sha256": "f1bd7472c2bffe08e0d345480dcb7d136aba6bab2c72ab8e879ce4c06b128d83",
+    "artifact_sha256": "28b6c2d003ca64ee8bc0f3557110a3c6446c068b7fbfe5c9c5e6dce9d67e69f3",
+    "territorial_identity_sha256": "0abc7370b821ed38e11cf7c26c8f425aedf1e4c625a00cbf4c50ba2f41f54b42",
+    "receipt_path": "territorios/nac02/evidencia/fuentes_territoriales/2025/0abc7370b821ed38e11cf7c26c8f425aedf1e4c625a00cbf4c50ba2f41f54b42/43754629627/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023
+   },
+   "fuente_electoral": {
+    "receipt_path": "territorios/nac02/evidencia/fuentes_electorales/2025/c73c24052e0e1149af295de2094e74c2fdb5df9bb8616f66ca05fc0e23dfd919/43758786834/receipt.json",
+    "identity_sha256": "c73c24052e0e1149af295de2094e74c2fdb5df9bb8616f66ca05fc0e23dfd919"
+   },
+   "doi": null,
+   "productos": [
+    {
+     "producto": "M06",
+     "id": "m06-nac02-43759317191",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43759317191",
+     "vigente": true,
+     "sha256": "9fa86529e863652bf558bbf955f5f5ad935eb4d30b90129b523d40dfd64a1de6",
+     "copia_git": {
+      "blob_sha": "8592b8585ed7f5c2ad6c37b4f2a1ed6fe29dffba",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-nac02-43759317191",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43759317191",
+     "vigente": true,
+     "sha256": "a9d11fbfc0e305b095d6459c3f08aef5b5185c109e97e3b1ecf24a2fde6ad498",
+     "copia_git": {
+      "blob_sha": "7e74b62e9793de722fe7b1686e765b6483a26b62",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "datos_abiertos",
+     "id": "datos-abiertos-nac02",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43759317191",
+     "vigente": true,
+     "sha256": "fe110d1cda04fc7d51d66980b8ae2b0d8d0d40d908b4daeb5fd92e3e6ccd5b1b",
+     "copia_git": {
+      "blob_sha": "8592b8585ed7f5c2ad6c37b4f2a1ed6fe29dffba",
+      "ruta": "datos_abiertos/nac02/distritos.geojson"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "9fa86529e863652bf558bbf955f5f5ad935eb4d30b90129b523d40dfd64a1de6"
+    },
+    {
+     "producto": "resultados",
+     "id": "resultados-nac02",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43759317191",
+     "vigente": true,
+     "sha256": "9906efee9cc8379e14e7cb2049e0cfa428eccd0e08c644c7530be72838bcc3d9",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/resultados/nac02.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "a9d11fbfc0e305b095d6459c3f08aef5b5185c109e97e3b1ecf24a2fde6ad498"
+    }
+   ]
+  },
+  "nac03": {
+   "fuente_territorial": {
+    "run_id": "43754642510",
+    "package_sha256": "77122046204dfe4fd0ef2126eddbc84459e297a59c4df54430ec36d63ed515f2",
+    "artifact_sha256": "36f465483a4aa7963e885fd8eeb262a060cbaa5eb1de45a04cd427747d787442",
+    "territorial_identity_sha256": "dee2171d2d5ed4c5c911302884b444683942d106c7b8a6bdbe313a41a2b04eed",
+    "receipt_path": "territorios/nac03/evidencia/fuentes_territoriales/2025/dee2171d2d5ed4c5c911302884b444683942d106c7b8a6bdbe313a41a2b04eed/43754642510/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023
+   },
+   "fuente_electoral": {
+    "receipt_path": "territorios/nac03/evidencia/fuentes_electorales/2025/1eb0bf1d1d36cd709caf394dae5eb0f3c9c4601ee09eebef45f0dae2f8a07054/43759649986/receipt.json",
+    "identity_sha256": "1eb0bf1d1d36cd709caf394dae5eb0f3c9c4601ee09eebef45f0dae2f8a07054"
+   },
+   "doi": null,
+   "productos": [
+    {
+     "producto": "M06",
+     "id": "m06-nac03-43760040662",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43760040662",
+     "vigente": true,
+     "sha256": "fd114026d435f65a13c9a9995be19274084d7c4288117f7122237e088e7963c9",
+     "copia_git": {
+      "blob_sha": "aa187a39357bc926e097fd110fb679458c88bdc5",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-nac03-43760040662",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43760040662",
+     "vigente": true,
+     "sha256": "94c078014b4a29258cf54ae7cde156ab504342ca720534ee1d3ed0bdea107b44",
+     "copia_git": {
+      "blob_sha": "59ccf32d52dee5d28310d2bbfdd1d8e1fcc3a03f",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "datos_abiertos",
+     "id": "datos-abiertos-nac03",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43760040662",
+     "vigente": true,
+     "sha256": "18333d7ec801a1e50aa6b30819cd648d9ae8a4919425e48e906da6cdbc376758",
+     "copia_git": {
+      "blob_sha": "aa187a39357bc926e097fd110fb679458c88bdc5",
+      "ruta": "datos_abiertos/nac03/distritos.geojson"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "fd114026d435f65a13c9a9995be19274084d7c4288117f7122237e088e7963c9"
+    },
+    {
+     "producto": "resultados",
+     "id": "resultados-nac03",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43760040662",
+     "vigente": true,
+     "sha256": "f0579b2d5a1dc67a420899945fe1c96d2593862981f3a4f575b86394aed15cb8",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/resultados/nac03.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "94c078014b4a29258cf54ae7cde156ab504342ca720534ee1d3ed0bdea107b44"
+    }
+   ]
+  },
+  "nac04": {
+   "fuente_territorial": {
+    "run_id": "43754886944",
+    "package_sha256": "2ad06714e3b1beff2ad31043e5ac5271d209341470ff0e74a757fbcd98bb7236",
+    "artifact_sha256": "f36eafcae946cd328e89035d845b75a0322c533ad7c7a52ac9539921da902b4d",
+    "territorial_identity_sha256": "be99cdd3abf3cbfe1d2dace2917e03907684fb096d5faf6810d6dcb6a1b6794e",
+    "receipt_path": "territorios/nac04/evidencia/fuentes_territoriales/2025/be99cdd3abf3cbfe1d2dace2917e03907684fb096d5faf6810d6dcb6a1b6794e/43754886944/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023
+   },
+   "fuente_electoral": {
+    "receipt_path": "territorios/nac04/evidencia/fuentes_electorales/2025/c5ca65c956df41d3a99bdd1f83e3e28c6b53b747ba08e8942b18af4613e78618/43760261427/receipt.json",
+    "identity_sha256": "c5ca65c956df41d3a99bdd1f83e3e28c6b53b747ba08e8942b18af4613e78618"
+   },
+   "doi": null,
+   "productos": [
+    {
+     "producto": "M06",
+     "id": "m06-nac04-43760565695",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43760565695",
+     "vigente": true,
+     "sha256": "a61048a9d846ea868ddd595544fac7ee16b8c24dfeda493878af065710c7b5a1",
+     "copia_git": {
+      "blob_sha": "ee7dc57f53ee9c6cfe3a2e6fb71795e2dc6815be",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-nac04-43760565695",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43760565695",
+     "vigente": true,
+     "sha256": "1c9fd88dce7a9b5ca41322c1d2a43d4683ea3cf0c5e1b00738cd60ddbcab8079",
+     "copia_git": {
+      "blob_sha": "e0586861fd9c7c07c41cbe6ece7f4a9b3f0f042a",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "datos_abiertos",
+     "id": "datos-abiertos-nac04",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43760565695",
+     "vigente": true,
+     "sha256": "ded2ef69ec2534eab86b13c8354c5e710e9349becdb3761c0a1dbe1182fa9b07",
+     "copia_git": {
+      "blob_sha": "ee7dc57f53ee9c6cfe3a2e6fb71795e2dc6815be",
+      "ruta": "datos_abiertos/nac04/distritos.geojson"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "a61048a9d846ea868ddd595544fac7ee16b8c24dfeda493878af065710c7b5a1"
+    },
+    {
+     "producto": "resultados",
+     "id": "resultados-nac04",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43760565695",
+     "vigente": true,
+     "sha256": "07f96d659e1f2c3dbf5995a490bfe22de372c56a616ab8e0b58935412e485f1d",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/resultados/nac04.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "1c9fd88dce7a9b5ca41322c1d2a43d4683ea3cf0c5e1b00738cd60ddbcab8079"
+    }
+   ]
+  },
+  "nac05": {
+   "fuente_territorial": {
+    "run_id": "43755691825",
+    "package_sha256": "e9dbbf8a943ecf8fe31d7bd6b155bc7cd831e2acb6fbc55acfa2ce9d43064640",
+    "artifact_sha256": "3f2d329d6796ed08293994ab7d024c507cce2f27859035a16333fadc01295246",
+    "territorial_identity_sha256": "538be1e55e77f8293e080c72e818792e0b2f43e0f0da1407604bc14084978973",
+    "receipt_path": "territorios/nac05/evidencia/fuentes_territoriales/2025/538be1e55e77f8293e080c72e818792e0b2f43e0f0da1407604bc14084978973/43755691825/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023
+   },
+   "fuente_electoral": {
+    "receipt_path": "territorios/nac05/evidencia/fuentes_electorales/2025/b7950ca73bcda65226b0228e131253ca46fd6ce1d787543dc667aa3b3d4e661e/43760414965/receipt.json",
+    "identity_sha256": "b7950ca73bcda65226b0228e131253ca46fd6ce1d787543dc667aa3b3d4e661e"
+   },
+   "doi": null,
+   "productos": [
+    {
+     "producto": "M06",
+     "id": "m06-nac05-43760758129",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43760758129",
+     "vigente": true,
+     "sha256": "1b22e8e58a9e120e52969ad2e2dc6beecc3326e69799a694fd8fa70d8fb1dc52",
+     "copia_git": {
+      "blob_sha": "1978db1cb01360d94d0844f3d271f78fab93dfeb",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-nac05-43760758129",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43760758129",
+     "vigente": true,
+     "sha256": "d2a5428dcd26e10a27b6a4b4fec35586bf4d99fa91b9c295895f7df1ffb1db37",
+     "copia_git": {
+      "blob_sha": "530e395a02562ca96cd36779b455b72ca4135c75",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "datos_abiertos",
+     "id": "datos-abiertos-nac05",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43760758129",
+     "vigente": true,
+     "sha256": "82505a7c7899aff153bc2c3ac93710672f3403e2163a77c581361ad292d90ab4",
+     "copia_git": {
+      "blob_sha": "1978db1cb01360d94d0844f3d271f78fab93dfeb",
+      "ruta": "datos_abiertos/nac05/distritos.geojson"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "1b22e8e58a9e120e52969ad2e2dc6beecc3326e69799a694fd8fa70d8fb1dc52"
+    },
+    {
+     "producto": "resultados",
+     "id": "resultados-nac05",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43760758129",
+     "vigente": true,
+     "sha256": "ffafaa3c13379f0ee25a2f476e8a9ec13f0d28a794492ac842c9404614af949e",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/resultados/nac05.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "d2a5428dcd26e10a27b6a4b4fec35586bf4d99fa91b9c295895f7df1ffb1db37"
+    }
+   ]
+  },
+  "nac06": {
+   "fuente_territorial": {
+    "run_id": "43755921825",
+    "package_sha256": "609620aa0f403c575b03acb42e3d0e8310c0a99f4debae561fcb2f6f401d7c0e",
+    "artifact_sha256": "1ea49b9dd7b7ea1c80c0908e463b8db973c4fe9f2e4ea8a7c10790eb7cfbd6bc",
+    "territorial_identity_sha256": "64d7ea04bc9fc87b2573a20e5d835d8de26af8ce583c5df2ff08e067bb82ed6f",
+    "receipt_path": "territorios/nac06/evidencia/fuentes_territoriales/2025/64d7ea04bc9fc87b2573a20e5d835d8de26af8ce583c5df2ff08e067bb82ed6f/43755921825/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023
+   },
+   "fuente_electoral": {
+    "receipt_path": "territorios/nac06/evidencia/fuentes_electorales/2025/af599ce33941c80ea1ff825b97bb6b377498b85b11cb42b15310efbe1337cd28/43760905297/receipt.json",
+    "identity_sha256": "af599ce33941c80ea1ff825b97bb6b377498b85b11cb42b15310efbe1337cd28"
+   },
+   "doi": null,
+   "productos": [
+    {
+     "producto": "M06",
+     "id": "m06-nac06-43761252898",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43761252898",
+     "vigente": true,
+     "sha256": "56ff9ff5f116ffc543f666068956e467d0066c6b78b2582b2f4377c59e9b9fb7",
+     "copia_git": {
+      "blob_sha": "da237cbc5dc0de3ad77ab83e5c467c7cf9139905",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-nac06-43761252898",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43761252898",
+     "vigente": true,
+     "sha256": "850e2f5ca3d8e4db9c75f8d9da5a159f07c9082c10fafc49384bf17757da5351",
+     "copia_git": {
+      "blob_sha": "62038d5147b9821f69893eac22030cd88a72341f",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "datos_abiertos",
+     "id": "datos-abiertos-nac06",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43761252898",
+     "vigente": true,
+     "sha256": "156f7a70547a98ca85a1ba7eccb73082051f25b35cdf1c8ba9c5b3bbee0daae1",
+     "copia_git": {
+      "blob_sha": "da237cbc5dc0de3ad77ab83e5c467c7cf9139905",
+      "ruta": "datos_abiertos/nac06/distritos.geojson"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "56ff9ff5f116ffc543f666068956e467d0066c6b78b2582b2f4377c59e9b9fb7"
+    },
+    {
+     "producto": "resultados",
+     "id": "resultados-nac06",
+     "eleccion": "2023-07-23",
+     "eleccion_declarada": false,
+     "run_id": "43761252898",
+     "vigente": true,
+     "sha256": "138b4ca436924b95a47d32135cebd57559e2b1b5a9d1d3e9457c5546658d6792",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/resultados/nac06.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "850e2f5ca3d8e4db9c75f8d9da5a159f07c9082c10fafc49384bf17757da5351"
     }
    ]
   },
@@ -9823,22 +10431,6 @@
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
      "origen_sha256": "2de1e27194381fefefd6042fe0c9f85019e2882906fa1be591f74009fcd05b51"
-    },
-    {
-     "producto": "resultados",
-     "id": "resultados-pais_vasco",
-     "eleccion": "2023-07-23",
-     "eleccion_declarada": false,
-     "run_id": "43047232024",
-     "vigente": true,
-     "sha256": "18ccd8cdf4d637a0bc2505e2f365e0b25c3d234de27fdeaf1c57380433c06487",
-     "copia_git": {
-      "blob_sha": null,
-      "ruta": "datos/resultados/pais_vasco.csv"
-     },
-     "copias_r2": [],
-     "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "ac83a5f57b0b3c9d641b0f9d80a3e4a5ac4b260536e5425ae48a118c6e1842dd"
     }
    ]
   },
@@ -10182,22 +10774,6 @@
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
      "origen_sha256": "7dc200d1ce33f5c8198245488eb05526a9d92373c9bdcae2cf17bb4b61941a68"
-    },
-    {
-     "producto": "resultados",
-     "id": "resultados-region_de_murcia",
-     "eleccion": "2023-07-23",
-     "eleccion_declarada": false,
-     "run_id": "43053208175",
-     "vigente": true,
-     "sha256": "cff8c12ea151ee20582dfc9fac2a59801a220e8a17d73d485bc20293be9a9c3d",
-     "copia_git": {
-      "blob_sha": null,
-      "ruta": "datos/resultados/region_de_murcia.csv"
-     },
-     "copias_r2": [],
-     "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "5860ae6fb78dbaea988add24e0cd7c4712d953b1b717fcab8b55eb913fde146d"
     }
    ]
   }
@@ -10223,48 +10799,6 @@
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
    "detalle": "aut12/43830877204/ddd-minimo-43830877204-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "aut14",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "aut14/43752744562/ddd-minimo-43752744562-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "aut15",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "aut15/43753347645/ddd-minimo-43753347645-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "aut16",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "aut16/43752121775/ddd-minimo-43752121775-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "aut17",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "aut17/43754082828/ddd-minimo-43754082828-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "aut18",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "aut18/43755466122/ddd-minimo-43755466122-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "aut19",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "aut19/43755885850/ddd-minimo-43755885850-M08.zip"
   },
   {
    "nivel": "AVISO",
@@ -10349,48 +10883,6 @@
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
    "detalle": "congreso350_valladolid/42613899978/ddd-minimo-42613899978-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "nac01",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "nac01/43756171657/ddd-minimo-43756171657-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "nac02",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "nac02/43759317191/ddd-minimo-43759317191-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "nac03",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "nac03/43760040662/ddd-minimo-43760040662-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "nac04",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "nac04/43760565695/ddd-minimo-43760565695-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "nac05",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "nac05/43760758129/ddd-minimo-43760758129-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "nac06",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "nac06/43761252898/ddd-minimo-43761252898-M08.zip"
   },
   {
    "nivel": "AVISO",
@@ -10965,6 +11457,90 @@
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
    "detalle": "run 43749008571: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "aut14",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43752744562: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "aut14",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43752744562: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "aut15",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43753347645: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "aut15",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43753347645: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "aut16",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43752121775: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "aut16",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43752121775: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "aut17",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43754082828: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "aut17",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43754082828: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "aut18",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43755466122: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "aut18",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43755466122: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "aut19",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43755885850: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "aut19",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43755885850: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -11889,6 +12465,90 @@
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
    "detalle": "run 43051007542: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nac01",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43756171657: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nac01",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43756171657: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nac02",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43759317191: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nac02",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43759317191: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nac03",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43760040662: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nac03",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43760040662: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nac04",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43760565695: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nac04",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43760565695: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nac05",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43760758129: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nac05",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43760758129: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nac06",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43761252898: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nac06",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43761252898: solo copia git"
   },
   {
    "nivel": "AVISO",
