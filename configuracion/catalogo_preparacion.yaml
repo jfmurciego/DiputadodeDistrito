@@ -1593,7 +1593,7 @@ territories:
         population_year: 2023
         section_year: 2023
         source_commit: d350436502daaa745b62d7d8ab33372071a8692e
-      generation_enabled: false
+      generation_enabled: true
       evidence:
         territorial_product: territorios/nac22/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/nac22/evidencia/fuentes_electorales/2025/155b87799654f901f12a7596bcc86c7423d5da9ee848b6df275689df502ca422/41194293941/receipt.json
