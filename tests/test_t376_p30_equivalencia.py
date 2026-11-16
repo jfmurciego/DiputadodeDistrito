@@ -254,7 +254,7 @@ class Resolutor(unittest.TestCase):
         self.assertEqual((d["edicion"], d["persistir"]), ("2025", "true"))
 
     def test_boton_varios_territorios_con_espacio_de_nombres_y_sin_duplicados(self):
-        d = json.loads(self.run_cli("matriz", "--territorios", "aut12, nac42,galicia").stdout)
+        d = json.loads(self.run_cli("matriz", "--territorios", "aut12, nac42,AUT12").stdout)
         self.assertEqual(d["include"], [{"namespace": "aut12", "territorio": "Galicia"}, {"namespace": "nac42", "territorio": "Congreso Soria"}])
 
     def test_llamada_tal_cual_y_persistir(self):
@@ -264,7 +264,8 @@ class Resolutor(unittest.TestCase):
         self.assertEqual(json.loads(self.run_cli("matriz", "--territory-id", "x", "--persistir", "null").stdout)["persistir"], "true")
 
     def test_fallos_cerrados_a_stderr(self):
-        for args in (["--territorios", ""], ["--territorios", "zz99"], ["--territorios", "a b!"], ["--territorios", "aut12", "--territory-id", "x"],
+        for args in (["--territorios", ""], ["--territorios", "zz99"], ["--territorios", "congreso350_zamora"], ["--territorios", "congreso_alava"],
+                     ["--territorios", "galicia"], ["--territorios", "aut12,congreso350_madrid"], ["--territorios", "a b!"], ["--territorios", "aut12", "--territory-id", "x"],
                      ["--territory-id", "x", "--persistir", "quizá"], []):
             r = self.run_cli("matriz", *args)
             self.assertEqual(r.returncode, 1, args)

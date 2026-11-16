@@ -23,12 +23,29 @@ class CredencialRegistro(unittest.TestCase):
                 if any(PUSHERS.search(str(s.get("run", "")) + str(s.get("with", ""))) for s in steps):
                     yield p.name, name, steps
 
+    @staticmethod
+    def checkout_que_alimenta_el_push(steps):
+        """Índice del ÚLTIMO `actions/checkout` anterior al primer paso que empuja (T-376: en P30 el código se descarga primero y el
+        persistidor de `main` —el que empuja— en `persistidor/` justo antes de la credencial; en el resto hay un solo checkout)."""
+        push = next(i for i, s in enumerate(steps) if PUSHERS.search(str(s.get("run", "")) + str(s.get("with", ""))))
+        return max(i for i, s in enumerate(steps[:push]) if str(s.get("uses", "")).startswith("actions/checkout@"))
+
+    def test_control_negativo_credencial_no_pegada_al_checkout_del_push(self):
+        co = {"uses": "actions/checkout@abc"}
+        cred = {"name": "Credencial de registro"}
+        otro = {"name": "Otro", "run": "true"}
+        push = {"name": "Push", "run": "git push"}
+        self.assertEqual(self.checkout_que_alimenta_el_push([co, otro, co, cred, push]), 2)  # el de antes del push
+        self.assertEqual(self.checkout_que_alimenta_el_push([co, cred, push]), 0)
+        steps = [co, otro, co, otro, cred, push]  # credencial separada del checkout que alimenta el push: debe detectarse
+        self.assertNotEqual(steps[self.checkout_que_alimenta_el_push(steps) + 1].get("name"), "Credencial de registro")
+
     def test_cada_job_que_registra_usa_la_credencial_tras_el_checkout(self):
         found = list(self.jobs())
         self.assertGreaterEqual(len(found), 14)
         for wf, job, steps in found:
             with self.subTest(workflow=wf, job=job):
-                checkout = next(i for i, s in enumerate(steps) if str(s.get("uses", "")).startswith("actions/checkout@"))
+                checkout = self.checkout_que_alimenta_el_push(steps)
                 cred = steps[checkout + 1]
                 self.assertEqual(cred.get("name"), "Credencial de registro")
                 self.assertEqual(cred["env"]["APP_ID"], "${{ secrets.DDD_REGISTRO_APP_ID }}")

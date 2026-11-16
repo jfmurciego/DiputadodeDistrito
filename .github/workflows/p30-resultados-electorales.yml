@@ -5,6 +5,8 @@
 #   `_reutilizable-incorporacion-electoral.yml` 1.3.0 (este va DENTRO: los pasos de `preparar`, `incorporar` y `registrar` de antes, en un solo job por territorio).
 #   Botón: solo `territorios` (códigos separados por comas; matriz de un job por territorio, sin run id: producto territorial certificado y paquete
 #   electoral vigente desde el catálogo). Edición fijada en el código (2025). Entradas técnicas solo por workflow_call (la 00, job `incorporar`).
+# D-148: no aplicada la restricción de un territorio por ejecución porque cada territorio es UN job (preparar+incorporar+registrar como pasos); la matriz es directa,
+#   sin reutilizable interno ni bucle. Consecuencia: varios territorios en una ejecución exigen un `namespace` de estado distinto (`ddd-state-<run>-M08-<id>`), SIN PROBAR en Actions.
 # ANTERIOR: ninguna (fichero nuevo); sustituye a legacy/workflows/incorporacion-resultados-electorales_v2.0.8_20261116.yml
 #   y legacy/workflows/_reutilizable-incorporacion-electoral_v1.3.0_20261116.yml
 # NOMBRE DE VERSIÓN: P30 Resultados electorales

@@ -11,7 +11,7 @@ CAMBIOS: fichero nuevo (T-376).
 ANTERIOR: ninguna (fichero nuevo)
 QUÉ HACE: `matriz --territorios aut12,nac42 | --territory-id <selector> [--edicion 2025] [--persistir true|false] [--root .]` imprime un JSON
   `{"include":[{"territorio":…,"namespace":…}], "edicion":…, "persistir":…}` para la matriz de P30 (un job por territorio).
-  - Botón (`--territorios`): cada código (autNN, nacNN, alias) se resuelve con el catálogo a su nombre visible (el mismo que pasa la 00 a la
+  - Botón (`--territorios`): cada código (solo autNN o nacNN; se rechazan ids viejos, alias y `congreso350_*`) se resuelve con el catálogo a su nombre visible (el mismo que pasa la 00 a la
     incorporación, por lo que el grupo `ddd-electoral-prod-<territorio>` excluye igual que antes); duplicados se quitan; vacío o desconocido → error.
     Con más de un territorio el `namespace` de los artefactos es el id canónico (en una misma ejecución no pueden chocar dos `ddd-state-<run>-M08`);
     con uno queda vacío (como hoy).
@@ -32,7 +32,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "herramientas"))
 
 EDICION = "2025"
-_COD = re.compile(r"^[a-z0-9_]+$")
+_COD = re.compile(r"^(aut|nac)\d\d$")  # solo ids canónicos: ni ids viejos (congreso_alava…), ni alias, ni congreso350_* (D-76)
 
 
 def por_codigos(texto: str, edicion: str = EDICION) -> list[dict]:
@@ -44,9 +44,11 @@ def por_codigos(texto: str, edicion: str = EDICION) -> list[dict]:
     vistos: dict[str, str] = {}
     for x in pedido:
         if not _COD.match(x):
-            raise ValueError(f"P30_TERRITORIO_INVALIDO: «{x}»")
+            raise ValueError(f"P30_TERRITORIO_INVALIDO: «{x}» (solo códigos autNN o nacNN; los «Congreso 350» y los ids viejos no se aceptan)")
         try:
             t = ids.resolver_id(x)
+            if ids.es_variante_350(t):
+                raise ValueError(f"P30_VARIANTE_350_NO_SE_PUBLICA: {t}")
             fila = cat.lookup(t, edicion)
         except (ids.IdTerritorioDesconocido, ids.IdReservado, SystemExit) as exc:
             raise ValueError(f"P30_TERRITORIO_DESCONOCIDO: {x} ({exc})") from exc
