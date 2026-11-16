@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T08:19:16.095422+00:00",
+  "generated_at": "2026-11-16T08:40:22.586993+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 73,
-      "action_required": 47,
+      "admissible": 74,
+      "action_required": 46,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 73,
+      "activated": 74,
       "activable": 0,
       "territorial_pending": 46,
-      "electoral_pending": 47,
+      "electoral_pending": 46,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 73,
-      "durable_pair": 73
+      "electoral_source": 74,
+      "durable_pair": 74
     },
     "territories": [
       {
@@ -631,20 +631,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Xunta de Galicia — Datos Abiertos",
           "granularity": "polling_station_to_section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/aut12/evidencia/pares_fuentes/2025/fe42fdfcdd620e55448d873059c973d77afcd31f7f7d28ab396088458d612914.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/aut12/evidencia/pares_fuentes/2025/16b0d7861956a9a77b810a3b1446c86fde6660a2ed53838640240046f1f3e8ec.json",
+            "pair_sha256": "16b0d7861956a9a77b810a3b1446c86fde6660a2ed53838640240046f1f3e8ec",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -652,13 +652,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "aut13",
@@ -7370,7 +7364,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43826783667,
       "last_run": {
-        "run_id": 43750427977,
+        "run_id": 43826783667,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
         "stopped_at": "03/04 · rama electoral omitida",
@@ -7406,13 +7400,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "galicia",
+          "territory_id": "aut12",
           "territory_name": "Galicia",
           "edition": "2025",
-          "run_id": 43051951192,
-          "artifact_name": "ddd-state-43051951192-M08",
-          "artifact_sha256": "3077edb70e9623defce56ef0622b93d32aa3ddc7e73568b968428da924d21f8d",
-          "source_commit": "57171c9bcc0cc5cf44ab153c48b1c4b652ce8884",
+          "run_id": 43830877204,
+          "artifact_name": "ddd-state-43830877204-M08",
+          "artifact_sha256": "4cc472b10dfd400d132dbe27f52eb86c5efa7866671a8449b51207c6060dc14d",
+          "source_commit": "740b4e4029f155bac243f8b97c5e46c17da0dc5f",
           "stage": "M08"
         }
       },
