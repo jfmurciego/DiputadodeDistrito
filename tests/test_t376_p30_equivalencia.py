@@ -254,6 +254,14 @@ class Resolutor(unittest.TestCase):
         self.assertEqual(json.loads(r.stdout), {"territorio": "Galicia", "edicion": "2025", "persistir": "true"})
         self.assertEqual(json.loads(self.run_cli("resolver", "--territorio", "NAC42").stdout)["territorio"], "Congreso Soria")
 
+    def test_historico_por_epoca(self):
+        d = json.loads(self.run_cli("resolver", "--territorio", "nac22_h2019_11").stdout)
+        self.assertEqual(d["territorio"], "nac22_h2019_11")
+        for malo in ("nac22_h2030_01", "congreso350_zamora_h2019_11", "zz99_h2019_11", "nac22_h2019_1", "nac22_H2019_11x"):
+            r = self.run_cli("resolver", "--territorio", malo)
+            self.assertEqual((r.returncode, r.stdout), (1, ""), malo)
+            self.assertIn("::error::P30_", r.stderr, malo)
+
     def test_llamada_tal_cual_y_persistir(self):
         d = json.loads(self.run_cli("resolver", "--territory-id", "Congreso 350 Zamora", "--persistir", "false", "--edicion", "").stdout)
         self.assertEqual(d, {"territorio": "Congreso 350 Zamora", "edicion": "2025", "persistir": "false"})

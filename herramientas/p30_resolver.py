@@ -11,7 +11,7 @@ CAMBIOS: fichero nuevo (T-376).
 ANTERIOR: ninguna (fichero nuevo)
 QUÉ HACE: `resolver --territorio aut12 | --territory-id <selector> [--edicion 2025] [--persistir true|false] [--root .]` imprime un JSON
   `{"territorio":…, "edicion":…, "persistir":…}` para P30 (UN territorio por ejecución, D-148; varios en paralelo los da P00).
-  - Botón (`--territorio`): un código autNN o nacNN, resuelto con el catálogo a su nombre visible (el mismo que pasa la 00 a la incorporación, por lo que el
+  - Botón (`--territorio`): un código autNN o nacNN (o `<t>_hAAAA_MM`, histórico por época con su contrato en `configuracion/historico_epoca/`), resuelto con el catálogo a su nombre visible (el mismo que pasa la 00 a la incorporación, por lo que el
     grupo `ddd-electoral-prod-<territorio>` excluye igual que antes); se rechazan varios, ids viejos, alias y `congreso350_*`.
   - Llamada (`--territory-id`): un solo territorio, TAL CUAL llega (la 00 pasa su nombre).
   - `edicion` vacía = 2025 (fijada en el código). `persistir` vacío o «null» (toJSON de la entrada ausente del botón) = true (el botón siempre registra; la llamada pasa su valor).
@@ -30,7 +30,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "herramientas"))
 
 EDICION = "2025"
-_COD = re.compile(r"^(aut|nac)\d\d$")  # solo ids canónicos: ni ids viejos (congreso_alava…), ni alias, ni congreso350_* (D-76)
+_COD = re.compile(r"^(aut|nac)\d\d(_h\d{4}_\d{2})?$")  # solo ids canónicos: ni ids viejos (congreso_alava…), ni alias, ni congreso350_* (D-76)
 
 
 def por_codigo(texto: str, edicion: str = EDICION) -> str:
@@ -44,11 +44,15 @@ def por_codigo(texto: str, edicion: str = EDICION) -> str:
     x = pedido[0]
     if not _COD.match(x):
         raise ValueError(f"P30_TERRITORIO_INVALIDO: «{x}» (solo códigos autNN o nacNN; los «Congreso 350» y los ids viejos no se aceptan)")
+    base, _, epoca = x.partition("_h")
+    if epoca and not (ROOT / "configuracion" / "historico_epoca" / f"contrato_{epoca}.json").is_file():
+        raise ValueError(f"P30_EPOCA_SIN_CONTRATO: {x} (no existe configuracion/historico_epoca/contrato_{epoca}.json)")
     try:
-        t = ids.resolver_id(x)
+        t = ids.resolver_id(base)
         if ids.es_variante_350(t):
             raise ValueError(f"P30_VARIANTE_350_NO_SE_PUBLICA: {t}")
-        return cat.lookup(t, edicion)["name"]
+        nombre = cat.lookup(t, edicion)["name"]
+        return f"{t}_h{epoca}" if epoca else nombre  # histórico por época (D-149/D-150): el id `<t>_hAAAA_MM` tal cual
     except (ids.IdTerritorioDesconocido, ids.IdReservado, SystemExit) as exc:
         raise ValueError(f"P30_TERRITORIO_DESCONOCIDO: {x} ({exc})") from exc
 
