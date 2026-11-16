@@ -2085,8 +2085,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42998268332
-        stage: M08
+        run_id: 43782596037
+        stage: M06
       preparation_evidence:
         run_id: 43782596037
         artifact_name: ddd-source-package-nac35-2025-43782596037
