@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.456
+Versión: 1.0.457
 Fecha: 2026-11-16
-Alcance: Coordinador — Skills del Operador con D-127 (`produccion` sin revisor)
+Alcance: T-333 — Datos de ensayo por mesa para nac22, nac42 y nac52 (BORRADOR, no-automerge)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-16_coordinador-skills-operador-d127.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.455_registro_20261116.md
+Cambios/motivo: entrada docs/registro/2026-11-14_t333-datos-ensayo.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.456_registro_20261116.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.455_registro_20261116.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.457 · [2026-11-14 — T-333 — Datos de ensayo por mesa para nac22, nac42 y nac52 (BORRADOR, no-automerge)](registro/2026-11-14_t333-datos-ensayo.md)
 - 1.0.456 · [2026-11-16 — Coordinador — Skills del Operador con D-127 (`produccion` sin revisor)](registro/2026-11-16_coordinador-skills-operador-d127.md)
 - 1.0.455 · [2026-11-16 — Coordinador — D-127: el entorno `produccion` ya no exige aprobación](registro/2026-11-16_coordinador-d127-produccion.md)
 - 1.0.454 · [2026-11-15 — T-356 — Script de espejo en R2 de los seccionados INE 2010-2026 y el Observatorio](registro/2026-11-15_t356-espejo-ine-observatorio-r2.md)
