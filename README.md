@@ -18,7 +18,7 @@ El estado operativo por territorio no está en este documento: lo genera el sist
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-16T04:55:38.967587+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-16T05:09:53.609922+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -106,7 +106,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Zamora** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43804127706 · SUCCESS | — | — | — |
 | **Nacional Zaragoza** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43804263815 · SUCCESS | — | — | — |
 | **Nacional Ceuta** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43803972993 · SUCCESS | — | — | — |
-| **Nacional Melilla** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43006105644 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Melilla** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43803279881 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional 350 Álava** | 🟡 | 🟡 | ⚪ | ⚪ | ⚪ | Validación pendiente | — | — | — | preparar fuentes territoriales |
 | **Nacional 350 Albacete** | 🟡 | 🟡 | ⚪ | ⚪ | ⚪ | Validación pendiente | — | — | — | preparar fuentes territoriales |
 | **Nacional 350 Alicante** | 🟡 | 🟡 | ⚪ | ⚪ | ⚪ | Validación pendiente | — | — | — | preparar fuentes territoriales |

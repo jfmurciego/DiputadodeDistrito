@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T04:55:38.967587+00:00",
+  "generated_at": "2026-11-16T05:09:53.609922+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 72,
-      "action_required": 48,
+      "admissible": 73,
+      "action_required": 47,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 72,
+      "activated": 73,
       "activable": 0,
       "territorial_pending": 46,
-      "electoral_pending": 48,
+      "electoral_pending": 47,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 72,
-      "durable_pair": 72
+      "electoral_source": 73,
+      "durable_pair": 73
     },
     "territories": [
       {
@@ -3646,20 +3646,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac52/evidencia/pares_fuentes/2025/c9abeb289e806d126bb44b093b47b7971c92d3eff4954a42b0d06a879c279220.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac52/evidencia/pares_fuentes/2025/980cf7095829215c67471d3dba74140fc4c9b9cbfb66b992c73811f15bd07aba.json",
+            "pair_sha256": "980cf7095829215c67471d3dba74140fc4c9b9cbfb66b992c73811f15bd07aba",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -3667,13 +3667,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "congreso350_alava",
@@ -10975,11 +10969,11 @@
       "certification": "PASS",
       "run_id": 43803279881,
       "last_run": {
-        "run_id": 43006105644,
+        "run_id": 43803279881,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -11011,13 +11005,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_melilla",
+          "territory_id": "nac52",
           "territory_name": "Congreso Melilla",
           "edition": "2025",
-          "run_id": 43006105644,
-          "artifact_name": "ddd-state-43006105644-M08",
-          "artifact_sha256": "2171296792f6783a4df122077bb7c93c8179f69935b297f48dcedcfca957f28a",
-          "source_commit": "92b6f2291054c45a258dac96c17ae362f7fc813c",
+          "run_id": 43807441438,
+          "artifact_name": "ddd-state-43807441438-M08",
+          "artifact_sha256": "30c103f9bde27630c0474595aadcfa716ce9df02f3013c8ca7bc55f7d135f19b",
+          "source_commit": "8155266a4b62520bfd1df7fa3d14b1844b0e4151",
           "stage": "M08"
         }
       },
