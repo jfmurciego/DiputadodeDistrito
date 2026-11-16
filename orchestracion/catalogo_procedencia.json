@@ -1996,11 +1996,11 @@
   },
   "congreso_asturias": {
    "fuente_territorial": {
-    "run_id": "43765794589",
+    "run_id": "43781676796",
     "package_sha256": "5da13a9bbb1d62cdd6e32f088760114d0d2b9aa4cb3035b4a3b80bcf6f6e08e8",
-    "artifact_sha256": "d944dffd5919bdda99bea3550316c14646386cbf5aae9e91e74c679847e5977c",
+    "artifact_sha256": "71127c333fc2fbc7da1f65cd95775e8b4dbfb9881a95e3a91b76716e42e998ce",
     "territorial_identity_sha256": "a9c36106aaa6590d148529666441fb5c7c3123063a10ef09462943161d07f974",
-    "receipt_path": "territorios/nac33/evidencia/fuentes_territoriales/2025/a9c36106aaa6590d148529666441fb5c7c3123063a10ef09462943161d07f974/43765794589/receipt.json",
+    "receipt_path": "territorios/nac33/evidencia/fuentes_territoriales/2025/a9c36106aaa6590d148529666441fb5c7c3123063a10ef09462943161d07f974/43781676796/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
