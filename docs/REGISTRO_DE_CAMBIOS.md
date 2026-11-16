@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.486
+Versión: 1.0.488
 Fecha: 2026-11-16
-Alcance: T-392 — Plan 1.0.58: D-148 y estados de la noche del 16-11
+Alcance: T-389 — T-365b: contratos del histórico por época regenerados con las tablas de T-364b
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-16_planificador-plan-1-0-58.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.485_registro_20261116.md
+Cambios/motivo: entrada docs/registro/2026-11-16_t389-contratos-historico-t364b.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.487_registro_20261116.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.485_registro_20261116.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.488 · [2026-11-16 — T-389 — T-365b: contratos del histórico por época regenerados con las tablas de T-364b](registro/2026-11-16_t389-contratos-historico-t364b.md)
+- 1.0.487 · [2026-11-16 — T-392 — Equivalencia congelada ignora la versión de las acciones de terceros](registro/2026-11-16_claude-t392-equivalencia-sin-version.md)
 - 1.0.486 · [2026-11-16 — T-392 — Plan 1.0.58: D-148 y estados de la noche del 16-11](registro/2026-11-16_planificador-plan-1-0-58.md)
 - 1.0.485 · [2026-11-16 — T-391 — Huellas de los CSV de ensayo en los contratos (BORRADOR, no-automerge)](registro/2026-11-16_t391-sha-ensayo.md)
 - 1.0.484 · [2026-11-16 — Operador — Ficha del ensayo en seco del 29-11 (documento, sin frase)](registro/2026-11-16_operador-ficha-ensayo-29-11.md)
