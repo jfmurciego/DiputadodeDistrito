@@ -1,0 +1,266 @@
+# -*- coding: utf-8 -*-
+"""T-365 (D-125): contrato por elección del histórico por época, contrato M01-M06 por provincia y puerta M07/M08.
+
+PROYECTO: Diputado de Distrito
+VERSIÓN: 1.0.0 · FECHA: 2026-11-16 · ESTADO: candidato
+ANTERIOR: ninguna (fichero nuevo)
+CAMBIOS: 1.0.0: fichero nuevo.
+MOTIVO: T-365. Sin red ni fuentes pesadas: el flujo M07/M08 usa un M06 sintético y los módulos reales.
+"""
+from __future__ import annotations
+
+import csv
+import hashlib
+import importlib.util
+import json
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+from unittest import mock
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "herramientas"))
+import contrato_historico_epoca as che  # noqa: E402
+
+ELECCIONES = ("2011-11", "2015-12", "2016-06", "2019-04", "2019-11")
+
+
+def _sha(p: Path) -> str:
+    return hashlib.sha256(p.read_bytes()).hexdigest()
+
+
+class ContratosVersionados(unittest.TestCase):
+    """Los cinco contratos versionados son coherentes con los ficheros acreditados que no cambian con la producción."""
+
+    def test_k_y_huellas_de_cada_eleccion(self):
+        fr2 = json.loads((ROOT / che.FUENTES_R2).read_text(encoding="utf-8"))["fuentes"]
+        espejo = json.loads((ROOT / che.ESPEJO).read_text(encoding="utf-8"))["ficheros"]
+        for e in ELECCIONES:
+            with self.subTest(eleccion=e):
+                c = json.loads(che.ruta_contrato(e).read_text(encoding="utf-8"))
+                self.assertEqual((c["schema"], c["eleccion"], c["clave_espejo"]), (che.SCHEMA, e, che.ELECCIONES[e]))
+                csv_boe = ROOT / c["escanos"]["csv"]
+                self.assertEqual(_sha(csv_boe), c["escanos"]["sha256"])
+                boe = che.escanos_boe(csv_boe)
+                self.assertEqual(sorted(c["provincias"]), sorted(boe))
+                self.assertEqual(sum(p["K"] for p in c["provincias"].values()), 350)
+                self.assertEqual(c["seccionado"]["sha256"], fr2[c["seccionado"]["fichero"]]["sha256"])
+                for cpro, p in c["provincias"].items():
+                    self.assertEqual(p["K"], boe[cpro]["K"])
+                    self.assertEqual(p["territorio"], f"nac{cpro}")  # id canónico, nunca uno viejo
+                    self.assertEqual(p["votos"]["sha256"], espejo[p["votos"]["ruta"]]["sha256"])
+                    self.assertIn(p["estado"], ("LISTA", "BLOQUEADA_RELLENO"))
+
+    def test_huesca_2019_11_tres_escanos(self):
+        c = json.loads(che.ruta_contrato("2019-11").read_text(encoding="utf-8"))
+        self.assertEqual((c["provincias"]["22"]["K"], c["seccionado"]["anio"], c["poblacion"]["anio_referencia"]), (3, 2020, 2020))
+
+
+class EscanosBoe(unittest.TestCase):
+    def test_k_ambiguo_o_que_no_suma_falla(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "boe.csv"
+            p.write_text("codigo,provincia,escanos_circunscripcion,partido,votos,escanos\n22,Huesca,3,A,10,2\n22,Huesca,3,B,5,1\n",
+                         encoding="utf-8")
+            self.assertEqual(che.escanos_boe(p)["22"]["K"], 3)  # control positivo
+            p.write_text("codigo,provincia,escanos_circunscripcion,partido,votos,escanos\n22,Huesca,3,A,10,2\n", encoding="utf-8")
+            with self.assertRaises(SystemExit):
+                che.escanos_boe(p)
+            p.write_text("codigo,provincia,escanos_circunscripcion,partido,votos,escanos\n22,Huesca,3,A,10,2\n22,Huesca,2,B,5,1\n",
+                         encoding="utf-8")
+            with self.assertRaises(SystemExit):
+                che.escanos_boe(p)
+
+
+def _contrato_sintetico(tabla_sha: str, base_sha: str, secc_sha: str, votos_sha: str) -> dict:
+    return {"eleccion": "2019-11", "fecha": "2019-11-10", "clave_espejo": "201911",
+            "seccionado": {"anio": 2020, "fichero": "seccionado_2020.zip", "sha256": secc_sha},
+            "poblacion": {"fichero": "tabla.csv", "sha256": tabla_sha, "anio_referencia": 2020},
+            "escanos": {"csv": "configuracion/x.csv", "sha256": "e" * 64, "boe": "BOE-A-2019-18147"},
+            "provincias": {"22": {"territorio": "nac22", "K": 3, "estado": "LISTA",
+                                  "contrato_base": {"ruta": "territorios/nac22/config/nac22_2025.yaml", "sha256": base_sha},
+                                  "votos": {"ruta": "data/201911/sekzioa/22.json", "sha256": votos_sha},
+                                  "poblacion": {"secciones": 2, "total": 30}}}}
+
+
+BASE = {"meta": {"territory_id": "nac22", "run_name": "nac22_2025", "year": 2025, "source_population_year": 2023,
+                 "source_section_year": 2023},
+        "io": {"input": {"seccionado": {"path": "inputs/seccionado_2023.zip"}, "population_cip": {"paths": ["inputs/65034.csv.zip"]}}},
+        "territory_contract": {"k_districts": 2, "k_source": "formula"},
+        "modulos": {"modulo_02_construir_adyacencias": {"topology_bridges": []},
+                    "modulo_04_generar_semillas": {"k_districts": 2, "pop_field": "POP_2023",
+                                                   "out_geojson": "x/nac22_2025_m04_semillas.geojson.zip"},
+                    "modulo_06_consolidar_distritos": {"expected_districts": 2, "pop_field": "POP_2023"}},
+        "validation": {"expected_districts": 2, "province_districts": {"22": 2}, "population_floor_ratio": 0.85},
+        "resolved_source_contract": {"runtime": {"population_field": "POP_2023"}},
+        "generation_state": {"pre_m04_run_id": 1}}
+
+
+class ContratoProvincia(unittest.TestCase):
+    def test_cambia_fuentes_anios_y_k_y_nada_mas(self):
+        c = _contrato_sintetico("a" * 64, "b" * 64, "c" * 64, "d" * 64)
+        cfg = che.contrato_provincia(BASE, c, "22", "2019-11", "s.zip", "p.csv", {"seccionado": "c" * 64, "poblacion": "f" * 64},
+                                     "9" * 64)
+        self.assertEqual(cfg["meta"]["run_name"], "nac22_h2019_11")
+        self.assertEqual((cfg["meta"]["source_population_year"], cfg["meta"]["source_section_year"]), (2020, 2020))
+        self.assertEqual(cfg["meta"]["historico_epoca"]["election_id"], "nac22_2019-11-10")
+        self.assertEqual((cfg["territory_contract"]["k_districts"], cfg["modulos"]["modulo_04_generar_semillas"]["k_districts"],
+                          cfg["modulos"]["modulo_06_consolidar_distritos"]["expected_districts"],
+                          cfg["validation"]["expected_districts"], cfg["validation"]["province_districts"]), (3, 3, 3, 3, {"22": 3}))
+        self.assertEqual(cfg["modulos"]["modulo_04_generar_semillas"]["pop_field"], "POP_2020")
+        self.assertIn("nac22_h2019_11_m04", cfg["modulos"]["modulo_04_generar_semillas"]["out_geojson"])
+        self.assertNotIn("resolved_source_contract", cfg)
+        self.assertNotIn("pre_m04_run_id", cfg["generation_state"])
+        self.assertEqual(cfg["validation"]["population_floor_ratio"], 0.85)  # límites del contrato base intactos
+        self.assertEqual(BASE["territory_contract"]["k_districts"], 2)  # la base no se toca
+
+    def test_topologia_acreditada_falla(self):
+        base = json.loads(json.dumps(BASE))
+        base["validation"]["topology_accreditation"] = {"package_sha256": "x"}
+        with self.assertRaises(SystemExit):
+            che.contrato_provincia(base, _contrato_sintetico("a" * 64, "b" * 64, "c" * 64, "d" * 64), "22", "2019-11",
+                                   "s.zip", "p.csv", {"seccionado": "c", "poblacion": "f"}, "9" * 64)
+
+
+class Materializar(unittest.TestCase):
+    """Fallo cerrado ante huellas distintas o casado incompleto; control positivo con todo cuadrado."""
+
+    def _arbol(self, d: Path, secciones_geo: set):
+        import yaml
+        root, fuentes = d / "root", d / "fuentes"
+        (root / "territorios/nac22/config").mkdir(parents=True)
+        fuentes.mkdir()
+        base = root / "territorios/nac22/config/nac22_2025.yaml"
+        base.write_text(yaml.safe_dump(BASE), encoding="utf-8")
+        (fuentes / "seccionado_2020.zip").write_bytes(b"zip")
+        (fuentes / "tabla.csv").write_text("elección,sección,población,origen,año_fuente_relleno\n"
+                                           "2019-11,2200101001,10,dato,\n2019-11,2200101002,20,dato,\n"
+                                           "2015-12,2200101003,5,dato,\n", encoding="utf-8")
+        c = _contrato_sintetico(_sha(fuentes / "tabla.csv"), _sha(base), _sha(fuentes / "seccionado_2020.zip"), "d" * 64)
+        cpath = root / "contrato.json"
+        cpath.write_text(json.dumps(c), encoding="utf-8")
+        return root, fuentes, cpath, mock.patch.object(che, "_secciones_seccionado", return_value=secciones_geo)
+
+    def test_casado_completo_escribe_el_contrato(self):
+        import yaml
+        with tempfile.TemporaryDirectory() as d:
+            root, fuentes, cpath, parche = self._arbol(Path(d), {"2200101001", "2200101002"})
+            with parche:
+                out = che.materializar("2019-11", "nac22", fuentes, root, cpath)
+            cfg = yaml.safe_load(out.read_text(encoding="utf-8"))
+            self.assertEqual(out.name, "nac22_h2019_11.yaml")
+            self.assertEqual(cfg["territory_contract"]["k_districts"], 3)
+            pob = root / cfg["io"]["input"]["population_cip"]["paths"][0]
+            self.assertEqual(pob.read_text(encoding="utf-8").splitlines()[1:], ["2020,2200101001,10,dato", "2020,2200101002,20,dato"])
+            self.assertEqual({x["role"] for x in cfg["generation_state"]["source_inputs"]}, {"population", "target_sectioning"})
+
+    def test_casado_incompleto_falla(self):
+        for geo in ({"2200101001"}, {"2200101001", "2200101002", "2200101009"}):
+            with self.subTest(geo=sorted(geo)), tempfile.TemporaryDirectory() as d:
+                root, fuentes, cpath, parche = self._arbol(Path(d), geo)
+                with parche, self.assertRaises(SystemExit) as cm:
+                    che.materializar("2019-11", "nac22", fuentes, root, cpath)
+                self.assertIn("CASADO_POBLACION_SECCIONADO", str(cm.exception))
+
+    def test_puente_fuera_del_seccionado_falla(self):
+        import yaml
+        with tempfile.TemporaryDirectory() as d:
+            geo = {"2200101001", "2200101002"}
+            root, fuentes, cpath, parche = self._arbol(Path(d), geo)
+            base = root / "territorios/nac22/config/nac22_2025.yaml"
+            cfg = yaml.safe_load(base.read_text(encoding="utf-8"))
+            for v, falla in ((2200101002, False), ("2200101099", True)):  # entero sin cero inicial (zfill) y extremo inexistente
+                cfg["modulos"]["modulo_02_construir_adyacencias"]["topology_bridges"] = [{"u": "2200101001", "v": v}]
+                base.write_text(yaml.safe_dump(cfg), encoding="utf-8")
+                c = json.loads(cpath.read_text(encoding="utf-8"))
+                c["provincias"]["22"]["contrato_base"]["sha256"] = _sha(base)
+                cpath.write_text(json.dumps(c), encoding="utf-8")
+                with self.subTest(v=v), parche:
+                    if falla:
+                        with self.assertRaises(SystemExit) as cm:
+                            che.materializar("2019-11", "nac22", fuentes, root, cpath)
+                        self.assertIn("PUENTE_FUERA_DEL_SECCIONADO", str(cm.exception))
+                    else:
+                        che.materializar("2019-11", "nac22", fuentes, root, cpath)
+
+    def test_huella_distinta_falla(self):
+        with tempfile.TemporaryDirectory() as d:
+            root, fuentes, cpath, parche = self._arbol(Path(d), {"2200101001", "2200101002"})
+            (fuentes / "seccionado_2020.zip").write_bytes(b"otro")
+            with parche, self.assertRaises(SystemExit) as cm:
+                che.materializar("2019-11", "nac22", fuentes, root, cpath)
+            self.assertIn("FUENTE_HUELLA_DISTINTA", str(cm.exception))
+
+
+class Puerta(unittest.TestCase):
+    C = {"eleccion": "2019-11", "fecha": "2019-11-10", "clave_espejo": "201911",
+         "provincias": {"22": {"territorio": "nac22", "K": 3, "estado": "LISTA"}}}
+    REC = {"status": "PASS", "ddd_unassigned_votes": 0, "source_votes": 1000}
+
+    def test_pasa_solo_con_las_tres_condiciones(self):
+        self.assertEqual(che.puerta(self.C, "22", self.REC, {"ok": True}, 3)["estado"], "PASS")
+        self.assertEqual(che.puerta(self.C, "22", self.REC, {"ok": False}, 3)["estado"], "FAIL")
+        self.assertEqual(che.puerta(self.C, "22", self.REC, {"ok": True}, 2)["estado"], "FAIL")
+        self.assertEqual(che.puerta(self.C, "22", {**self.REC, "ddd_unassigned_votes": 2}, {"ok": True}, 3)["estado"], "FAIL")
+        self.assertEqual(che.puerta(self.C, "22", {**self.REC, "status": "FAIL"}, {"ok": True}, 3)["estado"], "FAIL")
+        self.assertEqual(che.puerta(self.C, "22", {"status": "PASS"}, {"ok": True}, 3)["estado"], "FAIL")  # sin source_votes
+
+
+@unittest.skipUnless(importlib.util.find_spec("geopandas"), "sin geopandas")
+class FlujoElectoral(unittest.TestCase):
+    """M07 y M08 reales sobre un M06 sintético de 4 secciones y 2 distritos; votos del Observatorio y BOE sintéticos."""
+
+    def test_flujo_pasa_y_un_escano_de_mas_falla(self):
+        import geopandas as gpd
+        import yaml
+        from shapely.geometry import box
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            root, fuentes, m06d = d / "root", d / "fuentes", d / "m06"
+            secs = ["2200101001", "2200101002", "2200101003", "2200101004"]
+            distr = {"2200101001": 0, "2200101002": 0, "2200101003": 1, "2200101004": 1}
+            m06d.mkdir()
+            g = gpd.GeoDataFrame({"CUSEC_KEY": secs, "district_id": [distr[s] for s in secs], "POP_2020": [10, 10, 10, 10],
+                                  "CPRO": "22"}, geometry=[box(i, 0, i + 1, 1) for i in range(4)], crs=4326)
+            g.to_file(m06d / "secciones.geojson", driver="GeoJSON")
+            g.dissolve("district_id").reset_index()[["district_id", "geometry"]].to_file(m06d / "distritos.geojson", driver="GeoJSON")
+            with open(m06d / "composicion.csv", "w", encoding="utf-8", newline="") as f:
+                w = csv.writer(f)
+                w.writerow(["CUSEC_KEY", "district_id", "section_pop"])
+                w.writerows([s, distr[s], 10] for s in secs)
+            espejo = {"s": ["A", "B"], "k": [], "f": [], "b": [],
+                      "r": {s: [100, 50, 40, [[0, 30], [1, 10]]] for s in secs}}
+            ruta = fuentes / "nazioenbehatokia/data/201911/sekzioa/22.json"
+            ruta.parent.mkdir(parents=True)
+            ruta.write_text(json.dumps(espejo), encoding="utf-8")
+            (root / "configuracion/historico_epoca").mkdir(parents=True)
+            (root / "configuracion/resultados_oficiales_congreso_2019_11.csv").write_text(
+                "codigo,provincia,escanos_circunscripcion,partido,votos,escanos\n22,Huesca,2,A,125,2\n22,Huesca,2,B,42,0\n",
+                encoding="utf-8")
+            c = {"eleccion": "2019-11", "fecha": "2019-11-10", "clave_espejo": "201911",
+                 "provincias": {"22": {"territorio": "nac22", "K": 2, "estado": "LISTA",
+                                       "votos": {"ruta": "data/201911/sekzioa/22.json", "sha256": _sha(ruta)}}}}
+            che.ruta_contrato("2019-11", root).write_text(json.dumps(c), encoding="utf-8")
+            (root / "territorios/nac22/config").mkdir(parents=True)
+            params = {"meta": {"run_name": "nac22_h2019_11"}, "io": {"project_root": {"path": str(root)}},
+                      "modulos": {"modulo_06_consolidar_distritos": {
+                          "out_geojson": str(m06d / "secciones.geojson"), "out_district_geojson": str(m06d / "distritos.geojson"),
+                          "out_composition_csv": str(m06d / "composicion.csv"), "id_field": "CUSEC_KEY",
+                          "district_field": "district_id", "pop_field": "POP_2020"}}}
+            (root / "territorios/nac22/config/nac22_h2019_11.yaml").write_text(yaml.safe_dump(params), encoding="utf-8")
+            salida = d / "salida"
+            self.assertEqual(che.electoral("2019-11", "nac22", fuentes, salida, root), 0)
+            pu = json.loads((salida / "PUERTA_nac22_2019_11.json").read_text(encoding="utf-8"))
+            self.assertEqual((pu["estado"], pu["m07"], pu["perdidos"], pu["distritos_m08"]), ("PASS", "PASS", 0, 2))
+            man = json.loads((salida / "2019-11/nac22/MANIFEST.json").read_text(encoding="utf-8"))
+            self.assertEqual((man["election_date"], man["election_id"], man["ganadores"]),
+                             ("2019-11-10", "nac22_2019-11-10", {"0": "A", "1": "A"}))
+            c["provincias"]["22"]["K"] = 3  # control negativo: K distinto del número de distritos
+            che.ruta_contrato("2019-11", root).write_text(json.dumps(c), encoding="utf-8")
+            self.assertEqual(che.electoral("2019-11", "nac22", fuentes, salida, root), 1)
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -1,0 +1,30 @@
+{
+ "schema": "ddd.historico-epoca-manifiesto/1.0",
+ "territorio": "nac22",
+ "eleccion": "2019-11",
+ "election_date": "2019-11-10",
+ "election_id": "nac22_2019-11-10",
+ "kind": "historico_epoca",
+ "contrato": {
+  "ruta": "configuracion/historico_epoca/contrato_2019_11.json",
+  "sha256": "bdc9d2b7c14bfd752c5b2297fb8e3a6973cbec4c072c641e7d996968c110d40c"
+ },
+ "contrato_provincia": {
+  "ruta": "territorios/nac22/config/nac22_h2019_11.yaml",
+  "sha256": "54817b2e57424f8d928155e77c9ce5271d51ab6a394f0d6da76eb2b14f43b2d4"
+ },
+ "m06": {
+  "composicion_sha256": "adf786fc5372223eab261dad301c941a41d4d36d5f25d9c87e2788921edb79d7",
+  "distritos_sha256": "6114634b19d2826e5befcb0583e4dbc6d09565921dbc66e14d40d889c7bda09e"
+ },
+ "m08": {
+  "sha256": "8415a1b92f2cede28ad8d7438739d7521547f563445ba9c2ddebd9c1ee555b72"
+ },
+ "votos_sha256": "0e144f90e1c6b65170faf360d5d9107d753ff304184080936e3f928f0dfd5cb6",
+ "ganadores": {
+  "0": "PSOE",
+  "1": "PSOE",
+  "2": "PSOE"
+ },
+ "puerta": "PASS"
+}

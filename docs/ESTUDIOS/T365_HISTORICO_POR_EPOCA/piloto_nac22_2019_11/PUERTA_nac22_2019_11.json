@@ -1,0 +1,28 @@
+{
+ "territorio": "nac22",
+ "eleccion": "2019-11",
+ "election_date": "2019-11-10",
+ "mapa": "epoca",
+ "m07": "PASS",
+ "perdidos": 0,
+ "perdidos_pct": 0.0,
+ "tope_perdidos": 0.001,
+ "excepcion_d70": false,
+ "K_boe": 3,
+ "distritos_m08": 3,
+ "escanos_ok": true,
+ "contraste_boe": {
+  "provincia": "22",
+  "diferencia": 0.01154,
+  "tolerancia": 0.1,
+  "ok": true,
+  "metodo": "por partido: máximo defecto relativo entre los partidos del CSV BOE de la provincia, como fnb.contrastar_provincia (cuadre_historico_espana.py); NO equivale al total provincial; exige cobertura total (todo partido homologado)",
+  "comparados": 5,
+  "sin_homologar": [],
+  "errores": [],
+  "avisos": [],
+  "aviso": "los resultados por coalición NO son comparables entre elecciones (las siglas de coalición cambian en cada convocatoria)"
+ },
+ "estado_provincia": "LISTA",
+ "estado": "PASS"
+}

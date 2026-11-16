@@ -1,0 +1,218 @@
+# Generado por herramientas/contrato_historico_epoca.py (T-365, D-125); no versionado: se regenera desde configuracion/historico_epoca/contrato_2019_11.json.
+meta:
+  procedure_name: Diputado de Distrito
+  territory_id: nac22
+  territory: Congreso Huesca
+  run_name: nac22_h2019_11
+  year: 2019
+  scope: provincial
+  schema_version: 1.0.0
+  status: generation_ready
+  source_population_year: 2020
+  source_section_year: 2020
+  schema_family: ddd-territory
+  contract_level: production_m01_m06
+  contract_schema_version: 1.0.0
+  production_authorization: AUTHORIZED
+  historico_epoca:
+    eleccion: 2019-11
+    election_date: '2019-11-10'
+    election_id: nac22_2019-11-10
+    contrato: configuracion/historico_epoca/contrato_2019_11.json
+    contrato_sha256: bdc9d2b7c14bfd752c5b2297fb8e3a6973cbec4c072c641e7d996968c110d40c
+    contrato_base_sha256: ea01c1ca5d5d43625bc9f20f0b8c358f075b7bc8c064dde860052fb667863ac1
+    decision: D-125
+io:
+  project_root:
+    path: ../../..
+  input:
+    seccionado:
+      path: territorios/nac22/.cache/ddd/historico_epoca/nac22_h2019_11/seccionado_2020.zip
+      layer: ''
+      section_key_col: CUSEC
+      container: zip
+      materialized_format: shapefile
+      archive_member: ''
+    population_cip:
+      paths:
+      - territorios/nac22/.cache/ddd/historico_epoca/nac22_h2019_11/poblacion_22.csv
+      sep: ','
+      section_key_col: Secciones
+      pop_col: Total
+      filters:
+        year_col: Periodo
+        year_value: 2020
+      container: file
+      materialized_format: csv
+      archive_member: ''
+      encoding: utf-8
+  cache:
+    dir: territorios/nac22/.cache/ddd/preparacion/{run_name}
+  runs:
+    dir: territorios/nac22/resultados/ejecuciones/{run_id}
+territory_contract:
+  unit_id_role: census_section
+  admin_level_1_role: province
+  admin_level_2_role: municipality
+  province_codes: &id001
+  - '22'
+  k_districts: 3
+  k_source: norma
+  k_rationale: 'D-125: K = escaños oficiales de nac22 en la elección 2019-11 según
+    BOE-A-2019-18147 (CSV de T-330, sha256 9a5333865a5f)'
+  k_reference_scope: escanos_oficiales_eleccion
+  k_reference_source: BOE-A-2019-18147
+  apportionment_source: ddd_design_policy
+  legal_apportionment_reused: false
+  legal_apportionment_context: null
+  district_apportionment: hamilton
+  population_floor_ratio: 0.85
+  population_cap_ratio: 1.15
+  target_tolerance_ratio: 0.15
+  require_graph_contiguity: true
+  require_single_admin_level_1_per_district: true
+  require_municipality_discipline: true
+  oversized_municipality_rule: split_only_above_hard_cap
+  municipality_atomicity_limit_ratio: 1.15
+  require_auditable_district_catalogue: true
+  status: generation_ready
+  limits_profile: exception
+  limits_exception_rationale: 'Reglas del Congreso aprobadas por el propietario: suelo
+    85 %, techo 115 %, y un municipio que cabe bajo el techo no se divide. Piloto
+    autorizado el 30-10-2026.'
+  limits_exception_evidence: 'territorios/congreso/contrato_congreso_2026.json (K=407,
+    decisión N08-OWNER-20261013-7RULES: límites ±15 % e indivisibilidad municipal
+    bajo el techo); docs/ESTUDIOS/N08_CIERRE_NACIONAL_20261013/MATRIZ_FACTIBILIDAD_52.csv
+    (Huesca: 1 componente, 0 solapes); referencia temporal 2023 contemporánea de la
+    elección general de 2023'
+  limits_exception_decided_at: '2026-10-30'
+modulos:
+  modulo_01_preparar_base_territorial:
+    province_codes:
+    - '22'
+    drop_missing_population: false
+    out_geojson: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m01_secciones_poblacion.geojson.zip
+    out_report: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m01_informe.json
+  modulo_02_construir_adyacencias:
+    in_geojson: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m01_secciones_poblacion.geojson.zip
+    id_field: CUSEC_KEY
+    out_edges_jsonl: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m02_adyacencias.jsonl
+    predicate: contact
+    working_crs: EPSG:3035
+    min_shared_border_m: 1.0
+    max_precision_overlap_area_m2: 1.0
+    buffer_m: 0.0
+    simplify_m: 0.0
+    max_candidates: 0
+    log_every: 10000
+    topology_bridges: []
+  modulo_03_construir_grafo:
+    in_geojson: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m01_secciones_poblacion.geojson.zip
+    in_edges_jsonl: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m02_adyacencias.jsonl
+    id_field: CUSEC_KEY
+    pop_field: POP_2020
+    out_graph_json: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m03_grafo.json
+    out_report: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m03_informe.json
+  modulo_04_generar_semillas:
+    in_graph_json: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m03_grafo.json
+    in_geojson: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m01_secciones_poblacion.geojson.zip
+    id_field: CUSEC_KEY
+    pop_field: POP_2020
+    province_field: CPRO
+    municipality_field: CUMUN
+    municipality_name_field: NMUN
+    district_apportionment: hamilton
+    k_districts: 3
+    municipality_atomicity_limit_ratio: 1.15
+    preserve_province_residual_feasibility: true
+    seed: 12345
+    out_geojson: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m04_semillas.geojson.zip
+    out_report: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m04_informe.json
+  modulo_05_optimizar_distritos:
+    in_graph_json: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m03_grafo.json
+    in_geojson: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m04_semillas.geojson.zip
+    id_field: CUSEC_KEY
+    pop_field: POP_2020
+    district_field: district_id
+    province_field: CPRO
+    municipality_field: CUMUN
+    greedy_moves_limit: 1000
+    anneal_iters: 20000
+    seed: 12345
+    anneal_seed_offset: 0
+    anneal_outside_penalty: 0.01
+    anneal_maxdev_weight: 0.05
+    anneal_churn_weight: 0.0016
+    anneal_temp_start: 0.02
+    anneal_temp_end: 0.0005
+    swap_polish_max: 0
+    out_geojson: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m05_distritos_optimizados.geojson.zip
+    out_report: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m05_informe.json
+  modulo_06_consolidar_distritos:
+    in_geojson: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m05_distritos_optimizados.geojson.zip
+    id_field: CUSEC_KEY
+    district_field: district_id
+    pop_field: POP_2020
+    province_field: CPRO
+    province_name_field: NPRO
+    municipality_field: CUMUN
+    municipality_name_field: NMUN
+    cudis_field: CUDIS
+    metric_crs: EPSG:3035
+    expected_districts: 3
+    strict_expected_k: true
+    out_summary_csv: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m06_resumen_distritos.csv
+    out_catalog_csv: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m06_catalogo_distritos.csv
+    out_composition_csv: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m06_composicion_distritos.csv
+    out_geojson: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m06_secciones.geojson.zip
+    out_district_geojson: territorios/nac22/.cache/ddd/preparacion/{run_name}/nac22_h2019_11_m06_distritos.geojson.zip
+validation:
+  expected_province_codes: *id001
+  require_unique_section_id: true
+  require_non_null_population: true
+  province_field: CPRO
+  municipality_field: CUMUN
+  municipality_name_field: NMUN
+  audit_graph_components: true
+  audit_admin_level_1_components: true
+  audit_admin_level_2_components: true
+  require_one_graph_component_per_province: false
+  require_connected_municipalities: false
+  expected_districts: 3
+  population_floor_ratio: 0.85
+  population_cap_ratio: 1.15
+  target_tolerance_ratio: 0.15
+  province_apportionment: hamilton
+  province_districts:
+    '22': 3
+  require_graph_contiguity: true
+  require_single_province_per_district: true
+  require_municipality_discipline: true
+  municipality_atomicity_limit_ratio: 1.15
+  max_mixed_districts_per_split_municipality: 1
+  require_m06_population_conservation: true
+  require_m06_assignment_identity_with_m05: true
+  population_floor_exempt_partitions: []
+  partition_apportionment_audit: {}
+  source_baseline:
+    schema: ddd.source-baseline/1.0
+    edition: 2019-11
+    population_year: 2020
+    section_year: 2020
+    population_total: 220834
+    target_section_count: 286
+    package_sha256: 83328bba6076ad962d7e494cb6e005164b380f9a1caeea87a26c6ca0b17ecfd7
+    compatibility_report_sha256: null
+    compatibility_identity_sha256: 83328bba6076ad962d7e494cb6e005164b380f9a1caeea87a26c6ca0b17ecfd7
+generation_state:
+  source_prepared: true
+  generation_enabled: true
+  package_sha256: 83328bba6076ad962d7e494cb6e005164b380f9a1caeea87a26c6ca0b17ecfd7
+  compatibility_identity_sha256: 83328bba6076ad962d7e494cb6e005164b380f9a1caeea87a26c6ca0b17ecfd7
+  source_inputs:
+  - path: territorios/nac22/.cache/ddd/historico_epoca/nac22_h2019_11/seccionado_2020.zip
+    sha256: 07544bb49256e9e9f290b6f459a0a833e69c97900eb840c3f5bbe863914ede6e
+    role: target_sectioning
+  - path: territorios/nac22/.cache/ddd/historico_epoca/nac22_h2019_11/poblacion_22.csv
+    sha256: 4db6cc5aa0460cdaffaae654a96e400af0b13f23d33850f8b0df68138f0f80ac
+    role: population
