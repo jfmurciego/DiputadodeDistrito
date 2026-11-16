@@ -1981,6 +1981,13 @@
    "sha256_csv": "6d76771870002515b7a98f3f559cbb2913610c19f6cb7491236fee44e0141559",
    "ruta": "datos/composicion/runs/nac17_43764643457.csv"
   },
+  "nac17/43781217551": {
+   "territorio": "nac17",
+   "run_id": "43781217551",
+   "secciones": 536,
+   "sha256_csv": "6d76771870002515b7a98f3f559cbb2913610c19f6cb7491236fee44e0141559",
+   "ruta": "datos/composicion/runs/nac17_43781217551.csv"
+  },
   "nac18/43764654875": {
    "territorio": "nac18",
    "run_id": "43764654875",
