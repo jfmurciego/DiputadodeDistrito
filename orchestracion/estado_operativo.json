@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T04:43:30.349905+00:00",
+  "generated_at": "2026-11-16T04:55:38.967587+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -10725,20 +10725,20 @@
       "name": "Nacional Vizcaya",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43798940463,
+      "run_id": 43804714177,
       "last_run": {
-        "run_id": 43798940463,
+        "run_id": 43804714177,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10779,7 +10779,7 @@
       },
       "autonomous_community_code_ine": "C48",
       "display_name": "Nacional Vizcaya",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac49",
@@ -10969,11 +10969,11 @@
       "name": "Nacional Melilla",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 43006105644,
+      "run_id": 43803279881,
       "last_run": {
         "run_id": 43006105644,
         "status": "SUCCESS",
@@ -10982,7 +10982,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10996,16 +10996,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_melilla",
+          "territory_id": "nac52",
           "territory_name": "Congreso Melilla",
           "edition": "2025",
-          "run_id": 43001757563,
-          "artifact_name": "ddd-state-43001757563-M06",
-          "artifact_sha256": "3de55ac7b68af91e4a29c8c046155dfb5ed181cb0638744a36e14c7a5483e5b0",
-          "source_commit": "335ada5edc4938ad24ffb66b81f1107817351fd7",
+          "run_id": 43803279881,
+          "artifact_name": "ddd-state-43803279881-M06",
+          "artifact_sha256": "f2511148be66f77dc040aa78b59152a68172995332de6c5c6c515223086a2b37",
+          "source_commit": "189f33c085da140ea36b3c8434741081e25c288e",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_melilla/evidencia/generaciones_m06/43001757563.json"
+          "producer_manifest_path": "territorios/nac52/evidencia/generaciones_m06/43803279881.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -11023,7 +11023,7 @@
       },
       "autonomous_community_code_ine": "C52",
       "display_name": "Nacional Melilla",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso350_alava",
@@ -12335,10 +12335,10 @@
       "Nacional Toledo",
       "Nacional Valencia",
       "Nacional Valladolid",
+      "Nacional Vizcaya",
       "Nacional Zamora",
       "Nacional Zaragoza",
       "Nacional Ceuta",
-      "Nacional Melilla",
       "Nacional 350 Madrid",
       "Nacional 350 Soria",
       "Nacional 350 Valladolid"
@@ -12552,11 +12552,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac50",
-    "name": "Nacional Zaragoza",
-    "display_name": "Nacional Zaragoza",
-    "autonomous_community_code_ine": "C50",
-    "run_id": 43804263815,
+    "territory_id": "nac48",
+    "name": "Nacional Vizcaya",
+    "display_name": "Nacional Vizcaya",
+    "autonomous_community_code_ine": "C48",
+    "run_id": 43804714177,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12569,9 +12569,9 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Vizcaya",
-      "territory_id": "nac48",
-      "autonomous_community_code_ine": "C48",
+      "territory": "Nacional Melilla",
+      "territory_id": "nac52",
+      "autonomous_community_code_ine": "C52",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12619,9 +12619,9 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Vizcaya",
-      "territory_id": "nac48",
-      "autonomous_community_code_ine": "C48",
+      "territory": "Nacional Melilla",
+      "territory_id": "nac52",
+      "autonomous_community_code_ine": "C52",
       "action": "preparar fuentes electorales"
     }
   ]
