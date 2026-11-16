@@ -4,11 +4,11 @@
   "territory_id": "nac17",
   "territory_name": "Congreso Gerona",
   "edition": "2025",
-  "run_id": 43764643457,
-  "artifact_name": "ddd-state-43764643457-M06",
-  "artifact_sha256": "5effe39eb1fe817d48ee5389ca6800006a2df6a16c88560567e4265cf4ac149e",
-  "source_commit": "05b6ccfcd7eb570565c175d89f30e741232cfe6b",
+  "run_id": 43781217551,
+  "artifact_name": "ddd-state-43781217551-M06",
+  "artifact_sha256": "245c952692743c2849c42b638df815e865233dc04c187de7f2fa7622bfd9f0d8",
+  "source_commit": "c00501e62fc4a32dc0ef57388377fba6194def0f",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/nac17/evidencia/generaciones_m06/43764643457.json"
+  "producer_manifest_path": "territorios/nac17/evidencia/generaciones_m06/43781217551.json"
 }
