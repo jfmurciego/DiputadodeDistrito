@@ -49,3 +49,20 @@ Medido en el CSV 30832 (sha256 acreditado), sin interpretar la causa: en el peri
 - `leer_atlas` ya no descarta líneas: una línea del indicador «Población» con formato inesperado o con sección/periodo no válidos
   lanza `ErrorFuente` (filas de municipio/distrito, otros indicadores y cabecera se ignoran por diseño). Las fuentes reales pasan sin error y la salida es idéntica.
 - Una provincia con alguna sección `sin_dato` (población 0 en el denominador, nº en `secciones_sin_dato`) se marca `MARCA`; hoy 0 provincias lo tienen en las cinco elecciones.
+
+## Causa del relleno alto (pedida por el Planificador): «.» real del Atlas, no cruce de códigos
+
+Reproducible: `python -I docs/ESTUDIOS/T358_POBLACION_SECCION_RELLENO/causa_relleno.py <30832.csv> <seccionado_2015.zip> <seccionado_2016.zip> <seccionado_2019.zip> <SHA256SUMS.txt> causa_relleno_provincias.csv`
+(sha256 de las 4 fuentes verificado; salida `causa_relleno_provincias.csv`, sha256 `d1ac35e2e8766803801b4ffad5c3482fba61c7f5dd27e054185f59650f4bd0ab`).
+Lista de provincias MARCA con % y población rellenada: `informe_provincias.csv` (filtrar `marca=MARCA`); causa por provincia en `causa_relleno_provincias.csv`.
+
+| Elección | Secciones rellenadas | Con «.» en el Atlas del año | Código existe en el seccionado del año | Código NO existe en el seccionado |
+|---|---|---|---|---|
+| 2015-12 | 1 320 | 1 320 | 1 316 | 4 |
+| 2016-06 | 1 611 | 1 611 | 1 609 | 2 |
+| 2019-04 | 1 428 | 1 428 | 1 428 | 0 |
+
+Toda sección rellenada trae «.» en el Atlas de ese año (por construcción del criterio) y el 99,7-100 % existe con el mismo código en el
+seccionado del año: el relleno es «.» del INE, no un cruce mal hecho. Sevilla 2016: 272 secciones, 270 con código en el seccionado 2016
+y 2 sin él; tamaño medio rellenado 1 482 personas (máx. 2 864): no son secciones pequeñas; patrón: 174 en el municipio 41091 y 98 en otros 10; sin interpretar el motivo del «.» (no verificado en metodología INE).
+Aparte, secciones del seccionado que no entran en la tabla (el Atlas del año las deja vacías o no las lista; ni se rellenan ni cuentan): 2015-12: 9 vacías + 36 no listadas; 2016-06: 53 + 7; 2019-04: 38 + 0 (por provincia en `causa_relleno_provincias.csv`). Es un hueco de cobertura distinto del relleno, a decidir por el propietario.
