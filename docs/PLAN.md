@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.53
+Versión: 1.0.54
 Fecha: 2026-11-16
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-131 a D-133 (encargos aprobados de los pasos 2, 3 y 4 de la migración: P70, P80, P50); cola T-368 a T-371
-Anterior: legacy/docs/PLAN_v1.0.52_20261116.md
+Cambios/motivo: D-134 (paso 5, P40 Publicación) y D-135 (fusión automática fuera de P90); cola T-372 y T-373
+Anterior: legacy/docs/PLAN_v1.0.53_20261116.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -282,6 +282,8 @@ Fase 4 — producto (en el privado):
 - D-131 (16-11, propietario; paso 2 de D-129). P70 Archivo (`p70-archivo.yml`) sustituye a `podar-r2.yml`, `recuperar-producto-electoral-durable.yml` y a lo que quede de `mantenimiento-programado.yml` (`archivar_r2`, `extraer_m06`; T-366 se lleva `metricas`). Botón: acción (P71 archivar, P72 recuperar producto electoral o composición M06, P73 podar, P74 listar), simular, y territorios (código) y elección (AAAA-MM) solo para recuperar. P71 sin «caduca antes» (todo lo vivo; cron diario 05:17). P72 resuelve run, artefacto, sha y commit desde catálogo y manifiesto; mantiene `workflow_call` con entradas técnicas para la 00 (solo cambia su `uses:`). P73 sin sha256 en el botón: el sha aprobado de la lista va en un fichero versionado que solo cambia por PR revisada; borrado real solo con el entorno `produccion`. P74 nuevo, solo lectura: tamaño por carpeta y total frente a 10 GB. Un solo grupo de concurrencia. Renombrar carpetas de R2: tarea aparte tras el paso 9.
 - D-132 (16-11, propietario; paso 3 de D-129). P80 Verificación del motor (`p80-verificacion-motor.yml`) sustituye a `bateria-motor.yml`. Botón: territorios (vacío = 71) y alcance «motor vigente» (competición Deslinde, D8 y 10 cadenas fijados en el código; por defecto) | «motor base M05» (7.4.4 fijada). Se retira `archivar_almacen_m06` (de un solo uso, hecho en T-302/T-302d); `archivar_p10` pasa a P71 como «paquete de fuentes de un territorio» (solo pide el territorio; el último paquete P10 se resuelve del catálogo). Sin cambios en `herramientas/bateria_motor.py` ni `ddd_motor2`.
 - D-133 (16-11, propietario; paso 4 de D-129). P50 Publicación académica (`p50-publicacion-academica.yml`) sustituye a `publicar-version-mapa.yml`. Botón: territorios. Toma el M06 publicado en el visor (blob de `publicaciones_visor.json`, sha256 verificado), no el artefacto de Actions. Versión automática: 1.0.0 la primera, sube la menor si cambia el mapa y se niega sin cambios. Una Release por lote `mapas-v<versión>` con los territorios elegidos (un DOI por versión de la serie, D-88/D-94). La 05 deja de lanzar P50 (se quita el job `version_mapa` de `cadena-publicacion.yml`). Entorno `publicacion`, atestación y empaquetado determinista sin cambios. No se lanza P50 hasta cumplir D-88.
+- D-134 (16-11, propietario; paso 5 de D-129). P40 Publicación (`p40-publicacion.yml`) sustituye a `desplegar-visor-publico.yml`, `cadena-publicacion.yml` y `_reutilizable-publicar-sitio.yml` (el publicador va dentro como jobs; desaparece el «Interno»). Mantiene `workflow_call` con entradas técnicas ocultas para la 00, las alternativas (ensemble) y el Gestor (que pasa a lanzar con el territorio). Botón: qué publicar «solo el sitio» (P41, sin tocar el registro) | «territorios» (P41+P42, todo o nada), territorios, simular (marcado por defecto). Sin run id: última 00 completa con la puerta 04 en verde por territorio, del registro durable. Siempre «Sitio completo». Escenarios solo por `workflow_call`. P43 (histórico por fecha) en tarea aparte tras el diseño del paso A. Tras fusionar, prueba real: P40 «solo el sitio» sin simular (Operador, con frase del propietario).
+- D-135 (16-11, propietario). Excepción a D-129: la fusión automática queda como fichero propio sin botón (`auto-merge.yml` 1.3.0, disparado por `workflow_run` al terminar «P90 Automático»; jobs, permisos y concurrencia idénticos), porque GitHub rechaza un `workflow_run` sobre el propio workflow y fusionar desde el contexto de la PR ejecutaría su código con la app. Descartados: auto-merge nativo (T-54c), cron (vigilante) y `pull_request_target`. P90 sustituye a `pruebas-plataforma.yml`, `revisor-pr.yml`, `forense-00.yml` y el job `metricas`.
 
 ### Cola T-291 a T-367 (14 a 16-11)
 | Id | Qué | Estado |
@@ -362,7 +364,9 @@ Fase 4 — producto (en el privado):
 | T-368 | Migración paso 2: P70 Archivo (D-131, D-132) | LISTA, tras fusionarse T-366; turno: `podar-r2.yml`, `recuperar-producto-electoral-durable.yml`, `mantenimiento-programado.yml`, la línea `uses:` del job `recuperar_electoral` de la 00 y sus tests |
 | T-369 | Migración paso 3: P80 Verificación del motor (D-132) | LISTA, tras fusionarse T-368; turno: `bateria-motor.yml` y sus tests |
 | T-370 | Migración paso 4: P50 Publicación académica (D-133) | LISTA, tras fusionarse T-369; turno: `publicar-version-mapa.yml`, job `version_mapa` de `cadena-publicacion.yml` y sus tests |
-| T-371 | Actualización del plan 1.0.53 | REVISIÓN (esta PR) |
+| T-371 | Actualización del plan 1.0.53 | HECHA (#846) |
+| T-372 | Migración paso 5: P40 Publicación (D-134) | LISTA, tras fusionarse T-370; turno: los tres ficheros sustituidos, líneas `uses:` de la 00 y de las alternativas, `WF_05` del Gestor y sus tests |
+| T-373 | Actualización del plan 1.0.54 | REVISIÓN (esta PR) |
 | T-340 | Ficha del paso A del histórico con Condición previa, Puerta y Mapa según D-115 (si el código no implementa la puerta, abre tarea) | EN CURSO (Coordinador) |
 | T-341 | Actualización del plan 1.0.49 | REVISIÓN (#810) |
 
@@ -381,7 +385,7 @@ Frase de reanudación de r3: DADA en el chat del Operador, condicionada a #786 y
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324, T-327, T-341, T-350, T-363, T-367 y T-371. El planificador ha dado T-194 a T-371 (10 a 16-11; T-277 y T-292 sin usar; T-331 a T-340 y T-342 a T-362 los dio el Coordinador con acuerdo del Planificador). Siguiente libre: T-372.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324, T-327, T-341, T-350, T-363, T-367, T-371 y T-373. El planificador ha dado T-194 a T-373 (10 a 16-11; T-277 y T-292 sin usar; T-331 a T-340 y T-342 a T-362 los dio el Coordinador con acuerdo del Planificador). Siguiente libre: T-374.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
