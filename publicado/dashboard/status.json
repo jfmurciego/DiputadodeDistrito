@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T04:39:19.315323+00:00",
+  "generated_at": "2026-11-16T04:43:30.349905+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -10767,13 +10767,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_vizcaya",
+          "territory_id": "nac48",
           "territory_name": "Congreso Vizcaya",
           "edition": "2025",
-          "run_id": 43040430397,
-          "artifact_name": "ddd-state-43040430397-M08",
-          "artifact_sha256": "72c3397796e87565ec2003fd9358186c7d5b75d6ff930e9bdddb88b6475f7fa6",
-          "source_commit": "faa00b4e6a774b1e92ae7d3b97061ba3a7d7175e",
+          "run_id": 43804714177,
+          "artifact_name": "ddd-state-43804714177-M08",
+          "artifact_sha256": "c599a5fe51b0e234b564ef0c0078c2ba8980dbaf61d9094b1f7ecb4e244f0c2b",
+          "source_commit": "96555a40a739447a1034daae6d508177f6550f78",
           "stage": "M08"
         }
       },
@@ -10847,20 +10847,20 @@
       "name": "Nacional Zaragoza",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43798969769,
+      "run_id": 43804263815,
       "last_run": {
-        "run_id": 43798969769,
+        "run_id": 43804263815,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10901,7 +10901,7 @@
       },
       "autonomous_community_code_ine": "C50",
       "display_name": "Nacional Zaragoza",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac51",
@@ -12268,7 +12268,7 @@
     }
   ],
   "kpis": {
-    "complete": 71,
+    "complete": 72,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12336,6 +12336,7 @@
       "Nacional Valencia",
       "Nacional Valladolid",
       "Nacional Zamora",
+      "Nacional Zaragoza",
       "Nacional Ceuta",
       "Nacional Melilla",
       "Nacional 350 Madrid",
@@ -12551,13 +12552,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac49",
-    "name": "Nacional Zamora",
-    "display_name": "Nacional Zamora",
-    "autonomous_community_code_ine": "C49",
-    "run_id": 43804127706,
+    "territory_id": "nac50",
+    "name": "Nacional Zaragoza",
+    "display_name": "Nacional Zaragoza",
+    "autonomous_community_code_ine": "C50",
+    "run_id": 43804263815,
     "stage": "M08",
-    "certification": "PASS",
+    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
@@ -12571,12 +12572,6 @@
       "territory": "Nacional Vizcaya",
       "territory_id": "nac48",
       "autonomous_community_code_ine": "C48",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Zaragoza",
-      "territory_id": "nac50",
-      "autonomous_community_code_ine": "C50",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12608,6 +12603,12 @@
       "territory_id": "congreso350_avila",
       "autonomous_community_code_ine": "R05",
       "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Badajoz",
+      "territory_id": "congreso350_badajoz",
+      "autonomous_community_code_ine": "R06",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12621,12 +12622,6 @@
       "territory": "Nacional Vizcaya",
       "territory_id": "nac48",
       "autonomous_community_code_ine": "C48",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Zaragoza",
-      "territory_id": "nac50",
-      "autonomous_community_code_ine": "C50",
       "action": "preparar fuentes electorales"
     }
   ]
