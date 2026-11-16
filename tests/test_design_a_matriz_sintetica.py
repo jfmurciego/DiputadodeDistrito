@@ -32,13 +32,13 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
             "P20 Base territorial — P30 Distritos":GEN,
             "P40 Resultados electorales":ELECTORAL_APPLY,
             "P90 Automático":WF/"p90-automatico.yml",
-            "P50 Publicación":WF/"desplegar-visor-publico.yml",
+            "P40 Publicación":WF/"p40-publicacion.yml",
             "P00 Campaña — Gestor":WF/"gestor-campanas.yml",
             "P30 Distritos — P33 Alternativas":WF/"generar-alternativas-territoriales.yml",
         }
         self.assertEqual({load(p)["name"] for p in visible.values()},set(visible))
         dispatch=[p.name for p in WF.glob("*.yml") if "workflow_dispatch" in triggers(p)]
-        self.assertEqual(sorted(dispatch),["activacion-por-eleccion.yml","cadena-publicacion.yml","desplegar-visor-publico.yml","ejecucion-completa-proyecto.yml","generar-alternativas-territoriales.yml","gestor-campanas.yml","incorporacion-resultados-electorales.yml","p50-publicacion-academica.yml","p70-archivo.yml","p80-verificacion-motor.yml","preparacion-fuentes.yml","preparacion-legislatura-vigente.yml","preparacion-resultados-electorales.yml","produccion-distritos.yml"])
+        self.assertEqual(sorted(dispatch),["activacion-por-eleccion.yml","ejecucion-completa-proyecto.yml","generar-alternativas-territoriales.yml","gestor-campanas.yml","incorporacion-resultados-electorales.yml","p40-publicacion.yml","p50-publicacion-academica.yml","p70-archivo.yml","p80-verificacion-motor.yml","preparacion-fuentes.yml","preparacion-legislatura-vigente.yml","preparacion-resultados-electorales.yml","produccion-distritos.yml"])
 
     def test_preparation_supports_every_registered_territory_and_catalog_gates_generation(self):
         prep_options=triggers(PREP)["workflow_dispatch"]["inputs"]["territory_id"]["options"]
@@ -105,7 +105,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertIn("UI_PRODUCT: Distritos",gen)
         self.assertNotIn("publish_result:",gen)
         self.assertNotIn("publish_result:",electoral)
-        self.assertNotIn("_reutilizable-publicar-sitio.yml",electoral)
+        self.assertNotIn("p40-publicacion.yml",electoral)
 
 
     def test_electoral_requires_prepared_inputs_without_recalculating_districts(self):
@@ -147,7 +147,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertIn("ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}",electoral_prep)
         self.assertIn("ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}",prep)
         for name in [
-            "generar-alternativas-territoriales.yml","desplegar-visor-publico.yml","_reutilizable-publicar-sitio.yml",
+            "generar-alternativas-territoriales.yml","p40-publicacion.yml",
             "_reutilizable-incorporacion-electoral.yml",
         ]: self.assertTrue((WF/name).is_file(),name)
 

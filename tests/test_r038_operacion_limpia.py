@@ -65,16 +65,15 @@ class R038OperacionLimpia(unittest.TestCase):
     def test_publicacion_es_un_proceso_independiente(self):
         generation = (WORKFLOWS / "produccion-distritos.yml").read_text(encoding="utf-8")
         electoral = (WORKFLOWS / "incorporacion-resultados-electorales.yml").read_text(encoding="utf-8")
-        viewer = (WORKFLOWS / "_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")
-        manual = (WORKFLOWS / "desplegar-visor-publico.yml").read_text(encoding="utf-8")
+        viewer = (WORKFLOWS / "p40-publicacion.yml").read_text(encoding="utf-8")
+        manual = (WORKFLOWS / "p40-publicacion.yml").read_text(encoding="utf-8")
         self.assertNotIn('publish_result:', generation)
         self.assertNotIn('publish_result:', electoral)
-        self.assertNotIn("_reutilizable-publicar-sitio.yml", electoral)
+        self.assertNotIn("p40-publicacion.yml", electoral)
         self.assertIn("workflow_call:", viewer)
-        self.assertNotIn("workflow_dispatch:", viewer)
         self.assertIn("group: ddd-pages-prod", viewer)
         self.assertIn("cancel-in-progress: false", viewer)
-        self.assertIn("workflow_dispatch:", manual)
+        self.assertIn("workflow_dispatch:", manual)  # T-372: botón y publicador en el mismo fichero
         self.assertIn("workflow_call:", manual)
 
     def test_no_queda_el_formulario_g10_sustituido(self):

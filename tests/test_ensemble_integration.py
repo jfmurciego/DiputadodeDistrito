@@ -239,7 +239,7 @@ class IntegratedRunnerTests(unittest.TestCase):
         self.assertIn("workflow_call:", workflow)
         self.assertIn("max-parallel: 5", workflow)
         self.assertNotIn("actions/deploy-pages@", workflow)
-        self.assertIn("uses: ./.github/workflows/_reutilizable-publicar-sitio.yml", workflow)
+        self.assertIn("uses: ./.github/workflows/p40-publicacion.yml", workflow)
         self.assertIn("ensemble_release_tag:", workflow)
         self.assertIn("--draft", workflow)
         self.assertNotIn("push:", workflow)

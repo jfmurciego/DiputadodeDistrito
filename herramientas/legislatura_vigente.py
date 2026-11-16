@@ -2,7 +2,8 @@
 """Legislatura vigente: configuración, plan y lanzamiento por ámbito del Gestor de Campañas.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.1 · FECHA: 2026-11-12 · ESTADO: candidato
+VERSIÓN: 1.4.0 · FECHA: 2026-11-16 · ESTADO: candidato
+CAMBIOS 1.4.0: T-372 (D-134), WF_05 es p40-publicacion.yml («P40 Publicación»): el Gestor la lanza con `que_publicar=Territorios`, `territorios=<id>` y `simular=false` (P40 toma la última 00 válida del registro) y lista los runs del fichero nuevo.
 CAMBIOS 1.3.0: T-234 (relevo formal, D-82): la 00 del Gestor se lanza con `motor=motor2` (Deslinde 1.0) de forma explícita
   (`motor_00`; con `--estrategia` GerryChain, la ruta retirada m05, como el modo matriz del Gestor).
 CAMBIOS 1.2.3: T-215 (corte 5.0.0, paso 4), la 00 se llama «P00 Campaña»: TITLE_00 nuevo; los runs en curso con el
@@ -19,7 +20,7 @@ CAMBIOS 1.1.0: T-102, ámbito «congreso 350» (49 gemelos `congreso350_*`, K = 
   «legislatura completa» y «nacional» no los incluyen salvo que se pidan por territory_id (relevo `continuar`).
   Los gemelos nunca publican (D-18): 00 con publish_result=false y sin 05; «COMPLETO_SIN_PUBLICAR» → `nada`.
 CAMBIOS 1.3.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/legislatura_vigente_v1.3.0_20261112.py
+ANTERIOR: legacy/herramientas/legislatura_vigente_v1.3.1_20261116.py
 QUÉ HACE: T-86.
   - `generar` escribe `configuracion/legislatura_vigente.yaml` desde los ficheros con fuente del repo
     (registro electoral, preparación de la legislatura y escaños oficiales del BOE), con su sha256; nada de memoria.
@@ -61,7 +62,7 @@ SEATS_2023 = Path("configuracion/resultados_oficiales_congreso_2023.json")
 VIEWER = Path("orchestracion/publicaciones_visor.json")
 WF_00 = "ejecucion-completa-proyecto.yml"
 
-WF_05 = "desplegar-visor-publico.yml"
+WF_05 = "p40-publicacion.yml"
 WF_GESTOR = "gestor-campanas.yml"
 WF_06 = "generar-alternativas-territoriales.yml"
 ARTIFACT_DAYS = 12  # margen bajo los 14 días de los artefactos M06/M08 de la 00
@@ -352,9 +353,10 @@ class Territorio:
     def publish(self) -> None:
         """Una sola 05 del Gestor a la vez: la 05 no lleva el run en su nombre y se identifica por orden."""
         self.since = _now()
-        dispatch(WF_05, {"pagina_publicar": "Sitio completo", "production_run_id": self.run_id})
+        # T-372: P40 toma del registro durable la última 00 completa con la 04 en verde del territorio (ya no se pasa el run).
+        dispatch(WF_05, {"que_publicar": "Territorios", "territorios": self.row["territory_id"], "simular": False})
         self.fase = "05"
-        self.log(f"{self.tid}: 05 lanzada con production_run_id={self.run_id}")
+        self.log(f"{self.tid}: P40 lanzada para {self.row['territory_id']} (00 {self.run_id})")
 
     def ensemble(self) -> None:
         """Una sola 06 del Gestor a la vez (se identifica por orden, como la 05); galería en el visor si publica."""

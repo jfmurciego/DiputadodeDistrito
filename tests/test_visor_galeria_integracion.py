@@ -40,7 +40,7 @@ class Integracion(unittest.TestCase):
 
     def test_el_workflow_congelado_publica_la_galeria(self):
         """El workflow copia visor/v2/ entero con cp -R: la galería viaja con él sin tocar el workflow."""
-        wf = (ROOT / ".github" / "workflows" / "_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")
+        wf = (ROOT / ".github" / "workflows" / "p40-publicacion.yml").read_text(encoding="utf-8")
         self.assertIn("cp -R visor/v2/. /tmp/site-candidate/v2/", wf)
         self.assertTrue((ROOT / "visor" / "v2" / "galeria" / "galeria.js").is_file())
 

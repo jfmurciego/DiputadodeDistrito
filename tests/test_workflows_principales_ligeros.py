@@ -16,7 +16,7 @@ class LightweightBusinessWorkflows(unittest.TestCase):
             "produccion-distritos.yml":"P20 Base territorial — P30 Distritos",
             "preparacion-resultados-electorales.yml":"P10 Fuentes — P12 Electorales",
             "incorporacion-resultados-electorales.yml":"P40 Resultados electorales",
-            "desplegar-visor-publico.yml":"P50 Publicación",
+            "p40-publicacion.yml":"P40 Publicación",
         }
         for name,label in expected.items():
             self.assertEqual(load(name)["name"],label)
@@ -29,7 +29,7 @@ class LightweightBusinessWorkflows(unittest.TestCase):
         for forbidden in (
             "Base territorial y población","Adyacencias territoriales","Grafo territorial",
             "Formación inicial de distritos","Optimización de distritos",
-            "auditar_componentes_geometricos","_reutilizable-publicar-sitio.yml",
+            "auditar_componentes_geometricos","p40-publicacion.yml",
         ):
             self.assertNotIn(forbidden,text)
         self.assertIn("Verificar producto territorial certificado",text)
@@ -45,7 +45,7 @@ class LightweightBusinessWorkflows(unittest.TestCase):
         self.assertNotIn("pages: write",generation)
         self.assertNotIn("id-token: write",generation)
         territorial=(WF/"_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
-        for forbidden in ("M07","M08","_reutilizable-publicar-sitio.yml","pages: write","id-token: write","instalar_fuente_electoral_oficial.py"):
+        for forbidden in ("M07","M08","p40-publicacion.yml","pages: write","id-token: write","instalar_fuente_electoral_oficial.py"):
             self.assertNotIn(forbidden,territorial)
         self.assertNotIn("publish_result:",electoral)
         self.assertNotIn("pages: write",electoral)
@@ -56,7 +56,7 @@ class LightweightBusinessWorkflows(unittest.TestCase):
         generation=(WF/"produccion-distritos.yml").read_text(encoding="utf-8")
         electoral_prep=(WF/"preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
         electoral=(WF/"incorporacion-resultados-electorales.yml").read_text(encoding="utf-8")
-        publisher=(WF/"_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")
+        publisher=(WF/"p40-publicacion.yml").read_text(encoding="utf-8")
         self.assertIn("ddd-territorial-prod-",territorial_prep)
         self.assertIn("ddd-territorial-prod-",generation)
         self.assertIn("ddd-electoral-prod-",electoral_prep)
@@ -77,7 +77,7 @@ class LightweightBusinessWorkflows(unittest.TestCase):
 
     def test_electoral_product_remains_publishable_after_decoupling(self):
         reusable=(WF/"_reutilizable-incorporacion-electoral.yml").read_text(encoding="utf-8")
-        publisher=(WF/"desplegar-visor-publico.yml").read_text(encoding="utf-8")
+        publisher=(WF/"p40-publicacion.yml").read_text(encoding="utf-8")
         self.assertIn("Conservar certificación consumible por publicación",reusable)
         self.assertIn("name: ddd-audit-electoral-${{ github.run_id }}",reusable)
         self.assertIn('payload["workflow_run_id"]=int(run_id)',reusable)

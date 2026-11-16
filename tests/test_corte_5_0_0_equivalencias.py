@@ -17,7 +17,7 @@ sys.path.insert(0, str(ROOT / "tests"))
 import generar_equivalencias_5_0_0 as gen  # noqa: E402
 
 WF = ROOT / ".github" / "workflows"
-NOMBRE_05 = "P50 Publicación"
+NOMBRE_05 = "P40 Publicación"  # T-372
 NOMBRE_06 = "P30 Distritos — P33 Alternativas"
 
 
@@ -43,7 +43,7 @@ class ReferenciasPorNombre(unittest.TestCase):
                 encontradas.append((f.name, r))
                 self.assertIn(r, existentes, f"{f.name} nombra un flujo inexistente: {r!r}")
         esperadas = sorted([
-            ("desplegar-visor-publico.yml", NOMBRE_05),
+            ("p40-publicacion.yml", NOMBRE_05),
             ("p90-automatico.yml", "P00 Campaña"),  # forense, D-61/D-78 (T-366)
             ("auto-merge.yml", "P90 Automático"),  # fusión: workflow_run de P90 (T-366)
             ("generar-alternativas-territoriales.yml", NOMBRE_06),
@@ -53,7 +53,7 @@ class ReferenciasPorNombre(unittest.TestCase):
 
     def test_05_y_06_siguen_exigiendo_produccion(self):
         casos = {
-            "desplegar-visor-publico.yml": (NOMBRE_05, 1),
+            "p40-publicacion.yml": (NOMBRE_05, 1),
             "generar-alternativas-territoriales.yml": (NOMBRE_06, 2),
         }
         for fich, (nombre, n) in casos.items():

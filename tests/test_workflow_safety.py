@@ -47,21 +47,17 @@ class WorkflowSafety(unittest.TestCase):
             self.assertNotIn("workflow_dispatch",trigger_names,name)
             self.assertTrue(required.issubset(trigger_names),name)
 
-        viewer=yaml.safe_load((WORKFLOWS/"desplegar-visor-publico.yml").read_text(encoding="utf-8")) or {}
+        viewer=yaml.safe_load((WORKFLOWS/"p40-publicacion.yml").read_text(encoding="utf-8")) or {}
         viewer_triggers=viewer.get(True,viewer.get("on",{})) or {}
         self.assertEqual(set(viewer_triggers),{"workflow_call","workflow_dispatch"})
         manual_inputs=viewer_triggers["workflow_dispatch"]["inputs"]
-        self.assertEqual(set(manual_inputs),{"pagina_publicar","production_run_id","scenario_id","scenario_strategy"})  # T-27 c: escenario opcional
-        self.assertEqual(manual_inputs["pagina_publicar"]["type"],"choice")
-        self.assertEqual(manual_inputs["production_run_id"]["type"],"string")
-        self.assertFalse(manual_inputs["production_run_id"]["required"])
-        self.assertEqual(
-            manual_inputs["pagina_publicar"]["options"],
-            ["Dashboard operativo","Visor territorial","Sitio completo"],
-        )
-        reusable=yaml.safe_load((WORKFLOWS/"_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")) or {}
-        reusable_triggers=reusable.get(True,reusable.get("on",{})) or {}
-        self.assertEqual(set(reusable_triggers),{"workflow_call"})
+        self.assertEqual(set(manual_inputs),{"que_publicar","territorios","simular"})  # T-372: botón sin parámetros técnicos; escenario solo por workflow_call
+        self.assertEqual(manual_inputs["que_publicar"]["type"],"choice")
+        self.assertEqual(manual_inputs["que_publicar"]["options"],["Solo el sitio","Territorios"])
+        self.assertEqual(manual_inputs["territorios"]["type"],"string")
+        self.assertEqual(manual_inputs["simular"]["type"],"boolean")
+        self.assertIs(manual_inputs["simular"]["default"],True)
+        self.assertTrue({"scenario_id","scenario_strategy"}<=set(viewer_triggers["workflow_call"]["inputs"]))
 
     def test_retired_diagnostics_are_not_active_workflows(self):
         # 2026-10-31: diagnósticos, F10, pruebas y smokes retirados a legacy/workflows/retirados_20261031/.

@@ -47,22 +47,17 @@ class ResolverCadenaPublicacionTests(unittest.TestCase):
             self.assertEqual(main(["--root", tmp, "--run-id", "7"]), 2)
 
 
-class CadenaPublicacionWorkflowTests(unittest.TestCase):
+class P40ConservaLaSimulacionDeLaCadenaTests(unittest.TestCase):
+    """T-372: la cadena 05 se funde en P40 Publicación (simular marcado por defecto; el resto, en test_t372_p40_equivalencia)."""
+
     def setUp(self):
-        self.wf = yaml.safe_load((WF / "cadena-publicacion.yml").read_text(encoding="utf-8"))
+        self.wf = yaml.safe_load((WF / "p40-publicacion.yml").read_text(encoding="utf-8"))
 
-    def test_simulacion_por_defecto_y_publicar_solo_con_modo_explicito(self):
+    def test_simulacion_por_defecto_y_publicar_solo_con_simular_desmarcado(self):
         inputs = self.wf[True]["workflow_dispatch"]["inputs"]
-        self.assertEqual(inputs["modo"]["default"], "simulacion")
-        self.assertIn("needs.resolver.outputs.publicar == 'true'", self.wf["jobs"]["visor"]["if"])
-        self.assertNotIn("version", inputs)  # T-370: la versión del mapa va en P50 Publicación académica
-
-    def test_la_cadena_solo_lanza_el_visor_con_el_mismo_run_y_sha(self):
-        visor = self.wf["jobs"]["visor"]
-        self.assertEqual(set(self.wf["jobs"]), {"resolver", "visor"})  # T-370: sin job version_mapa
-        self.assertEqual(visor["uses"], "./.github/workflows/desplegar-visor-publico.yml")
-        self.assertEqual(visor["with"]["production_run_id"], "${{ needs.resolver.outputs.publish_run_id }}")
-        self.assertEqual(visor["with"]["source_sha"], "${{ needs.resolver.outputs.source_sha }}")
+        self.assertIs(inputs["simular"]["default"], True)
+        self.assertIn("needs.resolver.outputs.publicar == 'true'", self.wf["jobs"]["preparar"]["if"])
+        self.assertFalse((WF / "cadena-publicacion.yml").exists())
 
 
 if __name__ == "__main__":

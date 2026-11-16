@@ -24,7 +24,7 @@ PRUEBAS = {"p90-automatico.yml"}
 PRODUCCION = {
     "_reutilizable-generacion-territorial.yml",
     "_reutilizable-incorporacion-electoral.yml",
-    "_reutilizable-publicar-sitio.yml",
+    "p40-publicacion.yml",
     "_reutilizable-puerta-validacion.yml",
     "ejecucion-completa-proyecto.yml",
     "generar-alternativas-territoriales.yml",

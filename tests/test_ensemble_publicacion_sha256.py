@@ -11,7 +11,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 WF = yaml.safe_load((ROOT / ".github/workflows/generar-alternativas-territoriales.yml").read_text(encoding="utf-8"))
-PUBLISHER = (ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")
+PUBLISHER = (ROOT / ".github/workflows/p40-publicacion.yml").read_text(encoding="utf-8")
 JOBS = WF["jobs"]
 
 
@@ -30,7 +30,7 @@ class PublicacionDeEnsemblesTests(unittest.TestCase):
         self.assertEqual(JOBS["desplegar_republish"]["with"]["ensemble_sha256"], "${{ needs.republish.outputs.ensemble_sha256 }}")
         for name in ("desplegar_publish", "desplegar_republish"):
             self.assertEqual(JOBS[name]["with"]["target_page"], "Visor territorial")
-            self.assertEqual(JOBS[name]["uses"], "./.github/workflows/_reutilizable-publicar-sitio.yml")
+            self.assertEqual(JOBS[name]["uses"], "./.github/workflows/p40-publicacion.yml")
 
     def test_el_publicador_exige_exactamente_ese_formato(self):
         self.assertIn("ensemble_sha256:", PUBLISHER)

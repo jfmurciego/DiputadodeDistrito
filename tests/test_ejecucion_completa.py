@@ -195,7 +195,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertEqual(jobs["preparar_electoral"]["uses"], "./.github/workflows/preparacion-resultados-electorales.yml")
         self.assertEqual(jobs["incorporar"]["uses"], "./.github/workflows/incorporacion-resultados-electorales.yml")
         self.assertEqual(jobs["recuperar_electoral"]["uses"], "./.github/workflows/p70-archivo.yml")
-        self.assertEqual(jobs["publicar"]["uses"], "./.github/workflows/desplegar-visor-publico.yml")
+        self.assertEqual(jobs["publicar"]["uses"], "./.github/workflows/p40-publicacion.yml")
 
     def test_business_phases_are_reusable(self):
         for name in (
@@ -203,7 +203,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             "produccion-distritos.yml",
             "preparacion-resultados-electorales.yml",
             "incorporacion-resultados-electorales.yml",
-            "desplegar-visor-publico.yml",
+            "p40-publicacion.yml",
         ):
             self.assertIn("workflow_call", triggers(WF / name), name)
 

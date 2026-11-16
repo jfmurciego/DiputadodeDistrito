@@ -132,7 +132,7 @@ class Lanzar(unittest.TestCase):
             return
         self.n += 1
         title = (f"{lv.TITLE_00} · {inputs['territory_id']} · {inputs['execution_mode']}" if wf == lv.WF_00
-                 else "P50 Publicación" if wf == lv.WF_05 else "P30 Distritos — P33 Alternativas")
+                 else "P40 Publicación" if wf == lv.WF_05 else "P30 Distritos — P33 Alternativas")
         self.runs[wf].append({"id": self.n, "display_title": title, "status": "queued", "conclusion": None,
                               "created_at": "2026-11-07T10:00:%02dZ" % (self.n % 60)})
 
@@ -184,7 +184,10 @@ class Lanzar(unittest.TestCase):
         self.assertEqual((first[0], first[1]["territory_id"]), (lv.WF_00, "A"))
         self.assertTrue(first[1]["publish_result"] and first[1]["lanzado_por_eleccion"])
         self.assertEqual(first[1]["publication_mode"], "electoral")
-        self.assertIn((lv.WF_05, {"pagina_publicar": "Sitio completo", "production_run_id": "77"}), self.dispatched)
+        self.assertEqual(lv.WF_05, "p40-publicacion.yml")  # T-372: P40 toma del registro la última 00 válida del territorio
+        p40 = [d[1] for d in self.dispatched if d[0] == lv.WF_05]
+        self.assertTrue(p40 and all(i == {"que_publicar": "Territorios", "territorios": i["territorios"], "simular": False} for i in p40), p40)
+        self.assertNotIn("c", [i["territorios"] for i in p40])
         self.assertNotIn("C", [d[1].get("territory_id") for d in self.dispatched])
 
     def test_prueba_fallida_detiene_la_campana(self):

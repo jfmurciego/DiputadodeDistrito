@@ -54,7 +54,7 @@ class ProductosPublicos(unittest.TestCase):
 
     def test_internos_no_se_sirven_en_el_sitio(self):
         """Frontera: datos/composicion, datos/resultados y datos/distritos (0..K-1) no se copian a /site (solo derivados 1..K)."""
-        wf = (ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")
+        wf = (ROOT / ".github/workflows/p40-publicacion.yml").read_text(encoding="utf-8")
         for linea in wf.splitlines():
             if "site-candidate" in linea and not linea.lstrip().startswith("#"):
                 for i in n.INTERNOS:

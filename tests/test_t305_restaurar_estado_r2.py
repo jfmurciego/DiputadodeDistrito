@@ -88,7 +88,7 @@ class RestaurarR2(unittest.TestCase):
         self.assertIn("RESTAURAR_R2_SIN_CREDENCIALES", err.getvalue())
 
     def test_workflow_orden_y_secretos_solo_en_el_paso(self):
-        wf = (ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")
+        wf = (ROOT / ".github/workflows/p40-publicacion.yml").read_text(encoding="utf-8")
         self.assertLess(wf.index("gh run download \"$run\" \"${pats[@]}\""), wf.index("--pattern 'ddd-*'"))
         self.assertLess(wf.index("--pattern 'ddd-*'"), wf.index("python herramientas/restaurar_estado_r2.py"))
         job_env = wf.split("\n    env:\n", 1)[1].split("\n    steps:", 1)[0]

@@ -158,12 +158,11 @@ class CodautoPreparationContractTests(unittest.TestCase):
             manual,
             [
                 "activacion-por-eleccion.yml",
-                "cadena-publicacion.yml",  # T-87 cadena 05 + versión de mapa
-                "desplegar-visor-publico.yml",
                 "ejecucion-completa-proyecto.yml",
                 "generar-alternativas-territoriales.yml",
                 "gestor-campanas.yml",
                 "incorporacion-resultados-electorales.yml",
+                "p40-publicacion.yml",  # T-372: P40 Publicación (sustituye a 05, cadena y publicador)
                 "p50-publicacion-academica.yml",  # T-370: P50 Publicación académica
                 "p70-archivo.yml",  # T-368: P70 Archivo (poda, recuperación, archivo diario y composición M06)
                 "p80-verificacion-motor.yml",  # T-369: P80 Verificación del motor

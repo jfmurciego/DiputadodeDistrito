@@ -13,7 +13,7 @@ from urllib.parse import urljoin
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-PUB = ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml"
+PUB = ROOT / ".github/workflows/p40-publicacion.yml"
 
 
 def paso(nombre):

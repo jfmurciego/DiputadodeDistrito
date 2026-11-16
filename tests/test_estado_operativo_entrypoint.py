@@ -12,7 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOWS = (
     ROOT / ".github" / "workflows" / "ejecucion-completa-proyecto.yml",
-    ROOT / ".github" / "workflows" / "desplegar-visor-publico.yml",
+    ROOT / ".github" / "workflows" / "p40-publicacion.yml",
 )
 MODULE = "herramientas.persistir_estado_operativo_compartido"
 LEGACY_CALL = "python herramientas/persistir_estado_operativo_compartido.py"

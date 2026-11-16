@@ -15,8 +15,8 @@ from herramientas.resolver_release_asset import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-PUBLISHER = ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml"
-MANUAL = ROOT / ".github/workflows/desplegar-visor-publico.yml"
+PUBLISHER = ROOT / ".github/workflows/p40-publicacion.yml"
+MANUAL = ROOT / ".github/workflows/p40-publicacion.yml"
 
 
 def release(release_id: int, tag: str, *, draft: bool, assets: list[dict] | None = None) -> dict:
@@ -100,10 +100,9 @@ class DraftReleasePromotionTests(unittest.TestCase):
         text = MANUAL.read_text(encoding="utf-8")
         parsed = yaml.load(text, Loader=yaml.BaseLoader)
         dispatch = parsed["on"]["workflow_dispatch"]["inputs"]
-        self.assertIn("production_run_id", dispatch)
-        self.assertIn("Run territorial certificado a promover sin recalcular", text)
-        self.assertIn("PRODUCTION_RUN_ID_OVERRIDE: ${{ inputs.production_run_id }}", text)
-        self.assertIn("uses: ./.github/workflows/_reutilizable-publicar-sitio.yml", text)
+        self.assertEqual(set(dispatch), {"que_publicar", "territorios", "simular"})  # T-372: el run sale del registro durable
+        self.assertIn("PRODUCTION_RUN_ID_OVERRIDE: ${{ needs.resolver.outputs.production_run_id }}", text)
+        self.assertIn("herramientas/p40_resolver.py territorios", text)
         self.assertNotIn("produccion-distritos.yml", text)
         self.assertNotIn("preparacion-fuentes.yml", text)
         self.assertNotIn("incorporacion-resultados-electorales.yml", text)

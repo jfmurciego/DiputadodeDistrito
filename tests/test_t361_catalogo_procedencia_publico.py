@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "herramientas"))
 import catalogo_procedencia_publico as cpp  # noqa: E402
 
 ORIGEN = ROOT / "orchestracion" / "catalogo_procedencia.json"
-PUB = ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml"
+PUB = ROOT / ".github/workflows/p40-publicacion.yml"
 PROHIBIDAS = {"run_id", "receipt_path", "blob_sha", "copias_r2", "copia_r2_prefijo", "asset_id", "copia_git",
               "copia_release", "package_sha256", "artifact_sha256", "territorial_identity_sha256",
               "fuente_electoral", "incoherencias", "entradas", "id", "origen_sha256", "doi", "tag"}
