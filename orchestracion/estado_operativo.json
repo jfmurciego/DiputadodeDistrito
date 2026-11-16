@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T02:53:29.466909+00:00",
+  "generated_at": "2026-11-16T02:54:46.963070+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -10510,13 +10510,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_tarragona",
+          "territory_id": "nac43",
           "territory_name": "Congreso Tarragona",
           "edition": "2025",
-          "run_id": 43029795470,
-          "artifact_name": "ddd-state-43029795470-M08",
-          "artifact_sha256": "5d14226008ee9bdb6f22475efcbac89e0104b7235712cb1c265d6516e6026289",
-          "source_commit": "91a49a8ec66c5b59ecfbabd884258eb6c9db0a00",
+          "run_id": 43794008411,
+          "artifact_name": "ddd-state-43794008411-M08",
+          "artifact_sha256": "3815b825276ef6c0bdb216abfd6e175c2fd0c8c0326fd6de4bf7a36ae0e476b7",
+          "source_commit": "a4a9f8d6636a236a5f13ef37d63c43f711cc3658",
           "stage": "M08"
         }
       },
