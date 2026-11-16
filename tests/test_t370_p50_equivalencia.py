@@ -117,6 +117,20 @@ class Equivalencia(Congelado):
             self.assertIn(frag, run)
         self.assertIn("ddd-${T}-v${V}.tar.gz", paso(self.p["jobs"]["publicar"], "Empaquetar de forma determinista")["run"])
 
+    def test_linaje_lleva_blob_sha256_run_y_commit_del_registro_del_visor(self):
+        run = paso(self.p["jobs"]["publicar"], "Añadir contexto de linaje")["run"]
+        for frag in ('"blob_sha": os.environ["BLOB"]', '"sha256": os.environ["SHA"]', '"production_run_id": os.environ["RUN"]',
+                     '"source_run_id": os.environ["RUN"]', '"source_commit": os.environ["SRC_SHA"]'):
+            self.assertIn(frag, run)
+        self.assertNotIn('"production_run_id": None', run)
+        # blob_sha, sha256 y run salen del plan, que sale del registro del visor
+        import sys
+        sys.path.insert(0, str(ROOT / "herramientas"))
+        sys.path.insert(0, str(ROOT))
+        import p50_resolver as r
+        for t, p in r.vigentes(ROOT).items():
+            self.assertTrue(p["blob_sha"] and p["sha256"] and str(p["run_id"]).isdigit(), t)
+
     def test_release_una_por_lote_con_todos_los_territorios(self):
         run = paso(self.p["jobs"]["publicar"], "Crear Release (Zenodo la archiva y asigna DOI)")["run"]
         self.assertEqual(len(re.findall(r"gh release create", run)), 1)

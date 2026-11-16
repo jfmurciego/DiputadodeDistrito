@@ -9,7 +9,7 @@
 - Versión automática: 1.0.0 la primera; sube la menor si cambia el mapa (territorio → sha256 del M06) respecto de la última Release `mapas-v*` (guardado en su asset `MAPAS.json`);
   se NIEGA con `P50_MAPA_SIN_CAMBIOS` si no cambia, y con `P50_SIN_MAPAS_PREVIO` si la última Release no trae `MAPAS.json`.
 - Una Release por lote, `mapas-v<versión>`, con un paquete `ddd-<t>-v<V>.tar.gz` por territorio (mismo contenido y empaquetado determinista que antes: `LINAJE.json` con dos campos añadidos,
-  `m06_blob_sha` y `m06_sha256`; `SHA256SUMS` interno idéntico), `SHA256SUMS` de los paquetes y `MAPAS.json`. Atestación SLSA sobre todos los paquetes. Entorno `publicacion` y permisos del job iguales.
+  `blob_sha` y `sha256`; `SHA256SUMS` interno idéntico), `SHA256SUMS` de los paquetes y `MAPAS.json`. Atestación SLSA sobre todos los paquetes. Entorno `publicacion` y permisos del job iguales.
   El job `resolver` solo lee. Sin `workflow_call`.
 - `cadena-publicacion.yml` 1.1.0 (copia 1.0.1 en `legacy/`): se quita el job `version_mapa` y la entrada `version` (con su validación y la comprobación de la etiqueta): la 05 ya no lanza P50.
 - Equivalencias del corte regeneradas (`generar_equivalencias_5_0_0.py` 1.1.2); `LEEME_KIT.md`.
@@ -18,7 +18,7 @@
 controles negativos; resolutor (versiones, negativa, territorios, CLI rc/stderr) y pasos bajo `bash -eo pipefail`. Actualizados `test_design_a_catalogo`, `test_design_a_matriz_sintetica`,
 `test_codauto_preparation_contract`, `test_etiquetas_territoriales_humanas`, `test_resolver_cadena_publicacion`.
 
-**Lo que se pierde respecto de 1.1.2 (declarado).** `production_run_id` queda `None` en `LINAJE.json`; ya no hay atadura al mismo `source_sha` y run que el visor (D-14: la 05 no lanza P50, el
+**Lo que se pierde respecto de 1.1.2 (declarado).** `LINAJE.json` (D-133 sustituye a D-14) lleva por territorio `blob_sha` y `sha256` del M06 tal como están en el registro del visor, `source_run_id` y `production_run_id` = el `run_id` del registro (el run de la 00 que lo produjo; el registro no guarda otro) y `source_commit` = sha del commit de la Release (fijado por test); ya no hay atadura al mismo `source_sha` y run que el visor (D-14: la 05 no lanza P50, el
 commit es el de `main` al pulsar); `SHA256SUMS` de la Release es ahora el de los tarballs (el interno de cada paquete es el de antes); Release por lote en vez de una por territorio; sin `workflow_call`.
 Versión repetida: el resolutor une las Releases publicadas (los borradores no se ven con `contents: read`) con las etiquetas `mapas-v*` del repositorio y falla cerrado con `P50_TAG_EXISTE` si la candidata ya existe.
 

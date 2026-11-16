@@ -124,10 +124,10 @@ jobs:
             "territory_id": t,
             "version": os.environ["V"],
             "source_run_id": os.environ["RUN"],
-            "production_run_id": None,
+            "production_run_id": os.environ["RUN"],  # run de la 00 del registro del visor (su run_id)
             "source_commit": os.environ["SRC_SHA"],
-            "m06_blob_sha": os.environ["BLOB"],
-            "m06_sha256": os.environ["SHA"],
+            "blob_sha": os.environ["BLOB"],
+            "sha256": os.environ["SHA"],
             "published_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
             "oficial": False,
           }, open(f"paquetes/{t}/LINAJE.json", "w"), ensure_ascii=False, indent=2)
