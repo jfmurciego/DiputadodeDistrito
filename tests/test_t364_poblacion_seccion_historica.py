@@ -28,6 +28,7 @@ S8, S9 = "0500500001", "0500500002"                      # municipio 05005: S8 N
 S10 = "0600600001"                                       # solo en el seccionado 2016, sin ningún dato en el Atlas
 S11, S12 = "0700700001", "0700700002"                    # municipio 07007: S12 vacía «""» en el Atlas 2016-2017 y SÍ está en el seccionado
 S13 = "0800800001"                                       # vacía «""» en el Atlas y NO está en ningún seccionado: inexistente
+S14, S15 = "0900900001", "0900900002"                    # municipio 09009: S14 está en el Atlas pero NO en el seccionado (sucesora: S15)
 S7 = "0400400001"                                        # municipio 04004: miles con punto, sin estimadas
 
 
@@ -59,6 +60,8 @@ def atlas_texto():
     f.append(serie(S11, {a: "300" for a in range(2015, 2023)}))
     f.append(serie(S12, {2015: "100", 2016: '""', 2017: '""', **{a: "200" for a in range(2018, 2023)}}))
     f.append(serie(S13, {a: '""' for a in range(2015, 2023)}))
+    f.append(serie(S14, {a: "250" for a in range(2015, 2023)}))
+    f.append(serie(S15, {a: "100" for a in range(2015, 2023)}))
     f.append(serie(S7, {a: "1.200" for a in range(2015, 2023)}))  # «1.200» = 1200 (separador de miles)
     f.append("01001 Municipio;;;Población;2019;5.000\r\n")  # fila de municipio: se ignora
     return "".join(f)
@@ -110,7 +113,7 @@ def dbf_zip_bytes(codigos, campo="CUSEC", ancho=10):
 
 
 SECC = {2012: {S1, S2, S6},  # = secciones que lista el Censo 2011 (S2 vacía: existe en la fuente, no se estima)
-        **{a: {S1, S2, S3, S4, S5, S6, S7, S8, S9, S11, S12} for a in (2015, 2016, 2019, 2020)}}
+        **{a: {S1, S2, S3, S4, S5, S6, S7, S8, S9, S11, S12, S15} for a in (2015, 2016, 2019, 2020)}}
 SECC[2016] = SECC[2016] | {S10}
 
 
@@ -147,10 +150,10 @@ class Base(unittest.TestCase):
                       for p in sorted(self.secc.glob("seccionado_*.zip"))),
             encoding="utf-8")
 
-    def calcula(self):
+    def calcula(self, sucesores=None):
         of = ph.leer_oficial(self.oficial, {2015, 2016, 2019, 2020})
         secc = {a: ph.leer_seccionado(self.secc / f"seccionado_{a}.zip") for a in SECC}
-        return ph.calcular(ph.leer_atlas(self.atlas), ph.leer_censo(self.censo), of, secc)
+        return ph.calcular(ph.leer_atlas(self.atlas), ph.leer_censo(self.censo), of, secc, sucesores)
 
     def run_main(self, salida="out", *extra):
         return ph.main(["--atlas", str(self.atlas), "--censo", str(self.censo), "--oficial", str(self.oficial),
@@ -240,8 +243,13 @@ class NoListada(Base):
 
     def test_sin_dato_en_ningun_anio_no_es_cero_y_avisa(self):
         tablas, _, mun = self.calcula()
-        # S10 (solo en el seccionado 2016, sin ninguna fila del Atlas): sin_dato, nunca población 0
-        self.assertEqual(buscar(tablas["2016-06"], S10)[1:], (None, "sin_dato", "no", ""))
+        # S10 (solo en el seccionado 2016, sin ninguna fila del Atlas): sin_dato, nunca población 0 → (b) provincia 06 APARTADA
+        self.assertEqual([f for f in tablas["2016-06"] if f[0][:2] == "06"], [])  # sin filas en la tabla
+        self.assertTrue(any(f[0][:2] == "01" for f in tablas["2016-06"]))  # y sin frenar al resto
+        _, inf, mun = self.calcula()
+        r = next(x for x in inf if x["elección"] == "2016-06" and x["provincia"] == "06")
+        self.assertEqual((r["estado"], r["secciones_sin_dato"]), ("APARTADA", 1))
+        self.assertIn(f"{S10}: sin dato en ningún año del Atlas", r["motivo"])
         m = next(x for x in mun if x["elección"] == "2016-06" and x["municipio"] == "06006")
         self.assertEqual(m["estado"], "aviso_sin_dato")  # municipio sin estimadas pero con sin_dato: no se silencia
 
@@ -285,6 +293,116 @@ class NoListada(Base):
         self.assertFalse((self.dir / "out").exists() and any((self.dir / "out").iterdir()))
 
 
+def sucesores_falsos(mapa):
+    """Fábrica de sucesores con un mapa fijo código → (sucesora, motivo); lo demás, sin geometría."""
+    return lambda anio, pob: (lambda c: mapa.get(c, (None, "sin_geometria")))
+
+
+class Reasignacion(Base):
+    def test_poblacion_entera_a_la_sucesora_y_cuenta_como_estimada(self):
+        tablas, inf, _ = self.calcula(sucesores_falsos({S14: (S15, "ok")}))
+        t = tablas["2016-06"]
+        # S14 (250) no existe en el seccionado 2016: su población pasa ENTERA a S15 (propia 100 → 350); S14 desaparece de la tabla
+        self.assertNotIn(S14, [f[0] for f in t])
+        self.assertEqual(buscar(t, S15)[1:], (350, "reasignada", "no", "2016"))
+        r = next(x for x in inf if x["elección"] == "2016-06" and x["provincia"] == "09")
+        # provincia 09: solo S15; toda su población es «no dato» (reasignada) → 100 % estimada, MARCA
+        self.assertEqual((r["estado"], r["secciones"], r["secciones_reasignadas"], r["población"], r["población_estimada"],
+                          r["pct_estimada"], r["marca"], r["secciones_sin_seccionado"]),
+                         ("ok", 1, 1, 350, 350, "100.0000", "MARCA", 0))
+
+    def test_sin_sucesora_unica_aparta_la_provincia_sin_frenar_el_resto(self):
+        for mapa in ({}, {S14: (None, "empate")}, {S14: (None, "sin_vigente")}):
+            tablas, inf, _ = self.calcula(sucesores_falsos(mapa))
+            self.assertEqual([f for f in tablas["2016-06"] if f[0][:2] == "09"], [])
+            self.assertTrue(any(f[0][:2] == "01" for f in tablas["2016-06"]))
+            r = next(x for x in inf if x["elección"] == "2016-06" and x["provincia"] == "09")
+            self.assertEqual(r["estado"], "APARTADA")
+            self.assertIn(f"{S14}: sin sucesora única", r["motivo"])
+        # control: una sucesora fuera del seccionado tampoco vale
+        tablas, inf, _ = self.calcula(sucesores_falsos({S14: (S13, "ok")}))
+        self.assertEqual([f for f in tablas["2016-06"] if f[0][:2] == "09"], [])
+
+    def test_sustituye_la_estimacion_de_la_sucesora_y_suma_si_tenia_dato(self):
+        filas = [("0100100001", 500, "dato", "no", "2016"), ("0100100002", 80, "no_listada", "no", "2015-2018"),
+                 ("0100100003", 70, "dato", "no", "2016"), ("0100100004", 30, "dato", "no", "2016")]
+        sec = {"0100100001", "0100100002", "0100100003"}
+        nuevas, ap = ph.reasignar(filas, sec, lambda c: ("0100100002", "ok"))  # 0100100004 no está en el seccionado
+        self.assertEqual(ap, {})
+        # la estimación 80 se sustituye por el dato real 30 (no se suma a ella)
+        self.assertEqual(nuevas, [filas[0], ("0100100002", 30, "reasignada", "no", "2016"), filas[2]])
+        nuevas, _ = ph.reasignar(filas, sec, lambda c: ("0100100003", "ok"))  # sucesora con dato propio 70 → 70 + 30
+        self.assertEqual(buscar(nuevas, "0100100003")[1:], (100, "reasignada", "no", "2016"))
+
+    def test_seccion_sin_dato_a_reasignar_aparta(self):
+        filas = [("0100100001", 500, "dato", "no", "2016"), ("0100100009", None, "sin_dato", "no", "")]
+        _, ap = ph.reasignar(filas, {"0100100001"}, lambda c: ("0100100001", "ok"))
+        self.assertEqual(list(ap), ["01"])
+
+    def test_la_reasignada_es_fija_en_el_ajuste_municipal(self):
+        filas = [("0100100001", 400, "reasignada", "no", "2016"), ("0100100002", 100, "interpolada", "no", "2015-2017")]
+        nuevas, inf = ph.ajustar("X", filas, {"01001": 800})  # residuo 800 − 400 = 400 para la estimada
+        self.assertEqual(nuevas, [filas[0], ("0100100002", 400, "interpolada", "sí", "2015-2017")])
+
+    def test_elegir_sucesor(self):
+        e = {"tipo": "reparto", "area": {}, "poblacion": {"B": 0.3, "A": 0.7}}
+        self.assertEqual(ph.elegir_sucesor(e), ("A", "ok"))
+        self.assertEqual(ph.elegir_sucesor({"tipo": "reparto", "area": {}, "poblacion": {"A": 0.5, "B": 0.5}}), (None, "empate"))
+        self.assertEqual(ph.elegir_sucesor({"tipo": "sin_vigente", "area": {}, "poblacion": {}}), (None, "sin_vigente"))
+        self.assertEqual(ph.elegir_sucesor(None), (None, "sin_vigente"))
+        self.assertEqual(ph.elegir_sucesor({"tipo": "1:1", "area": {"A": 1.0}, "poblacion": {"A": 1.0}}), ("A", "ok"))
+
+
+def zip_shapefile(ruta, secciones: dict):
+    """ZIP de seccionado con geometrías cuadradas (EPSG:25830) {cusec: (x0, y0, x1, y1)} escrito con geopandas."""
+    import geopandas as gpd
+    from shapely.geometry import box
+    d = Path(tempfile.mkdtemp(dir=ruta.parent))
+    gdf = gpd.GeoDataFrame({"CUSEC": list(secciones)}, geometry=[box(*b) for b in secciones.values()], crs=25830)
+    gdf.to_file(d / "sec.shp")
+    with zipfile.ZipFile(ruta, "w") as z:
+        for p in sorted(d.iterdir()):
+            z.write(p, p.name)
+
+
+class Geometria(unittest.TestCase):
+    """Sucesora por geometría real (equivalencia_seccionados) con shapefiles mínimos: A=(0..10), B=(10..20), X=(8..18)."""
+    A, B, X = "0100100001", "0100100002", "0100100003"
+
+    def preparar(self, caja_x):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        d = Path(tmp.name)
+        zip_shapefile(d / "seccionado_2016.zip", {self.A: (0, 0, 10, 10), self.B: (10, 0, 20, 10)})
+        zip_shapefile(d / "seccionado_2019.zip", {self.A: (0, 0, 10, 10), self.B: (10, 0, 20, 10), self.X: caja_x})
+        zip_shapefile(d / "seccionado_2022.zip", {self.X: caja_x, "0100100009": (50, 50, 60, 60)})
+        return d
+
+    def test_mayor_poblacion_manda_aunque_tenga_menos_area(self):
+        d = self.preparar((8, 0, 18, 10))  # X: 20 % en A, 80 % en B
+        # pesos de población = a(h∩v)/a(v)·pob(v): A 0,2·1000 = 200; B 0,8·100 = 80 → A (aunque B tenga más área)
+        suc = ph.fabrica_sucesores(d)(2016, {self.A: 1000, self.B: 100})
+        self.assertEqual(suc(self.X), (self.A, "ok"))
+        # control: con la misma población gana B (80 > 20)
+        suc = ph.fabrica_sucesores(d)(2016, {self.A: 100, self.B: 100})
+        self.assertEqual(suc(self.X), (self.B, "ok"))
+
+    def test_empate_exacto_sin_sucesora_unica(self):
+        d = self.preparar((5, 0, 15, 10))  # 50 % en cada una y misma población
+        self.assertEqual(ph.fabrica_sucesores(d)(2016, {self.A: 100, self.B: 100})(self.X), (None, "empate"))
+
+    def test_sin_geometria_en_ningun_donante(self):
+        d = self.preparar((8, 0, 18, 10))
+        self.assertEqual(ph.fabrica_sucesores(d)(2016, {})("0100100077"), (None, "sin_geometria"))
+
+    def test_el_donante_mas_cercano_en_anios_y_empate_el_anterior(self):
+        d = self.preparar((8, 0, 18, 10))
+        # X está en 2019 y 2022 y el seccionado del año es 2016: manda 2019 (más cercano). Si 2019 la trajera en otro
+        # sitio, el resultado cambiaría: se comprueba reescribiendo 2019 con X dentro de B.
+        zip_shapefile(d / "seccionado_2019.zip", {self.A: (0, 0, 10, 10), self.B: (10, 0, 20, 10), self.X: (12, 0, 18, 10)})
+        self.assertEqual(ph.fabrica_sucesores(d)(2016, {self.A: 1000, self.B: 100})(self.X), (self.B, "ok"))
+
+
 class Ajuste(Base):
     def test_reparto_exacto_y_solo_estimadas(self):
         tablas, _, mun = self.calcula()
@@ -312,14 +430,14 @@ class Ajuste(Base):
     def test_residuo_negativo_avisa_y_no_ajusta(self):
         tablas, _, mun = self.calcula()
         # Municipio 02002 en 2016: oficial 700 < publicada 800 (S4) → residuo −100: aviso, S5 queda con la estimación (60)
-        self.assertEqual(buscar(tablas["2016-06"], S5)[1:], (60, "interpolada", "no", "2015-2017"))
+        self.assertEqual(buscar(tablas["2016-06"], S5)[1:], (60, "interpolada", "sin_ajuste_municipal", "2015-2017"))  # (a) no bloquea
         m = next(x for x in mun if x["elección"] == "2016-06" and x["municipio"] == "02002")
         self.assertEqual(m["estado"], "aviso_residuo_no_positivo")
 
     def test_residuo_cero_con_estimadas_avisa(self):
         filas = [("0100100001", 800, "dato", "no", "2016"), ("0100100002", 60, "interpolada", "no", "2015-2017")]
-        nuevas, inf = ph.ajustar("X", filas, {"01001": 800})  # residuo 0: no se anulan secciones
-        self.assertEqual(nuevas, filas)
+        nuevas, inf = ph.ajustar("X", filas, {"01001": 800})  # residuo 0: no se anulan secciones; se conserva el valor y se marca
+        self.assertEqual(nuevas, [filas[0], ("0100100002", 60, "interpolada", "sin_ajuste_municipal", "2015-2017")])
         self.assertEqual(inf[0]["estado"], "aviso_residuo_no_positivo")
 
     def test_municipio_ausente_en_oficial_o_con_sin_dato_avisa(self):
@@ -327,7 +445,8 @@ class Ajuste(Base):
         self.assertEqual(ph.ajustar("X", filas, {})[1][0]["estado"], "aviso_sin_oficial")
         filas.append(("0100100003", None, "sin_dato", "no", ""))
         nuevas, inf = ph.ajustar("X", filas, {"01001": 2000})
-        self.assertEqual((nuevas, inf[0]["estado"]), (filas, "aviso_sin_dato"))
+        self.assertEqual(inf[0]["estado"], "aviso_sin_dato")
+        self.assertEqual([f[1] for f in nuevas], [800, 60, None])  # valores intactos (nunca 0)
 
     def test_2011_no_se_ajusta(self):
         _, _, mun = self.calcula()
@@ -435,10 +554,12 @@ class Salida(Base):
 
     def test_estricto_sale_con_2_si_hay_avisos(self):
         self.assertEqual(self.run_main("c"), 0)   # avisos (02002) sin --estricto: no falla
-        self.assertEqual(self.run_main("d", "--estricto"), 2)
-        # control: con --estricto y avisos no hay tablas por elección (el consumidor no puede usarlas); sí los informes
-        self.assertEqual(sorted(p.name for p in (self.dir / "d").iterdir()), ["informe_municipios.csv", "informe_provincias.csv"])
-        self.assertTrue(any((self.dir / "c").glob("poblacion_seccion_*.csv")))
+        self.assertEqual(self.run_main("d", "--estricto"), 2)  # 2016-06 provincia 06 apartada
+        # las tablas se escriben igualmente (la apartada no frena al resto) y son idénticas con y sin --estricto
+        for n in sorted(p.name for p in (self.dir / "c").iterdir()):
+            self.assertEqual((self.dir / "c" / n).read_bytes(), (self.dir / "d" / n).read_bytes())
+        t = (self.dir / "d" / "poblacion_seccion_2016-06.csv").read_text(encoding="utf-8")
+        self.assertNotIn(S10, t)
 
 
 if __name__ == "__main__":

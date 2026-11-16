@@ -2,3 +2,6 @@
 # Tabla INE 29005 «Cifras oficiales del padrón por municipio» (Municipios;Sexo;Periodo;Total), 1996-2025, 8 138 municipios.
 # Comandos: curl -sS -o 29005.csv <URL> · sha256sum 29005.csv · stat -c %s 29005.csv (bytes descargados)
 8d568dbb14ba1e6cd9d5d3f7db6516842806ce3ba4bdf52938482d2adca50635  27348525  https://www.ine.es/jaxiT3/files/t/es/csv_bdsc/29005.csv
+# T-364b · seccionados 2021 y 2022 (donantes de geometría de las secciones que el seccionado del año no tiene), medidos el 2026-11-16
+03e1b38b8ad6c48157783b34a7d7a52ae1af1ee25c6b7e95e1c9dbfffbac1bcd  64354891  https://www.ine.es/prodyser/cartografia/seccionado_2021.zip
+0545f25c60a146fc4d6c15b53f9de03dcc91a5894305f802ce5d8464c60e8e28  64698953  https://www.ine.es/prodyser/cartografia/seccionado_2022.zip
