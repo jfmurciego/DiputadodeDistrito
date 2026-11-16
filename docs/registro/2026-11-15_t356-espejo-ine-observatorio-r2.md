@@ -1,0 +1,21 @@
+## 2026-11-15 — T-356 — Script de espejo en R2 de los seccionados INE 2010-2026 y el Observatorio
+
+**Causa.** Para el histórico desde 2011 (D-105) faltan en R2 (ARC-E) 14 de los 17 seccionados del INE y las 625 piezas del Observatorio (T-306 §3); el propietario las sube desde Windows.
+
+**Cambio.** `herramientas/espejo_ine_observatorio_r2.ps1` 1.0.0 (patrón del de Galicia, T-354): baja las 17 URL del INE y las 625 piezas, valida (no HTML; ZIP con firma y legible; JSON), verifica el sha256 del índice o lo mide y registra, sube con metadato sha256 a `arc-e/fuentes/ine/` y `arc-e/fuentes/nazioenbehatokia/` (sha12 en el nombre), reanuda (sidecar `.ok` y `head-object`), reintenta ante 429/5xx/reset (Retry-After), pide confirmación antes de sobrescribir el JSON de resultado, sale con 1 si falla alguna, usa `C:\ddd` y no toca credenciales. Se baja por raw sin checkout (lee el índice de main). `orchestracion/fuentes_r2.json`: 14 entradas `seccionado_<año>.zip` nuevas (5 con sha256 de T-85; 9 con sha256 null = fail-closed) y 625 `nazioenbehatokia/<ruta>` con las huellas de `fuente_nazioenbehatokia.json`, todas «pendiente de subir».
+
+**Revisión (misma 1.0.0, aún no en main).** Corregido: rutas absolutas en `Escribir-Sin-Bom` (`Ruta-Completa`: absolutas intactas, relativas contra `Get-Location`; 1.0.0 las concatenaba y cada pieza fallaba tras bajarla); la reanudación recalcula el sha256 del fichero; cancelar la sobrescritura sale con 2; .ps1 solo ASCII (PS 5.1 lo lee como ANSI sin BOM); mientras la PR no se fusione hay que pasar `-Indice` con la raw de la rama (error claro si el índice trae menos de 642 piezas).
+
+**Diagnostico en el PC del propietario.** El catch imprime siempre tipo de excepcion (con internas), mensaje, linea del script, id y pila en una linea, y escribe el error completo en el JSON de resultado (`error` por pieza); `-Limite N` procesa solo las N primeras (prueba: `-Limite 1 -SoloBajar`).
+
+**Subida (PS 5.1).** Con `$ErrorActionPreference='Stop'` el stderr de `aws` (head-object de un objeto aun inexistente) lanzaba NativeCommandError aunque se redirigiera con `2>$null`: toda llamada a `aws` pasa por `Invocar-Aws` (Continue local, captura stdout+stderr, devuelve codigo y salida); `Subido` trata 404/NotFound como "no existe" y propaga con su texto los demas errores; la subida incluye el stderr en el mensaje.
+
+**Ampliacion D-126.** Grupo `padron` (2 piezas): tabla INE 30832 (CSV de 445592835 B, descarga reanudable con Range a disco por bloques, sin memoria) y Censo 2011 por seccion (ZIP de 4575186 B); sha256 y bytes de T-357 (#831) en el indice y verificados por el script al bajar (si difieren, falla). El script pasa de 642 a 644 piezas (`ine` 17, `observatorio` 625, `padron` 2).
+
+**Reanudar explicito (16-11).** Tras cortarse la subida en 632 de 642: por pieza, .ok local que cuadra (sha256 y bytes recalculados) = no se baja; head-object en R2 con Metadata.sha256 y ContentLength iguales = saltado, si falta o no coincide se sube y se vuelve a comprobar (un objeto parcial no cuenta). La fuente de verdad es R2 + el .ok, no el JSON anterior. `-Reanudar` (alias del defecto) y mensaje inicial "Reanudando: N piezas ya en R2" (con -SoloBajar no hay head-object). El JSON de resultado pasa a `{resumen: {saltados, subidos, solo_bajados, fallidos, total}, fallidas: [{pieza, clave, motivo}], piezas: {...}}` con `estado_r2` por pieza.
+
+**Fusion con main (16-11).** `fuentes_r2.json` = union de main (Interior, Galicia #827, 65034.csv.zip con contenido_sha256/contenido_nota #797) y las 644 piezas de T-356 (650 entradas, sin perder ninguna clave de main); el script las ignora por su filtro de origen_url. Ademas: un `.ok` truncado se trata como sin .ok; la cuenta previa guarda el estado por clave y el bucle lo reutiliza.
+
+**Pruebas.** `tests.test_t356_espejo_ine_observatorio` (positivas y negativas), t298, t299, t220_renombrado. El script no se ha ejecutado (la nube no ejecuta PowerShell ni llega al INE con credenciales).
+
+**Riesgos.** Solapes en `fuentes_r2.json` con #827 y #797: rebasar la que se fusione después. Tras subir, el propietario pega el JSON de resultado y se actualiza el índice (sha256 y bytes de los 9 sin medir). No cambia huellas M05.
