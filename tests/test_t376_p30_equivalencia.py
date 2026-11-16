@@ -22,9 +22,9 @@ SHAS = {
     "incorporacion-resultados-electorales_2.0.8.yml": "0c1a54077d9381a23570460c47a29eb05d6734d371d248b7d8a1a2c121351509",
     "reutilizable-incorporacion-electoral_1.3.0.yml": "af38b29e600687b26a51e28180ae4cc15d3738b3bf0083baafa5797ba7adfbeb",
 }
-# Únicas sustituciones permitidas: las entradas de los dos workflows viejos pasan a la matriz, a salidas de pasos o al contexto fijado.
+# Únicas sustituciones permitidas: las entradas de los dos workflows viejos pasan a salidas del resolutor, a salidas de pasos o al contexto fijado.
 SUST_PREPARAR = [
-    ("${{ inputs.territory_id }}", "${{ matrix.territorio }}"),
+    ("${{ inputs.territory_id }}", "${{ needs.resolver.outputs.territorio }}"),
     ("${{ inputs.data_edition }}", "${{ needs.resolver.outputs.edicion }}"),
 ]
 SUST_INCORPORAR = [
@@ -169,7 +169,7 @@ class Equivalencia(unittest.TestCase):
     def test_concurrencia_por_territorio(self):
         v = self.viejo["concurrency"]
         c = self.job["concurrency"]
-        self.assertEqual(c["group"], v["group"].replace("inputs.territory_id", "matrix.territorio"))
+        self.assertEqual(c["group"], v["group"].replace("inputs.territory_id", "needs.resolver.outputs.territorio"))
         self.assertEqual((c["cancel-in-progress"], c["queue"]), (v["cancel-in-progress"], v["queue"]))
         self.assertNotIn("concurrency", self.nuevo)
         self.assertFalse(self.nuevo["jobs"]["resolver"].get("concurrency"))
@@ -179,10 +179,10 @@ class Equivalencia(unittest.TestCase):
         self.assertGreaterEqual(self.job["timeout-minutes"], self.reut["jobs"]["incorporar"]["timeout-minutes"])
         self.assertNotIn("environment", self.job)
         self.assertEqual(self.job["env"]["RUN_ID"], self.reut["jobs"]["incorporar"]["env"]["RUN_ID"])
-        self.assertEqual(self.job["strategy"]["fail-fast"], False)
+        self.assertNotIn("strategy", self.job)  # D-148: un territorio por ejecución, sin matriz
         self.assertEqual(self.job["runs-on"], self.reut["jobs"]["incorporar"]["runs-on"])
 
-    def test_entradas_y_matriz(self):
+    def test_entradas_un_solo_territorio(self):
         wc = on(self.nuevo)["workflow_call"]["inputs"]
         viejas = on(self.viejo)["workflow_call"]["inputs"]
         self.assertEqual(set(wc), set(viejas))
@@ -191,9 +191,11 @@ class Equivalencia(unittest.TestCase):
         self.assertEqual(wc["data_edition"]["default"], "")
         self.assertTrue(wc["territory_id"]["required"])
         wd = on(self.nuevo)["workflow_dispatch"]["inputs"]
-        self.assertEqual(list(wd), ["territorios"])
-        self.assertEqual(wd["territorios"]["type"], "string")
-        self.assertEqual(self.job["strategy"]["matrix"], "${{ fromJSON(needs.resolver.outputs.matriz) }}")
+        self.assertEqual(list(wd), ["territorio"])
+        self.assertEqual(wd["territorio"]["type"], "string")
+        codigo = "\n".join(l for l in (WF / "p30-resultados-electorales.yml").read_text(encoding="utf-8").split("\n") if not l.lstrip().startswith("#"))
+        self.assertNotIn("fromJSON", codigo)
+        self.assertNotIn("matrix", codigo)
 
     def test_el_boton_no_expone_parametros_tecnicos(self):
         wd = on(self.nuevo)["workflow_dispatch"]["inputs"]
@@ -244,33 +246,28 @@ class Resolutor(unittest.TestCase):
 
     def test_help(self):
         self.assertEqual(self.run_cli("--help").returncode, 0)
-        self.assertEqual(self.run_cli("matriz", "--help").returncode, 0)
+        self.assertEqual(self.run_cli("resolver", "--help").returncode, 0)
 
-    def test_boton_un_territorio_sin_espacio_de_nombres(self):
-        r = self.run_cli("matriz", "--territorios", "aut12")
+    def test_boton_un_territorio(self):
+        r = self.run_cli("resolver", "--territorio", "aut12")
         self.assertEqual(r.returncode, 0, r.stderr)
-        d = json.loads(r.stdout)
-        self.assertEqual(d["include"], [{"namespace": "", "territorio": "Galicia"}])
-        self.assertEqual((d["edicion"], d["persistir"]), ("2025", "true"))
-
-    def test_boton_varios_territorios_con_espacio_de_nombres_y_sin_duplicados(self):
-        d = json.loads(self.run_cli("matriz", "--territorios", "aut12, nac42,AUT12").stdout)
-        self.assertEqual(d["include"], [{"namespace": "aut12", "territorio": "Galicia"}, {"namespace": "nac42", "territorio": "Congreso Soria"}])
+        self.assertEqual(json.loads(r.stdout), {"territorio": "Galicia", "edicion": "2025", "persistir": "true"})
+        self.assertEqual(json.loads(self.run_cli("resolver", "--territorio", "NAC42").stdout)["territorio"], "Congreso Soria")
 
     def test_llamada_tal_cual_y_persistir(self):
-        d = json.loads(self.run_cli("matriz", "--territory-id", "Congreso 350 Zamora", "--persistir", "false", "--edicion", "").stdout)
-        self.assertEqual(d["include"], [{"namespace": "", "territorio": "Congreso 350 Zamora"}])
-        self.assertEqual((d["edicion"], d["persistir"]), ("2025", "false"))
-        self.assertEqual(json.loads(self.run_cli("matriz", "--territory-id", "x", "--persistir", "null").stdout)["persistir"], "true")
+        d = json.loads(self.run_cli("resolver", "--territory-id", "Congreso 350 Zamora", "--persistir", "false", "--edicion", "").stdout)
+        self.assertEqual(d, {"territorio": "Congreso 350 Zamora", "edicion": "2025", "persistir": "false"})
+        self.assertEqual(json.loads(self.run_cli("resolver", "--territory-id", "x", "--persistir", "null").stdout)["persistir"], "true")
 
     def test_fallos_cerrados_a_stderr(self):
-        for args in (["--territorios", ""], ["--territorios", "zz99"], ["--territorios", "congreso350_zamora"], ["--territorios", "congreso_alava"],
-                     ["--territorios", "galicia"], ["--territorios", "aut12,congreso350_madrid"], ["--territorios", "a b!"], ["--territorios", "aut12", "--territory-id", "x"],
-                     ["--territory-id", "x", "--persistir", "quizá"], []):
-            r = self.run_cli("matriz", *args)
+        for args in (["--territorio", ""], ["--territorio", "zz99"], ["--territorio", "congreso350_zamora"], ["--territorio", "congreso_alava"],
+                     ["--territorio", "galicia"], ["--territorio", "aut12,nac42"], ["--territorio", "aut12 nac42"], ["--territorio", "a b!"],
+                     ["--territorio", "aut12", "--territory-id", "x"], ["--territory-id", "x", "--persistir", "quizá"], []):
+            r = self.run_cli("resolver", *args)
             self.assertEqual(r.returncode, 1, args)
             self.assertEqual(r.stdout, "", args)
             self.assertIn("::error::P30_", r.stderr, args)
+        self.assertIn("P30_UN_TERRITORIO", self.run_cli("resolver", "--territorio", "aut12,nac42").stderr)
 
 
 if __name__ == "__main__":

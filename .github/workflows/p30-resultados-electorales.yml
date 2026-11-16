@@ -2,11 +2,11 @@
 # CLASE: interfaz operativa principal
 # VERSIÓN: 1.0.0
 # CAMBIOS 1.0.0: T-376 (D-137, migración paso 7). Fichero nuevo: sustituye a `incorporacion-resultados-electorales.yml` 2.0.8 («P40 Resultados electorales») y a
-#   `_reutilizable-incorporacion-electoral.yml` 1.3.0 (este va DENTRO: los pasos de `preparar`, `incorporar` y `registrar` de antes, en un solo job por territorio).
-#   Botón: solo `territorios` (códigos separados por comas; matriz de un job por territorio, sin run id: producto territorial certificado y paquete
+#   `_reutilizable-incorporacion-electoral.yml` 1.3.0 (este va DENTRO: los pasos de `preparar`, `incorporar` y `registrar` de antes, en un solo job).
+#   Botón: solo `territorio` (UN código, p. ej. aut12; sin matriz, sin run id: producto territorial certificado y paquete
 #   electoral vigente desde el catálogo). Edición fijada en el código (2025). Entradas técnicas solo por workflow_call (la 00, job `incorporar`).
-# D-148: no aplicada la restricción de un territorio por ejecución porque cada territorio es UN job (preparar+incorporar+registrar como pasos); la matriz es directa,
-#   sin reutilizable interno ni bucle. Consecuencia: varios territorios en una ejecución exigen un `namespace` de estado distinto (`ddd-state-<run>-M08-<id>`), SIN PROBAR en Actions.
+# D-148 (aplicado): el botón admite UN territorio por ejecución, sin condición; varios en paralelo los da P00 (cada llamada por `workflow_call` es un territorio,
+#   con su propio `artifact_namespace` si la 00 lo pasa). Sin matriz, sin `fromJSON`, sin reutilizable interno.
 # ANTERIOR: ninguna (fichero nuevo); sustituye a legacy/workflows/incorporacion-resultados-electorales_v2.0.8_20261116.yml
 #   y legacy/workflows/_reutilizable-incorporacion-electoral_v1.3.0_20261116.yml
 # NOMBRE DE VERSIÓN: P30 Resultados electorales
@@ -15,7 +15,7 @@
 #   electoral (M07/M08), lo archiva en origen y registra su disponibilidad en main.
 # NO HACE: generar distritos, repetir auditorías geométricas ni publicar el visor. Puede materializar M07/M08 genéricos desde un paquete electoral autocontenido.
 # NOTAS (llamada de la 00): `data_edition` vacío = 2025; `persist_state` vacío = true (el botón siempre registra); `territory_id` se usa tal cual
-#   (el grupo de concurrencia es el mismo que pasa la 00 a la 03); `artifact_namespace` vacío = sin sufijo (el botón lo pone solo con más de un territorio).
+#   (el grupo de concurrencia es el mismo que pasa la 00 a la 03); `artifact_namespace` vacío = sin sufijo (como hoy).
 # FECHA: 2026-11-16
 name: P30 Resultados electorales
 
@@ -35,8 +35,8 @@ on:
       artifact_namespace: {required: false, type: string, default: ''}
   workflow_dispatch:
     inputs:
-      territorios:
-        description: Territorios (códigos separados por comas, p. ej. aut12,nac42)
+      territorio:
+        description: Territorio (un código, p. ej. aut12)
         required: true
         type: string
 
@@ -46,12 +46,12 @@ permissions:
 
 jobs:
   resolver:
-    name: Resolver los territorios
+    name: Resolver el territorio
     runs-on: ubuntu-24.04
     permissions:
       contents: read
     outputs:
-      matriz: ${{ steps.r.outputs.matriz }}
+      territorio: ${{ steps.r.outputs.territorio }}
       edicion: ${{ steps.r.outputs.edicion }}
       persistir: ${{ steps.r.outputs.persistir }}
     steps:
@@ -60,33 +60,30 @@ jobs:
           ref: ${{ inputs.source_ref || github.sha }}
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - id: r
-        name: Resolver territorios, edición y registro
+        name: Resolver territorio, edición y registro
         shell: bash
         env:
-          TERRITORIOS: ${{ inputs.territorios }}
+          TERRITORIO: ${{ inputs.territorio }}
           TERRITORY_ID: ${{ inputs.territory_id }}
           EDICION: ${{ inputs.data_edition }}
           PERSISTIR: ${{ toJSON(inputs.persist_state) }}
         run: |
           set -euo pipefail
-          out="$(python3 herramientas/p30_resolver.py matriz --territorios "$TERRITORIOS" --territory-id "$TERRITORY_ID" --edicion "$EDICION" --persistir "$PERSISTIR")"
+          out="$(python3 herramientas/p30_resolver.py resolver --territorio "$TERRITORIO" --territory-id "$TERRITORY_ID" --edicion "$EDICION" --persistir "$PERSISTIR")"
           echo "$out" | jq .
           {
-            echo "matriz=$(jq -c '{include: .include}' <<<"$out")"
+            echo "territorio=$(jq -r .territorio <<<"$out")"
             echo "edicion=$(jq -r .edicion <<<"$out")"
             echo "persistir=$(jq -r .persistir <<<"$out")"
           } >> "$GITHUB_OUTPUT"
 
   incorporar:
-    name: Incorporar resultados (${{ matrix.territorio }})
+    name: Incorporar resultados
     needs: resolver
     runs-on: ubuntu-24.04
     timeout-minutes: 300
-    strategy:
-      fail-fast: false
-      matrix: ${{ fromJSON(needs.resolver.outputs.matriz) }}
     concurrency:
-      group: ddd-electoral-prod-${{ matrix.territorio }}
+      group: ddd-electoral-prod-${{ needs.resolver.outputs.territorio }}
       cancel-in-progress: false
       queue: max
     env:
@@ -104,7 +101,7 @@ jobs:
         name: Verificar elegibilidad del territorio
         shell: bash
         env:
-          UI_TERRITORY: ${{ matrix.territorio }}
+          UI_TERRITORY: ${{ needs.resolver.outputs.territorio }}
           UI_EDITION: ${{ needs.resolver.outputs.edicion }}
           ELECTORAL_RUN_ID: ${{ inputs.electoral_package_run_id }}
           ELECTORAL_ARTIFACT: ${{ inputs.electoral_package_artifact_name }}
@@ -292,7 +289,7 @@ jobs:
         env:
           PARAMS_OUT: ${{ steps.resolve.outputs.params }}
           TERRITORY_OUT: ${{ steps.resolve.outputs.territory_id }}
-          NAMESPACE: ${{ matrix.namespace || inputs.artifact_namespace }}
+          NAMESPACE: ${{ inputs.artifact_namespace }}
           TERRITORIAL_OUT: ${{ steps.territorial.outputs.run_id }}
           ELECTORAL_OUT: ${{ steps.electoral.outputs.run_id }}
           ELECTORAL_ARTIFACT_OUT: ${{ steps.electoral.outputs.artifact_name }}

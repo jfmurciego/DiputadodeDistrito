@@ -31,8 +31,8 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
     def test_electoral_incorporation_name_and_controls(self):
         self.assertEqual(self._load(ELECTORAL)["name"],"P30 Resultados electorales")
         inputs=self._dispatch_inputs(ELECTORAL)
-        self.assertEqual(list(inputs),["territorios"])  # T-376: códigos separados por comas; la edición (2025) va en el código
-        self.assertEqual(inputs["territorios"]["type"],"string")
+        self.assertEqual(list(inputs),["territorio"])  # T-376/D-148: un código; la edición (2025) va en el código
+        self.assertEqual(inputs["territorio"]["type"],"string")
 
     def test_no_redundant_human_confirmation_or_publish_switch(self):
         for path in (GEN,ELECTORAL):

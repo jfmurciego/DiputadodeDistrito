@@ -52,7 +52,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         # La Rioja conserva preparación histórica, pero no puede anunciarse como\n        # generable hasta que su fuente vigente quede habilitada por pre-M04.\n        self.assertNotIn("La Rioja",generable)\n        self.assertIn("Galicia",generable)
         self.assertIn("Galicia",electoral_ready)
         self.assertEqual(triggers(GEN)["workflow_dispatch"]["inputs"]["territory_id"]["options"],expected)
-        self.assertEqual(list(triggers(ELECTORAL_APPLY)["workflow_dispatch"]["inputs"]),["territorios"])  # T-376: códigos, sin selector
+        self.assertEqual(list(triggers(ELECTORAL_APPLY)["workflow_dispatch"]["inputs"]),["territorio"])  # T-376/D-148: un código, sin selector
 
     def test_preparation_generates_sources_and_reuses_existing_package_by_default(self):
         manual_inputs=triggers(PREP)["workflow_dispatch"]["inputs"]

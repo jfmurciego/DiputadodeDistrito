@@ -19,8 +19,8 @@ class ProductRoutingDesignA(unittest.TestCase):
         self.assertEqual(inputs(GEN)["execution_mode"]["options"],["Reutilizar progreso existente","Ejecutar desde el principio"])
         self.assertEqual(inputs(GEN)["optimization_algorithm"]["options"],["Canónico","GerryChain","GerryChain 25","GerryChain 50"])
 
-    def test_electoral_incorporation_form_has_only_territories(self):
-        self.assertEqual(list(inputs(ELECTORAL)),["territorios"])  # T-376: códigos; la edición va fijada en el código
+    def test_electoral_incorporation_form_has_only_one_territory(self):
+        self.assertEqual(list(inputs(ELECTORAL)),["territorio"])  # T-376/D-148: un código; la edición va fijada en el código
 
     def test_generation_is_fixed_to_districts_without_auto_publish(self):
         text=GEN.read_text(encoding="utf-8")
