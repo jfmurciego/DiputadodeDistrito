@@ -50,7 +50,8 @@ class Integracion(unittest.TestCase):
             self.assertRegex(txt, r"VERSIÓN: ?\d+\.\d+\.\d+", rel)
             m = re.search(r"ANTERIOR: (\S+?)(?:\s*-->|\s|$)", txt)
             self.assertIsNotNone(m, rel)
-            if not m.group(1).startswith("ninguna"):
+            # legacy/ no entra en la imagen de CI (.dockerignore): la copia se comprueba donde existe el árbol.
+            if not m.group(1).startswith("ninguna") and (ROOT / "legacy").is_dir():
                 self.assertTrue((ROOT / m.group(1)).is_file(), f"{rel}: falta {m.group(1)}")
 
     @unittest.skipUnless(shutil.which("node"), "sin Node en este entorno; ver la PR (hay que añadirla a pruebas-plataforma.yml)")
