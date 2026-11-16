@@ -2727,7 +2727,7 @@ territories:
       evidence:
         electoral_source: territorios/nac51/evidencia/fuentes_electorales/2025/9df08c39103e2018f468661970b881e4b8496e85ea2de8ad575b56beda795275/43803649105/receipt.json
         territorial_product: territorios/nac51/evidencia/catalogo/territorial_product_2025.json
-        prepared_source_pair: territorios/nac51/evidencia/pares_fuentes/2025/5b85f3875068e95ec3e1df11d8b42eac69212011e02a296f64a00b0c662d3c8d.json
+        prepared_source_pair: territorios/nac51/evidencia/pares_fuentes/2025/78901c881bb41d30e464fa5e93279b844c0c353d2272906a3c7a95c16e4e1ef0.json
         electoral_product: territorios/nac51/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/nac51/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: true
