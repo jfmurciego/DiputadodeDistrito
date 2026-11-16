@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T01:24:31.488152+00:00",
+  "generated_at": "2026-11-16T01:25:55.325179+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 50,
-      "action_required": 70,
+      "admissible": 51,
+      "action_required": 69,
       "blocked": 0,
       "unavailable": 0,
       "activated": 50,
-      "activable": 0,
+      "activable": 1,
       "territorial_pending": 46,
-      "electoral_pending": 70,
+      "electoral_pending": 69,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,7 +38,7 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 50,
+      "electoral_source": 51,
       "durable_pair": 50
     },
     "territories": [
@@ -2473,15 +2473,15 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVABLE",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac29/evidencia/pares_fuentes/2025/118cccdb9a9afa72367051c0cfa4d92b41524e35ec8b8feb0327760bfc1fb1cd.json",
@@ -2494,13 +2494,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "nac30",
@@ -9454,20 +9448,20 @@
       "name": "Nacional Lérida",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43773580960,
+      "run_id": 43784056720,
       "last_run": {
-        "run_id": 43773580960,
+        "run_id": 43784056720,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9508,7 +9502,7 @@
       },
       "autonomous_community_code_ine": "C25",
       "display_name": "Nacional Lérida",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac26",
@@ -12400,7 +12394,7 @@
     }
   ],
   "kpis": {
-    "complete": 63,
+    "complete": 64,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12443,6 +12437,7 @@
       "Nacional Huesca",
       "Nacional Jaén",
       "Nacional León",
+      "Nacional Lérida",
       "Nacional Palencia",
       "Nacional Las Palmas",
       "Nacional Pontevedra",
@@ -12675,13 +12670,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac22",
-    "name": "Nacional Huesca",
-    "display_name": "Nacional Huesca",
-    "autonomous_community_code_ine": "C22",
-    "run_id": 43783149315,
+    "territory_id": "nac25",
+    "name": "Nacional Lérida",
+    "display_name": "Nacional Lérida",
+    "autonomous_community_code_ine": "C25",
+    "run_id": 43784056720,
     "stage": "M08",
-    "certification": "PASS",
+    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
@@ -12695,12 +12690,6 @@
       "territory": "Nacional Gerona",
       "territory_id": "nac17",
       "autonomous_community_code_ine": "C17",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Lérida",
-      "territory_id": "nac25",
-      "autonomous_community_code_ine": "C25",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12731,6 +12720,12 @@
       "territory": "Nacional Murcia",
       "territory_id": "nac30",
       "autonomous_community_code_ine": "C30",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Navarra",
+      "territory_id": "nac31",
+      "autonomous_community_code_ine": "C31",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12748,12 +12743,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Lérida",
-      "territory_id": "nac25",
-      "autonomous_community_code_ine": "C25",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional La Rioja",
       "territory_id": "nac26",
       "autonomous_community_code_ine": "C26",
@@ -12781,6 +12770,12 @@
       "territory": "Nacional Murcia",
       "territory_id": "nac30",
       "autonomous_community_code_ine": "C30",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Navarra",
+      "territory_id": "nac31",
+      "autonomous_community_code_ine": "C31",
       "action": "preparar fuentes electorales"
     }
   ]
