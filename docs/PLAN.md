@@ -4,7 +4,7 @@ Versión: 1.0.56
 Fecha: 2026-11-16
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-143 (decisiones del diseño de P00), D-14 sustituida por D-133 en P50; T-374 entregada; T-384; estados de T-366, T-368, T-369, T-378, T-380
+Cambios/motivo: D-143 (decisiones del diseño de P00), D-14 sustituida por D-133 en P50; T-374 entregada; T-384; D-144 (revisor aparte y `pruebas` en el ruleset); estados de T-366, T-368, T-369, T-374, T-378, T-380; T-386
 Anterior: legacy/docs/PLAN_v1.0.55_20261116.md
 -->
 
@@ -292,6 +292,7 @@ Fase 4 — producto (en el privado):
 - D-141 (16-11, propietario). Retirar lo que queda de los ensembles del motor viejo (T-380): 3 ensembles de Congreso (La Rioja, Salamanca, Sevilla) del registro del visor y publicación (frase del propietario al Operador), y después sus 3 Releases (≈35 MB), las 31 configuraciones de `configuracion/ensemble/` y el selector de escenarios del visor v1 si queda sin uso.
 - D-142 (16-11, propietario; paso 10 de D-129). Documentación renumerada (T-383, tras T-379, Sonnet): solo texto vivo (CLAUDE.md, `.claude/rules/`, skills, `docs/ARQUITECTURA/`, guías); lo histórico no se reescribe y el puente es `docs/ARQUITECTURA/EQUIVALENCIAS_D129.md`. `lanzar-campana` se funde en `lanzar-p00` (antes `lanzar-00`); `publicar-visor` pasa a `publicar-p40`. CLAUDE.md reescribe «Ejecución 00» y «Visor» en notación P y manda a legacy las lecciones sin objeto (< 100 líneas). Test que falla si un documento vivo cita un workflow inexistente. Guías retiradas a legacy con nota al sustituto. T-313 sigue aparte.
 - D-143 (16-11, propietario). Diseño de P00 (T-378, `docs/ESTUDIOS/T378_P00_CAMPANA/`, #850) aprobado con las 11 recomendaciones: cadena A (matriz + reutilizable «cadena de un territorio» sin botón); estado en R2, informe en issue y un commit a `main` al cierre; grupos todos/congreso/autonómicas/códigos; elección vigente | AAAA-MM; ámbar se lanza y se marca; parada sistémica con mínimo de 3 apartados también en la regla del 20 %; se publican los que pasaron; paralelo fijo de 15 (cuenta Free, 20 jobs; quedan 5 para la CI; corregido por el propietario el 16-11); IA de cierre solo con apartados o parada; la validación desde la rama puede escribir su commit de cierre con el revisor conforme y la frase del propietario; revisor independiente del diseño antes de implementar. T-379 (Opus): PR 1 (estado de campaña, sin workflows) puede empezar con el revisor conforme, sin esperar a T-377; PR 2-4 tras T-377. D-14 (mismo source_sha que el visor) queda sustituida por D-133 en P50: LINAJE.json lleva por territorio blob_sha y sha256 del M06 del registro, el run de la 00 si consta y el sha del commit de la Release.
+- D-144 (16-11, propietario). (a) T-374 se cierra: `revisor-pr.yml` queda aparte como excepción permanente, como la fusión automática (D-135); las opciones dentro de P90 reabren el check-run `pruebas` skipped. (b) El ruleset `proteger-main` hoy solo exige `veredicto` (verificado por el Coordinador): se añade `pruebas` a los checks requeridos, tras comprobar que P90 crea `pruebas` en todas las PR (también las de solo documentación); el cambio del ruleset lo hace el propietario o el Operador con su frase. Corrige D-129 («checks `veredicto` y `pruebas` intactos») y `.claude/rules/workflows.md`.
 
 ### Cola T-291 a T-367 (14 a 16-11)
 | Id | Qué | Estado |
@@ -375,7 +376,7 @@ Fase 4 — producto (en el privado):
 | T-371 | Actualización del plan 1.0.53 | HECHA (#846) |
 | T-372 | Migración paso 5: P40 Publicación (D-134) | LISTA tras T-370; amplía: no exigir el artefacto M06 vivo (M06_ARTEFACTO_CADUCADO) |
 | T-373 | Actualización del plan 1.0.54 | HECHA (#847) |
-| T-374 | Revisor de PR dentro de P90 sin check-run `pruebas` skipped (D-135): diseño al detalle para el propietario | REVISIÓN (#852): recomienda dejar `revisor-pr.yml` aparte; espera decisión del propietario |
+| T-374 | Revisor de PR dentro de P90 sin check-run `pruebas` skipped (D-135): diseño al detalle para el propietario | HECHA (#852; D-144) |
 | T-375 | Migración paso 6: P10 Fuentes (D-136) | LISTA tras T-372; fusión tras el ensayo en seco |
 | T-376 | Migración paso 7: P30 Resultados electorales (D-137) | LISTA tras T-375; fusión tras el ensayo en seco |
 | T-377 | Migración paso 8: P20 Distritos (D-138, D-139), Opus | LISTA tras T-376; fusión tras el ensayo en seco; prueba real aut11 |
@@ -385,6 +386,7 @@ Fase 4 — producto (en el privado):
 | T-381 | Detección automática de puntos de control incompatibles con el contrato vigente (sustituiría «empezar de cero»): diseño al detalle para el propietario | PENDIENTE (tras T-377) |
 | T-383 | Migración paso 10: documentación renumerada (D-142) | PENDIENTE (tras T-379) |
 | T-384 | Mensajes BATERIA_FALTA_PAQUETE_P10 y BATERIA_PAQUETE_P10_CORRUPTO de `bateria_motor.py` remiten a P70 · P71 (remate de D-132) | REVISIÓN (#854) |
+| T-386 | Comprobar en solo lectura que P90 crea el check-run `pruebas` en toda PR (código, solo docs, borrador, etiquetas) y preparar el cambio del ruleset `proteger-main` para exigir `pruebas` (D-144) | LISTA (Coordinador); el cambio, con frase del propietario al Operador |
 | T-385 | Actualización del plan 1.0.56 | REVISIÓN (esta PR) |
 | T-382 | Actualización del plan 1.0.55 | REVISIÓN (esta PR) |
 | T-340 | Ficha del paso A del histórico con Condición previa, Puerta y Mapa según D-115 (si el código no implementa la puerta, abre tarea) | EN CURSO (Coordinador) |
@@ -405,7 +407,7 @@ Frase de reanudación de r3: DADA en el chat del Operador, condicionada a #786 y
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324, T-327, T-341, T-350, T-363, T-367, T-371, T-373, T-382 y T-385. El planificador ha dado T-194 a T-385 (10 a 16-11; T-277 y T-292 sin usar; T-331 a T-340 y T-342 a T-362 los dio el Coordinador con acuerdo del Planificador). Siguiente libre: T-386.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324, T-327, T-341, T-350, T-363, T-367, T-371, T-373, T-382 y T-385. El planificador ha dado T-194 a T-385 (10 a 16-11; T-277 y T-292 sin usar; T-331 a T-340 y T-342 a T-362 los dio el Coordinador con acuerdo del Planificador). Siguiente libre: T-387.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
