@@ -2340,7 +2340,7 @@ territories:
         prepared_source_pair: territorios/nac41/evidencia/pares_fuentes/2025/cb79f6e4011e57e45764794c8ff7d02d2c4aabd12a959f68cbdce6031f38ab5d.json
         electoral_product: territorios/nac41/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/nac41/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: nac42
   name: Congreso Soria
   editions:
