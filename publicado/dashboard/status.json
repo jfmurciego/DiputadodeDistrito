@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T02:35:32.956450+00:00",
+  "generated_at": "2026-11-16T02:38:29.362107+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 61,
-      "action_required": 59,
+      "admissible": 62,
+      "action_required": 58,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 60,
-      "activable": 1,
+      "activated": 62,
+      "activable": 0,
       "territorial_pending": 46,
-      "electoral_pending": 59,
+      "electoral_pending": 58,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 61,
-      "durable_pair": 60
+      "electoral_source": 62,
+      "durable_pair": 62
     },
     "territories": [
       {
@@ -3042,12 +3042,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac40/evidencia/pares_fuentes/2025/11f94d3495401a72fe415f131b7a62a7eeef7ef8f5281e3a8e3ed14bec680a6c.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac40/evidencia/pares_fuentes/2025/41271ea6542f82ed7d5a8e5b67fd2ebe119312fa99bb3ff340518122e73ad1f6.json",
+            "pair_sha256": "41271ea6542f82ed7d5a8e5b67fd2ebe119312fa99bb3ff340518122e73ad1f6",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -3085,20 +3085,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac41/evidencia/pares_fuentes/2025/cb79f6e4011e57e45764794c8ff7d02d2c4aabd12a959f68cbdce6031f38ab5d.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac41/evidencia/pares_fuentes/2025/cf81f8a9748ce61d74070ca35ee9c97fe7544e47e631bc6caa8c03f794ab447d.json",
+            "pair_sha256": "cf81f8a9748ce61d74070ca35ee9c97fe7544e47e631bc6caa8c03f794ab447d",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -3106,13 +3106,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "nac42",
@@ -9998,20 +9992,20 @@
       "name": "Nacional Las Palmas",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43782596037,
+      "run_id": 43790313521,
       "last_run": {
-        "run_id": 43782596037,
+        "run_id": 43790313521,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10052,7 +10046,7 @@
       },
       "autonomous_community_code_ine": "C35",
       "display_name": "Nacional Las Palmas",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac36",
@@ -10162,13 +10156,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_salamanca",
+          "territory_id": "nac37",
           "territory_name": "Congreso Salamanca",
           "edition": "2025",
-          "run_id": 43017179163,
-          "artifact_name": "ddd-state-43017179163-M08",
-          "artifact_sha256": "36261804471126395e80b393bb30fe17594d432d5e9f0344a2144a6ffd7e0020",
-          "source_commit": "859334e57812fa47b86fe34564bd4cfd355ee896",
+          "run_id": 43791973018,
+          "artifact_name": "ddd-state-43791973018-M08",
+          "artifact_sha256": "7f23ba29c1d3f9939046987d372cce8dce2b523d28a5c3c9c1367837c1af90e1",
+          "source_commit": "96f55225e09a3031858896fef8bf4119284b2424",
           "stage": "M08"
         }
       },
@@ -10223,13 +10217,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_santa_cruz_de_tenerife",
+          "territory_id": "nac38",
           "territory_name": "Congreso Santa Cruz de Tenerife",
           "edition": "2025",
-          "run_id": 43020203637,
-          "artifact_name": "ddd-state-43020203637-M08",
-          "artifact_sha256": "b33cd00659f100c41ee73f7b6ffef1beb4e4eb0ecc9aa162ec34e1f644badce9",
-          "source_commit": "4ee681f2159b08da7fa2da3d860250b61042b855",
+          "run_id": 43792098960,
+          "artifact_name": "ddd-state-43792098960-M08",
+          "artifact_sha256": "77aec142b6f74b9453efd44b0fa238c3d4cf5f3cc23268eedbfcb095b306df70",
+          "source_commit": "2b2337b70be2c116b96f98f2eceadeb60d488695",
           "stage": "M08"
         }
       },
@@ -12334,7 +12328,7 @@
     }
   ],
   "kpis": {
-    "complete": 65,
+    "complete": 66,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12388,6 +12382,7 @@
       "Nacional Orense",
       "Nacional Asturias",
       "Nacional Palencia",
+      "Nacional Las Palmas",
       "Nacional Pontevedra",
       "Nacional Teruel",
       "Nacional Toledo",
@@ -12611,11 +12606,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac36",
-    "name": "Nacional Pontevedra",
-    "display_name": "Nacional Pontevedra",
-    "autonomous_community_code_ine": "C36",
-    "run_id": 43789633261,
+    "territory_id": "nac35",
+    "name": "Nacional Las Palmas",
+    "display_name": "Nacional Las Palmas",
+    "autonomous_community_code_ine": "C35",
+    "run_id": 43790313521,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12628,12 +12623,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Las Palmas",
-      "territory_id": "nac35",
-      "autonomous_community_code_ine": "C35",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Salamanca",
       "territory_id": "nac37",
       "autonomous_community_code_ine": "C37",
@@ -12667,6 +12656,12 @@
       "territory": "Nacional Soria",
       "territory_id": "nac42",
       "autonomous_community_code_ine": "C42",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Tarragona",
+      "territory_id": "nac43",
+      "autonomous_community_code_ine": "C43",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12678,12 +12673,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Las Palmas",
-      "territory_id": "nac35",
-      "autonomous_community_code_ine": "C35",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Salamanca",
       "territory_id": "nac37",
       "autonomous_community_code_ine": "C37",
@@ -12717,6 +12706,12 @@
       "territory": "Nacional Soria",
       "territory_id": "nac42",
       "autonomous_community_code_ine": "C42",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Tarragona",
+      "territory_id": "nac43",
+      "autonomous_community_code_ine": "C43",
       "action": "preparar fuentes electorales"
     }
   ]
