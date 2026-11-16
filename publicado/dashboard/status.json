@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T02:26:48.935361+00:00",
+  "generated_at": "2026-11-16T02:28:06.681683+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -10071,20 +10071,20 @@
       "name": "Nacional Pontevedra",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43782609578,
+      "run_id": 43789633261,
       "last_run": {
-        "run_id": 43782609578,
+        "run_id": 43789633261,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10125,7 +10125,7 @@
       },
       "autonomous_community_code_ine": "C36",
       "display_name": "Nacional Pontevedra",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac37",
@@ -10260,11 +10260,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43786502149,
       "last_run": {
-        "run_id": 42985965354,
+        "run_id": 43786502149,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -12346,7 +12346,7 @@
     }
   ],
   "kpis": {
-    "complete": 66,
+    "complete": 67,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12400,6 +12400,7 @@
       "Nacional Orense",
       "Nacional Asturias",
       "Nacional Palencia",
+      "Nacional Pontevedra",
       "Nacional Soria",
       "Nacional Tarragona",
       "Nacional Teruel",
@@ -12624,11 +12625,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac34",
-    "name": "Nacional Palencia",
-    "display_name": "Nacional Palencia",
-    "autonomous_community_code_ine": "C34",
-    "run_id": 43789454074,
+    "territory_id": "nac36",
+    "name": "Nacional Pontevedra",
+    "display_name": "Nacional Pontevedra",
+    "autonomous_community_code_ine": "C36",
+    "run_id": 43789633261,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12644,12 +12645,6 @@
       "territory": "Nacional Las Palmas",
       "territory_id": "nac35",
       "autonomous_community_code_ine": "C35",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Pontevedra",
-      "territory_id": "nac36",
-      "autonomous_community_code_ine": "C36",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12681,6 +12676,12 @@
       "territory_id": "nac41",
       "autonomous_community_code_ine": "C41",
       "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional 350 Álava",
+      "territory_id": "congreso350_alava",
+      "autonomous_community_code_ine": "R01",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12694,12 +12695,6 @@
       "territory": "Nacional Las Palmas",
       "territory_id": "nac35",
       "autonomous_community_code_ine": "C35",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Pontevedra",
-      "territory_id": "nac36",
-      "autonomous_community_code_ine": "C36",
       "action": "preparar fuentes electorales"
     },
     {
