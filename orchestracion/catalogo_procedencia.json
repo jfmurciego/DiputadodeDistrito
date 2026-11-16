@@ -6572,11 +6572,11 @@
   },
   "congreso_salamanca": {
    "fuente_territorial": {
-    "run_id": "43770639179",
+    "run_id": "43785351956",
     "package_sha256": "2538a0cd8b64d71675aa6ac8c11419e511de5aad839bde7dc4de540130efa26e",
-    "artifact_sha256": "2942001fd07497c23f8449a6dd2316da71b93107f1b3ecae79f1efc2bf4ae836",
+    "artifact_sha256": "6979ac85c2fb05d952a48c39d115fe141bd851f9a0ebe6c83244b49f568095dc",
     "territorial_identity_sha256": "5f5a3f626e5ac9b6d81ca0e5f10ec789967dfebd300f817997059b8397ea2c1c",
-    "receipt_path": "territorios/nac37/evidencia/fuentes_territoriales/2025/5f5a3f626e5ac9b6d81ca0e5f10ec789967dfebd300f817997059b8397ea2c1c/43770639179/receipt.json",
+    "receipt_path": "territorios/nac37/evidencia/fuentes_territoriales/2025/5f5a3f626e5ac9b6d81ca0e5f10ec789967dfebd300f817997059b8397ea2c1c/43785351956/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
