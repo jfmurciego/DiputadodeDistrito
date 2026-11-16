@@ -61,7 +61,7 @@
  },
  "resumen": {
   "territorios": 142,
-  "productos": 677,
+  "productos": 674,
   "errores": 0,
   "avisos": 300
  },
@@ -5171,22 +5171,6 @@
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
      "origen_sha256": "79869857e151caa01d5c8e5b5d4818d61c2e84c36daf49bd2186c05ddc34c07a"
-    },
-    {
-     "producto": "ensemble",
-     "id": "ensemble-congreso_la_rioja-ensemble-congreso-la-rioja-cccc4a1e8df2",
-     "eleccion": "2023-07-23",
-     "eleccion_declarada": false,
-     "run_id": null,
-     "vigente": true,
-     "sha256": "b114097369a9e382aae72e1ed94482aa0cc1c7facb49435512f41185b31425a8",
-     "copia_git": null,
-     "copia_release": {
-      "tag": "ensemble-congreso-la-rioja-cccc4a1e8df2",
-      "asset_id": 721023055
-     },
-     "copias_r2": [],
-     "publicacion": "PUBLICABLE"
     }
    ]
   },
@@ -6469,22 +6453,6 @@
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
      "origen_sha256": "4daccc0e0011ab510156a94cd1330e02c9cc97fe6d17d8bb4b655b9325dc4da0"
-    },
-    {
-     "producto": "ensemble",
-     "id": "ensemble-congreso_salamanca-ensemble-congreso-salamanca-2b68dd0a396a",
-     "eleccion": "2023-07-23",
-     "eleccion_declarada": false,
-     "run_id": null,
-     "vigente": true,
-     "sha256": "a707ede7eb4ecf5318a0fbbb90728f09d60c9dabb6d23f366b3723fa72511295",
-     "copia_git": null,
-     "copia_release": {
-      "tag": "ensemble-congreso-salamanca-2b68dd0a396a",
-      "asset_id": 705100902
-     },
-     "copias_r2": [],
-     "publicacion": "PUBLICABLE"
     }
    ]
   },
@@ -6797,22 +6765,6 @@
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
      "origen_sha256": "b8804062414795e12545ff69a42dcc0d09e9a98f713d2c7f5c7e630ba1902994"
-    },
-    {
-     "producto": "ensemble",
-     "id": "ensemble-congreso_sevilla-ensemble-congreso-sevilla-9987893f2689",
-     "eleccion": "2023-07-23",
-     "eleccion_declarada": false,
-     "run_id": null,
-     "vigente": true,
-     "sha256": "56fd176c89ca191b112aa7398fc67bf160741e47780197bf5e7dd754b615d54e",
-     "copia_git": null,
-     "copia_release": {
-      "tag": "ensemble-congreso-sevilla-9987893f2689",
-      "asset_id": 721036621
-     },
-     "copias_r2": [],
-     "publicacion": "PUBLICABLE"
     }
    ]
   },
