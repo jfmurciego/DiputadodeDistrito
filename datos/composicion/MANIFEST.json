@@ -2009,6 +2009,13 @@
    "sha256_csv": "45931ee92a72714a74f79062499bf66d6c90802a69cef0b2a10eae5dcaf099ae",
    "ruta": "datos/composicion/runs/nac21_43765769898.csv"
   },
+  "nac22/43772965482": {
+   "territorio": "nac22",
+   "run_id": "43772965482",
+   "secciones": 286,
+   "sha256_csv": "46a0ea44050cf43d1e241e64d46154c98b38f72c0d69a8e7ead9a3e7e2e95811",
+   "ruta": "datos/composicion/runs/nac22_43772965482.csv"
+  },
   "nac23/43765782167": {
    "territorio": "nac23",
    "run_id": "43765782167",
