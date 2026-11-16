@@ -28,6 +28,11 @@ on:
         options:
           - prueba
           - Zenodo
+      concepto_nuevo:
+        description: "Solo si Zenodo no admite seguir la serie de DOI: permitir abrir una serie nueva (por defecto NO; sin marcar, el depósito falla y deja el borrador)"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -203,16 +208,29 @@ jobs:
           cp docs/zenodo/LICENCIA_CC-BY-4.0.txt docs/zenodo/NOTA_FUENTES.md zen/
           ls -l zen
 
-      - name: Depositar en Zenodo
+      - name: Depositar en Zenodo (prueba)
+        if: ${{ inputs.destino == 'prueba' }}
         env:
-          # solo el token del destino elegido, solo en este paso; nunca se imprime ni se guarda
-          ZENODO_TOKEN: ${{ inputs.destino == 'Zenodo' && secrets.ZENODO_TOKEN || secrets.ZENODO_SANDBOX_TOKEN }}
+          ZENODO_TOKEN: ${{ secrets.ZENODO_SANDBOX_TOKEN }}   # solo este secreto, solo en este paso; sin respaldo cruzado
         run: |
           set -euo pipefail
-          python3 herramientas/zenodo_deposito.py depositar --destino "$DESTINO" --version "$V" --tag "$TAG" \
+          python3 herramientas/zenodo_deposito.py depositar --destino prueba --version "$V" --tag "$TAG" \
             --repo "$GITHUB_REPOSITORY" --ficheros zen/* > informe_zenodo.json
+          jq -r '"- Depósito de prueba: \(.doi // "sin publicar") · concepto nuevo: \(.concepto_nuevo)"' informe_zenodo.json >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Depositar en Zenodo (real)
+        if: ${{ inputs.destino == 'Zenodo' }}
+        env:
+          ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}           # solo este secreto, solo en este paso; sin respaldo cruzado
+          CONCEPTO_NUEVO: ${{ inputs.concepto_nuevo }}
+        run: |
+          set -euo pipefail
+          extra=()
+          if [[ "$CONCEPTO_NUEVO" == "true" ]]; then extra=(--permitir-concepto-nuevo); fi
+          python3 herramientas/zenodo_deposito.py depositar --destino Zenodo --version "$V" --tag "$TAG" \
+            --repo "$GITHUB_REPOSITORY" --ficheros zen/* "${extra[@]}" > informe_zenodo.json
           {
-            echo "### Depósito en Zenodo ($DESTINO)"
+            echo "### Depósito en Zenodo"
             echo "- Versión: $V · concepto nuevo: $(jq -r .concepto_nuevo informe_zenodo.json)"
             echo "- DOI: $(jq -r '.doi // "sin publicar"' informe_zenodo.json) · $(jq -r '.url // .url_borrador // ""' informe_zenodo.json)"
           } >> "$GITHUB_STEP_SUMMARY"

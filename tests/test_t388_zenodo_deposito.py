@@ -28,6 +28,8 @@ class Sim:
     def __init__(self):
         self.deps, self.sig = {}, 1000
         self.rechaza_tipo, self.corrompe_md5, self.log, self.fallo_subida = False, False, [], False
+        self.error_put_meta, self.fallo_publish, self.sin_latest, self.fallo_delete_fichero = None, None, False, False
+        self.get_5xx = 0
 
     def nuevo(self, concepto=None, ficheros=None):
         self.sig += 1
@@ -75,7 +77,13 @@ def hacer_servidor(sim: Sim):
             sim.log.append(("GET", self.path))
             p = self.path.split("?")[0].strip("/").split("/")
             if p[:3] == ["api", "deposit", "depositions"] and len(p) == 3:
-                return self._json(200, [self._vista(d) for d in sim.deps.values()])
+                if sim.get_5xx:
+                    sim.get_5xx -= 1
+                    return self._json(503, {"message": "ocupado"})
+                q = dict(x.split("=") for x in self.path.split("?")[1].split("&"))
+                todos = [self._vista(d) for d in sim.deps.values()]
+                n, pg = int(q["size"]), int(q["page"])
+                return self._json(200, todos[(pg - 1) * n: pg * n])
             d = sim.deps.get(int(p[3]))
             if len(p) == 4:
                 return self._json(200, self._vista(d))
@@ -95,9 +103,13 @@ def hacer_servidor(sim: Sim):
                 return self._json(201, self._vista(sim.nuevo()))
             d = sim.deps[int(p[3])]
             if p[-1] == "newversion":
+                if sim.sin_latest:
+                    return self._json(201, {"id": d["id"], "links": {}})
                 n = sim.nuevo(concepto=d["concepto"] or "C1", ficheros={"codigo.zip": "m"})
                 return self._json(201, {"links": {"latest_draft": self._links(n)["self"]}})
             if p[-1] == "publish":
+                if sim.fallo_publish:
+                    return self._json(sim.fallo_publish, {"message": "no se puede publicar"})
                 d["state"] = "done"
                 return self._json(202, {"doi": f"10.5281/zenodo.{d['id']}", "conceptdoi": "10.5281/zenodo.C1",
                                         "links": {"html": f"{self._base()}/records/{d['id']}"}})
@@ -116,8 +128,11 @@ def hacer_servidor(sim: Sim):
                 return self._json(201, {"key": p[2]})
             d = sim.deps[int(p[3])]
             meta = json.loads(cuerpo)["metadata"]
+            if sim.error_put_meta is not None and d["concepto"]:
+                return self._json(400, sim.error_put_meta)
             if sim.rechaza_tipo and d["concepto"]:
-                return self._json(400, {"message": "upload_type no se puede cambiar"})
+                return self._json(400, {"status": 400, "message": "Validation error.",
+                                        "errors": [{"field": "metadata.upload_type", "message": "no se puede cambiar"}]})
             d["metadata"] = meta
             self._json(200, self._vista(d))
 
@@ -128,6 +143,8 @@ def hacer_servidor(sim: Sim):
             p = self.path.strip("/").split("/")
             if len(p) == 4:
                 sim.deps.pop(int(p[3]))
+            elif sim.fallo_delete_fichero:
+                return self._json(500, {"message": "no borra"})
             else:
                 d = sim.deps[int(p[3])]
                 d["files"].pop(list(d["files"])[int(p[5][1:])], None)
@@ -150,6 +167,8 @@ def paquete(d: Path, t="aut01", v="1.0.0") -> Path:
 
 class Base(unittest.TestCase):
     def setUp(self):
+        self._espera, self._timeout = z._ESPERA_GET, z._TIMEOUT
+        z._ESPERA_GET = (0, 0)
         self.sim = Sim()
         self.srv = hacer_servidor(self.sim)
         self.base = f"http://127.0.0.1:{self.srv.server_port}"
@@ -161,6 +180,7 @@ class Base(unittest.TestCase):
             self.rutas.append(d / n)
 
     def tearDown(self):
+        z._ESPERA_GET, z._TIMEOUT = self._espera, self._timeout
         self.srv.shutdown()
         self.srv.server_close()
         self.tmp.cleanup()
@@ -201,12 +221,37 @@ class Flujo(Base):
         previo = self.sim.nuevo(concepto="C1")
         previo["state"] = "done"
         avisos = []
-        r = self.dep(concepto_id=str(previo["id"]), avisar=avisos.append)
+        r = self.dep(concepto_id=str(previo["id"]), avisar=avisos.append, permitir_concepto_nuevo=True)
         self.assertTrue(r["concepto_nuevo"] and r["publicado"])
         self.assertTrue(avisos)
         borradores = [d for d in self.sim.deps.values() if d["state"] == "unsubmitted"]
         self.assertEqual(borradores, [])
         self.assertEqual(sum(1 for d in self.sim.deps.values() if d["metadata"].get("version") == "1.0.0"), 1)
+
+    def test_cambio_de_tipo_sin_permiso_falla_cerrado_y_documenta_el_borrador(self):
+        self.sim.rechaza_tipo = True
+        previo = self.sim.nuevo(concepto="C1")
+        previo["state"] = "done"
+        with self.assertRaises(z.ErrorDeposito) as c:
+            self.dep(concepto_id=str(previo["id"]))
+        self.assertIn("ZENODO_CONCEPTO_NUEVO_NO_PERMITIDO", str(c.exception))
+        self.assertIn("BORRADOR sin publicar", str(c.exception))
+        self.assertEqual(len([d for d in self.sim.deps.values() if d["state"] == "unsubmitted"]), 1)  # solo el borrador; sin serie nueva
+        self.assertFalse([x for x in self.sim.log if x[0] == "POST" and x[1] == "/api/deposit/depositions"])
+
+    def test_otros_400_422_nunca_abren_serie_nueva_ni_con_permiso(self):
+        previo = self.sim.nuevo(concepto="C1")
+        previo["state"] = "done"
+        for cuerpo in ({"message": "Validation error.", "errors": [{"field": "metadata.title", "message": "falta"}]},
+                       {"message": "Validation error.", "errors": [{"field": "metadata.upload_type", "message": "x"},
+                                                                    {"field": "metadata.license", "message": "y"}]},
+                       {"message": "upload_type no se puede cambiar"}, {"errors": []}, {}):
+            self.sim.error_put_meta = cuerpo
+            with self.subTest(cuerpo), self.assertRaises(z.ErrorDeposito) as c:
+                self.dep(concepto_id=str(previo["id"]), permitir_concepto_nuevo=True)
+            self.assertIn("ZENODO_HTTP_400", str(c.exception))
+            self.assertIn("BORRADOR sin publicar", str(c.exception))
+        self.assertFalse([x for x in self.sim.log if x[0] == "POST" and x[1] == "/api/deposit/depositions"])
 
     def test_sin_publicar_deja_borrador_validado(self):
         r = self.dep(publicar=False)
@@ -250,7 +295,6 @@ class FalloCerrado(Base):
         self.srv.shutdown()
         self.srv.server_close()
         with self.assertRaises(z.ErrorDeposito) as c:
-            z._ESPERA_GET = (0, 0)
             self.dep()
         self.assertIn("ZENODO_RED", str(c.exception))
         self.assertNotIn(TOKEN, str(c.exception))
@@ -261,6 +305,67 @@ class FalloCerrado(Base):
             self.dep(token="OTRO-TOKEN-SECRETO")
         self.assertIn("ZENODO_HTTP_401", str(c.exception))
         self.assertNotIn("OTRO-TOKEN-SECRETO", str(c.exception))
+
+    def test_get_5xx_se_reintenta_y_acaba_bien(self):
+        self.sim.get_5xx = 2
+        self.assertTrue(self.dep()["publicado"])
+
+    def test_get_5xx_persistente_falla_claro(self):
+        self.sim.get_5xx = 99
+        with self.assertRaisesRegex(z.ErrorDeposito, "ZENODO_HTTP_503"):
+            self.dep()
+        self.assertEqual(self.sim.deps, {})
+
+    def test_publish_con_5xx_y_4xx_no_reintenta_y_documenta_el_borrador(self):
+        for codigo, v in ((500, "1.0.0"), (400, "1.1.0")):
+            self.sim.fallo_publish = codigo
+            with self.subTest(codigo), self.assertRaises(z.ErrorDeposito) as c:
+                self.dep(version=v, tag=f"mapas-v{v}")
+            self.assertIn(f"ZENODO_HTTP_{codigo}", str(c.exception))
+            self.assertIn("BORRADOR sin publicar", str(c.exception))
+        self.assertEqual(len([x for x in self.sim.log if x[1].endswith("/actions/publish")]), 2)  # uno por intento, sin reintentos
+
+    def test_newversion_sin_latest_draft_falla_cerrado_con_aviso(self):
+        self.sim.sin_latest = True
+        previo = self.sim.nuevo(concepto="C1")
+        previo["state"] = "done"
+        with self.assertRaisesRegex(z.ErrorDeposito, f"ZENODO_NEWVERSION_INESPERADA.*{previo['id']}"):
+            self.dep(concepto_id=str(previo["id"]))
+
+    def test_fallo_al_borrar_fichero_heredado_documenta_el_borrador(self):
+        self.sim.fallo_delete_fichero = True
+        previo = self.sim.nuevo(concepto="C1", ficheros={"codigo.zip": "m"})
+        previo["state"] = "done"
+        with self.assertRaises(z.ErrorDeposito) as c:
+            self.dep(concepto_id=str(previo["id"]))
+        self.assertIn("ZENODO_HTTP_500", str(c.exception))
+        self.assertIn("BORRADOR sin publicar", str(c.exception))
+        self.assertFalse([x for x in self.sim.log if x[1].endswith("/actions/publish")])
+
+    def test_timeout_error_claro(self):
+        import socket
+        z._TIMEOUT = 0.3
+        sock = socket.socket()
+        sock.bind(("127.0.0.1", 0))
+        sock.listen(5)  # acepta conexiones y nunca responde
+        try:
+            with self.assertRaisesRegex(z.ErrorDeposito, "ZENODO_RED"):
+                self.dep(api_base=f"http://127.0.0.1:{sock.getsockname()[1]}")
+        finally:
+            sock.close()
+
+    def test_paginacion_de_100_encuentra_el_deposito_de_la_segunda_pagina(self):
+        for i in range(120):
+            self.sim.nuevo()
+        ya = self.sim.nuevo()
+        ya["metadata"] = {"version": "1.0.0", "title": z.TITULO + "1.0.0"}
+        with self.assertRaisesRegex(z.ErrorDeposito, "ZENODO_YA_EXISTE"):
+            self.dep()
+
+    def test_registro_historico_con_otro_titulo_no_bloquea(self):
+        h = self.sim.nuevo(concepto="C1")
+        h["state"], h["metadata"] = "done", {"version": "1.0.0", "title": "Diputado de Distrito: motor reproducible"}
+        self.assertTrue(self.dep()["publicado"])
 
     def test_entradas_invalidas(self):
         for kw, msg in (({"token": ""}, "ZENODO_SIN_TOKEN"), ({"destino": "otro"}, "ZENODO_DESTINO_INVALIDO"),
@@ -290,6 +395,50 @@ class FalloCerrado(Base):
             c.get("https://otro.example/api/x")
 
 
+class Workflow(unittest.TestCase):
+    def setUp(self):
+        import yaml
+        self.txt = (ROOT / ".github/workflows/p50-publicacion-academica.yml").read_text(encoding="utf-8")
+        self.w = yaml.safe_load(self.txt)
+
+    def test_un_paso_por_destino_sin_respaldo_cruzado(self):
+        pasos = {s.get("name", ""): s for s in self.w["jobs"]["zenodo"]["steps"] if "Depositar" in s.get("name", "")}
+        self.assertEqual(len(pasos), 2)
+        p, r = pasos["Depositar en Zenodo (prueba)"], pasos["Depositar en Zenodo (real)"]
+        self.assertEqual(p["env"]["ZENODO_TOKEN"], "${{ secrets.ZENODO_SANDBOX_TOKEN }}")
+        self.assertEqual(r["env"]["ZENODO_TOKEN"], "${{ secrets.ZENODO_TOKEN }}")
+        self.assertIn("'prueba'", p["if"])
+        self.assertIn("'Zenodo'", r["if"])
+        for linea in self.txt.splitlines():
+            if "secrets." in linea and not linea.lstrip().startswith("#"):
+                self.assertNotIn("||", linea)
+                self.assertNotIn("&&", linea)
+
+    def test_secretos_solo_en_los_pasos_de_deposito(self):
+        j = self.w["jobs"]["zenodo"]
+        self.assertNotIn("secrets.", json.dumps({k: v for k, v in j.items() if k != "steps"}))
+        for s in j["steps"]:
+            if "Depositar" not in s.get("name", ""):
+                self.assertNotIn("secrets.", json.dumps(s))
+        self.assertEqual(j["permissions"], {"contents": "read"})
+        self.assertEqual(j["environment"], "publicacion")
+
+    def test_concepto_nuevo_desmarcado_por_defecto_y_solo_en_el_real(self):
+        e = (self.w.get("on") or self.w.get(True))["workflow_dispatch"]["inputs"]
+        self.assertEqual((e["concepto_nuevo"]["type"], e["concepto_nuevo"]["default"]), ("boolean", False))
+        self.assertEqual(e["destino"]["default"], "prueba")
+        self.assertEqual(e["destino"]["options"], ["prueba", "Zenodo"])
+        pasos = {s.get("name", ""): s for s in self.w["jobs"]["zenodo"]["steps"]}
+        self.assertNotIn("permitir-concepto-nuevo", pasos["Depositar en Zenodo (prueba)"]["run"])
+        self.assertIn("permitir-concepto-nuevo", pasos["Depositar en Zenodo (real)"]["run"])
+
+    def test_bash_n_de_los_pasos(self):
+        for s in self.w["jobs"]["zenodo"]["steps"]:
+            if "run" in s:
+                r = subprocess.run(["bash", "-n"], input=s["run"], text=True, capture_output=True)
+                self.assertEqual(r.returncode, 0, r.stderr)
+
+
 class Herramienta(Base):
     def test_linaje_une_los_de_cada_paquete(self):
         d = Path(self.tmp.name)
@@ -306,6 +455,8 @@ class Herramienta(Base):
                            capture_output=True, text=True, env={"PATH": "/usr/bin:/bin"})
         self.assertEqual((p.returncode, p.stdout), (1, ""))
         self.assertIn("ZENODO_SIN_TOKEN", p.stderr)
+        h2 = subprocess.run([sys.executable, str(ROOT / "herramientas" / "zenodo_deposito.py"), "depositar", "--help"], capture_output=True, text=True)
+        self.assertIn("--permitir-concepto-nuevo", h2.stdout)
 
     def test_destinos_y_url_reales(self):
         self.assertEqual(z.BASES, {"prueba": "https://sandbox.zenodo.org", "Zenodo": "https://zenodo.org"})

@@ -3,19 +3,20 @@
 """Depósito de mapas de Deslinde en Zenodo por la API REST (T-388, D-146): solo mapas, sin código.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.1.0
 NOMBRE DE VERSIÓN: Depósito de mapas en Zenodo
 FECHA: 2026-11-16
 ESTADO: candidato
-CAMBIOS: 1.0.0: fichero nuevo (T-388).
-ANTERIOR: ninguna (fichero nuevo)
+CAMBIOS: 1.1.0: concepto nuevo solo si Zenodo rechaza EXACTAMENTE el cambio de tipo (campo upload_type) y solo con `--permitir-concepto-nuevo`; el resto de 400/422 falla cerrado con el borrador documentado; idempotencia por versión Y título; tiempo de espera ajustable. 1.0.0: fichero nuevo (T-388).
+ANTERIOR: legacy/herramientas/zenodo_deposito_v1.0.0_20261116.py
 QUÉ HACE: `linaje --dir D --salida F` une los LINAJE.json de los paquetes `ddd-*-v*.tar.gz` de D en un solo fichero.
   `depositar --destino prueba|Zenodo --version V --tag mapas-vV --repo O/R --ficheros F...` crea el depósito, sube los
   ficheros, comprueba sus huellas md5 contra Zenodo y, salvo `--sin-publicar`, publica. Destino `prueba` = sandbox.zenodo.org.
   Token: variable de entorno ZENODO_TOKEN (nunca por argumento, nunca impreso). Zenodo reparte los DOI de la serie: nueva
   versión del concepto `--concepto-id` (registro de cualquier versión; por defecto el de la serie de mapas en Zenodo real,
-  ninguno en prueba); si Zenodo no admite el cambio de tipo, borra ese borrador y crea un concepto nuevo (`concepto_nuevo`
-  en el informe). Fallo cerrado: si ya hay un depósito de esa versión, no crea otro; sin reintentos de escritura; un fallo
+  ninguno en prueba); si Zenodo rechaza exactamente el cambio de tipo (error en `upload_type`) Y se pasó
+  `--permitir-concepto-nuevo`, borra ese borrador y crea un concepto nuevo (`concepto_nuevo` en el informe); sin el permiso,
+  o con otro error, falla cerrado y deja el borrador documentado (nunca abre una serie de DOI nueva sin permiso). Fallo cerrado: si ya hay un depósito de esa versión, no crea otro; sin reintentos de escritura; un fallo
   tras crear el borrador lo documenta en stderr (id y URL) y no publica. Informe JSON en stdout; errores en stderr, rc 1.
 """
 from __future__ import annotations
@@ -43,10 +44,23 @@ _PAQUETE = re.compile(r"^ddd-[a-z0-9_]+-v\d+\.\d+\.\d+\.tar\.gz$")
 _VERSION = re.compile(r"^\d+\.\d+\.\d+$")
 _REPO = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
 _ESPERA_GET = (1, 3)  # reintentos solo de lecturas
+_TIMEOUT = 120
+TITULO = "Deslinde: mapas de distritos uninominales, v"
 
 
 class ErrorDeposito(Exception):
-    pass
+    def __init__(self, mensaje, codigo=None, cuerpo=None):
+        super().__init__(mensaje)
+        self.codigo, self.cuerpo = codigo, cuerpo
+
+
+def _solo_cambio_de_tipo(e: ErrorDeposito) -> bool:
+    """True solo si TODOS los errores de validación de Zenodo son del campo `upload_type`."""
+    if e.codigo not in (400, 422) or not isinstance(e.cuerpo, dict):
+        return False
+    errs = e.cuerpo.get("errors")
+    return bool(errs) and isinstance(errs, list) and all(
+        isinstance(x, dict) and str(x.get("field", "")).split(".")[-1] == "upload_type" for x in errs)
 
 
 def _limpiar(texto: str, token: str) -> str:
@@ -83,7 +97,7 @@ def validar_ficheros(rutas: list[Path]) -> list[dict]:
 
 def metadatos(version: str, tag: str, repo: str, fecha: str | None = None) -> dict:
     return {
-        "title": f"Deslinde: mapas de distritos uninominales, v{version}",
+        "title": f"{TITULO}{version}",
         "upload_type": "dataset",
         "description": (
             f"<p>Mapas de distritos uninominales (Deslinde) en su versión {version}: paquetes firmados por territorio, manifiesto "
@@ -131,7 +145,8 @@ class Cliente:
     def __init__(self, base: str, token: str):
         self.base, self.token = base.rstrip("/"), token
 
-    def _req(self, metodo, url, datos=None, cabeceras=None, timeout=120, lectura=False):
+    def _req(self, metodo, url, datos=None, cabeceras=None, timeout=None, lectura=False):
+        timeout = timeout or _TIMEOUT
         if url.startswith("/"):
             url = self.base + url
         if urllib.parse.urlsplit(url).netloc != urllib.parse.urlsplit(self.base).netloc:
@@ -147,10 +162,15 @@ class Cliente:
                     cuerpo = r.read()
                     return r.status, (json.loads(cuerpo) if cuerpo else {})
             except urllib.error.HTTPError as e:
-                cuerpo = _limpiar(e.read().decode("utf-8", "replace")[:600], self.token)
+                bruto = _limpiar(e.read().decode("utf-8", "replace"), self.token)
                 if lectura and e.code >= 500 and not ultimo:
                     continue
-                raise ErrorDeposito(f"ZENODO_HTTP_{e.code}: {metodo} {urllib.parse.urlsplit(url).path}: {cuerpo}") from None
+                try:
+                    parseado = json.loads(bruto)
+                except ValueError:
+                    parseado = None
+                raise ErrorDeposito(f"ZENODO_HTTP_{e.code}: {metodo} {urllib.parse.urlsplit(url).path}: {bruto[:600]}",
+                                    e.code, parseado) from None
             except (urllib.error.URLError, TimeoutError, OSError) as e:
                 if lectura and not ultimo:
                     continue
@@ -174,30 +194,33 @@ class Cliente:
         url = f"{bucket.rstrip('/')}/{urllib.parse.quote(f['nombre'])}"
         with f["ruta"].open("rb") as fh:
             return self._req("PUT", url, fh, {"Content-Type": "application/octet-stream", "Content-Length": str(f["bytes"])},
-                             timeout=1800)[1]
+                             timeout=max(_TIMEOUT, 1800))[1]
 
 
 def existentes(c: Cliente, version: str) -> list[dict]:
-    """Depósitos (borradores o publicados, de cualquier versión de serie) cuya versión coincide."""
+    """Depósitos NUESTROS (borradores o publicados; misma versión y título «Deslinde: mapas…») de cualquier serie.
+    El registro histórico de Huesca (otro título) no bloquea el primer depósito, aunque su versión fuera «1.0.0»."""
     out, pagina = [], 1
     while True:
         lote = c.get(f"/api/deposit/depositions?size=100&page={pagina}&all_versions=1")
         if not isinstance(lote, list):
             raise ErrorDeposito("ZENODO_LISTADO_INESPERADO: la API no devolvió una lista de depósitos")
-        out += [d for d in lote if (d.get("metadata") or {}).get("version") == version]
+        out += [d for d in lote if (d.get("metadata") or {}).get("version") == version
+                and str((d.get("metadata") or {}).get("title", "")).startswith(TITULO)]
         if len(lote) < 100:
             return out
         pagina += 1
 
 
-def _borrador(c: Cliente, estado: dict, concepto_id: str | None, meta: dict, declarar) -> tuple[dict, bool]:
+def _borrador(c: Cliente, estado: dict, concepto_id: str | None, meta: dict, declarar, permitir_nuevo: bool) -> tuple[dict, bool]:
     """Devuelve (borrador con metadatos puestos, concepto_nuevo)."""
     if concepto_id:
         try:
             nuevo = c.post(f"/api/deposit/depositions/{concepto_id}/actions/newversion")
             dep = c.get(nuevo["links"]["latest_draft"])
         except (KeyError, TypeError):
-            raise ErrorDeposito("ZENODO_NEWVERSION_INESPERADA: la API no devolvió el borrador de la nueva versión") from None
+            raise ErrorDeposito(f"ZENODO_NEWVERSION_INESPERADA: la API no devolvió el borrador de la nueva versión; puede haber un "
+                                f"borrador huérfano en la serie del registro {concepto_id}: revísalo y bórralo en Zenodo antes de relanzar") from None
         estado["borrador"] = dep
         for f in c.get(dep["links"]["files"]):  # los ficheros heredados (p. ej. el ZIP de código) no se conservan
             c.delete(f["links"]["self"])
@@ -205,9 +228,13 @@ def _borrador(c: Cliente, estado: dict, concepto_id: str | None, meta: dict, dec
             c.put_json(dep["links"]["self"], {"metadata": meta})
             return c.get(dep["links"]["self"]), False
         except ErrorDeposito as e:
-            if not re.search(r"ZENODO_HTTP_4(00|22)", str(e)):
-                raise
-            declarar(f"aviso: Zenodo no admite esta nueva versión de la serie ({str(e)[:200]}); concepto nuevo")
+            if not _solo_cambio_de_tipo(e):
+                raise  # cualquier otro error: falla cerrado, borrador documentado, sin serie nueva
+            if not permitir_nuevo:
+                raise ErrorDeposito("ZENODO_CONCEPTO_NUEVO_NO_PERMITIDO: Zenodo no admite pasar la serie de software a dataset; crear un "
+                                    "concepto nuevo abre una serie de DOI nueva y exige marcar «concepto_nuevo» en el botón. "
+                                    f"Detalle: {str(e)[:200]}") from None
+            declarar(f"aviso: Zenodo no admite el cambio de tipo en la serie ({str(e)[:200]}); concepto nuevo (permitido)")
             c.delete(dep["links"]["self"])  # si no se borra, se aborta: no se crea un segundo borrador
             estado["borrador"] = None
     dep = c.post("/api/deposit/depositions", {})
@@ -217,7 +244,8 @@ def _borrador(c: Cliente, estado: dict, concepto_id: str | None, meta: dict, dec
 
 
 def depositar(destino: str, token: str, version: str, tag: str, repo: str, rutas: list[Path], concepto_id: str | None,
-              publicar: bool = True, api_base: str | None = None, fecha: str | None = None, avisar=lambda m: None) -> dict:
+              publicar: bool = True, api_base: str | None = None, fecha: str | None = None, avisar=lambda m: None,
+              permitir_concepto_nuevo: bool = False) -> dict:
     if destino not in BASES:
         raise ErrorDeposito(f"ZENODO_DESTINO_INVALIDO: {destino!r} (prueba|Zenodo)")
     if not token:
@@ -237,7 +265,7 @@ def depositar(destino: str, token: str, version: str, tag: str, repo: str, rutas
                             "no se crea otro: revísalo o bórralo a mano")
     estado: dict = {"borrador": None}
     try:
-        dep, nuevo = _borrador(c, estado, concepto_id, metadatos(version, tag, repo, fecha), avisar)
+        dep, nuevo = _borrador(c, estado, concepto_id, metadatos(version, tag, repo, fecha), avisar, permitir_concepto_nuevo)
         bucket = dep["links"]["bucket"]
         for f in ficheros:
             c.subir(bucket, f)
@@ -273,6 +301,7 @@ def main(argv=None) -> int:
     d.add_argument("--repo", required=True)
     d.add_argument("--ficheros", nargs="+", required=True)
     d.add_argument("--concepto-id", default=None, help=f"registro de una versión de la serie (por defecto {CONCEPTO_REAL} solo en Zenodo)")
+    d.add_argument("--permitir-concepto-nuevo", action="store_true", help="si Zenodo rechaza el cambio de tipo, abre una serie de DOI nueva")
     d.add_argument("--sin-publicar", action="store_true", help="deja el borrador validado sin publicar")
     d.add_argument("--api-base", default=None, help="solo servidor local de pruebas")
     a = ap.parse_args(argv)
@@ -282,7 +311,8 @@ def main(argv=None) -> int:
             return 0
         concepto = a.concepto_id if a.concepto_id is not None else (CONCEPTO_REAL if a.destino == "Zenodo" else None)
         informe = depositar(a.destino, os.environ.get("ZENODO_TOKEN", ""), a.version, a.tag, a.repo, [Path(x) for x in a.ficheros],
-                            concepto or None, not a.sin_publicar, a.api_base, avisar=lambda m: print(m, file=sys.stderr))
+                            concepto or None, not a.sin_publicar, a.api_base, avisar=lambda m: print(m, file=sys.stderr),
+                            permitir_concepto_nuevo=a.permitir_concepto_nuevo)
         print(json.dumps(informe, ensure_ascii=False, indent=2))
         return 0
     except ErrorDeposito as e:

@@ -24,19 +24,29 @@ el workflow **P50 Publicación académica** (job `zenodo`) por la API de Zenodo;
 - Si falla el depósito, la Release ya existe: relanza solo el job `zenodo` («Re-run failed jobs»), no el botón entero.
 
 ## Series y DOI
-Intenta una nueva versión del concepto `10.5281/zenodo.24093967` (la serie de Huesca). Si Zenodo no permite pasar de software a
-dataset, borra ese borrador y crea un **concepto nuevo**; el informe del job lo declara (`concepto_nuevo`) y hay que actualizar
-el DOI de concepto en `CITATION.cff` y el README. En el destino prueba siempre hay concepto nuevo (otro servidor).
+Intenta una nueva versión del concepto `10.5281/zenodo.24093967` (la serie de Huesca) con tipo dataset. Si Zenodo **rechaza exactamente
+el cambio de tipo** (error en `upload_type`) y el botón lleva marcado **`concepto_nuevo`** (desmarcado por defecto), borra ese borrador
+y crea un concepto nuevo: abre una serie de DOI nueva y hay que actualizar el DOI de concepto en `CITATION.cff` y el README. Sin
+marcarlo, o ante cualquier otro error 400/422, el depósito falla cerrado con `ZENODO_CONCEPTO_NUEVO_NO_PERMITIDO` / el error de
+Zenodo y deja el borrador documentado (id y URL en el log): decide el propietario. En el destino prueba siempre hay concepto nuevo
+(otro servidor; no crea serie en el real).
 
 ## Garantías de la herramienta
-No crea dos depósitos de la misma versión (borrador o publicado: falla cerrado con `ZENODO_YA_EXISTE`); no publica si los
+No crea dos depósitos de la misma versión (borrador o publicado, con el título «Deslinde: mapas…»: falla cerrado con `ZENODO_YA_EXISTE`; el registro histórico de Huesca, de otro título, no bloquea); no publica si los
 ficheros del borrador no coinciden por md5 con los locales; las escrituras no se reintentan; un fallo tras crear el borrador
 imprime su id y URL (sin publicar) y no deja nada a medias en silencio.
 
-## Secretos (entorno `publicacion`)
+## Secretos (entorno `publicacion`) y condiciones previas
 `ZENODO_TOKEN` (zenodo.org) y `ZENODO_SANDBOX_TOKEN` (sandbox.zenodo.org) los crea el propietario en cada sitio (permisos
-`deposit:write` y `deposit:actions`) y los guarda en el entorno `publicacion`. Nunca en el chat ni en ficheros. El paso de
-depósito recibe solo el del destino elegido; no se imprime ni se sube como artefacto.
+`deposit:write` y `deposit:actions`) y los guarda en el entorno `publicacion`. Nunca en el chat ni en ficheros. Cada destino tiene su
+propio paso, sin respaldo cruzado: el token de prueba nunca llega al servidor real. No se imprimen ni se suben como artefacto.
+
+**Condiciones previas a crear los secretos (el propietario):**
+1. El entorno `publicacion` debe tener **política de ramas (solo `main`) o revisores obligatorios**. Hoy no consta que los tenga: la
+   restricción «cada paso recibe solo su token» es de este YAML, no del entorno, y una rama que edite el workflow y lo lance por API
+   podría leer ambos secretos.
+2. **Desactivar la integración GitHub–Zenodo ANTES del primer depósito**: si sigue activa, la Release `mapas-v*` la dispararía y
+   archivaría el código del repositorio.
 
 ## Cómo se corrige un depósito
 - Borrador o sandbox: bórralo en Zenodo y relanza el job `zenodo`.

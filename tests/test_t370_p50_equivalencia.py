@@ -79,7 +79,7 @@ class Disparadores(Congelado):
         self.assertEqual(self.p["name"], "P50 Publicación académica")
         self.assertEqual(set(on(self.p)), {"workflow_dispatch"})  # sin workflow_call: la 05 ya no lo lanza
         entradas = on(self.p)["workflow_dispatch"]["inputs"]
-        self.assertEqual(set(entradas), {"territorios", "destino"})  # T-388: destino añadido
+        self.assertEqual(set(entradas), {"territorios", "destino", "concepto_nuevo"})  # T-388: destino añadido
         self.assertEqual(entradas["territorios"]["type"], "string")
         self.assertEqual(entradas["territorios"]["default"], "todos")
         self.assertNotIn("version", entradas)  # versión automática
