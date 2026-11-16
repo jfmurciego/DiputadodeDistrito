@@ -18,7 +18,7 @@ El estado operativo por territorio no está en este documento: lo genera el sist
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-16T02:38:29.362107+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-16T02:39:46.010712+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -96,7 +96,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Cantabria** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43786502149 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Segovia** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43786736942 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Sevilla** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43786750220 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
-| **Nacional Soria** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43029280043 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Soria** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43788408190 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Tarragona** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43029795470 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Teruel** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43029189395 · SUCCESS | — | — | — |
 | **Nacional Toledo** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43040968638 · SUCCESS | — | — | — |
