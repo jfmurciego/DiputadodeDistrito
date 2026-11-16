@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.462
+Versión: 1.0.463
 Fecha: 2026-11-16
-Alcance: T-365 — Histórico de las generales por época: contrato por elección, herramienta y piloto nac22 2019-11
+Alcance: T-325 — Galería fotográfica territorial del visor V3 (rehecha desde cero, sustituye a la PR #792)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-16_t365-historico-epoca.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.461_registro_20261116.md
+Cambios/motivo: entrada docs/registro/2026-11-15_t325-galeria-v3.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.462_registro_20261116.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.461_registro_20261116.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.463 · [2026-11-15 — T-325 — Galería fotográfica territorial del visor V3 (rehecha desde cero, sustituye a la PR #792)](registro/2026-11-15_t325-galeria-v3.md)
 - 1.0.462 · [2026-11-16 — T-365 — Histórico de las generales por época: contrato por elección, herramienta y piloto nac22 2019-11](registro/2026-11-16_t365-historico-epoca.md)
 - 1.0.461 · [2026-11-16 — T-364 — Población por sección: interpolación y ajuste municipal (D-128)](registro/2026-11-16_claude-t364-interpolada.md)
 - 1.0.460 · [2026-11-16 — T-360 — las cadenas registran en paralelo sin grupos únicos y con el catálogo de procedencia en el mismo commit](registro/2026-11-16_t360-paralelismo-cadena.md)
