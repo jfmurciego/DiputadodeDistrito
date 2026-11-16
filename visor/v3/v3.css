@@ -1,11 +1,12 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: visor V3 (nueva interfaz)
- * VERSIÓN: 1.1.0
- * FECHA: 2026-11-14
+ * VERSIÓN: 1.2.0
+ * FECHA: 2026-11-15
  * ESTADO: candidato
  * CAMBIOS: layout integrado cartográfico, paneles de análisis, responsive, accesibilidad.
  * MOTIVO: navegación unificada basada en cartografía M06/M08 sin resultados simulados.
- * ANTERIOR: legacy/visor/v3/v3_v1.0.0_20261114.css
+ * ANTERIOR: legacy/visor/v3/v3_v1.1.0_20261115.css
+ * 1.2.0: T-325, estilos de la galería territorial (figura, pie de crédito, enlace a créditos, foco visible).
  * 1.1.0: T-295, accesibilidad WCAG 2.1 AA: foco de alto contraste, contraste de textos y bordes, objetivos 36 px, reflow 320 px, prefers-reduced-motion, sr-only, enlace de salto y tabla alternativa. */
 :root{--ink:#24262a;--muted:#5a5c64;--wine:#9c2733;--wine2:#7f1928;--paper:#f8f7f5;--line:#e2dfe0;--panel:#fff;--soft:#f9eff0;--blue:#1d84ce;--red:#d62728;--green:#4c9a2a;--shadow:0 3px 18px rgba(23,28,36,.065);--radius:16px}
 *{box-sizing:border-box}html,body{height:100%}body{margin:0;color:var(--ink);background:var(--paper);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:13px}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,[tabindex]:focus-visible{outline:3px solid #14161a;outline-offset:2px;box-shadow:0 0 0 6px #fff}
@@ -24,3 +25,17 @@
 .detail-mode summary{cursor:pointer;font-weight:700;padding:6px 0;min-height:28px}
 @media(max-width:480px){.legend{max-width:calc(100% - 28px)}.legend ul{grid-template-columns:repeat(2,minmax(0,1fr))}.legend li{white-space:normal}.site-nav{flex-wrap:wrap;row-gap:4px}.model-cards{flex-wrap:wrap}.model-cards>div{flex:1 1 130px}.map-tag{max-width:calc(100% - 140px)}.timeline-controls select{max-width:100%}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Galería territorial (T-325): ilustra el territorio, nunca un dato de distrito. */
+.territory-gallery{margin:0;padding:13px 15px 5px;border-bottom:1px solid var(--line)}
+.gallery-heading{font:700 17px Georgia,serif;margin:0 0 9px;color:var(--ink)}
+.gallery-figure{margin:0 0 10px;background:var(--panel);border:1px solid var(--line);border-radius:11px;overflow:hidden}
+.gallery-figure img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;background:#edf0f2}
+.gallery-figure figcaption{display:flex;flex-direction:column;gap:3px;padding:9px 11px;line-height:1.4}
+.gallery-figure figcaption strong{font-size:13px}
+.gallery-figure figcaption span{font-size:12px;color:var(--muted)}
+.gallery-credit{font-size:11px;color:var(--muted);overflow-wrap:anywhere}
+.gallery-credit a{color:var(--wine2);text-decoration:underline;display:inline-block;min-height:24px}
+.gallery-credit a:focus-visible{outline:3px solid var(--wine);outline-offset:2px}
+.gallery-unavailable{font-size:12px;color:var(--muted);background:#f6f5f4;padding:14px 12px;border-radius:9px;margin:0 0 10px}
+.gallery-creditos{font-size:11px;color:var(--muted);margin:0 0 10px}.gallery-creditos a{color:var(--wine2);text-decoration:underline;display:inline-block;min-height:24px}.gallery-creditos a:focus-visible{outline:3px solid var(--wine);outline-offset:2px}

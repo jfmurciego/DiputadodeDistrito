@@ -1,4 +1,7 @@
 <!doctype html>
+<!-- PROYECTO: Diputado de Distrito · CLASE: visor V3 (portada) · VERSIÓN: 1.1.0 · FECHA: 2026-11-15 · ESTADO: candidato
+     CAMBIOS: T-325, sección de galería territorial y carga de visor/v2/galeria/galeria.js y enlace a los créditos de las fotografías. MOTIVO: fotografía del territorio sin terceros.
+     ANTERIOR: legacy/visor/v3/index_v1.0.0_20261115.html -->
 <html lang="es">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -49,6 +52,7 @@
     </main>
     <aside class="insights" aria-label="Información de la selección">
       <div class="insights-hero"><span class="overline" id="selection-type">España</span><h1 id="selection-name">Diputado de Distrito</h1><p id="selection-path">Selecciona una provincia o comunidad en el mapa</p></div>
+      <section id="territory-gallery" class="territory-gallery" aria-labelledby="gallery-title" hidden><h2 class="gallery-heading" id="gallery-title">Conoce el territorio</h2><div class="gallery-content" aria-live="polite"></div><p class="gallery-creditos"><a href="../v2/galeria/creditos.html">Créditos y licencias de las fotografías</a>. Cada foto conserva su licencia Creative Commons.</p></section>
       <div class="model-cards"><div><small id="ddd-label">Propuesta DDD</small><strong id="ddd-count">407</strong><span id="ddd-unit">distritos nacionales</span></div><div><small id="current-label">Congreso actual</small><strong id="current-count">350</strong><span id="current-unit">escaños</span></div></div>
       <div id="context" class="context"><p class="hint">El mapa y las fichas mostrarán únicamente datos disponibles en el registro de publicación.</p></div>
       <div class="source-label" id="source-label"></div>
@@ -66,6 +70,7 @@
 </div>
 <dialog id="help-dialog" aria-labelledby="help-title"><h2 id="help-title">Cómo explorar DDD</h2><p>Selecciona ámbito, sistema electoral y vista. Pulsa una provincia para entrar en sus distritos y continúa acercándote para consultar secciones censales cuando estén publicadas.</p><p>Las secciones se colorean por su distrito o por una variable territorial. No se atribuyen resultados electorales a una sección si no existen resultados propios publicados para esa sección.</p><p>Las elecciones antiguas o las capas sin producto publicado indican su ausencia, sin reutilizar silenciosamente datos de otro año.</p><p>Teclado: Tab recorre los controles; con el foco en el mapa, las flechas lo mueven y + / − lo acercan o alejan. La tabla «Resultados en tabla» permite elegir territorios sin usar el mapa.</p><form method="dialog"><button autofocus>Cerrar</button></form></dialog>
 <script defer src="../v2/vendor/maplibre-gl/5.7.0/maplibre-gl.js" integrity="sha384-Blts4zGbI8Hh/NvhcxTYsF2uLBbYIwHXEhPMxN3XpadJCDgstyLfJA3opgmkfBOc"></script>
+<script defer src="../v2/galeria/galeria.js"></script>
 <script defer src="v3.js"></script>
 <p class="aviso-analitica" style="font-size:12px;margin:8px 16px;opacity:.85"><strong>Medición de visitas.</strong> Este sitio cuenta cuántas veces se carga cada página, por día. No usa cookies ni guarda nada en tu dispositivo, no registra tu dirección IP ni datos de tu navegador, no te identifica ni te sigue y no comparte datos con terceros. Solo se conserva un número por página y día. La infraestructura (alojamiento y red de entrega) trata tu IP de forma transitoria para entregarte la página, como cualquier servicio web. Además, el sitio lo sirve Cloudflare: tu navegador puede enviarle informes de errores de red (cabeceras NEL/Report-To, hacia a.nel.cloudflare.com) y estos incluyen tu dirección IP.</p>
 <script>navigator.sendBeacon&&navigator.sendBeacon("https://contador.diputadodedistrito.es/v",location.pathname.replace(/index\.html$/,""))</script>
