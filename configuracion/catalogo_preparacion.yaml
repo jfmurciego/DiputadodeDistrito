@@ -2535,7 +2535,7 @@ territories:
         prepared_source_pair: territorios/nac46/evidencia/pares_fuentes/2025/1f1c1081dd788a45c488ed4def021cb7544c4d66ea2204ce014faa70387d2b5b.json
         electoral_product: territorios/nac46/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/nac46/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: nac47
   name: Congreso Valladolid
   editions:
