@@ -1,6 +1,6 @@
 # T-378 · Diseño al detalle de P00 Campaña y de la nueva forma de trabajar
 
-VERSIÓN: 1.1.3 · FECHA: 2026-11-16 · ANTERIOR: `legacy/docs/ESTUDIOS/T378_P00_CAMPANA/DISENO_P00_CAMPANA_v1.1.2.md` ·
+VERSIÓN: 1.1.4 · FECHA: 2026-11-16 · ANTERIOR: `legacy/docs/ESTUDIOS/T378_P00_CAMPANA/DISENO_P00_CAMPANA_v1.1.3.md` ·
 ESTADO: propuesta para el revisor independiente y el propietario (T-387, D-145)
 CAMBIOS 1.1.0: decisiones A, B y C de D-145 (la validación desde la rama no escribe en `main`; 15 territorios a la vez
 con un solo job por cadena; la noche del 29-11 con la 00 actual) y todos los arreglos del revisor del diseño 1.0:
@@ -19,7 +19,8 @@ por rama, efecto en los robots que corren con otra ref, secretos de entorno en r
 recuento de `queue: max` con criterio, campaña cancelada sin forense.
 CAMBIOS 1.1.3: decisiones del propietario D-147 sobre §15 (segunda campaña rechazada con aviso; el cierre no se amplía a
 `RUTAS_ROBOT` y dispara la CI de `main`; cierre de validación en rama + PR en borrador; entorno `registro`).
-MOTIVO: D-145 (corrige D-143 tras el revisor del diseño 1.0), revisiones de la 1.1.0 y la 1.1.1, y D-147.
+CAMBIOS 1.1.4: §16, notas de implementación del conforme final del revisor (5 menores).
+MOTIVO: D-145 (corrige D-143 tras el revisor del diseño 1.0), revisiones de la 1.1.0 y la 1.1.1, D-147 y conforme final.
 
 Solo documento: no cambia código, workflows ni datos, y no lanza nada. Base: `origin/main` 8221ab9. Límites de GitHub
 con cita, fuente y fila en `ANEXO_A_LIMITES_GITHUB.md` 1.1.0 (las referencias «fila n» son de ese anexo). Cada arreglo
@@ -504,3 +505,37 @@ Tomadas el 16-11 (**D-147**) sobre las cuatro que quedaban:
    tocando los 25 usos y separando en job propio el registro de los jobs que ya tienen entorno (§10).
 
 No quedan decisiones abiertas en este diseño.
+
+## 16. Notas de implementación (conforme final del revisor)
+
+1. **Segunda campaña (§3).**
+   - Dos P00 casi simultáneas solo dejan de verse si el listado de ejecuciones de la API va con retraso; si se ven, sigue
+     la de `run_id` menor. Si después esa menor aborta por otra causa, la mayor ya se rechazó y **no corre ninguna**: el
+     informe del issue y la ficha de lanzamiento lo dicen, y se lanza de nuevo con otra frase.
+   - Una campaña en `waiting` (aprobación de P40, hasta 30 días, anexo fila 7) o colgada **bloquea las siguientes**. La
+     cancela el **Operador** con frase del propietario (D-52); el aviso de rechazo da el run que bloquea.
+   - Un «solo comprobar» también cuenta como campaña en curso mientras dura (§2).
+   - Test añadido: lista sintética con una ejecución «solo comprobar» en curso → rechazo; con una en `waiting` → rechazo
+     con el run que bloquea.
+2. **`cierre_rama` (§5, §10).**
+   - Abrir la PR en borrador con `GITHUB_TOKEN` exige `pull-requests: write` en ese job y el ajuste del repositorio
+     «Allow GitHub Actions to create and approve pull requests» (lo activa el propietario).
+   - Los eventos creados con `GITHUB_TOKEN` no lanzan ejecuciones; en las versiones nuevas, el `pull_request` de una PR
+     creada así queda en espera de aprobación («Approve workflows to run»)
+     (`data/reusables/actions/actions-do-not-trigger-workflows.md`). No se aprueba: la PR no tendrá `veredicto`, lo que
+     es coherente con «nunca se fusiona».
+   - Criterio añadido a la validación de aut11: comprobar que el ruleset protege solo `main` y no `p00-cierre/*` (el push
+     a la rama de cierre debe entrar; el de prueba a `main`, ser rechazado).
+3. **Commit de cierre y PR 2a (§6, §13).**
+   - El cierre es un push «no robot» y usa los grupos `ddd-main-*` con `cancel-in-progress`: puede cancelar la batería
+     de una fusión reciente o ser cancelado por ella. Regla operativa: **no fusionar PR de código en la hora previa al
+     cierre de una campaña**, y una batería cancelada no es señal de `main` en verde.
+   - Los llamadores usan `secrets: inherit` (21 usos en `.github/workflows/`), que no pasa secretos de entorno. Condición
+     dura de la PR 2a: **humo verde del entorno `registro` (incluido un reutilizable llamado) antes de borrar los
+     secretos del repositorio**. Si no hay humo verde antes del **28-11**, la 2a se fusiona **después** de la noche del
+     29-11.
+4. **Jobs partidos (§10).** El job nuevo de registro de `desplegar-visor-publico.yml` **conserva** el grupo
+   `ddd-shared-operational-state`. En `podar`, los secretos de R2 van al job con `produccion` (el que borra) y el
+   registro posterior solo recibe salidas.
+5. **La noche del 29-11.** T-379 no toca nada de esa noche: va con la 00 actual (§11), y ninguna PR de T-379 se fusiona
+   antes de que termine.
