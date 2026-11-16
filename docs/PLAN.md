@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.52
+Versión: 1.0.53
 Fecha: 2026-11-16
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-128 a D-130 (relleno refinado, diseño de 9 workflows y orden de migración, una campaña = una ejecución); cola T-364 a T-367; traspaso del Planificador
-Anterior: legacy/docs/PLAN_v1.0.51_20261116.md
+Cambios/motivo: D-131 a D-133 (encargos aprobados de los pasos 2, 3 y 4 de la migración: P70, P80, P50); cola T-368 a T-371
+Anterior: legacy/docs/PLAN_v1.0.52_20261116.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -279,6 +279,9 @@ Fase 4 — producto (en el privado):
 - D-128 (16-11, propietario). Relleno de población del histórico: interpolación lineal entre el año anterior y el siguiente del Atlas de la misma sección (si solo hay uno, el más cercano) y ajuste proporcional por municipio al padrón municipal oficial del INE del año; marca por sección; umbral del 1 % sobre la población estimada (#840). Reglas del Planificador (16-11): residuo ≤ 0 → aviso, valor interpolado sin ajuste («sin_ajuste_municipal»), nunca 0; secciones sin dato en ningún año → provincia-elección APARTADA; secciones del Atlas sin geometría del año → reasignadas enteras a la sucesora por la tabla de equivalencia («reasignada»), o provincia APARTADA si no hay sucesora única; secciones del seccionado no listadas en el Atlas → regla de D-128, marca «no_listada».
 - D-129 (16-11, propietario). Diseño de workflows: 9 visibles, uno por familia y opciones dentro, todos con prefijo P: P00 Campaña (bloque completo), P10 Fuentes (P11 territoriales, P12 electorales), P20 Distritos (P21 base y población, P22 geometría y adyacencias, P23 grafo, P24 solución inicial, P25 optimización, P26 producto certificado, P27 auditoría, P28 alternativas), P30 Resultados electorales (P31 agregación, P32 resultados por distrito, P33 puerta), P40 Publicación (P41 sitio, P42 lotes, P43 histórico por fecha), P50 Publicación académica, P70 Archivo (P71 archivar, P72 recuperar, P73 podar, P74 listar), P80 Verificación del motor, P90 Automático (pruebas, revisor, fusión automática, forense, métricas; sin botón; checks `veredicto` y `pruebas` intactos). Nada «Interno»: lo compartido, como acciones compuestas. Carpetas de R2: entradas/, puntos-de-control/, productos/ (sin código P). Sustituye a D-61 (P20/P30 separados) y a la numeración de D-102/T-313. Orden de migración aprobado: ensayo del 29-11 en los workflows actuales; luego una PR por familia (fichero viejo borrado en la misma PR, test de equivalencia, revisor, la fusiona el propietario): 1 P90, 2 P70, 3 P80, 4 P50, 5 P40, 6 P10, 7 P30, 8 P20, 9 P00 (la nueva forma de trabajar —comprobación previa con semáforo, políticas de reintento y apartado, informe en un issue, versión fija, estado fuera de main— se presenta AL DETALLE al propietario antes de implementarla), 10 documentación renumerada; validación con una P00 de aut11 y un re-ensayo corto antes del 26-11. Cada encargo se presenta al detalle al propietario y no se implementa sin su aprobación.
 - D-130 (16-11, propietario). Una campaña = una ejecución: P00 llama a P10/P20/P30/P40 solo como workflows reutilizables por dentro; nunca lanza ejecuciones por fuera. Parámetros visibles solo con opciones entendibles en español y territorios por código; nada de run ids, sha, rutas ni números técnicos (se resuelven en el código). Propuesta de botones (a confirmar en cada encargo): P00 territorios/elección/modo (solo comprobar | comprobar y lanzar)/publicar; P10 tipo/territorios/elección; P20 territorios/alternativas; P30 territorios/elección; P40 qué publicar/elección; P50 territorios; P70 acción/simular; P80 territorios/alcance; P90 sin botón. Límites de GitHub (jobs por matriz y por ejecución, concurrencia, anidamiento) a verificar en la documentación oficial antes del paso 9; alternativa: un job por provincia con P10-P30 como pasos.
+- D-131 (16-11, propietario; paso 2 de D-129). P70 Archivo (`p70-archivo.yml`) sustituye a `podar-r2.yml`, `recuperar-producto-electoral-durable.yml` y a lo que quede de `mantenimiento-programado.yml` (`archivar_r2`, `extraer_m06`; T-366 se lleva `metricas`). Botón: acción (P71 archivar, P72 recuperar producto electoral o composición M06, P73 podar, P74 listar), simular, y territorios (código) y elección (AAAA-MM) solo para recuperar. P71 sin «caduca antes» (todo lo vivo; cron diario 05:17). P72 resuelve run, artefacto, sha y commit desde catálogo y manifiesto; mantiene `workflow_call` con entradas técnicas para la 00 (solo cambia su `uses:`). P73 sin sha256 en el botón: el sha aprobado de la lista va en un fichero versionado que solo cambia por PR revisada; borrado real solo con el entorno `produccion`. P74 nuevo, solo lectura: tamaño por carpeta y total frente a 10 GB. Un solo grupo de concurrencia. Renombrar carpetas de R2: tarea aparte tras el paso 9.
+- D-132 (16-11, propietario; paso 3 de D-129). P80 Verificación del motor (`p80-verificacion-motor.yml`) sustituye a `bateria-motor.yml`. Botón: territorios (vacío = 71) y alcance «motor vigente» (competición Deslinde, D8 y 10 cadenas fijados en el código; por defecto) | «motor base M05» (7.4.4 fijada). Se retira `archivar_almacen_m06` (de un solo uso, hecho en T-302/T-302d); `archivar_p10` pasa a P71 como «paquete de fuentes de un territorio» (solo pide el territorio; el último paquete P10 se resuelve del catálogo). Sin cambios en `herramientas/bateria_motor.py` ni `ddd_motor2`.
+- D-133 (16-11, propietario; paso 4 de D-129). P50 Publicación académica (`p50-publicacion-academica.yml`) sustituye a `publicar-version-mapa.yml`. Botón: territorios. Toma el M06 publicado en el visor (blob de `publicaciones_visor.json`, sha256 verificado), no el artefacto de Actions. Versión automática: 1.0.0 la primera, sube la menor si cambia el mapa y se niega sin cambios. Una Release por lote `mapas-v<versión>` con los territorios elegidos (un DOI por versión de la serie, D-88/D-94). La 05 deja de lanzar P50 (se quita el job `version_mapa` de `cadena-publicacion.yml`). Entorno `publicacion`, atestación y empaquetado determinista sin cambios. No se lanza P50 hasta cumplir D-88.
 
 ### Cola T-291 a T-367 (14 a 16-11)
 | Id | Qué | Estado |
@@ -355,7 +358,11 @@ Fase 4 — producto (en el privado):
 | T-364 | Relleno refinado de la población del histórico (D-128) | HECHA (#840); T-364b (reglas del Planificador del 16-11) EN CURSO |
 | T-365 | Histórico por época (D-125): contrato por elección, K por elección en el catálogo, piloto nac22 2019-11 | HECHA (#841); fichas #842 en borrador (se reescriben para la P00 nueva) |
 | T-366 | Migración paso 1: P90 Automático (D-129) | LISTA, arranca al fusionarse #820 |
-| T-367 | Actualización del plan 1.0.52 y traspaso del Planificador | REVISIÓN (esta PR) |
+| T-367 | Actualización del plan 1.0.52 y traspaso del Planificador | HECHA (#843) |
+| T-368 | Migración paso 2: P70 Archivo (D-131, D-132) | LISTA, tras fusionarse T-366; turno: `podar-r2.yml`, `recuperar-producto-electoral-durable.yml`, `mantenimiento-programado.yml`, la línea `uses:` del job `recuperar_electoral` de la 00 y sus tests |
+| T-369 | Migración paso 3: P80 Verificación del motor (D-132) | LISTA, tras fusionarse T-368; turno: `bateria-motor.yml` y sus tests |
+| T-370 | Migración paso 4: P50 Publicación académica (D-133) | LISTA, tras fusionarse T-369; turno: `publicar-version-mapa.yml`, job `version_mapa` de `cadena-publicacion.yml` y sus tests |
+| T-371 | Actualización del plan 1.0.53 | REVISIÓN (esta PR) |
 | T-340 | Ficha del paso A del histórico con Condición previa, Puerta y Mapa según D-115 (si el código no implementa la puerta, abre tarea) | EN CURSO (Coordinador) |
 | T-341 | Actualización del plan 1.0.49 | REVISIÓN (#810) |
 
@@ -374,7 +381,7 @@ Frase de reanudación de r3: DADA en el chat del Operador, condicionada a #786 y
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324, T-327, T-341, T-350, T-363 y T-367. El planificador ha dado T-194 a T-367 (10 a 16-11; T-277 y T-292 sin usar; T-331 a T-340 y T-342 a T-362 los dio el Coordinador con acuerdo del Planificador). Siguiente libre: T-368.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324, T-327, T-341, T-350, T-363, T-367 y T-371. El planificador ha dado T-194 a T-371 (10 a 16-11; T-277 y T-292 sin usar; T-331 a T-340 y T-342 a T-362 los dio el Coordinador con acuerdo del Planificador). Siguiente libre: T-372.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
