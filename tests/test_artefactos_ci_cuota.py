@@ -30,7 +30,7 @@ PRODUCCION = {
     "ejecucion-completa-proyecto.yml",
     "generar-alternativas-territoriales.yml",
     "gestor-campanas.yml",
-    "podar-r2.yml",
+    "p70-archivo.yml",
     "preparacion-fuentes.yml",
     "preparacion-legislatura-vigente.yml",
     "preparacion-resultados-electorales.yml",

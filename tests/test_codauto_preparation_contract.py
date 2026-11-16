@@ -165,14 +165,12 @@ class CodautoPreparationContractTests(unittest.TestCase):
                 "generar-alternativas-territoriales.yml",
                 "gestor-campanas.yml",
                 "incorporacion-resultados-electorales.yml",
-                "mantenimiento-programado.yml",  # T-149: archivo R2, métricas y composición M06
-                "podar-r2.yml",  # T-145 poda R2 con lista aprobada
+                "p70-archivo.yml",  # T-368: P70 Archivo (poda, recuperación, archivo diario y composición M06)
                 "preparacion-fuentes.yml",
                 "preparacion-legislatura-vigente.yml",
                 "preparacion-resultados-electorales.yml",
                 "produccion-distritos.yml",
                 "publicar-version-mapa.yml",
-                "recuperar-producto-electoral-durable.yml",
             ],
         )
 

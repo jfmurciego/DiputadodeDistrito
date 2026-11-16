@@ -194,7 +194,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertEqual(jobs["generar"]["uses"], "./.github/workflows/produccion-distritos.yml")
         self.assertEqual(jobs["preparar_electoral"]["uses"], "./.github/workflows/preparacion-resultados-electorales.yml")
         self.assertEqual(jobs["incorporar"]["uses"], "./.github/workflows/incorporacion-resultados-electorales.yml")
-        self.assertEqual(jobs["recuperar_electoral"]["uses"], "./.github/workflows/recuperar-producto-electoral-durable.yml")
+        self.assertEqual(jobs["recuperar_electoral"]["uses"], "./.github/workflows/p70-archivo.yml")
         self.assertEqual(jobs["publicar"]["uses"], "./.github/workflows/desplegar-visor-publico.yml")
 
     def test_business_phases_are_reusable(self):

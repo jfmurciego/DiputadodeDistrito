@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""T-201b: el paso «Runs candidatos» de mantenimiento-programado.yml elige el M06 por elección.
+"""T-201b: el paso «Runs candidatos» de p70-archivo.yml elige el M06 por elección.
 
 PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.0 · FECHA: 2026-11-10 · ESTADO: candidato · ANTERIOR: ninguna (fichero nuevo)
 Se extrae el script Python del propio workflow y se ejecuta sobre un registro sintético (no se ejecuta el flujo).
@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def script() -> str:
-    w = yaml.safe_load((ROOT / ".github/workflows/mantenimiento-programado.yml").read_text(encoding="utf-8"))
+    w = yaml.safe_load((ROOT / ".github/workflows/p70-archivo.yml").read_text(encoding="utf-8"))
     for job in w["jobs"].values():
         for st in job.get("steps", []):
             r = st.get("run", "")
