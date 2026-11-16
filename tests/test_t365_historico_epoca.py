@@ -202,6 +202,16 @@ class Materializar(unittest.TestCase):
                     else:
                         che.materializar("2019-11", "nac22", fuentes, root, cpath)
 
+    def test_provincia_bloqueada_por_relleno_falla(self):
+        with tempfile.TemporaryDirectory() as d:
+            root, fuentes, cpath, parche = self._arbol(Path(d), {"2200101001", "2200101002"})
+            c = json.loads(cpath.read_text(encoding="utf-8"))
+            c["provincias"]["22"]["estado"] = "BLOQUEADA_RELLENO"
+            cpath.write_text(json.dumps(c), encoding="utf-8")
+            with parche, self.assertRaises(SystemExit) as cm:
+                che.materializar("2019-11", "nac22", fuentes, root, cpath)
+            self.assertIn("PROVINCIA_NO_LISTA", str(cm.exception))
+
     def test_huella_distinta_falla(self):
         with tempfile.TemporaryDirectory() as d:
             root, fuentes, cpath, parche = self._arbol(Path(d), {"2200101001", "2200101002"})
@@ -214,18 +224,20 @@ class Materializar(unittest.TestCase):
 class AdmisionPorEleccion(unittest.TestCase):
     """territory_contract 1.5.0: con `meta.historico_epoca` K se compara con el contrato de SU elección; sin él, como 1.4.1."""
 
-    def _contrato(self, mutar=None):
+    def _contrato(self, mutar=None, nombre="nac22_h2019_11.yaml"):
         import yaml
         base = yaml.safe_load((ROOT / "territorios/nac22/config/nac22_2025.yaml").read_text(encoding="utf-8"))
         cpath = che.ruta_contrato("2019-11")
         c = json.loads(cpath.read_text(encoding="utf-8"))
         cfg = che.contrato_provincia(base, c, "22", "2019-11", "s.zip", "p.csv", {"seccionado": "c" * 64, "poblacion": "f" * 64},
                                      _sha(cpath))
+        cfg["io"]["project_root"]["path"] = str(ROOT)  # contrato en un temporal: no se escribe en territorios/
         if mutar:
             mutar(cfg)
-        out = ROOT / "territorios/nac22/config/nac22_h2019_11_t365test.yaml"
+        d = tempfile.TemporaryDirectory()
+        self.addCleanup(d.cleanup)
+        out = Path(d.name) / nombre
         out.write_text(yaml.safe_dump(cfg, allow_unicode=True), encoding="utf-8")
-        self.addCleanup(out.unlink)
         from ddd_core.territory_contract import validate_production_contract
         return validate_production_contract(out, expected_territory="nac22")
 
@@ -247,13 +259,47 @@ class AdmisionPorEleccion(unittest.TestCase):
             cfg["meta"].pop("historico_epoca")  # control negativo: K=3 contra el catálogo 2025 (K=2) falla como siempre
         self.assertTrue(any("K catálogo/contrato" in e for e in self._contrato(sin)["errors"]))
 
-    def test_vigente_igual_sin_la_rama_nueva(self):
+    def test_rama_acotada_al_contrato_de_epoca(self):
+        def anio(cfg):
+            cfg["meta"]["year"] = 2025
+        self.assertTrue(any("meta.year" in e for e in self._contrato(anio)["errors"]))
+        # un contrato con nombre de vigente no puede usar la rama histórica
+        self.assertTrue(any("run_name y fichero" in e for e in self._contrato(nombre="nac22_2025.yaml")["errors"]))
+
+        def rn(cfg):
+            cfg["meta"]["run_name"] = "nac22_2025"
+        self.assertTrue(any("run_name y fichero" in e for e in self._contrato(rn)["errors"]))
+
+    def test_eleccion_inexistente_mal_formada_o_sin_provincia(self):
         import ddd_core.territory_contract as tc
-        f = ROOT / "territorios/nac22/config/nac22_2025.yaml"
-        a = tc.validate_production_contract(f)
-        with mock.patch.object(tc, "_catalogo_eleccion", lambda root, cfg, t, cat, err: cat):
-            b = tc.validate_production_contract(f)
-        self.assertEqual(a, b)
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            (root / "configuracion/historico_epoca").mkdir(parents=True)
+            cpath = root / "configuracion/historico_epoca/contrato_2019_11.json"
+            cpath.write_text(json.dumps({"provincias": {"01": {"territorio": "nac01", "K": 4}}}), encoding="utf-8")
+            sha = _sha(cpath)
+
+            def juzgar(eleccion, territorio="nac22"):
+                cfg = {"meta": {"run_name": f"{territorio}_h{eleccion.replace('-', '_')}", "year": eleccion[:4],
+                                "historico_epoca": {"eleccion": eleccion, "contrato_sha256": sha}},
+                       "_internal": {"params_path": f"/x/{territorio}_h{eleccion.replace('-', '_')}.yaml"}}
+                errores: list = []
+                r = tc._catalogo_eleccion(root, cfg, territorio, {"k_districts": 2}, errores)
+                return r, errores
+            self.assertEqual(juzgar("2019-11", "nac01")[0]["k_districts"], 4)  # control positivo
+            self.assertIn("exactamente una provincia", juzgar("2019-11")[1][0])
+            self.assertIn("falta el contrato", juzgar("2099-01")[1][0])
+            self.assertIn("AAAA-MM", juzgar("2019-1")[1][0])
+
+    def test_vigentes_iguales_sin_la_rama_nueva(self):
+        import ddd_core.territory_contract as tc
+        contratos = sorted((ROOT / "territorios").glob("*/config/*_20[0-9][0-9].yaml"))
+        self.assertGreater(len(contratos), 100)
+        for f in contratos:
+            a = tc.validate_production_contract(f)
+            with mock.patch.object(tc, "_catalogo_eleccion", lambda root, cfg, t, cat, err: cat):
+                b = tc.validate_production_contract(f)
+            self.assertEqual(a, b, f.name)
 
 
 class Puerta(unittest.TestCase):
@@ -319,6 +365,11 @@ class FlujoElectoral(unittest.TestCase):
             man = json.loads((salida / "2019-11/nac22/MANIFEST.json").read_text(encoding="utf-8"))
             self.assertEqual((man["election_date"], man["election_id"], man["ganadores"]),
                              ("2019-11-10", "nac22_2019-11-10", {"0": "A", "1": "A"}))
+            c["provincias"]["22"]["estado"] = "BLOQUEADA_RELLENO"
+            che.ruta_contrato("2019-11", root).write_text(json.dumps(c), encoding="utf-8")
+            with self.assertRaises(SystemExit):
+                che.electoral("2019-11", "nac22", fuentes, salida, root)
+            c["provincias"]["22"]["estado"] = "LISTA"
             c["provincias"]["22"]["K"] = 3  # control negativo: K distinto del número de distritos
             che.ruta_contrato("2019-11", root).write_text(json.dumps(c), encoding="utf-8")
             self.assertEqual(che.electoral("2019-11", "nac22", fuentes, salida, root), 1)

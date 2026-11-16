@@ -313,6 +313,12 @@ def contrato_provincia(base: dict, c: dict, cpro: str, eleccion: str, secc_rel: 
     return cfg
 
 
+def _exigir_lista(p: dict, territorio: str, eleccion: str) -> None:
+    """D-126: una provincia con > 1 % de población estimada no se genera sin decisión del propietario (fallo cerrado)."""
+    if p.get("estado") != "LISTA":
+        raise ErrorContrato(f"PROVINCIA_NO_LISTA {territorio} {eleccion}: {p.get('estado')} (D-126: decisión del propietario)")
+
+
 def materializar(eleccion: str, territorio: str, fuentes: Path, root: Path = ROOT, contrato: Path | None = None) -> Path:
     import yaml
     cpath = contrato or ruta_contrato(eleccion, root)
@@ -321,6 +327,7 @@ def materializar(eleccion: str, territorio: str, fuentes: Path, root: Path = ROO
     if cpro is None:
         raise ErrorContrato(f"TERRITORIO_FUERA_DEL_CONTRATO {territorio}")
     p = c["provincias"][cpro]
+    _exigir_lista(p, territorio, eleccion)
     base_path = root / p["contrato_base"]["ruta"]
     if sha256(base_path) != p["contrato_base"]["sha256"]:
         raise ErrorContrato(f"CONTRATO_BASE_HUELLA_DISTINTA {base_path}")
@@ -424,8 +431,11 @@ def electoral(eleccion: str, territorio: str, fuentes: Path, salida: Path, root:
     import fuente_nazioenbehatokia as fnb
     cpath = ruta_contrato(eleccion, root)
     c = json.loads(cpath.read_text(encoding="utf-8"))
-    cpro = next(k for k, p in c["provincias"].items() if p["territorio"] == territorio)
+    cpro = next((k for k, p in c["provincias"].items() if p["territorio"] == territorio), None)
+    if cpro is None:
+        raise ErrorContrato(f"TERRITORIO_FUERA_DEL_CONTRATO {territorio}")
     p = c["provincias"][cpro]
+    _exigir_lista(p, territorio, eleccion)
     espejo = _fuente(fuentes, f"nazioenbehatokia/{p['votos']['ruta']}", p["votos"]["sha256"])
     rn = run_name(territorio, eleccion)
     params = root / f"territorios/{territorio}/config/{rn}.yaml"

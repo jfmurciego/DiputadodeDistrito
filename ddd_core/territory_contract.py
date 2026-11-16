@@ -18,7 +18,8 @@ CAMBIOS 1.4.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac
 CAMBIOS 1.5.0 (T-365, D-125): dimensión de elección en el catálogo: un contrato con `meta.historico_epoca.eleccion` compara
   K, origen y justificación con la provincia del contrato de SU elección (configuracion/historico_epoca/contrato_<AAAA_MM>.json,
   cuyo sha256 debe ser el de `meta.historico_epoca.contrato_sha256`), no con el catálogo maestro 2025; el resto del catálogo
-  (nivel y autorización) se sigue leyendo del maestro. Sin `historico_epoca` el resultado es idéntico al de 1.4.1.
+  (nivel y autorización) se sigue leyendo del maestro. La rama exige run_name y fichero `<t>_hAAAA_MM` y meta.year = año de la
+  elección (un contrato vigente `<t>_<edición>.yaml` no puede usarla). Sin `historico_epoca` el resultado es idéntico al de 1.4.1.
 MOTIVO 1.5.0: decisión del Planificador (16-11): K por elección como dimensión del catálogo, no excepción suelta.
 ANTERIOR: legacy/ddd_core/territory_contract_v1.4.1_20261116.py
 """
@@ -127,6 +128,16 @@ def _catalogo_eleccion(root: Path, cfg: Mapping[str, Any], territory_id: Any, ca
     eleccion = str((epoca or {}).get("eleccion") or "") if isinstance(epoca, Mapping) else ""
     if not re.fullmatch(r"\d{4}-\d{2}", eleccion):
         errors.append("meta.historico_epoca.eleccion debe ser AAAA-MM")
+        return {}
+    # La rama solo vale para el contrato derivado de la época, nunca para uno vigente (<t>_<edición>.yaml).
+    meta = cfg.get("meta") or {}
+    run_name = f"{territory_id}_h{eleccion.replace('-', '_')}"
+    params_name = Path(str((cfg.get("_internal") or {}).get("params_path") or "")).name
+    if meta.get("run_name") != run_name or params_name != f"{run_name}.yaml":
+        errors.append(f"meta.historico_epoca exige run_name y fichero {run_name}(.yaml)")
+        return {}
+    if str(meta.get("year")) != eleccion[:4]:
+        errors.append(f"meta.historico_epoca exige meta.year = {eleccion[:4]}")
         return {}
     path = root / "configuracion" / "historico_epoca" / f"contrato_{eleccion.replace('-', '_')}.json"
     if not path.is_file():
