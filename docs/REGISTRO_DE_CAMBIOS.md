@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.471
+Versión: 1.0.472
 Fecha: 2026-11-16
-Alcance: T-368 — P70 Archivo: poda, recuperación, archivo diario y composición M06 en un workflow
+Alcance: T-369 — P80 Verificación del motor: la batería en un workflow sin parámetros técnicos
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-16_t368-p70-archivo.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.470_registro_20261116.md
+Cambios/motivo: entrada docs/registro/2026-11-16_t369-p80-verificacion-motor.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.471_registro_20261116.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.470_registro_20261116.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.472 · [2026-11-16 — T-369 — P80 Verificación del motor: la batería en un workflow sin parámetros técnicos](registro/2026-11-16_t369-p80-verificacion-motor.md)
 - 1.0.471 · [2026-11-16 — T-368 — P70 Archivo: poda, recuperación, archivo diario y composición M06 en un workflow](registro/2026-11-16_t368-p70-archivo.md)
 - 1.0.470 · [2026-11-16 — T-366 — P90 Automático: pruebas, forense y métricas en un workflow](registro/2026-11-16_t366-p90-automatico.md)
 - 1.0.469 · [2026-11-16 — T-380 — Retirar del registro del visor los 3 ensembles del motor viejo (parte a y d)](registro/2026-11-16_t380-retirar-ensembles-registro.md)
