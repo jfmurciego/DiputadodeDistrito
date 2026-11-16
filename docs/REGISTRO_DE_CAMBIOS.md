@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.451
+Versión: 1.0.452
 Fecha: 2026-11-16
-Alcance: T-300 — La P50 copia el catálogo de procedencia al sitio
+Alcance: T-323 — P10 desde R2 con aviso de cambios del INE (D-112, D-117, D-119)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_t300-p50-copia-catalogo-procedencia.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.450_registro_20261116.md
+Cambios/motivo: entrada docs/registro/2026-11-14_t323-p10-desde-r2.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.451_registro_20261116.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.450_registro_20261116.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.452 · [2026-11-14 — T-323 — P10 desde R2 con aviso de cambios del INE (D-112, D-117, D-119)](registro/2026-11-14_t323-p10-desde-r2.md)
 - 1.0.451 · [2026-11-14 — T-300 — La P50 copia el catálogo de procedencia al sitio](registro/2026-11-14_t300-p50-copia-catalogo-procedencia.md)
 - 1.0.450 · [2026-11-15 — T-358 — Población por sección con relleno para el histórico de las generales (D-126)](registro/2026-11-15_t358-poblacion-seccion-relleno.md)
 - 1.0.449 · [2026-11-15 — T-357 — Población por sección censal 2011-2020 y casado con seccionado y votos](registro/2026-11-15_t357-padron-seccion.md)
