@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T01:05:48.203049+00:00",
+  "generated_at": "2026-11-16T01:10:26.236706+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 47,
-      "action_required": 73,
+      "admissible": 48,
+      "action_required": 72,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 46,
-      "activable": 1,
+      "activated": 48,
+      "activable": 0,
       "territorial_pending": 46,
-      "electoral_pending": 73,
+      "electoral_pending": 72,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 47,
-      "durable_pair": 46
+      "electoral_source": 48,
+      "durable_pair": 48
     },
     "territories": [
       {
@@ -2328,12 +2328,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac26/evidencia/pares_fuentes/2025/d7f15db5d44606c008e0a56058ee782a8c526d63d160a528be837a66bb79eafc.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac26/evidencia/pares_fuentes/2025/4eafbd8c75dc2d024cabbab9dd539abb4c152ca15a6df233ce7cfcffca3134d6.json",
+            "pair_sha256": "4eafbd8c75dc2d024cabbab9dd539abb4c152ca15a6df233ce7cfcffca3134d6",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -2371,20 +2371,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac27/evidencia/pares_fuentes/2025/e4e97c5fbb0e722c00699a9b32d0cf800a90f57be45c5d570a0f4cf87d5b9422.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac27/evidencia/pares_fuentes/2025/5ee27e31410e11c51c76f12ad997cf554fa00d75c4752652871715bf2e32b603.json",
+            "pair_sha256": "5ee27e31410e11c51c76f12ad997cf554fa00d75c4752652871715bf2e32b603",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -2392,13 +2392,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "nac28",
@@ -9331,13 +9325,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_huesca",
+          "territory_id": "nac22",
           "territory_name": "Congreso Huesca",
           "edition": "2025",
-          "run_id": 42996217596,
-          "artifact_name": "ddd-state-42996217596-M08",
-          "artifact_sha256": "a6916bd9aeece67113a6e9c0b57b2af327d2b9575452b4d9ddc43a817e331af9",
-          "source_commit": "3bc6e81cbffd7fc07c6dcd6fe54523be90f7d67c",
+          "run_id": 43783149315,
+          "artifact_name": "ddd-state-43783149315-M08",
+          "artifact_sha256": "790d04eee5af74cc301e24de33534c2f4fce0abc9d687c5639c42c837a9891e0",
+          "source_commit": "c734870c02702b781ba65cb61857820048e9358b",
           "stage": "M08"
         }
       },
@@ -9716,11 +9710,11 @@
       "name": "Nacional Málaga",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43006442219,
+      "run_id": 43779396654,
       "last_run": {
         "run_id": 43006442219,
         "status": "SUCCESS",
@@ -9729,7 +9723,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9743,16 +9737,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_malaga",
+          "territory_id": "nac29",
           "territory_name": "Congreso Málaga",
           "edition": "2025",
-          "run_id": 43001775134,
-          "artifact_name": "ddd-state-43001775134-M06",
-          "artifact_sha256": "ea15893e27ab064c24d5147576ecaac9cd3ded072f967ad38dab7e4fbac03edd",
-          "source_commit": "335ada5edc4938ad24ffb66b81f1107817351fd7",
+          "run_id": 43779396654,
+          "artifact_name": "ddd-state-43779396654-M06",
+          "artifact_sha256": "fe8482bd3b9d246a12fc2ae52de244420ec4097f8b0b58c9d1b6c730e23f06c3",
+          "source_commit": "132cca77cd069ee197e4b3c493c5492320a3ac6d",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_malaga/evidencia/generaciones_m06/43001775134.json"
+          "producer_manifest_path": "territorios/nac29/evidencia/generaciones_m06/43779396654.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9770,18 +9764,18 @@
       },
       "autonomous_community_code_ine": "C29",
       "display_name": "Nacional Málaga",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac30",
       "name": "Nacional Murcia",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43005676593,
+      "run_id": 43779852945,
       "last_run": {
         "run_id": 43005676593,
         "status": "SUCCESS",
@@ -9790,7 +9784,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9804,16 +9798,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_murcia",
+          "territory_id": "nac30",
           "territory_name": "Congreso Murcia",
           "edition": "2025",
-          "run_id": 43001766635,
-          "artifact_name": "ddd-state-43001766635-M06",
-          "artifact_sha256": "377fa36789d03f929e905be48c6b5a0bdc757c496da7b714c2da626d444f22b0",
-          "source_commit": "335ada5edc4938ad24ffb66b81f1107817351fd7",
+          "run_id": 43779852945,
+          "artifact_name": "ddd-state-43779852945-M06",
+          "artifact_sha256": "56f66e5d820e01707f8214aeadf99be806201095498850fa227c57cfb79e69ef",
+          "source_commit": "9852c32efa70c707a180a2c2175db699e1453f88",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_murcia/evidencia/generaciones_m06/43001766635.json"
+          "producer_manifest_path": "territorios/nac30/evidencia/generaciones_m06/43779852945.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9831,7 +9825,7 @@
       },
       "autonomous_community_code_ine": "C30",
       "display_name": "Nacional Murcia",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac31",
@@ -12418,7 +12412,7 @@
     }
   ],
   "kpis": {
-    "complete": 67,
+    "complete": 65,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12460,8 +12454,6 @@
       "Nacional Huelva",
       "Nacional Jaén",
       "Nacional León",
-      "Nacional Málaga",
-      "Nacional Murcia",
       "Nacional Navarra",
       "Nacional Orense",
       "Nacional Asturias",
@@ -12750,10 +12742,10 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional 350 Álava",
-      "territory_id": "congreso350_alava",
-      "autonomous_community_code_ine": "R01",
-      "action": "completar puerta de validación territorial"
+      "territory": "Nacional Málaga",
+      "territory_id": "nac29",
+      "autonomous_community_code_ine": "C29",
+      "action": "incorporar resultados electorales"
     }
   ],
   "next_actions": [
@@ -12797,6 +12789,12 @@
       "territory": "Nacional Madrid",
       "territory_id": "nac28",
       "autonomous_community_code_ine": "C28",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Málaga",
+      "territory_id": "nac29",
+      "autonomous_community_code_ine": "C29",
       "action": "preparar fuentes electorales"
     }
   ]
