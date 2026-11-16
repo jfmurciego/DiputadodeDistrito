@@ -1,0 +1,76 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "congreso_alava",
+  "territory_name": "Congreso Álava",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_alava_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 41240137880,
+    "artifact_name": "ddd-source-package-congreso_alava-2025-41240137880",
+    "artifact_sha256": "7d101c7cd9dee73eeb7b7a09936c7e41456b58c3daab81532f02c5823fbe9448",
+    "package_sha256": "cad80db926a5783f220748226415da98777ed5f4d912e56164961ee8c1d3f7d9",
+    "source_commit": "68ee5b1b2f4e2e87e70e20ab40fc2718d7b19c9a",
+    "source_declaration": "territorios/congreso_alava/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/congreso_alava/evidencia/fuentes_territoriales/2025/8cb1cbc2062363a4832538bb3f2f38a4686fe2acda896fbf54678c1db0dbad16/41240137880/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "8cb1cbc2062363a4832538bb3f2f38a4686fe2acda896fbf54678c1db0dbad16",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "b599419e3bc387b6d968406255313cd80c301cbdbaeaca9de6d91674e7e64603",
+    "compatibility_identity_sha256": "57a0d1cd652493de2c435be0a5f2fbd5a39fdf6ed4425fa503774a95ff52f619",
+    "remote_verification": {
+      "run_id": 41240137880,
+      "artifact_id": 13058178424,
+      "artifact_name": "ddd-source-package-congreso_alava-2025-41240137880",
+      "artifact_sha256": "7d101c7cd9dee73eeb7b7a09936c7e41456b58c3daab81532f02c5823fbe9448",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 41239750223,
+    "artifact_name": "ddd-electoral-package-congreso_alava-2025-41239750223",
+    "artifact_sha256": "81f41e09d2e31b7167aa16e501ca766e890350bf9f09c527538bdc4015ce1040",
+    "source_commit": "fe31ffdcd4bbb7a03c28915e3185f54c4b5cabf6",
+    "receipt_path": "territorios/congreso_alava/evidencia/fuentes_electorales/2025/4f920eb6eba9ea922f3007b741ced4e85036efae35088e17836aadbb5b31e4ae/41239750223/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_alava_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "4f920eb6eba9ea922f3007b741ced4e85036efae35088e17836aadbb5b31e4ae",
+    "remote_verification": {
+      "run_id": 41239750223,
+      "artifact_id": 13057210531,
+      "artifact_name": "ddd-electoral-package-congreso_alava-2025-41239750223",
+      "artifact_sha256": "81f41e09d2e31b7167aa16e501ca766e890350bf9f09c527538bdc4015ce1040",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "8cb1cbc2062363a4832538bb3f2f38a4686fe2acda896fbf54678c1db0dbad16",
+  "electoral_compatibility_key": "4f920eb6eba9ea922f3007b741ced4e85036efae35088e17836aadbb5b31e4ae",
+  "territorial_product_reuse": {
+    "available": false,
+    "geometric_reuse_compatible": false,
+    "reason": "NO_TERRITORIAL_PRODUCT"
+  },
+  "pair_sha256": "29577f2efcc4d643fc6a1b7c5c88313ecdc936fe32bee397f971f1b5dfd49d0b"
+}

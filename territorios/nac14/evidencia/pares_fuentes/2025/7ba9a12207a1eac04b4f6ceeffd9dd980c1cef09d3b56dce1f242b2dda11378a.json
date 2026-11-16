@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "nac14",
+  "territory_name": "Congreso Córdoba",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_cordoba_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43763992154,
+    "artifact_name": "ddd-source-package-nac14-2025-43763992154",
+    "artifact_sha256": "05831e9199b12750c4272a86790643e8d6ee73d7d4084877b25ff6ccd4a3467a",
+    "package_sha256": "e14f8a9a06027da65de6f1d4551c7bd201803f36a72e94fce5fd8d87abb5a9c8",
+    "source_commit": "2fd9a7f13d1e7c1e3a4c2106817fc5dec6f3ddaa",
+    "source_declaration": "territorios/nac14/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/nac14/evidencia/fuentes_territoriales/2025/2193143d9be593e434cc09c9954b4775e101163c6996d46cddb5d478df1c9843/43763992154/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "2193143d9be593e434cc09c9954b4775e101163c6996d46cddb5d478df1c9843",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "2cc343112c2affcbfb4a8aa70d76d6cae5cb2a6e8defe9271d1af7d562d4be49",
+    "compatibility_identity_sha256": "6da5665a4a82d9905ddeb3e58432245bc20eab7e9dc4dff45faff59b6d0b02ea",
+    "remote_verification": {
+      "run_id": 43763992154,
+      "artifact_id": 14181960406,
+      "artifact_name": "ddd-source-package-nac14-2025-43763992154",
+      "artifact_sha256": "05831e9199b12750c4272a86790643e8d6ee73d7d4084877b25ff6ccd4a3467a",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43770603381,
+    "artifact_name": "ddd-electoral-package-nac14-2025-43770603381",
+    "artifact_sha256": "e2811eb88aff89b47a7b58b6f7c50ab746aaafc804a3f842d815a013a9ef457f",
+    "source_commit": "24fff1f261a713ec2ae41fe3fd3ec830626c5d17",
+    "receipt_path": "territorios/nac14/evidencia/fuentes_electorales/2025/0b11c2caeeafc22aae123d708c756018214e0dfdbcf7f2c506c3bf115d5412af/43770603381/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_cordoba_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "0b11c2caeeafc22aae123d708c756018214e0dfdbcf7f2c506c3bf115d5412af",
+    "remote_verification": {
+      "run_id": 43770603381,
+      "artifact_id": 14183973540,
+      "artifact_name": "ddd-electoral-package-nac14-2025-43770603381",
+      "artifact_sha256": "e2811eb88aff89b47a7b58b6f7c50ab746aaafc804a3f842d815a013a9ef457f",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "2193143d9be593e434cc09c9954b4775e101163c6996d46cddb5d478df1c9843",
+  "electoral_compatibility_key": "0b11c2caeeafc22aae123d708c756018214e0dfdbcf7f2c506c3bf115d5412af",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/nac14/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "7ba9a12207a1eac04b4f6ceeffd9dd980c1cef09d3b56dce1f242b2dda11378a"
+}

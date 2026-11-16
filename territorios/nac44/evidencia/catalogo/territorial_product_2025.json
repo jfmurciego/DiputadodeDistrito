@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "congreso_teruel",
+  "territory_id": "nac44",
   "territory_name": "Congreso Teruel",
   "edition": "2025",
-  "run_id": 43024869107,
-  "artifact_name": "ddd-state-43024869107-M06",
-  "artifact_sha256": "0b0e529d55df5ff6993637368185dd08189e3be2d46c59db7035e8c49a1c5cba",
-  "source_commit": "6ad5b525a72328c916f98ca06ee6c6035293e440",
+  "run_id": 43790237705,
+  "artifact_name": "ddd-state-43790237705-M06",
+  "artifact_sha256": "b6f4ddbe8eee336f696001e860ae608250ca134e7953d676a4bb3a267c35e8a3",
+  "source_commit": "73c2fc7cbcebf85854323f75c885c57f1dda69b2",
   "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_teruel/evidencia/generaciones_m06/43024869107.json"
+  "producer_manifest_path": "territorios/nac44/evidencia/generaciones_m06/43790237705.json"
 }

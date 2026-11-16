@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_madrid",
+  "territory_id": "nac28",
   "territory_name": "Congreso Madrid",
   "edition": "2025",
-  "run_id": 43006307734,
-  "artifact_name": "ddd-state-43006307734-M08",
-  "artifact_sha256": "bf4b4ccfd6759e37481d8f91915e243165d446e6b51b9d020117c30b5206a712",
-  "source_commit": "a7f8c02a0a0f0f4b49d315925eda88214a901989",
+  "run_id": 43785503828,
+  "artifact_name": "ddd-state-43785503828-M08",
+  "artifact_sha256": "09755d7f340a5717f980f6b3ba184ce969099bec019e995a4ae145a61608cc77",
+  "source_commit": "baef998dedc3720a691f4b5a6ecb33de5feeaa8c",
   "stage": "M08"
 }

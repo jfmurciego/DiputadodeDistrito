@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_ceuta",
+  "territory_id": "nac51",
   "territory_name": "Congreso Ceuta",
   "edition": "2025",
-  "run_id": 42985728070,
-  "artifact_name": "ddd-state-42985728070-M08",
-  "artifact_sha256": "6342c39eed3d4f5ad06bb90c49966a3efa4ec77ca275850b959a0225cdf22643",
-  "source_commit": "b6a8c68a594eba519f0c83739829f3aba38bc623",
+  "run_id": 43803972993,
+  "artifact_name": "ddd-state-43803972993-M08",
+  "artifact_sha256": "09c5512c04de3adc485f2370076aedda2d92e95dd4f1f9c6616239cfec196271",
+  "source_commit": "42a7ca82d91d07524b7866c255f483f986a95322",
   "stage": "M08"
 }

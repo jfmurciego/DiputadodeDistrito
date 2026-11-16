@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_salamanca",
+  "territory_id": "nac37",
   "territory_name": "Congreso Salamanca",
   "edition": "2025",
-  "run_id": 43017179163,
-  "artifact_name": "ddd-state-43017179163-M08",
-  "artifact_sha256": "36261804471126395e80b393bb30fe17594d432d5e9f0344a2144a6ffd7e0020",
-  "source_commit": "859334e57812fa47b86fe34564bd4cfd355ee896",
+  "run_id": 43791973018,
+  "artifact_name": "ddd-state-43791973018-M08",
+  "artifact_sha256": "7f23ba29c1d3f9939046987d372cce8dce2b523d28a5c3c9c1367837c1af90e1",
+  "source_commit": "96f55225e09a3031858896fef8bf4119284b2424",
   "stage": "M08"
 }

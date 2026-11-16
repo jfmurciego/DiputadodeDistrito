@@ -147,7 +147,7 @@ class PersistStateFalse(unittest.TestCase):
         self.assertEqual(on["workflow_dispatch"]["inputs"]["eleccion"]["default"], "vigente")
         self.assertIn("ensayo 2026-11-29", on["workflow_dispatch"]["inputs"]["eleccion"]["options"])
         self.assertEqual(on["workflow_call"]["inputs"]["eleccion"]["default"], "vigente")
-        self.assertRegex(WORKFLOW.read_text(encoding="utf-8"), r"# VERSIÓN: 1\.0\.15")
+        self.assertRegex(WORKFLOW.read_text(encoding="utf-8"), r"# VERSIÓN: 1\.0\.1[7-9]")
 
 
 @unittest.skipUnless(os.system("command -v jq >/dev/null 2>&1") == 0, "jq no disponible")
@@ -277,6 +277,129 @@ class TerminalDelEnsayo(unittest.TestCase):
         self.assertEqual(self._run(ensayo="false", eligible="false", status="PROVISIONAL")[0], 42)
         rc, out, _ = self._run(ensayo="false", eligible="true", status="PROVISIONAL")
         self.assertEqual((rc, out["electoral_outcome"]), (0, "READY"))
+
+
+FIXTURE_MAIN = ROOT / "tests" / "fixtures" / "preparacion_resultados_electorales_main_1.0.16.yml"
+FIXTURE_MAIN_SHA256 = "593d43b831df003a8c7aa382f36c631df8342a04027cc6cbf7f3aa375f5c72f3"
+BLOQUE_MINSAIT = """    # T-332: el ensayo se etiqueta como tal en el paquete y nunca es elegible.
+    if [[ "$(jq -r '.rehearsal|tostring' .ddd-minsait-contract.json)" == true ]]; then
+      eligible_args=(--source-class rehearsal --adapter-label minsait_provisional/ensayo/1.0)
+    fi
+"""
+
+
+def _wf(path: Path) -> dict:
+    return yaml.safe_load(path.read_text(encoding="utf-8"))
+
+
+def _step(wf: dict, job: str, step_id: str) -> str:
+    return next(s for s in wf["jobs"][job]["steps"] if s.get("id") == step_id)["run"]
+
+
+def _bash(script: str, env: dict, cwd: Path) -> tuple[int, dict, str]:
+    with tempfile.TemporaryDirectory() as tmp:
+        out = Path(tmp) / "out"
+        out.touch()
+        proc = subprocess.run(["bash", "-eo", "pipefail", "-c", script], cwd=cwd, capture_output=True, text=True,
+                              env={**os.environ, **env, "GITHUB_OUTPUT": str(out)})
+        pares = dict(l.split("=", 1) for l in out.read_text(encoding="utf-8").splitlines() if "=" in l and "<<" not in l)
+    for f in (".ddd-special-acquisition.json", ".ddd-infoelectoral-contract.json", ".ddd-minsait-contract.json"):
+        (ROOT / f).unlink(missing_ok=True)
+    return proc.returncode, pares, proc.stdout
+
+
+@unittest.skipUnless(os.system("command -v jq >/dev/null 2>&1") == 0, "jq no disponible")
+class EquivalenciaConMain(unittest.TestCase):
+    """Sin la entrada de ensayo la 03 se comporta como la 1.0.16 de main (fixture con sha256; no se lee legacy/)."""
+
+    @classmethod
+    def setUpClass(cls):
+        import hashlib
+        assert hashlib.sha256(FIXTURE_MAIN.read_bytes()).hexdigest() == FIXTURE_MAIN_SHA256
+        cls.main, cls.new = _wf(FIXTURE_MAIN), _wf(WORKFLOW)
+
+    def test_estructura_identica_salvo_los_puntos_del_ensayo(self):
+        self.assertEqual(self.main["jobs"].keys(), self.new["jobs"].keys())
+        cambiados = {"resolve", "mode", "outcome"}
+        for name, job in self.main["jobs"].items():
+            nuevo = self.new["jobs"][name]
+            for k in set(job) | set(nuevo):
+                if k in ("steps", "outputs", "env"):
+                    continue
+                self.assertEqual(job.get(k), nuevo.get(k), f"{name}.{k}")
+            if name == "electorales":  # env: solo se añade ENSAYO
+                self.assertEqual(job["env"], {k: v for k, v in nuevo["env"].items() if k != "ENSAYO"})
+            elif name == "resolver":
+                self.assertEqual(job["outputs"], {k: v for k, v in nuevo["outputs"].items() if k != "ensayo"})
+            else:
+                self.assertEqual(job.get("env"), nuevo.get("env"), name)
+            self.assertEqual(len(job["steps"]), len(nuevo["steps"]), name)
+            for a, b in zip(job["steps"], nuevo["steps"]):
+                if a.get("id") in cambiados:
+                    a, b = {k: v for k, v in a.items() if k not in ("run", "env")}, {k: v for k, v in b.items() if k not in ("run", "env")}
+                elif "adaptador_minsait_csv" in a.get("run", ""):
+                    self.assertIn(BLOQUE_MINSAIT, b["run"])
+                    b = {**b, "run": b["run"].replace(BLOQUE_MINSAIT, "")}
+                self.assertEqual(a, b)
+        # Las entradas de workflow_call y workflow_dispatch solo ganan `eleccion`.
+        for trig in ("workflow_call", "workflow_dispatch"):
+            a, b = self.main[True][trig]["inputs"], self.new[True][trig]["inputs"]
+            self.assertEqual(a, {k: v for k, v in b.items() if k != "eleccion"})
+
+    def test_resolver_igual_que_main_con_vigente_o_vacia(self):
+        old = _step(self.main, "resolver", "resolve")
+        new = _step(self.new, "resolver", "resolve")
+        for terr in ("Congreso Huesca", "Congreso Soria", "12 Galicia", "Congreso 350 Huesca"):
+            for persist in ("null", "true", "false"):
+                base = {"TERRITORY": terr, "EDITION": "2025", "PERSIST_INPUT": persist}
+                rc0, o0, _ = _bash(old, base, ROOT)
+                for eleccion in ("vigente", ""):
+                    rc1, o1, _ = _bash(new, {**base, "ELECCION": eleccion}, ROOT)
+                    self.assertEqual(rc0, rc1, (terr, persist))
+                    self.assertEqual(o0, {k: v for k, v in o1.items() if k != "ensayo"}, (terr, persist))
+                    self.assertEqual(o1.get("ensayo"), "false")
+        # Control negativo: la comparación sí detecta el ensayo.
+        base = {"TERRITORY": "Congreso Huesca", "EDITION": "2025", "PERSIST_INPUT": "null"}
+        _, o0, _ = _bash(old, base, ROOT)
+        _, o2, _ = _bash(new, {**base, "ELECCION": "ensayo 2026-11-29"}, ROOT)
+        self.assertNotEqual(o0, {k: v for k, v in o2.items() if k != "ensayo"})
+
+    def test_adaptador_igual_que_main_sin_ensayo(self):
+        old, new = _step(self.main, "electorales", "mode"), _step(self.new, "electorales", "mode")
+        casos = [("congreso_huesca_2023-07-23", "nac22", "2023-07-23"), ("congreso_huesca_2026-11-29", "nac22", "2026-11-29"),
+                 ("congreso_soria_2023-07-23", "nac42", "2023-07-23"), ("galicia_2024-02-18", "gal", "2024-02-18")]
+        for eid, tid, date in casos:
+            base = {"ELECTION_ID": eid, "TERRITORY_ID": tid, "ELECTION_DATE": date}
+            r0 = _bash(old, base, ROOT)
+            for ensayo in ("false", ""):
+                self.assertEqual(r0[:2], _bash(new, {**base, "ENSAYO": ensayo}, ROOT)[:2], (eid, ensayo))
+        # Control negativo: con ensayo y adaptador no Minsait, difiere (exit 57).
+        base = {"ELECTION_ID": casos[0][0], "TERRITORY_ID": "nac22", "ELECTION_DATE": "2023-07-23"}
+        self.assertNotEqual(_bash(old, base, ROOT)[0], _bash(new, {**base, "ENSAYO": "true"}, ROOT)[0])
+
+    def test_decision_igual_que_main_sin_ensayo(self):
+        def correr(wf, ensayo, eligible, status, validation, decision, allow_gap):
+            script = _step(wf, "electorales", "outcome")
+            for expr, value in (("steps.policy.outputs.production_eligible", eligible), ("steps.policy.outputs.source_status", status),
+                                ("inputs.allow_source_gap_success", allow_gap)):
+                script = script.replace("${{ %s }}" % expr, value)
+            with tempfile.TemporaryDirectory() as tmp:
+                pkg = Path(tmp) / ".ddd-electoral-package"
+                (pkg / "evidence").mkdir(parents=True)
+                (pkg / "manifest.json").write_text(json.dumps({"decision": decision, "selected_source": {"source_class": "rehearsal"}}), encoding="utf-8")
+                (pkg / "evidence" / "validacion_preparacion.json").write_text(json.dumps({"decision": validation}), encoding="utf-8")
+                env = {"ENSAYO": ensayo} if ensayo is not None else {}
+                rc, out, stdout = _bash(script, env, Path(tmp))
+            return rc, out, stdout.replace("ENSAYO", "")
+        import itertools
+        for elig, status, val, dec, gap in itertools.product(("true", "false"), ("PROVISIONAL", "DEFINITIVE"), ("READY_PACKAGE", "BLOCK"),
+                                                             ("ACQUIRE", "REUSE", "BLOCK"), ("true", "false")):
+            r0 = correr(self.main, None, elig, status, val, dec, gap)
+            for ensayo in ("false", ""):
+                self.assertEqual(r0, correr(self.new, ensayo, elig, status, val, dec, gap), (elig, status, val, dec, gap, ensayo))
+        # Control negativo: con ensayo=true el mismo caso sí cambia.
+        r0 = correr(self.main, None, "false", "PROVISIONAL", "READY_PACKAGE", "ACQUIRE", "false")
+        self.assertNotEqual(r0[:2], correr(self.new, "true", "false", "PROVISIONAL", "READY_PACKAGE", "ACQUIRE", "false")[:2])
 
 
 if __name__ == "__main__":

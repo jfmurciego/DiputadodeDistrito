@@ -1,0 +1,16 @@
+{
+ "ficheros": {
+  "data/201911/sekzioa/01.json": {
+   "sha256": "8c30c4757f72050ed6e1e51da270ec82565668eb2a882d806be88e64580526c8",
+   "bytes": 0
+  },
+  "data/201911/sekzioa/02.json": {
+   "sha256": "ed8f0abe6511260465ac5b6492bc28e155753ea6983be9b2d9da2e1b9ce7872a",
+   "bytes": 0
+  },
+  "data/201911/sekzioa/03.json": {
+   "sha256": "6f28af661000ce968f06e6bc47e15c245cdd2006b70c0532c74fb42e397e9a99",
+   "bytes": 0
+  }
+ }
+}

@@ -385,7 +385,7 @@ class PreparedSourceReuseTests(unittest.TestCase):
         )
         self.assertEqual(
             list(electoral_trigger["workflow_dispatch"]["inputs"]),
-            ["territory_id", "data_edition", "reutilizar_si_ya_preparada"],
+            ["territory_id", "data_edition", "reutilizar_si_ya_preparada", "eleccion"],
         )
         self.assertEqual(
             list(territorial_trigger["workflow_call"]["inputs"]),
@@ -429,7 +429,7 @@ class PreparedSourceReuseTests(unittest.TestCase):
 
         acquire = next(s for s in territorial_steps if s.get("name") == "Adquirir y congelar fuentes")
         self.assertEqual(acquire["id"], "acquire")
-        self.assertEqual(acquire["if"], "${{ steps.previous.outputs.reused_candidate != 'true' }}")
+        self.assertEqual(acquire["if"], "${{ steps.previous.outputs.reused_candidate != 'true' && steps.r2.outputs.desde_r2 != 'true' }}")
         diagnostics = next(
             s for s in territorial_steps
             if s.get("name") == "Publicar diagnóstico de adquisición fallida"

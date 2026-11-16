@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_palencia",
+  "territory_name": "Congreso Palencia",
+  "edition": "2025",
+  "run_id": 41235462609,
+  "artifact_name": "ddd-electoral-package-congreso_palencia-2025-41235462609",
+  "artifact_sha256": "fa6944c23ab39a045172bbd07aeeb4522df5e57c97ad658be00167c393cf4f76",
+  "source_commit": "41cce822d769c04abe5e32fc6f3edb4a12d5e460",
+  "election_id": "congreso_palencia_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "835619e9c7233e0ccc6c9cacd8f18bcaa5c26e73dc4013c30e2f555b6b628c9a"
+}

@@ -1,0 +1,14 @@
+{
+  "artifact_name": "ddd-state-43045478748-M06",
+  "artifact_sha256": "cfc8286d7448c7fb4a10c3a7c8a212cd04fff70099273d63e7cf7be08d1d459d",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "edition": "2025",
+  "kind": "territorial_product",
+  "producer_manifest_path": "territorios/galicia/evidencia/generaciones_m06/43045478748.json",
+  "run_id": 43045478748,
+  "schema": "ddd.catalog-evidence/1.0",
+  "source_commit": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
+  "stage": "M06",
+  "territory_id": "aut12",
+  "territory_name": "Galicia"
+}

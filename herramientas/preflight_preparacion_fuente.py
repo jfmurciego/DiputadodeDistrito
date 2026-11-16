@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+# VERSIÓN: 1.0.1
+# NOMBRE DE VERSIÓN: id canónico exacto (T-349)
+# FECHA: 2026-11-15
+# CAMBIOS 1.0.1 (T-349, D-102): el paquete registrado se acepta solo con el id canónico EXACTO (nombre y territory_id); con alias, registered=false y rejected_reason=ID_NO_CANONICO.
+# MOTIVO: la r4 se paró en aut11 al reutilizar un registro con id viejo.
+# ANTERIOR: legacy/herramientas/preflight_preparacion_fuente_pre_t349_20261115.py (1.0.0: versión de origin/main, sin cabecera numerada)
 from __future__ import annotations
 
 import argparse
@@ -102,7 +108,13 @@ def preflight(root: Path, kind: str, territory: str, edition: str) -> dict:
             raise ValueError(
                 f"{tid}/{edition}: fuente territorial marcada preparada sin preparation_evidence"
             )
-        prefix = tuple(f"ddd-source-package-{v}-{edition}-" for v in variantes(tid))
+        # T-349: solo el id canónico exacto es reutilizable; un registro con id legacy se informa y no se reutiliza.
+        prefix = (f"ddd-source-package-{tid}-{edition}-",)
+        legacy_prefix = tuple(f"ddd-source-package-{v}-{edition}-" for v in variantes(tid))
+        if str(evidence.get("artifact_name") or "").startswith(legacy_prefix) and not str(evidence.get("artifact_name") or "").startswith(prefix):
+            common["rejected_reason"] = "ID_NO_CANONICO"
+            common["rejected_artifact_name"] = str(evidence.get("artifact_name"))
+            return common
         run_id, artifact_name, artifact_sha256 = _artifact_fields(
             evidence, expected_prefix=prefix, label=f"{tid}/{edition} registro territorial"
         )
@@ -115,7 +127,7 @@ def preflight(root: Path, kind: str, territory: str, edition: str) -> dict:
                 raise ValueError(f"{tid}/{edition}: declaración territorial inexistente: {declaration_rel}")
             declaration = _load_yaml(declaration_path)
             territory = declaration.get("territory") or {}
-            if not mismo_territorio(str(territory.get("id") or ""), str(tid)):
+            if str(territory.get("id") or "") != str(tid):  # T-349: id canónico exacto
                 raise ValueError(f"{tid}/{edition}: declaración territorial pertenece a otro territorio")
             legacy_year = int(territory.get("source_year", territory.get("edition", edition)))
             population_year = int(territory.get("population_year", legacy_year))
@@ -193,7 +205,15 @@ def preflight(root: Path, kind: str, territory: str, edition: str) -> dict:
                         f"{tid}/{edition}: registro electoral obsoleto: "
                         f"{receipt_election_id!r} != {expected_election_id!r}"
                     )
-        prefix = tuple(f"ddd-electoral-package-{v}-{edition}-" for v in variantes(tid))
+        # T-349: igualdad exacta con el id canónico; el paquete electoral registrado con id legacy no se reutiliza.
+        prefix = (f"ddd-electoral-package-{tid}-{edition}-",)
+        legacy_prefix = tuple(f"ddd-electoral-package-{v}-{edition}-" for v in variantes(tid))
+        if str(data.get("territory_id") or "") != str(tid) or (
+            str(data.get("artifact_name") or "").startswith(legacy_prefix) and not str(data.get("artifact_name") or "").startswith(prefix)
+        ):
+            common["rejected_reason"] = "ID_NO_CANONICO"
+            common["rejected_artifact_name"] = str(data.get("artifact_name") or "")
+            return common
         run_id, artifact_name, artifact_sha256 = _artifact_fields(
             data, expected_prefix=prefix, label=f"{tid}/{edition} registro electoral"
         )

@@ -18,7 +18,7 @@ El estado operativo por territorio no está en este documento: lo genera el sist
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-14T16:42:35.991010+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-16T10:47:43.329134+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -36,77 +36,77 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 
 | Territorio | FT | G | FE | RE | PUB | Estado | Última ejecución | Parada en | Motivo | Siguiente paso |
 |---|:---:|:---:|:---:|:---:|:---:|---|---|---|---|---|
-| **01 Andalucía** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43204696160 · SUCCESS | — | — | — |
-| **02 Aragón** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43016936483 · SUCCESS | — | — | — |
-| **03 Principado de Asturias** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43016768497 · SUCCESS | — | — | — |
-| **04 Islas Baleares** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43019811578 · SUCCESS | — | — | — |
-| **05 Canarias** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43020588641 · SUCCESS | — | — | — |
-| **06 Cantabria** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43033094596 · SUCCESS | — | — | — |
-| **07 Castilla y León** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43030986959 · SUCCESS | — | — | — |
-| **08 Castilla-La Mancha** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43031565452 · SUCCESS | — | — | — |
-| **09 Cataluña** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43204706233 · SUCCESS | — | — | — |
-| **10 Comunidad Valenciana** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43030421638 · SUCCESS | — | — | — |
-| **11 Extremadura** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43051488486 · SUCCESS | — | — | — |
-| **12 Galicia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43051951192 · SUCCESS | — | — | — |
-| **13 Comunidad de Madrid** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43053498550 · SUCCESS | — | — | — |
-| **14 Región de Murcia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43053208175 · SUCCESS | — | — | — |
-| **15 Comunidad Foral de Navarra** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43052874017 · SUCCESS | — | — | — |
-| **16 País Vasco** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43047232024 · SUCCESS | — | — | — |
-| **17 La Rioja** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43007066596 · SUCCESS | — | — | — |
-| **18 Ceuta** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43052923691 · SUCCESS | — | — | — |
-| **19 Melilla** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43051007542 · SUCCESS | — | — | — |
-| **Nacional Álava** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42983088643 · SUCCESS | — | — | — |
-| **Nacional Albacete** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42952791883 · SUCCESS | — | — | — |
-| **Nacional Alicante** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42953235024 · SUCCESS | — | — | — |
-| **Nacional Almería** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42952468083 · SUCCESS | — | — | — |
-| **Nacional Ávila** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42948760863 · SUCCESS | — | — | — |
-| **Nacional Badajoz** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42949289470 · SUCCESS | — | — | — |
-| **Nacional Baleares** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42953068884 · SUCCESS | — | — | — |
-| **Nacional Barcelona** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42953127263 · SUCCESS | — | — | — |
-| **Nacional Burgos** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42986581831 · SUCCESS | — | — | — |
-| **Nacional Cáceres** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42953363103 · SUCCESS | — | — | — |
-| **Nacional Cádiz** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42953019279 · SUCCESS | — | — | — |
-| **Nacional Castellón** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42953757677 · SUCCESS | — | — | — |
-| **Nacional Ciudad Real** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42954776957 · SUCCESS | — | — | — |
-| **Nacional Córdoba** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42953300723 · SUCCESS | — | — | — |
-| **Nacional La Coruña** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42953518518 · SUCCESS | — | — | — |
-| **Nacional Cuenca** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42954007732 · SUCCESS | — | — | — |
-| **Nacional Gerona** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42954957703 · SUCCESS | — | — | — |
-| **Nacional Granada** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42954091088 · SUCCESS | — | — | — |
-| **Nacional Guadalajara** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42955217289 · SUCCESS | — | — | — |
-| **Nacional Guipúzcoa** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42955375065 · SUCCESS | — | — | — |
-| **Nacional Huelva** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42996002594 · SUCCESS | — | — | — |
-| **Nacional Huesca** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42996217596 · SUCCESS | — | — | — |
-| **Nacional Jaén** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42955644352 · SUCCESS | — | — | — |
-| **Nacional León** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42996717873 · SUCCESS | — | — | — |
-| **Nacional Lérida** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43064129984 · SUCCESS | — | — | — |
-| **Nacional La Rioja** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42935762636 · SUCCESS | — | — | — |
-| **Nacional Lugo** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42995722473 · SUCCESS | — | — | — |
-| **Nacional Madrid** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43006307734 · SUCCESS | — | — | — |
-| **Nacional Málaga** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43006442219 · SUCCESS | — | — | — |
-| **Nacional Murcia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43005676593 · SUCCESS | — | — | — |
-| **Nacional Navarra** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43006653960 · SUCCESS | — | — | — |
-| **Nacional Orense** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43016113065 · SUCCESS | — | — | — |
-| **Nacional Asturias** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42985447971 · SUCCESS | — | — | — |
-| **Nacional Palencia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43016085888 · SUCCESS | — | — | — |
-| **Nacional Las Palmas** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42998268332 · SUCCESS | — | — | — |
-| **Nacional Pontevedra** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43016524347 · SUCCESS | — | — | — |
-| **Nacional Salamanca** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43017179163 · SUCCESS | — | — | — |
-| **Nacional Santa Cruz de Tenerife** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43020203637 · SUCCESS | — | — | — |
-| **Nacional Cantabria** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42985965354 · SUCCESS | — | — | — |
-| **Nacional Segovia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43029353804 · SUCCESS | — | — | — |
-| **Nacional Sevilla** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43029566265 · SUCCESS | — | — | — |
-| **Nacional Soria** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43029280043 · SUCCESS | — | — | — |
-| **Nacional Tarragona** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43029795470 · SUCCESS | — | — | — |
-| **Nacional Teruel** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43029189395 · SUCCESS | — | — | — |
-| **Nacional Toledo** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43040968638 · SUCCESS | — | — | — |
-| **Nacional Valencia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43041144007 · SUCCESS | — | — | — |
-| **Nacional Valladolid** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43040794081 · SUCCESS | — | — | — |
-| **Nacional Vizcaya** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43040430397 · SUCCESS | — | — | — |
-| **Nacional Zamora** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43040878307 · SUCCESS | — | — | — |
-| **Nacional Zaragoza** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43041544479 · SUCCESS | — | — | — |
-| **Nacional Ceuta** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42985728070 · SUCCESS | — | — | — |
-| **Nacional Melilla** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43006105644 · SUCCESS | — | — | — |
+| **01 Andalucía** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43736363274 · SUCCESS | — | — | — |
+| **02 Aragón** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43742224175 · SUCCESS | — | — | — |
+| **03 Principado de Asturias** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43742340201 · SUCCESS | — | — | — |
+| **04 Islas Baleares** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43734347063 · SUCCESS | — | — | — |
+| **05 Canarias** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43733630946 · SUCCESS | — | — | — |
+| **06 Cantabria** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43745191560 · SUCCESS | — | — | — |
+| **07 Castilla y León** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43744356991 · SUCCESS | — | — | — |
+| **08 Castilla-La Mancha** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43745006294 · SUCCESS | — | — | — |
+| **09 Cataluña** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43748279920 · SUCCESS | — | — | — |
+| **10 Comunidad Valenciana** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43748866318 · SUCCESS | — | — | — |
+| **11 Extremadura** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43746572251 · SUCCESS | — | — | — |
+| **12 Galicia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43830877204 · SUCCESS | — | — | — |
+| **13 Comunidad de Madrid** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43749008571 · SUCCESS | — | — | — |
+| **14 Región de Murcia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43752744562 · SUCCESS | — | — | — |
+| **15 Comunidad Foral de Navarra** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43753347645 · SUCCESS | — | — | — |
+| **16 País Vasco** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43752121775 · SUCCESS | — | — | — |
+| **17 La Rioja** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43754082828 · SUCCESS | — | — | — |
+| **18 Ceuta** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43755466122 · SUCCESS | — | — | — |
+| **19 Melilla** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43755885850 · SUCCESS | — | — | — |
+| **Nacional Álava** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43756171657 · SUCCESS | — | — | — |
+| **Nacional Albacete** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43759317191 · SUCCESS | — | — | — |
+| **Nacional Alicante** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43760040662 · SUCCESS | — | — | — |
+| **Nacional Almería** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43760565695 · SUCCESS | — | — | — |
+| **Nacional Ávila** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43760758129 · SUCCESS | — | — | — |
+| **Nacional Badajoz** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43761252898 · SUCCESS | — | — | — |
+| **Nacional Baleares** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43763327156 · SUCCESS | — | — | — |
+| **Nacional Barcelona** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43763728403 · SUCCESS | — | — | — |
+| **Nacional Burgos** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43763483520 · SUCCESS | — | — | — |
+| **Nacional Cáceres** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43768394165 · SUCCESS | — | — | — |
+| **Nacional Cádiz** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43769041417 · SUCCESS | — | — | — |
+| **Nacional Castellón** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43769013184 · SUCCESS | — | — | — |
+| **Nacional Ciudad Real** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43769610932 · SUCCESS | — | — | — |
+| **Nacional Córdoba** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43773176478 · SUCCESS | — | — | — |
+| **Nacional La Coruña** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43774834805 · SUCCESS | — | — | — |
+| **Nacional Cuenca** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43775578741 · SUCCESS | — | — | — |
+| **Nacional Gerona** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43784273078 · SUCCESS | — | — | — |
+| **Nacional Granada** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43775697971 · SUCCESS | — | — | — |
+| **Nacional Guadalajara** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43778101275 · SUCCESS | — | — | — |
+| **Nacional Guipúzcoa** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43778046777 · SUCCESS | — | — | — |
+| **Nacional Huelva** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43779363183 · SUCCESS | — | — | — |
+| **Nacional Huesca** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43783149315 · SUCCESS | — | — | — |
+| **Nacional Jaén** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43778534395 · SUCCESS | — | — | — |
+| **Nacional León** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43779319643 · SUCCESS | — | — | — |
+| **Nacional Lérida** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43784056720 · SUCCESS | — | — | — |
+| **Nacional La Rioja** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43784360729 · SUCCESS | — | — | — |
+| **Nacional Lugo** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43784516230 · SUCCESS | — | — | — |
+| **Nacional Madrid** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43785503828 · SUCCESS | — | — | — |
+| **Nacional Málaga** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43801801527 · SUCCESS | — | — | — |
+| **Nacional Murcia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43785618713 · SUCCESS | — | — | — |
+| **Nacional Navarra** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43786392804 · SUCCESS | — | — | — |
+| **Nacional Orense** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43788009946 · SUCCESS | — | — | — |
+| **Nacional Asturias** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43795147177 · SUCCESS | — | — | — |
+| **Nacional Palencia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43789454074 · SUCCESS | — | — | — |
+| **Nacional Las Palmas** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43790313521 · SUCCESS | — | — | — |
+| **Nacional Pontevedra** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43789633261 · SUCCESS | — | — | — |
+| **Nacional Salamanca** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43791973018 · SUCCESS | — | — | — |
+| **Nacional Santa Cruz de Tenerife** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43801705986 · SUCCESS | — | — | — |
+| **Nacional Cantabria** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43792749380 · SUCCESS | — | — | — |
+| **Nacional Segovia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43793248399 · SUCCESS | — | — | — |
+| **Nacional Sevilla** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43793379653 · SUCCESS | — | — | — |
+| **Nacional Soria** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43793874826 · SUCCESS | — | — | — |
+| **Nacional Tarragona** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43794008411 · SUCCESS | — | — | — |
+| **Nacional Teruel** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43795542897 · SUCCESS | — | — | — |
+| **Nacional Toledo** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43796175523 · SUCCESS | — | — | — |
+| **Nacional Valencia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43798079539 · SUCCESS | — | — | — |
+| **Nacional Valladolid** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43797487792 · SUCCESS | — | — | — |
+| **Nacional Vizcaya** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43804714177 · SUCCESS | — | — | — |
+| **Nacional Zamora** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43804127706 · SUCCESS | — | — | — |
+| **Nacional Zaragoza** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43804263815 · SUCCESS | — | — | — |
+| **Nacional Ceuta** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43803972993 · SUCCESS | — | — | — |
+| **Nacional Melilla** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43807441438 · SUCCESS | — | — | — |
 | **Nacional 350 Álava** | 🟡 | 🟡 | ⚪ | ⚪ | ⚪ | Validación pendiente | — | — | — | preparar fuentes territoriales |
 | **Nacional 350 Albacete** | 🟡 | 🟡 | ⚪ | ⚪ | ⚪ | Validación pendiente | — | — | — | preparar fuentes territoriales |
 | **Nacional 350 Alicante** | 🟡 | 🟡 | ⚪ | ⚪ | ⚪ | Validación pendiente | — | — | — | preparar fuentes territoriales |

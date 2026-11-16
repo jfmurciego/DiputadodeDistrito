@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "andalucia",
+  "territory_name": "Andalucía",
+  "edition": "2025",
+  "election": {
+    "election_id": "andalucia_parlamento_2026",
+    "election_date": "2026-05-17"
+  },
+  "references": {
+    "population": {
+      "required_year": 2026,
+      "year": 2025,
+      "reference_date": "2025-01-01"
+    },
+    "sectioning": {
+      "required_year": 2026,
+      "year": 2025,
+      "reference_label": "Secciones_2025"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 40946875467,
+    "artifact_name": "ddd-source-package-andalucia-2025-40946875467",
+    "artifact_sha256": "f2694b451830d4a699a4aaa959834edab2e1a7dc5fd83eaa4589ba9d5d196c52",
+    "package_sha256": "2cfec239eb9b6cf57083b985504e76fd3055f8425989c2aa1589f060afe0aa37",
+    "source_commit": "091d40cef648abcc9319af1f6dc3488a5abdc556",
+    "source_declaration": "territorios/andalucia/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/andalucia/evidencia/fuentes_territoriales/2025/253f7c0dc82793977197c5dad117d30f1cd96ceaf0d8cab696c0c36bb6111b09/40946875467/receipt.json",
+    "population_year": 2025,
+    "section_year": 2025,
+    "territorial_identity_sha256": "253f7c0dc82793977197c5dad117d30f1cd96ceaf0d8cab696c0c36bb6111b09",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "c0550f29f74c7ed1b4bd8894fcbfbdc0b0283964898f527454bc00ca8544a6f4",
+    "compatibility_identity_sha256": "4d75bcab25a4bba27656fcf6184e510ab61718c222e213befa04fd8ec96cbc02",
+    "remote_verification": {
+      "run_id": 40946875467,
+      "artifact_id": 12930076590,
+      "artifact_name": "ddd-source-package-andalucia-2025-40946875467",
+      "artifact_sha256": "f2694b451830d4a699a4aaa959834edab2e1a7dc5fd83eaa4589ba9d5d196c52",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 42463442007,
+    "artifact_name": "ddd-electoral-package-andalucia-2025-42463442007",
+    "artifact_sha256": "763ac68b82654538f04b92fd1d5524bb1cf72374d3f2be9089ce209519043136",
+    "source_commit": "76b75c007d9824d440211999f767734455929644",
+    "receipt_path": "territorios/andalucia/evidencia/fuentes_electorales/2025/995430f5ad831c5844c0777dae4936bc2b82af0113ea73a272c912aa0a3f8395/42463442007/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "andalucia_parlamento_2026",
+    "election_date": "2026-05-17",
+    "electoral_identity_sha256": "995430f5ad831c5844c0777dae4936bc2b82af0113ea73a272c912aa0a3f8395",
+    "remote_verification": {
+      "run_id": 42463442007,
+      "artifact_id": 13610164792,
+      "artifact_name": "ddd-electoral-package-andalucia-2025-42463442007",
+      "artifact_sha256": "763ac68b82654538f04b92fd1d5524bb1cf72374d3f2be9089ce209519043136",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "253f7c0dc82793977197c5dad117d30f1cd96ceaf0d8cab696c0c36bb6111b09",
+  "electoral_compatibility_key": "995430f5ad831c5844c0777dae4936bc2b82af0113ea73a272c912aa0a3f8395",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/andalucia/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "008152d29f59f501fe1cd9fdb4a2f1cf790686b8feab8822432274eede5d1acc"
+}

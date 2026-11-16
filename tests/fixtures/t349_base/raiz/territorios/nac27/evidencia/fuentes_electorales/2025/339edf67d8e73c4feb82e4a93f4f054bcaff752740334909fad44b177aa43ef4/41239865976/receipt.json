@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_lugo",
+  "territory_name": "Congreso Lugo",
+  "edition": "2025",
+  "run_id": 41239865976,
+  "artifact_name": "ddd-electoral-package-congreso_lugo-2025-41239865976",
+  "artifact_sha256": "8120a098312129999bfd1bd7c0d6bb6618f36dbf106c2490edb14b90be003af3",
+  "source_commit": "abc1564562c14cbfd424627383eca2060c12c022",
+  "election_id": "congreso_lugo_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "339edf67d8e73c4feb82e4a93f4f054bcaff752740334909fad44b177aa43ef4"
+}

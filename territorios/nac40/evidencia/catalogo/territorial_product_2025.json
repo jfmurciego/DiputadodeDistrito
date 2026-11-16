@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "congreso_segovia",
+  "territory_id": "nac40",
   "territory_name": "Congreso Segovia",
   "edition": "2025",
-  "run_id": 43024836898,
-  "artifact_name": "ddd-state-43024836898-M06",
-  "artifact_sha256": "6aa0980e4a2999b05eece351086a3bd5ee61cc849517036073d74e532788b09d",
-  "source_commit": "6ad5b525a72328c916f98ca06ee6c6035293e440",
+  "run_id": 43786736942,
+  "artifact_name": "ddd-state-43786736942-M06",
+  "artifact_sha256": "c515c2a43d23060b8c3c69dddf00506a82474db37fbbbbdffb309945b9b2c927",
+  "source_commit": "a052f885f7761d3f35ff26c7849010b71273ecc1",
   "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_segovia/evidencia/generaciones_m06/43024836898.json"
+  "producer_manifest_path": "territorios/nac40/evidencia/generaciones_m06/43786736942.json"
 }

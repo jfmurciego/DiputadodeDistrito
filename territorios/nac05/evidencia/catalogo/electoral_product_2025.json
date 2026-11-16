@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_avila",
+  "territory_id": "nac05",
   "territory_name": "Congreso Ávila",
   "edition": "2025",
-  "run_id": 42948760863,
-  "artifact_name": "ddd-state-42948760863-M08",
-  "artifact_sha256": "04140cf4ca843ec5c0b261c63c81f816b69604a40f68753b0b606ffd29927117",
-  "source_commit": "29fbd3b77c14aa3cef36d639bb0170cc82601ffb",
+  "run_id": 43760758129,
+  "artifact_name": "ddd-state-43760758129-M08",
+  "artifact_sha256": "405f03c9329c16be546658fc31f744ad52364710398cbaa256d99011c1361453",
+  "source_commit": "3a7608d8fceb8d7ae2717e246c68b3b598d90d59",
   "stage": "M08"
 }

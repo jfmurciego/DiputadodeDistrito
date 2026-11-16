@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_lerida",
+  "territory_name": "Congreso Lérida",
+  "edition": "2025",
+  "run_id": 41239853848,
+  "artifact_name": "ddd-electoral-package-congreso_lerida-2025-41239853848",
+  "artifact_sha256": "7e65f01f9e412ac8a3f9abb2d643952bc8513ac4581cbffef42a34b9625eb7c6",
+  "source_commit": "abc1564562c14cbfd424627383eca2060c12c022",
+  "election_id": "congreso_lerida_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "613cb73be2446e2fc25ccddbc8ff56f4d3f02edc6600bb0c391f173398f57245"
+}

@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "galicia",
+  "territory_id": "aut12",
   "territory_name": "Galicia",
   "edition": "2025",
-  "run_id": 43051951192,
-  "artifact_name": "ddd-state-43051951192-M08",
-  "artifact_sha256": "3077edb70e9623defce56ef0622b93d32aa3ddc7e73568b968428da924d21f8d",
-  "source_commit": "57171c9bcc0cc5cf44ab153c48b1c4b652ce8884",
+  "run_id": 43830877204,
+  "artifact_name": "ddd-state-43830877204-M08",
+  "artifact_sha256": "4cc472b10dfd400d132dbe27f52eb86c5efa7866671a8449b51207c6060dc14d",
+  "source_commit": "740b4e4029f155bac243f8b97c5e46c17da0dc5f",
   "stage": "M08"
 }

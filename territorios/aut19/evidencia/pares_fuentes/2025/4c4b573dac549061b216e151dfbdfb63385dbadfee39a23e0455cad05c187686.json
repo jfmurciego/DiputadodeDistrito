@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "aut19",
+  "territory_name": "Melilla",
+  "edition": "2025",
+  "election": {
+    "election_id": "melilla_asamblea_local_2023",
+    "election_date": "2023-05-28"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43750065634,
+    "artifact_name": "ddd-source-package-aut19-2025-43750065634",
+    "artifact_sha256": "3d1100768f781af25db7101df9a837cb42b55c96a99471f82e4bc92b0b4d2e66",
+    "package_sha256": "19d4a84f562a9db9fad5d41e68603ab5269609e280f83d1d5a23d231181d1d61",
+    "source_commit": "80466528e018ac8bbef442656d91c28eccdeb930",
+    "source_declaration": "territorios/aut19/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/aut19/evidencia/fuentes_territoriales/2025/080b9483c3c7dcfb0a5e78d600c1c7e83d3329c1273662274e1d6d1bbe31471b/43750065634/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "080b9483c3c7dcfb0a5e78d600c1c7e83d3329c1273662274e1d6d1bbe31471b",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "3c8b19b0caa23cd82093287971be6de775e54858caa69e37e87c9dc89b072e5e",
+    "compatibility_identity_sha256": "a1c8a6ff857de2b819eadcc388e2c4199e4c6359c6f8824415f3f5de00e391a5",
+    "remote_verification": {
+      "run_id": 43750065634,
+      "artifact_id": 14176480250,
+      "artifact_name": "ddd-source-package-aut19-2025-43750065634",
+      "artifact_sha256": "3d1100768f781af25db7101df9a837cb42b55c96a99471f82e4bc92b0b4d2e66",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43755195449,
+    "artifact_name": "ddd-electoral-package-aut19-2025-43755195449",
+    "artifact_sha256": "4dc6b7f450ff730058a99dd94ee01ef158634ff9e1d02afacfa61f4c8e653a9a",
+    "source_commit": "6eccfaa43b0df460de7f3acefbd0e5a25852639c",
+    "receipt_path": "territorios/aut19/evidencia/fuentes_electorales/2025/d7ed9810d900c5f6130df8d8261e4011b22bca439e487a7bdbbd4d18a96df005/43755195449/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "melilla_asamblea_local_2023",
+    "election_date": "2023-05-28",
+    "electoral_identity_sha256": "d7ed9810d900c5f6130df8d8261e4011b22bca439e487a7bdbbd4d18a96df005",
+    "remote_verification": {
+      "run_id": 43755195449,
+      "artifact_id": 14177849159,
+      "artifact_name": "ddd-electoral-package-aut19-2025-43755195449",
+      "artifact_sha256": "4dc6b7f450ff730058a99dd94ee01ef158634ff9e1d02afacfa61f4c8e653a9a",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "080b9483c3c7dcfb0a5e78d600c1c7e83d3329c1273662274e1d6d1bbe31471b",
+  "electoral_compatibility_key": "d7ed9810d900c5f6130df8d8261e4011b22bca439e487a7bdbbd4d18a96df005",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/aut19/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "4c4b573dac549061b216e151dfbdfb63385dbadfee39a23e0455cad05c187686"
+}

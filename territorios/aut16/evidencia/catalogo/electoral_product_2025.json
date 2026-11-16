@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "pais_vasco",
+  "territory_id": "aut16",
   "territory_name": "País Vasco",
   "edition": "2025",
-  "run_id": 43047232024,
-  "artifact_name": "ddd-state-43047232024-M08",
-  "artifact_sha256": "5f03f8045db2cffdf7a47361087a2cb5207d72d6f2b430e89ef86704155fca48",
-  "source_commit": "306aa0aca8ea8195f3ac480274e8a75878146fc4",
+  "run_id": 43752121775,
+  "artifact_name": "ddd-state-43752121775-M08",
+  "artifact_sha256": "887c66f4ab429f26f8a4022937484113e869ffd5bde4414529d186714c59830b",
+  "source_commit": "36fdbb65da9d892ed2439c267f09f1a6775381b8",
   "stage": "M08"
 }

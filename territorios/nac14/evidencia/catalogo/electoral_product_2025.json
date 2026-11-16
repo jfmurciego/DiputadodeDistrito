@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_cordoba",
+  "territory_id": "nac14",
   "territory_name": "Congreso Córdoba",
   "edition": "2025",
-  "run_id": 42953300723,
-  "artifact_name": "ddd-state-42953300723-M08",
-  "artifact_sha256": "269d54a55cac337b883991b7e144ca6e61cb36f50b2778688a0ea512569b88ef",
-  "source_commit": "23c8de11972392ad796a8dd604050377098791ba",
+  "run_id": 43773176478,
+  "artifact_name": "ddd-state-43773176478-M08",
+  "artifact_sha256": "33ed785842c0a3cfd6fc9b9b2ab7cdbcdc5f4e4665b7fc390f6ae592fbfa9db1",
+  "source_commit": "54f27f5ba0beb258ed62fbafa7bf58327873c62d",
   "stage": "M08"
 }

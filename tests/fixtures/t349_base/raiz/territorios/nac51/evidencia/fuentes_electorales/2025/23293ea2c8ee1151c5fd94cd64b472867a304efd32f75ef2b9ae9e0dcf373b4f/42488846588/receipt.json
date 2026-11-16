@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_ceuta",
+  "territory_name": "Congreso Ceuta",
+  "edition": "2025",
+  "run_id": 42488846588,
+  "artifact_name": "ddd-electoral-package-congreso_ceuta-2025-42488846588",
+  "artifact_sha256": "fa36f4fb06f3c5563e8158c8e96e3af8603e1666dfe1b9d42169c943e8a1d082",
+  "source_commit": "3dc0eff3b6f90f6904b255440efd6a9b705f08f9",
+  "election_id": "congreso_ceuta_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "23293ea2c8ee1151c5fd94cd64b472867a304efd32f75ef2b9ae9e0dcf373b4f"
+}

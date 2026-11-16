@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+# VERSIÓN: 1.0.1
+# NOMBRE DE VERSIÓN: id canónico exacto (T-349)
+# FECHA: 2026-11-15
+# CAMBIOS 1.0.1 (T-349, D-102): el paquete electoral se acepta solo con el nombre exacto del id canónico; contrato, puerta 03→04 y manifiesto del paquete con territory_id exacto.
+# MOTIVO: la r4 se paró en aut11 al reutilizar un registro con id viejo.
+# ANTERIOR: legacy/herramientas/validar_elegibilidad_incorporacion_electoral_pre_t349_20261115.py (1.0.0: versión de origin/main, sin cabecera numerada)
 from __future__ import annotations
 
 import argparse
@@ -115,7 +121,7 @@ def resolve_eligibility(
     cfg = yaml.safe_load(params_path.read_text(encoding="utf-8")) or {}
     meta = cfg.get("meta") or {}
     if (
-        not mismo_territorio(str(meta.get("territory_id") or ""), str(territory_id))
+        str(meta.get("territory_id") or "") != str(territory_id)  # T-349: exacto
         or str(meta.get("year") or "") != str(edition)
     ):
         raise ValueError("ELECTORAL_GATE_BLOCK: identidad del contrato territorial no coincide")
@@ -123,7 +129,7 @@ def resolve_eligibility(
     gate = _read_json(gate_evidence)
     if gate.get("decision") != "VALIDADO" or gate.get("phase") != "electoral_source":
         raise ValueError("ELECTORAL_GATE_BLOCK: puerta 03→04 no validada")
-    if not mismo_territorio(str(gate.get("territory_id") or ""), str(territory_id)):
+    if str(gate.get("territory_id") or "") != str(territory_id):  # T-349: exacto
         raise ValueError("ELECTORAL_GATE_BLOCK: territorio de la puerta no coincide")
     if str(gate.get("edition") or "") != str(edition):
         raise ValueError("ELECTORAL_GATE_BLOCK: edición de la puerta no coincide")
@@ -132,7 +138,7 @@ def resolve_eligibility(
     if str(gate.get("artifact_name") or "") != str(expected_artifact_name):
         raise ValueError("ELECTORAL_GATE_BLOCK: artefacto electoral de la puerta no coincide")
     canonical_name = f"ddd-electoral-package-{territory_id}-{edition}-{expected_run_id}"
-    if expected_artifact_name not in {f"ddd-electoral-package-{v}-{edition}-{expected_run_id}" for v in variantes(territory_id)}:
+    if expected_artifact_name != canonical_name:  # T-349: igualdad exacta (sin alias)
         raise ValueError("ELECTORAL_GATE_BLOCK: nombre de artefacto electoral no canónico")
 
     expected_digest = _normalise_digest(expected_artifact_digest)
@@ -143,7 +149,7 @@ def resolve_eligibility(
     manifest = _read_json(package_manifest)
     if manifest.get("schema") != "ddd-electoral-package/1.0":
         raise ValueError("ELECTORAL_GATE_BLOCK: schema del paquete electoral inválido")
-    if not mismo_territorio(str(manifest.get("territory_id") or ""), str(territory_id)):
+    if str(manifest.get("territory_id") or "") != str(territory_id):  # T-349: exacto
         raise ValueError("ELECTORAL_GATE_BLOCK: territorio del paquete electoral no coincide")
     if str(manifest.get("edition") or "") != str(edition):
         raise ValueError("ELECTORAL_GATE_BLOCK: edición del paquete electoral no coincide")

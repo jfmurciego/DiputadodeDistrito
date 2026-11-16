@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "region_de_murcia",
+  "territory_id": "aut14",
   "territory_name": "Región de Murcia",
   "edition": "2025",
-  "run_id": 43045426513,
-  "artifact_name": "ddd-state-43045426513-M06",
-  "artifact_sha256": "4761f5ad30c183dd10f50bdce4b929a2ed179fbd340ccea87a8da846ece3e895",
-  "source_commit": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
+  "run_id": 43747068843,
+  "artifact_name": "ddd-state-43747068843-M06",
+  "artifact_sha256": "7d52f2b58f0fa3ff0fd5435649672670543110b04ae09e29bf0d89e9491478de",
+  "source_commit": "ff469e339d797e2f634795bd870d476d57fd6fba",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/region_de_murcia/evidencia/generaciones_m06/43045426513.json"
+  "producer_manifest_path": "territorios/aut14/evidencia/generaciones_m06/43747068843.json"
 }

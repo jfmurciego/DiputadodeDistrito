@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_valencia",
+  "territory_name": "Congreso Valencia",
+  "edition": "2025",
+  "run_id": 41239936932,
+  "artifact_name": "ddd-electoral-package-congreso_valencia-2025-41239936932",
+  "artifact_sha256": "a5266ec7f483a3686cd54308e5118fc0c42bc23ecc9d4922eca3302b5997c534",
+  "source_commit": "39d0b486fe985b786a70fe63e2adafaf183e9f55",
+  "election_id": "congreso_valencia_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "6bd17d9ab40a695c5a622d5fe90ca0e988c35b0221bd04f87509d9bb947aaacc"
+}

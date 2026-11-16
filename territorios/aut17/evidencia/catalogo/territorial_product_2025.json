@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "la_rioja",
+  "territory_id": "aut17",
   "territory_name": "La Rioja",
   "edition": "2025",
-  "run_id": 43003614878,
-  "artifact_name": "ddd-state-43003614878-M06",
-  "artifact_sha256": "ea59b5b08b81b78ceee60674da4ae6547e6834c0c11e1a03a1be8c739a4c64be",
-  "source_commit": "335ada5edc4938ad24ffb66b81f1107817351fd7",
+  "run_id": 43749332670,
+  "artifact_name": "ddd-state-43749332670-M06",
+  "artifact_sha256": "8ef7e023565a1ea4fcd7d2f9010f6e3148e7fd18f838d6711c2f7b527b85bd00",
+  "source_commit": "e85661be572871495b1377dfd0c070a2350798d5",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/la_rioja/evidencia/generaciones_m06/43003614878.json"
+  "producer_manifest_path": "territorios/aut17/evidencia/generaciones_m06/43749332670.json"
 }

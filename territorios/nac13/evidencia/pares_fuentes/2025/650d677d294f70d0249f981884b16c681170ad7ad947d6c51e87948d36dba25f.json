@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "nac13",
+  "territory_name": "Congreso Ciudad Real",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_ciudad_real_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43762018176,
+    "artifact_name": "ddd-source-package-nac13-2025-43762018176",
+    "artifact_sha256": "60b4810ac1aa3d140b631ec6a657b51e055c27f09ad7e6804569eeec2cb77607",
+    "package_sha256": "ac16e836871b80664153b1c637aae65ce5a1ac6930c3343cd010039ea9e8e7c9",
+    "source_commit": "20de5d535c044bf9b2f67097e0e0bb3903b36d1c",
+    "source_declaration": "territorios/nac13/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/nac13/evidencia/fuentes_territoriales/2025/0570860c7dc2949f4dbd41cf1c67fbde3255db649535a2658aae2244ddade62a/43762018176/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "0570860c7dc2949f4dbd41cf1c67fbde3255db649535a2658aae2244ddade62a",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "32a37646551632af7a487d5161f47c1d89f1e378bbf4c598ed171a1bc433f62d",
+    "compatibility_identity_sha256": "14d565cc6fc8a4f4f1d1ed67d0a025dfebaf8badcc131ff1f339eddb22a3c1cf",
+    "remote_verification": {
+      "run_id": 43762018176,
+      "artifact_id": 14180622858,
+      "artifact_name": "ddd-source-package-nac13-2025-43762018176",
+      "artifact_sha256": "60b4810ac1aa3d140b631ec6a657b51e055c27f09ad7e6804569eeec2cb77607",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43768375236,
+    "artifact_name": "ddd-electoral-package-nac13-2025-43768375236",
+    "artifact_sha256": "a83ff4cccf619f6a80dfe785d5853ef724073d4076d1c7764d4512c9e8af92c2",
+    "source_commit": "288dfd2429a820bb87b40cab86df44be4cc781ba",
+    "receipt_path": "territorios/nac13/evidencia/fuentes_electorales/2025/85640247b614d759459f8c0a27f89df6281e16a2606015b3e31412a6126fbbaa/43768375236/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_ciudad_real_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "85640247b614d759459f8c0a27f89df6281e16a2606015b3e31412a6126fbbaa",
+    "remote_verification": {
+      "run_id": 43768375236,
+      "artifact_id": 14183282658,
+      "artifact_name": "ddd-electoral-package-nac13-2025-43768375236",
+      "artifact_sha256": "a83ff4cccf619f6a80dfe785d5853ef724073d4076d1c7764d4512c9e8af92c2",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "0570860c7dc2949f4dbd41cf1c67fbde3255db649535a2658aae2244ddade62a",
+  "electoral_compatibility_key": "85640247b614d759459f8c0a27f89df6281e16a2606015b3e31412a6126fbbaa",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/nac13/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "650d677d294f70d0249f981884b16c681170ad7ad947d6c51e87948d36dba25f"
+}

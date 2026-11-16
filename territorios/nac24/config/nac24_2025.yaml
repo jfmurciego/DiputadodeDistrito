@@ -67,12 +67,6 @@ territory_contract:
   population_floor_ratio: 0.85
   population_cap_ratio: 1.15
   target_tolerance_ratio: 0.15
-  limits_profile: exception
-  limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
-    piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
-    se divide.'
-  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits
-  limits_exception_decided_at: '2026-10-31'
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true
@@ -80,6 +74,12 @@ territory_contract:
   municipality_atomicity_limit_ratio: 1.15
   require_auditable_district_catalogue: true
   status: generation_ready
+  limits_profile: exception
+  limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
+    piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
+    se divide.'
+  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits
+  limits_exception_decided_at: '2026-10-31'
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: *id001
@@ -194,9 +194,9 @@ validation:
     section_year: 2023
     population_total: 448573
     target_section_count: 447
-    package_sha256: ad4c13561666a914ad5f187a4eb74b11d44cabef38dfbd2317221abdf1dc0c8b
-    compatibility_report_sha256: cc03ed216c8042c0df341b8a749dc0317acde2cba20091bc5a0efeefd94730d7
-    compatibility_identity_sha256: ad0e21f088c3b151fec3761f6fff2801fe028a1e77d44e9d4d034c16a1102c5c
+    package_sha256: d12772139e06b1282a55e0f0a0a88a9683929ad19315be341d4d28b38d3487b1
+    compatibility_report_sha256: bca1b2fcc15a1409ba82df812be849d4470d4951108dc8f0f085a1dcda098404
+    compatibility_identity_sha256: 5d426f64229f6684336218a4af7db6735276e709c788ea0fcf3abb23de77a669
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -253,8 +253,8 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2023.zip
-        sha256: 1054805641143b55f1da15f08434a1bd697074a154874b47a2f569adda23bfc5
-        bytes: 929955
+        sha256: f7321632f4870a4acefef444e750b7f3bc84d70837f1d53ecb473247e3e42a48
+        bytes: 929954
   runtime:
     section_id_field: CUSEC_KEY
     population_field: POP_2023
@@ -267,12 +267,12 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: f9cb59106174b18def0bfde146faecaaa3ba9fa77de59bfa41497139bec9748e
+  contract_sha256: 09533bfe67c91e3b561055bf54db57e82a2cfca9e29e1e457150b3d2bf0e4036
 generation_state:
   source_prepared: true
   generation_enabled: true
-  package_sha256: ad4c13561666a914ad5f187a4eb74b11d44cabef38dfbd2317221abdf1dc0c8b
-  compatibility_identity_sha256: ad0e21f088c3b151fec3761f6fff2801fe028a1e77d44e9d4d034c16a1102c5c
+  package_sha256: d12772139e06b1282a55e0f0a0a88a9683929ad19315be341d4d28b38d3487b1
+  compatibility_identity_sha256: 5d426f64229f6684336218a4af7db6735276e709c788ea0fcf3abb23de77a669
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 27b19a0bbfdf445a1decaff2ebe9c4673ab8affa69a7a743b2dfa1b1fc4ab35d
@@ -304,7 +304,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2023.zip
-    sha256: 1054805641143b55f1da15f08434a1bd697074a154874b47a2f569adda23bfc5
+    sha256: f7321632f4870a4acefef444e750b7f3bc84d70837f1d53ecb473247e3e42a48
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
@@ -322,6 +322,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 41241377284
-  pre_m04_source_commit: b872f44c0d53e0e6982c074d9a4b627cadb232fc
-  pre_m04_artifact_sha256: af4904cdf46e9a99e5c01e377803a6f8719ec0e60f7df13ca070f0420bc2eed3
+  pre_m04_run_id: 43766201397
+  pre_m04_source_commit: 186991d5df0fbdc5e8bc82b92a53bc1b55ed93c7
+  pre_m04_artifact_sha256: 7649699eedfc5d9b1b0933aaf554a688ddedfd852fd40fe83ab356b792883b4b

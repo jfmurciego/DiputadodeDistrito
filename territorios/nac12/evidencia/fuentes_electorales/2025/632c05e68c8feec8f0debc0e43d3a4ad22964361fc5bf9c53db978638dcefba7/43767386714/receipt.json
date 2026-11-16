@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac12",
+  "territory_name": "Congreso Castellón",
+  "edition": "2025",
+  "run_id": 43767386714,
+  "artifact_name": "ddd-electoral-package-nac12-2025-43767386714",
+  "artifact_sha256": "a009f99ac9fb9ef78ab0208d90fe83b6893833130e359e297fbe53bd26b7b283",
+  "source_commit": "e213f17659df7a0c57cd342033cf2ec53c088abc",
+  "election_id": "congreso_castellon_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "632c05e68c8feec8f0debc0e43d3a4ad22964361fc5bf9c53db978638dcefba7"
+}

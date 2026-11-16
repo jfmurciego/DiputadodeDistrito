@@ -984,7 +984,7 @@ def m08_enlaza_m06_vigente(root, territory_id, territorial, electoral):
 
 class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
     def test_current_complete_product_is_durable_and_reusable(self):
-        root = raiz_previo_r3()  # T-322: estado congelado previo a r3
+        root = raiz_previo_r3(canonico=True)  # T-322: estado congelado previo a r3
         data = load(root / "configuracion/catalogo_preparacion.yaml")
         row = next(
             r for r in data["territories"]

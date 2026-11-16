@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "illes_balears",
+  "territory_id": "aut04",
   "territory_name": "Islas Baleares",
   "edition": "2025",
-  "run_id": 43011633844,
-  "artifact_name": "ddd-state-43011633844-M06",
-  "artifact_sha256": "86629e2738b71e06fc020212ebf31c462fda137344073ea034659ecd5635cc44",
-  "source_commit": "766c9ea628bbdd6feba955791cdf915ed187b11c",
+  "run_id": 43728716862,
+  "artifact_name": "ddd-state-43728716862-M06",
+  "artifact_sha256": "f69d1db178f829c3fded22414673d26502157d3fa7711f4644a6860f641d58dd",
+  "source_commit": "6b6616a2dfc00bac5b1a9a4e2e2005873ad3a866",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/illes_balears/evidencia/generaciones_m06/43011633844.json"
+  "producer_manifest_path": "territorios/aut04/evidencia/generaciones_m06/43728716862.json"
 }

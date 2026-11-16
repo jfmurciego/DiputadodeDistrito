@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "congreso_cordoba",
+  "territory_id": "nac14",
   "territory_name": "Congreso Córdoba",
   "edition": "2025",
-  "run_id": 42940387433,
-  "artifact_name": "ddd-state-42940387433-M06",
-  "artifact_sha256": "40dd5ac91e1484962d832c99587e521566f6a77d7e642a7a1099ae4d55f431d3",
-  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "run_id": 43763992154,
+  "artifact_name": "ddd-state-43763992154-M06",
+  "artifact_sha256": "70b498f9738cb2dcc6e43c5a324e315f1818e539f2b30e822be6000e2ed18703",
+  "source_commit": "70735b2b2361fb7fe293d871cf2fac316bd60136",
   "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_cordoba/evidencia/generaciones_m06/42940387433.json"
+  "producer_manifest_path": "territorios/nac14/evidencia/generaciones_m06/43763992154.json"
 }

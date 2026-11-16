@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "congreso_barcelona",
+  "territory_id": "nac08",
   "territory_name": "Congreso Barcelona",
   "edition": "2025",
-  "run_id": 42940355981,
-  "artifact_name": "ddd-state-42940355981-M06",
-  "artifact_sha256": "3d8f2cf07f01197deb49fb01f8db8e5671872253e25b8fded458837f8430b34f",
-  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "run_id": 43757988864,
+  "artifact_name": "ddd-state-43757988864-M06",
+  "artifact_sha256": "c38f12d9df0551e5fdabef9e238041ead27ccbb4774e29fa432d430b7f8d3c5e",
+  "source_commit": "725707ecf00cb2e229133727a5fa3b59ec0fc322",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_barcelona/evidencia/generaciones_m06/42940355981.json"
+  "producer_manifest_path": "territorios/nac08/evidencia/generaciones_m06/43757988864.json"
 }

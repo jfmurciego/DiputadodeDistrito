@@ -3,14 +3,15 @@
 """Fuentes oficiales permanentes en R2 (ARC-E): bajar y subir con verificación de sha256.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.1.0
 NOMBRE DE VERSIÓN: Fuentes de ARC-E en R2
-FECHA: 2026-11-14
+FECHA: 2026-11-15
 ESTADO: candidato
-CAMBIOS: 1.0.0: fichero nuevo (T-299).
+CAMBIOS: 1.1.0 (T-354): `traer` (bytes verificados o None) para la 03 de Galicia; una entrada con sha256 null (pendiente del script del propietario) cuenta como
+  «no disponible» (rc 3). 1.0.0: fichero nuevo (T-299).
 MOTIVO: el ZIP por mesa de Infoelectoral vivía solo en un release del repositorio; pasa a R2 (arc-e/fuentes/interior/) con su sha256 en
   el índice orchestracion/fuentes_r2.json y la 03 lo lee de R2 (el release queda como respaldo hasta confirmación del Operador).
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/herramientas/fuente_r2_v1.0.0_20261115.py
 QUÉ HACE: `bajar <nombre> <destino>`: baja de R2 la clave del índice y verifica el sha256 (si no cuadra, borra y sale 53; si no hay objeto o
   credenciales, sale 3 sin tocar red externa). `subir <nombre> <fichero>`: verifica el sha256 del índice y sube con metadato sha256.
 USO: python herramientas/fuente_r2.py bajar 02202307_MESA.zip infoelectoral-mesas.zip
@@ -46,11 +47,35 @@ def _cp(origen: str, destino: str, extra: list[str] | None = None) -> None:
     subprocess.run(["aws", "s3", "cp", origen, destino, "--endpoint-url", ep, "--only-show-errors", *(extra or [])], check=True)
 
 
+def _pendiente(f: dict) -> bool:
+    return not f.get("sha256")
+
+
+def traer(nombre: str, cp=_cp, indice: Path = INDICE) -> bytes | None:
+    """Bytes del objeto de R2 con sha256 verificado, o None (sin entrada, sin huella, sin credenciales, sin objeto o huella distinta)."""
+    import tempfile
+
+    try:
+        f = ficha(nombre, indice)
+    except (KeyError, OSError, ValueError):
+        return None
+    if _pendiente(f) or not os.environ.get("R2_BUCKET") or not os.environ.get("R2_ACCOUNT_ID"):
+        return None
+    with tempfile.TemporaryDirectory() as td:
+        destino = Path(td) / "objeto"
+        if bajar(nombre, destino, cp, indice) != 0:
+            return None
+        return destino.read_bytes()
+
+
 def bajar(nombre: str, destino: Path, cp=_cp, indice: Path = INDICE) -> int:
     try:
         f = ficha(nombre, indice)
     except KeyError:
         print(f"fuente_r2: {nombre} no está en el índice", file=sys.stderr)
+        return 3
+    if _pendiente(f):
+        print(f"fuente_r2: {nombre} sin sha256 en el índice (pendiente de subir)", file=sys.stderr)
         return 3
     if not os.environ.get("R2_BUCKET") or not os.environ.get("R2_ACCOUNT_ID"):
         print("fuente_r2: sin credenciales de R2", file=sys.stderr)
@@ -75,6 +100,9 @@ def subir(nombre: str, fichero: Path, cp=_cp, indice: Path = INDICE) -> int:
         f = ficha(nombre, indice)
     except KeyError:
         print(f"fuente_r2: {nombre} no está en el índice", file=sys.stderr)
+        return 3
+    if _pendiente(f):
+        print(f"fuente_r2: {nombre} sin sha256 en el índice (pendiente de subir)", file=sys.stderr)
         return 3
     real = sha256(fichero)
     if real != f["sha256"]:

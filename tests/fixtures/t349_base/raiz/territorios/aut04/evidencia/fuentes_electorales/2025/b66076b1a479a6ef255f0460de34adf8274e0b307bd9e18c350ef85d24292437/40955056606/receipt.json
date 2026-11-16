@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "illes_balears",
+  "territory_name": "Islas Baleares",
+  "edition": "2025",
+  "run_id": 40955056606,
+  "artifact_name": "ddd-electoral-package-illes_balears-2025-40955056606",
+  "artifact_sha256": "2da4ef4a3e6340f98a8edcdefa772f4fe24ba6f4e0dbac8393af875255d34d89",
+  "source_commit": "4acacb7d34aed7562779f448357fab62ee7563e8",
+  "election_id": "illes_balears_parlament_2023",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-05-28",
+  "electoral_identity_sha256": "b66076b1a479a6ef255f0460de34adf8274e0b307bd9e18c350ef85d24292437"
+}

@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "nac10",
+  "territory_name": "Congreso Cáceres",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_caceres_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43761310403,
+    "artifact_name": "ddd-source-package-nac10-2025-43761310403",
+    "artifact_sha256": "5c40ef27c8dade26ceb0c0117304f3ab0cf1668139f869e241a172e27822e709",
+    "package_sha256": "f46866b842e5a1f4c7cd8ac414cc3a4f71d27e95bc8c08c4a3dd29d026da637c",
+    "source_commit": "849a7a28ee6caea7b9b48544ef5e8934b1b8001e",
+    "source_declaration": "territorios/nac10/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/nac10/evidencia/fuentes_territoriales/2025/fc099d2e8c9e6cfb47e810b09df8ac5938ea77b6f53765fc2d8cbbab33fd24f9/43761310403/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "fc099d2e8c9e6cfb47e810b09df8ac5938ea77b6f53765fc2d8cbbab33fd24f9",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "3fa2c769c350240fa2cdbc776fbb09ef165cd63044796fa926e770795c7e7cd7",
+    "compatibility_identity_sha256": "1654ac28faa46bf2dd56ecdb814628783f92525b9117532b7545ced6f4ffa323",
+    "remote_verification": {
+      "run_id": 43761310403,
+      "artifact_id": 14180049424,
+      "artifact_name": "ddd-source-package-nac10-2025-43761310403",
+      "artifact_sha256": "5c40ef27c8dade26ceb0c0117304f3ab0cf1668139f869e241a172e27822e709",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43766904886,
+    "artifact_name": "ddd-electoral-package-nac10-2025-43766904886",
+    "artifact_sha256": "be0652eb16e985e00c15431290e2269ecd36bc2b79663e5fd49c6c1b7af0e3d3",
+    "source_commit": "c085d224f10f369e6980bf23a9dbc4d4517d8311",
+    "receipt_path": "territorios/nac10/evidencia/fuentes_electorales/2025/d865a615c8616c203cd9f48ac172cc0c43d45e6be0c87fb345cf76d157682e03/43766904886/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_caceres_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "d865a615c8616c203cd9f48ac172cc0c43d45e6be0c87fb345cf76d157682e03",
+    "remote_verification": {
+      "run_id": 43766904886,
+      "artifact_id": 14182557994,
+      "artifact_name": "ddd-electoral-package-nac10-2025-43766904886",
+      "artifact_sha256": "be0652eb16e985e00c15431290e2269ecd36bc2b79663e5fd49c6c1b7af0e3d3",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "fc099d2e8c9e6cfb47e810b09df8ac5938ea77b6f53765fc2d8cbbab33fd24f9",
+  "electoral_compatibility_key": "d865a615c8616c203cd9f48ac172cc0c43d45e6be0c87fb345cf76d157682e03",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/nac10/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "7899bb1694b8003e139525ba559bc6ae7bcf4aee66629ba99fc1dabca5e71795"
+}

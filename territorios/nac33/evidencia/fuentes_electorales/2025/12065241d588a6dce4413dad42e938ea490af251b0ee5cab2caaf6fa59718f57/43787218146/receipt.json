@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac33",
+  "territory_name": "Congreso Asturias",
+  "edition": "2025",
+  "run_id": 43787218146,
+  "artifact_name": "ddd-electoral-package-nac33-2025-43787218146",
+  "artifact_sha256": "10df017929d39d2a1038536dfa7e73a22cd368924be63319f6e47bde76a9c7bb",
+  "source_commit": "9fe40dbcf32a83d9f5edf7b3356ab3cf623979f4",
+  "election_id": "congreso_asturias_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "12065241d588a6dce4413dad42e938ea490af251b0ee5cab2caaf6fa59718f57"
+}

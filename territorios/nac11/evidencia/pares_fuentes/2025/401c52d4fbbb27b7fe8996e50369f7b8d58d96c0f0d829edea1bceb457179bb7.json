@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "nac11",
+  "territory_name": "Congreso Cádiz",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_cadiz_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43761322715,
+    "artifact_name": "ddd-source-package-nac11-2025-43761322715",
+    "artifact_sha256": "b97f487a3ce270eb63e459a39e72c79ae752ea2795c4e5ecaf50fb6ea8c89c5b",
+    "package_sha256": "bc1a62ff52c956213d3b58c49e04066def1ccd021fd1eb350c12c751e11be4ce",
+    "source_commit": "849a7a28ee6caea7b9b48544ef5e8934b1b8001e",
+    "source_declaration": "territorios/nac11/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/nac11/evidencia/fuentes_territoriales/2025/60ef7e88aa1fdd17f6e4412910549cc707edc13993412a4617506027540e3db8/43761322715/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "60ef7e88aa1fdd17f6e4412910549cc707edc13993412a4617506027540e3db8",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "04f1d878fec2ddfce920d43c1dac6dcf3db3d3e992a5231b1094589faa179cd6",
+    "compatibility_identity_sha256": "4edcdd651a9cf479debec5cf4b965517093aff422d4f2d4d270662691666fc06",
+    "remote_verification": {
+      "run_id": 43761322715,
+      "artifact_id": 14180820877,
+      "artifact_name": "ddd-source-package-nac11-2025-43761322715",
+      "artifact_sha256": "b97f487a3ce270eb63e459a39e72c79ae752ea2795c4e5ecaf50fb6ea8c89c5b",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43767163695,
+    "artifact_name": "ddd-electoral-package-nac11-2025-43767163695",
+    "artifact_sha256": "3a41d6540ffdfa390feb8583eca9e0555d01790d9d81b8ae76749330045bd89d",
+    "source_commit": "28a64e412cf09d9b9b0404168fdd02724b83ce97",
+    "receipt_path": "territorios/nac11/evidencia/fuentes_electorales/2025/e3b25e21c4f656681272f211ef0a6a97550fdb153ed304bbcc5990cbc9e27820/43767163695/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_cadiz_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "e3b25e21c4f656681272f211ef0a6a97550fdb153ed304bbcc5990cbc9e27820",
+    "remote_verification": {
+      "run_id": 43767163695,
+      "artifact_id": 14182449888,
+      "artifact_name": "ddd-electoral-package-nac11-2025-43767163695",
+      "artifact_sha256": "3a41d6540ffdfa390feb8583eca9e0555d01790d9d81b8ae76749330045bd89d",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "60ef7e88aa1fdd17f6e4412910549cc707edc13993412a4617506027540e3db8",
+  "electoral_compatibility_key": "e3b25e21c4f656681272f211ef0a6a97550fdb153ed304bbcc5990cbc9e27820",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/nac11/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "401c52d4fbbb27b7fe8996e50369f7b8d58d96c0f0d829edea1bceb457179bb7"
+}

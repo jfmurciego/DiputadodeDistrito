@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac08",
+  "territory_name": "Congreso Barcelona",
+  "edition": "2025",
+  "run_id": 43763288591,
+  "artifact_name": "ddd-electoral-package-nac08-2025-43763288591",
+  "artifact_sha256": "90a56bc02d687a5fc972356057e605a4f624f52af538b2d3333575e5d9f52679",
+  "source_commit": "44b9d89ea1c279a9442e85b214e193aa46429240",
+  "election_id": "congreso_barcelona_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "c7a6d16a79157e465f13c90dec568f48cd993675c3332811dca89e38caed1951"
+}
