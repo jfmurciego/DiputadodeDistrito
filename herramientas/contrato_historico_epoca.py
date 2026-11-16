@@ -23,7 +23,8 @@ QUÉ HACE (determinista, sin reloj, sin red):
                 PUERTA_<t>_<AAAA_MM>.json: M07 PASS (o PASS_WITH_DECLARED_EXCEPTIONS con votos sin asignar ≤ 0,1 %; 2011: D-70),
                 contraste por partido con el BOE (historico_campana.contraste_boe, cobertura total) y K = escaños BOE = distritos M08.
                 Falla cerrado. MANIFEST.json con election_date/election_id (dimensión de elección del registro, T-199).
-  `cadena`      materializar + admisión del contrato (ddd_core.territory_contract) + modulos/01..06 + electoral (piloto local).
+  `cadena`      materializar + admisión del contrato (ddd_core.territory_contract ≥ 1.5.0: K contra el contrato de su elección)
+                + modulos/01..06 + electoral (piloto local).
 NO HACE: descargar (las fuentes las baja quien ejecuta: docs/ESTUDIOS/T365_HISTORICO_POR_EPOCA/bajar_fuentes.sh), publicar ni
   escribir en el registro del visor (T-355).
 Uso: python herramientas/contrato_historico_epoca.py contrato --eleccion 2019-11 --tabla poblacion.csv --tabla-origen "T-358 …"
@@ -57,9 +58,6 @@ LEGISLATURA = "configuracion/legislatura_vigente.yaml"
 # elección → clave del espejo, fecha (reagregacion_historico.FECHAS), CSV BOE (historico_campana.OFICIAL_BOE) y año de referencia
 # de la población (D-126, poblacion_seccion_historica.ELECCIONES). Se comprueban contra esos módulos en `_eleccion`.
 ELECCIONES = {"2011-11": "201111", "2015-12": "201512", "2016-06": "201606", "2019-04": "201904", "2019-11": "201911"}
-# La admisión compara K con el catálogo maestro (edición 2025): en el histórico K es el del BOE por decisión D-125, así que solo
-# esas tres diferencias se aceptan (cualquier otro error de admisión falla). El catálogo no tiene dimensión de elección (T-355).
-EXCEPCION_K_CATALOGO = ("incoherencia K catálogo/contrato", "incoherencia origen de K", "incoherencia justificación de K")
 UMBRAL_RELLENO_PCT = 1  # D-126: > 1 % de población rellenada → la provincia no se publica sin decisión del propietario
 
 
@@ -197,7 +195,10 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
         prell = sum(x["poblacion"] for x in rell)
         bloqueada = prell * 100 > total * UMBRAL_RELLENO_PCT or not filas
         provincias[c] = {
-            "territorio": t, "provincia": boe[c]["provincia"], "K": boe[c]["K"],
+            "territorio": t, "provincia": boe[c]["provincia"], "K": boe[c]["K"], "k_source": "norma",
+            # sin «/» ni extensión: ddd_core.config.load_params_yaml lo tomaría por ruta en el contrato de provincia
+            "k_rationale": f"D-125: K = escaños oficiales de {t} en la elección {eleccion} según {meta_boe.get('boe')} "
+                           f"(CSV de T-330, sha256 {meta_boe['sha256_csv'][:12]})",
             "contrato_base": {"ruta": base.relative_to(root).as_posix(), "sha256": sha256(base)},
             "votos": {"ruta": ruta, "sha256": fv["sha256"], "bytes": fv.get("bytes"), "r2_clave": rv.get("clave")},
             "poblacion": {"secciones": len(filas), "total": total, "secciones_no_dato": len(rell),
@@ -290,10 +291,8 @@ def contrato_provincia(base: dict, c: dict, cpro: str, eleccion: str, secc_rel: 
         "filters": {"year_col": "Periodo", "year_value": anio_p}, "container": "file", "materialized_format": "csv",
         "archive_member": "", "encoding": "utf-8"}
     tc = cfg["territory_contract"]
-    tc.update({"k_districts": k, "k_source": "norma", "k_reference_source": c["escanos"]["boe"],
-               "k_reference_scope": "escanos_oficiales_eleccion",
-               "k_rationale": f"D-125: K = escaños oficiales de {t} en la elección {eleccion} según {c['escanos']['boe']} "
-                              f"(CSV de T-330, sha256 {c['escanos']['sha256'][:12]})"})
+    tc.update({"k_districts": k, "k_source": p["k_source"], "k_reference_source": c["escanos"]["boe"],
+               "k_reference_scope": "escanos_oficiales_eleccion", "k_rationale": p["k_rationale"]})
     cfg["modulos"]["modulo_04_generar_semillas"]["k_districts"] = k
     cfg["modulos"]["modulo_06_consolidar_distritos"]["expected_districts"] = k
     v = cfg["validation"]
@@ -483,11 +482,9 @@ def electoral(eleccion: str, territorio: str, fuentes: Path, salida: Path, root:
 def cadena(eleccion: str, territorio: str, fuentes: Path, salida: Path, root: Path = ROOT) -> int:
     from ddd_core.territory_contract import validate_production_contract
     params = materializar(eleccion, territorio, fuentes, root)
-    adm = validate_production_contract(params, expected_territory=territorio)
-    errores = [e for e in adm["errors"] if not e.startswith(EXCEPCION_K_CATALOGO)]
-    if errores:
-        raise ErrorContrato(f"CONTRATO_NO_ADMITIDO {params}: {errores}")
-    print(f"[T-365] admisión: {len(adm['errors']) - len(errores)} diferencias de K con el catálogo 2025 (D-125: K del BOE)", flush=True)
+    adm = validate_production_contract(params, expected_territory=territorio)  # K contra el contrato de SU elección (1.5.0)
+    if adm["status"] != "ADMITTED":
+        raise ErrorContrato(f"CONTRATO_NO_ADMITIDO {params}: {adm['errors']}")
     for n in range(1, 7):
         mod = sorted((root / "modulos").glob(f"0{n}_*.py"))[0]
         r = subprocess.run([sys.executable, str(mod), "--params", str(params)], cwd=root, capture_output=True, text=True)

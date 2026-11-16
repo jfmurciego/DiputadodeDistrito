@@ -25,8 +25,10 @@ fuentes (`io.input`: seccionado del año y población en CSV `Periodo,Secciones,
 los del contrato base (no se cambian sin decisión del propietario). Falla cerrado si: una fuente no coincide en sha256, el contrato base
 cambió, seccionado y población no casan, un puente topológico apunta a una sección inexistente en el año, o hay `topology_accreditation`.
 
-La admisión (`ddd_core.territory_contract`) compara K con el catálogo maestro 2025: se aceptan solo las tres diferencias de K
-(D-125 fija K = BOE); cualquier otro error de admisión falla.
+Admisión: `ddd_core.territory_contract` 1.5.0 añade la dimensión de elección al catálogo (decisión del Planificador, 16-11): un
+contrato con `meta.historico_epoca` compara K, origen y justificación con la provincia del contrato de SU elección (cuyo sha256 debe
+coincidir); nivel y autorización siguen saliendo del catálogo maestro. Sin `historico_epoca`, idéntico a 1.4.1: comprobado sobre los
+172 contratos `territorios/*/config/*_20*.yaml` (0 diferencias) y fijado por test. No está en el cierre de imports de M05: huellas intactas.
 
 ## 3. Reutilización
 
@@ -49,10 +51,11 @@ M06/M08 cambian de hash por la fecha interna (conocido).
 
 ## 5. Riesgos y bloqueos
 
-1. **Casado población ↔ seccionado (bloqueo, decisión).** En 2019-11, 20 de 52 provincias tienen de 1 a 14 secciones sin población
-   o con población sin geometría (`casado_2019_11.csv`; T-357 §3 ya lo anticipaba). Hoy fallan cerradas en `materializar`. Hace falta
-   una regla (¿la cubre T-364 con el ajuste municipal?, ¿sección nueva = reparto de su madre?) antes de la campaña. Las otras 4 elecciones
-   no están medidas (mismo script).
+1. **Casado población ↔ seccionado.** En 2019-11, 20 de 52 provincias tienen de 1 a 14 secciones sin población o con población sin
+   geometría (`casado_2019_11.csv`; T-357 §3). Decisión del Planificador (16-11, opción a): las secciones del seccionado que el Atlas no
+   lista se estiman con la regla de D-128 (origen `no_listada`, cuentan en el % y el umbral del 1 %; nunca población 0 ni fusión);
+   lo implementa T-364 (#840). Hasta regenerar los contratos con esa tabla, `materializar` falla cerrado en esas provincias. La
+   «población sin geometría» (secciones del Atlas inexistentes en el seccionado del año) sigue fallando cerrada.
 2. **Población provisional.** Los 5 contratos declaran la tabla de T-358 (D-126). Con la de T-364 (D-128; #840: `poblacion_seccion_<AAAA-MM>.csv`, cabecera `sección,población,origen,ajustada,años_fuente`, generada con `--estricto`; `leer_tabla` ya la lee) se regeneran (versión 1.1.0,
    copia en `legacy/`). `estado` BLOQUEADA_RELLENO: 12 provincias en 2015-12, 11 en 2016-06 y 11 en 2019-04 (> 1 %, D-126).
 3. **Contrato base cambiante.** Si un robot reescribe `nacNN_2025.yaml`, `materializar` falla (huella): se regenera el contrato (barato).

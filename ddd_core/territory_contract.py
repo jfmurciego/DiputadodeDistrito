@@ -3,9 +3,9 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: Puerta de admisión de contrato territorial
-VERSIÓN: 1.4.1
-NOMBRE DE VERSIÓN: Admisión con id viejo o nuevo
-FECHA: 2026-11-12
+VERSIÓN: 1.5.0
+NOMBRE DE VERSIÓN: K del catálogo de la elección (histórico por época)
+FECHA: 2026-11-16
 ESTADO: vigente — R036
 QUÉ HACE: valida el contrato M01-M06 y comunica por separado si está autorizado, bloqueado o limitado a preflight.
 CAMBIOS: añade production_authorization coherente entre catálogo y contrato sin confundir validez estructural con permiso de ejecución.
@@ -15,7 +15,12 @@ CAMBIOS 1.4.0 (T-214): el territorio solicitado se compara con meta.territory_id
   (ddd_core/territorio_ids.py): `congreso_alava` y `nac01` admiten el mismo contrato; `madrid` y `nac28`, no.
 MOTIVO 1.4.0: corte 5.0.0 paso 1-2 (D-61): leer ambos ids durante la convivencia de alias.
 CAMBIOS 1.4.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/ddd_core/territory_contract_v1.4.0_20261112.py
+CAMBIOS 1.5.0 (T-365, D-125): dimensión de elección en el catálogo: un contrato con `meta.historico_epoca.eleccion` compara
+  K, origen y justificación con la provincia del contrato de SU elección (configuracion/historico_epoca/contrato_<AAAA_MM>.json,
+  cuyo sha256 debe ser el de `meta.historico_epoca.contrato_sha256`), no con el catálogo maestro 2025; el resto del catálogo
+  (nivel y autorización) se sigue leyendo del maestro. Sin `historico_epoca` el resultado es idéntico al de 1.4.1.
+MOTIVO 1.5.0: decisión del Planificador (16-11): K por elección como dimensión del catálogo, no excepción suelta.
+ANTERIOR: legacy/ddd_core/territory_contract_v1.4.1_20261116.py
 """
 from __future__ import annotations
 
@@ -113,6 +118,33 @@ def _catalogue_entry(root: Path, territory_id: Any, errors: list[str]) -> Mappin
     return matches[0]
 
 
+def _catalogo_eleccion(root: Path, cfg: Mapping[str, Any], territory_id: Any, catalogue: Mapping[str, Any],
+                       errors: list[str]) -> Mapping[str, Any]:
+    """K de la elección (T-365): sin `meta.historico_epoca` devuelve el catálogo maestro tal cual."""
+    epoca = (cfg.get("meta") or {}).get("historico_epoca")
+    if not epoca:
+        return catalogue
+    eleccion = str((epoca or {}).get("eleccion") or "") if isinstance(epoca, Mapping) else ""
+    if not re.fullmatch(r"\d{4}-\d{2}", eleccion):
+        errors.append("meta.historico_epoca.eleccion debe ser AAAA-MM")
+        return {}
+    path = root / "configuracion" / "historico_epoca" / f"contrato_{eleccion.replace('-', '_')}.json"
+    if not path.is_file():
+        errors.append(f"falta el contrato de la elección {eleccion}")
+        return {}
+    if hashlib.sha256(path.read_bytes()).hexdigest() != str(epoca.get("contrato_sha256") or ""):
+        errors.append(f"el contrato de la elección {eleccion} no coincide con meta.historico_epoca.contrato_sha256")
+        return {}
+    data = json.loads(path.read_text(encoding="utf-8"))
+    provincias = [p for p in (data.get("provincias") or {}).values()
+                  if isinstance(p, Mapping) and mismo_territorio(str(p.get("territorio") or ""), str(territory_id))]
+    if len(provincias) != 1:
+        errors.append(f"el contrato de la elección {eleccion} debe contener exactamente una provincia para {territory_id!r}")
+        return {}
+    p = provincias[0]
+    return {**catalogue, "k_districts": p.get("K"), "k_source": p.get("k_source"), "k_rationale": p.get("k_rationale")}
+
+
 def validate_production_contract(params_path: str | Path, *, expected_territory: str | None = None) -> dict[str, Any]:
     """Return an auditable admission report; no territorial module is executed."""
     params = Path(params_path).resolve()
@@ -144,7 +176,7 @@ def validate_production_contract(params_path: str | Path, *, expected_territory:
             f"{sorted(PRODUCTION_AUTHORIZATIONS)}"
         )
 
-    catalogue = _catalogue_entry(root, territory_id, errors)
+    catalogue = _catalogo_eleccion(root, cfg, territory_id, _catalogue_entry(root, territory_id, errors), errors)
     if catalogue and catalogue.get("contract_level") != "production_m01_m06":
         errors.append("el catálogo no declara el territorio como production_m01_m06")
     _same(

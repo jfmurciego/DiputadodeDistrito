@@ -7,20 +7,21 @@
  "kind": "historico_epoca",
  "contrato": {
   "ruta": "configuracion/historico_epoca/contrato_2019_11.json",
-  "sha256": "bdc9d2b7c14bfd752c5b2297fb8e3a6973cbec4c072c641e7d996968c110d40c"
+  "sha256": "4d44554904c896162d390c74b597471107279939e4e7d6f0f45382b1f9ef7dbf"
  },
  "contrato_provincia": {
   "ruta": "territorios/nac22/config/nac22_h2019_11.yaml",
-  "sha256": "54817b2e57424f8d928155e77c9ce5271d51ab6a394f0d6da76eb2b14f43b2d4"
+  "sha256": "ba2f6ab806479515b6dc9fabe0efe3d578c74f3e4444d3c6ff26c6dce857655d"
  },
  "m06": {
   "composicion_sha256": "adf786fc5372223eab261dad301c941a41d4d36d5f25d9c87e2788921edb79d7",
-  "distritos_sha256": "6114634b19d2826e5befcb0583e4dbc6d09565921dbc66e14d40d889c7bda09e"
+  "distritos_sha256": "72b889b7626d1c65fcc954b1a77e59e84c7dee3c6eac5edad9788d08357a5516"
  },
  "m08": {
-  "sha256": "8415a1b92f2cede28ad8d7438739d7521547f563445ba9c2ddebd9c1ee555b72"
+  "sha256": "1c64f1dfceeccc59c113bd5638bc07b635a7da9b80a3c4eaf4b92f2a90a12ea6"
  },
  "votos_sha256": "0e144f90e1c6b65170faf360d5d9107d753ff304184080936e3f928f0dfd5cb6",
+ "secciones_votos_sin_distrito": [],
  "ganadores": {
   "0": "PSOE",
   "1": "PSOE",

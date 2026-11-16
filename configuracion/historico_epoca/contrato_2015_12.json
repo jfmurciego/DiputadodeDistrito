@@ -48,6 +48,8 @@
    "territorio": "nac01",
    "provincia": "Álava",
    "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac01 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac01/config/nac01_2025.yaml",
     "sha256": "05f8070166fc55f340c25f033c83985f736d9bdfcc8d89263ea46257a81f4cb7"
@@ -71,6 +73,8 @@
    "territorio": "nac02",
    "provincia": "Albacete",
    "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac02 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac02/config/nac02_2025.yaml",
     "sha256": "f03e8b35bf6af895238299f764b20695342a371605e1d725bd9fe30a3437c62f"
@@ -94,6 +98,8 @@
    "territorio": "nac03",
    "provincia": "Alicante",
    "K": 12,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac03 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac03/config/nac03_2025.yaml",
     "sha256": "7cea93390865dd86b19ea6996a1a03bbf76eb195e1bca1d40b22ebaea375f0ad"
@@ -117,6 +123,8 @@
    "territorio": "nac04",
    "provincia": "Almería",
    "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac04 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac04/config/nac04_2025.yaml",
     "sha256": "ecff47ed5c297cd9d754391ce9e3d31d37f041e1ba2358372d32e85292c8ca34"
@@ -140,6 +148,8 @@
    "territorio": "nac05",
    "provincia": "Ávila",
    "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac05 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac05/config/nac05_2025.yaml",
     "sha256": "76e3975db834c5093eac3a0278aa2977613f33dd4a30ffc621df25644cfd194c"
@@ -163,6 +173,8 @@
    "territorio": "nac06",
    "provincia": "Badajoz",
    "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac06 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac06/config/nac06_2025.yaml",
     "sha256": "9b2b5eb0debc84a6de2cd18c84708f56860c4102458430bbcb7c182411d96d7c"
@@ -186,6 +198,8 @@
    "territorio": "nac07",
    "provincia": "Baleares",
    "K": 8,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac07 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac07/config/nac07_2025.yaml",
     "sha256": "ad9ea641fbfe4348d3aee5c5a1ce330c828d045b1acab735d28387eec8253b0e"
@@ -209,6 +223,8 @@
    "territorio": "nac08",
    "provincia": "Barcelona",
    "K": 31,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac08 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac08/config/nac08_2025.yaml",
     "sha256": "b68ba153e7c5537f3a69d3369c54da6cca6e5789084f8a3f4f1a222c167d56a9"
@@ -232,6 +248,8 @@
    "territorio": "nac09",
    "provincia": "Burgos",
    "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac09 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac09/config/nac09_2025.yaml",
     "sha256": "7c295af71cee5ac34b1a618627791c48a7537950cd4991f86c7482aa0c5e7ab0"
@@ -255,6 +273,8 @@
    "territorio": "nac10",
    "provincia": "Cáceres",
    "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac10 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac10/config/nac10_2025.yaml",
     "sha256": "bf54dd34f428a4f3e21856cfc12253e1754de5173690514353a47ffa5d4d2b45"
@@ -278,6 +298,8 @@
    "territorio": "nac11",
    "provincia": "Cádiz",
    "K": 9,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac11 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac11/config/nac11_2025.yaml",
     "sha256": "d664cc847822cfa43e382b7871f48a3add0afdb2d9dfbc75735422823366459c"
@@ -301,6 +323,8 @@
    "territorio": "nac12",
    "provincia": "Castellón",
    "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac12 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac12/config/nac12_2025.yaml",
     "sha256": "e0e7c06f24060be67315fc9513c2e4fc6105df8972d3468ec60fc213393599d7"
@@ -324,6 +348,8 @@
    "territorio": "nac13",
    "provincia": "Ciudad Real",
    "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac13 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac13/config/nac13_2025.yaml",
     "sha256": "d2e806e9d0a2b9df2e46c084770a3c3c0631fbd146b86cbdf8b1e175b76b0a89"
@@ -347,6 +373,8 @@
    "territorio": "nac14",
    "provincia": "Córdoba",
    "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac14 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac14/config/nac14_2025.yaml",
     "sha256": "af3ad9ef1fdfe8a61370ae3797b0f54456d91e921710c6aa310daac7db52ae44"
@@ -370,6 +398,8 @@
    "territorio": "nac15",
    "provincia": "La Coruña",
    "K": 8,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac15 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac15/config/nac15_2025.yaml",
     "sha256": "8c7e31cd1a806081a8998926fbc3a717fcaa7042ef6935672b02ae0a2e670f08"
@@ -393,6 +423,8 @@
    "territorio": "nac16",
    "provincia": "Cuenca",
    "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac16 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac16/config/nac16_2025.yaml",
     "sha256": "1f45734e10bdfde75d14e7806fa094cf171c1490c486999407821199e649f862"
@@ -416,6 +448,8 @@
    "territorio": "nac17",
    "provincia": "Gerona",
    "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac17 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac17/config/nac17_2025.yaml",
     "sha256": "ebc7502f24519948871868bec3e8eb35443bfade837e94864ef8d4d85b75a2db"
@@ -439,6 +473,8 @@
    "territorio": "nac18",
    "provincia": "Granada",
    "K": 7,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac18 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac18/config/nac18_2025.yaml",
     "sha256": "4d869bdb96ac977ab0f524542ba5ac7e0182a183303e925ea6e0a63deb674e81"
@@ -462,6 +498,8 @@
    "territorio": "nac19",
    "provincia": "Guadalajara",
    "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac19 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac19/config/nac19_2025.yaml",
     "sha256": "6fddd69e6bc2617a17f57a62bc30ab4f227bfd464963e95355ce13a31e7550e0"
@@ -485,6 +523,8 @@
    "territorio": "nac20",
    "provincia": "Guipúzcoa",
    "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac20 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac20/config/nac20_2025.yaml",
     "sha256": "30bf741623a822a89a911995eed0cf407eaecf16a2ff87566f749dfac8b832c5"
@@ -508,6 +548,8 @@
    "territorio": "nac21",
    "provincia": "Huelva",
    "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac21 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac21/config/nac21_2025.yaml",
     "sha256": "d56755d57e552e5fabfddc6e41c4246e6785a7ddb47c7a41577851f8acbf9c97"
@@ -531,6 +573,8 @@
    "territorio": "nac22",
    "provincia": "Huesca",
    "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac22 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac22/config/nac22_2025.yaml",
     "sha256": "ea01c1ca5d5d43625bc9f20f0b8c358f075b7bc8c064dde860052fb667863ac1"
@@ -554,6 +598,8 @@
    "territorio": "nac23",
    "provincia": "Jaén",
    "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac23 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac23/config/nac23_2025.yaml",
     "sha256": "bfae4f25c0ce07adb42702c597d2c4ff2d16ab6d8d783531c844c93547912032"
@@ -577,6 +623,8 @@
    "territorio": "nac24",
    "provincia": "León",
    "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac24 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac24/config/nac24_2025.yaml",
     "sha256": "9451a2feb3a931857da71a8e119a469eb830cdbab7ffa127cf5943cf954d936a"
@@ -600,6 +648,8 @@
    "territorio": "nac25",
    "provincia": "Lérida",
    "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac25 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac25/config/nac25_2025.yaml",
     "sha256": "04e3069a0cc13ad7ab2e6883d1ed16b615cec5d4b62f2bc46db6f7c678657151"
@@ -623,6 +673,8 @@
    "territorio": "nac26",
    "provincia": "La Rioja",
    "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac26 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac26/config/nac26_2025.yaml",
     "sha256": "742231bb764be3a06e6aacecb04d96b208b048b4218665043058aeeed4c56b57"
@@ -646,6 +698,8 @@
    "territorio": "nac27",
    "provincia": "Lugo",
    "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac27 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac27/config/nac27_2025.yaml",
     "sha256": "fae73006bc524bf29db5ebee8f2e1f658734e227a8177dd4b8fa24993ff09722"
@@ -669,6 +723,8 @@
    "territorio": "nac28",
    "provincia": "Madrid",
    "K": 36,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac28 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac28/config/nac28_2025.yaml",
     "sha256": "9f424a7aa62af5b9b4a1f5332c23b0334dae15a8e12a3a58c13a051805ee6ce6"
@@ -692,6 +748,8 @@
    "territorio": "nac29",
    "provincia": "Málaga",
    "K": 11,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac29 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac29/config/nac29_2025.yaml",
     "sha256": "3dc5abb03be82cb8a8a21ce9c56c6b84b567d2f2a6d75c1e55c36a6f30e176f8"
@@ -715,6 +773,8 @@
    "territorio": "nac30",
    "provincia": "Murcia",
    "K": 10,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac30 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac30/config/nac30_2025.yaml",
     "sha256": "98a2efd7fe47c5e997197919f69bfc8cb2738b03a2e3c6fcaa5200f48dde9c7f"
@@ -738,6 +798,8 @@
    "territorio": "nac31",
    "provincia": "Navarra",
    "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac31 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac31/config/nac31_2025.yaml",
     "sha256": "0ae03c9025d79633d4c3fec0bb8a0b53ff0be4975ba358f3f81fc3946bb47706"
@@ -761,6 +823,8 @@
    "territorio": "nac32",
    "provincia": "Orense",
    "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac32 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac32/config/nac32_2025.yaml",
     "sha256": "12e713db0f45bbdd6648853e6bcaa6b85088a1727e895837a0d241a6a322b6be"
@@ -784,6 +848,8 @@
    "territorio": "nac33",
    "provincia": "Asturias",
    "K": 8,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac33 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac33/config/nac33_2025.yaml",
     "sha256": "7d57356715752e816404262263442db6d4b6df93355674c9a733cdd587adb914"
@@ -807,6 +873,8 @@
    "territorio": "nac34",
    "provincia": "Palencia",
    "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac34 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac34/config/nac34_2025.yaml",
     "sha256": "25b2e1df6eb4909f20640aa64a1df051ae59e883770b0f1464499e38237c17ec"
@@ -830,6 +898,8 @@
    "territorio": "nac35",
    "provincia": "Las Palmas",
    "K": 8,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac35 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac35/config/nac35_2025.yaml",
     "sha256": "6a293955ac66b5d134e827eeffe6db314d05ce2b5c5777bb6fc76a1aeef2729c"
@@ -853,6 +923,8 @@
    "territorio": "nac36",
    "provincia": "Pontevedra",
    "K": 7,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac36 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac36/config/nac36_2025.yaml",
     "sha256": "58702d2bea8bd6174bbd03b580ff9a49aff3f32d8cc627a140455f8923e88c85"
@@ -876,6 +948,8 @@
    "territorio": "nac37",
    "provincia": "Salamanca",
    "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac37 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac37/config/nac37_2025.yaml",
     "sha256": "9c94cdf7d5bbedb93b25ac48971bd6a2dba3fbe7fd078a9aff84c0a30e2b4f5b"
@@ -899,6 +973,8 @@
    "territorio": "nac38",
    "provincia": "Santa Cruz de Tenerife",
    "K": 7,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac38 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac38/config/nac38_2025.yaml",
     "sha256": "55791c2c483258b56e5e07bd81e639e23bc655b5419d533bf224360475051f5c"
@@ -922,6 +998,8 @@
    "territorio": "nac39",
    "provincia": "Cantabria",
    "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac39 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac39/config/nac39_2025.yaml",
     "sha256": "8e2b6bba83b05216c00574ac476d580050521b47e406c4614f8657743bf8cba1"
@@ -945,6 +1023,8 @@
    "territorio": "nac40",
    "provincia": "Segovia",
    "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac40 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac40/config/nac40_2025.yaml",
     "sha256": "4f0e1778667801d0741b5e5b8d7c49e4be2bbab65b5387779da80ae8a6ca0b7a"
@@ -968,6 +1048,8 @@
    "territorio": "nac41",
    "provincia": "Sevilla",
    "K": 12,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac41 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac41/config/nac41_2025.yaml",
     "sha256": "46c59eb1bcee37f6086497bcfe96dffa294d8384d384fc474ee9df61485e952f"
@@ -991,6 +1073,8 @@
    "territorio": "nac42",
    "provincia": "Soria",
    "K": 2,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac42 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac42/config/nac42_2025.yaml",
     "sha256": "108558010d1792abc66ed9c03893ea1cdfe86a32e833b1e9189fef9e810868e1"
@@ -1014,6 +1098,8 @@
    "territorio": "nac43",
    "provincia": "Tarragona",
    "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac43 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac43/config/nac43_2025.yaml",
     "sha256": "d390f3113e734dfc3b590b071546f26b96edf705fa1a4bed68f3ad6a03508f09"
@@ -1037,6 +1123,8 @@
    "territorio": "nac44",
    "provincia": "Teruel",
    "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac44 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac44/config/nac44_2025.yaml",
     "sha256": "d43011d3f6e7a6b3d0c0b7c33401536611b537c9daa261f796de069be9896aa7"
@@ -1060,6 +1148,8 @@
    "territorio": "nac45",
    "provincia": "Toledo",
    "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac45 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac45/config/nac45_2025.yaml",
     "sha256": "5243b6912d98b82b09f2054213bec4ece75c80ed856e186df4ec8baf63ba62a5"
@@ -1083,6 +1173,8 @@
    "territorio": "nac46",
    "provincia": "Valencia",
    "K": 15,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac46 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac46/config/nac46_2025.yaml",
     "sha256": "eda58e868eb565bcddadc3622e2fb8152ad17ffb66a392fd4a178577f9bf3d17"
@@ -1106,6 +1198,8 @@
    "territorio": "nac47",
    "provincia": "Valladolid",
    "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac47 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac47/config/nac47_2025.yaml",
     "sha256": "78ba3f3ac30599c0452a87b371151777a9697995b2284bcd93741f5d9dbaaafc"
@@ -1129,6 +1223,8 @@
    "territorio": "nac48",
    "provincia": "Vizcaya",
    "K": 8,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac48 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac48/config/nac48_2025.yaml",
     "sha256": "5295b77539ddbdddf1ed6ba9bfb3da3949690a771c763d357b279492381ede65"
@@ -1152,6 +1248,8 @@
    "territorio": "nac49",
    "provincia": "Zamora",
    "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac49 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac49/config/nac49_2025.yaml",
     "sha256": "1978b3795ea633ec8eaca2117bb1d395ded0cd7276a496b20af5f90cb3a270d5"
@@ -1175,6 +1273,8 @@
    "territorio": "nac50",
    "provincia": "Zaragoza",
    "K": 7,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac50 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac50/config/nac50_2025.yaml",
     "sha256": "2394d71a6319ad0e4fc6e7a5e8a1acdf63b645f0af61104be1db3489830a1319"
@@ -1198,6 +1298,8 @@
    "territorio": "nac51",
    "provincia": "Ceuta",
    "K": 1,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac51 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac51/config/nac51_2025.yaml",
     "sha256": "cbc3b939ec5846a9c0f1eac981e38dc3ceb7a142a96ee53012fdfd9b842ed925"
@@ -1221,6 +1323,8 @@
    "territorio": "nac52",
    "provincia": "Melilla",
    "K": 1,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac52 en la elección 2015-12 según BOE-A-2016-867 (CSV de T-330, sha256 6dc9c7e7196e)",
    "contrato_base": {
     "ruta": "territorios/nac52/config/nac52_2025.yaml",
     "sha256": "66ba9616bd9d8a7271fd2072b24cf78ac1ee35fbe8e737ee4bf57c0e73d11e91"

@@ -19,7 +19,7 @@ meta:
     election_date: '2019-11-10'
     election_id: nac22_2019-11-10
     contrato: configuracion/historico_epoca/contrato_2019_11.json
-    contrato_sha256: bdc9d2b7c14bfd752c5b2297fb8e3a6973cbec4c072c641e7d996968c110d40c
+    contrato_sha256: 4d44554904c896162d390c74b597471107279939e4e7d6f0f45382b1f9ef7dbf
     contrato_base_sha256: ea01c1ca5d5d43625bc9f20f0b8c358f075b7bc8c064dde860052fb667863ac1
     decision: D-125
 io:

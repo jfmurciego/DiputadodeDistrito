@@ -79,7 +79,7 @@ def _contrato_sintetico(tabla_sha: str, base_sha: str, secc_sha: str, votos_sha:
             "seccionado": {"anio": 2020, "fichero": "seccionado_2020.zip", "sha256": secc_sha},
             "poblacion": {"fichero": "tabla.csv", "sha256": tabla_sha, "anio_referencia": 2020},
             "escanos": {"csv": "configuracion/x.csv", "sha256": "e" * 64, "boe": "BOE-A-2019-18147"},
-            "provincias": {"22": {"territorio": "nac22", "K": 3, "estado": "LISTA",
+            "provincias": {"22": {"territorio": "nac22", "K": 3, "estado": "LISTA", "k_source": "norma", "k_rationale": "D-125: K BOE",
                                   "contrato_base": {"ruta": "territorios/nac22/config/nac22_2025.yaml", "sha256": base_sha},
                                   "votos": {"ruta": "data/201911/sekzioa/22.json", "sha256": votos_sha},
                                   "poblacion": {"secciones": 2, "total": 30}}}}
@@ -209,6 +209,51 @@ class Materializar(unittest.TestCase):
             with parche, self.assertRaises(SystemExit) as cm:
                 che.materializar("2019-11", "nac22", fuentes, root, cpath)
             self.assertIn("FUENTE_HUELLA_DISTINTA", str(cm.exception))
+
+
+class AdmisionPorEleccion(unittest.TestCase):
+    """territory_contract 1.5.0: con `meta.historico_epoca` K se compara con el contrato de SU elección; sin él, como 1.4.1."""
+
+    def _contrato(self, mutar=None):
+        import yaml
+        base = yaml.safe_load((ROOT / "territorios/nac22/config/nac22_2025.yaml").read_text(encoding="utf-8"))
+        cpath = che.ruta_contrato("2019-11")
+        c = json.loads(cpath.read_text(encoding="utf-8"))
+        cfg = che.contrato_provincia(base, c, "22", "2019-11", "s.zip", "p.csv", {"seccionado": "c" * 64, "poblacion": "f" * 64},
+                                     _sha(cpath))
+        if mutar:
+            mutar(cfg)
+        out = ROOT / "territorios/nac22/config/nac22_h2019_11_t365test.yaml"
+        out.write_text(yaml.safe_dump(cfg, allow_unicode=True), encoding="utf-8")
+        self.addCleanup(out.unlink)
+        from ddd_core.territory_contract import validate_production_contract
+        return validate_production_contract(out, expected_territory="nac22")
+
+    def test_k_de_la_eleccion_admite(self):
+        self.assertEqual(self._contrato()["errors"], [])
+
+    def test_k_distinto_del_de_la_eleccion_falla(self):
+        def k2(cfg):
+            cfg["territory_contract"]["k_districts"] = 2  # el K del catálogo 2025: ya no vale para 2019-11
+        self.assertTrue(any("K catálogo/contrato" in e for e in self._contrato(k2)["errors"]))
+
+    def test_huella_del_contrato_de_eleccion_distinta_falla(self):
+        def otra(cfg):
+            cfg["meta"]["historico_epoca"]["contrato_sha256"] = "0" * 64
+        self.assertTrue(any("contrato_sha256" in e for e in self._contrato(otra)["errors"]))
+
+    def test_sin_historico_compara_con_el_catalogo_maestro(self):
+        def sin(cfg):
+            cfg["meta"].pop("historico_epoca")  # control negativo: K=3 contra el catálogo 2025 (K=2) falla como siempre
+        self.assertTrue(any("K catálogo/contrato" in e for e in self._contrato(sin)["errors"]))
+
+    def test_vigente_igual_sin_la_rama_nueva(self):
+        import ddd_core.territory_contract as tc
+        f = ROOT / "territorios/nac22/config/nac22_2025.yaml"
+        a = tc.validate_production_contract(f)
+        with mock.patch.object(tc, "_catalogo_eleccion", lambda root, cfg, t, cat, err: cat):
+            b = tc.validate_production_contract(f)
+        self.assertEqual(a, b)
 
 
 class Puerta(unittest.TestCase):
