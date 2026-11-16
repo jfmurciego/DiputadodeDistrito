@@ -111,7 +111,7 @@ def main(argv: list[str]) -> int:
             print(__doc__, file=sys.stderr)
             return 2
     except (ValueError, OSError) as exc:
-        print(f"::error::{exc}")
+        print(f"::error::{exc}", file=sys.stderr)  # stderr: la salida estándar se captura con $(…) y ocultaría la causa
         return 1
     return 0
 

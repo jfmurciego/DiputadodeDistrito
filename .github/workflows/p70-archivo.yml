@@ -11,7 +11,9 @@
 #   Cron diario 05:17 = P71 todo lo vivo. `workflow_call` conserva las entradas técnicas de la 00 (job `recuperar_electoral`, P72 producto).
 #   Concurrencia: P71 (los dos), y P73 comparten el grupo `archivar-artefactos-r2` (un solo escritor en R2); P72 conserva sus grupos por
 #   territorio y de composición. Borrado real (P73 sin simular) solo con el entorno `produccion`; el sha aprobado de la lista vive en
-#   docs/ESTUDIOS/T145_PODA_R2/SHA256_APROBADO.txt (CODEOWNERS; solo cambia por PR revisada).
+#   docs/ESTUDIOS/T145_PODA_R2/SHA256_APROBADO.txt: el workflow lo lee de main y `p70_resolver.py sha-poda` exige sha == sha256(ola1_borrar.csv);
+#   un test fija el literal. Sin revisor en `produccion` (D-127) ni sha tecleado, `simular` desmarcado borra sin paso humano: la barrera real es
+#   la frase de campaña del propietario en el chat del Operador (D-52).
 # CAMBIOS: 1.0.0 (T-368): fichero nuevo; sustituye a podar-r2.yml 1.0.1, recuperar-producto-electoral-durable.yml 1.0.5 y
 #   mantenimiento-programado.yml 1.1.0 (copias en legacy/workflows/podar-r2_v1.0.1, recuperar-producto-electoral-durable_v1.0.5 y mantenimiento-programado_v1.1.0, _20261116). P71 sin «caduca antes»; P71 suma `archivar_p10` (de
 #   bateria-motor.yml, que lo conserva hasta T-369); P74 listar es nuevo.
@@ -813,7 +815,8 @@ jobs:
         run: |
           set -euo pipefail
           python -c 'import yaml' 2>/dev/null || pip install --break-system-packages pyyaml
-          echo "ELECCION=$(python herramientas/p70_resolver.py fecha-eleccion "$ELECCION_MES")" >> "$GITHUB_ENV"
+          fecha="$(python herramientas/p70_resolver.py fecha-eleccion "$ELECCION_MES")"
+          echo "ELECCION=$fecha" >> "$GITHUB_ENV"
       - name: Extraer y registrar
         shell: bash
         run: |

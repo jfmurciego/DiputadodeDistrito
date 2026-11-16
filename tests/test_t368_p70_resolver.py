@@ -49,6 +49,34 @@ class Resolutores(unittest.TestCase):
             with self.assertRaises(ValueError):
                 pr.fecha_eleccion(self.d, malo)
 
+    def test_edicion_caso_feliz_y_respaldo_id_legacy(self):
+        (self.d / pr.REGISTRO).write_text("territories:\n  aut01: {election_date: '2026-05-17'}\n", encoding="utf-8")
+        cat = self.d / "territorios" / "aut01" / "evidencia" / "catalogo"
+        cat.mkdir(parents=True)
+        (cat / "electoral_product_2025.json").write_text("{}", encoding="utf-8")
+        import ddd_core.territorio_ids as ti
+        orig = ti.carpeta_de
+        ti.carpeta_de = lambda root, x: "aut01"
+        self.addCleanup(setattr, ti, "carpeta_de", orig)
+        self.assertEqual(pr.edicion(self.d, "aut01", "2026-05"), "2025")
+        (cat / "electoral_product_2026.json").write_text("{}", encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "P70_EDICION_NO_UNICA"):
+            pr.edicion(self.d, "aut01", "2026-05")
+
+    def test_run_p10_respaldo_por_id_legacy(self):
+        from ddd_core.territorio_ids import id_legacy
+        self.catalogo({id_legacy("aut01"): {"fuente_territorial": {"run_id": "222"}}})
+        self.assertEqual(pr.run_p10(self.d, "aut01"), "222")
+
+    def test_errores_van_a_stderr(self):
+        import contextlib
+        import io
+        out, err = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            rc = pr.main(["fecha-eleccion", "2026-13"])
+        self.assertEqual((rc, out.getvalue()), (1, ""))
+        self.assertIn("::error::P70_ELECCION_INVALIDA", err.getvalue())
+
     def test_edicion_exige_la_eleccion_registrada(self):
         (self.d / pr.REGISTRO).write_text("territories:\n  aut01: {election_date: '2026-05-17'}\n", encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "P70_ELECCION_NO_VIGENTE"):
