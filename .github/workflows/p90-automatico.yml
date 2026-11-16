@@ -32,7 +32,7 @@ on:
     - cron: '23 2 * * *'
     - cron: '17 5 * * 1'
   workflow_run:
-    workflows: ["P00 Campaña", "P90 Automático"]
+    workflows: ["P00 Campaña"]
     types: [completed]
 permissions:
   contents: read
