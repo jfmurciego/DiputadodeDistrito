@@ -1944,6 +1944,15 @@
    "sha256_csv": "1a3495db9f6b05b59e58728a24766060378a15a4342abd67683caf7f2cbc510e",
    "ruta": "datos/resultados/runs/nac47_43797487792_partidos.csv"
   },
+  "nac49/43804127706": {
+   "territorio": "nac49",
+   "run_id": "43804127706",
+   "run_territorial": "43798955456",
+   "sha256_composicion": "e7b4f3a71866478285c368f75714e812f736674e39215c14278b876a00831c15",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "6edb3fd88bddbe49dede7b6af11aeab7309ff00cd441c12755fa2fe0e4ae4f6c",
+   "ruta": "datos/resultados/runs/nac49_43804127706_partidos.csv"
+  },
   "nac51/43803972993": {
    "territorio": "nac51",
    "run_id": "43803972993",
