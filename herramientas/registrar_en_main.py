@@ -205,7 +205,12 @@ def reaplicar(root: Path, cambio: list[tuple[str, str, object]]) -> None:
             p.write_bytes(carga)
         else:
             previo = p.read_text(encoding="utf-8") if p.is_file() else None
-            doc = json.loads(previo) if previo is not None else {}
+            try:
+                doc = json.loads(previo) if previo is not None else {}
+            except ValueError as exc:
+                raise RutaNoFusionable(f"RUTA_NO_FUSIONABLE: {rel} en el remoto no es JSON válido ({exc})") from exc
+            if not isinstance(doc, dict):  # el remoto cambió entre intentos: no se pisa
+                raise RutaNoFusionable(f"RUTA_NO_FUSIONABLE: {rel} en el remoto no tiene un objeto JSON en la raíz")
             p.parent.mkdir(parents=True, exist_ok=True)
             p.write_text(_volcar_json(aplicar_delta(doc, carga), previo), encoding="utf-8")
 

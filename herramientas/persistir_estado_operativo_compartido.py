@@ -5,6 +5,7 @@ import argparse
 import random
 import shutil
 import subprocess
+import sys
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -220,13 +221,19 @@ def main() -> int:
     ap.add_argument("--sync-dashboard-assets", action="store_true")
     ap.add_argument("--max-attempts", type=int, default=SHARED_STATE_MAX_ATTEMPTS)
     args = ap.parse_args()
-    sha = persist_shared_state(
-        root_dir=args.root_dir,
-        edition=args.edition,
-        target_branch=args.target_branch,
-        sync_dashboard_assets=args.sync_dashboard_assets,
-        max_attempts=args.max_attempts,
-    )
+    from herramientas.registrar_en_main import SALIDA_CATALOGO, CatalogoNoRegenerado
+
+    try:
+        sha = persist_shared_state(
+            root_dir=args.root_dir,
+            edition=args.edition,
+            target_branch=args.target_branch,
+            sync_dashboard_assets=args.sync_dashboard_assets,
+            max_attempts=args.max_attempts,
+        )
+    except CatalogoNoRegenerado as exc:  # T-360: falla cerrado, sin push, salida 76 como registrar_en_main
+        print(f"::error title=CATALOGO_PROCEDENCIA_NO_REGENERADO::{exc}", file=sys.stderr)
+        return SALIDA_CATALOGO
     print(sha)
     return 0
 

@@ -146,6 +146,17 @@ class RegistroConcurrente(unittest.TestCase):
         from herramientas import catalogo_procedencia as cp  # el versionado no va por detrás del registro
         self.assertEqual((final / rm.CATALOGO_PROCEDENCIA).read_text(encoding="utf-8"), cp.serializar(cp.generar(final)))
 
+    def test_con_14_cadenas_4_intentos_no_bastan_y_10_si(self):
+        # Justifica --max-attempts 4→10 (evidencia previa a M04, persistidor electoral) al quitar el grupo único.
+        for intentos, debe_fallar in ((4, True), (rm.MAX_INTENTOS, False)):
+            with self.subTest(intentos=intentos):
+                td = Path(tempfile.mkdtemp())
+                self.addCleanup(shutil.rmtree, td, ignore_errors=True)
+                res = _cadenas(td, _repo(td), max_intentos=intentos)
+                rechazados = [r for r in res.values() if isinstance(r, rm.PushRechazado)]
+                self.assertEqual(bool(rechazados), debe_fallar, [str(r)[:40] for r in rechazados])
+                self.assertTrue(all(str(r).startswith(f"PUSH_RECHAZADO_TRAS_{intentos}:") for r in rechazados))
+
     def test_control_negativo_sin_reintento_hay_push_rechazado(self):
         remoto = _repo(self.td)
         res = _cadenas(self.td, remoto, max_intentos=1)
@@ -367,6 +378,113 @@ class PasosBash(unittest.TestCase):
         ko = self._correr(frag, 75, env)
         self.assertEqual(ko.returncode, 50)
         self.assertIn("rc=75", ko.stdout)
+
+
+class FallaCerradoYSalidas(unittest.TestCase):
+    """El catálogo roto no deja commit ni push en ningún persistidor; main() fija las salidas 75, 76 y 77."""
+
+    def setUp(self):
+        self.td = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, self.td, ignore_errors=True)
+        self.remoto = _repo(self.td, catalogo=True)
+        self.clon = _clon(self.td, self.remoto, 0)
+
+    def _commits(self) -> int:
+        return int(git(self.remoto, "rev-list", "--count", "main"))
+
+    def _catalogo_roto(self):
+        from unittest import mock
+        from herramientas import catalogo_procedencia as cp
+        return mock.patch.object(cp, "generar", side_effect=ValueError("roto"))
+
+    def test_persist_rederived_tree_no_empuja(self):
+        from herramientas.persistir_estado_operativo_compartido import persist_rederived_tree
+
+        def aplicar(root, _intento):
+            (root / "orchestracion/estado.json").write_text("{}\n", encoding="utf-8")
+        with self._catalogo_roto():
+            with self.assertRaisesRegex(rm.CatalogoNoRegenerado, "CATALOGO_PROCEDENCIA_NO_REGENERADO"):
+                persist_rederived_tree(root_dir=self.clon, target_branch="main", paths=["orchestracion/estado.json"],
+                                       commit_message="x", apply=aplicar, max_attempts=2)
+        self.assertEqual(self._commits(), 1)
+        self.assertEqual(git(self.clon, "rev-parse", "HEAD"), git(self.remoto, "rev-parse", "main"))  # ni commit local
+
+    def test_persistidor_electoral_no_empuja(self):
+        from unittest import mock
+        from herramientas import persistir_producto_electoral_operacional as pe
+
+        def promover(*, root_dir, territory_id, edition, **_):
+            for rel in (pe.CATALOG, pe._receipt_path(territory_id, edition)):
+                (root_dir / rel).parent.mkdir(parents=True, exist_ok=True)
+                (root_dir / rel).write_text("{}\n", encoding="utf-8")
+        with self._catalogo_roto(), \
+                mock.patch.object(pe, "promote", promover), \
+                mock.patch.object(pe, "validate_repository", lambda **_: None), \
+                mock.patch.object(pe, "current_electoral_product_identity", lambda **_: None):
+            with self.assertRaisesRegex(rm.CatalogoNoRegenerado, "CATALOGO_PROCEDENCIA_NO_REGENERADO"):
+                pe.persist_electoral_product(root_dir=self.clon, territory_id="aut07", edition="2025", run_id=1,
+                                             artifact_name="ddd-state-1-M08", artifact_sha256="a" * 64,
+                                             source_commit="b" * 40, max_attempts=2)
+        self.assertEqual(self._commits(), 1)
+        self.assertEqual(git(self.clon, "rev-parse", "HEAD"), git(self.remoto, "rev-parse", "main"))
+
+    def test_main_de_los_persistidores_sale_con_76(self):
+        from unittest import mock
+        from herramientas import persistir_estado_operativo_compartido as pec
+        from herramientas import persistir_producto_electoral_operacional as pe
+        from herramientas import persistir_evidencia_pre_m04_operacional as pm
+        error = rm.CatalogoNoRegenerado("CATALOGO_PROCEDENCIA_NO_REGENERADO: roto")
+        casos = [
+            (pec, "persist_shared_state", ["x"]),
+            (pe, "persist_electoral_product", ["x", "--territory-id", "aut07", "--edition", "2025", "--run-id", "1",
+                                               "--artifact-name", "a", "--artifact-sha256", "a", "--source-commit", "b"]),
+            (pm, "persist_pre_m04_evidence", ["x", "--territory-id", "aut07", "--edition", "2025", "--run-id", "1",
+                                              "--contract-path", "c", "--candidate-evidence", "e", "--source-commit", "b"]),
+        ]
+        for modulo, funcion, argv in casos:
+            with self.subTest(modulo=modulo.__name__), mock.patch.object(modulo, funcion, side_effect=error), \
+                    mock.patch.object(sys, "argv", argv):
+                self.assertEqual(modulo.main(), rm.SALIDA_CATALOGO)
+
+    def _csv(self):
+        (self.clon / "datos/runs").mkdir(parents=True, exist_ok=True)
+        (self.clon / "datos/runs/a.csv").write_text("x\n", encoding="utf-8")
+
+    def test_main_salida_75_push_rechazado_por_el_remoto(self):
+        hook = self.remoto / "hooks/pre-receive"
+        hook.write_text("#!/bin/sh\necho rechazado >&2\nexit 1\n", encoding="utf-8")
+        hook.chmod(0o755)
+        self._csv()
+        from unittest import mock
+        with mock.patch.object(rm, "espera", lambda n: 0):
+            self.assertEqual(rm.main(["--root-dir", str(self.clon), "--mensaje", "x", "--ruta", "datos/runs",
+                                      "--max-intentos", "2"]), 75)
+        self.assertEqual(self._commits(), 1)
+
+    def test_main_salida_76_catalogo_roto(self):
+        self._csv()
+        with self._catalogo_roto():
+            self.assertEqual(rm.main(["--root-dir", str(self.clon), "--mensaje", "x", "--ruta", "datos/runs"]), 76)
+        self.assertEqual(self._commits(), 1)
+
+    def test_main_salida_77_ruta_no_fusionable(self):
+        (self.clon / "configuracion/catalogo.yaml").write_text("territorios: {aut01: 1}\n", encoding="utf-8")
+        self.assertEqual(rm.main(["--root-dir", str(self.clon), "--mensaje", "x",
+                                  "--ruta", "configuracion/catalogo.yaml"]), 77)
+        self.assertEqual(self._commits(), 1)
+
+    def test_remoto_que_pasa_a_raiz_no_objeto_entre_intentos_es_77(self):
+        p = self.clon / "orchestracion/archivo_r2.json"
+        doc = json.loads(p.read_text(encoding="utf-8"))
+        doc["artefactos"]["aut01/1"] = {"sha256": "a"}
+        _r2(self.clon, doc)
+        otro = _clon(self.td, self.remoto, 1)  # otro robot cambia la raíz del JSON en el remoto
+        (otro / "orchestracion/archivo_r2.json").write_text("[1]\n", encoding="utf-8")
+        git(otro, "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-am", "raíz lista")
+        git(otro, "push", "-q", "origin", "HEAD:main")
+        self.assertEqual(rm.main(["--root-dir", str(self.clon), "--mensaje", "x",
+                                  "--ruta", "orchestracion/archivo_r2.json"]), 77)
+        self.assertEqual(self._commits(), 2)
 
 
 if __name__ == "__main__":

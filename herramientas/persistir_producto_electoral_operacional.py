@@ -469,20 +469,26 @@ def main() -> int:
     ap.add_argument("--expected-context-fingerprint")
     ap.add_argument("--result-json", type=Path)
     args = ap.parse_args()
-    sha = persist_electoral_product(
-        root_dir=args.root_dir,
-        territory_id=args.territory_id,
-        edition=args.edition,
-        run_id=args.run_id,
-        artifact_name=args.artifact_name,
-        artifact_sha256=args.artifact_sha256,
-        source_commit=args.source_commit,
-        target_branch=args.target_branch,
-        max_attempts=args.max_attempts,
-        expected_previous_fingerprint=args.expected_previous_fingerprint,
-        expected_context_fingerprint=args.expected_context_fingerprint,
-        result_json=args.result_json,
-    )
+    from herramientas.registrar_en_main import SALIDA_CATALOGO, CatalogoNoRegenerado
+
+    try:
+        sha = persist_electoral_product(
+            root_dir=args.root_dir,
+            territory_id=args.territory_id,
+            edition=args.edition,
+            run_id=args.run_id,
+            artifact_name=args.artifact_name,
+            artifact_sha256=args.artifact_sha256,
+            source_commit=args.source_commit,
+            target_branch=args.target_branch,
+            max_attempts=args.max_attempts,
+            expected_previous_fingerprint=args.expected_previous_fingerprint,
+            expected_context_fingerprint=args.expected_context_fingerprint,
+            result_json=args.result_json,
+        )
+    except CatalogoNoRegenerado as exc:  # T-360: falla cerrado, sin push, salida 76 como registrar_en_main
+        print(f"::error title=CATALOGO_PROCEDENCIA_NO_REGENERADO::{exc}", file=_sys_t220.stderr)
+        return SALIDA_CATALOGO
     print(sha)
     return 0
 
