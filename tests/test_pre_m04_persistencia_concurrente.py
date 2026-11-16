@@ -271,7 +271,7 @@ def state(root: Path, tid: str) -> dict:
 class PreM04WorkflowEntrypointTests(unittest.TestCase):
     def test_workflow_pending_command_runs_from_checkout_root_without_pythonpath_or_push(self):
         workflow = yaml.safe_load(
-            (ROOT / ".github/workflows/preparacion-fuentes.yml").read_text(
+            (ROOT / ".github/workflows/_p11-territoriales.yml").read_text(
                 encoding="utf-8"
             )
         )
@@ -933,7 +933,7 @@ class PreM04ErrorVisibilityTests(unittest.TestCase):
         self.assertIn("::error::boom", err.getvalue())
 
     def test_workflow_step_surfaces_failure_and_result_json(self):
-        wf = yaml.safe_load((ROOT / ".github/workflows/preparacion-fuentes.yml").read_text(encoding="utf-8"))
+        wf = yaml.safe_load((ROOT / ".github/workflows/_p11-territoriales.yml").read_text(encoding="utf-8"))
         step = next(i for i in wf["jobs"]["generation_pending"]["steps"]
                     if i.get("name") == "Persistir diagnóstico con el escritor concurrente común")
         self.assertIn("|| rc=$?", step["run"])

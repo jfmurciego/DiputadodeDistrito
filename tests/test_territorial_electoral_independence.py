@@ -324,7 +324,7 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
         )
 
     def test_phase03_source_gap_mode_is_opt_in_and_00_classifies_it(self):
-        prep = (ROOT / ".github/workflows/preparacion-resultados-electorales.yml").read_text(
+        prep = (ROOT / ".github/workflows/_p12-electorales.yml").read_text(
             encoding="utf-8"
         )
         workflow = ORCH.read_text(encoding="utf-8")

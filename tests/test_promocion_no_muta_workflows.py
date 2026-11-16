@@ -8,8 +8,8 @@ class PromotionMustNotMutateWorkflowTests(unittest.TestCase):
         paths = [
             ROOT / "herramientas/promover_catalogo_operacional.py",
             ROOT / "herramientas/promover_catalogo_tras_preparacion.py",
-            ROOT / ".github/workflows/preparacion-resultados-electorales.yml",
-            ROOT / ".github/workflows/preparacion-fuentes.yml",
+            ROOT / ".github/workflows/_p12-electorales.yml",
+            ROOT / ".github/workflows/_p11-territoriales.yml",
         ]
         forbidden = (
             ".github/workflows/incorporacion-resultados-electorales.yml",

@@ -1,0 +1,222 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: interfaz humana de preparación de fuentes
+# VERSIÓN: 1.0.0
+# FECHA: 2026-11-16
+# ESTADO: candidato
+# CAMBIOS: T-375 (D-136, migración paso 6): fichero nuevo; sustituye a preparacion-fuentes.yml 1.4.14 («P10 Fuentes — P11 Territoriales») y preparacion-resultados-electorales.yml 1.0.17 («P10 Fuentes — P12 Electorales»),
+#   borrados (copias en legacy/workflows/). Los jobs de cada uno pasan, con los MISMOS pasos, permisos, salidas y registro, a los reutilizables SIN botón `_p11-territoriales.yml` 1.5.0 y `_p12-electorales.yml` 1.1.0
+#   (ver «POR QUÉ DOS REUTILIZABLES»); este fichero es el botón, la entrada `workflow_call` de la 00 y el plan.
+# MOTIVO: un solo botón «P10 Fuentes» con opciones entendibles: `tipo` (P11 territoriales | P12 electorales), `territorios` (códigos separados por comas, p. ej. aut13,nac28), `eleccion` (vigente | ensayo 2026-11-29; solo P12) y
+#   «regenerar aunque exista» (desmarcado). Edición fijada en el código (2025). Reutilizar automático: se reutiliza el paquete registrado si sigue descargable y compatible y se regenera si caducó.
+# POR QUÉ DOS REUTILIZABLES: una matriz de GitHub solo devuelve las salidas de la ÚLTIMA fila. Con todos los jobs en este fichero, la fila de un territorio no podría leer la salida (resumen, digest, commit de promoción,
+#   resultado electoral) de SUS jobs anteriores. Con una matriz que llama a un reutilizable, cada llamada tiene sus propios `needs` y salidas: los jobs de antes son idénticos y la exclusión por territorio pasa al job de matriz.
+# EXCLUSIÓN POR TERRITORIO: a nivel de job de matriz, con los mismos grupos que antes (`ddd-territorial-prod-<territorio>-<edición|vigente>` y `ddd-electoral-prod-<territorio>`, `queue: max`); `ddd-catalog-promotion` sigue en los jobs `registrar`.
+# workflow_call (entradas técnicas ocultas; la 00 y «Legislatura vigente»): `tipo` territoriales|electorales; `territory_id` UN territorio canónico (vacío = es el botón); `data_edition` vacía = edición y años del catálogo vigente (solo P11);
+#   `eleccion` vacía = vigente; `source_year`, `population_year`, `section_year`, `recover_run_id` y `recover_artifact_sha256` vacíos = sin valor (solo P11); `reutilizar_si_ya_preparada`, `persist_state`, `allow_source_gap_success` booleanos.
+#   Salidas = unión de las dos anteriores (las del tipo no ejecutado salen vacías).
+# ANTERIOR: ninguna (fichero nuevo); sustituye a legacy/workflows/preparacion-fuentes_v1.4.14_20261116.yml y legacy/workflows/preparacion-resultados-electorales_v1.0.17_20261116.yml
+name: P10 Fuentes
+
+on:
+  workflow_call:
+    inputs:
+      tipo: {required: true, type: string}
+      territory_id: {required: true, type: string}
+      data_edition: {required: false, type: string, default: ''}
+      source_year: {required: false, type: string, default: ''}
+      population_year: {required: false, type: string, default: ''}
+      section_year: {required: false, type: string, default: ''}
+      reutilizar_si_ya_preparada: {required: false, type: boolean, default: true}
+      source_ref: {required: false, type: string, default: ''}
+      persist_state: {required: false, type: boolean, default: true}
+      recover_run_id: {required: false, type: string, default: ''}
+      recover_artifact_sha256: {required: false, type: string, default: ''}
+      allow_source_gap_success: {required: false, type: boolean, default: false}
+      eleccion: {required: false, type: string, default: ''}
+    outputs:
+      territory_id:
+        value: ${{ jobs.p11.outputs.territory_id || jobs.p12.outputs.territory_id }}
+      edition:
+        value: ${{ jobs.p11.outputs.edition || jobs.p12.outputs.edition }}
+      artifact_name:
+        value: ${{ jobs.p11.outputs.artifact_name || jobs.p12.outputs.artifact_name }}
+      artifact_digest:
+        value: ${{ jobs.p11.outputs.artifact_digest || jobs.p12.outputs.artifact_digest }}
+      prepared_source_ref:
+        value: ${{ jobs.p11.outputs.prepared_source_ref }}
+      codauto:
+        value: ${{ jobs.p12.outputs.codauto }}
+      electoral_outcome:
+        value: ${{ jobs.p12.outputs.electoral_outcome }}
+      electoral_skip_reason:
+        value: ${{ jobs.p12.outputs.electoral_skip_reason }}
+  workflow_dispatch:
+    inputs:
+      tipo:
+        description: Qué fuentes preparar
+        required: true
+        default: P11 territoriales
+        type: choice
+        options:
+          - P11 territoriales
+          - P12 electorales
+      territorios:
+        description: Códigos separados por comas (p. ej. aut13,nac28)
+        required: true
+        type: string
+      eleccion:
+        description: Elección (solo P12; el ensayo no persiste ni registra)
+        required: true
+        default: vigente
+        type: choice
+        options:
+          - vigente
+          - ensayo 2026-11-29
+      regenerar:
+        description: Regenerar aunque ya exista
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  plan:
+    name: Planificar fuentes
+    runs-on: ubuntu-24.04
+    permissions: {}
+    outputs:
+      tipo: ${{ steps.plan.outputs.tipo }}
+      territorios: ${{ steps.plan.outputs.territorios }}
+      edicion: ${{ steps.plan.outputs.edicion }}
+      reutilizar: ${{ steps.plan.outputs.reutilizar }}
+      persistir: ${{ steps.plan.outputs.persistir }}
+      hueco_fuente: ${{ steps.plan.outputs.hueco_fuente }}
+      eleccion: ${{ steps.plan.outputs.eleccion }}
+    steps:
+      - id: plan
+        name: Resolver tipo, territorios y opciones
+        shell: bash
+        env:
+          TIPO: ${{ inputs.tipo }}
+          TERRITORIOS: ${{ inputs.territorios }}
+          TERRITORIO_LLAMADA: ${{ inputs.territory_id }}
+          DATA_EDITION: ${{ inputs.data_edition }}
+          ELECCION: ${{ inputs.eleccion }}
+          REGENERAR: ${{ inputs.regenerar }}
+          REUTILIZAR_LLAMADA: ${{ toJSON(inputs.reutilizar_si_ya_preparada) }}
+          PERSISTIR_LLAMADA: ${{ toJSON(inputs.persist_state) }}
+          HUECO_LLAMADA: ${{ toJSON(inputs.allow_source_gap_success) }}
+        run: |
+          set -euo pipefail
+          case "$TIPO" in
+            territoriales|"P11 territoriales") tipo=territoriales ;;
+            electorales|"P12 electorales") tipo=electorales ;;
+            *) echo "::error::Tipo de fuentes no reconocido: $TIPO"; exit 2 ;;
+          esac
+          eleccion="${ELECCION:-vigente}"
+          case "$eleccion" in
+            vigente|"ensayo 2026-11-29") ;;
+            *) echo "::error::Elección no reconocida: $eleccion"; exit 2 ;;
+          esac
+          if [[ "$tipo" == territoriales && "$eleccion" != vigente ]]; then
+            echo "::error::La elección solo se elige en P12 electorales."; exit 2
+          fi
+          if [[ -n "$TERRITORIO_LLAMADA" ]]; then
+            # Llamada desde la 00 o «Legislatura vigente»: un territorio canónico y entradas técnicas.
+            codigos="$TERRITORIO_LLAMADA"; edicion="$DATA_EDITION"
+            reutilizar="$REUTILIZAR_LLAMADA"; persistir="$PERSISTIR_LLAMADA"; hueco="$HUECO_LLAMADA"
+            for v in "$reutilizar" "$persistir" "$hueco"; do
+              [[ "$v" == true || "$v" == false ]] || { echo "::error::Entrada booleana inválida en la llamada: $v"; exit 2; }
+            done
+            if [[ "$tipo" == electorales && -z "$edicion" ]]; then
+              echo "::error::La llamada electoral exige data_edition."; exit 2
+            fi
+          else
+            # Botón: códigos separados por comas; la edición es la fijada en el código (2025; en P11, la del catálogo vigente).
+            [[ -n "${TERRITORIOS// /}" ]] || { echo "::error::Indica al menos un territorio (p. ej. aut13,nac28)."; exit 2; }
+            codigos="$TERRITORIOS"
+            if [[ "$tipo" == electorales ]]; then edicion=2025; else edicion=""; fi
+            if [[ "$REGENERAR" == true ]]; then reutilizar=false; else reutilizar=true; fi
+            persistir=true; hueco=false
+          fi
+          lista=()
+          IFS=',' read -ra partes <<<"$codigos"
+          for c in "${partes[@]}"; do
+            c="${c//[[:space:]]/}"
+            [[ -n "$c" ]] || continue
+            if [[ -z "$TERRITORIO_LLAMADA" && ! "$c" =~ ^(nac|aut)[0-9]{2}(-350)?$ ]]; then
+              echo "::error::Código de territorio inválido: $c (usa códigos como aut13 o nac28)."; exit 2
+            fi
+            dup=false
+            for x in "${lista[@]:-}"; do [[ "$x" == "$c" ]] && dup=true; done
+            [[ "$dup" == true ]] || lista+=("$c")
+          done
+          [[ "${#lista[@]}" -ge 1 && "${#lista[@]}" -le 99 ]] || { echo "::error::Entre 1 y 99 territorios."; exit 2; }
+          {
+            echo "tipo=$tipo"
+            echo "territorios=$(printf '%s\n' "${lista[@]}" | jq -Rnc '[inputs]')"
+            echo "edicion=$edicion"
+            echo "reutilizar=$reutilizar"
+            echo "persistir=$persistir"
+            echo "hueco_fuente=$hueco"
+            echo "eleccion=$eleccion"
+          } >> "$GITHUB_OUTPUT"
+          {
+            echo "### P10 Fuentes: $tipo"
+            echo "- Territorios (${#lista[@]}): ${lista[*]}"
+            echo "- Elección: $eleccion · reutilizar si ya existe: $reutilizar"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  p11:
+    name: P11 Territoriales
+    needs: plan
+    if: ${{ needs.plan.outputs.tipo == 'territoriales' }}
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        territorio: ${{ fromJSON(needs.plan.outputs.territorios) }}
+    concurrency:
+      group: ddd-territorial-prod-${{ matrix.territorio }}-${{ needs.plan.outputs.edicion || 'vigente' }}
+      cancel-in-progress: false
+      queue: max
+    uses: ./.github/workflows/_p11-territoriales.yml
+    secrets: inherit
+    with:
+      territory_id: ${{ matrix.territorio }}
+      data_edition: ${{ needs.plan.outputs.edicion }}
+      source_year: ${{ inputs.source_year || '' }}
+      population_year: ${{ inputs.population_year || '' }}
+      section_year: ${{ inputs.section_year || '' }}
+      reutilizar_si_ya_preparada: ${{ needs.plan.outputs.reutilizar == 'true' }}
+      source_ref: ${{ inputs.source_ref || '' }}
+      persist_state: ${{ needs.plan.outputs.persistir == 'true' }}
+      recover_run_id: ${{ inputs.recover_run_id || '' }}
+      recover_artifact_sha256: ${{ inputs.recover_artifact_sha256 || '' }}
+
+  p12:
+    name: P12 Electorales
+    needs: plan
+    if: ${{ needs.plan.outputs.tipo == 'electorales' }}
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        territorio: ${{ fromJSON(needs.plan.outputs.territorios) }}
+    concurrency:
+      group: ddd-electoral-prod-${{ matrix.territorio }}
+      cancel-in-progress: false
+      queue: max
+    uses: ./.github/workflows/_p12-electorales.yml
+    secrets: inherit
+    with:
+      territory_id: ${{ matrix.territorio }}
+      data_edition: ${{ needs.plan.outputs.edicion }}
+      reutilizar_si_ya_preparada: ${{ needs.plan.outputs.reutilizar == 'true' }}
+      source_ref: ${{ inputs.source_ref || '' }}
+      persist_state: ${{ needs.plan.outputs.persistir == 'true' }}
+      allow_source_gap_success: ${{ needs.plan.outputs.hueco_fuente == 'true' }}
+      eleccion: ${{ needs.plan.outputs.eleccion }}

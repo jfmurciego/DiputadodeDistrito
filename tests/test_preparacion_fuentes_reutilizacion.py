@@ -17,8 +17,8 @@ from herramientas.compatibilidad_poblacion_seccionado import REPORT_NAME, SCHEMA
 from herramientas.seleccionar_paquete_fuentes import select_first_valid, validate_prepared_package
 
 ROOT = Path(__file__).resolve().parents[1]
-WORKFLOW = ROOT / ".github/workflows/preparacion-fuentes.yml"
-ELECTORAL_WORKFLOW = ROOT / ".github/workflows/preparacion-resultados-electorales.yml"
+WORKFLOW = ROOT / ".github/workflows/_p11-territoriales.yml"
+ELECTORAL_WORKFLOW = ROOT / ".github/workflows/_p12-electorales.yml"
 
 
 def _section_zip(*, crs: str = "EPSG:4326") -> bytes:
@@ -379,13 +379,13 @@ class PreparedSourceReuseTests(unittest.TestCase):
         territorial_trigger = territorial.get("on") or territorial.get(True)
         electoral_trigger = electoral.get("on") or electoral.get(True)
 
+        # T-375: los reutilizables ya no son botón; el botón es P10 Fuentes (tipo, territorios, eleccion, regenerar).
+        self.assertNotIn("workflow_dispatch", territorial_trigger)
+        self.assertNotIn("workflow_dispatch", electoral_trigger)
+        p10 = yaml.safe_load((ROOT / ".github/workflows/p10-fuentes.yml").read_text(encoding="utf-8"))
         self.assertEqual(
-            list(territorial_trigger["workflow_dispatch"]["inputs"]),
-            ["territory_id"],
-        )
-        self.assertEqual(
-            list(electoral_trigger["workflow_dispatch"]["inputs"]),
-            ["territory_id", "data_edition", "reutilizar_si_ya_preparada", "eleccion"],
+            list((p10.get("on") or p10.get(True))["workflow_dispatch"]["inputs"]),
+            ["tipo", "territorios", "eleccion", "regenerar"],
         )
         self.assertEqual(
             list(territorial_trigger["workflow_call"]["inputs"]),

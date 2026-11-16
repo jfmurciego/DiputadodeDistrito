@@ -68,7 +68,7 @@ class GeospatialPackageValidationEnvironmentTests(unittest.TestCase):
         workflows = {workflow for workflow, _job, _step in found}
         self.assertTrue(
             {
-                "preparacion-fuentes.yml",
+                "_p11-territoriales.yml",
                 "produccion-distritos.yml",
                 "_reutilizable-generacion-territorial.yml",
             }.issubset(workflows),

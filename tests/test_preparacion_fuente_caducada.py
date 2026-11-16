@@ -19,7 +19,7 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-WORKFLOW = ROOT / ".github" / "workflows" / "preparacion-fuentes.yml"
+WORKFLOW = ROOT / ".github" / "workflows" / "_p11-territoriales.yml"
 NAME = "ddd-source-package-andalucia-2025-36020646219"
 DIGEST = "a" * 64
 

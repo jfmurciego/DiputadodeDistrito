@@ -17,7 +17,7 @@ from herramientas.resolver_ensayo_electoral import resolve as resolve_ensayo
 from herramientas.resolver_eleccion_vigente import resolve_for_preparation
 
 ROOT = Path(__file__).resolve().parents[1]
-WORKFLOW = ROOT / ".github" / "workflows" / "preparacion-resultados-electorales.yml"
+WORKFLOW = ROOT / ".github" / "workflows" / "_p12-electorales.yml"
 # Votos: literales del ZIP oficial Infoelectoral 2023 (configuracion/contratos_infoelectoral.yaml, sha e78fc231…), que el reparto
 # a claves de sección 2026 conserva. Secciones y mesas: recuentos del fixture de ensayo (MANIFEST de #801, T-333).
 ESPERADO = {
@@ -144,10 +144,12 @@ class PersistStateFalse(unittest.TestCase):
     def test_workflow_declara_entrada_y_version(self):
         wf = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
         on = wf.get("on") or wf.get(True)
-        self.assertEqual(on["workflow_dispatch"]["inputs"]["eleccion"]["default"], "vigente")
-        self.assertIn("ensayo 2026-11-29", on["workflow_dispatch"]["inputs"]["eleccion"]["options"])
+        p10 = yaml.safe_load((WORKFLOW.parent / "p10-fuentes.yml").read_text(encoding="utf-8"))
+        dispatch = (p10.get("on") or p10.get(True))["workflow_dispatch"]["inputs"]  # T-375: el botón es P10 Fuentes
+        self.assertEqual(dispatch["eleccion"]["default"], "vigente")
+        self.assertIn("ensayo 2026-11-29", dispatch["eleccion"]["options"])
         self.assertEqual(on["workflow_call"]["inputs"]["eleccion"]["default"], "vigente")
-        self.assertRegex(WORKFLOW.read_text(encoding="utf-8"), r"# VERSIÓN: 1\.0\.1[7-9]")
+        self.assertRegex(WORKFLOW.read_text(encoding="utf-8"), r"# VERSIÓN: 1\.(0\.1[7-9]|[1-9]\.\d+)")
 
 
 @unittest.skipUnless(os.system("command -v jq >/dev/null 2>&1") == 0, "jq no disponible")
@@ -320,7 +322,7 @@ class EquivalenciaConMain(unittest.TestCase):
 
     def test_estructura_identica_salvo_los_puntos_del_ensayo(self):
         self.assertEqual(self.main["jobs"].keys(), self.new["jobs"].keys())
-        cambiados = {"resolve", "mode", "outcome"}
+        cambiados = {"resolve", "mode", "outcome", "previous"}  # T-375: `previous` = reutilizar automático (caducado → se prepara de nuevo)
         for name, job in self.main["jobs"].items():
             nuevo = self.new["jobs"][name]
             for k in set(job) | set(nuevo):
@@ -342,9 +344,10 @@ class EquivalenciaConMain(unittest.TestCase):
                     b = {**b, "run": b["run"].replace(BLOQUE_MINSAIT, "")}
                 self.assertEqual(a, b)
         # Las entradas de workflow_call y workflow_dispatch solo ganan `eleccion`.
-        for trig in ("workflow_call", "workflow_dispatch"):
-            a, b = self.main[True][trig]["inputs"], self.new[True][trig]["inputs"]
-            self.assertEqual(a, {k: v for k, v in b.items() if k != "eleccion"})
+        # T-375: el reutilizable ya no es un botón (el botón es P10 Fuentes); `workflow_call` solo gana `eleccion`.
+        self.assertNotIn("workflow_dispatch", self.new[True])
+        a, b = self.main[True]["workflow_call"]["inputs"], self.new[True]["workflow_call"]["inputs"]
+        self.assertEqual(a, {k: v for k, v in b.items() if k != "eleccion"})
 
     def test_resolver_igual_que_main_con_vigente_o_vacia(self):
         old = _step(self.main, "resolver", "resolve")

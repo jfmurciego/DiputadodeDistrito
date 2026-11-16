@@ -12,9 +12,9 @@ class LightweightBusinessWorkflows(unittest.TestCase):
     def test_visible_business_names_are_numbered(self):
         expected={
             "ejecucion-completa-proyecto.yml":"P00 Campaña",
-            "preparacion-fuentes.yml":"P10 Fuentes — P11 Territoriales",
+            "_p11-territoriales.yml":"P10 Fuentes — P11 Territoriales",
             "produccion-distritos.yml":"P20 Base territorial — P30 Distritos",
-            "preparacion-resultados-electorales.yml":"P10 Fuentes — P12 Electorales",
+            "_p12-electorales.yml":"P10 Fuentes — P12 Electorales",
             "incorporacion-resultados-electorales.yml":"P40 Resultados electorales",
             "p40-publicacion.yml":"P40 Publicación",
         }
@@ -52,9 +52,9 @@ class LightweightBusinessWorkflows(unittest.TestCase):
         self.assertNotIn("id-token: write",electoral)
 
     def test_concurrency_domains_are_explicit(self):
-        territorial_prep=(WF/"preparacion-fuentes.yml").read_text(encoding="utf-8")
+        territorial_prep=(WF/"_p11-territoriales.yml").read_text(encoding="utf-8")
         generation=(WF/"produccion-distritos.yml").read_text(encoding="utf-8")
-        electoral_prep=(WF/"preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
+        electoral_prep=(WF/"_p12-electorales.yml").read_text(encoding="utf-8")
         electoral=(WF/"incorporacion-resultados-electorales.yml").read_text(encoding="utf-8")
         publisher=(WF/"p40-publicacion.yml").read_text(encoding="utf-8")
         self.assertIn("ddd-territorial-prod-",territorial_prep)

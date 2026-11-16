@@ -585,7 +585,7 @@ class ElectoralGapFillerPreparationIntegrationTests(unittest.TestCase):
 class ElectoralGapFillerWorkflowDurabilityTests(unittest.TestCase):
     def test_workflow_accepts_only_cli_block_code_then_uploads_before_terminal_failure(self):
         root = Path(__file__).resolve().parents[1]
-        workflow = (root / ".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
+        workflow = (root / ".github/workflows/_p12-electorales.yml").read_text(encoding="utf-8")
         generic_literal = 'python -m herramientas.preparar_fuente_electoral "' + '$' + '{args[@]}"'
         generic = workflow.index(generic_literal)
         accepts_block = workflow.index('[[ "$prepare_rc" != 0 && "$prepare_rc" != 2 ]]', generic)

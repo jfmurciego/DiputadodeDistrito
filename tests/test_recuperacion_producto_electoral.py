@@ -35,8 +35,8 @@ class DurableElectoralProductRecoveryWorkflowTests(unittest.TestCase):
         for forbidden in (
             "ejecucion-completa-proyecto.yml",
             "_reutilizable-incorporacion-electoral.yml",
-            "preparacion-fuentes.yml",
-            "preparacion-resultados-electorales.yml",
+            "_p11-territoriales.yml",
+            "_p12-electorales.yml",
             "p40-publicacion.yml",
         ):
             self.assertNotIn(forbidden, text)

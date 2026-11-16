@@ -32,9 +32,9 @@ PRODUCCION = {
     "p50-publicacion-academica.yml",  # T-370: el plan pasa del resolutor al job de publicación
     "p70-archivo.yml",
     "p80-verificacion-motor.yml",
-    "preparacion-fuentes.yml",
+    "_p11-territoriales.yml",
     "preparacion-legislatura-vigente.yml",
-    "preparacion-resultados-electorales.yml",
+    "_p12-electorales.yml",
     "produccion-distritos.yml",
 }
 

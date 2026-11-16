@@ -11,8 +11,8 @@ from herramientas.preflight_preparacion_fuente import preflight
 from herramientas.evaluar_persistencia_preparacion import resolve_persist_state, terminal_decision
 
 ROOT = Path(__file__).resolve().parents[1]
-WF01 = ROOT / ".github" / "workflows" / "preparacion-fuentes.yml"
-WF03 = ROOT / ".github" / "workflows" / "preparacion-resultados-electorales.yml"
+WF01 = ROOT / ".github" / "workflows" / "_p11-territoriales.yml"
+WF03 = ROOT / ".github" / "workflows" / "_p12-electorales.yml"
 WF00 = ROOT / ".github" / "workflows" / "ejecucion-completa-proyecto.yml"
 
 
@@ -319,7 +319,9 @@ class CommonPreparationPreflightTests(unittest.TestCase):
         for path, preparation_job in ((WF01, "territoriales"), (WF03, "electorales")):
             data = yaml.safe_load(path.read_text(encoding="utf-8"))
             trigger = data.get("on") or data.get(True)
-            self.assertNotIn("persist_state", trigger["workflow_dispatch"]["inputs"])
+            self.assertNotIn("workflow_dispatch", trigger)  # T-375: el botón es P10 Fuentes y tampoco declara persist_state
+            p10 = yaml.safe_load((WF01.parent / "p10-fuentes.yml").read_text(encoding="utf-8"))
+            self.assertNotIn("persist_state", (p10.get("on") or p10.get(True))["workflow_dispatch"]["inputs"])
             self.assertIn("persist_state", trigger["workflow_call"]["inputs"])
             self.assertTrue(trigger["workflow_call"]["inputs"]["persist_state"]["default"])
 

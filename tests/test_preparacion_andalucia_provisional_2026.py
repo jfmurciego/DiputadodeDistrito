@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class AndaluciaProvisionalWorkflowIntegrationTests(unittest.TestCase):
     def test_preparation_workflow_uses_common_governed_minsait_contracts(self):
-        text = (ROOT / ".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
+        text = (ROOT / ".github/workflows/_p12-electorales.yml").read_text(encoding="utf-8")
         contracts = yaml.safe_load(
             (ROOT / "configuracion/contratos_minsait_provisionales.yaml").read_text(encoding="utf-8")
         )["contracts"]
@@ -37,7 +37,7 @@ class AndaluciaProvisionalWorkflowIntegrationTests(unittest.TestCase):
         self.assertEqual(ext["reconciliation"]["delta_definitive_minus_provisional"], 2419)
 
     def test_provisional_package_cannot_register_in_production_path(self):
-        text = (ROOT / ".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
+        text = (ROOT / ".github/workflows/_p12-electorales.yml").read_text(encoding="utf-8")
         self.assertIn("production_eligible:", text)
         self.assertIn("needs.electorales.outputs.production_eligible == 'true'", text)
         self.assertIn("source_status:", text)
