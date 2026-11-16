@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.50
-Fecha: 2026-11-15
+Versión: 1.0.51
+Fecha: 2026-11-16
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-119 a D-122 (padrón por extracto, coaliciones del histórico, avisos inmediatos); cola T-342 a T-349
-Anterior: legacy/docs/PLAN_v1.0.49_20261115.md
+Cambios/motivo: D-123 a D-127 (licencia de la galería, orden tras r4, histórico por época, población por sección, produccion sin revisor); cola T-350 a T-363; r4 cerrada y publicada
+Anterior: legacy/docs/PLAN_v1.0.50_20261115.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -271,8 +271,13 @@ Fase 4 — producto (en el privado):
 - D-120 (15-11, propietario). Histórico, alias de coaliciones: los alias del BOE que no coinciden con el espejo se acreditan con la composición de cada coalición tomada del BOE de candidaturas proclamadas (fichero con fuente y sha256), nunca de memoria (T-345).
 - D-121 (15-11, propietario). Histórico, elección de 2015-12: en las 13 provincias donde el BOE nombra a la federación regional de IU, la candidatura se acepta como familia IU ↔ «IU-UPeC» del espejo. Es una equivalencia de familia política declarada por el propietario, no deducida de los votos. Provincias (código INE, según el informe de T-345): 04, 11, 14, 18, 21, 23, 29, 41 (IULV-CA), 38 (IUC), 03, 12, 46 («UNITAT POPULAR… (EUPV-UPeC)») y 52 Melilla (candidatura sin «UPeC»). Con D-120, las 312 provincias-elecciones quedan acreditadas.
 - D-122 (15-11, propietario). Avisos: toda PARADA, fallo no transitorio o fin de tanda de una campaña, y toda PR del camino crítico fusionada o bloqueada, se avisan al momento al Planificador (send_message), que se lo pasa al propietario con una notificación al móvil.
+- D-123 (15-11, propietario). LICENSE, apartado 3: «Material de terceros. Las fotografías de la galería territorial del visor (`visor/v2/galeria/`) no son obra del titular. Se rigen por su propia licencia Creative Commons (CC BY, CC BY-SA o CC0), indicada para cada una en `visor/v2/galeria/NOTICE.md`, y no por esta licencia.» + NOTICE con créditos y cambios (#820).
+- D-124 (15-11, propietario). Tras cerrar r4 (P50 de los 71): primero el ensayo en seco del 29-11 y después la campaña histórica; el histórico SÍ se publica en el visor, con su fecha de elección; las fuentes del histórico van a R2 ya (los 17 seccionados INE 2010-2026, el Observatorio, la tabla 30832 y el Censo 2011); 2023 no entra en el histórico (lo cubre r4).
+- D-125 (15-11, propietario). Histórico de las generales con la opción A: distritos generados con los datos de cada época (seccionado y padrón por sección del año de la elección, votos por sección de esa elección y K = escaños oficiales de esa elección según el BOE), sin traslado al mapa de 2023. Es un ejercicio retrospectivo («quién habría mandado en ese momento»), no una propuesta a futuro: cada mapa se publica con su fecha y su procedencia, separado del vigente. Sustituye a D-105 para las generales; la ficha #819 (paso A sobre 2023) queda obsoleta.
+- D-126 (15-11, propietario). Población por sección del histórico: 2011-11 = Censo 2011 (1-11-2011); 2015-12, 2016-06 y 2019-04 = Atlas INE 30832 del año; 2019-11 = Atlas 2020. Sección sin dato («.»): valor de la misma sección en el año más cercano del Atlas (empate: el anterior), marcado sección a sección; % rellenado publicado por provincia; provincia con más del 1 % rellenado no se publica sin decisión del propietario. Nunca el censo electoral como población. Hallazgo (T-358, #832): el «.» es real del Atlas (34 provincias-elección por encima del 1 %; Sevilla 2016, 20,9 %). Pendiente del propietario: refinar el relleno (media de años vecinos y ajuste al total municipal oficial, recomendado), mantenerlo o subir el umbral.
+- D-127 (16-11, propietario). El entorno `produccion` no exige revisor (lo quitó el propietario el 15-11 a las 21:49 UTC: aprobar a mano cientos de jobs es inviable). El único control de lanzar y publicar es la frase D-52 del propietario en el chat del Operador (#835, #837).
 
-### Cola T-291 a T-349 (14 y 15-11)
+### Cola T-291 a T-363 (14 a 16-11)
 | Id | Qué | Estado |
 |---|---|---|
 | T-291 | Equivalencia de seccionados 2026→2023 en M07 7.4.0, adaptador, 03 y votos por partido de 2026 (D-65, D-99) | HECHA (#749 #750 #752 #754) |
@@ -325,16 +330,30 @@ Fase 4 — producto (en el privado):
 | T-342 | Puerta del histórico en código (≤0,1 %, 2011 con los valores de D-70 por provincia, contraste BOE por partido con tolerancia 0,10, cobertura total) | HECHA (#812) |
 | T-343 | Mapa espejo→sigla BOE por elección y provincia para el contraste, con fuente y sha256 (no toca D-20) | LISTA (Coordinador) |
 | T-344 | Solo lectura: por qué cambió el seccionado 2025 de aut11 en r4 y si cambia M06 | HECHA: no bloquea r4 (cada P00 usa su P10); sigue en T-347 |
-| T-345 | Alias de coaliciones acreditados con la composición del BOE (D-120) y la equivalencia de D-121 | REVISIÓN (#816) |
+| T-345 | Alias de coaliciones acreditados con la composición del BOE (D-120) y la equivalencia de D-121 | HECHA (#816) |
 | T-346 | Transparencia: el sitio lo sirve Cloudflare (NEL/Report-To) en V1/V2/V3 y sitio | HECHA (#814) |
 | T-347 | P10: fuentes ogc_features copiadas en R2, comparadas y con parada si cambian CUSEC o geometría (amplía D-112/D-117) | PENDIENTE (tras la P50) |
 | T-348 | La misma frase de Cloudflare en nacional y Congreso | HECHA (#815) |
-| T-349 | Ninguna rama reutiliza lo registrado con id no canónico (paquete electoral, población, M06, M08, par, composición); prepara de nuevo | EN CURSO (Coordinador); camino crítico de r4 |
+| T-349 | Ninguna rama reutiliza lo registrado con id no canónico (paquete electoral, población, M06, M08, par, composición); prepara de nuevo | HECHA (#818) |
+| T-350 | Actualización del plan 1.0.50 | HECHA (#817) |
+| T-351 | Ficha de la campaña histórica sobre 2023 | HECHA (#819); OBSOLETA por D-125 |
+| T-352 | Traspaso del Coordinador (relevo 15-11) | HECHA (#821) |
+| T-353 | Contratos electorales con id canónico en aut02, aut03, aut06, aut07, aut09, aut11, aut12 y test de guarda | HECHA (#824) |
+| T-354 | Espejo en R2 de las 4 fuentes de mesas de Galicia (Xunta bloquea runners y nube) | HECHA (#827); subido por el propietario |
+| T-355 | Publicación del histórico con fecha de elección (P50 y paso A con M08) | EN ESPERA (#830): se replantea para D-125 |
+| T-356 | Fuentes del histórico a R2: 17 seccionados, Observatorio, 30832 y Censo 2011, con modo reanudar | REVISIÓN: script en main (#829); faltan 10 piezas + 30832/Censo (propietario, Windows) |
+| T-357 | Estudio del padrón por sección 2011-2020 | HECHA (#831) |
+| T-358 | Población por sección por elección con la regla de D-126 e informe por provincia | HECHA (#832) |
+| T-359 | Rojo de main por carrera del catálogo de procedencia | NO NECESARIA (se cura sola) |
+| T-360 | Paralelismo de la cadena: jobs de grupo único (estado operativo, promoción del catálogo) y catálogo en el mismo commit del registro | LISTA (prioridad 2, tras el ensayo del 29-11) |
+| T-361 | Catálogo de procedencia publicado por lista blanca, validación JSON y test de la copia en la P50 | HECHA (#765) |
+| T-362 | Tests que leían INDEX/registros vivos con ids viejos | HECHA (#836) |
+| T-363 | Actualización del plan 1.0.51 | REVISIÓN (esta PR) |
 | T-340 | Ficha del paso A del histórico con Condición previa, Puerta y Mapa según D-115 (si el código no implementa la puerta, abre tarea) | EN CURSO (Coordinador) |
 | T-341 | Actualización del plan 1.0.49 | REVISIÓN (#810) |
 
 ### Frentes y camino crítico (14-11)
-1. Regeneración Deslinde 1.1: r3 CERRADA (PARADA: sus P10 reutilizaron paquetes con id antiguo). r4 (`docs/autorizaciones/2026-11-15_deslinde11-r4.md`, frase del propietario 15-11 08:52): piloto aut11 con P10 real; su P00 falló por T-338; tras #808 y main verde, frase de reanudación y segundo intento de aut11 (D-114) → P10 de los 71 → archivado → P00 de prueba de aut11 → tandas de 5 → P50 en lotes ≤ 12 (sube V3, padrón, ficha de procedencia y composiciones).
+1. Regeneración Deslinde 1.1: CERRADA y PUBLICADA (r4: 71/71 cadenas, P50 6/6 el 16-11 a las 12:03; Galicia con su espejo en R2). Se levanta la congelación. Siguiente: ensayo en seco del 29-11 (#800, #801) → T-360 paralelismo de la cadena → histórico D-125 (fuentes en R2, decisión del relleno de D-126, ficha por elección, #830 replanteada).
 2. Ensayo en seco de la noche del 29-11, tras la regeneración.
 3. Entre las P00 y la primera P50: fusionar #765 con revisión (D-111). Tras la P50: T-313 y T-309.
 4. Almacenes M06: #785 y el script de borrado para el propietario.
@@ -348,7 +367,7 @@ Frase de reanudación de r3: DADA en el chat del Operador, condicionada a #786 y
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324, T-327 y T-341. El planificador ha dado T-194 a T-349 (10 a 15-11; T-277 y T-292 sin usar; T-331 a T-340 y T-342 a T-349 los dio el Coordinador con acuerdo del Planificador). Siguiente libre: T-351.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324, T-327, T-341, T-350 y T-363. El planificador ha dado T-194 a T-363 (10 a 16-11; T-277 y T-292 sin usar; T-331 a T-340 y T-342 a T-362 los dio el Coordinador con acuerdo del Planificador). Siguiente libre: T-364.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
