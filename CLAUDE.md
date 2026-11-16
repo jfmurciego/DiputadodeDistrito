@@ -95,7 +95,6 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
 
 ## Historial de lecciones
 - 2026-10-29/11-07 · Murcia/Valencia, Congreso (piloto Huesca, espejo Infoelectoral), CRS 25830, activación por elección; agentes, `.claude/rules/`, hooks, registro por ficheros, cadenas sin Mac · #324–#448.
-- 2026-11-08 · Ola 2 y 3 (ensembles, archivista D-17, siglas D-20, Gestor 2.0, M05 7.4.3, congreso_350) y noche (relevo de chats, ids del Planificador, tests sobre estado vivo, T-90b/T-109/T-113) · #500–#555. Detalle en `.claude/rules/`.
-- 2026-11-09 · Visor v2 y /v2/, registro sin 350, Gestor campaña completa y paso A autonómico, ensembles, censo 2026, sin distrito 0, banco de pruebas del motor. Detalle en `.claude/rules/`.
+- 2026-11-08/09 · Olas 2-3 (ensembles, archivista, siglas, Gestor 2.0, congreso_350), relevo de chats, tests sobre estado vivo, visor v2, registro sin 350, banco de pruebas del motor · #500–#600. Detalle en `.claude/rules/`.
 - 2026-11-14 · Traspaso del Coordinador, renombrado T-220, Deslinde (paquete 1.0, 1.1 con CP-SAT), fuentes en R2/P10, batería desde la fuente, P50 con composición y restauración R2, V3, ficha de procedencia, id canónico en la preparación y revert de robots (r3), contador y maplibre local, licencias · #741–#789. Detalle en `.claude/rules/`.
 - 2026-11-16 · r3/r4 (71/71 publicadas): renombrado de ids → inventario de todo lo reutilizable + test de flujo antes de reanudar; contención con >8 cadenas; espejos Xunta/INE en R2 desde el Windows; D-125 a D-130 · #786–#843. Detalle en `.claude/rules/workflows.md`.
