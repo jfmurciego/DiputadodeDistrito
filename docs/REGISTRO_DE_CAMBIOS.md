@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.474
+Versión: 1.0.475
 Fecha: 2026-11-16
-Alcance: T-385 — Plan 1.0.56: D-143, D-14 sustituida en P50 y estados de la migración
+Alcance: T-374 — Diseño: Revisor de PR dentro de P90 (solo documento)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-16_planificador-plan-1-0-56.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.473_registro_20261116.md
+Cambios/motivo: entrada docs/registro/2026-11-16_t374-revisor-p90.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.474_registro_20261116.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.473_registro_20261116.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.475 · [2026-11-16 — T-374 — Diseño: Revisor de PR dentro de P90 (solo documento)](registro/2026-11-16_t374-revisor-p90.md)
 - 1.0.474 · [2026-11-16 — T-385 — Plan 1.0.56: D-143, D-14 sustituida en P50 y estados de la migración](registro/2026-11-16_planificador-plan-1-0-56.md)
 - 1.0.473 · [2026-11-16 — T-378 — Diseño al detalle de P00 Campaña y de la nueva forma de trabajar (paso 9a, sin código)](registro/2026-11-16_t378-diseno-p00-campana.md)
 - 1.0.472 · [2026-11-16 — T-369 — P80 Verificación del motor: la batería en un workflow sin parámetros técnicos](registro/2026-11-16_t369-p80-verificacion-motor.md)
