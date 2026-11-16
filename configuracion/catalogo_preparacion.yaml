@@ -2634,24 +2634,23 @@ territories:
         run_id: 43040878307
         stage: M08
       preparation_evidence:
-        run_id: 43774893450
-        artifact_name: ddd-source-package-nac49-2025-43774893450
-        artifact_sha256: f548e3e7e3c89fb4b31c6da0a7164ab16c640c81fc8de6ecf7403cec68d4fc97
+        run_id: 43798955456
+        artifact_name: ddd-source-package-nac49-2025-43798955456
+        artifact_sha256: 07c3ae9394b27a5b33be43801020b9bc34533ee4697ad7674741ad698e256e64
         package_sha256: 083d1c566cca85ae1c47d76202669aa7dfa4e834e7364e283f85b764ae615c4f
-        receipt_path: territorios/nac49/evidencia/fuentes_territoriales/2025/66ced2534b36654e4d1b4933f07696e761aaa70057540fcb46817411d68bc98f/43774893450/receipt.json
+        receipt_path: territorios/nac49/evidencia/fuentes_territoriales/2025/66ced2534b36654e4d1b4933f07696e761aaa70057540fcb46817411d68bc98f/43798955456/receipt.json
         territorial_identity_sha256: 66ced2534b36654e4d1b4933f07696e761aaa70057540fcb46817411d68bc98f
         compatibility_report_sha256: f644bc149d7b7563fd57d095aedca2b805df0caec63c7d9ed99e7658bdfc84d2
         compatibility_identity_sha256: 84eb448e921f54279e46041577fff0e25d4a6e471337febf444f0d1ba725d2e3
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 476081ba1fd2c8ee49ad3f3670f53446ef10568a
+        source_commit: 3fcb60b8cfc3c017038180a331e1c60f1b988aa4
       evidence:
         electoral_source: territorios/nac49/evidencia/fuentes_electorales/2025/81aa6580b3fb902a0f3a54c85dd4a2745f2830cec119cc01e50c6722c85a04ff/41236149824/receipt.json
         territorial_product: territorios/nac49/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac49/evidencia/pares_fuentes/2025/9456a3656fd980295e4100f3e8ea2fd0d288d249938586a8cd3e189a089e6595.json
         electoral_product: territorios/nac49/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/nac49/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac50
   name: Congreso Zaragoza
