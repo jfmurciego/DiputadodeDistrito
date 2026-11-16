@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_soria",
+  "territory_id": "nac42",
   "territory_name": "Congreso Soria",
   "edition": "2025",
-  "run_id": 43029280043,
-  "artifact_name": "ddd-state-43029280043-M08",
-  "artifact_sha256": "f88663f8ffb4cb76f7ae548b3f2919fd9a249f2edfd3652425efbba1b5dc8bb0",
-  "source_commit": "777d1e29d0c205522b7bf83557b05bdc5c1b47df",
+  "run_id": 43793874826,
+  "artifact_name": "ddd-state-43793874826-M08",
+  "artifact_sha256": "913fba5cdd1df74716949cc46b674e400b4eb4f6378feefee62cff90aecd7950",
+  "source_commit": "2667b4a56716d4277dc0742802d0dbbe5a19a3ca",
   "stage": "M08"
 }
