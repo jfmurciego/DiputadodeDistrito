@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T03:19:47.230389+00:00",
+  "generated_at": "2026-11-16T03:21:07.292305+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -10572,20 +10572,20 @@
       "name": "Nacional Toledo",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 43791386692,
+      "run_id": 43796175523,
       "last_run": {
-        "run_id": 43791386692,
+        "run_id": 43796175523,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10626,7 +10626,7 @@
       },
       "autonomous_community_code_ine": "C45",
       "display_name": "Nacional Toledo",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac46",
@@ -12298,7 +12298,7 @@
     }
   ],
   "kpis": {
-    "complete": 70,
+    "complete": 71,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12362,6 +12362,7 @@
       "Nacional Soria",
       "Nacional Tarragona",
       "Nacional Teruel",
+      "Nacional Toledo",
       "Nacional Vizcaya",
       "Nacional Zamora",
       "Nacional Zaragoza",
@@ -12580,11 +12581,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac44",
-    "name": "Nacional Teruel",
-    "display_name": "Nacional Teruel",
-    "autonomous_community_code_ine": "C44",
-    "run_id": 43795542897,
+    "territory_id": "nac45",
+    "name": "Nacional Toledo",
+    "display_name": "Nacional Toledo",
+    "autonomous_community_code_ine": "C45",
+    "run_id": 43796175523,
     "stage": "M08",
     "certification": "PASS",
     "edition": "2025"
@@ -12594,12 +12595,6 @@
       "territory": "12 Galicia",
       "territory_id": "aut12",
       "autonomous_community_code_ine": "12",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Toledo",
-      "territory_id": "nac45",
-      "autonomous_community_code_ine": "C45",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12637,6 +12632,12 @@
       "territory_id": "congreso350_almeria",
       "autonomous_community_code_ine": "R04",
       "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Ávila",
+      "territory_id": "congreso350_avila",
+      "autonomous_community_code_ine": "R05",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12644,12 +12645,6 @@
       "territory": "12 Galicia",
       "territory_id": "aut12",
       "autonomous_community_code_ine": "12",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Toledo",
-      "territory_id": "nac45",
-      "autonomous_community_code_ine": "C45",
       "action": "preparar fuentes electorales"
     },
     {
