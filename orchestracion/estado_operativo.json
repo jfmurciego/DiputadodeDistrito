@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T04:37:59.064342+00:00",
+  "generated_at": "2026-11-16T04:39:19.315323+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -10786,20 +10786,20 @@
       "name": "Nacional Zamora",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 43798955456,
+      "run_id": 43804127706,
       "last_run": {
-        "run_id": 43798955456,
+        "run_id": 43804127706,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10840,7 +10840,7 @@
       },
       "autonomous_community_code_ine": "C49",
       "display_name": "Nacional Zamora",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac50",
@@ -12268,7 +12268,7 @@
     }
   ],
   "kpis": {
-    "complete": 70,
+    "complete": 71,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12335,6 +12335,7 @@
       "Nacional Toledo",
       "Nacional Valencia",
       "Nacional Valladolid",
+      "Nacional Zamora",
       "Nacional Ceuta",
       "Nacional Melilla",
       "Nacional 350 Madrid",
@@ -12550,11 +12551,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac51",
-    "name": "Nacional Ceuta",
-    "display_name": "Nacional Ceuta",
-    "autonomous_community_code_ine": "C51",
-    "run_id": 43803972993,
+    "territory_id": "nac49",
+    "name": "Nacional Zamora",
+    "display_name": "Nacional Zamora",
+    "autonomous_community_code_ine": "C49",
+    "run_id": 43804127706,
     "stage": "M08",
     "certification": "PASS",
     "edition": "2025"
@@ -12570,12 +12571,6 @@
       "territory": "Nacional Vizcaya",
       "territory_id": "nac48",
       "autonomous_community_code_ine": "C48",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Zamora",
-      "territory_id": "nac49",
-      "autonomous_community_code_ine": "C49",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12607,6 +12602,12 @@
       "territory_id": "congreso350_almeria",
       "autonomous_community_code_ine": "R04",
       "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Ávila",
+      "territory_id": "congreso350_avila",
+      "autonomous_community_code_ine": "R05",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12620,12 +12621,6 @@
       "territory": "Nacional Vizcaya",
       "territory_id": "nac48",
       "autonomous_community_code_ine": "C48",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Zamora",
-      "territory_id": "nac49",
-      "autonomous_community_code_ine": "C49",
       "action": "preparar fuentes electorales"
     },
     {
