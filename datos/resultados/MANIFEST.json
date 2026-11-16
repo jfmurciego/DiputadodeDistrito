@@ -135,54 +135,12 @@
    "distritos": 8,
    "sha256_csv": "abadefb3c025af0248dde5359f331759a65945ee45e20ff1e2b22b3ed719da9a"
   },
-  "congreso_baleares": {
-   "run_id": "42953068884",
-   "blob_sha": "00d0393d4197e7af90afd062496f4c54a7c05fe4",
-   "sha256_origen": "57390fd127c32ffdf24f27c7277d3cc7f40e5a28c1f2849c202dbe1167e7bc77",
-   "distritos": 10,
-   "sha256_csv": "df5f61fb42017454c18b8c6cd9ec50c32937d020bf2c7c638f565f81cf8ab900"
-  },
-  "congreso_barcelona": {
-   "run_id": "42953127263",
-   "blob_sha": "1a9d93b471db4485693ce05fa46ea0ed80434b1c",
-   "sha256_origen": "44ea0813870751cddd13b0df10adc3edacce22eaaae5a35b1af53e0962c93ca9",
-   "distritos": 50,
-   "sha256_csv": "61ea8e157f80e2ad05a339e482b45c10a6a770dc84576633d1b2dd6683cfbff2"
-  },
-  "congreso_burgos": {
-   "run_id": "42986581831",
-   "blob_sha": "b246767ba95f7fe67643bf73e5cf65fefff3bb3e",
-   "sha256_origen": "204b5694ae523dfd0bec74ddb9a8b1535e7290ef94197949a39dd1e1705caebb",
-   "distritos": 3,
-   "sha256_csv": "8f59a5b7d92bbcbef3cd3ce6104741a3cc1902730c5f8071da2115e035cd4945"
-  },
-  "congreso_caceres": {
-   "run_id": "42953363103",
-   "blob_sha": "c209fddde30a70b8f47b0a522223a0c09ed42e2a",
-   "sha256_origen": "96ab074d37f32c6421578b86a0a1ba62373a17723556dfe4d6cf447b69c9c909",
-   "distritos": 3,
-   "sha256_csv": "6826335d0e49100eab60f92389549c14430b162d2ff784a23f44f21a35f06cbb"
-  },
-  "congreso_cadiz": {
-   "run_id": "42953019279",
-   "blob_sha": "9ecda4b43788224697fe98362ec1ad5847d10f51",
-   "sha256_origen": "2d05227cac5a20d6769ea6a5fb2b5d84ace47e7d4497099fb7e91fc4b5cbec79",
-   "distritos": 11,
-   "sha256_csv": "84e90d01c11dae831d8308a13bc849601a1be0143f435430e108a14b776ec739"
-  },
   "congreso_cantabria": {
    "run_id": "42985965354",
    "blob_sha": "a4ea073ceee9c82721df8496c1eba4ecbd75ddab",
    "sha256_origen": "76a19c93495146e33f62c0d52ec5dd80765f6b2cccdaa2d6689081ea1e6167be",
    "distritos": 5,
    "sha256_csv": "de90a7ae76536a3d382cf9a44e24627fa7cbb6965ac2b864be00c30eaf51fc1b"
-  },
-  "congreso_castellon": {
-   "run_id": "42953757677",
-   "blob_sha": "b181a6baac99523872da37f16438664bd83aa0e0",
-   "sha256_origen": "8983bfd0e613628630c2474a210d12f7d27158dff5b8c1c1bd6be0c8ce83a7eb",
-   "distritos": 5,
-   "sha256_csv": "4cfe99e1bb71ac17c59d911a044e6cbf773c8cf91e9937ffe740a3a1e2958778"
   },
   "congreso_ceuta": {
    "run_id": "42985728070",
@@ -191,47 +149,12 @@
    "distritos": 1,
    "sha256_csv": "ee58feb986b5906a52df87a9edc8ffafa2248512af54c305d833614992a70672"
   },
-  "congreso_ciudad_real": {
-   "run_id": "42954776957",
-   "blob_sha": "ecf0872821326f3935dc8de0ad7a3138ace1ad5b",
-   "sha256_origen": "f5dd1cac4259b8f3778ffe9661eea97488a02496819da26756ed11c6e4377bfe",
-   "distritos": 4,
-   "sha256_csv": "bdb9d1c2007384ca751e4230e46fd9c89dc24f766f722a1eb12fda970caa3650"
-  },
-  "congreso_cordoba": {
-   "run_id": "42953300723",
-   "blob_sha": "66c383f799c48b06da5aedad71f3375955c7c699",
-   "sha256_origen": "b958ed608131a050298aa6c2e11a6f91cfb50e3b8c2b5c0068733257177dbe2c",
-   "distritos": 6,
-   "sha256_csv": "e76120e48f4ea2d5e3453af68f8862d03501ee66acec00cc2bc606922d5c6f92"
-  },
-  "congreso_cuenca": {
-   "run_id": "42954007732",
-   "blob_sha": "ab35eaf2c743ab11d0b3fcdf89a59832d5828291",
-   "sha256_origen": "f69e6b83a6058a5aa4bfe3fcb6e6dd4457e43a19a58283378dc6b51e3e9335c7",
-   "distritos": 2,
-   "sha256_csv": "e307b38364c1bddc11e97ec74fe47f2df3aec5fe47bca0b64c9431f5e8932af7"
-  },
   "congreso_gerona": {
    "run_id": "42954957703",
    "blob_sha": "179d294c75bce0bd123b57f9db67bb28ec98e0e7",
    "sha256_origen": "846059d87675b9256ee06e70cc44af86bcb4945e61594fddb180bf9405d0b716",
    "distritos": 7,
    "sha256_csv": "070252af622080262e8c2e00b06ffe133f8fe8725e87a83218ec8b9a9e68f9d3"
-  },
-  "congreso_granada": {
-   "run_id": "42954091088",
-   "blob_sha": "b2399d8d12f7135d4084cb72fb0619e44a12ea95",
-   "sha256_origen": "8cfc3a27a1d027b02e6b4ac7d5cdab4f4f89fd2e0fe4bdaa71e650f35a4eeb46",
-   "distritos": 8,
-   "sha256_csv": "a8cc6581642494c1ea06348e86f3f53042a8dfb3bd63ac630b23a75484fc9567"
-  },
-  "congreso_guadalajara": {
-   "run_id": "42955217289",
-   "blob_sha": "467f8ab318110b4ede064453db74a90bae3379de",
-   "sha256_origen": "8654c3a680cd7a356987e6f39da01c8da37989af7c226d493a6cd1307be6bbff",
-   "distritos": 2,
-   "sha256_csv": "ed5c12cf69b9eb0af95e56b61c20cb26152a72dc90b37bf690d67eff48995bbd"
   },
   "congreso_guipuzcoa": {
    "run_id": "42955375065",
@@ -260,13 +183,6 @@
    "sha256_origen": "f036df4405fec4b0d2feb44a9bdb17f8bb23a6f4756926231042aaf7ebf30e33",
    "distritos": 5,
    "sha256_csv": "c22146346a9120d48751e1f4bbda0190dd3f995b4a31aeecdbf5b4d80dc94422"
-  },
-  "congreso_la_coruna": {
-   "run_id": "42953518518",
-   "blob_sha": "4e43ca4deb9bcf90b4ac25fba90c939ff7f881b6",
-   "sha256_origen": "a1a013480ac475b23b8542f59ec9c64e8e996eaa4ca585d356838c5daf7d5af3",
-   "distritos": 9,
-   "sha256_csv": "2042d3dbe2720ce4a1b69ab33c7e4ad80b2d07dbfa7da65840da6c6c6e62dbcd"
   },
   "congreso_la_rioja": {
    "run_id": "42935762636",
@@ -498,6 +414,90 @@
    "sha256_origen": "850e2f5ca3d8e4db9c75f8d9da5a159f07c9082c10fafc49384bf17757da5351",
    "distritos": 6,
    "sha256_csv": "138b4ca436924b95a47d32135cebd57559e2b1b5a9d1d3e9457c5546658d6792"
+  },
+  "nac07": {
+   "run_id": "43763327156",
+   "blob_sha": "4f130a3ef3ffb919894bb342f16e1169aad95975",
+   "sha256_origen": "39a41b407303755fcebe11009139be33e68f9a5b18ac011db946a5d544694014",
+   "distritos": 10,
+   "sha256_csv": "df5f61fb42017454c18b8c6cd9ec50c32937d020bf2c7c638f565f81cf8ab900"
+  },
+  "nac08": {
+   "run_id": "43763728403",
+   "blob_sha": "c622c09d7aed87c0d432294252d3c3200c51bc53",
+   "sha256_origen": "55dd0cf7236bfe13eee874c98506341847fe0cf81ac2a3b70cdeca68ec29c14c",
+   "distritos": 50,
+   "sha256_csv": "692d8225330160887f6eecb0b7341b4b5a591914eed673d94f4235b8269fbce5"
+  },
+  "nac09": {
+   "run_id": "43763483520",
+   "blob_sha": "94512fc90148b0e1002c52e496059ce739097e1d",
+   "sha256_origen": "168af7432c46191e0ca4d8653b559face8cc5d34e3daf2b13ad347cd1c4138b9",
+   "distritos": 3,
+   "sha256_csv": "eff0fd4b1605376a4fcc50d71383b03d0b40227d6de95aaaff837220f974a36c"
+  },
+  "nac10": {
+   "run_id": "43768394165",
+   "blob_sha": "39c4b50f5adc923d7ca62ba12bda6aa593583464",
+   "sha256_origen": "23decb2dec726e736c6c081090b3322a55810b3d92128ccfe09a614c92244ea1",
+   "distritos": 3,
+   "sha256_csv": "e452c014c903d19aaa2d7dfc850e326c1b5146d0cc82278134898d19a263f644"
+  },
+  "nac11": {
+   "run_id": "43769041417",
+   "blob_sha": "1847b62abd978105b2b78ed1f42912191da58f26",
+   "sha256_origen": "b6035943552a0734565c382c3b6bb7d3370f2479ce1e847ca7fcc28617e5362c",
+   "distritos": 11,
+   "sha256_csv": "84e90d01c11dae831d8308a13bc849601a1be0143f435430e108a14b776ec739"
+  },
+  "nac12": {
+   "run_id": "43769013184",
+   "blob_sha": "3efc56f0ed1ea1e0989e61aa3bb239ef517eb19a",
+   "sha256_origen": "f689e8565a2714de57b9fffc56a283ffec79984573361bbdb645a2a680cb3080",
+   "distritos": 5,
+   "sha256_csv": "4cfe99e1bb71ac17c59d911a044e6cbf773c8cf91e9937ffe740a3a1e2958778"
+  },
+  "nac13": {
+   "run_id": "43769610932",
+   "blob_sha": "b2b20a154beb545cd4d933a0c1ca284d4e134d78",
+   "sha256_origen": "7f4e49c110e9c900680eb887955b973f48bd2210cb84c43167facbe6b33b4d1f",
+   "distritos": 4,
+   "sha256_csv": "119ef09dbfc40e918c22f9409ee6b5b69be0c9e0a979239211b046ee7e721639"
+  },
+  "nac14": {
+   "run_id": "43773176478",
+   "blob_sha": "20852c0531453a3847cb49d13c43fcb694ad9e21",
+   "sha256_origen": "d517d925912fdfcc37818905cc78b8b561682342757127808fb6eae1ca279595",
+   "distritos": 6,
+   "sha256_csv": "62d5636c1a043fba5580a798edc03d411593cccb368b25a8237a0f185e110371"
+  },
+  "nac15": {
+   "run_id": "43774834805",
+   "blob_sha": "4db87ff2c5e168c1b6847bc1dc72bc4dc76490b1",
+   "sha256_origen": "bfc812d60c937b1aafaf54cbd7a840b1776fbf5fb7bace4bb2a012a0908b6251",
+   "distritos": 9,
+   "sha256_csv": "582cf351546754d403144f212d6bfd560016a513654a7f1a7c62f21773638271"
+  },
+  "nac16": {
+   "run_id": "43775578741",
+   "blob_sha": "2e4d04c58222ab60bf5037aba2fb420573c476e1",
+   "sha256_origen": "343ca32cdea1a124c18e0ec8a7969ffe332bf6f920c7708bdd05f098b04b672a",
+   "distritos": 2,
+   "sha256_csv": "588ad1eaeb49f0df2665819b23c1e01a12e5c413f8cbb7ace9c8efce28c61ef2"
+  },
+  "nac18": {
+   "run_id": "43775697971",
+   "blob_sha": "7bf87be270e552364086b866243b5f3192ab8894",
+   "sha256_origen": "687f95d3bc6251548332dbdfb8aca504c5377c150fccc6d886564c3aff28ce75",
+   "distritos": 8,
+   "sha256_csv": "94d891e81aef4ae86374a5b836651243933bec549468ee065eb6a365e2506621"
+  },
+  "nac19": {
+   "run_id": "43778101275",
+   "blob_sha": "c30cca7b085477df02d7084324605539c5d6f111",
+   "sha256_origen": "ab9685089da65396f71c0f7865b82b45c5dbbd95d4e44d2c54e9701ae47446ba",
+   "distritos": 2,
+   "sha256_csv": "516da30b5f1c58504c79472ddd90f09b829923ea2a269018f39cd49a472e25b2"
   }
  },
  "partidos": {},
