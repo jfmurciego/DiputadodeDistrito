@@ -85,13 +85,14 @@ class OperationalConcurrencyTests(unittest.TestCase):
 
 class GerryChain50WiringTests(unittest.TestCase):
     def test_manual_02_derives_gerrychain50_contract(self):
-        data = load_yaml(WF / "produccion-distritos.yml")
+        data = load_yaml(WF / "p20-distritos.yml")
         manual_inputs = data["on"]["workflow_dispatch"]["inputs"]
         self.assertNotIn("gerrychain_entrypoint", manual_inputs)
         self.assertNotIn("require_unique_hashes", manual_inputs)
-        child = data["jobs"]["ruta"]["with"]
-        self.assertIn("gerrychain_50", child["gerrychain_entrypoint"])
-        self.assertIn("require_unique_hashes", child)
+        # T-377: la derivación del antiguo job `ruta` la hace el job `entrada` (solo por workflow_call; el botón usa Canónico).
+        run = data["jobs"]["entrada"]["steps"][0]["run"]
+        self.assertIn("then gerrychain_entrypoint=gerrychain_50", run)
+        self.assertIn("then require_unique_hashes=true", run)
 
     def test_manual_00_derives_contract_and_preserves_campaign_checks(self):
         data = load_yaml(WF / "ejecucion-completa-proyecto.yml")
@@ -118,9 +119,9 @@ class GerryChain50WiringTests(unittest.TestCase):
         self.assertIn('"candidate_count":int(candidate_count)', script)
 
     def test_selected_strategy_reuses_m04_and_reports_certification_separately(self):
-        resolver = (WF / "produccion-distritos.yml").read_text(encoding="utf-8")
+        resolver = (WF / "p20-distritos.yml").read_text(encoding="utf-8")
         procedure = (ROOT / "procedimiento.sh").read_text(encoding="utf-8")
-        reusable = (WF / "_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
+        reusable = (WF / "p20-distritos.yml").read_text(encoding="utf-8")
         self.assertIn("search_from=4", resolver)
         self.assertIn("--validate-baseline-only", procedure)
         self.assertIn("PENDING_M06", procedure)

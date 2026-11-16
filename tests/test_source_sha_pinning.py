@@ -107,16 +107,14 @@ class FullRunSourceShaPinningTests(unittest.TestCase):
         self.assertIn("needs.planificar.outputs.source_sha", state_checkout["with"]["ref"])
 
     def test_nested_reusables_preserve_code_ref_and_01_returns_prepared_not_enabled_ref(self):
-        production = load(WF / "produccion-distritos.yml")
+        production = load(WF / "p20-distritos.yml")
         incorporation = load(WF / "incorporacion-resultados-electorales.yml")
         preparation = load(WF / "preparacion-fuentes.yml")
         full = load(FULL)
         gate = load(WF / "_reutilizable-puerta-validacion.yml")
 
-        self.assertEqual(
-            production["jobs"]["ruta"]["with"]["source_ref"],
-            "${{ inputs.source_ref }}",
-        )
+        self.assertIn('echo "source_ref=$IN_SOURCE_REF"', production["jobs"]["entrada"]["steps"][0]["run"])  # T-377: `entrada` lo pasa tal cual
+        self.assertEqual(production["jobs"]["entrada"]["steps"][0]["env"]["IN_SOURCE_REF"], "${{ inputs.source_ref }}")
         self.assertEqual(
             incorporation["jobs"]["incorporar"]["with"]["source_ref"],
             "${{ inputs.source_ref }}",

@@ -1117,7 +1117,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             self.assertTrue(all("DDD_MUNICIPALITY_PARTITION" in props for props in materialized_properties))
 
     def test_physical_preparer_production_module_invocation_works_for_both_archipelagos(self):
-        workflow = (ROOT/".github/workflows/_reutilizable-generacion-territorial.yml").read_text(
+        workflow = (ROOT/".github/workflows/p20-distritos.yml").read_text(
             encoding="utf-8"
         )
         self.assertIn(
@@ -1234,7 +1234,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             resolve({"province_field": "CPRO", "municipality_field": "CUMUN"}),
         )
 
-        workflow = (ROOT/".github/workflows/_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
+        workflow = (ROOT/".github/workflows/p20-distritos.yml").read_text(encoding="utf-8")
         self.assertIn("hard_partition_mode", workflow)
         self.assertIn("-m herramientas.preparar_particiones_fisicas_m04", workflow)
         self.assertIn("preparar_unidades_internas.py", workflow)

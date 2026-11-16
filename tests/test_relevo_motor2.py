@@ -58,7 +58,7 @@ class DefectosYCallers(unittest.TestCase):
         self.assertEqual(texto.count("inputs.motor || 'motor2'"), 3)  # 02, cadena electoral, interruptor
 
     def test_la_02_pasa_motor2_al_reutilizable_y_a_la_seleccion(self):
-        texto = (WF / "produccion-distritos.yml").read_text(encoding="utf-8")
+        texto = (WF / "p20-distritos.yml").read_text(encoding="utf-8")
         self.assertNotIn("inputs.motor || 'm05'", texto)
         self.assertIn("DDD_MOTOR: ${{ inputs.motor || 'motor2' }}", texto)
 

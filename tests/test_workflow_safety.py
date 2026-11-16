@@ -57,7 +57,7 @@ class WorkflowSafety(unittest.TestCase):
         self.assertEqual(manual_inputs["territorios"]["type"],"string")
         self.assertEqual(manual_inputs["simular"]["type"],"boolean")
         self.assertIs(manual_inputs["simular"]["default"],True)
-        self.assertTrue({"scenario_id","scenario_strategy"}<=set(viewer_triggers["workflow_call"]["inputs"]))
+        self.assertFalse({"scenario_id","scenario_strategy"}&set(viewer_triggers["workflow_call"]["inputs"]))  # T-377 (D-138): sin escenarios
 
     def test_retired_diagnostics_are_not_active_workflows(self):
         # 2026-10-31: diagnósticos, F10, pruebas y smokes retirados a legacy/workflows/retirados_20261031/.
@@ -106,7 +106,7 @@ class WorkflowSafety(unittest.TestCase):
         self.assertIn("geometric_exceptions_causally_governed", state_builder)
 
     def test_unica_ejecucion_territorial_manual_es_interfaz_institucional(self):
-        self.assertTrue((WORKFLOWS/"produccion-distritos.yml").is_file())
+        self.assertTrue((WORKFLOWS/"p20-distritos.yml").is_file())
 
     def test_orquestacion_no_expone_boton_manual_y_conserva_ci(self):
         self.assertFalse((WORKFLOWS/"g10-control.yml").exists())

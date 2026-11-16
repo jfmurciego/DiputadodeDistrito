@@ -18,7 +18,7 @@ from tests.test_preparacion_fuentes_reutilizacion import build_package, rewrite_
 CANON = "aut11"
 VIEJO = territorio_ids.tabla()[CANON].id_legacy
 ROOT = Path(__file__).resolve().parents[1]
-WORKFLOW = ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml"
+WORKFLOW = ROOT / ".github/workflows/p20-distritos.yml"
 
 
 def _checkpoint(base: Path, territory: str) -> Path:

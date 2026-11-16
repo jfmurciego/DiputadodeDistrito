@@ -59,11 +59,7 @@ class MultipartSalamancaTests(unittest.TestCase):
         self.assertNotIn("geometric_contiguity:1", self.violations(True))
         self.assertEqual([v for v in self.violations(True) if v.startswith("geometric_contiguity")], [])
 
-    def test_salamanca_tiene_la_opcion_activada(self):
-        cfg = json.loads((ROOT / "configuracion/ensemble/nac37.json").read_text(encoding="utf-8"))
-        self.assertIs(cfg["topology"]["preserve_atomic_multipart_sections"], True)
-        aragon = json.loads((ROOT / "configuracion/ensemble/aut02.json").read_text(encoding="utf-8"))
-        self.assertIs(aragon["topology"]["preserve_atomic_multipart_sections"], True)
+    # T-377 (D-141 d): la comprobación de la configuración de configuracion/ensemble/ se retira con ella (a legacy/).
 
 
 if __name__ == "__main__":

@@ -13,7 +13,7 @@ ROOT=Path(__file__).resolve().parents[1]
 WF=ROOT/".github/workflows"
 PREP=WF/"preparacion-fuentes.yml"
 ELECTORAL_PREP=WF/"preparacion-resultados-electorales.yml"
-GEN=WF/"produccion-distritos.yml"
+GEN=WF/"p20-distritos.yml"
 ELECTORAL_APPLY=WF/"incorporacion-resultados-electorales.yml"
 CAT=ROOT/"configuracion/catalogo_preparacion.yaml"
 
@@ -29,16 +29,15 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
             "P00 Campaña":WF/"ejecucion-completa-proyecto.yml",
             "P10 Fuentes — P11 Territoriales":PREP,
             "P10 Fuentes — P12 Electorales":ELECTORAL_PREP,
-            "P20 Base territorial — P30 Distritos":GEN,
+            "P20 Distritos":GEN,  # T-377 (D-139)
             "P40 Resultados electorales":ELECTORAL_APPLY,
             "P90 Automático":WF/"p90-automatico.yml",
             "P40 Publicación":WF/"p40-publicacion.yml",
             "P00 Campaña — Gestor":WF/"gestor-campanas.yml",
-            "P30 Distritos — P33 Alternativas":WF/"generar-alternativas-territoriales.yml",
         }
         self.assertEqual({load(p)["name"] for p in visible.values()},set(visible))
         dispatch=[p.name for p in WF.glob("*.yml") if "workflow_dispatch" in triggers(p)]
-        self.assertEqual(sorted(dispatch),["activacion-por-eleccion.yml","ejecucion-completa-proyecto.yml","generar-alternativas-territoriales.yml","gestor-campanas.yml","incorporacion-resultados-electorales.yml","p40-publicacion.yml","p50-publicacion-academica.yml","p70-archivo.yml","p80-verificacion-motor.yml","preparacion-fuentes.yml","preparacion-legislatura-vigente.yml","preparacion-resultados-electorales.yml","produccion-distritos.yml"])
+        self.assertEqual(sorted(dispatch),["activacion-por-eleccion.yml","ejecucion-completa-proyecto.yml","gestor-campanas.yml","incorporacion-resultados-electorales.yml","p20-distritos.yml","p40-publicacion.yml","p50-publicacion-academica.yml","p70-archivo.yml","p80-verificacion-motor.yml","preparacion-fuentes.yml","preparacion-legislatura-vigente.yml","preparacion-resultados-electorales.yml"])
 
     def test_preparation_supports_every_registered_territory_and_catalog_gates_generation(self):
         prep_options=triggers(PREP)["workflow_dispatch"]["inputs"]["territory_id"]["options"]
@@ -51,7 +50,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertIn("19 Melilla",prep_options)
         # La Rioja conserva preparación histórica, pero no puede anunciarse como\n        # generable hasta que su fuente vigente quede habilitada por pre-M04.\n        self.assertNotIn("La Rioja",generable)\n        self.assertIn("Galicia",generable)
         self.assertIn("Galicia",electoral_ready)
-        self.assertEqual(triggers(GEN)["workflow_dispatch"]["inputs"]["territory_id"]["options"],expected)
+        self.assertEqual(triggers(GEN)["workflow_dispatch"]["inputs"]["territorios"]["type"],"string")  # T-377: códigos, sin selector
         self.assertEqual(triggers(ELECTORAL_APPLY)["workflow_dispatch"]["inputs"]["territory_id"]["options"],expected)
 
     def test_preparation_generates_sources_and_reuses_existing_package_by_default(self):
@@ -82,10 +81,10 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         electoral_text=ELECTORAL_PREP.read_text(encoding="utf-8")
         self.assertNotIn("preparar_fuente_electoral",territorial_text)
         self.assertNotIn("ddd-electoral-package",territorial_text)
-        self.assertNotIn("_reutilizable-generacion-territorial.yml",territorial_text)
+        self.assertNotIn("p20-distritos.yml",territorial_text)
         self.assertIn("Registrar evaluación de generación pendiente",territorial_text)
-        reusable=(WF/"_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
-        self.assertIn("!inputs.preflight_only",reusable)
+        reusable=(WF/"p20-distritos.yml").read_text(encoding="utf-8")
+        self.assertIn("!(needs.entrada.outputs.preflight_only == 'true')",reusable)  # T-377: entradas del job `entrada`
         for text in (territorial_text,electoral_text):
             self.assertNotIn("producir-territorio-por-contrato.yml",text)
         electoral_job=yaml.safe_dump(electoral["jobs"]["electorales"],allow_unicode=True)
@@ -147,7 +146,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertIn("ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}",electoral_prep)
         self.assertIn("ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}",prep)
         for name in [
-            "generar-alternativas-territoriales.yml","p40-publicacion.yml",
+            "p40-publicacion.yml",
             "_reutilizable-incorporacion-electoral.yml",
         ]: self.assertTrue((WF/name).is_file(),name)
 

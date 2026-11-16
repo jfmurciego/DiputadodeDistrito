@@ -75,16 +75,7 @@ class ExencionSueloEnsembleTests(unittest.TestCase):
         self.assertEqual(list(report["configuration"]["contract"]["population_floor_exempt_municipalities"]), [EXENTO])
         self.assertGreater(report["telemetry"]["unique_states"], 1)
 
-    def test_config_de_cadiz_hereda_la_exencion_gobernada(self):
-        cfg = json.loads((ROOT / "configuracion/ensemble/nac11.json").read_text(encoding="utf-8"))
-        contrato = yaml.safe_load((ROOT / "territorios/nac11/config/nac11_2025.yaml").read_text(encoding="utf-8"))
-        val = contrato["validation"]
-        self.assertEqual(cfg["contract"]["population_floor_exempt_municipalities"], val["population_floor_exempt_municipalities"])
-        self.assertEqual(cfg["contract"]["population_cap_ratio"], val["population_cap_ratio"])
-        self.assertEqual(cfg["contract"]["target_tolerance_ratio"], val["target_tolerance_ratio"])
-        decisiones = cfg["decisions"]
-        for clave in ("population_cap_ratio", f"population_floor_exempt_municipalities:{EXENTO}"):
-            self.assertTrue({"decided_at", "decided_by", "reason", "evidence"} <= set(decisiones[clave]), clave)
+    # T-377 (D-141 d): la comprobación de la configuración de configuracion/ensemble/ se retira con ella (a legacy/).
 
 
 if __name__ == "__main__":

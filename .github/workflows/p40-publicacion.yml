@@ -1,8 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.1.0
 # FECHA: 2026-11-16
 # ESTADO: candidato
+# CAMBIOS 1.1.0: T-377 (D-138, P28 Alternativas retirada sin sustituto): se quitan las entradas `workflow_call` `ensemble_release_tag`, `ensemble_sha256`,
+#   `scenario_id` y `scenario_strategy`, la ruta del ensemble (`resolver` ya no se salta; `publicar` corre si `preparar` terminó bien) y el paso
+#   «Resolver ensemble persistente solicitado»; los pasos `parse-run-ids` y `describe-production` ya no pasan escenario. El resto, idéntico.
+# ANTERIOR (1.0.0): legacy/workflows/p40-publicacion_v1.0.0_20261116.yml
 # CAMBIOS: T-372 (D-134, migración paso 5): fichero nuevo; sustituye a desplegar-visor-publico.yml 3.6.0 («P50 Publicación»), cadena-publicacion.yml 1.1.0 y
 #   _reutilizable-publicar-sitio.yml 3.17.0 (el publicador va dentro como el job `publicar`; mismos pasos, mismo entorno `github-pages`, mismos permisos y concurrencias).
 # MOTIVO: un solo botón sin parámetros técnicos: «qué publicar» (solo el sitio | territorios), `territorios` (códigos) y `simular` (marcado por defecto).
@@ -12,7 +16,7 @@
 #   El M08 caducado en Actions solo avisa (el publicador lo recupera de R2, 3.16.0 del publicador).
 # ANTERIOR: ninguna (fichero nuevo); sustituye a legacy/workflows/desplegar-visor-publico_v3.6.0_20261116.yml, legacy/workflows/cadena-publicacion_v1.1.0_20261116.yml
 #   y legacy/workflows/_reutilizable-publicar-sitio_v3.17.0_20261116.yml
-# workflow_call (entradas técnicas ocultas): la 00 (`publicar`), generar-alternativas-territoriales.yml (con ensemble; ese workflow se retira en T-377/D-138) y el Gestor por dispatch.
+# workflow_call (entradas técnicas ocultas): la 00 (`publicar`); el Gestor la lanza por dispatch.
 # P43 (histórico por fecha) queda fuera: tarea aparte.
 name: P40 Publicación
 
@@ -21,10 +25,6 @@ on:
     inputs:
       pagina_publicar: {required: false, type: string, default: Sitio completo}
       production_run_id: {required: false, type: string, default: ''}
-      scenario_id: {required: false, type: string, default: ''}
-      scenario_strategy: {required: false, type: string, default: ''}
-      ensemble_release_tag: {required: false, type: string, default: ''}
-      ensemble_sha256: {required: false, type: string, default: ''}
       target_page: {required: false, type: string, default: ''}
       include_congreso_analytical_preview: {required: false, type: boolean, default: false}
   workflow_dispatch:
@@ -57,8 +57,6 @@ permissions:
 jobs:
   resolver:
     name: Resolver qué se publica
-    # Ruta del ensemble (alternativas): sin resolver ni preparar, como antes llamaba al publicador directo.
-    if: ${{ inputs.ensemble_release_tag == '' }}
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -177,8 +175,7 @@ jobs:
   publicar:
     name: Desplegar página seleccionada
     needs: [resolver, preparar]
-    # !cancelled(): con `needs` saltado (ruta del ensemble: sin resolver ni preparar) un job queda saltado salvo esta condición.
-    if: ${{ !cancelled() && (inputs.ensemble_release_tag != '' || needs.preparar.result == 'success') }}
+    if: ${{ needs.preparar.result == 'success' }}
     concurrency:
       group: ddd-pages-prod
       cancel-in-progress: false
@@ -190,10 +187,6 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       PRODUCTION_RUN_ID: ${{ needs.preparar.outputs.production_run_id || '' }}
-      SCENARIO_ID: ${{ inputs.scenario_id || '' }}
-      SCENARIO_STRATEGY: ${{ inputs.scenario_strategy || '' }}
-      ENSEMBLE_RELEASE_TAG: ${{ inputs.ensemble_release_tag || '' }}
-      ENSEMBLE_SHA256: ${{ inputs.ensemble_sha256 || '' }}
       TARGET_PAGE: ${{ inputs.target_page || inputs.pagina_publicar || 'Sitio completo' }}
       PYTHONPATH: ${{ github.workspace }}
       PUBLICATION_REGISTRY: orchestracion/publicaciones_visor.json
@@ -314,7 +307,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          ids="$(python herramientas/registro_publicaciones_visor.py parse-run-ids --value "$PRODUCTION_RUN_ID" --scenario-id "$SCENARIO_ID")"
+          ids="$(python herramientas/registro_publicaciones_visor.py parse-run-ids --value "$PRODUCTION_RUN_ID")"
           read -r -a lote <<<"$ids"
           (( ${#lote[@]} > 0 )) || { echo "::error::LOTE_VACIO: production_run_id sin ningún id"; exit 42; }
           printf '%s\n' "${lote[@]}" > .ddd-publication/run-ids.txt
@@ -419,7 +412,7 @@ jobs:
           fallos=(); salidas=()
           for run in "${LOTE[@]}"; do
             out="/tmp/product-descriptors-$run.json"
-            python herramientas/registro_publicaciones_visor.py describe-production             --production-root "$(raiz_run "$run")"             --run-id "$run" ${SCENARIO_ID:+--scenario-id "$SCENARIO_ID" --strategy "$SCENARIO_STRATEGY"}             --output "$out" || fallos+=("$run")
+            python herramientas/registro_publicaciones_visor.py describe-production             --production-root "$(raiz_run "$run")"             --run-id "$run"             --output "$out" || fallos+=("$run")
             salidas+=("$out")
             # T-301: la composición del M06 que se publica queda versionada (vigente del visor); sin ella, el lote se rechaza.
             if [[ -s "$out" ]] && ! python herramientas/composicion_m06.py --descriptores "$out" --origen "$(raiz_run "$run")"; then fallos+=("$run"); fi
@@ -475,61 +468,6 @@ jobs:
             jq --argjson entry "$entry" '. + [$entry]' /tmp/new-entries.json > "$tmp"
             mv "$tmp" /tmp/new-entries.json
           done < <(jq -c '.[]' /tmp/product-descriptors.json)
-
-      - name: Resolver ensemble persistente solicitado
-        if: ${{ inputs.ensemble_release_tag != '' }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          [[ -f /tmp/new-entries.json ]] || printf '[]\n' > /tmp/new-entries.json
-          tag="$ENSEMBLE_RELEASE_TAG"
-          asset_name="$tag.zip"
-          expected_sha="$ENSEMBLE_SHA256"
-          [[ -n "$expected_sha" ]] || {
-            echo "::error::Ensemble $tag sin ensemble_sha256 acreditado"; exit 56;
-          }
-          [[ "$expected_sha" =~ ^[0-9a-f]{64}$ ]] || {
-            echo "::error::ensemble_sha256 mal formado para $tag"; exit 56;
-          }
-          mkdir -p /tmp/release-resolution
-          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases?per_page=100" | jq 'add' > /tmp/release-resolution/ensemble-releases.json
-          python herramientas/resolver_release_asset.py release \
-            --releases /tmp/release-resolution/ensemble-releases.json --tag "$tag" \
-            > /tmp/release-resolution/ensemble-release.json || {
-              echo "::error::Ensemble requiere exactamente un release, draft o publicado: $tag"; exit 56;
-            }
-          release_id="$(jq -r '.id' /tmp/release-resolution/ensemble-release.json)"
-          gh api "repos/$GITHUB_REPOSITORY/releases/$release_id" > /tmp/release-resolution/ensemble-release-current.json
-          python herramientas/resolver_release_asset.py asset \
-            --release /tmp/release-resolution/ensemble-release-current.json --name "$asset_name" \
-            > /tmp/release-resolution/ensemble-asset.json || {
-              echo "::error::Ensemble requiere exactamente un release asset: $tag/$asset_name"; exit 56;
-            }
-          asset_id="$(jq -r '.id' /tmp/release-resolution/ensemble-asset.json)"
-          [[ "$asset_id" =~ ^[0-9]+$ ]] || {
-            echo "::error::Ensemble sin asset_id persistente: $tag/$asset_name"; exit 56;
-          }
-          rm -rf /tmp/ensemble
-          mkdir -p /tmp/ensemble/unpacked
-          gh api -H 'Accept: application/octet-stream'             "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" > /tmp/ensemble/asset
-          sha="$(sha256sum /tmp/ensemble/asset | awk '{print $1}')"
-          [[ "$sha" == "$expected_sha" ]] || {
-            echo "::error::Ensemble $tag: SHA-256 observado $sha != acreditado $expected_sha"; exit 57;
-          }
-          unzip -q /tmp/ensemble/asset -d /tmp/ensemble/unpacked
-          python herramientas/registro_publicaciones_visor.py describe-ensemble             --ensemble-root /tmp/ensemble/unpacked             --release-tag "$tag"             --output /tmp/ensemble-descriptor.json
-          entry="$(jq             --arg repository "$GITHUB_REPOSITORY"             --arg release_tag "$tag"             --arg asset_name "$asset_name"             --arg asset_id "$asset_id"             --arg sha256 "$sha"             '. + {
-              source_type:"release_asset",
-              repository:$repository,
-              release_tag:$release_tag,
-              asset_name:$asset_name,
-              asset_id:($asset_id|tonumber),
-              sha256:$sha256,
-              immutable_location:("github-release-asset://" + $repository + "/" + $asset_id)
-            }' /tmp/ensemble-descriptor.json)"
-          tmp="$(mktemp)"
-          jq --argjson entry "$entry" '. + [$entry]' /tmp/new-entries.json > "$tmp"
-          mv "$tmp" /tmp/new-entries.json
 
       - name: Construir candidato sin tocar el registro durable
         shell: bash

@@ -4,7 +4,7 @@ paths:
   - "herramientas/bateria_motor.py"
   - "herramientas/estado_produccion.py"
   - ".github/workflows/p80-verificacion-motor.yml"
-  - ".github/workflows/_reutilizable-generacion-territorial.yml"
+  - ".github/workflows/p20-distritos.yml"
 ---
 
 # Motor nuevo (motor2): batería, P30 y certificación (lecciones del 10-11)

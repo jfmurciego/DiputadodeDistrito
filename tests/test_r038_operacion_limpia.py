@@ -27,15 +27,12 @@ class R038OperacionLimpia(unittest.TestCase):
                 self.assertTrue((ROOT / "legacy" / "workflows" / "r038" / name).is_file())
 
     def test_interfaz_productiva_cubre_m01_m08_y_protege_ejecucion(self):
-        text = (WORKFLOWS / "produccion-distritos.yml").read_text(encoding="utf-8")
+        text = (WORKFLOWS / "p20-distritos.yml").read_text(encoding="utf-8")
         data = yaml.safe_load(text)
         raw_inputs = data[True]["workflow_dispatch"]["inputs"]
-        self.assertEqual(list(raw_inputs), ["territory_id", "data_edition", "execution_mode", "optimization_algorithm"])
-        self.assertEqual(raw_inputs["territory_id"]["description"], "Territorio")
-        self.assertEqual(raw_inputs["data_edition"]["description"], "Edición de datos")
-        self.assertEqual(raw_inputs["execution_mode"]["description"], "Modo de ejecución")
-        self.assertEqual(raw_inputs["execution_mode"]["options"], ["Reutilizar progreso existente","Ejecutar desde el principio"])
-        self.assertEqual(raw_inputs["optimization_algorithm"]["options"], ["Canónico","GerryChain","GerryChain 25","GerryChain 50"])
+        # T-377 (D-139): botón P20 con códigos y «empezar de cero»; los modos viejos se traducen en la matriz.
+        self.assertEqual(list(raw_inputs), ["territorios", "empezar_de_cero"])
+        self.assertIn("'Ejecutar desde el principio' || 'Reutilizar progreso existente'", text)
         self.assertNotIn("product", raw_inputs)
         self.assertNotIn("publish_result", raw_inputs)
         self.assertNotIn("confirmar_ejecucion", raw_inputs)
@@ -46,12 +43,12 @@ class R038OperacionLimpia(unittest.TestCase):
         self.assertNotIn("to_stage:", raw_inputs)
         self.assertNotIn("checkpoint_run_id:", raw_inputs)
         self.assertIn("${{ inputs.territory_id }}", text)
-        self.assertIn("_reutilizable-generacion-territorial.yml", text)
+        self.assertIn("p20-distritos.yml", text)
         routes = (ROOT / "herramientas" / "resolver_producto_produccion.py").read_text(encoding="utf-8")
         self.assertIn('"Distritos":{"to_stage":"M06"', routes)
         self.assertIn('"Resultados electorales":{"to_stage":"M08","checkpoint_policy":"require_m06"', routes)
         self.assertIn('"Ambos":{"to_stage":"M08"', routes)
-        self.assertIn("execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION", text)
+        self.assertIn("execution_authorization=EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION", text)  # job `entrada`
         self.assertNotIn("publish_result:", text)
 
     def test_lanzador_shell_compila(self):
@@ -63,7 +60,7 @@ class R038OperacionLimpia(unittest.TestCase):
 
 
     def test_publicacion_es_un_proceso_independiente(self):
-        generation = (WORKFLOWS / "produccion-distritos.yml").read_text(encoding="utf-8")
+        generation = (WORKFLOWS / "p20-distritos.yml").read_text(encoding="utf-8")
         electoral = (WORKFLOWS / "incorporacion-resultados-electorales.yml").read_text(encoding="utf-8")
         viewer = (WORKFLOWS / "p40-publicacion.yml").read_text(encoding="utf-8")
         manual = (WORKFLOWS / "p40-publicacion.yml").read_text(encoding="utf-8")

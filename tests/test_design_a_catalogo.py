@@ -18,7 +18,7 @@ class DesignA(unittest.TestCase):
         self.assertEqual(load(WF/"ejecucion-completa-proyecto.yml")["name"],"P00 Campaña")
         self.assertEqual(load(WF/"preparacion-fuentes.yml")["name"],"P10 Fuentes — P11 Territoriales")
         self.assertEqual(load(WF/"preparacion-resultados-electorales.yml")["name"],"P10 Fuentes — P12 Electorales")
-        self.assertEqual(load(WF/"produccion-distritos.yml")["name"],"P20 Base territorial — P30 Distritos")
+        self.assertEqual(load(WF/"p20-distritos.yml")["name"],"P20 Distritos")  # T-377 (D-139)
         self.assertEqual(load(WF/"incorporacion-resultados-electorales.yml")["name"],"P40 Resultados electorales")
         self.assertEqual(load(WF/"p90-automatico.yml")["name"],"P90 Automático")
 
@@ -31,24 +31,24 @@ class DesignA(unittest.TestCase):
                 if "territory_id" in inputs: manual.append(path.name)
         self.assertEqual(sorted(manual),[
             "ejecucion-completa-proyecto.yml",
-            "generar-alternativas-territoriales.yml",
             "incorporacion-resultados-electorales.yml",
             "preparacion-fuentes.yml",
             "preparacion-resultados-electorales.yml",
-            "produccion-distritos.yml",
-        ])
+        ])  # T-377: P20 usa códigos (`territorios`); P28 retirada
 
     def test_internal_capabilities_remain(self):
         expected={
-          "p40-publicacion.yml","p40-publicacion.yml","generar-alternativas-territoriales.yml",
-          "_reutilizable-incorporacion-electoral.yml","_reutilizable-generacion-territorial.yml",
+          "p40-publicacion.yml",
+          "_reutilizable-incorporacion-electoral.yml","p20-distritos.yml",
         }
         self.assertTrue(expected.issubset({p.name for p in WF.glob("*.yml")}))
 
     def test_generation_and_electoral_incorporation_use_separate_reusables(self):
-        generation=load(WF/"produccion-distritos.yml")
-        self.assertEqual(list(generation["jobs"]),["resolver_interfaz","ruta"])
-        self.assertEqual(generation["jobs"]["ruta"]["uses"],"./.github/workflows/_reutilizable-generacion-territorial.yml")
+        generation=load(WF/"p20-distritos.yml")
+        # T-377 (D-139): el motor va dentro de P20; la matriz del botón llama al propio fichero.
+        self.assertEqual(list(generation["jobs"])[:5],["territorios","distritos","resolver_interfaz","entrada","resolve"])
+        self.assertEqual(generation["jobs"]["distritos"]["uses"],"./.github/workflows/p20-distritos.yml")
+        self.assertNotIn("_reutilizable-generacion-territorial.yml",{p.name for p in WF.glob("*.yml")})
         electoral=load(WF/"incorporacion-resultados-electorales.yml")
         self.assertEqual(list(electoral["jobs"]),["preparar","incorporar"])
         self.assertEqual(electoral["jobs"]["incorporar"]["uses"],"./.github/workflows/_reutilizable-incorporacion-electoral.yml")
@@ -76,13 +76,11 @@ class DesignA(unittest.TestCase):
 
     def test_preparation_uses_common_registry_and_generation_keeps_readiness_gate(self):
         prep=triggers(WF/"preparacion-fuentes.yml")["workflow_dispatch"]["inputs"]["territory_id"]["options"]
-        generation=triggers(WF/"produccion-distritos.yml")["workflow_dispatch"]["inputs"]["territory_id"]["options"]
         electoral=triggers(WF/"incorporacion-resultados-electorales.yml")["workflow_dispatch"]["inputs"]["territory_id"]["options"]
         expected=selector_labels(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")
         generable=[r["name"] for r in rows_for("generation",CAT)]
         electoral_ready=[r["name"] for r in rows_for("electoral_application",CAT)]
         self.assertEqual(prep,expected)
-        self.assertEqual(generation,expected)
         self.assertEqual(electoral,expected)
         self.assertIn("Galicia",generable)
         self.assertIn("Galicia",electoral_ready)

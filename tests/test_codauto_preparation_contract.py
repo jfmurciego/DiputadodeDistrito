@@ -77,7 +77,6 @@ class CodautoPreparationContractTests(unittest.TestCase):
         expected = selector_labels(MASTER)
         direct = [
             ("preparacion-fuentes.yml", "territory_id"),
-            ("produccion-distritos.yml", "territory_id"),
             ("preparacion-resultados-electorales.yml", "territory_id"),
             ("incorporacion-resultados-electorales.yml", "territory_id"),
             ("ejecucion-completa-proyecto.yml", "territory_id"),
@@ -159,9 +158,9 @@ class CodautoPreparationContractTests(unittest.TestCase):
             [
                 "activacion-por-eleccion.yml",
                 "ejecucion-completa-proyecto.yml",
-                "generar-alternativas-territoriales.yml",
                 "gestor-campanas.yml",
                 "incorporacion-resultados-electorales.yml",
+                "p20-distritos.yml",  # T-377: P20 Distritos (sustituye a la 02); P28 Alternativas retirada
                 "p40-publicacion.yml",  # T-372: P40 Publicación (sustituye a 05, cadena y publicador)
                 "p50-publicacion-academica.yml",  # T-370: P50 Publicación académica
                 "p70-archivo.yml",  # T-368: P70 Archivo (poda, recuperación, archivo diario y composición M06)
@@ -169,7 +168,6 @@ class CodautoPreparationContractTests(unittest.TestCase):
                 "preparacion-fuentes.yml",
                 "preparacion-legislatura-vigente.yml",
                 "preparacion-resultados-electorales.yml",
-                "produccion-distritos.yml",
             ],
         )
 

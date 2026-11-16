@@ -3,7 +3,7 @@ import unittest
 import yaml
 
 ROOT=Path(__file__).resolve().parents[1]
-GEN=ROOT/".github/workflows/produccion-distritos.yml"
+GEN=ROOT/".github/workflows/p20-distritos.yml"
 ELECTORAL=ROOT/".github/workflows/incorporacion-resultados-electorales.yml"
 
 def load(path):
@@ -15,9 +15,10 @@ def inputs(path):
 
 class ProductRoutingDesignA(unittest.TestCase):
     def test_generation_form_has_functional_execution_mode(self):
-        self.assertEqual(list(inputs(GEN)),["territory_id","data_edition","execution_mode","optimization_algorithm"])
-        self.assertEqual(inputs(GEN)["execution_mode"]["options"],["Reutilizar progreso existente","Ejecutar desde el principio"])
-        self.assertEqual(inputs(GEN)["optimization_algorithm"]["options"],["Canónico","GerryChain","GerryChain 25","GerryChain 50"])
+        # T-377 (D-139): códigos y «empezar de cero» (desmarcado = reutilizar); la estrategia sale del botón (Canónico).
+        self.assertEqual(list(inputs(GEN)),["territorios","empezar_de_cero"])
+        self.assertIs(inputs(GEN)["empezar_de_cero"]["default"],False)
+        self.assertIn("'Ejecutar desde el principio' || 'Reutilizar progreso existente'",GEN.read_text(encoding="utf-8"))
 
     def test_electoral_incorporation_form_has_only_territory_and_edition(self):
         self.assertEqual(list(inputs(ELECTORAL)),["territory_id","data_edition"])
@@ -25,7 +26,7 @@ class ProductRoutingDesignA(unittest.TestCase):
     def test_generation_is_fixed_to_districts_without_auto_publish(self):
         text=GEN.read_text(encoding="utf-8")
         self.assertIn("UI_PRODUCT: Distritos",text)
-        self.assertIn("execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION",text)
+        self.assertIn("execution_authorization=EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION",text)  # T-377: job `entrada`
         self.assertNotIn("publish_result:",text)
         self.assertNotIn("inputs.product",text)
         self.assertNotIn("inputs.publish_result",text)
@@ -44,7 +45,7 @@ class ProductRoutingDesignA(unittest.TestCase):
 
     def test_generation_and_electoral_paths_are_separate(self):
         generation=load(GEN); electoral=load(ELECTORAL)
-        self.assertEqual(generation["jobs"]["ruta"]["uses"],"./.github/workflows/_reutilizable-generacion-territorial.yml")
+        self.assertEqual(generation["jobs"]["distritos"]["uses"],"./.github/workflows/p20-distritos.yml")  # T-377: matriz → ruta «generar»
         self.assertEqual(electoral["jobs"]["incorporar"]["uses"],"./.github/workflows/_reutilizable-incorporacion-electoral.yml")
 
 
