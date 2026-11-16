@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T04:14:08.597672+00:00",
+  "generated_at": "2026-11-16T04:19:30.899834+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -9590,20 +9590,20 @@
       "name": "Nacional Málaga",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43798914850,
+      "run_id": 43801801527,
       "last_run": {
-        "run_id": 43798914850,
+        "run_id": 43801801527,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9644,7 +9644,7 @@
       },
       "autonomous_community_code_ine": "C29",
       "display_name": "Nacional Málaga",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac30",
@@ -10749,11 +10749,11 @@
       "name": "Nacional Vizcaya",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43040430397,
+      "run_id": 43798940463,
       "last_run": {
         "run_id": 43040430397,
         "status": "SUCCESS",
@@ -10762,7 +10762,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10776,16 +10776,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_vizcaya",
+          "territory_id": "nac48",
           "territory_name": "Congreso Vizcaya",
           "edition": "2025",
-          "run_id": 43034959389,
-          "artifact_name": "ddd-state-43034959389-M06",
-          "artifact_sha256": "b7d87ed8658432a2061ee7f312ef98ad90a54120c992ab604b0de83cb7b4122c",
-          "source_commit": "aca6cadcf8b3170f2053916f9cd7dc688e20a7d9",
+          "run_id": 43798940463,
+          "artifact_name": "ddd-state-43798940463-M06",
+          "artifact_sha256": "43cdfb6c9bb6fc6fed046e23418f8fd023a754ae1a4aab6812db52b800ab6b77",
+          "source_commit": "166cfb431e818843b5bb18324507ac822980f43c",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_vizcaya/evidencia/generaciones_m06/43034959389.json"
+          "producer_manifest_path": "territorios/nac48/evidencia/generaciones_m06/43798940463.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -10803,18 +10803,18 @@
       },
       "autonomous_community_code_ine": "C48",
       "display_name": "Nacional Vizcaya",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac49",
       "name": "Nacional Zamora",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 43040878307,
+      "run_id": 43798955456,
       "last_run": {
         "run_id": 43040878307,
         "status": "SUCCESS",
@@ -10823,7 +10823,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10837,16 +10837,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_zamora",
+          "territory_id": "nac49",
           "territory_name": "Congreso Zamora",
           "edition": "2025",
-          "run_id": 43034969907,
-          "artifact_name": "ddd-state-43034969907-M06",
-          "artifact_sha256": "641770946dd4083e458605ca260677fa6d6a3593f93042172b9321a633e8e8da",
-          "source_commit": "aca6cadcf8b3170f2053916f9cd7dc688e20a7d9",
+          "run_id": 43798955456,
+          "artifact_name": "ddd-state-43798955456-M06",
+          "artifact_sha256": "de4da35563cbe6164b4afdc0bf63160fe851353315eeb74a6fe82ff0fa7f9f4e",
+          "source_commit": "35340f38dfbdbf7bcf8de2fabaac70c424c9d7dc",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_zamora/evidencia/generaciones_m06/43034969907.json"
+          "producer_manifest_path": "territorios/nac49/evidencia/generaciones_m06/43798955456.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -10864,18 +10864,18 @@
       },
       "autonomous_community_code_ine": "C49",
       "display_name": "Nacional Zamora",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac50",
       "name": "Nacional Zaragoza",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43041544479,
+      "run_id": 43798969769,
       "last_run": {
         "run_id": 43041544479,
         "status": "SUCCESS",
@@ -10884,7 +10884,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10898,16 +10898,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_zaragoza",
+          "territory_id": "nac50",
           "territory_name": "Congreso Zaragoza",
           "edition": "2025",
-          "run_id": 43034979460,
-          "artifact_name": "ddd-state-43034979460-M06",
-          "artifact_sha256": "b2b0cde543f066de9b9433f51a83bc4de34bcdb26e4e48e42d1e7f29408878e9",
-          "source_commit": "aca6cadcf8b3170f2053916f9cd7dc688e20a7d9",
+          "run_id": 43798969769,
+          "artifact_name": "ddd-state-43798969769-M06",
+          "artifact_sha256": "3526e05128955371952887f4b0c2f4e05cdb205eed921c0322cf3913b1ebfaf5",
+          "source_commit": "032f00c4732d4a7e93011136b44eed97bb5f6d04",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_zaragoza/evidencia/generaciones_m06/43034979460.json"
+          "producer_manifest_path": "territorios/nac50/evidencia/generaciones_m06/43798969769.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -10925,18 +10925,18 @@
       },
       "autonomous_community_code_ine": "C50",
       "display_name": "Nacional Zaragoza",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac51",
       "name": "Nacional Ceuta",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 42985728070,
+      "run_id": 43799202986,
       "last_run": {
         "run_id": 42985728070,
         "status": "SUCCESS",
@@ -10945,7 +10945,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10959,16 +10959,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_ceuta",
+          "territory_id": "nac51",
           "territory_name": "Congreso Ceuta",
           "edition": "2025",
-          "run_id": 42981430591,
-          "artifact_name": "ddd-state-42981430591-M06",
-          "artifact_sha256": "a768f530d720110755525c85891c8d24920b7abd7eebbd5678b57a282b15a7bc",
-          "source_commit": "d3b29437f7460641304d1cc0ad811b9cb5d599d1",
+          "run_id": 43799202986,
+          "artifact_name": "ddd-state-43799202986-M06",
+          "artifact_sha256": "7f70394e838b35402c7200cf051b389dcaf683be814c895685c13d5f449ab1c7",
+          "source_commit": "805b3eea3b6ee9fe37a61fb309ec7ce8289bee23",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_ceuta/evidencia/generaciones_m06/42981430591.json"
+          "producer_manifest_path": "territorios/nac51/evidencia/generaciones_m06/43799202986.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -10986,7 +10986,7 @@
       },
       "autonomous_community_code_ine": "C51",
       "display_name": "Nacional Ceuta",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac52",
@@ -12292,7 +12292,7 @@
     }
   ],
   "kpis": {
-    "complete": 71,
+    "complete": 68,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12340,6 +12340,7 @@
       "Nacional La Rioja",
       "Nacional Lugo",
       "Nacional Madrid",
+      "Nacional Málaga",
       "Nacional Murcia",
       "Nacional Navarra",
       "Nacional Orense",
@@ -12357,10 +12358,6 @@
       "Nacional Toledo",
       "Nacional Valencia",
       "Nacional Valladolid",
-      "Nacional Vizcaya",
-      "Nacional Zamora",
-      "Nacional Zaragoza",
-      "Nacional Ceuta",
       "Nacional Melilla",
       "Nacional 350 Madrid",
       "Nacional 350 Soria",
@@ -12575,11 +12572,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac46",
-    "name": "Nacional Valencia",
-    "display_name": "Nacional Valencia",
-    "autonomous_community_code_ine": "C46",
-    "run_id": 43798079539,
+    "territory_id": "nac29",
+    "name": "Nacional Málaga",
+    "display_name": "Nacional Málaga",
+    "autonomous_community_code_ine": "C29",
+    "run_id": 43801801527,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12592,15 +12589,33 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Málaga",
-      "territory_id": "nac29",
-      "autonomous_community_code_ine": "C29",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Santa Cruz de Tenerife",
       "territory_id": "nac38",
       "autonomous_community_code_ine": "C38",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Vizcaya",
+      "territory_id": "nac48",
+      "autonomous_community_code_ine": "C48",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Zamora",
+      "territory_id": "nac49",
+      "autonomous_community_code_ine": "C49",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Zaragoza",
+      "territory_id": "nac50",
+      "autonomous_community_code_ine": "C50",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Ceuta",
+      "territory_id": "nac51",
+      "autonomous_community_code_ine": "C51",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12614,24 +12629,6 @@
       "territory_id": "congreso350_albacete",
       "autonomous_community_code_ine": "R02",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Alicante",
-      "territory_id": "congreso350_alicante",
-      "autonomous_community_code_ine": "R03",
-      "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Almería",
-      "territory_id": "congreso350_almeria",
-      "autonomous_community_code_ine": "R04",
-      "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Ávila",
-      "territory_id": "congreso350_avila",
-      "autonomous_community_code_ine": "R05",
-      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12642,15 +12639,33 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Málaga",
-      "territory_id": "nac29",
-      "autonomous_community_code_ine": "C29",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Santa Cruz de Tenerife",
       "territory_id": "nac38",
       "autonomous_community_code_ine": "C38",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Vizcaya",
+      "territory_id": "nac48",
+      "autonomous_community_code_ine": "C48",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Zamora",
+      "territory_id": "nac49",
+      "autonomous_community_code_ine": "C49",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Zaragoza",
+      "territory_id": "nac50",
+      "autonomous_community_code_ine": "C50",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Ceuta",
+      "territory_id": "nac51",
+      "autonomous_community_code_ine": "C51",
       "action": "preparar fuentes electorales"
     }
   ]
