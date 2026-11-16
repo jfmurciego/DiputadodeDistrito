@@ -2028,7 +2028,7 @@ territories:
         prepared_source_pair: territorios/nac33/evidencia/pares_fuentes/2025/c37c091cfaa3abf417bfc1151a0f74b8eaa924fa5966bac616449d6b18e8901d.json
         electoral_product: territorios/nac33/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/nac33/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: nac34
   name: Congreso Palencia
   editions:
