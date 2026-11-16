@@ -5,10 +5,12 @@
   "territory_name": "Congreso La Rioja",
   "edition": "2025",
   "run_id": 43773865756,
-  "source_commit": "972fa8ee6be59a43c02b188f3a55b8c9b7c8d478",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "0d0ad48de30a31ba5e1964293a95d90b38bc714a",
+  "artifact_name": "ddd-state-43773865756-M03U",
+  "artifact_sha256": "b1c6485cd1cc6bc564e94e25c729016d21d4ebd9a177e2c73548438a5367e781",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 43773865756,
     "artifact_name": "ddd-source-package-nac26-2025-43773865756",
@@ -19,10 +21,93 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "bed5df93e4e423198810676344c23b2171c94f19",
+    "m03_git_blob_sha1": "7bb009eae5e7eae90b489ce4f6dbc4203e7c26f5",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-43773865756-M03",
+    "artifact_sha256": "c1058915c29f4e2544e3c8da482292bdc3dad42aa384f05142517bed32f44bc8",
+    "module_version": "7.6.0",
+    "nodes": 343,
+    "edges": 928,
+    "population": 322282,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-43773865756",
+    "job_artifact_sha256": "8166438e166361d0a698f614ab5ec40c879085054508d7bbe848b51be0ad4f92",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/nac26/.cache/ddd/preparacion/{run_name}/nac26_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/nac26/.cache/ddd/preparacion/nac26_2025/nac26_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 322282,
+      "target_section_count": 343,
+      "package_sha256": "b7314d58411ef10ca8b972b32d34e87d98fd4e15b6b7f788f8e103764941fe28",
+      "compatibility_report_sha256": "fbd5b0bb0eb36d88e4add19617b670f01f319fcfcd94f3086eead93ff772dc85",
+      "compatibility_identity_sha256": "af9dfb051beca2b9287f5f56e2426b5520b23f3fbdcf64ca1bdbfe6392b41fcc"
+    },
+    "topology_accreditation": null,
+    "k_districts": 3,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/nac26/.cache/ddd/preparacion/{run_name}/nac26_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/nac26/.cache/ddd/preparacion/{run_name}/nac26_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/nac26/.cache/ddd/preparacion/{run_name}/nac26_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/nac26/.cache/ddd/preparacion/{run_name}/nac26_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/nac26/.cache/ddd/preparacion/{run_name}/nac26_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/nac26/.cache/ddd/preparacion/{run_name}/nac26_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/nac26/.cache/ddd/preparacion/{run_name}/nac26_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/nac26/.cache/ddd/preparacion/{run_name}/nac26_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/nac26/.cache/ddd/preparacion/{run_name}/nac26_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 3,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }

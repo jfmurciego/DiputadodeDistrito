@@ -1755,7 +1755,7 @@ territories:
         prepared_source_pair: territorios/nac26/evidencia/pares_fuentes/2025/d7f15db5d44606c008e0a56058ee782a8c526d63d160a528be837a66bb79eafc.json
         electoral_product: territorios/nac26/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/nac26/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: nac27
   name: Congreso Lugo
   editions:
