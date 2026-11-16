@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_teruel",
+  "territory_id": "nac44",
   "territory_name": "Congreso Teruel",
   "edition": "2025",
-  "run_id": 43029189395,
-  "artifact_name": "ddd-state-43029189395-M08",
-  "artifact_sha256": "1d98bf8cf8fa4f4d444242aef0a5aed1d6ce0cd8bed7bca6bbf4f1d04c93da07",
-  "source_commit": "64720a72b8ec0dcc84e355edf6664a6ef17936b8",
+  "run_id": 43795542897,
+  "artifact_name": "ddd-state-43795542897-M08",
+  "artifact_sha256": "3a93ddf23fac2a01ac90435e607575fb73153e239433013a5cc89e00ce3437e4",
+  "source_commit": "d82aecfd726ece51517530d929e7c179fb45274f",
   "stage": "M08"
 }
