@@ -117,6 +117,11 @@ class Plan(unittest.TestCase):
         self.assertIn("| 1 | ES-NAC-22-20230723 | Congreso Huesca | PUBLICADO |", md)
 
 
+REGISTRO_VALIDO = {"status": "SUCCESS", "phases": [
+    {"name": "02 · G", "validation_decision": "VALIDADO", "phase_decision": "PASS", "run_id": 1, "artifact": "a"},
+    {"name": "04 · I", "validation_decision": "VALIDADO", "phase_decision": "PASS_WITH_EXCEPTIONS", "run_id": 1, "artifact": "b"}]}
+
+
 class Lanzar(unittest.TestCase):
     """Simula GitHub: cada dispatch de 00 crea un run que termina en el siguiente sondeo."""
 
@@ -125,6 +130,7 @@ class Lanzar(unittest.TestCase):
         self.dispatched = []
         self.n = 100
         self.clock = 0.0
+        self.registro = lambda tid, run: REGISTRO_VALIDO  # T-372: registro de la 00 en main (por defecto ya está y es válido)
 
     def fake_dispatch(self, wf, inputs):
         self.dispatched.append((wf, dict(inputs)))
@@ -132,7 +138,7 @@ class Lanzar(unittest.TestCase):
             return
         self.n += 1
         title = (f"{lv.TITLE_00} · {inputs['territory_id']} · {inputs['execution_mode']}" if wf == lv.WF_00
-                 else "P50 Publicación" if wf == lv.WF_05 else "P30 Distritos — P33 Alternativas")
+                 else "P40 Publicación" if wf == lv.WF_05 else "P30 Distritos — P33 Alternativas")
         self.runs[wf].append({"id": self.n, "display_title": title, "status": "queued", "conclusion": None,
                               "created_at": "2026-11-07T10:00:%02dZ" % (self.n % 60)})
 
@@ -151,6 +157,7 @@ class Lanzar(unittest.TestCase):
         plan = {"territorios": rows}
         with mock.patch.object(lv, "dispatch", self.fake_dispatch), \
                 mock.patch.object(lv, "list_runs", self.fake_list), \
+                mock.patch.object(lv, "registro_00", lambda tid, run: self.registro(tid, run)), \
                 mock.patch.object(lv, "_now", lambda: "2026-11-07T09:00:00Z"), \
                 mock.patch.object(lv.time, "sleep", lambda s: setattr(self, "clock", self.clock + s)), \
                 mock.patch.object(lv.time, "time", lambda: self.clock):
@@ -184,8 +191,73 @@ class Lanzar(unittest.TestCase):
         self.assertEqual((first[0], first[1]["territory_id"]), (lv.WF_00, "A"))
         self.assertTrue(first[1]["publish_result"] and first[1]["lanzado_por_eleccion"])
         self.assertEqual(first[1]["publication_mode"], "electoral")
-        self.assertIn((lv.WF_05, {"pagina_publicar": "Sitio completo", "production_run_id": "77"}), self.dispatched)
+        self.assertEqual(lv.WF_05, "p40-publicacion.yml")  # T-372: P40 toma del registro la última 00 válida del territorio
+        p40 = [d[1] for d in self.dispatched if d[0] == lv.WF_05]
+        self.assertTrue(p40 and all(i == {"que_publicar": "Territorios", "territorios": i["territorios"], "simular": False} for i in p40), p40)
+        self.assertNotIn("c", [i["territorios"] for i in p40])
         self.assertNotIn("C", [d[1].get("territory_id") for d in self.dispatched])
+
+    def test_p40_espera_al_registro_de_su_00_y_falla_cerrado(self):  # T-372: P40 elige la última 00 del registro de main
+        rows = [self.row("D", "publicar", "77")]
+        self.registro = lambda tid, run: None  # el registro de la 00 nunca llega a main
+        report = self.campaign(rows, test_first=False)
+        self.assertNotIn(lv.WF_05, [d[0] for d in self.dispatched])  # no se lanza P40: publicaría una 00 anterior
+        self.assertTrue(report[0]["resultado"].startswith("FALLO P40 sin lanzar"), report)
+
+    def test_p40_no_se_lanza_si_la_00_no_tiene_la_04_en_verde(self):
+        rows = [self.row("D", "publicar", "77")]
+        malo = {"status": "SUCCESS", "phases": [REGISTRO_VALIDO["phases"][0],
+                                                {"name": "04 · I", "validation_decision": "BLOQUEADO", "run_id": 1, "artifact": None}]}
+        self.registro = lambda tid, run: malo
+        report = self.campaign(rows, test_first=False)
+        self.assertNotIn(lv.WF_05, [d[0] for d in self.dispatched])
+        self.assertIn("no está completa con la 04 en verde", report[0]["resultado"])
+
+    def test_registro_ausente_de_un_territorio_no_bloquea_a_los_demas(self):
+        rows = [self.row("D", "publicar", "77"), self.row("E", "publicar", "78")]
+        self.registro = lambda tid, run: None if tid == "d" else REGISTRO_VALIDO  # el de D nunca llega; el de E sí
+        report = {r["territory_id"]: r["resultado"] for r in self.campaign(rows, test_first=False)}
+        self.assertTrue(report["e"].startswith("OK"), report)
+        self.assertTrue(report["d"].startswith("FALLO P40 sin lanzar"), report)
+        self.assertEqual([i["territorios"] for d, i in self.dispatched if d == lv.WF_05], ["e"])
+
+    def test_error_de_gh_o_json_corrupto_termina_solo_ese_territorio(self):
+        rows = [self.row("D", "publicar", "77"), self.row("E", "publicar", "78")]
+
+        def registro(tid, run):
+            if tid == "d":
+                raise lv.GestorError("registro de la 00 77 con JSON inválido: x")
+            return REGISTRO_VALIDO
+        self.registro = registro
+        report = {r["territory_id"]: r["resultado"] for r in self.campaign(rows, test_first=False)}
+        self.assertTrue(report["e"].startswith("OK"), report)
+        self.assertIn("JSON inválido", report["d"])
+
+    def test_registro_00_reintenta_5xx_y_404_es_aun_no(self):
+        resp = [mock.Mock(returncode=1, stdout="", stderr="HTTP 502"), mock.Mock(returncode=1, stdout="", stderr="HTTP 503"),
+                mock.Mock(returncode=0, stdout='{"status": "SUCCESS"}', stderr="")]
+        with mock.patch.dict(lv.os.environ, {"GITHUB_REPOSITORY": "o/r"}), mock.patch.object(lv.subprocess, "run", side_effect=resp) as run, \
+                mock.patch.object(lv.time, "sleep"):
+            self.assertEqual(lv.registro_00("d", "77"), {"status": "SUCCESS"})
+            self.assertEqual(run.call_count, 3)
+        with mock.patch.dict(lv.os.environ, {"GITHUB_REPOSITORY": "o/r"}), \
+                mock.patch.object(lv.subprocess, "run", return_value=mock.Mock(returncode=1, stdout="", stderr="HTTP 404: Not Found")) as run:
+            self.assertIsNone(lv.registro_00("d", "77"))
+            self.assertEqual(run.call_count, 1)
+        with mock.patch.dict(lv.os.environ, {"GITHUB_REPOSITORY": "o/r"}), mock.patch.object(lv.time, "sleep"), \
+                mock.patch.object(lv.subprocess, "run", return_value=mock.Mock(returncode=1, stdout="", stderr="HTTP 500")) as run:
+            with self.assertRaises(lv.GestorError):
+                lv.registro_00("d", "77")
+            self.assertEqual(run.call_count, 5)
+        with mock.patch.dict(lv.os.environ, {"GITHUB_REPOSITORY": "o/r"}), \
+                mock.patch.object(lv.subprocess, "run", return_value=mock.Mock(returncode=0, stdout="{no json", stderr="")):
+            with self.assertRaisesRegex(lv.GestorError, "JSON inválido"):
+                lv.registro_00("d", "77")
+
+    def test_registro_valido_exige_success_y_las_dos_puertas(self):
+        self.assertTrue(lv.registro_valido(REGISTRO_VALIDO))
+        self.assertFalse(lv.registro_valido({**REGISTRO_VALIDO, "status": "FAILED"}))
+        self.assertFalse(lv.registro_valido({"status": "SUCCESS", "phases": REGISTRO_VALIDO["phases"][1:]}))  # sin 02
 
     def test_prueba_fallida_detiene_la_campana(self):
         report = self.campaign([self.row("Fallo"), self.row("B")])

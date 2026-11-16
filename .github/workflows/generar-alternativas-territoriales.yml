@@ -1,6 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable
-# VERSIÓN: 2.6.1
+# VERSIÓN: 2.6.2
+# CAMBIOS 2.6.2: T-372 (D-134, P40): las dos llamadas al publicador (`publish` y `republish`) usan `p40-publicacion.yml`; mismas entradas (este workflow se retira en T-377/D-138).
+# ANTERIOR (2.6.1): legacy/workflows/generar-alternativas-territoriales_v2.6.1_20261116.yml
 # CAMBIOS 2.6.0: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P30 Distritos — P33 Alternativas» (antes 06 Escenarios y Ensembles); la puerta `produccion` sigue atada a github.workflow == el nombre nuevo.
 # FECHA: 2026-11-12
 # QUÉ HACE: produce ensembles reanudables o republica una galería desde artefactos de un run previo sin recalcular GerryChain.
@@ -394,7 +396,7 @@ jobs:
     name: Desplegar galería mediante publicador único
     needs: publish
     if: ${{ needs.publish.result == 'success' && needs.publish.outputs.complete == 'true' && inputs.deploy_pages }}
-    uses: ./.github/workflows/_reutilizable-publicar-sitio.yml
+    uses: ./.github/workflows/p40-publicacion.yml
     secrets: inherit
     with:
       ensemble_release_tag: ${{ needs.publish.outputs.release_tag }}
@@ -530,7 +532,7 @@ jobs:
     name: Desplegar galería republicada mediante publicador único
     needs: republish
     if: ${{ needs.republish.result == 'success' && inputs.deploy_pages }}
-    uses: ./.github/workflows/_reutilizable-publicar-sitio.yml
+    uses: ./.github/workflows/p40-publicacion.yml
     secrets: inherit
     with:
       ensemble_release_tag: ${{ needs.republish.outputs.release_tag }}

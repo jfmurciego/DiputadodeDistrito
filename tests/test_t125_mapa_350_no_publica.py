@@ -77,7 +77,7 @@ class Registro(unittest.TestCase):
 
 class Workflow05(unittest.TestCase):
     def test_sin_run_explicito_no_resuelve_latest_validated(self):
-        t = (ROOT / ".github/workflows/desplegar-visor-publico.yml").read_text("utf-8")
+        t = (ROOT / ".github/workflows/p40-publicacion.yml").read_text("utf-8")
         self.assertNotIn("latest_validated.run_id", t)
         self.assertIn("modo solo sitio", t)
 

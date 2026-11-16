@@ -66,7 +66,7 @@ class PrepararPortadaV2Tests(unittest.TestCase):
         self.assertNotIn('href="congreso/"', (self.site / "index.html").read_text(encoding="utf-8"))
 
     def test_flujo_p50_promueve_v2_despues_del_opt_in_y_antes_de_validar(self):
-        workflow = (ROOT / ".github" / "workflows" / "_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")
+        workflow = (ROOT / ".github" / "workflows" / "p40-publicacion.yml").read_text(encoding="utf-8")
         congreso = workflow.index("- name: Preparar visor analítico Congreso opt-in")
         promocion = workflow.index("- name: Portada pública V2 y conservación V1")
         validacion = workflow.index("- name: Validar sitio candidato completo")

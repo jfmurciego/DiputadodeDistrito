@@ -18,7 +18,7 @@ from herramientas.registro_publicaciones_visor import (
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOWS = ROOT / ".github" / "workflows"
-PUBLISHER = WORKFLOWS / "_reutilizable-publicar-sitio.yml"
+PUBLISHER = WORKFLOWS / "p40-publicacion.yml"
 ENSEMBLE = WORKFLOWS / "generar-alternativas-territoriales.yml"
 FULL = WORKFLOWS / "ejecucion-completa-proyecto.yml"
 REGISTRY = ROOT / "orchestracion/publicaciones_visor.json"
@@ -265,13 +265,13 @@ class MultiterritoryPublicationTests(unittest.TestCase):
             text = path.read_text(encoding="utf-8")
             if "actions/deploy-pages@" in text:
                 deployers.append(path.name)
-        self.assertEqual(deployers, ["_reutilizable-publicar-sitio.yml"])
+        self.assertEqual(deployers, ["p40-publicacion.yml"])
         publisher = PUBLISHER.read_text(encoding="utf-8")
         ensemble = ENSEMBLE.read_text(encoding="utf-8")
         self.assertEqual(publisher.count("actions/deploy-pages@"), 1)
         self.assertIn("group: ddd-pages-prod", publisher)
         self.assertNotIn("actions/upload-pages-artifact@", ensemble)
-        self.assertIn("uses: ./.github/workflows/_reutilizable-publicar-sitio.yml", ensemble)
+        self.assertIn("uses: ./.github/workflows/p40-publicacion.yml", ensemble)
 
     def test_registry_pins_aragon_and_castilla_y_leon_by_blob_and_sha256(self):
         registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
@@ -382,12 +382,10 @@ class MultiterritoryPublicationTests(unittest.TestCase):
         self.assertIn("repos/$GITHUB_REPOSITORY/releases/assets/$asset_id", text)
 
     def test_publication_workflow_and_job_names_remain_stable(self):
-        wrapper = (WORKFLOWS / "desplegar-visor-publico.yml").read_text(encoding="utf-8")
-        publisher = PUBLISHER.read_text(encoding="utf-8")
-        self.assertIn("name: P50 Publicación", wrapper)
+        wrapper = (WORKFLOWS / "p40-publicacion.yml").read_text(encoding="utf-8")
+        self.assertIn("name: P40 Publicación", wrapper)
         self.assertIn("name: Preparar promoción web", wrapper)
         self.assertIn("name: Desplegar página seleccionada", wrapper)
-        self.assertIn("name: Interno · P50 Publicador del sitio", publisher)
 
 
 if __name__ == "__main__":

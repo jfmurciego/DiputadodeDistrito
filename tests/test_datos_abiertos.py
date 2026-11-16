@@ -189,7 +189,7 @@ class PaqueteReal(unittest.TestCase):
         self.assertEqual(da.comprobar(), [])
 
     def test_publicador_incluye_datos(self):
-        d = yaml.safe_load((ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8"))
+        d = yaml.safe_load((ROOT / ".github/workflows/p40-publicacion.yml").read_text(encoding="utf-8"))
         runs = [s.get("run", "") for j in d["jobs"].values() for s in j.get("steps") or []]
         cand = "--registro /tmp/publicaciones_visor.candidate.json"
         self.assertTrue(any(f"generar_datos_abiertos.py {cand} --materializar /tmp/site-candidate/datos" in r for r in runs))

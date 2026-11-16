@@ -1,6 +1,6 @@
 ---
 name: publicar-visor
-description: Procedimiento para publicar territorios o escenarios en el visor público (05, «P50 Publicación» desde el corte 5.0.0, desplegar-visor-publico.yml). Úsala solo en el chat operador y con permiso explícito del propietario en ese mensaje.
+description: Procedimiento para publicar territorios o escenarios en el visor público («P40 Publicación», p40-publicacion.yml, desde T-372). Úsala solo en el chat operador y con permiso explícito del propietario en ese mensaje.
 ---
 
 # Publicar en el visor
@@ -9,12 +9,12 @@ description: Procedimiento para publicar territorios o escenarios en el visor p�
    vigente (D-52, `docs/autorizaciones/`) cuya ficha diga «publica: sí» y nombre esos territorios. Sin ese «sí», no se publica.
 2. Comprueba que cada territorio tiene una 00 completa (M06 + 04 en success) y anota su `production_run_id`.
    El visor solo muestra lo que está en `orchestracion/publicaciones_visor.json`.
-3. Lanza por REST un dispatch por territorio nuevo, con `production_run_id=<run 00 completo>`; con el campo vacío solo
-   entra `latest_validated`. Inputs vigentes: `pagina_publicar`, `production_run_id`, `scenario_id`, `scenario_strategy`.
-   Escenarios (ensembles): `scenario_id` y `scenario_strategy`; un escenario se añade, no sustituye al canónico.
+3. Lanza por REST un dispatch (todo o nada para varios territorios): `que_publicar=Territorios`, `territorios=aut01,nac42` (el código toma del
+   registro la última 00 completa con la 04 en verde de cada uno) y `simular=false`; `que_publicar=Solo el sitio` no toca el registro.
+   Con `simular=true` (por defecto) solo resuelve y comprueba. Escenarios (ensembles): `scenario_id`/`scenario_strategy` solo por `workflow_call`.
    ```
-   gh api -X POST repos/jfmurciego/DiputadodeDistrito/actions/workflows/desplegar-visor-publico.yml/dispatches \
-     -f ref=main -f "inputs[pagina_publicar]=<opción>" -f "inputs[production_run_id]=<run>"
+   gh api -X POST repos/jfmurciego/DiputadodeDistrito/actions/workflows/p40-publicacion.yml/dispatches \
+     -f ref=main -f "inputs[que_publicar]=Territorios" -f "inputs[territorios]=<códigos>" -F "inputs[simular]=false"
    ```
 3b. El dispatch (05 y 06) ya no espera aprobación en `produccion` (D-127): solo se lanza con la frase del propietario en este chat (D-52);
    da el enlace del run. La 05 llamada desde la 00 no pide un segundo clic.

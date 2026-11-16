@@ -188,7 +188,7 @@ Se ejecuta con flujos de GitHub Actions (`.github/workflows/`):
 |---|---|---|
 | P00 | **P00 Campaña**: ejecución completa de un territorio | `ejecucion-completa-proyecto.yml` |
 | P00 | **P00 Campaña — Gestor**: planifica (modo plan) y lanza campañas (nacional, autonómicas, provincias); guía en `docs/GUIA_GESTOR_CAMPANAS.md` | `gestor-campanas.yml` |
-| P50 | **P50 Publicación**: despliegue del visor público | `desplegar-visor-publico.yml` |
+| P40 | **P40 Publicación**: despliegue del visor público | `p40-publicacion.yml` |
 
 El visor solo muestra lo registrado en `orchestracion/publicaciones_visor.json`. Guía operativa: `docs/INVENTARIO_OPERATIVO.md`.
 

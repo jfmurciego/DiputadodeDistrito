@@ -25,7 +25,7 @@ class CongressViewerContractTests(unittest.TestCase):
         self.assertNotIn('innerHTML=', script)
 
     def test_pages_excludes_congress_route_by_default_and_requires_opt_in(self):
-        workflow = (ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")
+        workflow = (ROOT / ".github/workflows/p40-publicacion.yml").read_text(encoding="utf-8")
         home = (ROOT / "visor/index.html").read_text(encoding="utf-8")
         self.assertNotIn('href="congreso/"', home)
         self.assertIn("include_congreso_analytical_preview", workflow)

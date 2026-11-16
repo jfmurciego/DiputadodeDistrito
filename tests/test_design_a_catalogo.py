@@ -40,7 +40,7 @@ class DesignA(unittest.TestCase):
 
     def test_internal_capabilities_remain(self):
         expected={
-          "desplegar-visor-publico.yml","_reutilizable-publicar-sitio.yml","generar-alternativas-territoriales.yml",
+          "p40-publicacion.yml","p40-publicacion.yml","generar-alternativas-territoriales.yml",
           "_reutilizable-incorporacion-electoral.yml","_reutilizable-generacion-territorial.yml",
         }
         self.assertTrue(expected.issubset({p.name for p in WF.glob("*.yml")}))
@@ -53,7 +53,7 @@ class DesignA(unittest.TestCase):
         self.assertEqual(list(electoral["jobs"]),["preparar","incorporar"])
         self.assertEqual(electoral["jobs"]["incorporar"]["uses"],"./.github/workflows/_reutilizable-incorporacion-electoral.yml")
         reusable=(WF/"_reutilizable-incorporacion-electoral.yml").read_text(encoding="utf-8")
-        for forbidden in ("m01:","m02:","m03:","m04:","m05:","m06:","auditar_componentes_geometricos","_reutilizable-publicar-sitio.yml"):
+        for forbidden in ("m01:","m02:","m03:","m04:","m05:","m06:","auditar_componentes_geometricos","p40-publicacion.yml"):
             self.assertNotIn(forbidden,reusable)
 
     def test_catalog_is_real_and_authorization_required(self):

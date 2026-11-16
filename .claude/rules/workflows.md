@@ -20,8 +20,7 @@ paths:
   `legacy/`, añádela allí o el test no debe depender de ella.
 - Una fusión o un push con `github.token` no dispara los workflows de push a `main` (numeración, pruebas en main): usa el
   token de la app de registro.
-- Un job solo admite un `environment`: la puerta humana va en el job previo (no en `_reutilizable-publicar-sitio`, que
-  ya usa github-pages). En los reutilizables, `github.workflow` es el del caller (evita un segundo clic).
+- Un job solo admite un `environment`: la puerta humana va en el job previo (en P40 Publicación va en `preparar`; el job `publicar` usa github-pages). En los reutilizables, `github.workflow` es el del caller (evita un segundo clic).
   `environment: ${{ cond && 'produccion' || '' }}` evita la espera en los bots.
 - Al fusionar `main`, los ficheros añadidos en las dos ramas dan conflicto AA: toma el de `main` y reaplica.
 - Los clientes de la API de GitHub y de R2 llevan reintentos con backoff ante 5xx.
@@ -87,7 +86,7 @@ paths:
 - Borrado irreversible (poda ARC, runs): entorno protegido sin exención de bots, informe como artefacto antes del push y verificación de todas las filas antes de borrar la primera; el Operador repite el inventario.
 - Semilla pública con el id del territorio: si el id cambia, cambia el mapa; sembrar con el código de la tabla maestra vía resolutor (D-61/6). La huella del laboratorio depende de GEOS/shapely (RESULTADO.json guarda el entorno).
 - Al subir VERSIÓN de un fichero de `ddd_motor2/` también se exige copia en `legacy/ddd_motor2/` (el revisor da FAIL si falta).
-- `desplegar-visor-publico.yml` y `generar-alternativas-territoriales.yml` solo piden la aprobación `produccion` si `github.workflow ==` su nombre; al renombrar desaparece sin avisar. El nombre de la 00 lo usan el forense, `legislatura_vigente.py` (TITLE_00) y `metricas_proceso.py` (RUN_NAME). El corte exige prueba explícita de que la aprobación sigue (D-61).
+- `p40-publicacion.yml` (job `preparar`; antes `desplegar-visor-publico.yml`) y `generar-alternativas-territoriales.yml` solo piden la aprobación `produccion` si `github.workflow ==` su nombre; al renombrar desaparece sin avisar. El nombre de la 00 lo usan el forense, `legislatura_vigente.py` (TITLE_00) y `metricas_proceso.py` (RUN_NAME). El corte exige prueba explícita de que la aprobación sigue (D-61).
 - El registro rechaza `congreso350_*`; en el corte debe rechazar también `nacNN-350`.
 - Ahorro de CI (1.9.0): clasificar en un job sin concurrencia, grupos únicos por run fuera del caso cancelable, diff `--no-renames`; clave `concurrency` duplicada la acepta PyYAML pero no GitHub. Tras squash de PR apilada el merge de origin/main choca con contenido idéntico: diff vacío → «ours». Reducir comprobaciones exige la frase del propietario en el chat que ejecuta («CI Bypass»).
 - Lista de Actions: 24 ficheros (23 sin la Poda de R2); cuatro «Interno ·» aceptadas; fusión automática y forense intactos hasta el corte.
@@ -125,3 +124,5 @@ paths:
 - Fuentes que rechazan runners y nube: Interior (Infoelectoral) y la Xunta (abertos.xunta.gal corta la conexión aunque el proxy la permita). Se bajan una vez desde el Windows del propietario con script a R2 (`herramientas/espejo_*_r2.ps1`, modo reanudar) y la cadena lee el espejo con la misma huella.
 - Windows del propietario: no hacer `git checkout` de ramas con fixtures de rutas largas («Filename too long»); bajar solo los ficheros necesarios por `raw.githubusercontent.com/<repo>/<rama>/…` a una carpeta corta.
 - Desde la nube: `servicios.ine.es` lo rechaza el proxy (`www.ine.es` sí). Atlas INE 30832: «.» real en ~1.300-1.600 secciones por año en 2015-2019; población por sección solo desde 2015 (2011 = Censo 2011).
+
+- P40 Publicación (T-372, D-134): un fichero (`p40-publicacion.yml`: resolver → preparar → publicar) sustituye a `desplegar-visor-publico`, `cadena-publicacion` y `_reutilizable-publicar-sitio`. Botón: `que_publicar` (Solo el sitio | Territorios), `territorios`, `simular` (marcado). Sin run id: `herramientas/p40_resolver.py` toma la última 00 completa con la 04 en verde de cada territorio. La ruta del ensemble (alternativas, `workflow_call`) salta resolver y preparar: `publicar` lleva `!cancelled()`. Ya no se exige M06 vivo (M06 del blob del registro).

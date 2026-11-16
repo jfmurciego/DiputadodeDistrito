@@ -632,7 +632,7 @@ class NationalCampaignTests(unittest.TestCase):
   self.assertIn("ddd-campaign-summary-",summary)
   self.assertNotIn("  promover_galerias:",text)
   self.assertNotIn("  publicar_galerias:",text)
-  self.assertNotIn("_reutilizable-publicar-sitio.yml",text)
+  self.assertNotIn("p40-publicacion.yml",text)
 
  def test_workflow_aggregate_uses_import_safe_package_invocation(self):
   text=(ROOT/".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8")

@@ -37,7 +37,7 @@ class DurableElectoralProductRecoveryWorkflowTests(unittest.TestCase):
             "_reutilizable-incorporacion-electoral.yml",
             "preparacion-fuentes.yml",
             "preparacion-resultados-electorales.yml",
-            "desplegar-visor-publico.yml",
+            "p40-publicacion.yml",
         ):
             self.assertNotIn(forbidden, text)
 

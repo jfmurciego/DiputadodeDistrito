@@ -9,8 +9,8 @@ from pathlib import Path
 from herramientas.generar_estado_dashboard import build
 
 ROOT=Path(__file__).resolve().parents[1]
-MANUAL=ROOT/".github/workflows/desplegar-visor-publico.yml"
-REUSABLE=ROOT/".github/workflows/_reutilizable-publicar-sitio.yml"
+MANUAL=ROOT/".github/workflows/p40-publicacion.yml"
+REUSABLE=ROOT/".github/workflows/p40-publicacion.yml"
 
 class DashboardPages(unittest.TestCase):
     def test_dashboard_fuente_y_snapshot_publicado_existen(self):
@@ -72,11 +72,12 @@ class DashboardPages(unittest.TestCase):
         self.assertTrue(payload["latest_validated"]["run_id"])
 
     def test_publicador_manual_y_reutilizable_estan_separados(self):
-        manual=MANUAL.read_text(encoding="utf-8"); reusable=REUSABLE.read_text(encoding="utf-8")
+        # T-372: un solo fichero (botón + workflow_call); el publicador es el job `publicar`, siempre «Sitio completo» desde el botón.
+        manual=MANUAL.read_text(encoding="utf-8")
         self.assertIn("workflow_dispatch:",manual); self.assertIn("workflow_call:",manual)
-        self.assertIn("workflow_call:",reusable); self.assertNotIn("workflow_dispatch:",reusable)
-        self.assertIn("pagina_publicar:",manual); self.assertIn("- Dashboard operativo",manual)
-        self.assertIn("- Visor territorial",manual); self.assertIn("- Sitio completo",manual)
+        self.assertIn("que_publicar:",manual); self.assertIn("- Solo el sitio",manual); self.assertIn("- Territorios",manual)
+        self.assertNotIn("- Dashboard operativo",manual)
+        self.assertIn("|| inputs.pagina_publicar || 'Sitio completo'",manual)
 
     def test_produccion_automatica_preserva_dashboard_promovido(self):
         reusable=REUSABLE.read_text(encoding="utf-8")
@@ -89,7 +90,7 @@ class DashboardPages(unittest.TestCase):
         self.assertIn("ddd-shared-operational-state",manual)
         self.assertIn("python -m herramientas.persistir_estado_operativo_compartido",manual)
         self.assertIn("--sync-dashboard-assets",manual)
-        self.assertNotIn("git pull --rebase origin main",manual)
+        self.assertNotIn("git pull --rebase origin main",manual.split("  publicar:")[0])  # el publicador (job `publicar`) conserva su sincronización propia
 
     def test_visor_enlaza_dashboard(self):
         html=(ROOT/"visor/index.html").read_text(encoding="utf-8")

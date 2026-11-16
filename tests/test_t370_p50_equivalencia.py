@@ -148,9 +148,10 @@ class Equivalencia(Congelado):
         self.assertIn("p50_resolver.py blob", paso(j, "Descargar M06 del visor (sha256 verificado)")["run"])
 
     def test_cadena_ya_no_lanza_p50(self):
-        c = yaml.safe_load((WF / "cadena-publicacion.yml").read_text(encoding="utf-8"))
-        self.assertNotIn("version_mapa", c["jobs"])
-        self.assertNotIn("publicar-version-mapa", (WF / "cadena-publicacion.yml").read_text(encoding="utf-8").replace("legacy/", ""))
+        self.assertFalse((WF / "cadena-publicacion.yml").exists())  # T-372: la cadena se funde en P40
+        p40 = (WF / "p40-publicacion.yml").read_text(encoding="utf-8")
+        self.assertNotIn("p50-publicacion-academica", p40.replace("legacy/", ""))
+        self.assertNotIn("version_mapa", p40)
 
 
 class Negativos(Congelado):

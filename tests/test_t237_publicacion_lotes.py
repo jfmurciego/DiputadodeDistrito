@@ -23,8 +23,8 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from herramientas import registro_publicaciones_visor as rpv  # noqa: E402
 
-PUBLISHER = ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml"
-P50 = ROOT / ".github/workflows/desplegar-visor-publico.yml"
+PUBLISHER = ROOT / ".github/workflows/p40-publicacion.yml"
+P50 = ROOT / ".github/workflows/p40-publicacion.yml"
 TOOL = ROOT / "herramientas/registro_publicaciones_visor.py"
 
 
@@ -292,8 +292,8 @@ class Estructura(unittest.TestCase):
         self.assertEqual(text.count("actions/deploy-pages@"), 1)
 
     def test_puerta_produccion_intacta(self):
-        job = yaml.safe_load(P50.read_text(encoding="utf-8"))["jobs"]["preparar_publicacion"]
-        self.assertEqual(job["environment"], "${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == 'P50 Publicación') && 'produccion' || '' }}")
+        job = yaml.safe_load(P50.read_text(encoding="utf-8"))["jobs"]["preparar"]
+        self.assertEqual(job["environment"], "${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == 'P40 Publicación') && 'produccion' || '' }}")
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""T-124: reintentos de gh api en .ddd-publication/materializar_registro.sh (de _reutilizable-publicar-sitio.yml).
+"""T-124: reintentos de gh api en .ddd-publication/materializar_registro.sh (de p40-publicacion.yml).
 
 PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.0 · FECHA: 2026-11-09 · ESTADO: candidato · ANTERIOR: ninguna (fichero nuevo)
 Extrae `gh_retry` del workflow y lo ejecuta en bash con un `gh` falso que cuenta las llamadas.
@@ -13,7 +13,7 @@ import textwrap
 import unittest
 from pathlib import Path
 
-WORKFLOW = Path(__file__).resolve().parent.parent / ".github/workflows/_reutilizable-publicar-sitio.yml"
+WORKFLOW = Path(__file__).resolve().parent.parent / ".github/workflows/p40-publicacion.yml"
 
 
 def _funcion() -> str:

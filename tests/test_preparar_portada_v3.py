@@ -62,7 +62,7 @@ class PortadaV3Tests(unittest.TestCase):
         self.assertEqual((self.site / "index.html").read_bytes(), before)
 
     def test_workflow_copia_v3_y_promociona_despues_de_v2(self):
-        wf = (ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")
+        wf = (ROOT / ".github/workflows/p40-publicacion.yml").read_text(encoding="utf-8")
         build = wf.index("- name: Construir sitio candidato completo")
         v2 = wf.index("- name: Portada pública V2 y conservación V1")
         v3 = wf.index("- name: Promocionar portada pública V3")

@@ -24,4 +24,4 @@ Construcción verificable:
 El HTML se genera en `documentacion_publica/site/`. Las dependencias tienen versiones fijadas; este lock no contiene hashes de distribución ni congela Python y el sistema operativo. La configuración utiliza páginas `.html` y fuentes del sistema para facilitar su consulta local. Para utilizar búsqueda y evitar restricciones de `file://`, servir el sitio mediante HTTP.
 
 
-El portal se construye y publica dentro de `_reutilizable-publicar-sitio.yml` en la ruta `/docs/` del mismo sitio que el visor (T-73).
+El portal se construye y publica dentro de `p40-publicacion.yml` (job `publicar`) en la ruta `/docs/` del mismo sitio que el visor (T-73).

@@ -19,7 +19,7 @@ import composicion_m06 as cm  # noqa: E402
 from ddd_core import territorio_ids as ti  # noqa: E402
 from ddd_motor2.vigente import vigente_publicado  # noqa: E402
 
-WORKFLOW = (ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")
+WORKFLOW = (ROOT / ".github/workflows/p40-publicacion.yml").read_text(encoding="utf-8")
 
 
 def _m06(distritos: dict[int, tuple[int, int]]) -> bytes:

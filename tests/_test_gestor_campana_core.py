@@ -972,14 +972,14 @@ class CampaignManagerTests(unittest.TestCase):
                     "  recuperar_portfolio:", "  publicar_recuperacion:",
                     "  resultado_publicacion:"):
             self.assertNotIn(job, manager)
-        self.assertNotIn("uses: ./.github/workflows/_reutilizable-publicar-sitio.yml", manager)
+        self.assertNotIn("uses: ./.github/workflows/p40-publicacion.yml", manager)
         self.assertIn("publish_result: false", manager)
         self.assertIn("persist_state: ${{ matrix.persist_state }}", manager)
 
     def test_campaign_does_not_bypass_publisher_sha_contract(self):
         manager = WORKFLOW.read_text(encoding="utf-8")
-        publisher = (ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")
-        self.assertNotIn("_reutilizable-publicar-sitio.yml", manager)
+        publisher = (ROOT / ".github/workflows/p40-publicacion.yml").read_text(encoding="utf-8")
+        self.assertNotIn("p40-publicacion.yml", manager)
         self.assertIn("ensemble_sha256:", publisher)
         self.assertIn("ENSEMBLE_SHA256: ${{ inputs.ensemble_sha256 || '' }}", publisher)
 

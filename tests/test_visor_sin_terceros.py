@@ -64,7 +64,7 @@ class SinTerceros(unittest.TestCase):
         self.assertEqual(ext, [])
 
     def test_vendor_dentro_de_v2_que_el_sitio_copia_entero(self):
-        wf = (ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")
+        wf = (ROOT / ".github/workflows/p40-publicacion.yml").read_text(encoding="utf-8")
         self.assertIn("cp -R visor/v2/. /tmp/site-candidate/v2/", wf)
         for p in _publicados({".html"}):
             for ref in re.findall(r'(?:src|href)="([^"]*vendor/maplibre-gl/5\.7\.0/[^"]+)"', p.read_text(encoding="utf-8")):

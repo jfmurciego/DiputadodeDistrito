@@ -51,7 +51,7 @@ class VisorEscenariosTests(unittest.TestCase):
     def test_cableado_en_index_app_y_publicador(self):
         html = (ROOT / "visor/index.html").read_text(encoding="utf-8")
         app = (ROOT / "visor/app.js").read_text(encoding="utf-8")
-        wf = (ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")
+        wf = (ROOT / ".github/workflows/p40-publicacion.yml").read_text(encoding="utf-8")
         self.assertLess(html.index("escenarios.js"), html.index('src="app.js"'))
         self.assertIn('id="stage-toggle"', html)
         self.assertIn("DDDEscenarios.groupsForStage", app)
