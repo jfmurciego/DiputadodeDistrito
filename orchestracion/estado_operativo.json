@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T02:05:44.507758+00:00",
+  "generated_at": "2026-11-16T02:16:38.117190+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 56,
-      "action_required": 64,
+      "admissible": 57,
+      "action_required": 63,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 56,
+      "activated": 57,
       "activable": 0,
       "territorial_pending": 46,
-      "electoral_pending": 64,
+      "electoral_pending": 63,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 56,
-      "durable_pair": 56
+      "electoral_source": 57,
+      "durable_pair": 57
     },
     "territories": [
       {
@@ -2779,20 +2779,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac35/evidencia/pares_fuentes/2025/a3f2cf94231c6215b6cb5eeac73d577d04c5f828533d7db365456f441c6a9035.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac35/evidencia/pares_fuentes/2025/5c1aefd2f7e802a2077d4b22605cc7eb910436eb43309d1f1cf6fe92f5697e70.json",
+            "pair_sha256": "5c1aefd2f7e802a2077d4b22605cc7eb910436eb43309d1f1cf6fe92f5697e70",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -2800,13 +2800,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "nac36",
@@ -3281,8 +3275,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43770741763,
-            "receipt_path": "territorios/nac44/evidencia/fuentes_territoriales/2025/c8a8b8b3ab6d2573863e29801f38e91b2434e290194e21c774979ac38b67ee46/43770741763/receipt.json"
+            "run_id": 43790237705,
+            "receipt_path": "territorios/nac44/evidencia/fuentes_territoriales/2025/c8a8b8b3ab6d2573863e29801f38e91b2434e290194e21c774979ac38b67ee46/43790237705/receipt.json"
           }
         },
         "electoral": {
@@ -9784,20 +9778,20 @@
       "name": "Nacional Navarra",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43780088321,
+      "run_id": 43786392804,
       "last_run": {
-        "run_id": 43780088321,
+        "run_id": 43786392804,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9838,7 +9832,7 @@
       },
       "autonomous_community_code_ine": "C31",
       "display_name": "Nacional Navarra",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac32",
@@ -9906,20 +9900,20 @@
       "name": "Nacional Asturias",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 43781676796,
+      "run_id": 43787766893,
       "last_run": {
-        "run_id": 43781676796,
+        "run_id": 43787766893,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9960,7 +9954,7 @@
       },
       "autonomous_community_code_ine": "C33",
       "display_name": "Nacional Asturias",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac34",
@@ -10009,13 +10003,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_palencia",
+          "territory_id": "nac34",
           "territory_name": "Congreso Palencia",
           "edition": "2025",
-          "run_id": 43016085888,
-          "artifact_name": "ddd-state-43016085888-M08",
-          "artifact_sha256": "f3b6f957c70a27da6cfeda275b729aae0d6d40bec74556638a988dbd71a0af33",
-          "source_commit": "37f628b85b8e64083245b2e59c38d071ff4bf31a",
+          "run_id": 43789454074,
+          "artifact_name": "ddd-state-43789454074-M08",
+          "artifact_sha256": "df0bb8b49e283061a92b0425180e3b8a299d67eefa57978703d608c0d1d6f60e",
+          "source_commit": "9338a37743328580dd1d8d4022cd7cb495869daa",
           "stage": "M08"
         }
       },
@@ -10131,13 +10125,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_pontevedra",
+          "territory_id": "nac36",
           "territory_name": "Congreso Pontevedra",
           "edition": "2025",
-          "run_id": 43016524347,
-          "artifact_name": "ddd-state-43016524347-M08",
-          "artifact_sha256": "9b7e7492f2bd8d34d5df6c408e6426495508d4d35edc9131f4bdaa598e06483f",
-          "source_commit": "1e60af6a4eb11885f76e5b0a92f00c8439b2ffdd",
+          "run_id": 43789633261,
+          "artifact_name": "ddd-state-43789633261-M08",
+          "artifact_sha256": "8fc1cec68909e21b0d68c06a43770aa9075bf336e51ff1fe05cacbe15caabb26",
+          "source_commit": "94393bd5f98c0b047b44da40488f040da2be77a2",
           "stage": "M08"
         }
       },
@@ -10272,11 +10266,11 @@
       "name": "Nacional Cantabria",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42985965354,
+      "run_id": 43786502149,
       "last_run": {
         "run_id": 42985965354,
         "status": "SUCCESS",
@@ -10285,7 +10279,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10299,16 +10293,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_cantabria",
+          "territory_id": "nac39",
           "territory_name": "Congreso Cantabria",
           "edition": "2025",
-          "run_id": 42981422592,
-          "artifact_name": "ddd-state-42981422592-M06",
-          "artifact_sha256": "b5ebe83993d248788573f0c28a99ec06a91e7fbf452a37f34f83552f75e0188a",
-          "source_commit": "d3b29437f7460641304d1cc0ad811b9cb5d599d1",
+          "run_id": 43786502149,
+          "artifact_name": "ddd-state-43786502149-M06",
+          "artifact_sha256": "7269f3278676d40f3298072c49294d8a87cabcb80ea3e0b6ed72ed4cc9f77f5e",
+          "source_commit": "a94b84518ad0d0ac339afe4638ac177ca2a2e63a",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_cantabria/evidencia/generaciones_m06/42981422592.json"
+          "producer_manifest_path": "territorios/nac39/evidencia/generaciones_m06/43786502149.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -10326,18 +10320,18 @@
       },
       "autonomous_community_code_ine": "C39",
       "display_name": "Nacional Cantabria",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac40",
       "name": "Nacional Segovia",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 43029353804,
+      "run_id": 43786736942,
       "last_run": {
         "run_id": 43029353804,
         "status": "SUCCESS",
@@ -10346,7 +10340,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10360,16 +10354,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_segovia",
+          "territory_id": "nac40",
           "territory_name": "Congreso Segovia",
           "edition": "2025",
-          "run_id": 43024836898,
-          "artifact_name": "ddd-state-43024836898-M06",
-          "artifact_sha256": "6aa0980e4a2999b05eece351086a3bd5ee61cc849517036073d74e532788b09d",
-          "source_commit": "6ad5b525a72328c916f98ca06ee6c6035293e440",
+          "run_id": 43786736942,
+          "artifact_name": "ddd-state-43786736942-M06",
+          "artifact_sha256": "c515c2a43d23060b8c3c69dddf00506a82474db37fbbbbdffb309945b9b2c927",
+          "source_commit": "a052f885f7761d3f35ff26c7849010b71273ecc1",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_segovia/evidencia/generaciones_m06/43024836898.json"
+          "producer_manifest_path": "territorios/nac40/evidencia/generaciones_m06/43786736942.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -10387,18 +10381,18 @@
       },
       "autonomous_community_code_ine": "C40",
       "display_name": "Nacional Segovia",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac41",
       "name": "Nacional Sevilla",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43029566265,
+      "run_id": 43786750220,
       "last_run": {
         "run_id": 43029566265,
         "status": "SUCCESS",
@@ -10407,7 +10401,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10421,16 +10415,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_sevilla",
+          "territory_id": "nac41",
           "territory_name": "Congreso Sevilla",
           "edition": "2025",
-          "run_id": 43024845069,
-          "artifact_name": "ddd-state-43024845069-M06",
-          "artifact_sha256": "0a2a1711e681024cf3c7fecb4ed4d6165e06b5a870a64e6905b95ae380394ab0",
-          "source_commit": "6ad5b525a72328c916f98ca06ee6c6035293e440",
+          "run_id": 43786750220,
+          "artifact_name": "ddd-state-43786750220-M06",
+          "artifact_sha256": "c406ed76f583f15b55924dc51f5a085dc3eb914d1150d932acb95a3169712291",
+          "source_commit": "ffbb9917478c4f60fdcc074e2cb11e96e14a1b99",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_sevilla/evidencia/generaciones_m06/43024845069.json"
+          "producer_manifest_path": "territorios/nac41/evidencia/generaciones_m06/43786750220.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -10448,7 +10442,7 @@
       },
       "autonomous_community_code_ine": "C41",
       "display_name": "Nacional Sevilla",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac42",
@@ -10596,9 +10590,9 @@
         "territorial_source": {
           "territory_id": "nac44",
           "edition": "2025",
-          "run_id": 43770741763,
-          "artifact_name": "ddd-source-package-nac44-2025-43770741763",
-          "artifact_sha256": "908e9e7b79bdd85aaf13d588eacd4f4d63b5f2202be8507b9bc55015a4237c96",
+          "run_id": 43790237705,
+          "artifact_name": "ddd-source-package-nac44-2025-43790237705",
+          "artifact_sha256": "8a1d8f07675c6a0ae4d31509d3517c74d07d98599f28abbdb42fe336317fe80d",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -12364,7 +12358,7 @@
     }
   ],
   "kpis": {
-    "complete": 65,
+    "complete": 64,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12414,9 +12408,8 @@
       "Nacional Madrid",
       "Nacional Málaga",
       "Nacional Murcia",
-      "Nacional Cantabria",
-      "Nacional Segovia",
-      "Nacional Sevilla",
+      "Nacional Navarra",
+      "Nacional Asturias",
       "Nacional Soria",
       "Nacional Tarragona",
       "Nacional Teruel",
@@ -12641,13 +12634,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac29",
-    "name": "Nacional Málaga",
-    "display_name": "Nacional Málaga",
-    "autonomous_community_code_ine": "C29",
-    "run_id": 43786348967,
+    "territory_id": "nac33",
+    "name": "Nacional Asturias",
+    "display_name": "Nacional Asturias",
+    "autonomous_community_code_ine": "C33",
+    "run_id": 43787766893,
     "stage": "M08",
-    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+    "certification": "PASS",
     "edition": "2025"
   },
   "alerts": [
@@ -12658,21 +12651,9 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Navarra",
-      "territory_id": "nac31",
-      "autonomous_community_code_ine": "C31",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Orense",
       "territory_id": "nac32",
       "autonomous_community_code_ine": "C32",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Asturias",
-      "territory_id": "nac33",
-      "autonomous_community_code_ine": "C33",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12697,6 +12678,18 @@
       "territory": "Nacional Salamanca",
       "territory_id": "nac37",
       "autonomous_community_code_ine": "C37",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Santa Cruz de Tenerife",
+      "territory_id": "nac38",
+      "autonomous_community_code_ine": "C38",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Cantabria",
+      "territory_id": "nac39",
+      "autonomous_community_code_ine": "C39",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12708,21 +12701,9 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Navarra",
-      "territory_id": "nac31",
-      "autonomous_community_code_ine": "C31",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Orense",
       "territory_id": "nac32",
       "autonomous_community_code_ine": "C32",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Asturias",
-      "territory_id": "nac33",
-      "autonomous_community_code_ine": "C33",
       "action": "preparar fuentes electorales"
     },
     {
@@ -12747,6 +12728,18 @@
       "territory": "Nacional Salamanca",
       "territory_id": "nac37",
       "autonomous_community_code_ine": "C37",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Santa Cruz de Tenerife",
+      "territory_id": "nac38",
+      "autonomous_community_code_ine": "C38",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Cantabria",
+      "territory_id": "nac39",
+      "autonomous_community_code_ine": "C39",
       "action": "preparar fuentes electorales"
     }
   ]
