@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.461
+Versión: 1.0.462
 Fecha: 2026-11-16
-Alcance: T-364 — Población por sección: interpolación y ajuste municipal (D-128)
+Alcance: T-365 — Histórico de las generales por época: contrato por elección, herramienta y piloto nac22 2019-11
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-16_claude-t364-interpolada.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.460_registro_20261116.md
+Cambios/motivo: entrada docs/registro/2026-11-16_t365-historico-epoca.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.461_registro_20261116.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.460_registro_20261116.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.462 · [2026-11-16 — T-365 — Histórico de las generales por época: contrato por elección, herramienta y piloto nac22 2019-11](registro/2026-11-16_t365-historico-epoca.md)
 - 1.0.461 · [2026-11-16 — T-364 — Población por sección: interpolación y ajuste municipal (D-128)](registro/2026-11-16_claude-t364-interpolada.md)
 - 1.0.460 · [2026-11-16 — T-360 — las cadenas registran en paralelo sin grupos únicos y con el catálogo de procedencia en el mismo commit](registro/2026-11-16_t360-paralelismo-cadena.md)
 - 1.0.459 · [2026-11-14 — T-332 — La 03 elige la elección de ensayo 2026-11-29 por entrada (BORRADOR, no-automerge)](registro/2026-11-14_t332-ensayo-03.md)
