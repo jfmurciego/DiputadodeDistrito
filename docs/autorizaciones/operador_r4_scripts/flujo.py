@@ -29,6 +29,19 @@ def parada(msg):
     log('PARADA', msg); sys.exit(2)
 def ahora(): return time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
 
+FIRMAS = ('No se pudo persistir el estado operativo compartido', 'could not apply', 'failed to push some refs')
+def conflicto_push(malos):
+    for x in malos:
+        jobs = json.loads(gh('repos/%s/actions/runs/%s/jobs?per_page=100' % (R, x['id'])))['jobs']
+        fj = [j for j in jobs if j['conclusion'] == 'failure']
+        if not fj: return False
+        for j in fj:
+            lg = subprocess.run(['gh', 'api', 'repos/%s/actions/jobs/%s/logs' % (R, j['id'])], capture_output=True, text=True).stdout
+            if not any(f in lg for f in FIRMAS): return False
+    return True
+def reintentos(t):
+    return sum(1 for r in tsv(D + 'reintentos_r4.tsv') if r[0] == t and 'frase 16-11: repetición' not in r[2])
+
 def main_ok():
     c = []
     for pg in range(1, 6):
@@ -113,6 +126,11 @@ while True:
             r[2] = str(act[-1]['id']) if act else '-'; r[3] = str(ele[-1]['id']) if ele else '-'
             todos = mio + act[-1:] + ele[-1:]
             malos = [x for x in todos if x['status'] == 'completed' and x['conclusion'] != 'success']
+            if malos and conflicto_push(malos) and reintentos(t) < 2:
+                r[4] = '/'.join('%s:%s' % (x['id'], x['conclusion']) for x in todos); r[5] = 'FALLO'
+                open(D + 'cadenas_r4_fallos.tsv', 'a').write('\t'.join(r) + '\n')
+                open(D + 'reintentos_r4.tsv', 'a').write('%s\t%s\tconflicto de push en registro/estado operativo (reintento automático, frase 16-11)\t%d/2\n' % (t, r[4], reintentos(t) + 1))
+                del cad[t]; wtsv(E, list(cad.values())); log('REINTENTO auto (push)', t, r[4]); continue
             if malos:
                 r[4] = '/'.join('%s:%s' % (x['id'], x['conclusion']) for x in todos); r[5] = 'FALLO'; wtsv(E, list(cad.values()))
                 parada('cadena %s %s' % (t, r[4]))
@@ -135,7 +153,7 @@ while True:
     if m:
         if 'congelación' in m: parada(m)
         log('espera:', m); time.sleep(120); continue
-    env = sum(1 for r in cad.values() if r[5] == 'EN_VUELO'); cupo = 14 if okn >= 5 else 5  # modificación 7 (15-11): cupo 14 de nuevo
+    env = sum(1 for r in cad.values() if r[5] == 'EN_VUELO'); cupo = 6  # reanudación 16-11: cupo 6
     for t in terr:
         if env >= cupo: break
         i = cid(t)
