@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.467
+Versión: 1.0.468
 Fecha: 2026-11-16
-Alcance: T-373 — Plan 1.0.54: D-134, D-135 y cola T-372 a T-374
+Alcance: T-382 — Plan 1.0.55: D-136 a D-142 y cola T-375 a T-383
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-16_planificador-plan-1-0-54.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.466_registro_20261116.md
+Cambios/motivo: entrada docs/registro/2026-11-16_planificador-plan-1-0-55.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.467_registro_20261116.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.466_registro_20261116.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.468 · [2026-11-16 — T-382 — Plan 1.0.55: D-136 a D-142 y cola T-375 a T-383](registro/2026-11-16_planificador-plan-1-0-55.md)
 - 1.0.467 · [2026-11-16 — T-373 — Plan 1.0.54: D-134, D-135 y cola T-372 a T-374](registro/2026-11-16_planificador-plan-1-0-54.md)
 - 1.0.466 · [2026-11-16 — T-371 — Plan 1.0.53: D-131 a D-133 y cola T-368 a T-371](registro/2026-11-16_planificador-plan-1-0-53.md)
 - 1.0.465 · [2026-11-16 — T-367 — Experiencia de sesión del Planificador (14 a 16-11)](registro/2026-11-16_docs-experiencia-2026-11-16.md)
