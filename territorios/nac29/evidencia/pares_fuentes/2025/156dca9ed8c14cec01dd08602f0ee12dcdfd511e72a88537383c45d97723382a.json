@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "nac29",
+  "territory_name": "Congreso Málaga",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_malaga_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43779396654,
+    "artifact_name": "ddd-source-package-nac29-2025-43779396654",
+    "artifact_sha256": "5eec02c03d7875ad49ee7e59e7d7c8f455871b880c8a8afe40ae6b480431f148",
+    "package_sha256": "67c8727893a740e1a0740a9af755dd61a04c992a3899e7a2d573be3177e466de",
+    "source_commit": "4ad94a5b528a9c676595b8a666dedb70ba384f42",
+    "source_declaration": "territorios/nac29/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/nac29/evidencia/fuentes_territoriales/2025/5b829be3f88ebbd943b920b95f52622dd360817ba8120d935c6d8c7d0c289fd2/43779396654/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "5b829be3f88ebbd943b920b95f52622dd360817ba8120d935c6d8c7d0c289fd2",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "55b064f2c0b765bb9a01fd89c9be1d8f40c54927e6174b90e53e08a9fb5de216",
+    "compatibility_identity_sha256": "cf668970b308d5341b093a060984d8046bd2b7c16024451b3b217480a91d9396",
+    "remote_verification": {
+      "run_id": 43779396654,
+      "artifact_id": 14186924050,
+      "artifact_name": "ddd-source-package-nac29-2025-43779396654",
+      "artifact_sha256": "5eec02c03d7875ad49ee7e59e7d7c8f455871b880c8a8afe40ae6b480431f148",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43785974922,
+    "artifact_name": "ddd-electoral-package-nac29-2025-43785974922",
+    "artifact_sha256": "fe3136554fe3ad0509ae110c40f3b6685227a90115047b26d5b0ea7819579714",
+    "source_commit": "ac07db378ebbffb4adcf42c14aeffffb35248f8a",
+    "receipt_path": "territorios/nac29/evidencia/fuentes_electorales/2025/584c0498cea61c4fa32de1fbb12fc74e197c365ed022ed37646fdd0699a76699/43785974922/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_malaga_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "584c0498cea61c4fa32de1fbb12fc74e197c365ed022ed37646fdd0699a76699",
+    "remote_verification": {
+      "run_id": 43785974922,
+      "artifact_id": 14190825547,
+      "artifact_name": "ddd-electoral-package-nac29-2025-43785974922",
+      "artifact_sha256": "fe3136554fe3ad0509ae110c40f3b6685227a90115047b26d5b0ea7819579714",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "5b829be3f88ebbd943b920b95f52622dd360817ba8120d935c6d8c7d0c289fd2",
+  "electoral_compatibility_key": "584c0498cea61c4fa32de1fbb12fc74e197c365ed022ed37646fdd0699a76699",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/nac29/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "156dca9ed8c14cec01dd08602f0ee12dcdfd511e72a88537383c45d97723382a"
+}

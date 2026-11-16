@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_cadiz",
+  "territory_id": "nac11",
   "territory_name": "Congreso Cádiz",
   "edition": "2025",
-  "run_id": 42953019279,
-  "artifact_name": "ddd-state-42953019279-M08",
-  "artifact_sha256": "eed4707fe0c31b5f54827b84c6eb886dea495810c627efeec146e887da8ad299",
-  "source_commit": "d0c58d7f84535e1c94ef0bd1ff1c7f1e5c3c282a",
+  "run_id": 43769041417,
+  "artifact_name": "ddd-state-43769041417-M08",
+  "artifact_sha256": "b027ab5f948e59ab686a5a401cdf9bfd8a5ac415b79647e1dc261849140a5aa9",
+  "source_commit": "cb98acf552535468383e70b109dd98af52c452b1",
   "stage": "M08"
 }

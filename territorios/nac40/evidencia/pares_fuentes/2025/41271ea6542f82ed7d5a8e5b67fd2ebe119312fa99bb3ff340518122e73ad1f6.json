@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "nac40",
+  "territory_name": "Congreso Segovia",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_segovia_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43786736942,
+    "artifact_name": "ddd-source-package-nac40-2025-43786736942",
+    "artifact_sha256": "31da29d9ebf68e3d7cc886b29ccdd366db9689efb91fd27ef4a0bd0635094ec9",
+    "package_sha256": "509be15780ec29ff4bcd819d4e2ef08076e2b6fde8765d60aab9edaee58cf16e",
+    "source_commit": "9dba1a609e93e340ba4c361e87121e8d899551af",
+    "source_declaration": "territorios/nac40/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/nac40/evidencia/fuentes_territoriales/2025/d40a84ce839a8f79d4ba0b47db407ae91dde413efb411b0d8801251a6bd4c279/43786736942/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "d40a84ce839a8f79d4ba0b47db407ae91dde413efb411b0d8801251a6bd4c279",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "6d949705d9978cbd2a96df6282d2fcea07ca2b917b9c348a192f97c6eaab0d65",
+    "compatibility_identity_sha256": "ca1c9826af2ef1f4d99cf426e610c223ae65ea52e1e4f95342c1c1e3214cd8d1",
+    "remote_verification": {
+      "run_id": 43786736942,
+      "artifact_id": 14191125355,
+      "artifact_name": "ddd-source-package-nac40-2025-43786736942",
+      "artifact_sha256": "31da29d9ebf68e3d7cc886b29ccdd366db9689efb91fd27ef4a0bd0635094ec9",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43792544180,
+    "artifact_name": "ddd-electoral-package-nac40-2025-43792544180",
+    "artifact_sha256": "30a0bad946cda822bfb3be7fae4c2900ac83a64db3624de7578ba046c616ae72",
+    "source_commit": "0bcd29ff3852fff1ea65bdab707f92461c7b7139",
+    "receipt_path": "territorios/nac40/evidencia/fuentes_electorales/2025/cca0636279d7a5287aabc4a354acb3b19b8fb78586bf596616d4f80e7a40abc2/43792544180/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_segovia_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "cca0636279d7a5287aabc4a354acb3b19b8fb78586bf596616d4f80e7a40abc2",
+    "remote_verification": {
+      "run_id": 43792544180,
+      "artifact_id": 14192993408,
+      "artifact_name": "ddd-electoral-package-nac40-2025-43792544180",
+      "artifact_sha256": "30a0bad946cda822bfb3be7fae4c2900ac83a64db3624de7578ba046c616ae72",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "d40a84ce839a8f79d4ba0b47db407ae91dde413efb411b0d8801251a6bd4c279",
+  "electoral_compatibility_key": "cca0636279d7a5287aabc4a354acb3b19b8fb78586bf596616d4f80e7a40abc2",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/nac40/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "41271ea6542f82ed7d5a8e5b67fd2ebe119312fa99bb3ff340518122e73ad1f6"
+}

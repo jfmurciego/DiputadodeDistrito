@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac15",
+  "territory_name": "Congreso La Coruña",
+  "edition": "2025",
+  "run_id": 43773285061,
+  "artifact_name": "ddd-electoral-package-nac15-2025-43773285061",
+  "artifact_sha256": "8c1e9bb827499a4d2027fbb6eaf3464686619293f7bc976e203ea8ccd8792faa",
+  "source_commit": "85e6c59b797c6b7e7b93a312d7b30638cb29d7b9",
+  "election_id": "congreso_la_coruna_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "54c9689795fe14c5a265c6dfc9693179b83a30fb8002fef1a867705a288252d8"
+}

@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_pontevedra",
+  "territory_id": "nac36",
   "territory_name": "Congreso Pontevedra",
   "edition": "2025",
-  "run_id": 43016524347,
-  "artifact_name": "ddd-state-43016524347-M08",
-  "artifact_sha256": "9b7e7492f2bd8d34d5df6c408e6426495508d4d35edc9131f4bdaa598e06483f",
-  "source_commit": "1e60af6a4eb11885f76e5b0a92f00c8439b2ffdd",
+  "run_id": 43789633261,
+  "artifact_name": "ddd-state-43789633261-M08",
+  "artifact_sha256": "8fc1cec68909e21b0d68c06a43770aa9075bf336e51ff1fe05cacbe15caabb26",
+  "source_commit": "94393bd5f98c0b047b44da40488f040da2be77a2",
   "stage": "M08"
 }

@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_huelva",
+  "territory_id": "nac21",
   "territory_name": "Congreso Huelva",
   "edition": "2025",
-  "run_id": 42996002594,
-  "artifact_name": "ddd-state-42996002594-M08",
-  "artifact_sha256": "e435883592b00c5afc7e7b21feb11e35a80ef6d3f1ee6200819c43ac1b83d582",
-  "source_commit": "cfe716fc438444c6d25634256d725122a3012c94",
+  "run_id": 43779363183,
+  "artifact_name": "ddd-state-43779363183-M08",
+  "artifact_sha256": "54a896cb46db59f54d5f9a74c25dbd9b0258918cf7532dade9e10e1fe2093a3c",
+  "source_commit": "ac50f5431d63629b17eae9a3bbf6ba56b4232e0e",
   "stage": "M08"
 }

@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_guadalajara",
+  "territory_id": "nac19",
   "territory_name": "Congreso Guadalajara",
   "edition": "2025",
-  "run_id": 42955217289,
-  "artifact_name": "ddd-state-42955217289-M08",
-  "artifact_sha256": "ed0747de4d2724d85893ee040187b7b9c4748577be64b36f1ade3159940f0de9",
-  "source_commit": "c9c8d85f6dc3501f5fb9e388495e544cf2cc75bb",
+  "run_id": 43778101275,
+  "artifact_name": "ddd-state-43778101275-M08",
+  "artifact_sha256": "b585c4df680af7c771d168c8fa28204b83277d55f8931c70a442a2ee9f7a8c1a",
+  "source_commit": "0b4639c158a0e0036c6d3b0709212d4577062290",
   "stage": "M08"
 }

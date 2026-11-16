@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   source_population_year: 2023
   source_section_year: 2023
   schema_family: ddd-territory
@@ -73,7 +73,7 @@ territory_contract:
   oversized_municipality_rule: split_only_above_hard_cap
   municipality_atomicity_limit_ratio: 1.15
   require_auditable_district_catalogue: true
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   limits_profile: exception
   limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
     piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
@@ -207,9 +207,9 @@ validation:
     section_year: 2023
     population_total: 157787
     target_section_count: 275
-    package_sha256: 23bee297123bdc1bc7753f0cea66a6278da9598c0c6b23f21a6854aeff322210
-    compatibility_report_sha256: e7a3ef72372012e1ef6c654a309f404846db374a9ce427c8f82d9a8b5e819834
-    compatibility_identity_sha256: 0b95d59cd41eeda9be1d3c088a2385f5e53b9610214a6744d7d0c4c9da3d7519
+    package_sha256: a28bd29e9b9f34108f1b0b2d538c9162605ce9d54498b809beecee7df1c2e939
+    compatibility_report_sha256: e1fef9252dab20f1d1fad58e6b8bfeb6842f2107a03e5e7d549378c904bb03b3
+    compatibility_identity_sha256: faf09579b59698b5074af4ca6c5d3a1765c358d072220406a0662fc5d8e2f9e2
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -266,8 +266,8 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2023.zip
-        sha256: 6f90c65cb87e9efa4b2aa920f30a079b1db27e440cd4f3a8a42c24a001ebe41b
-        bytes: 526055
+        sha256: c921781e30cf98418d3a584de0baecb5ca23a56c71167229f28349afc5ded6f6
+        bytes: 526056
   runtime:
     section_id_field: CUSEC_KEY
     population_field: POP_2023
@@ -280,13 +280,12 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: 5e3055880f00d4e9452152334182394f3cafa16d0abab26455d9c52a23612e28
-  package_contract_sha256: 3a13fa60d29b5880728bf9fc59544773ed9d0b71317416f84a8c5bc73f03c15a
+  contract_sha256: 8b1a98a3d9f11f0997541e86e86ab38428256939e97fa7d8a3f9d972f5feceb3
 generation_state:
   source_prepared: true
-  generation_enabled: false
-  package_sha256: 23bee297123bdc1bc7753f0cea66a6278da9598c0c6b23f21a6854aeff322210
-  compatibility_identity_sha256: 0b95d59cd41eeda9be1d3c088a2385f5e53b9610214a6744d7d0c4c9da3d7519
+  generation_enabled: true
+  package_sha256: a28bd29e9b9f34108f1b0b2d538c9162605ce9d54498b809beecee7df1c2e939
+  compatibility_identity_sha256: faf09579b59698b5074af4ca6c5d3a1765c358d072220406a0662fc5d8e2f9e2
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 6de0b158ada09571ed44f1e4b41058f0597824b2a391f8e12299758ad47c9aa2
@@ -318,7 +317,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2023.zip
-    sha256: 6f90c65cb87e9efa4b2aa920f30a079b1db27e440cd4f3a8a42c24a001ebe41b
+    sha256: c921781e30cf98418d3a584de0baecb5ca23a56c71167229f28349afc5ded6f6
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
@@ -336,3 +335,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 43782324079
+  pre_m04_source_commit: 7ef8b6d5b666fa0821167d9fe1a91589e5418c7e
+  pre_m04_artifact_sha256: 2ce5683b514ce11ebf59991459be00e3800d6aec9d8f58a08a52d8c2f1464941
