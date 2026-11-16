@@ -3,7 +3,9 @@
 """T-358: causa del relleno. Para cada sección rellenada: ¿existe su código en el seccionado INE del año de la elección?
 ¿El Atlas del año la trae como «.»? Y las secciones del seccionado que NO entran en la tabla (Atlas omite/no lista la sección).
 Uso: python -I causa_relleno.py <30832.csv> <seccionado_2015.zip> <seccionado_2016.zip> <seccionado_2019.zip> <SHA256SUMS.txt> <salida.csv>
-Verifica sha256 de los 4 ficheros contra SHA256SUMS.txt. Solo lectura de ficheros locales."""
+Verifica sha256 de los 4 ficheros contra SHA256SUMS.txt. Solo lectura de ficheros locales.
+HISTÓRICO (T-364): reproduce el estudio de T-358 y solo funciona con la herramienta 1.0.0 (relleno por año más cercano), que ya no está en
+herramientas/ (copia en legacy/herramientas/poblacion_seccion_historica_v1.0.0_20261115.py). Con la 1.1.0 aborta con un aviso."""
 import csv, io, struct, sys, zipfile, collections
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
@@ -22,6 +24,8 @@ def dbf_cusec(zpath):
     return {b[hl+i*rl+ini:hl+i*rl+ini+ln].decode("latin1").strip() for i in range(n)} - {""}
 
 def main(a):
+    if ph.VERSION != "1.0.0":
+        sys.exit(f"ERROR: script histórico de T-358, solo válido con poblacion_seccion_historica 1.0.0 (hay {ph.VERSION}); ver legacy/herramientas/")
     atlas_p, s15, s16, s19, sumas_p, out = a
     sumas = ph.leer_sumas(sumas_p)
     ph.verificar(atlas_p, ph.NOMBRE_ATLAS, sumas)
