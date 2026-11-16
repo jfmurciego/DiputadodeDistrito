@@ -2106,7 +2106,7 @@ territories:
         prepared_source_pair: territorios/nac35/evidencia/pares_fuentes/2025/a3f2cf94231c6215b6cb5eeac73d577d04c5f828533d7db365456f441c6a9035.json
         electoral_product: territorios/nac35/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/nac35/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: nac36
   name: Congreso Pontevedra
   editions:
