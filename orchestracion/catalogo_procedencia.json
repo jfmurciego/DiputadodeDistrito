@@ -63,7 +63,7 @@
   "territorios": 71,
   "productos": 535,
   "errores": 0,
-  "avisos": 207
+  "avisos": 208
  },
  "territorios": {
   "andalucia": {
@@ -10053,6 +10053,13 @@
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
    "detalle": "nac24/43779319643/ddd-minimo-43779319643-M08.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nac25",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "nac25/43773580960/ddd-minimo-43773580960-M06.zip"
   },
   {
    "nivel": "AVISO",
