@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T02:54:46.963070+00:00",
+  "generated_at": "2026-11-16T02:56:09.191581+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -9864,11 +9864,11 @@
       "certification": "PASS",
       "run_id": 43791373285,
       "last_run": {
-        "run_id": 43787766893,
+        "run_id": 43791373285,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -10285,20 +10285,20 @@
       "name": "Nacional Segovia",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 43786736942,
+      "run_id": 43793248399,
       "last_run": {
-        "run_id": 43786736942,
+        "run_id": 43793248399,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10339,7 +10339,7 @@
       },
       "autonomous_community_code_ine": "C40",
       "display_name": "Nacional Segovia",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac41",
@@ -12316,7 +12316,7 @@
     }
   ],
   "kpis": {
-    "complete": 67,
+    "complete": 68,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12374,6 +12374,7 @@
       "Nacional Salamanca",
       "Nacional Santa Cruz de Tenerife",
       "Nacional Cantabria",
+      "Nacional Segovia",
       "Nacional Toledo",
       "Nacional Valencia",
       "Nacional Valladolid",
@@ -12595,13 +12596,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac39",
-    "name": "Nacional Cantabria",
-    "display_name": "Nacional Cantabria",
-    "autonomous_community_code_ine": "C39",
-    "run_id": 43792749380,
+    "territory_id": "nac40",
+    "name": "Nacional Segovia",
+    "display_name": "Nacional Segovia",
+    "autonomous_community_code_ine": "C40",
+    "run_id": 43793248399,
     "stage": "M08",
-    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+    "certification": "PASS",
     "edition": "2025"
   },
   "alerts": [
@@ -12615,12 +12616,6 @@
       "territory": "Nacional Asturias",
       "territory_id": "nac33",
       "autonomous_community_code_ine": "C33",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Segovia",
-      "territory_id": "nac40",
-      "autonomous_community_code_ine": "C40",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12652,6 +12647,12 @@
       "territory_id": "congreso350_alava",
       "autonomous_community_code_ine": "R01",
       "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Albacete",
+      "territory_id": "congreso350_albacete",
+      "autonomous_community_code_ine": "R02",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12665,12 +12666,6 @@
       "territory": "Nacional Asturias",
       "territory_id": "nac33",
       "autonomous_community_code_ine": "C33",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Segovia",
-      "territory_id": "nac40",
-      "autonomous_community_code_ine": "C40",
       "action": "preparar fuentes electorales"
     },
     {
