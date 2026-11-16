@@ -307,13 +307,22 @@ def dispatch(workflow: str, inputs: dict) -> None:
 
 def registro_00(territory_id: str, run_id: str) -> dict | None:
     """Registro durable de la 00 en `main` (None si aún no está; otro error de gh = GestorError)."""
-    p = subprocess.run(["gh", "api", "-H", "Accept: application/vnd.github.raw",
-                        f"repos/{_repo()}/contents/territorios/{territory_id}/evidencia/ejecuciones_completas/{run_id}.json?ref=main"],
-                       capture_output=True, text=True)
-    if p.returncode == 0:
-        return json.loads(p.stdout)
-    if "404" in p.stderr or "Not Found" in p.stderr:
-        return None
+    args = ["gh", "api", "-H", "Accept: application/vnd.github.raw",
+            f"repos/{_repo()}/contents/territorios/{territory_id}/evidencia/ejecuciones_completas/{run_id}.json?ref=main"]
+    for attempt in range(5):  # reintentos con backoff ante 5xx/cortes (como `_gh`); 404 = «aún no está», sin reintento
+        p = subprocess.run(args, capture_output=True, text=True)
+        if p.returncode == 0:
+            try:
+                rec = json.loads(p.stdout)
+            except json.JSONDecodeError as exc:
+                raise GestorError(f"registro de la 00 {run_id} con JSON inválido: {exc}") from exc
+            if not isinstance(rec, dict):
+                raise GestorError(f"registro de la 00 {run_id} no es un objeto JSON")
+            return rec
+        if "404" in p.stderr or "Not Found" in p.stderr:
+            return None
+        if attempt < 4:
+            time.sleep(2 ** (attempt + 1))
     raise GestorError(f"gh api registro 00 {run_id}: {p.stderr.strip()}")
 
 
@@ -372,19 +381,27 @@ class Territorio:
     def _queue_publish(self, run_id: str) -> None:
         self.run_id, self.fase = run_id, "cola_05"
 
-    def publish(self) -> None:
-        """Una sola 05 del Gestor a la vez: la 05 no lleva el run en su nombre y se identifica por orden."""
-        # T-372: P40 elige la última 00 válida del REGISTRO de `main`; si el registro de la 00 del Gestor aún no está, publicaría una anterior.
-        # Fallo cerrado: no se lanza hasta ver en `main` el registro de esta 00 con la 04 en verde (espera ≤ 20 min); si no es válido, FALLO.
-        rec = registro_00(self.row["territory_id"], self.run_id)
+    def registro_listo(self) -> bool:
+        """T-372: P40 elige la última 00 válida del REGISTRO de `main`; si el de la 00 del Gestor aún no está, publicaría una anterior.
+        Fallo cerrado: True solo si `main` ya trae el registro de esta 00 con la 04 en verde. Ausente (≤ 20 min) = False y se reintenta;
+        un fallo de gh persistente, un JSON corrupto, el plazo o un registro no válido terminan SOLO este territorio (`_end`), no la campaña."""
+        try:
+            rec = registro_00(self.row["territory_id"], self.run_id)
+        except GestorError as exc:
+            self._end(f"FALLO P40 sin lanzar: {exc}")
+            return False
         if rec is None:
             self.espera_registro = self.espera_registro or time.time()
             if time.time() - self.espera_registro > 1200:
                 self._end(f"FALLO P40 sin lanzar: el registro de la 00 {self.run_id} no llegó a main")
-            return
+            return False
         if not registro_valido(rec):
             self._end(f"FALLO P40 sin lanzar: la 00 {self.run_id} no está completa con la 04 en verde")
-            return
+            return False
+        return True
+
+    def publish(self) -> None:
+        """Una sola 05 del Gestor a la vez: la 05 no lleva el run en su nombre y se identifica por orden (ver `registro_listo`)."""
         self.since = _now()
         # T-372: P40 toma del registro durable la última 00 completa con la 04 en verde del territorio (ya no se pasa el run).
         dispatch(WF_05, {"que_publicar": "Territorios", "territorios": self.row["territory_id"], "simular": False})
@@ -501,9 +518,11 @@ def _step(active: list[Territorio]) -> None:
         if t.fase in ("00", "05", "06"):
             t.poll()
     if not any(t.fase == "05" for t in active):
-        queued = [t for t in active if t.fase == "cola_05"]
-        if queued:
-            queued[0].publish()
+        # T-372: se sondea el registro de TODOS los de la cola; lanza el primero que esté listo (uno atascado no bloquea a los demás).
+        for t in [t for t in active if t.fase == "cola_05"]:
+            if t.registro_listo():
+                t.publish()
+                break
     if not any(t.fase == "06" for t in active):
         queued = [t for t in active if t.fase == "cola_06"]
         if queued:

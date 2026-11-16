@@ -213,6 +213,47 @@ class Lanzar(unittest.TestCase):
         self.assertNotIn(lv.WF_05, [d[0] for d in self.dispatched])
         self.assertIn("no está completa con la 04 en verde", report[0]["resultado"])
 
+    def test_registro_ausente_de_un_territorio_no_bloquea_a_los_demas(self):
+        rows = [self.row("D", "publicar", "77"), self.row("E", "publicar", "78")]
+        self.registro = lambda tid, run: None if tid == "d" else REGISTRO_VALIDO  # el de D nunca llega; el de E sí
+        report = {r["territory_id"]: r["resultado"] for r in self.campaign(rows, test_first=False)}
+        self.assertTrue(report["e"].startswith("OK"), report)
+        self.assertTrue(report["d"].startswith("FALLO P40 sin lanzar"), report)
+        self.assertEqual([i["territorios"] for d, i in self.dispatched if d == lv.WF_05], ["e"])
+
+    def test_error_de_gh_o_json_corrupto_termina_solo_ese_territorio(self):
+        rows = [self.row("D", "publicar", "77"), self.row("E", "publicar", "78")]
+
+        def registro(tid, run):
+            if tid == "d":
+                raise lv.GestorError("registro de la 00 77 con JSON inválido: x")
+            return REGISTRO_VALIDO
+        self.registro = registro
+        report = {r["territory_id"]: r["resultado"] for r in self.campaign(rows, test_first=False)}
+        self.assertTrue(report["e"].startswith("OK"), report)
+        self.assertIn("JSON inválido", report["d"])
+
+    def test_registro_00_reintenta_5xx_y_404_es_aun_no(self):
+        resp = [mock.Mock(returncode=1, stdout="", stderr="HTTP 502"), mock.Mock(returncode=1, stdout="", stderr="HTTP 503"),
+                mock.Mock(returncode=0, stdout='{"status": "SUCCESS"}', stderr="")]
+        with mock.patch.dict(lv.os.environ, {"GITHUB_REPOSITORY": "o/r"}), mock.patch.object(lv.subprocess, "run", side_effect=resp) as run, \
+                mock.patch.object(lv.time, "sleep"):
+            self.assertEqual(lv.registro_00("d", "77"), {"status": "SUCCESS"})
+            self.assertEqual(run.call_count, 3)
+        with mock.patch.dict(lv.os.environ, {"GITHUB_REPOSITORY": "o/r"}), \
+                mock.patch.object(lv.subprocess, "run", return_value=mock.Mock(returncode=1, stdout="", stderr="HTTP 404: Not Found")) as run:
+            self.assertIsNone(lv.registro_00("d", "77"))
+            self.assertEqual(run.call_count, 1)
+        with mock.patch.dict(lv.os.environ, {"GITHUB_REPOSITORY": "o/r"}), mock.patch.object(lv.time, "sleep"), \
+                mock.patch.object(lv.subprocess, "run", return_value=mock.Mock(returncode=1, stdout="", stderr="HTTP 500")) as run:
+            with self.assertRaises(lv.GestorError):
+                lv.registro_00("d", "77")
+            self.assertEqual(run.call_count, 5)
+        with mock.patch.dict(lv.os.environ, {"GITHUB_REPOSITORY": "o/r"}), \
+                mock.patch.object(lv.subprocess, "run", return_value=mock.Mock(returncode=0, stdout="{no json", stderr="")):
+            with self.assertRaisesRegex(lv.GestorError, "JSON inválido"):
+                lv.registro_00("d", "77")
+
     def test_registro_valido_exige_success_y_las_dos_puertas(self):
         self.assertTrue(lv.registro_valido(REGISTRO_VALIDO))
         self.assertFalse(lv.registro_valido({**REGISTRO_VALIDO, "status": "FAILED"}))
