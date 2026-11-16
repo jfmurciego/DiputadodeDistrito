@@ -53,7 +53,7 @@ class P90(unittest.TestCase):
 
     # ---- no necesitan las copias de legacy ----
     def test_los_cinco_ficheros_viejos_ya_no_estan_activos(self):
-        for f in ("pruebas-plataforma", "revisor-pr", "auto-merge", "forense-00", "mantenimiento-programado"):
+        for f in ("pruebas-plataforma", "revisor-pr", "auto-merge", "forense-00"):
             self.assertFalse((WF / f"{f}.yml").exists(), f)
 
     def test_nombre_sin_boton_manual_y_disparadores(self):
@@ -64,7 +64,7 @@ class P90(unittest.TestCase):
         self.assertEqual(d["push"], {"branches": ["main"]})
         self.assertEqual(set(d["pull_request"]["types"]), {"opened", "synchronize", "reopened", "ready_for_review", "labeled"})
         self.assertEqual(d["schedule"], [{"cron": "23 2 * * *"}, {"cron": "17 5 * * 1"}])  # nocturna y métricas; sin el 05:17 diario de R2
-        self.assertEqual(d["workflow_run"], {"workflows": ["P00 Campaña"], "types": ["completed"]})
+        self.assertEqual(d["workflow_run"], {"workflows": ["P00 Campaña", "P90 Automático"], "types": ["completed"]})  # forense + fusión
 
     def test_checks_intocables_conservan_nombre(self):
         jobs = self.p90["jobs"]
@@ -73,7 +73,11 @@ class P90(unittest.TestCase):
             self.assertNotIn("name", jobs[j], j)  # el check-run se llama como el id del job
         self.assertEqual(jobs["suite"]["strategy"]["matrix"]["grupo"], [1, 2, 3, 4, 5])
 
-    def test_archivar_r2_y_extraer_m06_fuera_de_p90(self):
+    def test_archivar_r2_y_extraer_m06_siguen_en_mantenimiento_hasta_p70(self):
+        m = cargar(WF / "mantenimiento-programado.yml")
+        self.assertEqual(set(m["jobs"]), {"archivar_r2", "extraer_m06"})  # sale solo `metricas`
+        self.assertEqual(on(m)["schedule"], [{"cron": "17 5 * * *"}])  # cron diario del archivo R2 intacto
+        self.assertEqual(on(m)["workflow_dispatch"]["inputs"]["tarea"]["options"], ["archivar_r2", "extraer_m06"])
         jobs = self.p90["jobs"]
         self.assertNotIn("archivar_r2", jobs)
         self.assertNotIn("extraer_m06", jobs)
@@ -92,7 +96,8 @@ class P90(unittest.TestCase):
             self.assertIn("github.event.action == 'synchronize'", cond, nombre)
             self.assertNotIn("labeled", cond, nombre)
         self.assertIn("github.event.schedule == '17 5 * * 1'", j["metricas"]["if"])
-        self.assertIn("github.event_name == 'workflow_run'", j["forense_comprobar"]["if"])
+        self.assertIn("github.event_name == 'workflow_run' && github.event.workflow_run.name == 'P00 Campaña'", j["forense_comprobar"]["if"])
+        self.assertIn("github.event_name == 'workflow_run'", j["fusionar"]["if"])
         self.assertIn("github.event_name == 'pull_request'", j["revisor_comprobar"]["if"])
         for nombre in ("catalogo", "resultados", "numeracion", "estado_vivo"):
             self.assertIn("github.event_name == 'push'", j[nombre]["if"], nombre)
@@ -114,13 +119,16 @@ class P90(unittest.TestCase):
 
     def test_fusion_solo_con_pruebas_en_verde_de_este_run(self):
         f = self.p90["jobs"]["fusionar"]
-        self.assertEqual(f["needs"], "pruebas")
-        self.assertIn("needs.pruebas.result == 'success'", f["if"])
+        # contexto de confianza de hoy: workflow_run (definición de `main`), sin `needs` (otro run); puerta = check-run `pruebas` de la suite
+        self.assertNotIn("needs", f)
+        self.assertTrue(f["if"].startswith("${{ github.event_name == 'workflow_run' &&"))
+        self.assertEqual(f["steps"][0]["with"]["ref"], "main")
         run = f["steps"][1]["run"]
         self.assertIn("decidir_auto_merge.py", run)
         self.assertIn('--match-head-commit "$SHA"', run)
         self.assertLess(run.index("decidir_auto_merge.py"), run.index("gh pr merge"))
         self.assertIn("--suite \"$SUITE\"", run)
+        self.assertEqual(f["steps"][1]["env"]["SUITE"], "${{ github.event.workflow_run.check_suite_id }}")
 
     def test_ningun_job_declara_mas_permisos_que_hoy_y_workflow_solo_lectura(self):
         self.assertEqual(self.p90["permissions"], {"contents": "read"})
@@ -147,7 +155,7 @@ class P90(unittest.TestCase):
                 self.assertEqual(efectivos(self.viejos[w], j), efectivos(self.p90, nuevo))
                 for clave in ("runs-on", "timeout-minutes", "continue-on-error", "strategy", "env", "outputs", "name"):
                     self.assertEqual(a.get(clave), b.get(clave), clave)
-                if "steps" in a and (w, j) != ("merge", "fusionar"):
+                if "steps" in a:
                     self.assertEqual(a["steps"], b["steps"] if (w, j) != ("pruebas", "cambios") else self._sin_propio(b["steps"], a["steps"]))
                 # concurrencia propia del job: idéntica salvo los grupos de PR/push de pruebas (ver test siguiente)
                 if "concurrency" in a and (w, j) not in {("pruebas", x) for x in ("guardian", "suite", "contratos", "productos", "pruebas")} | {("merge", "fusionar")}:
@@ -161,10 +169,8 @@ class P90(unittest.TestCase):
             a = self.viejos[w]["concurrency"]
             b = self.p90["jobs"][nuevo]["concurrency"]
             self.assertEqual((a["group"], a["cancel-in-progress"], a["queue"]), (b["group"], b["cancel-in-progress"], b["queue"]), w)
-        # fusionar: mismo grupo por SHA y cancelación, con el SHA del HEAD de la PR en lugar de workflow_run.head_sha
-        a, b = self.viejos["merge"]["concurrency"], self.p90["jobs"]["fusionar"]["concurrency"]
-        self.assertEqual(a["group"].replace("github.event.workflow_run.head_sha", "github.event.pull_request.head.sha"), b["group"])
-        self.assertEqual(a["cancel-in-progress"], b["cancel-in-progress"])
+        # fusionar: idéntico (mismo grupo por SHA y cancelación)
+        self.assertEqual(self.viejos["merge"]["concurrency"], self.p90["jobs"]["fusionar"]["concurrency"])
         # pruebas: la cancelación por PR (antes a nivel de workflow) pasa a cada job; push a main y nocturna igual que hoy
         for j in ("guardian", "suite", "contratos", "productos", "pruebas"):
             c, v = self.p90["jobs"][j]["concurrency"], self.viejos["pruebas"]["jobs"][j]["concurrency"]

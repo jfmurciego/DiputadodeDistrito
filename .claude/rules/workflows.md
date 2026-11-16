@@ -33,9 +33,8 @@ paths:
   los checks obligatorios y la PR sale «clean» al instante (#453, #454).
 - Un evento `pull_request` ejecuta el workflow de la referencia de merge de la PR: justo tras cambiar un workflow en `main`,
   una PR con la referencia vieja ejecuta la versión anterior (#458 la fusionó la 1.0.0 30 s después de entrar la 1.1.0).
-- Fusión segura (T-366): job `fusionar` con `needs: pruebas` en el run `pull_request` de P90; check-run `pruebas` del SHA de la PR y de la
-  check_suite de ESTE run (`actions/runs/$RUN_ID`); `--match-head-commit` (#457, #460). Contexto: código de la referencia de merge, token de
-  solo lectura, secretos solo en PR del propio repo; escribe solo el token de la app. Una PR que cambie P90 ejecuta su propio `fusionar`: lleva `no-automerge`.
+- Fusión segura (T-366): job `fusionar` de P90 por `workflow_run` de «P90 Automático» (código de `main`, nunca el de la PR); check-run `pruebas`
+  del SHA y de la check_suite que dispara (`workflow_run.check_suite_id`); `--match-head-commit` (#457, #460). P90 se dispara a sí mismo: guardas por `path`.
 - `dashboard/index.html` y `publicado/dashboard/index.html` deben ser idénticos; el publicador copia cada página enlazada (#459, #451).
 - El clasificador del arnés bloquea como «CI Bypass» / «Merge Without Review» / «Create Public Surface» las fusiones con `main`
   en rojo, los dispatch públicos (05/06) y las escrituras externas (comentar/cerrar PR): hace falta frase explícita del

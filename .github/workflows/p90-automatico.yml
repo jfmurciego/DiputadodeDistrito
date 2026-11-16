@@ -6,22 +6,22 @@
 # ESTADO: candidato
 # ANTERIOR: legacy/workflows/pruebas-plataforma_v1.10.4_20261116.yml
 # QUÉ HACE: reúne los cinco workflows automáticos (sin botón manual) que sustituye: «Pruebas de la Plataforma» (push a main,
-#   pull_request, nocturna 02:23 UTC), «Revisor de PR» (solo con la etiqueta `revisar-ia`), «Fusión automática» (ahora job
-#   `fusionar` con `needs: pruebas`), «Forense de la 00» (workflow_run de «P00 Campaña») y el job `metricas` de «Mantenimiento»
+#   pull_request, nocturna 02:23 UTC), «Revisor de PR» (solo con la etiqueta `revisar-ia`), «Fusión automática» (job
+#   `fusionar`, `workflow_run` de este mismo workflow), «Forense de la 00» (workflow_run de «P00 Campaña») y el job `metricas` de «Mantenimiento»
 #   (lunes 05:17 UTC). Cada job conserva su condición, permisos y concurrencia; el `if` de cada grupo lo ata a su evento.
 # CAMBIOS: 1.0.0 (T-366, D-129/D-130): fichero nuevo. Sustituye a pruebas-plataforma 1.10.4, revisor-pr 1.1.0, auto-merge 1.2.1,
-#   forense-00 1.0.2 y mantenimiento-programado 1.0.3 (copias en legacy/workflows/). `archivar_r2` y `extraer_m06` NO entran:
-#   pasan a P70 en el paso 2 (hasta entonces no corren). Check-runs intactos: `pruebas`, `veredicto`, `guardian`, `suite (n)`.
-#   Jobs renombrados por colisión de id: comprobar→`revisor_comprobar`/`forense_comprobar`, issue→`forense_issue`.
-#   Cambio de contexto de la fusión: antes `workflow_run` (código de main, token con escritura declarada, secretos siempre);
-#   ahora `pull_request` (código de la referencia de merge de la PR; token SOLO los permisos declarados —contents/checks/
-#   pull-requests: read—; secretos solo si la PR es del propio repositorio, nunca en forks). La escritura sigue siendo solo con el
-#   token de la app de registro, tras decidir_auto_merge.py (extraído de `main`, no de la PR) y `--match-head-commit`.
+#   forense-00 1.0.2 y el job `metricas` de mantenimiento-programado 1.0.3 (copias en legacy/workflows/). `archivar_r2` y
+#   `extraer_m06` NO entran: siguen en mantenimiento-programado.yml 1.1.0 (cron diario) hasta que P70 (paso 2) los recoja.
+#   Check-runs intactos: `pruebas`, `veredicto`, `guardian`, `suite (n)`. Ids renombrados por colisión:
+#   comprobar→`revisor_comprobar`/`forense_comprobar`, issue→`forense_issue`.
+#   Fusión (D-129 «job con needs» NO se hace, a petición del Coordinador): conserva el contexto de confianza de hoy. `fusionar` corre en
+#   `workflow_run` de este mismo workflow (definición de `main`, no la de la PR; token con contents/checks/pull-requests: read; secretos
+#   de la app de registro; check-run `pruebas` de la check_suite del run disparador). Una PR que edite P90 no cambia su propia fusión.
 # MOTIVO: reducir la lista de Actions a un único automático (D-129/D-130) sin perder los checks exigidos por el ruleset.
 name: P90 Automático
 run-name: >-
   ${{ github.event_name == 'schedule' && (github.event.schedule == '23 2 * * *' && 'P90 · nocturna de pruebas' || 'P90 · métricas del proceso')
-  || github.event_name == 'workflow_run' && format('P90 · forense de la P00 {0}', github.event.workflow_run.id)
+  || github.event_name == 'workflow_run' && format('P90 · {0} de «{1}» {2}', github.event.workflow_run.name == 'P00 Campaña' && 'forense' || 'fusión', github.event.workflow_run.name, github.event.workflow_run.id)
   || github.event.pull_request.title || github.event.head_commit.message }}
 on:
   push:
@@ -32,7 +32,7 @@ on:
     - cron: '23 2 * * *'
     - cron: '17 5 * * 1'
   workflow_run:
-    workflows: ["P00 Campaña"]
+    workflows: ["P00 Campaña", "P90 Automático"]
     types: [completed]
 permissions:
   contents: read
@@ -661,10 +661,9 @@ jobs:
           if [[ -n "$abierto" ]]; then gh issue comment "$abierto" --repo "$GITHUB_REPOSITORY" --body "$cuerpo"; else gh issue create --repo "$GITHUB_REPOSITORY" --title "$titulo" --body "$cuerpo"; fi
 
   fusionar:
-    needs: pruebas
-    if: ${{ needs.pruebas.result == 'success' && github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.action == 'reopened') && github.event.pull_request.head.repo.full_name == github.repository }}
+    if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.path == '.github/workflows/p90-automatico.yml' && github.event.workflow_run.event == 'pull_request' && (github.event.workflow_run.conclusion == 'success' || github.event.workflow_run.conclusion == 'failure') }}
     concurrency:
-      group: ddd-auto-merge-${{ github.event.pull_request.head.sha }}
+      group: ddd-auto-merge-${{ github.event.workflow_run.head_sha }}
       cancel-in-progress: true
     permissions:
       contents: read
@@ -683,13 +682,11 @@ jobs:
           APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          SHA: ${{ github.event.pull_request.head.sha }}
-          RUN_ID: ${{ github.run_id }}
+          SHA: ${{ github.event.workflow_run.head_sha }}
+          SUITE: ${{ github.event.workflow_run.check_suite_id }}
         run: |
           set -euo pipefail
           mkdir -p .ddd-am
-          # check_suite del run que nos contiene: el check-run `pruebas` debe ser de ESTE run (needs: pruebas), no de otro workflow.
-          SUITE="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$RUN_ID" --jq .check_suite_id)"
           gh api "repos/$GITHUB_REPOSITORY/commits/$SHA/pulls" > .ddd-am/prs.json
           mapfile -t prs < <(jq -r --arg sha "$SHA" '.[] | select(.state=="open" and .head.sha==$sha) | .number' .ddd-am/prs.json)
           [[ ${#prs[@]} -gt 0 ]] || { echo "Sin PR abierta con HEAD ${SHA:0:10}."; exit 0; }
@@ -829,7 +826,7 @@ jobs:
           if [[ "$v" == "FAIL" ]]; then echo "::error::Revisor: FAIL en ${HEAD_SHA:0:10}."; exit 1; fi
 
   forense_comprobar:
-    if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'failure'
+    if: github.event_name == 'workflow_run' && github.event.workflow_run.name == 'P00 Campaña' && github.event.workflow_run.conclusion == 'failure'
     runs-on: ubuntu-24.04
     timeout-minutes: 2
     outputs:

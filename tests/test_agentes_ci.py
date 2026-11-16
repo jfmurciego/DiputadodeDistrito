@@ -32,7 +32,7 @@ class AgentesEnCI(unittest.TestCase):
     def test_sin_boton_manual_y_disparador_esperado(self):
         self.assertIn("pull_request", disparadores(cargar(self.P90)))
         run = disparadores(cargar(self.P90))["workflow_run"]
-        self.assertEqual(run["workflows"], ["P00 Campaña"])  # T-215, D-78
+        self.assertEqual(run["workflows"], ["P00 Campaña", "P90 Automático"])  # T-215, D-78; el 2.º es la fusión (T-366)
         self.assertEqual(run["types"], ["completed"])
         self.assertIn("conclusion == 'failure'", cargar(self.P90)["jobs"]["forense_comprobar"]["if"])
         self.assertNotIn("workflow_dispatch", disparadores(cargar(self.P90)))
