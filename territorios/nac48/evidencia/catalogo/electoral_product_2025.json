@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_vizcaya",
+  "territory_id": "nac48",
   "territory_name": "Congreso Vizcaya",
   "edition": "2025",
-  "run_id": 43040430397,
-  "artifact_name": "ddd-state-43040430397-M08",
-  "artifact_sha256": "72c3397796e87565ec2003fd9358186c7d5b75d6ff930e9bdddb88b6475f7fa6",
-  "source_commit": "faa00b4e6a774b1e92ae7d3b97061ba3a7d7175e",
+  "run_id": 43804714177,
+  "artifact_name": "ddd-state-43804714177-M08",
+  "artifact_sha256": "c599a5fe51b0e234b564ef0c0078c2ba8980dbaf61d9094b1f7ecb4e244f0c2b",
+  "source_commit": "96555a40a739447a1034daae6d508177f6550f78",
   "stage": "M08"
 }
