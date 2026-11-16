@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T03:11:56.638528+00:00",
+  "generated_at": "2026-11-16T03:14:16.746152+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -10517,20 +10517,20 @@
       "name": "Nacional Teruel",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 43790237705,
+      "run_id": 43795542897,
       "last_run": {
-        "run_id": 43790237705,
+        "run_id": 43795542897,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10571,7 +10571,7 @@
       },
       "autonomous_community_code_ine": "C44",
       "display_name": "Nacional Teruel",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac45",
@@ -10700,11 +10700,11 @@
       "name": "Nacional Valladolid",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43040794081,
+      "run_id": 43792330350,
       "last_run": {
         "run_id": 43040794081,
         "status": "SUCCESS",
@@ -10713,7 +10713,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10727,16 +10727,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_valladolid",
+          "territory_id": "nac47",
           "territory_name": "Congreso Valladolid",
           "edition": "2025",
-          "run_id": 43034949749,
-          "artifact_name": "ddd-state-43034949749-M06",
-          "artifact_sha256": "f70bf7c19c8b9c1d7ad0506076abafd86138f4f50d7c75f638a1429a91719862",
-          "source_commit": "aca6cadcf8b3170f2053916f9cd7dc688e20a7d9",
+          "run_id": 43792330350,
+          "artifact_name": "ddd-state-43792330350-M06",
+          "artifact_sha256": "ec1b851ac2d69a4ec36f7b778f427aa2f7a1a9479704fe512f16ad67b573f125",
+          "source_commit": "db0eb7609ba2c2d038cde142616b6c928f2ed6d8",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_valladolid/evidencia/generaciones_m06/43034949749.json"
+          "producer_manifest_path": "territorios/nac47/evidencia/generaciones_m06/43792330350.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -10754,7 +10754,7 @@
       },
       "autonomous_community_code_ine": "C47",
       "display_name": "Nacional Valladolid",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac48",
@@ -12367,8 +12367,8 @@
       "Nacional Sevilla",
       "Nacional Soria",
       "Nacional Tarragona",
+      "Nacional Teruel",
       "Nacional Valencia",
-      "Nacional Valladolid",
       "Nacional Vizcaya",
       "Nacional Zamora",
       "Nacional Zaragoza",
@@ -12587,11 +12587,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac33",
-    "name": "Nacional Asturias",
-    "display_name": "Nacional Asturias",
-    "autonomous_community_code_ine": "C33",
-    "run_id": 43795147177,
+    "territory_id": "nac44",
+    "name": "Nacional Teruel",
+    "display_name": "Nacional Teruel",
+    "autonomous_community_code_ine": "C44",
+    "run_id": 43795542897,
     "stage": "M08",
     "certification": "PASS",
     "edition": "2025"
@@ -12604,15 +12604,15 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Teruel",
-      "territory_id": "nac44",
-      "autonomous_community_code_ine": "C44",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Toledo",
       "territory_id": "nac45",
       "autonomous_community_code_ine": "C45",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Valladolid",
+      "territory_id": "nac47",
+      "autonomous_community_code_ine": "C47",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12654,15 +12654,15 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Teruel",
-      "territory_id": "nac44",
-      "autonomous_community_code_ine": "C44",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Toledo",
       "territory_id": "nac45",
       "autonomous_community_code_ine": "C45",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Valladolid",
+      "territory_id": "nac47",
+      "autonomous_community_code_ine": "C47",
       "action": "preparar fuentes electorales"
     }
   ]
