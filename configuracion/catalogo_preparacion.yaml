@@ -2456,6 +2456,7 @@ territories:
         territorial_product: territorios/nac44/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac44/evidencia/pares_fuentes/2025/cae6a511035ddf63d9ac7ef89536c65041f9cff457fe64a6325f93867ffa5bd5.json
         electoral_product: territorios/nac44/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/nac44/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac45
   name: Congreso Toledo
