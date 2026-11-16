@@ -76,13 +76,13 @@ class Manifest(unittest.TestCase):
         self.assertEqual(sin, ["nac42"])  # declarado: la tabla no trae secciones partidas en Soria
 
     def test_cuadra_con_los_contratos_de_ensayo_si_estan(self):
-        # Con #800 (T-332) fusionada, expected del contrato = totales del MANIFEST y la huella es la del MANIFEST (o PENDIENTE_T333).
+        # Con #800 (T-332) fusionada, expected del contrato = totales del MANIFEST y la huella es la del MANIFEST (T-391: sin pendientes).
         contratos = (yaml.safe_load((ROOT / "configuracion/contratos_minsait_provisionales.yaml").read_text(encoding="utf-8")) or {})["contracts"]
         for tid, f in self.m["files"].items():
             c = contratos.get(f["election_id_ensayo"])
             if c is None:
                 continue
-            self.assertIn(c["source_sha256"], ("PENDIENTE_T333", f["sha256"]))
+            self.assertEqual(c["source_sha256"], f["sha256"])
             self.assertEqual(c["source_url"].rsplit("/", 1)[1], f["file"])
             self.assertEqual((c["expected"]["sections"], c["expected"]["polling_stations"], c["expected"]["candidate_votes"]),
                              (f["sections"], f["polling_stations"], f["candidate_votes"]))
