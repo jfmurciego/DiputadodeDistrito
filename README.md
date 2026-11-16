@@ -18,7 +18,7 @@ El estado operativo por territorio no está en este documento: lo genera el sist
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-16T01:54:25.821239+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-16T01:56:42.352472+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -88,7 +88,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Navarra** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43780088321 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Orense** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43781442275 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Asturias** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43781676796 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
-| **Nacional Palencia** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43016085888 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Palencia** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43782324079 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Las Palmas** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42998268332 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Pontevedra** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43016524347 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Salamanca** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43017179163 · SUCCESS | — | — | — |
