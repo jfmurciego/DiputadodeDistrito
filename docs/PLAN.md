@@ -4,7 +4,7 @@ Versión: 1.0.55
 Fecha: 2026-11-16
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-136 a D-141 (pasos 6 a 9 de la migración: P10, P30, P20 y P00 por diseño; retirada de P28 y de los ensembles del motor viejo); cola T-375 a T-382
+Cambios/motivo: D-136 a D-142 (pasos 6 a 10 de la migración: P10, P30, P20 y P00 por diseño; retirada de P28 y de los ensembles del motor viejo); cola T-375 a T-383
 Anterior: legacy/docs/PLAN_v1.0.54_20261116.md
 -->
 
@@ -290,6 +290,7 @@ Fase 4 — producto (en el privado):
 - D-139 (16-11, propietario; paso 8 de D-129). P20 Distritos (`p20-distritos.yml`) sustituye a `produccion-distritos.yml` y `_reutilizable-generacion-territorial.yml` (pasos P21…P27 en el log); `generar-alternativas-territoriales.yml` a legacy sin sustituto. Botón: territorios (matriz) y «empezar de cero». Fuera: estrategia de optimización (con motor2 solo vale Canónico), edición, confirmaciones, synthetic y republicar. El Gestor deja de lanzar ensembles. Implementador Opus. No se fusiona hasta terminar el ensayo en seco; prueba real: P20 de aut11 reutilizando, M06 bit a bit igual al vigente. La detección automática de puntos de control incompatibles va aparte (T-381).
 - D-140 (16-11, propietario; paso 9 de D-129). P00 Campaña en dos partes: 9a diseño al detalle sin código (Opus, T-378) que compara dónde guardar el estado fuera de `main` (R2, rama dedicada, issue), verifica en la documentación oficial los límites de GitHub (alternativa: un job por provincia) y parte de 2 reintentos solo para fallos transitorios y parada sistémica con 3 o más territorios por la misma causa o el 20 %; 9b implementación (T-379) tras aprobarse el diseño. Gestor, legislatura y activación por elección se retiran absorbidos en P00. Respaldo: si el 24-11 P00 no está validada (aut11 y re-ensayo corto), la noche del 29-11 va con la 00 actual (que ya llama a los P10-P40 nuevos) y P00 se fusiona después del 29-11.
 - D-141 (16-11, propietario). Retirar lo que queda de los ensembles del motor viejo (T-380): 3 ensembles de Congreso (La Rioja, Salamanca, Sevilla) del registro del visor y publicación (frase del propietario al Operador), y después sus 3 Releases (≈35 MB), las 31 configuraciones de `configuracion/ensemble/` y el selector de escenarios del visor v1 si queda sin uso.
+- D-142 (16-11, propietario; paso 10 de D-129). Documentación renumerada (T-383, tras T-379, Sonnet): solo texto vivo (CLAUDE.md, `.claude/rules/`, skills, `docs/ARQUITECTURA/`, guías); lo histórico no se reescribe y el puente es `docs/ARQUITECTURA/EQUIVALENCIAS_D129.md`. `lanzar-campana` se funde en `lanzar-p00` (antes `lanzar-00`); `publicar-visor` pasa a `publicar-p40`. CLAUDE.md reescribe «Ejecución 00» y «Visor» en notación P y manda a legacy las lecciones sin objeto (< 100 líneas). Test que falla si un documento vivo cita un workflow inexistente. Guías retiradas a legacy con nota al sustituto. T-313 sigue aparte.
 
 ### Cola T-291 a T-367 (14 a 16-11)
 | Id | Qué | Estado |
@@ -381,6 +382,7 @@ Fase 4 — producto (en el privado):
 | T-379 | Migración paso 9b: implementación de P00 Campaña (D-140) | PENDIENTE (tras aprobarse T-378 y fusionarse T-377) |
 | T-380 | Retirada de los ensembles del motor viejo (D-141): registro del visor y publicación, luego Releases, configuraciones y selector v1 | LISTA; la publicación y los borrados, con frase del propietario al Operador |
 | T-381 | Detección automática de puntos de control incompatibles con el contrato vigente (sustituiría «empezar de cero»): diseño al detalle para el propietario | PENDIENTE (tras T-377) |
+| T-383 | Migración paso 10: documentación renumerada (D-142) | PENDIENTE (tras T-379) |
 | T-382 | Actualización del plan 1.0.55 | REVISIÓN (esta PR) |
 | T-340 | Ficha del paso A del histórico con Condición previa, Puerta y Mapa según D-115 (si el código no implementa la puerta, abre tarea) | EN CURSO (Coordinador) |
 | T-341 | Actualización del plan 1.0.49 | REVISIÓN (#810) |
@@ -400,7 +402,7 @@ Frase de reanudación de r3: DADA en el chat del Operador, condicionada a #786 y
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324, T-327, T-341, T-350, T-363, T-367, T-371, T-373 y T-382. El planificador ha dado T-194 a T-382 (10 a 16-11; T-277 y T-292 sin usar; T-331 a T-340 y T-342 a T-362 los dio el Coordinador con acuerdo del Planificador). Siguiente libre: T-383.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324, T-327, T-341, T-350, T-363, T-367, T-371, T-373 y T-382. El planificador ha dado T-194 a T-382 (10 a 16-11; T-277 y T-292 sin usar; T-331 a T-340 y T-342 a T-362 los dio el Coordinador con acuerdo del Planificador). Siguiente libre: T-384.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
