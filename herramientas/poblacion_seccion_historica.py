@@ -15,9 +15,15 @@ MOTIVO: D-126 (propietario, 15-11): población por sección de cada elección de
 QUÉ HACE: lee tres ficheros locales (CSV 30832, ZIP de indicadores del Censo 2011 y CSV 29005 «Cifras oficiales del padrón por
   municipio»), verifica su sha256 contra los SHA256SUMS.txt dados (T357 y T364) y falla si no coincide. No descarga nada.
   Criterio de marcadores: «.» = dato no publicado → se ESTIMA; vacío = sección inexistente ese año → NO se estima (ni aparece).
+  0) Secciones del SECCIONADO INE del año de la elección que la fuente NO TRAE CON VALOR (no listadas, o listadas como vacío «""»;
+     un vacío SIN sección en el seccionado sigue siendo sección inexistente) se tratan igual que las «.» (origen=no_listada; el
+     método consta en años_fuente); nunca población 0 ni fusión de secciones. Falla cerrado si falta el seccionado, no se puede
+     leer, o más de un 1 % de secciones de un lado no tiene pareja en el otro. Las secciones de la fuente que el seccionado no
+     tiene se mantienen y se cuentan (secciones_sin_seccionado). 2011-11 no usa seccionado.
   1) Estimación de cada «.» (origen): INTERPOLACIÓN LINEAL entre el año anterior y el siguiente con dato de ESA misma sección
      (los más próximos a cada lado; redondeo half-up entero) → «interpolada»; si solo hay dato en un lado, el año más cercano con
-     dato → «mas_cercana»; sin ningún dato → «sin_dato» (se cuenta aparte).
+     dato → «mas_cercana»; sin ningún dato → «sin_dato» (se cuenta aparte; con --estricto falla). Las no listadas llevan origen
+     «no_listada» (interpoladas o más cercanas según los años_fuente).
   2) AJUSTE por municipio (solo elecciones con fuente Atlas, contra la población oficial del año de esa fuente): residuo = oficial −
      suma de secciones de dato publicado. Si residuo > 0, las secciones ESTIMADAS del municipio se reescalan proporcionalmente para
      sumar exactamente el residuo (restos mayores; empate por sección ascendente); las de dato publicado no se tocan; «ajustada»=sí
@@ -28,7 +34,7 @@ QUÉ HACE: lee tres ficheros locales (CSV 30832, ZIP de indicadores del Censo 20
   3) Informe por provincia: secciones, población, % de población ESTIMADA (interpolada + más cercana, ya ajustada), MARCA si > 1 % o
      si alguna sección queda sin_dato, municipios ajustados y desajuste medio (|oficial − suma antes del ajuste| / oficial).
 USO: python -I herramientas/poblacion_seccion_historica.py --atlas 30832.csv --censo indicadores_seccion_censal_csv.zip \\
-       --oficial 29005.csv --sumas docs/ESTUDIOS/T357_PADRON_SECCION_2011_2020/SHA256SUMS.txt \\
+       --oficial 29005.csv --seccionados <dir con seccionado_AAAA.zip> --sumas docs/ESTUDIOS/T357_PADRON_SECCION_2011_2020/SHA256SUMS.txt \\
        docs/ESTUDIOS/T364_POBLACION_SECCION_INTERPOLADA/SHA256SUMS.txt --salida <directorio>
   Escribe poblacion_seccion_<elección>.csv (interfaz para T-365: sección,población,origen,ajustada,años_fuente),
   informe_provincias.csv e informe_municipios.csv. Con --estricto y algún aviso de municipio: sale con 2 y NO escribe las tablas.
@@ -41,6 +47,7 @@ import csv
 from fractions import Fraction
 import hashlib
 import io
+import struct
 import sys
 import zipfile
 from pathlib import Path
@@ -58,6 +65,10 @@ ELECCIONES = {
     "2019-04": ("atlas", 2019),
     "2019-11": ("atlas", 2020),
 }
+# elección → año del seccionado INE (secciones existentes en la fecha de la elección)
+# 2011-11: None (el Censo 2011 es el universo; no hay seccionado acreditado a la fecha de esa elección: NO VERIFICADO)
+SECCIONADO = {"2011-11": None, "2015-12": 2015, "2016-06": 2016, "2019-04": 2019, "2019-11": 2020}
+TOPE_DESCUADRE_PCT = 1  # > 1 % de las secciones de un lado sin pareja en el otro (seccionado ↔ fuente) → falla cerrado
 COLUMNAS_TABLA = ["sección", "población", "origen", "ajustada", "años_fuente"]
 PUNTO = "."  # no publicado
 VACIO = ""   # sección inexistente ese año
@@ -171,6 +182,34 @@ def leer_oficial(ruta, anios) -> dict[int, dict[str, int]]:
     return out
 
 
+def leer_seccionado(ruta) -> set[str]:
+    """Códigos CUSEC (10 dígitos) del .dbf del ZIP del seccionado INE. Falla si no hay .dbf, CUSEC, códigos válidos o filas."""
+    with zipfile.ZipFile(ruta) as z:
+        dbfs = sorted(n for n in z.namelist() if n.lower().endswith(".dbf"))
+        if not dbfs:
+            raise ErrorFuente(f"{Path(ruta).name}: el ZIP no trae .dbf")
+        b = z.read(dbfs[0])
+    try:
+        n, hl, rl = struct.unpack("<IHH", b[4:12])
+        campos, o = [], 32
+        while b[o] != 13:
+            campos.append((b[o:o + 11].split(b"\0")[0].decode("ascii"), b[o + 16]))
+            o += 32
+    except (struct.error, IndexError, UnicodeDecodeError) as e:
+        raise ErrorFuente(f"{Path(ruta).name}: cabecera .dbf ilegible ({e})") from e
+    off, pos = 1, None
+    for nombre, ln in campos:
+        if nombre == "CUSEC":
+            pos = (off, ln)
+        off += ln
+    if pos is None or pos[1] != 10:
+        raise ErrorFuente(f"{Path(ruta).name}: sin campo CUSEC de 10 caracteres")
+    out = {b[hl + i * rl + pos[0]: hl + i * rl + pos[0] + 10].decode("latin1").strip() for i in range(n)}
+    if not out or any(len(c) != 10 or not c.isdigit() for c in out):
+        raise ErrorFuente(f"{Path(ruta).name}: CUSEC vacío o con códigos no válidos")
+    return out
+
+
 def estimar(sec: str, anio: int, atlas: dict[int, dict[str, object]]):
     """Estimación de una sección «.» en el año de la fuente → (población|None, origen, años_fuente)."""
     con_dato = sorted(a for a in atlas if isinstance(atlas[a].get(sec), int))
@@ -187,10 +226,14 @@ def estimar(sec: str, anio: int, atlas: dict[int, dict[str, object]]):
     return None, "sin_dato", ""
 
 
-def poblacion_eleccion(fuente: dict[str, object], anio_fuente: int, atlas: dict[int, dict[str, object]]):
+def poblacion_eleccion(fuente: dict[str, object], anio_fuente: int, atlas: dict[int, dict[str, object]],
+                       seccionado: set[str] | None = None):
     """Filas (sección, población|None, origen, ajustada, años_fuente) ordenadas por sección, sin ajustar.
 
-    Universo = secciones con valor o «.» en la fuente; las vacías no se estiman ni aparecen."""
+    Universo = secciones con valor o «.» en la fuente (las vacías no se estiman ni aparecen) más, si se da `seccionado`, las del
+    seccionado que la fuente no trae con valor (no listadas o vacías): se estiman como las «.» con origen «no_listada» (sin dato en
+    ningún año: «sin_dato»).
+    Falla cerrado si más de un TOPE_DESCUADRE_PCT % de un lado no tiene pareja en el otro."""
     filas = []
     for sec in sorted(fuente):
         v = fuente[sec]
@@ -201,6 +244,19 @@ def poblacion_eleccion(fuente: dict[str, object], anio_fuente: int, atlas: dict[
         else:
             pob, origen, anios = estimar(sec, anio_fuente, atlas)
             filas.append((sec, pob, origen, "no", anios))
+    if seccionado is not None:
+        en_fuente = {f[0] for f in filas}
+        existentes = {s for s, v in fuente.items() if v != VACIO}
+        no_listadas = sorted(seccionado - existentes)  # existentes = con valor o «.»; las vacías del seccionado también
+        sin_seccionado = len(en_fuente - seccionado)
+        for lado, n, base in (("seccionado sin pareja en la fuente", len(no_listadas), len(seccionado)),
+                              ("fuente sin pareja en el seccionado", sin_seccionado, len(existentes))):
+            if n * 100 > TOPE_DESCUADRE_PCT * base:
+                raise ErrorFuente(f"el seccionado no cuadra con la fuente de {anio_fuente}: {lado} = {n} de {base} (> {TOPE_DESCUADRE_PCT} %)")
+        for sec in no_listadas:
+            pob, origen, anios = estimar(sec, anio_fuente, atlas)
+            filas.append((sec, pob, "no_listada" if pob is not None else "sin_dato", "no", anios))
+        filas.sort(key=lambda f: f[0])
     return filas
 
 
@@ -224,11 +280,11 @@ def ajustar(eleccion: str, filas, oficial: dict[str, int] | None):
     inf = []
     for mun in sorted(por_mun):
         idx = por_mun[mun]
-        est = [i for i in idx if filas[i][2] in ("interpolada", "mas_cercana")]
-        if not est:
+        est = [i for i in idx if filas[i][2] in ("interpolada", "mas_cercana", "no_listada")]
+        if not est and not any(filas[i][2] == "sin_dato" for i in idx):
             continue
         pub = sum(filas[i][1] for i in idx if filas[i][2] == "dato")
-        antes = sum(filas[i][1] for i in est)
+        antes = sum(filas[i][1] for i in est)  # 0 si solo hay sin_dato (el aviso lo recoge)
         fila = {"elección": eleccion, "municipio": mun, "oficial": "", "publicada": pub, "estimada_antes": antes,
                 "estimada_despues": antes, "secciones_estimadas": len(est), "desajuste_pct": "", "estado": ""}
         ofi = (oficial or {}).get(mun)
@@ -269,12 +325,14 @@ def pct(parte: int, total: int) -> str:
     return f"{n // 10000}.{n % 10000:04d}"
 
 
-def informe_provincias(eleccion: str, filas, municipios=()) -> list[dict]:
+def informe_provincias(eleccion: str, filas, municipios=(), seccionado=None) -> list[dict]:
     acc: dict[str, dict] = {}
     for sec, pob, origen, ajustada, _ in filas:
-        d = acc.setdefault(sec[:2], dict(secciones=0, interpolada=0, mas_cercana=0, ajustadas=0, sin_dato=0,
-                                         poblacion=0, pob_est=0, mun_aj=0, mun_aviso=0, desv=Fraction(0)))
+        d = acc.setdefault(sec[:2], dict(secciones=0, interpolada=0, mas_cercana=0, no_listada=0, ajustadas=0, sin_dato=0,
+                                         poblacion=0, pob_est=0, mun_aj=0, mun_aviso=0, sin_secc=0, desv=Fraction(0)))
         d["secciones"] += 1
+        if seccionado is not None and sec not in seccionado:
+            d["sin_secc"] += 1  # sección de la fuente que el seccionado de ese año no tiene (se mantiene)
         if origen == "sin_dato":
             d["sin_dato"] += 1
             continue
@@ -299,7 +357,8 @@ def informe_provincias(eleccion: str, filas, municipios=()) -> list[dict]:
         out.append({
             "elección": eleccion, "provincia": prov, "secciones": d["secciones"],
             "secciones_interpoladas": d["interpolada"], "secciones_mas_cercanas": d["mas_cercana"],
-            "secciones_ajustadas": d["ajustadas"], "secciones_sin_dato": d["sin_dato"],
+            "secciones_no_listadas": d["no_listada"],
+            "secciones_sin_seccionado": d["sin_secc"] if seccionado is not None else "", "secciones_ajustadas": d["ajustadas"], "secciones_sin_dato": d["sin_dato"],
             "población": d["poblacion"], "población_estimada": d["pob_est"],
             "pct_estimada": pct(d["pob_est"], d["poblacion"]),
             "municipios_ajustados": d["mun_aj"], "desajuste_medio_pct": medio, "municipios_aviso": d["mun_aviso"],
@@ -308,15 +367,20 @@ def informe_provincias(eleccion: str, filas, municipios=()) -> list[dict]:
     return out
 
 
-def calcular(atlas, censo, oficial=None):
-    """→ ({elección: filas}, informe provincias, informe municipios). `oficial` = {año: {municipio: población}}."""
+def calcular(atlas, censo, oficial=None, seccionados=None):
+    """→ ({elección: filas}, informe provincias, informe municipios).
+
+    `oficial` = {año: {municipio: población}}; `seccionados` = {año del seccionado: {CUSEC}} (obligatorio: falla cerrado si falta)."""
     tablas, informe, municipios = {}, [], []
     for el in sorted(ELECCIONES):
         tipo, anio = ELECCIONES[el]
         fuente = censo if tipo == "censo" else atlas.get(anio)
         if not fuente:
             raise ErrorFuente(f"{el}: la fuente {tipo} {anio} no tiene secciones")
-        filas = poblacion_eleccion(fuente, anio, atlas)
+        sa = SECCIONADO[el]
+        if sa is not None and not (seccionados or {}).get(sa):
+            raise ErrorFuente(f"{el}: falta el seccionado {sa}")
+        filas = poblacion_eleccion(fuente, anio, atlas, None if sa is None else seccionados[sa])
         if tipo == "atlas":
             if oficial is None or anio not in oficial:
                 raise ErrorFuente(f"{el}: falta la población oficial del año {anio}")
@@ -325,7 +389,7 @@ def calcular(atlas, censo, oficial=None):
             filas, mun = ajustar(el, filas, None)
         tablas[el] = filas
         municipios += mun
-        informe += informe_provincias(el, filas, mun)
+        informe += informe_provincias(el, filas, mun, None if sa is None else seccionados[sa])
     return tablas, informe, municipios
 
 
@@ -343,7 +407,7 @@ def escribir_tabla(ruta, filas) -> str:
 
 
 COLS_INFORME = ["elección", "provincia", "secciones", "secciones_interpoladas", "secciones_mas_cercanas",
-                "secciones_ajustadas", "secciones_sin_dato", "población", "población_estimada", "pct_estimada",
+                "secciones_no_listadas", "secciones_sin_seccionado", "secciones_ajustadas", "secciones_sin_dato", "población", "población_estimada", "pct_estimada",
                 "municipios_ajustados", "desajuste_medio_pct", "municipios_aviso", "marca"]
 COLS_MUNICIPIOS = ["elección", "municipio", "oficial", "publicada", "estimada_antes", "estimada_despues",
                    "secciones_estimadas", "desajuste_pct", "estado"]
@@ -358,6 +422,7 @@ def main(argv=None) -> int:
     ap.add_argument("--atlas", required=True, help="CSV 30832 del INE (local)")
     ap.add_argument("--censo", required=True, help="ZIP indicadores_seccion_censal_csv del Censo 2011 (local)")
     ap.add_argument("--oficial", required=True, help="CSV 29005 del INE: cifras oficiales del padrón por municipio (local)")
+    ap.add_argument("--seccionados", required=True, help="directorio con seccionado_AAAA.zip del INE (local)")
     ap.add_argument("--sumas", required=True, nargs="+", help="SHA256SUMS.txt (uno o varios)")
     ap.add_argument("--salida", required=True, help="directorio de salida")
     ap.add_argument("--estricto", action="store_true", help="si algún municipio tiene aviso: salir con 2 sin escribir las tablas")
@@ -369,8 +434,13 @@ def main(argv=None) -> int:
         verificar(a.atlas, NOMBRE_ATLAS, sumas)
         verificar(a.censo, NOMBRE_CENSO, sumas)
         verificar(a.oficial, NOMBRE_OFICIAL, sumas)
+        secc = {}
+        for anio in sorted(set(SECCIONADO.values()) - {None}):
+            ruta = Path(a.seccionados) / f"seccionado_{anio}.zip"
+            verificar(ruta, ruta.name, sumas)
+            secc[anio] = leer_seccionado(ruta)
         anios = {anio for tipo, anio in ELECCIONES.values() if tipo == "atlas"}
-        tablas, informe, municipios = calcular(leer_atlas(a.atlas), leer_censo(a.censo), leer_oficial(a.oficial, anios))
+        tablas, informe, municipios = calcular(leer_atlas(a.atlas), leer_censo(a.censo), leer_oficial(a.oficial, anios), secc)
     except (ErrorFuente, OSError, zipfile.BadZipFile) as e:
         print(f"ERROR: {e}", file=sys.stderr)
         return 1
