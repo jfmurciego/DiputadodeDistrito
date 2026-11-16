@@ -115,7 +115,7 @@ class Script(unittest.TestCase):
         self.assertIn("function Detalle($e)", PS1)
         for frag in ("GetType().FullName", "InnerException", "ScriptLineNumber", "ScriptStackTrace", "FullyQualifiedErrorId"):
             self.assertIn(frag, PS1)
-        self.assertIn("$resultado[$p.nombre] = [ordered]@{ origen_url = $f.origen_url; subido = $false; error = $detalle }", PS1)
+        self.assertIn("$resultado[$p.nombre] = [ordered]@{ origen_url = $f.origen_url; subido = $false; estado_r2 = 'fallido'; error = $detalle }", PS1)
         self.assertNotIn("$($_.Exception.Message)\"\n        $fallos", PS1)  # el catch ya no imprime solo el mensaje
         import re as _re
 
@@ -136,10 +136,31 @@ class Script(unittest.TestCase):
         resto = PS1.replace(cuerpo, "")
         self.assertEqual([l for l in resto.splitlines() if re.search(r"&\s*aws\b", l) and not l.lstrip().startswith("#")], [])
         self.assertNotIn("2>$null", resto)
-        sub = re.search(r"function Subido\(.*?\n\}\n", PS1, re.S).group(0)
+        sub = re.search(r"function Estado-R2\(.*?\n\}\n", PS1, re.S).group(0)
         self.assertRegex(sub, r"404.*not.*NoSuchKey")
         self.assertIn("throw \"head-object fallo", sub)
         self.assertRegex(PS1, r"la subida a R2 fallo \(codigo \$\(\$cp\.Codigo\)\): \$\(\$cp\.Salida\)")
+
+    def test_reanudar_explicito_saltar_subir_fallar(self):
+        for frag in ("[switch]$Reanudar", "Reanudando: $yaEnR2 piezas ya en R2", "ContentLength", "Metadata.sha256",
+                     "$saltados++", "$subidos++", "saltados = $saltados; subidos = $subidos", "fallidas = @($fallidas)",
+                     "tras subir, R2 no tiene la clave", "estado_r2"):
+            self.assertIn(frag, PS1)
+        self.assertNotIn("Subido $clave", PS1)  # la decision no depende del sidecar ni del JSON anterior
+        cuenta = PS1.split('Write-Host "Reanudando:')[0].rsplit("if (-not $SoloBajar) {", 1)[1]
+        self.assertIn("Estado-R2", cuenta)  # cuenta previa con head-object, solo si no es -SoloBajar
+
+        # espejo del criterio de Estado-R2/decision (sin pwsh): igual -> saltar; falta/distinto -> subir; otro error -> fallar
+        def decide(head, sha, n):
+            if head is None:
+                return "falta"
+            return "igual" if (head.get("sha256") == sha and head.get("len") == n) else "distinto"
+        def accion(estado):
+            return "saltado" if estado == "igual" else "subir"
+        self.assertEqual(accion(decide({"sha256": "a", "len": 5}, "a", 5)), "saltado")
+        self.assertEqual(accion(decide({"sha256": "a", "len": 4}, "a", 5)), "subir")   # objeto parcial o distinto: se resube
+        self.assertEqual(accion(decide({"sha256": "b", "len": 5}, "a", 5)), "subir")
+        self.assertEqual(accion(decide(None, "a", 5)), "subir")
 
     def test_subido_clasifica_errores_funcion_espejo(self):
         # espejo del criterio de Subido (sin pwsh): 404/NotFound = no existe; 403/credenciales/red = error

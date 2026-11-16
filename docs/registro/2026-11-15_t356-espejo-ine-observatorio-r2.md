@@ -12,6 +12,8 @@
 
 **Ampliacion D-126.** Grupo `padron` (2 piezas): tabla INE 30832 (CSV de 445592835 B, descarga reanudable con Range a disco por bloques, sin memoria) y Censo 2011 por seccion (ZIP de 4575186 B); sha256 y bytes de T-357 (#831) en el indice y verificados por el script al bajar (si difieren, falla). El script pasa de 642 a 644 piezas (`ine` 17, `observatorio` 625, `padron` 2).
 
+**Reanudar explicito (16-11).** Tras cortarse la subida en 632 de 642: por pieza, .ok local que cuadra (sha256 y bytes recalculados) = no se baja; head-object en R2 con Metadata.sha256 y ContentLength iguales = saltado, si falta o no coincide se sube y se vuelve a comprobar (un objeto parcial no cuenta). La fuente de verdad es R2 + el .ok, no el JSON anterior. `-Reanudar` (alias del defecto) y mensaje inicial "Reanudando: N piezas ya en R2" (con -SoloBajar no hay head-object). El JSON de resultado pasa a `{resumen: {saltados, subidos, solo_bajados, fallidos, total}, fallidas: [{pieza, clave, motivo}], piezas: {...}}` con `estado_r2` por pieza.
+
 **Pruebas.** `tests.test_t356_espejo_ine_observatorio` (positivas y negativas), t298, t299, t220_renombrado. El script no se ha ejecutado (la nube no ejecuta PowerShell ni llega al INE con credenciales).
 
 **Riesgos.** Solapes en `fuentes_r2.json` con #827 y #797: rebasar la que se fusione después. Tras subir, el propietario pega el JSON de resultado y se actualiza el índice (sha256 y bytes de los 9 sin medir). No cambia huellas M05.

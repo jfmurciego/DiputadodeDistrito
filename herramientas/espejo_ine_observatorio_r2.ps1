@@ -15,6 +15,7 @@ Uso:
   .\espejo_ine_observatorio_r2.ps1                         # baja, mide y sube (INE y Observatorio)
   .\espejo_ine_observatorio_r2.ps1 -Limite 1 -SoloBajar   # prueba con la primera pieza antes del lote
   .\espejo_ine_observatorio_r2.ps1 -Grupo ine              # solo los 17 seccionados (o -Grupo observatorio)
+-Reanudar (comportamiento por defecto, explicito): la fuente de verdad es R2 + el .ok local, no el JSON de resultado anterior; al empezar imprime "Reanudando: N piezas ya en R2" (head-object; con -SoloBajar no hay head-object) y al final saltados / subidos / fallidos con la lista de fallidas y su motivo.
 Reanudable: lo ya verificado (fichero + .ok) no se vuelve a bajar y lo ya subido (head-object con el mismo sha256) no se vuelve a subir.
 Carpeta de trabajo corta (limite de ruta de Windows): C:\ddd. Sale con codigo 1 si falla alguna pieza y con 2 si no se confirma la sobrescritura del JSON. Despues, pega el JSON de resultado en el chat del Coordinador.
 #>
@@ -25,6 +26,7 @@ param(
     [string]$Salida = 'espejo_ine_observatorio_r2_resultado.json',
     [ValidateSet('todo', 'ine', 'observatorio', 'padron')][string]$Grupo = 'todo',
     [switch]$SoloBajar,
+    [switch]$Reanudar,       # alias explicito del comportamiento por defecto (la fuente de verdad es R2 + el .ok local, no el JSON anterior)
     [switch]$Forzar,         # sobrescribe el JSON de resultado sin preguntar
     [int]$Reintentos = 5,
     [int]$PausaMs = 200,     # pausa entre peticiones al mismo servidor
@@ -180,19 +182,37 @@ function Invocar-Aws([string[]]$Argumentos) {
     [pscustomobject]@{ Codigo = $codigo; Salida = ((@($salida) -join "`n").Trim()) }
 }
 
-function Subido($clave, $sha) {
-    # esta ya en R2 con ese sha256? 404/NotFound = no existe; cualquier otro error (403, credenciales, red) se propaga con el texto de aws
+function Estado-R2($clave, $sha, $bytes) {
+    # igual = existe con Metadata.sha256 y ContentLength iguales (se salta); falta = 404/NotFound; distinto = existe pero no coincide (se resube)
+    # otro error (403, credenciales, red) se propaga con el texto de aws
     $r = Invocar-Aws @('s3api', 'head-object', '--bucket', $env:R2_BUCKET, '--key', $clave, '--endpoint-url', $endpoint)
     if ($r.Codigo -ne 0) {
-        if ($r.Salida -match '(?i)\b404\b|not\s*found|NoSuchKey') { return $false }
+        if ($r.Salida -match '(?i)\b404\b|not\s*found|NoSuchKey') { return 'falta' }
         throw "head-object fallo (codigo $($r.Codigo)): $($r.Salida)"
     }
-    try { return (($r.Salida | ConvertFrom-Json).Metadata.sha256 -eq $sha) } catch { return $false }
+    try { $j = $r.Salida | ConvertFrom-Json } catch { return 'distinto' }
+    $shaR2 = if ($j.Metadata) { [string]$j.Metadata.sha256 } else { '' }
+    if ($shaR2 -eq $sha -and [long]$j.ContentLength -eq [long]$bytes) { return 'igual' }
+    return 'distinto'
 }
 
 # --- bucle -------------------------------------------------------------------------------------------------------------------
 $resultado = [ordered]@{}
 $fallos = 0
+$saltados = 0
+$subidos = 0
+$soloBajados = 0
+$fallidas = @()
+if (-not $SoloBajar) {
+    # cuenta rapida (head-object, nada se baja): cuantas piezas con huella conocida ya estan en R2 con sha256 y bytes iguales
+    $yaEnR2 = 0
+    foreach ($q in $piezas) {
+        if ($q.ficha.clave -and $q.ficha.sha256 -and $q.ficha.bytes) {
+            try { if ((Estado-R2 $q.ficha.clave $q.ficha.sha256 $q.ficha.bytes) -eq 'igual') { $yaEnR2++ } } catch { Write-Warning "cuenta previa: $($q.nombre): $((([string]$_.Exception.Message) -replace '\s+', ' ').Trim())" }
+        }
+    }
+    Write-Host "Reanudando: $yaEnR2 piezas ya en R2 de $($piezas.Count) (las demas se bajan si falta el .ok y se suben)."
+}
 $n = 0
 foreach ($p in $piezas) {
     $n++
@@ -230,29 +250,35 @@ foreach ($p in $piezas) {
             else { $r0 = $p.nombre -replace '^nazioenbehatokia/', ''; $clave = "arc-e/fuentes/nazioenbehatokia/$($r0 -replace '\.json$', '')_$($meta.sha256.Substring(0, 12)).json" }
         }
         # 4. subir (si no esta ya con el mismo sha256)
-        $subido = [bool]$meta.subido
-        if (-not $SoloBajar -and -not $subido) {
-            if (Subido $clave $meta.sha256) { $subido = $true }
+        $subido = $false
+        $estadoPieza = 'solo_bajado'
+        if (-not $SoloBajar) {
+            if ((Estado-R2 $clave $meta.sha256 $meta.bytes) -eq 'igual') { $subido = $true; $estadoPieza = 'saltado'; $saltados++ }
             else {
                 $cp = Invocar-Aws @('s3', 'cp', $ruta, "s3://$($env:R2_BUCKET)/$clave", '--endpoint-url', $endpoint, '--metadata', "sha256=$($meta.sha256)", '--only-show-errors')
                 if ($cp.Codigo -ne 0) { throw "la subida a R2 fallo (codigo $($cp.Codigo)): $($cp.Salida)" }
-                $subido = $true
+                # un objeto parcial nunca cuenta: se comprueba sha256 y bytes en R2 tras subir
+                if ((Estado-R2 $clave $meta.sha256 $meta.bytes) -ne 'igual') { throw "tras subir, R2 no tiene la clave con el mismo sha256 y bytes: $clave" }
+                $subido = $true; $estadoPieza = 'subido'; $subidos++
             }
             $meta.subido = $true
             Escribir-Sin-Bom $ok ($meta | ConvertTo-Json)
-        }
+        } else { $soloBajados++ }
         $resultado[$p.nombre] = [ordered]@{
             clave = $clave; sha256 = $meta.sha256; bytes = $meta.bytes; origen_url = $f.origen_url
-            descargado_en = $meta.descargado_en; verificado = $meta.verificado; subido = $subido
+            descargado_en = $meta.descargado_en; verificado = $meta.verificado; subido = $subido; estado_r2 = $estadoPieza
         }
         Write-Host ("[{0}/{1}] {2}: {3} bytes, sha256 {4}{5}" -f $n, $piezas.Count, $p.nombre, $meta.bytes, $meta.sha256, $(if ($subido) { ' (en R2)' } else { '' }))
     } catch {
         $detalle = Detalle $_
         Write-Warning "[$n/$($piezas.Count)] $($p.nombre): $detalle"
-        $resultado[$p.nombre] = [ordered]@{ origen_url = $f.origen_url; subido = $false; error = $detalle }
+        $resultado[$p.nombre] = [ordered]@{ origen_url = $f.origen_url; subido = $false; estado_r2 = 'fallido'; error = $detalle }
+        $fallidas += [ordered]@{ pieza = $p.nombre; clave = $f.clave; motivo = $detalle }
         $fallos++
     }
 }
-Escribir-Sin-Bom $Salida ($resultado | ConvertTo-Json -Depth 4)
-Write-Host "Resultado en $Salida ($($piezas.Count - $fallos) de $($piezas.Count) bien; fallos: $fallos)."
+$resumen = [ordered]@{ saltados = $saltados; subidos = $subidos; solo_bajados = $soloBajados; fallidos = $fallos; total = $piezas.Count }
+Escribir-Sin-Bom $Salida ([ordered]@{ resumen = $resumen; fallidas = @($fallidas); piezas = $resultado } | ConvertTo-Json -Depth 6)
+Write-Host "Resultado en $Salida. Saltados (ya en R2): $saltados; subidos: $subidos; solo bajados: $soloBajados; fallidos: $fallos de $($piezas.Count)."
+foreach ($q in $fallidas) { Write-Warning "FALLIDA $($q.pieza) ($($q.clave)): $($q.motivo)" }
 if ($fallos -gt 0) { exit 1 }
