@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "nac24",
+  "territory_name": "Congreso León",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_leon_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43766201397,
+    "artifact_name": "ddd-source-package-nac24-2025-43766201397",
+    "artifact_sha256": "7ea9a3f1be456d6335f7def8194e0dfcbe8dec13e518889001e47f2c263139eb",
+    "package_sha256": "d12772139e06b1282a55e0f0a0a88a9683929ad19315be341d4d28b38d3487b1",
+    "source_commit": "c810ab63fdd7b6949634cd2c7e38c0352c95feca",
+    "source_declaration": "territorios/nac24/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/nac24/evidencia/fuentes_territoriales/2025/436098e4c0b58ff94759de5eef3d4a56212f90fd9cc7ba174cdb39e18c25a05b/43766201397/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "436098e4c0b58ff94759de5eef3d4a56212f90fd9cc7ba174cdb39e18c25a05b",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "bca1b2fcc15a1409ba82df812be849d4470d4951108dc8f0f085a1dcda098404",
+    "compatibility_identity_sha256": "5d426f64229f6684336218a4af7db6735276e709c788ea0fcf3abb23de77a669",
+    "remote_verification": {
+      "run_id": 43766201397,
+      "artifact_id": 14182900092,
+      "artifact_name": "ddd-source-package-nac24-2025-43766201397",
+      "artifact_sha256": "7ea9a3f1be456d6335f7def8194e0dfcbe8dec13e518889001e47f2c263139eb",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43776267834,
+    "artifact_name": "ddd-electoral-package-nac24-2025-43776267834",
+    "artifact_sha256": "54a48dc12947c1c6e3341e06fca11c22ee285786411c3c57246f62a64434ad67",
+    "source_commit": "bbdf53338be1bbe1ad6b4c572f1da4a2d996b2a2",
+    "receipt_path": "territorios/nac24/evidencia/fuentes_electorales/2025/d2d42bfd77778909b5b286686bb07bc27be88d771acb66f1afadfb72bce53822/43776267834/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_leon_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "d2d42bfd77778909b5b286686bb07bc27be88d771acb66f1afadfb72bce53822",
+    "remote_verification": {
+      "run_id": 43776267834,
+      "artifact_id": 14187130048,
+      "artifact_name": "ddd-electoral-package-nac24-2025-43776267834",
+      "artifact_sha256": "54a48dc12947c1c6e3341e06fca11c22ee285786411c3c57246f62a64434ad67",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "436098e4c0b58ff94759de5eef3d4a56212f90fd9cc7ba174cdb39e18c25a05b",
+  "electoral_compatibility_key": "d2d42bfd77778909b5b286686bb07bc27be88d771acb66f1afadfb72bce53822",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/nac24/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "2a5f1c224ce433f66ec97d9e99e6309e06d6c6b26e92bf7efbb5a501dc7edd57"
+}

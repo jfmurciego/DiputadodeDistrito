@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "pais_vasco",
+  "territory_id": "aut16",
   "territory_name": "País Vasco",
   "edition": "2025",
-  "run_id": 43041060549,
-  "artifact_name": "ddd-state-43041060549-M06",
-  "artifact_sha256": "ebeb78f02b76f2fc86e8484f04c599b07808873e02e94d42de70ff509adad40d",
-  "source_commit": "e2b213a508881c5d97fcda032ebe857fb90c211c",
+  "run_id": 43747089801,
+  "artifact_name": "ddd-state-43747089801-M06",
+  "artifact_sha256": "918cb56cbc93f440591d615c456fdf7e77a6b24153119d3cfa3f333a735c05a0",
+  "source_commit": "31075154e0e49ab7e09a52d9da30b028f0d4ee69",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/pais_vasco/evidencia/generaciones_m06/43041060549.json"
+  "producer_manifest_path": "territorios/aut16/evidencia/generaciones_m06/43747089801.json"
 }

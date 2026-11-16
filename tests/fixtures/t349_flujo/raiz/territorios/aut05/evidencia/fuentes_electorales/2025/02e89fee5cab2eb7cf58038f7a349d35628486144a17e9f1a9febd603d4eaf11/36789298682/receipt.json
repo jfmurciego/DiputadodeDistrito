@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "canarias",
+  "territory_name": "Canarias",
+  "edition": "2025",
+  "run_id": 36789298682,
+  "artifact_name": "ddd-electoral-package-canarias-2025-36789298682",
+  "artifact_sha256": "c441326716da23131e40e0c00ed60a98b71d03f752c4c488945d64acf45aba90",
+  "source_commit": "d627dcc5583f4b36989ceae7eb98328c64847285",
+  "election_id": "canarias_parlamento_2023",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-05-28",
+  "electoral_identity_sha256": "02e89fee5cab2eb7cf58038f7a349d35628486144a17e9f1a9febd603d4eaf11"
+}

@@ -1,0 +1,51 @@
+{
+  "schema": "ddd.historical-territorial-accreditation/1.1",
+  "kind": "territorial_product",
+  "territory_id": "aragon",
+  "edition": "2025",
+  "run_id": 36321736287,
+  "source_commit": "2d4ab0f40e6461f9455155246a3238922179146f",
+  "receipt_path": "territorios/aragon/evidencia/catalogo/territorial_product_2025.json",
+  "original_artifact": {
+    "artifact_id": 10932782125,
+    "name": "ddd-state-36321736287-M06",
+    "archive_sha256": "1aa6889ae4e49e49ce2a6b469b6cfbc325d040b30639d5adb8326afde9c89394",
+    "workflow_run_id": 36321736287,
+    "head_sha": "2d4ab0f40e6461f9455155246a3238922179146f"
+  },
+  "sealed_evidence": {
+    "gate": {
+      "path": "territorios/aragon/evidencia/acreditaciones_historicas/36321736287/originales/puerta.json",
+      "content_sha256": "d044c70efc260c6a1646838fcf07cf95df5b433c1a6dca44dacd6a54ffb0d1ad",
+      "source": {
+        "workflow_run_id": 36321736287,
+        "artifact_id": 10933030770,
+        "name": "ddd-puerta-territorial_product-36321736287",
+        "head_sha": "2d4ab0f40e6461f9455155246a3238922179146f",
+        "archive_sha256": "f885e8b325c782badd693fe2174789807fdf678a499ea5ec5c4068c8afca6710",
+        "member_name": "puerta.json",
+        "verified_at_materialization": true
+      }
+    },
+    "audit": {
+      "path": "territorios/aragon/evidencia/acreditaciones_historicas/36321736287/originales/production_status.json",
+      "content_sha256": "849a15644bae4cd7b3137b2ee96874cbd1a289c8187b3b40709709a28d8af163",
+      "source": {
+        "workflow_run_id": 36321736287,
+        "artifact_id": 10933135052,
+        "name": "ddd-audit-36321736287",
+        "head_sha": "2d4ab0f40e6461f9455155246a3238922179146f",
+        "archive_sha256": "b8e668142f7801cf5c73ec01cd81811e92151266a86f41ba21f5584e34891c4d",
+        "member_name": "production_status.json",
+        "verified_at_materialization": true
+      }
+    }
+  },
+  "historical_manifest": {
+    "mode": "missing_durable_manifest"
+  },
+  "materialization": {
+    "schema": "ddd.historical-materialization-seal/1.0",
+    "seal_sha256": "f5e98aff2210782b49e3650cee976eaf703cb047dc985381ad87277c266cf718"
+  }
+}

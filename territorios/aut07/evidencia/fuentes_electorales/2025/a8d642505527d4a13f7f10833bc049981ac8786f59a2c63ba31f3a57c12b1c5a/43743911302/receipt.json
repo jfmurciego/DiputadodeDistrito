@@ -1,0 +1,17 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "aut07",
+  "territory_name": "Castilla y León",
+  "edition": "2025",
+  "run_id": 43743911302,
+  "artifact_name": "ddd-electoral-package-aut07-2025-43743911302",
+  "artifact_sha256": "b5c80b5bc5eae74c25ed4550b0d94f9d439bd683807ad60fdb0f6397b258f3cd",
+  "source_commit": "307eb3ed37dd74d4b21de2790bbfc30745e020ef",
+  "election_id": "castilla_y_leon_cortes_2026-03-15",
+  "declaration": null,
+  "election_contract": "territorios/aut07/config/elecciones/castilla_y_leon_cortes_2026.json",
+  "election_contract_sha256": "7bb3b406f15a6e54759799d2dc493edbd30525c320363ff6dbffd27061f27e83",
+  "election_date": "2026-03-15",
+  "electoral_identity_sha256": "a8d642505527d4a13f7f10833bc049981ac8786f59a2c63ba31f3a57c12b1c5a"
+}

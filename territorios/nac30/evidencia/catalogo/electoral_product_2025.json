@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_murcia",
+  "territory_id": "nac30",
   "territory_name": "Congreso Murcia",
   "edition": "2025",
-  "run_id": 43005676593,
-  "artifact_name": "ddd-state-43005676593-M08",
-  "artifact_sha256": "98ae1c74a739b62ee929961aa9330cef48d05a4bd729c40192058c5650ef6651",
-  "source_commit": "1ba34befe61f81d56291ff290ad1bf9f43d196c0",
+  "run_id": 43785618713,
+  "artifact_name": "ddd-state-43785618713-M08",
+  "artifact_sha256": "8cf99c4b2cd78d25647d248290a9e78050fd7c400f263493f4861ea58f64ebd4",
+  "source_commit": "d86cc880383b9c373162b922296d24c8086e3da7",
   "stage": "M08"
 }

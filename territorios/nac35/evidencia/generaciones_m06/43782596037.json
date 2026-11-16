@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 14190563481,
+      "artifact_name": "ddd-audit-43782596037",
+      "artifact_sha256": "11c918faf0690f48ebea4c37bf073ba304aab9542fd3dcb74fd3da58618535ac",
+      "run_id": 43782596037,
+      "size_in_bytes": 4305
+    },
+    "m04": {
+      "artifact_id": 14190547318,
+      "artifact_name": "ddd-state-43782596037-M04",
+      "artifact_sha256": "6a86fca74860109d2b9deccb994f7bdc45467aea6507589c6e378835c698a859",
+      "run_id": 43782596037,
+      "size_in_bytes": 92674878
+    },
+    "m05": {
+      "artifact_id": 14190164270,
+      "artifact_name": "ddd-state-43782596037-M05",
+      "artifact_sha256": "d71ae744eede0c4960e3c6ca79dfc53fb5354f5de4405b47b713236f76dfffbc",
+      "run_id": 43782596037,
+      "size_in_bytes": 95766807
+    },
+    "m06": {
+      "artifact_id": 14190926062,
+      "artifact_name": "ddd-state-43782596037-M06",
+      "artifact_sha256": "5f08b5cf16df7b97ec3a67f07b7c1d8c8b1917157bc77516318d3dafb94dae13",
+      "run_id": 43782596037,
+      "size_in_bytes": 103467562
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "4118006d861c2da67c7c0cd049804373d5baee6c5461bbd103caff452beff5b6",
+        "size_in_bytes": 408
+      },
+      "nac35_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "caf409e8b949dd49d52efc3261896a3bb9d7329cd4fa83ecb373835cbd53b6bb",
+        "size_in_bytes": 10996
+      },
+      "optimization_execution.json": {
+        "sha256": "740453cd4607f11082b3278dd97d13d53da92c69dc2133313d6920230652ea18",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "e43d1352c5ad07472db350387d0bf6f192803299873accbc57582db37653590c",
+        "size_in_bytes": 1450
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "e43d1352c5ad07472db350387d0bf6f192803299873accbc57582db37653590c",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/nac35/config/nac35_2025.yaml",
+    "sha256": "6a293955ac66b5d134e827eeffe6db314d05ce2b5c5777bb6fc76a1aeef2729c"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "9b2f402bce50ab5b11611b68d017da2b361d0a83784c65641d210a3ec42cec7f",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "vigente",
+      "generador": "vigente",
+      "huella_resultado": "ef9adb0d8770cdf448cf0c799abda7e214b284c664b9a958521c578646af34e0",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.658522153558559,
+          "fuera_tolerancia": 1,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.4618459946083364,
+          "fuera_tolerancia": 1,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "d004a7db4348168fe5b1efb3c0c51bf33f221bc56979612280649c5ee23ad763",
+      "p30_sha256": "3007912cdfb46fd481ddb56a0c83cbb922e0323d19aaa6ea16ae7fb2ae0b9e6e",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "0df70139f31328bf22e8e7b68dbc1259e74ca9cd",
+    "edition": "2025",
+    "territory_id": "nac35",
+    "territory_name": "Congreso Las Palmas",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 43782596037,
+    "workflow_sha": "10d54bb902f4b02f57db28dc12581609df5d2ec1"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 14190547318,
+      "artifact_name": "ddd-state-43782596037-M04",
+      "artifact_sha256": "6a86fca74860109d2b9deccb994f7bdc45467aea6507589c6e378835c698a859",
+      "run_id": 43782596037,
+      "size_in_bytes": 92674878
+    },
+    "source_manifest_sha256": "14e9647e533215839fa9d218d434ab5e002702c771d96671751c352683b6fd58",
+    "source_package_artifact": {
+      "artifact_id": 14188833473,
+      "artifact_name": "ddd-source-package-nac35-2025-43782596037",
+      "artifact_sha256": "69c40a75815d132a6e56c04b98a280b7afb2b58574c3b10447bea9a1d8b86cc3",
+      "run_id": 43782596037,
+      "size_in_bytes": 83406832
+    }
+  },
+  "manifest_sha256": "5b41fa8bd4c5e5ee2d8d34a9e0e8b9ded215af3982fc26777fd0ad6bc5b9dcf8",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

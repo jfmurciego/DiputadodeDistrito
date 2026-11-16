@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "aut05",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 43724274587,
+  "artifact_name": "ddd-source-package-aut05-2025-43724274587",
+  "artifact_sha256": "7a5a3ed45c71425f7ce66edab6b141f550cd5c94efdc0e40e72b984c1422e2c5",
+  "package_sha256": "72cb7a1d310535b2b2dbcb015ffbd347dd4ea4ebc7f1474a354ae11566ee8c03",
+  "source_commit": "db314ed67063bae3987f77ad566c74ad18ac1dbf",
+  "source_declaration": "territorios/aut05/evidencia/fuentes_territoriales/2025/e55994f20501ba6463607c3c7313f2edfdb998d066846b8035cc8d0aa5eefe9d/43724274587/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "e55994f20501ba6463607c3c7313f2edfdb998d066846b8035cc8d0aa5eefe9d",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "bf48f30a20145bfff7e7c9088928d8a9579b4af8bc2b0ee747e778df06d5d80f",
+  "compatibility_identity_sha256": "dbf7583d0af6dbf0676453929e7476819902c545a083b401f57dcda4379f2b0e"
+}

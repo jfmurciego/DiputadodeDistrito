@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.443
-Fecha: 2026-11-15
-Alcance: T-351 — Ficha del paso A del histórico al día (condición previa, orden tras r4, topes y avisos)
+Versión: 1.0.460
+Fecha: 2026-11-16
+Alcance: T-360 — las cadenas registran en paralelo sin grupos únicos y con el catálogo de procedencia en el mismo commit
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-15_operador-t351-ficha-historico.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.442_registro_20261115.md
+Cambios/motivo: entrada docs/registro/2026-11-16_t360-paralelismo-cadena.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.459_registro_20261116.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,23 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.442_registro_20261115.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.460 · [2026-11-16 — T-360 — las cadenas registran en paralelo sin grupos únicos y con el catálogo de procedencia en el mismo commit](registro/2026-11-16_t360-paralelismo-cadena.md)
+- 1.0.459 · [2026-11-14 — T-332 — La 03 elige la elección de ensayo 2026-11-29 por entrada (BORRADOR, no-automerge)](registro/2026-11-14_t332-ensayo-03.md)
+- 1.0.458 · [2026-11-16 — T-363 — Plan 1.0.51: D-123 a D-127, cola T-350 a T-363, r4 publicada](registro/2026-11-16_planificador-plan-1-0-51.md)
+- 1.0.457 · [2026-11-14 — T-333 — Datos de ensayo por mesa para nac22, nac42 y nac52 (BORRADOR, no-automerge)](registro/2026-11-14_t333-datos-ensayo.md)
+- 1.0.456 · [2026-11-16 — Coordinador — Skills del Operador con D-127 (`produccion` sin revisor)](registro/2026-11-16_coordinador-skills-operador-d127.md)
+- 1.0.455 · [2026-11-16 — Coordinador — D-127: el entorno `produccion` ya no exige aprobación](registro/2026-11-16_coordinador-d127-produccion.md)
+- 1.0.454 · [2026-11-15 — T-356 — Script de espejo en R2 de los seccionados INE 2010-2026 y el Observatorio](registro/2026-11-15_t356-espejo-ine-observatorio-r2.md)
+- 1.0.453 · [2026-11-16 — Hotfix T-334 — test del M06 independiente del INDEX vivo](registro/2026-11-16_hotfix-t334-test-indice-congelado.md)
+- 1.0.452 · [2026-11-14 — T-323 — P10 desde R2 con aviso de cambios del INE (D-112, D-117, D-119)](registro/2026-11-14_t323-p10-desde-r2.md)
+- 1.0.451 · [2026-11-14 — T-300 — La P50 copia el catálogo de procedencia al sitio](registro/2026-11-14_t300-p50-copia-catalogo-procedencia.md)
+- 1.0.450 · [2026-11-15 — T-358 — Población por sección con relleno para el histórico de las generales (D-126)](registro/2026-11-15_t358-poblacion-seccion-relleno.md)
+- 1.0.449 · [2026-11-15 — T-357 — Población por sección censal 2011-2020 y casado con seccionado y votos](registro/2026-11-15_t357-padron-seccion.md)
+- 1.0.448 · [2026-11-15 — T-354 — Espejo en R2 (ARC-E) de las 4 fuentes de mesas de Galicia](registro/2026-11-15_t354-espejo-galicia-r2.md)
+- 1.0.447 · [2026-11-15 — T-352 — Traspaso del Coordinador (relevo ordenado por el propietario)](registro/2026-11-15_coordinador-traspaso.md)
+- 1.0.446 · [2026-11-15 — Coordinador — Lecciones del relevo 15-11 y tablero](registro/2026-11-15_coordinador-lecciones-relevo.md)
+- 1.0.445 · [2026-11-15 — T-353 — Id canónico en los contratos electorales de config y test de CI](registro/2026-11-15_t353-config-id-canonico.md)
+- 1.0.444 · [2026-11-15 — T-349 — El paquete electoral registrado con id no canónico no se reutiliza (Activación, P12, puertas)](registro/2026-11-15_t349-electoral-id-canonico.md)
 - 1.0.443 · [2026-11-15 — T-351 — Ficha del paso A del histórico al día (condición previa, orden tras r4, topes y avisos)](registro/2026-11-15_operador-t351-ficha-historico.md)
 - 1.0.442 · [2026-11-15 — T-345 — Alias de coaliciones acreditados con la composición del BOE de candidaturas proclamadas (D-120)](registro/2026-11-15_t345-composicion-boe.md)
 - 1.0.441 · [2026-11-15 — T-350 — Plan 1.0.50: D-119 a D-122 y cola T-342 a T-349](registro/2026-11-15_planificador-plan-1-0-50.md)

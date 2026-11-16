@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_la_coruna",
+  "territory_id": "nac15",
   "territory_name": "Congreso La Coruña",
   "edition": "2025",
-  "run_id": 42953518518,
-  "artifact_name": "ddd-state-42953518518-M08",
-  "artifact_sha256": "2959479852aa774687fb39b239abd3e6cbc1514565422fa76bfc02e371e663fe",
-  "source_commit": "1e3d9c47b59c47d5c3e21151fae3578b0bc7413a",
+  "run_id": 43774834805,
+  "artifact_name": "ddd-state-43774834805-M08",
+  "artifact_sha256": "2a882ec07688214afe96df3faa87872f6e5e749e4683f9b55f3a18772f9cd5b4",
+  "source_commit": "476081ba1fd2c8ee49ad3f3670f53446ef10568a",
   "stage": "M08"
 }

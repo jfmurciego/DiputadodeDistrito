@@ -4,25 +4,117 @@
   "territory_id": "nac48",
   "territory_name": "Congreso Vizcaya",
   "edition": "2025",
-  "run_id": 43664106564,
-  "source_commit": "c1b0451f4cb60bb59f8c8ad41fce6df6d335fdf4",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "run_id": 43798940463,
+  "source_commit": "5e66439e841ed66402fa5900fa39842940f2d4b9",
+  "artifact_name": "ddd-state-43798940463-M03U",
+  "artifact_sha256": "4097e09bb56486a6e845a724449bfe6771eb82cf7d9a9fae39434def0664f402",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
-    "run_id": 43664106564,
-    "artifact_name": "ddd-source-package-nac48-2025-43664106564",
-    "artifact_sha256": "c54b9fa265f81b1148cf1d5f9f55ac7a9ebbf61a9f23de33d7f5705fcbde2696",
-    "package_sha256": "f2735556ec3e819fcf833dd36f5111d4f8f1a4a3ef39ce3119f702a526f170da",
-    "compatibility_identity_sha256": "a1826fb60e8ed52a908fc0f210e4409e6dbde8878f5ff33ba79e8a686ba6bf55",
-    "territorial_identity_sha256": "ae559a0881725fe62f44fe19130de7c6922944ec3b29056a433a6c089a487351",
+    "run_id": 43798940463,
+    "artifact_name": "ddd-source-package-nac48-2025-43798940463",
+    "artifact_sha256": "b140a85b442db947b58045fca175eadfe6e5fc84244250c49efab8e802bcc9fc",
+    "package_sha256": "80ccab8079daa6ee5b48918118a58686927c005e8ff310b2b4dd70ce5a0f1a61",
+    "compatibility_identity_sha256": "361d29ba09c23b49d691e3cb9015c8be25b41521bb8e37680afac4e45add1bd4",
+    "territorial_identity_sha256": "a2fc607f42cf4dddc255828b42aae4848e4cba2041a0396ac51b8722eb03887a",
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "bed5df93e4e423198810676344c23b2171c94f19",
+    "m03_git_blob_sha1": "7bb009eae5e7eae90b489ce4f6dbc4203e7c26f5",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": [
+      {
+        "u": "4807401002",
+        "v": "4807501001",
+        "admin_scope": "province:48",
+        "edge_type": "administrative_exclave"
+      }
+    ]
+  },
+  "graph": {
+    "artifact_name": "ddd-state-43798940463-M03",
+    "artifact_sha256": "8c28d435706eb39587473bce52c9a6005867301bcb53116da9ce7db0aca0baea",
+    "module_version": "7.6.0",
+    "nodes": 933,
+    "edges": 2515,
+    "population": 1153282,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-43798940463",
+    "job_artifact_sha256": "93ba8af02ea121eeb4ad81f77635ac156267346c4684f5de2c41b2c51c6e897c",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/nac48/.cache/ddd/preparacion/{run_name}/nac48_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/nac48/.cache/ddd/preparacion/nac48_2025/nac48_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 1153282,
+      "target_section_count": 933,
+      "package_sha256": "80ccab8079daa6ee5b48918118a58686927c005e8ff310b2b4dd70ce5a0f1a61",
+      "compatibility_report_sha256": "6e678f3518208c1ad716cab32d5c1f6c03d622a6925f2bf3d98f4520d36c920f",
+      "compatibility_identity_sha256": "361d29ba09c23b49d691e3cb9015c8be25b41521bb8e37680afac4e45add1bd4"
+    },
+    "topology_accreditation": null,
+    "k_districts": 10,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/nac48/.cache/ddd/preparacion/{run_name}/nac48_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/nac48/.cache/ddd/preparacion/{run_name}/nac48_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/nac48/.cache/ddd/preparacion/{run_name}/nac48_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/nac48/.cache/ddd/preparacion/{run_name}/nac48_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/nac48/.cache/ddd/preparacion/{run_name}/nac48_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/nac48/.cache/ddd/preparacion/{run_name}/nac48_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/nac48/.cache/ddd/preparacion/{run_name}/nac48_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/nac48/.cache/ddd/preparacion/{run_name}/nac48_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/nac48/.cache/ddd/preparacion/{run_name}/nac48_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 10,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }

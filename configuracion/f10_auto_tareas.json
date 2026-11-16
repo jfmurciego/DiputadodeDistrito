@@ -105,7 +105,7 @@
       "evidence": [
         {
           "path": "territorios/aut02/evidencia/catalogo/electoral_source_2025.json",
-          "sha256": "6f4d86d59e3a6bd1a928432b05b8e2a9890b90f5a415cd160f8877ec973332ba",
+          "sha256": "05f49fb8889116a8094a81238add83cd5eb0861a4c087eef83f0c1d8a1af909e",
           "json_equals": {
             "schema": "ddd.catalog-evidence/1.0",
             "kind": "electoral_source",
@@ -115,7 +115,7 @@
         },
         {
           "path": "territorios/aut02/config/elecciones/aragon_cortes_2026.json",
-          "sha256": "2a9c7bfb9005311989f3e5634d62479a4d7b81a0cabad456e4887a85eeaa406a",
+          "sha256": "32b1d51418a025d1ce0aaf5f9be34c5cd9a995a0a305e6cdf0d53ddbfadadab1",
           "json_contains": [
             "5002501003",
             "2221301003"
@@ -288,7 +288,7 @@
       "evidence": [
         {
           "path": "territorios/aut11/config/elecciones/bloqueo_fuente_oficial_2025.json",
-          "sha256": "9de414bb0afaaafd5301f68cd1865b24fddad041a32140b1d2c6083929a667c5",
+          "sha256": "51bfaff1a5e3bad7ff3c1665b029d1d68ff694d2fc49f06dda2fc33b44f00756",
           "json_equals": {
             "schema_family": "ddd-election-source-readiness",
             "territory_id": "aut11",
@@ -304,11 +304,11 @@
         },
         {
           "path": "territorios/aut11/config/elecciones/fuentes_oficiales_2025.yaml",
-          "sha256": "14d8efff9c06de16e9db759cceeedddae2d48c8f971e0491e8bbf7a382053fc9"
+          "sha256": "58d675a47ce0967508e77401ccebd7aae40eca6098ceca590527f5bac7793751"
         },
         {
           "path": "configuracion/contratos_minsait_provisionales.yaml",
-          "sha256": "55d7e83a9e897512077c0c33dedac238176074fd71820b247d0bf974bdce7da2"
+          "sha256": "500eb9573919ba3c5115814f1ab777ddbfa081309b814f92d5169460a8347c97"
         }
       ],
       "task": {

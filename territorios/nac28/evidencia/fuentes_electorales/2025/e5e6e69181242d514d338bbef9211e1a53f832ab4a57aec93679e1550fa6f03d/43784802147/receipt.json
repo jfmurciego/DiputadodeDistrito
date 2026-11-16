@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac28",
+  "territory_name": "Congreso Madrid",
+  "edition": "2025",
+  "run_id": 43784802147,
+  "artifact_name": "ddd-electoral-package-nac28-2025-43784802147",
+  "artifact_sha256": "19ebaa532f652bf0b2fca9c945678f43b832dcd16a57140425668b000f7e9f0b",
+  "source_commit": "ad7ad56b9b682bef2b72dc6b704d48b3b292e080",
+  "election_id": "congreso_madrid_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "e5e6e69181242d514d338bbef9211e1a53f832ab4a57aec93679e1550fa6f03d"
+}

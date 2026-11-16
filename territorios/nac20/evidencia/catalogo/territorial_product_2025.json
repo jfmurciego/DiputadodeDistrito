@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "congreso_guipuzcoa",
+  "territory_id": "nac20",
   "territory_name": "Congreso Guipúzcoa",
   "edition": "2025",
-  "run_id": 42940417361,
-  "artifact_name": "ddd-state-42940417361-M06",
-  "artifact_sha256": "cadf9ecf27c3e02e20d1d65d09a14901a9d931f54f3ea3760a235c2b509e6bd8",
-  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "run_id": 43764679394,
+  "artifact_name": "ddd-state-43764679394-M06",
+  "artifact_sha256": "d73f40761eb80f03c265fa707ea967ad564890b07a7c922c03fae7700e2d88dc",
+  "source_commit": "2f801199ff60ec796306ce34326cc8cf86146591",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_guipuzcoa/evidencia/generaciones_m06/42940417361.json"
+  "producer_manifest_path": "territorios/nac20/evidencia/generaciones_m06/43764679394.json"
 }

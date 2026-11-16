@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac37",
+  "territory_name": "Congreso Salamanca",
+  "edition": "2025",
+  "run_id": 43791594547,
+  "artifact_name": "ddd-electoral-package-nac37-2025-43791594547",
+  "artifact_sha256": "7e944bf43e9258eaa93355387f287ee2bde92cb9fdabbdcaddb23c06e6b02a4e",
+  "source_commit": "af82afb4a43b760e9662092054766b39319f8606",
+  "election_id": "congreso_salamanca_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "4055100be146f5310f9aa30193ee18b7cb9dc8e2f173f0a2aa4ac25f8620593e"
+}

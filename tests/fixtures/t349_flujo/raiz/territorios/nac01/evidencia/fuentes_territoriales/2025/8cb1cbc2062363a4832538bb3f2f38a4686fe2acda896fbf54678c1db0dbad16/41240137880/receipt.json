@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_alava",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41240137880,
+  "artifact_name": "ddd-source-package-congreso_alava-2025-41240137880",
+  "artifact_sha256": "7d101c7cd9dee73eeb7b7a09936c7e41456b58c3daab81532f02c5823fbe9448",
+  "package_sha256": "cad80db926a5783f220748226415da98777ed5f4d912e56164961ee8c1d3f7d9",
+  "source_commit": "68ee5b1b2f4e2e87e70e20ab40fc2718d7b19c9a",
+  "source_declaration": "territorios/congreso_alava/evidencia/fuentes_territoriales/2025/8cb1cbc2062363a4832538bb3f2f38a4686fe2acda896fbf54678c1db0dbad16/41240137880/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "8cb1cbc2062363a4832538bb3f2f38a4686fe2acda896fbf54678c1db0dbad16",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "b599419e3bc387b6d968406255313cd80c301cbdbaeaca9de6d91674e7e64603",
+  "compatibility_identity_sha256": "57a0d1cd652493de2c435be0a5f2fbd5a39fdf6ed4425fa503774a95ff52f619"
+}

@@ -1,3 +1,14 @@
+# CAMBIOS 2026-11-14 (T-332): tres contratos de ENSAYO (`rehearsal: true`) de las generales 2026-11-29 (nac22, nac42, nac52).
+#   Datos del ZIP Infoelectoral 2023 repartidos a claves de sección 2026 y reetiquetados (T-333, #801; recuentos de su MANIFEST); NO son resultados de 2026. Nunca promocionables.
+#   source_sha256 «PENDIENTE_T333» falla cerrado en la 03 (exit 53) hasta que el Operador suba el fichero y lo rellene.
+#   FORMATO DEL FEED DEL 29-11 (riesgo abierto, sin resolver por código): SIN DOCUMENTO. No hay en el repo ni en docs/ especificación,
+#   muestra ni sha256 del feed real de Minsait de la noche. El formato que asume `adaptador_minsait_csv.py` (CSV largo por mesa con
+#   codigo_ccaa, codigo_provincia, codigo_municipio, codigo_distrito, codigo_seccion, codigo_mesa, partido, votos) está SUPUESTO a partir
+#   de los dos CSV Minsait/EleccionesDB ya usados: 01-andalucia.csv (sha256 13ffb00b…ac21) y 11-extremadura.csv (sha256 d09a4ad4…003d),
+#   contratos de este fichero. Si el feed real difiere, el adaptador falla cerrado (columnas, totales o sha256) y hay que revisarlo esa noche.
+#   DECISIÓN DEL PROPIETARIO (ensayo 29-11): se ensaya con el formato SUPUESTO; si el feed provisional de esa noche no encaja con él,
+#   se publica SOLO con infoelectoral_mesas definitivo (no se adapta el formato esa noche).
+# ANTERIOR (b): legacy/configuracion/contratos_minsait_provisionales_pre_ensayo_20261114.yaml
 # CAMBIOS 2026-10-29: owner_production_exception permite usar en producción un contrato provisional
 #   cuando el propietario lo decide y la diferencia con el definitivo no supera max_delta_ratio.
 #   Extremadura 2025 la declara (2.419 de 524.837 votos, 0,46 %).
@@ -58,3 +69,84 @@ contracts:
         url: https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001
         candidate_votes: 524837
       delta_definitive_minus_provisional: 2419
+
+  congreso_huesca_2026-11-29:
+    rehearsal: true
+    feed_format: 'SUPUESTO (sin documento): CSV largo por mesa como 01-andalucia.csv y 11-extremadura.csv; el feed real del 29-11 no está documentado en el repo'
+    territory_id: nac22
+    canonical_codauto: 'C22'
+    election_date: '2026-11-29'
+    source_status: PROVISIONAL
+    production_eligible: false
+    promotion_allowed: false
+    publisher: ENSAYO DDD — datos Infoelectoral 2023 reetiquetados (no son resultados de 2026)
+    source_url: https://github.com/jfmurciego/diputadodedistrito/releases/download/fuente-ensayo-congreso-2026-11-29/ensayo_congreso_huesca_2026-11-29.csv
+    source_sha256: PENDIENTE_T333
+    expected:
+      ccaa: '02'
+      provinces: 1
+      sections: 285
+      polling_stations: 401
+      candidate_votes: 117735
+    reconciliation:
+      policy: provisional_vs_definitive_candidate_votes
+      status: KNOWN_PROVISIONAL_DELTA
+      definitive:
+        publisher: Ensayo — referencia interna igual al fichero (delta 0); sin definitivo de 2026
+        url: https://infoelectoral.interior.gob.es/
+        candidate_votes: 117735
+      delta_definitive_minus_provisional: 0
+
+  congreso_soria_2026-11-29:
+    rehearsal: true
+    feed_format: 'SUPUESTO (sin documento): CSV largo por mesa como 01-andalucia.csv y 11-extremadura.csv; el feed real del 29-11 no está documentado en el repo'
+    territory_id: nac42
+    canonical_codauto: 'C42'
+    election_date: '2026-11-29'
+    source_status: PROVISIONAL
+    production_eligible: false
+    promotion_allowed: false
+    publisher: ENSAYO DDD — datos Infoelectoral 2023 reetiquetados (no son resultados de 2026)
+    source_url: https://github.com/jfmurciego/diputadodedistrito/releases/download/fuente-ensayo-congreso-2026-11-29/ensayo_congreso_soria_2026-11-29.csv
+    source_sha256: PENDIENTE_T333
+    expected:
+      ccaa: '08'
+      provinces: 1
+      sections: 219
+      polling_stations: 265
+      candidate_votes: 49823
+    reconciliation:
+      policy: provisional_vs_definitive_candidate_votes
+      status: KNOWN_PROVISIONAL_DELTA
+      definitive:
+        publisher: Ensayo — referencia interna igual al fichero (delta 0); sin definitivo de 2026
+        url: https://infoelectoral.interior.gob.es/
+        candidate_votes: 49823
+      delta_definitive_minus_provisional: 0
+
+  congreso_melilla_2026-11-29:
+    rehearsal: true
+    feed_format: 'SUPUESTO (sin documento): CSV largo por mesa como 01-andalucia.csv y 11-extremadura.csv; el feed real del 29-11 no está documentado en el repo'
+    territory_id: nac52
+    canonical_codauto: 'C52'
+    election_date: '2026-11-29'
+    source_status: PROVISIONAL
+    production_eligible: false
+    promotion_allowed: false
+    publisher: ENSAYO DDD — datos Infoelectoral 2023 reetiquetados (no son resultados de 2026)
+    source_url: https://github.com/jfmurciego/diputadodedistrito/releases/download/fuente-ensayo-congreso-2026-11-29/ensayo_congreso_melilla_2026-11-29.csv
+    source_sha256: PENDIENTE_T333
+    expected:
+      ccaa: '19'
+      provinces: 1
+      sections: 44
+      polling_stations: 90
+      candidate_votes: 26925
+    reconciliation:
+      policy: provisional_vs_definitive_candidate_votes
+      status: KNOWN_PROVISIONAL_DELTA
+      definitive:
+        publisher: Ensayo — referencia interna igual al fichero (delta 0); sin definitivo de 2026
+        url: https://infoelectoral.interior.gob.es/
+        candidate_votes: 26925
+      delta_definitive_minus_provisional: 0

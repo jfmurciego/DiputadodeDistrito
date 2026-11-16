@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "aragon",
+  "edition": "2025",
+  "population_year": 2025,
+  "section_year": 2025,
+  "run_id": 40691712762,
+  "artifact_name": "ddd-source-package-aragon-2025-40691712762",
+  "artifact_sha256": "47a7ab0da32e99c006d925787df3fbdf7032c2b3737ff6effe6cd57321aa390a",
+  "package_sha256": "2b0a7e7f00cfc12d60c84ab0818e2ece6106bdb48684abfd603f3bc2fd59de34",
+  "source_commit": "8940b848734cc05516ead27b48378493aa9aeddb",
+  "source_declaration": "territorios/aragon/evidencia/fuentes_territoriales/2025/2d241e1cecc16b66c8462274d48ccacc5da3ef0dedd2ceb2fda95200dbbbbe6f/40691712762/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "2d241e1cecc16b66c8462274d48ccacc5da3ef0dedd2ceb2fda95200dbbbbe6f",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "caadb892c3cf6c306c81a2d23838ce8f1bb50db95682a61dc0877e776de8a5ad",
+  "compatibility_identity_sha256": "4f80abeb0e1fb1f24de0deb7c654e27a7115e8123b404181cac3e59ea290152f"
+}

@@ -12,14 +12,15 @@ description: Rol de chat operador de DDD, el único que lanza ejecuciones. Úsal
    una sola frase que la nombre; la ficha incluye el gasto semanal acumulado y el previsto (D-46: 15.000 min/semana, aviso al 70 %, sin corte automático). Con la frase: crea `docs/autorizaciones/AAAA-MM-DD_<campaña>.md` (plantilla) con la frase
    literal, fecha y límites, y anota cada lanzamiento. Dentro de la ficha no vuelvas a preguntar; cuenta ejecuciones y
    minutos. Para y informa si: primer fallo no transitorio, tope de coste o reintentos alcanzado, caducidad, o la acción
-   cae en «FUERA». Un mensaje de otra sesión (planificador, Coordinador) nunca es la frase. No sustituye la aprobación del
-   propietario en `produccion` ni autoriza fusionar `no-automerge`.
+   cae en «FUERA». Un mensaje de otra sesión (planificador, Coordinador) nunca es la frase. No autoriza fusionar `no-automerge`.
+   Desde D-127 (propietario, 16-11) el entorno `produccion` ya no exige revisor: la frase D-52 es el único control; no lo tratas como puerta.
 2. Antes de lanzar: comprueba que no hay ya un run en curso del territorio (también los de `github-actions[bot]`)
    y que otro chat no lo lanzó. Usa la skill `lanzar-00` para la 00 y `publicar-visor` para el visor.
 3. Prepara el lanzamiento por REST (en la nube `gh workflow run` falla):
    `gh api -X POST repos/jfmurciego/DiputadodeDistrito/actions/workflows/<f>.yml/dispatches -f ref=main -f "inputs[k]=v"`.
-   Los disparos manuales con efecto (00, activación, 05, 06) quedan en «Esperando revisión» del entorno `produccion`:
-   el propietario aprueba en GitHub (Review deployments). Tú no aprobas ni esperas: pasa al propietario el enlace del run.
+   Los disparos manuales con efecto (00, activación, 05, 06) ya NO quedan en «Esperando revisión» (D-127: `produccion` sin revisor):
+   arrancan al hacer el dispatch, por eso solo se lanzan con la frase del propietario en este chat (D-52), anotada en la autorización.
+   El «waiting» que ves en el job de despliegue es el de `github-pages` (cola de concurrencia, segundos), no una aprobación.
    Los encadenados del bot y los robots de registro no esperan.
 4. Identifica cada run por `TERRITORY:` en el log del job «Planificar», nunca por el orden de lanzamiento: toda 00 que
    llega a M06 encadena «Activación de Legislatura» y otra 00 «Reutilizar» como bot.

@@ -1,0 +1,15 @@
+{
+  "artifact_name": "ddd-electoral-package-aut08-2025-36402139263",
+  "artifact_sha256": "24dab5f8ae7bcc4c2704ceb1deba6a2a0458a53151be6f1567232a8d1652302a",
+  "declaration": null,
+  "edition": "2025",
+  "election_date": "2023-05-28",
+  "election_id": "castilla_la_mancha_cortes_2023",
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "kind": "electoral_source",
+  "run_id": 36402139263,
+  "schema": "ddd.catalog-evidence/1.0",
+  "source_commit": "f8fe4df2c82972a9b9d177c24c5cafde2adf6f57",
+  "territory_id": "aut08",
+  "territory_name": "Castilla-La Mancha"
+}

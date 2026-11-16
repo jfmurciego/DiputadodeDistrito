@@ -1,0 +1,80 @@
+{
+ "fuente": "Acuerdo de 7 de diciembre de 2011, de la Junta Electoral Central, por el que se publica el resumen de los resultados de las elecciones al Congreso de los Diputados y al Senado convocadas por Real Decreto 1329/2011, de 26 de septiembre, y celebradas el 20 de noviembre de 2011, conforme a las actas de escrutinio general y de proclamación de electos remitidas por las correspondientes Juntas Electorales Provinciales y por las Juntas Electorales de Ceuta y de Melilla.",
+ "boe": "BOE-A-2011-19391",
+ "url": "https://www.boe.es/diario_boe/xml.php?id=BOE-A-2011-19391",
+ "fecha_publicacion": "2011-12-10",
+ "sha256_xml": "bce16ce8372112421310f929083eb998746571c0785998ed846756df6eedfc0b",
+ "sha256_csv": "a445cf50bee5e0fa102695431d04e0711b5da05da6c512e1ae4bb97bbe9507df",
+ "cuadro": "II (candidaturas con escaño en el total estatal)",
+ "total_escanos": 350,
+ "totales_oficiales": {
+  "PP": {
+   "votos": 10061311,
+   "escanos": 170
+  },
+  "PSOE": {
+   "votos": 6080964,
+   "escanos": 96
+  },
+  "CiU": {
+   "votos": 1015691,
+   "escanos": 16
+  },
+  "PSC-PSOE": {
+   "votos": 922547,
+   "escanos": 14
+  },
+  "LA IZQUIERDA PLURAL": {
+   "votos": 1685991,
+   "escanos": 11
+  },
+  "PP-PAR": {
+   "votos": 339502,
+   "escanos": 8
+  },
+  "AMAIUR": {
+   "votos": 334498,
+   "escanos": 7
+  },
+  "PP-EU": {
+   "votos": 339237,
+   "escanos": 6
+  },
+  "UPyD": {
+   "votos": 1143225,
+   "escanos": 5
+  },
+  "EAJ-PNV": {
+   "votos": 324317,
+   "escanos": 5
+  },
+  "ERC/ESQUERRA": {
+   "votos": 244854,
+   "escanos": 3
+  },
+  "BNG": {
+   "votos": 184037,
+   "escanos": 2
+  },
+  "CC-NC-PNC": {
+   "votos": 143881,
+   "escanos": 2
+  },
+  "UPN-PP": {
+   "votos": 126516,
+   "escanos": 2
+  },
+  "COMPROMÍS-Q": {
+   "votos": 125306,
+   "escanos": 1
+  },
+  "FAC": {
+   "votos": 99473,
+   "escanos": 1
+  },
+  "GBAI": {
+   "votos": 42415,
+   "escanos": 1
+  }
+ }
+}

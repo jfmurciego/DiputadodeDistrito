@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "comunidad_valenciana",
+  "territory_id": "aut10",
   "territory_name": "Comunidad Valenciana",
   "edition": "2025",
-  "run_id": 43030421638,
-  "artifact_name": "ddd-state-43030421638-M08",
-  "artifact_sha256": "d7865a82cf0cdde9a6bbd1359e78845748227933177374624fe86f35b49c9273",
-  "source_commit": "fc8e51213e8c4c7a2873af67a0faa309633b6a73",
+  "run_id": 43748866318,
+  "artifact_name": "ddd-state-43748866318-M08",
+  "artifact_sha256": "57d1899146110a4f4c1c559b5e928a31813b77d2acce35700d511e0a8dbe6c27",
+  "source_commit": "7c9a1bdd60953616a3c3737c6a223a5f9736b325",
   "stage": "M08"
 }

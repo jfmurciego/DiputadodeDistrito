@@ -1,0 +1,12 @@
+{
+  "artifact_name": "ddd-state-43051951192-M08",
+  "artifact_sha256": "3077edb70e9623defce56ef0622b93d32aa3ddc7e73568b968428da924d21f8d",
+  "edition": "2025",
+  "kind": "electoral_product",
+  "run_id": 43051951192,
+  "schema": "ddd.catalog-evidence/1.0",
+  "source_commit": "57171c9bcc0cc5cf44ab153c48b1c4b652ce8884",
+  "stage": "M08",
+  "territory_id": "aut12",
+  "territory_name": "Galicia"
+}

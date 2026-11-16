@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac10",
+  "territory_name": "Congreso Cáceres",
+  "edition": "2025",
+  "run_id": 43766904886,
+  "artifact_name": "ddd-electoral-package-nac10-2025-43766904886",
+  "artifact_sha256": "be0652eb16e985e00c15431290e2269ecd36bc2b79663e5fd49c6c1b7af0e3d3",
+  "source_commit": "c085d224f10f369e6980bf23a9dbc4d4517d8311",
+  "election_id": "congreso_caceres_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "d865a615c8616c203cd9f48ac172cc0c43d45e6be0c87fb345cf76d157682e03"
+}

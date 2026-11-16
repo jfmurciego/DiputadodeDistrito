@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "comunidad_foral_de_navarra",
+  "territory_id": "aut15",
   "territory_name": "Comunidad Foral de Navarra",
   "edition": "2025",
-  "run_id": 43052874017,
-  "artifact_name": "ddd-state-43052874017-M08",
-  "artifact_sha256": "242662c51c998188d35cb327a5d630a761cacb6e8cc30c62123b2a0c96fd33f3",
-  "source_commit": "fa13e8b40c58db82a5d60944ea5945dee90b558d",
+  "run_id": 43753347645,
+  "artifact_name": "ddd-state-43753347645-M08",
+  "artifact_sha256": "e7f094bc13cf46079f9914ef98d02b34ea46db4638122602554e06e1b438c619",
+  "source_commit": "e026c619cdc38955032900e836e30d679db138f2",
   "stage": "M08"
 }

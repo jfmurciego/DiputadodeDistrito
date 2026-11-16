@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "madrid",
+  "territory_id": "aut13",
   "territory_name": "Comunidad de Madrid",
   "edition": "2025",
-  "run_id": 43053498550,
-  "artifact_name": "ddd-state-43053498550-M08",
-  "artifact_sha256": "0572aae6f11797a09e2c9cb9a40cd17c94c793d0369ecf9b3e70f9d03986e7dc",
-  "source_commit": "aa9a78955d4f91013be40efdd1fe25e1fba80e0c",
+  "run_id": 43749008571,
+  "artifact_name": "ddd-state-43749008571-M08",
+  "artifact_sha256": "3c98f3d1e8083e8d5f5592bd0115a8050bb2b3fcbab470deaeef8900d5b361e0",
+  "source_commit": "ff469e339d797e2f634795bd870d476d57fd6fba",
   "stage": "M08"
 }

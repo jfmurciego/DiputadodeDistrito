@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "ceuta",
+  "territory_name": "Ceuta",
+  "edition": "2025",
+  "run_id": 40773443591,
+  "artifact_name": "ddd-electoral-package-ceuta-2025-40773443591",
+  "artifact_sha256": "b99c10d058a3362761be97400df9ad136f0e6d6dc006b0653319b107e9df2be1",
+  "source_commit": "e6778a88325a7c787e4279783fd0e19d7d1d2975",
+  "election_id": "ceuta_asamblea_local_2023",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-05-28",
+  "electoral_identity_sha256": "a030a3e1892b4fd6943caef31f04f339ec7f31414e7e9baf51a361c1e068cd5e"
+}

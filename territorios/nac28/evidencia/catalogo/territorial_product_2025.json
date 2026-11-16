@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "congreso_madrid",
+  "territory_id": "nac28",
   "territory_name": "Congreso Madrid",
   "edition": "2025",
-  "run_id": 43001749134,
-  "artifact_name": "ddd-state-43001749134-M06",
-  "artifact_sha256": "adbfb4bd37e16c0166efe0e1d5aa08250a05173ca933f8cd2a63bddec874afd6",
-  "source_commit": "335ada5edc4938ad24ffb66b81f1107817351fd7",
+  "run_id": 43778543060,
+  "artifact_name": "ddd-state-43778543060-M06",
+  "artifact_sha256": "1d0fdd94aa97c7b1bb1e87c9ffb0ffa727169cc2386711e02bb851c3329523f5",
+  "source_commit": "fd4d2fd80adcd15dc72b910d79d937653c5b6cc7",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_madrid/evidencia/generaciones_m06/43001749134.json"
+  "producer_manifest_path": "territorios/nac28/evidencia/generaciones_m06/43778543060.json"
 }

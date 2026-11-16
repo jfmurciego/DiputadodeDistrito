@@ -5,6 +5,7 @@ import argparse
 import random
 import shutil
 import subprocess
+import sys
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -74,7 +75,13 @@ def persist_rederived_tree(
             validate(root)
 
         _git(root, "add", *tracked_paths)
-        if _git(root, "diff", "--cached", "--quiet", check=False).returncode == 0:
+        changed = _git(root, "diff", "--cached", "--quiet", check=False).returncode != 0
+        if changed:
+            # T-360: el catálogo de procedencia va en el MISMO commit que el registro que lo cambia.
+            from herramientas.registrar_en_main import anadir_catalogo_procedencia
+
+            anadir_catalogo_procedencia(root)
+        if not changed:
             validated_head = _git(root, "rev-parse", "HEAD").stdout.strip()
             if before_push is not None:
                 before_push(attempt)
@@ -132,7 +139,7 @@ def persist_rederived_tree(
                 "No se pudo persistir la operación semántica tras "
                 f"{max_attempts} derivaciones desde el HEAD vigente"
             )
-            raise RuntimeError(f"{prefix}: {pushed.stderr.strip()}")
+            raise RuntimeError(f"PUSH_RECHAZADO_TRAS_{max_attempts}: {prefix}: {pushed.stderr.strip()}")
         time.sleep(backoff(attempt) if backoff else min(attempt * 0.2, 1.0))
 
     raise AssertionError("bucle de persistencia inalcanzable")
@@ -214,13 +221,19 @@ def main() -> int:
     ap.add_argument("--sync-dashboard-assets", action="store_true")
     ap.add_argument("--max-attempts", type=int, default=SHARED_STATE_MAX_ATTEMPTS)
     args = ap.parse_args()
-    sha = persist_shared_state(
-        root_dir=args.root_dir,
-        edition=args.edition,
-        target_branch=args.target_branch,
-        sync_dashboard_assets=args.sync_dashboard_assets,
-        max_attempts=args.max_attempts,
-    )
+    from herramientas.registrar_en_main import SALIDA_CATALOGO, CatalogoNoRegenerado
+
+    try:
+        sha = persist_shared_state(
+            root_dir=args.root_dir,
+            edition=args.edition,
+            target_branch=args.target_branch,
+            sync_dashboard_assets=args.sync_dashboard_assets,
+            max_attempts=args.max_attempts,
+        )
+    except CatalogoNoRegenerado as exc:  # T-360: falla cerrado, sin push, salida 76 como registrar_en_main
+        print(f"::error title=CATALOGO_PROCEDENCIA_NO_REGENERADO::{exc}", file=sys.stderr)
+        return SALIDA_CATALOGO
     print(sha)
     return 0
 

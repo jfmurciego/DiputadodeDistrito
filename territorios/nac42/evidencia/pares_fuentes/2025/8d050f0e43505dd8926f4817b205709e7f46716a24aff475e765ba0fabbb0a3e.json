@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "nac42",
+  "territory_name": "Congreso Soria",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_soria_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43788408190,
+    "artifact_name": "ddd-source-package-nac42-2025-43788408190",
+    "artifact_sha256": "1213cd48135f5b66116111d62c4d5755492c7d4a6bf8d3e42cee1e5dcce0327a",
+    "package_sha256": "6c4a977fd91d8f87c1979348fc1be3e50945103e8d8afe1ae8a1ba7b255bb79b",
+    "source_commit": "9e91b140d6eb637c6945caba253a709d1fdf44e8",
+    "source_declaration": "territorios/nac42/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/nac42/evidencia/fuentes_territoriales/2025/66b422244d62dab84e504e33db2ee6c4a8fbe4429c1d0de4c31bd33dff154c23/43788408190/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "66b422244d62dab84e504e33db2ee6c4a8fbe4429c1d0de4c31bd33dff154c23",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "d7fa6cae7f07e1b6b674a64ca1d56120949dbeba4c5547916bdc4ae457be39e6",
+    "compatibility_identity_sha256": "b66605512dcf68636c54faf772b60b694a65b768d4c7960578e79d25dc60b6ab",
+    "remote_verification": {
+      "run_id": 43788408190,
+      "artifact_id": 14191072668,
+      "artifact_name": "ddd-source-package-nac42-2025-43788408190",
+      "artifact_sha256": "1213cd48135f5b66116111d62c4d5755492c7d4a6bf8d3e42cee1e5dcce0327a",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43793509791,
+    "artifact_name": "ddd-electoral-package-nac42-2025-43793509791",
+    "artifact_sha256": "c05d5c62017ca0532fefba5f732ced0eeae023c0468c1d167c7309222afab73c",
+    "source_commit": "62ad0d922ddd5c26319d871189cd3d6d836e8218",
+    "receipt_path": "territorios/nac42/evidencia/fuentes_electorales/2025/4c8a3d3f63f334f96904b61ca27ce2cfc242950408f39b1a944289ddd090551e/43793509791/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_soria_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "4c8a3d3f63f334f96904b61ca27ce2cfc242950408f39b1a944289ddd090551e",
+    "remote_verification": {
+      "run_id": 43793509791,
+      "artifact_id": 14193332101,
+      "artifact_name": "ddd-electoral-package-nac42-2025-43793509791",
+      "artifact_sha256": "c05d5c62017ca0532fefba5f732ced0eeae023c0468c1d167c7309222afab73c",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "66b422244d62dab84e504e33db2ee6c4a8fbe4429c1d0de4c31bd33dff154c23",
+  "electoral_compatibility_key": "4c8a3d3f63f334f96904b61ca27ce2cfc242950408f39b1a944289ddd090551e",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/nac42/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "8d050f0e43505dd8926f4817b205709e7f46716a24aff475e765ba0fabbb0a3e"
+}

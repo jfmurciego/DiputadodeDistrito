@@ -276,8 +276,8 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         jobs = data["jobs"]
         self.assertIn("actualizar_estado", jobs)
         self.assertIn("python -m herramientas.persistir_estado_operativo_compartido", ORCH.read_text(encoding="utf-8"))
-        self.assertEqual(jobs["actualizar_estado"]["concurrency"]["group"], "ddd-shared-operational-state")
-        self.assertFalse(jobs["actualizar_estado"]["concurrency"]["cancel-in-progress"])
+        # T-360: sin grupo único; el persistidor re-deriva desde el HEAD remoto con reintento.
+        self.assertNotIn("concurrency", jobs["actualizar_estado"])
         self.assertIn("actualizar_estado", jobs["publicar"]["needs"])
         generator = (ROOT / "herramientas/generar_estado_operativo.py").read_text(encoding="utf-8")
         self.assertIn("orchestracion/estado_operativo.json", generator)
@@ -984,7 +984,7 @@ def m08_enlaza_m06_vigente(root, territory_id, territorial, electoral):
 
 class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
     def test_current_complete_product_is_durable_and_reusable(self):
-        root = raiz_previo_r3()  # T-322: estado congelado previo a r3
+        root = raiz_previo_r3(canonico=True)  # T-322: estado congelado previo a r3
         data = load(root / "configuracion/catalogo_preparacion.yaml")
         row = next(
             r for r in data["territories"]

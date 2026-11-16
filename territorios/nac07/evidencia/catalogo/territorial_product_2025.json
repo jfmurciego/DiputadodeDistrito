@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "congreso_baleares",
+  "territory_id": "nac07",
   "territory_name": "Congreso Baleares",
   "edition": "2025",
-  "run_id": 42940350970,
-  "artifact_name": "ddd-state-42940350970-M06",
-  "artifact_sha256": "a2c096d3602c3cc5f8b886ffb4354590f76a94ee4f0bc2f4af63b392bf46b882",
-  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "run_id": 43757976344,
+  "artifact_name": "ddd-state-43757976344-M06",
+  "artifact_sha256": "328819d105772e87626b4c905f48161ed53326dc7f5596b5b16959b2d4ec7a99",
+  "source_commit": "aee7456f969a1e3d9f0381f03a76b784f68fee64",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_baleares/evidencia/generaciones_m06/42940350970.json"
+  "producer_manifest_path": "territorios/nac07/evidencia/generaciones_m06/43757976344.json"
 }

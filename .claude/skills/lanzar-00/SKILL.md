@@ -30,8 +30,8 @@ gh api -X POST repos/jfmurciego/DiputadodeDistrito/actions/workflows/ejecucion-c
   -f ref=main -f "inputs[territory_id]=<etiqueta del selector>" \
   -f "inputs[execution_mode]=Ejecutar desde el principio" -f "inputs[publish_result]=false"
 ```
-Efecto: el run queda esperando la aprobación del propietario en GitHub (entorno `produccion`, Review deployments);
-el operador no aprueba. Si el entorno aún no existe, GitHub lo crea sin reglas y no bloquea.
+Efecto: el run arranca al hacer el dispatch (D-127: el entorno `produccion` ya no exige revisor; el único control es la frase D-52
+del propietario en este chat: no lances sin ella).
 Después: localiza el run por `TERRITORY:` en «Planificar», anótalo y termina el turno. Sin vigilar.
 Encadenados: si llega a M06 se lanza sola la activación y otra 00 «Reutilizar» como bot (desde #389, solo con la puerta 02).
 

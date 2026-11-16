@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "nac31",
+  "territory_name": "Congreso Navarra",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_navarra_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43780088321,
+    "artifact_name": "ddd-source-package-nac31-2025-43780088321",
+    "artifact_sha256": "bfa489d356fc40b88dc21ce7aa9cecaa2dd07ed97aa5c601d874e1cf1625ba18",
+    "package_sha256": "03b246bda8b565956df1efac154332783f9a5b7402a2b4b23be782ccf5de7910",
+    "source_commit": "2d6d3d471a44ade6e9b53a195b35e6b15148a4fe",
+    "source_declaration": "territorios/nac31/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/nac31/evidencia/fuentes_territoriales/2025/51d8252d7e3db17f59afbc306a68339713d7effc4337247a0b5bd5158ebf0823/43780088321/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "51d8252d7e3db17f59afbc306a68339713d7effc4337247a0b5bd5158ebf0823",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "5e99a3a11627ce7df434b564c83c5bb917510d5d5c8a25fb55f7409185feb454",
+    "compatibility_identity_sha256": "90c540f24ec4af2625da39b0c32076592f3015f7c13ab149e1c9abc8e2e4b870",
+    "remote_verification": {
+      "run_id": 43780088321,
+      "artifact_id": 14188326105,
+      "artifact_name": "ddd-source-package-nac31-2025-43780088321",
+      "artifact_sha256": "bfa489d356fc40b88dc21ce7aa9cecaa2dd07ed97aa5c601d874e1cf1625ba18",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43786026113,
+    "artifact_name": "ddd-electoral-package-nac31-2025-43786026113",
+    "artifact_sha256": "42471a00c6d482b1788c7da5588e5a7fcd56d1fd609bc2bf74a9751850e29491",
+    "source_commit": "6b3677f82a366f91ba215955131054645798238f",
+    "receipt_path": "territorios/nac31/evidencia/fuentes_electorales/2025/ed7c6da72b8161cfdfac25753c324d69ea539e43f2912343522f700d3ac644f4/43786026113/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_navarra_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "ed7c6da72b8161cfdfac25753c324d69ea539e43f2912343522f700d3ac644f4",
+    "remote_verification": {
+      "run_id": 43786026113,
+      "artifact_id": 14189994840,
+      "artifact_name": "ddd-electoral-package-nac31-2025-43786026113",
+      "artifact_sha256": "42471a00c6d482b1788c7da5588e5a7fcd56d1fd609bc2bf74a9751850e29491",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "51d8252d7e3db17f59afbc306a68339713d7effc4337247a0b5bd5158ebf0823",
+  "electoral_compatibility_key": "ed7c6da72b8161cfdfac25753c324d69ea539e43f2912343522f700d3ac644f4",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/nac31/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "3bda9d4a7912af208c8b09db16287959e1065e1a0653cfe391eb7388a1d3baa7"
+}

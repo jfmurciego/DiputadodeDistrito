@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac36",
+  "territory_name": "Congreso Pontevedra",
+  "edition": "2025",
+  "run_id": 43789268552,
+  "artifact_name": "ddd-electoral-package-nac36-2025-43789268552",
+  "artifact_sha256": "486ae0ebddb4a7519c2298b8006e3af82690fac0d5e6fc3daa03548149131b43",
+  "source_commit": "72ceed2bd4a7a1d75ee157e402b2a3475048374e",
+  "election_id": "congreso_pontevedra_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "9b3c1a021ef35abb95bcbdf8015bd71114ebc44839a6b2814ecd2da6fcb647ce"
+}

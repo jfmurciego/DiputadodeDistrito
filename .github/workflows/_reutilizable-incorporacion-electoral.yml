@@ -1,6 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — incorporación electoral
-# VERSIÓN: 1.2.5
+# VERSIÓN: 1.3.0
+# CAMBIOS 1.3.0 (T-360): «Registrar producto electoral» deja el grupo único ddd-catalog-promotion; el archivo en origen se registra
+#   con herramientas/registrar_en_main.py (delta JSON re-aplicado sobre el HEAD remoto, catálogo de procedencia en el mismo
+#   commit, PUSH_RECHAZADO_TRAS_N) y el producto con el persistidor re-derivado (10 intentos, catálogo en el mismo commit).
+# ANTERIOR: legacy/workflows/_reutilizable-incorporacion-electoral_v1.2.5_20261116.yml
 # CAMBIOS 1.2.5: T-215 (corte 5.0.0, paso 4), nombre visible v5 «Interno · P40 Incorporación electoral» (antes Interno · Incorporación electoral).
 # ANTERIOR: legacy/workflows/_reutilizable-incorporacion-electoral_v1.2.4_20261110.yml
 # CAMBIOS 1.2.4: T-149, solo el nombre visible («Interno · Incorporación electoral») para quitar el «_» de la lista de Actions (excepción temporal workflow_call).
@@ -348,10 +352,6 @@ jobs:
     needs: incorporar
     if: ${{ needs.incorporar.result == 'success' && inputs.persist_state }}
     runs-on: ubuntu-24.04
-    concurrency:
-      group: ddd-catalog-promotion
-      cancel-in-progress: false
-      queue: max
     env:
       TERRITORY_ID: ${{ inputs.territory_id }}
       EDITION: ${{ inputs.data_edition }}
@@ -408,16 +408,11 @@ jobs:
           python herramientas/archivo_origen.py partidos --estado .ddd-m08-state --territorio "$TERRITORY_ID" \
             --run-id "$GITHUB_RUN_ID" --run-territorial "$TERRITORIAL_RUN_ID"
           echo "ARCHIVO_ORIGEN_TIEMPOS: r2=$((t1-t0))s partidos=$(( $(date +%s)-t1 ))s"
-          git config user.name github-actions; git config user.email github-actions@github.com
-          git add orchestracion/archivo_r2.json datos/resultados/MANIFEST.json
-          [[ -d datos/resultados/runs ]] && git add datos/resultados/runs
-          git diff --cached --quiet && exit 0
-          git commit -m "chore(archivo): M08 de $TERRITORY_ID en R2 y votos por partido del run $GITHUB_RUN_ID"
-          for attempt in 1 2 3 4; do
-            git pull --rebase origin main && git push origin HEAD:main && exit 0
-            git rebase --abort >/dev/null 2>&1 || true; sleep $((attempt * 3))
-          done
-          echo '::error title=ARCHIVO_ORIGEN_FAILED::No se pudo registrar el archivo en origen en main.'; exit 1
+          rc=0
+          python -m herramientas.registrar_en_main --rama main \
+            --ruta orchestracion/archivo_r2.json --ruta datos/resultados/MANIFEST.json --ruta datos/resultados/runs \
+            --mensaje "chore(archivo): M08 de $TERRITORY_ID en R2 y votos por partido del run $GITHUB_RUN_ID" || rc=$?
+          [[ "$rc" == 0 ]] || { echo '::error title=ARCHIVO_ORIGEN_FAILED::No se pudo registrar el archivo en origen en main.'; exit 1; }
       - name: Registrar disponibilidad del producto electoral
         shell: bash
         run: |

@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_toledo",
+  "territory_name": "Congreso Toledo",
+  "edition": "2025",
+  "run_id": 41239931236,
+  "artifact_name": "ddd-electoral-package-congreso_toledo-2025-41239931236",
+  "artifact_sha256": "9e3b09c045191c683a2ddb34984f6b3ce77720c6d1209245be76380b4be89678",
+  "source_commit": "39d0b486fe985b786a70fe63e2adafaf183e9f55",
+  "election_id": "congreso_toledo_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "4dd57830c9af64008f2ab76d1c4e53e64902ba3ae3a1b7a8f7700c93d1876b7a"
+}
