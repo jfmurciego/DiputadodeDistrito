@@ -7147,8 +7147,8 @@
     "section_year": 2023
    },
    "fuente_electoral": {
-    "receipt_path": "territorios/nac42/evidencia/fuentes_electorales/2025/7a4b0bacfa1c54d0992d1947112cb6676d0edb1b48ea152d8fadce98b5cd7b3b/41235804865/receipt.json",
-    "identity_sha256": "7a4b0bacfa1c54d0992d1947112cb6676d0edb1b48ea152d8fadce98b5cd7b3b"
+    "receipt_path": "territorios/nac42/evidencia/fuentes_electorales/2025/4c8a3d3f63f334f96904b61ca27ce2cfc242950408f39b1a944289ddd090551e/43793509791/receipt.json",
+    "identity_sha256": "4c8a3d3f63f334f96904b61ca27ce2cfc242950408f39b1a944289ddd090551e"
    },
    "doi": null,
    "productos": [
@@ -10164,7 +10164,7 @@
    "territorio": "nac39",
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "nac39/43786502149/ddd-minimo-43786502149-M06.zip"
+   "detalle": "nac39/43792749380/ddd-minimo-43792749380-M08.zip"
   },
   {
    "nivel": "AVISO",
