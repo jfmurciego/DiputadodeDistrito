@@ -2379,7 +2379,7 @@ territories:
         prepared_source_pair: territorios/nac42/evidencia/pares_fuentes/2025/b73e7070cb80f9db457a63722fa4bdfc0f6d6a4a369eba0588a25e0357c02ed6.json
         electoral_product: territorios/nac42/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/nac42/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: nac43
   name: Congreso Tarragona
   editions:
