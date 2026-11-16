@@ -18,7 +18,7 @@ El estado operativo por territorio no está en este documento: lo genera el sist
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-16T04:00:44.760858+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-16T04:01:37.493153+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -92,7 +92,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Las Palmas** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43790313521 · SUCCESS | — | — | — |
 | **Nacional Pontevedra** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43789633261 · SUCCESS | — | — | — |
 | **Nacional Salamanca** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43791973018 · SUCCESS | — | — | — |
-| **Nacional Santa Cruz de Tenerife** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43792098960 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Santa Cruz de Tenerife** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43798927529 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Cantabria** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43792749380 · SUCCESS | — | — | — |
 | **Nacional Segovia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43793248399 · SUCCESS | — | — | — |
 | **Nacional Sevilla** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43793379653 · SUCCESS | — | — | — |
