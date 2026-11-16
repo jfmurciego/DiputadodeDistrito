@@ -1637,6 +1637,15 @@
    "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
    "sha256_csv": "02143bf57e837efc2094fbedc70cde23ffa1f27eeaa5e2672b5727d588a897ac",
    "ruta": "datos/resultados/runs/nac24_43779319643_partidos.csv"
+  },
+  "nac25/43784056720": {
+   "territorio": "nac25",
+   "run_id": "43784056720",
+   "run_territorial": "43773580960",
+   "sha256_composicion": "5a6479d9995da8ff305ca3d6e99e35cd5869411229d78ea48b1b0071933cf868",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "ebe726f3edcec5e45f0cf8d95aef1dd64be86dcf18030a396a696698a64cbdc0",
+   "ruta": "datos/resultados/runs/nac25_43784056720_partidos.csv"
   }
  }
 }
