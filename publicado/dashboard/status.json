@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T02:28:57.019491+00:00",
+  "generated_at": "2026-11-16T02:35:32.956450+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 59,
-      "action_required": 61,
+      "admissible": 61,
+      "action_required": 59,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 59,
-      "activable": 0,
+      "activated": 60,
+      "activable": 1,
       "territorial_pending": 46,
-      "electoral_pending": 61,
+      "electoral_pending": 59,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 59,
-      "durable_pair": 59
+      "electoral_source": 61,
+      "durable_pair": 60
     },
     "territories": [
       {
@@ -2983,20 +2983,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac39/evidencia/pares_fuentes/2025/158e44483cc28908fc6b242781c20b4a58d6755d7a8e6306969cad6611dae2e7.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac39/evidencia/pares_fuentes/2025/6167b9e6c9d419a8ca4d4638656eef4eb65cd2783c4a4c6cecd414615a3ed1fb.json",
+            "pair_sha256": "6167b9e6c9d419a8ca4d4638656eef4eb65cd2783c4a4c6cecd414615a3ed1fb",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -3004,13 +3004,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "nac40",
@@ -3040,15 +3034,15 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVABLE",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac40/evidencia/pares_fuentes/2025/11f94d3495401a72fe415f131b7a62a7eeef7ef8f5281e3a8e3ed14bec680a6c.json",
@@ -3061,13 +3055,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "nac41",
@@ -3377,8 +3365,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43770765992,
-            "receipt_path": "territorios/nac46/evidencia/fuentes_territoriales/2025/be4428bc56d841f6fb24bacf0ddb226b72e9a1b6f7592ad43c8a8b8c1422b771/43770765992/receipt.json"
+            "run_id": 43792317538,
+            "receipt_path": "territorios/nac46/evidencia/fuentes_territoriales/2025/be4428bc56d841f6fb24bacf0ddb226b72e9a1b6f7592ad43c8a8b8c1422b771/43792317538/receipt.json"
           }
         },
         "electoral": {
@@ -3434,8 +3422,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43772737802,
-            "receipt_path": "territorios/nac47/evidencia/fuentes_territoriales/2025/332cafe996b02618ff520109154f3d673f1b83dc1b9427f13b91c5785af2e90f/43772737802/receipt.json"
+            "run_id": 43792330350,
+            "receipt_path": "territorios/nac47/evidencia/fuentes_territoriales/2025/332cafe996b02618ff520109154f3d673f1b83dc1b9427f13b91c5785af2e90f/43792330350/receipt.json"
           }
         },
         "electoral": {
@@ -9650,11 +9638,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43786348967,
       "last_run": {
-        "run_id": 43786348967,
-        "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "run_id": 43786490819,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "02 · Generación de Distritos Autonómicos",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -10321,11 +10309,11 @@
       "certification": "PASS",
       "run_id": 43786736942,
       "last_run": {
-        "run_id": 43029353804,
+        "run_id": 43786736942,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -10382,11 +10370,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43786750220,
       "last_run": {
-        "run_id": 43029566265,
+        "run_id": 43786750220,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -10498,11 +10486,11 @@
       "name": "Nacional Tarragona",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43029795470,
+      "run_id": 43788811870,
       "last_run": {
         "run_id": 43029795470,
         "status": "SUCCESS",
@@ -10511,7 +10499,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10525,16 +10513,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_tarragona",
+          "territory_id": "nac43",
           "territory_name": "Congreso Tarragona",
           "edition": "2025",
-          "run_id": 43024860841,
-          "artifact_name": "ddd-state-43024860841-M06",
-          "artifact_sha256": "adf17101dea6dabc00f19c3e9f02bc7c5ca4c036535446a27a4fd16a0ca95971",
-          "source_commit": "6ad5b525a72328c916f98ca06ee6c6035293e440",
+          "run_id": 43788811870,
+          "artifact_name": "ddd-state-43788811870-M06",
+          "artifact_sha256": "fc2f36229b0b115a95a93ef9ced22e492d5b94b4a0d32767057064e4ad673c1e",
+          "source_commit": "f5579c35a9495a3653c3949357c949ede76572b7",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_tarragona/evidencia/generaciones_m06/43024860841.json"
+          "producer_manifest_path": "territorios/nac43/evidencia/generaciones_m06/43788811870.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -10552,7 +10540,7 @@
       },
       "autonomous_community_code_ine": "C43",
       "display_name": "Nacional Tarragona",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac44",
@@ -10700,9 +10688,9 @@
         "territorial_source": {
           "territory_id": "nac46",
           "edition": "2025",
-          "run_id": 43770765992,
-          "artifact_name": "ddd-source-package-nac46-2025-43770765992",
-          "artifact_sha256": "e3298a3ccb578176f9d5ee1c0c170cd9a1ee1ad79f638952f631daeabd0ca138",
+          "run_id": 43792317538,
+          "artifact_name": "ddd-source-package-nac46-2025-43792317538",
+          "artifact_sha256": "f2a14e613b480bcde59848bda7039c5f2e4f5a301e247030a3216a88827fc04d",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10761,9 +10749,9 @@
         "territorial_source": {
           "territory_id": "nac47",
           "edition": "2025",
-          "run_id": 43772737802,
-          "artifact_name": "ddd-source-package-nac47-2025-43772737802",
-          "artifact_sha256": "6f7402428537ebd2592bb396411bc807eb179a1063bd707ae8c4b1b0fa5caf45",
+          "run_id": 43792330350,
+          "artifact_name": "ddd-source-package-nac47-2025-43792330350",
+          "artifact_sha256": "c46da52a36e653a89934e9a23ad0b5ac62dbe73fbb44fbfe14dda9d655216ccb",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -12346,7 +12334,7 @@
     }
   ],
   "kpis": {
-    "complete": 66,
+    "complete": 65,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12401,7 +12389,6 @@
       "Nacional Asturias",
       "Nacional Palencia",
       "Nacional Pontevedra",
-      "Nacional Tarragona",
       "Nacional Teruel",
       "Nacional Toledo",
       "Nacional Valencia",
