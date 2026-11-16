@@ -1,0 +1,3 @@
+## 2026-11-16 — Coordinador — D-127: el entorno `produccion` ya no exige aprobación
+
+Documenta en `.claude/rules/workflows.md` y `docs/ESTADO.md` la decisión del propietario D-127 (el revisor obligatorio del entorno `produccion` se quitó a propósito el 15-11 ~21:49 UTC; el control es la frase de campaña D-52 en el chat del Operador) y la comprobación en la API de deployments. Solo documentación; los skills del Operador (`lanzar-00`, `lanzar-campana`, `publicar-visor`) siguen diciendo que el run espera el clic en `produccion` y quedan pendientes de actualizar con la confirmación del propietario en el chat que ejecuta.
