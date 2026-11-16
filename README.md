@@ -18,7 +18,7 @@ El estado operativo por territorio no está en este documento: lo genera el sist
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-16T00:55:52.044018+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-16T00:57:31.748954+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -79,7 +79,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Huesca** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43772965482 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Jaén** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43778534395 · SUCCESS | — | — | — |
 | **Nacional León** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43779319643 · SUCCESS | — | — | — |
-| **Nacional Lérida** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43064129984 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Lérida** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43773580960 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional La Rioja** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42935762636 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Lugo** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42995722473 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Madrid** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43006307734 · SUCCESS | — | — | — |
