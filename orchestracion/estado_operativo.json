@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T04:01:37.493153+00:00",
+  "generated_at": "2026-11-16T04:14:08.597672+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -9596,11 +9596,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43798914850,
       "last_run": {
-        "run_id": 43786490819,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 43798914850,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -9635,10 +9635,10 @@
           "territory_id": "nac29",
           "territory_name": "Congreso Málaga",
           "edition": "2025",
-          "run_id": 43786348967,
-          "artifact_name": "ddd-state-43786348967-M08",
-          "artifact_sha256": "3cdcb27a634dbb9425061efaefcc908f9b9f7b8b3f370273693980c65c847399",
-          "source_commit": "95bad9626262f2583684f4bbdd018ebe589f630b",
+          "run_id": 43801801527,
+          "artifact_name": "ddd-state-43801801527-M08",
+          "artifact_sha256": "9503a5d0f45457ba6dfca69e949aa6911c8554bf2fc4f27f2bcd943cb16277e0",
+          "source_commit": "46114baeffcc85343aa22de6826ec8f96a985e80",
           "stage": "M08"
         }
       },
@@ -10184,10 +10184,10 @@
           "territory_id": "nac38",
           "territory_name": "Congreso Santa Cruz de Tenerife",
           "edition": "2025",
-          "run_id": 43792098960,
-          "artifact_name": "ddd-state-43792098960-M08",
-          "artifact_sha256": "77aec142b6f74b9453efd44b0fa238c3d4cf5f3cc23268eedbfcb095b306df70",
-          "source_commit": "2b2337b70be2c116b96f98f2eceadeb60d488695",
+          "run_id": 43801705986,
+          "artifact_name": "ddd-state-43801705986-M08",
+          "artifact_sha256": "f611f33defb77ae948654ccf026edde6fa7a3b1bb3e0594418641cfa93d511f4",
+          "source_commit": "46114baeffcc85343aa22de6826ec8f96a985e80",
           "stage": "M08"
         }
       },
