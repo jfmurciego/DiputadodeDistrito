@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "congreso_zaragoza",
+  "territory_id": "nac50",
   "territory_name": "Congreso Zaragoza",
   "edition": "2025",
-  "run_id": 43034979460,
-  "artifact_name": "ddd-state-43034979460-M06",
-  "artifact_sha256": "b2b0cde543f066de9b9433f51a83bc4de34bcdb26e4e48e42d1e7f29408878e9",
-  "source_commit": "aca6cadcf8b3170f2053916f9cd7dc688e20a7d9",
+  "run_id": 43798969769,
+  "artifact_name": "ddd-state-43798969769-M06",
+  "artifact_sha256": "3526e05128955371952887f4b0c2f4e05cdb205eed921c0322cf3913b1ebfaf5",
+  "source_commit": "032f00c4732d4a7e93011136b44eed97bb5f6d04",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_zaragoza/evidencia/generaciones_m06/43034979460.json"
+  "producer_manifest_path": "territorios/nac50/evidencia/generaciones_m06/43798969769.json"
 }

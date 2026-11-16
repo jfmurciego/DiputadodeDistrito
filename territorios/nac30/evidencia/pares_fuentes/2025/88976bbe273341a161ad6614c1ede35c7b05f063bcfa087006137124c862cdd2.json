@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "nac30",
+  "territory_name": "Congreso Murcia",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_murcia_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43779852945,
+    "artifact_name": "ddd-source-package-nac30-2025-43779852945",
+    "artifact_sha256": "d0f96d334465f42c3701d33eeaaa2fbcd9a18af87223e9cf35f50582283ca3a3",
+    "package_sha256": "28260ec130572450f6f293048bdd50c3a65931358adbcd07cfa0e0660831ba7e",
+    "source_commit": "9ebb961b0383288e2d035f548dc9022b9b667621",
+    "source_declaration": "territorios/nac30/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/nac30/evidencia/fuentes_territoriales/2025/3933a136da0be1e7ed98cf768bf2eaa38bae26f407c6c8d5c0f886217cf31445/43779852945/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "3933a136da0be1e7ed98cf768bf2eaa38bae26f407c6c8d5c0f886217cf31445",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "083520bf331f4b99db7460d27ff6160707aca844f1abb2aa64621559a98cb479",
+    "compatibility_identity_sha256": "907098dedb3fc870fd13fcf3872fa6d3ce6b67d1387bb3c653e853beb37c6f37",
+    "remote_verification": {
+      "run_id": 43779852945,
+      "artifact_id": 14187494561,
+      "artifact_name": "ddd-source-package-nac30-2025-43779852945",
+      "artifact_sha256": "d0f96d334465f42c3701d33eeaaa2fbcd9a18af87223e9cf35f50582283ca3a3",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43785079571,
+    "artifact_name": "ddd-electoral-package-nac30-2025-43785079571",
+    "artifact_sha256": "85aa90e9b5d0806bc48dcd7ee9d6248219a3073fbe656128883826b4d926e582",
+    "source_commit": "4cf909666f7202a51a22eba855bdb3d97a3dcc24",
+    "receipt_path": "territorios/nac30/evidencia/fuentes_electorales/2025/e9618ee215dc49f8039d3d851764bcbc6aee2e0c3b09a5920595bc549463e8ca/43785079571/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_murcia_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "e9618ee215dc49f8039d3d851764bcbc6aee2e0c3b09a5920595bc549463e8ca",
+    "remote_verification": {
+      "run_id": 43785079571,
+      "artifact_id": 14189917399,
+      "artifact_name": "ddd-electoral-package-nac30-2025-43785079571",
+      "artifact_sha256": "85aa90e9b5d0806bc48dcd7ee9d6248219a3073fbe656128883826b4d926e582",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "3933a136da0be1e7ed98cf768bf2eaa38bae26f407c6c8d5c0f886217cf31445",
+  "electoral_compatibility_key": "e9618ee215dc49f8039d3d851764bcbc6aee2e0c3b09a5920595bc549463e8ca",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/nac30/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "88976bbe273341a161ad6614c1ede35c7b05f063bcfa087006137124c862cdd2"
+}

@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_lugo",
+  "territory_id": "nac27",
   "territory_name": "Congreso Lugo",
   "edition": "2025",
-  "run_id": 42995722473,
-  "artifact_name": "ddd-state-42995722473-M08",
-  "artifact_sha256": "67a80acc4ac97a382b42c672d903b427c3ea2f3cae5b20abc45ed68257b1855d",
-  "source_commit": "28f748a7e99ce32be327b385dd78e36e064645a6",
+  "run_id": 43784516230,
+  "artifact_name": "ddd-state-43784516230-M08",
+  "artifact_sha256": "4a5a94f4c795d12b482a466025ac0ffd30976f51b23765f57a6b064fa71e55e2",
+  "source_commit": "639c3ff2ff3a274cef4e96457ba106f0f12e2ce8",
   "stage": "M08"
 }

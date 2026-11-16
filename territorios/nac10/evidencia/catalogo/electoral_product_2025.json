@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_caceres",
+  "territory_id": "nac10",
   "territory_name": "Congreso Cáceres",
   "edition": "2025",
-  "run_id": 42953363103,
-  "artifact_name": "ddd-state-42953363103-M08",
-  "artifact_sha256": "9615d0611f5d7123bf87de224204c481db9effc763761d0a6354699b3feb5d0c",
-  "source_commit": "23c8de11972392ad796a8dd604050377098791ba",
+  "run_id": 43768394165,
+  "artifact_name": "ddd-state-43768394165-M08",
+  "artifact_sha256": "0ce93b889e9fb78a7011843ffae088532c7779b8fcecc624d97e4e1d14ac68bb",
+  "source_commit": "0f4aaf99ab2ee608965b1bd61fc2dcc222dbdabc",
   "stage": "M08"
 }

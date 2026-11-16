@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_melilla",
+  "territory_id": "nac52",
   "territory_name": "Congreso Melilla",
   "edition": "2025",
-  "run_id": 43006105644,
-  "artifact_name": "ddd-state-43006105644-M08",
-  "artifact_sha256": "2171296792f6783a4df122077bb7c93c8179f69935b297f48dcedcfca957f28a",
-  "source_commit": "92b6f2291054c45a258dac96c17ae362f7fc813c",
+  "run_id": 43807441438,
+  "artifact_name": "ddd-state-43807441438-M08",
+  "artifact_sha256": "30c103f9bde27630c0474595aadcfa716ce9df02f3013c8ca7bc55f7d135f19b",
+  "source_commit": "8155266a4b62520bfd1df7fa3d14b1844b0e4151",
   "stage": "M08"
 }

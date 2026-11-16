@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "nac38",
+  "territory_name": "Congreso Santa Cruz de Tenerife",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_santa_cruz_de_tenerife_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43786229727,
+    "artifact_name": "ddd-source-package-nac38-2025-43786229727",
+    "artifact_sha256": "b42edded6c36beb5d5e22c0436d185da1788bca3555bc5cb97483dfefc4f249c",
+    "package_sha256": "6613eeaf8daad593e1b53074660091b30733c376db8f105c47a2fe2fad29528c",
+    "source_commit": "8a8e398d7594e581d8e2aee5dbb751576f555cfa",
+    "source_declaration": "territorios/nac38/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/nac38/evidencia/fuentes_territoriales/2025/32c63bee530c987412bf03d66e3001c14a70b5ac1ef1ed4a1d392d3bf6f1e062/43786229727/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "32c63bee530c987412bf03d66e3001c14a70b5ac1ef1ed4a1d392d3bf6f1e062",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "9243ce280f84d1741a42723990e98579c606074a484823798815c32ac666f22d",
+    "compatibility_identity_sha256": "c39358481c576e4e92bef874156b6726fa46b69cd1e849286041e7c46286570d",
+    "remote_verification": {
+      "run_id": 43786229727,
+      "artifact_id": 14190562146,
+      "artifact_name": "ddd-source-package-nac38-2025-43786229727",
+      "artifact_sha256": "b42edded6c36beb5d5e22c0436d185da1788bca3555bc5cb97483dfefc4f249c",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43791763543,
+    "artifact_name": "ddd-electoral-package-nac38-2025-43791763543",
+    "artifact_sha256": "5eb69aff45fbff73cbbcf72509ed62207d983997dffdade85c7441c6e3319f85",
+    "source_commit": "db6783cf3c6bec7b4b8c3227bf7317e415df602b",
+    "receipt_path": "territorios/nac38/evidencia/fuentes_electorales/2025/cf71aa03a36e70d8d558ca78d1618cf358ddd5c286fcd938bef7d6ca96a366ba/43791763543/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_santa_cruz_de_tenerife_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "cf71aa03a36e70d8d558ca78d1618cf358ddd5c286fcd938bef7d6ca96a366ba",
+    "remote_verification": {
+      "run_id": 43791763543,
+      "artifact_id": 14192143040,
+      "artifact_name": "ddd-electoral-package-nac38-2025-43791763543",
+      "artifact_sha256": "5eb69aff45fbff73cbbcf72509ed62207d983997dffdade85c7441c6e3319f85",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "32c63bee530c987412bf03d66e3001c14a70b5ac1ef1ed4a1d392d3bf6f1e062",
+  "electoral_compatibility_key": "cf71aa03a36e70d8d558ca78d1618cf358ddd5c286fcd938bef7d6ca96a366ba",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/nac38/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "3b54b8f2626ec750bb07e039b14c42c8192a440a581a1d9685d42332473a252b"
+}

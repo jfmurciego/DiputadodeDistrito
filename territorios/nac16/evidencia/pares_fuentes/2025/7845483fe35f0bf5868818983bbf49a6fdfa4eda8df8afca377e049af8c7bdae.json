@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "nac16",
+  "territory_name": "Congreso Cuenca",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_cuenca_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43764632170,
+    "artifact_name": "ddd-source-package-nac16-2025-43764632170",
+    "artifact_sha256": "fb349cd0aaab6937c99e6e0b485a68334e2097c00d9b04d8048fa7c4855ebd10",
+    "package_sha256": "1e4ccda4a04efbe772986c755453048de0056d66c8a1ca45e2a5669be14e6255",
+    "source_commit": "1184d12764735cd949d585bb0f4f4e2c843fcdc5",
+    "source_declaration": "territorios/nac16/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/nac16/evidencia/fuentes_territoriales/2025/2f4dba6c6e09bc89e51caf7e80ed0979ef7f74a9e0c2109998eab50c7f7b8594/43764632170/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "2f4dba6c6e09bc89e51caf7e80ed0979ef7f74a9e0c2109998eab50c7f7b8594",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "a7a4d8620e244c22f9c469622b6b22678d30b227a4a4ffeef92afff66945a78f",
+    "compatibility_identity_sha256": "e3c4ba304d246ae5658fdc6780a03925bb59c13c03dd5bb0567043dbd22111f7",
+    "remote_verification": {
+      "run_id": 43764632170,
+      "artifact_id": 14181827089,
+      "artifact_name": "ddd-source-package-nac16-2025-43764632170",
+      "artifact_sha256": "fb349cd0aaab6937c99e6e0b485a68334e2097c00d9b04d8048fa7c4855ebd10",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43773668077,
+    "artifact_name": "ddd-electoral-package-nac16-2025-43773668077",
+    "artifact_sha256": "b4b56303bf4cc6a2cc2149d78617eabb96378d86cef1947e736276adea17cebf",
+    "source_commit": "cc514398c29c5a9f97088721f59fcaebe780c121",
+    "receipt_path": "territorios/nac16/evidencia/fuentes_electorales/2025/1586e3ed6de7c219f7c86a8e0fe29444a7989e035734e720f734cdd3068ace1a/43773668077/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_cuenca_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "1586e3ed6de7c219f7c86a8e0fe29444a7989e035734e720f734cdd3068ace1a",
+    "remote_verification": {
+      "run_id": 43773668077,
+      "artifact_id": 14185426978,
+      "artifact_name": "ddd-electoral-package-nac16-2025-43773668077",
+      "artifact_sha256": "b4b56303bf4cc6a2cc2149d78617eabb96378d86cef1947e736276adea17cebf",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "2f4dba6c6e09bc89e51caf7e80ed0979ef7f74a9e0c2109998eab50c7f7b8594",
+  "electoral_compatibility_key": "1586e3ed6de7c219f7c86a8e0fe29444a7989e035734e720f734cdd3068ace1a",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/nac16/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "7845483fe35f0bf5868818983bbf49a6fdfa4eda8df8afca377e049af8c7bdae"
+}

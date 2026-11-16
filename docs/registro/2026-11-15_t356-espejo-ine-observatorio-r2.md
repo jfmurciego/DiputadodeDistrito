@@ -14,6 +14,8 @@
 
 **Reanudar explicito (16-11).** Tras cortarse la subida en 632 de 642: por pieza, .ok local que cuadra (sha256 y bytes recalculados) = no se baja; head-object en R2 con Metadata.sha256 y ContentLength iguales = saltado, si falta o no coincide se sube y se vuelve a comprobar (un objeto parcial no cuenta). La fuente de verdad es R2 + el .ok, no el JSON anterior. `-Reanudar` (alias del defecto) y mensaje inicial "Reanudando: N piezas ya en R2" (con -SoloBajar no hay head-object). El JSON de resultado pasa a `{resumen: {saltados, subidos, solo_bajados, fallidos, total}, fallidas: [{pieza, clave, motivo}], piezas: {...}}` con `estado_r2` por pieza.
 
+**Fusion con main (16-11).** `fuentes_r2.json` = union de main (Interior, Galicia #827, 65034.csv.zip con contenido_sha256/contenido_nota #797) y las 644 piezas de T-356 (650 entradas, sin perder ninguna clave de main); el script las ignora por su filtro de origen_url. Ademas: un `.ok` truncado se trata como sin .ok; la cuenta previa guarda el estado por clave y el bucle lo reutiliza.
+
 **Pruebas.** `tests.test_t356_espejo_ine_observatorio` (positivas y negativas), t298, t299, t220_renombrado. El script no se ha ejecutado (la nube no ejecuta PowerShell ni llega al INE con credenciales).
 
 **Riesgos.** Solapes en `fuentes_r2.json` con #827 y #797: rebasar la que se fusione después. Tras subir, el propietario pega el JSON de resultado y se actualiza el índice (sha256 y bytes de los 9 sin medir). No cambia huellas M05.

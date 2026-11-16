@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "congreso_lerida",
+  "territory_id": "nac25",
   "territory_name": "Congreso Lérida",
   "edition": "2025",
-  "run_id": 43059014993,
-  "artifact_name": "ddd-state-43059014993-M06",
-  "artifact_sha256": "05f4757962c9b78401dbda0db4c52f324e8c18553bbda15e8e5036cf0a6c4f24",
-  "source_commit": "ee8e776705048cb676b7e9df644d10d9ed4915d7",
+  "run_id": 43773580960,
+  "artifact_name": "ddd-state-43773580960-M06",
+  "artifact_sha256": "3460df99461a18e3f46870124361a36be24b447e7eb251d2fa13a9f624505755",
+  "source_commit": "bedcd7a1f90fb98426494f1de4c0c9bbc99d04cc",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_lerida/evidencia/generaciones_m06/43059014993.json"
+  "producer_manifest_path": "territorios/nac25/evidencia/generaciones_m06/43773580960.json"
 }

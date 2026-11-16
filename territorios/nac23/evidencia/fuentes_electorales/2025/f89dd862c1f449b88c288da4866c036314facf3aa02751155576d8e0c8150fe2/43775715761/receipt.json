@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac23",
+  "territory_name": "Congreso Jaén",
+  "edition": "2025",
+  "run_id": 43775715761,
+  "artifact_name": "ddd-electoral-package-nac23-2025-43775715761",
+  "artifact_sha256": "a2153bf275325f2c62841d930b0ed2cf204cff252aff3c213fcac7388fb66fd3",
+  "source_commit": "ecaf5395e3a47c2bf2eae3bc5314713cd17e118b",
+  "election_id": "congreso_jaen_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "f89dd862c1f449b88c288da4866c036314facf3aa02751155576d8e0c8150fe2"
+}

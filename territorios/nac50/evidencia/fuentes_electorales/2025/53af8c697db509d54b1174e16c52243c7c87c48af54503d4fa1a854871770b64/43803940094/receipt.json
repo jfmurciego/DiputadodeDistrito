@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac50",
+  "territory_name": "Congreso Zaragoza",
+  "edition": "2025",
+  "run_id": 43803940094,
+  "artifact_name": "ddd-electoral-package-nac50-2025-43803940094",
+  "artifact_sha256": "6df85bd78a72a18420e35dd2510f3d801e6407c534c9ea38e394079c28ce83da",
+  "source_commit": "a0d591c62e4db8bfa3a9e9bccf7664f16154ff24",
+  "election_id": "congreso_zaragoza_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "53af8c697db509d54b1174e16c52243c7c87c48af54503d4fa1a854871770b64"
+}

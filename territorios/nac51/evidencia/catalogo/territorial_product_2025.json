@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "congreso_ceuta",
+  "territory_id": "nac51",
   "territory_name": "Congreso Ceuta",
   "edition": "2025",
-  "run_id": 42981430591,
-  "artifact_name": "ddd-state-42981430591-M06",
-  "artifact_sha256": "a768f530d720110755525c85891c8d24920b7abd7eebbd5678b57a282b15a7bc",
-  "source_commit": "d3b29437f7460641304d1cc0ad811b9cb5d599d1",
+  "run_id": 43799202986,
+  "artifact_name": "ddd-state-43799202986-M06",
+  "artifact_sha256": "7f70394e838b35402c7200cf051b389dcaf683be814c895685c13d5f449ab1c7",
+  "source_commit": "805b3eea3b6ee9fe37a61fb309ec7ce8289bee23",
   "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_ceuta/evidencia/generaciones_m06/42981430591.json"
+  "producer_manifest_path": "territorios/nac51/evidencia/generaciones_m06/43799202986.json"
 }

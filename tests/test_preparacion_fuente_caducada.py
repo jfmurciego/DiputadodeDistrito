@@ -90,7 +90,7 @@ class FuenteCaducadaTests(unittest.TestCase):
 
     def test_la_adquisicion_depende_de_reused_candidate(self):
         acquire = _step("territoriales", step_id="acquire")
-        self.assertEqual(acquire["if"], "${{ steps.previous.outputs.reused_candidate != 'true' }}")
+        self.assertEqual(acquire["if"], "${{ steps.previous.outputs.reused_candidate != 'true' && steps.r2.outputs.desde_r2 != 'true' }}")
 
     def test_resultado_no_atribuye_preparacion_a_un_fallo(self):
         step = _step("resultado", name="Exigir registro cuando la persistencia es obligatoria")

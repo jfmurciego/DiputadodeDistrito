@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "congreso_leon",
+  "territory_id": "nac24",
   "territory_name": "Congreso León",
   "edition": "2025",
-  "run_id": 42991571678,
-  "artifact_name": "ddd-state-42991571678-M06",
-  "artifact_sha256": "f62d48ca81045ed065c167673ba1188a0504c1aa6adcd23eeddc9604a26a81be",
-  "source_commit": "48716f6314fe92973436599417e7be4886bbe0c2",
+  "run_id": 43766201397,
+  "artifact_name": "ddd-state-43766201397-M06",
+  "artifact_sha256": "230021b7be666a524a0e441bdd0e5463116a0e08d22431b2258685e47c1e578e",
+  "source_commit": "3f6e0337735472bf32cd22877f4c63c2d3fe5f4d",
   "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_leon/evidencia/generaciones_m06/42991571678.json"
+  "producer_manifest_path": "territorios/nac24/evidencia/generaciones_m06/43766201397.json"
 }

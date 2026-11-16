@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_la_rioja",
+  "territory_id": "nac26",
   "territory_name": "Congreso La Rioja",
   "edition": "2025",
-  "run_id": 42935762636,
-  "artifact_name": "ddd-state-42935762636-M08",
-  "artifact_sha256": "ce51d3a40afd708c54e223673a22a258a6385136c411b6a88d09a8c8900b69f9",
-  "source_commit": "1679ff298bb5b21856d40341dad1f3aa434a2a22",
+  "run_id": 43784360729,
+  "artifact_name": "ddd-state-43784360729-M08",
+  "artifact_sha256": "9053c7f6671a170e25e7a56e72703b1e73cbe4f530d63b5115c32ef6504242b9",
+  "source_commit": "94ec2ed57d95a42dfbcf69a22f744eb84e5fa00e",
   "stage": "M08"
 }

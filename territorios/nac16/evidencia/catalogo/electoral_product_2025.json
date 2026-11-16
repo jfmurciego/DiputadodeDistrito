@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_cuenca",
+  "territory_id": "nac16",
   "territory_name": "Congreso Cuenca",
   "edition": "2025",
-  "run_id": 42954007732,
-  "artifact_name": "ddd-state-42954007732-M08",
-  "artifact_sha256": "792e96cddd2a18feecda017d74231372d1bc049be81de5716df348593d0696ed",
-  "source_commit": "35badd2eb8f3eeb35f863781e611205b6412c68a",
+  "run_id": 43775578741,
+  "artifact_name": "ddd-state-43775578741-M08",
+  "artifact_sha256": "1e443169d816e530883429b0abf4fbcc005438976900b2de1d9c69a27335d320",
+  "source_commit": "585f185942d1b26e8857b198f92ec7ec81e2d93d",
   "stage": "M08"
 }

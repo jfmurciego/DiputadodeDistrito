@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "nac36",
+  "territory_name": "Congreso Pontevedra",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_pontevedra_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43782609578,
+    "artifact_name": "ddd-source-package-nac36-2025-43782609578",
+    "artifact_sha256": "b7b43661a98a97cc9390fe8bbb6917267cbb8347d940df146266383fb6d7ccc8",
+    "package_sha256": "992bc86bf9d780b870976663991c860de6bad15f17c57bf8660e3b29ce990e2d",
+    "source_commit": "b35783c50e8c03d73d77765f7757534683f07b45",
+    "source_declaration": "territorios/nac36/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/nac36/evidencia/fuentes_territoriales/2025/cc9274d0ea26413dcd0030da349a8a1ac417cc7c59585e8a1337001c0c99e261/43782609578/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "cc9274d0ea26413dcd0030da349a8a1ac417cc7c59585e8a1337001c0c99e261",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "7f63e9d3a2c7c7ac4a59a8d69436d76b9e9a80fec2e149fd70f297dcdb4b1abd",
+    "compatibility_identity_sha256": "5b8f1b93d6f6ff53a367d295fa13f6ba2c922bdccff86026bd84f94289bb910a",
+    "remote_verification": {
+      "run_id": 43782609578,
+      "artifact_id": 14189295743,
+      "artifact_name": "ddd-source-package-nac36-2025-43782609578",
+      "artifact_sha256": "b7b43661a98a97cc9390fe8bbb6917267cbb8347d940df146266383fb6d7ccc8",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43789268552,
+    "artifact_name": "ddd-electoral-package-nac36-2025-43789268552",
+    "artifact_sha256": "486ae0ebddb4a7519c2298b8006e3af82690fac0d5e6fc3daa03548149131b43",
+    "source_commit": "72ceed2bd4a7a1d75ee157e402b2a3475048374e",
+    "receipt_path": "territorios/nac36/evidencia/fuentes_electorales/2025/9b3c1a021ef35abb95bcbdf8015bd71114ebc44839a6b2814ecd2da6fcb647ce/43789268552/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_pontevedra_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "9b3c1a021ef35abb95bcbdf8015bd71114ebc44839a6b2814ecd2da6fcb647ce",
+    "remote_verification": {
+      "run_id": 43789268552,
+      "artifact_id": 14191797265,
+      "artifact_name": "ddd-electoral-package-nac36-2025-43789268552",
+      "artifact_sha256": "486ae0ebddb4a7519c2298b8006e3af82690fac0d5e6fc3daa03548149131b43",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "cc9274d0ea26413dcd0030da349a8a1ac417cc7c59585e8a1337001c0c99e261",
+  "electoral_compatibility_key": "9b3c1a021ef35abb95bcbdf8015bd71114ebc44839a6b2814ecd2da6fcb647ce",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/nac36/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "a5feab884cf53879daf94e180c5a7a99735b54407158ebeda9d64932b067057a"
+}

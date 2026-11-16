@@ -146,7 +146,6 @@ class Script(unittest.TestCase):
                      "$saltados++", "$subidos++", "saltados = $saltados; subidos = $subidos", "fallidas = @($fallidas)",
                      "tras subir, R2 no tiene la clave", "estado_r2"):
             self.assertIn(frag, PS1)
-        self.assertNotIn("Subido $clave", PS1)  # la decision no depende del sidecar ni del JSON anterior
         cuenta = PS1.split('Write-Host "Reanudando:')[0].rsplit("if (-not $SoloBajar) {", 1)[1]
         self.assertIn("Estado-R2", cuenta)  # cuenta previa con head-object, solo si no es -SoloBajar
 
@@ -161,6 +160,53 @@ class Script(unittest.TestCase):
         self.assertEqual(accion(decide({"sha256": "a", "len": 4}, "a", 5)), "subir")   # objeto parcial o distinto: se resube
         self.assertEqual(accion(decide({"sha256": "b", "len": 5}, "a", 5)), "subir")
         self.assertEqual(accion(decide(None, "a", 5)), "subir")
+
+    def test_tabla_igual_distinto_falta_416_casos_de_borde(self):
+        # espejo en Python del criterio del .ps1 (sin pwsh). Nota: -eq de PowerShell ignora mayusculas, por eso lower().
+        def estado(head, sha, n):
+            if head is None:
+                return "falta"
+            m = head.get("Metadata")
+            sha_r2 = (m or {}).get("sha256", "")
+            return "igual" if sha_r2.lower() == sha.lower() and head.get("ContentLength") == n else "distinto"
+
+        def descarga(ya, http):
+            if http == 416 and ya > 0:
+                return "completo"
+            return "append" if http == 206 and ya > 0 else "crear"
+        sha = "a" * 64
+        self.assertEqual(estado({"Metadata": {"sha256": sha}, "ContentLength": 10}, sha, 10), "igual")
+        self.assertEqual(estado({"Metadata": {"sha256": sha.upper()}, "ContentLength": 10}, sha, 10), "igual")
+        self.assertEqual(estado({"ContentLength": 10}, sha, 10), "distinto")                      # sin metadato
+        self.assertEqual(estado({"Metadata": {}, "ContentLength": 10}, sha, 10), "distinto")
+        self.assertEqual(estado({"Metadata": {"sha256": sha}, "ContentLength": 9}, sha, 10), "distinto")  # tamano distinto (parcial)
+        self.assertEqual(estado({"Metadata": {"sha256": "b" * 64}, "ContentLength": 10}, sha, 10), "distinto")
+        self.assertEqual(estado(None, sha, 10), "falta")
+        self.assertEqual(descarga(100, 416), "completo")
+        self.assertEqual(descarga(0, 416), "crear")
+        self.assertEqual(descarga(100, 206), "append")
+        self.assertEqual(descarga(100, 200), "crear")   # el servidor ignoro Range: se rehace
+        # el texto del .ps1 implementa esos mismos casos
+        for frag in ("[string]$j.Metadata.sha256", "if ($j.Metadata)", "[long]$j.ContentLength -eq [long]$bytes", "-eq 416 -and $ya -gt 0", "$http -eq 206 -and $ya -gt 0"):
+            self.assertIn(frag, PS1)
+
+    def test_filtro_del_script_ignora_interior_galicia_y_65034(self):
+        # el filtro de origen_url del .ps1, aplicado al indice real: solo 642 + padron (2); lo demas (Interior, Galicia, 65034) fuera
+        ine = re.search(r"\$esIne = \$u -match '([^']+)'", PS1).group(1)
+        obs = re.search(r"\$esObs = \$u -match '([^']+)'", PS1).group(1)
+        pad = set(re.findall(r"-eq '(https://www\.ine\.es/[^']+)'", PS1))
+        sel = [k for k, v in IDX.items() if re.search(ine, v.get("origen_url", "")) or re.search(obs, v.get("origen_url", "")) or v.get("origen_url") in pad]
+        self.assertEqual(len(sel), 644)
+        for k in ("02202307_MESA.zip", "65034.csv.zip", "galicia_parlamento_2024_lugo_mesas.csv"):
+            self.assertIn(k, IDX)
+            self.assertNotIn(k, sel)
+        self.assertEqual(len(IDX), len(set(IDX)))
+
+    def test_ok_corrupto_y_cache_de_cuenta_previa(self):
+        self.assertIn("try { $m = Get-Content -LiteralPath $ok -Raw -Encoding UTF8 | ConvertFrom-Json } catch { $m = $null }", PS1)
+        self.assertIn("        $m = $null\n        if ((Test-Path -LiteralPath $ruta) -and (Test-Path -LiteralPath $ok)) {", PS1)  # sin $m heredado de otra pieza
+        self.assertIn("$cacheR2[$q.ficha.clave] = $e0", PS1)
+        self.assertIn("$cacheR2.ContainsKey($clave)", PS1)
 
     def test_subido_clasifica_errores_funcion_espejo(self):
         # espejo del criterio de Subido (sin pwsh): 404/NotFound = no existe; 403/credenciales/red = error

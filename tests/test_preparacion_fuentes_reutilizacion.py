@@ -429,7 +429,7 @@ class PreparedSourceReuseTests(unittest.TestCase):
 
         acquire = next(s for s in territorial_steps if s.get("name") == "Adquirir y congelar fuentes")
         self.assertEqual(acquire["id"], "acquire")
-        self.assertEqual(acquire["if"], "${{ steps.previous.outputs.reused_candidate != 'true' }}")
+        self.assertEqual(acquire["if"], "${{ steps.previous.outputs.reused_candidate != 'true' && steps.r2.outputs.desde_r2 != 'true' }}")
         diagnostics = next(
             s for s in territorial_steps
             if s.get("name") == "Publicar diagnóstico de adquisición fallida"

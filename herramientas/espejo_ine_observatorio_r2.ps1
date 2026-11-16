@@ -206,9 +206,10 @@ $fallidas = @()
 if (-not $SoloBajar) {
     # cuenta rapida (head-object, nada se baja): cuantas piezas con huella conocida ya estan en R2 con sha256 y bytes iguales
     $yaEnR2 = 0
+    $cacheR2 = @{}   # clave -> estado medido en la cuenta previa; el bucle lo reutiliza (nada cambia entre medias)
     foreach ($q in $piezas) {
         if ($q.ficha.clave -and $q.ficha.sha256 -and $q.ficha.bytes) {
-            try { if ((Estado-R2 $q.ficha.clave $q.ficha.sha256 $q.ficha.bytes) -eq 'igual') { $yaEnR2++ } } catch { Write-Warning "cuenta previa: $($q.nombre): $((([string]$_.Exception.Message) -replace '\s+', ' ').Trim())" }
+            try { $e0 = Estado-R2 $q.ficha.clave $q.ficha.sha256 $q.ficha.bytes; $cacheR2[$q.ficha.clave] = $e0; if ($e0 -eq 'igual') { $yaEnR2++ } } catch { Write-Warning "cuenta previa: $($q.nombre): $((([string]$_.Exception.Message) -replace '\s+', ' ').Trim())" }
         }
     }
     Write-Host "Reanudando: $yaEnR2 piezas ya en R2 de $($piezas.Count) (las demas se bajan si falta el .ok y se suben)."
@@ -223,8 +224,17 @@ foreach ($p in $piezas) {
     $meta = $null
     try {
         # 1. reanudar: fichero ya verificado (sidecar .ok con sha256/bytes medidos) y que sigue cuadrando
+        $m = $null
         if ((Test-Path -LiteralPath $ruta) -and (Test-Path -LiteralPath $ok)) {
-            $m = Get-Content -LiteralPath $ok -Raw -Encoding UTF8 | ConvertFrom-Json
+            try { $m = Get-Content -LiteralPath $ok -Raw -Encoding UTF8 | ConvertFrom-Json } catch { $m = $null }
+            if (-not $m -or -not $m.sha256 -or -not $m.bytes) {
+                # .ok truncado o corrupto: se trata como "sin .ok" (se borra y la pieza se rebaja)
+                Remove-Item -LiteralPath $ok -Force -ErrorAction SilentlyContinue
+                Remove-Item -LiteralPath $ruta -Force -ErrorAction SilentlyContinue
+                $m = $null
+            }
+        }
+        if ($m) {
             # se recalcula el sha256 del fichero: debe casar con el .ok y, si el indice lo trae, con el indice
             if ((Get-Item -LiteralPath $ruta).Length -eq $m.bytes -and (Sha256Hex $ruta) -eq $m.sha256 -and (-not $f.sha256 -or $f.sha256 -eq $m.sha256)) { $meta = $m }
         }
@@ -253,7 +263,8 @@ foreach ($p in $piezas) {
         $subido = $false
         $estadoPieza = 'solo_bajado'
         if (-not $SoloBajar) {
-            if ((Estado-R2 $clave $meta.sha256 $meta.bytes) -eq 'igual') { $subido = $true; $estadoPieza = 'saltado'; $saltados++ }
+            $e1 = if ($cacheR2 -and $cacheR2.ContainsKey($clave)) { $cacheR2[$clave] } else { Estado-R2 $clave $meta.sha256 $meta.bytes }
+            if ($e1 -eq 'igual') { $subido = $true; $estadoPieza = 'saltado'; $saltados++ }
             else {
                 $cp = Invocar-Aws @('s3', 'cp', $ruta, "s3://$($env:R2_BUCKET)/$clave", '--endpoint-url', $endpoint, '--metadata', "sha256=$($meta.sha256)", '--only-show-errors')
                 if ($cp.Codigo -ne 0) { throw "la subida a R2 fallo (codigo $($cp.Codigo)): $($cp.Salida)" }

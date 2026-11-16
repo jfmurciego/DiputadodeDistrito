@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac31",
+  "territory_name": "Congreso Navarra",
+  "edition": "2025",
+  "run_id": 43786026113,
+  "artifact_name": "ddd-electoral-package-nac31-2025-43786026113",
+  "artifact_sha256": "42471a00c6d482b1788c7da5588e5a7fcd56d1fd609bc2bf74a9751850e29491",
+  "source_commit": "6b3677f82a366f91ba215955131054645798238f",
+  "election_id": "congreso_navarra_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "ed7c6da72b8161cfdfac25753c324d69ea539e43f2912343522f700d3ac644f4"
+}
