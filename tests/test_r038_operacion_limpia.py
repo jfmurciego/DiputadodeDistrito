@@ -64,7 +64,7 @@ class R038OperacionLimpia(unittest.TestCase):
 
     def test_publicacion_es_un_proceso_independiente(self):
         generation = (WORKFLOWS / "produccion-distritos.yml").read_text(encoding="utf-8")
-        electoral = (WORKFLOWS / "incorporacion-resultados-electorales.yml").read_text(encoding="utf-8")
+        electoral = (WORKFLOWS / "p30-resultados-electorales.yml").read_text(encoding="utf-8")
         viewer = (WORKFLOWS / "p40-publicacion.yml").read_text(encoding="utf-8")
         manual = (WORKFLOWS / "p40-publicacion.yml").read_text(encoding="utf-8")
         self.assertNotIn('publish_result:', generation)

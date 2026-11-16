@@ -12,7 +12,7 @@ class PromotionMustNotMutateWorkflowTests(unittest.TestCase):
             ROOT / ".github/workflows/preparacion-fuentes.yml",
         ]
         forbidden = (
-            ".github/workflows/incorporacion-resultados-electorales.yml",
+            ".github/workflows/p30-resultados-electorales.yml",
             ".github/workflows/produccion-distritos.yml",
             "DDD_WORKFLOW_TOKEN",
         )

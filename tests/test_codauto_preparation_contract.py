@@ -79,7 +79,6 @@ class CodautoPreparationContractTests(unittest.TestCase):
             ("preparacion-fuentes.yml", "territory_id"),
             ("produccion-distritos.yml", "territory_id"),
             ("preparacion-resultados-electorales.yml", "territory_id"),
-            ("incorporacion-resultados-electorales.yml", "territory_id"),
             ("ejecucion-completa-proyecto.yml", "territory_id"),
         ]
         for workflow, key in direct:
@@ -161,7 +160,7 @@ class CodautoPreparationContractTests(unittest.TestCase):
                 "ejecucion-completa-proyecto.yml",
                 "generar-alternativas-territoriales.yml",
                 "gestor-campanas.yml",
-                "incorporacion-resultados-electorales.yml",
+                "p30-resultados-electorales.yml",
                 "p40-publicacion.yml",  # T-372: P40 Publicación (sustituye a 05, cadena y publicador)
                 "p50-publicacion-academica.yml",  # T-370: P50 Publicación académica
                 "p70-archivo.yml",  # T-368: P70 Archivo (poda, recuperación, archivo diario y composición M06)

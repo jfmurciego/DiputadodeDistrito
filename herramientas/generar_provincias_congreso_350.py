@@ -42,7 +42,7 @@ PREFIX = "congreso350_"
 LABEL_PREFIX = "Congreso 350 "
 VARIANT = "congreso_350"
 WORKFLOWS = (
-    "ejecucion-completa-proyecto.yml", "incorporacion-resultados-electorales.yml", "preparacion-fuentes.yml",
+    "ejecucion-completa-proyecto.yml", "p30-resultados-electorales.yml", "preparacion-fuentes.yml",
     "preparacion-legislatura-vigente.yml", "preparacion-resultados-electorales.yml", "produccion-distritos.yml",
 )
 

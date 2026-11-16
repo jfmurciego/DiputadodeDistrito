@@ -140,7 +140,6 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
             ("preparacion-fuentes.yml", "territory_id"),
             ("produccion-distritos.yml", "territory_id"),
             ("preparacion-resultados-electorales.yml", "territory_id"),
-            ("incorporacion-resultados-electorales.yml", "territory_id"),
             ("ejecucion-completa-proyecto.yml", "territory_id"),
         ]
         for workflow, key in selectors:
