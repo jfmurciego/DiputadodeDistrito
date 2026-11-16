@@ -73,12 +73,22 @@ class ContratosDeEnsayo(unittest.TestCase):
             self.assertEqual(row["reconciliation"]["delta_definitive_minus_provisional"], 0)
             self.assertIn("ENSAYO", row["publisher"])
 
-    def test_sha256_es_huella_real_o_pendiente_que_falla_cerrado(self):
-        # Mientras no exista el fichero de ensayo (T-333) la huella es PENDIENTE_T333: la 03 sale con exit 53 al compararla.
-        for slug in (v[0] for v in ESPERADO.values()):
-            raw = yaml.safe_load((ROOT / "configuracion/contratos_minsait_provisionales.yaml").read_text(encoding="utf-8"))
-            sha = raw["contracts"][f"{slug}_2026-11-29"]["source_sha256"]
-            self.assertTrue(sha == "PENDIENTE_T333" or re.fullmatch(r"[0-9a-f]{64}", sha), sha)
+    def test_sha256_de_ensayo_es_la_del_manifest_sin_pendientes(self):
+        # T-391: contrato <-> MANIFEST sin red. El contraste contra el release es del Operador (docs/registro/2026-11-16_t391-sha-ensayo.md).
+        man = json.loads((ROOT / "configuracion/ensayo_congreso_2026-11-29_MANIFEST.json").read_text(encoding="utf-8"))
+        raw = yaml.safe_load((ROOT / "configuracion/contratos_minsait_provisionales.yaml").read_text(encoding="utf-8"))
+        por_id = {f["election_id_ensayo"]: f["sha256"] for f in man["files"].values()}
+        self.assertEqual(len(por_id), 3)
+        for eid, sha in por_id.items():
+            self.assertEqual(raw["contracts"][eid]["source_sha256"], sha, eid)
+        self.assertFalse([k for k, c in raw["contracts"].items() if c.get("source_sha256") == "PENDIENTE_T333"])
+
+    def test_control_negativo_huella_distinta_o_pendiente_falla(self):
+        man = json.loads((ROOT / "configuracion/ensayo_congreso_2026-11-29_MANIFEST.json").read_text(encoding="utf-8"))
+        esperada = man["files"]["nac22"]["sha256"]
+        for malo in ("0" * 64, "PENDIENTE_T333"):
+            with self.assertRaises(AssertionError, msg=malo):
+                self.assertEqual(malo, esperada)
 
     def test_los_contratos_existentes_no_son_ensayo(self):
         row = resolve_contract(election_id="andalucia_parlamento_2026", territory_id="aut01", election_date="2026-05-17", root_dir=ROOT)

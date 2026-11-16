@@ -16,6 +16,8 @@ from pathlib import Path
 
 import yaml
 
+from tests._uses_sin_version import cargar as cargar_sin_version
+
 ROOT = Path(__file__).resolve().parents[1]
 WF = ROOT / ".github" / "workflows"
 FIX = ROOT / "tests" / "fixtures" / "t368_workflows"
@@ -88,8 +90,8 @@ class Congelado(unittest.TestCase):
             assert ruta.is_file(), f"falta la copia congelada {ruta}"  # nunca se salta
             datos = ruta.read_bytes()
             assert hashlib.sha256(datos).hexdigest() == sha, f"{nombre}: la copia congelada cambió"
-            cls.v[k] = yaml.safe_load(datos.decode("utf-8"))
-        cls.p = yaml.safe_load((WF / "p70-archivo.yml").read_text(encoding="utf-8"))
+            cls.v[k] = cargar_sin_version(datos.decode("utf-8"))
+        cls.p = cargar_sin_version((WF / "p70-archivo.yml").read_text(encoding="utf-8"))
 
 
 class Disparadores(Congelado):
@@ -194,7 +196,7 @@ class Equivalencia(Congelado):
         self.assertIn('python herramientas/p70_resolver.py paquete-p10 "$TERRITORIOS"', run)
         self.assertEqual(j["permissions"], {"contents": "read", "actions": "read"})
         self.assertEqual(j["concurrency"], self.p["jobs"]["archivar_r2"]["concurrency"])
-        bm = yaml.safe_load((ROOT / "tests/fixtures/t369_workflows/bateria-motor_1.3.1.yml").read_text(encoding="utf-8"))["jobs"]["archivar_p10"]  # copia congelada (T-369)
+        bm = cargar_sin_version((ROOT / "tests/fixtures/t369_workflows/bateria-motor_1.3.1.yml").read_text(encoding="utf-8"))["jobs"]["archivar_p10"]  # copia congelada (T-369)
         self.assertEqual([s.get("uses") for s in bm["steps"] if "uses" in s], [s.get("uses") for s in j["steps"] if "uses" in s])
 
     def test_listar_solo_lectura(self):
