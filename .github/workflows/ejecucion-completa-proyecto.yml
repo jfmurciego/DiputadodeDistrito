@@ -5,6 +5,7 @@
 #   completa» dejan los grupos únicos ddd-shared-operational-state/ddd-catalog-promotion: las cadenas ya no se esperan; el
 #   estado re-deriva desde el HEAD remoto con reintento (10, espera exponencial) y el manifiesto se registra con
 #   herramientas/registrar_en_main.py (re-aplicación, catálogo de procedencia en el mismo commit, PUSH_RECHAZADO_TRAS_N).
+#   El estado sube a 20 regeneraciones: en la r4, ya serializado, agotó las 10 en 4 de 100 runs (p. ej. 43792098960).
 # ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.10.0_20261116.yml
 # CAMBIOS 1.10.0: T-234 (relevo formal, D-82/D-84): `motor` por defecto = motor2 («Deslinde 1.0»: canónico + 10 cadenas ReCom +
 #   elección D8 + vigente como candidato) en el botón, en workflow_call, en la 02 y en la 00 electoral encadenada. m05 (ruta
@@ -1363,7 +1364,7 @@ jobs:
           set -euo pipefail
           if [[ "$PERSIST" == "true" ]]; then
             source_ref="$(python -m herramientas.persistir_estado_operativo_compartido \
-              --root-dir . --edition "$EDITION" --target-branch main)"
+              --root-dir . --edition "$EDITION" --target-branch main --max-attempts 20)"
           else
             python -m herramientas.generar_estado_operativo --root-dir . --edition "$EDITION"
             source_ref="$(git rev-parse HEAD)"

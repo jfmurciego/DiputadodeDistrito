@@ -284,6 +284,21 @@ class SinGruposUnicos(unittest.TestCase):
             self.assertNotIn("group: ddd-shared-operational-state", texto)
             self.assertNotIn("git pull --rebase", texto)
 
+    def test_reintentos_largos_justificados_por_la_r4(self):
+        # r4 (15/16-11): con el grupo único, «Actualizar estado operativo único» agotó 10 regeneraciones en 4 de 100
+        # runs (43777503207, 43779396654, 43787766893, 43792098960) y «Registrar producto territorial» agotó sus tres
+        # `pull --rebase` (43786490819). Sin grupo la contención sube: 20 para el estado y 10 para el resto.
+        orq = yaml.safe_load((WF / "ejecucion-completa-proyecto.yml").read_text(encoding="utf-8"))
+        estado = "\n".join(st.get("run", "") for st in orq["jobs"]["actualizar_estado"]["steps"])
+        self.assertIn("--max-attempts 20", estado)
+        territorial = (WF / "_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
+        self.assertEqual(territorial.count("--max-attempts 10"), 2)
+        self.assertNotIn("--max-attempts 4", territorial)
+        self.assertEqual(rm.MAX_INTENTOS, 10)
+        pasos = orq["jobs"]["manifestar"]["steps"]
+        run = next(st["run"] for st in pasos if st.get("name") == "Conservar manifiesto durable en producción")
+        self.assertLess(run.index("PyYAML"), run.index("registrar_en_main"))  # el catálogo importa yaml y falla cerrado
+
     def test_registros_usan_el_registrador_comun(self):
         territorial = (WF / "_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
         self.assertEqual(territorial.count("python -m herramientas.registrar_en_main"), 2)

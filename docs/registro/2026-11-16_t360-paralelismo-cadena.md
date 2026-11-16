@@ -12,4 +12,26 @@ Cambio (la opción más pequeña que cumple: re-derivar desde el HEAD remoto, qu
 
 Pruebas (python3.11): `tests/test_t360_registro_concurrente.py`. Lanza 14 cadenas en hilos, cada una con su clon superficial de un remoto bare en tmp, y una barrera garantiza la colisión en el primer push. No queda ningún push rechazado de forma definitiva y no se pierde ninguna entrada: 14 claves JSON nuevas más la base, 14 promociones YAML, 14 CSV y 15 commits. Control negativo: con un solo intento, al menos una cadena acaba en `PUSH_RECHAZADO_TRAS_1` y faltan entradas. La semilla lleva un catálogo de procedencia real y el final es igual al regenerado; `archivo_r2.json` conserva su formato (indent 2, sort_keys). Se añaden también: misma clave en dos cadenas (gana la última), borrado de clave, fetch fallido reintentado, rutas no fusionables rechazadas, catálogo que no se regenera (falla cerrado), el manifiesto conserva su salida 50, NO_OP, el catálogo en el mismo commit (igual al regenerado), el delta JSON y la ausencia de grupos únicos. El test pasó 5 de 5 seguidas. Se actualizan `test_ejecucion_completa` y `test_workflows_principales_ligeros`, que fijaban los grupos.
 
+Contención medida en la r4 (API de Actions: 100 runs de la P00 entre el 15-11 y el 16-11 12:00 UTC; 100 commits en `main` entre las 04:24 y las 11:13 UTC del 16-11, uno cada ~4 min: 60 de github-actions y 27 de ddd-registro[bot], 18 de ellos «catálogo de procedencia regenerado»). La espera en cola, medida como `started_at − created_at` de cada job, fue:
+- «Actualizar estado operativo único»: mediana 154 s, p90 972 s, máximo 1447 s.
+- «Registrar manifiesto»: p90 679 s, máximo 1551 s.
+- «Registrar producto electoral»: p90 639 s, máximo 1445 s.
+- «Acreditar evidencia durable previa»: máximo 1500 s.
+
+Ese es el coste de los grupos únicos. Aun serializado, hubo rechazos definitivos:
+- El estado operativo agotó sus 10 regeneraciones en 4 de 100 runs (43777503207, 43779396654, 43787766893 y 43792098960; `! [rejected] HEAD -> main (fetch first)`), porque los robots que no van en el grupo siguen empujando.
+- «Registrar producto territorial» agotó sus tres `pull --rebase` en 43786490819 (salida 48).
+
+Justificación de cada cambio que no es quitar los grupos (cada uno tiene test en `test_t360_registro_concurrente`):
+- Estado operativo a 20 regeneraciones (solo en el paso de la 00): 10 ya no bastaban con el grupo puesto, y sin él la contención sube. Lo fija `test_reintentos_largos_justificados_por_la_r4`.
+- Evidencia previa a M04, de `--max-attempts 4` a 10, y persistidor electoral de 4 intentos con <1 s de espera a 10 con espera exponencial: sin grupo, cuatro intentos sin espera colisionan como los del estado. Lo fija el mismo test.
+- Producto territorial y archivo en origen pasan a `registrar_en_main.py`: estaban dentro de los jobs que pierden el grupo y hacían `pull --rebase` sobre YAML/JSON compartidos (el rechazo de 43786490819). Lo prueban `RegistroConcurrente` y `PasosBash`.
+- PyYAML en `manifestar`: el catálogo de procedencia importa yaml y ahora falla cerrado. Lo fija el mismo test.
+- La salida 50 del manifiesto no cambia (`test_manifiesto_conserva_su_salida_50`).
+
+Señal para el Operador en la prueba real (primera tanda del histórico 2019-11, 6 provincias a la vez; parar al primer rechazo definitivo):
+- Parar si aparece en cualquier run la anotación `PUSH_RECHAZADO_TRAS_` (`gh api repos/<r>/check-runs/<job>/annotations`), el código en el `RuntimeError` del log de «Actualizar estado operativo único», «Registrar producto electoral» o «Acreditar evidencia…», o un job de registro con salida 75 (agotado), 76 (`CATALOGO_PROCEDENCIA_NO_REGENERADO`), 77 (`RUTA_NO_FUSIONABLE`), 48 (producto territorial), 50 (manifiesto) o `ARCHIVO_ORIGEN_FAILED`.
+- Lo normal es ver en el log de los jobs de registro la línea JSON `{"estado": "REGISTRADO", "intento": N}`. Un N alto (≥6) es un aviso de contención y no hace falta parar.
+- Al terminar la tanda: `python herramientas/catalogo_procedencia.py --comprobar` en la cabeza de `main` debe salir con 0.
+
 Riesgos: sin grupo, las escrituras en `main` llegan a la vez y el orden de los commits deja de ser FIFO. En una misma clave JSON gana el último run, pero las claves son por run. Falta un ensayo real (1 o 2 territorios a la vez) con permiso del Operador antes de una campaña.
