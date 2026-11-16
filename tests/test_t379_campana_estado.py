@@ -326,9 +326,10 @@ class ArreglosRevisor(Base):
             ce.guardar_semaforo(self.alm, c, ce.comprobar("nac22", "vigente"))
 
     def test_2_causas_transitorias_acreditadas(self):
-        for c in ("PUSH_RECHAZADO_TRAS_10", "ARTIFACT_EGRESS_QUOTA", "SIN_RESULTADO", "SALIDA_75"):
+        for c in ("PUSH_RECHAZADO_TRAS_10", "ARTIFACT_EGRESS_QUOTA", "SIN_RESULTADO"):
             self.assertTrue(ce.es_transitoria(c), c)
-        for c in ("PUSH_RECHAZADO", "PUSH_RECHAZADO_TRAS_X", "RED_TRANSITORIA", "HTTP_5XX", "CUOTA_DESCARGA_75",
+        # SALIDA_75 sin código: también la da ejecucion-completa-proyecto.yml l. 897 (digest contradictorio).
+        for c in ("SALIDA_75", "PUSH_RECHAZADO", "PUSH_RECHAZADO_TRAS_X", "RED_TRANSITORIA", "HTTP_5XX", "CUOTA_DESCARGA_75",
                   "ARCHIVO_ORIGEN_FAILED", "CATALOGO_PROCEDENCIA_NO_REGENERADO", "RUTA_NO_FUSIONABLE", "SALIDA_48", None):
             self.assertFalse(ce.es_transitoria(c), c)
         self.assertEqual([ce.normalizar_causa(None, s)[0] for s in (75, 76, 77, 48, 50, 9)],
@@ -383,14 +384,31 @@ class ArreglosRevisor(Base):
         with self.assertRaises(ce.EstadoError):
             ce.recuento(Fantasma(Path(self._td.name)), c)
 
+    def test_3b_salida_75_sin_codigo_no_se_reejecuta(self):
+        c = self.campana()
+        ce.empezar(self.alm, c, "nac22", "P10", 1)
+        ce.registrar(self.alm, c, "nac22", "P10", 1, "apartado", salida=75)
+        self.assertEqual(ce.empezar(self.alm, c, "nac22", "P10", 2)[0], ce.RC_NO_REEJECUTABLE)
+
     def test_5_entradas_saneadas(self):
-        for malo in ("@jfmurciego", "[x](http://e)", "<b>nac22</b>", "nac22\n::warning::x"):
-            with self.assertRaises(ce.EstadoError):
-                ce.resolver_territorios(malo)
+        s = ce.comprobar("nac22, @jfmurciego, nac.22, aut0é, " + "a" * 41 + ", <b>x</b>", "vigente")
+        filas = {f["territorio"]: (f["color"], f["causas"]) for f in s["territorios"]}
+        self.assertEqual(filas.pop("nac22"), ("verde", []))
+        self.assertEqual(sorted(filas), sorted(["??jfmurciego", "?nac?22", "?aut0?", "?" + "a" * 40, "??b?x??b?"]))
+        self.assertTrue(all(v == ("rojo", ["CODIGO_INEXISTENTE"]) for v in filas.values()))
+        self.assertTrue(s["lanzable"])
+        ce.guardar_semaforo(self.alm, "904", s)
+        md = ce.informe(self.alm, "904")
+        for crudo in ("@", "<", ">", "[", "("):
+            self.assertNotIn(crudo, md.split("cuentan como apartados)")[1])
         for malo in ("900\n", "9 0", "../x"):
             with self.assertRaises(ce.EstadoError):
                 ce.clave_paso(malo, "nac22", "P10", 1)
         r = subprocess.run([*CLI, "comprobar", "--territorios", "nac22\n::warning::inyectado"], capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0)
+        self.assertNotIn("::warning::", r.stdout)
+        r = subprocess.run([*CLI, "comprobar", "--territorios", "nac22", "--eleccion", "2026-13\n::warning::x"],
+                           capture_output=True, text=True)
         self.assertEqual(r.returncode, ce.RC_ENTRADA)
         self.assertEqual(len(r.stderr.strip().splitlines()), 1)
 

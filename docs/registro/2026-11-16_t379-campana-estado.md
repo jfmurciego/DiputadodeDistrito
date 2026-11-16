@@ -15,8 +15,15 @@
   parada queda fijada (`parada.json`); «ausente» de R2 solo con el 404/NoSuchKey de HeadObject/GetObject; objeto no dict
   o desaparecido → rc 2; territorios y campaña saneados, `::error::` en una línea; causa normalizada y, si no es un
   código, `CAUSA_DESCONOCIDA` con el texto saneado aparte; umbral con enteros; D-147 en el cierre.
+- Segunda pasada del revisor: `SALIDA_75` sin código impreso es no transitoria (tercer origen:
+  `ejecucion-completa-proyecto.yml` l. 897, digest contradictorio); un código mal formado sale rojo
+  `CODIGO_INEXISTENTE` saneado, sin abortar `comprobar`.
+- Notas para la PR 3: la parada fijada (`parada.json`) no se levanta en la misma campaña (`empezar` da rc 10 incluso
+  para transitorios); se sale con otra campaña (run_id nuevo) o con una orden explícita futura.
+  `ARTIFACT_EGRESS_QUOTA` es transitoria por diseño, pero agotada tras los reintentos probablemente se repita en la
+  misma campaña (cuota de Actions: Settings → Billing).
 - Supuestos (no bloquean): claves bajo `campanas/<campaña>/` en el bucket de R2; los hechos de fuentes y puntos de
   control (ámbar/rojo) los aporta la comprobación previa del workflow (PR 3).
-- Pruebas: `tests/test_t379_campana_estado.py` (37 tests; controles negativos de parada 2/3, 14/15 de 71, mínimo 3,
+- Pruebas: `tests/test_t379_campana_estado.py` (38 tests; controles negativos de parada 2/3, 14/15 de 71, mínimo 3,
   idempotencia, sin_resultado, job verde sin salida, re-ejecución, lista mixta con ensayo, contrato del informe y uno por
   cada arreglo del revisor).

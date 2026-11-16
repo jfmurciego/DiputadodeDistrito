@@ -24,6 +24,9 @@ QUÉ HACE (sin red, salvo el almacén R2; determinista; fallo cerrado; errores `
 NO HACE: lanzar, hacer commits, push ni llamar a la API de GitHub (eso es la PR 3).
 ALMACÉN: `--almacen r2` (R2_BUCKET, R2_ACCOUNT_ID y AWS_*; aws s3/s3api como fuente_r2.py y listar_r2.py) o
   `--almacen dir:<ruta>` (directorio local, para pruebas y simulación). Claves bajo `campanas/<campaña>/`.
+PARADA PEGAJOSA: al detectarse se fija en `campanas/<campaña>/parada.json` y ya no se levanta en esa campaña: `empezar`
+  devuelve rc 10 incluso para re-ejecutar transitorios. Solo se sale con otra campaña (id = run_id nuevo) o con una
+  orden explícita futura (no existe en la 1.0.0). La PR 3 debe documentarlo en el procedimiento del Operador.
 CÓDIGOS DE SALIDA: 0 bien · 1 resultado en rojo · 2 entrada o estado inválido · 3 campaña no lanzable ·
   4 paso no re-ejecutable · 10 parada sistémica.
 """
@@ -64,6 +67,8 @@ CAUSAS = {
     "SIN_RESULTADO": (True, None, "diseño P00 1.1 §4 (cancelación, tiempo agotado, runner perdido)"),
     "PUSH_RECHAZADO_TRAS_<N>": (True, 75, "herramientas/registrar_en_main.py l. 45 y 52-55; "
                                 "persistir_estado_operativo_compartido.py l. 142; persistir_producto_electoral_operacional.py l. 447"),
+    # Transitoria por diseño, pero si se agotó tras los reintentos es probable que se repita en la misma campaña
+    # (cuota de Actions agotada: Settings → Billing); re-ejecutar solo tras comprobar la cuota.
     "ARTIFACT_EGRESS_QUOTA": (True, 75, ".github/workflows/_reutilizable-puerta-validacion.yml l. 14, 151 y 172 (cuota de Actions)"),
     "CATALOGO_PROCEDENCIA_NO_REGENERADO": (False, 76, "herramientas/registrar_en_main.py l. 46 y 282"),
     "RUTA_NO_FUSIONABLE": (False, 77, "herramientas/registrar_en_main.py l. 47 y 285-286"),
@@ -76,8 +81,10 @@ CAUSAS = {
                   "preparacion-resultados-electorales.yml l. 647, ejecucion-completa-proyecto.yml l. 1637"),
 }
 PREFIJO_PUSH = "PUSH_RECHAZADO_TRAS_"
-# Salida del proceso → causa, solo cuando no hay código impreso y la salida no es ambigua (75 tiene dos orígenes,
-# ambos transitorios: se registra SALIDA_75 y cuenta como transitoria).
+# Salida del proceso → causa, solo cuando no hay código impreso. La 75 tiene tres orígenes: dos transitorios
+# (registrar_en_main.py PUSH_RECHAZADO_TRAS_N; puerta ARTIFACT_EGRESS_QUOTA) y uno que no lo es
+# (ejecucion-completa-proyecto.yml l. 897, «Digest remoto territorial contradice la acreditación»): sin el código impreso,
+# SALIDA_75 es NO transitoria (fallo cerrado).
 SALIDAS = {75: "SALIDA_75", 76: "CATALOGO_PROCEDENCIA_NO_REGENERADO", 77: "RUTA_NO_FUSIONABLE", 48: "SALIDA_48", 50: "SALIDA_50"}
 CAUSA_DESCONOCIDA = "CAUSA_DESCONOCIDA"
 RE_CAUSA = re.compile(r"[A-Z][A-Z0-9_]{2,63}")
@@ -89,7 +96,7 @@ def es_transitoria(causa: str | None) -> bool:
     c = causa or ""
     if c.startswith(PREFIJO_PUSH) and c[len(PREFIJO_PUSH):].isdigit():
         return True
-    return c == "SALIDA_75" or (c in CAUSAS and CAUSAS[c][0])
+    return c in CAUSAS and CAUSAS[c][0]
 ESTADOS_FINALES = {"ok", "apartado"}
 
 RC_ROJO, RC_ENTRADA, RC_NO_LANZABLE, RC_NO_REEJECUTABLE, RC_PARADA = 1, 2, 3, 4, 10
@@ -225,9 +232,9 @@ def resolver_territorios(valor: str) -> list[str]:
     fichas = [t.lower() for t in re.split(r"[\s,;]+", v) if t]
     if any(t in GRUPOS for t in fichas):
         raise EstadoError(f"un grupo ({', '.join(GRUPOS)}) no se mezcla con códigos: {v!r}")
-    malos = [t for t in fichas if not RE_TOKEN.fullmatch(t)]
-    if malos:
-        raise EstadoError(f"código de territorio mal formado: {malos[0]!r} (solo [a-z0-9_-])")
+    # Un código mal formado no aborta la campaña: queda saneado («?» delante y en cada carácter fuera de
+    # [a-z0-9_-], 40 como mucho) y sale rojo CODIGO_INEXISTENTE por territorio; nunca llega crudo al informe.
+    fichas = [t if RE_TOKEN.fullmatch(t) else "?" + re.sub(r"[^a-z0-9_-]", "?", t)[:40] for t in fichas]
     return list(dict.fromkeys(fichas))
 
 
