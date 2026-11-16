@@ -1,0 +1,11 @@
+{
+ "ddd_loss_ratio": 0.0,
+ "ddd_unassigned_votes": 0,
+ "errors": [],
+ "incorporated_votes": 111396,
+ "source_gap_to_definitive_ratio": null,
+ "source_gap_to_definitive_votes": null,
+ "source_votes": 111396,
+ "status": "PASS",
+ "warnings": []
+}
