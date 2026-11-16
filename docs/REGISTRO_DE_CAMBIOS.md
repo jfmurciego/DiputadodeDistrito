@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.453
+Versión: 1.0.455
 Fecha: 2026-11-16
-Alcance: Hotfix T-334 — test del M06 independiente del INDEX vivo
+Alcance: Coordinador — D-127: el entorno `produccion` ya no exige aprobación
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-16_hotfix-t334-test-indice-congelado.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.452_registro_20261116.md
+Cambios/motivo: entrada docs/registro/2026-11-16_coordinador-d127-produccion.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.454_registro_20261116.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.452_registro_20261116.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.455 · [2026-11-16 — Coordinador — D-127: el entorno `produccion` ya no exige aprobación](registro/2026-11-16_coordinador-d127-produccion.md)
+- 1.0.454 · [2026-11-15 — T-356 — Script de espejo en R2 de los seccionados INE 2010-2026 y el Observatorio](registro/2026-11-15_t356-espejo-ine-observatorio-r2.md)
 - 1.0.453 · [2026-11-16 — Hotfix T-334 — test del M06 independiente del INDEX vivo](registro/2026-11-16_hotfix-t334-test-indice-congelado.md)
 - 1.0.452 · [2026-11-14 — T-323 — P10 desde R2 con aviso de cambios del INE (D-112, D-117, D-119)](registro/2026-11-14_t323-p10-desde-r2.md)
 - 1.0.451 · [2026-11-14 — T-300 — La P50 copia el catálogo de procedencia al sitio](registro/2026-11-14_t300-p50-copia-catalogo-procedencia.md)
