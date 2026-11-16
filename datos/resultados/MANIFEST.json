@@ -1542,6 +1542,15 @@
     "ruta": "datos/resultados/runs/nac15_43774834805_desajustes.json",
     "sha256": "79aecffa1a6c85837029b09b1dfa12a83c5efa01d7b1fb2d52d6f203790c9e0f"
    }
+  },
+  "nac16/43775578741": {
+   "territorio": "nac16",
+   "run_id": "43775578741",
+   "run_territorial": "43764632170",
+   "sha256_composicion": "fd0f6baa195f794705601ddeb0658048f48321b572b848d90b088c6324f47077",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "4c2f329ef7b9c8950cfe6ca8a60972994a49be7ce201a42eb9dd94e93152c23f",
+   "ruta": "datos/resultados/runs/nac16_43775578741_partidos.csv"
   }
  }
 }
