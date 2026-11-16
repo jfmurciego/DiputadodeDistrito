@@ -48,7 +48,11 @@ jobs:
           TERRITORIOS: ${{ inputs.territorios }}
         run: |
           set -euo pipefail
-          gh api "repos/$GITHUB_REPOSITORY/releases" --paginate --jq '.[].tag_name' > tags.txt
+          # Releases publicadas (los borradores no se ven con contents:read) Y etiquetas del repositorio (incluye las de Releases borradas)
+          {
+            gh api "repos/$GITHUB_REPOSITORY/releases" --paginate --jq '.[].tag_name'
+            gh api "repos/$GITHUB_REPOSITORY/git/matching-refs/tags/mapas-v" --paginate --jq '.[].ref | sub("^refs/tags/"; "")'
+          } | sort -u > tags.txt
           ult="$(python3 herramientas/p50_resolver.py ultima --tags tags.txt)"
           previo=""
           if [[ -n "$ult" ]]; then

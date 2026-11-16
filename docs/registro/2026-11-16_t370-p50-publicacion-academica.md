@@ -18,5 +18,12 @@
 controles negativos; resolutor (versiones, negativa, territorios, CLI rc/stderr) y pasos bajo `bash -eo pipefail`. Actualizados `test_design_a_catalogo`, `test_design_a_matriz_sintetica`,
 `test_codauto_preparation_contract`, `test_etiquetas_territoriales_humanas`, `test_resolver_cadena_publicacion`.
 
+**Lo que se pierde respecto de 1.1.2 (declarado).** `production_run_id` queda `None` en `LINAJE.json`; ya no hay atadura al mismo `source_sha` y run que el visor (D-14: la 05 no lanza P50, el
+commit es el de `main` al pulsar); `SHA256SUMS` de la Release es ahora el de los tarballs (el interno de cada paquete es el de antes); Release por lote en vez de una por territorio; sin `workflow_call`.
+Versión repetida: el resolutor une las Releases publicadas (los borradores no se ven con `contents: read`) con las etiquetas `mapas-v*` del repositorio y falla cerrado con `P50_TAG_EXISTE` si la candidata ya existe.
+
+**No probado en Actions.** Heredoc de Python dentro del `while`; `download-artifact` del plan; `attest-build-provenance` con glob de varios tarballs; `gh release create` con varios assets; blob M06 (~50 MB) en memoria;
+listado de Releases/etiquetas con `GITHUB_TOKEN`; Zenodo con una Release multi-territorio; «todos» con el entorno `publicacion`.
+
 **Riesgos.** No se ha ejecutado en Actions (NO se lanza hasta cumplir D-88; el primer uso real es del Operador con frase del propietario). Cambia el nombre de la Release (`mapas-v<V>` en lugar de `mapa-<t>-v<V>`)
 y que M06 sale del blob del visor (solo lo publicado). La 05 «Cadena» mantiene su comprobación de M06 vivo (preexistente). Sin efectos en motor, huellas ni checkpoints.

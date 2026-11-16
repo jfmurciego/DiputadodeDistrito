@@ -3,12 +3,13 @@
 """Resolutor de P50 Publicación académica (T-370, D-133): territorios, M06 del visor y versión automática.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: Resolutor de P50 Publicación académica
 FECHA: 2026-11-16
 ESTADO: candidato
-CAMBIOS: 1.0.0: fichero nuevo (T-370).
-ANTERIOR: ninguna (fichero nuevo)
+CAMBIOS: 1.0.1: la lista de etiquetas incluye las del repositorio (no solo Releases publicadas) y la versión candidata que ya existe como etiqueta se niega (P50_TAG_EXISTE).
+ANTERIOR: legacy/herramientas/p50_resolver_v1.0.0_20261116.py
+CAMBIOS 1.0.0: fichero nuevo (T-370).
 QUÉ HACE: `ultima --tags FICHERO` imprime la última etiqueta `mapas-v<X.Y.Z>` (vacío si no hay).
   `plan --territorios T --tags FICHERO [--previo MAPAS.json]` resuelve cada territorio a su M06 vigente de
   `orchestracion/publicaciones_visor.json` (blob + sha256; «todos» = los publicados) y da la versión: 1.0.0 la primera;
@@ -101,6 +102,8 @@ def plan(root: Path, territorios: str, tags: str, previo: dict | None) -> dict:
     sel = elegir(root, territorios)
     mapa = {t: p["sha256"] for t, p in sel.items()}
     v = version(tags, previo, mapa)
+    if f"{PREFIJO}{v}" in {l.strip() for l in tags.splitlines()}:  # tag suelto o de una Release borrada/archivada: no se reutiliza
+        raise ValueError(f"P50_TAG_EXISTE: {PREFIJO}{v} ya existe como etiqueta; no se reutiliza")
     return {
         "version": v, "tag": f"{PREFIJO}{v}", "mapa": mapa,
         "territorios": [{"territory_id": t, "run_id": str(p["run_id"]), "blob_sha": p["blob_sha"], "sha256": p["sha256"]}

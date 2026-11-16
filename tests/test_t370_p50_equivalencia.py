@@ -227,6 +227,46 @@ class Resolutor(unittest.TestCase):
             self.assertEqual(ok.returncode, 0)
             self.assertEqual(json.loads(ok.stdout)["version"], "1.0.0")
 
+    def test_tag_existente_se_niega(self):
+        original = self.r.version
+        self.r.version = lambda *a, **k: "1.0.0"  # versión candidata ya presente como etiqueta (Release borrada/archivada)
+        try:
+            with tempfile.TemporaryDirectory() as d:
+                (Path(d) / "visor").mkdir()
+                with self.assertRaisesRegex(ValueError, "P50_TAG_EXISTE"):
+                    self.r.plan(ROOT, "todos", "mapas-v1.0.0\n", None)
+        finally:
+            self.r.version = original
+
+    def _bajar(self, rc, out=b"", err=b"", sha=None):
+        import unittest.mock as m
+        blob = "a" * 40
+        h = sha or hashlib.sha256(out).hexdigest()
+        with tempfile.TemporaryDirectory() as d, m.patch.object(
+                self.r.subprocess, "run", return_value=subprocess.CompletedProcess([], rc, out, err)):
+            destino = Path(d) / "x" / "m06.zip"
+            try:
+                self.r.bajar(blob, h, destino, "o/r")
+            finally:
+                escrito = destino.is_file()
+        return escrito
+
+    def test_bajar_ok_y_fallos_cerrados(self):
+        self.assertTrue(self._bajar(0, b"zip"))
+        with self.assertRaisesRegex(ValueError, "P50_SHA256_NO_CUADRA"):
+            self._bajar(0, b"zip", sha="0" * 64)
+        with self.assertRaisesRegex(ValueError, "P50_BLOB_NO_BAJA"):
+            self._bajar(1, b"", b"HTTP 404")
+
+    def test_sha256_no_cuadra_no_deja_fichero(self):
+        import unittest.mock as m
+        with tempfile.TemporaryDirectory() as d, m.patch.object(
+                self.r.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, b"zip", b"")):
+            destino = Path(d) / "m06.zip"
+            with self.assertRaises(ValueError):
+                self.r.bajar("a" * 40, "0" * 64, destino, "o/r")
+            self.assertFalse(destino.exists())
+
     def test_blob_mal_formado_falla_cerrado(self):
         with self.assertRaisesRegex(ValueError, "P50_BLOB_INVALIDO"):
             self.r.bajar("zz", "yy", Path("/nonexistent/x"), "o/r")
