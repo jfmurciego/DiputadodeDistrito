@@ -2418,7 +2418,7 @@ territories:
         prepared_source_pair: territorios/nac43/evidencia/pares_fuentes/2025/40740f8c1f08ee810e1b3efa102fb98d93a447732332f99f8e356db93322ea7e.json
         electoral_product: territorios/nac43/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/nac43/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: nac44
   name: Congreso Teruel
   editions:
