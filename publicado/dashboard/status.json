@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T01:20:17.386731+00:00",
+  "generated_at": "2026-11-16T01:24:31.488152+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -2918,8 +2918,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43770639179,
-            "receipt_path": "territorios/nac37/evidencia/fuentes_territoriales/2025/5f5a3f626e5ac9b6d81ca0e5f10ec789967dfebd300f817997059b8397ea2c1c/43770639179/receipt.json"
+            "run_id": 43785351956,
+            "receipt_path": "territorios/nac37/evidencia/fuentes_territoriales/2025/5f5a3f626e5ac9b6d81ca0e5f10ec789967dfebd300f817997059b8397ea2c1c/43785351956/receipt.json"
           }
         },
         "electoral": {
@@ -9704,11 +9704,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43779396654,
       "last_run": {
-        "run_id": 43006442219,
+        "run_id": 43779396654,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -9826,11 +9826,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43780088321,
       "last_run": {
-        "run_id": 43006653960,
+        "run_id": 43780088321,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -9881,11 +9881,11 @@
       "name": "Nacional Orense",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 43016113065,
+      "run_id": 43781442275,
       "last_run": {
         "run_id": 43016113065,
         "status": "SUCCESS",
@@ -9894,7 +9894,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9908,16 +9908,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_orense",
+          "territory_id": "nac32",
           "territory_name": "Congreso Orense",
           "edition": "2025",
-          "run_id": 43012119307,
-          "artifact_name": "ddd-state-43012119307-M06",
-          "artifact_sha256": "dfb11f40f0a3c01e379c40377f92e26ee812e4cf1459746c75f6855c6be24ba6",
-          "source_commit": "f20de146c410d46631286b7395bf52a191b7a0b0",
+          "run_id": 43781442275,
+          "artifact_name": "ddd-state-43781442275-M06",
+          "artifact_sha256": "21c17c3a0f35bd0750ef63122948995424d384a57aec8a716b2941c76476a5db",
+          "source_commit": "18b63daf5f30693f3edfbe38b7f7f66af0489fd3",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_orense/evidencia/generaciones_m06/43012119307.json"
+          "producer_manifest_path": "territorios/nac32/evidencia/generaciones_m06/43781442275.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9935,18 +9935,18 @@
       },
       "autonomous_community_code_ine": "C32",
       "display_name": "Nacional Orense",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac33",
       "name": "Nacional Asturias",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 42985447971,
+      "run_id": 43781676796,
       "last_run": {
         "run_id": 42985447971,
         "status": "SUCCESS",
@@ -9955,7 +9955,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9969,16 +9969,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_asturias",
+          "territory_id": "nac33",
           "territory_name": "Congreso Asturias",
           "edition": "2025",
-          "run_id": 42981406489,
-          "artifact_name": "ddd-state-42981406489-M06",
-          "artifact_sha256": "9a7ec2602f02a4809e420e974f382672ecd95611e9eda8dffa11752595ba46c7",
-          "source_commit": "d3b29437f7460641304d1cc0ad811b9cb5d599d1",
+          "run_id": 43781676796,
+          "artifact_name": "ddd-state-43781676796-M06",
+          "artifact_sha256": "33fd9370128e30c2831d81c7fc8721616e3509d77f70b4cff6c3f6290de2f0f1",
+          "source_commit": "4311eb3c4ba2bfd8a644d4dc659a0d7594f98504",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_asturias/evidencia/generaciones_m06/42981406489.json"
+          "producer_manifest_path": "territorios/nac33/evidencia/generaciones_m06/43781676796.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9996,7 +9996,7 @@
       },
       "autonomous_community_code_ine": "C33",
       "display_name": "Nacional Asturias",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac34",
@@ -10205,9 +10205,9 @@
         "territorial_source": {
           "territory_id": "nac37",
           "edition": "2025",
-          "run_id": 43770639179,
-          "artifact_name": "ddd-source-package-nac37-2025-43770639179",
-          "artifact_sha256": "2942001fd07497c23f8449a6dd2316da71b93107f1b3ecae79f1efc2bf4ae836",
+          "run_id": 43785351956,
+          "artifact_name": "ddd-source-package-nac37-2025-43785351956",
+          "artifact_sha256": "6979ac85c2fb05d952a48c39d115fe141bd851f9a0ebe6c83244b49f568095dc",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -12400,7 +12400,7 @@
     }
   ],
   "kpis": {
-    "complete": 65,
+    "complete": 63,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12443,8 +12443,6 @@
       "Nacional Huesca",
       "Nacional Jaén",
       "Nacional León",
-      "Nacional Orense",
-      "Nacional Asturias",
       "Nacional Palencia",
       "Nacional Las Palmas",
       "Nacional Pontevedra",
