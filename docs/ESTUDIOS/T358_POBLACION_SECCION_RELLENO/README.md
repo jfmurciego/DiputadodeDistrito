@@ -66,3 +66,52 @@ Toda sección rellenada trae «.» en el Atlas de ese año (por construcción de
 seccionado del año: el relleno es «.» del INE, no un cruce mal hecho. Sevilla 2016: 272 secciones, 270 con código en el seccionado 2016
 y 2 sin él; tamaño medio rellenado 1 482 personas (máx. 2 864): no son secciones pequeñas; patrón: 174 en el municipio 41091 y 98 en otros 10; sin interpretar el motivo del «.» (no verificado en metodología INE).
 Aparte, secciones del seccionado que no entran en la tabla (el Atlas del año las deja vacías o no las lista; ni se rellenan ni cuentan): 2015-12: 9 vacías + 36 no listadas; 2016-06: 53 + 7; 2019-04: 38 + 0 (por provincia en `causa_relleno_provincias.csv`). Es un hueco de cobertura distinto del relleno, a decidir por el propietario.
+
+## Provincias MARCA por elección (tabla generada de `informe_provincias.csv` y `causa_relleno_provincias.csv`)
+
+(a) = «.» en el Atlas del año y código EXISTE en el seccionado del año; (b) = rellenada cuyo código NO existe en el seccionado del año. «No figura en el Atlas» no puede darse en una rellenada (solo se rellenan las «.» del Atlas del año); las no listadas están en `causa_relleno_provincias.csv` (columna `seccionado_fuera_de_tabla_*`).
+
+| Elección | Prov. | Secc. rellenadas | Población rellenada | % rellenado | (a) | (b) | Municipio con más rellenadas (secc.) |
+|---|---|---|---|---|---|---|---|
+| 2015-12 | 05 | 87 | 5 080 | 3.1306 | 87 | 0 | 05015 (1) |
+| 2015-12 | 09 | 158 | 8 306 | 2.3309 | 158 | 0 | 09001 (1) |
+| 2015-12 | 14 | 6 | 8 017 | 1.0243 | 5 | 1 | 14030 (6) |
+| 2015-12 | 16 | 73 | 3 907 | 1.9487 | 73 | 0 | 16001 (1) |
+| 2015-12 | 18 | 8 | 12 525 | 1.3769 | 7 | 1 | 18022 (8) |
+| 2015-12 | 19 | 174 | 8 108 | 3.2517 | 174 | 0 | 19001 (1) |
+| 2015-12 | 34 | 69 | 3 903 | 2.4041 | 69 | 0 | 34001 (1) |
+| 2015-12 | 37 | 76 | 5 064 | 1.5151 | 76 | 0 | 37004 (1) |
+| 2015-12 | 40 | 72 | 3 640 | 2.3666 | 72 | 0 | 40002 (1) |
+| 2015-12 | 42 | 114 | 4 718 | 5.3405 | 114 | 0 | 42003 (1) |
+| 2015-12 | 44 | 90 | 4 902 | 3.6353 | 90 | 0 | 44001 (1) |
+| 2015-12 | 49 | 27 | 1 808 | 1.0091 | 27 | 0 | 49002 (1) |
+| 2016-06 | 05 | 90 | 5 463 | 3.4287 | 90 | 0 | 05015 (1) |
+| 2016-06 | 09 | 161 | 8 690 | 2.4551 | 161 | 0 | 09001 (1) |
+| 2016-06 | 16 | 71 | 3 648 | 1.8493 | 71 | 0 | 16001 (1) |
+| 2016-06 | 19 | 180 | 8 876 | 3.5486 | 180 | 0 | 19001 (1) |
+| 2016-06 | 34 | 72 | 4 287 | 2.6582 | 72 | 0 | 34001 (1) |
+| 2016-06 | 37 | 78 | 5 318 | 1.6041 | 78 | 0 | 37004 (1) |
+| 2016-06 | 40 | 76 | 4 152 | 2.7179 | 76 | 0 | 40002 (1) |
+| 2016-06 | 41 | 272 | 403 106 | 20.9106 | 270 | 2 | 41091 (174) |
+| 2016-06 | 42 | 116 | 4 974 | 5.6844 | 116 | 0 | 42003 (1) |
+| 2016-06 | 44 | 92 | 5 158 | 3.8600 | 92 | 0 | 44001 (1) |
+| 2016-06 | 49 | 27 | 1 808 | 1.0253 | 27 | 0 | 49002 (1) |
+| 2019-04 | 05 | 100 | 6 289 | 4.0106 | 100 | 0 | 05015 (1) |
+| 2019-04 | 09 | 171 | 9 705 | 2.7498 | 171 | 0 | 09001 (1) |
+| 2019-04 | 16 | 78 | 4 362 | 2.2353 | 78 | 0 | 16001 (1) |
+| 2019-04 | 19 | 182 | 8 830 | 3.4074 | 182 | 0 | 19001 (1) |
+| 2019-04 | 22 | 33 | 2 649 | 1.2064 | 33 | 0 | 22036 (1) |
+| 2019-04 | 34 | 76 | 4 487 | 2.8368 | 76 | 0 | 34001 (1) |
+| 2019-04 | 37 | 87 | 6 077 | 1.8549 | 87 | 0 | 37004 (1) |
+| 2019-04 | 40 | 79 | 4 298 | 2.8190 | 79 | 0 | 40002 (1) |
+| 2019-04 | 42 | 118 | 5 150 | 5.8627 | 118 | 0 | 42003 (1) |
+| 2019-04 | 44 | 96 | 5 459 | 4.1184 | 96 | 0 | 44001 (1) |
+| 2019-04 | 49 | 32 | 2 383 | 1.4034 | 32 | 0 | 49002 (1) |
+
+Total (b) en provincias MARCA: 4. Causa del «.» en el INE: NO DETERMINADO (el CSV no la da).
+### Sevilla-2016: qué es (medido)
+
+Las 272 secciones «.» en 2016 tienen valor en 2015 y 2017 en el mismo CSV del Atlas (que usa una única lista de códigos para todos los años) en 270 casos,
+y esos 270 códigos existen en el seccionado 2015 y en el 2016. Por tanto NO es desajuste de códigos en 270: el INE dejó «.» en el Atlas 2016 para esas
+secciones (patrón: 174 en el municipio 41091 y 98 en otros 10). Los 2 restantes (4106003007, 4109505012): código ausente del seccionado 2015 y 2016, presente en el 2019,
+vacío en el Atlas 2015 y con valor en 2017 (sección nueva entre 2016 y 2019): se rellenan con 2017. Motivo del «.»: NO DETERMINADO.
