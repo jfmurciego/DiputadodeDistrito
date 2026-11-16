@@ -15,7 +15,7 @@ sys.path.insert(0, str(ROOT / "herramientas"))
 
 import decidir_auto_merge as dam  # noqa: E402
 
-WF = ROOT / ".github" / "workflows" / "auto-merge.yml"
+WF = ROOT / ".github" / "workflows" / "p90-automatico.yml"  # T-366: job `fusionar` (antes auto-merge.yml)
 REPO = "jfmurciego/DiputadodeDistrito"
 SHA = "a" * 40
 
@@ -96,20 +96,35 @@ class CasoPR458(unittest.TestCase):
         otro["check_runs"][0]["check_suite"]["id"] = self.SUITE
         self.assertEqual(dam.decidir(self.pr458(), otro, self.HEAD, REPO, self.SUITE)["decision"], "FUSIONAR")
 
-    def test_ninguna_version_activa_puede_ejecutarse_por_pull_request_ni_activar_auto_merge_nativo(self):
-        # La 1.0.0 se ejecutó por `pull_request` con una referencia de merge anterior a #457 y activó el auto-merge
-        # nativo con la app exenta: GitHub fusionó sin `pruebas`. La 1.2.0 no tiene ninguno de los dos caminos.
+    def test_la_fusion_no_usa_auto_merge_nativo_ni_pull_request_target(self):
+        # T-366: la fusión pasa a ser un job con `needs: pruebas` DENTRO del run de `pull_request` (antes `workflow_run`).
+        # Sigue sin auto-merge nativo y sin pull_request_target; el check-run `pruebas` debe ser de la suite de ESTE run.
         d = yaml.safe_load(WF.read_text(encoding="utf-8"))
         on = d.get("on") or d.get(True)
-        self.assertNotIn("pull_request", on)
         self.assertNotIn("pull_request_target", on)
         texto = WF.read_text(encoding="utf-8")
         self.assertNotIn("--auto ", texto)
         self.assertNotIn("enablePullRequestAutoMerge", texto)
         job = d["jobs"]["fusionar"]
-        self.assertIn("workflow_run.path == '.github/workflows/pruebas-plataforma.yml'", job["if"])
+        self.assertEqual(job["needs"], "pruebas")
+        self.assertIn("needs.pruebas.result == 'success'", job["if"])
+        self.assertIn("github.event_name == 'pull_request'", job["if"])
+        self.assertIn("github.event.pull_request.head.repo.full_name == github.repository", job["if"])  # nunca forks
+        env = job["steps"][1]["env"]
+        self.assertEqual(env["SHA"], "${{ github.event.pull_request.head.sha }}")  # el HEAD de la PR, no la referencia de merge
         self.assertIn('--suite "$SUITE"', job["steps"][1]["run"])
-        self.assertEqual(job["steps"][1]["env"]["SUITE"], "${{ github.event.workflow_run.check_suite_id }}")
+        self.assertIn("actions/runs/$RUN_ID", job["steps"][1]["run"])  # suite = la de este run
+
+    def test_cambio_de_contexto_permisos_de_la_fusion(self):
+        # Antes (workflow_run): código de main, token con los permisos declarados, secretos siempre, aunque la PR fuera de un fork.
+        # Ahora (pull_request): código de la referencia de merge de la PR; el token solo tiene los permisos declarados en el job
+        # (lectura), sin escribir; los secretos (app de registro) solo llegan en PR del propio repositorio y la escritura la hace
+        # únicamente el token de la app, tras decidir_auto_merge.py (de `main`) y con --match-head-commit. Ningún job gana permisos.
+        d = yaml.safe_load(WF.read_text(encoding="utf-8"))
+        self.assertEqual(d["permissions"], {"contents": "read"})
+        self.assertEqual(d["jobs"]["fusionar"]["permissions"], {"contents": "read", "checks": "read", "pull-requests": "read"})
+        self.assertEqual(d["jobs"]["fusionar"]["steps"][0]["with"]["ref"], "main")  # el decisor sale de main, no de la PR
+        self.assertNotIn("write", set(d["jobs"]["fusionar"]["permissions"].values()))
 
 
 class Workflow(unittest.TestCase):
@@ -120,14 +135,11 @@ class Workflow(unittest.TestCase):
         cls.job = cls.d["jobs"]["fusionar"]
         cls.script = cls.job["steps"][1]["run"]
 
-    def test_solo_al_terminar_la_ci_y_sin_auto_merge_nativo(self):
-        self.assertEqual(list(self.on), ["workflow_run"])
-        self.assertEqual(self.on["workflow_run"]["workflows"], ["Pruebas de la Plataforma"])
-        self.assertIn("conclusion == 'success'", self.job["if"])
-        self.assertIn("event == 'pull_request'", self.job["if"])
+    def test_solo_tras_pruebas_y_sin_auto_merge_nativo(self):
+        self.assertEqual(self.job["needs"], "pruebas")
         for prohibido in ("--auto", "--admin", "mergeable_state", "mergeStateStatus", "CLEAN"):
             self.assertNotIn(prohibido, self.script)
-        self.assertEqual(self.d["permissions"], {"contents": "read", "checks": "read", "pull-requests": "read"})
+        self.assertEqual(self.job["permissions"], {"contents": "read", "checks": "read", "pull-requests": "read"})
 
     def test_decide_por_el_check_run_del_sha_antes_de_fusionar(self):
         s = self.script

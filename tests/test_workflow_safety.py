@@ -22,7 +22,7 @@ class WorkflowSafety(unittest.TestCase):
         "regresion-m06-castilla-y-leon.yml":"regresion-m06-castilla-y-leon_v1.3.0.yml",
     }
     AUTOMATIC_ONLY={
-        "pruebas-plataforma.yml":{"push","pull_request"},
+        "p90-automatico.yml":{"push","pull_request","schedule","workflow_run"},
     }
 
     def test_pesados_archivados_y_ci_sin_boton_manual(self):

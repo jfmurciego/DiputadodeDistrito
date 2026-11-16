@@ -43,9 +43,8 @@ class ReferenciasPorNombre(unittest.TestCase):
                 encontradas.append((f.name, r))
                 self.assertIn(r, existentes, f"{f.name} nombra un flujo inexistente: {r!r}")
         esperadas = sorted([
-            ("auto-merge.yml", "Pruebas de la Plataforma"),
             ("desplegar-visor-publico.yml", NOMBRE_05),
-            ("forense-00.yml", "P00 Campaña"),  # D-61/D-78
+            ("p90-automatico.yml", "P00 Campaña"),  # forense, D-61/D-78 (T-366)
             ("generar-alternativas-territoriales.yml", NOMBRE_06),
             ("generar-alternativas-territoriales.yml", NOMBRE_06),
         ])
@@ -90,7 +89,7 @@ class Equivalencias(unittest.TestCase):
         self.assertEqual(len(set(nombres.values())), len(nombres), "dos flujos con el mismo nombre visible")
         for fich, _, flujo, nombre_v5 in gen.FLUJOS:
             self.assertTrue(nombre_v5.startswith(flujo.split(" ")[0]), fich)
-        self.assertEqual(nombres["mantenimiento-programado.yml"], "Automático — Mantenimiento")  # §b del corte
+        self.assertEqual(nombres["p90-automatico.yml"], "P90 Automático")  # T-366: sustituye a mantenimiento (métricas), pruebas, revisor, fusión y forense
         internos = [n for f, n in nombres.items() if f.startswith("_reutilizable-")]
         self.assertTrue(internos and all(re.match(r"^Interno · P\d0 ", n) for n in internos), internos)
 

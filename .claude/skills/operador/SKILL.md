@@ -34,7 +34,7 @@ description: Rol de chat operador de DDD, el único que lanza ejecuciones. Úsal
    lanza la 00 con `publication_mode=territorial_only` y `cadena_electoral=true` (T-52); el eslabón electoral sale sin
    publicar y no se duplica si el territorio ya tiene un run en curso. Los scripts de `lanzadores-mac` quedan de respaldo.
 
-Fusión de PR: no se fusiona a mano. El workflow «Fusión automática» (`auto-merge.yml`) se dispara al terminar la CI y
+Fusión de PR: no se fusiona a mano. El job `fusionar` de «P90 Automático» (`p90-automatico.yml`, T-366) corre tras `pruebas` en el run de la PR y
 fusiona (squash) una PR no borrador hacia `main` solo si el check-run `pruebas` de su HEAD exacto está en success.
 Una PR con la etiqueta `no-automerge` queda fuera: esa la fusiona el propietario, o el operador con su permiso explícito.
 El permiso general de «fusionar la cola» o la orden del planificador no basta para una PR con `no-automerge` ni para una

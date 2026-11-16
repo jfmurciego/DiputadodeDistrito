@@ -2,16 +2,17 @@
 """Métricas del proceso (T-65): 00 a la primera, minutos de Actions, PR y CI, coste de agentes.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.1
+VERSIÓN: 1.1.2
 NOMBRE DE VERSIÓN: Métricas del proceso con paginación completa
 FECHA: 2026-11-10
 ESTADO: candidato
+CAMBIOS 1.1.2: T-366, el run de CI pasa a llamarse «P90 Automático» (p90-automatico.yml); se aceptan los dos nombres.
 CAMBIOS 1.1.1: T-215 (corte 5.0.0, paso 4), el run-name de la 00 empieza por «P00 Campaña»; se acepta también el viejo
   («00 Ejecución Completa del Proyecto») para el histórico.
 CAMBIOS: runs por ventanas de fechas (bisecta si una ventana llega al tope de 1.000), reintentos con espera en la API,
   minutos de Actions = suma de la duración real de los jobs (caché por run), no el reloj del run (T-161).
 MOTIVO: T-155 (#615): con una sola consulta topada a 1.000 daba 5.920 min frente a 46.284 reales (27-10 → 10-11).
-ANTERIOR: legacy/herramientas/metricas_proceso_v1.1.0_20261110.py
+ANTERIOR: legacy/herramientas/metricas_proceso_v1.1.1_20261116.py
 QUÉ HACE: con la API REST de GitHub (stdlib; token de GH_TOKEN/GITHUB_TOKEN, o `gh api` si no hay) y los ficheros del
   repo escribe orchestracion/metricas_proceso.json (y un espejo opcional para el dashboard):
   - 00 por territorio: intentos hasta el primer éxito y % que pasan a la primera, por semana. El territorio sale de
@@ -46,7 +47,8 @@ ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = "ddd.metricas-proceso/1"
 SALIDA = "orchestracion/metricas_proceso.json"
 WF_00 = "ejecucion-completa-proyecto.yml"
-NOMBRE_PRUEBAS = "Pruebas de la Plataforma"
+NOMBRE_PRUEBAS = "Pruebas de la Plataforma"  # nombre anterior a T-366
+NOMBRES_PRUEBAS = (NOMBRE_PRUEBAS, "P90 Automático")  # el segundo desde T-366
 OBJETIVO_PRIMERA = 60.0
 TERMINALES = {"success", "failure", "timed_out", "startup_failure"}
 EVENTOS_NO_00 = {"pull_request", "pull_request_target", "push"}
@@ -370,7 +372,7 @@ def calcular_prs(prs, desde):
 
 def calcular_pruebas(runs):
     ok = [minutos(r.get("run_started_at") or r["created_at"], r["updated_at"]) for r in runs
-          if r.get("name") == NOMBRE_PRUEBAS and r.get("event") == "pull_request" and r.get("conclusion") == "success"]
+          if r.get("name") in NOMBRES_PRUEBAS and r.get("event") == "pull_request" and r.get("conclusion") == "success"]
     return {"runs_ok": len(ok), "minutos_mediana": mediana(ok), "minutos_p90": p90(ok)}
 
 

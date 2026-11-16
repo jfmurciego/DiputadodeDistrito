@@ -20,7 +20,7 @@ class DesignA(unittest.TestCase):
         self.assertEqual(load(WF/"preparacion-resultados-electorales.yml")["name"],"P10 Fuentes — P12 Electorales")
         self.assertEqual(load(WF/"produccion-distritos.yml")["name"],"P20 Base territorial — P30 Distritos")
         self.assertEqual(load(WF/"incorporacion-resultados-electorales.yml")["name"],"P40 Resultados electorales")
-        self.assertEqual(load(WF/"pruebas-plataforma.yml")["name"],"Pruebas de la Plataforma")
+        self.assertEqual(load(WF/"p90-automatico.yml")["name"],"P90 Automático")
 
     def test_business_workflows_with_territory_selector_are_explicit(self):
         manual=[]

@@ -31,14 +31,14 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
             "P10 Fuentes — P12 Electorales":ELECTORAL_PREP,
             "P20 Base territorial — P30 Distritos":GEN,
             "P40 Resultados electorales":ELECTORAL_APPLY,
-            "Pruebas de la Plataforma":WF/"pruebas-plataforma.yml",
+            "P90 Automático":WF/"p90-automatico.yml",
             "P50 Publicación":WF/"desplegar-visor-publico.yml",
             "P00 Campaña — Gestor":WF/"gestor-campanas.yml",
             "P30 Distritos — P33 Alternativas":WF/"generar-alternativas-territoriales.yml",
         }
         self.assertEqual({load(p)["name"] for p in visible.values()},set(visible))
         dispatch=[p.name for p in WF.glob("*.yml") if "workflow_dispatch" in triggers(p)]
-        self.assertEqual(sorted(dispatch),["activacion-por-eleccion.yml","bateria-motor.yml","cadena-publicacion.yml","desplegar-visor-publico.yml","ejecucion-completa-proyecto.yml","generar-alternativas-territoriales.yml","gestor-campanas.yml","incorporacion-resultados-electorales.yml","mantenimiento-programado.yml","podar-r2.yml","preparacion-fuentes.yml","preparacion-legislatura-vigente.yml","preparacion-resultados-electorales.yml","produccion-distritos.yml","publicar-version-mapa.yml","recuperar-producto-electoral-durable.yml"])
+        self.assertEqual(sorted(dispatch),["activacion-por-eleccion.yml","bateria-motor.yml","cadena-publicacion.yml","desplegar-visor-publico.yml","ejecucion-completa-proyecto.yml","generar-alternativas-territoriales.yml","gestor-campanas.yml","incorporacion-resultados-electorales.yml","podar-r2.yml","preparacion-fuentes.yml","preparacion-legislatura-vigente.yml","preparacion-resultados-electorales.yml","produccion-distritos.yml","publicar-version-mapa.yml","recuperar-producto-electoral-durable.yml"])
 
     def test_preparation_supports_every_registered_territory_and_catalog_gates_generation(self):
         prep_options=triggers(PREP)["workflow_dispatch"]["inputs"]["territory_id"]["options"]

@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def script() -> str:
-    w = yaml.safe_load((ROOT / ".github/workflows/mantenimiento-programado.yml").read_text(encoding="utf-8"))
+    w = yaml.safe_load((ROOT / "legacy/workflows/mantenimiento-programado_v1.0.3_20261116.yml").read_text(encoding="utf-8"))
     for job in w["jobs"].values():
         for st in job.get("steps", []):
             r = st.get("run", "")
