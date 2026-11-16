@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   source_population_year: 2023
   source_section_year: 2023
   schema_family: ddd-territory
@@ -73,7 +73,7 @@ territory_contract:
   oversized_municipality_rule: split_only_above_hard_cap
   municipality_atomicity_limit_ratio: 1.15
   require_auditable_district_catalogue: true
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   limits_profile: exception
   limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
     piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
@@ -270,7 +270,7 @@ resolved_source_contract:
   contract_sha256: 4fa4f3215f7ce3413b9cb4b75bcfb921d9048f84de07f51d463007e8342d3d61
 generation_state:
   source_prepared: true
-  generation_enabled: false
+  generation_enabled: true
   package_sha256: d630d12a0e09e06fb0abcc17aadd445b3afff9b3d44d7a32d8984dc81b8a3e8b
   compatibility_identity_sha256: d24a983f524a5d0048cab736c33c2d60231678711487ce324caf3a3c81cf6e3f
   source_inputs:
@@ -322,3 +322,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 43799202986
+  pre_m04_source_commit: 816f10c7680d115706c94e9a8eeaeb07e49d56ed
+  pre_m04_artifact_sha256: a2b55b261328a682c8d90f90efcb977b1de6a37ca7febf070acfd87b9aeb53de
