@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "comunidad_foral_de_navarra",
+  "territory_id": "aut15",
   "territory_name": "Comunidad Foral de Navarra",
   "edition": "2025",
-  "run_id": 43045437345,
-  "artifact_name": "ddd-state-43045437345-M06",
-  "artifact_sha256": "0c821bd7fef79b68486861e689d55d4abf61e8c42f923d217750c606bee93dd2",
-  "source_commit": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
+  "run_id": 43747078883,
+  "artifact_name": "ddd-state-43747078883-M06",
+  "artifact_sha256": "c09b00196e6e7f23767dbc7735171c46895aa9576c3bdf5ec2630e023a68f3c2",
+  "source_commit": "39fc58f2554ece0a7d3f34731a2cc1a85dac43ec",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/comunidad_foral_de_navarra/evidencia/generaciones_m06/43045437345.json"
+  "producer_manifest_path": "territorios/aut15/evidencia/generaciones_m06/43747078883.json"
 }

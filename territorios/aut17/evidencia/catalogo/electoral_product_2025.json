@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "la_rioja",
+  "territory_id": "aut17",
   "territory_name": "La Rioja",
   "edition": "2025",
-  "run_id": 43007066596,
-  "artifact_name": "ddd-state-43007066596-M08",
-  "artifact_sha256": "6b2a4205365aea53854f0b6821e656a1b5de646788f084f3af5ee9b1231558ee",
-  "source_commit": "260eff86795205b9c9783cbb8457eef07b506a2a",
+  "run_id": 43754082828,
+  "artifact_name": "ddd-state-43754082828-M08",
+  "artifact_sha256": "1e242a8d84246917469632d90b3222abca8204dbd1731cf08eeb5d51845ddbf0",
+  "source_commit": "d5e87db8cef3ab263d469f363a855f5abe39021f",
   "stage": "M08"
 }

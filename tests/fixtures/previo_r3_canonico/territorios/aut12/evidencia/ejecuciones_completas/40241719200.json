@@ -1,0 +1,91 @@
+{
+  "blocked_phases": [],
+  "completion_status": "COMPLETE",
+  "edition": "2025",
+  "electoral_activation_status": "TERRITORIAL_ONLY",
+  "electoral_skip_reason": "alcance territorial solicitado",
+  "electoral_status": "NOT_REQUESTED",
+  "execution_mode": "reuse",
+  "failed_phases": [],
+  "generated_at": "2026-10-25T23:15:16.778682+00:00",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_evidence_status": "VALID",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "out_of_scope_phases": [
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "phases": [
+    {
+      "artifact": "ddd-source-package-aut12-2025-40132266803",
+      "artifact_digest": "sha256:45b33afd498bdbff34b7397c60b799edc9aa7c9b9fc60364444fd43e15ddd4ee",
+      "executed": false,
+      "name": "01 · Preparación de Datos Territoriales",
+      "phase_decision": "READY",
+      "result": "skipped",
+      "run_id": 40132266803,
+      "scope": "IN_SCOPE",
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": "ddd-state-40241719200-M06",
+      "artifact_digest": "sha256:b44244f06c6e9c6bbfa10966615f7b0b8840cd76ad39d76c63776512d8d405dc",
+      "executed": true,
+      "name": "02 · Generación de Distritos Autonómicos",
+      "phase_decision": "PASS_WITH_EXCEPTIONS",
+      "result": "success",
+      "run_id": 40241719200,
+      "scope": "IN_SCOPE",
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": false,
+      "name": "03 · Preparación de Resultados Electorales",
+      "phase_decision": null,
+      "result": "skipped",
+      "run_id": null,
+      "scope": "OUT_OF_SCOPE",
+      "validation_decision": null
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": false,
+      "name": "04 · Incorporación de Resultados Electorales",
+      "phase_decision": null,
+      "result": "skipped",
+      "run_id": null,
+      "scope": "OUT_OF_SCOPE",
+      "validation_decision": null
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": true,
+      "name": "05 · Publicación del Visor",
+      "phase_decision": null,
+      "result": "success",
+      "run_id": 40241719200,
+      "scope": "IN_SCOPE",
+      "validation_decision": null
+    }
+  ],
+  "publication_mode_effective": "territorial_only",
+  "publication_mode_requested": "territorial_only",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": true,
+  "resumption": null,
+  "schema": "ddd.full-run-manifest/2.1",
+  "skipped_source_gap_phases": [],
+  "source_sha": "30b83efd809997942b2d8ac1352c7873f7d45ce1",
+  "status": "SUCCESS",
+  "territorial_status": "CERTIFIED",
+  "territory_id": "aut12",
+  "territory_name": "Galicia",
+  "workflow_run_id": 40241719200
+}

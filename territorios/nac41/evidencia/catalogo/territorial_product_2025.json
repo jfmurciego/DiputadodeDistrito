@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "congreso_sevilla",
+  "territory_id": "nac41",
   "territory_name": "Congreso Sevilla",
   "edition": "2025",
-  "run_id": 43024845069,
-  "artifact_name": "ddd-state-43024845069-M06",
-  "artifact_sha256": "0a2a1711e681024cf3c7fecb4ed4d6165e06b5a870a64e6905b95ae380394ab0",
-  "source_commit": "6ad5b525a72328c916f98ca06ee6c6035293e440",
+  "run_id": 43786750220,
+  "artifact_name": "ddd-state-43786750220-M06",
+  "artifact_sha256": "c406ed76f583f15b55924dc51f5a085dc3eb914d1150d932acb95a3169712291",
+  "source_commit": "ffbb9917478c4f60fdcc074e2cb11e96e14a1b99",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_sevilla/evidencia/generaciones_m06/43024845069.json"
+  "producer_manifest_path": "territorios/nac41/evidencia/generaciones_m06/43786750220.json"
 }

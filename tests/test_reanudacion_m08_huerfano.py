@@ -629,6 +629,7 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
         persisted_false_runs: tuple[int, ...],
         expected_plan_block: str | None = None,
         expected_rebuild: bool = False,
+        expected_scan_status: str = "CANDIDATE",
     ) -> None:
         if expected_plan_block is None:
             plan = build_plan(
@@ -671,7 +672,9 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
             territory_id=territory_id,
             edition="2025",
         )
-        self.assertEqual(scan_result["status"], "CANDIDATE")
+        self.assertEqual(scan_result["status"], expected_scan_status)
+        if expected_scan_status != "CANDIDATE":
+            return
         self.assertEqual(scan_result["candidate_count"], 1)
         self.assertEqual(scan_result["candidate"]["run_id"], failed_candidate_run)
         for run_id in persisted_false_runs:
@@ -730,7 +733,7 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
         # manifiesto productor lo liga al M06 vigente; si procede de otro M06
         # se rechaza sin fabricar pareja. Vale para cualquier ejecución futura.
         # T-322: raíz congelada (aut08 previo a r3, sha256 en MANIFEST.json); un P10 nuevo no la toca.
-        root = raiz_previo_r3()
+        root = raiz_previo_r3(canonico=True)
         evidence_root = root / "territorios" / "aut08" / "evidencia"
         territorial = json.loads(
             (evidence_root / "catalogo" / "territorial_product_2025.json").read_text(encoding="utf-8")
@@ -862,6 +865,9 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
             failed_candidate_run=36482903970,
             persisted_false_runs=(36529371312,),
             expected_rebuild=True,
+            # T-349 (D-102): el manifiesto del run 36482903970 (congelado en aee8215e) lleva el id viejo: su M08 huérfano
+            # ya no se registra como candidato; la 00 lo reincorpora de nuevo (run_incorporate, comprobado arriba).
+            expected_scan_status="NONE",
         )
 
 

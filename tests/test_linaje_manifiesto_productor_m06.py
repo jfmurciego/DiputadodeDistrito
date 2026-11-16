@@ -1,5 +1,6 @@
-"""Versión 1.0.0; 2026-10-29; candidato. Reutilización M06 con linaje desde el manifiesto del productor.
-Origen: nuevo, sin predecesor.
+"""Versión 1.0.1; 2026-11-15; candidato. Reutilización M06 con linaje desde el manifiesto del productor.
+Cambios 1.0.1 (T-349, D-102): el recibo del M06 lleva su territory_id (como los reales); sin él, o con un alias, no hay reuso.
+Anterior: legacy/tests/test_linaje_manifiesto_productor_m06_v1.0.0.py (1.0.0: nuevo, sin predecesor).
 """
 from __future__ import annotations
 
@@ -36,6 +37,7 @@ class ProducerManifestLineageTests(unittest.TestCase):
                 "artifacts": {"m06": {"artifact_sha256": "c" * 64}},
             })
             product = _write(root, "territorios/demo/evidencia/catalogo/territorial_product_2025.json", {
+                "territory_id": "demo",
                 "run_id": 40691712762,
                 "artifact_name": "ddd-state-40691712762-M06",
                 "artifact_sha256": "c" * 64,

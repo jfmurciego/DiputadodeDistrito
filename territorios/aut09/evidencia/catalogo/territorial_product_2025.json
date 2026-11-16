@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "cataluna",
+  "territory_id": "aut09",
   "territory_name": "Cataluña",
   "edition": "2025",
-  "run_id": 43025661789,
-  "artifact_name": "ddd-state-43025661789-M06",
-  "artifact_sha256": "60e97d14b98f8bee0aed208b90e6a484c31e19673a1f48155a3cf092c3250e7f",
-  "source_commit": "6ad5b525a72328c916f98ca06ee6c6035293e440",
+  "run_id": 43743381120,
+  "artifact_name": "ddd-state-43743381120-M06",
+  "artifact_sha256": "bb6738aa14284a36406a335f33f39effa9e96ebb179dbb54d071c8245c97e720",
+  "source_commit": "17ecd3e86f7046a4a1cca4dc2b6e97c3bed1f79a",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/cataluna/evidencia/generaciones_m06/43025661789.json"
+  "producer_manifest_path": "territorios/aut09/evidencia/generaciones_m06/43743381120.json"
 }

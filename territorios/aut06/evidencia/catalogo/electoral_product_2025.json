@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "cantabria",
+  "territory_id": "aut06",
   "territory_name": "Cantabria",
   "edition": "2025",
-  "run_id": 43033094596,
-  "artifact_name": "ddd-state-43033094596-M08",
-  "artifact_sha256": "0be811c01088f183538159762fca157f5d97204c49f532ada6073ec12a68e276",
-  "source_commit": "248bce79645ae6004ac000b1403d1454356d5304",
+  "run_id": 43745191560,
+  "artifact_name": "ddd-state-43745191560-M08",
+  "artifact_sha256": "9b8c9c6d33bda4ab089e4ac23ca75b265c11e9fbc1cc6192483af8579ce1d04b",
+  "source_commit": "696e498c1c49046d9dbd9c8c8634234eb88576b4",
   "stage": "M08"
 }

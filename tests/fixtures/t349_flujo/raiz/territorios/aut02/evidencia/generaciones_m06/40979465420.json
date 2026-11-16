@@ -1,0 +1,168 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12945678216,
+      "artifact_name": "ddd-audit-40979465420",
+      "artifact_sha256": "97248eaa5c55b3aa8865220d68dd8357f21c3705cabda9ffab50997498980d7a",
+      "run_id": 40979465420,
+      "size_in_bytes": 10295
+    },
+    "m04": {
+      "artifact_id": 12945110756,
+      "artifact_name": "ddd-state-40979465420-M04",
+      "artifact_sha256": "28ff4f66b81540628265af04570de237b7cab756c80873bb7a912489c3bcd9d1",
+      "run_id": 40979465420,
+      "size_in_bytes": 86998013
+    },
+    "m05": {
+      "artifact_id": 12945069336,
+      "artifact_name": "ddd-state-40979465420-M05",
+      "artifact_sha256": "ab3e1b0f774dbc70559057ff2a5e882a0f03626f66c601caaa9bd8da655fcdcc",
+      "run_id": 40979465420,
+      "size_in_bytes": 206899262
+    },
+    "m06": {
+      "artifact_id": 12945872369,
+      "artifact_name": "ddd-state-40979465420-M06",
+      "artifact_sha256": "257d40366b285d0fd4753e1264f9002fa0ebbdc0d7886b5b7311665657a25bfe",
+      "run_id": 40979465420,
+      "size_in_bytes": 210081074
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "aragon_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "c692e64659772de9901349e479eb46d379a96640c09ae3ea98c0cb96c68203e9",
+        "size_in_bytes": 57594
+      },
+      "block_causes.json": {
+        "sha256": "31aeec8ae1a59583c3e7de404e991525d620c8587e49e050538760a2b342e9b7",
+        "size_in_bytes": 431
+      },
+      "optimization_execution.json": {
+        "sha256": "645a4bf2fca9fcbe5fb083889b9e47871376fa9b8aecad3e976f528c1b94527f",
+        "size_in_bytes": 673
+      },
+      "production_status.json": {
+        "sha256": "2912833b4064e8338c6dd4877d1fa4caf0c4fec683b585c36308b38a13ec70ab",
+        "size_in_bytes": 1241
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "2912833b4064e8338c6dd4877d1fa4caf0c4fec683b585c36308b38a13ec70ab",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/aragon/config/aragon_2025.yaml",
+    "sha256": "cd4afc63a691fbe89cf790de456a5e3ec41b715442ab84901d66f8e7c84c9900"
+  },
+  "execution": {
+    "candidate_count": 50,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": "gerrychain_50",
+    "mode": "execute",
+    "optimization_algorithm_effective": "GerryChain 50",
+    "optimization_algorithm_requested": "GerryChain 50",
+    "optimization_evidence_sha256": "65699870a1091a844819c217347992c3a1de0a7c49b1624b26300799ee69dccd",
+    "portfolio_proof": {
+      "assignment_hashes": [
+        "e7131c5ba44a5ff2ee09cb731e5d070395cc2ae9bd4dd2c278296d44662d923c",
+        "fd5bbbb2805dd9b030c0a2b8c342763bb99a185387be7e907ef7da54765e1308",
+        "5c0e55d7c5c39609dfd9591e08aa1028af5cf4076d77ba700e86e764845dfb53",
+        "759af9e160f70d2e803671f28e2c4463da91f71971bd37bc683da4fb1ae0d336",
+        "83322b10b3c9f2b706c18e9b6f641419fd96e92334b7f2e27602c16d7103152c",
+        "6eb00913010c4710e9a9db7cab9cbb0c9334724d3468ded3150c892060ef3d6b",
+        "558b56f9c8cd1d7b8f8ae010773e02e2c8e26562325cb0b9ac85a92c682568ba",
+        "5916bf80136465b2dab5740e4973ee684754d8162e99477ea5e1c0933e381cda",
+        "1b6fd724ecc834b2bf623c9cee3021d46bb223d4eebd70c63c6a236b7485c957",
+        "18a479a19363dcf966e5f33163c209948fd1e2ccbf7ee0f924fe7ff2557faa65",
+        "3fa22200f027289cfb38a2b9413e37e7bc0a8934dadc9fd86f061d892c237032",
+        "cdec507ff7bc318badb3afd43e4ffafc99792ee507c6338b90a8605e6328486d",
+        "1c601920ef76c47e7e92e9a6a559fdd67b8c541c48a6bcacd20c7ae0b7a6f387",
+        "283db8a06d9823298890cc8cc2c0856ffdf060c436d8f359d80415907d900561",
+        "721f036bfa9eb8e9a4480189e5dea7ab5c71c09213b1359e5368476820a2fae7",
+        "8d7ca6e75b4812ff7a28209208378b5a9ea8162bc318ff222a4e00415db65d16",
+        "8b9aec487df57907a67b94410f82ef71450602c3b41a9390eb3337d6e1e2e94f",
+        "60357d930acbc618a6593ff79816ddb7b7b6de06d44419808c0fd1027e752626",
+        "dab3b27ed42598b7ac5a14cb7c67458f9857ab37dec880ee8fc15a2ce1d5851e",
+        "8234c480a6435a13b10fbd9d42072c46bb07d9ab152068fca566d841452eb2bd",
+        "21c56e86ddd7bde2a31904511f351a8e28559ceb9e69a67b7fbbcd1a3c2520f8",
+        "38fad2df44319b53e4f14937698a1c093535d7b18f464bd06510cca6d35bbabe",
+        "749a66cf881ccf7b572f0cf8db924ecb45be986f5f3c4bc16277bfe60c3a7352",
+        "41c51c4eba375d554512d554dad14ce67c9a792a912a70bfacf7b536563bb77c",
+        "7c36a134593334659b621db491497acd713f4c9ec400dd0d8869914bf6ae2443",
+        "eeec45bf96cab642d99a85ab4d4d06d60475de70c2d8a1af438ca3a30f4fe15e",
+        "ee6d9f51d4197751e3b2eb8f9516a4c1f3e902fd4869f25d6d618c0b20e0a340",
+        "aceaf4fc3dcd86e8facfcb9da85079270df0b71a714acf94827f482b4f78976e",
+        "fedd616ffcc6542c8f67ca6bf1e8791be42c5a07922a1d2781b437ba6def4c77",
+        "4f6dcd4cef699399afd33227344776e47d83c257f6e43ba58b01f8b40f1d6c1b",
+        "f99fc7eb86743c7c14f53d1994cb63a280aa1909f853d698bc321848a46f707b",
+        "57df05defe89c31fb830b23bfeb2d1bb4cf7e3c3d60aaabbcb75e196971838b6",
+        "19b5e79cd568867ee616aaade2b7e578cdad3f35a99bd7b5dc8610fbb78588c8",
+        "270101a81022972841bfefa4ece4229c173267268c547c78ea1ad203e87b1ccd",
+        "fba872db5be4c09615c59d342b91d189bbaae539713ff477da2733f3d5b459fd",
+        "0b2e7860cb84a1a53cee4a9a56cf8d2d756e541c36651f19cfe51c15f2b89354",
+        "27ee325d8424f69e03794103177e405ac6220890aabc3536d5246bc4045d18a8",
+        "34170f7840022b289a68238f276b706ca5d09c5120a9fa787b1badef5f21ba41",
+        "6c3f42f670de4524566487cb8fdbd1d871181541ec9796e06b7bbb55537bec1d",
+        "bbdea5892546119296a2a8ae84c412a69185c21d947cf61e113965a93a373d4c",
+        "9c71665e783b425b27a5af58f19fe07d8bdb25df61ca595c64c2151c55a6e48e",
+        "0832bc3f320cf7ba3579067f3a57e5307c5dab66e74ba1e6c122b460b4cedae2",
+        "bb2d9ed084b661d8cf4c0b5cd66142b34f919069265f57384b035cea39659d0e",
+        "9a4b257d1e6fa0b532ca228fc955b1d5fc3d76912f915690ac6e34b222257a44",
+        "97cd5c481ac450bd07e3d14f92635f67f2086f588b01b604f974b89d817b0e3e",
+        "804185876d435ab1d3553a72039009a06987c54abaaeee796bdf9469ab8643dd",
+        "4959c7222f3860f1cb115d9f49b4672fef9c552738d6307c155e2b7a25fad611",
+        "8036895ca73bd094db91281a78f7cdafd9b77c76d6536e5ce17c2853ca261468",
+        "1981f7e3ab9e13276f9c464d1ca586e82e619e154ca6ec8a4c71e70c5a9b2d33",
+        "7b93146bb92c1e03fa98a16f8c314b90a291e6585e621898a8d4b5c5b04ae78b"
+      ],
+      "candidate_count": 50,
+      "report_relative_path": "run/aragon_2025_m05_informe.json",
+      "report_sha256": "b461274f18024132c13a07261957b2f92d5ce66e4e0467f484e9959910db227b",
+      "selected_artifact_content_sha256": "cd8968415ab4eaef7759dd23b70f8579e96c2e55cb454f2470684bd24a5bead2",
+      "selected_artifact_sha256": "c32ff6e8788eb99f600b2efd8f5dfb893348499af6ff907c1f354c5de7e84082",
+      "selected_assignment_hash": "283db8a06d9823298890cc8cc2c0856ffdf060c436d8f359d80415907d900561",
+      "selected_output_content_sha256": "cd8968415ab4eaef7759dd23b70f8579e96c2e55cb454f2470684bd24a5bead2",
+      "selected_output_sha256": "3d654378762df927e570397c843c1abb10c8b272a478aeb61136ab42bd1cd803",
+      "unique_assignment_hash_count": 50
+    },
+    "require_unique_hashes": true,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "627514a362fff2e6b75bd3313356963a38fc6a73",
+    "edition": "2025",
+    "territory_id": "aragon",
+    "territory_name": "Aragón",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 40979465420,
+    "workflow_sha": "627514a362fff2e6b75bd3313356963a38fc6a73"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12945110756,
+      "artifact_name": "ddd-state-40979465420-M04",
+      "artifact_sha256": "28ff4f66b81540628265af04570de237b7cab756c80873bb7a912489c3bcd9d1",
+      "run_id": 40979465420,
+      "size_in_bytes": 86998013
+    },
+    "source_manifest_sha256": "3a42fc57e9b9a679625ac6c13e6a55ca61dc2ebd0c632b2ce6afc20fc286eddf",
+    "source_package_artifact": {
+      "artifact_id": 12820400310,
+      "artifact_name": "ddd-source-package-aragon-2025-40691712762",
+      "artifact_sha256": "47a7ab0da32e99c006d925787df3fbdf7032c2b3737ff6effe6cd57321aa390a",
+      "run_id": 40691712762,
+      "size_in_bytes": 82129629
+    }
+  },
+  "manifest_sha256": "3709f93645d68d53bab5b83de8204d9154fe22352c21e6d3f9d243618121b067",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

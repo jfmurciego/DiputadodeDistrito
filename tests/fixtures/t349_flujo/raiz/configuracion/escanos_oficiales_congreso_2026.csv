@@ -1,0 +1,60 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.0.0
+# FECHA: 2026-11-08
+# ANTERIOR: ninguna (fichero nuevo)
+# FUENTE: Real Decreto 806/2026, de 5 de octubre (BOE-A-2026-20742), anexo. https://www.boe.es/diario_boe/xml.php?id=BOE-A-2026-20742
+# SHA256_XML: 5e1ae58f61d1031e085a1e60d1cccd86dd28d72639dd4d2b0ffded9ae5cb565e
+# Elecciones: 2026-11-29. Total 350. Escaños oficiales por circunscripción; NO es el K de DDD (N06).
+codigo,provincia,escanos_2026,escanos_2023
+01,Álava,4,4
+02,Albacete,4,4
+03,Alicante,12,12
+04,Almería,6,6
+05,Ávila,3,3
+06,Badajoz,5,5
+07,Baleares,8,8
+08,Barcelona,32,32
+09,Burgos,4,4
+10,Cáceres,4,4
+11,Cádiz,8,9
+12,Castellón,5,5
+13,Ciudad Real,5,5
+14,Córdoba,6,6
+15,La Coruña,8,8
+16,Cuenca,3,3
+17,Gerona,6,6
+18,Granada,7,7
+19,Guadalajara,3,3
+20,Guipúzcoa,6,6
+21,Huelva,5,5
+22,Huesca,3,3
+23,Jaén,5,5
+24,León,4,4
+25,Lérida,4,4
+26,La Rioja,4,4
+27,Lugo,4,4
+28,Madrid,38,37
+29,Málaga,11,11
+30,Murcia,10,10
+31,Navarra,5,5
+32,Orense,4,4
+33,Asturias,7,7
+34,Palencia,3,3
+35,Las Palmas,8,8
+36,Pontevedra,7,7
+37,Salamanca,4,4
+38,Santa Cruz de Tenerife,7,7
+39,Cantabria,5,5
+40,Segovia,3,3
+41,Sevilla,12,12
+42,Soria,2,2
+43,Tarragona,6,6
+44,Teruel,3,3
+45,Toledo,6,6
+46,Valencia,16,16
+47,Valladolid,5,5
+48,Vizcaya,8,8
+49,Zamora,3,3
+50,Zaragoza,7,7
+51,Ceuta,1,1
+52,Melilla,1,1

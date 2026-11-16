@@ -1,0 +1,17 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "aragon",
+  "territory_name": "Aragón",
+  "edition": "2025",
+  "run_id": 40896686254,
+  "artifact_name": "ddd-electoral-package-aragon-2025-40896686254",
+  "artifact_sha256": "1f8de814f571e9becbf5f359be1530bffa0492155c72344bd0ea49e8a5c19870",
+  "source_commit": "cca9d958f7cdb9a7dba603ab85b1d35287654756",
+  "election_id": "aragon_cortes_2026-02-08",
+  "declaration": null,
+  "election_contract": "territorios/aragon/config/elecciones/aragon_cortes_2026.json",
+  "election_contract_sha256": "2a9c7bfb9005311989f3e5634d62479a4d7b81a0cabad456e4887a85eeaa406a",
+  "election_date": "2026-02-08",
+  "electoral_identity_sha256": "9389e4386eae823a44d4180957676f42fcc5f5cabf899bf442ce6cc28400b8af"
+}

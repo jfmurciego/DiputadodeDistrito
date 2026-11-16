@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "nac29",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 43764712990,
+  "artifact_name": "ddd-source-package-nac29-2025-43764712990",
+  "artifact_sha256": "ccb9a679794363c99f3bfad5383c9c471b59cd20c55f90e77046839c43755948",
+  "package_sha256": "67c8727893a740e1a0740a9af755dd61a04c992a3899e7a2d573be3177e466de",
+  "source_commit": "cf2066068368147f178bde7e86f8caaf2ba7358a",
+  "source_declaration": "territorios/nac29/evidencia/fuentes_territoriales/2025/5b829be3f88ebbd943b920b95f52622dd360817ba8120d935c6d8c7d0c289fd2/43764712990/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "5b829be3f88ebbd943b920b95f52622dd360817ba8120d935c6d8c7d0c289fd2",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "55b064f2c0b765bb9a01fd89c9be1d8f40c54927e6174b90e53e08a9fb5de216",
+  "compatibility_identity_sha256": "cf668970b308d5341b093a060984d8046bd2b7c16024451b3b217480a91d9396"
+}

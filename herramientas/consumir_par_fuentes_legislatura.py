@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """Consumo de fuentes acreditadas de la legislatura.
 
-Versión: 1.2.0; nombre: Linaje M06 desde el manifiesto del productor; fecha: 2026-10-29.
+Versión: 1.3.0; nombre: Registros con id canónico exacto; fecha: 2026-11-15.
+Cambios 1.3.0 (T-349, D-102): receipt territorial, par y recibo del M06 con id canónico exacto; la huella o el linaje
+         sellados con el id viejo se reconocen (SOLO_LECTURA_RECONCILIACION) pero nunca habilitan reuso ni consumo
+         (TERRITORIAL_ID_NO_CANONICO, PRODUCT_ID_NO_CANONICO). Predecesor: legacy/herramientas/consumir_par_fuentes_legislatura_v1.2.0_20261115.py.
+Versión anterior: 1.2.0; nombre: Linaje M06 desde el manifiesto del productor; fecha: 2026-10-29.
 Alcance: consumidor territorial compartido; estado: candidato.
 Cambios: sin linaje producto→fuente versionado, la reutilización geométrica acepta el manifiesto
          del productor M06 cuando su paquete fuente es exactamente el receipt territorial vigente.
@@ -117,7 +121,7 @@ def validate_territorial_receipt(
             "PREPARED_TERRITORIAL_BLOCK: kind de receipt territorial no reconocido"
         )
     if (
-        not mismo_territorio(str(receipt.get("territory_id") or ""), str(row["territory_id"]))
+        str(receipt.get("territory_id") or "") != str(row["territory_id"])  # T-349: id canónico exacto
         or str(receipt.get("edition") or "") != str(edition)
     ):
         raise PreparedPairExecutionBlock(
@@ -165,6 +169,11 @@ def validate_territorial_receipt(
     if identity["territorial_identity_sha256"] != str(receipt["territorial_identity_sha256"]):
         raise PreparedPairExecutionBlock(
             "PREPARED_TERRITORIAL_BLOCK: territorial_identity_sha256 no reconcilia"
+        )
+    if str(identity["territory_id"]) != str(row["territory_id"]):
+        # T-349 (D-102), SOLO_LECTURA_RECONCILIACION: la huella sellada con el id viejo se reconoce, pero no se consume.
+        raise PreparedPairExecutionBlock(
+            "PREPARED_TERRITORIAL_BLOCK: TERRITORIAL_ID_NO_CANONICO: identidad territorial sellada con id no canónico"
         )
     return row, receipt
 
@@ -241,7 +250,7 @@ def resolve_pair(
 
 
 def _producer_manifest_reuse(
-    root: Path, product_rel: str, *, current_source: dict | None, current_identity: str,
+    root: Path, product_rel: str, *, current_source: dict | None, current_identity: str, territory_id: str = "",
 ) -> dict | None:
     """Linaje implícito: el manifiesto M06 declara el paquete fuente que consumió.
 
@@ -252,6 +261,8 @@ def _producer_manifest_reuse(
     if not current_source or not product_rel or not (ruta_existente(root, product_rel)).is_file():
         return None
     product = _json(ruta_existente(root, product_rel), label="receipt de producto territorial")
+    if territory_id and str(product.get("territory_id") or "") != str(territory_id):
+        return None  # T-349 (D-102): el M06 que entra al par exige id exacto en su recibo
     manifest_rel = str(product.get("producer_manifest_path") or "")
     if not manifest_rel or not (ruta_existente(root, manifest_rel)).is_file():
         return None
@@ -312,6 +323,7 @@ def resolve_geometric_reuse(
     if not lineage_rel or not (ruta_existente(root, lineage_rel)).is_file():
         from_manifest = _producer_manifest_reuse(
             root, product_rel, current_source=current_source, current_identity=current_identity,
+            territory_id=territory_id,
         )
         if from_manifest is not None:
             return from_manifest
@@ -332,12 +344,21 @@ def resolve_geometric_reuse(
     product = _json(ruta_existente(root, product_rel), label="receipt de producto territorial")
     if (
         lineage.get("schema") != "ddd.territorial-product-source-lineage/1.0"
-        or not mismo_territorio(str(lineage.get("territory_id") or ""), str(territory_id))
+        or not mismo_territorio(str(lineage.get("territory_id") or ""), str(territory_id))  # SOLO_LECTURA_RECONCILIACION: documento de linaje ya sellado (T-349, D-102); el M06 reutilizable exige id exacto en su recibo
         or str(lineage.get("edition") or "") != str(edition)
     ):
         raise PreparedPairExecutionBlock(
             "PREPARED_TERRITORIAL_BLOCK: linaje del producto territorial inválido"
         )
+    if str(product.get("territory_id") or "") != str(territory_id):
+        # T-349 (D-102): la reconciliación del linaje solo reconoce; el M06 que entra al par exige id exacto en su recibo.
+        return {
+            "available": True,
+            "compatible": False,
+            "reason": "PRODUCT_ID_NO_CANONICO",
+            "product_receipt_path": product_rel,
+            "current_territorial_identity_sha256": current_identity,
+        }
     historical_identity = str(
         (lineage.get("territorial_source") or {}).get("territorial_identity_sha256") or ""
     )
@@ -438,7 +459,13 @@ def validate_effective_territorial_package(
         package_sha256=str(receipt["package_sha256"]),
         compatibility_identity_sha256=compatibility_identity,
         esperado=str(receipt.get("territorial_identity_sha256") or ""),
-    )["territorial_identity_sha256"]
+    )
+    if str(identity["territory_id"]) != str(territory_id):
+        # T-349 (D-102), SOLO_LECTURA_RECONCILIACION: reconoce la huella vieja; el paquete efectivo exige id exacto.
+        raise PreparedPairExecutionBlock(
+            "PREPARED_TERRITORIAL_BLOCK: TERRITORIAL_ID_NO_CANONICO: identidad territorial sellada con id no canónico"
+        )
+    identity = identity["territorial_identity_sha256"]
     if identity != str(receipt.get("territorial_identity_sha256") or ""):
         raise PreparedPairExecutionBlock(
             "PREPARED_TERRITORIAL_BLOCK: identidad territorial efectiva no coincide"

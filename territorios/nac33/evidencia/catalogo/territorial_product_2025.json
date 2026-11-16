@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "congreso_asturias",
+  "territory_id": "nac33",
   "territory_name": "Congreso Asturias",
   "edition": "2025",
-  "run_id": 42981406489,
-  "artifact_name": "ddd-state-42981406489-M06",
-  "artifact_sha256": "9a7ec2602f02a4809e420e974f382672ecd95611e9eda8dffa11752595ba46c7",
-  "source_commit": "d3b29437f7460641304d1cc0ad811b9cb5d599d1",
+  "run_id": 43791373285,
+  "artifact_name": "ddd-state-43791373285-M06",
+  "artifact_sha256": "d9fa2cb9ccd28b5707fc2618d0bc9eaf3d351990b1e47b67a8f269464870e334",
+  "source_commit": "6edf30e5ebe2b9c0671cdd28f4112aea3768d476",
   "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_asturias/evidencia/generaciones_m06/42981406489.json"
+  "producer_manifest_path": "territorios/nac33/evidencia/generaciones_m06/43791373285.json"
 }

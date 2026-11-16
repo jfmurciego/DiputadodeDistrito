@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_sevilla",
+  "territory_id": "nac41",
   "territory_name": "Congreso Sevilla",
   "edition": "2025",
-  "run_id": 43029566265,
-  "artifact_name": "ddd-state-43029566265-M08",
-  "artifact_sha256": "6ea529315d010ede58f5520619405352a0cd154bc36d6f5ed814c0620215be3b",
-  "source_commit": "dd6321c52e5db795b29cbc9cc886664400cc0a99",
+  "run_id": 43793379653,
+  "artifact_name": "ddd-state-43793379653-M08",
+  "artifact_sha256": "7accfaa3844374ae8a591c0d195c6bca425e916817d7ebee96222b472be45f06",
+  "source_commit": "ee1b688625fa702dc12f664d8c7acce0154cdfd8",
   "stage": "M08"
 }

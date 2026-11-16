@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "aut09",
+  "territory_name": "Cataluña",
+  "edition": "2025",
+  "election": {
+    "election_id": "cataluna_parlament_2024",
+    "election_date": "2024-05-12"
+  },
+  "references": {
+    "population": {
+      "required_year": 2024,
+      "year": 2024,
+      "reference_date": "2024-01-01"
+    },
+    "sectioning": {
+      "required_year": 2024,
+      "year": 2024,
+      "reference_label": "Secciones_2024"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43743381120,
+    "artifact_name": "ddd-source-package-aut09-2025-43743381120",
+    "artifact_sha256": "1d9ef69359050274e8d591039616386de720d1e703d35786b3ce287a71f65bde",
+    "package_sha256": "592e7aad90860c38dcea9dd2cecf7a1e3ec05dce7c92bdc8e2245696b4e11f3f",
+    "source_commit": "bb6605a9ad5e3148256f44074ad119324b8ebc99",
+    "source_declaration": "territorios/aut09/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/aut09/evidencia/fuentes_territoriales/2025/4467259ac1b7751bfd6be682888faa651d6acb2a422f6f8236a27bdb40548367/43743381120/receipt.json",
+    "population_year": 2024,
+    "section_year": 2024,
+    "territorial_identity_sha256": "4467259ac1b7751bfd6be682888faa651d6acb2a422f6f8236a27bdb40548367",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "f7e143f13b02ee34c75bea30a6c38231fadf47fa46106478ab2b7a61468fdd28",
+    "compatibility_identity_sha256": "4371dba21869acb7deac9d05a69f48c39bad3b00f48bf9028f17633d57da89fc",
+    "remote_verification": {
+      "run_id": 43743381120,
+      "artifact_id": 14173706288,
+      "artifact_name": "ddd-source-package-aut09-2025-43743381120",
+      "artifact_sha256": "1d9ef69359050274e8d591039616386de720d1e703d35786b3ce287a71f65bde",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43747840900,
+    "artifact_name": "ddd-electoral-package-aut09-2025-43747840900",
+    "artifact_sha256": "5497eaa5a9c493ceb554654d5128f0503ea10091ee88dac4c0939a163895538c",
+    "source_commit": "f06ee339f2215c473edfd29016500710802e0ea6",
+    "receipt_path": "territorios/aut09/evidencia/fuentes_electorales/2025/1a2a1f2c19014b68164d716489292a680799b3b6f2144ba5a04269ec8e6caf16/43747840900/receipt.json",
+    "provenance_reference": "territorios/aut09/config/elecciones/cataluna_parlament_2024_vigente.yaml",
+    "election_id": "cataluna_parlament_2024",
+    "election_date": "2024-05-12",
+    "electoral_identity_sha256": "1a2a1f2c19014b68164d716489292a680799b3b6f2144ba5a04269ec8e6caf16",
+    "remote_verification": {
+      "run_id": 43747840900,
+      "artifact_id": 14175281082,
+      "artifact_name": "ddd-electoral-package-aut09-2025-43747840900",
+      "artifact_sha256": "5497eaa5a9c493ceb554654d5128f0503ea10091ee88dac4c0939a163895538c",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "4467259ac1b7751bfd6be682888faa651d6acb2a422f6f8236a27bdb40548367",
+  "electoral_compatibility_key": "1a2a1f2c19014b68164d716489292a680799b3b6f2144ba5a04269ec8e6caf16",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/aut09/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "7768927c6694f6dffb092978aea7e88312986ff69fcf534be1dde853ff1cd9bf"
+}

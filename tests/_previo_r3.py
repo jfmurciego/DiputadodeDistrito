@@ -14,14 +14,16 @@ import tempfile
 from pathlib import Path
 
 FIXTURE = Path(__file__).resolve().parent / "fixtures" / "previo_r3"
+FIXTURE_CANONICO = Path(__file__).resolve().parent / "fixtures" / "previo_r3_canonico"  # T-349 (D-102): mismo estado con ids canónicos
 
 
-def raiz_previo_r3(tmp: Path | None = None) -> Path:
-    """Copia escribible de la raíz congelada, tras verificar el sha256 de cada fichero."""
-    files = json.loads((FIXTURE / "MANIFEST.json").read_text(encoding="utf-8"))["files"]
+def raiz_previo_r3(tmp: Path | None = None, *, canonico: bool = False) -> Path:
+    """Copia escribible de la raíz congelada, tras verificar el sha256 de cada fichero (`canonico`: recibos con id canónico)."""
+    base = FIXTURE_CANONICO if canonico else FIXTURE
+    files = json.loads((base / "MANIFEST.json").read_text(encoding="utf-8"))["files"]
     for rel, sha in files.items():
-        if hashlib.sha256((FIXTURE / rel).read_bytes()).hexdigest() != sha:
+        if hashlib.sha256((base / rel).read_bytes()).hexdigest() != sha:
             raise AssertionError(f"fixture previo_r3 alterado: {rel}")
     raiz = Path(tmp or tempfile.mkdtemp(prefix="ddd-previo-r3-")) / "raiz"
-    shutil.copytree(FIXTURE, raiz, ignore=shutil.ignore_patterns("MANIFEST.json"))
+    shutil.copytree(base, raiz, ignore=shutil.ignore_patterns("MANIFEST.json"))
     return raiz

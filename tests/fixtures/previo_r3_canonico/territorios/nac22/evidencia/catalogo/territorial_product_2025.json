@@ -1,0 +1,14 @@
+{
+  "artifact_name": "ddd-state-42991551418-M06",
+  "artifact_sha256": "3e0ca0620b6e73b343acd4484ac7f147dbf8e86617836621d7161bf9e562c95a",
+  "decision": "PASS",
+  "edition": "2025",
+  "kind": "territorial_product",
+  "producer_manifest_path": "territorios/congreso_huesca/evidencia/generaciones_m06/42991551418.json",
+  "run_id": 42991551418,
+  "schema": "ddd.catalog-evidence/1.0",
+  "source_commit": "48716f6314fe92973436599417e7be4886bbe0c2",
+  "stage": "M06",
+  "territory_id": "nac22",
+  "territory_name": "Congreso Huesca"
+}

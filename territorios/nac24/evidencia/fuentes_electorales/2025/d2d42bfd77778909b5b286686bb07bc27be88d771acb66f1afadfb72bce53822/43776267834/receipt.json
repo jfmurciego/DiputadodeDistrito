@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac24",
+  "territory_name": "Congreso León",
+  "edition": "2025",
+  "run_id": 43776267834,
+  "artifact_name": "ddd-electoral-package-nac24-2025-43776267834",
+  "artifact_sha256": "54a48dc12947c1c6e3341e06fca11c22ee285786411c3c57246f62a64434ad67",
+  "source_commit": "bbdf53338be1bbe1ad6b4c572f1da4a2d996b2a2",
+  "election_id": "congreso_leon_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "d2d42bfd77778909b5b286686bb07bc27be88d771acb66f1afadfb72bce53822"
+}

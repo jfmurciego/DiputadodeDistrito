@@ -39,6 +39,38 @@
       "origen_url": "https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip",
       "descargado_en": "2026-10-31",
       "respaldo": "release fuente-infoelectoral-02202307 (Interior rechaza a los runners); sha256 y bytes del contrato configuracion/contratos_infoelectoral.yaml"
+    },
+    "galicia_parlamento_2024_a_coruna_mesas.csv": {
+      "clave": "arc-e/fuentes/xunta/galicia_parlamento_2024_a_coruna_mesas_b763e5648136.csv",
+      "sha256": "b763e5648136b80d805378532bd03dfe49025b063c9c17a1b6b1f365148735d1",
+      "bytes": 126382,
+      "origen_url": "https://abertos.xunta.gal/es/catalogo/administracion-publica/-/dataset/0656/elecciones-parlamento-galicia-resultados-2024/003/descarga-directa-del-fichero.csv",
+      "estado": "subido a R2 por el propietario el 2026-11-15 (HTTP 200); sha256 y bytes contrastados con su JSON",
+      "descargado_en": "2026-11-15"
+    },
+    "galicia_parlamento_2024_lugo_mesas.csv": {
+      "clave": "arc-e/fuentes/xunta/galicia_parlamento_2024_lugo_mesas_89afa88e7e9e.csv",
+      "sha256": "89afa88e7e9e7c7fee09402e98c4abddbfec635c80ea2dc56d37f63e515931b0",
+      "bytes": 42842,
+      "origen_url": "https://abertos.xunta.gal/es/catalogo/administracion-publica/-/dataset/0656/elecciones-parlamento-galicia-resultados-2024/007/descarga-directa-del-fichero.csv",
+      "estado": "subido a R2 por el propietario el 2026-11-15 (HTTP 200); sha256 y bytes contrastados con su JSON",
+      "descargado_en": "2026-11-15"
+    },
+    "galicia_parlamento_2024_ourense_mesas.csv": {
+      "clave": "arc-e/fuentes/xunta/galicia_parlamento_2024_ourense_mesas_9e7992fc0665.csv",
+      "sha256": "9e7992fc0665cf485aff13f621470b6cfe73ed814dfcd0627622c197fc1a050d",
+      "bytes": 45226,
+      "origen_url": "https://abertos.xunta.gal/es/catalogo/administracion-publica/-/dataset/0656/elecciones-parlamento-galicia-resultados-2024/011/descarga-directa-del-fichero.csv",
+      "estado": "subido a R2 por el propietario el 2026-11-15 (HTTP 200); sha256 y bytes contrastados con su JSON",
+      "descargado_en": "2026-11-15"
+    },
+    "galicia_parlamento_2024_pontevedra_mesas.csv": {
+      "clave": "arc-e/fuentes/xunta/galicia_parlamento_2024_pontevedra_mesas_aa5be16cb070.csv",
+      "sha256": "aa5be16cb0702ca2315dc0c08c437e296b8dcbf35efe45610818daf01eb8233d",
+      "bytes": 109012,
+      "origen_url": "https://abertos.xunta.gal/es/catalogo/administracion-publica/-/dataset/0656/elecciones-parlamento-galicia-resultados-2024/015/descarga-directa-del-fichero.csv",
+      "estado": "subido a R2 por el propietario el 2026-11-15 (HTTP 200); sha256 y bytes contrastados con su JSON",
+      "descargado_en": "2026-11-15"
     }
   }
 }

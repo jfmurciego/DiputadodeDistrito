@@ -1,0 +1,38 @@
+{
+  "schema": "ddd.official-temporal-availability-evidence/1.0",
+  "provider": "Instituto Nacional de Estadística",
+  "checked_at": "2026-09-30T10:51:00+02:00",
+  "checks": {
+    "population_by_section": {
+      "query": "https://www.ine.es/dynt3/inebase/es/index.htm?capsel=11128&padre=11555",
+      "required_year": 2026,
+      "available_years": [
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "latest_available_year": 2025,
+      "required_year_available": false,
+      "reference_date_rule": "01-01-{year}",
+      "preserved_response": "# Censo anual de población 2021-2025\nResultados por secciones censales\nÚltima modificación: 02/12/2025\nPeríodo de referencia de los resultados: se ofrecen datos a 1 de enero de cada año.",
+      "response_sha256": "947600009a0a533a26bb24693a5fdb6ecdbdbebfdb6f5d42ca597f7ae995990b"
+    },
+    "census_sections": {
+      "query": "https://www.ine.es/geoserver/ogc/features/v1/collections?f=text/html",
+      "required_year": 2026,
+      "available_years": [
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "latest_available_year": 2026,
+      "required_year_available": true,
+      "reference_date_rule": "annual_official_sectioning_{year}",
+      "preserved_response": "Servicio API Features para cartografía digitalizada de secciones censales - Instituto Nacional de Estadística\nLos datos disponibles corresponden a las series anuales del seccionado desde el año 2007 hasta la actualidad.\nSU.VectorStatisticalUnit\nTítulo: Secciones_2026\nSecciones_2023\nSecciones_2024\nSecciones_2025",
+      "response_sha256": "bbf67f44102f0710236362042baa14f92b75658ea6a30759507107980b9eb1da"
+    }
+  }
+}

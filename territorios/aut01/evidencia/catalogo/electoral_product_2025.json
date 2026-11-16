@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "andalucia",
+  "territory_id": "aut01",
   "territory_name": "Andalucía",
   "edition": "2025",
-  "run_id": 43204696160,
-  "artifact_name": "ddd-state-43204696160-M08",
-  "artifact_sha256": "b39312c1562c5f58a761fd91375b5b1e227eea1e482a8b9faee53690e7b0a023",
-  "source_commit": "ec10120c07f1a359b3d9944dda92b0f04be649f5",
+  "run_id": 43736363274,
+  "artifact_name": "ddd-state-43736363274-M08",
+  "artifact_sha256": "00c271fcc3afb7dcd98bbb47222f9c5078b6ab8535e42e006eda925ad6887ad9",
+  "source_commit": "4375cb7756aad9c2ba0fedeeae9dfed4a1c73467",
   "stage": "M08"
 }

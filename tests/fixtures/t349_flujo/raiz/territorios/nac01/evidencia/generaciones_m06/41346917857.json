@@ -1,0 +1,113 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13100400279,
+      "artifact_name": "ddd-audit-41346917857",
+      "artifact_sha256": "8fb73c54258d21a56a4336699195e8fcb2fae78b01059a4eb0183c7b54904c4f",
+      "run_id": 41346917857,
+      "size_in_bytes": 2676
+    },
+    "m04": {
+      "artifact_id": 13091186122,
+      "artifact_name": "ddd-state-41324180872-M04",
+      "artifact_sha256": "116dd27da7f6cc800c7071cddee93a97839eb3d4253ba2539ab5cbe09ba6f969",
+      "run_id": 41324180872,
+      "size_in_bytes": 84409803
+    },
+    "m05": {
+      "artifact_id": 13099364813,
+      "artifact_name": "ddd-state-41346917857-M05",
+      "artifact_sha256": "747a8d3785c7141dc3047c11b558d273581ebf5e49dd369b2d56c425d801ae23",
+      "run_id": 41346917857,
+      "size_in_bytes": 86332723
+    },
+    "m06": {
+      "artifact_id": 13099867358,
+      "artifact_name": "ddd-state-41346917857-M06",
+      "artifact_sha256": "1cb2f5758fbf033b00e301bab7c0e7bdbb5e61d0fe367cdb5e2388ab13a99128",
+      "run_id": 41346917857,
+      "size_in_bytes": 88550501
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "8cc6c5f7b596d8e2562b082db10496f0aef952e75733dc744f716be0960b2c9f",
+        "size_in_bytes": 440
+      },
+      "congreso_alava_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "ae7d3d4d05d74421c29b28a915c3e3328f69274c394d4a8406019612022002dc",
+        "size_in_bytes": 3277
+      },
+      "optimization_execution.json": {
+        "sha256": "3910d9426fffda01f76c4cf41358d514557e8a97752e8ef9430ab5e7b2a21022",
+        "size_in_bytes": 648
+      },
+      "production_status.json": {
+        "sha256": "30262de1c909f26a7b7402a997021af66298960b1500ad2ba0d6746cc6a464aa",
+        "size_in_bytes": 1252
+      }
+    },
+    "decision": "PASS",
+    "production_status_sha256": "30262de1c909f26a7b7402a997021af66298960b1500ad2ba0d6746cc6a464aa",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_alava/config/congreso_alava_2025.yaml",
+    "sha256": "405379dd3c9af109b00924a8717fe94c5979720ca39b37c4e9625ad1e7305ce0"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": 41324180872,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M05",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "6bb4fc099657b667af98f425ae7872401f060fd64ea3869fbe5b6e6e610893c8",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "dc9f5c7a0f6ffd8695d65d39b0fd23c3a8c607fd",
+    "edition": "2025",
+    "territory_id": "congreso_alava",
+    "territory_name": "Congreso Álava",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41346917857,
+    "workflow_sha": "dc9f5c7a0f6ffd8695d65d39b0fd23c3a8c607fd"
+  },
+  "inputs": {
+    "checkpoint_artifact": {
+      "artifact_id": 13091186122,
+      "artifact_name": "ddd-state-41324180872-M04",
+      "artifact_sha256": "116dd27da7f6cc800c7071cddee93a97839eb3d4253ba2539ab5cbe09ba6f969",
+      "run_id": 41324180872,
+      "size_in_bytes": 84409803
+    },
+    "checkpoint_run_id": 41324180872,
+    "checkpoint_stage": "M05",
+    "m04_artifact": {
+      "artifact_id": 13091186122,
+      "artifact_name": "ddd-state-41324180872-M04",
+      "artifact_sha256": "116dd27da7f6cc800c7071cddee93a97839eb3d4253ba2539ab5cbe09ba6f969",
+      "run_id": 41324180872,
+      "size_in_bytes": 84409803
+    },
+    "source_manifest_sha256": "1a73190c5ff2ae86ad8af0c50ea41da8bd307d59215462a42d637bd0ea31f1c6",
+    "source_package_artifact": {
+      "artifact_id": 13058178424,
+      "artifact_name": "ddd-source-package-congreso_alava-2025-41240137880",
+      "artifact_sha256": "7d101c7cd9dee73eeb7b7a09936c7e41456b58c3daab81532f02c5823fbe9448",
+      "run_id": 41240137880,
+      "size_in_bytes": 80559134
+    }
+  },
+  "manifest_sha256": "074f45c7c55d7ac351d3bce802a48b4397da997a7412983b54bef6447faf7232",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

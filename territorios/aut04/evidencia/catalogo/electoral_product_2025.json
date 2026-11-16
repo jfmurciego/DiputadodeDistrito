@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "illes_balears",
+  "territory_id": "aut04",
   "territory_name": "Islas Baleares",
   "edition": "2025",
-  "run_id": 43019811578,
-  "artifact_name": "ddd-state-43019811578-M08",
-  "artifact_sha256": "a2154bc1f51ea2445fe61b91ecc2a65d0943a77da538c1b30c6b85b9eb9fa57c",
-  "source_commit": "bc7f18e6ca8ccf10a1190478b05ae5949f6719b8",
+  "run_id": 43734347063,
+  "artifact_name": "ddd-state-43734347063-M08",
+  "artifact_sha256": "6a76b9b77c069e62d816ec5642d17c82ee419c470ebc1337bf33e5ef6861f5a7",
+  "source_commit": "f19e70255803088ef42e3bcfad0fb6e5d40cd262",
   "stage": "M08"
 }

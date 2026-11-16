@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "nac09",
+  "territory_name": "Congreso Burgos",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_burgos_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43758000236,
+    "artifact_name": "ddd-source-package-nac09-2025-43758000236",
+    "artifact_sha256": "e858eb9be988b0f8ca7ce6a4faad63e0832b7b0765dc5bd3ae2ff4c17e13d860",
+    "package_sha256": "267060a0034170ec89f89eaa6dedf6620e0ee2f9082c5326db5c051e31b0f804",
+    "source_commit": "200ce388adbc357161a606a5d2fc8be54de160c0",
+    "source_declaration": "territorios/nac09/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/nac09/evidencia/fuentes_territoriales/2025/2b6f377798fb70a1ad76fafff042eb5066244fd0d9eb8a8c6402f8ace5053e08/43758000236/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "2b6f377798fb70a1ad76fafff042eb5066244fd0d9eb8a8c6402f8ace5053e08",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "788c785cf87677d75ddc2f1b95fbed0b9a822ea69b9dc42925d42a2904439ef3",
+    "compatibility_identity_sha256": "cdf33a5dc78670d677d514a8cba274b289eae7194c77da8fbfabf67a05b79635",
+    "remote_verification": {
+      "run_id": 43758000236,
+      "artifact_id": 14179545306,
+      "artifact_name": "ddd-source-package-nac09-2025-43758000236",
+      "artifact_sha256": "e858eb9be988b0f8ca7ce6a4faad63e0832b7b0765dc5bd3ae2ff4c17e13d860",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43763027383,
+    "artifact_name": "ddd-electoral-package-nac09-2025-43763027383",
+    "artifact_sha256": "9f145dce165b5b35f94342b127ea1df09698f1cff9df54c30714e3863c4e8862",
+    "source_commit": "132e4ae08dd2c9a7c1c0804975e3e5185a462662",
+    "receipt_path": "territorios/nac09/evidencia/fuentes_electorales/2025/2a1370921ccf64b06b6a30ae5ff11b44e6a4c1cfd0b5c92623cd7102a07dc9fc/43763027383/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_burgos_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "2a1370921ccf64b06b6a30ae5ff11b44e6a4c1cfd0b5c92623cd7102a07dc9fc",
+    "remote_verification": {
+      "run_id": 43763027383,
+      "artifact_id": 14180279141,
+      "artifact_name": "ddd-electoral-package-nac09-2025-43763027383",
+      "artifact_sha256": "9f145dce165b5b35f94342b127ea1df09698f1cff9df54c30714e3863c4e8862",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "2b6f377798fb70a1ad76fafff042eb5066244fd0d9eb8a8c6402f8ace5053e08",
+  "electoral_compatibility_key": "2a1370921ccf64b06b6a30ae5ff11b44e6a4c1cfd0b5c92623cd7102a07dc9fc",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/nac09/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "571002bfe6e8c3af240722e7cb06e4064cc96acaa29256b3cec6fedfa37541c2"
+}

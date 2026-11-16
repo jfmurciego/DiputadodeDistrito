@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "nac44",
+  "territory_name": "Congreso Teruel",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_teruel_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43790237705,
+    "artifact_name": "ddd-source-package-nac44-2025-43790237705",
+    "artifact_sha256": "8a1d8f07675c6a0ae4d31509d3517c74d07d98599f28abbdb42fe336317fe80d",
+    "package_sha256": "ec558137a91ea7dd58db7c9f7012373bb76215c9d3e12ee7d63b6d2d3248e86c",
+    "source_commit": "868f12ee40e5d253d0c4e732bc4e0031cf4ebaed",
+    "source_declaration": "territorios/nac44/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/nac44/evidencia/fuentes_territoriales/2025/c8a8b8b3ab6d2573863e29801f38e91b2434e290194e21c774979ac38b67ee46/43790237705/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "c8a8b8b3ab6d2573863e29801f38e91b2434e290194e21c774979ac38b67ee46",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "fa048f371c93c1a931fef22548ff56b59f2806289ad5286ca1523293bc9c567a",
+    "compatibility_identity_sha256": "a98789eea901574ae97d0d079d7a41c0e89ec150776d3c2a7cc8e0262d84e1f8",
+    "remote_verification": {
+      "run_id": 43790237705,
+      "artifact_id": 14191878896,
+      "artifact_name": "ddd-source-package-nac44-2025-43790237705",
+      "artifact_sha256": "8a1d8f07675c6a0ae4d31509d3517c74d07d98599f28abbdb42fe336317fe80d",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43795184293,
+    "artifact_name": "ddd-electoral-package-nac44-2025-43795184293",
+    "artifact_sha256": "40e7b3344fabc31200312c97c30f8083f5eabc03330f0911d8d9715b50a2e48c",
+    "source_commit": "d267a746f176be96785e13f074a416cfd0dd1e71",
+    "receipt_path": "territorios/nac44/evidencia/fuentes_electorales/2025/d73793faaa730cd59cb3d9ecb51d88726ba9947f1b940e6c0099582aaa6290da/43795184293/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_teruel_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "d73793faaa730cd59cb3d9ecb51d88726ba9947f1b940e6c0099582aaa6290da",
+    "remote_verification": {
+      "run_id": 43795184293,
+      "artifact_id": 14193753897,
+      "artifact_name": "ddd-electoral-package-nac44-2025-43795184293",
+      "artifact_sha256": "40e7b3344fabc31200312c97c30f8083f5eabc03330f0911d8d9715b50a2e48c",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "c8a8b8b3ab6d2573863e29801f38e91b2434e290194e21c774979ac38b67ee46",
+  "electoral_compatibility_key": "d73793faaa730cd59cb3d9ecb51d88726ba9947f1b940e6c0099582aaa6290da",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/nac44/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "5aa2687e85c03a7d69b584d68c1a6cd64f88b7c626c50af5650051d3ef8cb977"
+}

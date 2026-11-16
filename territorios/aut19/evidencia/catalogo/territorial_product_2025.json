@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "melilla",
+  "territory_id": "aut19",
   "territory_name": "Melilla",
   "edition": "2025",
-  "run_id": 43045458268,
-  "artifact_name": "ddd-state-43045458268-M06",
-  "artifact_sha256": "3dd783f1f0de3570a93f0002b32d0f4a646ef9e44c4d6e16bee0187f37c117e5",
-  "source_commit": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
+  "run_id": 43750065634,
+  "artifact_name": "ddd-state-43750065634-M06",
+  "artifact_sha256": "46c79752e4f569d53704db1f7655307247c5ff3d9c40cb4b4507a1abfaf16047",
+  "source_commit": "e1e60501b80c798d2ffdff61fb8d0c817b7dda5f",
   "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/melilla/evidencia/generaciones_m06/43045458268.json"
+  "producer_manifest_path": "territorios/aut19/evidencia/generaciones_m06/43750065634.json"
 }

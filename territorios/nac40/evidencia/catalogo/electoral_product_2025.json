@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_segovia",
+  "territory_id": "nac40",
   "territory_name": "Congreso Segovia",
   "edition": "2025",
-  "run_id": 43029353804,
-  "artifact_name": "ddd-state-43029353804-M08",
-  "artifact_sha256": "2c4eaaa4ccf4f3df9c3ed0b22eb40fa05a6ba2e45e9f8a7cca9fc22a609f284b",
-  "source_commit": "777d1e29d0c205522b7bf83557b05bdc5c1b47df",
+  "run_id": 43793248399,
+  "artifact_name": "ddd-state-43793248399-M08",
+  "artifact_sha256": "1644b73281378743fffac98acfa9286b221d412addc2ce4f621650aab2f207e9",
+  "source_commit": "74542cb65b387f7fd451e64377f7d8267e9965e4",
   "stage": "M08"
 }

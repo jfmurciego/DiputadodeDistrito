@@ -1,10 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Extremadura
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.0.1
+# CAMBIOS 1.0.1 (T-353): territory_id y rutas con el id canónico (id viejo fuera).
+# ANTERIOR: legacy/territorios/aut11/config/elecciones/fuentes_oficiales_2025_v1.0.0_20261115.yaml
 # NOMBRE: Fuentes electorales oficiales 2025
 # FECHA: 2026-09-17
 schema: ddd-election-official-source-declaration/1.0
-territory_id: extremadura
+territory_id: aut11
 election_id: extremadura_asamblea_2025-12-21
 election_date: '2025-12-21'
 minimum_resolution: section
