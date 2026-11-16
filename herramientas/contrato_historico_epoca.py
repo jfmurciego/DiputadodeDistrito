@@ -102,16 +102,19 @@ def _sumas_t357(root: Path) -> dict:
 
 
 def leer_tabla(path: Path, eleccion: str) -> dict[str, dict]:
-    """{sección: {poblacion, origen}} de la tabla de población por sección (cabecera de T-358 o de T-364)."""
+    """{sección: {poblacion, origen}} de la tabla de población por sección: la única de T-358 (columna `elección`) o la de
+    T-364 por elección (`poblacion_seccion_<AAAA-MM>.csv`, sin columna de elección: va en el nombre del fichero)."""
     out: dict[str, dict] = {}
     with open(path, encoding="utf-8-sig", newline="") as f:
         r = csv.DictReader(f)
         n = {k.replace("ó", "o").replace("í", "i"): k for k in (r.fieldnames or [])}
-        for falta in ("eleccion", "seccion", "poblacion", "origen"):
+        for falta in ("seccion", "poblacion", "origen"):
             if falta not in n:
                 raise ErrorContrato(f"TABLA_SIN_COLUMNA {falta} en {path.name}")
+        if "eleccion" not in n and path.name != f"poblacion_seccion_{eleccion}.csv":
+            raise ErrorContrato(f"TABLA_DE_OTRA_ELECCION {path.name} (se espera poblacion_seccion_{eleccion}.csv)")
         for fila in r:
-            if fila[n["eleccion"]] != eleccion:
+            if "eleccion" in n and fila[n["eleccion"]] != eleccion:
                 continue
             s, p = fila[n["seccion"]], fila[n["poblacion"]]
             if len(s) != 10 or not s.isdigit() or s in out:

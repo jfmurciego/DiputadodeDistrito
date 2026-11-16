@@ -98,6 +98,23 @@ BASE = {"meta": {"territory_id": "nac22", "run_name": "nac22_2025", "year": 2025
         "generation_state": {"pre_m04_run_id": 1}}
 
 
+class TablaPoblacion(unittest.TestCase):
+    """Las dos interfaces: T-358 (columna elección) y T-364 (un CSV por elección; sin_dato con población vacía falla)."""
+
+    def test_interfaz_t364(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "poblacion_seccion_2019-11.csv"
+            p.write_text("sección,población,origen,ajustada,años_fuente\n2200101001,10,dato,no,2020\n"
+                         "2200101002,7,interpolada,sí,2019-2021\n", encoding="utf-8")
+            t = che.leer_tabla(p, "2019-11")
+            self.assertEqual((t["2200101001"]["poblacion"], t["2200101002"]["origen"]), (10, "interpolada"))
+            with self.assertRaises(SystemExit):
+                che.leer_tabla(p, "2019-04")  # fichero de otra elección
+            p.write_text("sección,población,origen,ajustada,años_fuente\n2200101001,,sin_dato,no,\n", encoding="utf-8")
+            with self.assertRaises(SystemExit):
+                che.leer_tabla(p, "2019-11")  # nunca se convierte en 0
+
+
 class ContratoProvincia(unittest.TestCase):
     def test_cambia_fuentes_anios_y_k_y_nada_mas(self):
         c = _contrato_sintetico("a" * 64, "b" * 64, "c" * 64, "d" * 64)

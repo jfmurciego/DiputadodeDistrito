@@ -53,7 +53,7 @@ M06/M08 cambian de hash por la fecha interna (conocido).
    o con población sin geometría (`casado_2019_11.csv`; T-357 §3 ya lo anticipaba). Hoy fallan cerradas en `materializar`. Hace falta
    una regla (¿la cubre T-364 con el ajuste municipal?, ¿sección nueva = reparto de su madre?) antes de la campaña. Las otras 4 elecciones
    no están medidas (mismo script).
-2. **Población provisional.** Los 5 contratos declaran la tabla de T-358 (D-126). Con la de T-364 (D-128) se regeneran (versión 1.1.0,
+2. **Población provisional.** Los 5 contratos declaran la tabla de T-358 (D-126). Con la de T-364 (D-128; #840: `poblacion_seccion_<AAAA-MM>.csv`, cabecera `sección,población,origen,ajustada,años_fuente`, generada con `--estricto`; `leer_tabla` ya la lee) se regeneran (versión 1.1.0,
    copia en `legacy/`). `estado` BLOQUEADA_RELLENO: 12 provincias en 2015-12, 11 en 2016-06 y 11 en 2019-04 (> 1 %, D-126).
 3. **Contrato base cambiante.** Si un robot reescribe `nacNN_2025.yaml`, `materializar` falla (huella): se regenera el contrato (barato).
 4. **Votos sin geometría.** 6 provincias de 2019-11 tienen 1-3 secciones de votos fuera del seccionado: van a «sin asignar» y la puerta
