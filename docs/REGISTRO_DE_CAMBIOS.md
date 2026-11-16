@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.483
+Versión: 1.0.484
 Fecha: 2026-11-16
-Alcance: T-388 — Depósito de mapas en Zenodo por API (D-146)
+Alcance: Operador — Ficha del ensayo en seco del 29-11 (documento, sin frase)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-16_t388-zenodo-api.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.482_registro_20261116.md
+Cambios/motivo: entrada docs/registro/2026-11-16_operador-ficha-ensayo-29-11.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.483_registro_20261116.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.482_registro_20261116.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.484 · [2026-11-16 — Operador — Ficha del ensayo en seco del 29-11 (documento, sin frase)](registro/2026-11-16_operador-ficha-ensayo-29-11.md)
 - 1.0.483 · [2026-11-16 — T-388 — Depósito de mapas en Zenodo por API (D-146)](registro/2026-11-16_t388-zenodo-api.md)
 - 1.0.482 · [2026-11-16 — T-379 — P00 Campaña, PR 1: estado de campaña](registro/2026-11-16_t379-campana-estado.md)
 - 1.0.481 · [2026-11-16 — T-372 — P40 Publicación sustituye al 05, la cadena y el publicador reutilizable](registro/2026-11-16_t372-p40-publicacion.md)
