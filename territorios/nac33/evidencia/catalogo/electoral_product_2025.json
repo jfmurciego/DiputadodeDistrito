@@ -4,9 +4,9 @@
   "territory_id": "nac33",
   "territory_name": "Congreso Asturias",
   "edition": "2025",
-  "run_id": 43787766893,
-  "artifact_name": "ddd-state-43787766893-M08",
-  "artifact_sha256": "62d822d714986fad431fbc9b47264845fc57b7f41b22a018a1224f57310ed6ae",
-  "source_commit": "43f44c9fa368e1d0807a2c00cd589378801b11df",
+  "run_id": 43795147177,
+  "artifact_name": "ddd-state-43795147177-M08",
+  "artifact_sha256": "6d1b8beb5cf50e5b7e9a1e52085c231bbaa0ba39e4c7a681ad1288995e21ce3a",
+  "source_commit": "75dbe0f51c9114901ac05de17ccc1265eff3b197",
   "stage": "M08"
 }
