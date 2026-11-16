@@ -1,0 +1,12 @@
+Licencia de los mapas de este depósito: Creative Commons Atribución 4.0 Internacional (CC BY 4.0).
+
+Puedes copiar, redistribuir y adaptar los mapas para cualquier fin, también comercial, si atribuyes la autoría
+(Jesus Murciego, ORCID 0009-0002-4434-959X; DOI de este depósito), indicas si has hecho cambios y enlazas la licencia.
+
+Texto legal completo (el único vinculante):
+  https://creativecommons.org/licenses/by/4.0/legalcode.es
+Resumen: https://creativecommons.org/licenses/by/4.0/deed.es
+
+Alcance: solo los mapas y su documentación de este depósito. No incluye el motor ni el código del proyecto, que no se
+depositan aquí y no se licencian con esta licencia. Las fuentes de datos conservan sus propias condiciones (ver
+NOTA_FUENTES.md). Los mapas son un ejercicio de investigación y no tienen valor oficial.

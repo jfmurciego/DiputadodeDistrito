@@ -79,7 +79,7 @@ class Disparadores(Congelado):
         self.assertEqual(self.p["name"], "P50 Publicación académica")
         self.assertEqual(set(on(self.p)), {"workflow_dispatch"})  # sin workflow_call: la 05 ya no lo lanza
         entradas = on(self.p)["workflow_dispatch"]["inputs"]
-        self.assertEqual(set(entradas), {"territorios"})
+        self.assertEqual(set(entradas), {"territorios", "destino", "concepto_nuevo"})  # T-388: destino añadido
         self.assertEqual(entradas["territorios"]["type"], "string")
         self.assertEqual(entradas["territorios"]["default"], "todos")
         self.assertNotIn("version", entradas)  # versión automática
@@ -132,7 +132,7 @@ class Equivalencia(Congelado):
             self.assertTrue(p["blob_sha"] and p["sha256"] and str(p["run_id"]).isdigit(), t)
 
     def test_release_una_por_lote_con_todos_los_territorios(self):
-        run = paso(self.p["jobs"]["publicar"], "Crear Release (Zenodo la archiva y asigna DOI)")["run"]
+        run = paso(self.p["jobs"]["publicar"], "Crear Release")["run"]
         self.assertEqual(len(re.findall(r"gh release create", run)), 1)
         self.assertIn('"$TAG"', run)
         self.assertIn("MAPAS.json", run)

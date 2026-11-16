@@ -1,14 +1,14 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.1.0
 # FECHA: 2026-11-16
 # ESTADO: candidato
-# CAMBIOS: T-370 (D-133, migración paso 4): fichero nuevo; sustituye a publicar-version-mapa.yml 1.1.2 («P60 Publicación académica»).
+# CAMBIOS: 1.1.0 (T-388, D-146): job `zenodo` tras la Release: deposita los mapas (CC BY 4.0, sin código) por la API de Zenodo; botón `destino` (prueba | Zenodo). 1.0.0: T-370 (D-133, migración paso 4): fichero nuevo; sustituye a publicar-version-mapa.yml 1.1.2 («P60 Publicación académica»).
 # MOTIVO: un solo botón sin parámetros técnicos: territorios (códigos o «todos» = los publicados). El M06 sale del visor
 #   (blob de orchestracion/publicaciones_visor.json con su sha256, no un artefacto de Actions). Versión automática (D-88/D-94).
-# ANTERIOR: ninguna (fichero nuevo); sustituye a legacy/workflows/publicar-version-mapa_v1.1.2_20261116.yml
+# ANTERIOR: legacy/workflows/p50-publicacion-academica_v1.0.0_20261116.yml
 # Publica mapas como versión inmutable: manifiesto SHA-256, atestación SLSA firmada con Sigstore y GitHub Release.
-# Una Release por lote, `mapas-v<versión>`, con todos los territorios elegidos; la integración Zenodo–GitHub la archiva
-# y le asigna un DOI (uno por versión de la serie). Versión: 1.0.0 la primera; sube la menor si cambia el mapa; se NIEGA si no cambia.
+# Una Release por lote, `mapas-v<versión>`, con todos los territorios elegidos; el job `zenodo` la deposita por la API
+# (herramientas/zenodo_deposito.py; sin integración GitHub–Zenodo) y Zenodo asigna el DOI (uno por versión de la serie). Versión: 1.0.0 la primera; sube la menor si cambia el mapa; se NIEGA si no cambia.
 # El entorno `publicacion`, la atestación y el empaquetado determinista son los de la versión anterior.
 name: P50 Publicación académica
 
@@ -20,6 +20,19 @@ on:
         required: true
         default: todos
         type: string
+      destino:
+        description: "Destino del depósito: prueba (sandbox.zenodo.org, por defecto) o Zenodo (el real, con DOI definitivo)"
+        required: true
+        default: prueba
+        type: choice
+        options:
+          - prueba
+          - Zenodo
+      concepto_nuevo:
+        description: "Solo si Zenodo no admite seguir la serie de DOI: permitir abrir una serie nueva (por defecto NO; sin marcar, el depósito falla y deja el borrador)"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -160,7 +173,7 @@ jobs:
         with:
           subject-path: salida/ddd-*-v*.tar.gz
 
-      - name: Crear Release (Zenodo la archiva y asigna DOI)
+      - name: Crear Release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -169,3 +182,55 @@ jobs:
           gh release create "$TAG" salida/ddd-*-v*.tar.gz salida/SHA256SUMS salida/MAPAS.json --target "$sha" \
             --title "Mapas v${V}" \
             --notes "Mapas v${V} ($(jq -r '.territorios | length' plan.json) territorios) sobre el commit ${sha}. Verificar con: gh attestation verify <paquete>.tar.gz --repo ${GITHUB_REPOSITORY}. Mapas de investigación sin valor oficial."
+
+  zenodo:
+    name: Depositar mapas en Zenodo
+    needs: [resolver, publicar]
+    runs-on: ubuntu-latest
+    environment: publicacion          # el mismo entorno; aquí viven ZENODO_TOKEN y ZENODO_SANDBOX_TOKEN
+    permissions:
+      contents: read                  # solo leer la Release y el repositorio: sin escritura ni OIDC
+    env:
+      V: ${{ needs.resolver.outputs.version }}
+      TAG: ${{ needs.resolver.outputs.tag }}
+      DESTINO: ${{ inputs.destino }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Reunir ficheros del depósito (solo mapas, sin código)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p zen
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --dir zen --pattern 'ddd-*-v*.tar.gz' --pattern SHA256SUMS
+          python3 herramientas/zenodo_deposito.py linaje --dir zen --salida zen/LINAJE.json
+          cp docs/zenodo/LICENCIA_CC-BY-4.0.txt docs/zenodo/NOTA_FUENTES.md zen/
+          ls -l zen
+
+      - name: Depositar en Zenodo (prueba)
+        if: ${{ inputs.destino == 'prueba' }}
+        env:
+          ZENODO_TOKEN: ${{ secrets.ZENODO_SANDBOX_TOKEN }}   # solo este secreto, solo en este paso; sin respaldo cruzado
+        run: |
+          set -euo pipefail
+          python3 herramientas/zenodo_deposito.py depositar --destino prueba --version "$V" --tag "$TAG" \
+            --repo "$GITHUB_REPOSITORY" --ficheros zen/* > informe_zenodo.json
+          jq -r '"- Depósito de prueba: \(.doi // "sin publicar") · concepto nuevo: \(.concepto_nuevo)"' informe_zenodo.json >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Depositar en Zenodo (real)
+        if: ${{ inputs.destino == 'Zenodo' }}
+        env:
+          ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}           # solo este secreto, solo en este paso; sin respaldo cruzado
+          CONCEPTO_NUEVO: ${{ inputs.concepto_nuevo }}
+        run: |
+          set -euo pipefail
+          extra=()
+          if [[ "$CONCEPTO_NUEVO" == "true" ]]; then extra=(--permitir-concepto-nuevo); fi
+          python3 herramientas/zenodo_deposito.py depositar --destino Zenodo --version "$V" --tag "$TAG" \
+            --repo "$GITHUB_REPOSITORY" --ficheros zen/* "${extra[@]}" > informe_zenodo.json
+          {
+            echo "### Depósito en Zenodo"
+            echo "- Versión: $V · concepto nuevo: $(jq -r .concepto_nuevo informe_zenodo.json)"
+            echo "- DOI: $(jq -r '.doi // "sin publicar"' informe_zenodo.json) · $(jq -r '.url // .url_borrador // ""' informe_zenodo.json)"
+          } >> "$GITHUB_STEP_SUMMARY"
