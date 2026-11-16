@@ -1,16 +1,17 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 1.0.1
+# VERSIÓN: 1.1.0
+# CAMBIOS 1.1.0: T-370 (D-133), se quita el job version_mapa y la entrada version: la versión del mapa va en «P50 Publicación académica» (p50-publicacion-academica.yml).
 # CAMBIOS 1.0.1: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P50 Publicación — Cadena» (antes 05 Cadena de Publicación).
 # NOMBRE: Cadena de publicación con un solo lanzamiento (T-87, D-14)
 # ESTADO: candidato
-# FECHA: 2026-11-10
+# FECHA: 2026-11-16
 # QUÉ HACE: dada una 00 con la puerta 04 cerrada, resuelve desde su registro durable el run que generó el M08
-#   (el origen si fue «Reutilizar»), el M06 y el territorio, y dispara juntos la 05 del visor y la versión del
-#   mapa (Release, Zenodo) con el mismo run y el mismo sha. Por defecto solo simula: no publica nada.
+#   (el origen si fue «Reutilizar»), el M06 y el territorio, y dispara la 05 del visor con el mismo run y el mismo sha
+#   (desde 1.1.0 la versión del mapa va aparte, en P50 Publicación académica). Por defecto solo simula: no publica nada.
 # CAMBIOS: fichero nuevo.
 # MOTIVO: D-14, la puerta humana es el permiso del propietario en el chat del Operador; una sola orden por lanzamiento.
-# ANTERIOR: legacy/workflows/cadena-publicacion_v1.0.0_20261110.yml
+# ANTERIOR: legacy/workflows/cadena-publicacion_v1.0.1_20261116.yml
 name: P50 Publicación — Cadena
 
 on:
@@ -18,10 +19,6 @@ on:
     inputs:
       production_run_id:
         description: Run de la 00 con la puerta 04 cerrada
-        required: true
-        type: string
-      version:
-        description: Versión semántica del mapa (p. ej. 1.0.0)
         required: true
         type: string
       modo:
@@ -63,11 +60,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           RUN: ${{ inputs.production_run_id }}
-          V: ${{ inputs.version }}
           MODO: ${{ inputs.modo }}
         run: |
           set -euo pipefail
-          [[ "$V" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "::error::VERSION_NO_SEMVER=$V"; exit 1; }
           if ! out="$(python3 herramientas/resolver_cadena_publicacion.py --root . --run-id "$RUN")"; then
             echo "::error::CADENA_BLOQUEADA: $(jq -r '.reasons | join(", ")' <<<"$out")"; exit 1
           fi
@@ -79,10 +74,6 @@ jobs:
             --jq "[.artifacts[] | select(.expired == false and .name == \"$2\")] | length" 2>/dev/null || echo 0; }
           [[ "$(vivo "$pub" "$m08a")" != 0 ]] || { echo "::error::M08_ARTEFACTO_CADUCADO=$m08a (run $pub): regenerar con la 00"; exit 1; }
           [[ "$(vivo "$m06r" "$m06a")" != 0 ]] || { echo "::error::M06_ARTEFACTO_CADUCADO=$m06a (run $m06r): regenerar con la 00"; exit 1; }
-          tag="mapa-${terr}-v${V}"
-          if gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag" >/dev/null 2>&1; then
-            echo "::error::RELEASE_YA_EXISTE=$tag"; exit 1
-          fi
           sha="$(git rev-parse HEAD)"
           {
             echo "publish_run_id=$pub"; echo "territory_id=$terr"; echo "m06_run_id=$m06r"
@@ -92,7 +83,7 @@ jobs:
           {
             echo "### Cadena de publicación ($MODO)"
             echo "- 00 solicitada: $RUN · run publicado: $pub · territorio: $terr"
-            echo "- M06: $m06a (run $m06r) · Release: $tag · sha: $sha"
+            echo "- M06: $m06a (run $m06r) · sha: $sha"
             [[ "$MODO" == publicar ]] || echo "- Simulación: no se publica nada."
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -109,23 +100,5 @@ jobs:
     secrets: inherit
     with:
       pagina_publicar: Sitio completo
-      production_run_id: ${{ needs.resolver.outputs.publish_run_id }}
-      source_sha: ${{ needs.resolver.outputs.source_sha }}
-
-  version_mapa:
-    name: Publicar versión del mapa
-    needs: resolver
-    if: ${{ needs.resolver.outputs.publicar == 'true' }}
-    permissions:
-      contents: write
-      actions: read
-      id-token: write
-      attestations: write
-    uses: ./.github/workflows/publicar-version-mapa.yml
-    with:
-      territory_id: ${{ needs.resolver.outputs.territory_id }}
-      source_run_id: ${{ needs.resolver.outputs.m06_run_id }}
-      artifact_name: ${{ needs.resolver.outputs.m06_artifact }}
-      version: ${{ inputs.version }}
       production_run_id: ${{ needs.resolver.outputs.publish_run_id }}
       source_sha: ${{ needs.resolver.outputs.source_sha }}

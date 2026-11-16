@@ -11,7 +11,7 @@ Todos los ficheros están probados contra el repositorio en `a2a15b3`.
 | `herramientas/fijar_acciones_por_sha.sh` | igual | Fija las 156 referencias de acciones a SHA inmutable |
 | `.github/CODEOWNERS` | igual | Exige revisión en núcleo, módulos y configuración |
 | `.github/dependabot.yml` | igual | Mantiene al día SHA y dependencias |
-| `.github/workflows/publicar-version-mapa.yml` | igual | Mapa → manifiesto → atestación firmada → Release → DOI |
+| `.github/workflows/p50-publicacion-academica.yml` | sustituye a publicar-version-mapa.yml (T-370) | Mapa → manifiesto → atestación firmada → Release → DOI |
 | `CITATION.cff` | raíz | Botón «Cite this repository» y metadatos para Zenodo |
 | `.zenodo.json` | raíz | Metadatos de Zenodo (prevalece sobre CITATION.cff) |
 | `docs/PREINSCRIPCION_OSF.md` | igual | Plantilla OSF con los parámetros reales de Aragón |

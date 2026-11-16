@@ -1,9 +1,10 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.1.1
+# VERSIÓN: 1.1.2
+# CAMBIOS 1.1.2 (T-370): «Publicar versión de mapa» pasa a `p50-publicacion-academica.yml` («P50 Publicación académica»).
 # CAMBIOS 1.1.0: T-215, columna «Nombre visible v5» (el nombre que lleva hoy cada fichero tras el paso 4) y nota de separadores.
 # FECHA: 2026-11-12
 # CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-# ANTERIOR: legacy/tests/generar_equivalencias_5_0_0_v1.1.0_20261112.py
+# ANTERIOR: legacy/tests/generar_equivalencias_5_0_0_v1.1.1_20261116.py
 """T-198: genera docs/ARQUITECTURA/EQUIVALENCIAS_5_0_0.md (viejo -> nuevo) de la tabla maestra.
 
 Reproducible: `python tests/generar_equivalencias_5_0_0.py` reescribe el documento;
@@ -45,7 +46,7 @@ FLUJOS = [
     ("incorporacion-resultados-electorales.yml", "04 Incorporación de Resultados Electorales", "P40 Resultados electorales", "P40 Resultados electorales"),
     ("desplegar-visor-publico.yml", "05 Publicación del Visor", "P50 Publicación", "P50 Publicación"),
     ("cadena-publicacion.yml", "05 Cadena de Publicación", "P50 Publicación", "P50 Publicación — Cadena"),
-    ("publicar-version-mapa.yml", "Publicar versión de mapa", "P60 Publicación académica", "P60 Publicación académica"),
+    ("p50-publicacion-academica.yml", "Publicar versión de mapa (publicar-version-mapa.yml, T-370)", "P50 Publicación académica", "P50 Publicación académica"),
     ("p70-archivo.yml", "ARC Archivo — Poda de R2 / Recuperar producto electoral / Automático — Mantenimiento (T-368)", "P70 Archivo", "P70 Archivo"),
 ]
 PRODUCTOS = [
