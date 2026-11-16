@@ -35,7 +35,7 @@ class GaliciaElectoralVigente(unittest.TestCase):
         d=yaml.safe_load(WF.read_text(encoding="utf-8"))
         trigger=d.get("on") or d.get(True)
         inputs=trigger["workflow_dispatch"]["inputs"]
-        self.assertEqual(list(inputs),["territory_id","data_edition","reutilizar_si_ya_preparada"])
+        self.assertEqual(list(inputs),["territory_id","data_edition","reutilizar_si_ya_preparada","eleccion"])
         self.assertEqual(inputs["data_edition"]["options"],["2025"])
         self.assertNotIn("confirmar_preparacion",inputs)
         text=WF.read_text(encoding="utf-8")

@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# CAMBIOS 2026-11-14 (T-332): contratos `rehearsal: true` (ensayo de las generales 2026-11-29): exigen PROVISIONAL, sin
+#   owner_production_exception, production_eligible y promotion_allowed en false, y el sha256 de un fichero de ensayo
+#   (64 hex, o la marca explícita «PENDIENTE_T333» hasta que el Operador suba el fichero; la 03 falla cerrado). Devuelven `rehearsal`.
+#   Formato del feed Minsait del 29-11: supuesto, sin documento; si no encaja → publicar SOLO con infoelectoral_mesas definitivo (propietario).
+# ANTERIOR (b): legacy/herramientas/resolver_contrato_minsait_provisional_pre_ensayo_20261114.py
 # CAMBIOS 2026-10-29: owner_production_exception (decided_at, rationale, evidence, max_delta_ratio)
 #   hace production_eligible=true si la diferencia con el definitivo no supera el máximo.
 # ANTERIOR: legacy/herramientas/resolver_contrato_minsait_provisional_pre_excepcion_20261029.py
@@ -6,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 
 import yaml
@@ -17,6 +23,7 @@ from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id v
 
 SCHEMA = "ddd-minsait-provisional-contracts/1.0"
 DEFAULT_PATH = Path("configuracion/contratos_minsait_provisionales.yaml")
+PENDING_SHA = "PENDIENTE_T333"  # marca explícita: solo contratos `rehearsal` no elegibles; la 03 falla cerrado (exit 53)
 
 
 def resolve(
@@ -54,6 +61,13 @@ def resolve(
     if bool(row["production_eligible"]) or bool(row["promotion_allowed"]):
         raise ValueError("Un contrato Minsait provisional no puede ser promocionable")
 
+    rehearsal = row.get("rehearsal") is True
+    if rehearsal:
+        if row.get("source_status") != "PROVISIONAL" or row.get("owner_production_exception") is not None:
+            raise ValueError(f"Contrato de ensayo {election_id}: debe ser PROVISIONAL y sin excepción de producción")
+        sha = str(row.get("source_sha256") or "").strip()
+        if not str(row.get("source_url") or "").strip() or not (re.fullmatch(r"[0-9a-f]{64}", sha) or sha == PENDING_SHA):
+            raise ValueError(f"Contrato de ensayo {election_id}: source_url vacío o source_sha256 ni 64 hex ni {PENDING_SHA}")
     expected = row["expected"] or {}
     for key in ("ccaa", "provinces", "sections", "polling_stations", "candidate_votes"):
         if expected.get(key) in (None, ""):
@@ -91,6 +105,7 @@ def resolve(
         "election_id": election_id,
         **row,
         "production_eligible": production_eligible,
+        "rehearsal": rehearsal,
         "expected": {
             "ccaa": str(expected["ccaa"]).zfill(2),
             "provinces": int(expected["provinces"]),
