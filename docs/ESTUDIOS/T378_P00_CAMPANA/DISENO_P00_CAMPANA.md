@@ -1,6 +1,6 @@
 # T-378 · Diseño al detalle de P00 Campaña y de la nueva forma de trabajar
 
-VERSIÓN: 1.1.2 · FECHA: 2026-11-16 · ANTERIOR: `legacy/docs/ESTUDIOS/T378_P00_CAMPANA/DISENO_P00_CAMPANA_v1.1.1.md` ·
+VERSIÓN: 1.1.3 · FECHA: 2026-11-16 · ANTERIOR: `legacy/docs/ESTUDIOS/T378_P00_CAMPANA/DISENO_P00_CAMPANA_v1.1.2.md` ·
 ESTADO: propuesta para el revisor independiente y el propietario (T-387, D-145)
 CAMBIOS 1.1.0: decisiones A, B y C de D-145 (la validación desde la rama no escribe en `main`; 15 territorios a la vez
 con un solo job por cadena; la noche del 29-11 con la 00 actual) y todos los arreglos del revisor del diseño 1.0:
@@ -17,7 +17,9 @@ CAMBIOS 1.1.2: revisión de la 1.1.1 (M2 condicionado): inventario verificado de
 y entorno, partición de los 3 jobs que ya tienen otro entorno, `registro` sin revisores, cierre en dos jobs excluyentes
 por rama, efecto en los robots que corren con otra ref, secretos de entorno en reutilizables marcados no verificados,
 recuento de `queue: max` con criterio, campaña cancelada sin forense.
-MOTIVO: D-145 (corrige D-143 tras el revisor del diseño 1.0) y revisiones de la 1.1.0 y la 1.1.1.
+CAMBIOS 1.1.3: decisiones del propietario D-147 sobre §15 (segunda campaña rechazada con aviso; el cierre no se amplía a
+`RUTAS_ROBOT` y dispara la CI de `main`; cierre de validación en rama + PR en borrador; entorno `registro`).
+MOTIVO: D-145 (corrige D-143 tras el revisor del diseño 1.0), revisiones de la 1.1.0 y la 1.1.1, y D-147.
 
 Solo documento: no cambia código, workflows ni datos, y no lanza nada. Base: `origin/main` 8221ab9. Límites de GitHub
 con cita, fuente y fila en `ANEXO_A_LIMITES_GITHUB.md` 1.1.0 (las referencias «fila n» son de ese anexo). Cada arreglo
@@ -33,6 +35,7 @@ lleva su prueba prevista; el resumen está en §14. Las decisiones que aún nece
 | La 00 | se borraba en la PR 3 | **no se borra en la PR 3**; se retira en una PR aparte tras el 29-11 | §13 |
 | Apartado | «el territorio queda apartado» | definición exacta, recuento sin duplicados y job `resultado` en rojo | §4 |
 | Permisos y cierre | un commit al cierre | permisos por job, orden de operaciones del cierre y reintentos acotados | §5, §6 |
+| Decisiones finales (D-147) | 4 abiertas | segunda campaña rechazada; cierre con CI de `main`; validación en rama + PR en borrador; entorno `registro` | §3, §6, §10, §15 |
 
 ## 1. Qué cambia, en una frase
 
@@ -114,14 +117,14 @@ P00 Campaña (una ejecución; un solo commit del código para todo)
   mucho un sucesor y un predecesor activos).
 - **Resultados por territorio:** GitHub solo devuelve la salida de la última fila de una matriz de reutilizables
   (fila 12); cada territorio deja su resultado en R2 (§5) y el cierre lo lee de ahí.
-- **Una campaña a la vez.** A nivel de P00: `concurrency: {group: ddd-p00-campana, cancel-in-progress: false}` (sin
-  `queue: max`). Efecto (fila 19): una segunda campaña **espera** a que termine la primera; si llega una tercera
-  mientras la segunda espera, GitHub cancela la segunda y deja la tercera. Elijo **encolar una** frente a rechazar:
-  un doble clic no lanza dos campañas ni pierde la orden, y la que espera hace su comprobación previa al empezar (CI en
-  verde de su versión y caducidad de la ficha de autorización, D-52), así que si la autorización ha caducado se queda en
-  «solo comprobar». No se usa `queue: max` (hasta 100 en cola, fila 6): varias campañas encoladas en silencio serían
-  campañas no autorizadas a destiempo. La prueba de humo de la PR usa otro grupo (`ddd-p00-pr-<n>`) para no bloquear
-  campañas. Prueba: test del YAML que fija el grupo, `cancel-in-progress: false` y la ausencia de `queue` en P00.
+- **Una campaña a la vez (D-147: se rechaza la segunda).** P00 **no** lleva grupo de concurrencia a nivel de workflow
+  (con él, GitHub encola la segunda en vez de rechazarla, fila 19). El primer job, la comprobación previa, consulta por
+  la API las ejecuciones de P00 en curso (`in_progress`, `queued`, `waiting`) del mismo workflow: si hay otra, la
+  ejecución termina en rojo con el aviso «hay otra campaña en curso (run <id>)», sin lanzar nada ni escribir en R2, y
+  abre o comenta el issue de la campaña en curso. Si dos arrancan a la vez y se ven mutuamente, sigue la de `run_id`
+  menor y se rechaza la otra. Las ejecuciones de la prueba de humo (`pull_request`) no cuentan ni bloquean. Prueba:
+  test de la herramienta de comprobación con una lista sintética de ejecuciones (ninguna → sigue; otra en curso →
+  rechazo; dos simultáneas → sigue la menor) y test del YAML que comprueba que P00 no declara `concurrency` de workflow.
 
 ### Semáforo de la comprobación previa
 
@@ -266,12 +269,14 @@ prueba de humo cancela una vez a propósito y comprueba que no se escribe nada. 
 `cancelled`, no en `failure`: **no se abre la IA de cierre** (P90 solo se dispara con `failure`, §7). Es lo buscado: la
 cancelación la decide una persona, que ya sabe por qué.
 
-**El commit de cierre cuenta como robot.** P90 trata un push como robot (`needs.cambios.outputs.robot`, l. 53-95) si
-el autor es `[bot]` y **todas** las rutas están en `RUTAS_ROBOT`; un robot no cancela la CI de `main` (los grupos
-`ddd-main-*` solo se usan con `robot != 'true'`). El cierre escribe solo rutas de esa lista. Prueba: test que calcula
-la lista de ficheros que el cierre puede escribir y comprueba que todas casan con `RUTAS_ROBOT` de `p90-automatico.yml`.
-Riesgo conocido: los robots de hoy también escriben `configuracion/catalogo_preparacion.yaml`, que **no** está en
-`RUTAS_ROBOT`; si el cierre tiene que escribirlo, hace falta decidir (§15).
+**El commit de cierre y la CI de `main` (D-147).** El cierre escribe también `configuracion/catalogo_preparacion.yaml`,
+que no está en `RUTAS_ROBOT`, y la lista **no se amplía**: P90 no lo trata como robot y lanza la batería completa en
+`main`. Es un push por campaña, así que el coste es una batería por campaña. Efecto conocido: como push «no robot»,
+usa los grupos `ddd-main-*` con `cancel-in-progress: true`, de modo que un push de código posterior la cancela, o el
+cierre cancela la de un push de código anterior aún en curso; vale la regla de «`main` en verde» de siempre (una
+batería cancelada no cuenta hasta que otra completa termine en verde). Prueba: test que calcula la lista de ficheros
+que el cierre puede escribir y comprueba que todas están en `RUTAS_ROBOT` salvo `configuracion/catalogo_preparacion.yaml`
+(si aparece otra ruta, el test falla y se decide aparte).
 
 Pruebas del cierre: test del commit idempotente (dos cierres con el mismo estado → un commit); test de push rechazado
 tres veces (dos rebases, luego «cierre pendiente» y salida ≠0, sin objeto `cierre` en R2); test de fallo del issue
@@ -307,7 +312,7 @@ que su texto de instrucciones contiene la cláusula de entrada no confiable.
 | Duración de un job / de una ejecución | 6 h / 35 días | 3 / 2 | Ver abajo. |
 | Re-ejecuciones de una ejecución | 50 | 5 | Margen para el cierre y los transitorios. |
 | `fail-fast` por defecto | `true` | 18 | Se fija `false`. |
-| Cola de un grupo de concurrencia | 1 en espera (100 con `queue: max`) | 19 / 6 | Una campaña en espera como mucho (§3). |
+| Cola de un grupo de concurrencia | 1 en espera (100 con `queue: max`) | 19 / 6 | Por eso P00 no usa grupo de workflow: la segunda campaña se rechaza en la comprobación previa (§3, D-147). |
 
 **36 min frente a 120 min (reconciliado).** El job más largo de la r4 (36 min) fue «Encadenar par de fuentes y 04»,
 que **espera** a otras ejecuciones y desaparece con P00. El job de trabajo más largo medido fue «Optimización de
@@ -338,8 +343,8 @@ GitHub solo muestra el botón con el fichero en `main`, pero deja lanzarlo desde
 una vez (fila 14). Por eso la PR 3 lleva una prueba de humo por el evento de la PR.
 
 - **El cierre de una validación no escribe en `main`.** Si la ejecución no viene de `main`, el cierre hace su commit
-  en una **rama de cierre** `p00-cierre/<run_id>` creada desde `main` y, si el propietario lo quiere, abre una PR en
-  borrador con `no-automerge` para ver la diferencia. Nada se fusiona. El objeto `cierre` en R2 guarda esa rama.
+  en una **rama de cierre** `p00-cierre/<run_id>` creada desde `main` y abre una **PR en borrador** con `no-automerge` hacia `main` para ver
+  la diferencia (D-147). Nada se fusiona: la PR se cierra sin fusionar tras revisar la validación. El objeto `cierre` en R2 guarda esa rama.
 - **Quién lo garantiza (M2, 1.1.1).** Esa regla vive en el código de la propia rama: una rama modificada y lanzada por
   la API podría saltársela y escribir en `main` con la app de registro, porque hoy sus secretos
   (`DDD_REGISTRO_APP_ID`/`KEY`) son del repositorio y cualquier rama los lee. Para que sea firme:
@@ -455,13 +460,13 @@ no consta aún en el repositorio.
 |---|---|---|---|
 | 1 | Estado de campaña | Herramientas de comprobación previa, semáforo, recuento (clave §4, `sin_resultado`, parada), `resultado`, cierre (huella, idempotencia) e informe; lectura/escritura en R2; sin workflows | tests de §2, §4 y §6 |
 | 2 | Puerta como acción compuesta | Sustituye `_reutilizable-puerta-validacion.yml` | test de equivalencia |
-| **2a** | Entorno `registro` (si se aprueba, §15) | Entorno sin revisores y limitado a `main`; `environment: registro` en los 25 usos del inventario (§10); parte `podar`, `preparar_publicacion` y `publicar`; humo real con un reutilizable; después el propietario traslada los secretos y borra los del repositorio | test de secretos con entorno; humo |
+| **2a** | Entorno `registro` (D-147) | Entorno sin revisores y limitado a `main`; `environment: registro` en los 25 usos del inventario (§10); parte `podar`, `preparar_publicacion` y `publicar`; humo real con un reutilizable; después el propietario traslada los secretos y borra los del repositorio | test de secretos con entorno; humo |
 | **2b** | Entrada «campaña» en P10-P30 | Entrada oculta `campana`; P10-P30 con `contents: read`; registro suelto a un reutilizable propio; ruta de campaña solo R2, sin grupos globales, jobs en serie con `!cancelled()`. **Sin cambiar su comportamiento suelto** | tests de §3 (serie) y §5 (sin push, permisos, equivalencia, grupos) |
 | 3 | P00 Campaña | `p00-campana.yml` + cadena + cierre + `resultado` + issue; skills; **no borra la 00** ni el Gestor | tests de §3 (concurrencia), §6 y §10; prueba de humo |
 | 4 | IA de cierre | Forense por campaña en P90 (§7) | test de §7 |
 | 5 | Retirada (tras el 29-11) | Borra la 00, Gestor, Legislatura y Elección; listas de los tests de catálogo | tests de catálogo |
 
-PR 1 puede empezar ya; 2a cuando se decida §15.4; 2, 2b y 3 tras T-377 y tras fusionarse P10-P30; 3 se fusiona después del 29-11.
+PR 1 ya en curso (T-379); 2a, 2, 2b, 3 y 4 detrás de T-377 y de la fusión de P10-P30; 2a antes de la 3 (la 3 depende del entorno `registro` para `cierre_main`); 3 se fusiona después del 29-11.
 
 ## 14. Arreglos del revisor: sección y prueba
 
@@ -476,10 +481,10 @@ PR 1 puede empezar ya; 2a cuando se decida §15.4; 2, 2b y 3 tras T-377 y tras f
 | Decisión A garantizada por entorno, no por el código de la rama (M2) | §10 | secretos con entorno; push de prueba rechazado |
 | Serie con `!cancelled()`; cierre y `resultado` con `!cancelled()`; campaña cancelada (m1, m2) | §4, §6 | YAML; humo con una cancelación |
 | IA de cierre: permisos mínimos, secreto, entrada no confiable | §7 | YAML y cláusula |
-| Concurrencia de P00 (encolar una) | §3 | YAML |
+| Segunda campaña rechazada con aviso (D-147) | §3 | comprobación con ejecuciones sintéticas; sin `concurrency` de workflow |
 | Cierre atómico (huella, idempotencia, R2 después del push, tope 2, issue antes) | §6 | tres tests del cierre |
 | Grupos globales fuera de la ruta de campaña | §5 | grupos con territorio |
-| Commit de cierre como robot | §6 | rutas ⊆ `RUTAS_ROBOT` |
+| Commit de cierre y CI de `main` (D-147) | §6 | rutas ⊆ `RUTAS_ROBOT` + `catalogo_preparacion.yaml` |
 | PR 2b, la 00 no se borra en la PR 3, 29-11 con la 00 | §11, §13 | — (plan) |
 | Traducción `2026-11` ↔ «ensayo 2026-11-29»; el ensayo no commitea | §2 | tabla y cierre vacío |
 | Listas mixtas con elección inexistente | §2 | rojo por territorio |
@@ -487,13 +492,15 @@ PR 1 puede empezar ya; 2a cuando se decida §15.4; 2, 2b y 3 tras T-377 y tras f
 | 36 min frente a 120 min | §8 | — |
 | Coste y reloj reproducibles | §12 | — (filtro y criterio) |
 
-## 15. Decisiones que aún necesito del propietario
+## 15. Decisiones del propietario
 
-1. **Concurrencia de P00:** encolar una campaña (recomendado, §3) o rechazar la segunda mientras haya una en curso.
-2. **Commit de cierre y `RUTAS_ROBOT`:** si el cierre debe escribir `configuracion/catalogo_preparacion.yaml` (hoy fuera
-   de la lista), (a) añadir esa ruta exacta a `RUTAS_ROBOT` (la cubre la batería nocturna) — recomendado — o (b) aceptar
-   que ese cierre lance la suite completa en `main`.
-3. **Rama de cierre de la validación:** solo la rama (recomendado) o rama + PR en borrador con `no-automerge`.
-4. **Garantía de la decisión A (M2):** (a) entorno `registro` limitado a `main` con los secretos de la app (PR 2a antes
-   de la PR 3; el traslado de secretos lo haces tú en Ajustes) — recomendado — o (b) aceptar que la regla dependa del
-   código revisado de la rama.
+Tomadas el 16-11 (**D-147**) sobre las cuatro que quedaban:
+
+1. **Segunda campaña:** se **rechaza con aviso** mientras otra esté en curso; no se encola (§3).
+2. **`RUTAS_ROBOT`:** `configuracion/catalogo_preparacion.yaml` **no** entra en la lista; el commit de cierre dispara la
+   CI de `main` (§6).
+3. **Cierre de una validación:** rama `p00-cierre/<run_id>` **+ PR en borrador** con `no-automerge` (§10).
+4. **Garantía de la decisión A:** entorno `registro` limitado a `main` con los secretos de la app (opción a, PR 2a),
+   tocando los 25 usos y separando en job propio el registro de los jobs que ya tienen entorno (§10).
+
+No quedan decisiones abiertas en este diseño.
