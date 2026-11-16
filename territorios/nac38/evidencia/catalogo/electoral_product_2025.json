@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_santa_cruz_de_tenerife",
+  "territory_id": "nac38",
   "territory_name": "Congreso Santa Cruz de Tenerife",
   "edition": "2025",
-  "run_id": 43020203637,
-  "artifact_name": "ddd-state-43020203637-M08",
-  "artifact_sha256": "b33cd00659f100c41ee73f7b6ffef1beb4e4eb0ecc9aa162ec34e1f644badce9",
-  "source_commit": "4ee681f2159b08da7fa2da3d860250b61042b855",
+  "run_id": 43792098960,
+  "artifact_name": "ddd-state-43792098960-M08",
+  "artifact_sha256": "77aec142b6f74b9453efd44b0fa238c3d4cf5f3cc23268eedbfcb095b306df70",
+  "source_commit": "2b2337b70be2c116b96f98f2eceadeb60d488695",
   "stage": "M08"
 }
