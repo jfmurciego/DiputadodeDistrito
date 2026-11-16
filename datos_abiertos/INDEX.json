@@ -9,156 +9,6 @@
  "eleccion": "Elecciones generales de 2023 (Congreso)",
  "origen": "orchestracion/publicaciones_visor.json (canonical_m08 vigente + canonical_m06 de su linaje)",
  "territorios": {
-  "congreso_asturias": {
-   "provincia": "Asturias",
-   "run_id": "42981406489",
-   "blob_sha": "ffd8a6d0ebdccb4c7a6cedaf88aad6db9f57c0ec",
-   "sha256_origen": "529e16da15b08a8560a23908a3a236110b4272e6320ec3f6330de12d947700ba",
-   "n_distritos": 8,
-   "nombres": {},
-   "numeracion": "1..K",
-   "geojson": {
-    "ruta": "congreso_asturias/distritos.geojson",
-    "sha256": "244d9d5c58a64be6593631141aa134d989276a6152ac723d909ace575dd66475",
-    "sha256_origen": "427aff10a7ab081e959aee80696cb1d17001060bb52b63e793dc52dfcf1e2bbe"
-   },
-   "resultados": {
-    "ruta": "congreso_asturias/resultados.csv",
-    "sha256": "e33083cb9d687e8dc1aecd8fe36cc61280070d221af1280c32f71777fc6cbada",
-    "fuente_sha256": "abadefb3c025af0248dde5359f331759a65945ee45e20ff1e2b22b3ed719da9a",
-    "blob_sha_m08": "22f15b142f333415ceae08da8926d5f207784bc1",
-    "run_id": "42985447971"
-   },
-   "distritos": [
-    {
-     "distrito": 1,
-     "nombre": null,
-     "poblacion": 134525,
-     "municipios": 1,
-     "secciones": 105,
-     "ganador": "PSOE"
-    },
-    {
-     "distrito": 2,
-     "nombre": null,
-     "poblacion": 108798,
-     "municipios": 1,
-     "secciones": 90,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 3,
-     "nombre": null,
-     "poblacion": 124408,
-     "municipios": 3,
-     "secciones": 97,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 4,
-     "nombre": null,
-     "poblacion": 109778,
-     "municipios": 37,
-     "secciones": 102,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 5,
-     "nombre": null,
-     "poblacion": 134423,
-     "municipios": 1,
-     "secciones": 98,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 6,
-     "nombre": null,
-     "poblacion": 130081,
-     "municipios": 21,
-     "secciones": 109,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 7,
-     "nombre": null,
-     "poblacion": 128986,
-     "municipios": 10,
-     "secciones": 117,
-     "ganador": "PSOE"
-    },
-    {
-     "distrito": 8,
-     "nombre": null,
-     "poblacion": 135061,
-     "municipios": 6,
-     "secciones": 114,
-     "ganador": "PSOE"
-    }
-   ]
-  },
-  "congreso_cantabria": {
-   "provincia": "Cantabria",
-   "run_id": "42981422592",
-   "blob_sha": "856700194d5f12dca6c39eab06fb56c62c0bca9e",
-   "sha256_origen": "b96b10336723a435a02f2d33bd4535c899cac2917f6a7b73555d3abbf7dcb8d1",
-   "n_distritos": 5,
-   "nombres": {},
-   "numeracion": "1..K",
-   "geojson": {
-    "ruta": "congreso_cantabria/distritos.geojson",
-    "sha256": "4baed40850c9f193345836be405de3168da485add666024583a7bd4cea2620c4",
-    "sha256_origen": "83d4918d3824f1669fa5bffd0a82f70b6d482c23fd0b1349ca16b9e20640a3e2"
-   },
-   "resultados": {
-    "ruta": "congreso_cantabria/resultados.csv",
-    "sha256": "7f5638cc6bc3643b90104173299b39aee249362271145879e8e637e85cc8940d",
-    "fuente_sha256": "de90a7ae76536a3d382cf9a44e24627fa7cbb6965ac2b864be00c30eaf51fc1b",
-    "blob_sha_m08": "a4ea073ceee9c82721df8496c1eba4ecbd75ddab",
-    "run_id": "42985965354"
-   },
-   "distritos": [
-    {
-     "distrito": 1,
-     "nombre": null,
-     "poblacion": 117761,
-     "municipios": 1,
-     "secciones": 99,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 2,
-     "nombre": null,
-     "poblacion": 125481,
-     "municipios": 4,
-     "secciones": 85,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 3,
-     "nombre": null,
-     "poblacion": 118311,
-     "municipios": 30,
-     "secciones": 103,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 4,
-     "nombre": null,
-     "poblacion": 109790,
-     "municipios": 26,
-     "secciones": 76,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 5,
-     "nombre": null,
-     "poblacion": 117044,
-     "municipios": 42,
-     "secciones": 97,
-     "ganador": "PP"
-    }
-   ]
-  },
   "congreso_ceuta": {
    "provincia": "Ceuta",
    "run_id": "42981430591",
@@ -187,109 +37,6 @@
      "municipios": 1,
      "secciones": 56,
      "ganador": "PP"
-    }
-   ]
-  },
-  "congreso_las_palmas": {
-   "provincia": "Las Palmas",
-   "run_id": "42991561887",
-   "blob_sha": "572b8e10d97bdb3bfa0f857194ac61eafc93fa44",
-   "sha256_origen": "b9945b0fc585ad024a954508dcb9d6094c93e6c9b42d65d1281495a5b58ff032",
-   "n_distritos": 10,
-   "nombres": {},
-   "numeracion": "1..K",
-   "geojson": {
-    "ruta": "congreso_las_palmas/distritos.geojson",
-    "sha256": "17ac441c80eb7df3b1363fee3c9975a9fe7b94cf19b9c57e17ac0bc00e583823",
-    "sha256_origen": "bb24cf3955d59bd4f5b5607f3056757065ff595514d23960ca8c7bcc4ca8e092"
-   },
-   "resultados": {
-    "ruta": "congreso_las_palmas/resultados.csv",
-    "sha256": "1ff32e2cdc9ac430463957f40bd4c6cbde70d5f3d1597da28add94b7e0a7da53",
-    "fuente_sha256": "eed9619e8fb3983fb74de3d50950495c21a3535737819dfe645540bfa12274a9",
-    "blob_sha_m08": "0d6f9580ebb78ce6b53a4ca226db79c5fafb97cc",
-    "run_id": "42998268332"
-   },
-   "distritos": [
-    {
-     "distrito": 1,
-     "nombre": null,
-     "poblacion": 126452,
-     "municipios": 1,
-     "secciones": 84,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 2,
-     "nombre": null,
-     "poblacion": 127330,
-     "municipios": 1,
-     "secciones": 105,
-     "ganador": "PSOE"
-    },
-    {
-     "distrito": 3,
-     "nombre": null,
-     "poblacion": 127081,
-     "municipios": 1,
-     "secciones": 88,
-     "ganador": "PSOE"
-    },
-    {
-     "distrito": 4,
-     "nombre": null,
-     "poblacion": 109215,
-     "municipios": 2,
-     "secciones": 62,
-     "ganador": "PSOE"
-    },
-    {
-     "distrito": 5,
-     "nombre": null,
-     "poblacion": 103240,
-     "municipios": 1,
-     "secciones": 67,
-     "ganador": "PSOE"
-    },
-    {
-     "distrito": 6,
-     "nombre": null,
-     "poblacion": 104502,
-     "municipios": 4,
-     "secciones": 60,
-     "ganador": "PSOE"
-    },
-    {
-     "distrito": 7,
-     "nombre": null,
-     "poblacion": 103409,
-     "municipios": 7,
-     "secciones": 77,
-     "ganador": "PSOE"
-    },
-    {
-     "distrito": 8,
-     "nombre": null,
-     "poblacion": 61664,
-     "municipios": 6,
-     "secciones": 42,
-     "ganador": "PSOE"
-    },
-    {
-     "distrito": 9,
-     "nombre": null,
-     "poblacion": 124152,
-     "municipios": 6,
-     "secciones": 55,
-     "ganador": "PSOE"
-    },
-    {
-     "distrito": 10,
-     "nombre": null,
-     "poblacion": 158798,
-     "municipios": 7,
-     "secciones": 75,
-     "ganador": "PSOE"
     }
    ]
   },
@@ -467,218 +214,6 @@
     }
    ]
   },
-  "congreso_orense": {
-   "provincia": "Orense",
-   "run_id": "43012119307",
-   "blob_sha": "147fa5468914527c51e1f2443141d572398de798",
-   "sha256_origen": "fbad13584c6613de049c4baa8fce883cd4e4c8795820f631cb56192bd6ca655e",
-   "n_distritos": 3,
-   "nombres": {},
-   "numeracion": "1..K",
-   "geojson": {
-    "ruta": "congreso_orense/distritos.geojson",
-    "sha256": "3cb7bf7cd8a359ac69e0c98415b5ee664b6114afb68be69b131d3bd677dfb343",
-    "sha256_origen": "ead7ec93d58295d8bc64f1721a7d8b946c07fbc1925c4e40f1aea6206e823a55"
-   },
-   "resultados": {
-    "ruta": "congreso_orense/resultados.csv",
-    "sha256": "bed329ed3fb5980a31cfbcec42be7f311ee50f2c03745bc50dfda25faa5d2a76",
-    "fuente_sha256": "bbac6b21cee33ffa92c9baf70b9e27a84fd6964f03ff91ca01733ee5c29538b4",
-    "blob_sha_m08": "1bab13f69a8fa6be65152ec0cd5c047dd00babab",
-    "run_id": "43016113065"
-   },
-   "distritos": [
-    {
-     "distrito": 1,
-     "nombre": null,
-     "poblacion": 104187,
-     "municipios": 1,
-     "secciones": 80,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 2,
-     "nombre": null,
-     "poblacion": 99706,
-     "municipios": 53,
-     "secciones": 89,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 3,
-     "nombre": null,
-     "poblacion": 100670,
-     "municipios": 38,
-     "secciones": 88,
-     "ganador": "PP"
-    }
-   ]
-  },
-  "congreso_palencia": {
-   "provincia": "Palencia",
-   "run_id": "43012127687",
-   "blob_sha": "cfd2415564f8a3a1b90e2b45c564f36ea399028a",
-   "sha256_origen": "9ab6435fbdd28498ca6d305490b16bdbd362e7b475ca7ac12253afd720f8dca9",
-   "n_distritos": 1,
-   "nombres": {},
-   "numeracion": "1..K",
-   "geojson": {
-    "ruta": "congreso_palencia/distritos.geojson",
-    "sha256": "531073f45b91ba80af4ee786b6caa2cb98e41a759b4757dffead4cfc47acc79a",
-    "sha256_origen": "7ee989020dfece20be96217a3c2f02dd1080420a075333520c3e5ecfb149505a"
-   },
-   "resultados": {
-    "ruta": "congreso_palencia/resultados.csv",
-    "sha256": "f91b83005e642f7ccb6b17cd9b91bf1a7390e003efaca4622cbd3613e2e4e0ce",
-    "fuente_sha256": "8a741407abaa0fd67070dd1db1c66b44952e814fb043340e4772b1ed21ef50d0",
-    "blob_sha_m08": "bc34f3f74aef01d17258d970f806ba80ac458116",
-    "run_id": "43016085888"
-   },
-   "distritos": [
-    {
-     "distrito": 1,
-     "nombre": null,
-     "poblacion": 157787,
-     "municipios": 191,
-     "secciones": 275,
-     "ganador": "PP"
-    }
-   ]
-  },
-  "congreso_pontevedra": {
-   "provincia": "Pontevedra",
-   "run_id": "43012135258",
-   "blob_sha": "e782777886300763fbd7461986772c9281293dc5",
-   "sha256_origen": "0ef3b83e5b8ab252fb25e430da3280012dc4e3e4b048f9fe991fe629b9f2360c",
-   "n_distritos": 8,
-   "nombres": {},
-   "numeracion": "1..K",
-   "geojson": {
-    "ruta": "congreso_pontevedra/distritos.geojson",
-    "sha256": "0995e29e328c3c1c76c8b86c25037cf65210234f7aa4e2b5abce5e24c92729d0",
-    "sha256_origen": "ad3df0b3df79307fdbe0f7c61b777fe92d3618a96000c5e1ec3e7f38541590d5"
-   },
-   "resultados": {
-    "ruta": "congreso_pontevedra/resultados.csv",
-    "sha256": "2cc4e2b9aabe1005804bd96d2ccd097427bb71c9dc09f1ecc45f47a0aeef08a1",
-    "fuente_sha256": "1c2f451350383b9094f24a22bbf1c7a5ab72ad3c86362ddac9500d4d154ba1eb",
-    "blob_sha_m08": "8049cc4bcd6c26da100989543482665cce900ccf",
-    "run_id": "43016524347"
-   },
-   "distritos": [
-    {
-     "distrito": 1,
-     "nombre": null,
-     "poblacion": 118335,
-     "municipios": 1,
-     "secciones": 96,
-     "ganador": "PSdeG-PSOE"
-    },
-    {
-     "distrito": 2,
-     "nombre": null,
-     "poblacion": 118376,
-     "municipios": 1,
-     "secciones": 101,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 3,
-     "nombre": null,
-     "poblacion": 127417,
-     "municipios": 8,
-     "secciones": 98,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 4,
-     "nombre": null,
-     "poblacion": 115046,
-     "municipios": 15,
-     "secciones": 91,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 5,
-     "nombre": null,
-     "poblacion": 127790,
-     "municipios": 15,
-     "secciones": 98,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 6,
-     "nombre": null,
-     "poblacion": 124407,
-     "municipios": 5,
-     "secciones": 85,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 7,
-     "nombre": null,
-     "poblacion": 127142,
-     "municipios": 13,
-     "secciones": 96,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 8,
-     "nombre": null,
-     "poblacion": 88197,
-     "municipios": 5,
-     "secciones": 62,
-     "ganador": "PP"
-    }
-   ]
-  },
-  "congreso_salamanca": {
-   "provincia": "Salamanca",
-   "run_id": "43012143922",
-   "blob_sha": "24a02d2125da51ab25bc33c6ff95c006310ab87e",
-   "sha256_origen": "971afdee2c7df7bda9c8215f51c91b083598b0ea2bb8d5ea9084f7f5353fc9a5",
-   "n_distritos": 3,
-   "nombres": {},
-   "numeracion": "1..K",
-   "geojson": {
-    "ruta": "congreso_salamanca/distritos.geojson",
-    "sha256": "bd063fc9aecf7797497ae0d2cf24db472635ff752477771ed10a9cab11844f05",
-    "sha256_origen": "8ee9dac41af4136939a27c90a55131fd986e498af8643eb8ad67e488cf1cf09b"
-   },
-   "resultados": {
-    "ruta": "congreso_salamanca/resultados.csv",
-    "sha256": "555adcc8e41f4292e66271ebf523c13f54d0aac1474336d5bb70f7ef32caa876",
-    "fuente_sha256": "ed3124dd7557e07e17dd33bd7774c84cc38a894ab1766127b83c5f3cc78a7e0d",
-    "blob_sha_m08": "fa7c6be175bb6933ace6cbeb947872c033f9403a",
-    "run_id": "43017179163"
-   },
-   "distritos": [
-    {
-     "distrito": 1,
-     "nombre": null,
-     "poblacion": 109023,
-     "municipios": 1,
-     "secciones": 92,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 2,
-     "nombre": null,
-     "poblacion": 109060,
-     "municipios": 122,
-     "secciones": 170,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 3,
-     "nombre": null,
-     "poblacion": 109006,
-     "municipios": 240,
-     "secciones": 270,
-     "ganador": "PP"
-    }
-   ]
-  },
   "congreso_santa_cruz_de_tenerife": {
    "provincia": "Santa Cruz de Tenerife",
    "run_id": "43012151677",
@@ -770,329 +305,6 @@
      "poblacion": 118358,
      "municipios": 23,
      "secciones": 82,
-     "ganador": "PP"
-    }
-   ]
-  },
-  "congreso_segovia": {
-   "provincia": "Segovia",
-   "run_id": "43029353804",
-   "blob_sha": "89aaf7b0592be684c3fa94c4431f2175ae58aec9",
-   "sha256_origen": "e86111cde1f57107bdd205b55ca5c1830044c401059b35a9355f7f5fea0114fc",
-   "n_distritos": 1,
-   "nombres": {},
-   "numeracion": "1..K",
-   "geojson": {
-    "ruta": "congreso_segovia/distritos.geojson",
-    "sha256": "9131b5d6e000907a63ae88fe9d33dcabf78bfa7e16faf581939732b84dbb72f2",
-    "sha256_origen": "9f8e85767341e936d6410b58d6dddae5da649052166c7e51e498358bfa3bb1c0"
-   },
-   "resultados": {
-    "ruta": "congreso_segovia/resultados.csv",
-    "sha256": "a6b72156020c71fb807b4eaff57596cc7592abfd2969938c31c03c455fe168dd",
-    "fuente_sha256": "38207341475d10dfc19eece3b8d94409f5e765ab5e23595d8029dbc726f22318",
-    "blob_sha_m08": "9a4ae8cfadd2bb8506e037937b923a320825c2af",
-    "run_id": "43029353804"
-   },
-   "distritos": [
-    {
-     "distrito": 1,
-     "nombre": null,
-     "poblacion": 155332,
-     "municipios": 209,
-     "secciones": 276,
-     "ganador": "PP"
-    }
-   ]
-  },
-  "congreso_sevilla": {
-   "provincia": "Sevilla",
-   "run_id": "43029566265",
-   "blob_sha": "d8c65c27e14c6afd8aa6fca95aa189e0731c301a",
-   "sha256_origen": "de798e180edf9af3a9986a36bfa40b2124b40bdaa2a3bb5c3b350312bf9d44fb",
-   "n_distritos": 16,
-   "nombres": {},
-   "numeracion": "1..K",
-   "geojson": {
-    "ruta": "congreso_sevilla/distritos.geojson",
-    "sha256": "11266bba6914619bf99334c14974ed3120b0f660edd135bccb0d26503ae43fd1",
-    "sha256_origen": "0ac447f4a62b479dca47cfeec44820d5787bb065b78e7a6ae00c8924b0816dfe"
-   },
-   "resultados": {
-    "ruta": "congreso_sevilla/resultados.csv",
-    "sha256": "4b00cfaa9fa3ff97f07856c156ce23d9dfbabc7d396ecd031e7ce6c8cc06925e",
-    "fuente_sha256": "8f27aa40b88e57982e4e5616297b7d214309a5f9855bad6fc61c55271c107adf",
-    "blob_sha_m08": "63e02862be142bffa58caaa666b693a33a0b9772",
-    "run_id": "43029566265"
-   },
-   "distritos": [
-    {
-     "distrito": 1,
-     "nombre": null,
-     "poblacion": 114225,
-     "municipios": 1,
-     "secciones": 84,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 2,
-     "nombre": null,
-     "poblacion": 113593,
-     "municipios": 1,
-     "secciones": 83,
-     "ganador": "PSOE"
-    },
-    {
-     "distrito": 3,
-     "nombre": null,
-     "poblacion": 114029,
-     "municipios": 1,
-     "secciones": 79,
-     "ganador": "PSOE"
-    },
-    {
-     "distrito": 4,
-     "nombre": null,
-     "poblacion": 113932,
-     "municipios": 1,
-     "secciones": 88,
-     "ganador": "PSOE"
-    },
-    {
-     "distrito": 5,
-     "nombre": null,
-     "poblacion": 114005,
-     "municipios": 1,
-     "secciones": 95,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 6,
-     "nombre": null,
-     "poblacion": 135607,
-     "municipios": 16,
-     "secciones": 99,
-     "ganador": "PSOE"
-    },
-    {
-     "distrito": 7,
-     "nombre": null,
-     "poblacion": 132963,
-     "municipios": 13,
-     "secciones": 77,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 8,
-     "nombre": null,
-     "poblacion": 125263,
-     "municipios": 10,
-     "secciones": 81,
-     "ganador": "PSOE"
-    },
-    {
-     "distrito": 9,
-     "nombre": null,
-     "poblacion": 138991,
-     "municipios": 1,
-     "secciones": 87,
-     "ganador": "PSOE"
-    },
-    {
-     "distrito": 10,
-     "nombre": null,
-     "poblacion": 134278,
-     "municipios": 5,
-     "secciones": 86,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 11,
-     "nombre": null,
-     "poblacion": 128896,
-     "municipios": 27,
-     "secciones": 97,
-     "ganador": "PSOE"
-    },
-    {
-     "distrito": 12,
-     "nombre": null,
-     "poblacion": 117029,
-     "municipios": 8,
-     "secciones": 70,
-     "ganador": "PSOE"
-    },
-    {
-     "distrito": 13,
-     "nombre": null,
-     "poblacion": 112720,
-     "municipios": 15,
-     "secciones": 83,
-     "ganador": "PSOE"
-    },
-    {
-     "distrito": 14,
-     "nombre": null,
-     "poblacion": 120646,
-     "municipios": 6,
-     "secciones": 81,
-     "ganador": "PSOE"
-    },
-    {
-     "distrito": 15,
-     "nombre": null,
-     "poblacion": 122965,
-     "municipios": 2,
-     "secciones": 97,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 16,
-     "nombre": null,
-     "poblacion": 120252,
-     "municipios": 3,
-     "secciones": 77,
-     "ganador": "PSOE"
-    }
-   ]
-  },
-  "congreso_soria": {
-   "provincia": "Soria",
-   "run_id": "43029280043",
-   "blob_sha": "5809ee7cde2dcebc839c0eff761a0075f86c6092",
-   "sha256_origen": "4692aadf2f8f5b3a4151f7c70851054dc8b29124f36573d777847db896580047",
-   "n_distritos": 1,
-   "nombres": {},
-   "numeracion": "1..K",
-   "geojson": {
-    "ruta": "congreso_soria/distritos.geojson",
-    "sha256": "aee9434472bececb3b4102260deb96c05e3f632b490d93c0967be0334cee3278",
-    "sha256_origen": "6e595de50314960298b21325ab8282e27973813467883384a31868d5c89e9fcc"
-   },
-   "resultados": {
-    "ruta": "congreso_soria/resultados.csv",
-    "sha256": "d430974fd0deb160976094bdde6d1e35d46c11297b920e0b1c97aa40a13f8c5b",
-    "fuente_sha256": "c4b9b710d107cc66860b037c842b6ff76a9981dcb5027100de108c99876be317",
-    "blob_sha_m08": "965a901e0eaab291498860959ba5d02857bb259f",
-    "run_id": "43029280043"
-   },
-   "distritos": [
-    {
-     "distrito": 1,
-     "nombre": null,
-     "poblacion": 89528,
-     "municipios": 183,
-     "secciones": 216,
-     "ganador": "PP"
-    }
-   ]
-  },
-  "congreso_tarragona": {
-   "provincia": "Tarragona",
-   "run_id": "43029795470",
-   "blob_sha": "c1cffeeb4a045edbf2ee2dbb2f47d8ed0b394611",
-   "sha256_origen": "2f72e292bd0459c0ea98d6ba835f6f1028579eb6a05abef7b3c5d59a2fec46ce",
-   "n_distritos": 7,
-   "nombres": {},
-   "numeracion": "1..K",
-   "geojson": {
-    "ruta": "congreso_tarragona/distritos.geojson",
-    "sha256": "7d1dfda3e1122d764e290967fb24cb25945ba72b75ca87a73444f13fdbc48d98",
-    "sha256_origen": "96952d9905e75cfe1cf25b1a13487a08b0c5936863db2f31b8f901b824556ab3"
-   },
-   "resultados": {
-    "ruta": "congreso_tarragona/resultados.csv",
-    "sha256": "ac925010c52cb5db8d79c736e190ede9508b326850a4ad2771c279b0fdfe1a7a",
-    "fuente_sha256": "3ac45cb41628603f1c9e08ebaf1a2fe8f734d562d9b083cdf2630a4b5050565c",
-    "blob_sha_m08": "5687d3158066d07daf92e96a7ddc5b8f1c8f4b8d",
-    "run_id": "43029795470"
-   },
-   "distritos": [
-    {
-     "distrito": 1,
-     "nombre": null,
-     "poblacion": 110061,
-     "municipios": 36,
-     "secciones": 70,
-     "ganador": "PSC"
-    },
-    {
-     "distrito": 2,
-     "nombre": null,
-     "poblacion": 123081,
-     "municipios": 103,
-     "secciones": 133,
-     "ganador": "PSC"
-    },
-    {
-     "distrito": 3,
-     "nombre": null,
-     "poblacion": 128558,
-     "municipios": 17,
-     "secciones": 58,
-     "ganador": "PSC"
-    },
-    {
-     "distrito": 4,
-     "nombre": null,
-     "poblacion": 138326,
-     "municipios": 1,
-     "secciones": 84,
-     "ganador": "PSC"
-    },
-    {
-     "distrito": 5,
-     "nombre": null,
-     "poblacion": 128425,
-     "municipios": 17,
-     "secciones": 78,
-     "ganador": "PSC"
-    },
-    {
-     "distrito": 6,
-     "nombre": null,
-     "poblacion": 105681,
-     "municipios": 8,
-     "secciones": 49,
-     "ganador": "PSC"
-    },
-    {
-     "distrito": 7,
-     "nombre": null,
-     "poblacion": 114460,
-     "municipios": 2,
-     "secciones": 70,
-     "ganador": "PSC"
-    }
-   ]
-  },
-  "congreso_teruel": {
-   "provincia": "Teruel",
-   "run_id": "43029189395",
-   "blob_sha": "873375e58f3286c4e428a80f0d8674c2c469db44",
-   "sha256_origen": "ecbcc4182915adfa9f673adbba839cec7951d4d2d917d528a6ec1966d51d09fb",
-   "n_distritos": 1,
-   "nombres": {},
-   "numeracion": "1..K",
-   "geojson": {
-    "ruta": "congreso_teruel/distritos.geojson",
-    "sha256": "4b4225f41abd2666b40e1279e90fc2190ea54079e50f48536892eeb6e763c466",
-    "sha256_origen": "8fb1e01713bcee7544a2cede69c755a1e2940284a3d9723adf149e0211034e0c"
-   },
-   "resultados": {
-    "ruta": "congreso_teruel/resultados.csv",
-    "sha256": "d518a2f48fd893d05d0b44e149f4ac4de831a5a10a1bcf05640aeef47dde0281",
-    "fuente_sha256": "66aead7e6e40735d145637d4606afefaaad9aecdddee917f9b2b460a95feb755",
-    "blob_sha_m08": "c64353e52e43dde679ec1da3d0e52606e5258ba0",
-    "run_id": "43029189395"
-   },
-   "distritos": [
-    {
-     "distrito": 1,
-     "nombre": null,
-     "poblacion": 135046,
-     "municipios": 236,
-     "secciones": 284,
      "ganador": "PP"
     }
    ]
@@ -4458,6 +3670,794 @@
      "municipios": 94,
      "secciones": 133,
      "ganador": "PSN-PSOE"
+    }
+   ]
+  },
+  "nac32": {
+   "provincia": "Orense",
+   "run_id": "43788009946",
+   "blob_sha": "8ae7a7d6141a7edd36003b166d8c281e89dcd38d",
+   "sha256_origen": "2c569f24895b098d3a04cbc539f144b389780178709f7f54d5b8c1e42948d1c9",
+   "n_distritos": 3,
+   "nombres": {},
+   "numeracion": "1..K",
+   "geojson": {
+    "ruta": "nac32/distritos.geojson",
+    "sha256": "e52d6948cad86c3f6666612754d06f0b2332b5c897933d1f1c6c2cacad9de55d",
+    "sha256_origen": "a860277e3357d961501aa453e94678e5934a9b320e59a26f2b875a2330dbbc3d"
+   },
+   "resultados": {
+    "ruta": "nac32/resultados.csv",
+    "sha256": "a8bed27ffdbe548964dc7149168e052d6621c767f49b878312e06138a9028894",
+    "fuente_sha256": "82fcd64f37aa92dc10c915fbb81e51cd1dcba0e54604b33c65fdc55eafc4e4a4",
+    "blob_sha_m08": "775e4d5f6162dad223e736b20a24146d1a1de13f",
+    "run_id": "43788009946"
+   },
+   "distritos": [
+    {
+     "distrito": 1,
+     "nombre": null,
+     "poblacion": 104187,
+     "municipios": 1,
+     "secciones": 80,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 2,
+     "nombre": null,
+     "poblacion": 95978,
+     "municipios": 38,
+     "secciones": 85,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 3,
+     "nombre": null,
+     "poblacion": 104398,
+     "municipios": 53,
+     "secciones": 92,
+     "ganador": "PP"
+    }
+   ]
+  },
+  "nac33": {
+   "provincia": "Asturias",
+   "run_id": "43795147177",
+   "blob_sha": "68586c1627f008b87977abf008ad01a1c5e42e57",
+   "sha256_origen": "c82571ec563c469aa9abffa81f783c6445c5b52c4248d755e990662dca2aad79",
+   "n_distritos": 8,
+   "nombres": {},
+   "numeracion": "1..K",
+   "geojson": {
+    "ruta": "nac33/distritos.geojson",
+    "sha256": "07202236d31293d4502df74580fca13638ac4491f03d6aef0b7054a5500bf74e",
+    "sha256_origen": "31f12b677e20aca6be4f6801de84b2618b53df550b0dd857073cb386d7c4d948"
+   },
+   "resultados": {
+    "ruta": "nac33/resultados.csv",
+    "sha256": "b27036297da22ad786a3dd7fd2950b9980c043bc840cf490203046b0c880946b",
+    "fuente_sha256": "9f0292c1b284536edcf621667561178c1f6fab2f3425cb7fdc772f91dc1de13d",
+    "blob_sha_m08": "7a80fdb45eccfa7fa79a0b38b0c5bbd717b60fff",
+    "run_id": "43795147177"
+   },
+   "distritos": [
+    {
+     "distrito": 1,
+     "nombre": null,
+     "poblacion": 134525,
+     "municipios": 1,
+     "secciones": 105,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 2,
+     "nombre": null,
+     "poblacion": 108798,
+     "municipios": 1,
+     "secciones": 90,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 3,
+     "nombre": null,
+     "poblacion": 110715,
+     "municipios": 3,
+     "secciones": 86,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 4,
+     "nombre": null,
+     "poblacion": 122299,
+     "municipios": 36,
+     "secciones": 112,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 5,
+     "nombre": null,
+     "poblacion": 134423,
+     "municipios": 1,
+     "secciones": 98,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 6,
+     "nombre": null,
+     "poblacion": 130081,
+     "municipios": 21,
+     "secciones": 109,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 7,
+     "nombre": null,
+     "poblacion": 130158,
+     "municipios": 11,
+     "secciones": 118,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 8,
+     "nombre": null,
+     "poblacion": 135061,
+     "municipios": 6,
+     "secciones": 114,
+     "ganador": "PSOE"
+    }
+   ]
+  },
+  "nac34": {
+   "provincia": "Palencia",
+   "run_id": "43789454074",
+   "blob_sha": "96cbdb2721139ffee1e9c377a532efeecd12de47",
+   "sha256_origen": "d3fad72e66311ca21176489ea6c4667a047897e3a1ce368ebfa6f2b9cd221564",
+   "n_distritos": 1,
+   "nombres": {},
+   "numeracion": "1..K",
+   "geojson": {
+    "ruta": "nac34/distritos.geojson",
+    "sha256": "6ac62f2508b75bd6a6a72b9c7873cafb0a2a404dd8cc1c3472210f4c5a584819",
+    "sha256_origen": "c04fdc37a5138c5f60ca7da118b66def5bb12a0460feb23c0113aab1c1a2b697"
+   },
+   "resultados": {
+    "ruta": "nac34/resultados.csv",
+    "sha256": "f91b83005e642f7ccb6b17cd9b91bf1a7390e003efaca4622cbd3613e2e4e0ce",
+    "fuente_sha256": "8a741407abaa0fd67070dd1db1c66b44952e814fb043340e4772b1ed21ef50d0",
+    "blob_sha_m08": "163043bcbb9f21aaec9de1d70520413585295688",
+    "run_id": "43789454074"
+   },
+   "distritos": [
+    {
+     "distrito": 1,
+     "nombre": null,
+     "poblacion": 157787,
+     "municipios": 191,
+     "secciones": 275,
+     "ganador": "PP"
+    }
+   ]
+  },
+  "nac35": {
+   "provincia": "Las Palmas",
+   "run_id": "43790313521",
+   "blob_sha": "83a4f316dd211245fb8cbc38f932e4b5dec21fc0",
+   "sha256_origen": "51afc8c2cea1189f71efd8fa9ab3107f046ee6f148fd7d0b30602c2db667fada",
+   "n_distritos": 10,
+   "nombres": {},
+   "numeracion": "1..K",
+   "geojson": {
+    "ruta": "nac35/distritos.geojson",
+    "sha256": "748e9bd4bec8c50509264858e0f39c009373678340c572fda99cb36304440129",
+    "sha256_origen": "20dae8b43f1a893e378850cf23c30f763319e650b51f4ee42b7339f57cfa8a13"
+   },
+   "resultados": {
+    "ruta": "nac35/resultados.csv",
+    "sha256": "1ff32e2cdc9ac430463957f40bd4c6cbde70d5f3d1597da28add94b7e0a7da53",
+    "fuente_sha256": "eed9619e8fb3983fb74de3d50950495c21a3535737819dfe645540bfa12274a9",
+    "blob_sha_m08": "84cf8084a90ce9e05fcb0ef28f1baf676cb6eb72",
+    "run_id": "43790313521"
+   },
+   "distritos": [
+    {
+     "distrito": 1,
+     "nombre": null,
+     "poblacion": 126452,
+     "municipios": 1,
+     "secciones": 84,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 2,
+     "nombre": null,
+     "poblacion": 127330,
+     "municipios": 1,
+     "secciones": 105,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 3,
+     "nombre": null,
+     "poblacion": 127081,
+     "municipios": 1,
+     "secciones": 88,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 4,
+     "nombre": null,
+     "poblacion": 109215,
+     "municipios": 2,
+     "secciones": 62,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 5,
+     "nombre": null,
+     "poblacion": 103240,
+     "municipios": 1,
+     "secciones": 67,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 6,
+     "nombre": null,
+     "poblacion": 104502,
+     "municipios": 4,
+     "secciones": 60,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 7,
+     "nombre": null,
+     "poblacion": 103409,
+     "municipios": 7,
+     "secciones": 77,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 8,
+     "nombre": null,
+     "poblacion": 61664,
+     "municipios": 6,
+     "secciones": 42,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 9,
+     "nombre": null,
+     "poblacion": 124152,
+     "municipios": 6,
+     "secciones": 55,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 10,
+     "nombre": null,
+     "poblacion": 158798,
+     "municipios": 7,
+     "secciones": 75,
+     "ganador": "PSOE"
+    }
+   ]
+  },
+  "nac36": {
+   "provincia": "Pontevedra",
+   "run_id": "43789633261",
+   "blob_sha": "2317e29d20ff2a1734f04ee7947f3a7c79d7dd59",
+   "sha256_origen": "73c015a067acbbe892c463637bd00767f0cf997a24e8fd2f77599dd5d3262df3",
+   "n_distritos": 8,
+   "nombres": {},
+   "numeracion": "1..K",
+   "geojson": {
+    "ruta": "nac36/distritos.geojson",
+    "sha256": "66a9aafdddfb46c1545299e92ec406a44375da55200a5d4f0f0a5f9442448034",
+    "sha256_origen": "3a9625ae5ec3bdaa2c7b4369ca323e1f9ba1457825e02c98abee20347c197f9f"
+   },
+   "resultados": {
+    "ruta": "nac36/resultados.csv",
+    "sha256": "bed3979fee8194018743b04ff3203a328b556e334f8617d011b90ca38146fc67",
+    "fuente_sha256": "ae403dbc2eeac7416e60274618d3fa6ea3e609b4f41d8ce76bf3b6a4dcac34b8",
+    "blob_sha_m08": "b818ff61e567dd62819f3525374528f9d53bba0e",
+    "run_id": "43789633261"
+   },
+   "distritos": [
+    {
+     "distrito": 1,
+     "nombre": null,
+     "poblacion": 118335,
+     "municipios": 1,
+     "secciones": 96,
+     "ganador": "PSdeG-PSOE"
+    },
+    {
+     "distrito": 2,
+     "nombre": null,
+     "poblacion": 118376,
+     "municipios": 1,
+     "secciones": 101,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 3,
+     "nombre": null,
+     "poblacion": 124688,
+     "municipios": 7,
+     "secciones": 96,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 4,
+     "nombre": null,
+     "poblacion": 127571,
+     "municipios": 16,
+     "secciones": 99,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 5,
+     "nombre": null,
+     "poblacion": 119993,
+     "municipios": 16,
+     "secciones": 95,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 6,
+     "nombre": null,
+     "poblacion": 126947,
+     "municipios": 5,
+     "secciones": 87,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 7,
+     "nombre": null,
+     "poblacion": 122603,
+     "municipios": 12,
+     "secciones": 91,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 8,
+     "nombre": null,
+     "poblacion": 88197,
+     "municipios": 5,
+     "secciones": 62,
+     "ganador": "PP"
+    }
+   ]
+  },
+  "nac37": {
+   "provincia": "Salamanca",
+   "run_id": "43791973018",
+   "blob_sha": "93f39f768d180b2f9d36af88d954e0a56568af65",
+   "sha256_origen": "426484a78e929c6bce5000592a5953bbd92bf777cc1df7bfa4b727874592b1f7",
+   "n_distritos": 3,
+   "nombres": {},
+   "numeracion": "1..K",
+   "geojson": {
+    "ruta": "nac37/distritos.geojson",
+    "sha256": "1d8221a25bc15647adbdc72e3b8b7559d13968c0774b134896652ffbc9288334",
+    "sha256_origen": "954d31039a4f176151cb995b88ba94c709c3e735a49534840e8503fb88dce7e8"
+   },
+   "resultados": {
+    "ruta": "nac37/resultados.csv",
+    "sha256": "0aaade0b0e5b3c83850555270a6380eb3bdc654f01f08995c472cae0c01a49dc",
+    "fuente_sha256": "550728392285c13057c2039ae5f21cdd1aa09179fd3a579fd5d5ac64d01a88ed",
+    "blob_sha_m08": "2049fc005a58c0df2a2406c1f696238698a79b80",
+    "run_id": "43791973018"
+   },
+   "distritos": [
+    {
+     "distrito": 1,
+     "nombre": null,
+     "poblacion": 109023,
+     "municipios": 1,
+     "secciones": 92,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 2,
+     "nombre": null,
+     "poblacion": 107766,
+     "municipios": 67,
+     "secciones": 117,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 3,
+     "nombre": null,
+     "poblacion": 110300,
+     "municipios": 295,
+     "secciones": 323,
+     "ganador": "PP"
+    }
+   ]
+  },
+  "nac39": {
+   "provincia": "Cantabria",
+   "run_id": "43792749380",
+   "blob_sha": "5d207d7f2d329962e5f0b50dd88a764dd0f39eb2",
+   "sha256_origen": "a144a4e865eff51a8bc1f6dbb582a1b8d7c5e26c8746a1fc74a278299185684f",
+   "n_distritos": 5,
+   "nombres": {},
+   "numeracion": "1..K",
+   "geojson": {
+    "ruta": "nac39/distritos.geojson",
+    "sha256": "7b681c1eff723b128cf50638ff85e3ea4882f1ad36901dcd72ec73705d902bde",
+    "sha256_origen": "58d40b820b981bf62d97518804e09c55c2cb6798ed5507516636c86b6f565a26"
+   },
+   "resultados": {
+    "ruta": "nac39/resultados.csv",
+    "sha256": "9c64bf074171451dcba7484ec7a79d51fd4dc0139063892ff57380db9d0796e9",
+    "fuente_sha256": "a1029d19b4d47afd54c603eb3802eb7e8969ac1f08d7b72fe204723f63d0b8ef",
+    "blob_sha_m08": "fd3109d8283c3cbdecea8dcc680f6bc3bc5c0d02",
+    "run_id": "43792749380"
+   },
+   "distritos": [
+    {
+     "distrito": 1,
+     "nombre": null,
+     "poblacion": 117761,
+     "municipios": 1,
+     "secciones": 99,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 2,
+     "nombre": null,
+     "poblacion": 117116,
+     "municipios": 4,
+     "secciones": 83,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 3,
+     "nombre": null,
+     "poblacion": 120743,
+     "municipios": 9,
+     "secciones": 86,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 4,
+     "nombre": null,
+     "poblacion": 109790,
+     "municipios": 26,
+     "secciones": 76,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 5,
+     "nombre": null,
+     "poblacion": 122977,
+     "municipios": 63,
+     "secciones": 116,
+     "ganador": "PP"
+    }
+   ]
+  },
+  "nac40": {
+   "provincia": "Segovia",
+   "run_id": "43793248399",
+   "blob_sha": "9b6b1eecc5ba856a26970ed2987ccb920f60bc33",
+   "sha256_origen": "c7e56dff966aadc19edcce9a79b677e17d3b74d7b48a0e6acd38281ada056032",
+   "n_distritos": 1,
+   "nombres": {},
+   "numeracion": "1..K",
+   "geojson": {
+    "ruta": "nac40/distritos.geojson",
+    "sha256": "2666254c37ad1ccad96d1d2fc8421d479419f963a46925d604df7ab2ca05c1f0",
+    "sha256_origen": "2e1c3b2a5b42c000a4f3fdbf22c66a6c2c46357fb331eaf59b840fc367a98968"
+   },
+   "resultados": {
+    "ruta": "nac40/resultados.csv",
+    "sha256": "a6b72156020c71fb807b4eaff57596cc7592abfd2969938c31c03c455fe168dd",
+    "fuente_sha256": "38207341475d10dfc19eece3b8d94409f5e765ab5e23595d8029dbc726f22318",
+    "blob_sha_m08": "7cc108b40dd41643ea7a920829651540cd1658a8",
+    "run_id": "43793248399"
+   },
+   "distritos": [
+    {
+     "distrito": 1,
+     "nombre": null,
+     "poblacion": 155332,
+     "municipios": 209,
+     "secciones": 276,
+     "ganador": "PP"
+    }
+   ]
+  },
+  "nac41": {
+   "provincia": "Sevilla",
+   "run_id": "43793379653",
+   "blob_sha": "17ef8fcd3b93e62b0d40124559627cea11d40fde",
+   "sha256_origen": "639b9f3660521cc1876157244bc9ad7afe736821d1e6c8d0befefc16d0d1bdb1",
+   "n_distritos": 16,
+   "nombres": {},
+   "numeracion": "1..K",
+   "geojson": {
+    "ruta": "nac41/distritos.geojson",
+    "sha256": "f2ed76f0bc16d0585f7f97ddcda7778e80e52063ce20b14cf7948e3e6dd01c84",
+    "sha256_origen": "b4e4d0a6608682de8fcaebc7b58376ae0f683765a37af7739d2ce32ef02a5113"
+   },
+   "resultados": {
+    "ruta": "nac41/resultados.csv",
+    "sha256": "274c6c4a18c8ec654f97c62dc4cf3fa45a9731c8aa886a85ae3e9dfc88b2eeab",
+    "fuente_sha256": "85fa628708eefdde11e7966a94271ee636d43f70f816fa40f9e8b6eb49c44007",
+    "blob_sha_m08": "54752089d2011f22fe849d68bf0332dca521899c",
+    "run_id": "43793379653"
+   },
+   "distritos": [
+    {
+     "distrito": 1,
+     "nombre": null,
+     "poblacion": 114225,
+     "municipios": 1,
+     "secciones": 84,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 2,
+     "nombre": null,
+     "poblacion": 113593,
+     "municipios": 1,
+     "secciones": 83,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 3,
+     "nombre": null,
+     "poblacion": 114029,
+     "municipios": 1,
+     "secciones": 79,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 4,
+     "nombre": null,
+     "poblacion": 113932,
+     "municipios": 1,
+     "secciones": 88,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 5,
+     "nombre": null,
+     "poblacion": 114005,
+     "municipios": 1,
+     "secciones": 95,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 6,
+     "nombre": null,
+     "poblacion": 132483,
+     "municipios": 23,
+     "secciones": 97,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 7,
+     "nombre": null,
+     "poblacion": 126578,
+     "municipios": 8,
+     "secciones": 80,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 8,
+     "nombre": null,
+     "poblacion": 112697,
+     "municipios": 5,
+     "secciones": 75,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 9,
+     "nombre": null,
+     "poblacion": 138991,
+     "municipios": 1,
+     "secciones": 87,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 10,
+     "nombre": null,
+     "poblacion": 124653,
+     "municipios": 7,
+     "secciones": 75,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 11,
+     "nombre": null,
+     "poblacion": 138422,
+     "municipios": 28,
+     "secciones": 96,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 12,
+     "nombre": null,
+     "poblacion": 126520,
+     "municipios": 10,
+     "secciones": 75,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 13,
+     "nombre": null,
+     "poblacion": 133988,
+     "municipios": 14,
+     "secciones": 100,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 14,
+     "nombre": null,
+     "poblacion": 120646,
+     "municipios": 6,
+     "secciones": 81,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 15,
+     "nombre": null,
+     "poblacion": 114380,
+     "municipios": 1,
+     "secciones": 92,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 16,
+     "nombre": null,
+     "poblacion": 120252,
+     "municipios": 3,
+     "secciones": 77,
+     "ganador": "PSOE"
+    }
+   ]
+  },
+  "nac42": {
+   "provincia": "Soria",
+   "run_id": "43793874826",
+   "blob_sha": "8800de5bce988e7ea341067ee79599c6b293c134",
+   "sha256_origen": "0c0f2917424fb1c431c36eefdb55e8d7a4e94bdd25235b5c4bfca6389f938a38",
+   "n_distritos": 1,
+   "nombres": {},
+   "numeracion": "1..K",
+   "geojson": {
+    "ruta": "nac42/distritos.geojson",
+    "sha256": "877be37c71d0d8d41d0f92b9b0adfc68c15bdbb6df39c3e0238792c4a5146082",
+    "sha256_origen": "f366d8247d268b3b575ff7cff1691a1c642001469841c6e52a4574d812aad9fe"
+   },
+   "resultados": {
+    "ruta": "nac42/resultados.csv",
+    "sha256": "d430974fd0deb160976094bdde6d1e35d46c11297b920e0b1c97aa40a13f8c5b",
+    "fuente_sha256": "c4b9b710d107cc66860b037c842b6ff76a9981dcb5027100de108c99876be317",
+    "blob_sha_m08": "f997f162f0c5ebc4914acc69fa7cd25132014acd",
+    "run_id": "43793874826"
+   },
+   "distritos": [
+    {
+     "distrito": 1,
+     "nombre": null,
+     "poblacion": 89528,
+     "municipios": 183,
+     "secciones": 216,
+     "ganador": "PP"
+    }
+   ]
+  },
+  "nac43": {
+   "provincia": "Tarragona",
+   "run_id": "43794008411",
+   "blob_sha": "d2c8dbf341f992924cc988d530215048c936efd6",
+   "sha256_origen": "fdfa4bd218c46bfd010816af62ae7094e5e093e0c883fb5d7f3bd7c678089e18",
+   "n_distritos": 7,
+   "nombres": {},
+   "numeracion": "1..K",
+   "geojson": {
+    "ruta": "nac43/distritos.geojson",
+    "sha256": "09f7603a4c644144c36aa459c31f6c696cdf20338a6bf049d9cab6fd0d4f759b",
+    "sha256_origen": "6f6fb811b438f6dc367cfac25e07c0d2fe4f553caf857ed1156da05bf6504b2e"
+   },
+   "resultados": {
+    "ruta": "nac43/resultados.csv",
+    "sha256": "b8633c82a59b432667a787a88ed8db48e88518abbd83b30a7efaf8db22ff5477",
+    "fuente_sha256": "258b822f111ac67fc5cdb2f048bc4e2feea4c291ea53666d42261d4ea464d518",
+    "blob_sha_m08": "fdd6668e6688cb218efb8a40579b142597e2047d",
+    "run_id": "43794008411"
+   },
+   "distritos": [
+    {
+     "distrito": 1,
+     "nombre": null,
+     "poblacion": 119334,
+     "municipios": 60,
+     "secciones": 90,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 2,
+     "nombre": null,
+     "poblacion": 104269,
+     "municipios": 80,
+     "secciones": 105,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 3,
+     "nombre": null,
+     "poblacion": 135363,
+     "municipios": 17,
+     "secciones": 65,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 4,
+     "nombre": null,
+     "poblacion": 138326,
+     "municipios": 1,
+     "secciones": 84,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 5,
+     "nombre": null,
+     "poblacion": 137602,
+     "municipios": 19,
+     "secciones": 83,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 6,
+     "nombre": null,
+     "poblacion": 105163,
+     "municipios": 6,
+     "secciones": 49,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 7,
+     "nombre": null,
+     "poblacion": 108535,
+     "municipios": 1,
+     "secciones": 66,
+     "ganador": "PSC"
+    }
+   ]
+  },
+  "nac44": {
+   "provincia": "Teruel",
+   "run_id": "43795542897",
+   "blob_sha": "cce9aaf3c67836a335ca94d161df7551bcea18f2",
+   "sha256_origen": "89ce75bb54df628787c8252d87bca64acd9d11718048435adc6c23503f9345a6",
+   "n_distritos": 1,
+   "nombres": {},
+   "numeracion": "1..K",
+   "geojson": {
+    "ruta": "nac44/distritos.geojson",
+    "sha256": "1d6b5f63f17ee7639f69b60b78e60571433e34b3af62fa5086cb951d9417771f",
+    "sha256_origen": "b4418a519bbe3047651f46695f2c9865199a394a46d65a1465dc756a7f04ee93"
+   },
+   "resultados": {
+    "ruta": "nac44/resultados.csv",
+    "sha256": "d518a2f48fd893d05d0b44e149f4ac4de831a5a10a1bcf05640aeef47dde0281",
+    "fuente_sha256": "66aead7e6e40735d145637d4606afefaaad9aecdddee917f9b2b460a95feb755",
+    "blob_sha_m08": "334c187d8355c52407590d7a1bd8c6fbb8a176c0",
+    "run_id": "43795542897"
+   },
+   "distritos": [
+    {
+     "distrito": 1,
+     "nombre": null,
+     "poblacion": 135046,
+     "municipios": 236,
+     "secciones": 284,
+     "ganador": "PP"
     }
    ]
   }
