@@ -2,9 +2,9 @@
 """T-365 (D-125): contrato por elección del histórico por época, contrato M01-M06 por provincia y puerta M07/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-16 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
-CAMBIOS: 1.0.0: fichero nuevo.
+VERSIÓN: 1.1.0 · FECHA: 2026-11-16 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_t365_historico_epoca_v1.0.0_20261116.py
+CAMBIOS: 1.1.0: T-389 (T-365b): contratos con la tabla de T-364b (1.2.0): provincias apartadas = BLOQUEADA_SIN_DATO sin filas, fallo cerrado con la tabla vieja.
 MOTIVO: T-365. Sin red ni fuentes pesadas: el flujo M07/M08 usa un M06 sintético y los módulos reales.
 """
 from __future__ import annotations
@@ -52,7 +52,9 @@ class ContratosVersionados(unittest.TestCase):
                     self.assertEqual(p["territorio"], f"nac{cpro}")  # id canónico, nunca uno viejo
                     self.assertEqual(p["votos"]["sha256"], espejo[p["votos"]["ruta"]]["sha256"])
                     self.assertIn(p["estado"], ("LISTA", "BLOQUEADA_RELLENO", "BLOQUEADA_SIN_DATO"))
-                    self.assertEqual(p["estado"] == "BLOQUEADA_SIN_DATO", bool(p["poblacion"]["secciones_sin_dato"]))
+                    # T-364b: BLOQUEADA_SIN_DATO = provincia sin filas en la tabla (apartada) o con secciones sin dato
+                    self.assertEqual(p["estado"] == "BLOQUEADA_SIN_DATO",
+                                     bool(p["poblacion"]["secciones_sin_dato"]) or p["poblacion"]["secciones"] == 0)
                     self.assertIsInstance(p["poblacion"]["secciones_sin_seccionado"], list)
 
     def test_huesca_2019_11_tres_escanos(self):
@@ -390,6 +392,93 @@ class FlujoElectoral(unittest.TestCase):
             c["provincias"]["22"]["K"] = 3  # control negativo: K distinto del número de distritos
             che.ruta_contrato("2019-11", root).write_text(json.dumps(c), encoding="utf-8")
             self.assertEqual(che.electoral("2019-11", "nac22", fuentes, salida, root), 1)
+
+
+class TablaT364b(unittest.TestCase):
+    """T-389: los contratos anclan las tablas de T-364b (1.2.0) y fallan cerrado con las anteriores (sin red ni tablas en el repo)."""
+
+    # sha256 de las tablas: literal de T-364b (README de T-364, ejecución del 16-11, 2 corridas idénticas) y de la corrida de T-389
+    NUEVAS = {"2011-11": "45aa3552592a8819beab26b2a885551fbe1e8ccba0ec68ac3ccbb7621f0496a3",
+              "2015-12": "7d8a67dccaca7dd87fbde6bec8b4a13abed808dd8c028a6a429e00324c7909b3",
+              "2016-06": "6941ae4af6b8b58ef31dfd7e1aca56d10632b864d59b8b92c55e3838100cd9a5",
+              "2019-04": "55048fe207e6ddc97653aa237f700bfa42800846848682aa59d17119f60677e7",
+              "2019-11": "aef26748a31f9500efa8d9c30f9cf7b2e3a7312c41d214906a96141454acf56d"}
+    VIEJAS = {"2015-12": "34c0a1dd1407288a9219d78ccdaf15a69cdb0b023b88cd123718174726df0b34",
+              "2016-06": "2654f579cd23f26c882b62fade93606b76d3652c922bfe685fd413ffe7c99f82",
+              "2019-04": "270061aea7f41f040657674d6b725811cf61e304e3d4a4e14100340fff06ed11",
+              "2019-11": "c6eb6f8a839e2af650ee6d28cc0f69d38c05b2dd84305566f371b22684281555"}
+    APARTADAS = {"2011-11": 0, "2015-12": 13, "2016-06": 2, "2019-04": 0, "2019-11": 0}  # corrida real de T-364b
+
+    def test_contratos_anclan_las_tablas_nuevas(self):
+        for e in ELECCIONES:
+            with self.subTest(eleccion=e):
+                c = json.loads(che.ruta_contrato(e).read_text(encoding="utf-8"))
+                self.assertEqual(c["poblacion"]["sha256"], self.NUEVAS[e])
+                self.assertNotEqual(c["poblacion"]["sha256"], self.VIEJAS.get(e))
+                self.assertIn("1.2.0", c["poblacion"]["origen"])
+                self.assertEqual(c["version"], "1.1.0")
+                self.assertTrue((ROOT / c["anterior"]).is_file())
+                self.assertIn(self.NUEVAS[e], (ROOT / "docs/ESTUDIOS/T364_POBLACION_SECCION_INTERPOLADA/README.md").read_text(encoding="utf-8"))
+
+    def test_provincias_apartadas_son_bloqueada_sin_dato(self):
+        for e, n in self.APARTADAS.items():
+            with self.subTest(eleccion=e):
+                c = json.loads(che.ruta_contrato(e).read_text(encoding="utf-8"))
+                sin_filas = sorted(k for k, p in c["provincias"].items() if p["poblacion"]["secciones"] == 0)
+                self.assertEqual(len(sin_filas), n)
+                self.assertTrue(all(c["provincias"][k]["estado"] == "BLOQUEADA_SIN_DATO" for k in sin_filas))
+        c = json.loads(che.ruta_contrato("2016-06").read_text(encoding="utf-8"))
+        self.assertEqual(sorted(k for k, p in c["provincias"].items() if p["estado"] == "BLOQUEADA_SIN_DATO"), ["36", "48"])
+
+    def test_informe_t365b_coincide_con_los_contratos(self):
+        filas = list(csv.DictReader(open(ROOT / "docs/ESTUDIOS/T365_HISTORICO_POR_EPOCA/informe_t365b.csv", encoding="utf-8", newline="")))
+        for e in ELECCIONES:
+            c = json.loads(che.ruta_contrato(e).read_text(encoding="utf-8"))
+            ap = sorted(f["provincia"] for f in filas if f["elección"] == e and f["estado_contrato"] == "BLOQUEADA_SIN_DATO"
+                        and f["apartada"] == "sí")
+            self.assertEqual(ap, sorted(k for k, p in c["provincias"].items() if p["poblacion"]["secciones"] == 0), e)
+            for f in filas:
+                if f["elección"] == e:
+                    self.assertEqual(f["estado_contrato"], c["provincias"][f["provincia"]]["estado"])
+
+    def _tabla(self, d: Path, extra: str = "") -> Path:
+        p = Path(d) / "fuentes" / "poblacion_seccion_2019-11.csv"
+        p.parent.mkdir(exist_ok=True)
+        p.write_text("sección,población,origen,ajustada,años_fuente\n2200101001,10,dato,no,2020\n"
+                     "2200101002,7,reasignada,sin_ajuste_municipal,2019\n" + extra, encoding="utf-8")
+        return p
+
+    def _materializar(self, d: Path, tabla: Path, sha_contrato: str, estado: str = "LISTA"):
+        import yaml
+        root, fuentes = Path(d) / "root", tabla.parent
+        (root / "territorios/nac22/config").mkdir(parents=True)
+        base = root / "territorios/nac22/config/nac22_2025.yaml"
+        base.write_text(yaml.safe_dump(BASE), encoding="utf-8")
+        (fuentes / "seccionado_2020.zip").write_bytes(b"zip")
+        c = _contrato_sintetico(sha_contrato, _sha(base), _sha(fuentes / "seccionado_2020.zip"), "d" * 64)
+        c["poblacion"]["fichero"] = tabla.name
+        c["provincias"]["22"]["estado"] = estado
+        cpath = root / "contrato.json"
+        cpath.write_text(json.dumps(c), encoding="utf-8")
+        with mock.patch.object(che, "_secciones_seccionado", return_value={"2200101001", "2200101002"}):
+            return che.materializar("2019-11", "nac22", fuentes, root, cpath)
+
+    def test_tabla_nueva_pasa_y_la_vieja_falla_cerrado(self):
+        with tempfile.TemporaryDirectory() as d:
+            nueva = self._tabla(d)
+            self.assertTrue(self._materializar(d, nueva, _sha(nueva)).is_file())  # interfaz 1.2.0: reasignada + sin_ajuste_municipal
+        with tempfile.TemporaryDirectory() as d:
+            vieja = self._tabla(d)
+            with self.assertRaises(SystemExit) as cm:  # el contrato ancla otra tabla (la anterior): falla cerrado
+                self._materializar(d, vieja, "a" * 64)
+            self.assertIn("FUENTE_HUELLA_DISTINTA", str(cm.exception))
+
+    def test_provincia_apartada_sin_filas_falla_cerrado(self):
+        with tempfile.TemporaryDirectory() as d:
+            tabla = self._tabla(d)
+            with self.assertRaises(SystemExit) as cm:
+                self._materializar(d, tabla, _sha(tabla), estado="BLOQUEADA_SIN_DATO")
+            self.assertIn("PROVINCIA_NO_LISTA", str(cm.exception))
 
 
 if __name__ == "__main__":
