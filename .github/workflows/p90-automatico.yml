@@ -21,7 +21,7 @@
 name: P90 Automático
 run-name: >-
   ${{ github.event_name == 'schedule' && (github.event.schedule == '23 2 * * *' && 'P90 · nocturna de pruebas' || 'P90 · métricas del proceso')
-  || github.event_name == 'workflow_run' && format('P90 · {0} de «{1}» {2}', github.event.workflow_run.name == 'P00 Campaña' && 'forense' || 'fusión', github.event.workflow_run.name, github.event.workflow_run.id)
+  || github.event_name == 'workflow_run' && format('P90 · {0} · run {1}', github.event.workflow_run.name, github.event.workflow_run.id)
   || github.event.pull_request.title || github.event.head_commit.message }}
 on:
   push:
