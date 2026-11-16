@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T00:58:27.520134+00:00",
+  "generated_at": "2026-11-16T01:02:11.970054+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 45,
-      "action_required": 75,
+      "admissible": 46,
+      "action_required": 74,
       "blocked": 0,
       "unavailable": 0,
       "activated": 45,
-      "activable": 0,
+      "activable": 1,
       "territorial_pending": 46,
-      "electoral_pending": 75,
+      "electoral_pending": 74,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,7 +38,7 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 45,
+      "electoral_source": 46,
       "durable_pair": 45
     },
     "territories": [
@@ -2269,15 +2269,15 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVABLE",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac25/evidencia/pares_fuentes/2025/ce3113b33666b565750fee12fc6fdc256cb80fde01b3ed4dc5aadd65ae5b2df2.json",
@@ -2290,13 +2290,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "nac26",
@@ -8996,11 +8990,11 @@
       "name": "Nacional Gerona",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43777503207,
+      "run_id": 43781217551,
       "last_run": {
         "run_id": 43777503207,
         "status": "SUCCESS",
@@ -9009,7 +9003,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9026,13 +9020,13 @@
           "territory_id": "nac17",
           "territory_name": "Congreso Gerona",
           "edition": "2025",
-          "run_id": 43764643457,
-          "artifact_name": "ddd-state-43764643457-M06",
-          "artifact_sha256": "5effe39eb1fe817d48ee5389ca6800006a2df6a16c88560567e4265cf4ac149e",
-          "source_commit": "05b6ccfcd7eb570565c175d89f30e741232cfe6b",
+          "run_id": 43781217551,
+          "artifact_name": "ddd-state-43781217551-M06",
+          "artifact_sha256": "245c952692743c2849c42b638df815e865233dc04c187de7f2fa7622bfd9f0d8",
+          "source_commit": "c00501e62fc4a32dc0ef57388377fba6194def0f",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/nac17/evidencia/generaciones_m06/43764643457.json"
+          "producer_manifest_path": "territorios/nac17/evidencia/generaciones_m06/43781217551.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9050,7 +9044,7 @@
       },
       "autonomous_community_code_ine": "C17",
       "display_name": "Nacional Gerona",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac18",
@@ -9551,11 +9545,11 @@
       "certification": "PASS",
       "run_id": 43773865756,
       "last_run": {
-        "run_id": 42935762636,
+        "run_id": 43773865756,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -9612,11 +9606,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43774262901,
       "last_run": {
-        "run_id": 42995722473,
+        "run_id": 43774262901,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -12430,7 +12424,7 @@
     }
   ],
   "kpis": {
-    "complete": 69,
+    "complete": 68,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12466,7 +12460,6 @@
       "Nacional Córdoba",
       "Nacional La Coruña",
       "Nacional Cuenca",
-      "Nacional Gerona",
       "Nacional Granada",
       "Nacional Guadalajara",
       "Nacional Guipúzcoa",
@@ -12728,6 +12721,12 @@
       "action": "incorporar resultados electorales"
     },
     {
+      "territory": "Nacional Gerona",
+      "territory_id": "nac17",
+      "autonomous_community_code_ine": "C17",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "Nacional Huesca",
       "territory_id": "nac22",
       "autonomous_community_code_ine": "C22",
@@ -12762,12 +12761,6 @@
       "territory_id": "congreso350_albacete",
       "autonomous_community_code_ine": "R02",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Alicante",
-      "territory_id": "congreso350_alicante",
-      "autonomous_community_code_ine": "R03",
-      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12775,6 +12768,12 @@
       "territory": "12 Galicia",
       "territory_id": "aut12",
       "autonomous_community_code_ine": "12",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Gerona",
+      "territory_id": "nac17",
+      "autonomous_community_code_ine": "C17",
       "action": "preparar fuentes electorales"
     },
     {
