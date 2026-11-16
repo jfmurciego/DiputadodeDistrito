@@ -194,7 +194,7 @@ class Equivalencia(Congelado):
         self.assertIn('python herramientas/p70_resolver.py paquete-p10 "$TERRITORIOS"', run)
         self.assertEqual(j["permissions"], {"contents": "read", "actions": "read"})
         self.assertEqual(j["concurrency"], self.p["jobs"]["archivar_r2"]["concurrency"])
-        bm = yaml.safe_load((WF / "bateria-motor.yml").read_text(encoding="utf-8"))["jobs"]["archivar_p10"]  # sigue hasta T-369
+        bm = yaml.safe_load((ROOT / "tests/fixtures/t369_workflows/bateria-motor_1.3.1.yml").read_text(encoding="utf-8"))["jobs"]["archivar_p10"]  # copia congelada (T-369)
         self.assertEqual([s.get("uses") for s in bm["steps"] if "uses" in s], [s.get("uses") for s in j["steps"] if "uses" in s])
 
     def test_listar_solo_lectura(self):

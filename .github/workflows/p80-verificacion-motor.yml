@@ -1,0 +1,251 @@
+# PROYECTO: Diputado de Distrito
+# FICHERO: p80-verificacion-motor.yml
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: P80 Verificación del motor
+# FECHA: 2026-11-16
+# ESTADO: candidato
+# QUÉ HACE: único punto de entrada de la verificación del motor (D-129 a D-132, migración paso 3). Solo manual, sin programación. Botón:
+#   `alcance` = «motor vigente» (por defecto: jobs plan + competicion + aceptacion; función D8 y 10 cadenas FIJADAS en el código, PYTHONHASHSEED=0)
+#   | «motor base M05» (job `bateria`; versión 7.4.4 fijada) y `territorios` (códigos separados por comas; vacío = los 71).
+#   Misma concurrencia (`bateria-motor`, con cola), mismos permisos (contents: read), instalaciones y comprobación de `pip freeze` que la batería.
+#   Sin cambios en herramientas/bateria_motor.py ni en ddd_motor2. No publica ni escribe en main.
+# CAMBIOS: 1.0.0 (T-369): fichero nuevo; sustituye a bateria-motor.yml 1.3.1 (copia en legacy/workflows/bateria-motor_v1.3.1_20261116.yml).
+#   Fuera del botón: `funcion` (D8), `cadenas` (10) y `versiones_m05` (7.4.4), ahora fijas en el código. Fuera del todo: `archivar_almacen_m06`
+#   (de un solo uso, hecho en T-302/T-302d) y `archivar_p10`, que cubre P71 «paquete de fuentes de un territorio» en P70 (mismo comando
+#   `bateria_motor.py archivar-p10`, mismos permisos; el run del paquete lo resuelve el código). Las comas de `territorios` se pasan a espacios
+#   en cada paso antes de invocar la herramienta.
+# MOTIVO: D-129 a D-132: un workflow por familia, sin parámetros técnicos visibles.
+# ANTERIOR: legacy/workflows/bateria-motor_v1.3.1_20261116.yml
+name: P80 Verificación del motor
+run-name: "P80 · ${{ inputs.alcance }} · ${{ inputs.territorios || 'todos' }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      alcance:
+        description: 'motor vigente = competición del motor actual (D8, 10 cadenas) y su aceptación; motor base M05 = batería M04-M06 con la versión 7.4.4'
+        required: false
+        type: choice
+        options: [motor vigente, motor base M05]
+        default: motor vigente
+      territorios:
+        description: 'Códigos de territorio separados por comas; vacío = los 71'
+        required: false
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bateria-motor
+  cancel-in-progress: false
+  queue: max
+
+jobs:
+  bateria:
+    name: Batería del motor
+    if: ${{ inputs.alcance == 'motor base M05' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    env:
+      TERRITORIOS: ${{ inputs.territorios }}
+      VERSIONES: '7.4.4'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - run: python -m pip install --requirement requirements.lock
+      - name: Entradas desde R2 (paquete P10)
+        shell: bash
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          if [[ -n "$TERRITORIOS" ]]; then read -ra ts <<<"${TERRITORIOS//,/ }"; python herramientas/bateria_motor.py entradas "${ts[@]}"
+          else python herramientas/bateria_motor.py entradas --todos; fi
+      - name: Motor y validación
+        shell: bash
+        run: |
+          set -uo pipefail
+          rc=0
+          for v in $VERSIONES; do
+            if [[ -n "$TERRITORIOS" ]]; then read -ra ts <<<"${TERRITORIOS//,/ }"; python herramientas/bateria_motor.py motor --m05 "$v" "${ts[@]}" || rc=1
+            else python herramientas/bateria_motor.py motor --m05 "$v" --todos || rc=1; fi
+          done
+          python herramientas/bateria_motor.py matriz
+          cat bateria/MATRIZ.md >> "$GITHUB_STEP_SUMMARY"
+          exit "$rc"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: bateria-motor-${{ github.run_id }}
+          path: |
+            bateria/MATRIZ.*
+            bateria/entradas/*/ENTRADAS.json
+            bateria/motor/*/*/RESULTADO.json
+            bateria/motor/*/*/VALIDACION.json
+          retention-days: 14
+
+  plan:
+    name: Plan del motor 2
+    if: ${{ inputs.alcance == 'motor vigente' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      matriz: ${{ steps.lista.outputs.matriz }}
+    env:
+      TERRITORIOS: ${{ inputs.territorios }}
+      CADENAS: '10'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+      - id: lista
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$CADENAS" =~ ^[0-9]+$ && "$CADENAS" -ge 1 ]] || { echo "::error::cadenas debe ser un entero >= 1"; exit 2; }
+          python -m pip install "$(grep -i '^PyYAML==' requirements.lock)"
+          read -ra ts <<<"${TERRITORIOS//,/ }"
+          echo "matriz=$(python herramientas/bateria_motor.py lista "${ts[@]}")" >> "$GITHUB_OUTPUT"
+
+  competicion:
+    name: Competición ${{ matrix.t }}
+    needs: plan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.plan.outputs.matriz) }}
+    env:
+      T: ${{ matrix.t }}
+      FUNCION: 'D8'
+      CADENAS: '10'
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - run: python -m pip install --requirement requirements.lock
+      - name: Entradas (R2, paquete P10)
+        shell: bash
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -eo pipefail
+          python herramientas/bateria_motor.py entradas "$T"
+      - name: Dependencias de las cadenas (sin tocar el lock base) y comprobación rápida
+        shell: bash
+        run: |
+          set -euo pipefail
+          # T-181b: requirements-ensemble.lock sube pandas 3 / geopandas 1.1.4 / shapely 2.1.2 y rompe M04-M06 (también el canónico).
+          # gerrychain 1.0.0 las declara como dependencias, pero la cadena no las usa: se instala SIN dependencias y solo lo que
+          # el lock base no fija (networkx, rustworkx, scipy, tqdm, six, con las versiones del lock del laboratorio).
+          python -m pip freeze --all | sort > "$RUNNER_TEMP/antes.txt"
+          grep -iE '^(gerrychain|networkx|rustworkx|scipy|tqdm|six)==' requirements-ensemble.lock > "$RUNNER_TEMP/cadenas.txt"
+          python -m pip install --no-deps --requirement "$RUNNER_TEMP/cadenas.txt"
+          # T-297: el candidato exacto (OR-Tools CP-SAT), versión exacta con hashes, sin dependencias (no cambia el entorno base).
+          python -m pip install --no-deps --require-hashes --requirement requirements-exacto.lock
+          python -m pip freeze --all | sort > "$RUNNER_TEMP/despues.txt"
+          cambiados="$(comm -23 "$RUNNER_TEMP/antes.txt" "$RUNNER_TEMP/despues.txt")"
+          [[ -z "$cambiados" ]] || { echo "::error::cambian paquetes del entorno base: $cambiados"; exit 1; }
+          python - <<'PY'
+          import importlib.metadata as m, re
+          def pins(f):
+              return dict(re.findall(r"(?im)^([A-Za-z0-9_.-]+)==(\S+)", open(f).read()))
+          for nombre, ver in pins("requirements.lock").items():
+              assert m.version(nombre) == ver, (nombre, m.version(nombre), ver)
+          lab = pins("requirements-ensemble.lock")
+          for nombre in ("gerrychain", "networkx", "rustworkx", "scipy"):
+              assert m.version(nombre) == lab[nombre], (nombre, m.version(nombre), lab[nombre])
+          import networkx, shapely
+          from gerrychain import Graph, MarkovChain, Partition, updaters
+          from gerrychain.proposals import recom
+          from gerrychain.tree import bipartition_tree
+          from gerrychain.tree.spanning_tree import _ordered_edge_ids
+          from ddd_motor2.naturalidad_competicion import cadena
+          from ortools.sat.python import cp_model  # noqa: F401  (T-297: candidato exacto)
+          print("cadenas OK: gerrychain", lab["gerrychain"], "; shapely", shapely.__version__, shapely.geos_version_string)
+          PY
+      - name: Competición del motor 2
+        shell: bash
+        run: |
+          set -uo pipefail
+          python -m ddd_motor2.competir --out bateria --funcion "$FUNCION" --cadenas "$CADENAS" "$T"
+          # el veredicto lo da el job final; aquí solo cuenta que haya resultado. competir escribe un RESUMEN.json agregado
+          # (una fila: este territorio); se guarda junto a su COMPETICION.json para subirlo en el artefacto del territorio.
+          [[ -f bateria/competicion/RESUMEN.json ]] || exit 1
+          cp bateria/competicion/RESUMEN.json "bateria/competicion/$T/RESUMEN.json"
+      - name: Indicadores frente al vigente (T-212)
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          # el veredicto lo da el job final; aquí solo se deja constancia (resumen del paso, log e INDICADORES.* en el artefacto)
+          python herramientas/bateria_motor.py indicadores "$T" --out bateria | tee -a "$GITHUB_STEP_SUMMARY"
+          exit "${PIPESTATUS[0]}"
+      - name: Huella real (Soria, Álava y Melilla)
+        if: ${{ matrix.t == 'nac42' || matrix.t == 'nac01' || matrix.t == 'aut19' }}
+        run: python herramientas/bateria_motor.py huella "$T" --out bateria --funcion "$FUNCION" --cadenas "$CADENAS"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: bateria-motor2-${{ github.run_id }}-${{ matrix.t }}
+          path: |
+            bateria/competicion/${{ matrix.t }}
+            bateria/entradas/${{ matrix.t }}/ENTRADAS.json
+          retention-days: 14
+
+  aceptacion:
+    name: Aceptación del motor 2
+    needs: [plan, competicion]
+    if: ${{ always() && inputs.alcance == 'motor vigente' && needs.plan.result == 'success' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      TERRITORIOS: ${{ inputs.territorios }}
+      CADENAS: '10'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - run: python -m pip install --requirement requirements.lock
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: bateria-motor2-${{ github.run_id }}-*
+          path: bateria
+          merge-multiple: true
+      - name: Criterio de aceptación (T-194)
+        shell: bash
+        run: |
+          set -uo pipefail
+          read -ra ts <<<"${TERRITORIOS//,/ }"
+          python herramientas/bateria_motor.py aceptacion --out bateria --cadenas "$CADENAS" "${ts[@]}" | tee -a "$GITHUB_STEP_SUMMARY"
+          exit "${PIPESTATUS[0]}"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: bateria-motor2-${{ github.run_id }}-aceptacion
+          path: |
+            bateria/ACEPTACION.*
+            bateria/competicion/RESUMEN.*
+          retention-days: 30

@@ -183,7 +183,7 @@ class InstalacionOrtools(unittest.TestCase):
         self.assertEqual({k: paquete[k] for k in pines}, pines)
 
     def test_workflows_y_dockerfile_lo_instalan_sin_dependencias_y_con_hashes(self):
-        for f in (".github/workflows/bateria-motor.yml", ".github/workflows/_reutilizable-generacion-territorial.yml",
+        for f in (".github/workflows/p80-verificacion-motor.yml", ".github/workflows/_reutilizable-generacion-territorial.yml",
                   "Dockerfile"):
             texto = (ROOT / f).read_text()
             self.assertRegex(texto, r"pip install (--no-cache-dir )?--no-deps --require-hashes (--requirement|-r) "

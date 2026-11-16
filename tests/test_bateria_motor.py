@@ -90,24 +90,23 @@ class BateriaMotor2EnActions(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.wf = yaml.safe_load((ROOT / ".github/workflows/bateria-motor.yml").read_text(encoding="utf-8"))
+        cls.wf = yaml.safe_load((ROOT / ".github/workflows/p80-verificacion-motor.yml").read_text(encoding="utf-8"))
 
     def test_entradas_y_defectos(self):
         ent = self.wf[True]["workflow_dispatch"]["inputs"]
-        self.assertEqual(ent["motor"]["default"], "m05")
-        self.assertEqual(ent["funcion"]["default"], "D8")
-        self.assertEqual(ent["cadenas"]["default"], "10")
-        self.assertEqual(self.wf["name"], "VER Verificación del motor")  # T-215, corte 5.0.0 paso 4
+        self.assertEqual(set(ent), {"alcance", "territorios"})  # T-369: D8, 10 cadenas y 7.4.4 fijadas en el código
+        self.assertEqual(ent["alcance"]["default"], "motor vigente")
+        self.assertEqual(self.wf["name"], "P80 Verificación del motor")
 
     def test_modo_m05_intacto_y_motor2_en_matriz(self):
         j = self.wf["jobs"]
         self.assertEqual(j["bateria"]["timeout-minutes"], 300)
-        self.assertEqual(j["bateria"]["if"], "${{ inputs.motor != 'motor2' && inputs.archivar_p10 == '' && !inputs.archivar_almacen_m06 }}")
+        self.assertEqual(j["bateria"]["if"], "${{ inputs.alcance == 'motor base M05' }}")
         self.assertEqual(j["competicion"]["timeout-minutes"], 360)
         self.assertFalse(j["competicion"]["strategy"]["fail-fast"])
         self.assertEqual(j["competicion"]["env"]["PYTHONHASHSEED"], "0")
         self.assertEqual(j["aceptacion"]["needs"], ["plan", "competicion"])
-        txt = (ROOT / ".github/workflows/bateria-motor.yml").read_text(encoding="utf-8")
+        txt = (ROOT / ".github/workflows/p80-verificacion-motor.yml").read_text(encoding="utf-8")
         self.assertNotIn("www.ine.es", txt)
         self.assertNotIn("bateria_motor.py nacionales", txt)
         for t in ("nac42", "nac01", "aut19"):

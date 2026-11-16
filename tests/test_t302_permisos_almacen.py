@@ -1,42 +1,26 @@
 """
 PROYECTO: Diputado de Distrito
-PRUEBA: permisos del job de archivado del almacén M06 (T-302)
-VERSIÓN: 1.0.0
-FECHA: 2026-11-14
-CAMBIO: solo `archivar_almacen_m06` tiene contents: write (ve los borradores almacen-m06-*); los demás jobs y el workflow, read.
-ANTERIOR: ninguna (fichero nuevo).
+PRUEBA: permisos de P80 (T-302, T-369)
+VERSIÓN: 1.1.0
+FECHA: 2026-11-16
+CAMBIO: T-369: el job `archivar_almacen_m06` (único con contents: write) se retiró con bateria-motor.yml; P80 queda solo en lectura.
+ANTERIOR: 1.0.0 (T-302).
 """
 import unittest
 from pathlib import Path
 
 import yaml
 
-WF = Path(__file__).resolve().parents[1] / ".github/workflows/bateria-motor.yml"
+WF = Path(__file__).resolve().parents[1] / ".github/workflows/p80-verificacion-motor.yml"
 
 
-class PermisosAlmacenM06(unittest.TestCase):
-    def setUp(self):
-        self.wf = yaml.safe_load(WF.read_text(encoding="utf-8"))
-
-    def test_solo_el_job_de_archivado_escribe(self):
-        self.assertEqual({"contents": "read"}, self.wf["permissions"])
-        for nombre, job in self.wf["jobs"].items():
-            permisos = job.get("permissions") or {}
-            if nombre == "archivar_almacen_m06":
-                self.assertEqual({"contents": "write"}, permisos)
-            else:
-                self.assertNotIn("write", permisos.values(), nombre)
-
-    def test_el_job_no_escribe_en_github(self):
-        pasos = self.wf["jobs"]["archivar_almacen_m06"]["steps"]
-        texto = "\n".join(str(p.get("run", "")) for p in pasos)
-        for prohibido in ("git push", "git commit", "release edit", "release delete", "release create", "-X DELETE", "-X POST", "-X PATCH"):
-            self.assertNotIn(prohibido, texto)
-
-    def test_el_checkout_del_job_no_persiste_credenciales(self):
-        pasos = self.wf["jobs"]["archivar_almacen_m06"]["steps"]
-        checkout = next(p for p in pasos if str(p.get("uses", "")).startswith("actions/checkout@"))
-        self.assertIs(checkout["with"]["persist-credentials"], False)
+class PermisosP80(unittest.TestCase):
+    def test_ningun_job_escribe_y_no_esta_el_archivado_del_almacen(self):
+        wf = yaml.safe_load(WF.read_text(encoding="utf-8"))
+        self.assertEqual({"contents": "read"}, wf["permissions"])
+        self.assertEqual(set(wf["jobs"]), {"bateria", "plan", "competicion", "aceptacion"})
+        for nombre, job in wf["jobs"].items():
+            self.assertNotIn("write", (job.get("permissions") or {}).values(), nombre)
 
 
 if __name__ == "__main__":
