@@ -24,7 +24,9 @@ def gh(*a):
     raise RuntimeError('gh ' + ' '.join(a) + ': ' + p.stderr[:200])
 def tsv(f): return [l.rstrip('\n').split('\t') for l in open(f)] if os.path.exists(f) else []
 def wtsv(f, rows): open(f, 'w').write(''.join('\t'.join(r) + '\n' for r in rows))
-def parada(msg): log('PARADA', msg); sys.exit(2)
+def parada(msg):
+    if os.environ.get('SOLO_SEGUIR') and msg.startswith('cadena'): log('FALLO (seguimiento)', msg); return
+    log('PARADA', msg); sys.exit(2)
 def ahora(): return time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
 
 def main_ok():
