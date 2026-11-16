@@ -2142,6 +2142,13 @@
    "sha256_csv": "572775632b6c31ba1848f642edc107c34095b8206a057bada42f653664e52979",
    "ruta": "datos/composicion/runs/nac38_43786229727.csv"
   },
+  "nac38/43798927529": {
+   "territorio": "nac38",
+   "run_id": "43798927529",
+   "secciones": 681,
+   "sha256_csv": "572775632b6c31ba1848f642edc107c34095b8206a057bada42f653664e52979",
+   "ruta": "datos/composicion/runs/nac38_43798927529.csv"
+  },
   "nac39/43786502149": {
    "territorio": "nac39",
    "run_id": "43786502149",
