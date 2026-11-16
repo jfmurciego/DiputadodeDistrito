@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.479
+Versión: 1.0.483
 Fecha: 2026-11-16
-Alcance: T-387 — Diseño 1.1 de P00 Campaña (D-145 y arreglos del revisor, sin código)
+Alcance: T-388 — Depósito de mapas en Zenodo por API (D-146)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-16_t387-diseno-p00-1-1.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.478_registro_20261116.md
+Cambios/motivo: entrada docs/registro/2026-11-16_t388-zenodo-api.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.482_registro_20261116.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,10 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.478_registro_20261116.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.483 · [2026-11-16 — T-388 — Depósito de mapas en Zenodo por API (D-146)](registro/2026-11-16_t388-zenodo-api.md)
+- 1.0.482 · [2026-11-16 — T-379 — P00 Campaña, PR 1: estado de campaña](registro/2026-11-16_t379-campana-estado.md)
+- 1.0.481 · [2026-11-16 — T-372 — P40 Publicación sustituye al 05, la cadena y el publicador reutilizable](registro/2026-11-16_t372-p40-publicacion.md)
+- 1.0.480 · [2026-11-16 — T-364b — Población por sección: residuo no bloqueante, provincias apartadas y reasignación (D-128)](registro/2026-11-16_claude-t364b-reasignar.md)
 - 1.0.479 · [2026-11-16 — T-387 — Diseño 1.1 de P00 Campaña (D-145 y arreglos del revisor, sin código)](registro/2026-11-16_t387-diseno-p00-1-1.md)
 - 1.0.478 · [2026-11-16 — T-390 — Plan 1.0.57: D-145 a D-147 y cola T-387 a T-390](registro/2026-11-16_planificador-plan-1-0-57.md)
 - 1.0.477 · [2026-11-16 — T-384 — El error de paquete P10 ausente remite a P70/P71](registro/2026-11-16_t384-bateria-mensaje-p71.md)
