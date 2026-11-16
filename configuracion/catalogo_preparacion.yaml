@@ -1854,24 +1854,23 @@ territories:
         run_id: 43006442219
         stage: M08
       preparation_evidence:
-        run_id: 43764712990
-        artifact_name: ddd-source-package-nac29-2025-43764712990
-        artifact_sha256: ccb9a679794363c99f3bfad5383c9c471b59cd20c55f90e77046839c43755948
+        run_id: 43779396654
+        artifact_name: ddd-source-package-nac29-2025-43779396654
+        artifact_sha256: 5eec02c03d7875ad49ee7e59e7d7c8f455871b880c8a8afe40ae6b480431f148
         package_sha256: 67c8727893a740e1a0740a9af755dd61a04c992a3899e7a2d573be3177e466de
-        receipt_path: territorios/nac29/evidencia/fuentes_territoriales/2025/5b829be3f88ebbd943b920b95f52622dd360817ba8120d935c6d8c7d0c289fd2/43764712990/receipt.json
+        receipt_path: territorios/nac29/evidencia/fuentes_territoriales/2025/5b829be3f88ebbd943b920b95f52622dd360817ba8120d935c6d8c7d0c289fd2/43779396654/receipt.json
         territorial_identity_sha256: 5b829be3f88ebbd943b920b95f52622dd360817ba8120d935c6d8c7d0c289fd2
         compatibility_report_sha256: 55b064f2c0b765bb9a01fd89c9be1d8f40c54927e6174b90e53e08a9fb5de216
         compatibility_identity_sha256: cf668970b308d5341b093a060984d8046bd2b7c16024451b3b217480a91d9396
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: cf2066068368147f178bde7e86f8caaf2ba7358a
+        source_commit: 4ad94a5b528a9c676595b8a666dedb70ba384f42
       evidence:
         electoral_source: territorios/nac29/evidencia/fuentes_electorales/2025/6bfa6549044d57ab94011df2e33d58cd0d1dcb859a117dcf6cd59b818bc07905/42489981909/receipt.json
         territorial_product: territorios/nac29/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac29/evidencia/pares_fuentes/2025/118cccdb9a9afa72367051c0cfa4d92b41524e35ec8b8feb0327760bfc1fb1cd.json
         electoral_product: territorios/nac29/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/nac29/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac30
   name: Congreso Murcia
