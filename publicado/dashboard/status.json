@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T01:46:54.005727+00:00",
+  "generated_at": "2026-11-16T01:49:24.975122+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -9735,20 +9735,20 @@
       "name": "Nacional Murcia",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43779852945,
+      "run_id": 43785618713,
       "last_run": {
-        "run_id": 43779852945,
+        "run_id": 43785618713,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9789,7 +9789,7 @@
       },
       "autonomous_community_code_ine": "C30",
       "display_name": "Nacional Murcia",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac31",
@@ -12376,7 +12376,7 @@
     }
   ],
   "kpis": {
-    "complete": 64,
+    "complete": 65,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12423,6 +12423,7 @@
       "Nacional Lérida",
       "Nacional La Rioja",
       "Nacional Lugo",
+      "Nacional Murcia",
       "Nacional Salamanca",
       "Nacional Santa Cruz de Tenerife",
       "Nacional Cantabria",
@@ -12652,11 +12653,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac27",
-    "name": "Nacional Lugo",
-    "display_name": "Nacional Lugo",
-    "autonomous_community_code_ine": "C27",
-    "run_id": 43784516230,
+    "territory_id": "nac30",
+    "name": "Nacional Murcia",
+    "display_name": "Nacional Murcia",
+    "autonomous_community_code_ine": "C30",
+    "run_id": 43785618713,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12681,12 +12682,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Murcia",
-      "territory_id": "nac30",
-      "autonomous_community_code_ine": "C30",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Navarra",
       "territory_id": "nac31",
       "autonomous_community_code_ine": "C31",
@@ -12708,6 +12703,12 @@
       "territory": "Nacional Palencia",
       "territory_id": "nac34",
       "autonomous_community_code_ine": "C34",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Las Palmas",
+      "territory_id": "nac35",
+      "autonomous_community_code_ine": "C35",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12731,12 +12732,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Murcia",
-      "territory_id": "nac30",
-      "autonomous_community_code_ine": "C30",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Navarra",
       "territory_id": "nac31",
       "autonomous_community_code_ine": "C31",
@@ -12758,6 +12753,12 @@
       "territory": "Nacional Palencia",
       "territory_id": "nac34",
       "autonomous_community_code_ine": "C34",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Las Palmas",
+      "territory_id": "nac35",
+      "autonomous_community_code_ine": "C35",
       "action": "preparar fuentes electorales"
     }
   ]
