@@ -12,9 +12,11 @@ USO: python herramientas/listar_r2.py   (R2_BUCKET, R2_ACCOUNT_ID y credenciales
 """
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import subprocess
+import sys
 import sys
 
 LIMITE = 10 * 10**9  # 10 GB gratuitos (decimales, como los factura Cloudflare)
@@ -51,7 +53,8 @@ def listar(bucket: str, cuenta: str) -> list[dict]:
     return json.loads(p.stdout or "null") or []
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    argparse.ArgumentParser(description=(__doc__ or '').splitlines()[0]).parse_args(argv)
     bucket, cuenta = os.environ.get("R2_BUCKET", ""), os.environ.get("R2_ACCOUNT_ID", "")
     if not bucket or not cuenta:
         print("::error::P74_SIN_CREDENCIALES (R2_BUCKET/R2_ACCOUNT_ID)")
@@ -69,4 +72,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(main(sys.argv[1:]))

@@ -15,6 +15,7 @@ QUÉ HACE: `paquete-p10 <territorio>` imprime el run de P10 cuyo paquete de fuen
 """
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import re
@@ -97,19 +98,24 @@ def sha_poda(root: Path) -> str:
 
 
 def main(argv: list[str]) -> int:
+    ap = argparse.ArgumentParser(description=(__doc__ or "").splitlines()[0])
+    sub = ap.add_subparsers(dest="cmd", required=True)
+    sub.add_parser("paquete-p10", help="run de P10 del paquete de fuentes vigente").add_argument("territorio")
+    e = sub.add_parser("edicion", help="edición de datos, comprobando la elección contra el registro")
+    e.add_argument("territorio")
+    e.add_argument("eleccion")
+    sub.add_parser("fecha-eleccion", help="fecha AAAA-MM-DD de una elección AAAA-MM").add_argument("eleccion")
+    sub.add_parser("sha-poda", help="sha256 aprobado de la lista de poda")
+    a = ap.parse_args(argv)
     try:
-        cmd, *a = argv
-        if cmd == "paquete-p10" and len(a) == 1:
-            print(run_p10(ROOT, a[0]))
-        elif cmd == "edicion" and len(a) == 2:
-            print(edicion(ROOT, a[0], a[1]))
-        elif cmd == "fecha-eleccion" and len(a) == 1:
-            print(fecha_eleccion(ROOT, a[0]))
-        elif cmd == "sha-poda" and not a:
-            print(sha_poda(ROOT))
+        if a.cmd == "paquete-p10":
+            print(run_p10(ROOT, a.territorio))
+        elif a.cmd == "edicion":
+            print(edicion(ROOT, a.territorio, a.eleccion))
+        elif a.cmd == "fecha-eleccion":
+            print(fecha_eleccion(ROOT, a.eleccion))
         else:
-            print(__doc__, file=sys.stderr)
-            return 2
+            print(sha_poda(ROOT))
     except (ValueError, OSError) as exc:
         print(f"::error::{exc}", file=sys.stderr)  # stderr: la salida estándar se captura con $(…) y ocultaría la causa
         return 1
