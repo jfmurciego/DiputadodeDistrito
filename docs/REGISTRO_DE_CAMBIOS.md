@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.475
+Versión: 1.0.477
 Fecha: 2026-11-16
-Alcance: T-374 — Diseño: Revisor de PR dentro de P90 (solo documento)
+Alcance: T-384 — El error de paquete P10 ausente remite a P70/P71
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-16_t374-revisor-p90.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.474_registro_20261116.md
+Cambios/motivo: entrada docs/registro/2026-11-16_t384-bateria-mensaje-p71.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.476_registro_20261116.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.474_registro_20261116.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.477 · [2026-11-16 — T-384 — El error de paquete P10 ausente remite a P70/P71](registro/2026-11-16_t384-bateria-mensaje-p71.md)
+- 1.0.476 · [2026-11-16 — T-370 — P50 Publicación académica sustituye a «Publicar versión de mapa»](registro/2026-11-16_t370-p50-publicacion-academica.md)
 - 1.0.475 · [2026-11-16 — T-374 — Diseño: Revisor de PR dentro de P90 (solo documento)](registro/2026-11-16_t374-revisor-p90.md)
 - 1.0.474 · [2026-11-16 — T-385 — Plan 1.0.56: D-143, D-14 sustituida en P50 y estados de la migración](registro/2026-11-16_planificador-plan-1-0-56.md)
 - 1.0.473 · [2026-11-16 — T-378 — Diseño al detalle de P00 Campaña y de la nueva forma de trabajar (paso 9a, sin código)](registro/2026-11-16_t378-diseno-p00-campana.md)
