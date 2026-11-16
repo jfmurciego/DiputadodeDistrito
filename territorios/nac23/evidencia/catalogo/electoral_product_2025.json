@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_jaen",
+  "territory_id": "nac23",
   "territory_name": "Congreso Jaén",
   "edition": "2025",
-  "run_id": 42955644352,
-  "artifact_name": "ddd-state-42955644352-M08",
-  "artifact_sha256": "3ec5279deec1cdd34eb44b9fb81c0ba237880dae05131545058fead820c08fcd",
-  "source_commit": "d172008108ace02155b53ffe82a184898118d31e",
+  "run_id": 43778534395,
+  "artifact_name": "ddd-state-43778534395-M08",
+  "artifact_sha256": "97ca2896c1ea7ee87db0b4a0a0673c374fdaa2b44f8ad5185402fee270e36ffd",
+  "source_commit": "35374eadb583dbb06de6899b139a3f4b9413c3bd",
   "stage": "M08"
 }
