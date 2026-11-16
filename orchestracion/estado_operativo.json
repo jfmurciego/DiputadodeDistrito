@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T00:15:13.934010+00:00",
+  "generated_at": "2026-11-16T00:33:50.422844+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 76,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 43,
-      "activable": 1,
+      "activated": 44,
+      "activable": 0,
       "territorial_pending": 46,
       "electoral_pending": 76,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 120,
       "territorial_source": 74,
       "electoral_source": 44,
-      "durable_pair": 43
+      "durable_pair": 44
     },
     "territories": [
       {
@@ -2073,12 +2073,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac21/evidencia/pares_fuentes/2025/bf33d2ba8fd21650e79feaf4905b3c2873e4580e28939d0eb96e83ba3310de14.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac21/evidencia/pares_fuentes/2025/6dd96f7b3942f424baf0f0e48ba967a49edc60a2ad6ad777a5c2ac0339770c03.json",
+            "pair_sha256": "6dd96f7b3942f424baf0f0e48ba967a49edc60a2ad6ad777a5c2ac0339770c03",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -2441,8 +2441,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43764702249,
-            "receipt_path": "territorios/nac28/evidencia/fuentes_territoriales/2025/13806f103e41aea7545bffa29544d27486f711ffe80ce098225aacf9fc9bda7a/43764702249/receipt.json"
+            "run_id": 43778543060,
+            "receipt_path": "territorios/nac28/evidencia/fuentes_territoriales/2025/13806f103e41aea7545bffa29544d27486f711ffe80ce098225aacf9fc9bda7a/43778543060/receipt.json"
           }
         },
         "electoral": {
@@ -2498,8 +2498,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43764712990,
-            "receipt_path": "territorios/nac29/evidencia/fuentes_territoriales/2025/5b829be3f88ebbd943b920b95f52622dd360817ba8120d935c6d8c7d0c289fd2/43764712990/receipt.json"
+            "run_id": 43779396654,
+            "receipt_path": "territorios/nac29/evidencia/fuentes_territoriales/2025/5b829be3f88ebbd943b920b95f52622dd360817ba8120d935c6d8c7d0c289fd2/43779396654/receipt.json"
           }
         },
         "electoral": {
@@ -2555,8 +2555,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43764724031,
-            "receipt_path": "territorios/nac30/evidencia/fuentes_territoriales/2025/3933a136da0be1e7ed98cf768bf2eaa38bae26f407c6c8d5c0f886217cf31445/43764724031/receipt.json"
+            "run_id": 43779852945,
+            "receipt_path": "territorios/nac30/evidencia/fuentes_territoriales/2025/3933a136da0be1e7ed98cf768bf2eaa38bae26f407c6c8d5c0f886217cf31445/43779852945/receipt.json"
           }
         },
         "electoral": {
@@ -2612,8 +2612,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43764735304,
-            "receipt_path": "territorios/nac31/evidencia/fuentes_territoriales/2025/51d8252d7e3db17f59afbc306a68339713d7effc4337247a0b5bd5158ebf0823/43764735304/receipt.json"
+            "run_id": 43780088321,
+            "receipt_path": "territorios/nac31/evidencia/fuentes_territoriales/2025/51d8252d7e3db17f59afbc306a68339713d7effc4337247a0b5bd5158ebf0823/43780088321/receipt.json"
           }
         },
         "electoral": {
@@ -3581,8 +3581,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43664106564,
-            "receipt_path": "territorios/nac48/evidencia/fuentes_territoriales/2025/ae559a0881725fe62f44fe19130de7c6922944ec3b29056a433a6c089a487351/43664106564/receipt.json"
+            "run_id": 43774481959,
+            "receipt_path": "territorios/nac48/evidencia/fuentes_territoriales/2025/a2fc607f42cf4dddc255828b42aae4848e4cba2041a0396ac51b8722eb03887a/43774481959/receipt.json"
           }
         },
         "electoral": {
@@ -3638,8 +3638,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43664116102,
-            "receipt_path": "territorios/nac49/evidencia/fuentes_territoriales/2025/8a2ad90a67c869ae226c690dd31b1e72a4a48333ef76e2387bc442501af9ccb8/43664116102/receipt.json"
+            "run_id": 43774893450,
+            "receipt_path": "territorios/nac49/evidencia/fuentes_territoriales/2025/66ced2534b36654e4d1b4933f07696e761aaa70057540fcb46817411d68bc98f/43774893450/receipt.json"
           }
         },
         "electoral": {
@@ -3695,8 +3695,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43664125813,
-            "receipt_path": "territorios/nac50/evidencia/fuentes_territoriales/2025/adc77957e958848806a9b804f581eed7b2a8051a263f1a5c6c49421eb3a4503d/43664125813/receipt.json"
+            "run_id": 43775511959,
+            "receipt_path": "territorios/nac50/evidencia/fuentes_territoriales/2025/a1a479d6542d9fb27e5f81fa3a920ebff8bad35e029e8118c06a79433690f470/43775511959/receipt.json"
           }
         },
         "electoral": {
@@ -3752,8 +3752,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43664135123,
-            "receipt_path": "territorios/nac51/evidencia/fuentes_territoriales/2025/467cc91a3be27b7f0ef79f35ea7b29495134ceb83609c6e03cdd213471596ca4/43664135123/receipt.json"
+            "run_id": 43775733930,
+            "receipt_path": "territorios/nac51/evidencia/fuentes_territoriales/2025/68669b000e39fea26caa524d1029a91b364979c361dd02da58ffdbd964e1e6c1/43775733930/receipt.json"
           }
         },
         "electoral": {
@@ -8880,20 +8880,20 @@
       "name": "Nacional La Coruña",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43764621629,
+      "run_id": 43774834805,
       "last_run": {
-        "run_id": 43764621629,
+        "run_id": 43774834805,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8934,27 +8934,27 @@
       },
       "autonomous_community_code_ine": "C15",
       "display_name": "Nacional La Coruña",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac16",
       "name": "Nacional Cuenca",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 43764632170,
+      "run_id": 43775578741,
       "last_run": {
-        "run_id": 43764632170,
+        "run_id": 43775578741,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8995,27 +8995,27 @@
       },
       "autonomous_community_code_ine": "C16",
       "display_name": "Nacional Cuenca",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac17",
       "name": "Nacional Gerona",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43764643457,
+      "run_id": 43777503207,
       "last_run": {
-        "run_id": 43764643457,
+        "run_id": 43777503207,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9044,39 +9044,39 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_gerona",
+          "territory_id": "nac17",
           "territory_name": "Congreso Gerona",
           "edition": "2025",
-          "run_id": 42954957703,
-          "artifact_name": "ddd-state-42954957703-M08",
-          "artifact_sha256": "4bf0be89bf07c084ac74e390c452b464eb8b0857bdc660d78deadccdfdd5e0bd",
-          "source_commit": "2cc49ebdd991dcb434a95c3831d620449565c0a5",
+          "run_id": 43777503207,
+          "artifact_name": "ddd-state-43777503207-M08",
+          "artifact_sha256": "16d2e4375f4ab8dcec5cb347ccab544a99f8d82acfb12b2e6cf95196b3a7e79c",
+          "source_commit": "d4b97adffd11d4ea2615ad9084d0eb7b0070af75",
           "stage": "M08"
         }
       },
       "autonomous_community_code_ine": "C17",
       "display_name": "Nacional Gerona",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac18",
       "name": "Nacional Granada",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43764654875,
+      "run_id": 43775697971,
       "last_run": {
-        "run_id": 43764654875,
+        "run_id": 43775697971,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9117,7 +9117,7 @@
       },
       "autonomous_community_code_ine": "C18",
       "display_name": "Nacional Granada",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac19",
@@ -9166,13 +9166,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_guadalajara",
+          "territory_id": "nac19",
           "territory_name": "Congreso Guadalajara",
           "edition": "2025",
-          "run_id": 42955217289,
-          "artifact_name": "ddd-state-42955217289-M08",
-          "artifact_sha256": "ed0747de4d2724d85893ee040187b7b9c4748577be64b36f1ade3159940f0de9",
-          "source_commit": "c9c8d85f6dc3501f5fb9e388495e544cf2cc75bb",
+          "run_id": 43778101275,
+          "artifact_name": "ddd-state-43778101275-M08",
+          "artifact_sha256": "b585c4df680af7c771d168c8fa28204b83277d55f8931c70a442a2ee9f7a8c1a",
+          "source_commit": "0b4639c158a0e0036c6d3b0709212d4577062290",
           "stage": "M08"
         }
       },
@@ -9227,13 +9227,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_guipuzcoa",
+          "territory_id": "nac20",
           "territory_name": "Congreso Guipúzcoa",
           "edition": "2025",
-          "run_id": 42955375065,
-          "artifact_name": "ddd-state-42955375065-M08",
-          "artifact_sha256": "270c6fe0515d3bedf929343cdbe93f7b73cb16bc8d23296a619f4688c7a249d3",
-          "source_commit": "8eacf7a707caade026d5db97af02e198d0a90820",
+          "run_id": 43778046777,
+          "artifact_name": "ddd-state-43778046777-M08",
+          "artifact_sha256": "29726ddd1f8b5f9328182a5184ee282a58e78b277289cf93803ba6b5a69876bb",
+          "source_commit": "bf3960e993276ab6f0116bd0ee6a30d6d3501605",
           "stage": "M08"
         }
       },
@@ -9288,13 +9288,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_huelva",
+          "territory_id": "nac21",
           "territory_name": "Congreso Huelva",
           "edition": "2025",
-          "run_id": 42996002594,
-          "artifact_name": "ddd-state-42996002594-M08",
-          "artifact_sha256": "e435883592b00c5afc7e7b21feb11e35a80ef6d3f1ee6200819c43ac1b83d582",
-          "source_commit": "cfe716fc438444c6d25634256d725122a3012c94",
+          "run_id": 43779363183,
+          "artifact_name": "ddd-state-43779363183-M08",
+          "artifact_sha256": "54a896cb46db59f54d5f9a74c25dbd9b0258918cf7532dade9e10e1fe2093a3c",
+          "source_commit": "ac50f5431d63629b17eae9a3bbf6ba56b4232e0e",
           "stage": "M08"
         }
       },
@@ -9307,11 +9307,11 @@
       "name": "Nacional Huesca",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 42996217596,
+      "run_id": 43772965482,
       "last_run": {
         "run_id": 42996217596,
         "status": "SUCCESS",
@@ -9320,7 +9320,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9334,16 +9334,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_huesca",
+          "territory_id": "nac22",
           "territory_name": "Congreso Huesca",
           "edition": "2025",
-          "run_id": 42991551418,
-          "artifact_name": "ddd-state-42991551418-M06",
-          "artifact_sha256": "3e0ca0620b6e73b343acd4484ac7f147dbf8e86617836621d7161bf9e562c95a",
-          "source_commit": "48716f6314fe92973436599417e7be4886bbe0c2",
+          "run_id": 43772965482,
+          "artifact_name": "ddd-state-43772965482-M06",
+          "artifact_sha256": "e327dda7f100c875c8f53dfdf2c879d3e1dffc6cab5bf688abb27a1aa3074129",
+          "source_commit": "a09c0965206d6c0335a8daf95e06ef94febe246e",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_huesca/evidencia/generaciones_m06/42991551418.json"
+          "producer_manifest_path": "territorios/nac22/evidencia/generaciones_m06/43772965482.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9361,7 +9361,7 @@
       },
       "autonomous_community_code_ine": "C22",
       "display_name": "Nacional Huesca",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac23",
@@ -9410,13 +9410,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_jaen",
+          "territory_id": "nac23",
           "territory_name": "Congreso Jaén",
           "edition": "2025",
-          "run_id": 42955644352,
-          "artifact_name": "ddd-state-42955644352-M08",
-          "artifact_sha256": "3ec5279deec1cdd34eb44b9fb81c0ba237880dae05131545058fead820c08fcd",
-          "source_commit": "d172008108ace02155b53ffe82a184898118d31e",
+          "run_id": 43778534395,
+          "artifact_name": "ddd-state-43778534395-M08",
+          "artifact_sha256": "97ca2896c1ea7ee87db0b4a0a0673c374fdaa2b44f8ad5185402fee270e36ffd",
+          "source_commit": "35374eadb583dbb06de6899b139a3f4b9413c3bd",
           "stage": "M08"
         }
       },
@@ -9471,13 +9471,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_leon",
+          "territory_id": "nac24",
           "territory_name": "Congreso León",
           "edition": "2025",
-          "run_id": 42996717873,
-          "artifact_name": "ddd-state-42996717873-M08",
-          "artifact_sha256": "56684c425eb17e0b6d2ee739e55537a8f23a95da47ea1280a14f5f6b58b0fd66",
-          "source_commit": "a3bb8b3bbf068e226f0994fb2d5e6439c24f9798",
+          "run_id": 43779319643,
+          "artifact_name": "ddd-state-43779319643-M08",
+          "artifact_sha256": "632eaa212f889aae26006be4c2f1a1e5872c2859e7f7577476d78fe6e893d272",
+          "source_commit": "633b12a4f1bd0bfb9389de872c10d0247157f68b",
           "stage": "M08"
         }
       },
@@ -9692,9 +9692,9 @@
         "territorial_source": {
           "territory_id": "nac28",
           "edition": "2025",
-          "run_id": 43764702249,
-          "artifact_name": "ddd-source-package-nac28-2025-43764702249",
-          "artifact_sha256": "69a025b3e89fa9b494e7cb01adf1a8849cb574e4cdb827e88d638f0ed9b2b364",
+          "run_id": 43778543060,
+          "artifact_name": "ddd-source-package-nac28-2025-43778543060",
+          "artifact_sha256": "556c44a618b384ea08086bdbaed39b7e393b544248ba4eb9d375639752b0611a",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9753,9 +9753,9 @@
         "territorial_source": {
           "territory_id": "nac29",
           "edition": "2025",
-          "run_id": 43764712990,
-          "artifact_name": "ddd-source-package-nac29-2025-43764712990",
-          "artifact_sha256": "ccb9a679794363c99f3bfad5383c9c471b59cd20c55f90e77046839c43755948",
+          "run_id": 43779396654,
+          "artifact_name": "ddd-source-package-nac29-2025-43779396654",
+          "artifact_sha256": "5eec02c03d7875ad49ee7e59e7d7c8f455871b880c8a8afe40ae6b480431f148",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9814,9 +9814,9 @@
         "territorial_source": {
           "territory_id": "nac30",
           "edition": "2025",
-          "run_id": 43764724031,
-          "artifact_name": "ddd-source-package-nac30-2025-43764724031",
-          "artifact_sha256": "d490830a6a9a5fa98f4e3090e129ec6fd4809e3073e70137c4109ed415afd414",
+          "run_id": 43779852945,
+          "artifact_name": "ddd-source-package-nac30-2025-43779852945",
+          "artifact_sha256": "d0f96d334465f42c3701d33eeaaa2fbcd9a18af87223e9cf35f50582283ca3a3",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9875,9 +9875,9 @@
         "territorial_source": {
           "territory_id": "nac31",
           "edition": "2025",
-          "run_id": 43764735304,
-          "artifact_name": "ddd-source-package-nac31-2025-43764735304",
-          "artifact_sha256": "8467f00e5660623afd02fe1a331cb962b591fe8141311cee2d273b4814a3c3d3",
+          "run_id": 43780088321,
+          "artifact_name": "ddd-source-package-nac31-2025-43780088321",
+          "artifact_sha256": "bfa489d356fc40b88dc21ce7aa9cecaa2dd07ed97aa5c601d874e1cf1625ba18",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10912,9 +10912,9 @@
         "territorial_source": {
           "territory_id": "nac48",
           "edition": "2025",
-          "run_id": 43664106564,
-          "artifact_name": "ddd-source-package-nac48-2025-43664106564",
-          "artifact_sha256": "c54b9fa265f81b1148cf1d5f9f55ac7a9ebbf61a9f23de33d7f5705fcbde2696",
+          "run_id": 43774481959,
+          "artifact_name": "ddd-source-package-nac48-2025-43774481959",
+          "artifact_sha256": "ad3ac755b4682e6f1e49be3190c7dc1df9e15f40928d6335062a4ef01ed9a8ae",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10973,9 +10973,9 @@
         "territorial_source": {
           "territory_id": "nac49",
           "edition": "2025",
-          "run_id": 43664116102,
-          "artifact_name": "ddd-source-package-nac49-2025-43664116102",
-          "artifact_sha256": "e5808854b49939d590f7288d68b1f9fdfc8463be690b39fef52d248d57262454",
+          "run_id": 43774893450,
+          "artifact_name": "ddd-source-package-nac49-2025-43774893450",
+          "artifact_sha256": "f548e3e7e3c89fb4b31c6da0a7164ab16c640c81fc8de6ecf7403cec68d4fc97",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -11034,9 +11034,9 @@
         "territorial_source": {
           "territory_id": "nac50",
           "edition": "2025",
-          "run_id": 43664125813,
-          "artifact_name": "ddd-source-package-nac50-2025-43664125813",
-          "artifact_sha256": "5a96d194d6194aa5fca43c32d41c5246eaac89f60c84dd60e70274311b0324f8",
+          "run_id": 43775511959,
+          "artifact_name": "ddd-source-package-nac50-2025-43775511959",
+          "artifact_sha256": "58017f33cc35a59a09dbfe2820ddf9c8751707931f4ff1396c4bdcfec06242a7",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -11095,9 +11095,9 @@
         "territorial_source": {
           "territory_id": "nac51",
           "edition": "2025",
-          "run_id": 43664135123,
-          "artifact_name": "ddd-source-package-nac51-2025-43664135123",
-          "artifact_sha256": "88e18343a59deba8d7d69e89ebeae82a6abacef6a95112b5907f8ede55116fb0",
+          "run_id": 43775733930,
+          "artifact_name": "ddd-source-package-nac51-2025-43775733930",
+          "artifact_sha256": "cccc605c36783eeee2ce6e07ae3561f64e8d3c32eaec56650a72f98c1ec7c5b3",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -12436,7 +12436,7 @@
     }
   ],
   "kpis": {
-    "complete": 64,
+    "complete": 67,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12470,7 +12470,10 @@
       "Nacional Castellón",
       "Nacional Ciudad Real",
       "Nacional Córdoba",
-      "Nacional Huesca",
+      "Nacional La Coruña",
+      "Nacional Cuenca",
+      "Nacional Gerona",
+      "Nacional Granada",
       "Nacional Lérida",
       "Nacional La Rioja",
       "Nacional Lugo",
@@ -12712,13 +12715,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac14",
-    "name": "Nacional Córdoba",
-    "display_name": "Nacional Córdoba",
-    "autonomous_community_code_ine": "C14",
-    "run_id": 43773176478,
+    "territory_id": "nac17",
+    "name": "Nacional Gerona",
+    "display_name": "Nacional Gerona",
+    "autonomous_community_code_ine": "C17",
+    "run_id": 43777503207,
     "stage": "M08",
-    "certification": "PASS",
+    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
@@ -12729,30 +12732,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional La Coruña",
-      "territory_id": "nac15",
-      "autonomous_community_code_ine": "C15",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Cuenca",
-      "territory_id": "nac16",
-      "autonomous_community_code_ine": "C16",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Gerona",
-      "territory_id": "nac17",
-      "autonomous_community_code_ine": "C17",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Granada",
-      "territory_id": "nac18",
-      "autonomous_community_code_ine": "C18",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Guadalajara",
       "territory_id": "nac19",
       "autonomous_community_code_ine": "C19",
@@ -12769,6 +12748,30 @@
       "territory_id": "nac21",
       "autonomous_community_code_ine": "C21",
       "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Huesca",
+      "territory_id": "nac22",
+      "autonomous_community_code_ine": "C22",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Jaén",
+      "territory_id": "nac23",
+      "autonomous_community_code_ine": "C23",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional León",
+      "territory_id": "nac24",
+      "autonomous_community_code_ine": "C24",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional 350 Álava",
+      "territory_id": "congreso350_alava",
+      "autonomous_community_code_ine": "R01",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12779,30 +12782,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional La Coruña",
-      "territory_id": "nac15",
-      "autonomous_community_code_ine": "C15",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Cuenca",
-      "territory_id": "nac16",
-      "autonomous_community_code_ine": "C16",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Gerona",
-      "territory_id": "nac17",
-      "autonomous_community_code_ine": "C17",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Granada",
-      "territory_id": "nac18",
-      "autonomous_community_code_ine": "C18",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Guadalajara",
       "territory_id": "nac19",
       "autonomous_community_code_ine": "C19",
@@ -12818,6 +12797,24 @@
       "territory": "Nacional Huelva",
       "territory_id": "nac21",
       "autonomous_community_code_ine": "C21",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Huesca",
+      "territory_id": "nac22",
+      "autonomous_community_code_ine": "C22",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Jaén",
+      "territory_id": "nac23",
+      "autonomous_community_code_ine": "C23",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional León",
+      "territory_id": "nac24",
+      "autonomous_community_code_ine": "C24",
       "action": "preparar fuentes electorales"
     }
   ]
