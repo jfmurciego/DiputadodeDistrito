@@ -42,7 +42,8 @@ def main(argv=None) -> int:
     if not ref.strip() or not vivo.strip():
         print("Extracto vacío en el " + ("paquete" if not ref.strip() else "padrón") + ": nada que comparar")
         return 2
-    print(f"paquete  bruto={h(ref)} canonico={h(p.canonico(ref))} bytes={len(ref)} tab={'\\t' in ref.decode('utf-8-sig').splitlines()[0]}")
+    con_tab = "\t" in ref.decode("utf-8-sig").splitlines()[0]
+    print(f"paquete  bruto={h(ref)} canonico={h(p.canonico(ref))} bytes={len(ref)} tab={con_tab}")
     print(f"padron   bruto={h(vivo)} canonico={h(p.canonico(vivo))} bytes={len(vivo)}")
     igual = p.canonico(ref) == p.canonico(vivo)
     print("IGUAL" if igual else "DISTINTO")
