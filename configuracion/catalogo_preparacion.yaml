@@ -2496,7 +2496,7 @@ territories:
         prepared_source_pair: territorios/nac45/evidencia/pares_fuentes/2025/044bfae7409d4442081989997a55e357f59b573e540a3b830bb2476435c4cea0.json
         electoral_product: territorios/nac45/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/nac45/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: nac46
   name: Congreso Valencia
   editions:
