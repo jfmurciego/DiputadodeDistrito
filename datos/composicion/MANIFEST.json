@@ -2037,6 +2037,13 @@
    "sha256_csv": "5a6479d9995da8ff305ca3d6e99e35cd5869411229d78ea48b1b0071933cf868",
    "ruta": "datos/composicion/runs/nac25_43773580960.csv"
   },
+  "nac26/43773865756": {
+   "territorio": "nac26",
+   "run_id": "43773865756",
+   "secciones": 343,
+   "sha256_csv": "b0c0cc8c7c9d9b64fcfb848e2fb64a1bc8db4d1663d26bf378302857f7f371ee",
+   "ruta": "datos/composicion/runs/nac26_43773865756.csv"
+  },
   "pais_vasco/43041060549": {
    "territorio": "pais_vasco",
    "run_id": "43041060549",
