@@ -3,9 +3,15 @@
 """Población por sección censal para el histórico de las generales (T-358/T-364, D-125/D-126/D-128). Solo cálculo.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-16 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/poblacion_seccion_historica_v1.0.0_20261115.py
-CAMBIOS: 1.1.0 (T-364, D-128): el relleno de D-126 (año más cercano) pasa a INTERPOLACIÓN LINEAL entre el año anterior y el
+VERSIÓN: 1.2.0 · FECHA: 2026-11-16 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/poblacion_seccion_historica_v1.1.0_20261116.py
+CAMBIOS: 1.2.0 (T-364b, D-128 ampliada por el Planificador): (a) residuo ≤ 0 en un municipio = aviso NO bloqueante: las estimadas
+  conservan el valor interpolado sin ajuste y salen con ajustada=«sin_ajuste_municipal» (nunca 0); (b) provincia-elección con
+  secciones sin dato en NINGÚN año del Atlas = APARTADA (sin filas en la tabla, motivo en el informe) sin frenar a las demás;
+  (c) población de las secciones de la fuente que no existen en el seccionado del año → ENTERA a la sección sucesora (mayor
+  población con herramientas/equivalencia_seccionados.py), origen «reasignada»; sin sucesora única → provincia APARTADA. Todo cuenta
+  en el % estimado. --estricto solo sale con 2 si hay provincias apartadas (las tablas se escriben siempre).
+  1.1.0 (T-364, D-128): el relleno de D-126 (año más cercano) pasa a INTERPOLACIÓN LINEAL entre el año anterior y el
   siguiente de la misma sección (año más cercano si solo hay un lado) y AJUSTE PROPORCIONAL por municipio a la población oficial
   del INE (tabla 29005, padrón); salida por elección con columnas sección, población, origen, ajustada, años_fuente; informe por
   provincia sobre población estimada, municipios ajustados y desajuste medio. 1.0.0: fichero nuevo.
@@ -56,6 +62,10 @@ VERSION = "1.1.0"
 NOMBRE_ATLAS = "30832.csv"
 NOMBRE_CENSO = "indicadores_seccion_censal_csv.zip"
 NOMBRE_OFICIAL = "29005.csv"
+ESTIMADAS = ("interpolada", "mas_cercana", "no_listada")  # origen estimado y reescalable por el ajuste municipal
+FIJAS = ("dato", "reasignada")  # población real: el ajuste municipal no las toca
+SIN_AJUSTE = "sin_ajuste_municipal"  # valor de la columna ajustada si el municipio no se pudo ajustar (aviso)
+EPSILON_EMPATE = 1e-9  # pesos de población que difieren menos → sin sucesora única
 UMBRAL_MARCA_PCT = 1  # > 1 % de población estimada → MARCA
 # elección → (fuente, año de la fuente); el padrón oficial se compara solo con fuente atlas (mismo año)
 ELECCIONES = {
@@ -202,9 +212,9 @@ def leer_seccionado(ruta) -> set[str]:
         if nombre == "CUSEC":
             pos = (off, ln)
         off += ln
-    if pos is None or pos[1] != 10:
-        raise ErrorFuente(f"{Path(ruta).name}: sin campo CUSEC de 10 caracteres")
-    out = {b[hl + i * rl + pos[0]: hl + i * rl + pos[0] + 10].decode("latin1").strip() for i in range(n)}
+    if pos is None or pos[1] < 10:
+        raise ErrorFuente(f"{Path(ruta).name}: sin campo CUSEC de al menos 10 caracteres")
+    out = {b[hl + i * rl + pos[0]: hl + i * rl + pos[0] + pos[1]].decode("latin1").strip() for i in range(n)}
     if not out or any(len(c) != 10 or not c.isdigit() for c in out):
         raise ErrorFuente(f"{Path(ruta).name}: CUSEC vacío o con códigos no válidos")
     return out
@@ -271,6 +281,62 @@ def reparto(valores: list[int], total: int) -> list[int]:
     return base
 
 
+def elegir_sucesor(e: dict | None) -> tuple[str | None, str]:
+    """Sucesora única de una entrada de `equivalencia_seccionados.equivalencia`: la de mayor peso de población.
+    → (código|None, motivo). Sin vigente, sin entrada o con empate en el máximo: None."""
+    if not e or e["tipo"] == "sin_vigente" or not e["poblacion"]:
+        return None, "sin_vigente"
+    orden = sorted(e["poblacion"].items(), key=lambda kv: (-kv[1], kv[0]))
+    if len(orden) > 1 and orden[0][1] - orden[1][1] < EPSILON_EMPATE:
+        return None, "empate"
+    return orden[0][0], "ok"
+
+
+def reasignar(filas, seccionado: set[str], sucesor_de):
+    """Pasa la población de cada sección de la fuente que NO está en el seccionado a su sucesora (entera).
+
+    `sucesor_de(código) → (sucesora|None, motivo)`. La sucesora pasa a origen «reasignada»: si tenía dato propio, suma; si era
+    una estimación o sin_dato, la sustituye (la población real de la zona manda). Las secciones sin sucesora única quedan y su
+    provincia se devuelve en `apartadas` {provincia: [motivos]}. La sucesora debe ser de la MISMA provincia (si no, apartada: la
+    provincia es la unidad de la tabla y del contrato). Si es de otro MUNICIPIO (segregaciones: el seccionado del año es anterior al
+    municipio nuevo) se acepta y se cuenta en `cruces` {provincia: n}: la suma provincial se conserva y la municipal no (el ajuste
+    municipal la trata como aviso). Devuelve (filas, apartadas, cruces)."""
+    faltan = [f for f in filas if f[0] not in seccionado]
+    apartadas: dict[str, list[str]] = {}
+    cruces: dict[str, int] = {}
+    suma: dict[str, int] = {}
+    anios: dict[str, set[str]] = {}
+    quitar = set()
+    for sec, pob, origen, _, y in faltan:
+        suc, motivo = sucesor_de(sec) if pob is not None else (None, "sin_dato")
+        if suc is None or suc not in seccionado:
+            apartadas.setdefault(sec[:2], []).append(f"{sec}: sin sucesora única ({motivo if suc is None else 'fuera del seccionado'})")
+            continue
+        if suc[:2] != sec[:2]:
+            apartadas.setdefault(sec[:2], []).append(f"{sec}: la sucesora {suc} es de otra provincia")
+            continue
+        if suc[:5] != sec[:5]:
+            cruces[sec[:2]] = cruces.get(sec[:2], 0) + 1
+        suma[suc] = suma.get(suc, 0) + pob
+        anios.setdefault(suc, set()).update(y.split("+"))
+        quitar.add(sec)
+    out = []
+    vistas = set()
+    for f in filas:
+        if f[0] in quitar:
+            continue
+        if f[0] in suma:
+            propio = f[1] if f[2] == "dato" else 0
+            propia_y = {f[4]} if f[2] == "dato" else set()
+            out.append((f[0], propio + suma[f[0]], "reasignada", "no", "+".join(sorted(anios[f[0]] | propia_y))))
+            vistas.add(f[0])
+        else:
+            out.append(f)
+    if set(suma) - vistas:  # la sucesora está en el seccionado pero sin fila (no puede ocurrir: las no listadas se añaden)
+        raise ErrorFuente(f"sucesoras sin fila: {sorted(set(suma) - vistas)[:3]}")
+    return out, apartadas, cruces
+
+
 def ajustar(eleccion: str, filas, oficial: dict[str, int] | None):
     """Ajuste proporcional por municipio. Devuelve (filas nuevas en el mismo orden, filas de informe por municipio)."""
     por_mun: dict[str, list[int]] = {}
@@ -280,10 +346,10 @@ def ajustar(eleccion: str, filas, oficial: dict[str, int] | None):
     inf = []
     for mun in sorted(por_mun):
         idx = por_mun[mun]
-        est = [i for i in idx if filas[i][2] in ("interpolada", "mas_cercana", "no_listada")]
+        est = [i for i in idx if filas[i][2] in ESTIMADAS]
         if not est and not any(filas[i][2] == "sin_dato" for i in idx):
             continue
-        pub = sum(filas[i][1] for i in idx if filas[i][2] == "dato")
+        pub = sum(filas[i][1] for i in idx if filas[i][2] in FIJAS)
         antes = sum(filas[i][1] for i in est)  # 0 si solo hay sin_dato (el aviso lo recoge)
         fila = {"elección": eleccion, "municipio": mun, "oficial": "", "publicada": pub, "estimada_antes": antes,
                 "estimada_despues": antes, "secciones_estimadas": len(est), "desajuste_pct": "", "estado": ""}
@@ -313,6 +379,10 @@ def ajustar(eleccion: str, filas, oficial: dict[str, int] | None):
                     nuevas[i] = (f[0], v, f[2], "sí", f[4])
                 fila["estimada_despues"] = res
                 fila["estado"] = "ajustado"
+        if fila["estado"].startswith("aviso"):  # no bloqueante: la estimación se conserva (nunca 0) y se marca
+            for i in est:
+                f = filas[i]
+                nuevas[i] = (f[0], f[1], f[2], SIN_AJUSTE, f[4])
         inf.append(fila)
     return nuevas, inf
 
@@ -325,10 +395,10 @@ def pct(parte: int, total: int) -> str:
     return f"{n // 10000}.{n % 10000:04d}"
 
 
-def informe_provincias(eleccion: str, filas, municipios=(), seccionado=None) -> list[dict]:
+def informe_provincias(eleccion: str, filas, municipios=(), seccionado=None, apartadas=None, cruces=None) -> list[dict]:
     acc: dict[str, dict] = {}
     for sec, pob, origen, ajustada, _ in filas:
-        d = acc.setdefault(sec[:2], dict(secciones=0, interpolada=0, mas_cercana=0, no_listada=0, ajustadas=0, sin_dato=0,
+        d = acc.setdefault(sec[:2], dict(secciones=0, interpolada=0, mas_cercana=0, no_listada=0, reasignada=0, ajustadas=0, sin_dato=0,
                                          poblacion=0, pob_est=0, mun_aj=0, mun_aviso=0, sin_secc=0, desv=Fraction(0)))
         d["secciones"] += 1
         if seccionado is not None and sec not in seccionado:
@@ -358,19 +428,23 @@ def informe_provincias(eleccion: str, filas, municipios=(), seccionado=None) -> 
             "elección": eleccion, "provincia": prov, "secciones": d["secciones"],
             "secciones_interpoladas": d["interpolada"], "secciones_mas_cercanas": d["mas_cercana"],
             "secciones_no_listadas": d["no_listada"],
+            "secciones_reasignadas": d["reasignada"], "reasignadas_otro_municipio": (cruces or {}).get(prov, 0),
             "secciones_sin_seccionado": d["sin_secc"] if seccionado is not None else "", "secciones_ajustadas": d["ajustadas"], "secciones_sin_dato": d["sin_dato"],
             "población": d["poblacion"], "población_estimada": d["pob_est"],
             "pct_estimada": pct(d["pob_est"], d["poblacion"]),
             "municipios_ajustados": d["mun_aj"], "desajuste_medio_pct": medio, "municipios_aviso": d["mun_aviso"],
             "marca": "MARCA" if (d["pob_est"] * 100 > UMBRAL_MARCA_PCT * d["poblacion"] or d["sin_dato"]) else "",
+            "estado": "APARTADA" if prov in (apartadas or {}) else "ok", "motivo": "; ".join((apartadas or {}).get(prov, [])),
         })
     return out
 
 
-def calcular(atlas, censo, oficial=None, seccionados=None):
-    """→ ({elección: filas}, informe provincias, informe municipios).
+def calcular(atlas, censo, oficial=None, seccionados=None, sucesores=None):
+    """→ ({elección: filas de las provincias NO apartadas}, informe provincias, informe municipios).
 
-    `oficial` = {año: {municipio: población}}; `seccionados` = {año del seccionado: {CUSEC}} (obligatorio: falla cerrado si falta)."""
+    `oficial` = {año: {municipio: población}}; `seccionados` = {año del seccionado: {CUSEC}} (obligatorio: falla cerrado si falta);
+    `sucesores(año del seccionado, {cusec: población}) → (código → (sucesora|None, motivo))` (T-364b); sin él, las secciones de la
+    fuente que no están en el seccionado no tienen sucesora y su provincia queda apartada."""
     tablas, informe, municipios = {}, [], []
     for el in sorted(ELECCIONES):
         tipo, anio = ELECCIONES[el]
@@ -380,17 +454,73 @@ def calcular(atlas, censo, oficial=None, seccionados=None):
         sa = SECCIONADO[el]
         if sa is not None and not (seccionados or {}).get(sa):
             raise ErrorFuente(f"{el}: falta el seccionado {sa}")
-        filas = poblacion_eleccion(fuente, anio, atlas, None if sa is None else seccionados[sa])
+        sec = None if sa is None else seccionados[sa]
+        filas = poblacion_eleccion(fuente, anio, atlas, sec)
+        apartadas: dict[str, list[str]] = {}
+        cruces: dict[str, int] = {}
+        if sec is not None:
+            pob = {f[0]: f[1] or 0 for f in filas if f[0] in sec}
+            suc = sucesores(sa, pob) if sucesores else (lambda _c: (None, "sin_geometria"))
+            filas, apartadas, cruces = reasignar(filas, sec, suc)
+        for f in filas:
+            if f[2] == "sin_dato":  # (b) sin dato en ningún año del Atlas: no se inventa; la provincia sale apartada
+                apartadas.setdefault(f[0][:2], []).append(f"{f[0]}: sin dato en ningún año del Atlas")
         if tipo == "atlas":
             if oficial is None or anio not in oficial:
                 raise ErrorFuente(f"{el}: falta la población oficial del año {anio}")
             filas, mun = ajustar(el, filas, oficial[anio])
         else:
             filas, mun = ajustar(el, filas, None)
-        tablas[el] = filas
+        apartadas = {p: sorted(m) for p, m in apartadas.items()}
+        tablas[el] = [f for f in filas if f[0][:2] not in apartadas]
         municipios += mun
-        informe += informe_provincias(el, filas, mun, None if sa is None else seccionados[sa])
+        informe += informe_provincias(el, filas, mun, sec, apartadas, cruces)
     return tablas, informe, municipios
+
+
+def fabrica_sucesores(directorio: Path):
+    """→ función (año del seccionado, {cusec: población}) → (código → (sucesora|None, motivo)) con geometrías de los ZIP del INE.
+
+    La geometría de una sección que no está en el seccionado del año sale del seccionado MÁS CERCANO en años que la tenga (empate:
+    el anterior; los ZIP de `directorio`). La sucesora = la sección del seccionado del año con mayor peso de población según
+    `equivalencia_seccionados.equivalencia` (no 1:1 y 1:1 por igual). Lectura de geometrías diferida (geopandas/shapely)."""
+    def fabrica(anio_vig: int, pob: dict[str, int]):
+        cache: dict = {}
+        zips = {int(p.stem.split("_")[1]): p for p in sorted(directorio.glob("seccionado_*.zip"))}
+
+        def geoms(anio):
+            if anio not in cache:
+                sys.path.insert(0, str(Path(__file__).resolve().parent))
+                import equivalencia_seccionados as eqs  # noqa: PLC0415 (import diferido: shapely/geopandas)
+                cache[anio] = eqs.leer_seccionado(zips[anio])
+            return cache[anio]
+
+        cusec = {}
+
+        def donante(codigo):
+            for y in sorted(zips, key=lambda y: (abs(y - anio_vig), y)):
+                if y == anio_vig:
+                    continue
+                if y not in cusec:
+                    cusec[y] = leer_seccionado(zips[y])
+                if codigo in cusec[y]:
+                    return y
+            return None
+
+        def sucesor_de(codigo):
+            y = donante(codigo)
+            if y is None or anio_vig not in zips:
+                return None, "sin_geometria"
+            prov = codigo[:2]
+            sys.path.insert(0, str(Path(__file__).resolve().parent))
+            import equivalencia_seccionados as eqs  # noqa: PLC0415
+            vig = geoms(anio_vig).get(prov, {})
+            h = geoms(y).get(prov, {}).get(codigo)
+            if h is None or not vig:
+                return None, "sin_geometria"
+            return elegir_sucesor(eqs.equivalencia({codigo: h}, vig, {k: pob.get(k, 0) for k in vig}).get(codigo))
+        return sucesor_de
+    return fabrica
 
 
 def _escribir(ruta, cols, filas) -> str:
@@ -407,8 +537,9 @@ def escribir_tabla(ruta, filas) -> str:
 
 
 COLS_INFORME = ["elección", "provincia", "secciones", "secciones_interpoladas", "secciones_mas_cercanas",
-                "secciones_no_listadas", "secciones_sin_seccionado", "secciones_ajustadas", "secciones_sin_dato", "población", "población_estimada", "pct_estimada",
-                "municipios_ajustados", "desajuste_medio_pct", "municipios_aviso", "marca"]
+                "secciones_no_listadas", "secciones_reasignadas", "reasignadas_otro_municipio", "secciones_sin_seccionado", "secciones_ajustadas",
+                "secciones_sin_dato", "población", "población_estimada", "pct_estimada", "municipios_ajustados",
+                "desajuste_medio_pct", "municipios_aviso", "marca", "estado", "motivo"]
 COLS_MUNICIPIOS = ["elección", "municipio", "oficial", "publicada", "estimada_antes", "estimada_despues",
                    "secciones_estimadas", "desajuste_pct", "estado"]
 
@@ -425,7 +556,7 @@ def main(argv=None) -> int:
     ap.add_argument("--seccionados", required=True, help="directorio con seccionado_AAAA.zip del INE (local)")
     ap.add_argument("--sumas", required=True, nargs="+", help="SHA256SUMS.txt (uno o varios)")
     ap.add_argument("--salida", required=True, help="directorio de salida")
-    ap.add_argument("--estricto", action="store_true", help="si algún municipio tiene aviso: salir con 2 sin escribir las tablas")
+    ap.add_argument("--estricto", action="store_true", help="salir con 2 si alguna provincia-elección queda APARTADA (las tablas se escriben igualmente)")
     a = ap.parse_args(argv)
     try:
         sumas: dict[str, str] = {}
@@ -439,26 +570,29 @@ def main(argv=None) -> int:
             ruta = Path(a.seccionados) / f"seccionado_{anio}.zip"
             verificar(ruta, ruta.name, sumas)
             secc[anio] = leer_seccionado(ruta)
+        for ruta in sorted(Path(a.seccionados).glob("seccionado_*.zip")):  # donantes de geometría (otros años): sha256 también
+            verificar(ruta, ruta.name, sumas)
         anios = {anio for tipo, anio in ELECCIONES.values() if tipo == "atlas"}
-        tablas, informe, municipios = calcular(leer_atlas(a.atlas), leer_censo(a.censo), leer_oficial(a.oficial, anios), secc)
+        tablas, informe, municipios = calcular(leer_atlas(a.atlas), leer_censo(a.censo), leer_oficial(a.oficial, anios), secc,
+                                              fabrica_sucesores(Path(a.seccionados)))
     except (ErrorFuente, OSError, zipfile.BadZipFile) as e:
         print(f"ERROR: {e}", file=sys.stderr)
         return 1
     out = Path(a.salida)
     out.mkdir(parents=True, exist_ok=True)
     avisos = [m for m in municipios if m["estado"].startswith("aviso")]
-    if a.estricto and avisos:  # a prueba de fallos: sin tablas, el consumidor no puede usar una elección con avisos
-        escribir_informe(out / "informe_provincias.csv", informe)
-        escribir_informe(out / "informe_municipios.csv", municipios, COLS_MUNICIPIOS)
-        print(f"ERROR (--estricto): {len(avisos)} municipios con aviso; no se escriben tablas.", file=sys.stderr)
-        return 2
+    apartadas = [(r["elección"], r["provincia"]) for r in informe if r["estado"] == "APARTADA"]
     for el, filas in tablas.items():
         print(f"poblacion_seccion_{el}.csv sha256", escribir_tabla(out / f"poblacion_seccion_{el}.csv", filas), len(filas), "filas")
     print("informe_provincias.csv sha256", escribir_informe(out / "informe_provincias.csv", informe))
     print("informe_municipios.csv sha256", escribir_informe(out / "informe_municipios.csv", municipios, COLS_MUNICIPIOS))
     marcadas = sorted({(r["elección"], r["provincia"]) for r in informe if r["marca"]})
     print("provincias MARCA (>1 % estimada):", len(marcadas), marcadas)
-    print("municipios con aviso:", len(avisos), [(m["elección"], m["municipio"], m["estado"]) for m in avisos[:20]])
+    print("municipios con aviso (no bloqueante, sin_ajuste_municipal):", len(avisos))
+    print("provincias-elección APARTADAS (sin filas en la tabla; motivo en informe_provincias.csv):", len(apartadas), apartadas)
+    if a.estricto and apartadas:
+        print(f"ERROR (--estricto): {len(apartadas)} provincias-elección apartadas.", file=sys.stderr)
+        return 2
     return 0
 
 

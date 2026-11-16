@@ -1,6 +1,6 @@
 # T-364 · Población por sección: interpolación y ajuste municipal (D-128)
 
-Versión: 1.1.0 de `herramientas/poblacion_seccion_historica.py` (1.0.0 en `legacy/herramientas/`) · 2026-11-16 · Solo cálculo; sin ejecuciones ni publicación.
+Versión: 1.2.0 (T-364b) de `herramientas/poblacion_seccion_historica.py` (1.0.0 y 1.1.0 en `legacy/herramientas/`) · 2026-11-16 · Solo cálculo; sin ejecuciones ni publicación.
 Sustituye la regla de relleno de D-126 (año más cercano). Entrada de T-365 (distritos por época).
 
 ## Regla
@@ -11,8 +11,8 @@ Sustituye la regla de relleno de D-126 (año más cercano). Entrada de T-365 (di
    Hallazgo medido: en el CSV 30832 las 28 secciones que el seccionado 2020 tiene y T-365 no casaba para 2019-11 están como `""` (no
    «no listadas»), y las 28 tienen dato en otros años; por eso `no_listada` cubre ambos casos. Falla cerrado si falta o no se lee el
    seccionado, o si > 1 % de las secciones de un lado no tiene pareja en el otro. Las secciones de la fuente que el seccionado no
-   tiene (p. ej. 52 en 2019-11) se MANTIENEN con su población y se cuentan en `secciones_sin_seccionado` (decisión pendiente). 2011-11
-   no usa seccionado (el Censo 2011 es el universo; seccionado a la fecha de esa elección NO VERIFICADO).
+   tiene (52 en 2019-11) se tratan en el paso 4. 2011-11 no usa seccionado (el Censo 2011 es el universo; seccionado a la fecha de
+   esa elección NO VERIFICADO).
 1. «.» (no publicado) y secciones no listadas → **interpolación lineal** entre el año anterior y el siguiente más próximos con dato
    de ESA misma sección (redondeo half-up entero); solo dato en un lado → año más cercano con dato (`mas_cercana`, o `no_listada` si
    venía del seccionado); ninguno → `sin_dato` (población vacía, nunca 0).
@@ -21,7 +21,28 @@ Sustituye la regla de relleno de D-126 (año más cercano). Entrada de T-365 (di
    Con residuo > 0 las secciones ESTIMADAS (interpoladas, más cercanas y no listadas) se reescalan para sumar exactamente el residuo (restos mayores; empate: sección
    ascendente) y quedan `ajustada=sí`; las de dato publicado no se tocan. Si el residuo ya iguala la suma estimada: `cuadra`. **Aviso y sin ajuste**
    (`informe_municipios.csv`, `estado=aviso_*`) si residuo ≤ 0, el municipio tiene `sin_dato` (también si no tiene otras estimadas), o no figura en la fuente oficial.
-3. Informe por provincia sobre población estimada (interpolada + más cercana + no listada, ya ajustada); MARCA si > 1 % o si hay `sin_dato`.
+   **(a) T-364b: el aviso NO bloquea**: las estimadas del municipio conservan el valor interpolado (nunca 0) y salen con `ajustada=sin_ajuste_municipal`.
+   Las `reasignada` cuentan como población real (fija) en el residuo.
+4. **Secciones de la fuente que no existen en el seccionado del año (c)**: su población pasa ENTERA a la sección sucesora y la sucesora sale con
+   `origen=reasignada` (con dato propio: suma; si era estimada o sin_dato: la sustituye, porque manda el dato real de la zona). La sucesora es la de
+   mayor peso de población según `herramientas/equivalencia_seccionados.equivalencia` (a(h∩v)/a(v)·pob(v), no el área) con la geometría de la sección
+   tomada del seccionado MÁS CERCANO en años que la tenga (empate: el anterior) y las del seccionado del año; peso de población = la población de la
+   propia tabla. **Sin sucesora única** (empate de pesos, sin geometría en ningún seccionado, sin sección vigente o sucesora fuera del seccionado) →
+   provincia APARTADA. La sección original desaparece de la tabla. **Condiciones y contabilidad declaradas:**
+   - La sucesora debe ser de la MISMA provincia (si no, provincia APARTADA). Si es de otro MUNICIPIO (segregaciones: el seccionado del año es anterior
+     al municipio nuevo; en la ejecución actual 7 secciones de 2015-12 y 6 de 2016-06, de las que solo 1 cae en una provincia no apartada: la 10 de 2015-12) se acepta y se cuenta en `reasignadas_otro_municipio`: la suma
+     de la provincia se conserva y la del municipio no (el municipio receptor suma de más; si su residuo sale ≤ 0 es el aviso `sin_ajuste_municipal`).
+   - **Conservación**: con sucesora de dato propio se conserva la suma por municipio y provincia; con sucesora ESTIMADA (o `sin_dato`) la
+     estimación se DESCARTA y entra el dato real de la sección desaparecida, así que la suma cambia en (dato real − estimación). Si ese municipio acaba con
+     residuo ≤ 0 (`sin_ajuste_municipal`) su suma puede no cuadrar con la oficial: queda registrado en `informe_municipios.csv`.
+   - **Criterio conservador del 1 %**: una sucesora con dato propio pasa a `reasignada` y cuenta ENTERA como estimada (no se prorratea la parte de dato real).
+   Limitación: si una sección vieja se fusiona con otras, solo la de mayor peso recibe la
+   población y las demás siguen con su estimación (el ajuste municipal acota la suma).
+5. **Provincias APARTADAS (b y c)**: provincia-elección con alguna sección `sin_dato` (sin valor en NINGÚN año del Atlas; no se inventa) o con una sección
+   sin sucesora única. Sus filas NO van en `poblacion_seccion_<AAAA-MM>.csv` (el consumidor las ve como provincia sin filas → `BLOQUEADA_SIN_DATO`)
+   y `informe_provincias.csv` las marca `estado=APARTADA` con el `motivo`; no frenan a las demás. `--estricto` sale con 2 si hay alguna apartada
+   (las tablas se escriben igualmente).
+6. Informe por provincia sobre población estimada (interpolada + más cercana + no listada, ya ajustada); MARCA si > 1 % o si hay `sin_dato`.
 
 ## Fuente oficial del municipio (medida)
 INE tabla 29005 «Cifras oficiales del padrón por municipio» (padrón, 1 de enero; Sexo = Total; 1996-2025):
@@ -37,41 +58,38 @@ python -I herramientas/poblacion_seccion_historica.py --atlas <30832.csv> --cens
   --seccionados <dir con seccionado_AAAA.zip> --sumas docs/ESTUDIOS/T357_PADRON_SECCION_2011_2020/SHA256SUMS.txt docs/ESTUDIOS/T364_POBLACION_SECCION_INTERPOLADA/SHA256SUMS.txt --salida <dir>
 ```
 **Interfaz para T-365 (estable)**: un CSV por elección, `poblacion_seccion_<AAAA-MM>.csv` (UTF-8, `\n`, orden por sección), columnas:
-`sección` (10 dígitos INE) · `población` (entero; vacío si `sin_dato`) · `origen` (`dato`/`interpolada`/`mas_cercana`/`no_listada`/`sin_dato`) ·
-`ajustada` (`sí`/`no`) · `años_fuente` (`dato`: año de la fuente; `interpolada`: `AAAA-AAAA`; `mas_cercana`: `AAAA`; `no_listada`: `AAAA-AAAA` o `AAAA` según el método; `sin_dato`: vacío).
-**T-365 debe ejecutar la herramienta con `--estricto`**: si algún municipio de cualquier elección tiene aviso (residuo ≤ 0, `sin_dato` u ausente del
-oficial, o secciones `sin_dato`) sale con código 2 y NO escribe las tablas por elección (solo los informes); así una tabla presente significa «0 avisos» (ejecución actual: 0).
-Sin `--estricto` las tablas se escriben igualmente y los avisos solo constan en `informe_municipios.csv`/`municipios_aviso`.
+`sección` (10 dígitos INE) · `población` (entero; vacío si `sin_dato`) · `origen` (`dato`/`interpolada`/`mas_cercana`/`no_listada`/`reasignada`/`sin_dato`) ·
+`ajustada` (`sí`/`no`/`sin_ajuste_municipal`) · `años_fuente` (`dato`: año de la fuente; `interpolada`: `AAAA-AAAA`; `mas_cercana`: `AAAA`; `no_listada`: `AAAA-AAAA` o `AAAA` según el método; `reasignada`: año(s) de la fuente de las secciones reasignadas; `sin_dato`: vacío).
+**Cambio de T-364b**: las tablas se escriben SIEMPRE (con o sin `--estricto`); `--estricto` solo da código 2 si alguna provincia-elección queda APARTADA
+(sin filas en su tabla). Los avisos de municipio ya no bloquean: constan como `sin_ajuste_municipal` y en `informe_municipios.csv`/`municipios_aviso`.
+El consumidor (`contrato_historico_epoca.leer_tabla`) lee `sección`, `población` y `origen`: cualquier `origen != dato` cuenta como no dato en el umbral del 1 %.
 Además `informe_provincias.csv` (en esta carpeta) e `informe_municipios.csv` (fuera del repo). Salida determinista (dos ejecuciones idénticas byte a byte).
 
-## Resultado (ejecución del 2026-11-16, fuentes con sha256 de T-357/T-364 verificado; 2 corridas idénticas byte a byte)
-Seccionados 2015, 2016, 2019 y 2020 descargados de `https://www.ine.es/prodyser/cartografia/seccionado_AAAA.zip` (sha256 de T-357 coinciden).
+## Resultado (T-364b, ejecución del 2026-11-16, fuentes con sha256 verificado; 2 corridas idénticas byte a byte)
+Seccionados 2015, 2016, 2019, 2020 (el del año) y 2012, 2021, 2022 (donantes de geometría) de `https://www.ine.es/prodyser/cartografia/seccionado_AAAA.zip`;
+los de 2021 y 2022 se miden aquí (`SHA256SUMS.txt`). Las 52 secciones de 2019-11 sin pareja en el seccionado 2020 existen en el 2021 (el CSV 30832 usa
+los códigos del seccionado 2021: 36 333 secciones).
 
-| Elección | Secciones | Interp. | Más cerc. | No listadas | Ajustadas | Sin dato | Sin seccionado | Población | Estimada | Prov. MARCA | Municipios aj./cuadran/aviso | Desajuste medio (personas) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 2011-11 | 35 917 | 0 | 0 | 0 | 0 | 0 | — | 46 575 200 | 0 | 0 | sin ajuste (censo) | — |
-| 2015-12 | 36 260 | 0 | 1 320 | 0 | 1 265 | 45 | 31 | 46 019 896 | 126 724 (0,28 %) | 25 | 1 237 / 55 / 36 | 12,9 |
-| 2016-06 | 36 251 | 319 | 1 292 | 53 | 1 600 | 7 | 36 | 45 964 430 | 550 766 (1,20 %) | 14 | 1 307 / 62 / 4 | 41,9 |
-| 2019-04 | 36 347 | 167 | 1 261 | 38 | 1 354 | 0 | 30 | 46 821 039 | 130 105 (0,28 %) | 12 | 1 337 / 99 / 3 | 20,6 |
-| 2019-11 | 36 361 | 0 | 0 | 28 | 25 | 0 | 52 | 46 886 644 | 37 268 (0,08 %) | 0 | 22 / 0 / 3 | 1 409,5 |
+| Elección | Secciones (informe) | Interp. | Más cerc. | No listadas | Reasignadas | Sin dato | Prov. apartadas | Población (prov. no apartadas) | Estimada | Prov. MARCA | Municipios aj./cuadran/aviso |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 2011-11 | 35 917 | 0 | 0 | 0 | 0 | 0 | 0 | 46 575 200 | 0 | 0 | sin ajuste (censo) |
+| 2015-12 | 36 229 | 0 | 1 314 | 0 | 29 | 43 | 13 | 34 212 416 | 146 524 (0,43 %) | 12 | 1 236 / 55 / 35 |
+| 2016-06 | 36 216 | 317 | 1 290 | 47 | 35 | 7 | 2 | 43 881 195 | 615 357 (1,40 %) | 17 | 1 306 / 62 / 4 |
+| 2019-04 | 36 317 | 167 | 1 261 | 38 | 30 | 0 | 0 | 46 821 039 | 224 698 (0,48 %) | 17 | 1 337 / 99 / 3 |
+| 2019-11 | 36 309 | 0 | 0 | 28 | 47 | 0 | 0 | 46 886 644 | 187 888 (0,40 %) | 6 | 22 / 0 / 3 |
 
-(«Más cerc.» y «No listadas» son excluyentes: las no listadas llevan origen `no_listada` aunque se estimen por el año más cercano. «Ajustadas» incluye las no listadas ajustadas.)
-
-**`--estricto` hoy FALLA (rc=2) y no escribe tablas: 46 municipios con aviso** — a decidir por el propietario:
-- `aviso_sin_dato` 38 municipios (2015-12: 36; 2016-06: 2): 45 secciones de 2015 y 7 de 2016 existen en el seccionado y el Atlas no trae NINGÚN valor en ningún año (sin fuente
-  para estimarlas; no se pone 0). Opción a valorar (no hecha): estimarlas con el Censo 2011 (`t1_1`).
-- `aviso_residuo_no_positivo` 8 municipios (2016-06: 36016, 41059; 2019-04: 08245, 15041, 15061; 2019-11: 18116, 18135, 33016): la suma de las secciones de dato publicado ya iguala o
-  supera la población oficial del municipio (p. ej. 33016: oficial 22 273, publicada 22 275); las estimadas (1 a 11 secciones por municipio) quedan sin ajustar.
-- 2019-11 (la del piloto de T-365) tiene solo estos 3 avisos y 0 `sin_dato`: las 28 secciones antes sin población ya están estimadas.
-Sin `--estricto` las tablas se escriben igualmente (los hashes de abajo son de esa ejecución sin `--estricto`).
-Las 52 secciones de 2019-11 de la fuente sin sección en el seccionado 2020 se mantienen con su población (T-365 las verá como población sin geometría).
-
-`informe_provincias.csv` (en esta carpeta) trae por provincia las columnas nuevas `secciones_no_listadas` y `secciones_sin_seccionado`.
+Filas escritas en las tablas: 35 917 · 27 196 · 34 544 · 36 317 · 36 309. 2019-11 y 2019-04 quedan sin provincias apartadas y con exactamente las secciones de
+su seccionado (36 309 y 36 317). La tabla de 2019-11 trae 36 234 `dato`, 47 `reasignada` (52 secciones del Atlas → 47 sucesoras) y 28 `no_listada`;
+`ajustada`: 25 `sí`, 3 `sin_ajuste_municipal`.
+**Apartadas (15)**: 2015-12 en 13 provincias (02, 04, 18, 20, 23, 24, 25, 27, 29, 33, 36, 46, 48) y 2016-06 en 2 (36, 48) por secciones `sin_dato` (43 en 2015, 7 en
+2016: existen en el seccionado y el Atlas no trae NINGÚN valor en ningún año) y, en 2016-06 provincia 36, la sección 3690201004 sin geometría en ningún seccionado
+(2012-2022). Motivo exacto en `informe_provincias.csv` (`estado`, `motivo`).
+La columna «Prov. MARCA» cuenta solo provincias no apartadas; la población reasignada cuenta como estimada (por eso 2016-06 y 2019-04 suben a 17).
 
 Tablas completas (fuera del repo, reproducibles con el comando de arriba; el propietario decide R2): sha256
-2011-11 `45aa3552592a8819beab26b2a885551fbe1e8ccba0ec68ac3ccbb7621f0496a3` · 2015-12 `34c0a1dd1407288a9219d78ccdaf15a69cdb0b023b88cd123718174726df0b34` ·
-2016-06 `2654f579cd23f26c882b62fade93606b76d3652c922bfe685fd413ffe7c99f82` · 2019-04 `270061aea7f41f040657674d6b725811cf61e304e3d4a4e14100340fff06ed11` ·
-2019-11 `c6eb6f8a839e2af650ee6d28cc0f69d38c05b2dd84305566f371b22684281555` · informe_provincias `62c941d3fe26d57b1fc4d7c3aaa30ae5caacc263423041ee2404ae4c9f472f5c` ·
-informe_municipios `0a6748994667e5fc4e806d4a928ec9371a4c1a8f12da88aa0a89fedba1524b8e`.
+2011-11 `45aa3552592a8819beab26b2a885551fbe1e8ccba0ec68ac3ccbb7621f0496a3` · 2015-12 `7d8a67dccaca7dd87fbde6bec8b4a13abed808dd8c028a6a429e00324c7909b3` ·
+2016-06 `6941ae4af6b8b58ef31dfd7e1aca56d10632b864d59b8b92c55e3838100cd9a5` · 2019-04 `55048fe207e6ddc97653aa237f700bfa42800846848682aa59d17119f60677e7` ·
+2019-11 `aef26748a31f9500efa8d9c30f9cf7b2e3a7312c41d214906a96141454acf56d` · informe_provincias `bba3fdd357233f526354cf5585cd6d224d86b706352fcb137662dbf2e579f0e0` ·
+informe_municipios `61b32855d37b9771caa32a66ae74a5985d706ad9e5a6cdea4c552f697f3ea6b8`.
 
-Nota: `docs/ESTUDIOS/T358_POBLACION_SECCION_RELLENO/causa_relleno.py` es histórico: solo corre con la herramienta 1.0.0 (en `legacy/`); con la 1.1.0 aborta con un aviso.
+Nota: `docs/ESTUDIOS/T358_POBLACION_SECCION_RELLENO/causa_relleno.py` es histórico: solo corre con la herramienta 1.0.0 (en `legacy/`); con la 1.2.0 aborta con un aviso.
