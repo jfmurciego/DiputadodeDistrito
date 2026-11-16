@@ -115,12 +115,25 @@ class P10DesdeR2(unittest.TestCase):
         self.assertEqual(r["extracto"], EXTRACTO)
         self.assertEqual(r["crudo_bytes"], len(PADRON_VIVO[0]))
 
-    def test_sin_extracto_de_referencia_solo_avisa(self):
+    def test_paquete_con_tabulador_no_da_falso_cambio(self):
+        # La copia de R2 del padrón va con tabulador y el INE con ';': mismo contenido, mismo veredicto.
+        tab = EXTRACTO.decode("utf-8").lstrip("\ufeff").replace(";", "\t").encode("utf-8")
+        rc, log, restaurado = self._preparar(lambda u: (200, HEAD_IGUAL), restaurar=lambda t, w: _paquete_falso(t, w, extracto=tab))
+        self.assertEqual(rc, 0)
+        self.assertTrue(restaurado)
+        self.assertIn("P10_PADRON_EXTRACTO_IGUAL", log)
+
+    def test_extracto_vacio_en_el_paquete_para(self):
+        # Un extracto de referencia vacío frente a un padrón vivo con filas es evidencia positiva de cambio.
         rc, log, restaurado = self._preparar(lambda u: (200, HEAD_IGUAL), restaurar=lambda t, w: _paquete_falso(t, w, extracto=b""))
-        self.assertEqual(rc, p.SALIDA_CAMBIADA)  # extracto vacío ≠ extracto vivo: evidencia positiva
-        rc2, log2, _ = self._preparar(lambda u: (200, HEAD_IGUAL), declaracion=None)
-        self.assertEqual(rc2, 0)
-        self.assertIn("sin extracto de referencia", log2)
+        self.assertEqual(rc, p.SALIDA_CAMBIADA)
+        self.assertFalse(restaurado)
+
+    def test_sin_declaracion_solo_avisa(self):
+        rc, log, restaurado = self._preparar(lambda u: (200, HEAD_IGUAL), declaracion=None)
+        self.assertEqual(rc, 0)
+        self.assertTrue(restaurado)
+        self.assertIn("sin extracto de referencia", log)
 
     def test_padron_sin_red_degrada_con_aviso(self):
         def sin_red(u):
@@ -157,7 +170,7 @@ class P10DesdeR2(unittest.TestCase):
         # T-336: el paquete de R2 lleva un id distinto del canónico → ACQUIRE, sin consultar al INE.
         def no_hay_red(u):
             raise AssertionError("no se consulta al INE si el paquete no es reutilizable")
-        rc, log, restaurado = self._preparar(no_hay_red, restaurar=lambda t, w: _paquete_falso(t, w, "aragon"))
+        rc, log, restaurado = self._preparar(no_hay_red, restaurar=lambda t, w: _paquete_falso(t, w, "zz99"))
         self.assertEqual(rc, 0)
         self.assertFalse(restaurado)
         self.assertIn("P10_R2_ID_NO_CANONICO", log)
@@ -226,6 +239,21 @@ class P10DesdeR2(unittest.TestCase):
         previo = pasos[ids.index("r2") - 1]
         self.assertIn("requirements.lock", previo["run"])
         self.assertIn("steps.r2.outputs.desde_r2 != 'true'", pasos[ids.index("acquire")]["if"])
+
+    def test_todos_los_pasos_de_adquisicion_llevan_ambas_condiciones(self):
+        # Los pasos de adquisición (buildx, build, mode, reconstruir, acquire, resumen) deben saltarse igual con reused_candidate y con desde_r2.
+        pasos = yaml.safe_load((ROOT / ".github/workflows/preparacion-fuentes.yml").read_text(encoding="utf-8"))["jobs"]["territoriales"]["steps"]
+        ids = [x.get("id") for x in pasos]
+        i_r2 = ids.index("r2")
+        despues = [x for x in pasos[i_r2 + 1:] if "steps.previous.outputs.reused_candidate != 'true'" in str(x.get("if"))]
+        self.assertGreaterEqual(len(despues), 6)
+        for x in despues:
+            self.assertIn("steps.r2.outputs.desde_r2 != 'true'", x["if"], x.get("name") or x.get("uses") or x.get("run"))
+        usos = " ".join(str(x.get("uses")) for x in despues)
+        self.assertIn("docker/setup-buildx-action", usos)
+        self.assertIn("docker/build-push-action", usos)
+        self.assertEqual({x.get("id") for x in despues} & {"mode", "acquire"}, {"mode", "acquire"})
+        self.assertTrue(any("reconstruir_fuentes.sh" in str(x.get("run")) for x in despues))
 
 
 if __name__ == "__main__":

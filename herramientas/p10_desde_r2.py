@@ -7,7 +7,7 @@ VERSIÓN: 1.4.0
 NOMBRE DE VERSIÓN: P10 lee de R2 y consulta el INE sin descargar
 FECHA: 2026-11-14
 ESTADO: candidato
-CAMBIOS: 1.4.0: (D-119, matiza D-117) la parada del padrón 65034 se aplica al sha256 del EXTRACTO filtrado que entra al motor (misma función
+CAMBIOS: 1.4.0: (T-323b) los extractos se comparan en forma canónica (tabulador, sin BOM; la copia de R2 va con tabulador y el INE con ';'). (D-119, matiza D-117) la parada del padrón 65034 se aplica al sha256 del EXTRACTO filtrado que entra al motor (misma función
   `_filter_population` de la adquisición, mismas reglas Periodo/Sexo/Edad y provincias del contrato), comparado con el extracto del paquete de R2 del
   contrato; el crudo solo se informa (sha256 normalizado y bytes). Distinto = FUENTE_INE_CAMBIADA (54); igual con crudo distinto = sigue con ::notice::.
   El crudo se lee en streaming (se pre-filtra por filas pertinentes y no se guarda): el coste es el ancho de banda (~1,6 GB), no disco ni memoria.
@@ -120,6 +120,21 @@ def extracto_en_streaming(trozos, declaracion: dict, edicion: int, codigos: list
             "crudo_sha256": crudo.hexdigest(), "crudo_bytes": estado["bytes"]}
 
 
+def canonico(extracto: bytes) -> bytes:
+    """Forma comparable de un extracto: sin BOM, delimitador tabulador y fin de línea «\\n». La copia de R2 del padrón va con tabulador y el INE
+    sirve ';': sin esto un paquete con tabulador daría un falso FUENTE_INE_CAMBIADA (54). Solo cambia el delimitador, no los valores."""
+    import csv
+    import io
+    from herramientas import adquirir_fuentes_oficiales as aq
+    texto = extracto.decode("utf-8-sig")
+    if not texto.strip():
+        return b""
+    delim = aq._detect_delimiter(texto)
+    salida = io.StringIO()
+    csv.writer(salida, delimiter="\t", lineterminator="\n").writerows(csv.reader(io.StringIO(texto, newline=""), delimiter=delim))
+    return salida.getvalue().encode("utf-8")
+
+
 def extracto_de_paquete(carpeta: Path) -> bytes | None:
     """Extracto de población (65034.csv) que lleva el paquete P10 restaurado, o None si no se encuentra uno único."""
     import io
@@ -164,11 +179,12 @@ def comprobar_ine(nombres: list[str], head=head_ine, indice: Path = INDICE, desc
             except Exception as exc:  # noqa: BLE001 - sin red al INE o CSV ilegible: se degrada (T-246)
                 avisos.append(f"{n}: no se pudo leer el padrón del INE ({exc}); no se puede comprobar si cambió")
                 continue
-            esperado = hashlib.sha256(referencia).hexdigest()
+            esperado = hashlib.sha256(canonico(referencia)).hexdigest()
+            vivo = hashlib.sha256(canonico(r["extracto"])).hexdigest()
             crudo_igual = r["crudo_sha256"] == f["contenido_sha256"]
             info = f"crudo sha256 {r['crudo_sha256']} ({r['crudo_bytes']} bytes), {'igual' if crudo_igual else 'distinto'} del de la copia"
-            if r["extracto_sha256"] != esperado:
-                cambiadas.append(f"{n} (extracto filtrado sha256 {r['extracto_sha256']} != {esperado}; {info})")
+            if vivo != esperado:
+                cambiadas.append(f"{n} (extracto filtrado sha256 {vivo} != {esperado}; {info})")
             else:
                 print(f"::notice::P10_PADRON_EXTRACTO_IGUAL {n}: extracto {esperado}; " + ("crudo igual" if crudo_igual else "crudo cambió, extracto igual") + f" ({info})")
             continue
