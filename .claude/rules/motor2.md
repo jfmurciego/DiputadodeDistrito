@@ -3,7 +3,7 @@ paths:
   - "ddd_motor2/**"
   - "herramientas/bateria_motor.py"
   - "herramientas/estado_produccion.py"
-  - ".github/workflows/bateria-motor.yml"
+  - ".github/workflows/p80-verificacion-motor.yml"
   - ".github/workflows/_reutilizable-generacion-territorial.yml"
 ---
 

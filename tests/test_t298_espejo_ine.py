@@ -125,9 +125,8 @@ class EspejoIne(unittest.TestCase):
         borrar.assert_not_called()
 
     def test_secretos_de_r2_solo_en_los_pasos_que_los_usan(self):
-        wf = yaml.safe_load((ROOT / ".github/workflows/bateria-motor.yml").read_text(encoding="utf-8"))
-        esperado = {"archivar_p10": ["Paquete P10 de la fuente y archivado por package_sha256"],
-                    "bateria": ["Entradas desde R2 (paquete P10)"],
+        wf = yaml.safe_load((ROOT / ".github/workflows/p80-verificacion-motor.yml").read_text(encoding="utf-8"))
+        esperado = {"bateria": ["Entradas desde R2 (paquete P10)"],
                     "competicion": ["Entradas (R2, paquete P10)"], "plan": [], "aceptacion": []}
         for job, pasos in esperado.items():
             j = wf["jobs"][job]

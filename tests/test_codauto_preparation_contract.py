@@ -158,7 +158,6 @@ class CodautoPreparationContractTests(unittest.TestCase):
             manual,
             [
                 "activacion-por-eleccion.yml",
-                "bateria-motor.yml",  # T-132 batería del motor
                 "cadena-publicacion.yml",  # T-87 cadena 05 + versión de mapa
                 "desplegar-visor-publico.yml",
                 "ejecucion-completa-proyecto.yml",
@@ -166,6 +165,7 @@ class CodautoPreparationContractTests(unittest.TestCase):
                 "gestor-campanas.yml",
                 "incorporacion-resultados-electorales.yml",
                 "p70-archivo.yml",  # T-368: P70 Archivo (poda, recuperación, archivo diario y composición M06)
+                "p80-verificacion-motor.yml",  # T-369: P80 Verificación del motor
                 "preparacion-fuentes.yml",
                 "preparacion-legislatura-vigente.yml",
                 "preparacion-resultados-electorales.yml",
