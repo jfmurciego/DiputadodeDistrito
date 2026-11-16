@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T01:56:42.352472+00:00",
+  "generated_at": "2026-11-16T02:03:13.814565+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 54,
-      "action_required": 66,
+      "admissible": 56,
+      "action_required": 64,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 54,
+      "activated": 56,
       "activable": 0,
       "territorial_pending": 46,
-      "electoral_pending": 66,
+      "electoral_pending": 64,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 54,
-      "durable_pair": 54
+      "electoral_source": 56,
+      "durable_pair": 56
     },
     "territories": [
       {
@@ -2728,20 +2728,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac34/evidencia/pares_fuentes/2025/001c856efe99ea6fb1866523e5d51a3f3f48d54242eb5e106f193bb824465f18.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac34/evidencia/pares_fuentes/2025/ce9ae71632aaf0cb669aaa8b430e52b3944aac54e9ddfc8b7b0d43bb481774cd.json",
+            "pair_sha256": "ce9ae71632aaf0cb669aaa8b430e52b3944aac54e9ddfc8b7b0d43bb481774cd",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -2749,13 +2749,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "nac35",
@@ -2842,20 +2836,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac36/evidencia/pares_fuentes/2025/da60eabd85abcd684d6c2927b643b5ca77563b2a0a9a71feb494d905669d0388.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac36/evidencia/pares_fuentes/2025/a5feab884cf53879daf94e180c5a7a99735b54407158ebeda9d64932b067057a.json",
+            "pair_sha256": "a5feab884cf53879daf94e180c5a7a99735b54407158ebeda9d64932b067057a",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -2863,13 +2857,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "nac37",
@@ -10107,11 +10095,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43782609578,
       "last_run": {
-        "run_id": 43016524347,
+        "run_id": 43782609578,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -10162,11 +10150,11 @@
       "name": "Nacional Salamanca",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
-      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43017179163,
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS",
+      "run_id": 43785351956,
       "last_run": {
         "run_id": 43017179163,
         "status": "SUCCESS",
@@ -10175,7 +10163,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10189,16 +10177,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_salamanca",
+          "territory_id": "nac37",
           "territory_name": "Congreso Salamanca",
           "edition": "2025",
-          "run_id": 43012143922,
-          "artifact_name": "ddd-state-43012143922-M06",
-          "artifact_sha256": "08d40a8016bb1caecc74b3243ae168453c34188160983f8172de9d82012c076c",
-          "source_commit": "f20de146c410d46631286b7395bf52a191b7a0b0",
-          "decision": "PASS_WITH_EXCEPTIONS",
+          "run_id": 43785351956,
+          "artifact_name": "ddd-state-43785351956-M06",
+          "artifact_sha256": "9d4f98feeaeedecf16b515ddf4c5100cb41a3124513a464a80df91d0b605c478",
+          "source_commit": "4dc85ea7c0b8fea4bb3cc266db3faf22ee568ad2",
+          "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_salamanca/evidencia/generaciones_m06/43012143922.json"
+          "producer_manifest_path": "territorios/nac37/evidencia/generaciones_m06/43785351956.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -10216,18 +10204,18 @@
       },
       "autonomous_community_code_ine": "C37",
       "display_name": "Nacional Salamanca",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac38",
       "name": "Nacional Santa Cruz de Tenerife",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43020203637,
+      "run_id": 43786229727,
       "last_run": {
         "run_id": 43020203637,
         "status": "SUCCESS",
@@ -10236,7 +10224,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10250,16 +10238,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_santa_cruz_de_tenerife",
+          "territory_id": "nac38",
           "territory_name": "Congreso Santa Cruz de Tenerife",
           "edition": "2025",
-          "run_id": 43012151677,
-          "artifact_name": "ddd-state-43012151677-M06",
-          "artifact_sha256": "e15c9fea0a834780388896683dfc0eabda6af191a413b346e4f9b9154bc624aa",
-          "source_commit": "8070510954aa301b56d38b1e832132c313b34286",
+          "run_id": 43786229727,
+          "artifact_name": "ddd-state-43786229727-M06",
+          "artifact_sha256": "19d22cddfc2e627aa0ea5cbfc66ade04bc56136e9a5ce467c9bd31beae75156e",
+          "source_commit": "43f44c9fa368e1d0807a2c00cd589378801b11df",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_santa_cruz_de_tenerife/evidencia/generaciones_m06/43012151677.json"
+          "producer_manifest_path": "territorios/nac38/evidencia/generaciones_m06/43786229727.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -10277,7 +10265,7 @@
       },
       "autonomous_community_code_ine": "C38",
       "display_name": "Nacional Santa Cruz de Tenerife",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac39",
@@ -12376,7 +12364,7 @@
     }
   ],
   "kpis": {
-    "complete": 66,
+    "complete": 64,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12425,8 +12413,6 @@
       "Nacional Lugo",
       "Nacional Madrid",
       "Nacional Murcia",
-      "Nacional Salamanca",
-      "Nacional Santa Cruz de Tenerife",
       "Nacional Cantabria",
       "Nacional Segovia",
       "Nacional Sevilla",
