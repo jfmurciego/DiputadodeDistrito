@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T03:14:16.746152+00:00",
+  "generated_at": "2026-11-16T03:19:47.230389+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 66,
-      "action_required": 54,
+      "admissible": 67,
+      "action_required": 53,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 66,
+      "activated": 67,
       "activable": 0,
       "territorial_pending": 46,
-      "electoral_pending": 54,
+      "electoral_pending": 53,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 66,
-      "durable_pair": 66
+      "electoral_source": 67,
+      "durable_pair": 67
     },
     "territories": [
       {
@@ -3397,20 +3397,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac47/evidencia/pares_fuentes/2025/7c5b5b5ecaec174567226bd6517407999711274dd44a35b8fbf5730dba678837.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac47/evidencia/pares_fuentes/2025/f8da4b3aeb5829482a2cc96e6122bf1026c643fe1597d2d1af4d51e026d96b3d.json",
+            "pair_sha256": "f8da4b3aeb5829482a2cc96e6122bf1026c643fe1597d2d1af4d51e026d96b3d",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -3418,13 +3418,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "nac48",
@@ -10620,13 +10614,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_toledo",
+          "territory_id": "nac45",
           "territory_name": "Congreso Toledo",
           "edition": "2025",
-          "run_id": 43040968638,
-          "artifact_name": "ddd-state-43040968638-M08",
-          "artifact_sha256": "51ecd1b6183b6587bf0e4c5a1ec20ad7b90d8d4e21549a855484a79c0838fcb0",
-          "source_commit": "e2b213a508881c5d97fcda032ebe857fb90c211c",
+          "run_id": 43796175523,
+          "artifact_name": "ddd-state-43796175523-M08",
+          "artifact_sha256": "62d4c017de95b4680256996d8d94b533d710b097386a40713d2e9f2d53f5150b",
+          "source_commit": "ffd1554a165689947be6aaa05ce5d46de2857aa0",
           "stage": "M08"
         }
       },
@@ -10639,11 +10633,11 @@
       "name": "Nacional Valencia",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43041144007,
+      "run_id": 43792317538,
       "last_run": {
         "run_id": 43041144007,
         "status": "SUCCESS",
@@ -10652,7 +10646,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10666,16 +10660,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_valencia",
+          "territory_id": "nac46",
           "territory_name": "Congreso Valencia",
           "edition": "2025",
-          "run_id": 43034939625,
-          "artifact_name": "ddd-state-43034939625-M06",
-          "artifact_sha256": "39c78fb0a600f19be8e72ebd30f961da5105e9da0547c0fa74388bb291e1fa3e",
-          "source_commit": "aca6cadcf8b3170f2053916f9cd7dc688e20a7d9",
+          "run_id": 43792317538,
+          "artifact_name": "ddd-state-43792317538-M06",
+          "artifact_sha256": "c6262f8f108714975f28ba52cb0bf34cae94229c680bfa7d867aa07570124658",
+          "source_commit": "036045fc64a2f468df6fdd3cb80d75a5d85f4748",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_valencia/evidencia/generaciones_m06/43034939625.json"
+          "producer_manifest_path": "territorios/nac46/evidencia/generaciones_m06/43792317538.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -10693,7 +10687,7 @@
       },
       "autonomous_community_code_ine": "C46",
       "display_name": "Nacional Valencia",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac47",
@@ -10706,11 +10700,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43792330350,
       "last_run": {
-        "run_id": 43040794081,
+        "run_id": 43792330350,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -12304,7 +12298,7 @@
     }
   ],
   "kpis": {
-    "complete": 71,
+    "complete": 70,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12368,7 +12362,6 @@
       "Nacional Soria",
       "Nacional Tarragona",
       "Nacional Teruel",
-      "Nacional Valencia",
       "Nacional Vizcaya",
       "Nacional Zamora",
       "Nacional Zaragoza",
@@ -12610,6 +12603,12 @@
       "action": "incorporar resultados electorales"
     },
     {
+      "territory": "Nacional Valencia",
+      "territory_id": "nac46",
+      "autonomous_community_code_ine": "C46",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "Nacional Valladolid",
       "territory_id": "nac47",
       "autonomous_community_code_ine": "C47",
@@ -12638,12 +12637,6 @@
       "territory_id": "congreso350_almeria",
       "autonomous_community_code_ine": "R04",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Ávila",
-      "territory_id": "congreso350_avila",
-      "autonomous_community_code_ine": "R05",
-      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12657,6 +12650,12 @@
       "territory": "Nacional Toledo",
       "territory_id": "nac45",
       "autonomous_community_code_ine": "C45",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Valencia",
+      "territory_id": "nac46",
+      "autonomous_community_code_ine": "C46",
       "action": "preparar fuentes electorales"
     },
     {
