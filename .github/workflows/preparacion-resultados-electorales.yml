@@ -1,6 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: preparacion-resultados-electorales.yml
-# VERSIÓN: 1.0.15
+# VERSIÓN: 1.0.16
+# CAMBIOS 1.0.16: T-354: el paso «Preparar paquete electoral» (el generic de Galicia lo usa) recibe las credenciales de R2 para leer primero el espejo de las fuentes de mesas
+#   (arc-e/fuentes/xunta/, sha256 del índice orchestracion/fuentes_r2.json); sin objeto o sin credenciales sigue la URL oficial. Misma huella.
 # CAMBIOS 1.0.15: T-349: el paquete electoral registrado se reutiliza solo con el id canónico EXACTO (sin alias): si el nombre del artefacto o
 #   el territory_id del manifiesto difieren, se rechaza y se prepara de nuevo; el resumen dice PREPARÓ o REUTILIZÓ y con qué id, y falla si reutiliza uno no canónico.
 # CAMBIOS 1.0.14: T-299: el ZIP por mesa de Infoelectoral se lee primero de R2 (ARC-E, arc-e/fuentes/interior/, sha256 del índice orchestracion/fuentes_r2.json);
@@ -30,7 +32,7 @@
 #   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
 # CAMBIOS 1.0.10: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
-# ANTERIOR: legacy/workflows/preparacion-resultados-electorales_v1.0.14_20261115.yml
+# ANTERIOR: legacy/workflows/preparacion-resultados-electorales_v1.0.15_20261115.yml
 name: P10 Fuentes — P12 Electorales
 
 on:
@@ -304,6 +306,12 @@ jobs:
           jq -c '{polling_stations,sections,parties,candidate_votes,blank_votes,null_votes,voters,cera_excluded}' .ddd-infoelectoral-conversion.json
       - id: prepare
         name: Preparar paquete electoral con contrato común
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
         run: |
           set -euo pipefail
           adapter="${{ steps.mode.outputs.adapter }}"
