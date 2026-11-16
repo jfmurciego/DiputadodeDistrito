@@ -7,7 +7,7 @@ VERSIÓN: 1.4.0
 NOMBRE DE VERSIÓN: P10 lee de R2 y consulta el INE sin descargar
 FECHA: 2026-11-14
 ESTADO: candidato
-CAMBIOS: 1.4.0: (T-323b) los extractos se comparan en forma canónica (tabulador, sin BOM; la copia de R2 va con tabulador y el INE con ';'). (D-119, matiza D-117) la parada del padrón 65034 se aplica al sha256 del EXTRACTO filtrado que entra al motor (misma función
+CAMBIOS: 1.4.0: (T-323b) un extracto de referencia ilegible degrada a aviso; los extractos se comparan en forma canónica (tabulador, sin BOM; la copia de R2 va con tabulador y el INE con ';'). (D-119, matiza D-117) la parada del padrón 65034 se aplica al sha256 del EXTRACTO filtrado que entra al motor (misma función
   `_filter_population` de la adquisición, mismas reglas Periodo/Sexo/Edad y provincias del contrato), comparado con el extracto del paquete de R2 del
   contrato; el crudo solo se informa (sha256 normalizado y bytes). Distinto = FUENTE_INE_CAMBIADA (54); igual con crudo distinto = sigue con ::notice::.
   El crudo se lee en streaming (se pre-filtra por filas pertinentes y no se guarda): el coste es el ancho de banda (~1,6 GB), no disco ni memoria.
@@ -179,8 +179,12 @@ def comprobar_ine(nombres: list[str], head=head_ine, indice: Path = INDICE, desc
             except Exception as exc:  # noqa: BLE001 - sin red al INE o CSV ilegible: se degrada (T-246)
                 avisos.append(f"{n}: no se pudo leer el padrón del INE ({exc}); no se puede comprobar si cambió")
                 continue
-            esperado = hashlib.sha256(canonico(referencia)).hexdigest()
-            vivo = hashlib.sha256(canonico(r["extracto"])).hexdigest()
+            try:
+                esperado = hashlib.sha256(canonico(referencia)).hexdigest()
+                vivo = hashlib.sha256(canonico(r["extracto"])).hexdigest()
+            except Exception as exc:  # noqa: BLE001 - extracto de referencia ilegible (no UTF-8 / no CSV delimitado): se degrada, no se rompe
+                avisos.append(f"{n}: el extracto de referencia del paquete de R2 no es un CSV legible ({exc}); no se puede comprobar si el padrón cambió")
+                continue
             crudo_igual = r["crudo_sha256"] == f["contenido_sha256"]
             info = f"crudo sha256 {r['crudo_sha256']} ({r['crudo_bytes']} bytes), {'igual' if crudo_igual else 'distinto'} del de la copia"
             if vivo != esperado:

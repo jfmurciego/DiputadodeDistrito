@@ -123,6 +123,34 @@ class P10DesdeR2(unittest.TestCase):
         self.assertTrue(restaurado)
         self.assertIn("P10_PADRON_EXTRACTO_IGUAL", log)
 
+    def test_tabulador_con_un_valor_distinto_sigue_dando_54(self):
+        # Control negativo de la forma canónica: tabulador + 800→801 frente al vivo con ';' no se enmascara.
+        tab = EXTRACTO.decode("utf-8").lstrip("\ufeff").replace(";", "\t").replace("800", "801").encode("utf-8")
+        rc, log, restaurado = self._preparar(lambda u: (200, HEAD_IGUAL), restaurar=lambda t, w: _paquete_falso(t, w, extracto=tab))
+        self.assertEqual(rc, p.SALIDA_CAMBIADA)
+        self.assertFalse(restaurado)
+
+    def test_referencia_ilegible_degrada_con_aviso(self):
+        for malo in (b"\xff\xfe\x00 no es utf8", b"una sola columna sin delimitador\notra"):
+            rc, log, restaurado = self._preparar(lambda u: (200, HEAD_IGUAL), restaurar=lambda t, w, m=malo: _paquete_falso(t, w, extracto=m))
+            self.assertEqual(rc, 0, log)
+            self.assertTrue(restaurado)
+            self.assertIn("::warning::P10_INE_SIN_COMPROBAR 65034.csv.zip: el extracto de referencia del paquete de R2 no es un CSV legible", log)
+            self.assertNotIn("Traceback", log)
+
+    def test_canonico_directo(self):
+        c = p.canonico
+        base = c(b"a;b\n1;2\n")
+        self.assertEqual(base, b"a\tb\n1\t2\n")
+        self.assertNotEqual(base, c(b"a;b\n1;3\n"))  # un valor distinto cambia el resultado
+        self.assertEqual(c(b"a\tb\n1\t2\n"), base)  # tabulador y ';' equivalen
+        self.assertEqual(c(b'a;b\n"1";2\n'), base)  # comillas innecesarias no cambian
+        self.assertEqual(c(b"\xef\xbb\xbfa;b\r\n1;2\r\n"), base)  # BOM y CRLF no cambian
+        con_tab = c(b'a;b\n"x\ty";2\n')  # campo con tabulador entrecomillado: se conserva y no se parte
+        self.assertEqual(con_tab, b'a\tb\n"x\ty"\t2\n')
+        self.assertEqual(c(b'a\tb\n"x\ty"\t2\n'), con_tab)
+        self.assertEqual(c(b""), b"")
+
     def test_extracto_vacio_en_el_paquete_para(self):
         # Un extracto de referencia vacío frente a un padrón vivo con filas es evidencia positiva de cambio.
         rc, log, restaurado = self._preparar(lambda u: (200, HEAD_IGUAL), restaurar=lambda t, w: _paquete_falso(t, w, extracto=b""))
@@ -254,6 +282,36 @@ class P10DesdeR2(unittest.TestCase):
         self.assertIn("docker/build-push-action", usos)
         self.assertEqual({x.get("id") for x in despues} & {"mode", "acquire"}, {"mode", "acquire"})
         self.assertTrue(any("reconstruir_fuentes.sh" in str(x.get("run")) for x in despues))
+
+
+class ContrastarExtracto(unittest.TestCase):
+    def _run(self, extracto, padron=PADRON_VIVO[0]):
+        from herramientas import contrastar_extracto_p10 as c
+        with tempfile.TemporaryDirectory() as td:
+            td = Path(td)
+            d = _paquete_falso(None, td, extracto=extracto)
+            (td / "padron.csv").write_bytes(padron)
+            (td / "decl.yaml").write_text(yaml.safe_dump(DECLARACION), encoding="utf-8")
+            out = io.StringIO()
+            with redirect_stdout(out):
+                rc = c.main(["--paquete-dir", str(d), "--padron", str(td / "padron.csv"), "--declaracion", str(td / "decl.yaml"), "--edicion", "2025", "--provincias", "50"])
+            return rc, out.getvalue()
+
+    def test_igual_con_tabulador_en_el_paquete(self):
+        tab = EXTRACTO.decode("utf-8").lstrip("\ufeff").replace(";", "\t").encode("utf-8")
+        rc, out = self._run(tab)
+        self.assertEqual(rc, 0)
+        self.assertIn("IGUAL", out)
+
+    def test_distinto_sale_1(self):
+        rc, out = self._run(EXTRACTO.replace(b"800", b"801"))
+        self.assertEqual(rc, 1)
+        self.assertIn("DISTINTO", out)
+
+    def test_extracto_vacio_sale_2_con_mensaje(self):
+        rc, out = self._run(b"")
+        self.assertEqual(rc, 2)
+        self.assertIn("Extracto vacío", out)
 
 
 if __name__ == "__main__":

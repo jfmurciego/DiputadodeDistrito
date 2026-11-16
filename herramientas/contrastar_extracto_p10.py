@@ -39,6 +39,9 @@ def main(argv=None) -> int:
     with a.padron.open("rb") as f:
         vivo = p.extracto_en_streaming(iter(lambda: f.read(1 << 20), b""), declaracion, a.edicion, a.provincias)["extracto"]
     h = lambda b: hashlib.sha256(b).hexdigest()  # noqa: E731
+    if not ref.strip() or not vivo.strip():
+        print("Extracto vacío en el " + ("paquete" if not ref.strip() else "padrón") + ": nada que comparar")
+        return 2
     print(f"paquete  bruto={h(ref)} canonico={h(p.canonico(ref))} bytes={len(ref)} tab={'\\t' in ref.decode('utf-8-sig').splitlines()[0]}")
     print(f"padron   bruto={h(vivo)} canonico={h(p.canonico(vivo))} bytes={len(vivo)}")
     igual = p.canonico(ref) == p.canonico(vivo)
