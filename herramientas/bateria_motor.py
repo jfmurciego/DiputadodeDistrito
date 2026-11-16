@@ -3,10 +3,12 @@
 """Batería del motor (T-132): entradas reproducibles desde fuente, M04-M06 en local y matriz territorio × regla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.2
+VERSIÓN: 1.4.3
 NOMBRE DE VERSIÓN: Batería del motor
-FECHA: 2026-11-14
+FECHA: 2026-11-16
 ESTADO: candidato
+CAMBIOS 1.4.3 (T-384): el error BATERIA_FALTA_PAQUETE_P10 remite a «P70 Archivo · P71 archivar · paquete de fuentes de un territorio»
+  (el workflow bateria-motor y su entrada archivar_p10 ya no existen: P80, D-132). Solo cambia el texto (también BATERIA_PAQUETE_P10_CORRUPTO); sin run id ni parámetros técnicos (D-130).
 CAMBIOS 1.4.2 (T-297): el recuento de candidatos cuenta el candidato exacto de Deslinde 1.1 (generador «exacto», solo con D8 y
   cuando aporta plan): esperados = 1 + N (+1 exhaustivo) (+1 exacto) (+1 vigente que compite); el exacto no es una cadena.
 CAMBIOS 1.4.1 (T-304): `entradas_uno` decide REUSE ANTES de ejecutar_fuentes_workflow (resolve_source_action sin fuente oficial disponible: o REUSE o
@@ -64,7 +66,7 @@ MOTIVO: responder en minutos y sin lanzar nada si el motor vigente produce distr
   (52 circunscripciones del Congreso + 19 comunidades) y qué cambia entre versiones del motor (decisión del
   propietario: opción B, batería primero).
 CAMBIOS 1.2.6 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/bateria_motor_v1.4.1_20261114.py
+ANTERIOR: legacy/herramientas/bateria_motor_v1.4.2_20261116.py
 QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como
@@ -531,12 +533,12 @@ def entradas(args) -> int:
             try:
                 paquete = paquete_p10_desde_r2(t, out)
             except PaqueteP10Corrupto as exc:
-                print(f"::error::BATERIA_PAQUETE_P10_CORRUPTO {t}: {exc}. Vuelve a archivarlo (archivar_p10=<run de P10 de {t}>).", flush=True)
+                print(f"::error::BATERIA_PAQUETE_P10_CORRUPTO {t}: {exc}. Vuelve a archivarlo con «P70 Archivo · P71 archivar · paquete de fuentes de un territorio» ({t}).", flush=True)
                 fallos += 1
                 continue
             if paquete is None:
                 print(f"::error::BATERIA_FALTA_PAQUETE_P10 {t}: no hay paquete de fuentes en R2 ({clave_paquete(_identidad_contrato(t))}). "
-                      f"Archívalo una vez con «VER Verificación del motor» (archivar_p10=<run de P10 de {t}>, territorios={t}).", flush=True)
+                      f"Archívalo una vez con «P70 Archivo · P71 archivar · paquete de fuentes de un territorio» ({t}).", flush=True)
                 fallos += 1
                 continue
         else:
