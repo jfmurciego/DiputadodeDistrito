@@ -13,6 +13,7 @@
 - Concurrencia `ddd-electoral-prod-<territorio>` (cancel false, `queue: max`) pasa de workflow a job; registro y permisos (`contents: write`, `actions: read`) sin cambios; `resolver` solo `contents: read`.
 - Rutas: 00 (`uses:` y `paths`), `gestor-campanas.yml` 1.11.2 (`paths`), tupla `WORKFLOWS` de `generar_provincias_congreso.py` y `_350.py`; equivalencias del corte regeneradas.
 - Revisión (B1): `tests/test_credencial_registro.py` toma el ÚLTIMO checkout anterior al primer paso que empuja (en P30 el del código va primero y el de `main` en `persistidor/` justo antes de la credencial), con control negativo.
+  Con más de un checkout exige además que la credencial y los pasos que empujan compartan `working-directory` con el `path` del checkout elegido (control negativo sobre una copia del job de P30 con el directorio cambiado).
 
 **Pruebas.** `tests/test_t376_p30_equivalencia.py`: copias congeladas (`tests/fixtures/t376_workflows/`, sha256; sin skipTest) → pasos de preparar/incorporar/registrar idénticos salvo las sustituciones declaradas, permisos, concurrencia, tiempos,
 entradas, llamada de la 00, controles negativos, resolutor (CLI rc/stderr). ~20 ficheros de tests que citaban los dos ficheros viejos, actualizados.

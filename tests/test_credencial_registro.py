@@ -30,6 +30,42 @@ class CredencialRegistro(unittest.TestCase):
         push = next(i for i, s in enumerate(steps) if PUSHERS.search(str(s.get("run", "")) + str(s.get("with", ""))))
         return max(i for i, s in enumerate(steps[:push]) if str(s.get("uses", "")).startswith("actions/checkout@"))
 
+    @classmethod
+    def directorios_incoherentes(cls, steps):
+        """Con más de un checkout, la credencial y los pasos que empujan (desde el checkout elegido) deben trabajar en SU directorio:
+        `with.path` del checkout == `working-directory` de cada uno (ambos ausentes = raíz). Devuelve los pasos incoherentes."""
+        if sum(1 for s in steps if str(s.get("uses", "")).startswith("actions/checkout@")) < 2:
+            return []
+        i = cls.checkout_que_alimenta_el_push(steps)
+        directorio = (steps[i].get("with") or {}).get("path") or None
+        empuja = re.compile(PUSHERS.pattern + r"|registrar_en_main|archivo_origen")
+        malos = []
+        for s in steps[i + 1:]:
+            if s.get("name") == "Credencial de registro" or empuja.search(str(s.get("run", ""))):
+                if (s.get("working-directory") or None) != directorio:
+                    malos.append(s.get("name"))
+        return malos
+
+    def test_varios_checkouts_comparten_directorio_con_el_push(self):
+        casos = 0
+        for wf, job, steps in self.jobs():
+            with self.subTest(workflow=wf, job=job):
+                self.assertEqual(self.directorios_incoherentes(steps), [])
+            casos += sum(1 for s in steps if str(s.get("uses", "")).startswith("actions/checkout@")) > 1
+        self.assertGreaterEqual(casos, 1)  # P30 (T-376) tiene dos checkouts
+
+    def test_control_negativo_directorio_cambiado_en_p30(self):
+        import copy
+        job = yaml.safe_load((WF / "p30-resultados-electorales.yml").read_text(encoding="utf-8"))["jobs"]["incorporar"]
+        self.assertEqual(self.directorios_incoherentes(job["steps"]), [])
+        for nombre in ("Credencial de registro", "Archivo en origen — M08 a R2 y votos por partido a git", "Registrar disponibilidad del producto electoral"):
+            malo = copy.deepcopy(job["steps"])
+            next(s for s in malo if s.get("name") == nombre)["working-directory"] = "otro"
+            self.assertEqual(self.directorios_incoherentes(malo), [nombre])
+        sin_path = copy.deepcopy(job["steps"])
+        next(s for s in sin_path if s.get("name") == "Cargar persistidor vigente compatible con main")["with"].pop("path")
+        self.assertTrue(self.directorios_incoherentes(sin_path))
+
     def test_control_negativo_credencial_no_pegada_al_checkout_del_push(self):
         co = {"uses": "actions/checkout@abc"}
         cred = {"name": "Credencial de registro"}
