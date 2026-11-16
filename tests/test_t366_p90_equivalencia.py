@@ -16,6 +16,8 @@ from pathlib import Path
 
 import yaml
 
+from tests._uses_sin_version import cargar as cargar_sin_version
+
 ROOT = Path(__file__).resolve().parents[1]
 WF = ROOT / ".github" / "workflows"
 FIX = ROOT / "tests" / "fixtures" / "t366_workflows"
@@ -39,7 +41,7 @@ IF_PROPIO = {("forense", "comprobar"), ("forense", "diagnosticar"), ("mant", "me
 
 
 def cargar_texto(t):
-    return yaml.safe_load(t)
+    return cargar_sin_version(t)  # sin versión de acciones de terceros
 
 
 def on(d):

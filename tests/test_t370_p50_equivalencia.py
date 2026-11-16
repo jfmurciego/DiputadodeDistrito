@@ -16,6 +16,8 @@ from pathlib import Path
 
 import yaml
 
+from tests._uses_sin_version import cargar as cargar_sin_version
+
 ROOT = Path(__file__).resolve().parents[1]
 WF = ROOT / ".github" / "workflows"
 FIX = ROOT / "tests" / "fixtures" / "t370_workflows" / "publicar-version-mapa_1.1.2.yml"
@@ -53,8 +55,8 @@ def diferencias(viejo, nuevo):
         d.append("empaquetado")
     if FIND not in paso(b, "Manifiesto SHA-256")["run"]:
         d.append("manifiesto")
-    att = [s for s in b["steps"] if str(s.get("uses", "")).startswith("actions/attest-build-provenance@")]
-    ate = [s for s in a["steps"] if str(s.get("uses", "")).startswith("actions/attest-build-provenance@")]
+    att = [s for s in b["steps"] if str(s.get("uses", "")).startswith("actions/attest-build-provenance")]
+    ate = [s for s in a["steps"] if str(s.get("uses", "")).startswith("actions/attest-build-provenance")]
     if len(att) != 1 or att[0]["uses"] != ate[0]["uses"]:
         d.append("atestación")
     for u in usos(a):
@@ -69,8 +71,8 @@ class Congelado(unittest.TestCase):
         assert FIX.is_file(), f"falta la copia congelada {FIX}"  # nunca se salta
         datos = FIX.read_bytes()
         assert hashlib.sha256(datos).hexdigest() == SHA, "la copia congelada cambió"
-        cls.v = yaml.safe_load(datos.decode("utf-8"))
-        cls.p = yaml.safe_load((WF / "p50-publicacion-academica.yml").read_text(encoding="utf-8"))
+        cls.v = cargar_sin_version(datos.decode("utf-8"))
+        cls.p = cargar_sin_version((WF / "p50-publicacion-academica.yml").read_text(encoding="utf-8"))
 
 
 class Disparadores(Congelado):
@@ -140,9 +142,9 @@ class Equivalencia(Congelado):
 
     def test_m06_del_visor_no_de_artefacto_de_actions(self):
         j = self.p["jobs"]["publicar"]
-        self.assertTrue(any(u.startswith("actions/download-artifact@") for u in usos(j)))  # solo el plan
+        self.assertTrue(any(u.startswith("actions/download-artifact") for u in usos(j)))  # solo el plan
         for s in j["steps"]:
-            if str(s.get("uses", "")).startswith("actions/download-artifact@"):
+            if str(s.get("uses", "")).startswith("actions/download-artifact"):
                 self.assertEqual(s["with"]["name"], "p50-plan")
                 self.assertNotIn("run-id", s["with"])
         self.assertIn("p50_resolver.py blob", paso(j, "Descargar M06 del visor (sha256 verificado)")["run"])
@@ -181,11 +183,11 @@ class Negativos(Congelado):
     def test_atestacion_quitada_o_cambiada_se_detecta(self):
         n = copy.deepcopy(self.p)
         n["jobs"]["publicar"]["steps"] = [s for s in n["jobs"]["publicar"]["steps"]
-                                          if not str(s.get("uses", "")).startswith("actions/attest-build-provenance@")]
+                                          if not str(s.get("uses", "")).startswith("actions/attest-build-provenance")]
         self.assertIn("atestación", diferencias(self.v, n))
         n = copy.deepcopy(self.p)
         for s in n["jobs"]["publicar"]["steps"]:
-            if str(s.get("uses", "")).startswith("actions/attest-build-provenance@"):
+            if str(s.get("uses", "")).startswith("actions/attest-build-provenance"):
                 s["uses"] = "actions/attest-build-provenance@v1"
         self.assertIn("atestación", diferencias(self.v, n))
 
