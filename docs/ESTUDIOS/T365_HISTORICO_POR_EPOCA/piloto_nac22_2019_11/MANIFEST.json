@@ -7,18 +7,18 @@
  "kind": "historico_epoca",
  "contrato": {
   "ruta": "configuracion/historico_epoca/contrato_2019_11.json",
-  "sha256": "4d44554904c896162d390c74b597471107279939e4e7d6f0f45382b1f9ef7dbf"
+  "sha256": "5eea61a2c930ea1abb31604af1aedfdc9095e53fff3632c3201d425d805cc065"
  },
  "contrato_provincia": {
   "ruta": "territorios/nac22/config/nac22_h2019_11.yaml",
-  "sha256": "ba2f6ab806479515b6dc9fabe0efe3d578c74f3e4444d3c6ff26c6dce857655d"
+  "sha256": "de01e1a957e2593014ac10d71f42b5dc8a02c77d35d2d93288094afe9d0a75e6"
  },
  "m06": {
   "composicion_sha256": "adf786fc5372223eab261dad301c941a41d4d36d5f25d9c87e2788921edb79d7",
-  "distritos_sha256": "72b889b7626d1c65fcc954b1a77e59e84c7dee3c6eac5edad9788d08357a5516"
+  "distritos_sha256": "f82d00b17aad63b41149b56a1ab9171f282306a1c33823d7f007d1f974951b1f"
  },
  "m08": {
-  "sha256": "1c64f1dfceeccc59c113bd5638bc07b635a7da9b80a3c4eaf4b92f2a90a12ea6"
+  "sha256": "36669d71d69939a6b655640820cb10d960461d6ff7c9e80b8a8ff0e24ad244e0"
  },
  "votos_sha256": "0e144f90e1c6b65170faf360d5d9107d753ff304184080936e3f928f0dfd5cb6",
  "secciones_votos_sin_distrito": [],

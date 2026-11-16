@@ -19,7 +19,7 @@ meta:
     election_date: '2019-11-10'
     election_id: nac22_2019-11-10
     contrato: configuracion/historico_epoca/contrato_2019_11.json
-    contrato_sha256: 4d44554904c896162d390c74b597471107279939e4e7d6f0f45382b1f9ef7dbf
+    contrato_sha256: 5eea61a2c930ea1abb31604af1aedfdc9095e53fff3632c3201d425d805cc065
     contrato_base_sha256: ea01c1ca5d5d43625bc9f20f0b8c358f075b7bc8c064dde860052fb667863ac1
     decision: D-125
 io:
@@ -201,14 +201,14 @@ validation:
     section_year: 2020
     population_total: 220834
     target_section_count: 286
-    package_sha256: 83328bba6076ad962d7e494cb6e005164b380f9a1caeea87a26c6ca0b17ecfd7
+    package_sha256: e47552b2a301b561e7da3ec8e5d796ea8b556c4396aca69f724a988f878f4d47
     compatibility_report_sha256: null
-    compatibility_identity_sha256: 83328bba6076ad962d7e494cb6e005164b380f9a1caeea87a26c6ca0b17ecfd7
+    compatibility_identity_sha256: e47552b2a301b561e7da3ec8e5d796ea8b556c4396aca69f724a988f878f4d47
 generation_state:
   source_prepared: true
   generation_enabled: true
-  package_sha256: 83328bba6076ad962d7e494cb6e005164b380f9a1caeea87a26c6ca0b17ecfd7
-  compatibility_identity_sha256: 83328bba6076ad962d7e494cb6e005164b380f9a1caeea87a26c6ca0b17ecfd7
+  package_sha256: e47552b2a301b561e7da3ec8e5d796ea8b556c4396aca69f724a988f878f4d47
+  compatibility_identity_sha256: e47552b2a301b561e7da3ec8e5d796ea8b556c4396aca69f724a988f878f4d47
   source_inputs:
   - path: territorios/nac22/.cache/ddd/historico_epoca/nac22_h2019_11/seccionado_2020.zip
     sha256: 07544bb49256e9e9f290b6f459a0a833e69c97900eb840c3f5bbe863914ede6e

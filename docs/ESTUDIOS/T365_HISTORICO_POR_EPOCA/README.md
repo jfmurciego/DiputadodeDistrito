@@ -8,7 +8,7 @@ Sin tocar el motor: `modulos/01-08`, `ddd_core/`, `ddd_motor2/` se ejecutan tal 
 
 | Fichero | Papel |
 |---|---|
-| `configuracion/historico_epoca/contrato_<AAAA_MM>.json` (5, versionados) | **Contrato por elección**: seccionado del año (fichero, sha256, URL INE, clave R2), tabla de población (sha256, herramienta, año de referencia D-126, huellas de 30832 y Censo 2011), escaños BOE (CSV de T-330 con su sha256 y BOE), votos del Observatorio (manifiesto y sha256 por provincia, clave R2), y por provincia: `nacNN`, K del BOE, contrato base (ruta+sha256), población y `estado` (LISTA / BLOQUEADA_RELLENO). |
+| `configuracion/historico_epoca/contrato_<AAAA_MM>.json` (5, versionados) | **Contrato por elección**: seccionado del año (fichero, sha256, URL INE, clave R2), tabla de población (sha256, herramienta, año de referencia D-126, huellas de 30832 y Censo 2011), escaños BOE (CSV de T-330 con su sha256 y BOE), votos del Observatorio (manifiesto y sha256 por provincia, clave R2), y por provincia: `nacNN`, K del BOE, contrato base (ruta+sha256), población (`secciones_sin_dato`, `secciones_sin_seccionado` con su población) y `estado` (LISTA / BLOQUEADA_RELLENO / BLOQUEADA_SIN_DATO). |
 | `herramientas/contrato_historico_epoca.py` | `contrato` los genera (determinista, sin reloj ni red). `materializar` verifica cada fuente local contra el contrato, casa seccionado y población (fallo cerrado) y escribe `territorios/<t>/config/<t>_h<AAAA_MM>.yaml` (no versionado, `.gitignore`). `electoral` monta el paquete M07, ejecuta M07/M08 y escribe `PUERTA_<t>_<AAAA_MM>.json` y `MANIFEST.json`. `cadena` = materializar + admisión + M01..M06 + electoral. |
 | `tests/test_t365_historico_epoca.py` | Contratos coherentes con los ficheros acreditados (K = BOE, total 350, huellas), transformación del contrato, fallo cerrado de `materializar`, puerta, y flujo M07/M08 real sobre un M06 sintético (control positivo y negativo). |
 | `bajar_fuentes.sh` | Baja las fuentes de una elección y provincia (INE y Observatorio) y comprueba el sha256 contra el contrato; reconstruye la tabla de población con la herramienta declarada. |
@@ -40,8 +40,8 @@ coincidir); nivel y autorización siguen saliendo del catálogo maestro. Sin `hi
 ## 4. Piloto local nac22 2019-11 (cadena real hasta M08, 16-11)
 
 Fuentes bajadas desde la sesión cloud con HTTP 200 y sha256 igual al contrato: `seccionado_2020.zip` (www.ine.es), `30832.csv` y
-`indicadores_seccion_censal_csv.zip` (www.ine.es), `data/201911/sekzioa/22.json` (nazioenbehatokia.eus). Tabla de población de T-358
-reconstruida: sha256 `6be9b943…` (= #832). R2 no probado desde la nube (sin credenciales; en Actions sí).
+`indicadores_seccion_censal_csv.zip` (www.ine.es), `data/201911/sekzioa/22.json` (nazioenbehatokia.eus). Tabla de población de T-364
+(#840@f3e7d9a, sin `--estricto`; con 29005 y los seccionados 2015-2020 de sha256 acreditado): 2019-11 sha256 `c6eb6f8a…` (= T-364). La de T-358 daba la misma composición en Huesca. R2 no probado desde la nube (sin credenciales; en Actions sí).
 
 `python herramientas/contrato_historico_epoca.py cadena --eleccion 2019-11 --territorio nac22 --fuentes DIR` (~15 s):
 casado 286/286/286; K = 3 (BOE-A-2019-18147); M06: 73.615 / 73.609 / 73.610 hab. (desviación máx. 0,005 %, todos PASS);
@@ -51,13 +51,15 @@ M06/M08 cambian de hash por la fecha interna (conocido).
 
 ## 5. Riesgos y bloqueos
 
-1. **Casado población ↔ seccionado.** En 2019-11, 20 de 52 provincias tienen de 1 a 14 secciones sin población o con población sin
-   geometría (`casado_2019_11.csv`; T-357 §3). Decisión del Planificador (16-11, opción a): las secciones del seccionado que el Atlas no
-   lista se estiman con la regla de D-128 (origen `no_listada`, cuentan en el % y el umbral del 1 %; nunca población 0 ni fusión);
-   lo implementa T-364 (#840). Hasta regenerar los contratos con esa tabla, `materializar` falla cerrado en esas provincias. La
-   «población sin geometría» (secciones del Atlas inexistentes en el seccionado del año) sigue fallando cerrada.
-2. **Población provisional.** Los 5 contratos declaran la tabla de T-358 (D-126). Con la de T-364 (D-128; #840: `poblacion_seccion_<AAAA-MM>.csv`, cabecera `sección,población,origen,ajustada,años_fuente`, generada con `--estricto`; `leer_tabla` ya la lee) se regeneran (versión 1.1.0,
-   copia en `legacy/`). `estado` BLOQUEADA_RELLENO: 12 provincias en 2015-12, 11 en 2016-06 y 11 en 2019-04 (> 1 %, D-126).
+1. **Casado población ↔ seccionado.** Con la tabla de T-364 (`no_listada`, decisión del Planificador 16-11) ya no queda ninguna sección
+   del seccionado sin población en 2019-11. Quedan las **secciones con población sin geometría** en el seccionado del año
+   (`secciones_sin_seccionado` del contrato): 2011-11 44 (13 prov.), 2015-12 31 (15), 2016-06 36 (11), 2019-04 30 (9), 2019-11 52 (14 prov.,
+   75.795 hab.; `casado_2019_11.csv`). Hoy `materializar` falla cerrado en esas provincias (**decisión pendiente del propietario**:
+   p. ej. asignarlas a la sección del seccionado que las contiene, o excluirlas declarando su población).
+2. **Población.** Contratos con la tabla de T-364 sin `--estricto` (46 municipios con aviso, decisión pendiente del propietario); si cambia,
+   se regeneran (versión 1.1.0, copia en `legacy/`). Estados: 2015-12 27 LISTA / 11 BLOQUEADA_RELLENO / 14 BLOQUEADA_SIN_DATO; 2016-06
+   38/13/1; 2019-04 40/12/0; 2019-11 y 2011-11 52 LISTA. Generables hoy (LISTA y sin `secciones_sin_seccionado`) en 2011-11, 2015-12, 2016-06, 2019-04 y 2019-11: 39, 23, 29, 31 y 38
+   (las secciones del seccionado sin población solo están medidas en 2019-11: 0; en las otras, `materializar` lo comprueba y falla cerrado).
 3. **Contrato base cambiante.** Si un robot reescribe `nacNN_2025.yaml`, `materializar` falla (huella): se regenera el contrato (barato).
 4. **Votos sin geometría.** 6 provincias de 2019-11 tienen 1-3 secciones de votos fuera del seccionado: van a «sin asignar» y la puerta
    las limita (≤ 0,1 %).
@@ -71,5 +73,5 @@ M06/M08 cambian de hash por la fecha interna (conocido).
   unicidad `canonical` es por territorio, familia y elección). No se escribe el registro ni se publica.
 - Para T-355 (#830 se rehace sobre esto): kind nuevo en `registro_publicaciones_visor.py` y en la lista blanca del catálogo de
   procedencia (T-361: el conjunto de productos es cerrado), publicación por fecha separada del vigente, numeración pública 1..K
-  (T-135), provincias BLOQUEADA_RELLENO excluidas, y los consumidores que aún eligen por `run_id` (`resultados_ligeros`,
+  (T-135), provincias no LISTA excluidas, y los consumidores que aún eligen por `run_id` (`resultados_ligeros`,
   `generar_datos_abiertos`, `generar_hemiciclo`, `legislatura_vigente`; T-199) deben filtrar por elección.

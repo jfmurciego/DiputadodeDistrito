@@ -51,7 +51,9 @@ class ContratosVersionados(unittest.TestCase):
                     self.assertEqual(p["K"], boe[cpro]["K"])
                     self.assertEqual(p["territorio"], f"nac{cpro}")  # id canónico, nunca uno viejo
                     self.assertEqual(p["votos"]["sha256"], espejo[p["votos"]["ruta"]]["sha256"])
-                    self.assertIn(p["estado"], ("LISTA", "BLOQUEADA_RELLENO"))
+                    self.assertIn(p["estado"], ("LISTA", "BLOQUEADA_RELLENO", "BLOQUEADA_SIN_DATO"))
+                    self.assertEqual(p["estado"] == "BLOQUEADA_SIN_DATO", bool(p["poblacion"]["secciones_sin_dato"]))
+                    self.assertIsInstance(p["poblacion"]["secciones_sin_seccionado"], list)
 
     def test_huesca_2019_11_tres_escanos(self):
         c = json.loads(che.ruta_contrato("2019-11").read_text(encoding="utf-8"))
@@ -110,9 +112,14 @@ class TablaPoblacion(unittest.TestCase):
             self.assertEqual((t["2200101001"]["poblacion"], t["2200101002"]["origen"]), (10, "interpolada"))
             with self.assertRaises(SystemExit):
                 che.leer_tabla(p, "2019-04")  # fichero de otra elección
-            p.write_text("sección,población,origen,ajustada,años_fuente\n2200101001,,sin_dato,no,\n", encoding="utf-8")
+            p.write_text("sección,población,origen,ajustada,años_fuente\n2200101001,,sin_dato,no,\n"
+                         "2200101002,7,no_listada,sí,2019-2021\n", encoding="utf-8")
+            t = che.leer_tabla(p, "2019-11")
+            self.assertIsNone(t["2200101001"]["poblacion"])  # nunca 0: la provincia queda BLOQUEADA_SIN_DATO
+            self.assertEqual(t["2200101002"]["origen"], "no_listada")
+            p.write_text("sección,población,origen,ajustada,años_fuente\n2200101001,,dato,no,2020\n", encoding="utf-8")
             with self.assertRaises(SystemExit):
-                che.leer_tabla(p, "2019-11")  # nunca se convierte en 0
+                che.leer_tabla(p, "2019-11")  # vacío sin sin_dato: tabla inválida
 
 
 class ContratoProvincia(unittest.TestCase):
@@ -201,6 +208,16 @@ class Materializar(unittest.TestCase):
                         self.assertIn("PUENTE_FUERA_DEL_SECCIONADO", str(cm.exception))
                     else:
                         che.materializar("2019-11", "nac22", fuentes, root, cpath)
+
+    def test_sin_seccionado_distinto_del_declarado_falla(self):
+        with tempfile.TemporaryDirectory() as d:
+            root, fuentes, cpath, parche = self._arbol(Path(d), {"2200101001", "2200101002"})
+            c = json.loads(cpath.read_text(encoding="utf-8"))
+            c["provincias"]["22"]["poblacion"]["secciones_sin_seccionado"] = ["2200101009"]
+            cpath.write_text(json.dumps(c), encoding="utf-8")
+            with parche, self.assertRaises(SystemExit) as cm:
+                che.materializar("2019-11", "nac22", fuentes, root, cpath)
+            self.assertIn("SIN_SECCIONADO_DISTINTO_DEL_CONTRATO", str(cm.exception))
 
     def test_provincia_bloqueada_por_relleno_falla(self):
         with tempfile.TemporaryDirectory() as d:

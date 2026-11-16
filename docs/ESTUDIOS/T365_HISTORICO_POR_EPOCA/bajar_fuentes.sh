@@ -2,7 +2,7 @@
 # PROYECTO: Diputado de Distrito
 # VERSIÓN: 1.0.0 · FECHA: 2026-11-16 · ESTADO: candidato
 # ANTERIOR: ninguna (fichero nuevo)
-# CAMBIOS: 1.0.0: fichero nuevo.
+# CAMBIOS: 1.0.0: fichero nuevo (tabla de población de T-358 o de T-364).
 # MOTIVO: T-365 (D-125). Baja las fuentes de una elección y provincia del histórico por época y comprueba su sha256 contra el
 #   contrato versionado (configuracion/historico_epoca/contrato_<AAAA_MM>.json). Falla si una huella no coincide.
 #   Desde la sesión cloud (16-11) bajan www.ine.es y nazioenbehatokia.eus (HTTP 200); R2 solo desde Actions (secretos).
@@ -32,7 +32,18 @@ bajar https://www.ine.es/jaxiT3/files/t/es/csv_bdsc/30832.csv "$D/30832.csv" "$(
 bajar https://www.ine.es/censos2011_datos/indicadores_seccion_censal_csv.zip "$D/indicadores_seccion_censal_csv.zip" \
   "$(leer "c['poblacion']['fuentes']['indicadores_seccion_censal_csv.zip']")"
 TABLA="$D/$(leer "c['poblacion']['fichero']")"
-if [[ "$(leer "c['poblacion']['origen']")" == T-358* ]]; then
+if [[ "$(leer "c['poblacion']['origen']")" == T-364* ]]; then
+  # T-364 (D-128, #840): padrón municipal 29005 y los seccionados de 2015, 2016, 2019 y 2020 (huellas de T-357/T-364)
+  bajar https://www.ine.es/jaxiT3/files/t/es/csv_bdsc/29005.csv "$D/29005.csv" 8d568dbb14ba1e6cd9d5d3f7db6516842806ce3ba4bdf52938482d2adca50635
+  mkdir -p "$D/seccionados"
+  for y in 2015 2016 2019 2020; do
+    sha=$(awk -v f="seccionado_$y.zip" '$3 ~ f"$" {print $1}' "$RAIZ/docs/ESTUDIOS/T357_PADRON_SECCION_2011_2020/SHA256SUMS.txt")
+    bajar "https://www.ine.es/prodyser/cartografia/seccionado_$y.zip" "$D/seccionados/seccionado_$y.zip" "$sha"
+  done
+  python3 -I "$RAIZ/herramientas/poblacion_seccion_historica.py" --atlas "$D/30832.csv" --censo "$D/indicadores_seccion_censal_csv.zip" \
+    --oficial "$D/29005.csv" --seccionados "$D/seccionados" --sumas "$RAIZ/docs/ESTUDIOS/T357_PADRON_SECCION_2011_2020/SHA256SUMS.txt" \
+    "$RAIZ/docs/ESTUDIOS/T364_POBLACION_SECCION_INTERPOLADA/SHA256SUMS.txt" --salida "$D"
+elif [[ "$(leer "c['poblacion']['origen']")" == T-358* ]]; then
   python3 -I "$RAIZ/herramientas/poblacion_seccion_historica.py" --atlas "$D/30832.csv" --censo "$D/indicadores_seccion_censal_csv.zip" \
     --sumas "$RAIZ/docs/ESTUDIOS/T357_PADRON_SECCION_2011_2020/SHA256SUMS.txt" --tabla "$TABLA" --informe "$D/informe_provincias.csv"
 fi

@@ -16,12 +16,13 @@
   "campo_seccion": "CUSEC"
  },
  "poblacion": {
-  "fichero": "poblacion_seccion_t358.csv",
-  "sha256": "6be9b9435dbcc36b6501a69363e31614d1059f45d2deadab5c04357198e09baf",
-  "origen": "T-358 herramientas/poblacion_seccion_historica.py 1.0.0 (D-126; provisional hasta T-364/D-128)",
+  "fichero": "poblacion_seccion_2011-11.csv",
+  "sha256": "45aa3552592a8819beab26b2a885551fbe1e8ccba0ec68ac3ccbb7621f0496a3",
+  "origen": "T-364 herramientas/poblacion_seccion_historica.py 1.1.0 (#840@f3e7d9a, D-128, sin --estricto: 46 municipios con aviso pendientes de decisión)",
   "anio_referencia": 2011,
   "fuente": "censo",
-  "regla_publicacion": "> 1 % no dato → BLOQUEADA_RELLENO (D-126)",
+  "regla_publicacion": "> 1 % estimada → BLOQUEADA_RELLENO (D-126/D-128); sin_dato → BLOQUEADA_SIN_DATO",
+  "regla_sin_seccionado": "secciones con población sin geometría en el seccionado del año: materializar falla cerrado (decisión pendiente del propietario)",
   "fuentes": {
    "30832.csv": "37716cba8cda50a492f52e2bae91a1c543bafb4263110e5aa5da18107ef68311",
    "indicadores_seccion_censal_csv.zip": "305a19f11b87d4e13d2ea4267774b9b0e3a69a3b7b1ff8e483aad90867628fe7"
@@ -65,7 +66,10 @@
     "total": 318660,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -90,7 +94,10 @@
     "total": 399620,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -115,7 +122,17 @@
     "total": 1844785,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [
+     "0301401024",
+     "0301405021",
+     "0301407021",
+     "0301408020",
+     "0303101016",
+     "0306503022"
+    ],
+    "poblacion_sin_seccionado": 4705
    },
    "estado": "LISTA"
   },
@@ -140,7 +157,10 @@
     "total": 687000,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -165,7 +185,10 @@
     "total": 169885,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -190,7 +213,10 @@
     "total": 688675,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -215,7 +241,10 @@
     "total": 1096940,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -240,7 +269,12 @@
     "total": 5487660,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [
+     "0804702003"
+    ],
+    "poblacion_sin_seccionado": 270
    },
    "estado": "LISTA"
   },
@@ -265,7 +299,10 @@
     "total": 368820,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -290,7 +327,10 @@
     "total": 408995,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -315,7 +355,10 @@
     "total": 1241570,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -340,7 +383,14 @@
     "total": 592200,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [
+     "1204001002",
+     "1204003004",
+     "1204007005"
+    ],
+    "poblacion_sin_seccionado": 2270
    },
    "estado": "LISTA"
   },
@@ -365,7 +415,10 @@
     "total": 523915,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -390,7 +443,10 @@
     "total": 798320,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -415,7 +471,21 @@
     "total": 1137550,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [
+     "1500901003",
+     "1502501002",
+     "1503003008",
+     "1503003019",
+     "1503802002",
+     "1504003001",
+     "1505602002",
+     "1505903003",
+     "1507601005",
+     "1508201009"
+    ],
+    "poblacion_sin_seccionado": 5955
    },
    "estado": "LISTA"
   },
@@ -440,7 +510,10 @@
     "total": 213370,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -465,7 +538,10 @@
     "total": 747850,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -490,7 +566,10 @@
     "total": 917830,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -515,7 +594,10 @@
     "total": 254940,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -540,7 +622,10 @@
     "total": 704605,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -565,7 +650,12 @@
     "total": 518195,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [
+     "2101702002"
+    ],
+    "poblacion_sin_seccionado": 685
    },
    "estado": "LISTA"
   },
@@ -590,7 +680,12 @@
     "total": 223235,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [
+     "2212508001"
+    ],
+    "poblacion_sin_seccionado": 560
    },
    "estado": "LISTA"
   },
@@ -615,7 +710,10 @@
     "total": 664800,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -640,7 +738,12 @@
     "total": 489625,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [
+     "2408905012"
+    ],
+    "poblacion_sin_seccionado": 1180
    },
    "estado": "LISTA"
   },
@@ -665,7 +768,10 @@
     "total": 434815,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -690,7 +796,10 @@
     "total": 319430,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -715,7 +824,18 @@
     "total": 345625,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [
+     "2700201003",
+     "2700701004",
+     "2703401002",
+     "2705703002",
+     "2706001004",
+     "2706502003",
+     "2706503003"
+    ],
+    "poblacion_sin_seccionado": 4590
    },
    "estado": "LISTA"
   },
@@ -740,7 +860,10 @@
     "total": 6387375,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -765,7 +888,10 @@
     "total": 1590340,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -790,7 +916,10 @@
     "total": 1458215,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -815,7 +944,10 @@
     "total": 635140,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -840,7 +972,16 @@
     "total": 325205,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [
+     "3200103001",
+     "3200701003",
+     "3207603001",
+     "3208601002",
+     "3208603001"
+    ],
+    "poblacion_sin_seccionado": 2630
    },
    "estado": "LISTA"
   },
@@ -865,7 +1006,14 @@
     "total": 1069285,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [
+     "3301103001",
+     "3301901003",
+     "3304404017"
+    ],
+    "poblacion_sin_seccionado": 1745
    },
    "estado": "LISTA"
   },
@@ -890,7 +1038,10 @@
     "total": 167410,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -915,7 +1066,13 @@
     "total": 1084825,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [
+     "3501602060",
+     "3501602062"
+    ],
+    "poblacion_sin_seccionado": 1310
    },
    "estado": "LISTA"
   },
@@ -940,7 +1097,12 @@
     "total": 951490,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [
+     "3601701005"
+    ],
+    "poblacion_sin_seccionado": 285
    },
    "estado": "LISTA"
   },
@@ -965,7 +1127,10 @@
     "total": 346165,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -990,7 +1155,10 @@
     "total": 993455,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -1015,7 +1183,10 @@
     "total": 589160,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -1040,7 +1211,10 @@
     "total": 162055,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -1065,7 +1239,10 @@
     "total": 1925670,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -1090,7 +1267,10 @@
     "total": 93195,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -1115,7 +1295,10 @@
     "total": 802595,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -1140,7 +1323,10 @@
     "total": 141075,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -1165,7 +1351,10 @@
     "total": 700615,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -1190,7 +1379,14 @@
     "total": 2553485,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [
+     "4600501009",
+     "4602201013",
+     "4625011003"
+    ],
+    "poblacion_sin_seccionado": 2250
    },
    "estado": "LISTA"
   },
@@ -1215,7 +1411,10 @@
     "total": 529355,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -1240,7 +1439,10 @@
     "total": 1149975,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -1265,7 +1467,10 @@
     "total": 189370,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -1290,7 +1495,10 @@
     "total": 966970,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -1315,7 +1523,10 @@
     "total": 83195,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -1340,7 +1551,10 @@
     "total": 80665,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000"
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   }

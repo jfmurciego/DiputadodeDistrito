@@ -14,7 +14,8 @@ QUÉ HACE (determinista, sin reloj, sin red):
                 (orchestracion/fuentes_r2.json), tabla de población (sha256 medido del fichero dado), escaños oficiales (CSV de T-330,
                 sha256 contra su JSON), votos del Observatorio (orchestracion/fuente_nazioenbehatokia.json) y contrato base de cada
                 provincia (territorios/nacNN/config/nacNN_2025.yaml, sha256). Por provincia: territorio nacNN, K del BOE, población,
-                % rellenado y `estado` (LISTA o BLOQUEADA_RELLENO si > 1 %, D-126: no se publica sin decisión del propietario).
+                % estimado, `secciones_sin_dato`, `secciones_sin_seccionado` (con población y sin geometría en el seccionado del año;
+                exige --seccionado) y `estado`: LISTA, BLOQUEADA_RELLENO (> 1 % estimada, D-126/D-128) o BLOQUEADA_SIN_DATO.
   `materializar` (una provincia) verifica el sha256 de cada fuente local contra el contrato, casa seccionado y población
                 (cualquier diferencia FALLA, cerrado) y escribe territorios/<t>/config/<t>_h<AAAA_MM>.yaml (no versionado) con K del BOE,
                 años de la época y `generation_state.source_inputs` con sha256; el resto (límites, atomicidad, reparto) es el del
@@ -117,9 +118,13 @@ def leer_tabla(path: Path, eleccion: str) -> dict[str, dict]:
             s, p = fila[n["seccion"]], fila[n["poblacion"]]
             if len(s) != 10 or not s.isdigit() or s in out:
                 raise ErrorContrato(f"TABLA_SECCION_INVALIDA {s!r}")
-            if not p.isdigit():  # «sin_dato» o vacío: nunca se convierte en 0
-                raise ErrorContrato(f"TABLA_POBLACION_INVALIDA {s} {p!r} ({fila[n['origen']]})")
-            out[s] = {"poblacion": int(p), "origen": fila[n["origen"]]}
+            origen = fila[n["origen"]]
+            if origen == "sin_dato" and p == "":  # nunca se convierte en 0: la provincia queda BLOQUEADA_SIN_DATO
+                out[s] = {"poblacion": None, "origen": origen}
+                continue
+            if not p.isdigit():
+                raise ErrorContrato(f"TABLA_POBLACION_INVALIDA {s} {p!r} ({origen})")
+            out[s] = {"poblacion": int(p), "origen": origen}
     if not out:
         raise ErrorContrato(f"TABLA_SIN_ELECCION {eleccion} en {path.name}")
     return out
@@ -158,7 +163,9 @@ def pct(parte: int, total: int) -> str:
 
 
 def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: str = VERSION,
-                       anterior: str = "ninguna (fichero nuevo)", root: Path = ROOT) -> dict:
+                       anterior: str = "ninguna (fichero nuevo)", root: Path = ROOT, seccionado: Path | None = None) -> dict:
+    """`seccionado` (zip del año, sha256 contra fuentes_r2.json) da `secciones_sin_seccionado` por provincia: secciones con
+    población que el seccionado del año no tiene (no se pueden asignar a un distrito; decisión pendiente → fallo cerrado)."""
     e = _eleccion(eleccion, root)
     fr2 = _json(FUENTES_R2, root)["fuentes"]
     nombre_secc = f"seccionado_{e['seccionado']}.zip"
@@ -175,6 +182,9 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
     boe = escanos_boe(csv_boe)
     espejo = _json(ESPEJO, root)
     pob = leer_tabla(tabla, eleccion)
+    if seccionado is None or sha256(seccionado) != s["sha256"]:
+        raise ErrorContrato(f"SECCIONADO_REQUERIDO {nombre_secc} con sha256 {s['sha256']}")
+    geo = _secciones_seccionado(seccionado, None)
     terr = _territorios(root)
     provincias = {}
     for c in sorted(boe):
@@ -190,10 +200,13 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
             raise ErrorContrato(f"VOTOS_HUELLA_R2_DISTINTA {ruta}")
         base = root / f"territorios/{t}/config/{t}_2025.yaml"
         filas = [x for k, x in pob.items() if k[:2] == c]
-        total = sum(x["poblacion"] for x in filas)
+        sin_dato = sorted(k for k, x in pob.items() if k[:2] == c and x["poblacion"] is None)
+        total = sum(x["poblacion"] or 0 for x in filas)
         rell = [x for x in filas if x["origen"] != "dato"]
-        prell = sum(x["poblacion"] for x in rell)
-        bloqueada = prell * 100 > total * UMBRAL_RELLENO_PCT or not filas
+        prell = sum(x["poblacion"] or 0 for x in rell)
+        sin_secc = sorted(k for k in pob if k[:2] == c and k not in geo)
+        estado = ("BLOQUEADA_SIN_DATO" if sin_dato or not filas else
+                  "BLOQUEADA_RELLENO" if prell * 100 > total * UMBRAL_RELLENO_PCT else "LISTA")
         provincias[c] = {
             "territorio": t, "provincia": boe[c]["provincia"], "K": boe[c]["K"], "k_source": "norma",
             # sin «/» ni extensión: ddd_core.config.load_params_yaml lo tomaría por ruta en el contrato de provincia
@@ -202,8 +215,10 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
             "contrato_base": {"ruta": base.relative_to(root).as_posix(), "sha256": sha256(base)},
             "votos": {"ruta": ruta, "sha256": fv["sha256"], "bytes": fv.get("bytes"), "r2_clave": rv.get("clave")},
             "poblacion": {"secciones": len(filas), "total": total, "secciones_no_dato": len(rell),
-                          "poblacion_no_dato": prell, "pct_no_dato": pct(prell, total)},
-            "estado": "BLOQUEADA_RELLENO" if bloqueada else "LISTA",
+                          "poblacion_no_dato": prell, "pct_no_dato": pct(prell, total), "secciones_sin_dato": sin_dato,
+                          "secciones_sin_seccionado": sin_secc,
+                          "poblacion_sin_seccionado": sum(pob[k]["poblacion"] or 0 for k in sin_secc)},
+            "estado": estado,
         }
     return {
         "schema": SCHEMA, "version": version, "anterior": anterior,
@@ -213,7 +228,10 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
         "seccionado": {"anio": e["seccionado"], "fichero": nombre_secc, "sha256": s["sha256"], "origen_url": s.get("origen_url"),
                        "r2_clave": s["clave"], "campo_seccion": "CUSEC"},
         "poblacion": {"fichero": tabla.name, "sha256": sha256(tabla), "origen": tabla_origen, "anio_referencia": e["poblacion_anio"],
-                      "fuente": e["poblacion_fuente"], "regla_publicacion": f"> {UMBRAL_RELLENO_PCT} % no dato → BLOQUEADA_RELLENO (D-126)",
+                      "fuente": e["poblacion_fuente"],
+                      "regla_publicacion": f"> {UMBRAL_RELLENO_PCT} % estimada → BLOQUEADA_RELLENO (D-126/D-128); sin_dato → BLOQUEADA_SIN_DATO",
+                      "regla_sin_seccionado": "secciones con población sin geometría en el seccionado del año: materializar falla "
+                                              "cerrado (decisión pendiente del propietario)",
                       "fuentes": {k: sumas.get(k) for k in ("30832.csv", "indicadores_seccion_censal_csv.zip")}},
         "escanos": {"csv": e["csv_boe"], "sha256": meta_boe["sha256_csv"], "boe": meta_boe.get("boe"),
                     "regla": "K de la provincia = escanos_circunscripcion del BOE de la elección (D-125)"},
@@ -248,13 +266,13 @@ def _fuente(fuentes: Path, nombre: str, esperado: str) -> Path:
     return p
 
 
-def _secciones_seccionado(zip_path: Path, cpro: str) -> set[str]:
+def _secciones_seccionado(zip_path: Path, cpro: str | None) -> set[str]:
     import zipfile
     import geopandas as gpd
     with zipfile.ZipFile(zip_path) as z:
         shp = next(n for n in z.namelist() if n.lower().endswith(".shp"))
     g = gpd.read_file(f"zip://{zip_path}!{shp}", columns=["CUSEC"], ignore_geometry=True)
-    return {str(x) for x in g["CUSEC"] if str(x)[:2] == cpro}
+    return {str(x) for x in g["CUSEC"] if cpro is None or str(x)[:2] == cpro}
 
 
 def _reemplazar(obj, viejo: str, nuevo: str):
@@ -336,7 +354,9 @@ def materializar(eleccion: str, territorio: str, fuentes: Path, root: Path = ROO
     pob = {s: x for s, x in leer_tabla(tabla, eleccion).items() if s[:2] == cpro}
     geo = _secciones_seccionado(secc, cpro)
     sin_pob, sin_geo = sorted(geo - set(pob)), sorted(set(pob) - geo)
-    if sin_pob or sin_geo:  # D-125: sin regla de reconciliación aprobada, cualquier diferencia falla cerrado
+    if sin_geo != p["poblacion"].get("secciones_sin_seccionado", sin_geo):
+        raise ErrorContrato(f"SIN_SECCIONADO_DISTINTO_DEL_CONTRATO {territorio} {eleccion}")
+    if sin_pob or sin_geo:  # sin regla aprobada para las secciones sin geometría, cualquier diferencia falla cerrado
         raise ErrorContrato(f"CASADO_POBLACION_SECCIONADO {territorio} {eleccion}: sin población {len(sin_pob)} {sin_pob[:5]}; "
                             f"población sin geometría {len(sin_geo)} {sin_geo[:5]}")
     base = yaml.safe_load(base_path.read_text(encoding="utf-8"))
@@ -512,6 +532,7 @@ def main(argv=None) -> int:
     a1.add_argument("--eleccion", required=True, choices=sorted(ELECCIONES))
     a1.add_argument("--tabla", type=Path, required=True, help="tabla de población por sección (T-358/T-364)")
     a1.add_argument("--tabla-origen", required=True, help="herramienta y versión que produjo la tabla")
+    a1.add_argument("--seccionado", type=Path, required=True, help="seccionado INE del año (zip, sha256 de fuentes_r2.json)")
     a1.add_argument("--version", default=VERSION)
     a1.add_argument("--anterior", default="ninguna (fichero nuevo)")
     a1.add_argument("--salida", type=Path)
@@ -523,7 +544,7 @@ def main(argv=None) -> int:
         s.add_argument("--salida", type=Path, default=ROOT / "salida_historico_epoca")
     a = ap.parse_args(argv)
     if a.accion == "contrato":
-        c = construir_contrato(a.eleccion, a.tabla, a.tabla_origen, a.version, a.anterior)
+        c = construir_contrato(a.eleccion, a.tabla, a.tabla_origen, a.version, a.anterior, seccionado=a.seccionado)
         out = a.salida or ruta_contrato(a.eleccion)
         print(out, escribir_json(out, c), Counter(p["estado"] for p in c["provincias"].values()))
         return 0
