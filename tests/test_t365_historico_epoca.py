@@ -409,6 +409,17 @@ class TablaT364b(unittest.TestCase):
               "2019-11": "c6eb6f8a839e2af650ee6d28cc0f69d38c05b2dd84305566f371b22684281555"}
     APARTADAS = {"2011-11": 0, "2015-12": 13, "2016-06": 2, "2019-04": 0, "2019-11": 0}  # corrida real de T-364b
 
+    @staticmethod
+    def _anterior_valido(ruta: str, eleccion: str) -> bool:
+        return ruta == f"legacy/contrato_historico_epoca_{eleccion.replace('-', '_')}_v1.0.0_20261116.json"
+
+    def test_anterior_se_valida_por_forma(self):  # control negativo: ruta mal formada o de otra elección falla
+        self.assertTrue(self._anterior_valido("legacy/contrato_historico_epoca_2019_11_v1.0.0_20261116.json", "2019-11"))
+        for mala in ("", "ninguna (fichero nuevo)", "configuracion/historico_epoca/contrato_2019_11.json",
+                     "legacy/contrato_historico_epoca_2019_04_v1.0.0_20261116.json",
+                     "legacy/contrato_historico_epoca_2019_11_v1.0.1_20261116.json"):
+            self.assertFalse(self._anterior_valido(mala, "2019-11"), mala)
+
     def test_contratos_anclan_las_tablas_nuevas(self):
         for e in ELECCIONES:
             with self.subTest(eleccion=e):
@@ -417,7 +428,9 @@ class TablaT364b(unittest.TestCase):
                 self.assertNotEqual(c["poblacion"]["sha256"], self.VIEJAS.get(e))
                 self.assertIn("1.2.0", c["poblacion"]["origen"])
                 self.assertEqual(c["version"], "1.1.0")
-                self.assertTrue((ROOT / c["anterior"]).is_file())
+                self.assertTrue(self._anterior_valido(c["anterior"], e), c["anterior"])  # forma; la imagen de CI no trae legacy/
+                if (ROOT / ".git").exists() and (ROOT / "legacy").is_dir():  # existencia solo con árbol completo
+                    self.assertTrue((ROOT / c["anterior"]).is_file())
                 self.assertIn(self.NUEVAS[e], (ROOT / "docs/ESTUDIOS/T364_POBLACION_SECCION_INTERPOLADA/README.md").read_text(encoding="utf-8"))
 
     def test_provincias_apartadas_son_bloqueada_sin_dato(self):
