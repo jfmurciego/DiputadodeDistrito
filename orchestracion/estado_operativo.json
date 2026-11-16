@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T02:51:27.606462+00:00",
+  "generated_at": "2026-11-16T02:53:29.466909+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -10224,20 +10224,20 @@
       "name": "Nacional Cantabria",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43786502149,
+      "run_id": 43792749380,
       "last_run": {
-        "run_id": 43786502149,
+        "run_id": 43792749380,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10278,7 +10278,7 @@
       },
       "autonomous_community_code_ine": "C39",
       "display_name": "Nacional Cantabria",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac40",
@@ -10449,13 +10449,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_soria",
+          "territory_id": "nac42",
           "territory_name": "Congreso Soria",
           "edition": "2025",
-          "run_id": 43029280043,
-          "artifact_name": "ddd-state-43029280043-M08",
-          "artifact_sha256": "f88663f8ffb4cb76f7ae548b3f2919fd9a249f2edfd3652425efbba1b5dc8bb0",
-          "source_commit": "777d1e29d0c205522b7bf83557b05bdc5c1b47df",
+          "run_id": 43793874826,
+          "artifact_name": "ddd-state-43793874826-M08",
+          "artifact_sha256": "913fba5cdd1df74716949cc46b674e400b4eb4f6378feefee62cff90aecd7950",
+          "source_commit": "2667b4a56716d4277dc0742802d0dbbe5a19a3ca",
           "stage": "M08"
         }
       },
@@ -12316,7 +12316,7 @@
     }
   ],
   "kpis": {
-    "complete": 66,
+    "complete": 67,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12373,6 +12373,7 @@
       "Nacional Pontevedra",
       "Nacional Salamanca",
       "Nacional Santa Cruz de Tenerife",
+      "Nacional Cantabria",
       "Nacional Toledo",
       "Nacional Valencia",
       "Nacional Valladolid",
@@ -12594,11 +12595,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac38",
-    "name": "Nacional Santa Cruz de Tenerife",
-    "display_name": "Nacional Santa Cruz de Tenerife",
-    "autonomous_community_code_ine": "C38",
-    "run_id": 43792098960,
+    "territory_id": "nac39",
+    "name": "Nacional Cantabria",
+    "display_name": "Nacional Cantabria",
+    "autonomous_community_code_ine": "C39",
+    "run_id": 43792749380,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12614,12 +12615,6 @@
       "territory": "Nacional Asturias",
       "territory_id": "nac33",
       "autonomous_community_code_ine": "C33",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Cantabria",
-      "territory_id": "nac39",
-      "autonomous_community_code_ine": "C39",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12651,6 +12646,12 @@
       "territory_id": "nac44",
       "autonomous_community_code_ine": "C44",
       "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional 350 Álava",
+      "territory_id": "congreso350_alava",
+      "autonomous_community_code_ine": "R01",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12664,12 +12665,6 @@
       "territory": "Nacional Asturias",
       "territory_id": "nac33",
       "autonomous_community_code_ine": "C33",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Cantabria",
-      "territory_id": "nac39",
-      "autonomous_community_code_ine": "C39",
       "action": "preparar fuentes electorales"
     },
     {
