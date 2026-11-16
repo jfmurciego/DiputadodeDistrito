@@ -5,6 +5,8 @@
 # CAMBIOS 1.3.0: T-366 (D-129/D-130), solo el disparador: workflow_run de «P90 Automático» (antes «Pruebas de la Plataforma») y `path` de
 #   p90-automatico.yml. Sigue siendo un workflow aparte a propósito: GitHub rechaza un `workflow_run` que se nombra a sí mismo, y un job
 #   dentro del run de la PR ejecutaría el código de la PR con la app de registro. Contexto de confianza, jobs y permisos intactos.
+#   Concurrencia: sin cancelar (cola `queue: max`): otro run del mismo SHA no puede cancelar la fusión buena; decidir_auto_merge.py
+#   comprueba de nuevo `pruebas` de la suite disparadora, así que un segundo intento solo puede decidir NO/ESPERAR.
 # CAMBIOS 1.2.1: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE DE VERSIÓN: Fusión automática solo con `pruebas` en success sobre el HEAD exacto
 # FECHA: 2026-11-16
@@ -34,7 +36,8 @@ permissions:
   pull-requests: read
 concurrency:
   group: ddd-auto-merge-${{ github.event.workflow_run.head_sha }}
-  cancel-in-progress: true
+  cancel-in-progress: false
+  queue: max
 jobs:
   fusionar:
     if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.path == '.github/workflows/p90-automatico.yml' }}

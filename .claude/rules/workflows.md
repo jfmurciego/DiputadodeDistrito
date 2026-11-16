@@ -11,7 +11,7 @@ paths:
   `legacy/workflows/<nombre>_v<anterior>.yml`.
 - Los nombres visibles y la lista de workflows con `workflow_dispatch` están fijados en
   `tests/test_design_a_catalogo.py` y `tests/test_design_a_matriz_sintetica.py` (diseño A); `p90-automatico.yml`
-  (P90 Automático, T-366: pruebas, revisor, fusión, forense y métricas) no puede tener botón manual (`tests/test_workflow_safety.py`). Todo bloque `run:` pasa `bash -n`.
+  (P90 Automático, T-366: pruebas, forense y métricas; `revisor-pr.yml` y `auto-merge.yml` siguen aparte) no puede tener botón manual (`tests/test_workflow_safety.py`). Todo bloque `run:` pasa `bash -n`.
 - El ruleset de `main` solo exige el job `pruebas`. «Require branches to be up to date» bloquearía toda PR mientras
   haya 00 registrando; exigir PR en `main` rechaza los registros de los robots (`GH013`).
 - `Duplicate header: "Authorization"` (HTTP 400): credencial de registro mal combinada con actions/checkout; checkout
@@ -35,7 +35,8 @@ paths:
   una PR con la referencia vieja ejecuta la versión anterior (#458 la fusionó la 1.0.0 30 s después de entrar la 1.1.0).
 - Fusión segura (T-366): `auto-merge.yml` sigue aparte, `workflow_run` de «P90 Automático» (código de `main`, nunca el de la PR); check-run `pruebas`
   del SHA y de la check_suite que dispara (`workflow_run.check_suite_id`); `--match-head-commit` (#457, #460). GitHub rechaza (run sin jobs, «push» fallido) un
-  `workflow_run` que se nombra a sí mismo: no metas la fusión dentro de P90.
+  `workflow_run` que se nombra a sí mismo: no metas la fusión dentro de P90. Tampoco `labeled`/`ready_for_review` en el workflow que define `pruebas`:
+  crean un check-run `pruebas` skipped (otra suite) sobre el HEAD que el ruleset da por cumplido; el revisor (`veredicto`) necesita esos tipos y por eso sigue en `revisor-pr.yml`.
 - `dashboard/index.html` y `publicado/dashboard/index.html` deben ser idénticos; el publicador copia cada página enlazada (#459, #451).
 - El clasificador del arnés bloquea como «CI Bypass» / «Merge Without Review» / «Create Public Surface» las fusiones con `main`
   en rojo, los dispatch públicos (05/06) y las escrituras externas (comentar/cerrar PR): hace falta frase explícita del

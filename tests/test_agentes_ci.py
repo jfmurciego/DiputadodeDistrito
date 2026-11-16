@@ -22,46 +22,41 @@ def disparadores(d):
 
 
 class AgentesEnCI(unittest.TestCase):
-    # T-366: ambos viven en p90-automatico.yml; comprobar/issue se renombran por colisión de ids.
-    P90 = "p90-automatico.yml"
+    # T-366: el forense vive en p90-automatico.yml (ids renombrados por colisión); el revisor sigue en revisor-pr.yml.
     CASOS = {
-        "revisor": ("revisor_comprobar", "revisar", "veredicto", ".claude/agents/revisor.md"),
-        "forense": ("forense_comprobar", "diagnosticar", "forense_issue", ".claude/agents/forense.md"),
+        "revisor-pr.yml": ("comprobar", "revisar", "veredicto", ".claude/agents/revisor.md"),
+        "p90-automatico.yml": ("forense_comprobar", "diagnosticar", "forense_issue", ".claude/agents/forense.md"),
     }
 
     def test_sin_boton_manual_y_disparador_esperado(self):
-        self.assertIn("pull_request", disparadores(cargar(self.P90)))
-        run = disparadores(cargar(self.P90))["workflow_run"]
+        self.assertIn("pull_request", disparadores(cargar("revisor-pr.yml")))
+        run = disparadores(cargar("p90-automatico.yml"))["workflow_run"]
         self.assertEqual(run["workflows"], ["P00 Campaña"])  # T-215, D-78
         self.assertEqual(run["types"], ["completed"])
-        self.assertIn("conclusion == 'failure'", cargar(self.P90)["jobs"]["forense_comprobar"]["if"])
-        self.assertNotIn("workflow_dispatch", disparadores(cargar(self.P90)))
+        self.assertIn("conclusion == 'failure'", cargar("p90-automatico.yml")["jobs"]["forense_comprobar"]["if"])
+        self.assertIn("github.event.workflow_run.name == 'P00 Campaña'", cargar("p90-automatico.yml")["jobs"]["forense_comprobar"]["if"])
+        for nombre in self.CASOS:
+            self.assertNotIn("workflow_dispatch", disparadores(cargar(nombre)))
 
     def test_revisor_solo_con_etiqueta_revisar_ia(self):
         # T-293: sin la etiqueta (o con borrador/PR de robot) comprobar se salta y arrastra revisar y veredicto a «skipped»
         # (= check `veredicto` cumplido). Los tipos se mantienen para que el check exista en cada HEAD.
-        d = cargar(self.P90)
+        d = cargar("revisor-pr.yml")
         tipos = disparadores(d)["pull_request"]["types"]
         self.assertEqual(set(tipos), {"opened", "synchronize", "reopened", "ready_for_review", "labeled"})
-        cond = " ".join(d["jobs"]["revisor_comprobar"]["if"].split())
-        self.assertIn("github.event_name == 'pull_request'", cond)  # solo en PR: en push/schedule/workflow_run se salta
+        cond = " ".join(d["jobs"]["comprobar"]["if"].split())
         self.assertIn("contains(github.event.pull_request.labels.*.name, 'revisar-ia')", cond)
         self.assertIn("github.event.label.name == 'revisar-ia'", cond)
         self.assertIn("github.event.pull_request.draft == false", cond)
         self.assertIn("github.event.pull_request.user.type != 'Bot'", cond)
-        conc = d["jobs"]["revisar"]["concurrency"]
-        self.assertFalse(conc["cancel-in-progress"])
-        self.assertEqual(conc["queue"], "max")
-        self.assertEqual(d["jobs"]["revisar"]["needs"], "revisor_comprobar")
+        self.assertFalse(d["concurrency"]["cancel-in-progress"])
+        self.assertEqual(d["jobs"]["revisar"]["needs"], "comprobar")
         self.assertEqual(d["jobs"]["veredicto"]["needs"], "revisar")
-        # INTOCABLE: el check exigido por el ruleset se sigue llamando `veredicto` (id del job, sin `name:`)
-        self.assertNotIn("name", d["jobs"]["veredicto"])
-        self.assertNotIn("name", d["jobs"]["pruebas"])
 
     def test_sin_secreto_se_salta_limpiamente(self):
         for nombre, (comprobar, agente, publicar, _) in self.CASOS.items():
             with self.subTest(workflow=nombre):
-                jobs = cargar(self.P90)["jobs"]
+                jobs = cargar(nombre)["jobs"]
                 paso = jobs[comprobar]["steps"][0]
                 self.assertEqual(paso["env"]["TOKEN"], "${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}")
                 self.assertIn('if [[ -z "${TOKEN:-}" ]]', paso["run"])
@@ -76,7 +71,7 @@ class AgentesEnCI(unittest.TestCase):
     def test_el_agente_solo_lee_y_quien_escribe_no_ejecuta_el_agente(self):
         for nombre, (_, agente, publicar, definicion) in self.CASOS.items():
             with self.subTest(workflow=nombre):
-                d = cargar(self.P90)
+                d = cargar(nombre)
                 self.assertEqual(d["permissions"], {"contents": "read"})
                 jobs = d["jobs"]
                 self.assertFalse(ESCRITURA & set(jobs[agente]["permissions"].values()))
@@ -102,7 +97,7 @@ class AgentesEnCI(unittest.TestCase):
                     self.assertNotIn("needs.", p["run"])
 
     def test_forense_nunca_relanza(self):
-        d = cargar(self.P90)
+        d = cargar("p90-automatico.yml")
         texto = json.dumps({k: d["jobs"][k] for k in ("forense_comprobar", "diagnosticar", "forense_issue")})
         for prohibido in ("dispatches", "rerun", "gh workflow run"):
             self.assertNotIn(prohibido, texto)

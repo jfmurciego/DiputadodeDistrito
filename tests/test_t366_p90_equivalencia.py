@@ -1,9 +1,15 @@
-"""T-366 (D-129/D-130): P90 Automático sustituye a cinco workflows sin perder disparadores, jobs, condiciones ni permisos.
+"""T-366 (D-129/D-130): P90 Automático sustituye a «Pruebas de la Plataforma», «Forense de la 00» y el job `metricas` de
+«Mantenimiento» sin perder disparadores, jobs, condiciones ni permisos.
 
-Equivalencia antes → después, leyendo las copias de `legacy/workflows/` (declaradas en `.dockerignore`) y el workflow vivo.
-Intocables: check `veredicto` y `pruebas`, revisor solo con `revisar-ia`, fusión solo con `pruebas` sobre el SHA exacto, forense
-al terminar cada P00, ningún job gana permisos.
+La equivalencia antes → después se calcula contra COPIAS CONGELADAS de las versiones sustituidas, en `tests/fixtures/t366_workflows/`
+(con su sha256; la imagen de CI las trae, no dependen de `legacy/`). Si falta un fichero o cambia su huella el test FALLA (no se salta).
+Cada comparación lleva un control negativo: cambiar un permiso, un `if`, un paso o una concurrencia hace fallar la comparación.
+
+No entran en P90 (decisión pendiente del propietario, ver la cabecera del workflow): `revisor-pr.yml` y `auto-merge.yml`, que siguen
+aparte, y `archivar_r2`/`extraer_m06`, que siguen en `mantenimiento-programado.yml` hasta P70.
 """
+import copy
+import hashlib
 import re
 import unittest
 from pathlib import Path
@@ -12,28 +18,28 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 WF = ROOT / ".github" / "workflows"
-LEG = ROOT / "legacy" / "workflows"
-FECHA = "20261116"
-VIEJOS = {
-    "pruebas": f"pruebas-plataforma_v1.10.4_{FECHA}.yml",
-    "revisor": f"revisor-pr_v1.1.0_{FECHA}.yml",
-    "merge": f"auto-merge_v1.2.1_{FECHA}.yml",
-    "forense": f"forense-00_v1.0.2_{FECHA}.yml",
-    "mant": f"mantenimiento-programado_v1.0.3_{FECHA}.yml",
+FIX = ROOT / "tests" / "fixtures" / "t366_workflows"
+HUELLAS = {  # sha256 de las versiones sustituidas (las mismas que `legacy/workflows/*_20261116.yml`)
+    "pruebas": ("pruebas-plataforma_1.10.4.yml", "cc97d5093f8c832eb2dd70af41643e4a69530a4849722aef750555bfe6391bc9"),
+    "forense": ("forense-00_1.0.2.yml", "86b6a3608b6b4edca1db46e9fbae1fc904f4a20c3fc38715a7137a4fd18382d1"),
+    "mant": ("mantenimiento-programado_1.0.3.yml", "0a93e324c4cc257c1bf4d8b6df6524b2d42a7d778d43a19f8938f107e55986ac"),
+    "merge": ("auto-merge_1.2.1.yml", "4d78624f3c99d9b44d081e3199a3ca046ef6cc79132a98d4185d44f80b0588e3"),
 }
-# (workflow viejo, job viejo) -> job nuevo
+# (workflow viejo, job viejo) -> job nuevo en P90
 MAPA = {
     **{("pruebas", j): j for j in ("cambios", "guardian", "suite", "contratos", "docs", "productos", "pruebas", "catalogo",
                                    "resultados", "numeracion", "estado_vivo", "aviso_nocturna")},
-    ("revisor", "comprobar"): "revisor_comprobar", ("revisor", "revisar"): "revisar", ("revisor", "veredicto"): "veredicto",
     ("forense", "comprobar"): "forense_comprobar", ("forense", "diagnosticar"): "diagnosticar", ("forense", "issue"): "forense_issue",
     ("mant", "metricas"): "metricas",
 }
-FUERA = {("mant", "archivar_r2"), ("mant", "extraer_m06")}  # pasan a P70 en el paso 2: NO están en P90
+# jobs de pruebas cuya concurrencia cambia a propósito: la cancelación por PR (antes de workflow) pasa al job
+CONC_CAMBIA = {("pruebas", j) for j in ("guardian", "suite", "contratos", "productos", "pruebas", "cambios")}
+# jobs cuyo `if` se amplía con el evento (se comprueba que el viejo sigue contenido en el nuevo)
+IF_PROPIO = {("forense", "comprobar"), ("forense", "diagnosticar"), ("mant", "metricas"), ("pruebas", "aviso_nocturna")}
 
 
-def cargar(p):
-    return yaml.safe_load(Path(p).read_text(encoding="utf-8"))
+def cargar_texto(t):
+    return yaml.safe_load(t)
 
 
 def on(d):
@@ -44,51 +50,86 @@ def efectivos(d, job):
     return d["jobs"][job].get("permissions", d.get("permissions"))
 
 
-class P90(unittest.TestCase):
+def norm(s):
+    return re.sub(r"\s+", " ", str(s)).replace("${{ ", "").replace(" }}", "").strip()
+
+
+RENOMBRES = {"comprobar": "forense_comprobar"}  # colisión de ids con el revisor
+
+
+def _ren(needs):
+    if isinstance(needs, list):
+        return [RENOMBRES.get(n, n) for n in needs]
+    return RENOMBRES.get(needs, needs)
+
+
+def diferencias(viejo, job_viejo, nuevo, job_nuevo, *, cambios=False, conc_cambia=False, if_propio=False):
+    """Lista de diferencias NO permitidas entre un job viejo y el nuevo (vacía = equivalente)."""
+    a, b = viejo["jobs"][job_viejo], nuevo["jobs"][job_nuevo]
+    d = []
+    if efectivos(viejo, job_viejo) != efectivos(nuevo, job_nuevo):
+        d.append(f"permisos {efectivos(viejo, job_viejo)} != {efectivos(nuevo, job_nuevo)}")
+    for clave in ("runs-on", "timeout-minutes", "continue-on-error", "strategy", "env", "outputs", "name"):
+        if a.get(clave) != b.get(clave):
+            d.append(f"{clave} difiere")
+    if "steps" in a:
+        pasos_nuevos = b["steps"]
+        if cambios:  # `cambios` solo cambia la ruta que se dispara a sí misma
+            pasos_nuevos = yaml.safe_load(yaml.safe_dump(pasos_nuevos).replace("p90-automatico", "pruebas-plataforma"))
+        if a["steps"] != pasos_nuevos:
+            d.append("pasos difieren")
+    if "concurrency" in a and not conc_cambia and a["concurrency"] != b.get("concurrency"):
+        d.append("concurrencia difiere")
+    if "if" in a and not if_propio and norm(a["if"]) not in norm(b.get("if", "")):
+        d.append("el `if` de antes no está en el de ahora")
+    if "needs" in a and _ren(a["needs"]) != b.get("needs"):
+        d.append("needs difiere")
+    return d
+
+
+class Fixtures(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.p90 = cargar(WF / "p90-automatico.yml")
-        cls.viejos = {k: cargar(LEG / v) for k, v in VIEJOS.items() if (LEG / v).is_file()}
+        cls.viejos = {}
+        for k, (nombre, sha) in HUELLAS.items():
+            ruta = FIX / nombre
+            assert ruta.is_file(), f"falta la copia congelada {ruta}"  # nunca se salta
+            datos = ruta.read_bytes()
+            assert hashlib.sha256(datos).hexdigest() == sha, f"{nombre}: la copia congelada cambió"
+            cls.viejos[k] = cargar_texto(datos.decode("utf-8"))
+        cls.p90 = cargar_texto((WF / "p90-automatico.yml").read_text(encoding="utf-8"))
 
-    # ---- no necesitan las copias de legacy ----
-    def test_los_cinco_ficheros_viejos_ya_no_estan_activos(self):
-        for f in ("pruebas-plataforma", "revisor-pr", "forense-00"):
-            self.assertFalse((WF / f"{f}.yml").exists(), f)
 
+class Disparadores(Fixtures):
     def test_nombre_sin_boton_manual_y_disparadores(self):
         self.assertEqual(self.p90["name"], "P90 Automático")
         d = on(self.p90)
         self.assertEqual(set(d), {"push", "pull_request", "schedule", "workflow_run"})
         self.assertNotIn("workflow_dispatch", d)
         self.assertEqual(d["push"], {"branches": ["main"]})
-        self.assertEqual(set(d["pull_request"]["types"]), {"opened", "synchronize", "reopened", "ready_for_review", "labeled"})
-        self.assertEqual(d["schedule"], [{"cron": "23 2 * * *"}, {"cron": "17 5 * * 1"}])  # nocturna y métricas; sin el 05:17 diario de R2
-        self.assertEqual(d["workflow_run"], {"workflows": ["P00 Campaña"], "types": ["completed"]})  # forense; el propio P90 no puede nombrarse (GitHub lo rechaza)
+        # igual que pruebas-plataforma: `pull_request` sin types = opened/synchronize/reopened (labeled/ready_for_review crearían
+        # un check-run `pruebas` skipped sobre el HEAD)
+        self.assertEqual(on(self.viejos["pruebas"])["pull_request"], d["pull_request"])
+        self.assertIsNone(d["pull_request"])
+        self.assertEqual(d["schedule"], [{"cron": "23 2 * * *"}, {"cron": "17 5 * * 1"}])
+        self.assertEqual(d["workflow_run"], {"workflows": ["P00 Campaña"], "types": ["completed"]})  # sin autorreferencia (inválida)
+        self.assertEqual(on(self.viejos["forense"])["workflow_run"], d["workflow_run"])
+        self.assertNotIn(self.p90["name"], d["workflow_run"]["workflows"])
+
+    def test_ningun_job_de_revisor_ni_fusion_en_p90(self):
+        for j in ("veredicto", "revisar", "revisor_comprobar", "fusionar"):
+            self.assertNotIn(j, self.p90["jobs"])
+        self.assertEqual(set(self.p90["jobs"]), set(MAPA.values()))
 
     def test_checks_intocables_conservan_nombre(self):
         jobs = self.p90["jobs"]
-        for j in ("pruebas", "veredicto", "guardian", "suite"):
+        for j in ("pruebas", "guardian", "suite"):
             self.assertIn(j, jobs)
-            self.assertNotIn("name", jobs[j], j)  # el check-run se llama como el id del job
+            self.assertNotIn("name", jobs[j], j)
         self.assertEqual(jobs["suite"]["strategy"]["matrix"]["grupo"], [1, 2, 3, 4, 5])
-
-    def test_archivar_r2_y_extraer_m06_siguen_en_mantenimiento_hasta_p70(self):
-        m = cargar(WF / "mantenimiento-programado.yml")
-        self.assertEqual(set(m["jobs"]), {"archivar_r2", "extraer_m06"})  # sale solo `metricas`
-        self.assertEqual(on(m)["schedule"], [{"cron": "17 5 * * *"}])  # cron diario del archivo R2 intacto
-        self.assertEqual(on(m)["workflow_dispatch"]["inputs"]["tarea"]["options"], ["archivar_r2", "extraer_m06"])
-        jobs = self.p90["jobs"]
-        self.assertNotIn("archivar_r2", jobs)
-        self.assertNotIn("extraer_m06", jobs)
-        self.assertNotIn("archivar_artefactos_r2.py", (WF / "p90-automatico.yml").read_text(encoding="utf-8"))
-
-    def test_ids_de_job_unicos_y_sin_job_huerfano(self):
-        esperados = set(MAPA.values())
-        self.assertEqual(set(self.p90["jobs"]), esperados)
 
     def test_cada_job_se_ata_a_su_evento(self):
         j = self.p90["jobs"]
-        # las puertas de pruebas no corren en labeled/ready_for_review ni en workflow_run ni en la cron de métricas
         for nombre in ("cambios", "guardian", "pruebas"):
             cond = j[nombre]["if"]
             self.assertIn("github.event.schedule == '23 2 * * *'", cond, nombre)
@@ -96,119 +137,97 @@ class P90(unittest.TestCase):
             self.assertNotIn("labeled", cond, nombre)
         self.assertIn("github.event.schedule == '17 5 * * 1'", j["metricas"]["if"])
         self.assertIn("github.event_name == 'workflow_run' && github.event.workflow_run.name == 'P00 Campaña'", j["forense_comprobar"]["if"])
-        self.assertIn("github.event_name == 'pull_request'", j["revisor_comprobar"]["if"])
+        self.assertIn("github.event.workflow_run.conclusion == 'failure'", j["forense_comprobar"]["if"])  # condición de hoy
         for nombre in ("catalogo", "resultados", "numeracion", "estado_vivo"):
             self.assertIn("github.event_name == 'push'", j[nombre]["if"], nombre)
+        self.assertIn("github.event.schedule == '23 2 * * *'", j["aviso_nocturna"]["if"])  # no con las métricas del lunes
 
-    def test_veredicto_y_revisor_con_etiqueta(self):
-        j = self.p90["jobs"]
-        cond = " ".join(j["revisor_comprobar"]["if"].split())
-        self.assertIn("contains(github.event.pull_request.labels.*.name, 'revisar-ia')", cond)
-        self.assertEqual(j["revisar"]["needs"], "revisor_comprobar")
-        self.assertEqual(j["veredicto"]["needs"], "revisar")  # sin etiqueta: revisar y veredicto «skipped» = cumplido
-        self.assertNotIn("always()", j["veredicto"].get("if", ""))
-        self.assertEqual(j["veredicto"]["permissions"], {"pull-requests": "write"})
-
-    def test_forense_al_terminar_cada_p00_solo_si_falla(self):
-        cond = self.p90["jobs"]["forense_comprobar"]["if"]
-        self.assertIn("github.event.workflow_run.conclusion == 'failure'", cond)  # condición de hoy
-        self.assertEqual(self.p90["jobs"]["diagnosticar"]["concurrency"],
-                         {"group": "ddd-forense-${{ github.event.workflow_run.id }}", "cancel-in-progress": False, "queue": "max"})
-
-    def test_fusion_sigue_en_su_workflow_con_el_contexto_de_confianza_de_hoy(self):
-        # `fusionar` NO está en P90 (un job en el run de la PR ejecutaría código de la PR con la app de registro; y GitHub rechaza un
-        # workflow_run que se nombra a sí mismo). auto-merge.yml 1.3.0 solo cambia el disparador.
-        self.assertNotIn("fusionar", self.p90["jobs"])
-        m = cargar(WF / "auto-merge.yml")
-        self.assertEqual(on(m), {"workflow_run": {"workflows": ["P90 Automático"], "types": ["completed"]}})
-        f = m["jobs"]["fusionar"]
+    def test_mantenimiento_y_fusion_siguen_aparte(self):
+        m = cargar_texto((WF / "mantenimiento-programado.yml").read_text(encoding="utf-8"))
+        self.assertEqual(set(m["jobs"]), {"archivar_r2", "extraer_m06"})
+        self.assertEqual(on(m)["schedule"], [{"cron": "17 5 * * *"}])  # cron diario del archivo R2 intacto
+        self.assertEqual(on(m)["workflow_dispatch"]["inputs"]["tarea"]["options"], ["archivar_r2", "extraer_m06"])
+        am = cargar_texto((WF / "auto-merge.yml").read_text(encoding="utf-8"))
+        self.assertEqual(on(am), {"workflow_run": {"workflows": ["P90 Automático"], "types": ["completed"]}})
+        f, v = am["jobs"]["fusionar"], self.viejos["merge"]["jobs"]["fusionar"]
         self.assertIn("github.event.workflow_run.path == '.github/workflows/p90-automatico.yml'", f["if"])
-        self.assertEqual(m["permissions"], {"contents": "read", "checks": "read", "pull-requests": "read"})
+        self.assertEqual(am["permissions"], self.viejos["merge"]["permissions"])  # ningún job gana permisos
+        self.assertEqual(f["steps"], v["steps"])  # el cuerpo de la fusión no cambia (ref: main, decidir_auto_merge.py, --match-head-commit)
         self.assertEqual(f["steps"][0]["with"]["ref"], "main")
-        self.assertEqual(f["steps"][1]["env"]["SUITE"], "${{ github.event.workflow_run.check_suite_id }}")
-        run = f["steps"][1]["run"]
-        self.assertLess(run.index("decidir_auto_merge.py"), run.index("gh pr merge"))
-        self.assertIn('--match-head-commit "$SHA"', run)
-        # ningún workflow se nombra a sí mismo en workflow_run
-        for w in (self.p90, m):
-            self.assertNotIn(w["name"], on(w).get("workflow_run", {}).get("workflows", []))
+        # concurrencia: sin cancelar y en cola (otro run del mismo SHA no cancela la fusión buena)
+        self.assertEqual(am["concurrency"]["group"], self.viejos["merge"]["concurrency"]["group"])
+        self.assertFalse(am["concurrency"]["cancel-in-progress"])
+        self.assertEqual(am["concurrency"]["queue"], "max")
+        self.assertNotIn(am["name"], on(am)["workflow_run"]["workflows"])
 
-    def test_ningun_job_declara_mas_permisos_que_hoy_y_workflow_solo_lectura(self):
+
+class Equivalencia(Fixtures):
+    def test_job_a_job_sin_diferencias(self):
+        for (w, j), nuevo in MAPA.items():
+            with self.subTest(antes=f"{w}:{j}", ahora=nuevo):
+                self.assertEqual([], diferencias(self.viejos[w], j, self.p90, nuevo, cambios=(w, j) == ("pruebas", "cambios"),
+                                                 conc_cambia=(w, j) in CONC_CAMBIA, if_propio=(w, j) in IF_PROPIO))
+
+    def test_ningun_job_gana_permisos_y_workflow_solo_lectura(self):
         self.assertEqual(self.p90["permissions"], {"contents": "read"})
-        for nombre, job in self.p90["jobs"].items():
-            for permiso, valor in (job.get("permissions") or {}).items():
-                self.assertIn(permiso, {"contents", "actions", "checks", "pull-requests", "issues"}, nombre)
-                self.assertIn(valor, {"read", "write"}, nombre)
+        for (w, j), nuevo in MAPA.items():
+            viejo = efectivos(self.viejos[w], j)
+            self.assertEqual(viejo, efectivos(self.p90, nuevo), f"{w}:{j}")
 
-    def test_todo_grupo_no_cancelante_lleva_queue_max(self):
+    def test_concurrencia_de_pruebas_conserva_main_y_run_unico(self):
+        for j in ("guardian", "suite", "contratos", "productos", "pruebas"):
+            v = self.viejos["pruebas"]["jobs"][j]["concurrency"]
+            c = self.p90["jobs"][j]["concurrency"]
+            self.assertTrue(c["cancel-in-progress"] and v["cancel-in-progress"], j)
+            for trozo in re.findall(r"'ddd-main-[^']*'|format\('ddd-main-[^)]*\)|format\('ddd-run-[^)]*\)", v["group"]):
+                self.assertIn(trozo, c["group"], j)
+            self.assertIn(f"format('ddd-pr-{{0}}-{j}", c["group"], j)  # antes: cancelación por PR a nivel de workflow
+        self.assertNotIn("concurrency", self.p90)
         for nombre, job in self.p90["jobs"].items():
             c = job.get("concurrency")
             if c and c["cancel-in-progress"] is False:
                 self.assertEqual(c.get("queue"), "max", nombre)
-        self.assertNotIn("concurrency", self.p90)  # cada job lleva la suya: workflow_run y schedule no deben cancelarse entre sí
+        a, b = self.viejos["forense"]["concurrency"], self.p90["jobs"]["diagnosticar"]["concurrency"]
+        self.assertEqual((a["group"], a["cancel-in-progress"], a["queue"]), (b["group"], b["cancel-in-progress"], b["queue"]))
 
-    # ---- equivalencia contra las copias de legacy (solo si están en la imagen) ----
-    def test_equivalencia_job_a_job(self):
-        if len(self.viejos) != len(VIEJOS):
-            self.skipTest("legacy/workflows ausente (imagen sin esas copias)")
-        for (w, j), nuevo in MAPA.items():
-            with self.subTest(antes=f"{w}:{j}", ahora=nuevo):
-                a, b = self.viejos[w]["jobs"][j], self.p90["jobs"][nuevo]
-                # permisos efectivos idénticos (ninguno gana)
-                self.assertEqual(efectivos(self.viejos[w], j), efectivos(self.p90, nuevo))
-                for clave in ("runs-on", "timeout-minutes", "continue-on-error", "strategy", "env", "outputs", "name"):
-                    self.assertEqual(a.get(clave), b.get(clave), clave)
-                if "steps" in a:
-                    self.assertEqual(a["steps"], b["steps"] if (w, j) != ("pruebas", "cambios") else self._sin_propio(b["steps"], a["steps"]))
-                # concurrencia propia del job: idéntica salvo los grupos de PR/push de pruebas (ver test siguiente)
-                if "concurrency" in a and (w, j) not in {("pruebas", x) for x in ("guardian", "suite", "contratos", "productos", "pruebas")} | {("merge", "fusionar")}:
-                    self.assertEqual(a["concurrency"], b["concurrency"])
+    def test_nocturna_cae_en_grupo_unico_por_run(self):
+        for j in ("guardian", "suite", "contratos", "productos", "pruebas", "cambios"):
+            self.assertIn("format('ddd-run-{0}-", self.p90["jobs"][j]["concurrency"]["group"], j)
 
-    def test_concurrencia_de_workflow_movida_al_job_largo(self):
-        if len(self.viejos) != len(VIEJOS):
-            self.skipTest("legacy/workflows ausente")
-        # revisor y forense tenían grupo de workflow (sin cancelar, queue: max): ahora en el job que dura (revisar / diagnosticar)
-        for w, nuevo in (("revisor", "revisar"), ("forense", "diagnosticar")):
-            a = self.viejos[w]["concurrency"]
-            b = self.p90["jobs"][nuevo]["concurrency"]
-            self.assertEqual((a["group"], a["cancel-in-progress"], a["queue"]), (b["group"], b["cancel-in-progress"], b["queue"]), w)
-        # auto-merge.yml 1.3.0: concurrencia y jobs intactos respecto a la 1.2.1
-        vivo = cargar(WF / "auto-merge.yml")
-        self.assertEqual(self.viejos["merge"]["concurrency"], vivo["concurrency"])
-        self.assertEqual(self.viejos["merge"]["jobs"]["fusionar"]["steps"], vivo["jobs"]["fusionar"]["steps"])
-        self.assertEqual(self.viejos["merge"]["permissions"], vivo["permissions"])
-        # pruebas: la cancelación por PR (antes a nivel de workflow) pasa a cada job; push a main y nocturna igual que hoy
-        for j in ("guardian", "suite", "contratos", "productos", "pruebas"):
-            c, v = self.p90["jobs"][j]["concurrency"], self.viejos["pruebas"]["jobs"][j]["concurrency"]
-            self.assertTrue(c["cancel-in-progress"] and v["cancel-in-progress"], j)
-            for trozo in re.findall(r"'ddd-main-[^']*'|format\('ddd-main-[^)]*\)|format\('ddd-run-[^)]*\)", v["group"]):
-                self.assertIn(trozo, c["group"], j)
 
-    def _sin_propio(self, nuevo, viejo):
-        # `cambios` solo cambia la ruta que se dispara a sí misma (pruebas-plataforma.yml → p90-automatico.yml)
-        n = yaml.safe_dump(nuevo).replace("p90-automatico", "pruebas-plataforma")
-        self.assertEqual(yaml.safe_load(n), viejo)
-        return viejo
+class ControlesNegativos(Fixtures):
+    """Si alguien cambia un permiso, un `if`, un paso o una concurrencia, la comparación debe detectarlo."""
 
-    def test_condiciones_conservadas_en_los_jobs_movidos(self):
-        if len(self.viejos) != len(VIEJOS):
-            self.skipTest("legacy/workflows ausente")
-        # los jobs con `if` propio lo conservan como subcadena (el evento se AÑADE, no se quita nada)
-        norm = lambda s: re.sub(r"\s+", " ", str(s)).replace("${{ ", "").replace(" }}", "").strip()
-        for (w, j), nuevo in MAPA.items():
-            a = self.viejos[w]["jobs"][j].get("if")
-            b = self.p90["jobs"][nuevo].get("if")
-            if a is None or (w, j) in {("revisor", "comprobar"), ("forense", "comprobar"), ("merge", "fusionar"),
-                                       ("revisor", "revisar"), ("forense", "diagnosticar"), ("mant", "metricas"), ("pruebas", "aviso_nocturna")}:
-                continue
-            with self.subTest(job=nuevo):
-                self.assertIn(norm(a), norm(b))
+    def mutar(self, job, f):
+        nuevo = copy.deepcopy(self.p90)
+        f(nuevo["jobs"][job])
+        return nuevo
 
-    def test_equivalencia_check_runs_exigidos(self):
-        if len(self.viejos) != len(VIEJOS):
-            self.skipTest("legacy/workflows ausente")
-        self.assertEqual(self.viejos["pruebas"]["jobs"]["pruebas"]["needs"], self.p90["jobs"]["pruebas"]["needs"])
-        self.assertEqual(self.viejos["revisor"]["jobs"]["veredicto"]["needs"], "revisar")
+    def test_detecta_permiso_ganado(self):
+        n = self.mutar("catalogo", lambda j: j.__setitem__("permissions", {"contents": "write", "actions": "write"}))
+        self.assertTrue(diferencias(self.viejos["pruebas"], "catalogo", n, "catalogo"))
+        n = self.mutar("diagnosticar", lambda j: j["permissions"].__setitem__("contents", "write"))
+        self.assertTrue(diferencias(self.viejos["forense"], "diagnosticar", n, "diagnosticar", conc_cambia=False, if_propio=True))
+
+    def test_detecta_if_perdido(self):
+        n = self.mutar("estado_vivo", lambda j: j.__setitem__("if", "${{ true }}"))
+        self.assertTrue(diferencias(self.viejos["pruebas"], "estado_vivo", n, "estado_vivo"))
+
+    def test_detecta_paso_cambiado_y_concurrencia(self):
+        n = self.mutar("numeracion", lambda j: j["steps"][-1].__setitem__("run", "echo hola"))
+        self.assertTrue(diferencias(self.viejos["pruebas"], "numeracion", n, "numeracion"))
+        n = self.mutar("numeracion", lambda j: j["concurrency"].__setitem__("cancel-in-progress", True))
+        self.assertTrue(diferencias(self.viejos["pruebas"], "numeracion", n, "numeracion"))
+
+    def test_detecta_permiso_a_nivel_de_workflow(self):
+        n = copy.deepcopy(self.p90)
+        n["permissions"] = {"contents": "write"}
+        self.assertTrue(diferencias(self.viejos["pruebas"], "guardian", n, "guardian", conc_cambia=True))
+
+    def test_la_huella_de_las_copias_congeladas_es_obligatoria(self):
+        self.assertEqual(len(HUELLAS), 4)
+        for nombre, sha in HUELLAS.values():
+            self.assertEqual(hashlib.sha256((FIX / nombre).read_bytes()).hexdigest(), sha)
 
 
 if __name__ == "__main__":

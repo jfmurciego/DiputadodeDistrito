@@ -1,14 +1,13 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.4.6
+# VERSIÓN: 1.4.5
 # NOMBRE: Imagen sin datos con snapshots contractuales y M02 histórico de regresión
 # FECHA: 2026-10-31
-# CAMBIOS 1.4.6 (T-366): incluye las cinco copias legacy/workflows/*_20261116.yml (test de equivalencia de P90).
 # CAMBIOS 1.4.5 (T-297): incluye legacy/modulo02/02_construir_adyacencias_v7.3.3.py y legacy/modulo03/03_construir_grafo_v7.5.0.py:
 #   la raíz congelada de los tests (aee8215e) y la evidencia N08 de Cáceres se juzgan con ellos (Deslinde 1.1 lleva los
 #   activos a M02 7.4.0 / M03 7.6.0).
 # CAMBIOS 1.4.4: incluye legacy/workflows/retirados_20261031/ (tests de los workflows retirados del menú).
 # QUÉ HACE: excluye datasets y resultados, pero incorpora únicamente los snapshots históricos mínimos requeridos por las regresiones.
-# ANTERIOR: legacy/dockerignore_v1.4.5
+# ANTERIOR: legacy/dockerignore_v1.4.4
 # Evita duplicar datos y resultados dentro de cada imagen Docker.
 .git
 inputs/*
@@ -81,8 +80,3 @@ legacy/modulo06/*
 !legacy/workflows/
 legacy/workflows/*
 !legacy/workflows/retirados_20261031/
-!legacy/workflows/pruebas-plataforma_v1.10.4_20261116.yml
-!legacy/workflows/revisor-pr_v1.1.0_20261116.yml
-!legacy/workflows/auto-merge_v1.2.1_20261116.yml
-!legacy/workflows/forense-00_v1.0.2_20261116.yml
-!legacy/workflows/mantenimiento-programado_v1.0.3_20261116.yml
