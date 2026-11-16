@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T03:35:04.606095+00:00",
+  "generated_at": "2026-11-16T04:00:44.760858+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -3437,8 +3437,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43774481959,
-            "receipt_path": "territorios/nac48/evidencia/fuentes_territoriales/2025/a2fc607f42cf4dddc255828b42aae4848e4cba2041a0396ac51b8722eb03887a/43774481959/receipt.json"
+            "run_id": 43798940463,
+            "receipt_path": "territorios/nac48/evidencia/fuentes_territoriales/2025/a2fc607f42cf4dddc255828b42aae4848e4cba2041a0396ac51b8722eb03887a/43798940463/receipt.json"
           }
         },
         "electoral": {
@@ -3494,8 +3494,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43774893450,
-            "receipt_path": "territorios/nac49/evidencia/fuentes_territoriales/2025/66ced2534b36654e4d1b4933f07696e761aaa70057540fcb46817411d68bc98f/43774893450/receipt.json"
+            "run_id": 43798955456,
+            "receipt_path": "territorios/nac49/evidencia/fuentes_territoriales/2025/66ced2534b36654e4d1b4933f07696e761aaa70057540fcb46817411d68bc98f/43798955456/receipt.json"
           }
         },
         "electoral": {
@@ -3551,8 +3551,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43775511959,
-            "receipt_path": "territorios/nac50/evidencia/fuentes_territoriales/2025/a1a479d6542d9fb27e5f81fa3a920ebff8bad35e029e8118c06a79433690f470/43775511959/receipt.json"
+            "run_id": 43798969769,
+            "receipt_path": "territorios/nac50/evidencia/fuentes_territoriales/2025/a1a479d6542d9fb27e5f81fa3a920ebff8bad35e029e8118c06a79433690f470/43798969769/receipt.json"
           }
         },
         "electoral": {
@@ -3608,8 +3608,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43775733930,
-            "receipt_path": "territorios/nac51/evidencia/fuentes_territoriales/2025/68669b000e39fea26caa524d1029a91b364979c361dd02da58ffdbd964e1e6c1/43775733930/receipt.json"
+            "run_id": 43799202986,
+            "receipt_path": "territorios/nac51/evidencia/fuentes_territoriales/2025/68669b000e39fea26caa524d1029a91b364979c361dd02da58ffdbd964e1e6c1/43799202986/receipt.json"
           }
         },
         "electoral": {
@@ -9590,11 +9590,11 @@
       "name": "Nacional Málaga",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43786348967,
+      "run_id": 43798914850,
       "last_run": {
         "run_id": 43786490819,
         "status": "FAILED",
@@ -9603,7 +9603,7 @@
         "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9620,13 +9620,13 @@
           "territory_id": "nac29",
           "territory_name": "Congreso Málaga",
           "edition": "2025",
-          "run_id": 43779396654,
-          "artifact_name": "ddd-state-43779396654-M06",
-          "artifact_sha256": "fe8482bd3b9d246a12fc2ae52de244420ec4097f8b0b58c9d1b6c730e23f06c3",
-          "source_commit": "132cca77cd069ee197e4b3c493c5492320a3ac6d",
+          "run_id": 43798914850,
+          "artifact_name": "ddd-state-43798914850-M06",
+          "artifact_sha256": "d5f37b4631990f119a066d42597508ffb19ae0637be8b494cda1ee69159a856a",
+          "source_commit": "42fbd328e693883412bf36822d4cfa831e94ff22",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/nac29/evidencia/generaciones_m06/43779396654.json"
+          "producer_manifest_path": "territorios/nac29/evidencia/generaciones_m06/43798914850.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9644,7 +9644,7 @@
       },
       "autonomous_community_code_ine": "C29",
       "display_name": "Nacional Málaga",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac30",
@@ -10139,11 +10139,11 @@
       "name": "Nacional Santa Cruz de Tenerife",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43792098960,
+      "run_id": 43798927529,
       "last_run": {
         "run_id": 43792098960,
         "status": "SUCCESS",
@@ -10152,7 +10152,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10169,13 +10169,13 @@
           "territory_id": "nac38",
           "territory_name": "Congreso Santa Cruz de Tenerife",
           "edition": "2025",
-          "run_id": 43786229727,
-          "artifact_name": "ddd-state-43786229727-M06",
-          "artifact_sha256": "19d22cddfc2e627aa0ea5cbfc66ade04bc56136e9a5ce467c9bd31beae75156e",
-          "source_commit": "43f44c9fa368e1d0807a2c00cd589378801b11df",
+          "run_id": 43798927529,
+          "artifact_name": "ddd-state-43798927529-M06",
+          "artifact_sha256": "a85de4fdc300ab598bcaac3cd3fd66cc703d6cfbfb107518e5c8147e0e574068",
+          "source_commit": "42fbd328e693883412bf36822d4cfa831e94ff22",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/nac38/evidencia/generaciones_m06/43786229727.json"
+          "producer_manifest_path": "territorios/nac38/evidencia/generaciones_m06/43798927529.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -10193,7 +10193,7 @@
       },
       "autonomous_community_code_ine": "C38",
       "display_name": "Nacional Santa Cruz de Tenerife",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac39",
@@ -10627,20 +10627,20 @@
       "name": "Nacional Valencia",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43792317538,
+      "run_id": 43798079539,
       "last_run": {
-        "run_id": 43792317538,
+        "run_id": 43798079539,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10681,7 +10681,7 @@
       },
       "autonomous_community_code_ine": "C46",
       "display_name": "Nacional Valencia",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac47",
@@ -10768,9 +10768,9 @@
         "territorial_source": {
           "territory_id": "nac48",
           "edition": "2025",
-          "run_id": 43774481959,
-          "artifact_name": "ddd-source-package-nac48-2025-43774481959",
-          "artifact_sha256": "ad3ac755b4682e6f1e49be3190c7dc1df9e15f40928d6335062a4ef01ed9a8ae",
+          "run_id": 43798940463,
+          "artifact_name": "ddd-source-package-nac48-2025-43798940463",
+          "artifact_sha256": "b140a85b442db947b58045fca175eadfe6e5fc84244250c49efab8e802bcc9fc",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10829,9 +10829,9 @@
         "territorial_source": {
           "territory_id": "nac49",
           "edition": "2025",
-          "run_id": 43774893450,
-          "artifact_name": "ddd-source-package-nac49-2025-43774893450",
-          "artifact_sha256": "f548e3e7e3c89fb4b31c6da0a7164ab16c640c81fc8de6ecf7403cec68d4fc97",
+          "run_id": 43798955456,
+          "artifact_name": "ddd-source-package-nac49-2025-43798955456",
+          "artifact_sha256": "07c3ae9394b27a5b33be43801020b9bc34533ee4697ad7674741ad698e256e64",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10890,9 +10890,9 @@
         "territorial_source": {
           "territory_id": "nac50",
           "edition": "2025",
-          "run_id": 43775511959,
-          "artifact_name": "ddd-source-package-nac50-2025-43775511959",
-          "artifact_sha256": "58017f33cc35a59a09dbfe2820ddf9c8751707931f4ff1396c4bdcfec06242a7",
+          "run_id": 43798969769,
+          "artifact_name": "ddd-source-package-nac50-2025-43798969769",
+          "artifact_sha256": "9a98bf54cb4c356cc3a49fa229a41c443f316b9ece8b32d6fabd7ce50bd928b4",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10951,9 +10951,9 @@
         "territorial_source": {
           "territory_id": "nac51",
           "edition": "2025",
-          "run_id": 43775733930,
-          "artifact_name": "ddd-source-package-nac51-2025-43775733930",
-          "artifact_sha256": "cccc605c36783eeee2ce6e07ae3561f64e8d3c32eaec56650a72f98c1ec7c5b3",
+          "run_id": 43799202986,
+          "artifact_name": "ddd-source-package-nac51-2025-43799202986",
+          "artifact_sha256": "c12d6a7284875c5dd9d6e58ffb7a65a99cb9c9f6c2398673eb080d2f52d4ba4e",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -12292,7 +12292,7 @@
     }
   ],
   "kpis": {
-    "complete": 72,
+    "complete": 71,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12340,7 +12340,6 @@
       "Nacional La Rioja",
       "Nacional Lugo",
       "Nacional Madrid",
-      "Nacional Málaga",
       "Nacional Murcia",
       "Nacional Navarra",
       "Nacional Orense",
@@ -12349,7 +12348,6 @@
       "Nacional Las Palmas",
       "Nacional Pontevedra",
       "Nacional Salamanca",
-      "Nacional Santa Cruz de Tenerife",
       "Nacional Cantabria",
       "Nacional Segovia",
       "Nacional Sevilla",
@@ -12357,6 +12355,7 @@
       "Nacional Tarragona",
       "Nacional Teruel",
       "Nacional Toledo",
+      "Nacional Valencia",
       "Nacional Valladolid",
       "Nacional Vizcaya",
       "Nacional Zamora",
@@ -12576,11 +12575,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac47",
-    "name": "Nacional Valladolid",
-    "display_name": "Nacional Valladolid",
-    "autonomous_community_code_ine": "C47",
-    "run_id": 43797487792,
+    "territory_id": "nac46",
+    "name": "Nacional Valencia",
+    "display_name": "Nacional Valencia",
+    "autonomous_community_code_ine": "C46",
+    "run_id": 43798079539,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12593,9 +12592,15 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Valencia",
-      "territory_id": "nac46",
-      "autonomous_community_code_ine": "C46",
+      "territory": "Nacional Málaga",
+      "territory_id": "nac29",
+      "autonomous_community_code_ine": "C29",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Santa Cruz de Tenerife",
+      "territory_id": "nac38",
+      "autonomous_community_code_ine": "C38",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12627,12 +12632,6 @@
       "territory_id": "congreso350_avila",
       "autonomous_community_code_ine": "R05",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Badajoz",
-      "territory_id": "congreso350_badajoz",
-      "autonomous_community_code_ine": "R06",
-      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12643,9 +12642,15 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Valencia",
-      "territory_id": "nac46",
-      "autonomous_community_code_ine": "C46",
+      "territory": "Nacional Málaga",
+      "territory_id": "nac29",
+      "autonomous_community_code_ine": "C29",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Santa Cruz de Tenerife",
+      "territory_id": "nac38",
+      "autonomous_community_code_ine": "C38",
       "action": "preparar fuentes electorales"
     }
   ]
