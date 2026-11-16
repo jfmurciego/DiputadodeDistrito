@@ -132,7 +132,7 @@ class Informe(Base):
                          (2, 1300, 100, "7.6923", "MARCA"))
         # 2016-06 provincia 01: A rellena 100 (2017) + B 10 → 100/110; provincia 02 solo D sin dato → 0 y sin marca
         r2 = next(x for x in informe if x["elección"] == "2016-06" and x["provincia"] == "02")
-        self.assertEqual((r2["población"], r2["pct_relleno"], r2["marca"]), (0, "0.0000", ""))
+        self.assertEqual((r2["población"], r2["pct_relleno"], r2["marca"]), (0, "0.0000", "MARCA"))  # sin_dato → MARCA
 
     def test_umbral_estricto(self):
         filas = [("0100100001", 9900, "dato", None), ("0100100002", 100, "relleno", 2019)]
@@ -171,6 +171,20 @@ class Fuentes(Base):
         self.assertTrue(txt.startswith("elección,sección,población,origen,año_fuente_relleno\n"))
         filas = [l.split(",")[:2] for l in txt.splitlines()[1:]]
         self.assertEqual(filas, sorted(filas, key=lambda x: (x[0], x[1])))
+
+    def test_linea_mal_formada_de_seccion_falla(self):
+        base = atlas_texto()
+        for mala in (f"X;Y;{A} sección;Población;2019\r\n",               # campos de menos
+                     "X;Y;ABC sección;Población;2019;100\r\n",           # sección no numérica
+                     f"X;Y;{A} sección;Población;20x9;100\r\n"):        # periodo no numérico
+            self.atlas.write_bytes((base + mala).encode("utf-8-sig"))
+            with self.assertRaises(ph.ErrorFuente):
+                ph.leer_atlas(self.atlas)
+
+    def test_marca_si_hay_sin_dato_aunque_no_haya_relleno(self):
+        filas = [("0100100001", 1000, "dato", None), ("0100100002", None, "sin_dato", None)]
+        r = ph.informe_provincias("X", filas)[0]
+        self.assertEqual((r["secciones_sin_dato"], r["población"], r["pct_relleno"], r["marca"]), (1, 1000, "0.0000", "MARCA"))
 
     def test_valor_no_numerico_falla(self):
         with self.assertRaises(ph.ErrorFuente):

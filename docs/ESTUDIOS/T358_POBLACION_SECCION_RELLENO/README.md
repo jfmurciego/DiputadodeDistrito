@@ -36,3 +36,16 @@ sha256 `6be9b9435dbcc36b6501a69363e31614d1059f45d2deadab5c04357198e09baf`, repro
 
 Límites: el universo de cada elección es el de la fuente (no el seccionado ni los votos): el casado con seccionado y votos
 (T-357 §3) queda fuera de esta tarea. Los ids de sección son los códigos INE de 10 dígitos; la provincia, sus 2 primeros dígitos.
+
+## Sevilla (41) en 2016-06: 20,9 % rellenado (403 106 de 1 927 762 personas)
+
+Medido en el CSV 30832 (sha256 acreditado), sin interpretar la causa: en el periodo 2016 Sevilla tiene 272 secciones con «.»
+(1 068 con valor, 64 vacías); en 2015, 2017, 2018, 2019 y 2020 ninguna tiene «.». Es dato real del Atlas, concentrado en ese año:
+174 de ellas son del municipio 41091 (Sevilla capital, 174 de 526 secciones con dato o «.») y 98 de otros 10 municipios
+(41004: 29, 41038: 15, 41039: 14, 41095: 11, …). Se rellenan 270 con 2015 y 2 con 2017.
+
+## Revisión de #832
+
+- `leer_atlas` ya no descarta líneas: una línea del indicador «Población» con formato inesperado o con sección/periodo no válidos
+  lanza `ErrorFuente` (filas de municipio/distrito, otros indicadores y cabecera se ignoran por diseño). Las fuentes reales pasan sin error y la salida es idéntica.
+- Una provincia con alguna sección `sin_dato` (población 0 en el denominador, nº en `secciones_sin_dato`) se marca `MARCA`; hoy 0 provincias lo tienen en las cinco elecciones.

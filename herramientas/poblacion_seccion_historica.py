@@ -5,7 +5,7 @@
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.0.0 · FECHA: 2026-11-15 · ESTADO: candidato
 ANTERIOR: ninguna (fichero nuevo)
-CAMBIOS: 1.0.0: fichero nuevo.
+CAMBIOS: 1.0.0: fichero nuevo (revisión de #832: falla ante líneas Población mal formadas en vez de descartarlas; MARCA también si hay sin_dato).
 MOTIVO: D-126 (propietario, 15-11): población por sección de cada elección del histórico: 2011-11 = Censo 2011
   (indicador t1_1, 1-nov-2011); 2015-12, 2016-06 y 2019-04 = Atlas INE tabla 30832 del año de la elección; 2019-11 = Atlas 2020.
   Nunca censo electoral como población.
@@ -14,7 +14,7 @@ QUÉ HACE: lee dos ficheros locales (el CSV 30832 y el ZIP de indicadores del Ce
   Criterio explícito: «.» = dato no publicado → se RELLENA; vacío = sección inexistente ese año → NO se rellena (ni aparece).
   Relleno: valor de la MISMA sección en el año del Atlas más cercano al de la fuente que lo tenga (empate: el anterior),
   marcado sección a sección (origen=relleno, año_fuente_relleno). Sin ningún año con dato: origen=sin_dato (se cuenta aparte).
-  Informe por provincia: secciones, población, % de población rellenada y marca si > 1 % (no se publica sin decisión del propietario).
+  Informe por provincia: secciones, población, % de población rellenada y marca si > 1 % o si alguna sección queda sin_dato (población 0 en el denominador; no se publica sin decisión del propietario).
 USO: python -I herramientas/poblacion_seccion_historica.py --atlas 30832.csv --censo indicadores_seccion_censal_csv.zip \\
        --sumas docs/ESTUDIOS/T357_PADRON_SECCION_2011_2020/SHA256SUMS.txt --tabla tabla.csv --informe informe_provincias.csv
 Determinista: sin reloj, orden por elección y sección, saltos de línea «\\n».
@@ -98,13 +98,17 @@ def leer_atlas(ruta) -> dict[int, dict[str, object]]:
     """{año: {sección(10 dígitos): int | '.' | ''}} del indicador «Población» a nivel de sección."""
     out: dict[int, dict[str, object]] = {}
     with open(ruta, encoding="utf-8-sig", newline="") as f:
-        for linea in f:
+        for n, linea in enumerate(f, 1):
             p = linea.rstrip("\r\n").split(";")
-            if len(p) != 6 or p[3] != "Población" or not p[2]:
-                continue
+            if "Población" not in p:
+                continue  # cabecera, otros indicadores y líneas en blanco: no son del indicador
+            if len(p) != 6 or p[3] != "Población":
+                raise ErrorFuente(f"línea {n} del indicador Población con formato inesperado: {linea[:120]!r}")
+            if not p[2]:
+                continue  # filas de municipio o distrito (no de sección)
             cod = p[2][:10]
             if len(cod) != 10 or not cod.isdigit() or not p[4].isdigit():
-                continue
+                raise ErrorFuente(f"línea {n}: sección o periodo no válidos: {linea[:120]!r}")
             out.setdefault(int(p[4]), {})[cod] = _num(p[5])
     return out
 
@@ -169,7 +173,7 @@ def informe_provincias(eleccion: str, filas) -> list[dict]:
             "secciones_relleno": d["relleno"], "secciones_sin_dato": d["sin_dato"],
             "población": d["poblacion"], "población_rellena": d["pob_relleno"],
             "pct_relleno": pct(d["pob_relleno"], d["poblacion"]),
-            "marca": "MARCA" if d["pob_relleno"] * 100 > UMBRAL_MARCA_PCT * d["poblacion"] else "",
+            "marca": "MARCA" if (d["pob_relleno"] * 100 > UMBRAL_MARCA_PCT * d["poblacion"] or d["sin_dato"]) else "",
         })
     return out
 
