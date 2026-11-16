@@ -94,6 +94,49 @@ class ListaBlanca(unittest.TestCase):
             with self.assertRaises(cpp.ErrorCatalogo):
                 cpp.filtrar(c)
 
+    def test_valores_envenenados_fallan_cerrado(self):
+        def con(f):
+            c = copy.deepcopy(self.real)
+            f(c)
+            return c
+        def prod(c):
+            return next(iter(c["territorios"].values()))["productos"][0]
+        venenos = {
+            "producto con run id": lambda c: prod(c).update(producto="M06_43204696160"),
+            "producto desconocido": lambda c: prod(c).update(producto="otro"),
+            "eleccion con ruta": lambda c: prod(c).update(eleccion="territorios/aut01/2023-07-23"),
+            "sha256 corto": lambda c: prod(c).update(sha256="abc"),
+            "url r2": lambda c: c["fuentes_oficiales"]["poblacion_por_sexo_y_edad"].update(url="r2://bucket/x"),
+            "url http": lambda c: c["fuentes_oficiales"]["poblacion_por_sexo_y_edad"].update(url="http://www.ine.es/x"),
+            "url dominio ajeno": lambda c: c["fuentes_oficiales"]["secciones_censales"].update(url="https://evil.example/x"),
+            "url actions/runs": lambda c: c["fuentes_oficiales"]["secciones_censales"].update(url="https://www.ine.es/actions/runs/1"),
+            "motor con ruta": lambda c: c["motor"].update(nombre="../Deslinde"),
+            "version con barra": lambda c: c["motor"].update(version="1.1/0"),
+            "generado con receipt": lambda c: prod(c).update(generado="receipt.json"),
+        }
+        for nombre, f in venenos.items():
+            with self.subTest(nombre):
+                with self.assertRaises(cpp.ErrorCatalogo):
+                    cpp.filtrar(con(f))
+
+    def test_ningun_string_publico_lleva_datos_internos(self):
+        patron = re.compile(r"\b\d{10,}\b|territorios/|receipt|r2://|actions/runs", re.I)
+        def textos(o):
+            if isinstance(o, dict):
+                for k, v in o.items():
+                    yield str(k)
+                    yield from textos(v)
+            elif isinstance(o, list):
+                for v in o:
+                    yield from textos(v)
+            elif isinstance(o, str):
+                yield o
+        n = 0
+        for s in textos(json.loads(cpp.generar(ORIGEN))):
+            n += 1
+            self.assertIsNone(patron.search(s), s)
+        self.assertGreater(n, 1000)
+
     def test_cli_escribe_identico(self):
         with tempfile.TemporaryDirectory() as d:
             a, b = Path(d) / "a.json", Path(d) / "b.json"
