@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 WORKFLOWS = ROOT / ".github/workflows"
 
 # Workflows de pruebas: sus artefactos son solo diagnóstico.
-PRUEBAS = {"pruebas-plataforma.yml"}
+PRUEBAS = {"p90-automatico.yml"}
 
 # Workflows de producción que necesitan sus artefactos (entre jobs, R2, publicación): no se tocan.
 PRODUCCION = {

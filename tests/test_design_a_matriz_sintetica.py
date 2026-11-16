@@ -31,7 +31,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
             "P10 Fuentes — P12 Electorales":ELECTORAL_PREP,
             "P20 Base territorial — P30 Distritos":GEN,
             "P40 Resultados electorales":ELECTORAL_APPLY,
-            "Pruebas de la Plataforma":WF/"pruebas-plataforma.yml",
+            "P90 Automático":WF/"p90-automatico.yml",
             "P50 Publicación":WF/"desplegar-visor-publico.yml",
             "P00 Campaña — Gestor":WF/"gestor-campanas.yml",
             "P30 Distritos — P33 Alternativas":WF/"generar-alternativas-territoriales.yml",

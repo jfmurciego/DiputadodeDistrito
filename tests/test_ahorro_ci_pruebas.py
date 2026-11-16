@@ -8,7 +8,7 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-WF = ROOT / ".github" / "workflows" / "pruebas-plataforma.yml"
+WF = ROOT / ".github" / "workflows" / "p90-automatico.yml"
 ZEROS = "0" * 40
 
 
@@ -24,22 +24,28 @@ class EstructuraAhorro(unittest.TestCase):
     def test_nocturna_sin_boton_manual_y_sin_cancelar(self):
         d = cargar()
         on = d.get("on") or d.get(True)
-        self.assertEqual(on["schedule"], [{"cron": "23 2 * * *"}])
+        self.assertEqual(on["schedule"], [{"cron": "23 2 * * *"}, {"cron": "17 5 * * 1"}])  # nocturna de pruebas + métricas (lunes)
         self.assertNotIn("workflow_dispatch", on)
-        self.assertIn("github.event_name != 'schedule'", str(d["concurrency"]["cancel-in-progress"]))
-        self.assertIn("github.event_name }}", d["concurrency"]["group"])  # la nocturna no comparte grupo con el push del mismo SHA
+        # T-366: sin concurrencia de workflow (cada grupo de eventos tiene la suya por job). La nocturna cae en el grupo único
+        # por run de cada job (`ddd-run-<run_id>-...`): nunca se cancela ni comparte grupo con el push del mismo SHA.
+        self.assertNotIn("concurrency", d)
+        for job in ("guardian", "suite", "contratos", "productos", "pruebas", "cambios"):
+            self.assertIn("format('ddd-run-{0}-", d["jobs"][job]["concurrency"]["group"], job)
+            self.assertNotIn("schedule", d["jobs"][job]["concurrency"]["group"], job)
 
     def test_cancelacion_solo_en_push_a_main(self):
         jobs = cargar()["jobs"]
         # Carrera: un push de ROBOT nunca cancela un run de push de CÓDIGO. `cambios` (que clasifica) no está en un grupo cancelable
         # y el resto solo entran en el grupo común de main si no es robot; si lo es, o fuera de push, un grupo único por run.
-        self.assertNotIn("concurrency", jobs["cambios"])
+        self.assertNotIn("ddd-main-", jobs["cambios"]["concurrency"]["group"])  # `cambios` solo cancela dentro de la misma PR
+        self.assertIn("github.event_name == 'pull_request'", jobs["cambios"]["concurrency"]["group"])
         for job in ("guardian", "suite", "contratos", "productos", "pruebas"):
             with self.subTest(job=job):
                 c = jobs[job]["concurrency"]
                 self.assertTrue(c["cancel-in-progress"])
                 self.assertIn("github.event_name == 'push' && needs.cambios.outputs.robot != 'true' && ", c["group"])
                 self.assertIn("ddd-main-", c["group"])
+                self.assertIn("format('ddd-pr-{0}-" + job, c["group"])  # antes: cancelación por PR a nivel de workflow
                 self.assertIn("github.run_id", c["group"])
                 self.assertIn("cambios", jobs[job]["needs"] if isinstance(jobs[job]["needs"], list) else [jobs[job]["needs"]])
         # docs conserva su concurrencia propia por referencia: en main también cancela la superada
@@ -58,7 +64,8 @@ class EstructuraAhorro(unittest.TestCase):
         self.assertIn('"$SUITE" == "skipped" && "$ROBOT" == "true"', run)
         subprocess.run(["bash", "-n"], input=run, text=True, check=True)
         self.assertEqual(d["jobs"]["guardian"]["needs"], "cambios")  # la integridad corre siempre, aunque falle `cambios`
-        self.assertEqual(d["jobs"]["guardian"]["if"], "${{ !cancelled() }}")
+        self.assertTrue(d["jobs"]["guardian"]["if"].startswith("${{ !cancelled() && "))
+        self.assertNotIn("always()", d["jobs"]["guardian"]["if"])
 
     def test_estado_vivo_solo_en_push_de_robot_y_no_bloquea(self):
         jobs = cargar()["jobs"]
@@ -78,7 +85,7 @@ class EstructuraAhorro(unittest.TestCase):
 
     def test_aviso_si_cae_la_nocturna(self):
         j = cargar()["jobs"]["aviso_nocturna"]
-        self.assertIn("github.event_name == 'schedule'", j["if"])
+        self.assertIn("github.event_name == 'schedule' && github.event.schedule == '23 2 * * *'", j["if"])  # no con las métricas del lunes
         self.assertEqual(j["permissions"], {"issues": "write"})
         self.assertNotIn("aviso_nocturna", cargar()["jobs"]["pruebas"]["needs"])
 
@@ -136,7 +143,7 @@ class ClasificacionRobot(unittest.TestCase):
         casos = {
             "robot con código": ("push", "ddd-registro[bot]", ["modulos/05_optimizar_distritos.py"]),
             "robot con datos y código": ("push", "ddd-registro[bot]", ["orchestracion/a.json", "ddd_core/x.py"]),
-            "robot con workflow": ("push", "ddd-registro[bot]", [".github/workflows/pruebas-plataforma.yml"]),
+            "robot con workflow": ("push", "ddd-registro[bot]", [".github/workflows/p90-automatico.yml"]),
             "persona con datos": ("push", "jfmurciego", ["orchestracion/archivo_r2.json"]),
             "persona con código": ("push", "jfmurciego", ["herramientas/a.py"]),
             "PR de un bot con datos": ("pull_request", "ddd-registro[bot]", ["orchestracion/a.json"]),

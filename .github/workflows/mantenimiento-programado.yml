@@ -1,14 +1,16 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: mantenimiento-programado.yml
-# VERSIÓN: 1.0.3
-# NOMBRE DE VERSIÓN: Mantenimiento programado en un solo auxiliar
-# FECHA: 2026-11-14
+# VERSIÓN: 1.1.0
+# NOMBRE DE VERSIÓN: Mantenimiento programado: archivo R2 y composición M06
+# FECHA: 2026-11-16
 # ESTADO: candidato
-# QUÉ HACE: reúne tres tareas de mantenimiento que escriben en main con la app de registro: archivo diario de artefactos en R2
-#   (cron 05:17), métricas del proceso (cron lunes 05:17) y extracción de la composición M06 (solo manual). Cada tarea es un job con
+# QUÉ HACE: reúne dos tareas de mantenimiento que escriben en main con la app de registro: archivo diario de artefactos en R2
+#   (cron 05:17) y extracción de la composición M06 (solo manual). Las métricas del proceso pasaron a «P90 Automático» (T-366). Cada tarea es un job con
 #   su concurrencia, sus permisos y su condición (cron propio o entrada `tarea`); el cuerpo de cada job es el del workflow que sustituye.
 #   «Auxiliar — Poda de R2» (borrado irreversible, entorno produccion) no se funde: sigue separada y comparte la concurrencia del archivista.
-# CAMBIOS: 1.0.3 (T-291, D-65): entrada `eleccion` de extraer_m06 (por defecto 2023-07-23): los resultados ligeros y los votos
+# CAMBIOS: 1.1.0 (T-366, D-129/D-130): sale el job `metricas` (y su cron del lunes y su opción manual) a p90-automatico.yml; el resto
+#   queda igual hasta que P70 (paso 2) recoja `archivar_r2` y `extraer_m06` y borre este fichero.
+#   1.0.3 (T-291, D-65): entrada `eleccion` de extraer_m06 (por defecto 2023-07-23): los resultados ligeros y los votos
 #   por partido de otra elección van a datos/resultados/<elección>/ (--eleccion/--fecha); la composición M06 sigue siendo la de
 #   los mapas vigentes. Con el valor por defecto nada cambia.
 #   1.0.2 (T-215, corte 5.0.0): solo el nombre visible, «Automático — Mantenimiento». El job archivar_r2 no se traslada a ARC
@@ -18,21 +20,20 @@
 #   1.0.0: fichero nuevo (T-149); sustituye a archivar-artefactos-r2.yml 1.0.1, metricas-proceso.yml 1.0.1 y
 #   extraer-composicion-m06.yml 1.0.1 (copias en legacy/workflows/).
 # MOTIVO: dejar la lista de Actions con un único auxiliar de mantenimiento.
-# ANTERIOR: legacy/workflows/mantenimiento-programado_v1.0.2_20261114.yml
+# ANTERIOR: legacy/workflows/mantenimiento-programado_v1.0.3_20261116.yml
 name: Automático — Mantenimiento
-run-name: "Mantenimiento programado · ${{ inputs.tarea || (github.event.schedule == '17 5 * * 1' && 'métricas' || 'archivo R2') }}"
+run-name: "Mantenimiento programado · ${{ inputs.tarea || 'archivo R2' }}"
 
 on:
   schedule:
     - cron: '17 5 * * *'
-    - cron: '17 5 * * 1'
   workflow_dispatch:
     inputs:
       tarea:
         description: 'Tarea de mantenimiento'
         required: true
         type: choice
-        options: [archivar_r2, metricas, extraer_m06]
+        options: [archivar_r2, extraer_m06]
       caduca_antes:
         description: 'archivar_r2: solo lo que caduca antes de esta fecha (AAAA-MM-DD); vacío = todo lo vivo'
         required: false
@@ -130,62 +131,6 @@ jobs:
             sleep $((i*3))
           done
           echo "::error::No se pudo registrar el manifiesto en main."; exit 1
-
-  metricas:
-    if: ${{ github.event.schedule == '17 5 * * 1' || inputs.tarea == 'metricas' }}
-    concurrency:
-      group: ddd-metricas-proceso
-      cancel-in-progress: false
-      queue: max
-    permissions:
-      contents: write
-      actions: read
-      pull-requests: read
-    runs-on: ubuntu-24.04
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          ref: main
-      - name: Credencial de registro
-        shell: bash
-        env:
-          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
-          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
-        run: |
-          set -euo pipefail
-          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
-          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
-          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
-          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
-          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
-          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
-          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
-          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
-          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
-          echo "::add-mask::$token"
-          git config --local --unset-all http.https://github.com/.extraheader || true
-          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
-          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
-          echo "Registro con la app propia (exenta en el ruleset proteger-main)."
-      - name: Regenerar y empujar
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          python herramientas/metricas_proceso.py --espejo dashboard/metricas_proceso.json
-          git config user.name "ddd-registro[bot]"
-          git config user.email "ddd-registro[bot]@users.noreply.github.com"
-          git add orchestracion/metricas_proceso.json dashboard/metricas_proceso.json
-          if git diff --cached --quiet; then echo "Sin cambios en las métricas."; exit 0; fi
-          git commit -m "datos: métricas del proceso"
-          for intento in 1 2 3; do
-            if git push origin HEAD:main; then exit 0; fi
-            echo "::warning::push rechazado (intento $intento)"
-            git pull --rebase origin main
-          done
-          exit 1
 
   extraer_m06:
     if: ${{ inputs.tarea == 'extraer_m06' }}

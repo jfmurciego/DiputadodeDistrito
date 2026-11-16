@@ -7,7 +7,7 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-WF = ROOT / ".github" / "workflows" / "pruebas-plataforma.yml"
+WF = ROOT / ".github" / "workflows" / "p90-automatico.yml"
 ESCRITORES = {
     "catalogo": ("ddd-catalogo-procedencia", "catalogo"),
     "resultados": ("ddd-resultados-ligeros", "resultados"),

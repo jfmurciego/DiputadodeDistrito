@@ -77,7 +77,7 @@ class PortadaV3Tests(unittest.TestCase):
     def test_ui_v3_se_valida_en_runner_con_node(self):
         # El contenedor reproducible de la suite Python no incluye Node.
         # El guardián de CI ejecuta la prueba interactiva en ubuntu-24.04.
-        workflow = (ROOT / ".github/workflows/pruebas-plataforma.yml").read_text(encoding="utf-8")
+        workflow = (ROOT / ".github/workflows/p90-automatico.yml").read_text(encoding="utf-8")
         self.assertIn("node --check visor/v3/v3.js", workflow)
         self.assertIn("node tests/test_visor_v3_ui.js", workflow)
 

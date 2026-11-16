@@ -107,7 +107,7 @@ class CasoPR458(unittest.TestCase):
         self.assertNotIn("--auto ", texto)
         self.assertNotIn("enablePullRequestAutoMerge", texto)
         job = d["jobs"]["fusionar"]
-        self.assertIn("workflow_run.path == '.github/workflows/pruebas-plataforma.yml'", job["if"])
+        self.assertIn("workflow_run.path == '.github/workflows/p90-automatico.yml'", job["if"])
         self.assertIn('--suite "$SUITE"', job["steps"][1]["run"])
         self.assertEqual(job["steps"][1]["env"]["SUITE"], "${{ github.event.workflow_run.check_suite_id }}")
 
@@ -122,7 +122,7 @@ class Workflow(unittest.TestCase):
 
     def test_solo_al_terminar_la_ci_y_sin_auto_merge_nativo(self):
         self.assertEqual(list(self.on), ["workflow_run"])
-        self.assertEqual(self.on["workflow_run"]["workflows"], ["Pruebas de la Plataforma"])
+        self.assertEqual(self.on["workflow_run"]["workflows"], ["P90 Automático"])
         self.assertIn("conclusion == 'success'", self.job["if"])
         self.assertIn("event == 'pull_request'", self.job["if"])
         for prohibido in ("--auto", "--admin", "mergeable_state", "mergeStateStatus", "CLEAN"):
