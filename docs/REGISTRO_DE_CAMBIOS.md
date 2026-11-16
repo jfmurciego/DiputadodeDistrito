@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.458
+Versión: 1.0.459
 Fecha: 2026-11-16
-Alcance: T-363 — Plan 1.0.51: D-123 a D-127, cola T-350 a T-363, r4 publicada
+Alcance: T-332 — La 03 elige la elección de ensayo 2026-11-29 por entrada (BORRADOR, no-automerge)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-16_planificador-plan-1-0-51.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.457_registro_20261116.md
+Cambios/motivo: entrada docs/registro/2026-11-14_t332-ensayo-03.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.458_registro_20261116.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.457_registro_20261116.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.459 · [2026-11-14 — T-332 — La 03 elige la elección de ensayo 2026-11-29 por entrada (BORRADOR, no-automerge)](registro/2026-11-14_t332-ensayo-03.md)
 - 1.0.458 · [2026-11-16 — T-363 — Plan 1.0.51: D-123 a D-127, cola T-350 a T-363, r4 publicada](registro/2026-11-16_planificador-plan-1-0-51.md)
 - 1.0.457 · [2026-11-14 — T-333 — Datos de ensayo por mesa para nac22, nac42 y nac52 (BORRADOR, no-automerge)](registro/2026-11-14_t333-datos-ensayo.md)
 - 1.0.456 · [2026-11-16 — Coordinador — Skills del Operador con D-127 (`produccion` sin revisor)](registro/2026-11-16_coordinador-skills-operador-d127.md)

@@ -385,7 +385,7 @@ class PreparedSourceReuseTests(unittest.TestCase):
         )
         self.assertEqual(
             list(electoral_trigger["workflow_dispatch"]["inputs"]),
-            ["territory_id", "data_edition", "reutilizar_si_ya_preparada"],
+            ["territory_id", "data_edition", "reutilizar_si_ya_preparada", "eleccion"],
         )
         self.assertEqual(
             list(territorial_trigger["workflow_call"]["inputs"]),
@@ -409,7 +409,7 @@ class PreparedSourceReuseTests(unittest.TestCase):
         self.assertFalse(territorial_call["reutilizar_si_ya_preparada"])
         self.assertEqual(
             list(electoral_trigger["workflow_call"]["inputs"]),
-            ["territory_id", "data_edition", "reutilizar_si_ya_preparada", "source_ref", "persist_state", "allow_source_gap_success"],
+            ["territory_id", "data_edition", "reutilizar_si_ya_preparada", "source_ref", "persist_state", "allow_source_gap_success", "eleccion"],
         )
         self.assertFalse(
             electoral_trigger["workflow_call"]["inputs"]["allow_source_gap_success"]["default"]
