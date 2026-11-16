@@ -112,11 +112,12 @@ class Partidos2026(unittest.TestCase):
 class Mantenimiento(unittest.TestCase):
     def test_entrada_eleccion_por_defecto_2023_y_se_pasa_a_las_dos_herramientas(self):
         import yaml
-        wf = yaml.safe_load((ROOT / ".github/workflows/mantenimiento-programado.yml").read_text(encoding="utf-8"))
+        wf = yaml.safe_load((ROOT / ".github/workflows/p70-archivo.yml").read_text(encoding="utf-8"))
         entradas = wf[True]["workflow_dispatch"]["inputs"] if True in wf else wf["on"]["workflow_dispatch"]["inputs"]
-        self.assertEqual(entradas["eleccion"]["default"], "2023-07-23")
+        self.assertIn("2023-07", entradas["eleccion"]["description"])  # T-368: el botón da AAAA-MM; el código resuelve la fecha
         job = wf["jobs"]["extraer_m06"]
-        self.assertEqual(job["env"]["ELECCION"], "${{ inputs.eleccion || '2023-07-23' }}")
+        self.assertEqual(job["env"]["ELECCION_MES"], "${{ inputs.eleccion || '2023-07' }}")
+        self.assertIn("p70_resolver.py fecha-eleccion", "\n".join(st.get("run", "") for st in job["steps"]))
         run = "\n".join(st.get("run", "") for st in job["steps"])
         self.assertIn('python herramientas/resultados_ligeros.py --eleccion "$ELECCION"', run)
         self.assertIn('python herramientas/resultados_partidos.py --fecha "$ELECCION"', run)

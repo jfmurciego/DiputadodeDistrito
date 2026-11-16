@@ -925,7 +925,7 @@ class FullRunRecoveryContractTests(unittest.TestCase):
         self.assertIn("detectar_recuperacion_electoral", jobs)
         self.assertEqual(
             jobs["recuperar_electoral"]["uses"],
-            "./.github/workflows/recuperar-producto-electoral-durable.yml",
+            "./.github/workflows/p70-archivo.yml",
         )
         self.assertIn(
             "needs.detectar_recuperacion_electoral.outputs.recover != 'true'",

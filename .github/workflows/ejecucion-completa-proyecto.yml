@@ -1,12 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
-# VERSIÓN: 1.11.0
+# VERSIÓN: 1.11.1
+# CAMBIOS 1.11.1: T-368 (P70 Archivo, D-131): solo cambia la línea `uses:` del job `recuperar_electoral` (p70-archivo.yml, P72 producto electoral); entradas, `secrets` y condiciones idénticos.
+# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.11.0_20261116.yml
 # CAMBIOS 1.11.0: T-360 (paralelismo de la cadena): «Actualizar estado operativo único» y «Registrar manifiesto de ejecución
 #   completa» dejan los grupos únicos ddd-shared-operational-state/ddd-catalog-promotion: las cadenas ya no se esperan; el
 #   estado re-deriva desde el HEAD remoto con reintento (10, espera exponencial) y el manifiesto se registra con
 #   herramientas/registrar_en_main.py (re-aplicación, catálogo de procedencia en el mismo commit, PUSH_RECHAZADO_TRAS_N).
 #   El estado sube a 20 regeneraciones: en la r4, ya serializado, agotó las 10 en 4 de 100 runs (p. ej. 43792098960).
-# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.10.0_20261116.yml
+# ANTERIOR (1.11.0): legacy/workflows/ejecucion-completa-proyecto_v1.10.0_20261116.yml
 # CAMBIOS 1.10.0: T-234 (relevo formal, D-82/D-84): `motor` por defecto = motor2 («Deslinde 1.0»: canónico + 10 cadenas ReCom +
 #   elección D8 + vigente como candidato) en el botón, en workflow_call, en la 02 y en la 00 electoral encadenada. m05 (ruta
 #   autónoma del canónico, RETIRADA) solo con elección expresa: «Planificar» avisa (::warning::) y motor2 con un algoritmo
@@ -1291,7 +1293,7 @@ jobs:
     name: Reanudar registro M08 durable existente
     needs: [planificar, detectar_recuperacion_electoral, puerta_02, puerta_03, clasificar_electoral]
     if: ${{ always() && needs.clasificar_electoral.result == 'success' && needs.clasificar_electoral.outputs.execution == 'EXECUTE' && needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover == 'true' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' }}
-    uses: ./.github/workflows/recuperar-producto-electoral-durable.yml
+    uses: ./.github/workflows/p70-archivo.yml
     secrets: inherit
     with:
       territory_id: ${{ needs.planificar.outputs.territory_id }}

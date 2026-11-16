@@ -22,7 +22,7 @@ from tests.test_registro_producto_electoral_concurrencia import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
-WORKFLOW = ROOT / ".github" / "workflows" / "recuperar-producto-electoral-durable.yml"
+WORKFLOW = ROOT / ".github" / "workflows" / "p70-archivo.yml"
 
 
 class DurableElectoralProductRecoveryWorkflowTests(unittest.TestCase):
@@ -30,7 +30,7 @@ class DurableElectoralProductRecoveryWorkflowTests(unittest.TestCase):
         text = WORKFLOW.read_text(encoding="utf-8")
         data = yaml.safe_load(text)
         event = data.get("on") or data.get(True)
-        self.assertEqual(set(event), {"workflow_call", "workflow_dispatch"})
+        self.assertEqual(set(event), {"schedule", "workflow_call", "workflow_dispatch"})  # T-368: P70 reúne el archivo diario
 
         for forbidden in (
             "ejecucion-completa-proyecto.yml",
@@ -55,7 +55,7 @@ class DurableElectoralProductRecoveryWorkflowTests(unittest.TestCase):
         self.assertIn("READY_PACKAGE", text)
         self.assertIn("_reutilizable-puerta-validacion.yml", text)
         self.assertIn("phase: electoral_product", text)
-        self.assertIn("source_ref: ${{ inputs.source_commit }}", text)
+        self.assertIn("source_ref: ${{ (inputs.source_commit || needs.resolver_producto.outputs.source_commit) }}", text)
         self.assertIn(
             "python -m herramientas.persistir_producto_electoral_operacional",
             text,
@@ -63,14 +63,18 @@ class DurableElectoralProductRecoveryWorkflowTests(unittest.TestCase):
         self.assertIn("--expected-previous-fingerprint", text)
         self.assertIn("--expected-context-fingerprint", text)
         self.assertIn("Acreditar catálogo y receipt recuperados", text)
-        self.assertNotIn("git pull --rebase", text)
+        recuperacion = yaml.safe_dump({j: data["jobs"][j] for j in ("acreditar", "validar_m08", "registrar", "acreditar_registro")})
+        self.assertNotIn("git pull --rebase", recuperacion)  # (la composición M06 de P70 sí reintenta con pull --rebase)
 
     def test_manual_recovery_requires_explicit_confirmation(self):
         data = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
         event = data.get("on") or data.get(True)
-        confirm = event["workflow_dispatch"]["inputs"]["confirm_recovery"]
+        # T-368: la 00 llama con `confirm_recovery` (workflow_call); el botón exige elegir la acción «P72 Recuperar producto electoral»
+        confirm = event["workflow_call"]["inputs"]["confirm_recovery"]
         self.assertEqual(confirm["type"], "boolean")
-        self.assertFalse(confirm["default"])
+        self.assertNotIn("confirm_recovery", event["workflow_dispatch"]["inputs"])
+        self.assertIn("P72 Recuperar producto electoral", event["workflow_dispatch"]["inputs"]["accion"]["options"])
+        self.assertIn("recover == 'true'", str(data["jobs"]["acreditar"]["if"]))
         self.assertIn(
             "inputs.confirm_recovery",
             str(data["jobs"]["acreditar"]["if"]),
@@ -248,7 +252,7 @@ class DurableElectoralProductRecoveryCasTests(unittest.TestCase):
 class RecoveryWorkflowDeclaredReceiptTests(unittest.TestCase):
     def test_identity_check_uses_catalog_declared_electoral_source(self):
         # Cantabria y Extremadura (31-10-2026): el legacy evidencia/catalogo/electoral_source_* era obsoleto o no existía.
-        wf = (Path(__file__).resolve().parents[1] / ".github/workflows/recuperar-producto-electoral-durable.yml").read_text(encoding="utf-8")
+        wf = (Path(__file__).resolve().parents[1] / ".github/workflows/p70-archivo.yml").read_text(encoding="utf-8")
         self.assertIn('_receipt(root,territory,edition,"electoral_source")', wf)
         self.assertNotIn("evidencia/catalogo/electoral_source_", wf)
 

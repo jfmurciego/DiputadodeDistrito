@@ -40,8 +40,7 @@ su traslado a ARC, después del corte.
 | `desplegar-visor-publico.yml` | 05 Publicación del Visor | P50 Publicación | P50 Publicación |
 | `cadena-publicacion.yml` | 05 Cadena de Publicación | P50 Publicación | P50 Publicación — Cadena |
 | `publicar-version-mapa.yml` | Publicar versión de mapa | P60 Publicación académica | P60 Publicación académica |
-| `podar-r2.yml` | Auxiliar — Poda de R2 | ARC Archivo | ARC Archivo — Poda de R2 |
-| `recuperar-producto-electoral-durable.yml` | Recuperar producto electoral durable | ARC Archivo | ARC Archivo — Recuperar producto electoral |
+| `p70-archivo.yml` | ARC Archivo — Poda de R2 / Recuperar producto electoral / Automático — Mantenimiento (T-368) | P70 Archivo | P70 Archivo |
 
 ## Productos
 

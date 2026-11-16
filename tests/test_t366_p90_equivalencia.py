@@ -6,7 +6,7 @@ La equivalencia antes → después se calcula contra COPIAS CONGELADAS de las ve
 Cada comparación lleva un control negativo: cambiar un permiso, un `if`, un paso o una concurrencia hace fallar la comparación.
 
 No entran en P90 (decisión pendiente del propietario, ver la cabecera del workflow): `revisor-pr.yml` y `auto-merge.yml`, que siguen
-aparte, y `archivar_r2`/`extraer_m06`, que siguen en `mantenimiento-programado.yml` hasta P70.
+aparte, y `archivar_r2`/`extraer_m06`, que pasaron a `p70-archivo.yml` (T-368).
 """
 import copy
 import hashlib
@@ -142,11 +142,8 @@ class Disparadores(Fixtures):
             self.assertIn("github.event_name == 'push'", j[nombre]["if"], nombre)
         self.assertIn("github.event.schedule == '23 2 * * *'", j["aviso_nocturna"]["if"])  # no con las métricas del lunes
 
-    def test_mantenimiento_y_fusion_siguen_aparte(self):
-        m = cargar_texto((WF / "mantenimiento-programado.yml").read_text(encoding="utf-8"))
-        self.assertEqual(set(m["jobs"]), {"archivar_r2", "extraer_m06"})
-        self.assertEqual(on(m)["schedule"], [{"cron": "17 5 * * *"}])  # cron diario del archivo R2 intacto
-        self.assertEqual(on(m)["workflow_dispatch"]["inputs"]["tarea"]["options"], ["archivar_r2", "extraer_m06"])
+    def test_fusion_sigue_aparte_y_mantenimiento_ya_no_existe(self):
+        self.assertFalse((WF / "mantenimiento-programado.yml").exists())  # T-368: lo recoge P70 Archivo (test_t368_p70_equivalencia)
         am = cargar_texto((WF / "auto-merge.yml").read_text(encoding="utf-8"))
         self.assertEqual(on(am), {"workflow_run": {"workflows": ["P90 Automático"], "types": ["completed"]}})
         f, v = am["jobs"]["fusionar"], self.viejos["merge"]["jobs"]["fusionar"]

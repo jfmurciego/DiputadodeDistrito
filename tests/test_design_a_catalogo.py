@@ -37,7 +37,6 @@ class DesignA(unittest.TestCase):
             "preparacion-resultados-electorales.yml",
             "produccion-distritos.yml",
             "publicar-version-mapa.yml",
-            "recuperar-producto-electoral-durable.yml",
         ])
 
     def test_internal_capabilities_remain(self):

@@ -218,10 +218,17 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
         self.assertIn("spec.territory_display_name||spec.territory_label", viewer)
 
     def test_technical_recovery_inputs_remain_canonical_internal_ids(self):
-        recovery = dispatch_inputs(WORKFLOWS / "recuperar-producto-electoral-durable.yml")
+        # T-368: el botón de P70 pide un código (`territorios`); las entradas técnicas solo existen en `workflow_call` (la 00)
+        p70 = yaml.safe_load((WORKFLOWS / "p70-archivo.yml").read_text(encoding="utf-8"))
+        triggers = p70.get(True, p70.get("on"))
+        recovery = triggers["workflow_call"]["inputs"]
         self.assertEqual(recovery["territory_id"]["type"], "string")
         self.assertNotIn("options", recovery["territory_id"])
-        self.assertIn("Identificador canónico", recovery["territory_id"]["description"])
+        boton = dispatch_inputs(WORKFLOWS / "p70-archivo.yml")
+        self.assertEqual(boton["territorios"]["type"], "string")
+        self.assertNotIn("options", boton["territorios"])
+        for tecnica in ("territory_id", "source_run_id", "artifact_sha256", "source_commit", "caduca_antes", "sha256_lista"):
+            self.assertNotIn(tecnica, boton)
 
         publication = dispatch_inputs(WORKFLOWS / "publicar-version-mapa.yml")
         self.assertEqual(publication["territory_id"]["type"], "string")
