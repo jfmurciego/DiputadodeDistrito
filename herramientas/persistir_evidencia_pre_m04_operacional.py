@@ -613,6 +613,8 @@ def persist_pre_m04_evidence(
 
 
 def main() -> int:
+    from herramientas.registrar_en_main import SALIDA_CATALOGO, CatalogoNoRegenerado
+
     ap = argparse.ArgumentParser()
     ap.add_argument("--root-dir", type=Path, default=Path("."))
     ap.add_argument("--territory-id", required=True)
@@ -646,6 +648,9 @@ def main() -> int:
     except PreM04PersistenceConflict as exc:
         print(f"::error::{exc}", file=sys.stderr)
         return 59
+    except CatalogoNoRegenerado as exc:  # T-360: falla cerrado, sin push, salida 76 como registrar_en_main
+        print(f"::error title=CATALOGO_PROCEDENCIA_NO_REGENERADO::{exc}", file=sys.stderr)
+        return SALIDA_CATALOGO
     except RuntimeError as exc:
         print(f"::error::{exc}", file=sys.stderr)
         return 54

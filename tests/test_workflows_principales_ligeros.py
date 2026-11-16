@@ -63,8 +63,9 @@ class LightweightBusinessWorkflows(unittest.TestCase):
         self.assertIn("ddd-electoral-prod-",electoral)
         self.assertIn("group: ddd-catalog-promotion",territorial_prep)
         self.assertIn("group: ddd-catalog-promotion",electoral_prep)
-        self.assertIn("group: ddd-catalog-promotion",(WF/"_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8"))
-        self.assertIn("group: ddd-catalog-promotion", (WF/"_reutilizable-incorporacion-electoral.yml").read_text(encoding="utf-8"))
+        # T-360: las cadenas registran sin grupo único (registro re-derivado con reintento).
+        self.assertNotIn("group: ddd-catalog-promotion",(WF/"_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8"))
+        self.assertNotIn("group: ddd-catalog-promotion", (WF/"_reutilizable-incorporacion-electoral.yml").read_text(encoding="utf-8"))
         self.assertIn("group: ddd-pages-prod",publisher)
         self.assertIn("cancel-in-progress: false",publisher)
 

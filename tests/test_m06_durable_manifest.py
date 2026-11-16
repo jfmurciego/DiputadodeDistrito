@@ -145,7 +145,7 @@ class DurableM06ManifestTests(unittest.TestCase):
         workflow = (root / ".github/workflows/_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
         self.assertIn('checkout_sha="$(git rev-parse HEAD)"', workflow)
         self.assertIn('--checkout-sha "$checkout_sha"', workflow)
-        self.assertIn('--source-commit "$checkout_sha"', workflow)
+        self.assertIn("--source-commit '$checkout_sha'", workflow)  # T-360: dentro de la orden re-derivada
         self.assertNotIn('--checkout-sha "$GITHUB_SHA"', workflow)
         self.assertIn('resolve_checkpoint_source_package(', workflow)
         self.assertIn('CHECKPOINT_SOURCE_UNPROVEN', workflow)

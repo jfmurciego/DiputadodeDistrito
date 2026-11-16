@@ -1,6 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
-# VERSIÓN: 1.10.0
+# VERSIÓN: 1.11.0
+# CAMBIOS 1.11.0: T-360 (paralelismo de la cadena): «Actualizar estado operativo único» y «Registrar manifiesto de ejecución
+#   completa» dejan los grupos únicos ddd-shared-operational-state/ddd-catalog-promotion: las cadenas ya no se esperan; el
+#   estado re-deriva desde el HEAD remoto con reintento (10, espera exponencial) y el manifiesto se registra con
+#   herramientas/registrar_en_main.py (re-aplicación, catálogo de procedencia en el mismo commit, PUSH_RECHAZADO_TRAS_N).
+#   El estado sube a 20 regeneraciones: en la r4, ya serializado, agotó las 10 en 4 de 100 runs (p. ej. 43792098960).
+# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.10.0_20261116.yml
 # CAMBIOS 1.10.0: T-234 (relevo formal, D-82/D-84): `motor` por defecto = motor2 («Deslinde 1.0»: canónico + 10 cadenas ReCom +
 #   elección D8 + vigente como candidato) en el botón, en workflow_call, en la 02 y en la 00 electoral encadenada. m05 (ruta
 #   autónoma del canónico, RETIRADA) solo con elección expresa: «Planificar» avisa (::warning::) y motor2 con un algoritmo
@@ -1321,10 +1327,6 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       source_ref: ${{ steps.state.outputs.source_ref }}
-    concurrency:
-      group: ddd-shared-operational-state
-      cancel-in-progress: false
-      queue: max
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -1362,7 +1364,7 @@ jobs:
           set -euo pipefail
           if [[ "$PERSIST" == "true" ]]; then
             source_ref="$(python -m herramientas.persistir_estado_operativo_compartido \
-              --root-dir . --edition "$EDITION" --target-branch main)"
+              --root-dir . --edition "$EDITION" --target-branch main --max-attempts 20)"
           else
             python -m herramientas.generar_estado_operativo --root-dir . --edition "$EDITION"
             source_ref="$(git rev-parse HEAD)"
@@ -1524,10 +1526,6 @@ jobs:
     needs: [planificar, detectar_recuperacion_electoral, preparar_territorial, puerta_01, generar, puerta_02, preparar_electoral, clasificar_electoral, puerta_03, incorporar, recuperar_electoral, puerta_04, actualizar_estado, publicar]
     if: ${{ always() && needs.planificar.result == 'success' }}
     runs-on: ubuntu-24.04
-    concurrency:
-      group: ddd-catalog-promotion
-      cancel-in-progress: false
-      queue: max
     env:
       TERRITORY_ID: ${{ needs.planificar.outputs.territory_id }}
       TERRITORY_NAME: ${{ needs.planificar.outputs.territory_name }}
@@ -1630,17 +1628,11 @@ jobs:
           target="territorios/$TERRITORY_ID/evidencia/ejecuciones_completas/$GITHUB_RUN_ID.json"
           mkdir -p "$(dirname "$target")"
           cp .ddd-full-run/manifest.json "$target"
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add "$target"
-          git diff --cached --quiet && exit 0
-          git commit -m "chore: registrar ejecución completa de $TERRITORY_ID"
-          for attempt in 1 2 3; do
-            git pull --rebase origin main && git push origin HEAD:main && exit 0
-            git rebase --abort >/dev/null 2>&1 || true
-            sleep $((attempt * 2))
-          done
-          echo "::error::No se pudo conservar el manifiesto durable tras tres intentos."; exit 50
+          python -m pip install --disable-pip-version-check --quiet PyYAML==6.0.2
+          rc=0
+          python -m herramientas.registrar_en_main --rama main --ruta "$target" \
+            --mensaje "chore: registrar ejecución completa de $TERRITORY_ID" || rc=$?
+          [[ "$rc" == 0 ]] || { echo "::error::No se pudo conservar el manifiesto durable (rc=$rc)."; exit 50; }
 
   encadenar_par_y_04:
     # La 04 exige un prepared_source_pair que sólo registra "Activación de Legislatura Vigente".

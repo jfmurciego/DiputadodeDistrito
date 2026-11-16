@@ -1,6 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — generación territorial
-# VERSIÓN: 1.5.3
+# VERSIÓN: 1.6.0
+# CAMBIOS 1.6.0 (T-360): los jobs de registro (evidencia previa, evaluación no habilitante, producto territorial) dejan el grupo
+#   único ddd-catalog-promotion; el producto territorial y el archivo en origen se registran con herramientas/registrar_en_main.py
+#   (re-deriva la promoción del catálogo desde el HEAD remoto, re-aplica el delta JSON de archivo_r2/MANIFEST, regenera el
+#   catálogo de procedencia en el mismo commit; 10 intentos con espera exponencial, PUSH_RECHAZADO_TRAS_N).
+# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.5.3_20261116.yml
 # CAMBIOS 1.5.3 (T-336): «Resolver y materializar fuentes declaradas» devuelve al usuario del runner la evidencia que escribe docker
 #   (root) ANTES del cp, y un cp fallido ya no pasa en silencio (dejaba source_execution.json viejo); «Aplicar puerta de preparación» falla si steps.acquire falló (tras publicar la evidencia); un paquete de fuentes
 #   cuyo territory_id no es EXACTAMENTE el canónico se rechaza/re-adquiere en las herramientas (sin alias ni reescritura).
@@ -876,10 +881,6 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       enabled_source_ref: ${{ steps.persist.outputs.enabled_source_ref }}
-    concurrency:
-      group: ddd-catalog-promotion
-      cancel-in-progress: false
-      queue: max
     env:
       GH_TOKEN: ${{ github.token }}
       PARAMS: ${{ needs.resolve.outputs.params }}
@@ -982,7 +983,7 @@ jobs:
             --root-dir . --territory-id "$TERRITORY_ID" --edition "$edition" \
             --run-id "$GITHUB_RUN_ID" --contract-path "$PARAMS" \
             --candidate-evidence "$candidate_path" --source-commit "$SOURCE_REF" \
-            --target-branch "$GITHUB_REF_NAME" --max-attempts 4 \
+            --target-branch "$GITHUB_REF_NAME" --max-attempts 10 \
             --result-json "$persistence_result" \
             --handoff "$handoff" --handoff-metadata "$handoff_meta")"
           [[ "$enabled_source_ref" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::Commit habilitado inválido."; exit 58; }
@@ -1012,10 +1013,6 @@ jobs:
     outputs:
       evaluation_status: ${{ steps.classify.outputs.evaluation_status }}
       evaluation_source_ref: ${{ steps.persist.outputs.evaluation_source_ref }}
-    concurrency:
-      group: ddd-catalog-promotion
-      cancel-in-progress: false
-      queue: max
     env:
       GH_TOKEN: ${{ github.token }}
       PARAMS: ${{ needs.resolve.outputs.params }}
@@ -1160,7 +1157,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          evaluation_ref="$(python -m herramientas.persistir_evidencia_pre_m04_operacional             --root-dir .             --territory-id "$TERRITORY_ID"             --edition "$EDITION"             --run-id "$GITHUB_RUN_ID"             --contract-path "$PARAMS"             --candidate-evidence .ddd-generation-evaluation.json             --source-commit "$SOURCE_COMMIT"             --target-branch "$GITHUB_REF_NAME"             --max-attempts 4             --result-json .ddd-generation-evaluation-persistence.json)"
+          evaluation_ref="$(python -m herramientas.persistir_evidencia_pre_m04_operacional             --root-dir .             --territory-id "$TERRITORY_ID"             --edition "$EDITION"             --run-id "$GITHUB_RUN_ID"             --contract-path "$PARAMS"             --candidate-evidence .ddd-generation-evaluation.json             --source-commit "$SOURCE_COMMIT"             --target-branch "$GITHUB_REF_NAME"             --max-attempts 10             --result-json .ddd-generation-evaluation-persistence.json)"
           [[ "$evaluation_ref" =~ ^[0-9a-f]{40}$ ]] || {
             echo "::error::La evaluación no habilitante no quedó persistida."
             exit 61
@@ -1412,10 +1409,6 @@ jobs:
     needs: [resolve, m04, m05, m06, auditoria]
     if: ${{ always() && needs.resolve.result == 'success' && needs.auditoria.result == 'success' && inputs.persist_state }}
     runs-on: ubuntu-24.04
-    concurrency:
-      group: ddd-catalog-promotion
-      cancel-in-progress: false
-      queue: max
     env:
       PARAMS: ${{ needs.resolve.outputs.params }}
       TERRITORY_ID: ${{ needs.resolve.outputs.territory_id }}
@@ -1620,22 +1613,19 @@ jobs:
           checkout_sha="$(git rev-parse HEAD)"
           expected_checkout="${{ inputs.source_ref || github.sha }}"
           [[ "$checkout_sha" =~ ^[0-9a-f]{40}$ && "$checkout_sha" == "$expected_checkout" ]] || { echo '::error::SHA de checkout distinto del commit inmóvil autorizado.'; exit 48; }
-          python herramientas/promover_catalogo_operacional.py \
-            --kind territorial_product --territory-id "$TERRITORY_ID" --edition "$edition" \
-            --run-id "$GITHUB_RUN_ID" --artifact-name "$artifact_name" --artifact-sha256 "$digest" \
-            --source-commit "$checkout_sha" --decision "$decision" --producer-manifest-path "$manifest"
-          python herramientas/catalogo_preparacion.py --root-dir . validate
-          git config user.name github-actions; git config user.email github-actions@github.com
-          git add configuracion/catalogo_preparacion.yaml \
-            "territorios/$TERRITORY_ID/evidencia/catalogo/territorial_product_$edition.json" "$manifest"
-          git diff --cached --quiet && exit 0
-          git commit -m "chore: registrar producto territorial de $TERRITORY_ID"
-          target_branch="$GITHUB_REF_NAME"
-          for attempt in 1 2 3; do
-            git pull --rebase origin "$target_branch" && git push origin "HEAD:$target_branch" && exit 0
-            git rebase --abort >/dev/null 2>&1 || true; sleep $((attempt * 2))
-          done
-          echo '::error::No se pudo registrar el producto territorial tras tres intentos.'; exit 48
+          # T-360: la promoción se re-deriva desde el HEAD remoto en cada intento (sin rebase del catálogo YAML);
+          # los valores (sha de checkout, digest, decisión) quedan fijados aquí, antes del primer intento.
+          promote="python herramientas/promover_catalogo_operacional.py --kind territorial_product"
+          promote+=" --territory-id '$TERRITORY_ID' --edition '$edition' --run-id '$GITHUB_RUN_ID'"
+          promote+=" --artifact-name '$artifact_name' --artifact-sha256 '$digest' --source-commit '$checkout_sha'"
+          promote+=" --decision '$decision' --producer-manifest-path '$manifest'"
+          promote+=" && python herramientas/catalogo_preparacion.py --root-dir . validate"
+          rc=0
+          python -m herramientas.registrar_en_main --rama "$GITHUB_REF_NAME" --aplicar "$promote" \
+            --ruta configuracion/catalogo_preparacion.yaml \
+            --ruta "territorios/$TERRITORY_ID/evidencia/catalogo/territorial_product_$edition.json" --ruta "$manifest" \
+            --mensaje "chore: registrar producto territorial de $TERRITORY_ID" || rc=$?
+          [[ "$rc" == 0 ]] || { echo "::error::No se pudo registrar el producto territorial (rc=$rc)."; exit 48; }
       - name: Archivo en origen — M06 a R2 y composición a git
         shell: bash
         env:
@@ -1650,13 +1640,8 @@ jobs:
           t1=$(date +%s)
           python herramientas/archivo_origen.py composicion --estado .ddd-m06-state --territorio "$TERRITORY_ID" --run-id "$GITHUB_RUN_ID"
           echo "ARCHIVO_ORIGEN_TIEMPOS: r2=$((t1-t0))s composicion=$(( $(date +%s)-t1 ))s"
-          git config user.name github-actions; git config user.email github-actions@github.com
-          git add orchestracion/archivo_r2.json datos/composicion/MANIFEST.json datos/composicion/runs
-          git diff --cached --quiet && exit 0
-          git commit -m "chore(archivo): M06 de $TERRITORY_ID en R2 y composición del run $GITHUB_RUN_ID"
-          target_branch="$GITHUB_REF_NAME"
-          for attempt in 1 2 3 4; do
-            git pull --rebase origin "$target_branch" && git push origin "HEAD:$target_branch" && exit 0
-            git rebase --abort >/dev/null 2>&1 || true; sleep $((attempt * 3))
-          done
-          echo '::error title=ARCHIVO_ORIGEN_FAILED::No se pudo registrar el archivo en origen en main.'; exit 1
+          rc=0
+          python -m herramientas.registrar_en_main --rama "$GITHUB_REF_NAME" \
+            --ruta orchestracion/archivo_r2.json --ruta datos/composicion/MANIFEST.json --ruta datos/composicion/runs \
+            --mensaje "chore(archivo): M06 de $TERRITORY_ID en R2 y composición del run $GITHUB_RUN_ID" || rc=$?
+          [[ "$rc" == 0 ]] || { echo '::error title=ARCHIVO_ORIGEN_FAILED::No se pudo registrar el archivo en origen en main.'; exit 1; }
