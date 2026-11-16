@@ -2322,24 +2322,23 @@ territories:
         run_id: 43029566265
         stage: M08
       preparation_evidence:
-        run_id: 43770683601
-        artifact_name: ddd-source-package-nac41-2025-43770683601
-        artifact_sha256: 42d7c7744ac9ad44ff57dcc982cf9becf7191109d113b6d07ca7f44d387f9b37
+        run_id: 43786750220
+        artifact_name: ddd-source-package-nac41-2025-43786750220
+        artifact_sha256: 09440fe8f39d2b6e77a5f2b43e7bb29ea8991f6fb0a8f6f18b408be7fb7ed224
         package_sha256: 9f7fb7e1aad44e89c9411296e682df929cc588b1400bc5c8d7d22539df297ad1
-        receipt_path: territorios/nac41/evidencia/fuentes_territoriales/2025/abffc164f67aed6fb2927b585fcf178a5d989638e3b3898f77fc10e6c547709c/43770683601/receipt.json
+        receipt_path: territorios/nac41/evidencia/fuentes_territoriales/2025/abffc164f67aed6fb2927b585fcf178a5d989638e3b3898f77fc10e6c547709c/43786750220/receipt.json
         territorial_identity_sha256: abffc164f67aed6fb2927b585fcf178a5d989638e3b3898f77fc10e6c547709c
         compatibility_report_sha256: 7cfff8a52f05b69500548add0435112ee7e7ef35b656e63b122f2177aa40fb09
         compatibility_identity_sha256: 71e2023d67c63cd1874dc17a0bd2e56f716f3b9f600bd1a02c4e0aee8f22f86d
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: b00f5979d010eedca3c410ffdf2b8c8354bdc961
+        source_commit: 9dba1a609e93e340ba4c361e87121e8d899551af
       evidence:
         electoral_source: territorios/nac41/evidencia/fuentes_electorales/2025/e621f70cd455325efd4d5718605b3085764905e4a6549006aa6ec556534b3041/41239919571/receipt.json
         territorial_product: territorios/nac41/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac41/evidencia/pares_fuentes/2025/cb79f6e4011e57e45764794c8ff7d02d2c4aabd12a959f68cbdce6031f38ab5d.json
         electoral_product: territorios/nac41/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/nac41/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac42
   name: Congreso Soria
