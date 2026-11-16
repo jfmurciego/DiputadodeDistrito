@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_malaga",
+  "territory_id": "nac29",
   "territory_name": "Congreso Málaga",
   "edition": "2025",
-  "run_id": 43006442219,
-  "artifact_name": "ddd-state-43006442219-M08",
-  "artifact_sha256": "686b8c45ab80515c15c813e0ad8c852a362fdb6ad146dfc9b2654f6c8c40c6a8",
-  "source_commit": "b5746d4d10e28fd87c65c52b0f767374fe7aa46c",
+  "run_id": 43786348967,
+  "artifact_name": "ddd-state-43786348967-M08",
+  "artifact_sha256": "3cdcb27a634dbb9425061efaefcc908f9b9f7b8b3f370273693980c65c847399",
+  "source_commit": "95bad9626262f2583684f4bbdd018ebe589f630b",
   "stage": "M08"
 }
