@@ -268,11 +268,15 @@ class AlmacenR2(unittest.TestCase):
         class P:
             def __init__(self, rc, err=b"", out=b""):
                 self.returncode, self.stderr, self.stdout = rc, err, out
-        a = ce.AlmacenR2("b", "c", run=lambda *a, **k: P(1, b"An error occurred (404) when calling HeadObject: Not Found"))
+        aws_404 = b'fatal error: An error occurred (404) when calling the HeadObject operation: Key "campanas/1/x" does not exist'
+        a = ce.AlmacenR2("b", "c", run=lambda *a, **k: P(1, aws_404))
         self.assertIsNone(a.leer("campanas/1/semaforo.json"))
-        a = ce.AlmacenR2("b", "c", run=lambda *a, **k: P(1, b"Could not connect to the endpoint URL"))
-        with self.assertRaises(ce.EstadoError):
-            a.leer("campanas/1/semaforo.json")
+        # Control negativo: «404» dentro del endpoint (account id) o de la clave NO es «ausente».
+        for err in (b"Could not connect to the endpoint URL", b"Could not connect to https://a404f.r2.cloudflarestorage.com",
+                    b"An error occurred (403) when calling the GetObject operation: campanas/40404/x Forbidden"):
+            a = ce.AlmacenR2("b", "c", run=lambda *x, e=err, **k: P(1, e))
+            with self.assertRaises(ce.EstadoError):
+                a.leer("campanas/1/semaforo.json")
         a = ce.AlmacenR2("b", "c", run=lambda *a, **k: P(0, out=b'["campanas/1/x.json"]'))
         self.assertEqual(a.listar("campanas/1/"), ["campanas/1/x.json"])
 
@@ -310,6 +314,111 @@ class Cli(unittest.TestCase):
             self.assertEqual(run("resultado", *a).returncode, ce.RC_ROJO)
             self.assertEqual(run("registrar-cierre", *a, "--huella", plan["huella"], "--rama", "main").returncode, 0)
             self.assertEqual(run("resultado", *a).returncode, 0)
+
+
+class ArreglosRevisor(Base):
+    """Arreglos 1-7 del revisor de #861, cada uno con su control negativo."""
+
+    def test_1_semaforo_inmutable(self):
+        c = self.campana("nac22, nac42")
+        self.assertEqual(ce.guardar_semaforo(self.alm, c, ce.comprobar("nac22, nac42", "vigente")), "sin_cambios")
+        with self.assertRaises(ce.EstadoError):  # cambiaría los lanzados y el denominador de la parada
+            ce.guardar_semaforo(self.alm, c, ce.comprobar("nac22", "vigente"))
+
+    def test_2_causas_transitorias_acreditadas(self):
+        for c in ("PUSH_RECHAZADO_TRAS_10", "ARTIFACT_EGRESS_QUOTA", "SIN_RESULTADO", "SALIDA_75"):
+            self.assertTrue(ce.es_transitoria(c), c)
+        for c in ("PUSH_RECHAZADO", "PUSH_RECHAZADO_TRAS_X", "RED_TRANSITORIA", "HTTP_5XX", "CUOTA_DESCARGA_75",
+                  "ARCHIVO_ORIGEN_FAILED", "CATALOGO_PROCEDENCIA_NO_REGENERADO", "RUTA_NO_FUSIONABLE", "SALIDA_48", None):
+            self.assertFalse(ce.es_transitoria(c), c)
+        self.assertEqual([ce.normalizar_causa(None, s)[0] for s in (75, 76, 77, 48, 50, 9)],
+                         ["SALIDA_75", "CATALOGO_PROCEDENCIA_NO_REGENERADO", "RUTA_NO_FUSIONABLE", "SALIDA_48",
+                          "SALIDA_50", "CAUSA_DESCONOCIDA"])
+        for codigo, (_, _, cita) in ce.CAUSAS.items():  # cada código lleva su cita a main
+            self.assertTrue(cita, codigo)
+
+    def test_3_registrar_no_lava_un_apartado_no_transitorio(self):
+        c = self.campana()
+        self.apartar(c, "nac22", "TERRITORIAL_READY_PAIR_INCOMPATIBLE")
+        with self.assertRaises(ce.NoReejecutable):
+            ce.registrar(self.alm, c, "nac22", "P10", 2, "ok")
+        self.assertEqual(ce.recuento(self.alm, c)["apartados"], 1)
+        self.apartar(c, "nac42", "PUSH_RECHAZADO_TRAS_10")  # transitorio: sí se puede sanar
+        self.assertEqual(ce.registrar(self.alm, c, "nac42", "P10", 2, "ok"), "escrito")
+
+    def test_3_cli_registrar_rc_4(self):
+        a = ["--almacen", f"dir:{self._td.name}", "--campana", "903"]
+        self.campana(c="903")
+        self.apartar("903", "nac22", "CANDIDATE_FAILED")
+        r = subprocess.run([*CLI, "registrar", *a, "--territorio", "nac22", "--paso", "P10", "--intento", "2",
+                            "--estado", "ok"], capture_output=True, text=True)
+        self.assertEqual(r.returncode, ce.RC_NO_REEJECUTABLE)
+        self.assertIn("::error::NO_REEJECUTABLE", r.stderr)
+
+    def test_3_parada_pegajosa(self):
+        c = self.campana()
+        for t in ("nac22", "nac42", "nac52"):
+            self.apartar(c, t, "SIN_RESULTADO")
+        self.assertTrue(ce.recuento(self.alm, c)["parada"]["activa"])
+        self.sanar(c, "nac22", intento=2)  # la re-ejecución que sana no reabre la campaña
+        r = ce.recuento(self.alm, c)
+        self.assertEqual(r["apartados"], 2)
+        self.assertTrue(r["parada"]["activa"])
+        self.assertIn("fijada", r["parada"]["motivo"])
+        self.assertEqual(ce.empezar(self.alm, c, "aut11", "P10", 1)[0], ce.RC_PARADA)
+
+    def test_4_objeto_no_dict_o_desaparecido(self):
+        c = self.campana()
+        ce.empezar(self.alm, c, "nac22", "P10", 1)
+        Path(self._td.name, ce.clave_paso(c, "nac22", "P10", 1)).write_text("[1]")
+        r = subprocess.run([*CLI, "recuento", "--almacen", f"dir:{self._td.name}", "--campana", c],
+                           capture_output=True, text=True)
+        self.assertEqual(r.returncode, ce.RC_ENTRADA)
+        self.assertIn("::error::CAMPANA_OBJETO_CORRUPTO", r.stderr)
+        self.assertNotIn("Traceback", r.stderr)
+
+        class Fantasma(ce.AlmacenLocal):
+            def leer(self, clave):
+                return None if "/pasos/" in clave else super().leer(clave)
+        with self.assertRaises(ce.EstadoError):
+            ce.recuento(Fantasma(Path(self._td.name)), c)
+
+    def test_5_entradas_saneadas(self):
+        for malo in ("@jfmurciego", "[x](http://e)", "<b>nac22</b>", "nac22\n::warning::x"):
+            with self.assertRaises(ce.EstadoError):
+                ce.resolver_territorios(malo)
+        for malo in ("900\n", "9 0", "../x"):
+            with self.assertRaises(ce.EstadoError):
+                ce.clave_paso(malo, "nac22", "P10", 1)
+        r = subprocess.run([*CLI, "comprobar", "--territorios", "nac22\n::warning::inyectado"], capture_output=True, text=True)
+        self.assertEqual(r.returncode, ce.RC_ENTRADA)
+        self.assertEqual(len(r.stderr.strip().splitlines()), 1)
+
+    def test_6_causa_normalizada_sin_perderla(self):
+        c = self.campana()
+        ce.empezar(self.alm, c, "nac22", "P10", 1)
+        ce.registrar(self.alm, c, "nac22", "P10", 1, "apartado", "  candidate_failed ")
+        self.assertEqual(ce.recuento(self.alm, c)["territorios"]["nac22"]["causa"], "CANDIDATE_FAILED")
+        ce.empezar(self.alm, c, "nac42", "P10", 1)
+        self.assertEqual(ce.registrar(self.alm, c, "nac42", "P10", 1, "apartado", "Error: <b>falló</b> @x"), "escrito")
+        d = json.loads(Path(self._td.name, ce.clave_paso(c, "nac42", "P10", 1)).read_text())
+        self.assertEqual((d["causa"], d["causa_original"]), ("CAUSA_DESCONOCIDA", "Error: ?b?fall??/b? ?x"))
+        self.assertEqual([ce.umbral_parada(n) for n in (1, 10, 15, 16, 70, 71, 75, 76)], [3, 3, 3, 4, 14, 15, 15, 16])
+
+    def test_7_rutas_robot_falla_cerrado(self):
+        c = self.campana()
+        with tempfile.TemporaryDirectory() as raiz:
+            with self.assertRaises(ce.EstadoError) as e:
+                ce.plan_cierre(self.alm, c, "refs/heads/main", "1", False, [], Path(raiz))
+            self.assertIn("CIERRE_SIN_RUTAS_ROBOT", str(e.exception))
+            wf = Path(raiz, ".github/workflows")
+            wf.mkdir(parents=True)
+            (wf / "p90-automatico.yml").write_text("jobs: {}\n")
+            with self.assertRaises(ce.EstadoError):
+                ce.plan_cierre(self.alm, c, "refs/heads/main", "1", False, [], Path(raiz))
+        with self.assertRaises(ce.EstadoError) as e:
+            ce.plan_cierre(self.alm, c, "refs/heads/main", "1", False, ["configuracion/catalogo_preparacion.yaml"])
+        self.assertIn("D-147", str(e.exception))
 
 
 if __name__ == "__main__":

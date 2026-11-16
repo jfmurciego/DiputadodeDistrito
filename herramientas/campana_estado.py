@@ -8,7 +8,9 @@ NOMBRE DE VERSIÓN: Estado de campaña P00
 FECHA: 2026-11-16
 ESTADO: candidato
 ANTERIOR: ninguna (fichero nuevo)
-CAMBIOS: 1.0.0: fichero nuevo (T-379 PR 1).
+CAMBIOS: 1.0.0: fichero nuevo (T-379 PR 1; incluye los arreglos del revisor de #861: semáforo inmutable, causas
+  acreditadas en main con cita, re-ejecución vetada también al registrar, parada pegajosa, «ausente» de R2 exacto,
+  entradas saneadas, causa normalizada sin perder el texto, D-147).
 MOTIVO: diseño de P00 Campaña 1.1 (T-378/T-387, D-143, D-145) §2, §3, §4, §6, §10 y §13 (PR 1: estado de campaña, sin workflows).
 QUÉ HACE (sin red, salvo el almacén R2; determinista; fallo cerrado; errores `::error::` a stderr):
   comprobar   territorios + elección (+ hechos) → semáforo verde/ámbar/rojo por territorio y si la campaña es lanzable.
@@ -30,7 +32,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import math
 import os
 import re
 import subprocess
@@ -57,11 +58,38 @@ GRUPOS = {"todos": None, "congreso": "NAC", "autonómicas": "AUT", "autonomicas"
 AMBAR = {"PAQUETE_FUENTES_CADUCADO", "CHECKPOINT_INCOMPATIBLE"}
 ROJO = {"FUENTE_SIN_ESPEJO", "BLOQUEADA_SIN_DATO", "SIN_ELECCION", "ELECCION_NO_SOPORTADA", "CODIGO_INEXISTENTE",
         "CONGRESO_350", "ENSAYO_SIN_CONTRATO"}
-# Causas transitorias (§4): se pueden re-ejecutar en la misma ejecución. El resto, no.
-TRANSITORIAS = {"SIN_RESULTADO", "RED_TRANSITORIA", "HTTP_5XX", "CUOTA_DESCARGA_75", "PUSH_RECHAZADO"}
+# Causas acreditadas en `main` (código → (transitoria, salida, cita)). Transitoria = se puede re-ejecutar en la misma
+# ejecución (§4); el resto, no. Una causa fuera de la tabla es NO transitoria (fallo cerrado).
+CAUSAS = {
+    "SIN_RESULTADO": (True, None, "diseño P00 1.1 §4 (cancelación, tiempo agotado, runner perdido)"),
+    "PUSH_RECHAZADO_TRAS_<N>": (True, 75, "herramientas/registrar_en_main.py l. 45 y 52-55; "
+                                "persistir_estado_operativo_compartido.py l. 142; persistir_producto_electoral_operacional.py l. 447"),
+    "ARTIFACT_EGRESS_QUOTA": (True, 75, ".github/workflows/_reutilizable-puerta-validacion.yml l. 14, 151 y 172 (cuota de Actions)"),
+    "CATALOGO_PROCEDENCIA_NO_REGENERADO": (False, 76, "herramientas/registrar_en_main.py l. 46 y 282"),
+    "RUTA_NO_FUSIONABLE": (False, 77, "herramientas/registrar_en_main.py l. 47 y 285-286"),
+    # Envuelve la salida de registrar_en_main (75, 76 o 77) en `exit 1`: no se sabe si fue el push → no transitoria.
+    "ARCHIVO_ORIGEN_FAILED": (False, 1, ".github/workflows/_reutilizable-generacion-territorial.yml l. 1647; "
+                              "_reutilizable-incorporacion-electoral.yml l. 415"),
+    "SALIDA_48": (False, 48, "registro o certificación fallidos: _reutilizable-generacion-territorial.yml l. 1566-1628, "
+                  "preparacion-fuentes.yml l. 534, preparacion-resultados-electorales.yml l. 458"),
+    "SALIDA_50": (False, 50, "registro durable incoherente: preparacion-fuentes.yml l. 536, "
+                  "preparacion-resultados-electorales.yml l. 647, ejecucion-completa-proyecto.yml l. 1637"),
+}
+PREFIJO_PUSH = "PUSH_RECHAZADO_TRAS_"
+# Salida del proceso → causa, solo cuando no hay código impreso y la salida no es ambigua (75 tiene dos orígenes,
+# ambos transitorios: se registra SALIDA_75 y cuenta como transitoria).
+SALIDAS = {75: "SALIDA_75", 76: "CATALOGO_PROCEDENCIA_NO_REGENERADO", 77: "RUTA_NO_FUSIONABLE", 48: "SALIDA_48", 50: "SALIDA_50"}
 CAUSA_DESCONOCIDA = "CAUSA_DESCONOCIDA"
-RE_CAUSA = re.compile(r"^[A-Z][A-Z0-9_]{2,63}$")
-RE_CAMPANA = re.compile(r"^[A-Za-z0-9_-]{1,64}$")
+RE_CAUSA = re.compile(r"[A-Z][A-Z0-9_]{2,63}")
+RE_CAMPANA = re.compile(r"[A-Za-z0-9_-]{1,64}")
+RE_TOKEN = re.compile(r"[a-z0-9_-]{1,40}")
+
+
+def es_transitoria(causa: str | None) -> bool:
+    c = causa or ""
+    if c.startswith(PREFIJO_PUSH) and c[len(PREFIJO_PUSH):].isdigit():
+        return True
+    return c == "SALIDA_75" or (c in CAUSAS and CAUSAS[c][0])
 ESTADOS_FINALES = {"ok", "apartado"}
 
 RC_ROJO, RC_ENTRADA, RC_NO_LANZABLE, RC_NO_REEJECUTABLE, RC_PARADA = 1, 2, 3, 4, 10
@@ -71,8 +99,12 @@ class EstadoError(Exception):
     """Entrada o estado inválido: fallo cerrado (rc 2)."""
 
 
+class NoReejecutable(EstadoError):
+    """Intento nuevo de un paso cuyo último intento fue un apartado no transitorio (rc 4)."""
+
+
 def _error(msg: str) -> None:
-    print(f"::error::{msg}", file=sys.stderr)
+    print("::error::" + " ".join(str(msg).split()), file=sys.stderr)  # sin saltos de línea: no inyecta comandos
 
 
 def _yaml(path: Path) -> dict:
@@ -112,6 +144,9 @@ class AlmacenLocal:
         return sorted(str(p.relative_to(self.raiz)).replace(os.sep, "/") for p in base.rglob("*.json") if p.is_file())
 
 
+RE_AUSENTE = re.compile(r"An error occurred \((?:404|NoSuchKey)\) when calling the (?:HeadObject|GetObject) operation")
+
+
 class AlmacenR2:
     """R2 por la CLI de aws (mismo endpoint que fuente_r2.py). Un objeto ausente es None; cualquier otro fallo, error."""
 
@@ -126,7 +161,7 @@ class AlmacenR2:
         if p.returncode == 0:
             return p.stdout
         err = (p.stderr or b"").decode("utf-8", "replace")
-        if "404" in err or "Not Found" in err or "NoSuchKey" in err:
+        if RE_AUSENTE.search(err):
             return None
         raise EstadoError(f"CAMPANA_R2_LECTURA {clave}: {err.strip()[:300]}")
 
@@ -155,7 +190,7 @@ def almacen(spec: str):
 
 
 def _prefijo(campana: str) -> str:
-    if not RE_CAMPANA.match(str(campana)):
+    if not RE_CAMPANA.fullmatch(str(campana)):
         raise EstadoError(f"id de campaña no válido: {campana!r}")
     return f"campanas/{campana}/"
 
@@ -169,9 +204,12 @@ def _leer_json(alm, clave: str):
     if b is None:
         return None
     try:
-        return json.loads(b)
+        d = json.loads(b)
     except ValueError as exc:
         raise EstadoError(f"CAMPANA_OBJETO_CORRUPTO {clave}: {exc}") from exc
+    if not isinstance(d, dict):
+        raise EstadoError(f"CAMPANA_OBJETO_CORRUPTO {clave}: no es un objeto JSON")
+    return d
 
 
 # ─────────────────────────── territorios y elección ───────────────────────────
@@ -184,10 +222,13 @@ def resolver_territorios(valor: str) -> list[str]:
         raise EstadoError("territorios vacío: usa todos, congreso, autonómicas o una lista de códigos")
     if v.lower() in GRUPOS:
         return tids.ids_nuevos(GRUPOS[v.lower()])
-    fichas = [t for t in re.split(r"[\s,;]+", v) if t]
-    if any(t.lower() in GRUPOS for t in fichas):
+    fichas = [t.lower() for t in re.split(r"[\s,;]+", v) if t]
+    if any(t in GRUPOS for t in fichas):
         raise EstadoError(f"un grupo ({', '.join(GRUPOS)}) no se mezcla con códigos: {v!r}")
-    return list(dict.fromkeys(t.lower() for t in fichas))
+    malos = [t for t in fichas if not RE_TOKEN.fullmatch(t)]
+    if malos:
+        raise EstadoError(f"código de territorio mal formado: {malos[0]!r} (solo [a-z0-9_-])")
+    return list(dict.fromkeys(fichas))
 
 
 def traducir_eleccion(valor: str) -> dict:
@@ -266,8 +307,16 @@ def comprobar(territorios: str, eleccion: str, hechos: dict | None = None, publi
             "gasto_semanal_min": camp.get("gasto_semanal_min"), "publicar": bool(publicar) and not el["ensayo"]}
 
 
-def guardar_semaforo(alm, campana: str, semaforo: dict) -> None:
-    alm.escribir(f"{_prefijo(campana)}semaforo.json", _json(semaforo))
+def guardar_semaforo(alm, campana: str, semaforo: dict) -> str:
+    """El semáforo fija los lanzados (denominador de la parada): igual → no hace nada; distinto → error."""
+    clave = f"{_prefijo(campana)}semaforo.json"
+    previo = _leer_json(alm, clave)
+    if previo is not None:
+        if previo == json.loads(_json(semaforo)):
+            return "sin_cambios"
+        raise EstadoError(f"CAMPANA_SEMAFORO_DISTINTO {campana}: ya hay otra comprobación previa en el almacén")
+    alm.escribir(clave, _json(semaforo))
+    return "escrito"
 
 
 def leer_semaforo(alm, campana: str) -> dict:
@@ -281,7 +330,7 @@ def leer_semaforo(alm, campana: str) -> dict:
 
 def _validar_paso(semaforo: dict, territorio: str, paso: str, intento: int) -> None:
     if territorio not in semaforo["lanzados"]:
-        raise EstadoError(f"{territorio} no es un territorio lanzado de la campaña")
+        raise EstadoError(f"{territorio!r} no es un territorio lanzado de la campaña")
     if paso not in PASOS:
         raise EstadoError(f"paso no válido: {paso!r} ({', '.join(PASOS)})")
     if not isinstance(intento, int) or intento < 1:
@@ -299,7 +348,10 @@ def _registros(alm, campana: str) -> dict[tuple[str, str], dict[int, dict]]:
         m = re.fullmatch(re.escape(pre) + r"([a-z0-9_-]+)/(P\d0)/(\d+)\.json", clave)
         if not m:
             raise EstadoError(f"CAMPANA_CLAVE_INESPERADA {clave}")
-        out.setdefault((m.group(1), m.group(2)), {})[int(m.group(3))] = _leer_json(alm, clave)
+        d = _leer_json(alm, clave)
+        if d is None:
+            raise EstadoError(f"CAMPANA_OBJETO_DESAPARECIDO {clave}: listado pero no legible")
+        out.setdefault((m.group(1), m.group(2)), {})[int(m.group(3))] = d
     return out
 
 
@@ -313,7 +365,7 @@ def _ultimo(regs: dict, territorio: str, paso: str) -> tuple[int, dict] | None:
 
 def umbral_parada(lanzados: int) -> int:
     """Apartados que paran la campaña: ≥20 % de los lanzados con un mínimo de 3 (71 → 15)."""
-    return max(3, math.ceil(0.2 * lanzados))
+    return max(3, -(-lanzados // 5))
 
 
 def _parada(apartados: list[dict], lanzados: int) -> dict:
@@ -364,6 +416,8 @@ def recuento(alm, campana: str, final: bool = False, jobs: dict | None = None) -
         filas[t] = fila
     explicitos = [dict(territorio=t, **f) for t, f in filas.items() if f["estado"] == "apartado"]
     parada_curso = _parada(explicitos, len(lanzados))
+    if _leer_json(alm, f"{_prefijo(campana)}parada.json"):
+        parada_curso["activa"] = True
     for t, f in filas.items():
         if f["estado"] == "pendiente_final":
             if parada_curso["activa"]:
@@ -372,6 +426,9 @@ def recuento(alm, campana: str, final: bool = False, jobs: dict | None = None) -
                 f.update(estado="apartado", causa="SIN_RESULTADO")
     apartados = [dict(territorio=t, **f) for t, f in filas.items() if f["estado"] == "apartado"]
     parada = _parada(apartados, len(lanzados))
+    fijada = _leer_json(alm, f"{_prefijo(campana)}parada.json")
+    if fijada and not parada["activa"]:  # pegajosa: una re-ejecución que sana no reabre la campaña
+        parada.update(activa=True, motivo=f"fijada: {fijada.get('motivo', '')}")
     return {"campana": campana, "final": final, "lanzados": len(lanzados), "umbral_parada": umbral_parada(len(lanzados)),
             "territorios": filas, "apartados": len(apartados), "sanos": sum(f["estado"] == "sano" for f in filas.values()),
             "parada": parada}
@@ -384,17 +441,17 @@ def empezar(alm, campana: str, territorio: str, paso: str, intento: int) -> tupl
     _validar_paso(sem, territorio, paso, intento)
     rec = recuento(alm, campana)
     if rec["parada"]["activa"]:
+        _fijar_parada(alm, campana, rec["parada"]["motivo"])
         return RC_PARADA, f"PARADA_SISTEMICA: {rec['parada']['motivo']}"
     regs = _registros(alm, campana)
     por = regs.get((territorio, paso)) or {}
     previos = {i: r for i, r in por.items() if i < intento}
-    if previos:
-        r = previos[max(previos)]
-        if r.get("estado") == "ok":
-            return 0, "ya_ok"
-        causa = r.get("causa") or "SIN_RESULTADO"
-        if r.get("estado") == "apartado" and causa not in TRANSITORIAS:
-            return RC_NO_REEJECUTABLE, f"NO_REEJECUTABLE: {territorio} {paso} intento {max(previos)} apartado por {causa}"
+    if previos and previos[max(previos)].get("estado") == "ok":
+        return 0, "ya_ok"
+    try:
+        _comprobar_reejecucion(por, territorio, paso, intento)
+    except NoReejecutable as exc:
+        return RC_NO_REEJECUTABLE, str(exc)
     actual = por.get(intento)
     if actual is not None:
         if actual.get("estado") in ESTADOS_FINALES:
@@ -406,23 +463,51 @@ def empezar(alm, campana: str, territorio: str, paso: str, intento: int) -> tupl
     return 0, "marcado"
 
 
+def _comprobar_reejecucion(por: dict, territorio: str, paso: str, intento: int) -> None:
+    previos = {i: r for i, r in por.items() if i < intento}
+    if not previos:
+        return
+    i = max(previos)
+    r = previos[i]
+    if r.get("estado") == "apartado" and not es_transitoria(r.get("causa")):
+        raise NoReejecutable(f"NO_REEJECUTABLE: {territorio} {paso} intento {i} apartado por {r.get('causa')}")
+
+
+def _fijar_parada(alm, campana: str, motivo: str) -> None:
+    clave = f"{_prefijo(campana)}parada.json"
+    if _leer_json(alm, clave) is None:  # la primera gana
+        alm.escribir(clave, _json({"campana": campana, "motivo": motivo, "hora": _ahora()}))
+
+
+def normalizar_causa(causa: str | None, salida: int | None = None) -> tuple[str, str | None]:
+    """(código, texto original saneado o None). Sin código: el de la salida si es inequívoca; si no, desconocida."""
+    c = str(causa or "").strip().upper()
+    if not c:
+        return (SALIDAS.get(salida, CAUSA_DESCONOCIDA) if salida is not None else CAUSA_DESCONOCIDA), None
+    if RE_CAUSA.fullmatch(c):
+        return c, None
+    return CAUSA_DESCONOCIDA, re.sub(r"[^A-Za-z0-9 _.:/-]", "?", str(causa).strip())[:200]
+
+
 def registrar(alm, campana: str, territorio: str, paso: str, intento: int, estado: str, causa: str | None = None,
-              huellas: dict | None = None) -> str:
+              huellas: dict | None = None, salida: int | None = None) -> str:
     """Escribe el resultado del paso. Misma clave y mismo contenido (salvo la hora) → no hace nada; una clave ya cerrada
     con otro resultado → error (nunca se reescribe la historia de un intento)."""
     sem = leer_semaforo(alm, campana)
     _validar_paso(sem, territorio, paso, intento)
     if estado not in ESTADOS_FINALES:
         raise EstadoError(f"estado no válido: {estado!r} (ok | apartado)")
+    original = None
     if estado == "ok":
-        if causa:
-            raise EstadoError("un paso «ok» no lleva causa")
+        if causa or salida not in (None, 0):
+            raise EstadoError("un paso «ok» no lleva causa ni salida distinta de 0")
     else:
-        causa = causa or CAUSA_DESCONOCIDA
-        if not RE_CAUSA.match(causa):
-            raise EstadoError(f"código de causa no válido: {causa!r}")
+        causa, original = normalizar_causa(causa, salida)
     nuevo = {"campana": campana, "territorio": territorio, "paso": paso, "intento": intento, "estado": estado,
              "causa": causa, "huellas": dict(sorted((huellas or {}).items())), "hora": _ahora()}
+    if original:
+        nuevo["causa_original"] = original
+    _comprobar_reejecucion(_registros(alm, campana).get((territorio, paso)) or {}, territorio, paso, intento)
     clave = clave_paso(campana, territorio, paso, intento)
     previo = _leer_json(alm, clave)
     if previo and previo.get("estado") in ESTADOS_FINALES:
@@ -430,6 +515,10 @@ def registrar(alm, campana: str, territorio: str, paso: str, intento: int, estad
             return "sin_cambios"
         raise EstadoError(f"CAMPANA_CLAVE_CERRADA {clave}: ya tiene {previo.get('estado')} {previo.get('causa') or ''}".rstrip())
     alm.escribir(clave, _json(nuevo))
+    if estado == "apartado":
+        rec = recuento(alm, campana)
+        if rec["parada"]["activa"]:
+            _fijar_parada(alm, campana, rec["parada"]["motivo"])
     return "escrito"
 
 
@@ -450,23 +539,31 @@ def huella_estado(alm, campana: str) -> str:
 
 
 def rutas_robot(root: Path = ROOT) -> re.Pattern:
-    texto = (root / P90).read_text(encoding="utf-8")
+    try:
+        texto = (root / P90).read_text(encoding="utf-8")
+    except OSError as exc:
+        raise EstadoError(f"CIERRE_SIN_RUTAS_ROBOT: no puedo leer {P90} ({exc})") from exc
     m = re.search(r"RUTAS_ROBOT:\s*'([^']+)'", texto)
     if not m:
-        raise EstadoError(f"no encuentro RUTAS_ROBOT en {P90}")
-    return re.compile(m.group(1))
+        raise EstadoError(f"CIERRE_SIN_RUTAS_ROBOT: no encuentro RUTAS_ROBOT en {P90}")
+    try:
+        return re.compile(m.group(1))
+    except re.error as exc:
+        raise EstadoError(f"CIERRE_SIN_RUTAS_ROBOT: RUTAS_ROBOT no es una expresión válida ({exc})") from exc
 
 
 def plan_cierre(alm, campana: str, ref: str, run_id: str, ensayo: bool, ficheros: list[str], root: Path = ROOT) -> dict:
     """Commit de cierre (§6, §10): en `main` solo si la ejecución viene de `refs/heads/main`; si no, rama
-    `p00-cierre/<run_id>`. En ensayo, sin ficheros ni commit. Toda ruta debe casar con RUTAS_ROBOT de P90."""
+    `p00-cierre/<run_id>`. En ensayo, sin ficheros ni commit. Toda ruta debe casar con RUTAS_ROBOT de P90 (D-147:
+    `configuracion/catalogo_preparacion.yaml` nunca lo hace y el cierre no lo incluye)."""
     if not re.fullmatch(r"\d+", str(run_id)):
         raise EstadoError(f"run_id no válido: {run_id!r}")
     lista = [] if ensayo else sorted(dict.fromkeys(ficheros))
     patron = rutas_robot(root)
     ajenas = [f for f in lista if not patron.match(f)]
     if ajenas:
-        raise EstadoError(f"CIERRE_RUTA_NO_ROBOT: {', '.join(ajenas)} (fuera de RUTAS_ROBOT de P90; §15.2)")
+        raise EstadoError(f"CIERRE_RUTA_NO_ROBOT: {', '.join(map(repr, ajenas))} (fuera de RUTAS_ROBOT de P90; "
+                          "D-147: configuracion/catalogo_preparacion.yaml nunca es ruta de robot ni entra en el cierre)")
     huella = huella_estado(alm, campana)
     rama = "main" if ref == "refs/heads/main" else f"p00-cierre/{run_id}"
     return {"campana": campana, "rama": rama, "ficheros": lista, "commit": bool(lista), "huella": huella,
@@ -582,7 +679,8 @@ def main(argv: list[str] | None = None) -> int:
     con_paso(sub.add_parser("empezar", help="antes de un paso: parada, re-ejecución y marca sin_resultado"))
     p = con_paso(sub.add_parser("registrar", help="resultado de un paso"))
     p.add_argument("--estado", required=True, choices=sorted(ESTADOS_FINALES))
-    p.add_argument("--causa")
+    p.add_argument("--causa", help="código de causa impreso por la herramienta (se normaliza)")
+    p.add_argument("--salida", type=int, help="código de salida del proceso, si no hay código de causa")
     p.add_argument("--huellas", help="JSON {nombre: sha256}")
     for nombre, ayuda in (("recuento", "apartados y parada"), ("resultado", "rc 1 si hay apartados, parada o cierre pendiente"),
                           ("informe", "markdown para el issue")):
@@ -619,7 +717,7 @@ def main(argv: list[str] | None = None) -> int:
             huellas = json.loads(ns.huellas) if ns.huellas else None
             if huellas is not None and not isinstance(huellas, dict):
                 raise EstadoError("--huellas debe ser un objeto JSON {nombre: sha256}")
-            print(registrar(alm, ns.campana, ns.territorio, ns.paso, ns.intento, ns.estado, ns.causa, huellas))
+            print(registrar(alm, ns.campana, ns.territorio, ns.paso, ns.intento, ns.estado, ns.causa, huellas, ns.salida))
             return 0
         if ns.accion == "recuento":
             r = recuento(alm, ns.campana, ns.final, _cargar(ns.jobs))
@@ -644,6 +742,9 @@ def main(argv: list[str] | None = None) -> int:
         if ns.accion == "registrar-cierre":
             print(registrar_cierre(alm, ns.campana, ns.huella, ns.rama, ns.sha))
             return 0
+    except NoReejecutable as exc:
+        _error(str(exc))
+        return RC_NO_REEJECUTABLE
     except (EstadoError, ValueError) as exc:
         _error(str(exc))
         return RC_ENTRADA
