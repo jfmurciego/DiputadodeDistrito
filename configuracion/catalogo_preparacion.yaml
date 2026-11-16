@@ -1947,7 +1947,7 @@ territories:
       evidence:
         electoral_source: territorios/nac31/evidencia/fuentes_electorales/2025/ed7c6da72b8161cfdfac25753c324d69ea539e43f2912343522f700d3ac644f4/43786026113/receipt.json
         territorial_product: territorios/nac31/evidencia/catalogo/territorial_product_2025.json
-        prepared_source_pair: territorios/nac31/evidencia/pares_fuentes/2025/a84c449cfcfdc7148141e0692a4eae91d9aa3ef842b5e0eec5fca6dbfd0f458d.json
+        prepared_source_pair: territorios/nac31/evidencia/pares_fuentes/2025/3bda9d4a7912af208c8b09db16287959e1065e1a0653cfe391eb7388a1d3baa7.json
         electoral_product: territorios/nac31/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/nac31/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: true
