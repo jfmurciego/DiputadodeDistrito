@@ -31,8 +31,7 @@ except ImportError:  # pragma: no cover
 @unittest.skipIf(hc is None, "dependencias no instaladas")
 class Seguimiento(unittest.TestCase):
     def test_manifiesto_clave_neutra_y_lectura_retrocompatible(self):
-        antiguo = json.loads((ROOT / "datos/resultados/historico/MANIFEST_M07.json").read_text("utf-8"))["territorios"]
-        entrada = next(iter(antiguo.values()))
+        entrada = {"seccionado_2025": "d" * 64}  # entrada histórica sintética (no el MANIFEST_M07 vivo, que se regenera)
         self.assertIn("seccionado_2025", entrada)  # lo histórico no se reescribe
         self.assertEqual(hm.huella_seccionado(entrada), entrada["seccionado_2025"])
         self.assertEqual(hm.huella_seccionado({"seccionado": "a" * 64}), "a" * 64)
