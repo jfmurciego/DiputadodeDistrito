@@ -74,7 +74,13 @@ def persist_rederived_tree(
             validate(root)
 
         _git(root, "add", *tracked_paths)
-        if _git(root, "diff", "--cached", "--quiet", check=False).returncode == 0:
+        changed = _git(root, "diff", "--cached", "--quiet", check=False).returncode != 0
+        if changed:
+            # T-360: el catálogo de procedencia va en el MISMO commit que el registro que lo cambia.
+            from herramientas.registrar_en_main import anadir_catalogo_procedencia
+
+            anadir_catalogo_procedencia(root)
+        if not changed:
             validated_head = _git(root, "rev-parse", "HEAD").stdout.strip()
             if before_push is not None:
                 before_push(attempt)
@@ -132,7 +138,7 @@ def persist_rederived_tree(
                 "No se pudo persistir la operación semántica tras "
                 f"{max_attempts} derivaciones desde el HEAD vigente"
             )
-            raise RuntimeError(f"{prefix}: {pushed.stderr.strip()}")
+            raise RuntimeError(f"PUSH_RECHAZADO_TRAS_{max_attempts}: {prefix}: {pushed.stderr.strip()}")
         time.sleep(backoff(attempt) if backoff else min(attempt * 0.2, 1.0))
 
     raise AssertionError("bucle de persistencia inalcanzable")

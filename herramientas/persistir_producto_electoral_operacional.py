@@ -14,6 +14,7 @@ import yaml
 
 from herramientas.catalogo_preparacion import CATALOG, validate_repository
 from herramientas.promover_catalogo_operacional import promote
+from herramientas.persistir_estado_operativo_compartido import SHARED_STATE_MAX_ATTEMPTS, shared_state_backoff
 import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
@@ -270,7 +271,7 @@ def persist_electoral_product(
     artifact_sha256: str,
     source_commit: str,
     target_branch: str = "main",
-    max_attempts: int = 4,
+    max_attempts: int = SHARED_STATE_MAX_ATTEMPTS,
     before_push: Callable[[int], None] | None = None,
     expected_previous_fingerprint: str | None = None,
     expected_context_fingerprint: str | None = None,
@@ -405,6 +406,11 @@ def persist_electoral_product(
         validate_repository(root_dir=root)
 
         _git(root, "add", CATALOG.as_posix(), receipt_rel.as_posix())
+        if _git(root, "diff", "--cached", "--quiet", check=False).returncode != 0:
+            # T-360: el catálogo de procedencia va en el MISMO commit que el registro.
+            from herramientas.registrar_en_main import anadir_catalogo_procedencia
+
+            anadir_catalogo_procedencia(root)
         if _git(root, "diff", "--cached", "--quiet", check=False).returncode == 0:
             current_head = _git(root, "rev-parse", "HEAD").stdout.strip()
             _write_result(
@@ -438,11 +444,12 @@ def persist_electoral_product(
 
         if attempt == max_attempts:
             raise RuntimeError(
+                f"PUSH_RECHAZADO_TRAS_{max_attempts}: "
                 "No se pudo registrar el producto electoral tras "
                 f"{max_attempts} derivaciones desde el HEAD vigente: "
                 + pushed.stderr.strip()
             )
-        time.sleep(min(attempt * 0.2, 1.0))
+        time.sleep(shared_state_backoff(attempt))
 
     raise AssertionError("bucle de persistencia inalcanzable")
 
@@ -457,7 +464,7 @@ def main() -> int:
     ap.add_argument("--artifact-sha256", required=True)
     ap.add_argument("--source-commit", required=True)
     ap.add_argument("--target-branch", default="main")
-    ap.add_argument("--max-attempts", type=int, default=4)
+    ap.add_argument("--max-attempts", type=int, default=SHARED_STATE_MAX_ATTEMPTS)
     ap.add_argument("--expected-previous-fingerprint")
     ap.add_argument("--expected-context-fingerprint")
     ap.add_argument("--result-json", type=Path)
