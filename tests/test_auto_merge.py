@@ -15,7 +15,7 @@ sys.path.insert(0, str(ROOT / "herramientas"))
 
 import decidir_auto_merge as dam  # noqa: E402
 
-WF = ROOT / ".github" / "workflows" / "p90-automatico.yml"  # T-366: job `fusionar` (antes auto-merge.yml)
+WF = ROOT / ".github" / "workflows" / "auto-merge.yml"
 REPO = "jfmurciego/DiputadodeDistrito"
 SHA = "a" * 40
 
@@ -96,37 +96,20 @@ class CasoPR458(unittest.TestCase):
         otro["check_runs"][0]["check_suite"]["id"] = self.SUITE
         self.assertEqual(dam.decidir(self.pr458(), otro, self.HEAD, REPO, self.SUITE)["decision"], "FUSIONAR")
 
-    def test_la_fusion_corre_en_workflow_run_de_main_no_en_el_codigo_de_la_pr(self):
-        # T-366: el job `fusionar` vive en p90-automatico.yml pero se ejecuta SOLO por `workflow_run` de «P90 Automático»: GitHub usa
-        # entonces la definición del workflow en `main`, nunca la de la referencia de merge de la PR. Sin auto-merge nativo.
+    def test_ninguna_version_activa_puede_ejecutarse_por_pull_request_ni_activar_auto_merge_nativo(self):
+        # La 1.0.0 se ejecutó por `pull_request` con una referencia de merge anterior a #457 y activó el auto-merge
+        # nativo con la app exenta: GitHub fusionó sin `pruebas`. La 1.2.0 no tiene ninguno de los dos caminos.
         d = yaml.safe_load(WF.read_text(encoding="utf-8"))
         on = d.get("on") or d.get(True)
+        self.assertNotIn("pull_request", on)
         self.assertNotIn("pull_request_target", on)
-        self.assertIn("P90 Automático", on["workflow_run"]["workflows"])
         texto = WF.read_text(encoding="utf-8")
         self.assertNotIn("--auto ", texto)
         self.assertNotIn("enablePullRequestAutoMerge", texto)
         job = d["jobs"]["fusionar"]
-        self.assertNotIn("needs", job)  # corre en OTRO run: la puerta es el check-run `pruebas` de la suite disparadora
-        for trozo in ("github.event_name == 'workflow_run'", "github.event.workflow_run.path == '.github/workflows/p90-automatico.yml'",
-                      "github.event.workflow_run.event == 'pull_request'"):
-            self.assertIn(trozo, job["if"])
-        self.assertEqual(job["steps"][1]["env"]["SUITE"], "${{ github.event.workflow_run.check_suite_id }}")
-        self.assertEqual(job["steps"][1]["env"]["SHA"], "${{ github.event.workflow_run.head_sha }}")
+        self.assertIn("workflow_run.path == '.github/workflows/p90-automatico.yml'", job["if"])
         self.assertIn('--suite "$SUITE"', job["steps"][1]["run"])
-
-    def test_el_job_de_fusion_no_se_ejecuta_en_el_run_de_la_pr(self):
-        # Ningún disparador de P90 que lleve el código de la PR (pull_request) puede activar `fusionar`: su `if` exige workflow_run.
-        d = yaml.safe_load(WF.read_text(encoding="utf-8"))
-        self.assertTrue(d["jobs"]["fusionar"]["if"].startswith("${{ github.event_name == 'workflow_run' &&"))
-        # y el resto de jobs de escritura de P90 con el token de la app (fusionar) no están en el run `pull_request`
-        self.assertEqual(d["jobs"]["fusionar"]["permissions"], {"contents": "read", "checks": "read", "pull-requests": "read"})
-        self.assertEqual(d["jobs"]["fusionar"]["steps"][0]["with"]["ref"], "main")
-
-    def test_forense_no_se_dispara_con_la_fusion(self):
-        # P90 se dispara a sí mismo (workflow_run): el forense solo atiende «P00 Campaña».
-        d = yaml.safe_load(WF.read_text(encoding="utf-8"))
-        self.assertIn("github.event.workflow_run.name == 'P00 Campaña'", d["jobs"]["forense_comprobar"]["if"])
+        self.assertEqual(job["steps"][1]["env"]["SUITE"], "${{ github.event.workflow_run.check_suite_id }}")
 
 
 class Workflow(unittest.TestCase):
@@ -137,11 +120,14 @@ class Workflow(unittest.TestCase):
         cls.job = cls.d["jobs"]["fusionar"]
         cls.script = cls.job["steps"][1]["run"]
 
-    def test_solo_tras_pruebas_y_sin_auto_merge_nativo(self):
-        self.assertIn("workflow_run", self.job["if"])
+    def test_solo_al_terminar_la_ci_y_sin_auto_merge_nativo(self):
+        self.assertEqual(list(self.on), ["workflow_run"])
+        self.assertEqual(self.on["workflow_run"]["workflows"], ["P90 Automático"])
+        self.assertIn("conclusion == 'success'", self.job["if"])
+        self.assertIn("event == 'pull_request'", self.job["if"])
         for prohibido in ("--auto", "--admin", "mergeable_state", "mergeStateStatus", "CLEAN"):
             self.assertNotIn(prohibido, self.script)
-        self.assertEqual(self.job["permissions"], {"contents": "read", "checks": "read", "pull-requests": "read"})
+        self.assertEqual(self.d["permissions"], {"contents": "read", "checks": "read", "pull-requests": "read"})
 
     def test_decide_por_el_check_run_del_sha_antes_de_fusionar(self):
         s = self.script

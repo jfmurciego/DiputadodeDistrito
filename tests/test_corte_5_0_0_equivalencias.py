@@ -45,7 +45,7 @@ class ReferenciasPorNombre(unittest.TestCase):
         esperadas = sorted([
             ("desplegar-visor-publico.yml", NOMBRE_05),
             ("p90-automatico.yml", "P00 Campaña"),  # forense, D-61/D-78 (T-366)
-            ("p90-automatico.yml", "P90 Automático"),  # fusión: workflow_run del propio P90 (T-366)
+            ("auto-merge.yml", "P90 Automático"),  # fusión: workflow_run de P90 (T-366)
             ("generar-alternativas-territoriales.yml", NOMBRE_06),
             ("generar-alternativas-territoriales.yml", NOMBRE_06),
         ])

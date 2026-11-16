@@ -26,7 +26,6 @@ MAPA = {
     **{("pruebas", j): j for j in ("cambios", "guardian", "suite", "contratos", "docs", "productos", "pruebas", "catalogo",
                                    "resultados", "numeracion", "estado_vivo", "aviso_nocturna")},
     ("revisor", "comprobar"): "revisor_comprobar", ("revisor", "revisar"): "revisar", ("revisor", "veredicto"): "veredicto",
-    ("merge", "fusionar"): "fusionar",
     ("forense", "comprobar"): "forense_comprobar", ("forense", "diagnosticar"): "diagnosticar", ("forense", "issue"): "forense_issue",
     ("mant", "metricas"): "metricas",
 }
@@ -53,7 +52,7 @@ class P90(unittest.TestCase):
 
     # ---- no necesitan las copias de legacy ----
     def test_los_cinco_ficheros_viejos_ya_no_estan_activos(self):
-        for f in ("pruebas-plataforma", "revisor-pr", "auto-merge", "forense-00"):
+        for f in ("pruebas-plataforma", "revisor-pr", "forense-00"):
             self.assertFalse((WF / f"{f}.yml").exists(), f)
 
     def test_nombre_sin_boton_manual_y_disparadores(self):
@@ -64,7 +63,7 @@ class P90(unittest.TestCase):
         self.assertEqual(d["push"], {"branches": ["main"]})
         self.assertEqual(set(d["pull_request"]["types"]), {"opened", "synchronize", "reopened", "ready_for_review", "labeled"})
         self.assertEqual(d["schedule"], [{"cron": "23 2 * * *"}, {"cron": "17 5 * * 1"}])  # nocturna y métricas; sin el 05:17 diario de R2
-        self.assertEqual(d["workflow_run"], {"workflows": ["P00 Campaña", "P90 Automático"], "types": ["completed"]})  # forense + fusión
+        self.assertEqual(d["workflow_run"], {"workflows": ["P00 Campaña"], "types": ["completed"]})  # forense; el propio P90 no puede nombrarse (GitHub lo rechaza)
 
     def test_checks_intocables_conservan_nombre(self):
         jobs = self.p90["jobs"]
@@ -84,7 +83,7 @@ class P90(unittest.TestCase):
         self.assertNotIn("archivar_artefactos_r2.py", (WF / "p90-automatico.yml").read_text(encoding="utf-8"))
 
     def test_ids_de_job_unicos_y_sin_job_huerfano(self):
-        esperados = set(MAPA.values()) | {"fusionar"}
+        esperados = set(MAPA.values())
         self.assertEqual(set(self.p90["jobs"]), esperados)
 
     def test_cada_job_se_ata_a_su_evento(self):
@@ -97,7 +96,6 @@ class P90(unittest.TestCase):
             self.assertNotIn("labeled", cond, nombre)
         self.assertIn("github.event.schedule == '17 5 * * 1'", j["metricas"]["if"])
         self.assertIn("github.event_name == 'workflow_run' && github.event.workflow_run.name == 'P00 Campaña'", j["forense_comprobar"]["if"])
-        self.assertIn("github.event_name == 'workflow_run'", j["fusionar"]["if"])
         self.assertIn("github.event_name == 'pull_request'", j["revisor_comprobar"]["if"])
         for nombre in ("catalogo", "resultados", "numeracion", "estado_vivo"):
             self.assertIn("github.event_name == 'push'", j[nombre]["if"], nombre)
@@ -117,18 +115,23 @@ class P90(unittest.TestCase):
         self.assertEqual(self.p90["jobs"]["diagnosticar"]["concurrency"],
                          {"group": "ddd-forense-${{ github.event.workflow_run.id }}", "cancel-in-progress": False, "queue": "max"})
 
-    def test_fusion_solo_con_pruebas_en_verde_de_este_run(self):
-        f = self.p90["jobs"]["fusionar"]
-        # contexto de confianza de hoy: workflow_run (definición de `main`), sin `needs` (otro run); puerta = check-run `pruebas` de la suite
-        self.assertNotIn("needs", f)
-        self.assertTrue(f["if"].startswith("${{ github.event_name == 'workflow_run' &&"))
+    def test_fusion_sigue_en_su_workflow_con_el_contexto_de_confianza_de_hoy(self):
+        # `fusionar` NO está en P90 (un job en el run de la PR ejecutaría código de la PR con la app de registro; y GitHub rechaza un
+        # workflow_run que se nombra a sí mismo). auto-merge.yml 1.3.0 solo cambia el disparador.
+        self.assertNotIn("fusionar", self.p90["jobs"])
+        m = cargar(WF / "auto-merge.yml")
+        self.assertEqual(on(m), {"workflow_run": {"workflows": ["P90 Automático"], "types": ["completed"]}})
+        f = m["jobs"]["fusionar"]
+        self.assertIn("github.event.workflow_run.path == '.github/workflows/p90-automatico.yml'", f["if"])
+        self.assertEqual(m["permissions"], {"contents": "read", "checks": "read", "pull-requests": "read"})
         self.assertEqual(f["steps"][0]["with"]["ref"], "main")
-        run = f["steps"][1]["run"]
-        self.assertIn("decidir_auto_merge.py", run)
-        self.assertIn('--match-head-commit "$SHA"', run)
-        self.assertLess(run.index("decidir_auto_merge.py"), run.index("gh pr merge"))
-        self.assertIn("--suite \"$SUITE\"", run)
         self.assertEqual(f["steps"][1]["env"]["SUITE"], "${{ github.event.workflow_run.check_suite_id }}")
+        run = f["steps"][1]["run"]
+        self.assertLess(run.index("decidir_auto_merge.py"), run.index("gh pr merge"))
+        self.assertIn('--match-head-commit "$SHA"', run)
+        # ningún workflow se nombra a sí mismo en workflow_run
+        for w in (self.p90, m):
+            self.assertNotIn(w["name"], on(w).get("workflow_run", {}).get("workflows", []))
 
     def test_ningun_job_declara_mas_permisos_que_hoy_y_workflow_solo_lectura(self):
         self.assertEqual(self.p90["permissions"], {"contents": "read"})
@@ -169,8 +172,11 @@ class P90(unittest.TestCase):
             a = self.viejos[w]["concurrency"]
             b = self.p90["jobs"][nuevo]["concurrency"]
             self.assertEqual((a["group"], a["cancel-in-progress"], a["queue"]), (b["group"], b["cancel-in-progress"], b["queue"]), w)
-        # fusionar: idéntico (mismo grupo por SHA y cancelación)
-        self.assertEqual(self.viejos["merge"]["concurrency"], self.p90["jobs"]["fusionar"]["concurrency"])
+        # auto-merge.yml 1.3.0: concurrencia y jobs intactos respecto a la 1.2.1
+        vivo = cargar(WF / "auto-merge.yml")
+        self.assertEqual(self.viejos["merge"]["concurrency"], vivo["concurrency"])
+        self.assertEqual(self.viejos["merge"]["jobs"]["fusionar"]["steps"], vivo["jobs"]["fusionar"]["steps"])
+        self.assertEqual(self.viejos["merge"]["permissions"], vivo["permissions"])
         # pruebas: la cancelación por PR (antes a nivel de workflow) pasa a cada job; push a main y nocturna igual que hoy
         for j in ("guardian", "suite", "contratos", "productos", "pruebas"):
             c, v = self.p90["jobs"][j]["concurrency"], self.viejos["pruebas"]["jobs"][j]["concurrency"]

@@ -33,8 +33,9 @@ paths:
   los checks obligatorios y la PR sale «clean» al instante (#453, #454).
 - Un evento `pull_request` ejecuta el workflow de la referencia de merge de la PR: justo tras cambiar un workflow en `main`,
   una PR con la referencia vieja ejecuta la versión anterior (#458 la fusionó la 1.0.0 30 s después de entrar la 1.1.0).
-- Fusión segura (T-366): job `fusionar` de P90 por `workflow_run` de «P90 Automático» (código de `main`, nunca el de la PR); check-run `pruebas`
-  del SHA y de la check_suite que dispara (`workflow_run.check_suite_id`); `--match-head-commit` (#457, #460). P90 se dispara a sí mismo: guardas por `path`.
+- Fusión segura (T-366): `auto-merge.yml` sigue aparte, `workflow_run` de «P90 Automático» (código de `main`, nunca el de la PR); check-run `pruebas`
+  del SHA y de la check_suite que dispara (`workflow_run.check_suite_id`); `--match-head-commit` (#457, #460). GitHub rechaza (run sin jobs, «push» fallido) un
+  `workflow_run` que se nombra a sí mismo: no metas la fusión dentro de P90.
 - `dashboard/index.html` y `publicado/dashboard/index.html` deben ser idénticos; el publicador copia cada página enlazada (#459, #451).
 - El clasificador del arnés bloquea como «CI Bypass» / «Merge Without Review» / «Create Public Surface» las fusiones con `main`
   en rojo, los dispatch públicos (05/06) y las escrituras externas (comentar/cerrar PR): hace falta frase explícita del
