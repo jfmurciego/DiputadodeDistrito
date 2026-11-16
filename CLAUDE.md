@@ -15,6 +15,7 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
 - Objetivo (08-11): un motor repetible (se ejecutará miles de veces, con el Gestor), no conservar resultados antiguos: relanza y regenera si hace falta.
 - Respuestas cortas, en español. D-18: sin estudios, difusión, estado operativo ni propuestas de contenido por iniciativa propia: solo criterio técnico y opciones.
 - No fusionar ninguna PR hasta ver la CI en verde en la PR y en `main` («main en verde»: `.claude/rules/workflows.md`; robots solo con guardián + nocturna).
+- Diseño al detalle antes que implementación (16-11): ningún encargo se implementa sin que el propietario apruebe el detalle; un plan pedido no incluye acciones. Workflows: uno por familia, opciones dentro, sin parámetros técnicos visibles (D-129, D-130).
 
 ## Mapa
 - Plan y cola de tareas: `docs/PLAN.md` (solo lo edita el planificador). Arquitectura de agentes y fases P00-P60:
@@ -93,8 +94,8 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
   entorno Default permite `boe.es`.
 
 ## Historial de lecciones
-- 2026-10-29/11-02 · Murcia/Valencia (M04 7.4.15–18), Congreso (piloto Huesca, espejo Infoelectoral), T-02 (CRS 25830), bloqueos de población, activación por elección · #324–#398.
-- 2026-11-07 · Agentes, CLAUDE.md < 100 líneas, `.claude/rules/` por rutas, hooks de git, registro por ficheros, archivista R2, cadenas sin Mac · #427 #428 #441–#448.
+- 2026-10-29/11-07 · Murcia/Valencia, Congreso (piloto Huesca, espejo Infoelectoral), CRS 25830, activación por elección; agentes, `.claude/rules/`, hooks, registro por ficheros, cadenas sin Mac · #324–#448.
 - 2026-11-08 · Ola 2 y 3 (ensembles, archivista D-17, siglas D-20, Gestor 2.0, M05 7.4.3, congreso_350) y noche (relevo de chats, ids del Planificador, tests sobre estado vivo, T-90b/T-109/T-113) · #500–#555. Detalle en `.claude/rules/`.
 - 2026-11-09 · Visor v2 y /v2/, registro sin 350, Gestor campaña completa y paso A autonómico, ensembles, censo 2026, sin distrito 0, banco de pruebas del motor. Detalle en `.claude/rules/`.
 - 2026-11-14 · Traspaso del Coordinador, renombrado T-220, Deslinde (paquete 1.0, 1.1 con CP-SAT), fuentes en R2/P10, batería desde la fuente, P50 con composición y restauración R2, V3, ficha de procedencia, id canónico en la preparación y revert de robots (r3), contador y maplibre local, licencias · #741–#789. Detalle en `.claude/rules/`.
+- 2026-11-16 · r3/r4 (71/71 publicadas): renombrado de ids → inventario de todo lo reutilizable + test de flujo antes de reanudar; contención con >8 cadenas; espejos Xunta/INE en R2 desde el Windows; D-125 a D-130 · #786–#843. Detalle en `.claude/rules/workflows.md`.
