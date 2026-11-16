@@ -86,47 +86,47 @@
    "distritos": 135,
    "sha256_csv": "98c88bbccb62e63566d254e23a97b562cd5e38e86659c397c8155feeaba57957"
   },
-  "ceuta": {
-   "run_id": "43052923691",
-   "blob_sha": "bea2bd9afda66967ec87d95c23513be280471eaf",
-   "sha256_origen": "746fa652f2fc024a012d2122a55941f2d9c8d8f1243c1fb95fd3a13db966073a",
+  "aut14": {
+   "run_id": "43752744562",
+   "blob_sha": "c0fdfb2f6ca7e5a696418b65ae73cee7137a3d00",
+   "sha256_origen": "86126ae46f69aeed496f79f82341e68d30cea266de999a2b16c1130bd42a19d4",
+   "distritos": 45,
+   "sha256_csv": "9b0d88440f95f00c8379f3b3e49b1b44242722eef7b3dbc57129c68a5e2f292e"
+  },
+  "aut15": {
+   "run_id": "43753347645",
+   "blob_sha": "177ec32d5c031c462f545a6487989507b1935dab",
+   "sha256_origen": "e537b75acfcfa8588518d8cac88911d5a7caa28381e2d3de8eca156bf34120cc",
+   "distritos": 50,
+   "sha256_csv": "b71fb269e4a0feb6a55b58f13299043986903ebc6d698ac096f1ccb676790644"
+  },
+  "aut16": {
+   "run_id": "43752121775",
+   "blob_sha": "4d0fa4fa1b0e5526ec6dd418e96499709dc5476a",
+   "sha256_origen": "5dc7063af3bc1d03c031e2a361b3abdad1d81397e8ccdccf1abe527fa5306486",
+   "distritos": 75,
+   "sha256_csv": "731eec4d6e65d7332241200c407e1d34dd4835fe90e9d85852e21daf73ea1c70"
+  },
+  "aut17": {
+   "run_id": "43754082828",
+   "blob_sha": "3db9bd87755d60c32d0aca25a03229534b537737",
+   "sha256_origen": "b7c0d978cfa562a718bd867e476cc34ad55d10bd054518e686ef17babb73fadf",
+   "distritos": 33,
+   "sha256_csv": "78ba85ef2e571c1d71d71e70e2b23551f6ff33621f399007d2b916af536701b8"
+  },
+  "aut18": {
+   "run_id": "43755466122",
+   "blob_sha": "0716e68c0d93571cf9d3f2e3cca28fa38198103c",
+   "sha256_origen": "55897fb495e3311ca441805f0dcd26a9ea152bc95985f40511865e063c2dee91",
    "distritos": 25,
    "sha256_csv": "032029f787958c5004db7d830ad6646b29b6cac17c3e12f1f60c1f1264b2a49b"
   },
-  "comunidad_foral_de_navarra": {
-   "run_id": "43052874017",
-   "blob_sha": "2ad5c9e515b48b4c07c32aaa17b39579c59c4d2f",
-   "sha256_origen": "73d0dc9afa3f3c3735de968926a63464055f602edcf636c70650c6cdaae3a8c0",
-   "distritos": 50,
-   "sha256_csv": "65b1e70756b1b3628e76bb498b9083a9a891fbf45e62907283c87326e3b19285"
-  },
-  "congreso_alava": {
-   "run_id": "42983088643",
-   "blob_sha": "f61a28e3d279c21252843ede64c343ec65a3429b",
-   "sha256_origen": "d850c12672e7a751b4728e5431a6297e7ce039f67ff030aad6e15238eb31a09d",
-   "distritos": 3,
-   "sha256_csv": "9092a5f63aaaa4ad4f8b5100af11bb4c54ab9238b68368ac761b4a38f0e11ca1"
-  },
-  "congreso_albacete": {
-   "run_id": "42952791883",
-   "blob_sha": "7bac264812763bc2123069db53db5af0e6231587",
-   "sha256_origen": "c25816b35e4f582a178d6502db02c9b847900a8179c959ad0bcced5b62810e41",
-   "distritos": 3,
-   "sha256_csv": "d921a10ffe44327bf3c553e0bc42bfd7952322ecaef4efed18edef68f76f204f"
-  },
-  "congreso_alicante": {
-   "run_id": "42953235024",
-   "blob_sha": "2a84e667e3bb71eb55d96cd3f392102bc2468281",
-   "sha256_origen": "b74f68cddf7a42c8490dd2422c2b6821665f4bcfb039f4e90b7834c912c3e03b",
-   "distritos": 17,
-   "sha256_csv": "ee7d4ab5bb3cad5dc84cee22235d89e8bd4ae5db84266e5f701b9a41c5d17047"
-  },
-  "congreso_almeria": {
-   "run_id": "42952468083",
-   "blob_sha": "bedaf7eb439353c612de1a3409bc9d3fb840dd99",
-   "sha256_origen": "67a368c7e36007a8cfebf718c8dd280eeb0272e974551b239a17553bd56d3d97",
-   "distritos": 6,
-   "sha256_csv": "2436105a9fd0521109691c0f7cbf12ca7c61008acca911d8a56446420f97bd5d"
+  "aut19": {
+   "run_id": "43755885850",
+   "blob_sha": "3c1dde9da0e541ffd195aceb2658e65588586cb4",
+   "sha256_origen": "9407dea1c7a36e1d88f799dd71f0e678b49bc44b1f6844920a2cb3424f6d30f7",
+   "distritos": 25,
+   "sha256_csv": "4701421bb8851ead100eccc24a1c6c702a4ec9ea8d1a1e9227028b43a4713266"
   },
   "congreso_asturias": {
    "run_id": "42985447971",
@@ -134,20 +134,6 @@
    "sha256_origen": "13426e3f99ee2e877620651dceeb379488797bcb6e7432aa7eb4656d3fb1a772",
    "distritos": 8,
    "sha256_csv": "abadefb3c025af0248dde5359f331759a65945ee45e20ff1e2b22b3ed719da9a"
-  },
-  "congreso_avila": {
-   "run_id": "42948760863",
-   "blob_sha": "aaf7d52d248339dfda6867025eeca3144dad4645",
-   "sha256_origen": "2fd11b04aa89795809b11d79dabd93eee97c32a88ad87e258ba23b87ca5c49e7",
-   "distritos": 1,
-   "sha256_csv": "ffafaa3c13379f0ee25a2f476e8a9ec13f0d28a794492ac842c9404614af949e"
-  },
-  "congreso_badajoz": {
-   "run_id": "42949289470",
-   "blob_sha": "3c924ae21b2e1f56c09ae52f303302666a7a5395",
-   "sha256_origen": "5f010bbc7e6b42d8b5cbac37c26df4bb1cb3043871222124ed542e551a2a90b9",
-   "distritos": 6,
-   "sha256_csv": "666f272dbad94e2bd525e649bec48587e87f3b428a99983415f1177dd7128549"
   },
   "congreso_baleares": {
    "run_id": "42953068884",
@@ -471,33 +457,47 @@
    "distritos": 75,
    "sha256_csv": "abd72c0f68f6b59dfb496d88c9f462b1efe69157eb224dd4468a5db277ce818c"
   },
-  "la_rioja": {
-   "run_id": "43007066596",
-   "blob_sha": "63fc466ba944f1e948f364cb189f3105219ebe61",
-   "sha256_origen": "551837610769aff28db91e068bfd1b5c527c67ad03ebaf47274a3e97ecc1103b",
-   "distritos": 33,
-   "sha256_csv": "9cbe8b178f62ab87499354cade92cef5e31b9f80bfb88b97929d3941a545f1d7"
+  "nac01": {
+   "run_id": "43756171657",
+   "blob_sha": "4d22c137258b89846a72efe7b61654020f451fcd",
+   "sha256_origen": "767c8ad41d8bef5cd11b5eb8c2ec7344b75b41a103bd0915929b6e546ab9b9a3",
+   "distritos": 3,
+   "sha256_csv": "9092a5f63aaaa4ad4f8b5100af11bb4c54ab9238b68368ac761b4a38f0e11ca1"
   },
-  "melilla": {
-   "run_id": "43051007542",
-   "blob_sha": "b76907ce82cd17e93fe53dd3c0bcf19cf65b61e1",
-   "sha256_origen": "a93cc0771243ccf0f3a721bf6ea1d5e59a524cf40fa85aad39b4edbf5a3b973b",
-   "distritos": 25,
-   "sha256_csv": "4701421bb8851ead100eccc24a1c6c702a4ec9ea8d1a1e9227028b43a4713266"
+  "nac02": {
+   "run_id": "43759317191",
+   "blob_sha": "7e74b62e9793de722fe7b1686e765b6483a26b62",
+   "sha256_origen": "a9d11fbfc0e305b095d6459c3f08aef5b5185c109e97e3b1ecf24a2fde6ad498",
+   "distritos": 3,
+   "sha256_csv": "9906efee9cc8379e14e7cb2049e0cfa428eccd0e08c644c7530be72838bcc3d9"
   },
-  "pais_vasco": {
-   "run_id": "43047232024",
-   "blob_sha": "2528cccca6aa6d557130b157e6a694b958bfa2c6",
-   "sha256_origen": "ac83a5f57b0b3c9d641b0f9d80a3e4a5ac4b260536e5425ae48a118c6e1842dd",
-   "distritos": 75,
-   "sha256_csv": "18ccd8cdf4d637a0bc2505e2f365e0b25c3d234de27fdeaf1c57380433c06487"
+  "nac03": {
+   "run_id": "43760040662",
+   "blob_sha": "59ccf32d52dee5d28310d2bbfdd1d8e1fcc3a03f",
+   "sha256_origen": "94c078014b4a29258cf54ae7cde156ab504342ca720534ee1d3ed0bdea107b44",
+   "distritos": 17,
+   "sha256_csv": "f0579b2d5a1dc67a420899945fe1c96d2593862981f3a4f575b86394aed15cb8"
   },
-  "region_de_murcia": {
-   "run_id": "43053208175",
-   "blob_sha": "00c441f9c988340c0f34f1550315dc40e38955c1",
-   "sha256_origen": "5860ae6fb78dbaea988add24e0cd7c4712d953b1b717fcab8b55eb913fde146d",
-   "distritos": 45,
-   "sha256_csv": "cff8c12ea151ee20582dfc9fac2a59801a220e8a17d73d485bc20293be9a9c3d"
+  "nac04": {
+   "run_id": "43760565695",
+   "blob_sha": "e0586861fd9c7c07c41cbe6ece7f4a9b3f0f042a",
+   "sha256_origen": "1c9fd88dce7a9b5ca41322c1d2a43d4683ea3cf0c5e1b00738cd60ddbcab8079",
+   "distritos": 6,
+   "sha256_csv": "07f96d659e1f2c3dbf5995a490bfe22de372c56a616ab8e0b58935412e485f1d"
+  },
+  "nac05": {
+   "run_id": "43760758129",
+   "blob_sha": "530e395a02562ca96cd36779b455b72ca4135c75",
+   "sha256_origen": "d2a5428dcd26e10a27b6a4b4fec35586bf4d99fa91b9c295895f7df1ffb1db37",
+   "distritos": 1,
+   "sha256_csv": "ffafaa3c13379f0ee25a2f476e8a9ec13f0d28a794492ac842c9404614af949e"
+  },
+  "nac06": {
+   "run_id": "43761252898",
+   "blob_sha": "62038d5147b9821f69893eac22030cd88a72341f",
+   "sha256_origen": "850e2f5ca3d8e4db9c75f8d9da5a159f07c9082c10fafc49384bf17757da5351",
+   "distritos": 6,
+   "sha256_csv": "138b4ca436924b95a47d32135cebd57559e2b1b5a9d1d3e9457c5546658d6792"
   }
  },
  "partidos": {},
