@@ -2574,7 +2574,7 @@ territories:
         prepared_source_pair: territorios/nac47/evidencia/pares_fuentes/2025/7c5b5b5ecaec174567226bd6517407999711274dd44a35b8fbf5730dba678837.json
         electoral_product: territorios/nac47/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/nac47/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: nac48
   name: Congreso Vizcaya
   editions:

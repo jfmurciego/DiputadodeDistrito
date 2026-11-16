@@ -5,10 +5,12 @@
   "territory_name": "Congreso Valladolid",
   "edition": "2025",
   "run_id": 43792330350,
-  "source_commit": "581286a87b37c4e6bf9d252e497b2a25832c2fe8",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "2dbce2a192520135bdf25ebf033180229284cbb3",
+  "artifact_name": "ddd-state-43792330350-M03U",
+  "artifact_sha256": "f9fc5129c3c0b9115843981f7081835f18b5686a10017496bf2d572a948274a5",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 43792330350,
     "artifact_name": "ddd-source-package-nac47-2025-43792330350",
@@ -19,10 +21,100 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "bed5df93e4e423198810676344c23b2171c94f19",
+    "m03_git_blob_sha1": "7bb009eae5e7eae90b489ce4f6dbc4203e7c26f5",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": [
+      {
+        "u": "4713401001",
+        "v": "4718301001",
+        "admin_scope": "province:47",
+        "edge_type": "administrative_exclave"
+      }
+    ]
+  },
+  "graph": {
+    "artifact_name": "ddd-state-43792330350-M03",
+    "artifact_sha256": "c11918d8622802bc1468d268f5c1a4b29525b73bb8852290d7363be1bb7d30f7",
+    "module_version": "7.6.0",
+    "nodes": 565,
+    "edges": 1555,
+    "population": 521333,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-43792330350",
+    "job_artifact_sha256": "3e9380a4e119b8a189abc923a6ed113cf05fc16bbe9276c1a0021f9404f11cb7",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/nac47/.cache/ddd/preparacion/{run_name}/nac47_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/nac47/.cache/ddd/preparacion/nac47_2025/nac47_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 521333,
+      "target_section_count": 565,
+      "package_sha256": "6ecddbd9f9625ef50035c13c6bcad755903062aa7b63235f7eafea20fd93720b",
+      "compatibility_report_sha256": "2d7fc560c22b930aa29ee34f8e6f0ed68228733c7a948c4435ec073dd2f45941",
+      "compatibility_identity_sha256": "fb053ee735e92a5a6390342c3775817496bd5be6d06355129a05f2d038272338"
+    },
+    "topology_accreditation": null,
+    "k_districts": 4,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/nac47/.cache/ddd/preparacion/{run_name}/nac47_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/nac47/.cache/ddd/preparacion/{run_name}/nac47_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/nac47/.cache/ddd/preparacion/{run_name}/nac47_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/nac47/.cache/ddd/preparacion/{run_name}/nac47_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/nac47/.cache/ddd/preparacion/{run_name}/nac47_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/nac47/.cache/ddd/preparacion/{run_name}/nac47_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/nac47/.cache/ddd/preparacion/{run_name}/nac47_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/nac47/.cache/ddd/preparacion/{run_name}/nac47_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/nac47/.cache/ddd/preparacion/{run_name}/nac47_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 4,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
