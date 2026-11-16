@@ -1,7 +1,7 @@
 {
  "schema": "ddd.contrato-historico-epoca/1.0",
- "version": "1.0.0",
- "anterior": "ninguna (fichero nuevo)",
+ "version": "1.1.0",
+ "anterior": "legacy/contrato_historico_epoca_2011_11_v1.0.0_20261116.json",
  "motivo": "D-125 (opción A: distritos con los datos de cada época), D-126/D-128 (población), T-199 (elección en el registro)",
  "generado_con": "herramientas/contrato_historico_epoca.py 1.0.0",
  "eleccion": "2011-11",
@@ -18,7 +18,7 @@
  "poblacion": {
   "fichero": "poblacion_seccion_2011-11.csv",
   "sha256": "45aa3552592a8819beab26b2a885551fbe1e8ccba0ec68ac3ccbb7621f0496a3",
-  "origen": "T-364 herramientas/poblacion_seccion_historica.py 1.1.0 (#840@f3e7d9a, D-128, sin --estricto: 46 municipios con aviso pendientes de decisión)",
+  "origen": "T-364b herramientas/poblacion_seccion_historica.py 1.2.0 (D-128; provincias apartadas sin filas, reasignada, sin_ajuste_municipal; fuentes con sha256 de T-357/T-364)",
   "anio_referencia": 2011,
   "fuente": "censo",
   "regla_publicacion": "> 1 % estimada → BLOQUEADA_RELLENO (D-126/D-128); sin_dato → BLOQUEADA_SIN_DATO",
