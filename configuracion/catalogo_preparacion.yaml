@@ -2612,6 +2612,7 @@ territories:
         territorial_product: territorios/nac48/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac48/evidencia/pares_fuentes/2025/a00b60911ff39ac4097f8565bf4abc9fd8d90988605c96782f1578ebe204e939.json
         electoral_product: territorios/nac48/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/nac48/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac49
   name: Congreso Zamora
