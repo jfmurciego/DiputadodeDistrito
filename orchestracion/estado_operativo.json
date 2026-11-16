@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T01:12:13.697286+00:00",
+  "generated_at": "2026-11-16T01:20:17.386731+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 48,
-      "action_required": 72,
+      "admissible": 50,
+      "action_required": 70,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 48,
+      "activated": 50,
       "activable": 0,
       "territorial_pending": 46,
-      "electoral_pending": 72,
+      "electoral_pending": 70,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 48,
-      "durable_pair": 48
+      "electoral_source": 50,
+      "durable_pair": 50
     },
     "territories": [
       {
@@ -2422,20 +2422,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac28/evidencia/pares_fuentes/2025/5772cae5b6abceb2397defc396d7331e11ec294cbefdd9d714db7a2cce6daec5.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac28/evidencia/pares_fuentes/2025/7fb9e5b883c1a88d075365e833c2530c64ba5cc137e9f377e73a9faa49b7d958.json",
+            "pair_sha256": "7fb9e5b883c1a88d075365e833c2530c64ba5cc137e9f377e73a9faa49b7d958",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -2443,13 +2443,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "nac29",
@@ -2536,20 +2530,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac30/evidencia/pares_fuentes/2025/ed71f8585afa9479bad225100308e55ea745b39721b3dd1068e34561ab5ee630.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac30/evidencia/pares_fuentes/2025/88976bbe273341a161ad6614c1ede35c7b05f063bcfa087006137124c862cdd2.json",
+            "pair_sha256": "88976bbe273341a161ad6614c1ede35c7b05f063bcfa087006137124c862cdd2",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -2557,13 +2551,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "nac31",
@@ -9023,10 +9011,10 @@
           "territory_id": "nac17",
           "territory_name": "Congreso Gerona",
           "edition": "2025",
-          "run_id": 43777503207,
-          "artifact_name": "ddd-state-43777503207-M08",
-          "artifact_sha256": "16d2e4375f4ab8dcec5cb347ccab544a99f8d82acfb12b2e6cf95196b3a7e79c",
-          "source_commit": "d4b97adffd11d4ea2615ad9084d0eb7b0070af75",
+          "run_id": 43784273078,
+          "artifact_name": "ddd-state-43784273078-M08",
+          "artifact_sha256": "65b00d42db16c0d2092e13f164d59a202f659da0840bb3465af98a59990536b5",
+          "source_commit": "c9c413430d4c650d11413af686dd4b5502c453c9",
           "stage": "M08"
         }
       },
@@ -9283,20 +9271,20 @@
       "name": "Nacional Huesca",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 43772965482,
+      "run_id": 43783149315,
       "last_run": {
-        "run_id": 43772965482,
+        "run_id": 43783149315,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9337,7 +9325,7 @@
       },
       "autonomous_community_code_ine": "C22",
       "display_name": "Nacional Huesca",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac23",
@@ -9508,13 +9496,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_lerida",
+          "territory_id": "nac25",
           "territory_name": "Congreso Lérida",
           "edition": "2025",
-          "run_id": 43064129984,
-          "artifact_name": "ddd-state-43064129984-M08",
-          "artifact_sha256": "cd7827464ad5fbcec8941237380a435974956b2ba0286183673ec63b25546b04",
-          "source_commit": "e04f8055d40a71425f921d49a491c1c83a3d6ee7",
+          "run_id": 43784056720,
+          "artifact_name": "ddd-state-43784056720-M08",
+          "artifact_sha256": "09af5ad41b156088c09313088bb49db8b0139abe2741b18f6696c52c2aff874a",
+          "source_commit": "8629b18c48079b02eb0f43892dca28615b84db21",
           "stage": "M08"
         }
       },
@@ -9569,13 +9557,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_la_rioja",
+          "territory_id": "nac26",
           "territory_name": "Congreso La Rioja",
           "edition": "2025",
-          "run_id": 42935762636,
-          "artifact_name": "ddd-state-42935762636-M08",
-          "artifact_sha256": "ce51d3a40afd708c54e223673a22a258a6385136c411b6a88d09a8c8900b69f9",
-          "source_commit": "1679ff298bb5b21856d40341dad1f3aa434a2a22",
+          "run_id": 43784360729,
+          "artifact_name": "ddd-state-43784360729-M08",
+          "artifact_sha256": "9053c7f6671a170e25e7a56e72703b1e73cbe4f530d63b5115c32ef6504242b9",
+          "source_commit": "94ec2ed57d95a42dfbcf69a22f744eb84e5fa00e",
           "stage": "M08"
         }
       },
@@ -9630,13 +9618,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_lugo",
+          "territory_id": "nac27",
           "territory_name": "Congreso Lugo",
           "edition": "2025",
-          "run_id": 42995722473,
-          "artifact_name": "ddd-state-42995722473-M08",
-          "artifact_sha256": "67a80acc4ac97a382b42c672d903b427c3ea2f3cae5b20abc45ed68257b1855d",
-          "source_commit": "28f748a7e99ce32be327b385dd78e36e064645a6",
+          "run_id": 43784516230,
+          "artifact_name": "ddd-state-43784516230-M08",
+          "artifact_sha256": "4a5a94f4c795d12b482a466025ac0ffd30976f51b23765f57a6b064fa71e55e2",
+          "source_commit": "639c3ff2ff3a274cef4e96457ba106f0f12e2ce8",
           "stage": "M08"
         }
       },
@@ -9777,11 +9765,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43779852945,
       "last_run": {
-        "run_id": 43005676593,
+        "run_id": 43779852945,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -9832,11 +9820,11 @@
       "name": "Nacional Navarra",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43006653960,
+      "run_id": 43780088321,
       "last_run": {
         "run_id": 43006653960,
         "status": "SUCCESS",
@@ -9845,7 +9833,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9859,16 +9847,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_navarra",
+          "territory_id": "nac31",
           "territory_name": "Congreso Navarra",
           "edition": "2025",
-          "run_id": 43001785293,
-          "artifact_name": "ddd-state-43001785293-M06",
-          "artifact_sha256": "bcfce76dfe906a6f7128b2cd0376e65b2a3fa0df226453676f03cc57f5e750b3",
-          "source_commit": "335ada5edc4938ad24ffb66b81f1107817351fd7",
+          "run_id": 43780088321,
+          "artifact_name": "ddd-state-43780088321-M06",
+          "artifact_sha256": "452727f8fc3917af6bf4b2813c114e285efc1e4ca8fa5655443e5628d4ccdfe8",
+          "source_commit": "dedaee0f6910bf626f8465cd0c615b393d4e7124",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_navarra/evidencia/generaciones_m06/43001785293.json"
+          "producer_manifest_path": "territorios/nac31/evidencia/generaciones_m06/43780088321.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9886,7 +9874,7 @@
       },
       "autonomous_community_code_ine": "C31",
       "display_name": "Nacional Navarra",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac32",
@@ -12452,9 +12440,9 @@
       "Nacional Guadalajara",
       "Nacional Guipúzcoa",
       "Nacional Huelva",
+      "Nacional Huesca",
       "Nacional Jaén",
       "Nacional León",
-      "Nacional Navarra",
       "Nacional Orense",
       "Nacional Asturias",
       "Nacional Palencia",
@@ -12689,11 +12677,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac21",
-    "name": "Nacional Huelva",
-    "display_name": "Nacional Huelva",
-    "autonomous_community_code_ine": "C21",
-    "run_id": 43779363183,
+    "territory_id": "nac22",
+    "name": "Nacional Huesca",
+    "display_name": "Nacional Huesca",
+    "autonomous_community_code_ine": "C22",
+    "run_id": 43783149315,
     "stage": "M08",
     "certification": "PASS",
     "edition": "2025"
@@ -12712,12 +12700,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Huesca",
-      "territory_id": "nac22",
-      "autonomous_community_code_ine": "C22",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Lérida",
       "territory_id": "nac25",
       "autonomous_community_code_ine": "C25",
@@ -12745,6 +12727,12 @@
       "territory": "Nacional Málaga",
       "territory_id": "nac29",
       "autonomous_community_code_ine": "C29",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Murcia",
+      "territory_id": "nac30",
+      "autonomous_community_code_ine": "C30",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12762,12 +12750,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Huesca",
-      "territory_id": "nac22",
-      "autonomous_community_code_ine": "C22",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Lérida",
       "territory_id": "nac25",
       "autonomous_community_code_ine": "C25",
@@ -12795,6 +12777,12 @@
       "territory": "Nacional Málaga",
       "territory_id": "nac29",
       "autonomous_community_code_ine": "C29",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Murcia",
+      "territory_id": "nac30",
+      "autonomous_community_code_ine": "C30",
       "action": "preparar fuentes electorales"
     }
   ]
