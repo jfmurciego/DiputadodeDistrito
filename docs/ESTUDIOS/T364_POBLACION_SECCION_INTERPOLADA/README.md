@@ -29,6 +29,9 @@ python -I herramientas/poblacion_seccion_historica.py --atlas <30832.csv> --cens
 **Interfaz para T-365 (estable)**: un CSV por elección, `poblacion_seccion_<AAAA-MM>.csv` (UTF-8, `\n`, orden por sección), columnas:
 `sección` (10 dígitos INE) · `población` (entero; vacío si `sin_dato`) · `origen` (`dato`/`interpolada`/`mas_cercana`/`sin_dato`) ·
 `ajustada` (`sí`/`no`) · `años_fuente` (`dato`: año de la fuente; `interpolada`: `AAAA-AAAA`; `mas_cercana`: `AAAA`; `sin_dato`: vacío).
+**T-365 debe ejecutar la herramienta con `--estricto`**: si algún municipio de cualquier elección tiene aviso (residuo ≤ 0, `sin_dato` u ausente del
+oficial) sale con código 2 y NO escribe las tablas por elección (solo los informes); así una tabla presente significa «0 avisos» (ejecución actual: 0).
+Sin `--estricto` las tablas se escriben igualmente y los avisos solo constan en `informe_municipios.csv`/`municipios_aviso`.
 Además `informe_provincias.csv` (en esta carpeta) e `informe_municipios.csv` (fuera del repo). Salida determinista (dos ejecuciones idénticas byte a byte).
 
 ## Resultado (ejecución del 2026-11-16, fuentes con sha256 de T-357 verificado)
@@ -51,4 +54,4 @@ Tablas completas (fuera del repo, reproducibles con el comando de arriba; el pro
 2019-11 `8968bea2ba87630c0d98d3fc5165d09b95d9fc5184c6f5a5cb7fc70dd78f3c18` · informe_provincias `db2af10f0bee2a8ded732d33b14e959c30b84f2b9315025def0eb00234bd683c` ·
 informe_municipios `fb444fc5f67c891397bb5bd63dd904632f08819fef0dfd66f8c9d61c57edcb40`.
 
-Nota: `docs/ESTUDIOS/T358_POBLACION_SECCION_RELLENO/causa_relleno.py` reproduce el estudio de T-358 con la herramienta 1.0.0 (en `legacy/`); no corre con la 1.1.0.
+Nota: `docs/ESTUDIOS/T358_POBLACION_SECCION_RELLENO/causa_relleno.py` es histórico: solo corre con la herramienta 1.0.0 (en `legacy/`); con la 1.1.0 aborta con un aviso.

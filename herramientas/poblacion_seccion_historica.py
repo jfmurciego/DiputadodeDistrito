@@ -31,7 +31,7 @@ USO: python -I herramientas/poblacion_seccion_historica.py --atlas 30832.csv --c
        --oficial 29005.csv --sumas docs/ESTUDIOS/T357_PADRON_SECCION_2011_2020/SHA256SUMS.txt \\
        docs/ESTUDIOS/T364_POBLACION_SECCION_INTERPOLADA/SHA256SUMS.txt --salida <directorio>
   Escribe poblacion_seccion_<elección>.csv (interfaz para T-365: sección,población,origen,ajustada,años_fuente),
-  informe_provincias.csv e informe_municipios.csv. Con --estricto, sale con 2 si hay algún aviso de municipio.
+  informe_provincias.csv e informe_municipios.csv. Con --estricto y algún aviso de municipio: sale con 2 y NO escribe las tablas.
 Determinista: sin reloj, orden por elección y sección, saltos de línea «\\n».
 """
 from __future__ import annotations
@@ -360,7 +360,7 @@ def main(argv=None) -> int:
     ap.add_argument("--oficial", required=True, help="CSV 29005 del INE: cifras oficiales del padrón por municipio (local)")
     ap.add_argument("--sumas", required=True, nargs="+", help="SHA256SUMS.txt (uno o varios)")
     ap.add_argument("--salida", required=True, help="directorio de salida")
-    ap.add_argument("--estricto", action="store_true", help="salir con 2 si algún municipio tiene aviso")
+    ap.add_argument("--estricto", action="store_true", help="si algún municipio tiene aviso: salir con 2 sin escribir las tablas")
     a = ap.parse_args(argv)
     try:
         sumas: dict[str, str] = {}
@@ -376,15 +376,20 @@ def main(argv=None) -> int:
         return 1
     out = Path(a.salida)
     out.mkdir(parents=True, exist_ok=True)
+    avisos = [m for m in municipios if m["estado"].startswith("aviso")]
+    if a.estricto and avisos:  # a prueba de fallos: sin tablas, el consumidor no puede usar una elección con avisos
+        escribir_informe(out / "informe_provincias.csv", informe)
+        escribir_informe(out / "informe_municipios.csv", municipios, COLS_MUNICIPIOS)
+        print(f"ERROR (--estricto): {len(avisos)} municipios con aviso; no se escriben tablas.", file=sys.stderr)
+        return 2
     for el, filas in tablas.items():
         print(f"poblacion_seccion_{el}.csv sha256", escribir_tabla(out / f"poblacion_seccion_{el}.csv", filas), len(filas), "filas")
     print("informe_provincias.csv sha256", escribir_informe(out / "informe_provincias.csv", informe))
     print("informe_municipios.csv sha256", escribir_informe(out / "informe_municipios.csv", municipios, COLS_MUNICIPIOS))
     marcadas = sorted({(r["elección"], r["provincia"]) for r in informe if r["marca"]})
-    avisos = [m for m in municipios if m["estado"].startswith("aviso")]
     print("provincias MARCA (>1 % estimada):", len(marcadas), marcadas)
     print("municipios con aviso:", len(avisos), [(m["elección"], m["municipio"], m["estado"]) for m in avisos[:20]])
-    return 2 if (a.estricto and avisos) else 0
+    return 0
 
 
 if __name__ == "__main__":

@@ -22,6 +22,7 @@ from herramientas import poblacion_seccion_historica as ph  # noqa: E402
 S1, S2, S3 = "0100100001", "0100100002", "0100100003"   # municipio 01001
 S4, S5 = "0200200001", "0200200002"                      # municipio 02002
 S6 = "0300300001"                                        # municipio 03003
+S7 = "0400400001"                                        # municipio 04004: miles con punto, sin estimadas
 
 
 def fila(sec, anio, val):
@@ -46,6 +47,7 @@ def atlas_texto():
     f.append(serie(S5, {2015: "50", 2016: ".", **{a: "70" for a in range(2017, 2023)}}))
     # S6: 2015 y 2016 «.»; solo hay dato después (2017: 90) → más cercana (2017)
     f.append(serie(S6, {2015: ".", 2016: ".", **{a: "90" for a in range(2017, 2023)}}))
+    f.append(serie(S7, {a: "1.200" for a in range(2015, 2023)}))  # «1.200» = 1200 (separador de miles)
     f.append("01001 Municipio;;;Población;2019;5.000\r\n")  # fila de municipio: se ignora
     return "".join(f)
 
@@ -134,6 +136,15 @@ class Interpolacion(Base):
         # solo lado anterior: S5 en 2022 simulado «.» → último dato 2021 (70)
         atlas[2022][S5] = "."
         self.assertEqual(ph.estimar(S5, 2022, atlas), (70, "mas_cercana", "2021"))
+
+    def test_dato_no_se_toca_y_miles_con_punto(self):
+        tablas, _, _ = self.calcula()
+        self.assertEqual(buscar(tablas["2019-04"], S7)[1:], (1200, "dato", "no", "2019"))
+
+    def test_censo_2011_vacio_y_estimado_con_atlas(self):
+        tablas, _, _ = self.calcula()
+        # S1 = 300 (dato del censo); S2 vacío en el censo → no aparece; S6 «.» en el censo → Atlas (solo lado posterior: 2017 = 90)
+        self.assertEqual([(f[0], f[1], f[2]) for f in tablas["2011-11"]], [(S1, 300, "dato"), (S6, 90, "mas_cercana")])
 
     def test_sin_ningun_dato(self):
         atlas = {2015: {S1: "."}, 2016: {S1: "."}}
@@ -296,6 +307,9 @@ class Salida(Base):
     def test_estricto_sale_con_2_si_hay_avisos(self):
         self.assertEqual(self.run_main("c"), 0)   # avisos (02002) sin --estricto: no falla
         self.assertEqual(self.run_main("d", "--estricto"), 2)
+        # control: con --estricto y avisos no hay tablas por elección (el consumidor no puede usarlas); sí los informes
+        self.assertEqual(sorted(p.name for p in (self.dir / "d").iterdir()), ["informe_municipios.csv", "informe_provincias.csv"])
+        self.assertTrue(any((self.dir / "c").glob("poblacion_seccion_*.csv")))
 
 
 if __name__ == "__main__":
