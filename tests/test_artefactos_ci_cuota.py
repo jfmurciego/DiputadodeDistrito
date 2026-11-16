@@ -29,6 +29,7 @@ PRODUCCION = {
     "ejecucion-completa-proyecto.yml",
     "generar-alternativas-territoriales.yml",
     "gestor-campanas.yml",
+    "p50-publicacion-academica.yml",  # T-370: el plan pasa del resolutor al job de publicación
     "p70-archivo.yml",
     "p80-verificacion-motor.yml",
     "preparacion-fuentes.yml",
