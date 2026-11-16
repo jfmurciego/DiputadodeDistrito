@@ -1989,7 +1989,7 @@ territories:
         prepared_source_pair: territorios/nac32/evidencia/pares_fuentes/2025/69a968f6d481afaf7e7fea8e02c8ab42a0dc33fb79727d84cb27bc5c41ff6696.json
         electoral_product: territorios/nac32/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/nac32/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: nac33
   name: Congreso Asturias
   editions:
