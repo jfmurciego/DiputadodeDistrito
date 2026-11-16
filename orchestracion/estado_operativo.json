@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T02:24:54.432062+00:00",
+  "generated_at": "2026-11-16T02:26:11.074591+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 61,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 58,
-      "activable": 1,
+      "activated": 59,
+      "activable": 0,
       "territorial_pending": 46,
       "electoral_pending": 61,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 120,
       "territorial_source": 74,
       "electoral_source": 59,
-      "durable_pair": 58
+      "durable_pair": 59
     },
     "territories": [
       {
@@ -2940,12 +2940,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac38/evidencia/pares_fuentes/2025/281ded9a6026099c6240c646c234f20705a9aba68220e8a31ac15a039bc12e4b.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac38/evidencia/pares_fuentes/2025/3b54b8f2626ec750bb07e039b14c42c8192a440a581a1d9685d42332473a252b.json",
+            "pair_sha256": "3b54b8f2626ec750bb07e039b14c42c8192a440a581a1d9685d42332473a252b",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -9949,20 +9949,20 @@
       "name": "Nacional Palencia",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43782324079,
+      "run_id": 43789454074,
       "last_run": {
-        "run_id": 43782324079,
+        "run_id": 43789454074,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10003,7 +10003,7 @@
       },
       "autonomous_community_code_ine": "C34",
       "display_name": "Nacional Palencia",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac35",
@@ -12346,7 +12346,7 @@
     }
   ],
   "kpis": {
-    "complete": 65,
+    "complete": 66,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12399,6 +12399,7 @@
       "Nacional Navarra",
       "Nacional Orense",
       "Nacional Asturias",
+      "Nacional Palencia",
       "Nacional Soria",
       "Nacional Tarragona",
       "Nacional Teruel",
@@ -12623,13 +12624,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac32",
-    "name": "Nacional Orense",
-    "display_name": "Nacional Orense",
-    "autonomous_community_code_ine": "C32",
-    "run_id": 43788009946,
+    "territory_id": "nac34",
+    "name": "Nacional Palencia",
+    "display_name": "Nacional Palencia",
+    "autonomous_community_code_ine": "C34",
+    "run_id": 43789454074,
     "stage": "M08",
-    "certification": "PASS",
+    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
@@ -12637,12 +12638,6 @@
       "territory": "12 Galicia",
       "territory_id": "aut12",
       "autonomous_community_code_ine": "12",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Palencia",
-      "territory_id": "nac34",
-      "autonomous_community_code_ine": "C34",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12679,6 +12674,12 @@
       "territory": "Nacional Segovia",
       "territory_id": "nac40",
       "autonomous_community_code_ine": "C40",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Sevilla",
+      "territory_id": "nac41",
+      "autonomous_community_code_ine": "C41",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12690,12 +12691,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Palencia",
-      "territory_id": "nac34",
-      "autonomous_community_code_ine": "C34",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Las Palmas",
       "territory_id": "nac35",
       "autonomous_community_code_ine": "C35",
@@ -12729,6 +12724,12 @@
       "territory": "Nacional Segovia",
       "territory_id": "nac40",
       "autonomous_community_code_ine": "C40",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Sevilla",
+      "territory_id": "nac41",
+      "autonomous_community_code_ine": "C41",
       "action": "preparar fuentes electorales"
     }
   ]
