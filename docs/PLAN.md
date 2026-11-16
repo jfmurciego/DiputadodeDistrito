@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.51
+Versión: 1.0.52
 Fecha: 2026-11-16
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-123 a D-127 (licencia de la galería, orden tras r4, histórico por época, población por sección, produccion sin revisor); cola T-350 a T-363; r4 cerrada y publicada
-Anterior: legacy/docs/PLAN_v1.0.50_20261115.md
+Cambios/motivo: D-128 a D-130 (relleno refinado, diseño de 9 workflows y orden de migración, una campaña = una ejecución); cola T-364 a T-367; traspaso del Planificador
+Anterior: legacy/docs/PLAN_v1.0.51_20261116.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -276,8 +276,11 @@ Fase 4 — producto (en el privado):
 - D-125 (15-11, propietario). Histórico de las generales con la opción A: distritos generados con los datos de cada época (seccionado y padrón por sección del año de la elección, votos por sección de esa elección y K = escaños oficiales de esa elección según el BOE), sin traslado al mapa de 2023. Es un ejercicio retrospectivo («quién habría mandado en ese momento»), no una propuesta a futuro: cada mapa se publica con su fecha y su procedencia, separado del vigente. Sustituye a D-105 para las generales; la ficha #819 (paso A sobre 2023) queda obsoleta.
 - D-126 (15-11, propietario). Población por sección del histórico: 2011-11 = Censo 2011 (1-11-2011); 2015-12, 2016-06 y 2019-04 = Atlas INE 30832 del año; 2019-11 = Atlas 2020. Sección sin dato («.»): valor de la misma sección en el año más cercano del Atlas (empate: el anterior), marcado sección a sección; % rellenado publicado por provincia; provincia con más del 1 % rellenado no se publica sin decisión del propietario. Nunca el censo electoral como población. Hallazgo (T-358, #832): el «.» es real del Atlas (34 provincias-elección por encima del 1 %; Sevilla 2016, 20,9 %). Pendiente del propietario: refinar el relleno (media de años vecinos y ajuste al total municipal oficial, recomendado), mantenerlo o subir el umbral.
 - D-127 (16-11, propietario). El entorno `produccion` no exige revisor (lo quitó el propietario el 15-11 a las 21:49 UTC: aprobar a mano cientos de jobs es inviable). El único control de lanzar y publicar es la frase D-52 del propietario en el chat del Operador (#835, #837).
+- D-128 (16-11, propietario). Relleno de población del histórico: interpolación lineal entre el año anterior y el siguiente del Atlas de la misma sección (si solo hay uno, el más cercano) y ajuste proporcional por municipio al padrón municipal oficial del INE del año; marca por sección; umbral del 1 % sobre la población estimada (#840). Reglas del Planificador (16-11): residuo ≤ 0 → aviso, valor interpolado sin ajuste («sin_ajuste_municipal»), nunca 0; secciones sin dato en ningún año → provincia-elección APARTADA; secciones del Atlas sin geometría del año → reasignadas enteras a la sucesora por la tabla de equivalencia («reasignada»), o provincia APARTADA si no hay sucesora única; secciones del seccionado no listadas en el Atlas → regla de D-128, marca «no_listada».
+- D-129 (16-11, propietario). Diseño de workflows: 9 visibles, uno por familia y opciones dentro, todos con prefijo P: P00 Campaña (bloque completo), P10 Fuentes (P11 territoriales, P12 electorales), P20 Distritos (P21 base y población, P22 geometría y adyacencias, P23 grafo, P24 solución inicial, P25 optimización, P26 producto certificado, P27 auditoría, P28 alternativas), P30 Resultados electorales (P31 agregación, P32 resultados por distrito, P33 puerta), P40 Publicación (P41 sitio, P42 lotes, P43 histórico por fecha), P50 Publicación académica, P70 Archivo (P71 archivar, P72 recuperar, P73 podar, P74 listar), P80 Verificación del motor, P90 Automático (pruebas, revisor, fusión automática, forense, métricas; sin botón; checks `veredicto` y `pruebas` intactos). Nada «Interno»: lo compartido, como acciones compuestas. Carpetas de R2: entradas/, puntos-de-control/, productos/ (sin código P). Sustituye a D-61 (P20/P30 separados) y a la numeración de D-102/T-313. Orden de migración aprobado: ensayo del 29-11 en los workflows actuales; luego una PR por familia (fichero viejo borrado en la misma PR, test de equivalencia, revisor, la fusiona el propietario): 1 P90, 2 P70, 3 P80, 4 P50, 5 P40, 6 P10, 7 P30, 8 P20, 9 P00 (la nueva forma de trabajar —comprobación previa con semáforo, políticas de reintento y apartado, informe en un issue, versión fija, estado fuera de main— se presenta AL DETALLE al propietario antes de implementarla), 10 documentación renumerada; validación con una P00 de aut11 y un re-ensayo corto antes del 26-11. Cada encargo se presenta al detalle al propietario y no se implementa sin su aprobación.
+- D-130 (16-11, propietario). Una campaña = una ejecución: P00 llama a P10/P20/P30/P40 solo como workflows reutilizables por dentro; nunca lanza ejecuciones por fuera. Parámetros visibles solo con opciones entendibles en español y territorios por código; nada de run ids, sha, rutas ni números técnicos (se resuelven en el código). Propuesta de botones (a confirmar en cada encargo): P00 territorios/elección/modo (solo comprobar | comprobar y lanzar)/publicar; P10 tipo/territorios/elección; P20 territorios/alternativas; P30 territorios/elección; P40 qué publicar/elección; P50 territorios; P70 acción/simular; P80 territorios/alcance; P90 sin botón. Límites de GitHub (jobs por matriz y por ejecución, concurrencia, anidamiento) a verificar en la documentación oficial antes del paso 9; alternativa: un job por provincia con P10-P30 como pasos.
 
-### Cola T-291 a T-363 (14 a 16-11)
+### Cola T-291 a T-367 (14 a 16-11)
 | Id | Qué | Estado |
 |---|---|---|
 | T-291 | Equivalencia de seccionados 2026→2023 en M07 7.4.0, adaptador, 03 y votos por partido de 2026 (D-65, D-99) | HECHA (#749 #750 #752 #754) |
@@ -340,15 +343,19 @@ Fase 4 — producto (en el privado):
 | T-352 | Traspaso del Coordinador (relevo 15-11) | HECHA (#821) |
 | T-353 | Contratos electorales con id canónico en aut02, aut03, aut06, aut07, aut09, aut11, aut12 y test de guarda | HECHA (#824) |
 | T-354 | Espejo en R2 de las 4 fuentes de mesas de Galicia (Xunta bloquea runners y nube) | HECHA (#827); subido por el propietario |
-| T-355 | Publicación del histórico con fecha de elección (P50 y paso A con M08) | EN ESPERA (#830): se replantea para D-125 |
-| T-356 | Fuentes del histórico a R2: 17 seccionados, Observatorio, 30832 y Censo 2011, con modo reanudar | REVISIÓN: script en main (#829); faltan 10 piezas + 30832/Censo (propietario, Windows) |
+| T-355 | Publicación del histórico con fecha de elección (P50 y paso A con M08) | CERRADA sin fusionar (#830); la sustituye P43 (D-129) |
+| T-356 | Fuentes del histórico a R2: 17 seccionados, Observatorio, 30832 y Censo 2011, con modo reanudar | HECHA (#829); faltan 10 piezas + 30832/Censo por subir (propietario, Windows) |
 | T-357 | Estudio del padrón por sección 2011-2020 | HECHA (#831) |
 | T-358 | Población por sección por elección con la regla de D-126 e informe por provincia | HECHA (#832) |
 | T-359 | Rojo de main por carrera del catálogo de procedencia | NO NECESARIA (se cura sola) |
-| T-360 | Paralelismo de la cadena: jobs de grupo único (estado operativo, promoción del catálogo) y catálogo en el mismo commit del registro | LISTA (prioridad 2, tras el ensayo del 29-11) |
+| T-360 | Paralelismo de la cadena: jobs de grupo único (estado operativo, promoción del catálogo) y catálogo en el mismo commit del registro | HECHA (#839) |
 | T-361 | Catálogo de procedencia publicado por lista blanca, validación JSON y test de la copia en la P50 | HECHA (#765) |
 | T-362 | Tests que leían INDEX/registros vivos con ids viejos | HECHA (#836) |
-| T-363 | Actualización del plan 1.0.51 | REVISIÓN (esta PR) |
+| T-363 | Actualización del plan 1.0.51 | HECHA (#838) |
+| T-364 | Relleno refinado de la población del histórico (D-128) | HECHA (#840); T-364b (reglas del Planificador del 16-11) EN CURSO |
+| T-365 | Histórico por época (D-125): contrato por elección, K por elección en el catálogo, piloto nac22 2019-11 | HECHA (#841); fichas #842 en borrador (se reescriben para la P00 nueva) |
+| T-366 | Migración paso 1: P90 Automático (D-129) | LISTA, arranca al fusionarse #820 |
+| T-367 | Actualización del plan 1.0.52 y traspaso del Planificador | REVISIÓN (esta PR) |
 | T-340 | Ficha del paso A del histórico con Condición previa, Puerta y Mapa según D-115 (si el código no implementa la puerta, abre tarea) | EN CURSO (Coordinador) |
 | T-341 | Actualización del plan 1.0.49 | REVISIÓN (#810) |
 
@@ -367,7 +374,7 @@ Frase de reanudación de r3: DADA en el chat del Operador, condicionada a #786 y
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324, T-327, T-341, T-350 y T-363. El planificador ha dado T-194 a T-363 (10 a 16-11; T-277 y T-292 sin usar; T-331 a T-340 y T-342 a T-362 los dio el Coordinador con acuerdo del Planificador). Siguiente libre: T-364.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324, T-327, T-341, T-350, T-363 y T-367. El planificador ha dado T-194 a T-367 (10 a 16-11; T-277 y T-292 sin usar; T-331 a T-340 y T-342 a T-362 los dio el Coordinador con acuerdo del Planificador). Siguiente libre: T-368.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
