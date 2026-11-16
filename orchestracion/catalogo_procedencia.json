@@ -7954,11 +7954,11 @@
   },
   "congreso_vizcaya": {
    "fuente_territorial": {
-    "run_id": "43774481959",
+    "run_id": "43798940463",
     "package_sha256": "80ccab8079daa6ee5b48918118a58686927c005e8ff310b2b4dd70ce5a0f1a61",
-    "artifact_sha256": "ad3ac755b4682e6f1e49be3190c7dc1df9e15f40928d6335062a4ef01ed9a8ae",
+    "artifact_sha256": "b140a85b442db947b58045fca175eadfe6e5fc84244250c49efab8e802bcc9fc",
     "territorial_identity_sha256": "a2fc607f42cf4dddc255828b42aae4848e4cba2041a0396ac51b8722eb03887a",
-    "receipt_path": "territorios/nac48/evidencia/fuentes_territoriales/2025/a2fc607f42cf4dddc255828b42aae4848e4cba2041a0396ac51b8722eb03887a/43774481959/receipt.json",
+    "receipt_path": "territorios/nac48/evidencia/fuentes_territoriales/2025/a2fc607f42cf4dddc255828b42aae4848e4cba2041a0396ac51b8722eb03887a/43798940463/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
