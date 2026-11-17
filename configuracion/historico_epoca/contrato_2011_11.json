@@ -1,9 +1,9 @@
 {
  "schema": "ddd.contrato-historico-epoca/1.0",
- "version": "1.2.0",
- "anterior": "legacy/contrato_historico_epoca_2011_11_v1.1.0_20261117.json",
+ "version": "1.3.0",
+ "anterior": "legacy/contrato_historico_epoca_2011_11_v1.2.0_20261117.json",
  "motivo": "D-125 (opción A: distritos con los datos de cada época), D-126/D-128 (población), T-199 (elección en el registro)",
- "generado_con": "herramientas/contrato_historico_epoca.py 1.1.0",
+ "generado_con": "herramientas/contrato_historico_epoca.py 1.2.0",
  "eleccion": "2011-11",
  "fecha": "2011-11-20",
  "clave_espejo": "201111",
@@ -67,6 +67,7 @@
   "fuente": "censo",
   "regla_publicacion": "> 1 % estimada → BLOQUEADA_RELLENO (D-126/D-128); sin_dato → BLOQUEADA_SIN_DATO",
   "regla_sin_seccionado": "D-153/T-396: sección con población sin geometría en el seccionado del año → sección del seccionado del año que contiene su centroide (punto representativo si el centroide cae fuera de todas), con la geometría del seccionado más cercano en años que la tenga (empate: el anterior); misma provincia (otra → APARTADA); sin geometría en ningún año, punto fuera de todo el seccionado o sucesora sin fila en la tabla → excluida con su población declarada. Reglas que D-153 no cita y declara este contrato: punto representativo si el centroide cae fuera; exclusión si la sucesora no tiene fila; origen dato+dato = dato (no cuenta como estimada)",
+  "regla_sin_poblacion": "D-126/D-128 (T-399): sección del seccionado del año sin población en la tabla → valor de la misma sección en el año más cercano del Atlas con dato (empate: el anterior), marcada `rellenada_año_cercano` (cuenta como estimada en el umbral del 1 %); ajuste proporcional al total municipal del Censo 2011 (suma de las secciones del Censo del municipio): residuo = total − suma de las secciones con dato; con residuo > 0 las rellenadas se reescalan a ese residuo (restos mayores), con residuo ≤ 0 conservan el valor del Atlas (`sin_ajuste_municipal`, nunca 0); sin dato en ningún año → la provincia queda BLOQUEADA_SIN_DATO",
   "fuentes": {
    "30832.csv": "37716cba8cda50a492f52e2bae91a1c543bafb4263110e5aa5da18107ef68311",
    "indicadores_seccion_censal_csv.zip": "305a19f11b87d4e13d2ea4267774b9b0e3a69a3b7b1ff8e483aad90867628fe7"
@@ -302,14 +303,43 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/06_7b8a2e4b55b2.json"
    },
    "poblacion": {
-    "secciones": 551,
-    "total": 688675,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 552,
+    "total": 690518,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1843,
+    "pct_no_dato": "0.2669",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "0601508014",
+       "poblacion": 1843,
+       "poblacion_atlas": 1843,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 1843,
+     "habitantes_rellenados": 1843,
+     "cuadre_municipal": [
+      {
+       "municipio": "06015",
+       "total_municipal_censo": 150660,
+       "suma_con_dato": 150660,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1843,
+       "rellenado_final": 1843,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 152503,
+       "exceso_sobre_censo": 1843
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -330,14 +360,62 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/07_d574f5bfcfa8.json"
    },
    "poblacion": {
-    "secciones": 629,
-    "total": 1096940,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 631,
+    "total": 1100201,
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 3261,
+    "pct_no_dato": "0.2964",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "0704002067",
+       "poblacion": 1988,
+       "poblacion_atlas": 1988,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "0706401005",
+       "poblacion": 1273,
+       "poblacion_atlas": 1273,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 3261,
+     "habitantes_rellenados": 3261,
+     "cuadre_municipal": [
+      {
+       "municipio": "07040",
+       "total_municipal_censo": 400370,
+       "suma_con_dato": 400370,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1988,
+       "rellenado_final": 1988,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 402358,
+       "exceso_sobre_censo": 1988
+      },
+      {
+       "municipio": "07064",
+       "total_municipal_censo": 7890,
+       "suma_con_dato": 7890,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1273,
+       "rellenado_final": 1273,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 9163,
+       "exceso_sobre_censo": 1273
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -358,12 +436,14 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/08_4b92e1265db7.json"
    },
    "poblacion": {
-    "secciones": 3576,
-    "total": 5487390,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
-    "secciones_sin_dato": [],
+    "secciones": 3591,
+    "total": 5511568,
+    "secciones_no_dato": 15,
+    "poblacion_no_dato": 24178,
+    "pct_no_dato": "0.4387",
+    "secciones_sin_dato": [
+     "0804703001"
+    ],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
     "sin_seccionado_resuelto": {
@@ -378,9 +458,174 @@
      "apartadas": [],
      "poblacion_asignada": 0,
      "poblacion_excluida": 270
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "0820501017",
+       "poblacion": 2384,
+       "poblacion_atlas": 2384,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "0820501018",
+       "poblacion": 1775,
+       "poblacion_atlas": 1775,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "0820501019",
+       "poblacion": 1175,
+       "poblacion_atlas": 1175,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "0820501020",
+       "poblacion": 1528,
+       "poblacion_atlas": 1528,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "0820501021",
+       "poblacion": 1001,
+       "poblacion_atlas": 1001,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "0820501022",
+       "poblacion": 1435,
+       "poblacion_atlas": 1435,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "0820501023",
+       "poblacion": 1652,
+       "poblacion_atlas": 1652,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "0820502011",
+       "poblacion": 1445,
+       "poblacion_atlas": 1445,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "0820502012",
+       "poblacion": 1649,
+       "poblacion_atlas": 1649,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "0820505006",
+       "poblacion": 1842,
+       "poblacion_atlas": 1842,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "0820505007",
+       "poblacion": 2355,
+       "poblacion_atlas": 2355,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "0820505008",
+       "poblacion": 1188,
+       "poblacion_atlas": 1188,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "0827801003",
+       "poblacion": 1199,
+       "poblacion_atlas": 1199,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "0827801004",
+       "poblacion": 1772,
+       "poblacion_atlas": 1772,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "0830504009",
+       "poblacion": 1778,
+       "poblacion_atlas": 1778,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [
+      "0804703001"
+     ],
+     "habitantes_atlas": 24178,
+     "habitantes_rellenados": 24178,
+     "cuadre_municipal": [
+      {
+       "municipio": "08047",
+       "total_municipal_censo": 4990,
+       "suma_con_dato": 4720,
+       "residuo": 270,
+       "secciones_rellenadas": 0,
+       "rellenado_atlas": 0,
+       "rellenado_final": 0,
+       "estado": "aviso_sin_dato",
+       "suma_municipio": 4720,
+       "exceso_sobre_censo": -270
+      },
+      {
+       "municipio": "08205",
+       "total_municipal_censo": 84285,
+       "suma_con_dato": 84285,
+       "residuo": 0,
+       "secciones_rellenadas": 12,
+       "rellenado_atlas": 19429,
+       "rellenado_final": 19429,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 103714,
+       "exceso_sobre_censo": 19429
+      },
+      {
+       "municipio": "08278",
+       "total_municipal_censo": 6100,
+       "suma_con_dato": 6100,
+       "residuo": 0,
+       "secciones_rellenadas": 2,
+       "rellenado_atlas": 2971,
+       "rellenado_final": 2971,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 9071,
+       "exceso_sobre_censo": 2971
+      },
+      {
+       "municipio": "08305",
+       "total_municipal_censo": 38515,
+       "suma_con_dato": 38515,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1778,
+       "rellenado_final": 1778,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 40293,
+       "exceso_sobre_censo": 1778
+      }
+     ]
     }
    },
-   "estado": "LISTA"
+   "estado": "BLOQUEADA_SIN_DATO"
   },
   "09": {
    "territorio": "nac09",
@@ -399,14 +644,50 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/09_30b4b9581919.json"
    },
    "poblacion": {
-    "secciones": 573,
-    "total": 368820,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 575,
+    "total": 370675,
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 1855,
+    "pct_no_dato": "0.5004",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "0905909004",
+       "poblacion": 715,
+       "poblacion_atlas": 715,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "0905909005",
+       "poblacion": 1140,
+       "poblacion_atlas": 1140,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 1855,
+     "habitantes_rellenados": 1855,
+     "cuadre_municipal": [
+      {
+       "municipio": "09059",
+       "total_municipal_censo": 177245,
+       "suma_con_dato": 177245,
+       "residuo": 0,
+       "secciones_rellenadas": 2,
+       "rellenado_atlas": 1855,
+       "rellenado_final": 1855,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 179100,
+       "exceso_sobre_censo": 1855
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -427,14 +708,43 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/10_aa4fe3db6a59.json"
    },
    "poblacion": {
-    "secciones": 417,
-    "total": 408995,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 418,
+    "total": 410738,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1743,
+    "pct_no_dato": "0.4244",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "1003701015",
+       "poblacion": 1743,
+       "poblacion_atlas": 1743,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 1743,
+     "habitantes_rellenados": 1743,
+     "cuadre_municipal": [
+      {
+       "municipio": "10037",
+       "total_municipal_censo": 95010,
+       "suma_con_dato": 95010,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1743,
+       "rellenado_final": 1743,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 96753,
+       "exceso_sobre_censo": 1743
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -455,14 +765,69 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/11_91cb8a33c2b2.json"
    },
    "poblacion": {
-    "secciones": 894,
-    "total": 1241570,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 897,
+    "total": 1246116,
+    "secciones_no_dato": 3,
+    "poblacion_no_dato": 4546,
+    "pct_no_dato": "0.3648",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "1101504016",
+       "poblacion": 1696,
+       "poblacion_atlas": 1696,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "1101505011",
+       "poblacion": 1601,
+       "poblacion_atlas": 1601,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "1102006047",
+       "poblacion": 1249,
+       "poblacion_atlas": 1249,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 4546,
+     "habitantes_rellenados": 4546,
+     "cuadre_municipal": [
+      {
+       "municipio": "11015",
+       "total_municipal_censo": 80650,
+       "suma_con_dato": 80650,
+       "residuo": 0,
+       "secciones_rellenadas": 2,
+       "rellenado_atlas": 3297,
+       "rellenado_final": 3297,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 83947,
+       "exceso_sobre_censo": 3297
+      },
+      {
+       "municipio": "11020",
+       "total_municipal_censo": 211315,
+       "suma_con_dato": 211315,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1249,
+       "rellenado_final": 1249,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 212564,
+       "exceso_sobre_censo": 1249
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -571,14 +936,43 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/14_4826385f5f36.json"
    },
    "poblacion": {
-    "secciones": 621,
-    "total": 798320,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 622,
+    "total": 798921,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 601,
+    "pct_no_dato": "0.0752",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "1402102044",
+       "poblacion": 601,
+       "poblacion_atlas": 601,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 601,
+     "habitantes_rellenados": 601,
+     "cuadre_municipal": [
+      {
+       "municipio": "14021",
+       "total_municipal_censo": 327240,
+       "suma_con_dato": 327240,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 601,
+       "rellenado_final": 601,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 327841,
+       "exceso_sobre_censo": 601
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -599,11 +993,11 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/15_477800bf13d6.json"
    },
    "poblacion": {
-    "secciones": 909,
-    "total": 1137550,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 915,
+    "total": 1145169,
+    "secciones_no_dato": 6,
+    "poblacion_no_dato": 7619,
+    "pct_no_dato": "0.6653",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -694,6 +1088,94 @@
      "apartadas": [],
      "poblacion_asignada": 5955,
      "poblacion_excluida": 0
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "1503009006",
+       "poblacion": 790,
+       "poblacion_atlas": 790,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "1503010006",
+       "poblacion": 1191,
+       "poblacion_atlas": 1191,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "1505401003",
+       "poblacion": 1361,
+       "poblacion_atlas": 1361,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "1505404019",
+       "poblacion": 2029,
+       "poblacion_atlas": 2029,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "1505404020",
+       "poblacion": 1369,
+       "poblacion_atlas": 1369,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "1508902002",
+       "poblacion": 879,
+       "poblacion_atlas": 879,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 7619,
+     "habitantes_rellenados": 7619,
+     "cuadre_municipal": [
+      {
+       "municipio": "15030",
+       "total_municipal_censo": 244320,
+       "suma_con_dato": 244320,
+       "residuo": 0,
+       "secciones_rellenadas": 2,
+       "rellenado_atlas": 1981,
+       "rellenado_final": 1981,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 246301,
+       "exceso_sobre_censo": 1981
+      },
+      {
+       "municipio": "15054",
+       "total_municipal_censo": 38930,
+       "suma_con_dato": 38930,
+       "residuo": 0,
+       "secciones_rellenadas": 3,
+       "rellenado_atlas": 4759,
+       "rellenado_final": 4759,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 43689,
+       "exceso_sobre_censo": 4759
+      },
+      {
+       "municipio": "15089",
+       "total_municipal_censo": 5035,
+       "suma_con_dato": 5035,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 879,
+       "rellenado_final": 879,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 5914,
+       "exceso_sobre_censo": 879
+      }
+     ]
     }
    },
    "estado": "LISTA"
@@ -855,11 +1337,11 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/21_7ef1aeea74f2.json"
    },
    "poblacion": {
-    "secciones": 359,
-    "total": 518195,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 360,
+    "total": 520035,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1840,
+    "pct_no_dato": "0.3538",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -878,6 +1360,35 @@
      "apartadas": [],
      "poblacion_asignada": 685,
      "poblacion_excluida": 0
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "2106001010",
+       "poblacion": 1840,
+       "poblacion_atlas": 1840,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 1840,
+     "habitantes_rellenados": 1840,
+     "cuadre_municipal": [
+      {
+       "municipio": "21060",
+       "total_municipal_censo": 15015,
+       "suma_con_dato": 15015,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1840,
+       "rellenado_final": 1840,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 16855,
+       "exceso_sobre_censo": 1840
+      }
+     ]
     }
    },
    "estado": "LISTA"
@@ -899,11 +1410,11 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/22_f9592645571e.json"
    },
    "poblacion": {
-    "secciones": 288,
-    "total": 223235,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 289,
+    "total": 225176,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1941,
+    "pct_no_dato": "0.8620",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -922,6 +1433,35 @@
      "apartadas": [],
      "poblacion_asignada": 560,
      "poblacion_excluida": 0
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "2212503008",
+       "poblacion": 1941,
+       "poblacion_atlas": 1941,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 1941,
+     "habitantes_rellenados": 1941,
+     "cuadre_municipal": [
+      {
+       "municipio": "22125",
+       "total_municipal_censo": 51170,
+       "suma_con_dato": 51170,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1941,
+       "rellenado_final": 1941,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 53111,
+       "exceso_sobre_censo": 1941
+      }
+     ]
     }
    },
    "estado": "LISTA"
@@ -971,11 +1511,11 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/24_02b41a89a1c9.json"
    },
    "poblacion": {
-    "secciones": 458,
-    "total": 489625,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 460,
+    "total": 492293,
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 2668,
+    "pct_no_dato": "0.5420",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -994,6 +1534,54 @@
      "apartadas": [],
      "poblacion_asignada": 1180,
      "poblacion_excluida": 0
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "2408906018",
+       "poblacion": 1745,
+       "poblacion_atlas": 1745,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "2418901004",
+       "poblacion": 923,
+       "poblacion_atlas": 923,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 2668,
+     "habitantes_rellenados": 2668,
+     "cuadre_municipal": [
+      {
+       "municipio": "24089",
+       "total_municipal_censo": 130780,
+       "suma_con_dato": 130780,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1745,
+       "rellenado_final": 1745,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 132525,
+       "exceso_sobre_censo": 1745
+      },
+      {
+       "municipio": "24189",
+       "total_municipal_censo": 6885,
+       "suma_con_dato": 6885,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 923,
+       "rellenado_final": 923,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 7808,
+       "exceso_sobre_censo": 923
+      }
+     ]
     }
    },
    "estado": "LISTA"
@@ -1071,11 +1659,11 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/27_9349f69c104c.json"
    },
    "poblacion": {
-    "secciones": 289,
-    "total": 345625,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 291,
+    "total": 347956,
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 2331,
+    "pct_no_dato": "0.6699",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -1142,6 +1730,54 @@
      "apartadas": [],
      "poblacion_asignada": 4590,
      "poblacion_excluida": 0
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "2702802021",
+       "poblacion": 1195,
+       "poblacion_atlas": 1195,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "2705702001",
+       "poblacion": 1136,
+       "poblacion_atlas": 1136,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 2331,
+     "habitantes_rellenados": 2331,
+     "cuadre_municipal": [
+      {
+       "municipio": "27028",
+       "total_municipal_censo": 97470,
+       "suma_con_dato": 97470,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1195,
+       "rellenado_final": 1195,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 98665,
+       "exceso_sobre_censo": 1195
+      },
+      {
+       "municipio": "27057",
+       "total_municipal_censo": 13275,
+       "suma_con_dato": 13275,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1136,
+       "rellenado_final": 1136,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 14411,
+       "exceso_sobre_censo": 1136
+      }
+     ]
     }
    },
    "estado": "LISTA"
@@ -1163,14 +1799,81 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/28_ac8c30bcf63c.json"
    },
    "poblacion": {
-    "secciones": 4272,
-    "total": 6387375,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 4275,
+    "total": 6393896,
+    "secciones_no_dato": 3,
+    "poblacion_no_dato": 6521,
+    "pct_no_dato": "0.1020",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "2800704032",
+       "poblacion": 1746,
+       "poblacion_atlas": 1746,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "2804501024",
+       "poblacion": 2461,
+       "poblacion_atlas": 2461,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "2814802023",
+       "poblacion": 2314,
+       "poblacion_atlas": 2314,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 6521,
+     "habitantes_rellenados": 6521,
+     "cuadre_municipal": [
+      {
+       "municipio": "28007",
+       "total_municipal_censo": 166635,
+       "suma_con_dato": 166635,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1746,
+       "rellenado_final": 1746,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 168381,
+       "exceso_sobre_censo": 1746
+      },
+      {
+       "municipio": "28045",
+       "total_municipal_censo": 45550,
+       "suma_con_dato": 45550,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 2461,
+       "rellenado_final": 2461,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 48011,
+       "exceso_sobre_censo": 2461
+      },
+      {
+       "municipio": "28148",
+       "total_municipal_censo": 122900,
+       "suma_con_dato": 122900,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 2314,
+       "rellenado_final": 2314,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 125214,
+       "exceso_sobre_censo": 2314
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -1191,14 +1894,121 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/29_be897ab4df73.json"
    },
    "poblacion": {
-    "secciones": 1015,
-    "total": 1590340,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 1022,
+    "total": 1604149,
+    "secciones_no_dato": 7,
+    "poblacion_no_dato": 13809,
+    "pct_no_dato": "0.8608",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "2905103005",
+       "poblacion": 3117,
+       "poblacion_atlas": 3117,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "2905402006",
+       "poblacion": 1514,
+       "poblacion_atlas": 1514,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "2905403005",
+       "poblacion": 3486,
+       "poblacion_atlas": 3486,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "2909403014",
+       "poblacion": 1305,
+       "poblacion_atlas": 1305,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "2990101041",
+       "poblacion": 1338,
+       "poblacion_atlas": 1338,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "2990101042",
+       "poblacion": 1349,
+       "poblacion_atlas": 1349,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "2990101043",
+       "poblacion": 1700,
+       "poblacion_atlas": 1700,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 13809,
+     "habitantes_rellenados": 13809,
+     "cuadre_municipal": [
+      {
+       "municipio": "29051",
+       "total_municipal_censo": 64000,
+       "suma_con_dato": 64000,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 3117,
+       "rellenado_final": 3117,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 67117,
+       "exceso_sobre_censo": 3117
+      },
+      {
+       "municipio": "29054",
+       "total_municipal_censo": 71975,
+       "suma_con_dato": 71975,
+       "residuo": 0,
+       "secciones_rellenadas": 2,
+       "rellenado_atlas": 5000,
+       "rellenado_final": 5000,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 76975,
+       "exceso_sobre_censo": 5000
+      },
+      {
+       "municipio": "29094",
+       "total_municipal_censo": 76640,
+       "suma_con_dato": 76640,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1305,
+       "rellenado_final": 1305,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 77945,
+       "exceso_sobre_censo": 1305
+      },
+      {
+       "municipio": "29901",
+       "total_municipal_censo": 66100,
+       "suma_con_dato": 66100,
+       "residuo": 0,
+       "secciones_rellenadas": 3,
+       "rellenado_atlas": 4387,
+       "rellenado_final": 4387,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 70487,
+       "exceso_sobre_censo": 4387
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -1219,14 +2029,43 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/30_250b350b8688.json"
    },
    "poblacion": {
-    "secciones": 1219,
-    "total": 1458215,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 1220,
+    "total": 1459182,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 967,
+    "pct_no_dato": "0.0663",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "3002901015",
+       "poblacion": 967,
+       "poblacion_atlas": 967,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 967,
+     "habitantes_rellenados": 967,
+     "cuadre_municipal": [
+      {
+       "municipio": "30029",
+       "total_municipal_censo": 17085,
+       "suma_con_dato": 17085,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 967,
+       "rellenado_final": 967,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 18052,
+       "exceso_sobre_censo": 967
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -1247,14 +2086,43 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/31_d03cd9db77e9.json"
    },
    "poblacion": {
-    "secciones": 558,
-    "total": 635140,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 559,
+    "total": 637573,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 2433,
+    "pct_no_dato": "0.3816",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "3190701008",
+       "poblacion": 2433,
+       "poblacion_atlas": 2433,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 2433,
+     "habitantes_rellenados": 2433,
+     "cuadre_municipal": [
+      {
+       "municipio": "31907",
+       "total_municipal_censo": 13975,
+       "suma_con_dato": 13975,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 2433,
+       "rellenado_final": 2433,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 16408,
+       "exceso_sobre_censo": 2433
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -1275,11 +2143,11 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/32_da973b8b9dd0.json"
    },
    "poblacion": {
-    "secciones": 278,
-    "total": 325205,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 279,
+    "total": 326250,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1045,
+    "pct_no_dato": "0.3203",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -1330,6 +2198,35 @@
      "apartadas": [],
      "poblacion_asignada": 2630,
      "poblacion_excluida": 0
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "3205402011",
+       "poblacion": 1045,
+       "poblacion_atlas": 1045,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 1045,
+     "habitantes_rellenados": 1045,
+     "cuadre_municipal": [
+      {
+       "municipio": "32054",
+       "total_municipal_censo": 106280,
+       "suma_con_dato": 106280,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1045,
+       "rellenado_final": 1045,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 107325,
+       "exceso_sobre_censo": 1045
+      }
+     ]
     }
    },
    "estado": "LISTA"
@@ -1351,11 +2248,11 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/33_d2de96026d7a.json"
    },
    "poblacion": {
-    "secciones": 875,
-    "total": 1069285,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 881,
+    "total": 1077112,
+    "secciones_no_dato": 6,
+    "poblacion_no_dato": 7827,
+    "pct_no_dato": "0.7267",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -1390,6 +2287,82 @@
      "apartadas": [],
      "poblacion_asignada": 1745,
      "poblacion_excluida": 0
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "3302406023",
+       "poblacion": 1303,
+       "poblacion_atlas": 1303,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3304406025",
+       "poblacion": 1090,
+       "poblacion_atlas": 1090,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3304406026",
+       "poblacion": 1340,
+       "poblacion_atlas": 1340,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3304408017",
+       "poblacion": 962,
+       "poblacion_atlas": 962,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3304409018",
+       "poblacion": 1842,
+       "poblacion_atlas": 1842,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3304409019",
+       "poblacion": 1290,
+       "poblacion_atlas": 1290,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 7827,
+     "habitantes_rellenados": 7827,
+     "cuadre_municipal": [
+      {
+       "municipio": "33024",
+       "total_municipal_censo": 275455,
+       "suma_con_dato": 275455,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1303,
+       "rellenado_final": 1303,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 276758,
+       "exceso_sobre_censo": 1303
+      },
+      {
+       "municipio": "33044",
+       "total_municipal_censo": 223475,
+       "suma_con_dato": 223475,
+       "residuo": 0,
+       "secciones_rellenadas": 5,
+       "rellenado_atlas": 6524,
+       "rellenado_final": 6524,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 229999,
+       "exceso_sobre_censo": 6524
+      }
+     ]
     }
    },
    "estado": "LISTA"
@@ -1411,14 +2384,43 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/34_1888dc46cd44.json"
    },
    "poblacion": {
-    "secciones": 282,
-    "total": 167410,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 283,
+    "total": 168551,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1141,
+    "pct_no_dato": "0.6769",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "3422501004",
+       "poblacion": 1141,
+       "poblacion_atlas": 1141,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 1141,
+     "habitantes_rellenados": 1141,
+     "cuadre_municipal": [
+      {
+       "municipio": "34225",
+       "total_municipal_censo": 6270,
+       "suma_con_dato": 6270,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1141,
+       "rellenado_final": 1141,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 7411,
+       "exceso_sobre_censo": 1141
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -1439,11 +2441,11 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/35_b2c963a6ee54.json"
    },
    "poblacion": {
-    "secciones": 678,
-    "total": 1084095,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 680,
+    "total": 1087121,
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 3026,
+    "pct_no_dato": "0.2783",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -1468,6 +2470,54 @@
      "apartadas": [],
      "poblacion_asignada": 580,
      "poblacion_excluida": 730
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "3501603042",
+       "poblacion": 730,
+       "poblacion_atlas": 884,
+       "anio_atlas": 2015,
+       "ajuste": "ajustada"
+      },
+      {
+       "seccion": "3502606015",
+       "poblacion": 2296,
+       "poblacion_atlas": 2296,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 3180,
+     "habitantes_rellenados": 3026,
+     "cuadre_municipal": [
+      {
+       "municipio": "35016",
+       "total_municipal_censo": 380320,
+       "suma_con_dato": 379590,
+       "residuo": 730,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 884,
+       "rellenado_final": 730,
+       "estado": "ajustado",
+       "suma_municipio": 380320,
+       "exceso_sobre_censo": 0
+      },
+      {
+       "municipio": "35026",
+       "total_municipal_censo": 100630,
+       "suma_con_dato": 100630,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 2296,
+       "rellenado_final": 2296,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 102926,
+       "exceso_sobre_censo": 2296
+      }
+     ]
     }
    },
    "estado": "LISTA"
@@ -1489,12 +2539,14 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/36_95886cf93d42.json"
    },
    "poblacion": {
-    "secciones": 720,
-    "total": 951490,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
-    "secciones_sin_dato": [],
+    "secciones": 746,
+    "total": 977283,
+    "secciones_no_dato": 26,
+    "poblacion_no_dato": 25793,
+    "pct_no_dato": "2.6393",
+    "secciones_sin_dato": [
+     "3605901003"
+    ],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
     "sin_seccionado_resuelto": {
@@ -1512,9 +2564,323 @@
      "apartadas": [],
      "poblacion_asignada": 285,
      "poblacion_excluida": 0
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "3600501002",
+       "poblacion": 840,
+       "poblacion_atlas": 840,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3600501003",
+       "poblacion": 1410,
+       "poblacion_atlas": 1410,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3600503001",
+       "poblacion": 774,
+       "poblacion_atlas": 774,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3602502001",
+       "poblacion": 646,
+       "poblacion_atlas": 646,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3602602003",
+       "poblacion": 564,
+       "poblacion_atlas": 564,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3602603003",
+       "poblacion": 1563,
+       "poblacion_atlas": 1563,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3602701002",
+       "poblacion": 772,
+       "poblacion_atlas": 772,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3602702001",
+       "poblacion": 1175,
+       "poblacion_atlas": 1175,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3602901006",
+       "poblacion": 925,
+       "poblacion_atlas": 925,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3602901007",
+       "poblacion": 955,
+       "poblacion_atlas": 955,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3602903004",
+       "poblacion": 1067,
+       "poblacion_atlas": 1067,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3602903005",
+       "poblacion": 1019,
+       "poblacion_atlas": 1019,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3603803002",
+       "poblacion": 727,
+       "poblacion_atlas": 727,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3603804005",
+       "poblacion": 971,
+       "poblacion_atlas": 971,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3603804006",
+       "poblacion": 745,
+       "poblacion_atlas": 745,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3603805001",
+       "poblacion": 752,
+       "poblacion_atlas": 752,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3603805004",
+       "poblacion": 736,
+       "poblacion_atlas": 736,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3603806001",
+       "poblacion": 913,
+       "poblacion_atlas": 913,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3603806002",
+       "poblacion": 866,
+       "poblacion_atlas": 866,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3603806003",
+       "poblacion": 1083,
+       "poblacion_atlas": 1083,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3605103002",
+       "poblacion": 890,
+       "poblacion_atlas": 890,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3605103003",
+       "poblacion": 1211,
+       "poblacion_atlas": 1211,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3605103004",
+       "poblacion": 1339,
+       "poblacion_atlas": 1339,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3605602003",
+       "poblacion": 765,
+       "poblacion_atlas": 765,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3605801001",
+       "poblacion": 1443,
+       "poblacion_atlas": 1443,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3605801002",
+       "poblacion": 1642,
+       "poblacion_atlas": 1642,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [
+      "3605901003"
+     ],
+     "habitantes_atlas": 25793,
+     "habitantes_rellenados": 25793,
+     "cuadre_municipal": [
+      {
+       "municipio": "36005",
+       "total_municipal_censo": 9935,
+       "suma_con_dato": 9935,
+       "residuo": 0,
+       "secciones_rellenadas": 3,
+       "rellenado_atlas": 3024,
+       "rellenado_final": 3024,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 12959,
+       "exceso_sobre_censo": 3024
+      },
+      {
+       "municipio": "36025",
+       "total_municipal_censo": 2895,
+       "suma_con_dato": 2895,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 646,
+       "rellenado_final": 646,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 3541,
+       "exceso_sobre_censo": 646
+      },
+      {
+       "municipio": "36026",
+       "total_municipal_censo": 25275,
+       "suma_con_dato": 25275,
+       "residuo": 0,
+       "secciones_rellenadas": 2,
+       "rellenado_atlas": 2127,
+       "rellenado_final": 2127,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 27402,
+       "exceso_sobre_censo": 2127
+      },
+      {
+       "municipio": "36027",
+       "total_municipal_censo": 5455,
+       "suma_con_dato": 5455,
+       "residuo": 0,
+       "secciones_rellenadas": 2,
+       "rellenado_atlas": 1947,
+       "rellenado_final": 1947,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 7402,
+       "exceso_sobre_censo": 1947
+      },
+      {
+       "municipio": "36029",
+       "total_municipal_censo": 19275,
+       "suma_con_dato": 19275,
+       "residuo": 0,
+       "secciones_rellenadas": 4,
+       "rellenado_atlas": 3966,
+       "rellenado_final": 3966,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 23241,
+       "exceso_sobre_censo": 3966
+      },
+      {
+       "municipio": "36038",
+       "total_municipal_censo": 82010,
+       "suma_con_dato": 82010,
+       "residuo": 0,
+       "secciones_rellenadas": 8,
+       "rellenado_atlas": 6793,
+       "rellenado_final": 6793,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 88803,
+       "exceso_sobre_censo": 6793
+      },
+      {
+       "municipio": "36051",
+       "total_municipal_censo": 17545,
+       "suma_con_dato": 17545,
+       "residuo": 0,
+       "secciones_rellenadas": 3,
+       "rellenado_atlas": 3440,
+       "rellenado_final": 3440,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 20985,
+       "exceso_sobre_censo": 3440
+      },
+      {
+       "municipio": "36056",
+       "total_municipal_censo": 6050,
+       "suma_con_dato": 6050,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 765,
+       "rellenado_final": 765,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 6815,
+       "exceso_sobre_censo": 765
+      },
+      {
+       "municipio": "36058",
+       "total_municipal_censo": 6035,
+       "suma_con_dato": 6035,
+       "residuo": 0,
+       "secciones_rellenadas": 2,
+       "rellenado_atlas": 3085,
+       "rellenado_final": 3085,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 9120,
+       "exceso_sobre_censo": 3085
+      },
+      {
+       "municipio": "36059",
+       "total_municipal_censo": 6075,
+       "suma_con_dato": 6075,
+       "residuo": 0,
+       "secciones_rellenadas": 0,
+       "rellenado_atlas": 0,
+       "rellenado_final": 0,
+       "estado": "aviso_sin_dato",
+       "suma_municipio": 6075,
+       "exceso_sobre_censo": 0
+      }
+     ]
     }
    },
-   "estado": "LISTA"
+   "estado": "BLOQUEADA_SIN_DATO"
   },
   "37": {
    "territorio": "nac37",
@@ -1533,14 +2899,43 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/37_faf28d672d1e.json"
    },
    "poblacion": {
-    "secciones": 527,
-    "total": 346165,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 528,
+    "total": 347575,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1410,
+    "pct_no_dato": "0.4057",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "3727403020",
+       "poblacion": 1410,
+       "poblacion_atlas": 1410,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 1410,
+     "habitantes_rellenados": 1410,
+     "cuadre_municipal": [
+      {
+       "municipio": "37274",
+       "total_municipal_censo": 150690,
+       "suma_con_dato": 150690,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1410,
+       "rellenado_final": 1410,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 152100,
+       "exceso_sobre_censo": 1410
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -1561,14 +2956,43 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/38_0a2482d7788c.json"
    },
    "poblacion": {
-    "secciones": 645,
-    "total": 993455,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 646,
+    "total": 994226,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 771,
+    "pct_no_dato": "0.0775",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "3800901003",
+       "poblacion": 771,
+       "poblacion_atlas": 771,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 771,
+     "habitantes_rellenados": 771,
+     "cuadre_municipal": [
+      {
+       "municipio": "38009",
+       "total_municipal_censo": 5320,
+       "suma_con_dato": 5320,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 771,
+       "rellenado_final": 771,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 6091,
+       "exceso_sobre_censo": 771
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -1645,14 +3069,100 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/41_ad6d8b995982.json"
    },
    "poblacion": {
-    "secciones": 1309,
-    "total": 1925670,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 1313,
+    "total": 1931066,
+    "secciones_no_dato": 4,
+    "poblacion_no_dato": 5396,
+    "pct_no_dato": "0.2794",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "4100404030",
+       "poblacion": 1785,
+       "poblacion_atlas": 1785,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "4102002007",
+       "poblacion": 1460,
+       "poblacion_atlas": 1460,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "4103805023",
+       "poblacion": 883,
+       "poblacion_atlas": 883,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "4105003002",
+       "poblacion": 1268,
+       "poblacion_atlas": 1268,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 5396,
+     "habitantes_rellenados": 5396,
+     "cuadre_municipal": [
+      {
+       "municipio": "41004",
+       "total_municipal_censo": 73030,
+       "suma_con_dato": 73030,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1785,
+       "rellenado_final": 1785,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 74815,
+       "exceso_sobre_censo": 1785
+      },
+      {
+       "municipio": "41020",
+       "total_municipal_censo": 16595,
+       "suma_con_dato": 16595,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1460,
+       "rellenado_final": 1460,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 18055,
+       "exceso_sobre_censo": 1460
+      },
+      {
+       "municipio": "41038",
+       "total_municipal_censo": 128015,
+       "suma_con_dato": 128015,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 883,
+       "rellenado_final": 883,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 128898,
+       "exceso_sobre_censo": 883
+      },
+      {
+       "municipio": "41050",
+       "total_municipal_censo": 6450,
+       "suma_con_dato": 6450,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1268,
+       "rellenado_final": 1268,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 7718,
+       "exceso_sobre_censo": 1268
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -1701,14 +3211,43 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/43_106b83787321.json"
    },
    "poblacion": {
-    "secciones": 526,
-    "total": 802595,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 527,
+    "total": 804271,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1676,
+    "pct_no_dato": "0.2084",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "4314001002",
+       "poblacion": 1676,
+       "poblacion_atlas": 1676,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 1676,
+     "habitantes_rellenados": 1676,
+     "cuadre_municipal": [
+      {
+       "municipio": "43140",
+       "total_municipal_censo": 3275,
+       "suma_con_dato": 3275,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1676,
+       "rellenado_final": 1676,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 4951,
+       "exceso_sobre_censo": 1676
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -1757,14 +3296,43 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/45_5e81356fc1a8.json"
    },
    "poblacion": {
-    "secciones": 520,
-    "total": 700615,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 521,
+    "total": 702211,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1596,
+    "pct_no_dato": "0.2273",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "4516807020",
+       "poblacion": 1596,
+       "poblacion_atlas": 1596,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 1596,
+     "habitantes_rellenados": 1596,
+     "cuadre_municipal": [
+      {
+       "municipio": "45168",
+       "total_municipal_censo": 83085,
+       "suma_con_dato": 83085,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1596,
+       "rellenado_final": 1596,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 84681,
+       "exceso_sobre_censo": 1596
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -1785,11 +3353,11 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/46_cf736ac77024.json"
    },
    "poblacion": {
-    "secciones": 1800,
-    "total": 2553485,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 1806,
+    "total": 2562185,
+    "secciones_no_dato": 6,
+    "poblacion_no_dato": 8700,
+    "pct_no_dato": "0.3396",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -1824,6 +3392,94 @@
      "apartadas": [],
      "poblacion_asignada": 2250,
      "poblacion_excluida": 0
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "4613401002",
+       "poblacion": 952,
+       "poblacion_atlas": 952,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "4619001045",
+       "poblacion": 1247,
+       "poblacion_atlas": 1247,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "4619001046",
+       "poblacion": 1382,
+       "poblacion_atlas": 1382,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "4619001048",
+       "poblacion": 1628,
+       "poblacion_atlas": 1628,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "4625012046",
+       "poblacion": 1573,
+       "poblacion_atlas": 1573,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "4625015038",
+       "poblacion": 1918,
+       "poblacion_atlas": 1918,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 8700,
+     "habitantes_rellenados": 8700,
+     "cuadre_municipal": [
+      {
+       "municipio": "46134",
+       "total_municipal_censo": 3290,
+       "suma_con_dato": 3290,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 952,
+       "rellenado_final": 952,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 4242,
+       "exceso_sobre_censo": 952
+      },
+      {
+       "municipio": "46190",
+       "total_municipal_censo": 66585,
+       "suma_con_dato": 66585,
+       "residuo": 0,
+       "secciones_rellenadas": 3,
+       "rellenado_atlas": 4257,
+       "rellenado_final": 4257,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 70842,
+       "exceso_sobre_censo": 4257
+      },
+      {
+       "municipio": "46250",
+       "total_municipal_censo": 790755,
+       "suma_con_dato": 790755,
+       "residuo": 0,
+       "secciones_rellenadas": 2,
+       "rellenado_atlas": 3491,
+       "rellenado_final": 3491,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 794246,
+       "exceso_sobre_censo": 3491
+      }
+     ]
     }
    },
    "estado": "LISTA"
@@ -1845,14 +3501,69 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/47_4f52997d3aa0.json"
    },
    "poblacion": {
-    "secciones": 575,
-    "total": 529355,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 578,
+    "total": 534113,
+    "secciones_no_dato": 3,
+    "poblacion_no_dato": 4758,
+    "pct_no_dato": "0.8908",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "4700701004",
+       "poblacion": 1148,
+       "poblacion_atlas": 1148,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "4701001008",
+       "poblacion": 2425,
+       "poblacion_atlas": 2425,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "4701001009",
+       "poblacion": 1185,
+       "poblacion_atlas": 1185,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 4758,
+     "habitantes_rellenados": 4758,
+     "cuadre_municipal": [
+      {
+       "municipio": "47007",
+       "total_municipal_censo": 4520,
+       "suma_con_dato": 4520,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1148,
+       "rellenado_final": 1148,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 5668,
+       "exceso_sobre_censo": 1148
+      },
+      {
+       "municipio": "47010",
+       "total_municipal_censo": 15515,
+       "suma_con_dato": 15515,
+       "residuo": 0,
+       "secciones_rellenadas": 2,
+       "rellenado_atlas": 3610,
+       "rellenado_final": 3610,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 19125,
+       "exceso_sobre_censo": 3610
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -1957,16 +3668,45 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/51_80822640c049.json"
    },
    "poblacion": {
-    "secciones": 53,
-    "total": 83195,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 54,
+    "total": 84742,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1547,
+    "pct_no_dato": "1.8255",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "rellenadas": [
+      {
+       "seccion": "5100103014",
+       "poblacion": 1547,
+       "poblacion_atlas": 1547,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_atlas": 1547,
+     "habitantes_rellenados": 1547,
+     "cuadre_municipal": [
+      {
+       "municipio": "51001",
+       "total_municipal_censo": 83195,
+       "suma_con_dato": 83195,
+       "residuo": 0,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1547,
+       "rellenado_final": 1547,
+       "estado": "aviso_residuo_no_positivo",
+       "suma_municipio": 84742,
+       "exceso_sobre_censo": 1547
+      }
+     ]
+    }
    },
-   "estado": "LISTA"
+   "estado": "BLOQUEADA_RELLENO"
   },
   "52": {
    "territorio": "nac52",
