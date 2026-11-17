@@ -7,3 +7,4 @@ Causa: D-167 pide el diseño operativo antes de implementar. Cambio: `docs/ESTUD
 Riesgos: la asignación de bloques es propuesta, pendiente de aprobación del propietario. PR con `no-automerge`.
 Segunda versión (17-11): respuestas del propietario relayadas por el Planificador (escenarios A/B, bloques de dudosos); tabla renombrada.
 Tercera versión: unio.cat→Nacionalistas y JXC/JxG/CCD/CCD-CI sin bloque aprobados (Planificador); comprobado que no cambian ningún ganador (54 casos).
+Cuarta versión: §5 (herramienta aparte tras P32, sin tocar el ganador); hallazgo: 07 ya escribe el CSV por partido y distrito (out_district_party_csv).

@@ -1,6 +1,6 @@
 # T-409 · Doble vuelta con coaliciones — diseño (solo documento)
 
-VERSIÓN: 1.2.0 · FECHA: 2026-11-17 · ESTADO: respuestas del propietario relayadas por el Planificador · ANTERIOR: 1.1.0 (misma PR, sin publicar)
+VERSIÓN: 1.3.0 · FECHA: 2026-11-17 · ESTADO: respuestas del propietario relayadas por el Planificador · ANTERIOR: 1.2.0 (misma PR, sin publicar)
 
 Estado: v2 (17-11): incorpora las respuestas del propietario relayadas por el Planificador («sí a todo»). Base: D-167. No toca código ni datos. Implementación tras
 la migración P (D-165/D-166, T-313).
@@ -48,20 +48,23 @@ candidatura única.
 cambiaría la cuota respecto de `winner_share` actual. Con votos válidos (con blancos) la mayoría del 50 % es más
 exigente; requeriría una fuente nueva. Pregunta 2.
 
-## 5. Dónde va
+## 5. Dónde va (v1.3, decisión del propietario 17-11: paso aparte, sin tocar el ganador actual)
 
-- Hoy: `modulos/07_agregar_resultados_electorales.py`, `electoral_outputs()` (≈ línea 1476): `by_party` por
-  `[district_id, party]`, `bloc` ya existe como `parties.classification` (clasificación del diccionario de partidos,
-  distinta del bloque de D-167), ganador por `groupby().idxmax()` (≈ línea 1484). Se llama en ≈ línea 1642.
-- Tras D-166: P31 = `modulos/p31_agregacion.py`, P32 = `modulos/p32_resultados_distrito.py`. Nomenclatura
-  nueva del campo: **`bloque_ddd`** (para no chocar con `bloc`), `escenario` (`primero`, `dv_base`, `dv_A`, `dv_B`), `vuelta_decisiva`.
-- Nuevo módulo puro `ddd_core/p31_doble_vuelta.py`: `resolver(by_party, bloques, escenario) -> DataFrame` sin I/O;
-  P31 lo llama tras `electoral_outputs` y escribe el CSV; `primero` sigue siendo el `winners` de hoy sin cambios.
-  P32 lo empaqueta en el M08/P32 junto al ganador actual (campo adicional, no sustituye).
-- La tabla aprobada pasa a `configuracion/bloques_partidos.csv` (editable por el propietario), cargada y validada por
-  `ddd_core/bloques.py`: un partido, un bloque; toda candidatura homologada de la elección debe estar (vacío = sin bloque
-  explícito); sha256 en el manifiesto.
-- Huellas: si afecta a P31/P32, invalida su huella (`.claude/rules/huellas.md`); decir en la PR qué 00 hace falta.
+- **No se toca el cálculo del ganador**: `electoral_outputs()` (`modulos/07_agregar_resultados_electorales.py`, ≈ línea 1476,
+  ganador por `idxmax` en ≈ 1484) queda como está; `primero` se conserva.
+- **Entrada del paso nuevo**: la tabla de votos por partido y distrito que `electoral_outputs` ya calcula (`by_party`:
+  `district_id, party, votes, bloc`). Hallazgo: 07 **ya la escribe** (`out_district_party_csv`, ≈ línea 1647; en la
+  auditoría es `audit/M07/resultados_por_partido.csv`, con su sha256 en el `REFERENCIAS` de `generar_outputs_auditables.py`).
+  Lo que falta no es la salida sino su persistencia: vive en la caché del run y en el artefacto (caduca), y
+  `datos/resultados/MANIFEST.json` → `partidos` está vacío. Ver pregunta 9.
+- **Herramienta nueva** (nombre neutro): `herramientas/doble_vuelta.py`. Lee ese CSV por partido y distrito y
+  `configuracion/bloques_partidos_2026-11-17.csv`, y escribe por distrito los escenarios `dv_base`, `dv_A` y `dv_B`
+  (ganador, finalistas, votos de primera y segunda vuelta; formato en §6). Núcleo puro (`resolver`) sin I/O; la CLI lee y
+  escribe CSV y deja el sha256 de entradas y salida en un manifiesto. Sin votos inventados ni reconstruidos: para los
+  territorios ya publicados la entrada sale al regenerarlos.
+- Campo `bloque_ddd` (frente al `bloc` ya existente). Solo Congreso.
+- **Fuera de alcance de estas PR**: `.github/workflows/` (el enganche va tras #899, PR 2b de P00) y el visor.
+- Huellas: no cambian (07 no se toca en esta fase); la herramienta no entra en el flujo hasta el enganche.
 
 ## 6. Formato de salida
 
@@ -89,18 +92,22 @@ homologada cubierta; (8) `primero` idéntico al `idxmax` actual (regresión); (9
 y, para el 2023, el BOE (`configuracion/resultados_oficiales_congreso_2023.csv`, sha256 en el manifiesto) como base de
 votos, nunca recalculados con el mismo código.
 
-## 9. Orden de PR (tras T-313)
+## 9. Orden de PR
 
-1. Esta (diseño + tabla propuesta). 2. `ddd_core/bloques.py` + `configuracion/bloques_partidos.csv` aprobada + tests de
-la tabla. 3. `ddd_core/p31_doble_vuelta.py` puro + tests (sin cableado). 4. Cableado en P31 (huella). 5. Paquete P32.
-6. Visor (decisión aparte). Una PR por capa; ninguna lanza ni publica.
+1. Esta (diseño + tabla). 2. `herramientas/doble_vuelta.py` + tests sintéticos (mayoría en primera, transferencia por
+bloque, bloque sin finalista → abstención, empate, dos finalistas del mismo bloque). 3. Persistir la tabla por partido (si
+procede, pregunta 9). 4. Enganche en el workflow, tras #899. 5. Visor, decisión aparte. Una PR por capa; ninguna lanza ni
+publica.
 
 ## 10. Preguntas abiertas — resueltas (propietario 17-11, vía Planificador)
 
 1. Escenarios: A (tres bloques), B/«4» (Izquierdas + Patriotas), `dv_base`. 2. Base: votos a candidaturas.
 3. Empates: orden alfabético del id con `empate=true`. 4. Mismo bloque: al más votado de los dos finalistas en primera
 vuelta. 5. Sin bloque: abstención. 6. CHA-IU → Izquierdas. 7. Solo Congreso. 8. Campo `bloque_ddd`.
-Pendiente: nada de diseño; las 4 siglas ambiguas siguen como propuesta (§11).
+9. (nueva) El CSV por partido y distrito **ya existe** como salida de 07 (`out_district_party_csv`). La PR «salida nueva en 07»
+   no hace falta tal cual; lo pendiente es dónde persistirlo para los territorios ya publicados. Recomiendo: la
+   herramienta lee el CSV de la auditoría del run; la persistencia en git (`datos/resultados/<t>_partidos.csv`, con el
+   archivista `resultados_partidos.py`) es una PR aparte si el propietario la quiere. Pendiente de respuesta.
 
 ## 11. Tabla de bloques
 
