@@ -5,13 +5,14 @@
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.3.0 · FECHA: 2026-11-17 · ESTADO: candidato
 ANTERIOR: legacy/herramientas/contrato_historico_epoca_v1.2.0_20261117.py
-CAMBIOS: 1.3.0: T-399 (D-158 B', aprobada según el Coordinador/Planificador: pendiente de confirmar literal por el propietario): 2011-11 mantiene el seccionado 2012. Las secciones del seccionado SIN fila en
+CAMBIOS: 1.3.0: T-399 (D-158 B', decisión del propietario (17-11), confirmada en el chat del Planificador): 2011-11 mantiene el seccionado 2012. Las secciones del seccionado SIN fila en
   la tabla se resuelven así: (a) las que parten una sección del Censo (la «hija» cae ≥ 50 % en una sección con población: la «madre») reciben una parte de la población 2011 de la madre repartida entre madre e hijas
   según el Atlas del año más cercano de cada una (restos mayores; se conservan los totales del Censo; origen `repartida_madre`/`repartida_hija`); (b) las que no tienen madre (existen en el Censo sin fila) se
   RELLENAN con el valor de la misma sección en el año más cercano del Atlas (D-126; origen `rellenada_año_cercano`) y ajuste al total municipal oficial del Censo solo si hay fuente con sha256 (hoy no: sin ajuste,
   declarado); sin dato en ningún año → BLOQUEADA_SIN_DATO. Las provincias con votos sin asignar > 0,1 % (2011-11: 03, 24, 27, 32, 33; `votos_fuera_del_seccionado.csv`) quedan APARTADA_VOTOS y declaradas:
   no se toca D-70 ni hay excepciones nuevas en la puerta.
-  `contrato --atlas`, `informe_poblacion`.
+  Misma sección-municipio para la madre (código de 5 cifras); `contrato --censo` + `verificar_madres_censo`: la población declarada de cada madre se verifica contra el Censo acreditado (sha256 de T-357).
+  D-161 (propietario, 17-11): para el umbral del 1 % cuenta solo lo movido de la madre a las hijas más lo rellenado (`filas_estimadas`), no madre+hijas enteras. `contrato --atlas`, `informe_poblacion`.
   1.2.0: T-402: `materializar` ya no copia el seccionado crudo: escribe el de la provincia con la normalización auditada de la adquisición
   (ddd_core.official_geometry.normalize_official_geometry, política configuracion/politica_normalizacion_geometrica.yaml; nada nuevo): las
   secciones válidas pasan byte a byte, las inválidas se reparan solo si la política lo permite (si no, FALLA cerrado). La huella del resultado
@@ -262,6 +263,13 @@ def repartir_madres(sin_pob: list[str], pob: dict[str, dict], geo_sin: dict, geo
                          "miembros": [{"seccion": s, "rol": rol, "solape": sol, "poblacion_atlas": vals[s][0], "anio_atlas": vals[s][1], "poblacion": p}
                                       for (s, rol, sol), p in zip(miembros, partes)]})
     return {"repartos": repartos, "sin_madre": sin_madre, "sin_dato": sorted(sin_dato)}
+
+
+def filas_estimadas(filas: list[dict]) -> list[dict]:
+    """Filas que cuentan como estimadas en el umbral del 1 % (D-126). D-161 (propietario, 17-11): del reparto madre/hijas cuenta SOLO la población movida de la
+    madre a las hijas (las filas `repartida_hija`) más las `rellenada_año_cercano`; la madre (`repartida_madre`) conserva el resto de su dato del Censo y no cuenta
+    (D-128 contaba entera a la sucesora `reasignada`, que sigue contando entera)."""
+    return [x for x in filas if x["origen"] not in ("dato", ORIGEN_MADRE)]
 
 
 def verificar_madres_censo(repartos: list[dict], censo: dict) -> None:
@@ -534,7 +542,7 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
         filas = list(final.values())
         sin_dato = sorted([k for k, x in pob_c.items() if x["poblacion"] is None] + (rp["sin_dato"] + rep["sin_dato"] if rep else []))
         total = sum(x["poblacion"] or 0 for x in filas)
-        rell = [x for x in filas if x["origen"] != "dato"]
+        rell = filas_estimadas(filas)
         prell = sum(x["poblacion"] or 0 for x in rell)
         sin_secc = sorted(x["seccion"] for x in apart)  # sin resolver: la provincia queda APARTADA
         votos_ap = apartadas_por_votos(eleccion, root).get(c)
@@ -576,7 +584,7 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
                        **({"donantes": [{k: v for k, v in d.items() if k != "ruta"} for d in don]} if (resueltas or cargas) else {})},
         "poblacion": {"fichero": tabla.name, "sha256": sha256(tabla), "origen": tabla_origen, "anio_referencia": e["poblacion_anio"],
                       "fuente": e["poblacion_fuente"],
-                      "regla_publicacion": f"> {UMBRAL_RELLENO_PCT} % estimada → BLOQUEADA_RELLENO (D-126/D-128); sin_dato → BLOQUEADA_SIN_DATO",
+                      "regla_publicacion": f"> {UMBRAL_RELLENO_PCT} % estimada → BLOQUEADA_RELLENO (D-126/D-128; D-161: del reparto madre/hijas cuenta solo lo movido a las hijas más lo rellenado, no la madre); sin_dato → BLOQUEADA_SIN_DATO",
                       "regla_sin_seccionado": METODO_SIN_SECCIONADO,
                       "regla_sin_poblacion": METODO_SIN_POBLACION,
                       **({"madres_verificadas_contra_censo": {"fuente": "indicadores_seccion_censal_csv.zip", "sha256": sumas.get("indicadores_seccion_censal_csv.zip")}}

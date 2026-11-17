@@ -65,7 +65,7 @@
   "origen": "T-364b herramientas/poblacion_seccion_historica.py 1.2.0 (D-128; provincias apartadas sin filas, reasignada, sin_ajuste_municipal; fuentes con sha256 de T-357/T-364)",
   "anio_referencia": 2011,
   "fuente": "censo",
-  "regla_publicacion": "> 1 % estimada → BLOQUEADA_RELLENO (D-126/D-128); sin_dato → BLOQUEADA_SIN_DATO",
+  "regla_publicacion": "> 1 % estimada → BLOQUEADA_RELLENO (D-126/D-128; D-161: del reparto madre/hijas cuenta solo lo movido a las hijas más lo rellenado, no la madre); sin_dato → BLOQUEADA_SIN_DATO",
   "regla_sin_seccionado": "D-153/T-396: sección con población sin geometría en el seccionado del año → sección del seccionado del año que contiene su centroide (punto representativo si el centroide cae fuera de todas), con la geometría del seccionado más cercano en años que la tenga (empate: el anterior); misma provincia (otra → APARTADA); sin geometría en ningún año, punto fuera de todo el seccionado o sucesora sin fila en la tabla → excluida con su población declarada. Reglas que D-153 no cita y declara este contrato: punto representativo si el centroide cae fuera; exclusión si la sucesora no tiene fila; origen dato+dato = dato (no cuenta como estimada)",
   "regla_sin_poblacion": "D-158 B'/D-126 (T-399): sección del seccionado de la época sin fila en la tabla de población. (a) Si cae ≥ 50 % de su área en una sección con población del mismo municipio (la madre; mayor solape), la población de la madre se reparte entre madre e hijas según el valor de cada una en el año más cercano del Atlas con dato (empate: el anterior; restos mayores): se conservan los totales del Censo y madre e hijas cuentan como estimadas (`repartida_madre`/`repartida_hija`); si algún miembro no tiene dato en ningún año, sus hijas quedan sin dato. (b) Si no tiene madre, valor de la misma sección en el año más cercano del Atlas con dato (`rellenada_año_cercano`, estimada), con ajuste proporcional al total municipal OFICIAL del Censo 2011 solo si el contrato declara esa fuente con sha256; sin ella no se ajusta y queda declarado (`sin_ajuste_municipal`, `total_municipal_oficial.fuente` = null). Sin dato en ningún año → la provincia queda BLOQUEADA_SIN_DATO",
   "madres_verificadas_contra_censo": {
@@ -383,9 +383,9 @@
    "poblacion": {
     "secciones": 631,
     "total": 1098928,
-    "secciones_no_dato": 3,
-    "poblacion_no_dato": 5068,
-    "pct_no_dato": "0.4612",
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 3321,
+    "pct_no_dato": "0.3022",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -466,9 +466,9 @@
    "poblacion": {
     "secciones": 3591,
     "total": 5487390,
-    "secciones_no_dato": 27,
-    "poblacion_no_dato": 38800,
-    "pct_no_dato": "0.7071",
+    "secciones_no_dato": 15,
+    "poblacion_no_dato": 21487,
+    "pct_no_dato": "0.3916",
     "secciones_sin_dato": [
      "0804703001"
     ],
@@ -878,9 +878,9 @@
    "poblacion": {
     "secciones": 418,
     "total": 408995,
-    "secciones_no_dato": 2,
-    "poblacion_no_dato": 3975,
-    "pct_no_dato": "0.9719",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1767,
+    "pct_no_dato": "0.4320",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -940,9 +940,9 @@
    "poblacion": {
     "secciones": 897,
     "total": 1241570,
-    "secciones_no_dato": 6,
-    "poblacion_no_dato": 7040,
-    "pct_no_dato": "0.5670",
+    "secciones_no_dato": 3,
+    "poblacion_no_dato": 3787,
+    "pct_no_dato": "0.3050",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -1134,9 +1134,9 @@
    "poblacion": {
     "secciones": 622,
     "total": 798320,
-    "secciones_no_dato": 2,
-    "poblacion_no_dato": 1800,
-    "pct_no_dato": "0.2255",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 355,
+    "pct_no_dato": "0.0445",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -1196,9 +1196,9 @@
    "poblacion": {
     "secciones": 915,
     "total": 1138429,
-    "secciones_no_dato": 11,
-    "poblacion_no_dato": 15639,
-    "pct_no_dato": "1.3737",
+    "secciones_no_dato": 6,
+    "poblacion_no_dato": 7561,
+    "pct_no_dato": "0.6642",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -1434,7 +1434,7 @@
      ]
     }
    },
-   "estado": "BLOQUEADA_RELLENO"
+   "estado": "LISTA"
   },
   "16": {
    "territorio": "nac16",
@@ -1595,9 +1595,9 @@
    "poblacion": {
     "secciones": 360,
     "total": 518195,
-    "secciones_no_dato": 2,
-    "poblacion_no_dato": 3885,
-    "pct_no_dato": "0.7497",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 2111,
+    "pct_no_dato": "0.4074",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -1673,9 +1673,9 @@
    "poblacion": {
     "secciones": 289,
     "total": 223235,
-    "secciones_no_dato": 2,
-    "poblacion_no_dato": 3120,
-    "pct_no_dato": "1.3976",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1426,
+    "pct_no_dato": "0.6388",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -1730,7 +1730,7 @@
      "cuadre_municipal": []
     }
    },
-   "estado": "BLOQUEADA_RELLENO"
+   "estado": "LISTA"
   },
   "23": {
    "territorio": "nac23",
@@ -1779,9 +1779,9 @@
    "poblacion": {
     "secciones": 460,
     "total": 490548,
-    "secciones_no_dato": 3,
-    "poblacion_no_dato": 3463,
-    "pct_no_dato": "0.7059",
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 2223,
+    "pct_no_dato": "0.4532",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -1943,9 +1943,9 @@
    "poblacion": {
     "secciones": 291,
     "total": 346761,
-    "secciones_no_dato": 3,
-    "poblacion_no_dato": 2201,
-    "pct_no_dato": "0.6347",
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 1701,
+    "pct_no_dato": "0.4905",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -2099,9 +2099,9 @@
    "poblacion": {
     "secciones": 4275,
     "total": 6387375,
-    "secciones_no_dato": 6,
-    "poblacion_no_dato": 15505,
-    "pct_no_dato": "0.2427",
+    "secciones_no_dato": 3,
+    "poblacion_no_dato": 8302,
+    "pct_no_dato": "0.1300",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -2205,9 +2205,9 @@
    "poblacion": {
     "secciones": 1022,
     "total": 1590340,
-    "secciones_no_dato": 14,
-    "poblacion_no_dato": 23330,
-    "pct_no_dato": "1.4670",
+    "secciones_no_dato": 7,
+    "poblacion_no_dato": 11211,
+    "pct_no_dato": "0.7049",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -2378,7 +2378,7 @@
      "cuadre_municipal": []
     }
    },
-   "estado": "BLOQUEADA_RELLENO"
+   "estado": "LISTA"
   },
   "30": {
    "territorio": "nac30",
@@ -2459,9 +2459,9 @@
    "poblacion": {
     "secciones": 559,
     "total": 635140,
-    "secciones_no_dato": 2,
-    "poblacion_no_dato": 3205,
-    "pct_no_dato": "0.5046",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 2054,
+    "pct_no_dato": "0.3234",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -2521,9 +2521,9 @@
    "poblacion": {
     "secciones": 279,
     "total": 325205,
-    "secciones_no_dato": 2,
-    "poblacion_no_dato": 3535,
-    "pct_no_dato": "1.0870",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1167,
+    "pct_no_dato": "0.3589",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -2640,9 +2640,9 @@
    "poblacion": {
     "secciones": 881,
     "total": 1069285,
-    "secciones_no_dato": 12,
-    "poblacion_no_dato": 18380,
-    "pct_no_dato": "1.7189",
+    "secciones_no_dato": 6,
+    "poblacion_no_dato": 8620,
+    "pct_no_dato": "0.8061",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -2853,9 +2853,9 @@
    "poblacion": {
     "secciones": 283,
     "total": 167410,
-    "secciones_no_dato": 2,
-    "poblacion_no_dato": 2880,
-    "pct_no_dato": "1.7203",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1155,
+    "pct_no_dato": "0.6899",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -2894,7 +2894,7 @@
      "cuadre_municipal": []
     }
    },
-   "estado": "BLOQUEADA_RELLENO"
+   "estado": "LISTA"
   },
   "35": {
    "territorio": "nac35",
@@ -3379,9 +3379,9 @@
    "poblacion": {
     "secciones": 528,
     "total": 346165,
-    "secciones_no_dato": 2,
-    "poblacion_no_dato": 1185,
-    "pct_no_dato": "0.3423",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 636,
+    "pct_no_dato": "0.1837",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -3557,9 +3557,9 @@
    "poblacion": {
     "secciones": 1313,
     "total": 1925670,
-    "secciones_no_dato": 8,
-    "poblacion_no_dato": 10065,
-    "pct_no_dato": "0.5227",
+    "secciones_no_dato": 4,
+    "poblacion_no_dato": 4008,
+    "pct_no_dato": "0.2081",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -3713,9 +3713,9 @@
    "poblacion": {
     "secciones": 527,
     "total": 802595,
-    "secciones_no_dato": 2,
-    "poblacion_no_dato": 3275,
-    "pct_no_dato": "0.4081",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1707,
+    "pct_no_dato": "0.2127",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -3803,9 +3803,9 @@
    "poblacion": {
     "secciones": 521,
     "total": 700615,
-    "secciones_no_dato": 2,
-    "poblacion_no_dato": 2850,
-    "pct_no_dato": "0.4068",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1124,
+    "pct_no_dato": "0.1604",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -3865,9 +3865,9 @@
    "poblacion": {
     "secciones": 1806,
     "total": 2561233,
-    "secciones_no_dato": 7,
-    "poblacion_no_dato": 11038,
-    "pct_no_dato": "0.4310",
+    "secciones_no_dato": 6,
+    "poblacion_no_dato": 8704,
+    "pct_no_dato": "0.3398",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -4020,9 +4020,9 @@
    "poblacion": {
     "secciones": 578,
     "total": 529355,
-    "secciones_no_dato": 6,
-    "poblacion_no_dato": 7700,
-    "pct_no_dato": "1.4546",
+    "secciones_no_dato": 3,
+    "poblacion_no_dato": 3927,
+    "pct_no_dato": "0.7418",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -4105,7 +4105,7 @@
      "cuadre_municipal": []
     }
    },
-   "estado": "BLOQUEADA_RELLENO"
+   "estado": "LISTA"
   },
   "48": {
    "territorio": "nac48",
@@ -4210,9 +4210,9 @@
    "poblacion": {
     "secciones": 54,
     "total": 83195,
-    "secciones_no_dato": 2,
-    "poblacion_no_dato": 2525,
-    "pct_no_dato": "3.0350",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1410,
+    "pct_no_dato": "1.6948",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,

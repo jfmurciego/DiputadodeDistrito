@@ -301,6 +301,39 @@ class ApartadasPorVotos(unittest.TestCase):
         self.assertIn("PROVINCIA_NO_LISTA", str(cm.exception))
 
 
+class CriterioDelUnoPorCiento(unittest.TestCase):
+    """D-161: del reparto madre/hijas cuenta solo lo movido a las hijas más lo rellenado; la madre no cuenta."""
+
+    FILAS = [{"poblacion": 100, "origen": "dato"}, {"poblacion": 600, "origen": "repartida_madre"}, {"poblacion": 300, "origen": "repartida_hija"},
+             {"poblacion": 50, "origen": "rellenada_año_cercano"}, {"poblacion": 10, "origen": "reasignada"}]
+
+    def test_cuenta_hijas_y_rellenadas_no_la_madre(self):
+        est = che.filas_estimadas(self.FILAS)
+        self.assertEqual(sorted(x["origen"] for x in est), ["reasignada", "rellenada_año_cercano", "repartida_hija"])
+        self.assertEqual(sum(x["poblacion"] for x in est), 360)  # 300 + 50 + 10 (a mano); con la madre enteras serían 960
+
+    def test_contrato_2011_11_con_el_criterio_nuevo(self):
+        c = json.loads(che.ruta_contrato("2011-11").read_text(encoding="utf-8"))
+        self.assertIn("D-161", c["poblacion"]["regla_publicacion"])
+        # 51 (1,70 %) y 36 (2,64 %) superan el 1 %; 15, 22, 29, 34 y 47 (con el criterio de madre+hijas enteras superaban el 1 %) ya no
+        pct = {k: float(c["provincias"][k]["poblacion"]["pct_no_dato"]) for k in ("15", "22", "29", "34", "47", "36", "51")}
+        self.assertTrue(pct["51"] > 1 and pct["36"] > 1)
+        self.assertTrue(all(pct[k] <= 1 for k in ("15", "22", "29", "34", "47")), pct)
+        self.assertEqual(c["provincias"]["51"]["estado"], "BLOQUEADA_RELLENO")
+        self.assertEqual(c["provincias"]["36"]["estado"], "BLOQUEADA_SIN_DATO")  # además de > 1 %, una sección sin dato en ningún año
+        for k in ("15", "22", "29", "34", "47"):
+            self.assertEqual(c["provincias"][k]["estado"], "LISTA", k)
+        estados = {k: p["estado"] for k, p in c["provincias"].items()}
+        self.assertEqual({e: sum(v == e for v in estados.values()) for e in set(estados.values())},
+                         {"LISTA": 44, "APARTADA_VOTOS": 5, "BLOQUEADA_SIN_DATO": 2, "BLOQUEADA_RELLENO": 1})
+
+    def test_las_otras_elecciones_no_cambian_de_criterio(self):
+        for e in ("2015-12", "2016-06", "2019-04", "2019-11"):  # sin reparto madre/hijas: mismo cómputo que con D-126
+            c = json.loads(che.ruta_contrato(e).read_text(encoding="utf-8"))
+            for p in c["provincias"].values():
+                self.assertNotIn("repartida_madre", json.dumps(p["poblacion"]))
+
+
 class SemaforoNoLeeContratosHistoricos(unittest.TestCase):
     """`campana_estado` aún no lee el estado de los contratos históricos (T-378 lo hará): cuando lo haga, `APARTADA_VOTOS` debe ser rojo (no LISTA → no declarable, D-154)."""
 

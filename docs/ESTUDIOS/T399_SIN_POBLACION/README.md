@@ -1,6 +1,6 @@
 # T-399 · 2011-11: secciones del seccionado 2012 sin fila en la tabla del Censo (D-158, opción B')
 
-Herramienta `herramientas/contrato_historico_epoca.py` 1.3.0, contratos 1.3.0. **B' = D-158 según el Coordinador/Planificador (17-11); pendiente de confirmar literal por el propietario** (PR con `no-automerge`). Sobre el análisis de `docs/ESTUDIOS/T399_2011_SIN_POBLACION/`. La opción A (seccionado del Censo y excepciones M07) queda retirada.
+Herramienta `herramientas/contrato_historico_epoca.py` 1.3.0, contratos 1.3.0. **B' = D-158, decisión del propietario (17-11), confirmada en el chat del Planificador; criterio del 1 % = D-161 (propietario, 17-11).** `no-automerge`. Sobre el análisis de `docs/ESTUDIOS/T399_2011_SIN_POBLACION/`. La opción A (seccionado del Censo y excepciones M07) queda retirada.
 
 El seccionado de 2011-11 sigue siendo el de 2012. De las 105 secciones del seccionado sin fila en la tabla del Censo 2011:
 
@@ -12,10 +12,10 @@ El seccionado de 2011-11 sigue siendo el de 2012. De las 105 secciones del secci
 6. `materializar` solo aplica lo declarado y falla cerrado si la madre no tiene la población declarada, si la suma no cuadra o si una hija ya tiene fila.
 
 ## Resultado en 2011-11
-39 LISTA, 6 BLOQUEADA_RELLENO (15, 22, 29, 34, 47, 51), 5 APARTADA_VOTOS (03, 24, 27, 32, 33) y 2 BLOQUEADA_SIN_DATO (08, 36). `materializar`: 38 de 52 provincias OK (antes 2); no materializan las 13 no LISTA y la 35 (puente de La Graciosa: T-400). Las otras 4 elecciones solo cambian de versión y regla.
+44 LISTA, 5 APARTADA_VOTOS (03, 24, 27, 32, 33), 2 BLOQUEADA_SIN_DATO (08, 36) y 1 BLOQUEADA_RELLENO (51). `materializar`: 43 de 52 provincias OK (antes 2); no materializan las 8 no LISTA y la 35 (puente de La Graciosa: T-400). Las otras 4 elecciones solo cambian de versión y regla.
 
-**Criterio del 1 % (a decidir):** se aplica el precedente de D-128 («criterio conservador»): madre e hijas cuentan ENTERAS como estimadas, lo que bloquea por relleno a 15, 22, 29, 34, 47 y 51 (1,37-3,04 %). Si solo contara la población movida a las hijas más la rellenada, solo 36 (2,64 %) y 51 (1,70 %) superarían el 1 %.
+**Criterio del 1 % (D-161):** para el umbral cuenta como estimado solo lo movido de la madre a las hijas (filas `repartida_hija`) más lo rellenado (`rellenada_año_cercano`); la madre (`repartida_madre`) no cuenta. Con él 15, 22, 29, 34 y 47 (0,64-0,74 %) pasan a LISTA; 51 (1,69 %) queda BLOQUEADA_RELLENO y 36 (2,64 %) queda BLOQUEADA_SIN_DATO por la sección sin dato en ningún año (además supera el 1 %).
 
-Motor real (`cadena`, M01-M08, con la normalización de geometría de T-402): nac10, 11, 21, 31, 37, 41, 43 y 45 dan `perdidos` = 0 y la puerta PASS. nac14 falla en M04 («invalid administrative component source binding») y nac07 (Baleares) en M04 («need=8 > unidades abiertas=0», islas): ajenos a D-158.
+Motor real (`cadena`, M01-M08, con la normalización de geometría de T-402): nac10, 11, 15, 21, 22, 29, 31, 34, 37, 41, 43, 45 y 47 dan `perdidos` = 0 y la puerta PASS. nac14 falla en M04 («invalid administrative component source binding») y nac07 (Baleares) en M04 («need=8 > unidades abiertas=0», islas): ajenos a D-158.
 
 Informes (derivados del contrato, `informe_poblacion`): `informe_provincias.csv` y `cuadre_municipal.csv`.
