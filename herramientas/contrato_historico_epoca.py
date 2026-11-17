@@ -5,11 +5,12 @@
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.2.0 · FECHA: 2026-11-17 · ESTADO: candidato
 ANTERIOR: legacy/herramientas/contrato_historico_epoca_v1.1.0_20261117.py
-CAMBIOS: 1.2.0: T-399 (D-156 A, pendiente de confirmar por el propietario: A = D-156 + excepciones M07 a 13 provincias): 2011-11 usa como seccionado el del Censo 2011 (`cartografia_censo2011_nacional.zip`, T-357) y no el de 2012 (sus 63 secciones nuevas parten una del
-  Censo y doblan la población); las secciones del seccionado SIN fila en la tabla (42 con dato) se RELLENAN con el valor de la misma sección en el año más cercano del Atlas (D-126; empate: el anterior),
-  origen `rellenada_año_cercano` (cuenta como estimada) y ajuste proporcional al total municipal OFICIAL del Censo 2011 solo si hay fuente con sha256 (hoy no: sin ajuste, declarado); sin dato en ningún
-  año → BLOQUEADA_SIN_DATO. D-156 (A): los votos del Observatorio de las secciones «hija» (que el Censo no trae) NO se asignan a su sección: las 13 provincias de 2011-11 que superan el 0,1 % de
-  votos sin asignar llevan una excepción de la puerta M07 con tope absoluto = esos votos (`puerta.excepciones_votos_sin_asignar` del contrato, fuente `votos_fuera_del_seccionado.csv` con sha256).
+CAMBIOS: 1.2.0: T-399 (D-158 B', aprobada según el Coordinador/Planificador: pendiente de confirmar literal por el propietario): 2011-11 mantiene el seccionado 2012. Las secciones del seccionado SIN fila en
+  la tabla se resuelven así: (a) las que parten una sección del Censo (la «hija» cae ≥ 50 % en una sección con población: la «madre») reciben una parte de la población 2011 de la madre repartida entre madre e hijas
+  según el Atlas del año más cercano de cada una (restos mayores; se conservan los totales del Censo; origen `repartida_madre`/`repartida_hija`); (b) las que no tienen madre (existen en el Censo sin fila) se
+  RELLENAN con el valor de la misma sección en el año más cercano del Atlas (D-126; origen `rellenada_año_cercano`) y ajuste al total municipal oficial del Censo solo si hay fuente con sha256 (hoy no: sin ajuste,
+  declarado); sin dato en ningún año → BLOQUEADA_SIN_DATO. Las provincias con votos sin asignar > 0,1 % (2011-11: 03, 24, 27, 32, 33; `votos_fuera_del_seccionado.csv`) quedan APARTADA_VOTOS y declaradas:
+  no se toca D-70 ni hay excepciones nuevas en la puerta.
   `contrato --atlas`, `informe_poblacion`. 1.1.0: T-396 (D-153; reglas declaradas fuera de D-153: punto representativo, exclusión por sucesora sin fila, dato+dato=dato): las secciones con población sin geometría en el seccionado del año se ASIGNAN a la sección del seccionado
   que contiene su centroide (geometría del seccionado más cercano en años que la tenga; misma provincia) o se EXCLUYEN declarando su
   población; con sucesora de otra provincia la provincia queda APARTADA. `contrato --donantes`, `informe`. 1.0.0: fichero nuevo.
@@ -68,9 +69,8 @@ LEGISLATURA = "configuracion/legislatura_vigente.yaml"
 # elección → clave del espejo, fecha (reagregacion_historico.FECHAS), CSV BOE (historico_campana.OFICIAL_BOE) y año de referencia
 # de la población (D-126, poblacion_seccion_historica.ELECCIONES). Se comprueban contra esos módulos en `_eleccion`.
 ELECCIONES = {"2011-11": "201111", "2015-12": "201512", "2016-06": "201606", "2019-04": "201904", "2019-11": "201911"}
-# D-156 A (pendiente de confirmar por el propietario: A = D-156 + excepciones M07 a 13 provincias): 2011-11 usa la cartografía del Censo 2011 (T-357, sha256 acreditado) como seccionado: población, geometría y votos coinciden
-SECCIONADO_PROPIO = {"2011-11": (2011, CARTOGRAFIA_CENSO_2011, "https://www.ine.es/censos2011_datos/" + CARTOGRAFIA_CENSO_2011)}
-VOTOS_FUERA_CSV = "docs/ESTUDIOS/T399_2011_SIN_POBLACION/votos_fuera_del_seccionado.csv"  # fuente de las excepciones D-156 (A)
+VOTOS_FUERA_CSV = "docs/ESTUDIOS/T399_2011_SIN_POBLACION/votos_fuera_del_seccionado.csv"  # votos del Observatorio en secciones fuera del seccionado (2011-11), D-158
+APARTADAS_POR_VOTOS = ("2011-11",)  # elecciones con provincias apartadas por votos sin asignar > 0,1 % (D-158)
 UMBRAL_RELLENO_PCT = 1  # D-126: > 1 % de población rellenada → la provincia no se publica sin decisión del propietario
 
 
@@ -152,12 +152,15 @@ def aplicar_asignacion(pob: dict[str, dict], asignadas: list[dict], excluidas: l
     return out
 
 ORIGEN_RELLENADA = "rellenada_año_cercano"
-METODO_SIN_POBLACION = ("D-126/D-156 (T-399): sección del seccionado de la época sin fila en la tabla de población → valor de la misma sección en el año más cercano "
-                        "del Atlas con dato (empate: el anterior), marcada `rellenada_año_cercano` (cuenta como estimada en el umbral del 1 %); ajuste "
-                        "proporcional al total municipal OFICIAL del Censo 2011 (residuo = total − suma de las secciones con dato; con residuo > 0 las "
-                        "rellenadas se reescalan a él, con residuo ≤ 0 conservan el valor del Atlas) solo si el contrato declara esa fuente con sha256; "
-                        "sin ella no se ajusta y queda declarado (`sin_ajuste_municipal`, `total_municipal_oficial.fuente` = null); sin dato en ningún año "
-                        "→ la provincia queda BLOQUEADA_SIN_DATO")
+ORIGEN_MADRE, ORIGEN_HIJA = "repartida_madre", "repartida_hija"
+SOLAPE_MADRE = 0.5  # una sección del seccionado sin fila es «hija» si cae al menos en esta fracción de su área en una sección del Censo con población
+METODO_SIN_POBLACION = ("D-158 B'/D-126 (T-399): sección del seccionado de la época sin fila en la tabla de población. (a) Si cae ≥ 50 % de su área en una sección con "
+                        "población de la misma provincia (la madre; mayor solape), la población de la madre se reparte entre madre e hijas según el valor de cada una "
+                        "en el año más cercano del Atlas con dato (empate: el anterior; restos mayores): se conservan los totales del Censo y madre e hijas cuentan "
+                        "como estimadas (`repartida_madre`/`repartida_hija`); si algún miembro no tiene dato en ningún año, sus hijas quedan sin dato. (b) Si no tiene "
+                        "madre, valor de la misma sección en el año más cercano del Atlas con dato (`rellenada_año_cercano`, estimada), con ajuste proporcional al total "
+                        "municipal OFICIAL del Censo 2011 solo si el contrato declara esa fuente con sha256; sin ella no se ajusta y queda declarado "
+                        "(`sin_ajuste_municipal`, `total_municipal_oficial.fuente` = null). Sin dato en ningún año → la provincia queda BLOQUEADA_SIN_DATO")
 
 
 def valor_anio_cercano(sec: str, anio: int, atlas: dict) -> tuple[int | None, int | None]:
@@ -214,6 +217,68 @@ def aplicar_relleno(pob: dict[str, dict], rellenadas: list[dict]) -> dict[str, d
     return out
 
 
+def repartir_madres(sin_pob: list[str], pob: dict[str, dict], geo_sin: dict, geo_censo: dict, atlas: dict, anio: int) -> dict:
+    """D-158 (B'): `sin_pob` = secciones del seccionado sin fila en `pob`; `geo_sin` = {sección: geometría en el seccionado del año}; `geo_censo` = {sección: geometría} del Censo.
+
+    La madre de una hija es la sección de `pob` (con población, misma provincia) de mayor solape con la hija, si cubre ≥ `SOLAPE_MADRE` de su área.
+    → {"repartos": [{madre, poblacion_censo_madre, miembros: [{seccion, rol, solape, poblacion_atlas, anio_atlas, poblacion}]}], "sin_madre": [hijas],
+       "sin_dato": [hijas de grupos con algún miembro sin dato en ningún año]}. Los totales se conservan: Σ población de los miembros = población de la madre."""
+    from shapely.strtree import STRtree
+    import poblacion_seccion_historica as psh
+    cands = sorted(k for k in geo_censo if (pob.get(k) or {}).get("poblacion"))
+    arbol = STRtree([geo_censo[k] for k in cands]) if cands else None
+    grupos: dict[str, list[tuple[str, float]]] = {}
+    sin_madre = []
+    for h in sorted(sin_pob):
+        g = geo_sin.get(h)
+        mejor, area = None, 0.0
+        if g is not None and arbol is not None and g.area > 0:
+            for i in arbol.query(g, predicate="intersects"):
+                k = cands[i]
+                if k[:2] != h[:2]:
+                    continue
+                a = g.intersection(geo_censo[k]).area
+                if a > area or (a == area and mejor is not None and k < mejor):
+                    mejor, area = k, a
+        if mejor is not None and area / g.area >= SOLAPE_MADRE:
+            grupos.setdefault(mejor, []).append((h, round(area / g.area, 4)))
+        else:
+            sin_madre.append(h)
+    repartos, sin_dato = [], []
+    for m, hijas in sorted(grupos.items()):
+        miembros = [(m, "madre", None)] + [(h, "hija", s) for h, s in hijas]
+        vals = {s: valor_anio_cercano(s, anio, atlas) for s, _, _ in miembros}
+        if any(v[0] is None or v[0] <= 0 for v in vals.values()):
+            sin_dato += [h for h, _ in hijas]
+            continue
+        total = pob[m]["poblacion"]
+        partes = psh.reparto([vals[s][0] for s, _, _ in miembros], total)
+        repartos.append({"madre": m, "poblacion_censo_madre": total,
+                         "miembros": [{"seccion": s, "rol": rol, "solape": sol, "poblacion_atlas": vals[s][0], "anio_atlas": vals[s][1], "poblacion": p}
+                                      for (s, rol, sol), p in zip(miembros, partes)]})
+    return {"repartos": repartos, "sin_madre": sin_madre, "sin_dato": sorted(sin_dato)}
+
+
+def aplicar_reparto(pob: dict[str, dict], repartos: list[dict]) -> dict[str, dict]:
+    """Tabla tras el reparto madre/hijas declarado en el contrato: la madre debe tener en la tabla la población declarada (si no, falla cerrado), las
+    hijas no deben tener fila y la suma de los miembros debe ser la población de la madre."""
+    out = {k: dict(v) for k, v in pob.items()}
+    for x in repartos:
+        m = x["madre"]
+        if m not in pob or pob[m]["poblacion"] != x["poblacion_censo_madre"]:
+            raise ErrorContrato(f"REPARTO_MADRE_POBLACION_DISTINTA {m}: contrato {x['poblacion_censo_madre']} tabla {(pob.get(m) or {}).get('poblacion')}")
+        if sum(y["poblacion"] for y in x["miembros"]) != x["poblacion_censo_madre"]:
+            raise ErrorContrato(f"REPARTO_SUMA_DISTINTA {m}")
+        for y in x["miembros"]:
+            if y["rol"] == "madre":
+                out[m] = {"poblacion": y["poblacion"], "origen": ORIGEN_MADRE}
+            elif y["seccion"] in out:
+                raise ErrorContrato(f"REPARTO_HIJA_CON_FILA {y['seccion']}: la tabla ya la trae")
+            else:
+                out[y["seccion"]] = {"poblacion": y["poblacion"], "origen": ORIGEN_HIJA}
+    return out
+
+
 def _sumas_donantes(root: Path) -> dict:
     """sha256 de los seccionados con huella acreditada fuera de fuentes_r2.json: T-357 (2012-2020) y T-364b (2021-2022)."""
     out = dict(_sumas_t357(root))
@@ -251,22 +316,21 @@ def _geometrias_plano(zip_path: Path) -> dict:
     return {c: g for prov in eqs.leer_seccionado(zip_path).values() for c, g in prov.items()}
 
 
-def excepciones_votos(eleccion: str, root: Path = ROOT) -> dict | None:
-    """D-156 (A), solo 2011-11: provincias cuyos votos en secciones que el seccionado del Censo 2011 no trae superan el 0,1 % de los votos válidos
-    (la puerta M07 las daría por FAIL). Tope absoluto = esos votos, medidos en `votos_fuera_del_seccionado.csv` (como las excepciones D-70 de `historico_campana.D70`,
-    medidas con el seccionado 2012; no sirven con el del Censo). Sin tocar el tope general: las demás provincias siguen con ≤ 0,1 %."""
-    if eleccion not in SECCIONADO_PROPIO:
-        return None
+def apartadas_por_votos(eleccion: str, root: Path = ROOT) -> dict[str, dict]:
+    """D-158 (B'), solo 2011-11: provincias cuyos votos del Observatorio en secciones que el seccionado 2012 no trae superan el 0,1 % de los votos válidos
+    (la puerta M07 solo las pasaría con las excepciones D-70, que no se tocan ni se amplían): quedan APARTADA_VOTOS y declaradas, con su medición y la fuente con sha256."""
+    if eleccion not in APARTADAS_POR_VOTOS:
+        return {}
     ruta = root / VOTOS_FUERA_CSV
-    topes = {}
+    out = {}
     with open(ruta, encoding="utf-8", newline="") as f:
         for fila in csv.DictReader(f):
-            perdidos, total = int(fila["perdidos_con_censo2011"]), int(fila["votos_validos_observatorio"])
-            if perdidos * 1000 > total * 1:  # > 0,1 % (MAX_PERDIDOS)
-                topes[fila["provincia"]] = perdidos
-    return {"decision": "D-156 A (pendiente de confirmar por el propietario: A = D-156 + excepciones M07 a 13 provincias): los votos de las secciones hija (sin fila en el seccionado del Censo 2011) no se asignan a su sección; "
-                        "tope absoluto por provincia = esos votos; el tope general (0,1 %) no se relaja",
-            "fuente": VOTOS_FUERA_CSV, "fuente_sha256": sha256(ruta), "topes": dict(sorted(topes.items()))}
+            perdidos, total = int(fila["perdidos_con_seccionado2012"]), int(fila["votos_validos_observatorio"])
+            if perdidos * 1000 > total:  # > 0,1 % (historico_campana.MAX_PERDIDOS)
+                out[fila["provincia"]] = {"votos_fuera_del_seccionado": perdidos, "votos_validos": total, "pct": pct(perdidos, total),
+                                          "secciones_fuera": int(fila["secciones_2012"]), "tope_general_pct": "0.1",
+                                          "fuente": VOTOS_FUERA_CSV, "fuente_sha256": sha256(ruta)}
+    return dict(sorted(out.items()))
 
 
 def sha256(path: Path) -> str:
@@ -290,13 +354,8 @@ def _eleccion(eleccion: str, root: Path = ROOT) -> dict:
     clave = ELECCIONES[eleccion]
     anio_secc = {e["clave"]: e["seccionado"] for e in _json(ESPEJO, root)["elecciones"]}[clave]
     tipo, anio_pob = psh.ELECCIONES[eleccion]
-    out = {"eleccion": eleccion, "clave_espejo": clave, "fecha": FECHAS[clave], "seccionado": int(anio_secc),
-           "seccionado_fichero": f"seccionado_{int(anio_secc)}.zip", "seccionado_propio": None,
-           "poblacion_anio": int(anio_pob), "poblacion_fuente": tipo, "csv_boe": f"configuracion/resultados_oficiales_congreso_{hc.OFICIAL_BOE[clave]}.csv"}
-    if eleccion in SECCIONADO_PROPIO:  # D-156: el seccionado de la época no es el INE anual sino la cartografía del Censo 2011
-        anio, fichero, url = SECCIONADO_PROPIO[eleccion]
-        out.update({"seccionado": anio, "seccionado_fichero": fichero, "seccionado_propio": {"origen_url": url, "clave": None}})
-    return out
+    return {"eleccion": eleccion, "clave_espejo": clave, "fecha": FECHAS[clave], "seccionado": int(anio_secc),
+            "poblacion_anio": int(anio_pob), "poblacion_fuente": tipo, "csv_boe": f"configuracion/resultados_oficiales_congreso_{hc.OFICIAL_BOE[clave]}.csv"}
 
 
 def _sumas_t357(root: Path) -> dict:
@@ -380,12 +439,12 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
     {municipio: total oficial del Censo 2011} si hay fuente con sha256, y si no se ajusta nada y queda declarado)."""
     e = _eleccion(eleccion, root)
     fr2 = _json(FUENTES_R2, root)["fuentes"]
-    nombre_secc = e["seccionado_fichero"]
+    nombre_secc = f"seccionado_{e['seccionado']}.zip"
+    s = fr2.get(nombre_secc) or {}
     sumas = _sumas_t357(root)
-    s = ({"sha256": sumas.get(nombre_secc), **e["seccionado_propio"], "clave": "propio"} if e["seccionado_propio"] else fr2.get(nombre_secc) or {})
     if not s.get("sha256") or not s.get("clave"):
         raise ErrorContrato(f"SECCIONADO_SIN_HUELLA_R2 {nombre_secc}")
-    if not e["seccionado_propio"] and nombre_secc in sumas and sumas[nombre_secc] != s["sha256"]:
+    if nombre_secc in sumas and sumas[nombre_secc] != s["sha256"]:
         raise ErrorContrato(f"SECCIONADO_HUELLA_DISTINTA {nombre_secc}: R2 {s['sha256']} != T-357 {sumas[nombre_secc]}")
     csv_boe = root / e["csv_boe"]
     meta_boe = json.loads(csv_boe.with_suffix(".json").read_text(encoding="utf-8"))
@@ -412,15 +471,21 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
         geo_prov.setdefault(k[:2], set()).add(k)
     cargas: dict = {}
 
-    def _relleno(sin_pob: list[str], final: dict, anio: int) -> dict:
+    def _resolver(sin_pob: list[str], final: dict, anio: int) -> tuple[dict, dict]:
+        """(reparto madre/hijas, relleno de las demás) de las secciones del seccionado sin fila en la tabla (D-158 B' y D-126)."""
         if not cargas:
             if atlas is None:
                 raise ErrorContrato("ATLAS_REQUERIDO: hay secciones del seccionado sin población en la tabla (--atlas 30832.csv)")
             if sha256(atlas) != sumas.get("30832.csv"):
                 raise ErrorContrato("FUENTE_RELLENO_HUELLA_DISTINTA 30832.csv")
+            censo_don = next((d for d in don if d["fichero"] == CARTOGRAFIA_CENSO_2011), None)
+            if censo_don is None:
+                raise ErrorContrato(f"DONANTE_CENSO_REQUERIDO: --donantes DIR con {CARTOGRAFIA_CENSO_2011} para identificar la madre de las secciones sin fila")
             import poblacion_seccion_historica as psh
-            cargas.update(atlas=psh.leer_atlas(atlas))
-        return rellenar_sin_poblacion(sin_pob, final, cargas["atlas"], anio, total_municipal or {})
+            cargas.update(atlas=psh.leer_atlas(atlas), geo_sin=_geometrias_plano(seccionado), geo_censo=_geometrias_plano(censo_don["ruta"]))
+        rep = repartir_madres(sin_pob, final, cargas["geo_sin"], cargas["geo_censo"], cargas["atlas"], anio)
+        rell = rellenar_sin_poblacion(rep["sin_madre"], final, cargas["atlas"], anio, total_municipal or {})
+        return rep, rell
     terr = _territorios(root)
     provincias = {}
     for c in sorted(boe):
@@ -444,16 +509,18 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
         final = aplicar_asignacion(pob_c, asig, excl)
         # provincia sin filas en la tabla (apartada por T-364b): no se rellena entera, sigue BLOQUEADA_SIN_DATO
         sin_pob = sorted(geo_prov.get(c, set()) - set(final)) if pob_c else []
-        rp = _relleno(sin_pob, final, e["poblacion_anio"]) if sin_pob else None
-        if rp:
+        rep, rp = _resolver(sin_pob, final, e["poblacion_anio"]) if sin_pob else (None, None)
+        if rep:
+            final = aplicar_reparto(final, rep["repartos"])
             final = aplicar_relleno(final, rp["rellenadas"])
         filas = list(final.values())
-        sin_dato = sorted([k for k, x in pob_c.items() if x["poblacion"] is None] + (rp["sin_dato"] if rp else []))
+        sin_dato = sorted([k for k, x in pob_c.items() if x["poblacion"] is None] + (rp["sin_dato"] + rep["sin_dato"] if rep else []))
         total = sum(x["poblacion"] or 0 for x in filas)
         rell = [x for x in filas if x["origen"] != "dato"]
         prell = sum(x["poblacion"] or 0 for x in rell)
         sin_secc = sorted(x["seccion"] for x in apart)  # sin resolver: la provincia queda APARTADA
-        estado = ("BLOQUEADA_SIN_DATO" if sin_dato or not filas else "APARTADA" if apart else
+        votos_ap = apartadas_por_votos(eleccion, root).get(c)
+        estado = ("BLOQUEADA_SIN_DATO" if sin_dato or not filas else "APARTADA" if apart else "APARTADA_VOTOS" if votos_ap else
                   "BLOQUEADA_RELLENO" if prell * 100 > total * UMBRAL_RELLENO_PCT else "LISTA")
         provincias[c] = {
             "territorio": t, "provincia": boe[c]["provincia"], "K": boe[c]["K"], "k_source": "norma",
@@ -471,10 +538,14 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
                               "poblacion_asignada": sum(x["poblacion"] for x in asig),
                               "poblacion_excluida": sum(x["poblacion"] for x in excl)}} if rs else {}),
                           **({"sin_poblacion_resuelto": {
-                              "anio_atlas_referencia": e["poblacion_anio"], "rellenadas": rp["rellenadas"], "sin_dato": rp["sin_dato"],
+                              "anio_atlas_referencia": e["poblacion_anio"], "repartidas": rep["repartos"], "rellenadas": rp["rellenadas"],
+                              "sin_dato": sorted(rp["sin_dato"] + rep["sin_dato"]),
+                              "habitantes_repartidos_a_hijas": sum(y["poblacion"] for x in rep["repartos"] for y in x["miembros"] if y["rol"] == "hija"),
+                              "habitantes_madres_censo": sum(x["poblacion_censo_madre"] for x in rep["repartos"]),
                               "habitantes_atlas": sum(x["poblacion_atlas"] for x in rp["rellenadas"]),
                               "habitantes_rellenados": sum(x["poblacion"] for x in rp["rellenadas"]),
-                              "cuadre_municipal": rp["cuadre"]}} if rp else {})},
+                              "cuadre_municipal": rp["cuadre"]}} if rep else {}),
+                          **({"votos_sin_asignar": votos_ap} if votos_ap else {})},
             "estado": estado,
         }
     return {
@@ -483,22 +554,20 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
         "generado_con": f"herramientas/contrato_historico_epoca.py {VERSION}",
         "eleccion": eleccion, "fecha": e["fecha"], "clave_espejo": e["clave_espejo"],
         "seccionado": {"anio": e["seccionado"], "fichero": nombre_secc, "sha256": s["sha256"], "origen_url": s.get("origen_url"),
-                       "r2_clave": None if e["seccionado_propio"] else s["clave"], "campo_seccion": "CUSEC",
-                       **({"decision": "D-156 A (pendiente de confirmar por el propietario: A = D-156 + excepciones M07 a 13 provincias): seccionado de la época = cartografía del Censo 2011 (T-357), no el seccionado INE de 2012"} if e["seccionado_propio"] else {}),
-                       **({"donantes": [{k: v for k, v in d.items() if k != "ruta"} for d in don]} if resueltas else {})},
+                       "r2_clave": s["clave"], "campo_seccion": "CUSEC",
+                       **({"donantes": [{k: v for k, v in d.items() if k != "ruta"} for d in don]} if (resueltas or cargas) else {})},
         "poblacion": {"fichero": tabla.name, "sha256": sha256(tabla), "origen": tabla_origen, "anio_referencia": e["poblacion_anio"],
                       "fuente": e["poblacion_fuente"],
                       "regla_publicacion": f"> {UMBRAL_RELLENO_PCT} % estimada → BLOQUEADA_RELLENO (D-126/D-128); sin_dato → BLOQUEADA_SIN_DATO",
                       "regla_sin_seccionado": METODO_SIN_SECCIONADO,
                       "regla_sin_poblacion": METODO_SIN_POBLACION,
                       "total_municipal_oficial": {"fuente": None, "sha256": None,
-                                                  "motivo": "sin tabla del INE del total municipal del Censo 2011 con fuente y sha256 (D-156 (2)): el relleno no se ajusta"},
+                                                  "motivo": "sin tabla del INE del total municipal del Censo 2011 con fuente y sha256 (D-158): el relleno no se ajusta"},
                       "fuentes": {k: sumas.get(k) for k in ("30832.csv", "indicadores_seccion_censal_csv.zip")}},
         "escanos": {"csv": e["csv_boe"], "sha256": meta_boe["sha256_csv"], "boe": meta_boe.get("boe"),
                     "regla": "K de la provincia = escanos_circunscripcion del BOE de la elección (D-125)"},
         "votos": {"fuente": "nazioenbehatokia", "manifiesto": ESPEJO, "manifiesto_sha256": sha256(root / ESPEJO)},
-        "puerta": {**({"excepciones_votos_sin_asignar": exc} if (exc := excepciones_votos(eleccion, root)) else {}),
-                   "m07": "PASS o PASS_WITH_DECLARED_EXCEPTIONS con votos sin asignar ≤ 0,1 % (2011: D-70; 2011-11 con el seccionado del Censo: excepciones D-156)",
+        "puerta": {"m07": "PASS o PASS_WITH_DECLARED_EXCEPTIONS con votos sin asignar ≤ 0,1 % (2011: D-70)",
                    "contraste_boe": "historico_campana.contraste_boe (por partido, cobertura total, TOLERANCIA de cuadre_historico_espana)",
                    "escanos": "K del contrato = escaños BOE = distritos del M08"},
         "provincias": provincias,
@@ -622,7 +691,8 @@ def materializar(eleccion: str, territorio: str, fuentes: Path, root: Path = ROO
     if sin_geo_tabla != declaradas:
         raise ErrorContrato(f"SIN_SECCIONADO_DISTINTO_DEL_CONTRATO {territorio} {eleccion}")
     pob = aplicar_asignacion(pob, asig, excl)  # D-153: asignadas a su sucesora, excluidas fuera (declaradas en el contrato)
-    pob = aplicar_relleno(pob, (p["poblacion"].get("sin_poblacion_resuelto") or {}).get("rellenadas", []))  # T-399: rellenadas declaradas
+    sp = p["poblacion"].get("sin_poblacion_resuelto") or {}  # T-399 (D-158 B'): reparto madre/hijas y rellenadas declarados
+    pob = aplicar_relleno(aplicar_reparto(pob, sp.get("repartidas", [])), sp.get("rellenadas", []))
     sin_pob, sin_geo = sorted(geo - set(pob)), sorted(set(pob) - geo)
     if sin_pob or sin_geo:  # las no resueltas (sin sucesora en su provincia) fallan cerrado
         raise ErrorContrato(f"CASADO_POBLACION_SECCIONADO {territorio} {eleccion}: sin población {len(sin_pob)} {sin_pob[:5]}; "
@@ -699,10 +769,8 @@ def puerta(c: dict, cpro: str, rec: dict, contraste: dict, distritos_m08: int) -
     clave, k = c["clave_espejo"], c["provincias"][cpro]["K"]
     perdidos, fuente = rec.get("ddd_unassigned_votes"), rec.get("source_votes")
     pct_p = perdidos / fuente if isinstance(perdidos, int) and isinstance(fuente, int) and fuente > 0 else None
-    ex = (c.get("puerta") or {}).get("excepciones_votos_sin_asignar")  # D-156 (A): sustituye a hc.D70 (medidas con otro seccionado)
-    topes = ex["topes"] if ex else hc.D70.get(clave, {})
-    d70 = cpro in topes
-    tope = topes[cpro] if d70 else hc.MAX_PERDIDOS
+    d70 = cpro in hc.D70.get(clave, {})
+    tope = hc.D70[clave][cpro] if d70 else hc.MAX_PERDIDOS
     m07_ok = rec.get("status") in ("PASS", "PASS_WITH_DECLARED_EXCEPTIONS") and pct_p is not None \
         and (perdidos <= tope if d70 else pct_p <= tope)
     escanos_ok = distritos_m08 == k
@@ -824,13 +892,15 @@ def informe_sin_poblacion(root: Path = ROOT) -> tuple[list[dict], list[dict]]:
             if not r:
                 continue
             cu = r["cuadre_municipal"]
+            rep = r.get("repartidas", [])
             prov.append({"eleccion": e, "provincia": cpro, "territorio": p["territorio"], "estado": p["estado"],
+                         "madres": len(rep), "hijas": sum(sum(y["rol"] == "hija" for y in x["miembros"]) for x in rep),
+                         "habitantes_madres_censo": r.get("habitantes_madres_censo", 0),
+                         "habitantes_repartidos_a_hijas": r.get("habitantes_repartidos_a_hijas", 0),
                          "secciones_rellenadas": len(r["rellenadas"]), "secciones_sin_dato": len(r["sin_dato"]),
                          "habitantes_atlas": r["habitantes_atlas"], "habitantes_rellenados": r["habitantes_rellenados"],
-                         "pct_rellenado": pct(r["habitantes_rellenados"], p["poblacion"]["total"]),
-                         "municipios": len(cu), "municipios_ajustados": sum(x["estado"] == "ajustado" for x in cu),
-                         "municipios_sin_ajuste": sum(x["estado"].startswith("aviso") for x in cu),
-                         "exceso_sobre_censo": sum(x["exceso_sobre_censo"] or 0 for x in cu)})
+                         "pct_estimada": p["poblacion"]["pct_no_dato"], "municipios_sin_ajuste": sum(x["estado"].startswith("aviso") for x in cu),
+                         "votos_sin_asignar_pct": (p["poblacion"].get("votos_sin_asignar") or {}).get("pct", "")})
             mun += [{"eleccion": e, "provincia": cpro, **x} for x in cu]
     return prov, mun
 

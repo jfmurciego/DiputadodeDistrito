@@ -5,7 +5,7 @@ PROYECTO: Diputado de Distrito
 VERSIÓN: 1.0.0 · FECHA: 2026-11-17 · ESTADO: candidato
 ANTERIOR: ninguna (fichero nuevo)
 CAMBIOS: 1.0.0: fichero nuevo.
-MOTIVO: T-399 (D-156). Atlas, tabla y seccionado sintéticos (valores esperados escritos a mano, no recalculados); sin red.
+MOTIVO: T-399 (D-158 B'). Atlas, tabla y seccionado sintéticos (valores esperados escritos a mano, no recalculados); sin red.
 """
 from __future__ import annotations
 
@@ -22,6 +22,11 @@ sys.path.insert(0, str(ROOT / "herramientas"))
 sys.path.insert(0, str(ROOT / "tests"))
 import contrato_historico_epoca as che  # noqa: E402
 from test_t365_historico_epoca import BASE, _contrato_sintetico, _sha  # noqa: E402
+
+try:
+    from shapely.geometry import box
+except ImportError:  # pragma: no cover
+    box = None
 
 A, B = "2200101001", "2200101002"      # con población (dato), municipio 22001
 N1, N2 = "2200101003", "2200101004"    # del seccionado, sin población en la tabla
@@ -128,88 +133,119 @@ class MaterializarConRelleno(unittest.TestCase):
             self.assertIn("PROVINCIA_NO_LISTA", str(cm.exception))
 
 
-class SeccionadoDe2011(unittest.TestCase):
-    """D-156: 2011-11 usa la cartografía del Censo 2011; el resto de elecciones, el seccionado INE de su año."""
+@unittest.skipIf(box is None, "sin shapely")
+class RepartirMadres(unittest.TestCase):
+    """D-158 (B'): la población de la madre se reparte entre madre e hijas con el Atlas; se conservan los totales."""
 
-    CENSO_SHA = "d0151e0cc126695933bc30a922c803ab09af03fdfb622238b22f769c7a883acc"  # SHA256SUMS de T-357 (literal, no recalculado)
+    M, H1, H2 = "2200101001", "2200101003", "2200101004"
+    CENSO = {M: box(0, 0, 10, 10), "2200101002": box(10, 0, 20, 10)} if box else {}
+    POB = {M: {"poblacion": 1000, "origen": "dato"}, "2200101002": {"poblacion": 500, "origen": "dato"}}
+    ATLAS = {2015: {M: 600, "2200101003": 300, "2200101004": 100, "2200101002": 500}}
 
-    def test_eleccion_2011_propia_y_control_negativo(self):
-        e = che._eleccion("2011-11")
-        self.assertEqual((e["seccionado"], e["seccionado_fichero"]), (2011, "cartografia_censo2011_nacional.zip"))
-        self.assertTrue(e["seccionado_propio"]["origen_url"].endswith("/censos2011_datos/cartografia_censo2011_nacional.zip"))
-        for el, anio in (("2015-12", 2015), ("2016-06", 2016), ("2019-04", 2019), ("2019-11", 2020)):
-            x = che._eleccion(el)
-            self.assertEqual((x["seccionado"], x["seccionado_fichero"], x["seccionado_propio"]), (anio, f"seccionado_{anio}.zip", None))
+    def test_reparto_conserva_el_total_y_marca_madre_e_hijas(self):
+        geo = {self.H1: box(0, 0, 5, 10), self.H2: box(5, 0, 10, 10)}  # hijas dentro de la madre
+        r = che.repartir_madres([self.H1, self.H2], self.POB, geo, self.CENSO, self.ATLAS, 2011)
+        self.assertEqual(r["sin_madre"], []) 
+        self.assertEqual(r["sin_dato"], [])
+        (x,) = r["repartos"]
+        self.assertEqual((x["madre"], x["poblacion_censo_madre"]), (self.M, 1000))
+        # 600:300:100 sobre 1.000 = 600, 300, 100 (valores escritos a mano)
+        self.assertEqual([(y["seccion"], y["rol"], y["poblacion"]) for y in x["miembros"]],
+                         [(self.M, "madre", 600), (self.H1, "hija", 300), (self.H2, "hija", 100)])
+        self.assertEqual(sum(y["poblacion"] for y in x["miembros"]), 1000)
+        # el reparto reescala: Atlas 60/30/10 sobre 1.000 → 600/300/100 con restos mayores
+        atlas = {2015: {self.M: 61, self.H1: 30, self.H2: 9}}
+        r = che.repartir_madres([self.H1, self.H2], self.POB, geo, self.CENSO, atlas, 2011)
+        self.assertEqual([y["poblacion"] for y in r["repartos"][0]["miembros"]], [610, 300, 90])
 
-    def test_contrato_2011_11(self):
+    def test_solape_minimo_y_control_negativo(self):
+        # hija con el 60 % de su área en la madre → madre; con el 40 % → sin madre (se rellenará con el Atlas); fuera de todo → sin madre
+        geo = {self.H1: box(4, 0, 14, 10), "2200101005": box(6, 0, 16, 10), "2200101006": box(100, 0, 110, 10)}
+        atlas = {2015: {self.M: 600, self.H1: 300, "2200101005": 100, "2200101006": 50}}
+        solo_m = {self.M: self.POB[self.M]}  # la otra sección del Censo no tiene fila: no puede ser madre
+        r = che.repartir_madres(sorted(geo), solo_m, geo, self.CENSO, atlas, 2011)
+        self.assertEqual([x["madre"] for x in r["repartos"]], [self.M])
+        self.assertEqual([y["seccion"] for y in r["repartos"][0]["miembros"]], [self.M, self.H1])
+        self.assertEqual(r["sin_madre"], ["2200101005", "2200101006"])
+        # la madre debe ser de la misma provincia y con población: una sección del Censo sin fila en la tabla no cuenta
+        r = che.repartir_madres([self.H1], {"2200101002": self.POB["2200101002"]}, {self.H1: box(0, 0, 5, 10)}, self.CENSO, atlas, 2011)
+        self.assertEqual((r["repartos"], r["sin_madre"]), ([], [self.H1]))
+
+    def test_miembro_sin_dato_deja_las_hijas_sin_dato(self):
+        geo = {self.H1: box(0, 0, 5, 10)}
+        atlas = {2015: {self.M: 600, self.H1: "."}}
+        r = che.repartir_madres([self.H1], self.POB, geo, self.CENSO, atlas, 2011)
+        self.assertEqual((r["repartos"], r["sin_dato"]), ([], [self.H1]))  # nunca 0 ni inventado
+
+    def test_aplicar_reparto_y_fallos_cerrados(self):
+        x = {"madre": self.M, "poblacion_censo_madre": 1000,
+             "miembros": [{"seccion": self.M, "rol": "madre", "poblacion": 700}, {"seccion": self.H1, "rol": "hija", "poblacion": 300}]}
+        out = che.aplicar_reparto(self.POB, [x])
+        self.assertEqual((out[self.M], out[self.H1]), ({"poblacion": 700, "origen": "repartida_madre"}, {"poblacion": 300, "origen": "repartida_hija"}))
+        self.assertEqual(self.POB[self.M]["poblacion"], 1000)  # no muta la entrada
+        for malo, msg in (({**x, "poblacion_censo_madre": 999}, "REPARTO_MADRE_POBLACION_DISTINTA"),
+                          ({**x, "miembros": [{**x["miembros"][0], "poblacion": 701}, x["miembros"][1]]}, "REPARTO_SUMA_DISTINTA")):
+            with self.assertRaises(SystemExit) as cm:
+                che.aplicar_reparto(self.POB, [malo])
+            self.assertIn(msg, str(cm.exception))
+        con_fila = {**self.POB, self.H1: {"poblacion": 1, "origen": "dato"}}
+        with self.assertRaises(SystemExit) as cm:
+            che.aplicar_reparto(con_fila, [x])
+        self.assertIn("REPARTO_HIJA_CON_FILA", str(cm.exception))
+
+
+class ApartadasPorVotos(unittest.TestCase):
+    """D-158: provincias de 2011-11 con votos sin asignar > 0,1 % quedan APARTADA_VOTOS; D-70 no se toca y no hay excepciones nuevas en la puerta."""
+
+    APARTADAS = {"03": 1877, "24": 807, "27": 1128, "32": 399, "33": 1541}  # literal: votos fuera del seccionado 2012 (suma 5.752; máx. 0,54 % en 27)
+
+    def test_contrato_2011_11_declara_las_5(self):
         c = json.loads(che.ruta_contrato("2011-11").read_text(encoding="utf-8"))
-        self.assertEqual((c["seccionado"]["fichero"], c["seccionado"]["anio"], c["seccionado"]["sha256"], c["seccionado"]["r2_clave"]),
-                         ("cartografia_censo2011_nacional.zip", 2011, self.CENSO_SHA, None))
-        self.assertIn("D-156", c["seccionado"]["decision"])
-        self.assertIsNone(c["poblacion"]["total_municipal_oficial"]["fuente"])  # sin tabla oficial: no se ajusta y queda declarado
-        for cpro, p in c["provincias"].items():
-            with self.subTest(cpro=cpro):
-                self.assertNotIn("sin_seccionado_resuelto", p["poblacion"])  # con el seccionado del Censo toda sección de la tabla tiene geometría
-                self.assertEqual(p["poblacion"]["secciones_sin_seccionado"], [])
-                r = p["poblacion"].get("sin_poblacion_resuelto")
-                if r:  # ningún total oficial: todas sin ajuste municipal
-                    self.assertTrue(all(x["ajuste"] == "sin_ajuste_municipal" and x["poblacion"] == x["poblacion_atlas"] for x in r["rellenadas"]))
-        self.assertEqual(sum(len(p["poblacion"].get("sin_poblacion_resuelto", {}).get("rellenadas", [])) for p in c["provincias"].values()), 41)
-        self.assertEqual(c["provincias"]["22"]["estado"], "LISTA")
-        self.assertEqual({k for k, p in c["provincias"].items() if p["estado"] != "LISTA"}, {"27", "36"})  # sin dato en ningún año (declarado)
+        ap = {k: p["poblacion"]["votos_sin_asignar"] for k, p in c["provincias"].items() if "votos_sin_asignar" in p["poblacion"]}
+        self.assertEqual({k: v["votos_fuera_del_seccionado"] for k, v in ap.items()}, self.APARTADAS)
+        self.assertEqual(sum(self.APARTADAS.values()), 5752)
+        for k, v in ap.items():
+            self.assertEqual(v["fuente_sha256"], _sha(ROOT / v["fuente"]))
+            self.assertEqual(c["provincias"][k]["estado"], "APARTADA_VOTOS")
+        self.assertEqual(max(float(v["pct"]) for v in ap.values()), 0.5369)
+        self.assertEqual({k for k, p in c["provincias"].items() if p["estado"] == "APARTADA_VOTOS"}, set(self.APARTADAS))
+        self.assertNotIn("excepciones_votos_sin_asignar", c["puerta"])  # sin excepciones nuevas en la puerta
 
-    def test_otros_contratos_sin_relleno(self):
+    def test_control_negativo_otras_elecciones_y_d70_intacto(self):
+        self.assertEqual(che.apartadas_por_votos("2019-11"), {})
+        self.assertEqual(sorted(che.apartadas_por_votos("2011-11")), sorted(self.APARTADAS))
+        import historico_campana as hc
+        self.assertEqual(hc.D70["201111"], {"03": 1877, "24": 807, "27": 1128, "32": 399, "33": 1541})  # D-70 sin tocar
         for e in ("2015-12", "2016-06", "2019-04", "2019-11"):
             c = json.loads(che.ruta_contrato(e).read_text(encoding="utf-8"))
-            self.assertNotEqual(c["seccionado"]["fichero"], "cartografia_censo2011_nacional.zip")
-            self.assertFalse(any("sin_poblacion_resuelto" in p["poblacion"] for p in c["provincias"].values()), e)
+            self.assertFalse(any("votos_sin_asignar" in p["poblacion"] for p in c["provincias"].values()), e)
+
+    def test_provincia_apartada_no_se_materializa(self):
+        with self.assertRaises(SystemExit) as cm:
+            che._exigir_lista({"estado": "APARTADA_VOTOS"}, "nac03", "2011-11")
+        self.assertIn("PROVINCIA_NO_LISTA", str(cm.exception))
 
 
-class ExcepcionesVotosD156(unittest.TestCase):
-    """D-156 (A): topes absolutos de votos sin asignar en 13 provincias de 2011-11; control negativo (un voto más falla; otra provincia no entra)."""
-
-    TOPES = {"15": 3008, "21": 489, "22": 418, "29": 1831, "31": 620, "32": 473, "34": 607, "35": 477, "37": 533, "41": 2184, "43": 838,
-             "45": 457, "47": 499}  # literal: votos fuera del seccionado del Censo 2011 medidos con el Observatorio (votos_fuera_del_seccionado.csv)
-
-    def _c(self):
-        return json.loads(che.ruta_contrato("2011-11").read_text(encoding="utf-8"))
-
-    def test_contrato_declara_las_13_con_su_fuente(self):
-        ex = self._c()["puerta"]["excepciones_votos_sin_asignar"]
-        self.assertEqual(ex["topes"], self.TOPES)
-        self.assertEqual(ex["fuente_sha256"], _sha(ROOT / ex["fuente"]))
-        self.assertIn("no se asignan a su sección", ex["decision"])
-        for e in ("2015-12", "2016-06", "2019-04", "2019-11"):  # solo 2011-11
-            self.assertNotIn("excepciones_votos_sin_asignar", json.loads(che.ruta_contrato(e).read_text(encoding="utf-8"))["puerta"])
-        self.assertEqual(che.excepciones_votos("2019-11"), None)
-
-    def test_excepciones_salen_del_csv_y_solo_superan_el_tope_general(self):
-        import csv
-        with open(ROOT / che.VOTOS_FUERA_CSV, encoding="utf-8", newline="") as f:
-            filas = list(csv.DictReader(f))
-        self.assertEqual(len(filas), 52)
-        sup = {x["provincia"] for x in filas if int(x["perdidos_con_censo2011"]) * 1000 > int(x["votos_validos_observatorio"])}
-        self.assertEqual(sup, set(self.TOPES))
-        self.assertEqual(che.excepciones_votos("2011-11")["topes"], self.TOPES)
-
-    def test_puerta_tope_exacto_pasa_un_voto_mas_falla_y_otra_provincia_no_entra(self):
-        c = self._c()
-        for cpro, tope in self.TOPES.items():
-            k = c["provincias"][cpro]["K"]
-            rec = {"status": "PASS_WITH_DECLARED_EXCEPTIONS", "ddd_unassigned_votes": tope, "source_votes": 10_000_000}
-            self.assertEqual(che.puerta(c, cpro, rec, {"ok": True}, k)["estado"], "PASS", cpro)
-            self.assertEqual(che.puerta(c, cpro, {**rec, "ddd_unassigned_votes": tope + 1}, {"ok": True}, k)["estado"], "FAIL", cpro)
-        # una provincia sin excepción (28) sigue con el tope general del 0,1 %: 2.082 votos de 3.326.413 (0,063 %) pasan, 3.400 (0,102 %) no
-        k28 = c["provincias"]["28"]["K"]
-        rec = {"status": "PASS", "ddd_unassigned_votes": 2082, "source_votes": 3326413}
-        self.assertEqual(che.puerta(c, "28", rec, {"ok": True}, k28)["estado"], "PASS")
-        self.assertEqual(che.puerta(c, "28", {**rec, "ddd_unassigned_votes": 3400}, {"ok": True}, k28)["estado"], "FAIL")
-        # las D-70 antiguas (hc.D70, medidas con el seccionado 2012) ya no valen en 2011-11: 03 con 1.877 votos de 876.076 (0,214 %) falla
-        rec = {"status": "PASS_WITH_DECLARED_EXCEPTIONS", "ddd_unassigned_votes": 1877, "source_votes": 876076}
-        self.assertEqual(che.puerta(c, "03", rec, {"ok": True}, c["provincias"]["03"]["K"])["estado"], "FAIL")
-        # control: sin la declaración del contrato (comportamiento anterior) 03 pasaba por hc.D70
-        sin = {**c, "puerta": {k: v for k, v in c["puerta"].items() if k != "excepciones_votos_sin_asignar"}}
-        self.assertEqual(che.puerta(sin, "03", rec, {"ok": True}, c["provincias"]["03"]["K"])["estado"], "PASS")
+class ContratoDe2011(unittest.TestCase):
+    def test_reparto_conserva_totales_y_declara_los_casos(self):
+        c = json.loads(che.ruta_contrato("2011-11").read_text(encoding="utf-8"))
+        self.assertEqual(c["seccionado"]["fichero"], "seccionado_2012.zip")
+        madres = hijas = 0
+        for cpro, p in c["provincias"].items():
+            r = p["poblacion"].get("sin_poblacion_resuelto")
+            if not r:
+                continue
+            for x in r["repartidas"]:
+                madres += 1
+                hijas += sum(y["rol"] == "hija" for y in x["miembros"])
+                self.assertEqual(sum(y["poblacion"] for y in x["miembros"]), x["poblacion_censo_madre"])  # se conservan los totales del Censo
+                self.assertTrue(all(y["solape"] >= 0.5 for y in x["miembros"] if y["rol"] == "hija"))
+        self.assertEqual((madres, hijas), (58, 61))
+        self.assertEqual(c["provincias"]["08"]["poblacion"]["secciones_sin_dato"], ["0804703001"])  # sin dato en ningún año: no se inventa
+        self.assertEqual(c["provincias"]["08"]["estado"], "BLOQUEADA_SIN_DATO")
+        self.assertEqual(c["provincias"]["36"]["poblacion"]["secciones_sin_dato"], ["3605901003"])
+        self.assertIsNone(c["poblacion"]["total_municipal_oficial"]["fuente"])  # sin tabla oficial: sin ajuste, declarado
+        self.assertEqual(sum(len(p["poblacion"].get("sin_poblacion_resuelto", {}).get("rellenadas", [])) for p in c["provincias"].values()), 42)
 
 
 class ContratosVersionados(unittest.TestCase):

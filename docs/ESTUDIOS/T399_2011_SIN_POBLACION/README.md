@@ -11,7 +11,5 @@ Medido con fuentes ya acreditadas (sin descargas nuevas): `seccionado_2012.zip` 
 4. Lo contrario (44 secciones del Censo que no están en 2012) es lo que resolvió T-396 (D-153).
 5. Aparte (otra tarea): provincia 35, puente de La Graciosa `3502401010` no está en el seccionado 2012 ni en la cartografía del Censo ni en la tabla del Censo (su par 3502401001 sí): la causa es el puente, no el seccionado.
 
-## Recomendación
-- **A** (aprobada como D-156 e implementada en #883): seccionado del propio Censo 2011. Las hijas desaparecen y la población = Censo sin relleno, pero la puerta M07 falla en 13 provincias por los votos de las hijas (punto 3). B (repartir la madre con proporciones del Atlas 2015) solo tendría sentido manteniendo 2012, y no hay votos por hija.
-- Para las **42 sin fila en el Censo**: ahí sí cabe el relleno de D-126 (Atlas 2015, `rellenada_año_cercano`), pero el ajuste al total municipal exige el total oficial del Censo 2011 por municipio, que no está en el repo; sin él el ajuste no actúa (ver `docs/ESTUDIOS/T399_SIN_POBLACION/`). Pontevedra (27 de 42) queda en BLOQUEADA_RELLENO (2,6 %) aunque se rellene, y 3605901003 no tiene dato en ningún año.
-- #883 no debe fusionarse con la regla actual (doble cómputo en las 63).
+## Decisión y resultado
+**D-158 (opción B'), según el Coordinador/Planificador (17-11), pendiente de confirmar literal por el propietario**: seccionado 2012, la población de cada madre se reparte entre madre e hijas con las proporciones del Atlas 2015 conservando los totales del Censo; las 5 provincias con votos sin asignar > 0,1 % con el seccionado 2012 (03, 24, 27, 32, 33; 5.752 votos, máx. 0,54 %) se apartan y se declaran, sin tocar D-70 ni añadir excepciones. Las 42 sin fila: D-126 y ajuste municipal solo si aparece la tabla oficial. Implementado en #883 (ver `docs/ESTUDIOS/T399_SIN_POBLACION/README.md`). La opción A (seccionado del Censo 2011 y excepciones M07 a 13 provincias) quedó retirada.
