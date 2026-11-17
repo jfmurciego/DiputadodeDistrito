@@ -5,7 +5,7 @@
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.1.0 · FECHA: 2026-11-17 · ESTADO: candidato
 ANTERIOR: legacy/herramientas/contrato_historico_epoca_v1.0.0_20261117.py
-CAMBIOS: 1.1.0: T-396 (D-153): las secciones con población sin geometría en el seccionado del año se ASIGNAN a la sección del seccionado
+CAMBIOS: 1.1.0: T-396 (D-153; reglas declaradas fuera de D-153: punto representativo, exclusión por sucesora sin fila, dato+dato=dato): las secciones con población sin geometría en el seccionado del año se ASIGNAN a la sección del seccionado
   que contiene su centroide (geometría del seccionado más cercano en años que la tenga; misma provincia) o se EXCLUYEN declarando su
   población; con sucesora de otra provincia la provincia queda APARTADA. `contrato --donantes`, `informe`. 1.0.0: fichero nuevo.
 MOTIVO: D-125 (propietario, 15-11): distritos generados con los datos de cada época (seccionado y población por sección del año,
@@ -73,7 +73,9 @@ class ErrorContrato(SystemExit):
 METODO_SIN_SECCIONADO = ("D-153/T-396: sección con población sin geometría en el seccionado del año → sección del seccionado del año que "
                          "contiene su centroide (punto representativo si el centroide cae fuera de todas), con la geometría del seccionado "
                          "más cercano en años que la tenga (empate: el anterior); misma provincia (otra → APARTADA); sin geometría en "
-                         "ningún año → excluida con su población declarada")
+                         "ningún año, punto fuera de todo el seccionado o sucesora sin fila en la tabla → excluida con su población "
+                         "declarada. Reglas que D-153 no cita y declara este contrato: punto representativo si el centroide cae fuera; "
+                         "exclusión si la sucesora no tiene fila; origen dato+dato = dato (no cuenta como estimada)")
 
 
 def asignar_sin_seccionado(sin_geo: list[str], pob: dict[str, int], geo_anio: dict, donantes: list,
@@ -678,7 +680,9 @@ def informe_sin_seccionado(root: Path = ROOT) -> list[dict]:
             r = r or {"asignadas": [], "excluidas": [], "apartadas": [], "poblacion_asignada": 0, "poblacion_excluida": 0}
             filas.append({"eleccion": e, "provincia": cpro, "territorio": p["territorio"], "estado": p["estado"],
                           "asignadas": len(r["asignadas"]), "habitantes_asignados": r["poblacion_asignada"],
+                          "asignadas_por_punto_representativo": sum(x["punto"] == "punto_representativo" for x in r["asignadas"]),
                           "excluidas": len(r["excluidas"]), "habitantes_excluidos": r["poblacion_excluida"],
+                          "excluidas_por_sucesora_sin_fila": sum("no tiene fila" in x["motivo"] for x in r["excluidas"]),
                           "apartadas": len(r["apartadas"]), "habitantes_apartados": sum(x["poblacion"] for x in r["apartadas"])})
     return filas
 

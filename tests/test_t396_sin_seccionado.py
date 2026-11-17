@@ -57,13 +57,35 @@ class AsignarSinSeccionado(unittest.TestCase):
 
     def test_centroide_fuera_usa_punto_representativo(self):
         from shapely.geometry import Polygon
-        geo = {A: Polygon([(0, 0), (10, 0), (10, 10), (0, 10)]), B: box(10, 0, 20, 10)}
-        # «C» en forma de L: su centroide cae en el hueco (que es de A), el punto representativo en su propio brazo (que no es de A ni B)
+        # Sección donante en L: su centroide (42,87; 2,87) cae en el hueco y su punto representativo (40,5; 5,5) en el brazo vertical.
         ele = Polygon([(40, 0), (50, 0), (50, 1), (41, 1), (41, 10), (40, 10)])
         self.assertFalse(ele.contains(ele.centroid))
-        donante = {"2200101009": Polygon([(0, 20), (10, 20), (10, 21), (1, 21), (1, 30), (0, 30)])}
-        r = che.asignar_sin_seccionado(["2200101009"], {"2200101009": 1}, geo, [(2019, lambda: donante)])
-        self.assertEqual(r["2200101009"]["destino"], "excluida")  # ni centroide ni punto representativo caen en el seccionado
+        self.assertTrue(ele.contains(ele.representative_point()))
+        # La sección del año solo cubre una franja del brazo: contiene el punto representativo y NO el centroide.
+        geo = {A: box(39, 3, 41.5, 11), B: box(10, 0, 20, 10)}
+        self.assertFalse(geo[A].contains(ele.centroid))
+        r = che.asignar_sin_seccionado(["2200101009"], {"2200101009": 1}, geo, [(2019, lambda: {"2200101009": ele})])
+        self.assertEqual((r["2200101009"]["destino"], r["2200101009"]["sucesora"], r["2200101009"]["punto"]),
+                         ("asignada", A, "punto_representativo"))
+        # Control negativo: con el centroide dentro de la sección (donante en caja) no hace falta el respaldo
+        r = che.asignar_sin_seccionado(["2200101009"], {"2200101009": 1}, geo, [(2019, lambda: {"2200101009": box(40, 4, 41, 6)})])
+        self.assertEqual((r["2200101009"]["destino"], r["2200101009"]["punto"]), ("asignada", "centroide"))
+        # Ni centroide ni punto representativo en el seccionado → excluida
+        r = che.asignar_sin_seccionado(["2200101009"], {"2200101009": 1}, {B: box(10, 0, 20, 10)}, [(2019, lambda: {"2200101009": ele})])
+        self.assertEqual(r["2200101009"]["destino"], "excluida")
+
+    def test_sucesora_sin_fila_en_la_tabla_se_excluye(self):
+        r = che.asignar_sin_seccionado(["2200101009"], {"2200101009": 7}, _geo_anio(), [(2019, lambda: {"2200101009": box(1, 1, 3, 3)})],
+                                       con_fila={B})
+        self.assertEqual((r["2200101009"]["destino"], r["2200101009"]["poblacion"]), ("excluida", 7))
+        self.assertIn(A, r["2200101009"]["motivo"])
+
+    def test_donante_con_huella_distinta_falla_cerrado(self):
+        with tempfile.TemporaryDirectory() as d:
+            (Path(d) / "seccionado_2015.zip").write_bytes(b"no es el zip del INE")
+            with self.assertRaises(SystemExit) as cm:
+                che._donantes({"seccionado": 2012}, {}, Path(d), ROOT)
+            self.assertIn("DONANTE_HUELLA_DISTINTA", str(cm.exception))
 
 
 class AplicarAsignacion(unittest.TestCase):

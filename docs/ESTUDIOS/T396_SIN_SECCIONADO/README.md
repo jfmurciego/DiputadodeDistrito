@@ -12,6 +12,8 @@ Resuelve el bloqueo §5.1 de T-365. Regla (herramienta `herramientas/contrato_hi
 4. Todo queda en el contrato (`provincias.<c>.poblacion.sin_seccionado_resuelto`: asignadas con sucesora y año del donante, excluidas con motivo,
    habitantes); `materializar` solo aplica lo declarado y falla cerrado si la tabla no coincide. `secciones_sin_seccionado` queda con las sin resolver.
 
+**Reglas que D-153 no cita** (declaradas en cada contrato, `regla_sin_seccionado`, y en el informe; pendiente de que el Planificador decida si las confirma el propietario): punto representativo si el centroide cae fuera; exclusión si la sucesora no tiene fila en la tabla; `dato`+`dato` = `dato`.
+
 Informe por provincia, derivado de los contratos: `informe_sin_seccionado.csv` (`python herramientas/contrato_historico_epoca.py informe`).
 
 ## Resultado sobre los contratos de `main` (#865)
