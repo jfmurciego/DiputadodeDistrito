@@ -101,7 +101,24 @@ class Cableado(unittest.TestCase):
     def test_settings_cablea_operador_y_deniega(self):
         d = json.loads((ROOT / ".claude" / "settings.json").read_text(encoding="utf-8"))
         self.assertIn("mcp__github__create_repository", d["permissions"]["deny"])
-        self.assertNotIn("allow", d["permissions"])  # T-78 no amplía permisos de nadie
+        self.assertIn("mcp__github__fork_repository", d["permissions"]["deny"])
+        # T-411 (propietario, 17-11): solo comunicación entre sesiones, lista cerrada; nada más se amplía.
+        self.assertEqual(
+            sorted(d["permissions"].get("allow", [])),
+            sorted([
+                "mcp__claude-code-remote__send_message",
+                "mcp__claude-code-remote__get_session",
+                "mcp__claude-code-remote__list_sessions",
+                "mcp__claude-code-remote__list_events",
+                "mcp__claude-code-remote__get_event",
+                "ReadNotifications",
+            ]),
+        )
+        prohibidas = ("create_session", "archive_session", "merge", "dispatch", "trigger", "Bash", "Edit", "Write",
+                      "Artifact", "update_environment", "create_environment", "push")
+        for regla in d["permissions"]["allow"]:
+            for p in prohibidas:
+                self.assertNotIn(p, regla, f"allow no puede incluir {p}: {regla}")
         entradas = {m["matcher"]: [h["command"] for h in m["hooks"]] for m in d["hooks"]["PreToolUse"]}
         self.assertTrue(any("guardia_git.py" in c for c in entradas["Bash"]))
         self.assertTrue(any("rol_herramientas.py" in c for c in entradas["*"]))
