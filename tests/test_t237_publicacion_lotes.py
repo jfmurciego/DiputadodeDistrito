@@ -292,10 +292,9 @@ class Estructura(unittest.TestCase):
         self.assertEqual(text.count("actions/deploy-pages@"), 1)
 
     def test_puerta_produccion_intacta(self):
-        # T-379 PR 2a: la puerta humana pasa al job `aprobar` (entorno fijo `produccion`) con la misma condición en su `if`.
-        job = yaml.safe_load(P50.read_text(encoding="utf-8"))["jobs"]["aprobar"]
-        self.assertEqual(job["environment"], "produccion")
-        self.assertEqual(job["if"], "${{ needs.resolver.outputs.publicar == 'true' && (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == 'P40 Publicación') }}")
+        job = yaml.safe_load(P50.read_text(encoding="utf-8"))["jobs"]["preparar"]
+        # T-379 PR 2a (D-162): los robots (antes sin entorno) van con `registro`; la puerta humana T-41 no cambia.
+        self.assertEqual(job["environment"], "${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == 'P40 Publicación') && 'produccion' || 'registro' }}")
 
 
 if __name__ == "__main__":

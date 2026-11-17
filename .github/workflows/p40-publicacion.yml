@@ -1,11 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
 # VERSIÓN: 1.2.0
-# CAMBIOS 1.2.0: T-379 PR 2a (D-147, opción a): todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara `environment: registro`
-#   (entorno sin revisores, ramas de despliegue = main): desde una rama o una PR esos jobs no reciben los secretos.
-#   Un job admite un solo entorno, así que se parten los dos que ya tenían uno: la puerta humana de `preparar` (produccion, T-41, misma condición)
-#   pasa al job nuevo `aprobar`, y `preparar` registra con `registro`; el push a main de `publicar` (github-pages) pasa al job nuevo `registrar`,
-#   que recibe el parche del commit (artefacto de 1 día) y su base, y empuja con los mismos reintentos y códigos (48). `publicar` ya no usa la app.
+# CAMBIOS 1.2.0: T-379 PR 2a (D-147, opción a; D-162 opción A): los secretos de la app de registro (DDD_REGISTRO_APP_*) pasan a entornos
+#   limitados a main (`registro`, `github-pages`, `produccion`); desde una rama o una PR un job con la app no los recibe. `preparar`: `produccion`
+#   para personas (T-41, misma condición) y `registro` para robots; `publicar` registra dentro de `github-pages` (los secretos están también ahí). Resto idéntico.
 # ANTERIOR (1.1.0): legacy/workflows/p40-publicacion_v1.1.0_20261117.yml
 # FECHA: 2026-11-16
 # ESTADO: candidato
@@ -118,22 +116,11 @@ jobs:
             [[ "$publicar" == true ]] || echo "- Simulación: no se publica nada."
           } >> "$GITHUB_STEP_SUMMARY"
 
-  aprobar:
-    name: Aprobar publicación
-    needs: resolver
-    # T-379 PR 2a: la puerta humana (T-41) va en su propio job; `preparar` registra con el entorno `registro` (un job, un entorno).
-    if: ${{ needs.resolver.outputs.publicar == 'true' && (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == 'P40 Publicación') }}
-    environment: produccion
-    runs-on: ubuntu-24.04
-    permissions: {}
-    steps:
-      - run: echo "Publicación aprobada (entorno produccion)."
-
   preparar:
     name: Preparar promoción web
-    needs: [resolver, aprobar]
-    if: ${{ !cancelled() && needs.resolver.outputs.publicar == 'true' && (needs.aprobar.result == 'success' || needs.aprobar.result == 'skipped') }}
-    environment: registro
+    needs: resolver
+    if: ${{ needs.resolver.outputs.publicar == 'true' }}
+    environment: ${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == 'P40 Publicación') && 'produccion' || 'registro' }}  # T-379 PR 2a (D-162): robots con `registro`; T-41: clic del propietario solo en disparo manual humano
     runs-on: ubuntu-24.04
     concurrency:
       group: ddd-shared-operational-state
@@ -201,9 +188,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-24.04
-    outputs:
-      registro_pendiente: ${{ steps.persistir.outputs.pendiente }}
-      base_sha: ${{ steps.persistir.outputs.base_sha }}
     env:
       GH_TOKEN: ${{ github.token }}
       PRODUCTION_RUN_ID: ${{ needs.preparar.outputs.production_run_id || '' }}
@@ -216,6 +200,27 @@ jobs:
           ref: ${{ needs.preparar.outputs.source_ref || github.sha }}
           token: ${{ github.token }}
 
+      - name: Credencial de registro
+        shell: bash
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
+          echo "::add-mask::$token"
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
+          echo "Registro con la app propia (exenta en el ruleset proteger-main)."
       - name: Sincronizar registro durable actual
         if: ${{ github.ref_name == 'main' }}
         shell: bash
@@ -646,7 +651,6 @@ jobs:
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
 
       - name: Persistir registro sólo después del despliegue
-        id: persistir
         shell: bash
         run: |
           set -euo pipefail
@@ -663,20 +667,16 @@ jobs:
           git config user.email github-actions@github.com
           git add -A -- "$PUBLICATION_REGISTRY" datos/resultados datos_abiertos datos/composicion
           git commit -m "chore: registrar activos persistentes del visor"
-          # T-379 PR 2a: el push a main lo hace el job `registrar` (entorno `registro`); aquí solo el parche y su base.
-          mkdir -p /tmp/p40-registro
-          git format-patch --binary -1 HEAD -o /tmp/p40-registro
-          echo "base_sha=$(git rev-parse HEAD~1)" >> "$GITHUB_OUTPUT"
-          echo "pendiente=true" >> "$GITHUB_OUTPUT"
-
-      - name: Conservar el parche del registro
-        if: ${{ steps.persistir.outputs.pendiente == 'true' }}
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: ddd-p40-registro-${{ github.run_id }}
-          path: /tmp/p40-registro
-          if-no-files-found: error
-          retention-days: 1
+          for attempt in 1 2 3; do
+            if git pull --rebase origin main && git push origin HEAD:main; then
+              break
+            fi
+            git rebase --abort >/dev/null 2>&1 || true
+            [[ "$attempt" == 3 ]] && {
+              echo "::error::No se pudo persistir el registro de publicaciones."; exit 48;
+            }
+            sleep $((attempt * 2))
+          done
 
       - name: Registrar evidencia
         if: always()
@@ -712,59 +712,3 @@ jobs:
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 30
-
-  registrar:
-    name: Registrar publicación en main
-    needs: publicar
-    # T-379 PR 2a: el registro en main sale de `publicar` (entorno github-pages) a este job con el entorno `registro`; solo recibe salidas
-    # y el parche. Sin grupo de concurrencia (jobs de registro, T-360): el rebase con reintentos ordena frente a otros robots.
-    if: ${{ needs.publicar.result == 'success' && needs.publicar.outputs.registro_pendiente == 'true' }}
-    environment: registro
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          ref: ${{ needs.publicar.outputs.base_sha }}
-          token: ${{ github.token }}
-      - name: Credencial de registro
-        shell: bash
-        env:
-          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
-          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
-        run: |
-          set -euo pipefail
-          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
-          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
-          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
-          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
-          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
-          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
-          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
-          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
-          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
-          echo "::add-mask::$token"
-          git config --local --unset-all http.https://github.com/.extraheader || true
-          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
-          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
-          echo "Registro con la app propia (exenta en el ruleset proteger-main)."
-      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
-        with:
-          name: ddd-p40-registro-${{ github.run_id }}
-          path: /tmp/p40-registro
-      - name: Persistir registro en main
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git am /tmp/p40-registro/*.patch
-          for attempt in 1 2 3; do
-            if git pull --rebase origin main && git push origin HEAD:main; then
-              break
-            fi
-            git rebase --abort >/dev/null 2>&1 || true
-            [[ "$attempt" == 3 ]] && {
-              echo "::error::No se pudo persistir el registro de publicaciones."; exit 48;
-            }
-            sleep $((attempt * 2))
-          done

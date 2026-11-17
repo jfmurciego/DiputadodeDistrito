@@ -56,13 +56,11 @@ class ReferenciasPorNombre(unittest.TestCase):
         for fich, (nombre, n) in casos.items():
             txt = (WF / fich).read_text(encoding="utf-8")
             self.assertEqual(_nombres()[fich], nombre)
-            # T-379 PR 2a: la puerta va en su job (`aprobar`, entorno fijo `produccion`) y la condición humana en su `if`.
-            jobs = [j for j in yaml.safe_load(txt)["jobs"].values() if "produccion" in str(j.get("environment", ""))]
-            self.assertEqual(len(jobs), n, fich)
-            for j in jobs:
-                cond = str(j.get("environment")) + str(j.get("if"))
-                self.assertIn(f"github.workflow == '{nombre}'", cond, fich)
-                self.assertIn("workflow_dispatch", cond)
+            lineas = [l for l in txt.splitlines() if re.match(r"\s*environment:", l) and "produccion" in l]
+            self.assertEqual(len(lineas), n, fich)
+            for l in lineas:
+                self.assertIn(f"github.workflow == '{nombre}'", l, fich)
+                self.assertIn("workflow_dispatch", l)
 
 
 class Equivalencias(unittest.TestCase):
@@ -88,7 +86,7 @@ class Equivalencias(unittest.TestCase):
         nombres = _nombres()
         self.assertEqual(len(set(nombres.values())), len(nombres), "dos flujos con el mismo nombre visible")
         for fich, _, flujo, nombre_v5 in gen.FLUJOS:
-            self.assertTrue(nombre_v5.startswith(flujo.split(" ")[0]), fich)
+            self.assertTrue(nombre_v5.lstrip("_").startswith(flujo.split(" ")[0]), fich)
         self.assertEqual(nombres["p70-archivo.yml"], "P70 Archivo")  # T-368
         self.assertEqual(nombres["p90-automatico.yml"], "P90 Automático")  # T-366
         internos = [n for f, n in nombres.items() if f.startswith("_reutilizable-")]

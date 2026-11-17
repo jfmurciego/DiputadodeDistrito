@@ -1,10 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: p70-archivo.yml
 # VERSIÓN: 1.1.0
-# CAMBIOS 1.1.0: T-379 PR 2a (D-147, opción a): todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara `environment: registro`
-#   (entorno sin revisores, ramas de despliegue = main): desde una rama o una PR esos jobs no reciben los secretos.
-#   Un job admite un solo entorno: `podar` (produccion, puerta del borrado irreversible) deja de registrar y pasa a `contents: read`; el informe y
-#   `archivo_r2.json` se registran en el job nuevo `registrar_poda` (registro), desde el artefacto `poda-r2-informe-<run>` y la misma base, con los mismos reintentos.
+# CAMBIOS 1.1.0: T-379 PR 2a (D-147, opción a; D-162 opción A): los secretos de la app de registro (DDD_REGISTRO_APP_*) pasan a entornos
+#   limitados a main (`registro`, `github-pages`, `produccion`); desde una rama o una PR un job con la app no los recibe. `podar` sigue con
+#   `produccion` fuera de la simulación (registra dentro, con su grupo); en simulación no tiene entorno ni secretos y no registra. Resto idéntico.
 # ANTERIOR (1.0.0): legacy/workflows/p70-archivo_v1.0.0_20261117.yml
 # NOMBRE DE VERSIÓN: P70 Archivo
 # FECHA: 2026-11-16
@@ -902,14 +901,11 @@ jobs:
       cancel-in-progress: false
       queue: max
     permissions:
-      contents: read  # T-379 PR 2a: el registro en main pasa a `registrar_poda`
+      contents: write
     name: Verificar y podar
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     environment: ${{ !inputs.simular && 'produccion' || '' }}  # borrado irreversible: la puerta humana se exige siempre, también a bots
-    outputs:
-      informe: ${{ steps.poda.outputs.informe }}
-      base_sha: ${{ steps.poda.outputs.base_sha }}
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
@@ -921,56 +917,6 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           ref: main
-      - name: Validar configuración de R2
-        shell: bash
-        run: |
-          set -euo pipefail
-          for name in AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY R2_ACCOUNT_ID R2_BUCKET; do
-            [[ -n "${!name:-}" ]] || { echo "::error::${name} está vacío."; exit 1; }
-          done
-      - name: Verificar y podar
-        id: poda
-        shell: bash
-        run: |
-          set -euo pipefail
-          SHA_LISTA="$(python3 herramientas/p70_resolver.py sha-poda)"
-          informe="docs/ESTUDIOS/T145_PODA_R2/informes/podado_$(date -u +%Y%m%dT%H%M%SZ).json"
-          { echo "informe=$informe"; echo "base_sha=$(git rev-parse HEAD)"; } >> "$GITHUB_OUTPUT"
-          args=(--sha256-lista "$SHA_LISTA" --informe "$informe")
-          [[ "$EJECUTAR" != "true" ]] || args+=(--ejecutar)
-          echo "INFORME=$informe" >> "$GITHUB_ENV"
-          set +e
-          python3 herramientas/podar_r2.py "${args[@]}" | tee poda.log
-          rc=${PIPESTATUS[0]}
-          set -e
-          [[ ! -f "$informe" ]] || { echo '```json'; cat "$informe"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
-          exit "$rc"
-      - name: Conservar informe y manifiesto como artefacto
-        if: ${{ always() && !inputs.simular }}
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: poda-r2-informe-${{ github.run_id }}
-          path: |
-            docs/ESTUDIOS/T145_PODA_R2/informes/
-            orchestracion/archivo_r2.json
-          if-no-files-found: warn
-          retention-days: 90
-
-  registrar_poda:
-    needs: podar
-    # T-379 PR 2a: un job, un entorno. El borrado sigue tras la puerta `produccion` de `podar`; el registro en main va después, con el
-    # entorno `registro`, y solo recibe salidas (informe, base) y el artefacto del informe. Igual que antes, también si `podar` falló a medias.
-    if: ${{ always() && inputs.accion == 'P73 Podar' && !inputs.simular && needs.podar.outputs.informe != '' }}
-    name: Registrar la poda en main
-    permissions:
-      contents: write
-    environment: registro
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          ref: ${{ needs.podar.outputs.base_sha }}
       - name: Credencial de registro
         shell: bash
         env:
@@ -992,15 +938,41 @@ jobs:
           for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
           git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
           echo "Registro con la app propia (exenta en el ruleset proteger-main)."
-      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
-        continue-on-error: true  # sin informe no hay artefacto: el paso siguiente sale con «Sin informe que registrar» (como antes)
+      - name: Validar configuración de R2
+        shell: bash
+        run: |
+          set -euo pipefail
+          for name in AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY R2_ACCOUNT_ID R2_BUCKET; do
+            [[ -n "${!name:-}" ]] || { echo "::error::${name} está vacío."; exit 1; }
+          done
+      - name: Verificar y podar
+        shell: bash
+        run: |
+          set -euo pipefail
+          SHA_LISTA="$(python3 herramientas/p70_resolver.py sha-poda)"
+          informe="docs/ESTUDIOS/T145_PODA_R2/informes/podado_$(date -u +%Y%m%dT%H%M%SZ).json"
+          args=(--sha256-lista "$SHA_LISTA" --informe "$informe")
+          [[ "$EJECUTAR" != "true" ]] || args+=(--ejecutar)
+          echo "INFORME=$informe" >> "$GITHUB_ENV"
+          set +e
+          python3 herramientas/podar_r2.py "${args[@]}" | tee poda.log
+          rc=${PIPESTATUS[0]}
+          set -e
+          [[ ! -f "$informe" ]] || { echo '```json'; cat "$informe"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          exit "$rc"
+      - name: Conservar informe y manifiesto como artefacto
+        if: ${{ always() && !inputs.simular }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: poda-r2-informe-${{ github.run_id }}
-          path: .
+          path: |
+            docs/ESTUDIOS/T145_PODA_R2/informes/
+            orchestracion/archivo_r2.json
+          if-no-files-found: warn
+          retention-days: 90
       - name: Registrar informe y manifiesto en main
+        if: ${{ always() && !inputs.simular }}
         shell: bash
-        env:
-          INFORME: ${{ needs.podar.outputs.informe }}
         run: |
           set -euo pipefail
           [[ -f "${INFORME:-}" ]] || { echo "Sin informe que registrar."; exit 0; }
