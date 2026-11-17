@@ -1,12 +1,12 @@
 <!--
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: ADR-001 — Enfoque de agentes de DDD
-FECHA: 2026-11-07
+FECHA: 2026-11-17
 ESTADO: candidato (decisión PROPUESTA)
-CAMBIOS: T-75. Primera aplicación del método del metaagente v1.0 (§3, §27) a DDD.
+CAMBIOS: T-383 (17-11): nombres de workflows migrados (P90). T-75. Primera aplicación del método del metaagente v1.0 (§3, §27) a DDD.
 MOTIVO: el metaagente solo se usaba como referencia; faltaba el ADR del enfoque.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/2026-11-17_t383_docs/ADR-001-enfoque_v1.0.0.md
 -->
 
 # ADR-001 — Workflow determinista con pasos LLM y chats con rol
@@ -28,8 +28,8 @@ para reconsiderarlo, y que cada agente adicional tenga un beneficio comprobable.
 
 | Enfoque | Encaje en DDD | Evidencia |
 |---|---|---|
-| A. Proceso determinista sin LLM | Toda la producción (M01–M08, puertas, publicación) y los robots de CI | `.github/workflows/ejecucion-completa-proyecto.yml`, `pruebas-plataforma.yml`, `numerar-registro.yml` |
-| B. Una llamada estructurada a un LLM | Revisor y forense en CI: entrada fija, salida JSON, sin ciclo largo | `revisor-pr.yml` 1.0.0, `forense-00.yml` 1.0.0 |
+| A. Proceso determinista sin LLM | Toda la producción (M01–M08, puertas, publicación) y los robots de CI | `.github/workflows/ejecucion-completa-proyecto.yml`, `p90-automatico.yml` (antes `pruebas-plataforma.yml`), job `numeracion` de `p90-automatico.yml` (antes `numerar-registro.yml`) |
+| B. Una llamada estructurada a un LLM | Revisor y forense en CI: entrada fija, salida JSON, sin ciclo largo | `revisor-pr.yml` 1.0.0, IA de cierre en `p90-automatico.yml` (antes `forense-00.yml`) |
 | C. Un agente con herramientas | Implementador e ingeniero de motor: una tarea, una PR | skill `implementador` |
 | D. Workflow determinista con pasos LLM | **Elegido como marco**: Actions es el control; los LLM solo juzgan (revisar, diagnosticar, implementar) | FRAMEWORK §1 principio 3 |
 | E. Supervisor con especialistas | Planificador → Coordinador → Operador → implementadores, coordinados por `send_message` | skills `planificador`, `coordinador`, `operador`; `CLAUDE.md` «Coordinación» |
