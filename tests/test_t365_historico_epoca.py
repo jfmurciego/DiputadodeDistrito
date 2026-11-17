@@ -363,7 +363,7 @@ class TopologiaAdministrativa(unittest.TestCase):
         aristas = list(zip(resto, resto[1:]))  # el resto, conexo; la 1403002001, aislada (hecho medido en el seccionado 2012)
         ok, mal = validate_administrative_components(units=units, declarations=[{k: v for k, v in d.items() if k != "municipio"}],
                                                      operational_edges=aristas)
-        self.assertEqual((len(mal), sorted(len(x) for x in ok[0]["components"], reverse=True)), (0, [6, 1]))
+        self.assertEqual((len(mal), sorted((len(x) for x in ok[0]["components"]), reverse=True)), (0, [6, 1]))
         _, mal = validate_administrative_components(units=units, declarations=[{k: v for k, v in d.items() if k != "municipio"}],
                                                     operational_edges=aristas + [("1403002001", "1403001001")])
         self.assertEqual(len(mal), 1)  # si el seccionado cambia y la sección se conecta, la acreditación ya no vale
