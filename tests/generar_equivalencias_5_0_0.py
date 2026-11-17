@@ -41,7 +41,7 @@ FASES = [  # (viejo, nuevo)
 FLUJOS = [
     ("gestor-campanas.yml", "0 Gestor de Campañas", "P00 Campaña", "P00 Campaña — Gestor"),
     ("ejecucion-completa-proyecto.yml", "00 Ejecución Completa del Proyecto", "P00 Campaña", "P00 Campaña"),
-    ("activacion-por-eleccion.yml", "Auxiliar — Activación por Elección", "P00 Campaña", "P00 Campaña — Elección"),
+    ("activacion-por-eleccion.yml", "Auxiliar — Activación por Elección", "P00 Campaña", "_P00 Campaña — Elección"),
     ("preparacion-legislatura-vigente.yml", "Auxiliar — Activación de Legislatura Vigente", "P00 Campaña", "P00 Campaña — Legislatura"),
     ("p10-fuentes.yml", "01 Preparación de Datos Territoriales / 03 Preparación de Resultados Electorales (preparacion-fuentes.yml, preparacion-resultados-electorales.yml, T-375)", "P10 Fuentes", "P10 Fuentes"),
     ("p20-distritos.yml", "02 Generación de Distritos Autonómicos (produccion-distritos.yml, _reutilizable-generacion-territorial.yml, T-377; 06 Escenarios y Ensembles retirado, D-138)", "P20 Distritos", "P20 Distritos"),
