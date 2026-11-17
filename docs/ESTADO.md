@@ -1,6 +1,6 @@
 # Estado operativo (mantiene el Coordinador)
 
-Fecha: 2026-11-16 (madrugada) · Actualizar en cada PR de lecciones o de estado. Verde = cumple el criterio del propietario; amarillo = en marcha o a medias; rojo = bloqueado o fallando. Notación D-47: fases P00-P60 y archivo ARC; en lo que se cuenta al propietario, sin códigos antiguos, sin ids de tarea ni de PR.
+Fecha: 2026-11-17 (00:40 UTC) · Actualizar en cada PR de lecciones o de estado. Verde = cumple el criterio del propietario; amarillo = en marcha o a medias; rojo = bloqueado o fallando. Notación D-47: fases P00-P60 y archivo ARC; en lo que se cuenta al propietario, sin códigos antiguos, sin ids de tarea ni de PR.
 
 ## Tablero por tema (prioridad 1: el motor)
 | Tema | Estado | Situación | Siguiente |
@@ -69,3 +69,11 @@ Coordinador nuevo (relevo por contexto, 15-11). Fusionadas: T-349 id canónico e
 
 ## Cierre 15-11 noche / 16-11
 r4 terminada (70/71; falta aut12 Galicia). Fusionadas desde el relevo: #818, #824 (id canónico). Listas con CI verde y revisor, esperando fusión del propietario (no-automerge): #827 (Galicia, espejo R2), #831 y #832 (estudio y tabla de población por sección, D-126), #821 (traspaso), #828 (lecciones). #765 (catálogo de procedencia filtrado, c00806c) y #830/#800/#801/#797/#798/#820/#829: workflows y datos de producción, solo tras aut12/P50 (#829, script PowerShell de los 642 de INE y Observatorio, lo está ejecutando el propietario; falta la ampliación 30832 + Censo 2011). Decisiones: D-124 (ensayo 29-11 antes del histórico; el histórico se publica), D-125 (histórico con distritos por época, ficha #819 obsoleta), D-126 (población por sección y relleno). Archivados con lecciones: T-349b, T-353, T-354, T-355, T-357, T-358, T-361. Coste (libro, USD): T-354 2,24; T-355 2,48; T-357 1,17; T-358 1,32; T-361 0,68. Vivos: Planificador, Coordinador, Operador, T-356.
+
+## Relevo 16-11 noche / 17-11 (Coordinador nuevo)
+- Fusionadas hoy: #865 (T-389), #867 (T-391), #868 (T-392), #869 (plan 1.0.58), #870 (traspaso), #871 (lecciones), #872 (plan 1.0.59), #873 (T-393, diseño histórico `<t>_hAAAA_MM`). `main` en verde. Ensayo del 29-11 SUSPENDIDO (D-149): ninguna campaña hasta terminar la migración; re-ensayo corto al final con P00.
+- Decisiones (propietario, 17-11): D-149 migración prioridad máxima; D-150 el histórico no espera; D-151 P10 un territorio por ejecución; D-152 opción A (id propio `<t>_hAAAA_MM`), P43 diseñada por T-395; D-153 secciones sin geometría → a la que las contiene (T-396); D-154 histórico: verdes y ámbar con aviso, rojas nunca, primero visor + catálogo; D-155 lista de Actions sin basura (T-397). Planificador: kind aparte `historico_m06/m08` para P43.
+- PR abiertas: #866 T-376 (P30; revisor sin defectos en 16c15eb; espera #874), #874 T-375 (P10; BORRADOR, rehaciendo con un territorio por ejecución), #875 T-395 (diseño P43 1.5.1; revisor conforme), #877 T-397 (renombres P90; revisor sin bloqueantes), #863 Dependabot (falta `@dependabot rebase`, comentario externo), #842 borrador a propósito.
+- Chats vivos: T-375, T-376, T-377 (P20, en curso), T-395, T-396 (abierta), T-397. Pendiente de abrir: T-379 PR 4 (forense por campaña en P90) al cerrarse T-395 o T-397. Archivados hoy: T-391, T-392, T-389, T-393 y el Coordinador anterior.
+- Autorización nocturna (propietario, hasta las 10:00 del 17-11): fusionar en orden las PR de migración e histórico y las del plan, con CI verde en PR y main y revisor conforme; NO lanzar ni publicar.
+- Pendientes del propietario: comprobar Settings → Pages (pages-build-deployment); `@dependabot rebase` en #863; contraste aut11 del padrón (Windows); entorno `publicacion` y Zenodo (D-146); ruleset `pruebas` (D-144); publicar visor y borrar 3 Releases de ensemble (T-380).
