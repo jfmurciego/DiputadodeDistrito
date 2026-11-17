@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.64
+Versión: 1.0.65
 Fecha: 2026-11-17
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-165 (renombrado M→P), D-163 (permisos de P10-P30 en P00, opción i), D-164 (#888 en pausa; 2b y 3 sin el entorno `registro`); corrección de D-161 (36 = BLOQUEADA_SIN_DATO); T-397c, T-383 en curso
-Anterior: legacy/docs/PLAN_v1.0.63_20261117.md
+Cambios/motivo: D-165 (renombrado M→P, T-313 en diseño) y D-163 con la 2b mínima aprobada (no entraron en #896)
+Anterior: legacy/docs/PLAN_v1.0.64_20261117.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -429,7 +429,8 @@ Fase 4 — producto (en el privado):
 | T-403 | Relevo automático de chats: sección «Relevo» en las skills de rol y línea en CLAUDE.md (D-160) | LISTA (Sonnet) |
 | T-405 | Histórico 2011-11, provincia 14 (Córdoba, `nac14`): M04 «invalid administrative component source binding»; solo diagnóstico y una PR por causa (Sonnet) | LISTA tras #886 (T-402) |
 | T-397c | «_» en `auto-merge.yml` e inventario en solo lectura de ejecuciones de workflows retirados (D-159) | EN CURSO (session_01KQDtFsHKjJ6KXAcAdTMT6G) |
-| T-407 | Actualización del plan 1.0.64 | REVISIÓN (esta PR) |
+| T-407 | Actualización del plan 1.0.64 | HECHA (#896) |
+| T-408 | Actualización del plan 1.0.65 | REVISIÓN (esta PR) |
 | T-406 | Actualización del plan 1.0.63 | HECHA (#891) |
 | T-404 | Actualización del plan 1.0.62 y traspaso del Planificador | HECHA (#887) |
 | T-385 | Actualización del plan 1.0.56 | HECHA (#856) |
