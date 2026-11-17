@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.65
+Versión: 1.0.66
 Fecha: 2026-11-17
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-165 (renombrado M→P), D-166 (diseño de T-313 aprobado), D-167 y D-168 (doble vuelta con coaliciones) y D-163 con la 2b mínima (no entraron en #896); T-409
-Anterior: legacy/docs/PLAN_v1.0.64_20261117.md
+Cambios/motivo: D-166 (diseño de T-313 aprobado), D-167 y D-168 (doble vuelta con coaliciones); T-409 (no entraron en #897)
+Anterior: legacy/docs/PLAN_v1.0.65_20261117.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -434,7 +434,8 @@ Fase 4 — producto (en el privado):
 | T-397c | «_» en `auto-merge.yml` e inventario en solo lectura de ejecuciones de workflows retirados (D-159) | EN CURSO (session_01KQDtFsHKjJ6KXAcAdTMT6G) |
 | T-407 | Actualización del plan 1.0.64 | HECHA (#896) |
 | T-409 | Diseño de la doble vuelta con coaliciones (D-167): reglas, escenarios 1-3 y «4», tabla partido→bloque propuesta, salida en P31/P32; solo documento (Sonnet) | EN CURSO (diseño) |
-| T-408 | Actualización del plan 1.0.65 | REVISIÓN (esta PR) |
+| T-408 | Actualización del plan 1.0.65 | HECHA (#897) |
+| T-410 | Actualización del plan 1.0.66 | REVISIÓN (esta PR) |
 | T-406 | Actualización del plan 1.0.63 | HECHA (#891) |
 | T-404 | Actualización del plan 1.0.62 y traspaso del Planificador | HECHA (#887) |
 | T-385 | Actualización del plan 1.0.56 | HECHA (#856) |
