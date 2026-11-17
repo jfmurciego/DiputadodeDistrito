@@ -1,9 +1,9 @@
 {
  "schema": "ddd.contrato-historico-epoca/1.0",
- "version": "1.2.0",
- "anterior": "legacy/contrato_historico_epoca_2011_11_v1.1.0_20261117.json",
+ "version": "1.3.0",
+ "anterior": "legacy/contrato_historico_epoca_2011_11_v1.2.0_20261117.json",
  "motivo": "D-125 (opción A: distritos con los datos de cada época), D-126/D-128 (población), T-199 (elección en el registro)",
- "generado_con": "herramientas/contrato_historico_epoca.py 1.1.0",
+ "generado_con": "herramientas/contrato_historico_epoca.py 1.3.0",
  "eleccion": "2011-11",
  "fecha": "2011-11-20",
  "clave_espejo": "201111",
@@ -65,8 +65,18 @@
   "origen": "T-364b herramientas/poblacion_seccion_historica.py 1.2.0 (D-128; provincias apartadas sin filas, reasignada, sin_ajuste_municipal; fuentes con sha256 de T-357/T-364)",
   "anio_referencia": 2011,
   "fuente": "censo",
-  "regla_publicacion": "> 1 % estimada → BLOQUEADA_RELLENO (D-126/D-128); sin_dato → BLOQUEADA_SIN_DATO",
+  "regla_publicacion": "> 1 % estimada → BLOQUEADA_RELLENO (D-126/D-128; D-161: del reparto madre/hijas cuenta solo lo movido a las hijas más lo rellenado, no la madre); sin_dato → BLOQUEADA_SIN_DATO",
   "regla_sin_seccionado": "D-153/T-396: sección con población sin geometría en el seccionado del año → sección del seccionado del año que contiene su centroide (punto representativo si el centroide cae fuera de todas), con la geometría del seccionado más cercano en años que la tenga (empate: el anterior); misma provincia (otra → APARTADA); sin geometría en ningún año, punto fuera de todo el seccionado o sucesora sin fila en la tabla → excluida con su población declarada. Reglas que D-153 no cita y declara este contrato: punto representativo si el centroide cae fuera; exclusión si la sucesora no tiene fila; origen dato+dato = dato (no cuenta como estimada)",
+  "regla_sin_poblacion": "D-158 B'/D-126 (T-399): sección del seccionado de la época sin fila en la tabla de población. (a) Si cae ≥ 50 % de su área en una sección con población del mismo municipio (la madre; mayor solape), la población de la madre se reparte entre madre e hijas según el valor de cada una en el año más cercano del Atlas con dato (empate: el anterior; restos mayores): se conservan los totales del Censo y madre e hijas cuentan como estimadas (`repartida_madre`/`repartida_hija`); si algún miembro no tiene dato en ningún año, sus hijas quedan sin dato. (b) Si no tiene madre, valor de la misma sección en el año más cercano del Atlas con dato (`rellenada_año_cercano`, estimada), con ajuste proporcional al total municipal OFICIAL del Censo 2011 solo si el contrato declara esa fuente con sha256; sin ella no se ajusta y queda declarado (`sin_ajuste_municipal`, `total_municipal_oficial.fuente` = null). Sin dato en ningún año → la provincia queda BLOQUEADA_SIN_DATO",
+  "madres_verificadas_contra_censo": {
+   "fuente": "indicadores_seccion_censal_csv.zip",
+   "sha256": "305a19f11b87d4e13d2ea4267774b9b0e3a69a3b7b1ff8e483aad90867628fe7"
+  },
+  "total_municipal_oficial": {
+   "fuente": null,
+   "sha256": null,
+   "motivo": "sin tabla del INE del total municipal del Censo 2011 con fuente y sha256 (D-158): el relleno no se ajusta"
+  },
   "fuentes": {
    "30832.csv": "37716cba8cda50a492f52e2bae91a1c543bafb4263110e5aa5da18107ef68311",
    "indicadores_seccion_censal_csv.zip": "305a19f11b87d4e13d2ea4267774b9b0e3a69a3b7b1ff8e483aad90867628fe7"
@@ -225,9 +235,18 @@
      "apartadas": [],
      "poblacion_asignada": 4705,
      "poblacion_excluida": 0
+    },
+    "votos_sin_asignar": {
+     "votos_fuera_del_seccionado": 1877,
+     "votos_validos": 876076,
+     "pct": "0.2143",
+     "secciones_fuera": 5,
+     "tope_general_pct": "0.1",
+     "fuente": "docs/ESTUDIOS/T399_2011_SIN_POBLACION/votos_fuera_del_seccionado.csv",
+     "fuente_sha256": "ca42304e7917b076440583c0f99c991f8de3be6e3640eacd12e0554f6427c82c"
     }
    },
-   "estado": "LISTA"
+   "estado": "APARTADA_VOTOS"
   },
   "04": {
    "territorio": "nac04",
@@ -302,14 +321,46 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/06_7b8a2e4b55b2.json"
    },
    "poblacion": {
-    "secciones": 551,
-    "total": 688675,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 552,
+    "total": 690518,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1843,
+    "pct_no_dato": "0.2669",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [],
+     "rellenadas": [
+      {
+       "seccion": "0601508014",
+       "poblacion": 1843,
+       "poblacion_atlas": 1843,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 0,
+     "habitantes_madres_censo": 0,
+     "habitantes_atlas": 1843,
+     "habitantes_rellenados": 1843,
+     "cuadre_municipal": [
+      {
+       "municipio": "06015",
+       "total_municipal_censo": null,
+       "suma_con_dato": 150660,
+       "residuo": null,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1843,
+       "rellenado_final": 1843,
+       "estado": "aviso_sin_total_municipal",
+       "suma_municipio": 152503,
+       "exceso_sobre_censo": null
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -330,14 +381,69 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/07_d574f5bfcfa8.json"
    },
    "poblacion": {
-    "secciones": 629,
-    "total": 1096940,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 631,
+    "total": 1098928,
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 3321,
+    "pct_no_dato": "0.3022",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "0706401002",
+       "poblacion_censo_madre": 3080,
+       "miembros": [
+        {
+         "seccion": "0706401002",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1668,
+         "anio_atlas": 2015,
+         "poblacion": 1747
+        },
+        {
+         "seccion": "0706401005",
+         "rol": "hija",
+         "solape": 0.603,
+         "poblacion_atlas": 1273,
+         "anio_atlas": 2015,
+         "poblacion": 1333
+        }
+       ]
+      }
+     ],
+     "rellenadas": [
+      {
+       "seccion": "0704002067",
+       "poblacion": 1988,
+       "poblacion_atlas": 1988,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 1333,
+     "habitantes_madres_censo": 3080,
+     "habitantes_atlas": 1988,
+     "habitantes_rellenados": 1988,
+     "cuadre_municipal": [
+      {
+       "municipio": "07040",
+       "total_municipal_censo": null,
+       "suma_con_dato": 400370,
+       "residuo": null,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1988,
+       "rellenado_final": 1988,
+       "estado": "aviso_sin_total_municipal",
+       "suma_municipio": 402358,
+       "exceso_sobre_censo": null
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -358,12 +464,14 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/08_4b92e1265db7.json"
    },
    "poblacion": {
-    "secciones": 3576,
+    "secciones": 3591,
     "total": 5487390,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
-    "secciones_sin_dato": [],
+    "secciones_no_dato": 15,
+    "poblacion_no_dato": 21487,
+    "pct_no_dato": "0.3916",
+    "secciones_sin_dato": [
+     "0804703001"
+    ],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
     "sin_seccionado_resuelto": {
@@ -378,9 +486,311 @@
      "apartadas": [],
      "poblacion_asignada": 0,
      "poblacion_excluida": 270
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "0820501003",
+       "poblacion_censo_madre": 2460,
+       "miembros": [
+        {
+         "seccion": "0820501003",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1213,
+         "anio_atlas": 2015,
+         "poblacion": 1348
+        },
+        {
+         "seccion": "0820501021",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1001,
+         "anio_atlas": 2015,
+         "poblacion": 1112
+        }
+       ]
+      },
+      {
+       "madre": "0820501005",
+       "poblacion_censo_madre": 3500,
+       "miembros": [
+        {
+         "seccion": "0820501005",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1791,
+         "anio_atlas": 2015,
+         "poblacion": 1054
+        },
+        {
+         "seccion": "0820501017",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 2384,
+         "anio_atlas": 2015,
+         "poblacion": 1402
+        },
+        {
+         "seccion": "0820501018",
+         "rol": "hija",
+         "solape": 0.9509,
+         "poblacion_atlas": 1775,
+         "anio_atlas": 2015,
+         "poblacion": 1044
+        }
+       ]
+      },
+      {
+       "madre": "0820501007",
+       "poblacion_censo_madre": 3255,
+       "miembros": [
+        {
+         "seccion": "0820501007",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 983,
+         "anio_atlas": 2015,
+         "poblacion": 1323
+        },
+        {
+         "seccion": "0820501022",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1435,
+         "anio_atlas": 2015,
+         "poblacion": 1932
+        }
+       ]
+      },
+      {
+       "madre": "0820501013",
+       "poblacion_censo_madre": 3100,
+       "miembros": [
+        {
+         "seccion": "0820501013",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1584,
+         "anio_atlas": 2015,
+         "poblacion": 1780
+        },
+        {
+         "seccion": "0820501019",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1175,
+         "anio_atlas": 2015,
+         "poblacion": 1320
+        }
+       ]
+      },
+      {
+       "madre": "0820501014",
+       "poblacion_censo_madre": 2385,
+       "miembros": [
+        {
+         "seccion": "0820501014",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1027,
+         "anio_atlas": 2015,
+         "poblacion": 914
+        },
+        {
+         "seccion": "0820501023",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1652,
+         "anio_atlas": 2015,
+         "poblacion": 1471
+        }
+       ]
+      },
+      {
+       "madre": "0820501016",
+       "poblacion_censo_madre": 2625,
+       "miembros": [
+        {
+         "seccion": "0820501016",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1228,
+         "anio_atlas": 2015,
+         "poblacion": 1170
+        },
+        {
+         "seccion": "0820501020",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1528,
+         "anio_atlas": 2015,
+         "poblacion": 1455
+        }
+       ]
+      },
+      {
+       "madre": "0820502001",
+       "poblacion_censo_madre": 2070,
+       "miembros": [
+        {
+         "seccion": "0820502001",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1544,
+         "anio_atlas": 2015,
+         "poblacion": 1001
+        },
+        {
+         "seccion": "0820502012",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1649,
+         "anio_atlas": 2015,
+         "poblacion": 1069
+        }
+       ]
+      },
+      {
+       "madre": "0820502006",
+       "poblacion_censo_madre": 3215,
+       "miembros": [
+        {
+         "seccion": "0820502006",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1711,
+         "anio_atlas": 2015,
+         "poblacion": 1743
+        },
+        {
+         "seccion": "0820502011",
+         "rol": "hija",
+         "solape": 0.9918,
+         "poblacion_atlas": 1445,
+         "anio_atlas": 2015,
+         "poblacion": 1472
+        }
+       ]
+      },
+      {
+       "madre": "0820505001",
+       "poblacion_censo_madre": 5825,
+       "miembros": [
+        {
+         "seccion": "0820505001",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1885,
+         "anio_atlas": 2015,
+         "poblacion": 1805
+        },
+        {
+         "seccion": "0820505006",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1842,
+         "anio_atlas": 2015,
+         "poblacion": 1764
+        },
+        {
+         "seccion": "0820505007",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 2355,
+         "anio_atlas": 2015,
+         "poblacion": 2256
+        }
+       ]
+      },
+      {
+       "madre": "0820505002",
+       "poblacion_censo_madre": 2135,
+       "miembros": [
+        {
+         "seccion": "0820505002",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1509,
+         "anio_atlas": 2015,
+         "poblacion": 1195
+        },
+        {
+         "seccion": "0820505008",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1188,
+         "anio_atlas": 2015,
+         "poblacion": 940
+        }
+       ]
+      },
+      {
+       "madre": "0827801001",
+       "poblacion_censo_madre": 3485,
+       "miembros": [
+        {
+         "seccion": "0827801001",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1723,
+         "anio_atlas": 2015,
+         "poblacion": 1279
+        },
+        {
+         "seccion": "0827801003",
+         "rol": "hija",
+         "solape": 0.9916,
+         "poblacion_atlas": 1199,
+         "anio_atlas": 2015,
+         "poblacion": 890
+        },
+        {
+         "seccion": "0827801004",
+         "rol": "hija",
+         "solape": 0.618,
+         "poblacion_atlas": 1772,
+         "anio_atlas": 2015,
+         "poblacion": 1316
+        }
+       ]
+      },
+      {
+       "madre": "0830504008",
+       "poblacion_censo_madre": 4745,
+       "miembros": [
+        {
+         "seccion": "0830504008",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 2349,
+         "anio_atlas": 2015,
+         "poblacion": 2701
+        },
+        {
+         "seccion": "0830504009",
+         "rol": "hija",
+         "solape": 0.8225,
+         "poblacion_atlas": 1778,
+         "anio_atlas": 2015,
+         "poblacion": 2044
+        }
+       ]
+      }
+     ],
+     "rellenadas": [],
+     "sin_dato": [
+      "0804703001"
+     ],
+     "habitantes_repartidos_a_hijas": 21487,
+     "habitantes_madres_censo": 38800,
+     "habitantes_atlas": 0,
+     "habitantes_rellenados": 0,
+     "cuadre_municipal": []
     }
    },
-   "estado": "LISTA"
+   "estado": "BLOQUEADA_SIN_DATO"
   },
   "09": {
    "territorio": "nac09",
@@ -399,14 +809,53 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/09_30b4b9581919.json"
    },
    "poblacion": {
-    "secciones": 573,
-    "total": 368820,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 575,
+    "total": 370675,
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 1855,
+    "pct_no_dato": "0.5004",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [],
+     "rellenadas": [
+      {
+       "seccion": "0905909004",
+       "poblacion": 715,
+       "poblacion_atlas": 715,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "0905909005",
+       "poblacion": 1140,
+       "poblacion_atlas": 1140,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 0,
+     "habitantes_madres_censo": 0,
+     "habitantes_atlas": 1855,
+     "habitantes_rellenados": 1855,
+     "cuadre_municipal": [
+      {
+       "municipio": "09059",
+       "total_municipal_censo": null,
+       "suma_con_dato": 177245,
+       "residuo": null,
+       "secciones_rellenadas": 2,
+       "rellenado_atlas": 1855,
+       "rellenado_final": 1855,
+       "estado": "aviso_sin_total_municipal",
+       "suma_municipio": 179100,
+       "exceso_sobre_censo": null
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -427,14 +876,48 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/10_aa4fe3db6a59.json"
    },
    "poblacion": {
-    "secciones": 417,
+    "secciones": 418,
     "total": 408995,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1767,
+    "pct_no_dato": "0.4320",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "1003701013",
+       "poblacion_censo_madre": 3975,
+       "miembros": [
+        {
+         "seccion": "1003701013",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 2178,
+         "anio_atlas": 2015,
+         "poblacion": 2208
+        },
+        {
+         "seccion": "1003701015",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1743,
+         "anio_atlas": 2015,
+         "poblacion": 1767
+        }
+       ]
+      }
+     ],
+     "rellenadas": [],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 1767,
+     "habitantes_madres_censo": 3975,
+     "habitantes_atlas": 0,
+     "habitantes_rellenados": 0,
+     "cuadre_municipal": []
+    }
    },
    "estado": "LISTA"
   },
@@ -455,14 +938,92 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/11_91cb8a33c2b2.json"
    },
    "poblacion": {
-    "secciones": 894,
+    "secciones": 897,
     "total": 1241570,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones_no_dato": 3,
+    "poblacion_no_dato": 3787,
+    "pct_no_dato": "0.3050",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "1101504007",
+       "poblacion_censo_madre": 3430,
+       "miembros": [
+        {
+         "seccion": "1101504007",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1017,
+         "anio_atlas": 2015,
+         "poblacion": 1286
+        },
+        {
+         "seccion": "1101504016",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1696,
+         "anio_atlas": 2015,
+         "poblacion": 2144
+        }
+       ]
+      },
+      {
+       "madre": "1101505005",
+       "poblacion_censo_madre": 1025,
+       "miembros": [
+        {
+         "seccion": "1101505005",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1264,
+         "anio_atlas": 2015,
+         "poblacion": 452
+        },
+        {
+         "seccion": "1101505011",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1601,
+         "anio_atlas": 2015,
+         "poblacion": 573
+        }
+       ]
+      },
+      {
+       "madre": "1102006035",
+       "poblacion_censo_madre": 2585,
+       "miembros": [
+        {
+         "seccion": "1102006035",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1768,
+         "anio_atlas": 2015,
+         "poblacion": 1515
+        },
+        {
+         "seccion": "1102006047",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1249,
+         "anio_atlas": 2015,
+         "poblacion": 1070
+        }
+       ]
+      }
+     ],
+     "rellenadas": [],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 3787,
+     "habitantes_madres_censo": 7040,
+     "habitantes_atlas": 0,
+     "habitantes_rellenados": 0,
+     "cuadre_municipal": []
+    }
    },
    "estado": "LISTA"
   },
@@ -571,14 +1132,48 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/14_4826385f5f36.json"
    },
    "poblacion": {
-    "secciones": 621,
+    "secciones": 622,
     "total": 798320,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 355,
+    "pct_no_dato": "0.0445",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "1402102043",
+       "poblacion_censo_madre": 1800,
+       "miembros": [
+        {
+         "seccion": "1402102043",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 2450,
+         "anio_atlas": 2015,
+         "poblacion": 1445
+        },
+        {
+         "seccion": "1402102044",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 601,
+         "anio_atlas": 2015,
+         "poblacion": 355
+        }
+       ]
+      }
+     ],
+     "rellenadas": [],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 355,
+     "habitantes_madres_censo": 1800,
+     "habitantes_atlas": 0,
+     "habitantes_rellenados": 0,
+     "cuadre_municipal": []
+    }
    },
    "estado": "LISTA"
   },
@@ -599,11 +1194,11 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/15_477800bf13d6.json"
    },
    "poblacion": {
-    "secciones": 909,
-    "total": 1137550,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 915,
+    "total": 1138429,
+    "secciones_no_dato": 6,
+    "poblacion_no_dato": 7561,
+    "pct_no_dato": "0.6642",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -694,6 +1289,149 @@
      "apartadas": [],
      "poblacion_asignada": 5955,
      "poblacion_excluida": 0
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "1503009003",
+       "poblacion_censo_madre": 3430,
+       "miembros": [
+        {
+         "seccion": "1503009003",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 2435,
+         "anio_atlas": 2015,
+         "poblacion": 2590
+        },
+        {
+         "seccion": "1503009006",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 790,
+         "anio_atlas": 2015,
+         "poblacion": 840
+        }
+       ]
+      },
+      {
+       "madre": "1503010005",
+       "poblacion_censo_madre": 3485,
+       "miembros": [
+        {
+         "seccion": "1503010005",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 2194,
+         "anio_atlas": 2015,
+         "poblacion": 2259
+        },
+        {
+         "seccion": "1503010006",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1191,
+         "anio_atlas": 2015,
+         "poblacion": 1226
+        }
+       ]
+      },
+      {
+       "madre": "1505401001",
+       "poblacion_censo_madre": 1965,
+       "miembros": [
+        {
+         "seccion": "1505401001",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1238,
+         "anio_atlas": 2015,
+         "poblacion": 936
+        },
+        {
+         "seccion": "1505401003",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1361,
+         "anio_atlas": 2015,
+         "poblacion": 1029
+        }
+       ]
+      },
+      {
+       "madre": "1505404004",
+       "poblacion_censo_madre": 2450,
+       "miembros": [
+        {
+         "seccion": "1505404004",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1088,
+         "anio_atlas": 2015,
+         "poblacion": 855
+        },
+        {
+         "seccion": "1505404019",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 2029,
+         "anio_atlas": 2015,
+         "poblacion": 1595
+        }
+       ]
+      },
+      {
+       "madre": "1505404007",
+       "poblacion_censo_madre": 3430,
+       "miembros": [
+        {
+         "seccion": "1505404007",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 988,
+         "anio_atlas": 2015,
+         "poblacion": 1438
+        },
+        {
+         "seccion": "1505404020",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1369,
+         "anio_atlas": 2015,
+         "poblacion": 1992
+        }
+       ]
+      }
+     ],
+     "rellenadas": [
+      {
+       "seccion": "1508902002",
+       "poblacion": 879,
+       "poblacion_atlas": 879,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 6682,
+     "habitantes_madres_censo": 14760,
+     "habitantes_atlas": 879,
+     "habitantes_rellenados": 879,
+     "cuadre_municipal": [
+      {
+       "municipio": "15089",
+       "total_municipal_censo": null,
+       "suma_con_dato": 5035,
+       "residuo": null,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 879,
+       "rellenado_final": 879,
+       "estado": "aviso_sin_total_municipal",
+       "suma_municipio": 5914,
+       "exceso_sobre_censo": null
+      }
+     ]
     }
    },
    "estado": "LISTA"
@@ -855,11 +1593,11 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/21_7ef1aeea74f2.json"
    },
    "poblacion": {
-    "secciones": 359,
+    "secciones": 360,
     "total": 518195,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 2111,
+    "pct_no_dato": "0.4074",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -878,6 +1616,40 @@
      "apartadas": [],
      "poblacion_asignada": 685,
      "poblacion_excluida": 0
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "2106001005",
+       "poblacion_censo_madre": 3885,
+       "miembros": [
+        {
+         "seccion": "2106001005",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1546,
+         "anio_atlas": 2015,
+         "poblacion": 1774
+        },
+        {
+         "seccion": "2106001010",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1840,
+         "anio_atlas": 2015,
+         "poblacion": 2111
+        }
+       ]
+      }
+     ],
+     "rellenadas": [],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 2111,
+     "habitantes_madres_censo": 3885,
+     "habitantes_atlas": 0,
+     "habitantes_rellenados": 0,
+     "cuadre_municipal": []
     }
    },
    "estado": "LISTA"
@@ -899,11 +1671,11 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/22_f9592645571e.json"
    },
    "poblacion": {
-    "secciones": 288,
+    "secciones": 289,
     "total": 223235,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1426,
+    "pct_no_dato": "0.6388",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -922,6 +1694,40 @@
      "apartadas": [],
      "poblacion_asignada": 560,
      "poblacion_excluida": 0
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "2212503006",
+       "poblacion_censo_madre": 3120,
+       "miembros": [
+        {
+         "seccion": "2212503006",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 2307,
+         "anio_atlas": 2015,
+         "poblacion": 1694
+        },
+        {
+         "seccion": "2212503008",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1941,
+         "anio_atlas": 2015,
+         "poblacion": 1426
+        }
+       ]
+      }
+     ],
+     "rellenadas": [],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 1426,
+     "habitantes_madres_censo": 3120,
+     "habitantes_atlas": 0,
+     "habitantes_rellenados": 0,
+     "cuadre_municipal": []
     }
    },
    "estado": "LISTA"
@@ -971,11 +1777,11 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/24_02b41a89a1c9.json"
    },
    "poblacion": {
-    "secciones": 458,
-    "total": 489625,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 460,
+    "total": 490548,
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 2223,
+    "pct_no_dato": "0.4532",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -994,9 +1800,73 @@
      "apartadas": [],
      "poblacion_asignada": 1180,
      "poblacion_excluida": 0
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "2408906010",
+       "poblacion_censo_madre": 2540,
+       "miembros": [
+        {
+         "seccion": "2408906010",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1664,
+         "anio_atlas": 2015,
+         "poblacion": 1240
+        },
+        {
+         "seccion": "2408906018",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1745,
+         "anio_atlas": 2015,
+         "poblacion": 1300
+        }
+       ]
+      }
+     ],
+     "rellenadas": [
+      {
+       "seccion": "2418901004",
+       "poblacion": 923,
+       "poblacion_atlas": 923,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 1300,
+     "habitantes_madres_censo": 2540,
+     "habitantes_atlas": 923,
+     "habitantes_rellenados": 923,
+     "cuadre_municipal": [
+      {
+       "municipio": "24189",
+       "total_municipal_censo": null,
+       "suma_con_dato": 6885,
+       "residuo": null,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 923,
+       "rellenado_final": 923,
+       "estado": "aviso_sin_total_municipal",
+       "suma_municipio": 7808,
+       "exceso_sobre_censo": null
+      }
+     ]
+    },
+    "votos_sin_asignar": {
+     "votos_fuera_del_seccionado": 807,
+     "votos_validos": 285678,
+     "pct": "0.2825",
+     "secciones_fuera": 1,
+     "tope_general_pct": "0.1",
+     "fuente": "docs/ESTUDIOS/T399_2011_SIN_POBLACION/votos_fuera_del_seccionado.csv",
+     "fuente_sha256": "ca42304e7917b076440583c0f99c991f8de3be6e3640eacd12e0554f6427c82c"
     }
    },
-   "estado": "LISTA"
+   "estado": "APARTADA_VOTOS"
   },
   "25": {
    "territorio": "nac25",
@@ -1071,11 +1941,11 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/27_9349f69c104c.json"
    },
    "poblacion": {
-    "secciones": 289,
-    "total": 345625,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 291,
+    "total": 346761,
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 1701,
+    "pct_no_dato": "0.4905",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -1142,9 +2012,73 @@
      "apartadas": [],
      "poblacion_asignada": 4590,
      "poblacion_excluida": 0
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "2702802002",
+       "poblacion_censo_madre": 1065,
+       "miembros": [
+        {
+         "seccion": "2702802002",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1058,
+         "anio_atlas": 2015,
+         "poblacion": 500
+        },
+        {
+         "seccion": "2702802021",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1195,
+         "anio_atlas": 2015,
+         "poblacion": 565
+        }
+       ]
+      }
+     ],
+     "rellenadas": [
+      {
+       "seccion": "2705702001",
+       "poblacion": 1136,
+       "poblacion_atlas": 1136,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 565,
+     "habitantes_madres_censo": 1065,
+     "habitantes_atlas": 1136,
+     "habitantes_rellenados": 1136,
+     "cuadre_municipal": [
+      {
+       "municipio": "27057",
+       "total_municipal_censo": null,
+       "suma_con_dato": 13275,
+       "residuo": null,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 1136,
+       "rellenado_final": 1136,
+       "estado": "aviso_sin_total_municipal",
+       "suma_municipio": 14411,
+       "exceso_sobre_censo": null
+      }
+     ]
+    },
+    "votos_sin_asignar": {
+     "votos_fuera_del_seccionado": 1128,
+     "votos_validos": 210107,
+     "pct": "0.5369",
+     "secciones_fuera": 3,
+     "tope_general_pct": "0.1",
+     "fuente": "docs/ESTUDIOS/T399_2011_SIN_POBLACION/votos_fuera_del_seccionado.csv",
+     "fuente_sha256": "ca42304e7917b076440583c0f99c991f8de3be6e3640eacd12e0554f6427c82c"
     }
    },
-   "estado": "LISTA"
+   "estado": "APARTADA_VOTOS"
   },
   "28": {
    "territorio": "nac28",
@@ -1163,14 +2097,92 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/28_ac8c30bcf63c.json"
    },
    "poblacion": {
-    "secciones": 4272,
+    "secciones": 4275,
     "total": 6387375,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones_no_dato": 3,
+    "poblacion_no_dato": 8302,
+    "pct_no_dato": "0.1300",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "2800704031",
+       "poblacion_censo_madre": 6280,
+       "miembros": [
+        {
+         "seccion": "2800704031",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1560,
+         "anio_atlas": 2015,
+         "poblacion": 2963
+        },
+        {
+         "seccion": "2800704032",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1746,
+         "anio_atlas": 2015,
+         "poblacion": 3317
+        }
+       ]
+      },
+      {
+       "madre": "2804501023",
+       "poblacion_censo_madre": 3160,
+       "miembros": [
+        {
+         "seccion": "2804501023",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 2026,
+         "anio_atlas": 2015,
+         "poblacion": 1427
+        },
+        {
+         "seccion": "2804501024",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 2461,
+         "anio_atlas": 2015,
+         "poblacion": 1733
+        }
+       ]
+      },
+      {
+       "madre": "2814802022",
+       "poblacion_censo_madre": 6065,
+       "miembros": [
+        {
+         "seccion": "2814802022",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 2001,
+         "anio_atlas": 2015,
+         "poblacion": 2813
+        },
+        {
+         "seccion": "2814802023",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 2314,
+         "anio_atlas": 2015,
+         "poblacion": 3252
+        }
+       ]
+      }
+     ],
+     "rellenadas": [],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 8302,
+     "habitantes_madres_censo": 15505,
+     "habitantes_atlas": 0,
+     "habitantes_rellenados": 0,
+     "cuadre_municipal": []
+    }
    },
    "estado": "LISTA"
   },
@@ -1191,14 +2203,180 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/29_be897ab4df73.json"
    },
    "poblacion": {
-    "secciones": 1015,
+    "secciones": 1022,
     "total": 1590340,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones_no_dato": 7,
+    "poblacion_no_dato": 11211,
+    "pct_no_dato": "0.7049",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "2905103003",
+       "poblacion_censo_madre": 2830,
+       "miembros": [
+        {
+         "seccion": "2905103003",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 4006,
+         "anio_atlas": 2015,
+         "poblacion": 1592
+        },
+        {
+         "seccion": "2905103005",
+         "rol": "hija",
+         "solape": 0.7525,
+         "poblacion_atlas": 3117,
+         "anio_atlas": 2015,
+         "poblacion": 1238
+        }
+       ]
+      },
+      {
+       "madre": "2905402003",
+       "poblacion_censo_madre": 3685,
+       "miembros": [
+        {
+         "seccion": "2905402003",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 2231,
+         "anio_atlas": 2015,
+         "poblacion": 2195
+        },
+        {
+         "seccion": "2905402006",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1514,
+         "anio_atlas": 2015,
+         "poblacion": 1490
+        }
+       ]
+      },
+      {
+       "madre": "2905403002",
+       "poblacion_censo_madre": 5560,
+       "miembros": [
+        {
+         "seccion": "2905403002",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 2687,
+         "anio_atlas": 2015,
+         "poblacion": 2420
+        },
+        {
+         "seccion": "2905403005",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 3486,
+         "anio_atlas": 2015,
+         "poblacion": 3140
+        }
+       ]
+      },
+      {
+       "madre": "2909403002",
+       "poblacion_censo_madre": 3655,
+       "miembros": [
+        {
+         "seccion": "2909403002",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1797,
+         "anio_atlas": 2015,
+         "poblacion": 2117
+        },
+        {
+         "seccion": "2909403014",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1305,
+         "anio_atlas": 2015,
+         "poblacion": 1538
+        }
+       ]
+      },
+      {
+       "madre": "2990101001",
+       "poblacion_censo_madre": 2935,
+       "miembros": [
+        {
+         "seccion": "2990101001",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1189,
+         "anio_atlas": 2015,
+         "poblacion": 1381
+        },
+        {
+         "seccion": "2990101041",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1338,
+         "anio_atlas": 2015,
+         "poblacion": 1554
+        }
+       ]
+      },
+      {
+       "madre": "2990101024",
+       "poblacion_censo_madre": 2035,
+       "miembros": [
+        {
+         "seccion": "2990101024",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1689,
+         "anio_atlas": 2015,
+         "poblacion": 1131
+        },
+        {
+         "seccion": "2990101042",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1349,
+         "anio_atlas": 2015,
+         "poblacion": 904
+        }
+       ]
+      },
+      {
+       "madre": "2990101037",
+       "poblacion_censo_madre": 2630,
+       "miembros": [
+        {
+         "seccion": "2990101037",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1618,
+         "anio_atlas": 2015,
+         "poblacion": 1283
+        },
+        {
+         "seccion": "2990101043",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1700,
+         "anio_atlas": 2015,
+         "poblacion": 1347
+        }
+       ]
+      }
+     ],
+     "rellenadas": [],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 11211,
+     "habitantes_madres_censo": 23330,
+     "habitantes_atlas": 0,
+     "habitantes_rellenados": 0,
+     "cuadre_municipal": []
+    }
    },
    "estado": "LISTA"
   },
@@ -1219,14 +2397,46 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/30_250b350b8688.json"
    },
    "poblacion": {
-    "secciones": 1219,
-    "total": 1458215,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 1220,
+    "total": 1459182,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 967,
+    "pct_no_dato": "0.0663",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [],
+     "rellenadas": [
+      {
+       "seccion": "3002901015",
+       "poblacion": 967,
+       "poblacion_atlas": 967,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 0,
+     "habitantes_madres_censo": 0,
+     "habitantes_atlas": 967,
+     "habitantes_rellenados": 967,
+     "cuadre_municipal": [
+      {
+       "municipio": "30029",
+       "total_municipal_censo": null,
+       "suma_con_dato": 17085,
+       "residuo": null,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 967,
+       "rellenado_final": 967,
+       "estado": "aviso_sin_total_municipal",
+       "suma_municipio": 18052,
+       "exceso_sobre_censo": null
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -1247,14 +2457,48 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/31_d03cd9db77e9.json"
    },
    "poblacion": {
-    "secciones": 558,
+    "secciones": 559,
     "total": 635140,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 2054,
+    "pct_no_dato": "0.3234",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "3190701001",
+       "poblacion_censo_madre": 3205,
+       "miembros": [
+        {
+         "seccion": "3190701001",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1364,
+         "anio_atlas": 2015,
+         "poblacion": 1151
+        },
+        {
+         "seccion": "3190701008",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 2433,
+         "anio_atlas": 2015,
+         "poblacion": 2054
+        }
+       ]
+      }
+     ],
+     "rellenadas": [],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 2054,
+     "habitantes_madres_censo": 3205,
+     "habitantes_atlas": 0,
+     "habitantes_rellenados": 0,
+     "cuadre_municipal": []
+    }
    },
    "estado": "LISTA"
   },
@@ -1275,11 +2519,11 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/32_da973b8b9dd0.json"
    },
    "poblacion": {
-    "secciones": 278,
+    "secciones": 279,
     "total": 325205,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1167,
+    "pct_no_dato": "0.3589",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -1330,9 +2574,52 @@
      "apartadas": [],
      "poblacion_asignada": 2630,
      "poblacion_excluida": 0
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "3205402010",
+       "poblacion_censo_madre": 3535,
+       "miembros": [
+        {
+         "seccion": "3205402010",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 2121,
+         "anio_atlas": 2015,
+         "poblacion": 2368
+        },
+        {
+         "seccion": "3205402011",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1045,
+         "anio_atlas": 2015,
+         "poblacion": 1167
+        }
+       ]
+      }
+     ],
+     "rellenadas": [],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 1167,
+     "habitantes_madres_censo": 3535,
+     "habitantes_atlas": 0,
+     "habitantes_rellenados": 0,
+     "cuadre_municipal": []
+    },
+    "votos_sin_asignar": {
+     "votos_fuera_del_seccionado": 399,
+     "votos_validos": 198355,
+     "pct": "0.2012",
+     "secciones_fuera": 1,
+     "tope_general_pct": "0.1",
+     "fuente": "docs/ESTUDIOS/T399_2011_SIN_POBLACION/votos_fuera_del_seccionado.csv",
+     "fuente_sha256": "ca42304e7917b076440583c0f99c991f8de3be6e3640eacd12e0554f6427c82c"
     }
    },
-   "estado": "LISTA"
+   "estado": "APARTADA_VOTOS"
   },
   "33": {
    "territorio": "nac33",
@@ -1351,11 +2638,11 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/33_d2de96026d7a.json"
    },
    "poblacion": {
-    "secciones": 875,
+    "secciones": 881,
     "total": 1069285,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones_no_dato": 6,
+    "poblacion_no_dato": 8620,
+    "pct_no_dato": "0.8061",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -1390,9 +2677,162 @@
      "apartadas": [],
      "poblacion_asignada": 1745,
      "poblacion_excluida": 0
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "3302406016",
+       "poblacion_censo_madre": 2755,
+       "miembros": [
+        {
+         "seccion": "3302406016",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1374,
+         "anio_atlas": 2015,
+         "poblacion": 1414
+        },
+        {
+         "seccion": "3302406023",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1303,
+         "anio_atlas": 2015,
+         "poblacion": 1341
+        }
+       ]
+      },
+      {
+       "madre": "3304406009",
+       "poblacion_censo_madre": 2405,
+       "miembros": [
+        {
+         "seccion": "3304406009",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1242,
+         "anio_atlas": 2015,
+         "poblacion": 1157
+        },
+        {
+         "seccion": "3304406026",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1340,
+         "anio_atlas": 2015,
+         "poblacion": 1248
+        }
+       ]
+      },
+      {
+       "madre": "3304406015",
+       "poblacion_censo_madre": 2815,
+       "miembros": [
+        {
+         "seccion": "3304406015",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1643,
+         "anio_atlas": 2015,
+         "poblacion": 1692
+        },
+        {
+         "seccion": "3304406025",
+         "rol": "hija",
+         "solape": 0.8194,
+         "poblacion_atlas": 1090,
+         "anio_atlas": 2015,
+         "poblacion": 1123
+        }
+       ]
+      },
+      {
+       "madre": "3304408010",
+       "poblacion_censo_madre": 2875,
+       "miembros": [
+        {
+         "seccion": "3304408010",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1786,
+         "anio_atlas": 2015,
+         "poblacion": 1869
+        },
+        {
+         "seccion": "3304408017",
+         "rol": "hija",
+         "solape": 0.9971,
+         "poblacion_atlas": 962,
+         "anio_atlas": 2015,
+         "poblacion": 1006
+        }
+       ]
+      },
+      {
+       "madre": "3304409015",
+       "poblacion_censo_madre": 3180,
+       "miembros": [
+        {
+         "seccion": "3304409015",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1254,
+         "anio_atlas": 2015,
+         "poblacion": 1568
+        },
+        {
+         "seccion": "3304409019",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1290,
+         "anio_atlas": 2015,
+         "poblacion": 1612
+        }
+       ]
+      },
+      {
+       "madre": "3304409017",
+       "poblacion_censo_madre": 4350,
+       "miembros": [
+        {
+         "seccion": "3304409017",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1657,
+         "anio_atlas": 2015,
+         "poblacion": 2060
+        },
+        {
+         "seccion": "3304409018",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1842,
+         "anio_atlas": 2015,
+         "poblacion": 2290
+        }
+       ]
+      }
+     ],
+     "rellenadas": [],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 8620,
+     "habitantes_madres_censo": 18380,
+     "habitantes_atlas": 0,
+     "habitantes_rellenados": 0,
+     "cuadre_municipal": []
+    },
+    "votos_sin_asignar": {
+     "votos_fuera_del_seccionado": 1541,
+     "votos_validos": 619208,
+     "pct": "0.2489",
+     "secciones_fuera": 3,
+     "tope_general_pct": "0.1",
+     "fuente": "docs/ESTUDIOS/T399_2011_SIN_POBLACION/votos_fuera_del_seccionado.csv",
+     "fuente_sha256": "ca42304e7917b076440583c0f99c991f8de3be6e3640eacd12e0554f6427c82c"
     }
    },
-   "estado": "LISTA"
+   "estado": "APARTADA_VOTOS"
   },
   "34": {
    "territorio": "nac34",
@@ -1411,14 +2851,48 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/34_1888dc46cd44.json"
    },
    "poblacion": {
-    "secciones": 282,
+    "secciones": 283,
     "total": 167410,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1155,
+    "pct_no_dato": "0.6899",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "3422501003",
+       "poblacion_censo_madre": 2880,
+       "miembros": [
+        {
+         "seccion": "3422501003",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1705,
+         "anio_atlas": 2015,
+         "poblacion": 1725
+        },
+        {
+         "seccion": "3422501004",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1141,
+         "anio_atlas": 2015,
+         "poblacion": 1155
+        }
+       ]
+      }
+     ],
+     "rellenadas": [],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 1155,
+     "habitantes_madres_censo": 2880,
+     "habitantes_atlas": 0,
+     "habitantes_rellenados": 0,
+     "cuadre_municipal": []
+    }
    },
    "estado": "LISTA"
   },
@@ -1439,11 +2913,11 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/35_b2c963a6ee54.json"
    },
    "poblacion": {
-    "secciones": 678,
-    "total": 1084095,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 680,
+    "total": 1087275,
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 3180,
+    "pct_no_dato": "0.2925",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -1468,6 +2942,57 @@
      "apartadas": [],
      "poblacion_asignada": 580,
      "poblacion_excluida": 730
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [],
+     "rellenadas": [
+      {
+       "seccion": "3501603042",
+       "poblacion": 884,
+       "poblacion_atlas": 884,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3502606015",
+       "poblacion": 2296,
+       "poblacion_atlas": 2296,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 0,
+     "habitantes_madres_censo": 0,
+     "habitantes_atlas": 3180,
+     "habitantes_rellenados": 3180,
+     "cuadre_municipal": [
+      {
+       "municipio": "35016",
+       "total_municipal_censo": null,
+       "suma_con_dato": 379590,
+       "residuo": null,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 884,
+       "rellenado_final": 884,
+       "estado": "aviso_sin_total_municipal",
+       "suma_municipio": 380474,
+       "exceso_sobre_censo": null
+      },
+      {
+       "municipio": "35026",
+       "total_municipal_censo": null,
+       "suma_con_dato": 100630,
+       "residuo": null,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 2296,
+       "rellenado_final": 2296,
+       "estado": "aviso_sin_total_municipal",
+       "suma_municipio": 102926,
+       "exceso_sobre_censo": null
+      }
+     ]
     }
    },
    "estado": "LISTA"
@@ -1489,12 +3014,14 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/36_95886cf93d42.json"
    },
    "poblacion": {
-    "secciones": 720,
-    "total": 951490,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
-    "secciones_sin_dato": [],
+    "secciones": 746,
+    "total": 977283,
+    "secciones_no_dato": 26,
+    "poblacion_no_dato": 25793,
+    "pct_no_dato": "2.6393",
+    "secciones_sin_dato": [
+     "3605901003"
+    ],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
     "sin_seccionado_resuelto": {
@@ -1512,9 +3039,326 @@
      "apartadas": [],
      "poblacion_asignada": 285,
      "poblacion_excluida": 0
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [],
+     "rellenadas": [
+      {
+       "seccion": "3600501002",
+       "poblacion": 840,
+       "poblacion_atlas": 840,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3600501003",
+       "poblacion": 1410,
+       "poblacion_atlas": 1410,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3600503001",
+       "poblacion": 774,
+       "poblacion_atlas": 774,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3602502001",
+       "poblacion": 646,
+       "poblacion_atlas": 646,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3602602003",
+       "poblacion": 564,
+       "poblacion_atlas": 564,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3602603003",
+       "poblacion": 1563,
+       "poblacion_atlas": 1563,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3602701002",
+       "poblacion": 772,
+       "poblacion_atlas": 772,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3602702001",
+       "poblacion": 1175,
+       "poblacion_atlas": 1175,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3602901006",
+       "poblacion": 925,
+       "poblacion_atlas": 925,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3602901007",
+       "poblacion": 955,
+       "poblacion_atlas": 955,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3602903004",
+       "poblacion": 1067,
+       "poblacion_atlas": 1067,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3602903005",
+       "poblacion": 1019,
+       "poblacion_atlas": 1019,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3603803002",
+       "poblacion": 727,
+       "poblacion_atlas": 727,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3603804005",
+       "poblacion": 971,
+       "poblacion_atlas": 971,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3603804006",
+       "poblacion": 745,
+       "poblacion_atlas": 745,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3603805001",
+       "poblacion": 752,
+       "poblacion_atlas": 752,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3603805004",
+       "poblacion": 736,
+       "poblacion_atlas": 736,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3603806001",
+       "poblacion": 913,
+       "poblacion_atlas": 913,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3603806002",
+       "poblacion": 866,
+       "poblacion_atlas": 866,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3603806003",
+       "poblacion": 1083,
+       "poblacion_atlas": 1083,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3605103002",
+       "poblacion": 890,
+       "poblacion_atlas": 890,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3605103003",
+       "poblacion": 1211,
+       "poblacion_atlas": 1211,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3605103004",
+       "poblacion": 1339,
+       "poblacion_atlas": 1339,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3605602003",
+       "poblacion": 765,
+       "poblacion_atlas": 765,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3605801001",
+       "poblacion": 1443,
+       "poblacion_atlas": 1443,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "3605801002",
+       "poblacion": 1642,
+       "poblacion_atlas": 1642,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [
+      "3605901003"
+     ],
+     "habitantes_repartidos_a_hijas": 0,
+     "habitantes_madres_censo": 0,
+     "habitantes_atlas": 25793,
+     "habitantes_rellenados": 25793,
+     "cuadre_municipal": [
+      {
+       "municipio": "36005",
+       "total_municipal_censo": null,
+       "suma_con_dato": 9935,
+       "residuo": null,
+       "secciones_rellenadas": 3,
+       "rellenado_atlas": 3024,
+       "rellenado_final": 3024,
+       "estado": "aviso_sin_total_municipal",
+       "suma_municipio": 12959,
+       "exceso_sobre_censo": null
+      },
+      {
+       "municipio": "36025",
+       "total_municipal_censo": null,
+       "suma_con_dato": 2895,
+       "residuo": null,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 646,
+       "rellenado_final": 646,
+       "estado": "aviso_sin_total_municipal",
+       "suma_municipio": 3541,
+       "exceso_sobre_censo": null
+      },
+      {
+       "municipio": "36026",
+       "total_municipal_censo": null,
+       "suma_con_dato": 25275,
+       "residuo": null,
+       "secciones_rellenadas": 2,
+       "rellenado_atlas": 2127,
+       "rellenado_final": 2127,
+       "estado": "aviso_sin_total_municipal",
+       "suma_municipio": 27402,
+       "exceso_sobre_censo": null
+      },
+      {
+       "municipio": "36027",
+       "total_municipal_censo": null,
+       "suma_con_dato": 5455,
+       "residuo": null,
+       "secciones_rellenadas": 2,
+       "rellenado_atlas": 1947,
+       "rellenado_final": 1947,
+       "estado": "aviso_sin_total_municipal",
+       "suma_municipio": 7402,
+       "exceso_sobre_censo": null
+      },
+      {
+       "municipio": "36029",
+       "total_municipal_censo": null,
+       "suma_con_dato": 19275,
+       "residuo": null,
+       "secciones_rellenadas": 4,
+       "rellenado_atlas": 3966,
+       "rellenado_final": 3966,
+       "estado": "aviso_sin_total_municipal",
+       "suma_municipio": 23241,
+       "exceso_sobre_censo": null
+      },
+      {
+       "municipio": "36038",
+       "total_municipal_censo": null,
+       "suma_con_dato": 82010,
+       "residuo": null,
+       "secciones_rellenadas": 8,
+       "rellenado_atlas": 6793,
+       "rellenado_final": 6793,
+       "estado": "aviso_sin_total_municipal",
+       "suma_municipio": 88803,
+       "exceso_sobre_censo": null
+      },
+      {
+       "municipio": "36051",
+       "total_municipal_censo": null,
+       "suma_con_dato": 17545,
+       "residuo": null,
+       "secciones_rellenadas": 3,
+       "rellenado_atlas": 3440,
+       "rellenado_final": 3440,
+       "estado": "aviso_sin_total_municipal",
+       "suma_municipio": 20985,
+       "exceso_sobre_censo": null
+      },
+      {
+       "municipio": "36056",
+       "total_municipal_censo": null,
+       "suma_con_dato": 6050,
+       "residuo": null,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 765,
+       "rellenado_final": 765,
+       "estado": "aviso_sin_total_municipal",
+       "suma_municipio": 6815,
+       "exceso_sobre_censo": null
+      },
+      {
+       "municipio": "36058",
+       "total_municipal_censo": null,
+       "suma_con_dato": 6035,
+       "residuo": null,
+       "secciones_rellenadas": 2,
+       "rellenado_atlas": 3085,
+       "rellenado_final": 3085,
+       "estado": "aviso_sin_total_municipal",
+       "suma_municipio": 9120,
+       "exceso_sobre_censo": null
+      },
+      {
+       "municipio": "36059",
+       "total_municipal_censo": null,
+       "suma_con_dato": 6075,
+       "residuo": null,
+       "secciones_rellenadas": 0,
+       "rellenado_atlas": 0,
+       "rellenado_final": 0,
+       "estado": "aviso_sin_dato",
+       "suma_municipio": 6075,
+       "exceso_sobre_censo": null
+      }
+     ]
     }
    },
-   "estado": "LISTA"
+   "estado": "BLOQUEADA_SIN_DATO"
   },
   "37": {
    "territorio": "nac37",
@@ -1533,14 +3377,48 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/37_faf28d672d1e.json"
    },
    "poblacion": {
-    "secciones": 527,
+    "secciones": 528,
     "total": 346165,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 636,
+    "pct_no_dato": "0.1837",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "3727403011",
+       "poblacion_censo_madre": 1185,
+       "miembros": [
+        {
+         "seccion": "3727403011",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1217,
+         "anio_atlas": 2015,
+         "poblacion": 549
+        },
+        {
+         "seccion": "3727403020",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1410,
+         "anio_atlas": 2015,
+         "poblacion": 636
+        }
+       ]
+      }
+     ],
+     "rellenadas": [],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 636,
+     "habitantes_madres_censo": 1185,
+     "habitantes_atlas": 0,
+     "habitantes_rellenados": 0,
+     "cuadre_municipal": []
+    }
    },
    "estado": "LISTA"
   },
@@ -1561,14 +3439,46 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/38_0a2482d7788c.json"
    },
    "poblacion": {
-    "secciones": 645,
-    "total": 993455,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 646,
+    "total": 994226,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 771,
+    "pct_no_dato": "0.0775",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [],
+     "rellenadas": [
+      {
+       "seccion": "3800901003",
+       "poblacion": 771,
+       "poblacion_atlas": 771,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 0,
+     "habitantes_madres_censo": 0,
+     "habitantes_atlas": 771,
+     "habitantes_rellenados": 771,
+     "cuadre_municipal": [
+      {
+       "municipio": "38009",
+       "total_municipal_censo": null,
+       "suma_con_dato": 5320,
+       "residuo": null,
+       "secciones_rellenadas": 1,
+       "rellenado_atlas": 771,
+       "rellenado_final": 771,
+       "estado": "aviso_sin_total_municipal",
+       "suma_municipio": 6091,
+       "exceso_sobre_censo": null
+      }
+     ]
+    }
    },
    "estado": "LISTA"
   },
@@ -1645,14 +3555,114 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/41_ad6d8b995982.json"
    },
    "poblacion": {
-    "secciones": 1309,
+    "secciones": 1313,
     "total": 1925670,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones_no_dato": 4,
+    "poblacion_no_dato": 4008,
+    "pct_no_dato": "0.2081",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "4100404006",
+       "poblacion_censo_madre": 1985,
+       "miembros": [
+        {
+         "seccion": "4100404006",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 2624,
+         "anio_atlas": 2015,
+         "poblacion": 1181
+        },
+        {
+         "seccion": "4100404030",
+         "rol": "hija",
+         "solape": 0.7296,
+         "poblacion_atlas": 1785,
+         "anio_atlas": 2015,
+         "poblacion": 804
+        }
+       ]
+      },
+      {
+       "madre": "4102002001",
+       "poblacion_censo_madre": 2165,
+       "miembros": [
+        {
+         "seccion": "4102002001",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1506,
+         "anio_atlas": 2015,
+         "poblacion": 1099
+        },
+        {
+         "seccion": "4102002007",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1460,
+         "anio_atlas": 2015,
+         "poblacion": 1066
+        }
+       ]
+      },
+      {
+       "madre": "4103805013",
+       "poblacion_censo_madre": 3225,
+       "miembros": [
+        {
+         "seccion": "4103805013",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 2043,
+         "anio_atlas": 2015,
+         "poblacion": 2252
+        },
+        {
+         "seccion": "4103805023",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 883,
+         "anio_atlas": 2015,
+         "poblacion": 973
+        }
+       ]
+      },
+      {
+       "madre": "4105003001",
+       "poblacion_censo_madre": 2690,
+       "miembros": [
+        {
+         "seccion": "4105003001",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1659,
+         "anio_atlas": 2015,
+         "poblacion": 1525
+        },
+        {
+         "seccion": "4105003002",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1268,
+         "anio_atlas": 2015,
+         "poblacion": 1165
+        }
+       ]
+      }
+     ],
+     "rellenadas": [],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 4008,
+     "habitantes_madres_censo": 10065,
+     "habitantes_atlas": 0,
+     "habitantes_rellenados": 0,
+     "cuadre_municipal": []
+    }
    },
    "estado": "LISTA"
   },
@@ -1701,14 +3711,48 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/43_106b83787321.json"
    },
    "poblacion": {
-    "secciones": 526,
+    "secciones": 527,
     "total": 802595,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1707,
+    "pct_no_dato": "0.2127",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "4314001001",
+       "poblacion_censo_madre": 3275,
+       "miembros": [
+        {
+         "seccion": "4314001001",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1539,
+         "anio_atlas": 2015,
+         "poblacion": 1568
+        },
+        {
+         "seccion": "4314001002",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1676,
+         "anio_atlas": 2015,
+         "poblacion": 1707
+        }
+       ]
+      }
+     ],
+     "rellenadas": [],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 1707,
+     "habitantes_madres_censo": 3275,
+     "habitantes_atlas": 0,
+     "habitantes_rellenados": 0,
+     "cuadre_municipal": []
+    }
    },
    "estado": "LISTA"
   },
@@ -1757,14 +3801,48 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/45_5e81356fc1a8.json"
    },
    "poblacion": {
-    "secciones": 520,
+    "secciones": 521,
     "total": 700615,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1124,
+    "pct_no_dato": "0.1604",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "4516807006",
+       "poblacion_censo_madre": 2850,
+       "miembros": [
+        {
+         "seccion": "4516807006",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 2451,
+         "anio_atlas": 2015,
+         "poblacion": 1726
+        },
+        {
+         "seccion": "4516807020",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1596,
+         "anio_atlas": 2015,
+         "poblacion": 1124
+        }
+       ]
+      }
+     ],
+     "rellenadas": [],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 1124,
+     "habitantes_madres_censo": 2850,
+     "habitantes_atlas": 0,
+     "habitantes_rellenados": 0,
+     "cuadre_municipal": []
+    }
    },
    "estado": "LISTA"
   },
@@ -1785,11 +3863,11 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/46_cf736ac77024.json"
    },
    "poblacion": {
-    "secciones": 1800,
-    "total": 2553485,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones": 1806,
+    "total": 2561233,
+    "secciones_no_dato": 6,
+    "poblacion_no_dato": 8704,
+    "pct_no_dato": "0.3398",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0,
@@ -1824,6 +3902,101 @@
      "apartadas": [],
      "poblacion_asignada": 2250,
      "poblacion_excluida": 0
+    },
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "4613401001",
+       "poblacion_censo_madre": 3290,
+       "miembros": [
+        {
+         "seccion": "4613401001",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 2324,
+         "anio_atlas": 2015,
+         "poblacion": 2334
+        },
+        {
+         "seccion": "4613401002",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 952,
+         "anio_atlas": 2015,
+         "poblacion": 956
+        }
+       ]
+      }
+     ],
+     "rellenadas": [
+      {
+       "seccion": "4619001045",
+       "poblacion": 1247,
+       "poblacion_atlas": 1247,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "4619001046",
+       "poblacion": 1382,
+       "poblacion_atlas": 1382,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "4619001048",
+       "poblacion": 1628,
+       "poblacion_atlas": 1628,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "4625012046",
+       "poblacion": 1573,
+       "poblacion_atlas": 1573,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      },
+      {
+       "seccion": "4625015038",
+       "poblacion": 1918,
+       "poblacion_atlas": 1918,
+       "anio_atlas": 2015,
+       "ajuste": "sin_ajuste_municipal"
+      }
+     ],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 956,
+     "habitantes_madres_censo": 3290,
+     "habitantes_atlas": 7748,
+     "habitantes_rellenados": 7748,
+     "cuadre_municipal": [
+      {
+       "municipio": "46190",
+       "total_municipal_censo": null,
+       "suma_con_dato": 66585,
+       "residuo": null,
+       "secciones_rellenadas": 3,
+       "rellenado_atlas": 4257,
+       "rellenado_final": 4257,
+       "estado": "aviso_sin_total_municipal",
+       "suma_municipio": 70842,
+       "exceso_sobre_censo": null
+      },
+      {
+       "municipio": "46250",
+       "total_municipal_censo": null,
+       "suma_con_dato": 790755,
+       "residuo": null,
+       "secciones_rellenadas": 2,
+       "rellenado_atlas": 3491,
+       "rellenado_final": 3491,
+       "estado": "aviso_sin_total_municipal",
+       "suma_municipio": 794246,
+       "exceso_sobre_censo": null
+      }
+     ]
     }
    },
    "estado": "LISTA"
@@ -1845,14 +4018,92 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/47_4f52997d3aa0.json"
    },
    "poblacion": {
-    "secciones": 575,
+    "secciones": 578,
     "total": 529355,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones_no_dato": 3,
+    "poblacion_no_dato": 3927,
+    "pct_no_dato": "0.7418",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "4700701002",
+       "poblacion_censo_madre": 980,
+       "miembros": [
+        {
+         "seccion": "4700701002",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1009,
+         "anio_atlas": 2015,
+         "poblacion": 458
+        },
+        {
+         "seccion": "4700701004",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1148,
+         "anio_atlas": 2015,
+         "poblacion": 522
+        }
+       ]
+      },
+      {
+       "madre": "4701001001",
+       "poblacion_censo_madre": 2535,
+       "miembros": [
+        {
+         "seccion": "4701001001",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1838,
+         "anio_atlas": 2015,
+         "poblacion": 1541
+        },
+        {
+         "seccion": "4701001009",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1185,
+         "anio_atlas": 2015,
+         "poblacion": 994
+        }
+       ]
+      },
+      {
+       "madre": "4701001007",
+       "poblacion_censo_madre": 4185,
+       "miembros": [
+        {
+         "seccion": "4701001007",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1785,
+         "anio_atlas": 2015,
+         "poblacion": 1774
+        },
+        {
+         "seccion": "4701001008",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 2425,
+         "anio_atlas": 2015,
+         "poblacion": 2411
+        }
+       ]
+      }
+     ],
+     "rellenadas": [],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 3927,
+     "habitantes_madres_censo": 7700,
+     "habitantes_atlas": 0,
+     "habitantes_rellenados": 0,
+     "cuadre_municipal": []
+    }
    },
    "estado": "LISTA"
   },
@@ -1957,16 +4208,50 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/51_80822640c049.json"
    },
    "poblacion": {
-    "secciones": 53,
+    "secciones": 54,
     "total": 83195,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 1410,
+    "pct_no_dato": "1.6948",
     "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
-    "poblacion_sin_seccionado": 0
+    "poblacion_sin_seccionado": 0,
+    "sin_poblacion_resuelto": {
+     "anio_atlas_referencia": 2011,
+     "repartidas": [
+      {
+       "madre": "5100103006",
+       "poblacion_censo_madre": 2525,
+       "miembros": [
+        {
+         "seccion": "5100103006",
+         "rol": "madre",
+         "solape": null,
+         "poblacion_atlas": 1224,
+         "anio_atlas": 2015,
+         "poblacion": 1115
+        },
+        {
+         "seccion": "5100103014",
+         "rol": "hija",
+         "solape": 1.0,
+         "poblacion_atlas": 1547,
+         "anio_atlas": 2015,
+         "poblacion": 1410
+        }
+       ]
+      }
+     ],
+     "rellenadas": [],
+     "sin_dato": [],
+     "habitantes_repartidos_a_hijas": 1410,
+     "habitantes_madres_censo": 2525,
+     "habitantes_atlas": 0,
+     "habitantes_rellenados": 0,
+     "cuadre_municipal": []
+    }
    },
-   "estado": "LISTA"
+   "estado": "BLOQUEADA_RELLENO"
   },
   "52": {
    "territorio": "nac52",

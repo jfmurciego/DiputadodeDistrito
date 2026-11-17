@@ -15,6 +15,7 @@
        ["1403002001"]
       ],
       "reason": "El seccionado INE 2012 asigna las siete secciones a Fuente Palmera (14030) pero el municipio son tres polígonos disjuntos; bajo la adyacencia productiva (contacto, min_shared_border_m=1.0) forman dos componentes [6,1]. La sección 1403002001 (1.570 hab., 14,7 km²) dista 993 m de la más cercana del resto y solo linda con Hornachuelos (14036, 445 m) y Palma del Río (14049, 7.075 m). La acreditación describe la estructura administrativa de entrada; no añade aristas ni habilita generación.",
+      "medidas_origen": "medidas locales sobre las geometrías del seccionado 2012 (sha256 arriba), EPSG:25830, tras materializar (T-402): área de la sección 14.742.320 m²; distancia mínima de 1403002001 a las otras seis secciones del municipio, 993 m (1403001001); longitud de borde compartido con 1403601002 (Hornachuelos) 445,5 m y con 1404902004 (Palma del Río) 7.075,1 m; unión de las 7 secciones = 3 polígonos (geopandas 1.x / shapely, requirements.lock)",
       "source": "INE seccionado 2012 (seccionado_2012.zip, sha256 772ad76b84e1b3bb9293a5595d2ccafa06f21a3a58ccc96a9ec5dadd99e46c4a); el mismo municipio sale en 3 polígonos disjuntos en los seccionados 2015, 2016 y 2019 (sha256 en SHA256SUMS.txt de T-357)",
       "evidence": {
        "section_correspondence": {

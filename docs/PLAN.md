@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.62
+Versión: 1.0.63
 Fecha: 2026-11-17
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-156 corregida (no entró en #885), D-158 (2011-11 opción B'), D-159 (nombres «_P…» para los sin botón), D-160 (relevo automático de chats); T-402 a T-404; traspaso del Planificador
-Anterior: legacy/docs/PLAN_v1.0.61_20261117.md
+Cambios/motivo: D-158 confirmada literal, D-161 (1 % de población estimada en 2011-11), D-162 (PR 2a de P00 sin partir P40/P70); T-405, T-406
+Anterior: legacy/docs/PLAN_v1.0.62_20261117.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -308,6 +308,10 @@ Fase 4 — producto (en el privado):
 - D-157 (17-11, propietario). Autorización al Coordinador hasta las 23:59 del 17-11 para fusionar sin esperarle, en su orden, las PR de la migración y del histórico (T-379 PR 2a, 2b y 3, T-383, T-393, T-395, T-396, T-397, T-399, T-400, P43) y las del plan, con CI verde en la PR y en `main` y revisor conforme; la PR 2a solo con el entorno `registro` ya con sus secretos y su primera prueba en verde; no autoriza lanzar ni publicar. El Planificador planifica y no da comandos: los pasos manuales al propietario los da el Coordinador.
 - D-158 (17-11, propietario). Histórico 2011-11 con la opción B': seccionado 2012 y la población 2011 de cada sección madre repartida entre madre e hijas según las proporciones del Atlas 2015, conservando los totales del Censo. Las 5 provincias con más del 0,1 % de votos sin asignar (03, 24, 27, 32, 33) se apartan y se declaran; D-70 no cambia ni hay excepciones nuevas en la puerta. Las 42 secciones sin fila, con D-126 y ajuste municipal si aparece la tabla oficial. Geometrías inválidas del INE: normalización auditada en la materialización (T-402, decisión técnica del Planificador).
 - D-159 (17-11, propietario). Nombres en Actions: los 9 workflows con botón empiezan por «P»; los que no tienen botón llevan «_» delante para salir al final de la lista («_P90 Automático — Fusión automática», «_P90 Automático — Revisor de PR», «_P00 Campaña — <qué hace>»). Los dinámicos de GitHub no se pueden renombrar (diagnóstico de T-397 c). Amplía T-397.
+- D-158 confirmada literal por el propietario (17-11, «sí» en el chat del Planificador): seccionado 2012, población 2011 de cada madre repartida con las proporciones del Atlas 2015 conservando los totales del Censo; 03, 24, 27, 32 y 33 apartadas y declaradas (APARTADA_VOTOS).
+- D-161 (17-11, propietario). Umbral del 1 % de D-126/D-128 en 2011-11 con B': cuenta como estimada solo la población movida de cada madre a sus hijas más la rellenada; la que permanece en la madre no. Con #883@a286b6c quedan BLOQUEADA_RELLENO 36 (2,64 %) y 51 (1,70 %); 15, 22, 29, 34 y 47 pasan. Sustituye en 2011-11 el cómputo conservador (madre e hijas enteras).
+- D-157 aclarada (17-11, propietario, en el chat del Planificador, por tercera vez): no habrá más frases de fusión; todas las PR están en la lista que dio al Coordinador. Nadie le pide «fusiona N»: el Coordinador fusiona bajo D-157 con CI verde en la PR y en `main` y el revisor conforme.
+- D-162 (17-11, propietario). T-379 PR 2a (#888), opción A: P40 `publicar` y P70 `podar` NO se parten (un job y su grupo de concurrencia, como en `main`); los 2 secretos de la app van a los entornos `registro`, `github-pages` y `produccion`, los tres limitados a `main`; `preparar` usa `produccion` para personas y `registro` para robots. Cambia el §10 del diseño («se parten»). Consecuencia declarada en la PR: una 00 desde rama ≠ `main` falla en `actualizar_estado` y `manifestar`. Antes de fusionar, el propietario crea/revisa los 3 entornos (solo `main`) y copia los secretos.
 - D-160 (17-11, propietario). Relevo automático de chats sin intervención del propietario (T-403): cada sesión de rol comprueba su contexto al empezar cada turno y, al 70 % del umbral, guarda lecciones, escribe su traspaso, crea su sucesora y avisa; la sucesora archiva a la predecesora. Con profundidad de linaje 7 o más (tope 8), avisa al propietario al móvil para que abra un chat nuevo. El Operador anota en la ficha las frases D-52 vigentes; el sucesor solo las acepta si el propietario ha dicho una vez en el chat del Operador que valen para el sucesor.
 
 ### Cola T-291 a T-367 (14 a 16-11)
@@ -397,7 +401,7 @@ Fase 4 — producto (en el privado):
 | T-376 | Migración paso 7: P30 Resultados electorales (D-137) | HECHA (#866) |
 | T-377 | Migración paso 8: P20 Distritos (D-138, D-139), Opus | HECHA (#880) |
 | T-378 | Migración paso 9a: diseño al detalle de P00 Campaña y la nueva forma de trabajar (D-140), Opus, sin código | HECHA (#850); decisiones en D-143 |
-| T-379 | Migración paso 9b: implementación de P00 Campaña (D-140) | EN CURSO: PR 1 (#861) y PR 4 (#882) HECHAS; PR 2a (entorno `registro`), 2b y 3 hoy (Opus) |
+| T-379 | Migración paso 9b: implementación de P00 Campaña (D-140) | EN CURSO: PR 1 (#861) y PR 4 (#882) HECHAS; PR 2a (#888) con D-162 (sin partir P40/P70; 3 entornos con secretos), 2b y 3 (Opus) |
 | T-380 | Retirada de los ensembles del motor viejo (D-141): registro del visor y publicación, luego Releases, configuraciones y selector v1 | ESPERA_APROBACIÓN (#849 fusionada): faltan publicación «solo sitio» y borrado de 3 Releases (frase del propietario); configuraciones con T-377 |
 | T-381 | Detección automática de puntos de control incompatibles con el contrato vigente (sustituiría «empezar de cero»): diseño al detalle para el propietario | PENDIENTE (tras T-377) |
 | T-383 | Migración paso 10: documentación renumerada (D-142) | PENDIENTE (tras T-379) |
@@ -415,12 +419,14 @@ Fase 4 — producto (en el privado):
 | T-396 | Secciones con población sin geometría: asignación por centroide con geometría de otro año (D-153) | HECHA (#881) |
 | T-397 | Lista de Actions sin basura (D-155) | EN CURSO: (a) HECHA (#877); amplía D-159 (prefijo «_»); (b) borrado de ejecuciones de retirados al terminar la migración; (c) diagnóstico de los dinámicos |
 | T-398 | Actualización del plan 1.0.60 | HECHA (#879) |
-| T-399 | Histórico 2011-11 con el seccionado del Censo 2011 y relleno de las 42 secciones sin fila (D-156) | EN CURSO: #883 se rehace con B' (D-158) |
+| T-399 | Histórico 2011-11 con el seccionado del Censo 2011 y relleno de las 42 secciones sin fila (D-156) | EN CURSO: #883 con B' (D-158) y cómputo del 1 % de D-161; tras #886 (T-402) |
 | T-400 | Provincia 35, 2011-11: puente topológico de La Graciosa (3502401010) ausente del seccionado; diagnóstico y PR | LISTA tras T-399 |
 | T-401 | Actualización del plan 1.0.61 | HECHA (#885) |
 | T-402 | Normalización auditada de geometrías inválidas del INE en la materialización del histórico, con huella e informe (D-158) | LISTA (Sonnet), coordinada con T-399 |
 | T-403 | Relevo automático de chats: sección «Relevo» en las skills de rol y línea en CLAUDE.md (D-160) | LISTA (Sonnet) |
-| T-404 | Actualización del plan 1.0.62 y traspaso del Planificador | REVISIÓN (esta PR) |
+| T-405 | Histórico 2011-11, provincia 14 (Córdoba, `nac14`): M04 «invalid administrative component source binding»; solo diagnóstico y una PR por causa (Sonnet) | LISTA tras #886 (T-402) |
+| T-406 | Actualización del plan 1.0.63 | REVISIÓN (esta PR) |
+| T-404 | Actualización del plan 1.0.62 y traspaso del Planificador | HECHA (#887) |
 | T-385 | Actualización del plan 1.0.56 | HECHA (#856) |
 | T-382 | Actualización del plan 1.0.55 | REVISIÓN (esta PR) |
 | T-340 | Ficha del paso A del histórico con Condición previa, Puerta y Mapa según D-115 (si el código no implementa la puerta, abre tarea) | EN CURSO (Coordinador) |

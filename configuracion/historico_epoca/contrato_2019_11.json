@@ -1,9 +1,9 @@
 {
  "schema": "ddd.contrato-historico-epoca/1.0",
- "version": "1.2.0",
- "anterior": "legacy/contrato_historico_epoca_2019_11_v1.1.0_20261117.json",
+ "version": "1.3.0",
+ "anterior": "legacy/contrato_historico_epoca_2019_11_v1.2.0_20261117.json",
  "motivo": "D-125 (opción A: distritos con los datos de cada época), D-126/D-128 (población), T-199 (elección en el registro)",
- "generado_con": "herramientas/contrato_historico_epoca.py 1.1.0",
+ "generado_con": "herramientas/contrato_historico_epoca.py 1.3.0",
  "eleccion": "2019-11",
  "fecha": "2019-11-10",
  "clave_espejo": "201911",
@@ -21,8 +21,14 @@
   "origen": "T-364b herramientas/poblacion_seccion_historica.py 1.2.0 (D-128; provincias apartadas sin filas, reasignada, sin_ajuste_municipal; fuentes con sha256 de T-357/T-364)",
   "anio_referencia": 2020,
   "fuente": "atlas",
-  "regla_publicacion": "> 1 % estimada → BLOQUEADA_RELLENO (D-126/D-128); sin_dato → BLOQUEADA_SIN_DATO",
+  "regla_publicacion": "> 1 % estimada → BLOQUEADA_RELLENO (D-126/D-128; D-161: del reparto madre/hijas cuenta solo lo movido a las hijas más lo rellenado, no la madre); sin_dato → BLOQUEADA_SIN_DATO",
   "regla_sin_seccionado": "D-153/T-396: sección con población sin geometría en el seccionado del año → sección del seccionado del año que contiene su centroide (punto representativo si el centroide cae fuera de todas), con la geometría del seccionado más cercano en años que la tenga (empate: el anterior); misma provincia (otra → APARTADA); sin geometría en ningún año, punto fuera de todo el seccionado o sucesora sin fila en la tabla → excluida con su población declarada. Reglas que D-153 no cita y declara este contrato: punto representativo si el centroide cae fuera; exclusión si la sucesora no tiene fila; origen dato+dato = dato (no cuenta como estimada)",
+  "regla_sin_poblacion": "D-158 B'/D-126 (T-399): sección del seccionado de la época sin fila en la tabla de población. (a) Si cae ≥ 50 % de su área en una sección con población del mismo municipio (la madre; mayor solape), la población de la madre se reparte entre madre e hijas según el valor de cada una en el año más cercano del Atlas con dato (empate: el anterior; restos mayores): se conservan los totales del Censo y madre e hijas cuentan como estimadas (`repartida_madre`/`repartida_hija`); si algún miembro no tiene dato en ningún año, sus hijas quedan sin dato. (b) Si no tiene madre, valor de la misma sección en el año más cercano del Atlas con dato (`rellenada_año_cercano`, estimada), con ajuste proporcional al total municipal OFICIAL del Censo 2011 solo si el contrato declara esa fuente con sha256; sin ella no se ajusta y queda declarado (`sin_ajuste_municipal`, `total_municipal_oficial.fuente` = null). Sin dato en ningún año → la provincia queda BLOQUEADA_SIN_DATO",
+  "total_municipal_oficial": {
+   "fuente": null,
+   "sha256": null,
+   "motivo": "sin tabla del INE del total municipal del Censo 2011 con fuente y sha256 (D-158): el relleno no se ajusta"
+  },
   "fuentes": {
    "30832.csv": "37716cba8cda50a492f52e2bae91a1c543bafb4263110e5aa5da18107ef68311",
    "indicadores_seccion_censal_csv.zip": "305a19f11b87d4e13d2ea4267774b9b0e3a69a3b7b1ff8e483aad90867628fe7"

@@ -2,9 +2,9 @@
 """T-365 (D-125): contrato por elección del histórico por época, contrato M01-M06 por provincia y puerta M07/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.1 · FECHA: 2026-11-17 · ESTADO: candidato
-ANTERIOR: legacy/tests/test_t365_historico_epoca_v1.3.0_20261117.py
-CAMBIOS: 1.3.1: T-405: clase TopologiaAdministrativa. 1.3.0: T-402: `materializar` normaliza la geometría (parche del seccionado en los tests con zip falso; clase NormalizacionGeometria con zip real). 1.2.0: T-396 (D-153): estado APARTADA admitido; contratos 1.2.0 con anterior 1.1.0. 1.1.0: T-389 (T-365b): contratos con la tabla de T-364b (1.2.0): provincias apartadas = BLOQUEADA_SIN_DATO sin filas, fallo cerrado con la tabla vieja.
+VERSIÓN: 1.4.1 · FECHA: 2026-11-17 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_t365_historico_epoca_v1.4.0_20261117.py
+CAMBIOS: 1.4.1: T-405: clase TopologiaAdministrativa. 1.4.0: T-399: estado APARTADA_VOTOS admitido (D-158). 1.3.0: T-402: `materializar` normaliza la geometría (parche del seccionado en los tests con zip falso; clase NormalizacionGeometria con zip real). 1.2.0: T-396 (D-153): estado APARTADA admitido; contratos 1.2.0 con anterior 1.1.0. 1.1.0: T-389 (T-365b): contratos con la tabla de T-364b (1.2.0): provincias apartadas = BLOQUEADA_SIN_DATO sin filas, fallo cerrado con la tabla vieja.
 MOTIVO: T-365. Sin red ni fuentes pesadas: el flujo M07/M08 usa un M06 sintético y los módulos reales.
 """
 from __future__ import annotations
@@ -51,7 +51,7 @@ class ContratosVersionados(unittest.TestCase):
                     self.assertEqual(p["K"], boe[cpro]["K"])
                     self.assertEqual(p["territorio"], f"nac{cpro}")  # id canónico, nunca uno viejo
                     self.assertEqual(p["votos"]["sha256"], espejo[p["votos"]["ruta"]]["sha256"])
-                    self.assertIn(p["estado"], ("LISTA", "BLOQUEADA_RELLENO", "BLOQUEADA_SIN_DATO", "APARTADA"))
+                    self.assertIn(p["estado"], ("LISTA", "BLOQUEADA_RELLENO", "BLOQUEADA_SIN_DATO", "APARTADA", "APARTADA_VOTOS"))
                     # T-364b: BLOQUEADA_SIN_DATO = provincia sin filas en la tabla (apartada) o con secciones sin dato
                     self.assertEqual(p["estado"] == "BLOQUEADA_SIN_DATO",
                                      bool(p["poblacion"]["secciones_sin_dato"]) or p["poblacion"]["secciones"] == 0)
@@ -574,12 +574,12 @@ class TablaT364b(unittest.TestCase):
 
     @staticmethod
     def _anterior_valido(ruta: str, eleccion: str) -> bool:
-        return ruta == f"legacy/contrato_historico_epoca_{eleccion.replace('-', '_')}_v1.1.0_20261117.json"
+        return ruta == f"legacy/contrato_historico_epoca_{eleccion.replace('-', '_')}_v1.2.0_20261117.json"
 
     def test_anterior_se_valida_por_forma(self):  # control negativo: ruta mal formada o de otra elección falla
-        self.assertTrue(self._anterior_valido("legacy/contrato_historico_epoca_2019_11_v1.1.0_20261117.json", "2019-11"))
+        self.assertTrue(self._anterior_valido("legacy/contrato_historico_epoca_2019_11_v1.2.0_20261117.json", "2019-11"))
         for mala in ("", "ninguna (fichero nuevo)", "configuracion/historico_epoca/contrato_2019_11.json",
-                     "legacy/contrato_historico_epoca_2019_04_v1.1.0_20261117.json",
+                     "legacy/contrato_historico_epoca_2019_04_v1.2.0_20261117.json",
                      "legacy/contrato_historico_epoca_2019_11_v1.0.0_20261116.json"):
             self.assertFalse(self._anterior_valido(mala, "2019-11"), mala)
 
@@ -590,7 +590,7 @@ class TablaT364b(unittest.TestCase):
                 self.assertEqual(c["poblacion"]["sha256"], self.NUEVAS[e])
                 self.assertNotEqual(c["poblacion"]["sha256"], self.VIEJAS.get(e))
                 self.assertIn("1.2.0", c["poblacion"]["origen"])
-                self.assertEqual(c["version"], "1.2.0")  # T-396 (D-153)
+                self.assertEqual(c["version"], "1.3.0")  # T-399
                 self.assertTrue(self._anterior_valido(c["anterior"], e), c["anterior"])  # forma; la imagen de CI no trae legacy/
                 if (ROOT / ".git").exists() and (ROOT / "legacy").is_dir():  # existencia solo con árbol completo
                     self.assertTrue((ROOT / c["anterior"]).is_file())

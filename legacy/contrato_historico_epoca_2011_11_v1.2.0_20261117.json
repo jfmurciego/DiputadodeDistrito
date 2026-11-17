@@ -1,0 +1,2000 @@
+{
+ "schema": "ddd.contrato-historico-epoca/1.0",
+ "version": "1.2.0",
+ "anterior": "legacy/contrato_historico_epoca_2011_11_v1.1.0_20261117.json",
+ "motivo": "D-125 (opción A: distritos con los datos de cada época), D-126/D-128 (población), T-199 (elección en el registro)",
+ "generado_con": "herramientas/contrato_historico_epoca.py 1.1.0",
+ "eleccion": "2011-11",
+ "fecha": "2011-11-20",
+ "clave_espejo": "201111",
+ "seccionado": {
+  "anio": 2012,
+  "fichero": "seccionado_2012.zip",
+  "sha256": "772ad76b84e1b3bb9293a5595d2ccafa06f21a3a58ccc96a9ec5dadd99e46c4a",
+  "origen_url": "https://www.ine.es/prodyser/cartografia/seccionado_2012.zip",
+  "r2_clave": "arc-e/fuentes/ine/seccionado_2012_772ad76b84e1.zip",
+  "campo_seccion": "CUSEC",
+  "donantes": [
+   {
+    "anio": 2011,
+    "fichero": "cartografia_censo2011_nacional.zip",
+    "sha256": "d0151e0cc126695933bc30a922c803ab09af03fdfb622238b22f769c7a883acc",
+    "origen_url": "https://www.ine.es/censos2011_datos/cartografia_censo2011_nacional.zip"
+   },
+   {
+    "anio": 2015,
+    "fichero": "seccionado_2015.zip",
+    "sha256": "50dda58ed4afb57c7f1f38e6b6b8150768efaa225bfc3a523b9c210a2a218c03",
+    "origen_url": "https://www.ine.es/prodyser/cartografia/seccionado_2015.zip"
+   },
+   {
+    "anio": 2016,
+    "fichero": "seccionado_2016.zip",
+    "sha256": "3410af763bfe58d1b0f9c0d0038cbdd6417e0f3f6d0fce6a3e70bef64c84b3e1",
+    "origen_url": "https://www.ine.es/prodyser/cartografia/seccionado_2016.zip"
+   },
+   {
+    "anio": 2019,
+    "fichero": "seccionado_2019.zip",
+    "sha256": "656119dadadb57ef3fa9d20a8ba33399fe606e553c9fef3fc338786e52fae967",
+    "origen_url": "https://www.ine.es/prodyser/cartografia/seccionado_2019.zip"
+   },
+   {
+    "anio": 2020,
+    "fichero": "seccionado_2020.zip",
+    "sha256": "07544bb49256e9e9f290b6f459a0a833e69c97900eb840c3f5bbe863914ede6e",
+    "origen_url": "https://www.ine.es/prodyser/cartografia/seccionado_2020.zip"
+   },
+   {
+    "anio": 2021,
+    "fichero": "seccionado_2021.zip",
+    "sha256": "03e1b38b8ad6c48157783b34a7d7a52ae1af1ee25c6b7e95e1c9dbfffbac1bcd",
+    "origen_url": "https://www.ine.es/prodyser/cartografia/seccionado_2021.zip"
+   },
+   {
+    "anio": 2022,
+    "fichero": "seccionado_2022.zip",
+    "sha256": "0545f25c60a146fc4d6c15b53f9de03dcc91a5894305f802ce5d8464c60e8e28",
+    "origen_url": "https://www.ine.es/prodyser/cartografia/seccionado_2022.zip"
+   }
+  ]
+ },
+ "poblacion": {
+  "fichero": "poblacion_seccion_2011-11.csv",
+  "sha256": "45aa3552592a8819beab26b2a885551fbe1e8ccba0ec68ac3ccbb7621f0496a3",
+  "origen": "T-364b herramientas/poblacion_seccion_historica.py 1.2.0 (D-128; provincias apartadas sin filas, reasignada, sin_ajuste_municipal; fuentes con sha256 de T-357/T-364)",
+  "anio_referencia": 2011,
+  "fuente": "censo",
+  "regla_publicacion": "> 1 % estimada → BLOQUEADA_RELLENO (D-126/D-128); sin_dato → BLOQUEADA_SIN_DATO",
+  "regla_sin_seccionado": "D-153/T-396: sección con población sin geometría en el seccionado del año → sección del seccionado del año que contiene su centroide (punto representativo si el centroide cae fuera de todas), con la geometría del seccionado más cercano en años que la tenga (empate: el anterior); misma provincia (otra → APARTADA); sin geometría en ningún año, punto fuera de todo el seccionado o sucesora sin fila en la tabla → excluida con su población declarada. Reglas que D-153 no cita y declara este contrato: punto representativo si el centroide cae fuera; exclusión si la sucesora no tiene fila; origen dato+dato = dato (no cuenta como estimada)",
+  "fuentes": {
+   "30832.csv": "37716cba8cda50a492f52e2bae91a1c543bafb4263110e5aa5da18107ef68311",
+   "indicadores_seccion_censal_csv.zip": "305a19f11b87d4e13d2ea4267774b9b0e3a69a3b7b1ff8e483aad90867628fe7"
+  }
+ },
+ "escanos": {
+  "csv": "configuracion/resultados_oficiales_congreso_2011_11.csv",
+  "sha256": "a445cf50bee5e0fa102695431d04e0711b5da05da6c512e1ae4bb97bbe9507df",
+  "boe": "BOE-A-2011-19391",
+  "regla": "K de la provincia = escanos_circunscripcion del BOE de la elección (D-125)"
+ },
+ "votos": {
+  "fuente": "nazioenbehatokia",
+  "manifiesto": "orchestracion/fuente_nazioenbehatokia.json",
+  "manifiesto_sha256": "b22ff749d3ba9570b9c1000e1d146ee963ab990f0c624388c41ddca803cbc5b3"
+ },
+ "puerta": {
+  "m07": "PASS o PASS_WITH_DECLARED_EXCEPTIONS con votos sin asignar ≤ 0,1 % (2011: D-70)",
+  "contraste_boe": "historico_campana.contraste_boe (por partido, cobertura total, TOLERANCIA de cuadre_historico_espana)",
+  "escanos": "K del contrato = escaños BOE = distritos del M08"
+ },
+ "provincias": {
+  "01": {
+   "territorio": "nac01",
+   "provincia": "Álava",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac01 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac01/config/nac01_2025.yaml",
+    "sha256": "05f8070166fc55f340c25f033c83985f736d9bdfcc8d89263ea46257a81f4cb7"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/01.json",
+    "sha256": "d4cd5dfba24c516bb1223bc6516ee795c5ffdb295bd9d82349f22dc5b36e9e28",
+    "bytes": 29271,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/01_d4cd5dfba24c.json"
+   },
+   "poblacion": {
+    "secciones": 265,
+    "total": 318660,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "02": {
+   "territorio": "nac02",
+   "provincia": "Albacete",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac02 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac02/config/nac02_2025.yaml",
+    "sha256": "f03e8b35bf6af895238299f764b20695342a371605e1d725bd9fe30a3437c62f"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/02.json",
+    "sha256": "20a929ae0103cc09ce94005cfcb759d3e791c1d32069df62eb123816a98aa09e",
+    "bytes": 29797,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/02_20a929ae0103.json"
+   },
+   "poblacion": {
+    "secciones": 300,
+    "total": 399620,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "03": {
+   "territorio": "nac03",
+   "provincia": "Alicante",
+   "K": 12,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac03 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac03/config/nac03_2025.yaml",
+    "sha256": "7cea93390865dd86b19ea6996a1a03bbf76eb195e1bca1d40b22ebaea375f0ad"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/03.json",
+    "sha256": "da1a9680cb8c3d89c263ee840f2546929b21a541e7994c5e1fce1e9fd945fb8e",
+    "bytes": 120357,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/03_da1a9680cb8c.json"
+   },
+   "poblacion": {
+    "secciones": 1226,
+    "total": 1844785,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "0301401024",
+       "sucesora": "0301401007",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 815
+      },
+      {
+       "seccion": "0301405021",
+       "sucesora": "0301405020",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 910
+      },
+      {
+       "seccion": "0301407021",
+       "sucesora": "0301407002",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 985
+      },
+      {
+       "seccion": "0301408020",
+       "sucesora": "0301408002",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 590
+      },
+      {
+       "seccion": "0303101016",
+       "sucesora": "0303101009",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 600
+      },
+      {
+       "seccion": "0306503022",
+       "sucesora": "0306503021",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 805
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 4705,
+     "poblacion_excluida": 0
+    }
+   },
+   "estado": "LISTA"
+  },
+  "04": {
+   "territorio": "nac04",
+   "provincia": "Almería",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac04 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac04/config/nac04_2025.yaml",
+    "sha256": "ecff47ed5c297cd9d754391ce9e3d31d37f041e1ba2358372d32e85292c8ca34"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/04.json",
+    "sha256": "ee76aae8acf03f01abbcfd584023c58d3b4760093261e45f5f64f9971e3cb17b",
+    "bytes": 38256,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/04_ee76aae8acf0.json"
+   },
+   "poblacion": {
+    "secciones": 423,
+    "total": 687000,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "05": {
+   "territorio": "nac05",
+   "provincia": "Ávila",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac05 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac05/config/nac05_2025.yaml",
+    "sha256": "76e3975db834c5093eac3a0278aa2977613f33dd4a30ffc621df25644cfd194c"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/05.json",
+    "sha256": "7201316e11864dfa1bc7cee85ee2595942de56c43852b9720e430ef957df1230",
+    "bytes": 25023,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/05_7201316e1186.json"
+   },
+   "poblacion": {
+    "secciones": 312,
+    "total": 169885,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "06": {
+   "territorio": "nac06",
+   "provincia": "Badajoz",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac06 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac06/config/nac06_2025.yaml",
+    "sha256": "9b2b5eb0debc84a6de2cd18c84708f56860c4102458430bbcb7c182411d96d7c"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/06.json",
+    "sha256": "7b8a2e4b55b20a90c68690d70705a2f42ecbdbe5d546860a9fd4a049fd65bb00",
+    "bytes": 46943,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/06_7b8a2e4b55b2.json"
+   },
+   "poblacion": {
+    "secciones": 551,
+    "total": 688675,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "07": {
+   "territorio": "nac07",
+   "provincia": "Baleares",
+   "K": 8,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac07 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac07/config/nac07_2025.yaml",
+    "sha256": "ad9ea641fbfe4348d3aee5c5a1ce330c828d045b1acab735d28387eec8253b0e"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/07.json",
+    "sha256": "d574f5bfcfa81c1af4b75c4ce370c8509e397f4d930f1ed2046dd66a8e43d762",
+    "bytes": 67061,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/07_d574f5bfcfa8.json"
+   },
+   "poblacion": {
+    "secciones": 629,
+    "total": 1096940,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "08": {
+   "territorio": "nac08",
+   "provincia": "Barcelona",
+   "K": 31,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac08 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac08/config/nac08_2025.yaml",
+    "sha256": "b68ba153e7c5537f3a69d3369c54da6cca6e5789084f8a3f4f1a222c167d56a9"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/08.json",
+    "sha256": "4b92e1265db712f80fce0b1a153f2bf9e810db723ee6df508ce4cbd1a348d7e2",
+    "bytes": 413584,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/08_4b92e1265db7.json"
+   },
+   "poblacion": {
+    "secciones": 3576,
+    "total": 5487390,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [],
+     "excluidas": [
+      {
+       "seccion": "0804702003",
+       "poblacion": 270,
+       "motivo": "la sucesora 0804703001 no tiene fila en la tabla de población"
+      }
+     ],
+     "apartadas": [],
+     "poblacion_asignada": 0,
+     "poblacion_excluida": 270
+    }
+   },
+   "estado": "LISTA"
+  },
+  "09": {
+   "territorio": "nac09",
+   "provincia": "Burgos",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac09 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac09/config/nac09_2025.yaml",
+    "sha256": "7c295af71cee5ac34b1a618627791c48a7537950cd4991f86c7482aa0c5e7ab0"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/09.json",
+    "sha256": "30b4b9581919463e6f808e06975f440e5fa8303c274bf1c6e287524b7942d680",
+    "bytes": 47813,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/09_30b4b9581919.json"
+   },
+   "poblacion": {
+    "secciones": 573,
+    "total": 368820,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "10": {
+   "territorio": "nac10",
+   "provincia": "Cáceres",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac10 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac10/config/nac10_2025.yaml",
+    "sha256": "bf54dd34f428a4f3e21856cfc12253e1754de5173690514353a47ffa5d4d2b45"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/10.json",
+    "sha256": "aa4fe3db6a598e242291b8319c22bbb612787c8676dd7e7058827acd6071c054",
+    "bytes": 36322,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/10_aa4fe3db6a59.json"
+   },
+   "poblacion": {
+    "secciones": 417,
+    "total": 408995,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "11": {
+   "territorio": "nac11",
+   "provincia": "Cádiz",
+   "K": 8,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac11 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac11/config/nac11_2025.yaml",
+    "sha256": "d664cc847822cfa43e382b7871f48a3add0afdb2d9dfbc75735422823366459c"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/11.json",
+    "sha256": "91cb8a33c2b2265d024e9f368ac92c42588067171e9a911966f166ad5f489265",
+    "bytes": 90967,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/11_91cb8a33c2b2.json"
+   },
+   "poblacion": {
+    "secciones": 894,
+    "total": 1241570,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "12": {
+   "territorio": "nac12",
+   "provincia": "Castellón",
+   "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac12 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac12/config/nac12_2025.yaml",
+    "sha256": "e0e7c06f24060be67315fc9513c2e4fc6105df8972d3468ec60fc213393599d7"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/12.json",
+    "sha256": "1fa5e7fb495b63cfbe90ddb3821e78c792341c14b68aa5157f377c78705fbe55",
+    "bytes": 46023,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/12_1fa5e7fb495b.json"
+   },
+   "poblacion": {
+    "secciones": 435,
+    "total": 592200,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "1204001002",
+       "sucesora": "1204001004",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 710
+      },
+      {
+       "seccion": "1204003004",
+       "sucesora": "1204003003",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 575
+      },
+      {
+       "seccion": "1204007005",
+       "sucesora": "1204007003",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 985
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 2270,
+     "poblacion_excluida": 0
+    }
+   },
+   "estado": "LISTA"
+  },
+  "13": {
+   "territorio": "nac13",
+   "provincia": "Ciudad Real",
+   "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac13 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac13/config/nac13_2025.yaml",
+    "sha256": "d2e806e9d0a2b9df2e46c084770a3c3c0631fbd146b86cbdf8b1e175b76b0a89"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/13.json",
+    "sha256": "6f4f237fd954062559bad077585f5938a2ba058aa218ea294eb639251476ee37",
+    "bytes": 39625,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/13_6f4f237fd954.json"
+   },
+   "poblacion": {
+    "secciones": 426,
+    "total": 523915,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "14": {
+   "territorio": "nac14",
+   "provincia": "Córdoba",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac14 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac14/config/nac14_2025.yaml",
+    "sha256": "af3ad9ef1fdfe8a61370ae3797b0f54456d91e921710c6aa310daac7db52ae44"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/14.json",
+    "sha256": "4826385f5f368c1ea68300361c320be72a318a472467fdca8863b4ad75b279d8",
+    "bytes": 59488,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/14_4826385f5f36.json"
+   },
+   "poblacion": {
+    "secciones": 621,
+    "total": 798320,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "15": {
+   "territorio": "nac15",
+   "provincia": "La Coruña",
+   "K": 8,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac15 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac15/config/nac15_2025.yaml",
+    "sha256": "8c7e31cd1a806081a8998926fbc3a717fcaa7042ef6935672b02ae0a2e670f08"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/15.json",
+    "sha256": "477800bf13d65756a3987eae7401b33c135c78f7dee489ef8aa84d68a71c19f9",
+    "bytes": 92247,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/15_477800bf13d6.json"
+   },
+   "poblacion": {
+    "secciones": 909,
+    "total": 1137550,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "1500901003",
+       "sucesora": "1500901001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 570
+      },
+      {
+       "seccion": "1502501002",
+       "sucesora": "1502501001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 1010
+      },
+      {
+       "seccion": "1503003008",
+       "sucesora": "1503003005",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 355
+      },
+      {
+       "seccion": "1503003019",
+       "sucesora": "1503003018",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 665
+      },
+      {
+       "seccion": "1503802002",
+       "sucesora": "1503802001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 635
+      },
+      {
+       "seccion": "1504003001",
+       "sucesora": "1504002001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 330
+      },
+      {
+       "seccion": "1505602002",
+       "sucesora": "1505602001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 465
+      },
+      {
+       "seccion": "1505903003",
+       "sucesora": "1505903001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 525
+      },
+      {
+       "seccion": "1507601005",
+       "sucesora": "1507601004",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 1050
+      },
+      {
+       "seccion": "1508201009",
+       "sucesora": "1508201002",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 350
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 5955,
+     "poblacion_excluida": 0
+    }
+   },
+   "estado": "LISTA"
+  },
+  "16": {
+   "territorio": "nac16",
+   "provincia": "Cuenca",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac16 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac16/config/nac16_2025.yaml",
+    "sha256": "1f45734e10bdfde75d14e7806fa094cf171c1490c486999407821199e649f862"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/16.json",
+    "sha256": "7b55eef5edad769f1bf0466deaf3a7ed54102dffb56152a5ef6c58dea0ddf0bf",
+    "bytes": 24316,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/16_7b55eef5edad.json"
+   },
+   "poblacion": {
+    "secciones": 309,
+    "total": 213370,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "17": {
+   "territorio": "nac17",
+   "provincia": "Gerona",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac17 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac17/config/nac17_2025.yaml",
+    "sha256": "ebc7502f24519948871868bec3e8eb35443bfade837e94864ef8d4d85b75a2db"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/17.json",
+    "sha256": "11dfb515954d9a6cea307eb6aeba27ef607b97443850f94b06d1883435a4178e",
+    "bytes": 61364,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/17_11dfb515954d.json"
+   },
+   "poblacion": {
+    "secciones": 525,
+    "total": 747850,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "18": {
+   "territorio": "nac18",
+   "provincia": "Granada",
+   "K": 7,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac18 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac18/config/nac18_2025.yaml",
+    "sha256": "4d869bdb96ac977ab0f524542ba5ac7e0182a183303e925ea6e0a63deb674e81"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/18.json",
+    "sha256": "8c2d4d576dc5184aa79bfe84e87de6666fbb2f777c0c36d663652832676485a0",
+    "bytes": 65671,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/18_8c2d4d576dc5.json"
+   },
+   "poblacion": {
+    "secciones": 655,
+    "total": 917830,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "19": {
+   "territorio": "nac19",
+   "provincia": "Guadalajara",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac19 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac19/config/nac19_2025.yaml",
+    "sha256": "6fddd69e6bc2617a17f57a62bc30ab4f227bfd464963e95355ce13a31e7550e0"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/19.json",
+    "sha256": "c8f08a330baaea6420bcdcad2b02e691b47806fa1d85e764d3913903a3e7888e",
+    "bytes": 30342,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/19_c8f08a330baa.json"
+   },
+   "poblacion": {
+    "secciones": 388,
+    "total": 254940,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "20": {
+   "territorio": "nac20",
+   "provincia": "Guipúzcoa",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac20 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac20/config/nac20_2025.yaml",
+    "sha256": "30bf741623a822a89a911995eed0cf407eaecf16a2ff87566f749dfac8b832c5"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/20.json",
+    "sha256": "ca10b58a0be02f080fbb0d58dcb391d8dab5e82e8757eb73890ba887529c7947",
+    "bytes": 55754,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/20_ca10b58a0be0.json"
+   },
+   "poblacion": {
+    "secciones": 547,
+    "total": 704605,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "21": {
+   "territorio": "nac21",
+   "provincia": "Huelva",
+   "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac21 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac21/config/nac21_2025.yaml",
+    "sha256": "d56755d57e552e5fabfddc6e41c4246e6785a7ddb47c7a41577851f8acbf9c97"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/21.json",
+    "sha256": "7ef1aeea74f28c681a0520212e3222c04144d74202cd2bae82ab30fdcc417925",
+    "bytes": 37243,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/21_7ef1aeea74f2.json"
+   },
+   "poblacion": {
+    "secciones": 359,
+    "total": 518195,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "2101702002",
+       "sucesora": "2101702001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 685
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 685,
+     "poblacion_excluida": 0
+    }
+   },
+   "estado": "LISTA"
+  },
+  "22": {
+   "territorio": "nac22",
+   "provincia": "Huesca",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac22 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac22/config/nac22_2025.yaml",
+    "sha256": "ea01c1ca5d5d43625bc9f20f0b8c358f075b7bc8c064dde860052fb667863ac1"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/22.json",
+    "sha256": "f9592645571ecae78204ab63871e4219a0d643d3f50bd7a4ce8517551e2c5cc1",
+    "bytes": 26266,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/22_f9592645571e.json"
+   },
+   "poblacion": {
+    "secciones": 288,
+    "total": 223235,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "2212508001",
+       "sucesora": "2212508004",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 560
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 560,
+     "poblacion_excluida": 0
+    }
+   },
+   "estado": "LISTA"
+  },
+  "23": {
+   "territorio": "nac23",
+   "provincia": "Jaén",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac23 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac23/config/nac23_2025.yaml",
+    "sha256": "bfae4f25c0ce07adb42702c597d2c4ff2d16ab6d8d783531c844c93547912032"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/23.json",
+    "sha256": "87ec1339fec3e9945bc319bba0de79c3277d4b77b0500e693e72cb2ba2ad7fa9",
+    "bytes": 43881,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/23_87ec1339fec3.json"
+   },
+   "poblacion": {
+    "secciones": 519,
+    "total": 664800,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "24": {
+   "territorio": "nac24",
+   "provincia": "León",
+   "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac24 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac24/config/nac24_2025.yaml",
+    "sha256": "9451a2feb3a931857da71a8e119a469eb830cdbab7ffa127cf5943cf954d936a"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/24.json",
+    "sha256": "02b41a89a1c971a3d59a9f227a5e0e365d0d27a157e6fd74b30ea139de60ceb0",
+    "bytes": 41599,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/24_02b41a89a1c9.json"
+   },
+   "poblacion": {
+    "secciones": 458,
+    "total": 489625,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "2408905012",
+       "sucesora": "2408905002",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 1180
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 1180,
+     "poblacion_excluida": 0
+    }
+   },
+   "estado": "LISTA"
+  },
+  "25": {
+   "territorio": "nac25",
+   "provincia": "Lérida",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac25 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac25/config/nac25_2025.yaml",
+    "sha256": "04e3069a0cc13ad7ab2e6883d1ed16b615cec5d4b62f2bc46db6f7c678657151"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/25.json",
+    "sha256": "c671b72351f8368ce9ad17b571f9d3e93104687cf7e88a68f65c15bc7be8b01a",
+    "bytes": 44497,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/25_c671b72351f8.json"
+   },
+   "poblacion": {
+    "secciones": 391,
+    "total": 434815,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "26": {
+   "territorio": "nac26",
+   "provincia": "La Rioja",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac26 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac26/config/nac26_2025.yaml",
+    "sha256": "742231bb764be3a06e6aacecb04d96b208b048b4218665043058aeeed4c56b57"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/26.json",
+    "sha256": "e7c93a237c4a81412b16e55f4ea399157259b0aecf939433302ccdb0f370fe34",
+    "bytes": 28181,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/26_e7c93a237c4a.json"
+   },
+   "poblacion": {
+    "secciones": 336,
+    "total": 319430,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "27": {
+   "territorio": "nac27",
+   "provincia": "Lugo",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac27 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac27/config/nac27_2025.yaml",
+    "sha256": "fae73006bc524bf29db5ebee8f2e1f658734e227a8177dd4b8fa24993ff09722"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/27.json",
+    "sha256": "9349f69c104c1716d5eaeb25f4a158bd1ef8753c1ba94e40f5f84d6643976556",
+    "bytes": 26350,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/27_9349f69c104c.json"
+   },
+   "poblacion": {
+    "secciones": 289,
+    "total": 345625,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "2700201003",
+       "sucesora": "2700201002",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 455
+      },
+      {
+       "seccion": "2700701004",
+       "sucesora": "2700701003",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 735
+      },
+      {
+       "seccion": "2703401002",
+       "sucesora": "2703401001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 540
+      },
+      {
+       "seccion": "2705703002",
+       "sucesora": "2705701005",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 495
+      },
+      {
+       "seccion": "2706001004",
+       "sucesora": "2706001003",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 915
+      },
+      {
+       "seccion": "2706502003",
+       "sucesora": "2706502002",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 960
+      },
+      {
+       "seccion": "2706503003",
+       "sucesora": "2706503002",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 490
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 4590,
+     "poblacion_excluida": 0
+    }
+   },
+   "estado": "LISTA"
+  },
+  "28": {
+   "territorio": "nac28",
+   "provincia": "Madrid",
+   "K": 36,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac28 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac28/config/nac28_2025.yaml",
+    "sha256": "9f424a7aa62af5b9b4a1f5332c23b0334dae15a8e12a3a58c13a051805ee6ce6"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/28.json",
+    "sha256": "ac8c30bcf63c4c2d75d2465e7c35b0d83017a00ad74c2a45bccd825741a28050",
+    "bytes": 461792,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/28_ac8c30bcf63c.json"
+   },
+   "poblacion": {
+    "secciones": 4272,
+    "total": 6387375,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "29": {
+   "territorio": "nac29",
+   "provincia": "Málaga",
+   "K": 10,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac29 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac29/config/nac29_2025.yaml",
+    "sha256": "3dc5abb03be82cb8a8a21ce9c56c6b84b567d2f2a6d75c1e55c36a6f30e176f8"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/29.json",
+    "sha256": "be897ab4df73d99e8d9b9e6c0560db1739236f04e38c6418a90d843043890c09",
+    "bytes": 100406,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/29_be897ab4df73.json"
+   },
+   "poblacion": {
+    "secciones": 1015,
+    "total": 1590340,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "30": {
+   "territorio": "nac30",
+   "provincia": "Murcia",
+   "K": 10,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac30 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac30/config/nac30_2025.yaml",
+    "sha256": "98a2efd7fe47c5e997197919f69bfc8cb2738b03a2e3c6fcaa5200f48dde9c7f"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/30.json",
+    "sha256": "250b350b8688164207806593f0a7438a44e4fa80bc6f62fe08473f7ebd5301b9",
+    "bytes": 116924,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/30_250b350b8688.json"
+   },
+   "poblacion": {
+    "secciones": 1219,
+    "total": 1458215,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "31": {
+   "territorio": "nac31",
+   "provincia": "Navarra",
+   "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac31 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac31/config/nac31_2025.yaml",
+    "sha256": "0ae03c9025d79633d4c3fec0bb8a0b53ff0be4975ba358f3f81fc3946bb47706"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/31.json",
+    "sha256": "d03cd9db77e91d68620291bc948e4a361c124a1cf601059702dd56ed7dc748d4",
+    "bytes": 57180,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/31_d03cd9db77e9.json"
+   },
+   "poblacion": {
+    "secciones": 558,
+    "total": 635140,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "32": {
+   "territorio": "nac32",
+   "provincia": "Orense",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac32 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac32/config/nac32_2025.yaml",
+    "sha256": "12e713db0f45bbdd6648853e6bcaa6b85088a1727e895837a0d241a6a322b6be"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/32.json",
+    "sha256": "da973b8b9dd0d0e398708ae10f02768dc9c27d03f15d9fc58bd41131ebaeba03",
+    "bytes": 27447,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/32_da973b8b9dd0.json"
+   },
+   "poblacion": {
+    "secciones": 278,
+    "total": 325205,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "3200103001",
+       "sucesora": "3200102001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 480
+      },
+      {
+       "seccion": "3200701003",
+       "sucesora": "3200701001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 470
+      },
+      {
+       "seccion": "3207603001",
+       "sucesora": "3207602001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 520
+      },
+      {
+       "seccion": "3208601002",
+       "sucesora": "3208601001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 585
+      },
+      {
+       "seccion": "3208603001",
+       "sucesora": "3208602001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 575
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 2630,
+     "poblacion_excluida": 0
+    }
+   },
+   "estado": "LISTA"
+  },
+  "33": {
+   "territorio": "nac33",
+   "provincia": "Asturias",
+   "K": 8,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac33 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac33/config/nac33_2025.yaml",
+    "sha256": "7d57356715752e816404262263442db6d4b6df93355674c9a733cdd587adb914"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/33.json",
+    "sha256": "d2de96026d7af35fb2f696d72a15ebc508674c8705ed314639647c0633ebb236",
+    "bytes": 96997,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/33_d2de96026d7a.json"
+   },
+   "poblacion": {
+    "secciones": 875,
+    "total": 1069285,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "3301103001",
+       "sucesora": "3301102001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 0
+      },
+      {
+       "seccion": "3301901003",
+       "sucesora": "3301901001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 515
+      },
+      {
+       "seccion": "3304404017",
+       "sucesora": "3304404006",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 1230
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 1745,
+     "poblacion_excluida": 0
+    }
+   },
+   "estado": "LISTA"
+  },
+  "34": {
+   "territorio": "nac34",
+   "provincia": "Palencia",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac34 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac34/config/nac34_2025.yaml",
+    "sha256": "25b2e1df6eb4909f20640aa64a1df051ae59e883770b0f1464499e38237c17ec"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/34.json",
+    "sha256": "1888dc46cd441e6f0d10380b5062119f35508009d0b3f7bec7a563cb84d01c60",
+    "bytes": 23955,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/34_1888dc46cd44.json"
+   },
+   "poblacion": {
+    "secciones": 282,
+    "total": 167410,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "35": {
+   "territorio": "nac35",
+   "provincia": "Las Palmas",
+   "K": 8,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac35 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac35/config/nac35_2025.yaml",
+    "sha256": "6a293955ac66b5d134e827eeffe6db314d05ce2b5c5777bb6fc76a1aeef2729c"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/35.json",
+    "sha256": "b2c963a6ee543a88381b52f16d50086032bc00d0ec852a99b5927c63f6b5d0ca",
+    "bytes": 78371,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/35_b2c963a6ee54.json"
+   },
+   "poblacion": {
+    "secciones": 678,
+    "total": 1084095,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "3501602062",
+       "sucesora": "3501603043",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 580
+      }
+     ],
+     "excluidas": [
+      {
+       "seccion": "3501602060",
+       "poblacion": 730,
+       "motivo": "la sucesora 3501603042 no tiene fila en la tabla de población"
+      }
+     ],
+     "apartadas": [],
+     "poblacion_asignada": 580,
+     "poblacion_excluida": 730
+    }
+   },
+   "estado": "LISTA"
+  },
+  "36": {
+   "territorio": "nac36",
+   "provincia": "Pontevedra",
+   "K": 7,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac36 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac36/config/nac36_2025.yaml",
+    "sha256": "58702d2bea8bd6174bbd03b580ff9a49aff3f32d8cc627a140455f8923e88c85"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/36.json",
+    "sha256": "95886cf93d42fd08d472efcc29e1ad436cdb6f5262bf44e200556694f2ddd749",
+    "bytes": 72417,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/36_95886cf93d42.json"
+   },
+   "poblacion": {
+    "secciones": 720,
+    "total": 951490,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "3601701005",
+       "sucesora": "3601701004",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 285
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 285,
+     "poblacion_excluida": 0
+    }
+   },
+   "estado": "LISTA"
+  },
+  "37": {
+   "territorio": "nac37",
+   "provincia": "Salamanca",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac37 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac37/config/nac37_2025.yaml",
+    "sha256": "9c94cdf7d5bbedb93b25ac48971bd6a2dba3fbe7fd078a9aff84c0a30e2b4f5b"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/37.json",
+    "sha256": "faf28d672d1ebaa395350aca10654b71ef29a370232fa5ac5bb455b1a3a7f03e",
+    "bytes": 41022,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/37_faf28d672d1e.json"
+   },
+   "poblacion": {
+    "secciones": 527,
+    "total": 346165,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "38": {
+   "territorio": "nac38",
+   "provincia": "Santa Cruz de Tenerife",
+   "K": 7,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac38 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac38/config/nac38_2025.yaml",
+    "sha256": "55791c2c483258b56e5e07bd81e639e23bc655b5419d533bf224360475051f5c"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/38.json",
+    "sha256": "0a2482d7788c1d7e50350b39d5e03aaed49db54c39516c6eb0e724e12454d9f2",
+    "bytes": 68051,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/38_0a2482d7788c.json"
+   },
+   "poblacion": {
+    "secciones": 645,
+    "total": 993455,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "39": {
+   "territorio": "nac39",
+   "provincia": "Cantabria",
+   "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac39 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac39/config/nac39_2025.yaml",
+    "sha256": "8e2b6bba83b05216c00574ac476d580050521b47e406c4614f8657743bf8cba1"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/39.json",
+    "sha256": "c62dfa69c7e9b965adf87b8d63149e128d623b0b91108c27e57b5be255e3b7e7",
+    "bytes": 49036,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/39_c62dfa69c7e9.json"
+   },
+   "poblacion": {
+    "secciones": 463,
+    "total": 589160,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "40": {
+   "territorio": "nac40",
+   "provincia": "Segovia",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac40 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac40/config/nac40_2025.yaml",
+    "sha256": "4f0e1778667801d0741b5e5b8d7c49e4be2bbab65b5387779da80ae8a6ca0b7a"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/40.json",
+    "sha256": "7bc240c11842ae0a99be56045ad5115579d33e6983c48653ddb10a92e60824b7",
+    "bytes": 21997,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/40_7bc240c11842.json"
+   },
+   "poblacion": {
+    "secciones": 271,
+    "total": 162055,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "41": {
+   "territorio": "nac41",
+   "provincia": "Sevilla",
+   "K": 12,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac41 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac41/config/nac41_2025.yaml",
+    "sha256": "46c59eb1bcee37f6086497bcfe96dffa294d8384d384fc474ee9df61485e952f"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/41.json",
+    "sha256": "ad6d8b995982e4deb126ec2c0bbaee2a4dd6a99318a16fe72b9999360fb36922",
+    "bytes": 131138,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/41_ad6d8b995982.json"
+   },
+   "poblacion": {
+    "secciones": 1309,
+    "total": 1925670,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "42": {
+   "territorio": "nac42",
+   "provincia": "Soria",
+   "K": 2,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac42 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac42/config/nac42_2025.yaml",
+    "sha256": "108558010d1792abc66ed9c03893ea1cdfe86a32e833b1e9189fef9e810868e1"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/42.json",
+    "sha256": "4fe3b8f2684df4e04c67771900e78b91c9cf448020f6f6ae0f76de08f7ff6aa7",
+    "bytes": 16138,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/42_4fe3b8f2684d.json"
+   },
+   "poblacion": {
+    "secciones": 215,
+    "total": 93195,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "43": {
+   "territorio": "nac43",
+   "provincia": "Tarragona",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac43 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac43/config/nac43_2025.yaml",
+    "sha256": "d390f3113e734dfc3b590b071546f26b96edf705fa1a4bed68f3ad6a03508f09"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/43.json",
+    "sha256": "106b8378732142ff55de7012151ccfaeafecbf56c7760f57e05e1adad8b3fbc8",
+    "bytes": 65988,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/43_106b83787321.json"
+   },
+   "poblacion": {
+    "secciones": 526,
+    "total": 802595,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "44": {
+   "territorio": "nac44",
+   "provincia": "Teruel",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac44 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac44/config/nac44_2025.yaml",
+    "sha256": "d43011d3f6e7a6b3d0c0b7c33401536611b537c9daa261f796de069be9896aa7"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/44.json",
+    "sha256": "eb40a3770a06ecbc264a27e611b5e6cba84ffab90a26ed70404f622e3dfd591f",
+    "bytes": 22218,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/44_eb40a3770a06.json"
+   },
+   "poblacion": {
+    "secciones": 282,
+    "total": 141075,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "45": {
+   "territorio": "nac45",
+   "provincia": "Toledo",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac45 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac45/config/nac45_2025.yaml",
+    "sha256": "5243b6912d98b82b09f2054213bec4ece75c80ed856e186df4ec8baf63ba62a5"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/45.json",
+    "sha256": "5e81356fc1a8fbd0b29a3eb292a1ab43b4392c8e266684cfba283ccfd29a0a3a",
+    "bytes": 47320,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/45_5e81356fc1a8.json"
+   },
+   "poblacion": {
+    "secciones": 520,
+    "total": 700615,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "46": {
+   "territorio": "nac46",
+   "provincia": "Valencia",
+   "K": 16,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac46 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac46/config/nac46_2025.yaml",
+    "sha256": "eda58e868eb565bcddadc3622e2fb8152ad17ffb66a392fd4a178577f9bf3d17"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/46.json",
+    "sha256": "cf736ac7702447edb78901af02f35b667e2703cc115c8f7a564f54710876f99a",
+    "bytes": 201372,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/46_cf736ac77024.json"
+   },
+   "poblacion": {
+    "secciones": 1800,
+    "total": 2553485,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "4600501009",
+       "sucesora": "4600501003",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 800
+      },
+      {
+       "seccion": "4602201013",
+       "sucesora": "4602201012",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 760
+      },
+      {
+       "seccion": "4625011003",
+       "sucesora": "4625011002",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 690
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 2250,
+     "poblacion_excluida": 0
+    }
+   },
+   "estado": "LISTA"
+  },
+  "47": {
+   "territorio": "nac47",
+   "provincia": "Valladolid",
+   "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac47 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac47/config/nac47_2025.yaml",
+    "sha256": "78ba3f3ac30599c0452a87b371151777a9697995b2284bcd93741f5d9dbaaafc"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/47.json",
+    "sha256": "4f52997d3aa0cd9e7c64b483bf05dc21afabb700fc0daf647c1d00159018fa60",
+    "bytes": 54758,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/47_4f52997d3aa0.json"
+   },
+   "poblacion": {
+    "secciones": 575,
+    "total": 529355,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "48": {
+   "territorio": "nac48",
+   "provincia": "Vizcaya",
+   "K": 8,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac48 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac48/config/nac48_2025.yaml",
+    "sha256": "5295b77539ddbdddf1ed6ba9bfb3da3949690a771c763d357b279492381ede65"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/48.json",
+    "sha256": "e476479982bdb7f9196a8a009dc2562d68a6bc0ea9797f48d2925c4c3fc041e7",
+    "bytes": 98733,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/48_e476479982bd.json"
+   },
+   "poblacion": {
+    "secciones": 928,
+    "total": 1149975,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "49": {
+   "territorio": "nac49",
+   "provincia": "Zamora",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac49 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac49/config/nac49_2025.yaml",
+    "sha256": "1978b3795ea633ec8eaca2117bb1d395ded0cd7276a496b20af5f90cb3a270d5"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/49.json",
+    "sha256": "acd31d7abea6f4ed695d47b12627ec2fa4dbfdf6a45dbebbd876ed20a8cff7b5",
+    "bytes": 26267,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/49_acd31d7abea6.json"
+   },
+   "poblacion": {
+    "secciones": 320,
+    "total": 189370,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "50": {
+   "territorio": "nac50",
+   "provincia": "Zaragoza",
+   "K": 7,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac50 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac50/config/nac50_2025.yaml",
+    "sha256": "2394d71a6319ad0e4fc6e7a5e8a1acdf63b645f0af61104be1db3489830a1319"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/50.json",
+    "sha256": "2f3333ff86f9f7499c7ffa4afcd6301bfb65e40e192f1133425d5cc8c23fe169",
+    "bytes": 83785,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/50_2f3333ff86f9.json"
+   },
+   "poblacion": {
+    "secciones": 880,
+    "total": 966970,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "51": {
+   "territorio": "nac51",
+   "provincia": "Ceuta",
+   "K": 1,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac51 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac51/config/nac51_2025.yaml",
+    "sha256": "cbc3b939ec5846a9c0f1eac981e38dc3ceb7a142a96ee53012fdfd9b842ed925"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/51.json",
+    "sha256": "80822640c049d819beeff817cd7dcf0e7af5d531deea81812b3fd4b93f7e1e20",
+    "bytes": 7343,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/51_80822640c049.json"
+   },
+   "poblacion": {
+    "secciones": 53,
+    "total": 83195,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "52": {
+   "territorio": "nac52",
+   "provincia": "Melilla",
+   "K": 1,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac52 en la elección 2011-11 según BOE-A-2011-19391 (CSV de T-330, sha256 a445cf50bee5)",
+   "contrato_base": {
+    "ruta": "territorios/nac52/config/nac52_2025.yaml",
+    "sha256": "66ba9616bd9d8a7271fd2072b24cf78ac1ee35fbe8e737ee4bf57c0e73d11e91"
+   },
+   "votos": {
+    "ruta": "data/201111/sekzioa/52.json",
+    "sha256": "c9578f0344ad5858a69c75c62999dbf303ce19309b38dca6435e611f3312a0e2",
+    "bytes": 5775,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/52_c9578f0344ad.json"
+   },
+   "poblacion": {
+    "secciones": 41,
+    "total": 80665,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  }
+ }
+}
