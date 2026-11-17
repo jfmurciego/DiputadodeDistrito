@@ -5,7 +5,7 @@
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.2.0 · FECHA: 2026-11-17 · ESTADO: candidato
 ANTERIOR: legacy/herramientas/contrato_historico_epoca_v1.1.0_20261117.py
-CAMBIOS: 1.2.0: T-399 (D-156, propietario 17-11): 2011-11 usa como seccionado el del Censo 2011 (`cartografia_censo2011_nacional.zip`, T-357) y no el de 2012 (sus 63 secciones nuevas parten una del
+CAMBIOS: 1.2.0: T-399 (D-156 A, pendiente de confirmar por el propietario: A = D-156 + excepciones M07 a 13 provincias): 2011-11 usa como seccionado el del Censo 2011 (`cartografia_censo2011_nacional.zip`, T-357) y no el de 2012 (sus 63 secciones nuevas parten una del
   Censo y doblan la población); las secciones del seccionado SIN fila en la tabla (42 con dato) se RELLENAN con el valor de la misma sección en el año más cercano del Atlas (D-126; empate: el anterior),
   origen `rellenada_año_cercano` (cuenta como estimada) y ajuste proporcional al total municipal OFICIAL del Censo 2011 solo si hay fuente con sha256 (hoy no: sin ajuste, declarado); sin dato en ningún
   año → BLOQUEADA_SIN_DATO. D-156 (A): los votos del Observatorio de las secciones «hija» (que el Censo no trae) NO se asignan a su sección: las 13 provincias de 2011-11 que superan el 0,1 % de
@@ -68,7 +68,7 @@ LEGISLATURA = "configuracion/legislatura_vigente.yaml"
 # elección → clave del espejo, fecha (reagregacion_historico.FECHAS), CSV BOE (historico_campana.OFICIAL_BOE) y año de referencia
 # de la población (D-126, poblacion_seccion_historica.ELECCIONES). Se comprueban contra esos módulos en `_eleccion`.
 ELECCIONES = {"2011-11": "201111", "2015-12": "201512", "2016-06": "201606", "2019-04": "201904", "2019-11": "201911"}
-# D-156 (propietario, 17-11): 2011-11 usa la cartografía del Censo 2011 (T-357, sha256 acreditado) como seccionado: población, geometría y votos coinciden
+# D-156 A (pendiente de confirmar por el propietario: A = D-156 + excepciones M07 a 13 provincias): 2011-11 usa la cartografía del Censo 2011 (T-357, sha256 acreditado) como seccionado: población, geometría y votos coinciden
 SECCIONADO_PROPIO = {"2011-11": (2011, CARTOGRAFIA_CENSO_2011, "https://www.ine.es/censos2011_datos/" + CARTOGRAFIA_CENSO_2011)}
 VOTOS_FUERA_CSV = "docs/ESTUDIOS/T399_2011_SIN_POBLACION/votos_fuera_del_seccionado.csv"  # fuente de las excepciones D-156 (A)
 UMBRAL_RELLENO_PCT = 1  # D-126: > 1 % de población rellenada → la provincia no se publica sin decisión del propietario
@@ -264,7 +264,7 @@ def excepciones_votos(eleccion: str, root: Path = ROOT) -> dict | None:
             perdidos, total = int(fila["perdidos_con_censo2011"]), int(fila["votos_validos_observatorio"])
             if perdidos * 1000 > total * 1:  # > 0,1 % (MAX_PERDIDOS)
                 topes[fila["provincia"]] = perdidos
-    return {"decision": "D-156 (A, propietario 17-11): los votos de las secciones hija (sin fila en el seccionado del Censo 2011) no se asignan a su sección; "
+    return {"decision": "D-156 A (pendiente de confirmar por el propietario: A = D-156 + excepciones M07 a 13 provincias): los votos de las secciones hija (sin fila en el seccionado del Censo 2011) no se asignan a su sección; "
                         "tope absoluto por provincia = esos votos; el tope general (0,1 %) no se relaja",
             "fuente": VOTOS_FUERA_CSV, "fuente_sha256": sha256(ruta), "topes": dict(sorted(topes.items()))}
 
@@ -484,7 +484,7 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
         "eleccion": eleccion, "fecha": e["fecha"], "clave_espejo": e["clave_espejo"],
         "seccionado": {"anio": e["seccionado"], "fichero": nombre_secc, "sha256": s["sha256"], "origen_url": s.get("origen_url"),
                        "r2_clave": None if e["seccionado_propio"] else s["clave"], "campo_seccion": "CUSEC",
-                       **({"decision": "D-156: seccionado de la época = cartografía del Censo 2011 (T-357), no el seccionado INE de 2012"} if e["seccionado_propio"] else {}),
+                       **({"decision": "D-156 A (pendiente de confirmar por el propietario: A = D-156 + excepciones M07 a 13 provincias): seccionado de la época = cartografía del Censo 2011 (T-357), no el seccionado INE de 2012"} if e["seccionado_propio"] else {}),
                        **({"donantes": [{k: v for k, v in d.items() if k != "ruta"} for d in don]} if resueltas else {})},
         "poblacion": {"fichero": tabla.name, "sha256": sha256(tabla), "origen": tabla_origen, "anio_referencia": e["poblacion_anio"],
                       "fuente": e["poblacion_fuente"],

@@ -14,7 +14,7 @@
   "origen_url": "https://www.ine.es/censos2011_datos/cartografia_censo2011_nacional.zip",
   "r2_clave": null,
   "campo_seccion": "CUSEC",
-  "decision": "D-156: seccionado de la época = cartografía del Censo 2011 (T-357), no el seccionado INE de 2012"
+  "decision": "D-156 A (pendiente de confirmar por el propietario: A = D-156 + excepciones M07 a 13 provincias): seccionado de la época = cartografía del Censo 2011 (T-357), no el seccionado INE de 2012"
  },
  "poblacion": {
   "fichero": "poblacion_seccion_2011-11.csv",
@@ -48,7 +48,7 @@
  },
  "puerta": {
   "excepciones_votos_sin_asignar": {
-   "decision": "D-156 (A, propietario 17-11): los votos de las secciones hija (sin fila en el seccionado del Censo 2011) no se asignan a su sección; tope absoluto por provincia = esos votos; el tope general (0,1 %) no se relaja",
+   "decision": "D-156 A (pendiente de confirmar por el propietario: A = D-156 + excepciones M07 a 13 provincias): los votos de las secciones hija (sin fila en el seccionado del Censo 2011) no se asignan a su sección; tope absoluto por provincia = esos votos; el tope general (0,1 %) no se relaja",
    "fuente": "docs/ESTUDIOS/T399_2011_SIN_POBLACION/votos_fuera_del_seccionado.csv",
    "fuente_sha256": "ca42304e7917b076440583c0f99c991f8de3be6e3640eacd12e0554f6427c82c",
    "topes": {
