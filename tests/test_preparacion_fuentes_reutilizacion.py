@@ -374,8 +374,9 @@ class PreparedSourceReuseTests(unittest.TestCase):
             ))
 
     def test_workflows_share_contract_and_recover_only_registered_artifact(self):
-        territorial = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
-        electoral = yaml.safe_load(ELECTORAL_WORKFLOW.read_text(encoding="utf-8"))
+        from tests._t379_2b import deshacer as sin_2b  # T-379 2b: sin la entrada `campana` ni `contents: read`
+        territorial = sin_2b("vista", yaml.safe_load(WORKFLOW.read_text(encoding="utf-8")))
+        electoral = sin_2b("vista", yaml.safe_load(ELECTORAL_WORKFLOW.read_text(encoding="utf-8")))
         territorial_trigger = territorial.get("on") or territorial.get(True)
         electoral_trigger = electoral.get("on") or electoral.get(True)
 
