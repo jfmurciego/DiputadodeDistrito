@@ -11,8 +11,8 @@ from herramientas.validar_paquete_electoral import validate_package
 
 ROOT=Path(__file__).resolve().parents[1]
 WF=ROOT/".github/workflows"
-PREP=WF/"_p11-territoriales.yml"
-ELECTORAL_PREP=WF/"_p12-electorales.yml"
+PREP=WF/"../../tests/fixtures/p10_vistas/_p11-territoriales.yml"
+ELECTORAL_PREP=WF/"../../tests/fixtures/p10_vistas/_p12-electorales.yml"
 GEN=WF/"produccion-distritos.yml"
 ELECTORAL_APPLY=WF/"incorporacion-resultados-electorales.yml"
 CAT=ROOT/"configuracion/catalogo_preparacion.yaml"
@@ -56,7 +56,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
     def test_preparation_generates_sources_and_reuses_existing_package_by_default(self):
         manual_inputs=triggers(WF/"p10-fuentes.yml")["workflow_dispatch"]["inputs"]
         reusable_inputs=triggers(PREP)["workflow_call"]["inputs"]
-        self.assertEqual(list(manual_inputs),["tipo","territorios","eleccion","regenerar"])  # T-375
+        self.assertEqual(list(manual_inputs),["tipo","territorio","eleccion","regenerar"])  # T-375
         self.assertNotIn("source_scope",manual_inputs)
         self.assertTrue(reusable_inputs["reutilizar_si_ya_preparada"]["default"])
         text=PREP.read_text(encoding="utf-8")

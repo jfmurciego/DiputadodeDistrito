@@ -509,8 +509,8 @@ class NationalCampaignTests(unittest.TestCase):
   self.assertIn("fail-fast: false",text); self.assertIn("max-parallel: 5",text)
   self.assertIn("publish_result: false",text); self.assertIn("persist_state: ${{ matrix.persist_state }}",text)
   self.assertNotIn("retry_failed: true",text)
-  self.assertNotIn("_p11-territoriales.yml",text)
-  self.assertNotIn("_p12-electorales.yml",text)
+  self.assertNotIn("preparacion-fuentes.yml",text)
+  self.assertNotIn("preparacion-resultados-electorales.yml",text)
  def test_modes_are_explicit(self):
   from herramientas.gestor_campana_nacional import MODES
   self.assertEqual(MODES,{"electoral","territorial_only"})

@@ -1,7 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
 # VERSIÓN: 1.11.3
-# CAMBIOS 1.11.3: T-375 (D-136, P10 Fuentes): cambian solo las dos líneas `uses:` de `preparar_territorial` y `preparar_electoral` (ahora `p10-fuentes.yml` con `tipo: territoriales|electorales`) y las dos rutas homónimas de `paths` del pull_request; resto de entradas, `secrets`, condiciones y salidas idénticos.
+# CAMBIOS 1.11.3: T-375 (D-136, P10 Fuentes): cambian solo las dos líneas `uses:` de `preparar_territorial` y `preparar_electoral` (ahora `p10-fuentes.yml` con `tipo: territoriales|electorales`) y la ruta homónima de `paths` del pull_request (queda `p10-fuentes.yml`); resto de entradas, `secrets`, condiciones y salidas idénticos.
 # CAMBIOS 1.11.2: T-372 (D-134, P40): cambia solo la línea `uses:` del job `publicar` y la ruta homónima de `paths`: ahora `p40-publicacion.yml` («P40 Publicación»); mismas entradas.
 # ANTERIOR (1.11.1): legacy/workflows/ejecucion-completa-proyecto_v1.11.1_20261116.yml
 # CAMBIOS 1.11.1: T-368 (P70 Archivo, D-131): cambian la línea `uses:` del job `recuperar_electoral` y la ruta homónima de `paths` del pull_request (p70-archivo.yml, P72 producto electoral); entradas, `secrets` y condiciones idénticos.
@@ -112,8 +112,6 @@ on:
       - '.github/workflows/ejecucion-completa-proyecto.yml'
       - '.github/workflows/p10-fuentes.yml'
       - '.github/workflows/produccion-distritos.yml'
-      - '.github/workflows/_p11-territoriales.yml'
-      - '.github/workflows/_p12-electorales.yml'
       - '.github/workflows/incorporacion-resultados-electorales.yml'
       - '.github/workflows/p40-publicacion.yml'
       - '.github/workflows/_reutilizable-generacion-territorial.yml'

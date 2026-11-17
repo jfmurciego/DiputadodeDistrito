@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-"""T-375 (D-136, paso 6): P10 Fuentes sustituye a `preparacion-fuentes.yml` y `preparacion-resultados-electorales.yml`.
+"""T-375 (D-136 y D-151, paso 6): P10 Fuentes sustituye a `preparacion-fuentes.yml` y `preparacion-resultados-electorales.yml`.
 
-PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.0 · FECHA: 2026-11-16 · ESTADO: candidato · ANTERIOR: ninguna (fichero nuevo)
-Equivalencia contra COPIAS CONGELADAS (`tests/fixtures/t375_workflows/`, sha256; en CI no hay `legacy/`): si falta una o cambia su huella el test FALLA
-(no se salta). Por tipo (P11 y P12): jobs, comandos, permisos, concurrencias, salidas y registro. Controles negativos al final.
+PROYECTO: Diputado de Distrito · VERSIÓN: 2.0.0 · FECHA: 2026-11-17 · ESTADO: candidato · ANTERIOR: ninguna (fichero nuevo)
+La equivalencia se calcula contra COPIAS CONGELADAS (`tests/fixtures/t375_workflows/`, con sha256; en CI no hay `legacy/`). Si falta una o cambia su huella el test
+FALLA (no se salta). P10 lleva los jobs de P11 (`p11_*`) y P12 (`p12_*`); la «vista» de cada tipo (`tests/generar_vistas_p10.py`) les devuelve la forma vieja y se compara
+job a job, salvo las diferencias declaradas. Controles negativos al final.
 """
 import copy
 import hashlib
@@ -18,29 +19,22 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "tests"))
+import generar_vistas_p10 as vistas  # noqa: E402
+
 WF = ROOT / ".github" / "workflows"
 FIX = ROOT / "tests" / "fixtures" / "t375_workflows"
 SHAS = {
     "preparacion-fuentes_1.4.14.yml": "dfdf81addc11a342d1a15640848926e454fa8c0924a7b8a8aef27ec0f09bafb3",
     "preparacion-resultados-electorales_1.0.17.yml": "efe7637d042707f5e266edb71d6899b940d9d5baaf2763adf385c8ac3dacbd4d",
 }
-# Las ÚNICAS diferencias de comandos permitidas dentro de los jobs (todo lo demás, idéntico paso a paso).
-P11_RESUELVE_VIEJO = "            reuse_enabled=true\n            persist_requested=true\n"
-P11_RESUELVE_NUEVO = ("            reuse_enabled=true\n"
-                      "            [[ \"$REUSE_INPUT\" == false ]] && reuse_enabled=false  # T-375: «regenerar aunque exista» de P10\n"
-                      "            persist_requested=true\n")
-P12_PREVIO_VIEJO = """          [[ -n "$match" ]] || { echo "::error::Artefacto electoral registrado no disponible"; exit 44; }"""
-P12_PREVIO_NUEVO = """          # T-375 (D-136, reutilizar automático): caducado o eliminado no contradice la identidad registrada: se prepara de nuevo.
-          [[ -n "$match" ]] || { echo "::warning::Artefacto electoral registrado no disponible (caducado o eliminado): $REGISTERED_ARTIFACT_NAME (run $REGISTERED_RUN_ID); se prepara de nuevo."; { echo "### Paquete electoral: PREPARARÁ (registrado no disponible)"; echo "- Registrado: $REGISTERED_ARTIFACT_NAME (run $REGISTERED_RUN_ID), caducado o eliminado"; } >> "$GITHUB_STEP_SUMMARY"; exit 0; }"""
-
-
-def _d(t):
-    """Quita la sangría de bloque (10 espacios) que el YAML elimina al leer un `run: |`."""
-    return "\n".join(l[10:] if l.startswith(" " * 10) else l for l in t.split("\n"))
-
-
-P11_RESUELVE_VIEJO, P11_RESUELVE_NUEVO = _d(P11_RESUELVE_VIEJO), _d(P11_RESUELVE_NUEVO)
-P12_PREVIO_VIEJO, P12_PREVIO_NUEVO = _d(P12_PREVIO_VIEJO), _d(P12_PREVIO_NUEVO)
+# Diferencias de comandos permitidas dentro de los jobs (todo lo demás, idéntico paso a paso). Con la sangría que deja el YAML al leer `run: |`.
+P11_VIEJO = '            [[ "$REUSE_INPUT" == false ]]'
+P11_REGENERAR_NUEVO = '[[ "$REGENERAR_INPUT" == true ]] && reuse_enabled=false  # T-375: «regenerar aunque exista» del botón de P10\n'
+P12_PREVIO_VIEJO = """[[ -n "$match" ]] || { echo "::error::Artefacto electoral registrado no disponible"; exit 44; }"""
+P12_PREVIO_NUEVO_INICIO = "# T-375 (D-136, reutilizar automático): caducado o eliminado no contradice la identidad registrada: se prepara de nuevo.\n"
+P12_IF_VIEJO = "${{ inputs.reutilizar_si_ya_preparada && needs.resolver.outputs.registered_run_id != '' }}"
+P12_IF_NUEVO = "${{ (inputs.reutilizar_si_ya_preparada || (inputs.territorio != '' && !inputs.regenerar)) && needs.resolver.outputs.registered_run_id != '' }}"
 
 
 def on(d):
@@ -60,85 +54,86 @@ def viejo(nombre):
     return cargar(p)
 
 
-def paso(job, nombre=None, id_=None):
-    return next(s for s in job["steps"] if (nombre and s.get("name") == nombre) or (id_ and s.get("id") == id_))
+def vista(tipo, texto=None):
+    return yaml.safe_load(vistas.vista(tipo, texto))
 
 
-def aplicar(workflow, job, id_paso, a, b):
-    """Copia del workflow con `a`→`b` en el run del paso `id_paso` del job (para neutralizar la diferencia permitida)."""
-    w = copy.deepcopy(workflow)
-    s = paso(w["jobs"][job], id_=id_paso)
-    assert a in s["run"], (job, id_paso)
-    s["run"] = s["run"].replace(a, b, 1)
+def paso(job, id_=None, nombre=None):
+    return next(s for s in job["steps"] if (id_ and s.get("id") == id_) or (nombre and s.get("name") == nombre))
+
+
+def neutralizar_p11(w):
+    """Quita de la vista de P11 la única diferencia permitida (env REGENERAR_INPUT y su línea)."""
+    w = copy.deepcopy(w)
+    s = paso(w["jobs"]["resolver"], id_="resolve")
+    assert "REGENERAR_INPUT" in s["env"] and P11_REGENERAR_NUEVO in s["run"]
+    del s["env"]["REGENERAR_INPUT"]
+    s["run"] = re.sub(r'(?m)^ *\[\[ "\$REGENERAR_INPUT" == true \]\].*\n', "", s["run"], count=1)
     return w
 
 
-def diferencias(viejo_wf, nuevo_wf):
-    """Diferencias NO permitidas entre los jobs del reutilizable y los del workflow viejo (vacía = equivalente)."""
+def neutralizar_p12(w):
+    """Quita de la vista de P12 las dos diferencias permitidas (`if` del paso previous y su rama de caducado)."""
+    w = copy.deepcopy(w)
+    s = paso(w["jobs"]["electorales"], id_="previous")
+    assert s["if"] == P12_IF_NUEVO, s["if"]
+    s["if"] = P12_IF_VIEJO
+    run = s["run"]
+    i = run.index(P12_PREVIO_NUEVO_INICIO)
+    j = run.index("exit 0; }", i) + len("exit 0; }")
+    s["run"] = run[:i] + P12_PREVIO_VIEJO + run[j:]
+    return w
+
+
+def diferencias(a, b):
+    """Diferencias NO permitidas entre los jobs de la vista `b` y el workflow viejo `a` (vacía = equivalente)."""
     d = []
-    if set(viejo_wf["jobs"]) != set(nuevo_wf["jobs"]):
+    if set(a["jobs"]) != set(b["jobs"]):
         d.append("conjunto de jobs")
-    for k, j in viejo_wf["jobs"].items():
-        n = nuevo_wf["jobs"].get(k)
-        if n != j:
+    for k, j in a["jobs"].items():
+        if b["jobs"].get(k) != j:
             d.append(f"job {k}")
-    if viejo_wf["permissions"] != nuevo_wf["permissions"]:
+    if a["permissions"] != b["permissions"]:
         d.append("permisos")
-    if viejo_wf.get("env") != nuevo_wf.get("env"):
-        d.append("env")
-    if on(viejo_wf)["workflow_call"].get("outputs") != on(nuevo_wf)["workflow_call"].get("outputs"):
-        d.append("salidas")
     return d
+
+
+def regenerar_linea_p11(w):
+    """P11 viejo: el resolver tenía `reuse_enabled=true` y `persist_requested=true` seguidos (sin línea de regenerar)."""
+    return w
 
 
 class P11(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.a = viejo("preparacion-fuentes_1.4.14.yml")
-        cls.b = cargar(WF / "_p11-territoriales.yml")
+        cls.b = vista("p11")
 
-    def test_jobs_permisos_salidas_identicos(self):
-        neutral = aplicar(self.b, "resolver", "resolve", P11_RESUELVE_NUEVO, P11_RESUELVE_VIEJO)
-        self.assertEqual(diferencias(self.a, neutral), [])
+    def test_jobs_comandos_permisos_identicos(self):
+        self.assertEqual(diferencias(self.a, neutralizar_p11(self.b)), [])
 
     def test_los_cinco_jobs_y_su_registro(self):
         self.assertEqual(list(self.b["jobs"]), ["resolver", "territoriales", "registrar", "generation_pending", "resultado"])
         reg = self.b["jobs"]["registrar"]
         self.assertEqual(reg["concurrency"], {"group": "ddd-catalog-promotion", "cancel-in-progress": False, "queue": "max"})
-        self.assertEqual(reg["concurrency"], self.a["jobs"]["registrar"]["concurrency"])
         for j in ("registrar", "generation_pending"):
             self.assertTrue(any(s.get("name") == "Credencial de registro" for s in self.b["jobs"][j]["steps"]), j)
 
-    def test_entradas_de_llamada_iguales_salvo_edicion_opcional(self):
-        ia, ib = on(self.a)["workflow_call"]["inputs"], on(self.b)["workflow_call"]["inputs"]
-        self.assertEqual(set(ia), set(ib))
-        for k in ia:
-            if k == "data_edition":
-                self.assertEqual(ia[k], {"required": True, "type": "string"})
-                self.assertEqual(ib[k], {"required": False, "type": "string", "default": ""})
-            else:
-                self.assertEqual(ia[k], ib[k], k)
-
-    def test_sin_boton_ni_concurrencia_de_workflow(self):
-        self.assertNotIn("workflow_dispatch", on(self.b))
-        self.assertNotIn("concurrency", self.b)
-
-    def test_regenerar_se_respeta_con_edicion_vacia(self):
+    def test_regenerar_con_edicion_vacia(self):
         run = paso(self.b["jobs"]["resolver"], id_="resolve")["run"]
-        self.assertIn('[[ "$REUSE_INPUT" == false ]] && reuse_enabled=false', run)
-        # El resto del cuerpo, idéntico: quitar la línea nueva devuelve el viejo.
-        self.assertEqual(run.replace(P11_RESUELVE_NUEVO, P11_RESUELVE_VIEJO), paso(self.a["jobs"]["resolver"], id_="resolve")["run"])
+        self.assertIn('[[ "$REGENERAR_INPUT" == true ]] && reuse_enabled=false', run)
+        self.assertEqual(paso(self.b["jobs"]["resolver"], id_="resolve")["env"]["REGENERAR_INPUT"], "${{ inputs.regenerar }}")
 
 
 class P12(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.a = viejo("preparacion-resultados-electorales_1.0.17.yml")
-        cls.b = cargar(WF / "_p12-electorales.yml")
+        cls.b = vista("p12")
 
-    def test_jobs_permisos_salidas_identicos(self):
-        neutral = aplicar(self.b, "electorales", "previous", P12_PREVIO_NUEVO, P12_PREVIO_VIEJO)
-        self.assertEqual(diferencias(self.a, neutral), [])
+    def test_jobs_comandos_permisos_identicos(self):
+        self.assertEqual(diferencias(self.a, neutralizar_p12(self.b)), [])
+        self.assertEqual(self.a["env"], self.b["env"])
 
     def test_los_cuatro_jobs_y_su_registro(self):
         self.assertEqual(list(self.b["jobs"]), ["resolver", "electorales", "registrar", "resultado"])
@@ -147,50 +142,35 @@ class P12(unittest.TestCase):
         self.assertTrue(any(s.get("name") == "Credencial de registro" for s in reg["steps"]))
         self.assertEqual(reg["if"], self.a["jobs"]["registrar"]["if"])
 
-    def test_entradas_y_salidas_iguales(self):
-        self.assertEqual(on(self.a)["workflow_call"]["inputs"], on(self.b)["workflow_call"]["inputs"])
-        self.assertEqual(self.a["env"], self.b["env"])
-
-    def test_sin_boton_ni_concurrencia_de_workflow(self):
-        self.assertNotIn("workflow_dispatch", on(self.b))
-        self.assertNotIn("concurrency", self.b)
-
-    def test_caducado_ya_no_falla_pero_el_digest_distinto_si(self):
+    def test_caducado_se_regenera_pero_el_digest_distinto_falla(self):
         run = paso(self.b["jobs"]["electorales"], id_="previous")["run"]
         self.assertNotIn("exit 44", run)
         self.assertIn("exit 0; }", run)
         self.assertIn("Digest de artefacto electoral no coincide con el registro.", run)
-        self.assertEqual(run.replace(P12_PREVIO_NUEVO, P12_PREVIO_VIEJO), paso(self.a["jobs"]["electorales"], id_="previous")["run"])
 
 
 class P10(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.p10 = cargar(WF / "p10-fuentes.yml")
-        cls.p11 = cargar(WF / "_p11-territoriales.yml")
-        cls.p12 = cargar(WF / "_p12-electorales.yml")
         cls.a11 = viejo("preparacion-fuentes_1.4.14.yml")
         cls.a12 = viejo("preparacion-resultados-electorales_1.0.17.yml")
 
-    def test_nombre_boton_y_opciones(self):
+    def test_boton_y_opciones(self):
         self.assertEqual(self.p10["name"], "P10 Fuentes")
         d = on(self.p10)["workflow_dispatch"]["inputs"]
-        self.assertEqual(set(d), {"tipo", "territorios", "eleccion", "regenerar"})
+        self.assertEqual(list(d), ["tipo", "territorio", "eleccion", "regenerar"])
         self.assertEqual(d["tipo"]["options"], ["P11 territoriales", "P12 electorales"])
         self.assertEqual(d["eleccion"]["options"], ["vigente", "ensayo 2026-11-29"])
         self.assertEqual(d["eleccion"]["default"], "vigente")
         self.assertIs(d["regenerar"]["default"], False)
         self.assertEqual(d["regenerar"]["type"], "boolean")
-        for k in ("edition", "data_edition", "territory_id", "source_ref", "persist_state", "recover_run_id"):
-            self.assertNotIn(k, d)
 
-    def test_salidas_son_la_union_de_las_dos(self):
+    def test_salidas_union_de_las_dos(self):
         out = on(self.p10)["workflow_call"]["outputs"]
-        viejas = set(on(self.a11)["workflow_call"]["outputs"]) | set(on(self.a12)["workflow_call"]["outputs"])
-        self.assertEqual(set(out), viejas)
-        # Cada salida lee del job de su tipo (las dos del mismo nombre, con `||`).
+        self.assertEqual(set(out), set(on(self.a11)["workflow_call"]["outputs"]) | set(on(self.a12)["workflow_call"]["outputs"]))
         for k, o in out.items():
-            self.assertTrue("jobs.p11.outputs." in o["value"] or "jobs.p12.outputs." in o["value"], k)
+            self.assertRegex(o["value"], r"jobs\.p1[12]_", k)
 
     def test_entradas_de_llamada_cubren_las_de_los_dos_viejos(self):
         i = on(self.p10)["workflow_call"]["inputs"]
@@ -201,47 +181,44 @@ class P10(unittest.TestCase):
                     self.assertEqual(i[k], v, k)
         self.assertEqual(i["tipo"], {"required": True, "type": "string"})
 
-    def test_permisos_y_plan_sin_permisos(self):
+    def test_permisos_env_y_job_de_entrada_sin_permisos(self):
         self.assertEqual(self.p10["permissions"], self.a11["permissions"])
         self.assertEqual(self.p10["permissions"], self.a12["permissions"])
-        self.assertEqual(self.p10["jobs"]["plan"]["permissions"], {"contents": "read"})
-        for j in ("p11", "p12"):
-            self.assertNotIn("permissions", self.p10["jobs"][j])
+        self.assertEqual(self.p10["env"], self.a12["env"])
+        self.assertEqual(self.p10["jobs"]["entrada"]["permissions"], {})
 
-    def test_concurrencias_por_tipo_iguales_a_las_de_antes(self):
-        n = {k: self.p10["jobs"][k]["concurrency"] for k in ("p11", "p12")}
-        c11, c12 = self.a11["concurrency"], self.a12["concurrency"]
-        sust = lambda g: g.replace("inputs.territory_id", "matrix.t.grupo").replace("inputs.data_edition", "needs.plan.outputs.edicion")
-        self.assertEqual(n["p11"], {**c11, "group": sust(c11["group"])})
-        self.assertEqual(n["p12"], {**c12, "group": sust(c12["group"])})
-        self.assertEqual(n["p11"]["queue"], "max")
-        self.assertEqual(n["p12"]["queue"], "max")
-        self.assertTrue(n["p11"]["group"].startswith("ddd-territorial-prod-"))
-        self.assertTrue(n["p12"]["group"].startswith("ddd-electoral-prod-"))
-        self.assertFalse(n["p11"]["cancel-in-progress"] or n["p12"]["cancel-in-progress"])
+    def test_concurrencia_real_del_workflow(self):
+        c = self.p10["concurrency"]
+        self.assertFalse(c["cancel-in-progress"])
+        self.assertEqual(c["queue"], "max")
+        g = c["group"]
+        # P12: ddd-electoral-prod-<territorio>; P11: ddd-territorial-prod-<territorio>-<edición> (como los workflows viejos y P30).
+        self.assertIn("format('ddd-electoral-prod-{0}', inputs.territory_id || inputs.territorio)", g)
+        self.assertIn("format('ddd-territorial-prod-{0}-{1}', inputs.territory_id || inputs.territorio, inputs.data_edition || '2025')", g)
+        self.assertEqual(self.a11["concurrency"]["group"], "ddd-territorial-prod-${{ inputs.territory_id }}-${{ inputs.data_edition || 'vigente' }}")
+        self.assertEqual(self.a12["concurrency"]["group"], "ddd-electoral-prod-${{ inputs.territory_id }}")
+        self.assertEqual(self.a11["concurrency"]["queue"], "max")
 
-    def test_matriz_independiente_por_territorio(self):
-        for j in ("p11", "p12"):
-            job = self.p10["jobs"][j]
-            self.assertIs(job["strategy"]["fail-fast"], False)
-            self.assertLessEqual(job["strategy"]["max-parallel"], 6)
-            self.assertIn("fromJSON(needs.plan.outputs.territorios)", job["strategy"]["matrix"]["t"])
-            self.assertEqual(job["secrets"], "inherit")
-            self.assertEqual(job["needs"], "plan")
-        self.assertEqual(self.p10["jobs"]["p11"]["uses"], "./.github/workflows/_p11-territoriales.yml")
-        self.assertEqual(self.p10["jobs"]["p12"]["uses"], "./.github/workflows/_p12-electorales.yml")
+    def test_grupo_de_p11_coincide_con_p30_con_edicion_vacia(self):
+        p30 = cargar(WF / "produccion-distritos.yml")["concurrency"]["group"] if "concurrency" in cargar(WF / "produccion-distritos.yml") else ""
+        # Con la edición vacía el botón usa 2025; P30 usa la edición (2025): mismo sufijo.
+        self.assertIn("data_edition", p30)
+        self.assertIn("'2025'", self.p10["concurrency"]["group"])
 
-    def test_with_solo_entradas_que_existen_y_cubren_las_obligatorias(self):
-        for j, h in (("p11", self.p11), ("p12", self.p12)):
-            ins = on(h)["workflow_call"]["inputs"]
-            w = self.p10["jobs"][j]["with"]
-            self.assertTrue(set(w) <= set(ins), (j, set(w) - set(ins)))
-            for k, v in ins.items():
-                if v.get("required"):
-                    self.assertIn(k, w, (j, k))
-        # P12 no recibe las entradas exclusivas de P11 y viceversa.
-        self.assertNotIn("recover_run_id", self.p10["jobs"]["p12"]["with"])
-        self.assertNotIn("allow_source_gap_success", self.p10["jobs"]["p11"]["with"])
+    def test_p12_desde_el_boton_usa_la_edicion_fija(self):
+        env = paso(self.p10["jobs"]["p12_resolver"], id_="resolve")["env"]
+        self.assertEqual(env["EDITION"], "${{ inputs.data_edition || '2025' }}")
+        self.assertEqual(env["TERRITORY"], "${{ (inputs.territory_id || inputs.territorio) }}")
+
+    def test_gating_por_tipo_y_entrada(self):
+        j = self.p10["jobs"]
+        self.assertEqual(j["p11_resolver"]["needs"], "entrada")
+        self.assertEqual(j["p12_resolver"]["needs"], "entrada")
+        self.assertEqual(j["p11_resolver"]["if"], "${{ contains(inputs.tipo, 'territoriales') }}")
+        self.assertEqual(j["p12_resolver"]["if"], "${{ contains(inputs.tipo, 'electorales') }}")
+        for k in ("p11_resultado", "p12_resultado"):
+            self.assertIn("!= 'skipped'", j[k]["if"])
+        self.assertFalse("territoriales" in "electorales" or "electorales" in "territoriales")  # `contains` no se pisa
 
     def test_los_callers_pasan_tipo_y_entradas_validas(self):
         entradas = on(self.p10)["workflow_call"]["inputs"]
@@ -257,126 +234,95 @@ class P10(unittest.TestCase):
                     if v.get("required"):
                         self.assertIn(k, j["with"])
 
-    def test_ningun_workflow_cita_los_ficheros_borrados(self):
+    def test_ningun_workflow_cita_los_ficheros_borrados_ni_hay_reutilizables_internos(self):
         for p in WF.glob("*.yml"):
             t = p.read_text(encoding="utf-8")
-            if p.name == "p10-fuentes.yml":  # solo en la cabecera de historia
-                t = "\n".join(l for l in t.splitlines() if not l.startswith("#"))
-            for viejo_nombre in ("preparacion-fuentes.yml", "preparacion-resultados-electorales.yml"):
-                self.assertNotIn(f"workflows/{viejo_nombre}", t, p.name)
-        self.assertFalse((WF / "preparacion-fuentes.yml").exists())
-        self.assertFalse((WF / "preparacion-resultados-electorales.yml").exists())
+            t = "\n".join(l for l in t.splitlines() if not l.lstrip().startswith("#"))
+            for n in ("preparacion-fuentes.yml", "preparacion-resultados-electorales.yml", "_p11-territoriales.yml", "_p12-electorales.yml"):
+                self.assertNotIn(n, t, (p.name, n))
+        for n in ("preparacion-fuentes.yml", "preparacion-resultados-electorales.yml", "_p11-territoriales.yml", "_p12-electorales.yml"):
+            self.assertFalse((WF / n).exists(), n)  # D-151: sin reutilizables ni matriz
+        self.assertFalse(any("strategy" in j or "uses" in j for j in self.p10["jobs"].values()))
 
-    def test_ninguna_clave_duplicada_ni_booleanos_mal_tipados(self):
-        for n in ("p10-fuentes.yml", "_p11-territoriales.yml", "_p12-electorales.yml"):
-            class Estricto(yaml.SafeLoader):
-                pass
+    def test_vistas_en_sincronia_con_p10(self):
+        r = subprocess.run([sys.executable, str(ROOT / "tests" / "generar_vistas_p10.py"), "--comprobar"], capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
 
-            def construir(loader, node, deep=False):
-                claves = [loader.construct_object(k, deep=deep) for k, _ in node.value]
-                dup = {k for k in claves if claves.count(k) > 1}
-                if dup:
-                    raise AssertionError(f"{n}: claves duplicadas {dup}")
-                return yaml.SafeLoader.construct_mapping(loader, node, deep)
+    def test_sin_claves_duplicadas(self):
+        class Estricto(yaml.SafeLoader):
+            pass
 
-            Estricto.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, construir)
-            yaml.load((WF / n).read_text(encoding="utf-8"), Loader=Estricto)
+        def construir(loader, node, deep=False):
+            claves = [loader.construct_object(k, deep=deep) for k, _ in node.value]
+            dup = {k for k in claves if claves.count(k) > 1}
+            if dup:
+                raise AssertionError(f"claves duplicadas {dup}")
+            return yaml.SafeLoader.construct_mapping(loader, node, deep)
+
+        Estricto.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, construir)
+        yaml.load((WF / "p10-fuentes.yml").read_text(encoding="utf-8"), Loader=Estricto)
 
 
-class PlanBajoBash(unittest.TestCase):
-    """El paso «Resolver tipo, territorios y opciones» ejecutado de verdad bajo `bash -eo pipefail`."""
+class EntradaBajoBash(unittest.TestCase):
+    """El paso «Comprobar tipo, territorio y elección» ejecutado de verdad bajo `bash -eo pipefail`."""
 
     @classmethod
     def setUpClass(cls):
-        cls.script = paso(cargar(WF / "p10-fuentes.yml")["jobs"]["plan"], id_="plan")["run"]
+        cls.script = paso(cargar(WF / "p10-fuentes.yml")["jobs"]["entrada"], nombre="Comprobar tipo, territorio y elección")["run"]
 
     def ejecutar(self, **env):
-        base = {"TIPO": "", "TERRITORIOS": "", "TERRITORIO_LLAMADA": "", "DATA_EDITION": "", "ELECCION": "", "REGENERAR": "",
-                "REUTILIZAR_LLAMADA": "", "PERSISTIR_LLAMADA": "", "HUECO_LLAMADA": ""}
+        base = {"TIPO": "", "TERRITORIO": "", "TERRITORIO_LLAMADA": "", "ELECCION": ""}
         base.update(env)
         with tempfile.TemporaryDirectory() as t:
-            out, summ = Path(t) / "out", Path(t) / "summary"
-            out.write_text("")
-            e = {**os.environ, **base, "GITHUB_OUTPUT": str(out), "GITHUB_STEP_SUMMARY": str(summ)}
-            r = subprocess.run(["bash", "-eo", "pipefail", "-c", self.script], env=e, cwd=ROOT, capture_output=True, text=True)
-            salida = dict(l.split("=", 1) for l in out.read_text().splitlines() if "=" in l)
-        return r, salida
+            e = {**os.environ, **base, "GITHUB_STEP_SUMMARY": str(Path(t) / "s")}
+            return subprocess.run(["bash", "-eo", "pipefail", "-c", self.script], env=e, capture_output=True, text=True)
 
-    def test_boton_territoriales(self):
-        r, o = self.ejecutar(TIPO="P11 territoriales", TERRITORIOS="aut13, nac28,aut13", ELECCION="vigente", REGENERAR="false")
-        self.assertEqual(r.returncode, 0, r.stderr)
-        self.assertEqual(o["tipo"], "territoriales")
-        # Grupo de exclusión = nombre del catálogo (literales de configuracion/catalogo_territorios_espana_2025.yaml).
-        self.assertEqual(o["territorios"], '[{"codigo":"aut13","grupo":"Comunidad de Madrid"},{"codigo":"nac28","grupo":"Congreso Madrid"}]')
-        self.assertEqual((o["edicion"], o["reutilizar"], o["persistir"], o["hueco_fuente"], o["eleccion"]), ("", "true", "true", "false", "vigente"))
+    def test_validas(self):
+        for c in (dict(TIPO="P11 territoriales", TERRITORIO="aut13", ELECCION="vigente"),
+                  dict(TIPO="P12 electorales", TERRITORIO="nac28", ELECCION="ensayo 2026-11-29"),
+                  dict(TIPO="P12 electorales", TERRITORIO="nac22_h2019_11", ELECCION="vigente"),
+                  dict(TIPO="territoriales", TERRITORIO_LLAMADA="Galicia"),
+                  dict(TIPO="electorales", TERRITORIO_LLAMADA="aut11", ELECCION="")):
+            r = self.ejecutar(**c)
+            self.assertEqual(r.returncode, 0, (c, r.stderr))
 
-    def test_boton_electorales_regenerar_y_ensayo(self):
-        r, o = self.ejecutar(TIPO="P12 electorales", TERRITORIOS="aut11", ELECCION="ensayo 2026-11-29", REGENERAR="true")
-        self.assertEqual(r.returncode, 0, r.stderr)
-        self.assertEqual((o["tipo"], o["edicion"], o["reutilizar"], o["eleccion"]), ("electorales", "2025", "false", "ensayo 2026-11-29"))
-
-    def test_id_de_epoca_se_acepta_y_usa_su_codigo_como_grupo(self):
-        r, o = self.ejecutar(TIPO="P12 electorales", TERRITORIOS="nac22_h2019_11", ELECCION="vigente", REGENERAR="false")
-        self.assertEqual(r.returncode, 0, r.stderr)
-        self.assertEqual(o["territorios"], '[{"codigo":"nac22_h2019_11","grupo":"nac22_h2019_11"}]')
-        self.assertIn("::warning::", r.stdout + r.stderr)
-
-    def test_llamada_de_la_00(self):
-        r, o = self.ejecutar(TIPO="territoriales", TERRITORIO_LLAMADA="aut11", DATA_EDITION="2025", REUTILIZAR_LLAMADA="false",
-                             PERSISTIR_LLAMADA="true", HUECO_LLAMADA="false")
-        self.assertEqual(r.returncode, 0, r.stderr)
-        self.assertEqual((o["territorios"], o["edicion"], o["reutilizar"], o["eleccion"]), ('[{"codigo":"aut11","grupo":"aut11"}]', "2025", "false", "vigente"))
-        r, o = self.ejecutar(TIPO="electorales", TERRITORIO_LLAMADA="aut11", DATA_EDITION="2025", REUTILIZAR_LLAMADA="true",
-                             PERSISTIR_LLAMADA="false", HUECO_LLAMADA="true", ELECCION="vigente")
-        self.assertEqual((o["persistir"], o["hueco_fuente"]), ("false", "true"))
-
-    def test_fallos_cerrados_con_error_a_stderr(self):
-        casos = [
-            dict(TIPO="otro", TERRITORIOS="aut01"),
-            dict(TIPO="P11 territoriales", TERRITORIOS="aut01", ELECCION="ensayo 2026-11-29"),
-            dict(TIPO="P12 electorales", TERRITORIOS="aut01", ELECCION="2030-01"),
-            dict(TIPO="P11 territoriales", TERRITORIOS=" "),
-            dict(TIPO="P11 territoriales", TERRITORIOS="Andalucía"),
-            dict(TIPO="P11 territoriales", TERRITORIOS="aut01;rm"),
-            dict(TIPO="electorales", TERRITORIO_LLAMADA="aut11", DATA_EDITION="", REUTILIZAR_LLAMADA="true", PERSISTIR_LLAMADA="true", HUECO_LLAMADA="false"),
-            dict(TIPO="territoriales", TERRITORIO_LLAMADA="aut11", DATA_EDITION="2025", REUTILIZAR_LLAMADA="null", PERSISTIR_LLAMADA="true", HUECO_LLAMADA="false"),
-        ]
-        for c in casos:
-            r, o = self.ejecutar(**c)
+    def test_fallos_cerrados_con_error(self):
+        for c in (dict(TIPO="otro", TERRITORIO="aut01"),
+                  dict(TIPO="P11 territoriales", TERRITORIO="aut01", ELECCION="ensayo 2026-11-29"),
+                  dict(TIPO="P12 electorales", TERRITORIO="aut01", ELECCION="2030-01"),
+                  dict(TIPO="P11 territoriales", TERRITORIO=""),
+                  dict(TIPO="P11 territoriales", TERRITORIO="aut13,nac28"),
+                  dict(TIPO="P11 territoriales", TERRITORIO="Andalucía"),
+                  dict(TIPO="P11 territoriales", TERRITORIO="aut01;rm")):
+            r = self.ejecutar(**c)
             self.assertNotEqual(r.returncode, 0, c)
             self.assertIn("::error::", r.stdout + r.stderr, c)
-            self.assertNotIn("territorios", o, c)
 
 
 class ControlesNegativos(unittest.TestCase):
-    def test_se_detectan_cambios_de_permisos_comandos_concurrencia_y_salidas(self):
+    def test_se_detectan_cambios_de_permisos_comandos_concurrencia_y_jobs(self):
         a = viejo("preparacion-fuentes_1.4.14.yml")
-        b = cargar(WF / "_p11-territoriales.yml")
-        b = aplicar(b, "resolver", "resolve", P11_RESUELVE_NUEVO, P11_RESUELVE_VIEJO)
+        b = neutralizar_p11(vista("p11"))
         self.assertEqual(diferencias(a, b), [])
         x = copy.deepcopy(b)
         x["permissions"] = {"contents": "read"}
         self.assertIn("permisos", diferencias(a, x))
         x = copy.deepcopy(b)
-        paso(x["jobs"]["registrar"], "Registrar preparación territorial")["run"] += "\necho extra"
+        paso(x["jobs"]["registrar"], nombre="Registrar preparación territorial")["run"] += "\necho extra"
         self.assertIn("job registrar", diferencias(a, x))
         x = copy.deepcopy(b)
         x["jobs"]["registrar"]["concurrency"]["group"] = "otro"
         self.assertIn("job registrar", diferencias(a, x))
-        x = copy.deepcopy(b)
-        on(x)["workflow_call"]["outputs"]["territory_id"]["value"] = "x"
-        self.assertIn("salidas", diferencias(a, x))
         x = copy.deepcopy(b)
         del x["jobs"]["resultado"]
         self.assertIn("conjunto de jobs", diferencias(a, x))
 
     def test_p12_y_huella_de_las_copias(self):
         a = viejo("preparacion-resultados-electorales_1.0.17.yml")
-        b = cargar(WF / "_p12-electorales.yml")
-        with self.assertRaises(AssertionError):
-            aplicar(b, "electorales", "previous", "texto que no existe", "x")
-        x = copy.deepcopy(aplicar(b, "electorales", "previous", P12_PREVIO_NUEVO, P12_PREVIO_VIEJO))
-        paso(x["jobs"]["registrar"], "Registrar preparación electoral")["run"] = "true"
+        b = neutralizar_p12(vista("p12"))
+        self.assertEqual(diferencias(a, b), [])
+        x = copy.deepcopy(b)
+        paso(x["jobs"]["registrar"], nombre="Registrar preparación electoral")["run"] = "true"
         self.assertIn("job registrar", diferencias(a, x))
         global SHAS
         original = dict(SHAS)
@@ -386,6 +332,10 @@ class ControlesNegativos(unittest.TestCase):
                 viejo("preparacion-fuentes_1.4.14.yml")
         finally:
             SHAS = original
+
+    def test_una_vista_desincronizada_se_detecta(self):
+        texto = (WF / "p10-fuentes.yml").read_text(encoding="utf-8")
+        self.assertNotEqual(vistas.vista("p11", texto), vistas.vista("p11", texto.replace("Registrar preparación territorial", "Registrar otra cosa", 1)))
 
 
 class Herramientas(unittest.TestCase):
@@ -397,19 +347,17 @@ class Herramientas(unittest.TestCase):
     def test_clave_eleccion_lanza_p10(self):
         sys.path.insert(0, str(ROOT))
         from herramientas import clave_eleccion as ce
-        w, campo, fijo = ce.PHASES["electoral"]
-        self.assertEqual((w, campo, fijo), ("p10-fuentes.yml", "territorios", {"tipo": "P12 electorales"}))
-        unidades = ce.load_units(ROOT)
-        p = ce.plan("ES-AUT-20260208", "electoral", unidades, inputs={"reutilizar_si_ya_preparada": "false"})
+        self.assertEqual(ce.PHASES["electoral"], ("p10-fuentes.yml", "territorio", {"tipo": "P12 electorales"}))
+        p = ce.plan("ES-AUT-20260208", "electoral", ce.load_units(ROOT), inputs={"reutilizar_si_ya_preparada": "false"})
         self.assertTrue(p["count"] >= 1)
         d = p["dispatches"][0]
         self.assertEqual(d["workflow"], "p10-fuentes.yml")
-        self.assertEqual(d["inputs"]["tipo"], "P12 electorales")
-        self.assertEqual(d["inputs"]["territorios"], d["territory_id"])
+        self.assertEqual(d["inputs"]["territorio"], d["territory_id"])
         self.assertEqual(d["inputs"]["regenerar"], "true")
-        self.assertNotIn("data_edition", d["inputs"])
-        self.assertNotIn("reutilizar_si_ya_preparada", d["inputs"])
-        self.assertTrue(re.fullmatch(r"(nac|aut)\d{2}(-350)?", d["inputs"]["territorios"]), d["inputs"]["territorios"])
+        self.assertEqual(d["inputs"]["tipo"], "P12 electorales")
+        for k in ("data_edition", "reutilizar_si_ya_preparada", "territorios"):
+            self.assertNotIn(k, d["inputs"])
+        self.assertTrue(re.fullmatch(r"(nac|aut)\d{2}", d["inputs"]["territorio"]), d["inputs"]["territorio"])
 
     def test_los_generadores_ya_no_escriben_en_p10(self):
         for n in ("generar_provincias_congreso", "generar_provincias_congreso_350"):

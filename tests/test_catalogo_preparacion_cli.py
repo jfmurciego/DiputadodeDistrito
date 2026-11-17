@@ -6,8 +6,8 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-WORKFLOW = ROOT / ".github" / "workflows" / "_p11-territoriales.yml"
-ELECTORAL_WORKFLOW = ROOT / ".github" / "workflows" / "_p12-electorales.yml"
+WORKFLOW = ROOT / ".github" / "workflows" / "../../tests/fixtures/p10_vistas/_p11-territoriales.yml"
+ELECTORAL_WORKFLOW = ROOT / ".github" / "workflows" / "../../tests/fixtures/p10_vistas/_p12-electorales.yml"
 SCRIPT = ROOT / "herramientas" / "catalogo_preparacion.py"
 
 

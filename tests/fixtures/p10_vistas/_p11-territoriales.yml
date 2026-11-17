@@ -1,36 +1,28 @@
+# VISTA DERIVADA de .github/workflows/p10-fuentes.yml (tipo P11); no editar: python tests/generar_vistas_p10.py
 # PROYECTO: Diputado de Distrito
-# CLASE: interfaz de negocio — Diseño A
-# VERSIÓN: 1.5.0
-# CAMBIOS 1.5.0: T-375 (D-136, migración paso 6): el fichero deja de ser un botón; pasa a ser el reutilizable SIN botón `_p11-territoriales.yml` que llama «P10 Fuentes» (`p10-fuentes.yml`, tipo P11) una vez por territorio
-#   (matriz). Se quitan `workflow_dispatch` y la `concurrency` de nivel de workflow (el grupo `ddd-territorial-prod-<territorio>-<edición|vigente>` pasa, idéntico, al job de matriz de P10 que lo llama);
-#   `data_edition` deja de ser obligatoria (vacía = edición y años del catálogo vigente, como el botón de antes). Con `data_edition` vacía, `reutilizar_si_ya_preparada=false` («regenerar aunque exista») ahora se respeta (antes el botón
-#   forzaba true). El resto de jobs, pasos, permisos, salidas y el entorno del registro, idénticos a 1.4.14 (tests/test_t375_p10_equivalencia.py).
-# CAMBIOS 1.4.14: T-323 (D-112), paso «Paquete P10 desde R2» antes de adquirir: restaura el paquete del contrato de R2 (sha256 verificado, id de territorio canónico, años pedidos = contrato) y consulta el INE solo con HEAD; .zip con tamaño cambiado = para con FUENTE_INE_CAMBIADA; sin paquete, id no canónico, años distintos o sin red al INE = aviso y sigue como antes.
-# CAMBIOS 1.4.13: T-336, «Recuperar fuente territorial registrada» rechaza (rc 3 del selector) un paquete cuyo territory_id no es EXACTAMENTE el canónico y adquiere de nuevo (::warning::; otro rechazo sigue fallando); falla si reutilizara uno no canónico; el resumen del job dice si REUTILIZÓ o ADQUIERE y con qué paquete.
-# CAMBIOS 1.4.12: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P10 Fuentes — P11 Territoriales» (antes 01 Preparación de Datos Territoriales).
-# CAMBIOS 1.4.11: T-102: selector con los 49 territorios «Congreso 350 <provincia>» (K = escaños reales de 2023).
-# NOMBRE DE VERSIÓN: Preparación durable de datos territoriales (reutilizable de P10, P11)
-# FECHA: 2026-11-10
+# CLASE: interfaz humana de preparación de fuentes
+# VERSIÓN: 1.0.0
+# FECHA: 2026-11-17
 # ESTADO: candidato
-# CAMBIOS: en reutilización ordinaria, si el artefacto registrado caducó o fue eliminado, vuelve a adquirir la fuente oficial en vez de fallar (la recuperación exacta sigue bloqueando); el aviso de PENDING solo se emite si la preparación tuvo éxito.
-# MOTIVO: los artefactos de Actions caducan y bloqueaban "Reutilizar progreso existente" (Andalucía, run 40604585745; Comunidad Valenciana, run 40604791319).
-# CAMBIOS 1.4.3: opción del territorio piloto «Congreso Huesca».
-# CAMBIOS 1.4.4: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
-# CAMBIOS 1.4.5: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
-# CAMBIOS 1.4.6: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
-# CAMBIOS 1.4.7: T-10, paso «Credencial de registro» antes de registrar en main: con los secretos
-#   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
-# CAMBIOS 1.4.8: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
-#   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
-# CAMBIOS 1.4.9: T-94, el paso «Persistir diagnóstico» ya no esconde el error del escritor (stderr al log y volcado del result-json).
-# CAMBIOS 1.4.10: T-96, el job generation_pending (persistencia PENDING en main) usa la «Credencial de registro» tras el checkout;
-#   con github.token el ruleset proteger-main rechazaba el push (GH013, "veredicto" esperado; run 42463443610, Ceuta).
-# ANTERIOR: legacy/workflows/preparacion-fuentes_v1.4.14_20261116.yml (el fichero `preparacion-fuentes.yml` se borra: lo sustituye P10 Fuentes + este reutilizable)
-name: P10 Fuentes — P11 Territoriales
+# CAMBIOS: T-375 (D-136 y D-151, migración paso 6): fichero nuevo; sustituye a preparacion-fuentes.yml 1.4.14 («P10 Fuentes — P11 Territoriales») y preparacion-resultados-electorales.yml 1.0.17 («P10 Fuentes — P12 Electorales»),
+#   borrados (copias en legacy/workflows/). Los cinco jobs de P11 y los cuatro de P12 pasan con los MISMOS pasos, comandos, permisos, salidas y registro, con ids `p11_*` y `p12_*`; solo corre el del `tipo` elegido.
+# MOTIVO: un solo botón «P10 Fuentes»: `tipo` (P11 territoriales | P12 electorales), `territorio` (UN código por ejecución, como P20/P30, D-148/D-151; varios en paralelo los lanza P00), `eleccion` (vigente | ensayo 2026-11-29; solo P12) y
+#   «regenerar aunque exista» (desmarcado). Edición fijada en el código (2025). Reutilizar automático: se reutiliza el paquete registrado si sigue descargable y compatible y se regenera si caducó (P12: antes `exit 44`; el digest nuevo
+#   sustituye al registrado; el digest distinto del registrado sigue fallando, código 45). Acepta también ids de época `<t>_hAAAA_MM` (D-150).
+# EXCLUSIÓN POR TERRITORIO: `concurrency` de workflow, mismos grupos que antes (`ddd-territorial-prod-<territorio>-<edición>` y `ddd-electoral-prod-<territorio>`, `queue: max`); `ddd-catalog-promotion` sigue en los jobs `*_registrar`.
+#   Llamado por la 00 el territorio es el NOMBRE del catálogo (aut12 → «Galicia», como P30); desde el botón es el CÓDIGO, así que el botón no excluye con la 00 ni con P30 (antes el selector llevaba «12 Galicia»: tampoco excluía).
+#   Con la edición vacía (botón) el grupo de P11 usa `2025`, la edición fijada, para coincidir con P30.
+# P12 desde el botón: la edición es la fijada en el código (2025: `inputs.data_edition || '2025'` en el resolver).
+# workflow_call (entradas técnicas ocultas; la 00 y «Legislatura vigente»): `tipo` territoriales|electorales; `territory_id` el territorio canónico; `data_edition` vacía = edición y años del catálogo vigente (solo P11);
+#   `eleccion` vacía = vigente; `source_year`, `population_year`, `section_year`, `source_ref`, `recover_run_id` y `recover_artifact_sha256` vacíos = sin valor (solo P11 salvo `source_ref`); `reutilizar_si_ya_preparada`,
+#   `persist_state` y `allow_source_gap_success` booleanos (en el botón llegan vacíos: persistir obligatorio, sin hueco de fuente). Salidas = unión de las dos anteriores (las del tipo no ejecutado salen vacías).
+# ANTERIOR: ninguna (fichero nuevo); sustituye a legacy/workflows/preparacion-fuentes_v1.4.14_20261116.yml y legacy/workflows/preparacion-resultados-electorales_v1.0.17_20261116.yml
+name: P10 Fuentes
 
 on:
   workflow_call:
     inputs:
+      tipo: {required: true, type: string}
       territory_id: {required: true, type: string}
       data_edition: {required: false, type: string, default: ''}
       source_year: {required: false, type: string, default: ''}
@@ -41,6 +33,8 @@ on:
       persist_state: {required: false, type: boolean, default: true}
       recover_run_id: {required: false, type: string, default: ''}
       recover_artifact_sha256: {required: false, type: string, default: ''}
+      allow_source_gap_success: {required: false, type: boolean, default: false}
+      eleccion: {required: false, type: string, default: ''}
     outputs:
       territory_id:
         value: ${{ jobs.resolver.outputs.territory_id }}
@@ -52,9 +46,44 @@ on:
         value: ${{ jobs.territoriales.outputs.artifact_digest }}
       prepared_source_ref:
         value: ${{ jobs.generation_pending.outputs.prepared_source_ref }}
+  workflow_dispatch:
+    inputs:
+      tipo:
+        description: Qué fuentes preparar
+        required: true
+        default: P11 territoriales
+        type: choice
+        options:
+          - P11 territoriales
+          - P12 electorales
+      territorio:
+        description: Un código de territorio (p. ej. aut13 o nac28)
+        required: true
+        type: string
+      eleccion:
+        description: Elección (solo P12; el ensayo no persiste ni registra)
+        required: true
+        default: vigente
+        type: choice
+        options:
+          - vigente
+          - ensayo 2026-11-29
+      regenerar:
+        description: Regenerar aunque ya exista
+        required: true
+        default: false
+        type: boolean
+
+concurrency:
+  group: ${{ contains(inputs.tipo, 'electorales') && format('ddd-electoral-prod-{0}', inputs.territory_id || inputs.territorio) || format('ddd-territorial-prod-{0}-{1}', inputs.territory_id || inputs.territorio, inputs.data_edition || '2025') }}
+  cancel-in-progress: false
+  queue: max
 permissions:
   contents: write
   actions: read
+
+env:
+  ELECCIONESDB_SNAPSHOT_SHA256: 668f8eeefe0c19f427367ee2b44f0050c30b93d39f7300fad3d6f381966d91fc
 
 jobs:
   resolver:
@@ -85,6 +114,7 @@ jobs:
           POPULATION_YEAR_INPUT: ${{ inputs.population_year || '' }}
           SECTION_YEAR_INPUT: ${{ inputs.section_year || '' }}
           REUSE_INPUT: ${{ toJSON(inputs.reutilizar_si_ya_preparada) }}
+          REGENERAR_INPUT: ${{ inputs.regenerar }}
           PERSIST_INPUT: ${{ toJSON(inputs.persist_state) }}
           RECOVERY_RUN_ID: ${{ inputs.recover_run_id || '' }}
           RECOVERY_SHA256: ${{ inputs.recover_artifact_sha256 || '' }}
@@ -103,7 +133,7 @@ jobs:
             section_year="$(jq -r .section_year_selected <<<"$plan")"
             TERRITORY="$(jq -r .territory_id <<<"$plan")"
             reuse_enabled=true
-            [[ "$REUSE_INPUT" == false ]] && reuse_enabled=false  # T-375: «regenerar aunque exista» de P10
+            [[ "$REGENERAR_INPUT" == true ]] && reuse_enabled=false  # T-375: «regenerar aunque exista» del botón de P10
             persist_requested=true
             RECOVERY_RUN_ID=""
             RECOVERY_SHA256=""
@@ -529,4 +559,3 @@ jobs:
             --preparation-result "$PREPARATION_RESULT" \
             --registration-result "$REGISTRATION_RESULT" \
             --persist-state "$PERSIST_STATE"
-

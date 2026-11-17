@@ -65,7 +65,7 @@ class TestRegistroElectoralComun(unittest.TestCase):
                 row=resolve_for_preparation(entry["name"],root_dir=ROOT,edition="2025")
                 self.assertTrue(row["territory_id"]); self.assertEqual(row["election_id"],entry["election_id"]); self.assertEqual(row["codauto"],entry.get("codauto") or entry.get("pilot_code")); self.assertEqual(row["territorial_edition"],"2025")
     def test_every_registered_election_has_a_technical_route_into_03(self):
-        workflow=(ROOT/".github/workflows/_p12-electorales.yml").read_text(encoding="utf-8")
+        workflow=(ROOT/"tests/fixtures/p10_vistas/_p12-electorales.yml").read_text(encoding="utf-8")
         self.assertIn("adapter=minsait_provisional",workflow)
         self.assertNotIn("adapter=siel_andalucia",workflow)
         self.assertIn("needs.electorales.outputs.production_eligible == 'true'",workflow)
@@ -114,7 +114,7 @@ class TestRegistroElectoralComun(unittest.TestCase):
     def test_cantabria_eleccionesdb_registration_does_not_claim_generic_declaration(self):
         entry=self.registry["territories"]["aut06"]
         self.assertIn(entry["election_id"],ELECTIONS)
-        workflow=(ROOT/".github/workflows/_p12-electorales.yml").read_text(encoding="utf-8")
+        workflow=(ROOT/"tests/fixtures/p10_vistas/_p12-electorales.yml").read_text(encoding="utf-8")
         self.assertIn("adapter: '${{ steps.mode.outputs.adapter }}'",workflow)
         self.assertIn("ADAPTER: '${{ needs.electorales.outputs.adapter }}'",workflow)
         self.assertIn('[[ "$ADAPTER" == "generic" && -n "$DECLARATION" ]]',workflow)

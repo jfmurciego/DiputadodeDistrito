@@ -112,7 +112,7 @@ class F10PreparacionAisladaTests(unittest.TestCase):
                                            registration_result='skipped', persist_state=False))
         self.assertEqual('FAILURE', terminal_decision(preparation_result='failure',
                          registration_result='skipped', persist_state=False)['status'])
-        producer = yaml.safe_load((ROOT / '.github/workflows/_p11-territoriales.yml').read_text())
+        producer = yaml.safe_load((ROOT / 'tests/fixtures/p10_vistas/_p11-territoriales.yml').read_text())
         for job in ('registrar', 'generation_pending'):
             self.assertIn("needs.resolver.outputs.persist_state == 'true'", producer['jobs'][job]['if'])
         for key, level in producer['permissions'].items():

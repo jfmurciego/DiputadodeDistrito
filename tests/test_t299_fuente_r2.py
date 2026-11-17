@@ -72,7 +72,7 @@ class FuenteR2(unittest.TestCase):
             self.assertEqual(len(llamadas), 1)
 
     def test_la_03_lee_r2_primero_y_conserva_el_release(self):
-        txt = (ROOT / ".github/workflows/_p12-electorales.yml").read_text(encoding="utf-8")
+        txt = (ROOT / "tests/fixtures/p10_vistas/_p12-electorales.yml").read_text(encoding="utf-8")
         i = txt.index("fuente_r2.py bajar")
         self.assertGreater(txt.index("curl --fail --location", i), i)
         self.assertGreater(txt.index("gh release download", i), i)

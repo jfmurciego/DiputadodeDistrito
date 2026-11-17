@@ -17,8 +17,8 @@ class DesignA(unittest.TestCase):
     def test_business_interfaces_are_named(self):
         self.assertEqual(load(WF/"ejecucion-completa-proyecto.yml")["name"],"P00 Campaña")
         self.assertEqual(load(WF/"p10-fuentes.yml")["name"],"P10 Fuentes")  # T-375: un botón; P11/P12 son reutilizables sin botón
-        self.assertEqual(load(WF/"_p11-territoriales.yml")["name"],"P10 Fuentes — P11 Territoriales")
-        self.assertEqual(load(WF/"_p12-electorales.yml")["name"],"P10 Fuentes — P12 Electorales")
+        self.assertEqual(load(WF/"../../tests/fixtures/p10_vistas/_p11-territoriales.yml")["name"],"P10 Fuentes")
+        self.assertEqual(load(WF/"../../tests/fixtures/p10_vistas/_p12-electorales.yml")["name"],"P10 Fuentes")
         self.assertEqual(load(WF/"produccion-distritos.yml")["name"],"P20 Base territorial — P30 Distritos")
         self.assertEqual(load(WF/"incorporacion-resultados-electorales.yml")["name"],"P40 Resultados electorales")
         self.assertEqual(load(WF/"p90-automatico.yml")["name"],"P90 Automático")

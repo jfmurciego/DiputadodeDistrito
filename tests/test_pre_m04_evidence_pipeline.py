@@ -1155,7 +1155,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
 
     def test_00_wiring_closes_preparation_before_generation_accreditation(self):
         full = yaml.safe_load((ROOT / ".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8"))
-        preparation = yaml.safe_load((ROOT / ".github/workflows/_p11-territoriales.yml").read_text(encoding="utf-8"))
+        preparation = yaml.safe_load((ROOT / "tests/fixtures/p10_vistas/_p11-territoriales.yml").read_text(encoding="utf-8"))
         reusable = yaml.safe_load((ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8"))
         full_jobs = full["jobs"]
         prep_jobs = preparation["jobs"]
@@ -1189,7 +1189,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
     def test_00_generation_handoff_keeps_source_sha_and_transports_pre_m04_evidence(self):
         full_text = (ROOT / ".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")
         full = yaml.safe_load(full_text)
-        preparation = yaml.safe_load((ROOT / ".github/workflows/_p11-territoriales.yml").read_text(encoding="utf-8"))
+        preparation = yaml.safe_load((ROOT / "tests/fixtures/p10_vistas/_p11-territoriales.yml").read_text(encoding="utf-8"))
         reusable = yaml.safe_load((ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8"))
         production_text = (ROOT / ".github/workflows/produccion-distritos.yml").read_text(encoding="utf-8")
         production = yaml.safe_load(production_text)
@@ -1305,7 +1305,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
         )
 
     def test_preparation_workflow_persists_pending_and_never_runs_generation_preflight(self):
-        preparation = yaml.safe_load((ROOT / ".github/workflows/_p11-territoriales.yml").read_text(encoding="utf-8"))
+        preparation = yaml.safe_load((ROOT / "tests/fixtures/p10_vistas/_p11-territoriales.yml").read_text(encoding="utf-8"))
         reusable = yaml.safe_load((ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8"))
         jobs = preparation["jobs"]
         self.assertNotIn("pre_m04", jobs)

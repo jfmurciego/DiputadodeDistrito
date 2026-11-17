@@ -12,9 +12,8 @@ class LightweightBusinessWorkflows(unittest.TestCase):
     def test_visible_business_names_are_numbered(self):
         expected={
             "ejecucion-completa-proyecto.yml":"P00 Campaña",
-            "_p11-territoriales.yml":"P10 Fuentes — P11 Territoriales",
+            "p10-fuentes.yml":"P10 Fuentes",
             "produccion-distritos.yml":"P20 Base territorial — P30 Distritos",
-            "_p12-electorales.yml":"P10 Fuentes — P12 Electorales",
             "incorporacion-resultados-electorales.yml":"P40 Resultados electorales",
             "p40-publicacion.yml":"P40 Publicación",
         }
@@ -52,12 +51,20 @@ class LightweightBusinessWorkflows(unittest.TestCase):
         self.assertNotIn("id-token: write",electoral)
 
     def test_concurrency_domains_are_explicit(self):
-        territorial_prep=(WF/"_p11-territoriales.yml").read_text(encoding="utf-8")
+        territorial_prep=(WF/"../../tests/fixtures/p10_vistas/_p11-territoriales.yml").read_text(encoding="utf-8")
         generation=(WF/"produccion-distritos.yml").read_text(encoding="utf-8")
-        electoral_prep=(WF/"_p12-electorales.yml").read_text(encoding="utf-8")
+        electoral_prep=(WF/"../../tests/fixtures/p10_vistas/_p12-electorales.yml").read_text(encoding="utf-8")
         electoral=(WF/"incorporacion-resultados-electorales.yml").read_text(encoding="utf-8")
         publisher=(WF/"p40-publicacion.yml").read_text(encoding="utf-8")
-        self.assertIn("ddd-territorial-prod-",territorial_prep)
+        # T-375: la concurrencia REAL de P10 es la del workflow (no un comentario de cabecera).
+        p10=load("p10-fuentes.yml")
+        grupo=p10["concurrency"]["group"]
+        self.assertIn("ddd-electoral-prod-",grupo)
+        self.assertIn("ddd-territorial-prod-",grupo)
+        self.assertEqual(p10["concurrency"]["cancel-in-progress"],False)
+        self.assertEqual(p10["concurrency"]["queue"],"max")
+        self.assertIn("ddd-territorial-prod-",generation)
+        self.assertIn("ddd-territorial-prod-",generation)
         self.assertIn("ddd-territorial-prod-",generation)
         self.assertIn("ddd-electoral-prod-",electoral_prep)
         self.assertIn("ddd-electoral-prod-",electoral)

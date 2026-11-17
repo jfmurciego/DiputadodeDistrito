@@ -297,7 +297,7 @@ class EleccionesDBRetrievedAtTests(unittest.TestCase):
         self.assertIn("retrieved_at=snapshot_meta['retrieved_at']", workflow)
 
     def test_production_preparation_uses_validated_snapshot_retrieved_at(self):
-        workflow = (ROOT / ".github/workflows/_p12-electorales.yml").read_text(
+        workflow = (ROOT / "tests/fixtures/p10_vistas/_p12-electorales.yml").read_text(
             encoding="utf-8"
         )
         self.assertIn(

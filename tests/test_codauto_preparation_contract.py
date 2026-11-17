@@ -55,7 +55,7 @@ class CodautoPreparationContractTests(unittest.TestCase):
 
     def test_01_manual_gate_consumes_authoritative_selected_years_and_internal_id(self):
         workflow = yaml.safe_load(
-            (WORKFLOWS / "_p11-territoriales.yml").read_text(encoding="utf-8")
+            (WORKFLOWS / "../../tests/fixtures/p10_vistas/_p11-territoriales.yml").read_text(encoding="utf-8")
         )
         resolver = next(
             step for step in workflow["jobs"]["resolver"]["steps"]

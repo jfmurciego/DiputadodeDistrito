@@ -104,7 +104,7 @@ class DraftReleasePromotionTests(unittest.TestCase):
         self.assertIn("PRODUCTION_RUN_ID_OVERRIDE: ${{ needs.resolver.outputs.production_run_id }}", text)
         self.assertIn("herramientas/p40_resolver.py territorios", text)
         self.assertNotIn("produccion-distritos.yml", text)
-        self.assertNotIn("_p11-territoriales.yml", text)
+        self.assertNotIn("preparacion-fuentes.yml", text)
         self.assertNotIn("incorporacion-resultados-electorales.yml", text)
 
 

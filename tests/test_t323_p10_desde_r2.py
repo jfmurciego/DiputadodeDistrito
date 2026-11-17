@@ -257,7 +257,7 @@ class P10DesdeR2(unittest.TestCase):
         self.assertEqual(real["65034.csv.zip"]["contenido_sha256"], "1938833dea5c4ac1e722e0038c1ed2295c1efa446b930a560e4afd6eb8c18c2a")
 
     def test_workflow_cableado(self):
-        s = (ROOT / ".github/workflows/_p11-territoriales.yml").read_text(encoding="utf-8")
+        s = (ROOT / "tests/fixtures/p10_vistas/_p11-territoriales.yml").read_text(encoding="utf-8")
         wf = yaml.safe_load(s)
         pasos = wf["jobs"]["territoriales"]["steps"]
         ids = [x.get("id") for x in pasos]
@@ -270,7 +270,7 @@ class P10DesdeR2(unittest.TestCase):
 
     def test_todos_los_pasos_de_adquisicion_llevan_ambas_condiciones(self):
         # Los pasos de adquisición (buildx, build, mode, reconstruir, acquire, resumen) deben saltarse igual con reused_candidate y con desde_r2.
-        pasos = yaml.safe_load((ROOT / ".github/workflows/_p11-territoriales.yml").read_text(encoding="utf-8"))["jobs"]["territoriales"]["steps"]
+        pasos = yaml.safe_load((ROOT / "tests/fixtures/p10_vistas/_p11-territoriales.yml").read_text(encoding="utf-8"))["jobs"]["territoriales"]["steps"]
         ids = [x.get("id") for x in pasos]
         i_r2 = ids.index("r2")
         despues = [x for x in pasos[i_r2 + 1:] if "steps.previous.outputs.reused_candidate != 'true'" in str(x.get("if"))]

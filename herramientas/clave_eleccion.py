@@ -16,7 +16,7 @@ CAMBIOS 1.0.1: D-2 confirmada (INE canónico); solo matrículas en español, las
   (PM, GE, OR…); IB, GI u OU se rechazan.
 CAMBIOS 1.1.0: T-102, producto paralelo «Congreso 350» (pilot_code Rnn, variant congreso_350): clave
   `ES-NAC-R<CPRO>-AAAAMMDD`; la elección entera (`ES-NAC-AAAAMMDD`) no incluye las variantes.
-CAMBIOS 1.2.0: T-375 (D-136): la fase `electoral` lanza `p10-fuentes.yml` (tipo «P12 electorales», `territorios` = código canónico, `regenerar` en lugar de `reutilizar_si_ya_preparada`; sin `data_edition`).
+CAMBIOS 1.2.0: T-375 (D-136): la fase `electoral` lanza `p10-fuentes.yml` (tipo «P12 electorales», `territorio` = código canónico, `regenerar` en lugar de `reutilizar_si_ya_preparada`; sin `data_edition`).
 ANTERIOR: legacy/herramientas/clave_eleccion_v1.1.0_20261116.py
 """
 from __future__ import annotations
@@ -37,7 +37,7 @@ MASTER = Path("configuracion/catalogo_territorios_espana_2025.yaml")
 # Workflow, input del territorio y entradas fijas de cada fase.
 PHASES = {
     "activar": ("preparacion-legislatura-vigente.yml", "territory", {"operation": "prepare_one"}),
-    "electoral": ("p10-fuentes.yml", "territorios", {"tipo": "P12 electorales"}),
+    "electoral": ("p10-fuentes.yml", "territorio", {"tipo": "P12 electorales"}),
     "completa": ("ejecucion-completa-proyecto.yml", "territory_id", {}),
 }
 
@@ -178,7 +178,7 @@ def plan(key: str, phase: str, units: list[dict], only: list[str] | None = None,
     for u in rows:
         args = {field: u["dispatch_name"], **fixed}
         if phase == "electoral":
-            # T-375 (D-136): P10 Fuentes recibe el código canónico del territorio (sin edición: va fijada en el código)
+            # T-375 (D-136): P10 Fuentes recibe UN código canónico (`territorio`) (sin edición: va fijada en el código)
             # y «regenerar aunque exista» en lugar de reutilizar_si_ya_preparada.
             args[field] = u["territory_id"]
             extra = dict(inputs or {})

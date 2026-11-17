@@ -1,67 +1,90 @@
+# VISTA DERIVADA de .github/workflows/p10-fuentes.yml (tipo P12); no editar: python tests/generar_vistas_p10.py
 # PROYECTO: Diputado de Distrito
-# FICHERO: _p12-electorales.yml
-# VERSIÓN: 1.1.0
-# CAMBIOS 1.1.0: T-375 (D-136, migración paso 6): el fichero deja de ser un botón; pasa a ser el reutilizable SIN botón `_p12-electorales.yml` que llama «P10 Fuentes» (`p10-fuentes.yml`, tipo P12) una vez por territorio
-#   (matriz). Se quitan `workflow_dispatch` y la `concurrency` de nivel de workflow (el grupo `ddd-electoral-prod-<territorio>` pasa, idéntico, al job de matriz de P10 que lo llama). Reutilizar automático (D-136): un paquete
-#   registrado cuyo artefacto caducó o fue eliminado ya NO falla con el código 44: se avisa y se prepara de nuevo (el digest distinto sigue fallando, código 45); el resto, idéntico a 1.0.17 (tests/test_t375_p10_equivalencia.py).
-# CAMBIOS 1.0.17: T-332: entrada `eleccion` («vigente» por defecto; «ensayo 2026-11-29»). El ensayo elige la elección de 2026-11-29 de la circunscripción
-#   SOLO en esa ejecución (herramientas/resolver_ensayo_electoral.py; elecciones_vigentes.yaml no cambia), exige el adaptador minsait_provisional con
-#   contrato `rehearsal`, fuerza persist_state=false, no reutiliza paquetes registrados y sube el artefacto como ensayo (production_eligible=false:
-#   nunca se registra); un ensayo válido termina en verde con electoral_outcome=ENSAYO_OK (el terminal exige source_class=rehearsal en el manifiesto).
-#   Con «vigente» el flujo no cambia.
-# CAMBIOS 1.0.16: T-354: el paso «Preparar paquete electoral» (el generic de Galicia lo usa) recibe las credenciales de R2 para leer primero el espejo de las fuentes de mesas
-#   (arc-e/fuentes/xunta/, sha256 del índice orchestracion/fuentes_r2.json); sin objeto o sin credenciales sigue la URL oficial. Misma huella.
-# CAMBIOS 1.0.15: T-349: el paquete electoral registrado se reutiliza solo con el id canónico EXACTO (sin alias): si el nombre del artefacto o
-#   el territory_id del manifiesto difieren, se rechaza y se prepara de nuevo; el resumen dice PREPARÓ o REUTILIZÓ y con qué id, y falla si reutiliza uno no canónico.
-# CAMBIOS 1.0.14: T-299: el ZIP por mesa de Infoelectoral se lee primero de R2 (ARC-E, arc-e/fuentes/interior/, sha256 del índice orchestracion/fuentes_r2.json);
-#   si no está, URL oficial y, después, el release espejo como respaldo; el ZIP verificado se sube a R2 si falta. La huella del contrato se exige igual.
-# CAMBIOS 1.0.13: T-291 (D-65): con la elección de configuracion/elecciones_generales_2026.yaml y la edición 2025 (mapas
-#   vigentes, seccionado 2023), el adaptador común (infoelectoral_mesas y minsait_provisional) declara en el contrato la tabla
-#   configuracion/equivalencia_seccionado_ine_2026_a_2023.csv (--section-equivalence). Cualquier otra elección no cambia.
-# CAMBIOS 1.0.12: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P10 Fuentes — P12 Electorales» (antes 03 Preparación de Resultados Electorales).
-# CAMBIOS 1.0.11: T-102: selector con los 49 territorios «Congreso 350 <provincia>» (K = escaños reales de 2023).
-# NOMBRE DE VERSIÓN: Cola durable de operaciones
-# FECHA: 2026-11-16
+# CLASE: interfaz humana de preparación de fuentes
+# VERSIÓN: 1.0.0
+# FECHA: 2026-11-17
 # ESTADO: candidato
-# QUÉ HACE: serializa el acceso al recurso compartido y conserva todos los trabajos en espera.
-# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
-# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
-# CAMBIOS 1.0.2: pasa --production-eligible al adaptador Minsait cuando el contrato lleva
-#   owner_production_exception validada (Extremadura 2025).
-# CAMBIOS 1.0.3: opción del territorio piloto «Congreso Huesca».
-# CAMBIOS 1.0.4: ruta infoelectoral_mesas (ZIP oficial por mesa del Ministerio del Interior, contrato en
-#   configuracion/contratos_infoelectoral.yaml) para el piloto Congreso Huesca.
-# CAMBIOS 1.0.5: Interior rechaza a los runners de GitHub (curl 22); si falla la URL oficial, descarga el
-#   mismo ZIP del release espejo declarado en el contrato. La huella SHA-256 se exige igual en ambos casos.
-# CAMBIOS 1.0.6: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
-# CAMBIOS 1.0.7: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
-# CAMBIOS 1.0.8: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
-# CAMBIOS 1.0.9: T-10, paso «Credencial de registro» antes de registrar en main: con los secretos
-#   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
-# CAMBIOS 1.0.10: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
-#   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
-# ANTERIOR: legacy/workflows/preparacion-resultados-electorales_v1.0.17_20261116.yml (el fichero `preparacion-resultados-electorales.yml` se borra: lo sustituye P10 Fuentes + este reutilizable)
-name: P10 Fuentes — P12 Electorales
+# CAMBIOS: T-375 (D-136 y D-151, migración paso 6): fichero nuevo; sustituye a preparacion-fuentes.yml 1.4.14 («P10 Fuentes — P11 Territoriales») y preparacion-resultados-electorales.yml 1.0.17 («P10 Fuentes — P12 Electorales»),
+#   borrados (copias en legacy/workflows/). Los cinco jobs de P11 y los cuatro de P12 pasan con los MISMOS pasos, comandos, permisos, salidas y registro, con ids `p11_*` y `p12_*`; solo corre el del `tipo` elegido.
+# MOTIVO: un solo botón «P10 Fuentes»: `tipo` (P11 territoriales | P12 electorales), `territorio` (UN código por ejecución, como P20/P30, D-148/D-151; varios en paralelo los lanza P00), `eleccion` (vigente | ensayo 2026-11-29; solo P12) y
+#   «regenerar aunque exista» (desmarcado). Edición fijada en el código (2025). Reutilizar automático: se reutiliza el paquete registrado si sigue descargable y compatible y se regenera si caducó (P12: antes `exit 44`; el digest nuevo
+#   sustituye al registrado; el digest distinto del registrado sigue fallando, código 45). Acepta también ids de época `<t>_hAAAA_MM` (D-150).
+# EXCLUSIÓN POR TERRITORIO: `concurrency` de workflow, mismos grupos que antes (`ddd-territorial-prod-<territorio>-<edición>` y `ddd-electoral-prod-<territorio>`, `queue: max`); `ddd-catalog-promotion` sigue en los jobs `*_registrar`.
+#   Llamado por la 00 el territorio es el NOMBRE del catálogo (aut12 → «Galicia», como P30); desde el botón es el CÓDIGO, así que el botón no excluye con la 00 ni con P30 (antes el selector llevaba «12 Galicia»: tampoco excluía).
+#   Con la edición vacía (botón) el grupo de P11 usa `2025`, la edición fijada, para coincidir con P30.
+# P12 desde el botón: la edición es la fijada en el código (2025: `inputs.data_edition || '2025'` en el resolver).
+# workflow_call (entradas técnicas ocultas; la 00 y «Legislatura vigente»): `tipo` territoriales|electorales; `territory_id` el territorio canónico; `data_edition` vacía = edición y años del catálogo vigente (solo P11);
+#   `eleccion` vacía = vigente; `source_year`, `population_year`, `section_year`, `source_ref`, `recover_run_id` y `recover_artifact_sha256` vacíos = sin valor (solo P11 salvo `source_ref`); `reutilizar_si_ya_preparada`,
+#   `persist_state` y `allow_source_gap_success` booleanos (en el botón llegan vacíos: persistir obligatorio, sin hueco de fuente). Salidas = unión de las dos anteriores (las del tipo no ejecutado salen vacías).
+# ANTERIOR: ninguna (fichero nuevo); sustituye a legacy/workflows/preparacion-fuentes_v1.4.14_20261116.yml y legacy/workflows/preparacion-resultados-electorales_v1.0.17_20261116.yml
+name: P10 Fuentes
 
 on:
   workflow_call:
     inputs:
+      tipo: {required: true, type: string}
       territory_id: {required: true, type: string}
-      data_edition: {required: true, type: string}
+      data_edition: {required: false, type: string, default: ''}
+      source_year: {required: false, type: string, default: ''}
+      population_year: {required: false, type: string, default: ''}
+      section_year: {required: false, type: string, default: ''}
       reutilizar_si_ya_preparada: {required: false, type: boolean, default: true}
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
+      recover_run_id: {required: false, type: string, default: ''}
+      recover_artifact_sha256: {required: false, type: string, default: ''}
       allow_source_gap_success: {required: false, type: boolean, default: false}
-      eleccion: {required: false, type: string, default: 'vigente'}
+      eleccion: {required: false, type: string, default: ''}
     outputs:
-      territory_id: {value: '${{ jobs.resolver.outputs.territory_id }}'}
-      codauto: {value: '${{ jobs.resolver.outputs.codauto }}'}
-      edition: {value: '${{ jobs.resolver.outputs.edition }}'}
-      artifact_name: {value: '${{ jobs.electorales.outputs.artifact_name }}'}
-      artifact_digest: {value: '${{ jobs.electorales.outputs.artifact_digest }}'}
-      electoral_outcome: {value: '${{ jobs.electorales.outputs.electoral_outcome }}'}
-      electoral_skip_reason: {value: '${{ jobs.electorales.outputs.electoral_skip_reason }}'}
-permissions: {contents: write, actions: read}
+      territory_id:
+        value: ${{ jobs.resolver.outputs.territory_id }}
+      edition:
+        value: ${{ jobs.resolver.outputs.edition }}
+      artifact_name:
+        value: ${{ jobs.electorales.outputs.artifact_name }}
+      artifact_digest:
+        value: ${{ jobs.electorales.outputs.artifact_digest }}
+      codauto:
+        value: ${{ jobs.resolver.outputs.codauto }}
+      electoral_outcome:
+        value: ${{ jobs.electorales.outputs.electoral_outcome }}
+      electoral_skip_reason:
+        value: ${{ jobs.electorales.outputs.electoral_skip_reason }}
+  workflow_dispatch:
+    inputs:
+      tipo:
+        description: Qué fuentes preparar
+        required: true
+        default: P11 territoriales
+        type: choice
+        options:
+          - P11 territoriales
+          - P12 electorales
+      territorio:
+        description: Un código de territorio (p. ej. aut13 o nac28)
+        required: true
+        type: string
+      eleccion:
+        description: Elección (solo P12; el ensayo no persiste ni registra)
+        required: true
+        default: vigente
+        type: choice
+        options:
+          - vigente
+          - ensayo 2026-11-29
+      regenerar:
+        description: Regenerar aunque ya exista
+        required: true
+        default: false
+        type: boolean
+
+concurrency:
+  group: ${{ contains(inputs.tipo, 'electorales') && format('ddd-electoral-prod-{0}', inputs.territory_id || inputs.territorio) || format('ddd-territorial-prod-{0}-{1}', inputs.territory_id || inputs.territorio, inputs.data_edition || '2025') }}
+  cancel-in-progress: false
+  queue: max
+permissions:
+  contents: write
+  actions: read
 
 env:
   ELECCIONESDB_SNAPSHOT_SHA256: 668f8eeefe0c19f427367ee2b44f0050c30b93d39f7300fad3d6f381966d91fc
@@ -127,7 +150,7 @@ jobs:
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2 openpyxl==3.1.5
       - id: previous
         name: Recuperar paquete electoral registrado
-        if: ${{ inputs.reutilizar_si_ya_preparada && needs.resolver.outputs.registered_run_id != '' }}
+        if: ${{ (inputs.reutilizar_si_ya_preparada || (inputs.territorio != '' && !inputs.regenerar)) && needs.resolver.outputs.registered_run_id != '' }}
         env: {REGISTERED_RUN_ID: '${{ needs.resolver.outputs.registered_run_id }}', REGISTERED_ARTIFACT_NAME: '${{ needs.resolver.outputs.registered_artifact_name }}', REGISTERED_ARTIFACT_SHA256: '${{ needs.resolver.outputs.registered_artifact_sha256 }}'}
         run: |
           set -euo pipefail

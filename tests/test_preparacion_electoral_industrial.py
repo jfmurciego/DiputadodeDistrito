@@ -1001,7 +1001,7 @@ class DirectEntrypointTests(unittest.TestCase):
 
 class WorkflowContractTests(unittest.TestCase):
     def test_preparation_installs_xlsx_runtime_and_incorporation_materializes_overlay(self):
-        prepare = (ROOT / ".github/workflows/_p12-electorales.yml").read_text(encoding="utf-8")
+        prepare = (ROOT / "tests/fixtures/p10_vistas/_p12-electorales.yml").read_text(encoding="utf-8")
         incorporate = (ROOT / ".github/workflows/_reutilizable-incorporacion-electoral.yml").read_text(encoding="utf-8")
         self.assertIn("openpyxl==3.1.5", prepare)
         self.assertIn("materializar_contrato_electoral_runtime.py", incorporate)
