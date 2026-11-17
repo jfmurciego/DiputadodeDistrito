@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.64
+Versión: 1.0.65
 Fecha: 2026-11-17
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-163 (permisos de P10-P30 en P00, opción i), D-164 (#888 en pausa; 2b y 3 sin el entorno `registro`); corrección de D-161 (36 = BLOQUEADA_SIN_DATO); T-397c, T-383 en curso
-Anterior: legacy/docs/PLAN_v1.0.63_20261117.md
+Cambios/motivo: D-165 (renombrado M→P, T-313 en diseño) y D-163 con la 2b mínima aprobada (no entraron en #896)
+Anterior: legacy/docs/PLAN_v1.0.64_20261117.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -310,7 +310,8 @@ Fase 4 — producto (en el privado):
 - D-159 (17-11, propietario). Nombres en Actions: los 9 workflows con botón empiezan por «P»; los que no tienen botón llevan «_» delante para salir al final de la lista («_P90 Automático — Fusión automática», «_P90 Automático — Revisor de PR», «_P00 Campaña — <qué hace>»). Los dinámicos de GitHub no se pueden renombrar (diagnóstico de T-397 c). Amplía T-397.
 - D-158 confirmada literal por el propietario (17-11, «sí» en el chat del Planificador): seccionado 2012, población 2011 de cada madre repartida con las proporciones del Atlas 2015 conservando los totales del Censo; 03, 24, 27, 32 y 33 apartadas y declaradas (APARTADA_VOTOS).
 - D-161 (17-11, propietario). Umbral del 1 % de D-126/D-128 en 2011-11 con B': cuenta como estimada solo la población movida de cada madre a sus hijas más la rellenada; la que permanece en la madre no. Con #883@a286b6c queda BLOQUEADA_RELLENO 51 (1,70 %); 36 queda BLOQUEADA_SIN_DATO (corregido 17-11); 15, 22, 29, 34 y 47 pasan. Sustituye en 2011-11 el cómputo conservador (madre e hijas enteras).
-- D-163 (17-11, propietario). P00 llama a P10-P30 con `contents: read`: ningún job de P10-P30 ni del reutilizable de registro pide más que `contents: read`/`actions: read` (si no, startup_failure de toda la P00); el push va con el token de la app y se quita el respaldo `github.token`; sobra `issues: write` en P20 `resolver_interfaz`; el registro de P30 `incorporar` va en un job posterior por artefacto. Garantía «la campaña no escribe en main»: (a) jobs de registro saltados con `campana` no vacía, con test; (b) ningún `git push` ni herramienta de registro fuera del reutilizable, con test; (c) entorno `registro` con la 2a. Se declara que `contents: read` no es barrera para el push con la app.
+- D-163 (17-11, propietario). P00 llama a P10-P30 con `contents: read`: ningún job de P10-P30 ni del reutilizable de registro pide más que `contents: read`/`actions: read` (si no, startup_failure de toda la P00); el push va con el token de la app y se quita el respaldo `github.token`; sobra `issues: write` en P20 `resolver_interfaz`. 2b mínima (propietario, 17-11): sin reutilizable de registro ni partir P30; entrada oculta `campana` (solo `workflow_call`, vacía por defecto) y los 7 jobs de registro y los pasos de registro de P30 `incorporar` con `campana == ''` (sin campaña, idéntico a `main`); en campaña, P20 en serie y grupos globales saltados, con tests; el registro de la campaña lo hace P00 en la PR 3. Garantía «la campaña no escribe en main»: (a) jobs de registro saltados con `campana` no vacía, con test; (b) ningún `git push` ni herramienta de registro fuera de esa lista cerrada, con test y control negativo; (c) entorno `registro` con la 2a. Se declara que `contents: read` no es barrera para el push con la app.
+- D-165 (17-11, propietario). Renombrado M01-M08 → nomenclatura P de D-129 (T-313, actualiza D-102): 01→P21 Base y población, 02→P22 Geometría y adyacencias, 03→P23 Grafo, 04→P24 Solución inicial, 05→P25 Optimización, 06→P26 Producto certificado; auditoría P27, alternativas P28; 07→P31 Agregación, 08→P32 Resultados por distrito; puerta P33. Datos guardados no se reescriben; lo nuevo con nombres nuevos y lectores que aceptan ambos (alias únicos). Los checkpoints con nombre viejo dejan de reutilizarse y se regeneran (inventario de lo reutilizable y test de flujo antes de reanudar). Diseño ya (solo documento); implementación tras T-379 PR 3 y T-383, una PR por capa.
 - D-164 (17-11, propietario). T-379 PR 2a (#888) y lo que dependa de ella quedan en pausa; la migración sigue con el resto. La 2b y la 3 van sobre `main` en PR propias sin declarar `environment: registro` (GitHub lo crearía sin la regla «solo main»); la 2a se rebasa al final con la validación desde rama (aut11). Histórico congelado hasta terminar la migración.
 - D-157 aclarada (17-11, propietario, en el chat del Planificador, por tercera vez): no habrá más frases de fusión; todas las PR están en la lista que dio al Coordinador. Nadie le pide «fusiona N»: el Coordinador fusiona bajo D-157 con CI verde en la PR y en `main` y el revisor conforme.
 - D-162 (17-11, propietario). T-379 PR 2a (#888), opción A: P40 `publicar` y P70 `podar` NO se parten (un job y su grupo de concurrencia, como en `main`); los 2 secretos de la app van a los entornos `registro`, `github-pages` y `produccion`, los tres limitados a `main`; `preparar` usa `produccion` para personas y `registro` para robots. Cambia el §10 del diseño («se parten»). Consecuencia declarada en la PR: una 00 desde rama ≠ `main` falla en `actualizar_estado` y `manifestar`. Antes de fusionar, el propietario crea/revisa los 3 entornos (solo `main`) y copia los secretos.
@@ -339,7 +340,7 @@ Fase 4 — producto (en el privado):
 | T-309 | Endurecer las comparaciones `mismo_territorio` con ids legacy | PENDIENTE (después de la P50) |
 | T-310 | maplibre-gl servido desde el sitio | HECHA (#781) |
 | T-311, T-312 | Id canónico al reutilizar P10 (también en el contrato resuelto copiado) y revert de r3 tanda 1 | HECHA (#786) |
-| T-313 | Migración de notación P (D-102): inventario #784 (borrador) | PENDIENTE (después de la P50) |
+| T-313 | Migración de notación P (D-102, D-165): inventario #784; diseño en curso (Sonnet); implementación tras T-379 PR 3 y T-383 | EN CURSO (diseño) |
 | T-314 | ¿Bloquea `DURABLE_LINEAGE_INCOMPATIBLE` (CLM) «Generar desde fuente»? No: transitorio, solo bloquea «Reutilizar» (lectura de código sobre main actual). Orden: P10 → P00 por territorio seguidos | REVISIÓN (#788); camino crítico |
 | T-315 | Declarar el fondo de OpenStreetMap en el texto de transparencia del contador (D-104); va en #783 (T-294 parte 2) | LISTA (Coordinador) |
 | T-316 | Fondo de mapa propio servido desde Cloudflare, sin terceros (D-104) | PENDIENTE (después del 29-11) |
@@ -428,7 +429,8 @@ Fase 4 — producto (en el privado):
 | T-403 | Relevo automático de chats: sección «Relevo» en las skills de rol y línea en CLAUDE.md (D-160) | LISTA (Sonnet) |
 | T-405 | Histórico 2011-11, provincia 14 (Córdoba, `nac14`): M04 «invalid administrative component source binding»; solo diagnóstico y una PR por causa (Sonnet) | LISTA tras #886 (T-402) |
 | T-397c | «_» en `auto-merge.yml` e inventario en solo lectura de ejecuciones de workflows retirados (D-159) | EN CURSO (session_01KQDtFsHKjJ6KXAcAdTMT6G) |
-| T-407 | Actualización del plan 1.0.64 | REVISIÓN (esta PR) |
+| T-407 | Actualización del plan 1.0.64 | HECHA (#896) |
+| T-408 | Actualización del plan 1.0.65 | REVISIÓN (esta PR) |
 | T-406 | Actualización del plan 1.0.63 | HECHA (#891) |
 | T-404 | Actualización del plan 1.0.62 y traspaso del Planificador | HECHA (#887) |
 | T-385 | Actualización del plan 1.0.56 | HECHA (#856) |
