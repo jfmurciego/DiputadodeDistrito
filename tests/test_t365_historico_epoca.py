@@ -4,7 +4,7 @@
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.3.0 · FECHA: 2026-11-17 · ESTADO: candidato
 ANTERIOR: legacy/tests/test_t365_historico_epoca_v1.2.0_20261117.py
-CAMBIOS: 1.3.0: T-399: contratos 1.3.0 con anterior 1.2.0. 1.2.0: T-396 (D-153): estado APARTADA admitido; contratos 1.2.0 con anterior 1.1.0. 1.1.0: T-389 (T-365b): contratos con la tabla de T-364b (1.2.0): provincias apartadas = BLOQUEADA_SIN_DATO sin filas, fallo cerrado con la tabla vieja.
+CAMBIOS: 1.3.0: T-399: contratos 1.3.0 con anterior 1.2.0; el seccionado de 2011-11 es el del Censo 2011 (D-156). 1.2.0: T-396 (D-153): estado APARTADA admitido; contratos 1.2.0 con anterior 1.1.0. 1.1.0: T-389 (T-365b): contratos con la tabla de T-364b (1.2.0): provincias apartadas = BLOQUEADA_SIN_DATO sin filas, fallo cerrado con la tabla vieja.
 MOTIVO: T-365. Sin red ni fuentes pesadas: el flujo M07/M08 usa un M06 sintético y los módulos reales.
 """
 from __future__ import annotations
@@ -46,7 +46,9 @@ class ContratosVersionados(unittest.TestCase):
                 boe = che.escanos_boe(csv_boe)
                 self.assertEqual(sorted(c["provincias"]), sorted(boe))
                 self.assertEqual(sum(p["K"] for p in c["provincias"].values()), 350)
-                self.assertEqual(c["seccionado"]["sha256"], fr2[c["seccionado"]["fichero"]]["sha256"])
+                esperado = (che._sumas_t357(ROOT)[c["seccionado"]["fichero"]] if e == "2011-11"  # D-156: Censo 2011 (T-357); el resto, R2
+                            else fr2[c["seccionado"]["fichero"]]["sha256"])
+                self.assertEqual(c["seccionado"]["sha256"], esperado)
                 for cpro, p in c["provincias"].items():
                     self.assertEqual(p["K"], boe[cpro]["K"])
                     self.assertEqual(p["territorio"], f"nac{cpro}")  # id canónico, nunca uno viejo

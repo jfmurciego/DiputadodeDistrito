@@ -5,7 +5,7 @@ PROYECTO: Diputado de Distrito
 VERSIÓN: 1.0.0 · FECHA: 2026-11-17 · ESTADO: candidato
 ANTERIOR: ninguna (fichero nuevo)
 CAMBIOS: 1.0.0: fichero nuevo.
-MOTIVO: T-399. Atlas, tabla y seccionado sintéticos (valores esperados escritos a mano, no recalculados); sin red.
+MOTIVO: T-399 (D-156). Atlas, tabla y seccionado sintéticos (valores esperados escritos a mano, no recalculados); sin red.
 """
 from __future__ import annotations
 
@@ -126,6 +126,43 @@ class MaterializarConRelleno(unittest.TestCase):
             with parche, self.assertRaises(SystemExit) as cm:
                 che.materializar("2019-11", "nac22", fuentes, root, cpath)
             self.assertIn("PROVINCIA_NO_LISTA", str(cm.exception))
+
+
+class SeccionadoDe2011(unittest.TestCase):
+    """D-156: 2011-11 usa la cartografía del Censo 2011; el resto de elecciones, el seccionado INE de su año."""
+
+    CENSO_SHA = "d0151e0cc126695933bc30a922c803ab09af03fdfb622238b22f769c7a883acc"  # SHA256SUMS de T-357 (literal, no recalculado)
+
+    def test_eleccion_2011_propia_y_control_negativo(self):
+        e = che._eleccion("2011-11")
+        self.assertEqual((e["seccionado"], e["seccionado_fichero"]), (2011, "cartografia_censo2011_nacional.zip"))
+        self.assertTrue(e["seccionado_propio"]["origen_url"].endswith("/censos2011_datos/cartografia_censo2011_nacional.zip"))
+        for el, anio in (("2015-12", 2015), ("2016-06", 2016), ("2019-04", 2019), ("2019-11", 2020)):
+            x = che._eleccion(el)
+            self.assertEqual((x["seccionado"], x["seccionado_fichero"], x["seccionado_propio"]), (anio, f"seccionado_{anio}.zip", None))
+
+    def test_contrato_2011_11(self):
+        c = json.loads(che.ruta_contrato("2011-11").read_text(encoding="utf-8"))
+        self.assertEqual((c["seccionado"]["fichero"], c["seccionado"]["anio"], c["seccionado"]["sha256"], c["seccionado"]["r2_clave"]),
+                         ("cartografia_censo2011_nacional.zip", 2011, self.CENSO_SHA, None))
+        self.assertIn("D-156", c["seccionado"]["decision"])
+        self.assertIsNone(c["poblacion"]["total_municipal_oficial"]["fuente"])  # sin tabla oficial: no se ajusta y queda declarado
+        for cpro, p in c["provincias"].items():
+            with self.subTest(cpro=cpro):
+                self.assertNotIn("sin_seccionado_resuelto", p["poblacion"])  # con el seccionado del Censo toda sección de la tabla tiene geometría
+                self.assertEqual(p["poblacion"]["secciones_sin_seccionado"], [])
+                r = p["poblacion"].get("sin_poblacion_resuelto")
+                if r:  # ningún total oficial: todas sin ajuste municipal
+                    self.assertTrue(all(x["ajuste"] == "sin_ajuste_municipal" and x["poblacion"] == x["poblacion_atlas"] for x in r["rellenadas"]))
+        self.assertEqual(sum(len(p["poblacion"].get("sin_poblacion_resuelto", {}).get("rellenadas", [])) for p in c["provincias"].values()), 41)
+        self.assertEqual(c["provincias"]["22"]["estado"], "LISTA")
+        self.assertEqual({k for k, p in c["provincias"].items() if p["estado"] != "LISTA"}, {"27", "36"})  # sin dato en ningún año (declarado)
+
+    def test_otros_contratos_sin_relleno(self):
+        for e in ("2015-12", "2016-06", "2019-04", "2019-11"):
+            c = json.loads(che.ruta_contrato(e).read_text(encoding="utf-8"))
+            self.assertNotEqual(c["seccionado"]["fichero"], "cartografia_censo2011_nacional.zip")
+            self.assertFalse(any("sin_poblacion_resuelto" in p["poblacion"] for p in c["provincias"].values()), e)
 
 
 class ContratosVersionados(unittest.TestCase):
