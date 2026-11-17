@@ -1,12 +1,12 @@
 <!--
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: Tabla de madurez de agentes, roles y robots (metaagente v1.0 §25)
-FECHA: 2026-11-07
+FECHA: 2026-11-17
 ESTADO: candidato
-CAMBIOS: T-75. Primera tabla diseñado/implementado/probado/verificado con evidencia por componente.
+CAMBIOS: T-383 (17-11): nombres de workflows migrados (P10, P90). T-75. Primera tabla diseñado/implementado/probado/verificado con evidencia por componente.
 MOTIVO: aplicar el método del metaagente v1.0 sobre lo que existe (nivel N2).
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/2026-11-17_t383_docs/MADUREZ_v1.0.0.md
 -->
 
 # Madurez de la arquitectura de agentes (a 2026-11-07, `main` tras #471)
@@ -21,7 +21,7 @@ haga cumplir (ver `FICHAS_AGENTES.md` §1).
 | Revisor (subagente) | Sí | Sí | Sí: oro 23/24 | Parcial | `evals/oro/LIBRO_DE_COSTES.md` (T-39); revisión real PR #425 (`evals/revisiones/`). Oro y memoria de las mismas fuentes |
 | Revisor en CI | Sí | Sí | No | No | `revisor-pr.yml` 1.0.0; pendiente de que corra con el secreto actualizado (`docs/ESTADO.md`). No es check obligatorio |
 | Forense (subagente) | Sí | Sí | Sí: oro 20/20 | Parcial | T-40 en el libro de costes; caso real T-58 hecho en línea, sin subagente. Mide causas conocidas, no nuevas |
-| Forense en CI | Sí | Sí | No | No | `forense-00.yml` 1.0.0; sin issue de una 00 fallida citado como evidencia |
+| Forense en CI | Sí | Sí | No | No | IA de cierre de `p90-automatico.yml` (antes `forense-00.yml`); sin issue de una 00 fallida citado como evidencia |
 | Auto-merge | Sí | Sí (1.2.0) | Sí | Sí | `tests/test_auto_merge.py`; prueba real #465 (`pruebas` 20:16:54, fusión 20:17:25, `docs/ESTADO.md`). Incidentes 1.0.0: #453, #454, #458 |
 | Guardián | Sí | Sí | Sí | Sí | `tests/test_comprobar_guardian_main.py`; job `guardian` en cada PR y push a `main` |
 | Numeración del registro | Sí | Sí | Sí | Sí | `tests/test_numerar_registro.py`; commits «registro: numerar» en `main` (p. ej. 0db5aea) |

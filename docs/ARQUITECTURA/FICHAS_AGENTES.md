@@ -1,12 +1,12 @@
 <!--
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0
+VERSIÓN: 1.1.1
 NOMBRE DE VERSIÓN: Fichas de roles y agentes y veredictos (metaagente v1.0 §4, §7)
-FECHA: 2026-11-07
+FECHA: 2026-11-17
 ESTADO: vigente (incorporado en skills por T-77)
-CAMBIOS: T-77. Topes de coste por chat, ficha del ingeniero de motor, libro de costes de chats, estados en skills.
+CAMBIOS: T-383 (17-11): nombres de workflows migrados (P10, P90). T-77. Topes de coste por chat, ficha del ingeniero de motor, libro de costes de chats, estados en skills.
 MOTIVO: incorporar los veredictos INCORPORAR de T-75.
-ANTERIOR: legacy/2026-11-07_t77_fichas/FICHAS_AGENTES_v1.0.0.md
+ANTERIOR: legacy/2026-11-17_t383_docs/FICHAS_AGENTES_v1.1.0.md
 -->
 
 # Fichas de roles y agentes de DDD
@@ -53,7 +53,7 @@ Comunes a todos los chats, salvo que se diga otra cosa:
 
 | Ficha | Revisor | Forense |
 |---|---|---|
-| Identidad | `.claude/agents/revisor.md`; en CI `revisor-pr.yml` 1.0.0 | `.claude/agents/forense.md` + `.claude/agent-memory/forense/MEMORY.md`; en CI `forense-00.yml` 1.0.0 |
+| Identidad | `.claude/agents/revisor.md`; en CI `revisor-pr.yml` 1.0.0 | `.claude/agents/forense.md` + `.claude/agent-memory/forense/MEMORY.md`; en CI la IA de cierre de `p90-automatico.yml` (antes `forense-00.yml`) |
 | Misión | Veredicto JSON ligado al SHA del HEAD | Causa en cinco líneas con `causa_id` |
 | Herramientas | Local: Read, Grep, Glob, Bash. CI: `Bash(git diff/show/log)`, `gh pr diff/view` | Local: Read, Grep, Glob, Bash. CI: `Bash(gh api:*)`, `gh run view`, `git fetch/show/log`; token `contents: read, actions: read` |
 | Autoridad | Ninguna; el job `veredicto` falla con FAIL pero **no es check obligatorio** | Ninguna; el job siguiente abre issue (`issues: write`) |
@@ -64,7 +64,7 @@ Comunes a todos los chats, salvo que se diga otra cosa:
 
 | Ficha | Auto-merge | Guardián | Archivista | Numeración |
 |---|---|---|---|---|
-| Fichero | `auto-merge.yml` 1.2.0 + `herramientas/decidir_auto_merge.py` | job `guardian` de `pruebas-plataforma.yml` + `herramientas/comprobar_guardian_main.py` | `archivar-artefactos-r2.yml` 1.0.0 | `numerar-registro.yml` 1.0.0 |
+| Fichero | `auto-merge.yml` 1.2.0 + `herramientas/decidir_auto_merge.py` | job `guardian` de `p90-automatico.yml` (antes `pruebas-plataforma.yml`) + `herramientas/comprobar_guardian_main.py` | `archivar-artefactos-r2.yml` 1.0.0 | `numerar-registro.yml` 1.0.0 |
 | Disparo | `workflow_run` de la CI | `push` y `pull_request` | cron diario 05:17 UTC y manual | `push` a `main` |
 | Hace | Squash si `pruebas` del SHA y de esa suite está en success; fuera borradores y `no-automerge` | Marcas de conflicto, numeración del registro, R015 | Copia a R2 lo referenciado antes de 14 días; `orchestracion/archivo_r2.json` | Numera `docs/registro/` en `REGISTRO_DE_CAMBIOS.md` |
 | Autoridad | Fusiona con la app de registro (exenta del ruleset) | Bloquea vía check `pruebas` | Escribe en `main` y R2 | Escribe en `main` |
@@ -76,7 +76,7 @@ Comunes a todos los chats, salvo que se diga otra cosa:
 
 | Agente | Estado | Qué cubre hoy esa función |
 |---|---|---|
-| Agente de fuentes (P10) | no existe | `preparacion-fuentes.yml`, huellas sha256 de fuentes, espejo Infoelectoral (`CLAUDE.md`) |
+| Agente de fuentes (P10) | no existe | `p10-fuentes.yml` (antes `preparacion-fuentes.yml`), huellas sha256 de fuentes, espejo Infoelectoral (`CLAUDE.md`) |
 | Analista electoral (P40) | no existe | `resultados-ligeros.yml`, T-53/T-55/T-56 (scripts de hemiciclo) |
 | Redactor académico (P60) | no existe | nada; P60 sin empezar |
 
