@@ -199,6 +199,53 @@ class RepartirMadres(unittest.TestCase):
         r = che.repartir_madres([self.H1], {"2200101002": self.POB["2200101002"]}, {self.H1: box(0, 0, 5, 10)}, self.CENSO, atlas, 2011)
         self.assertEqual((r["repartos"], r["sin_madre"]), ([], [self.H1]))
 
+    def test_la_madre_es_del_mismo_municipio(self):
+        # otra sección con población de OTRO municipio (22002) solapa igual: no puede ser madre; la del mismo municipio (22001) sí
+        otro = "2200201001"
+        censo = {self.M: box(0, 0, 10, 10), otro: box(10, 0, 20, 10)}
+        pob = {self.M: self.POB[self.M], otro: {"poblacion": 700, "origen": "dato"}}
+        atlas = {2015: {self.M: 600, self.H1: 400}}
+        r = che.repartir_madres([self.H1], pob, {self.H1: box(5, 0, 15, 10)}, censo, atlas, 2011)  # 50 % en cada una
+        self.assertEqual([x["madre"] for x in r["repartos"]], [self.M])
+        # control negativo: si solo hay madre candidata en otro municipio, la hija queda sin madre
+        r = che.repartir_madres([self.H1], {otro: pob[otro]}, {self.H1: box(10, 0, 14, 10)}, censo, atlas, 2011)
+        self.assertEqual((r["repartos"], r["sin_madre"]), ([], [self.H1]))
+
+    def test_restos_mayores_exactos_y_suma_siempre_igual_a_la_madre(self):
+        # valores a mano (no con el código): 100 en 1:1:1 → base 33/33/33 y los restos son iguales: el sobrante va a la primera (madre)
+        geo = {self.H1: box(0, 0, 5, 10), self.H2: box(5, 0, 10, 10)}
+        r = che.repartir_madres([self.H1, self.H2], {self.M: {"poblacion": 100, "origen": "dato"}}, geo, self.CENSO,
+                                {2015: {self.M: 1, self.H1: 1, self.H2: 1}}, 2011)
+        self.assertEqual([y["poblacion"] for y in r["repartos"][0]["miembros"]], [34, 33, 33])
+        # 101 en 5:3:2 → base 50/30/20, restos 5/3/2: el uno que falta va al resto mayor (la madre)
+        r = che.repartir_madres([self.H1, self.H2], {self.M: {"poblacion": 101, "origen": "dato"}}, geo, self.CENSO,
+                                {2015: {self.M: 5, self.H1: 3, self.H2: 2}}, 2011)
+        self.assertEqual([y["poblacion"] for y in r["repartos"][0]["miembros"]], [51, 30, 20])
+        # 7 en 1:2:4: exactos 1, 2, 4
+        r = che.repartir_madres([self.H1, self.H2], {self.M: {"poblacion": 7, "origen": "dato"}}, geo, self.CENSO,
+                                {2015: {self.M: 1, self.H1: 2, self.H2: 4}}, 2011)
+        self.assertEqual([y["poblacion"] for y in r["repartos"][0]["miembros"]], [1, 2, 4])
+        # propiedad independiente: para cualquier total y pesos, la suma es el total y cada parte difiere < 1 de la proporción exacta
+        import itertools
+        for total, pesos in itertools.product((1, 2, 99, 1000, 123457), ((1, 1), (1, 7, 3), (13, 1, 1), (5, 5, 5, 5), (1000, 1))):
+            vals = {f"22001010{i:02d}": v for i, v in enumerate(pesos, 1)}
+            claves = list(vals)
+            geo_i = {k: box(0, 0, 10, 10) for k in claves[1:]}
+            r = che.repartir_madres(claves[1:], {claves[0]: {"poblacion": total, "origen": "dato"}}, geo_i, {claves[0]: box(0, 0, 10, 10)},
+                                    {2015: vals}, 2011)
+            partes = [y["poblacion"] for y in r["repartos"][0]["miembros"]]
+            self.assertEqual(sum(partes), total)
+            for parte, peso in zip(partes, pesos):
+                self.assertLess(abs(parte - total * peso / sum(pesos)), 1)
+
+    def test_madres_contra_el_censo_acreditado(self):
+        rep = [{"madre": self.M, "poblacion_censo_madre": 1000, "miembros": []}]
+        che.verificar_madres_censo(rep, {self.M: 1000})  # coincide: sin error
+        for censo in ({self.M: 995}, {}, {self.M: "."}):
+            with self.assertRaises(SystemExit) as cm:
+                che.verificar_madres_censo(rep, censo)
+            self.assertIn("REPARTO_MADRE_DISTINTA_DEL_CENSO", str(cm.exception))
+
     def test_miembro_sin_dato_deja_las_hijas_sin_dato(self):
         geo = {self.H1: box(0, 0, 5, 10)}
         atlas = {2015: {self.M: 600, self.H1: "."}}
@@ -254,6 +301,15 @@ class ApartadasPorVotos(unittest.TestCase):
         self.assertIn("PROVINCIA_NO_LISTA", str(cm.exception))
 
 
+class SemaforoNoLeeContratosHistoricos(unittest.TestCase):
+    """`campana_estado` aún no lee el estado de los contratos históricos (T-378 lo hará): cuando lo haga, `APARTADA_VOTOS` debe ser rojo (no LISTA → no declarable, D-154)."""
+
+    def test_campana_estado_no_lee_estados_de_contratos_historicos(self):
+        src = (ROOT / "herramientas/campana_estado.py").read_text(encoding="utf-8")
+        for palabra in ("historico_epoca", "APARTADA_VOTOS", "BLOQUEADA_RELLENO"):
+            self.assertNotIn(palabra, src, "campana_estado ya lee contratos históricos: añade APARTADA_VOTOS como causa roja")
+
+
 class ContratoDe2011(unittest.TestCase):
     def test_reparto_conserva_totales_y_declara_los_casos(self):
         c = json.loads(che.ruta_contrato("2011-11").read_text(encoding="utf-8"))
@@ -269,6 +325,10 @@ class ContratoDe2011(unittest.TestCase):
                 self.assertEqual(sum(y["poblacion"] for y in x["miembros"]), x["poblacion_censo_madre"])  # se conservan los totales del Censo
                 self.assertTrue(all(y["solape"] >= 0.5 for y in x["miembros"] if y["rol"] == "hija"))
         self.assertEqual((madres, hijas), (58, 61))
+        v = c["poblacion"]["madres_verificadas_contra_censo"]  # las madres se verificaron contra el Censo acreditado (sha256 de T-357)
+        self.assertEqual(v["sha256"], che._sumas_t357(ROOT)["indicadores_seccion_censal_csv.zip"])
+        for e in ("2015-12", "2016-06", "2019-04", "2019-11"):
+            self.assertNotIn("madres_verificadas_contra_censo", json.loads(che.ruta_contrato(e).read_text(encoding="utf-8"))["poblacion"])
         self.assertEqual(c["provincias"]["08"]["poblacion"]["secciones_sin_dato"], ["0804703001"])  # sin dato en ningún año: no se inventa
         self.assertEqual(c["provincias"]["08"]["estado"], "BLOQUEADA_SIN_DATO")
         self.assertEqual(c["provincias"]["36"]["poblacion"]["secciones_sin_dato"], ["3605901003"])

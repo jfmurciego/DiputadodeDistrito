@@ -160,7 +160,7 @@ ORIGEN_RELLENADA = "rellenada_año_cercano"
 ORIGEN_MADRE, ORIGEN_HIJA = "repartida_madre", "repartida_hija"
 SOLAPE_MADRE = 0.5  # una sección del seccionado sin fila es «hija» si cae al menos en esta fracción de su área en una sección del Censo con población
 METODO_SIN_POBLACION = ("D-158 B'/D-126 (T-399): sección del seccionado de la época sin fila en la tabla de población. (a) Si cae ≥ 50 % de su área en una sección con "
-                        "población de la misma provincia (la madre; mayor solape), la población de la madre se reparte entre madre e hijas según el valor de cada una "
+                        "población del mismo municipio (la madre; mayor solape), la población de la madre se reparte entre madre e hijas según el valor de cada una "
                         "en el año más cercano del Atlas con dato (empate: el anterior; restos mayores): se conservan los totales del Censo y madre e hijas cuentan "
                         "como estimadas (`repartida_madre`/`repartida_hija`); si algún miembro no tiene dato en ningún año, sus hijas quedan sin dato. (b) Si no tiene "
                         "madre, valor de la misma sección en el año más cercano del Atlas con dato (`rellenada_año_cercano`, estimada), con ajuste proporcional al total "
@@ -225,7 +225,7 @@ def aplicar_relleno(pob: dict[str, dict], rellenadas: list[dict]) -> dict[str, d
 def repartir_madres(sin_pob: list[str], pob: dict[str, dict], geo_sin: dict, geo_censo: dict, atlas: dict, anio: int) -> dict:
     """D-158 (B'): `sin_pob` = secciones del seccionado sin fila en `pob`; `geo_sin` = {sección: geometría en el seccionado del año}; `geo_censo` = {sección: geometría} del Censo.
 
-    La madre de una hija es la sección de `pob` (con población, misma provincia) de mayor solape con la hija, si cubre ≥ `SOLAPE_MADRE` de su área.
+    La madre de una hija es la sección de `pob` (con población, mismo municipio: código de 5 cifras) de mayor solape con la hija, si cubre ≥ `SOLAPE_MADRE` de su área.
     → {"repartos": [{madre, poblacion_censo_madre, miembros: [{seccion, rol, solape, poblacion_atlas, anio_atlas, poblacion}]}], "sin_madre": [hijas],
        "sin_dato": [hijas de grupos con algún miembro sin dato en ningún año]}. Los totales se conservan: Σ población de los miembros = población de la madre."""
     from shapely.strtree import STRtree
@@ -240,7 +240,7 @@ def repartir_madres(sin_pob: list[str], pob: dict[str, dict], geo_sin: dict, geo
         if g is not None and arbol is not None and g.area > 0:
             for i in arbol.query(g, predicate="intersects"):
                 k = cands[i]
-                if k[:2] != h[:2]:
+                if k[:5] != h[:5]:  # misma provincia y municipio: se conservan los totales por madre, municipio y provincia
                     continue
                 a = g.intersection(geo_censo[k]).area
                 if a > area or (a == area and mejor is not None and k < mejor):
@@ -262,6 +262,15 @@ def repartir_madres(sin_pob: list[str], pob: dict[str, dict], geo_sin: dict, geo
                          "miembros": [{"seccion": s, "rol": rol, "solape": sol, "poblacion_atlas": vals[s][0], "anio_atlas": vals[s][1], "poblacion": p}
                                       for (s, rol, sol), p in zip(miembros, partes)]})
     return {"repartos": repartos, "sin_madre": sin_madre, "sin_dato": sorted(sin_dato)}
+
+
+def verificar_madres_censo(repartos: list[dict], censo: dict) -> None:
+    """La población que el contrato declara de cada madre (`poblacion_censo_madre`) debe ser la del Censo 2011 acreditado (`psh.leer_censo`, sha256 de T-357),
+    no solo la de la tabla: falla cerrado si difiere."""
+    for x in repartos:
+        v = censo.get(x["madre"])
+        if v != x["poblacion_censo_madre"]:
+            raise ErrorContrato(f"REPARTO_MADRE_DISTINTA_DEL_CENSO {x['madre']}: contrato {x['poblacion_censo_madre']} Censo {v!r}")
 
 
 def aplicar_reparto(pob: dict[str, dict], repartos: list[dict]) -> dict[str, dict]:
@@ -436,7 +445,7 @@ def pct(parte: int, total: int) -> str:
 
 def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: str = VERSION,
                        anterior: str = "ninguna (fichero nuevo)", root: Path = ROOT, seccionado: Path | None = None,
-                       donantes: Path | None = None, atlas: Path | None = None, total_municipal: dict | None = None) -> dict:
+                       donantes: Path | None = None, atlas: Path | None = None, total_municipal: dict | None = None, censo: Path | None = None) -> dict:
     """`seccionado` (zip del año, sha256 contra fuentes_r2.json) da las secciones con población sin geometría en el seccionado del
     año. D-153: se asignan a su sucesora o se excluyen (`asignar_sin_seccionado`, con los seccionados de `donantes`); las que no
     se resuelven (sucesora de otra provincia) quedan en `secciones_sin_seccionado` y la provincia en APARTADA.
@@ -487,8 +496,12 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
             if censo_don is None:
                 raise ErrorContrato(f"DONANTE_CENSO_REQUERIDO: --donantes DIR con {CARTOGRAFIA_CENSO_2011} para identificar la madre de las secciones sin fila")
             import poblacion_seccion_historica as psh
-            cargas.update(atlas=psh.leer_atlas(atlas), geo_sin=_geometrias_plano(seccionado), geo_censo=_geometrias_plano(censo_don["ruta"]))
+            if censo is None or sha256(censo) != sumas.get("indicadores_seccion_censal_csv.zip"):
+                raise ErrorContrato("CENSO_REQUERIDO: --censo indicadores_seccion_censal_csv.zip con el sha256 de T-357 (verifica la población de las madres)")
+            cargas.update(atlas=psh.leer_atlas(atlas), geo_sin=_geometrias_plano(seccionado), geo_censo=_geometrias_plano(censo_don["ruta"]),
+                          censo=psh.leer_censo(censo))
         rep = repartir_madres(sin_pob, final, cargas["geo_sin"], cargas["geo_censo"], cargas["atlas"], anio)
+        verificar_madres_censo(rep["repartos"], cargas["censo"])
         rell = rellenar_sin_poblacion(rep["sin_madre"], final, cargas["atlas"], anio, total_municipal or {})
         return rep, rell
     terr = _territorios(root)
@@ -566,6 +579,8 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
                       "regla_publicacion": f"> {UMBRAL_RELLENO_PCT} % estimada → BLOQUEADA_RELLENO (D-126/D-128); sin_dato → BLOQUEADA_SIN_DATO",
                       "regla_sin_seccionado": METODO_SIN_SECCIONADO,
                       "regla_sin_poblacion": METODO_SIN_POBLACION,
+                      **({"madres_verificadas_contra_censo": {"fuente": "indicadores_seccion_censal_csv.zip", "sha256": sumas.get("indicadores_seccion_censal_csv.zip")}}
+                         if "censo" in cargas else {}),
                       "total_municipal_oficial": {"fuente": None, "sha256": None,
                                                   "motivo": "sin tabla del INE del total municipal del Censo 2011 con fuente y sha256 (D-158): el relleno no se ajusta"},
                       "fuentes": {k: sumas.get(k) for k in ("30832.csv", "indicadores_seccion_censal_csv.zip")}},
@@ -994,6 +1009,7 @@ def main(argv=None) -> int:
     a1.add_argument("--tabla-origen", required=True, help="herramienta y versión que produjo la tabla")
     a1.add_argument("--seccionado", type=Path, required=True, help="seccionado INE del año (zip, sha256 de fuentes_r2.json)")
     a1.add_argument("--donantes", type=Path, help="carpeta con seccionado_AAAA.zip de otros años (D-153)")
+    a1.add_argument("--censo", type=Path, help="ZIP indicadores_seccion_censal_csv del Censo 2011 (T-399: verifica la población de las madres)")
     a1.add_argument("--atlas", type=Path, help="CSV 30832 del INE (T-399: relleno de secciones sin población)")
     a1.add_argument("--version", default=VERSION)
     a1.add_argument("--anterior", default="ninguna (fichero nuevo)")
@@ -1016,7 +1032,7 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     if a.accion == "contrato":
         c = construir_contrato(a.eleccion, a.tabla, a.tabla_origen, a.version, a.anterior, seccionado=a.seccionado,
-                               donantes=a.donantes, atlas=a.atlas)
+                               donantes=a.donantes, atlas=a.atlas, censo=a.censo)
         out = a.salida or ruta_contrato(a.eleccion)
         print(out, escribir_json(out, c), Counter(p["estado"] for p in c["provincias"].values()))
         return 0
