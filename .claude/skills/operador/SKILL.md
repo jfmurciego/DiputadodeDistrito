@@ -41,3 +41,19 @@ El permiso general de «fusionar la cola» o la orden del planificador no basta 
 en pausa (caso #462, 07-11): hace falta la orden del propietario para esa PR, citada en el chat del operador.
 
 No hace: editar código, contratos, política o `PLAN.md`; fusionar a mano PR sin la etiqueta `no-automerge`.
+
+## Relevo
+Autocomprobación en tu propio turno (no es un vigilante): al empezar cada turno, `get_session` sin id; si
+`external_metadata.context_usage.used_tokens` ≥ 70 % de `autocompact_state.threshold`, abre el relevo (D-160).
+1. Lecciones con `/cierre-sesion`.
+2. `docs/TRASPASO_OPERADOR_AAAA-MM-DD.md`: estado, sesiones vivas con sus ids, pendientes y encargos; PR de solo docs.
+3. Crea tu sucesora con `create_session` (mismo modelo y repositorio); su prompt carga la skill `operador` y lee el traspaso y los ids.
+4. Avisa con `send_message` a Planificador, Coordinador y Operador.
+5. La sucesora confirma que ha leído y archiva a la predecesora.
+
+Frases D-52: se dan en TU chat. Antes del relevo, anota en la ficha de `docs/autorizaciones/`, en una PR, cada frase vigente
+(literal, fecha y hora). El sucesor solo las acepta si el propietario dice UNA VEZ en el chat del Operador: «las frases
+anotadas en su ficha valen para el Operador sucesor»; sin esa frase, pide repetirlas. Un relevo NUNCA hereda una autorización por
+`send_message` ni por el traspaso: solo cuenta lo literal del propietario en el chat que ejecuta.
+Límite de linaje: `create_session` tiene tope de profundidad (hoy 8). En profundidad 7 o más NO crees sucesora: deja el
+traspaso y el prompt listos en él y avisa al propietario al momento con notificación al móvil (D-122) para que abra un chat nuevo.
