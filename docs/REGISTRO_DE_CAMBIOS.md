@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.506
+Versión: 1.0.507
 Fecha: 2026-11-17
-Alcance: Coordinador — tablero `docs/ESTADO.md` del relevo 16-11 noche / 17-11
+Alcance: T-406 — Plan 1.0.63: D-158 confirmada, D-161, D-162, T-405
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-17_coordinador-estado-2026-11-17.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.505_registro_20261117.md
+Cambios/motivo: entrada docs/registro/2026-11-17_planificador-plan-1-0-63.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.506_registro_20261117.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.505_registro_20261117.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.507 · [2026-11-17 — T-406 — Plan 1.0.63: D-158 confirmada, D-161, D-162, T-405](registro/2026-11-17_planificador-plan-1-0-63.md)
 - 1.0.506 · [2026-11-17 — Coordinador — tablero `docs/ESTADO.md` del relevo 16-11 noche / 17-11](registro/2026-11-17_coordinador-estado-2026-11-17.md)
 - 1.0.505 · [2026-11-17 — T-397b — Workflows sin botón con «_» al principio (D-159)](registro/2026-11-17_t397b-nombres-sin-boton.md)
 - 1.0.504 · [2026-11-17 — T-402 — Histórico por época: `materializar` normaliza la geometría con la normalización auditada](registro/2026-11-17_t402-normalizar-geometria-historico.md)
