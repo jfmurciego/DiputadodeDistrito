@@ -1,6 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.3.1
+# VERSIÓN: 1.3.2
+# CAMBIOS 1.3.2: T-379 PR 2a (D-147, opción a): todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara `environment: registro`
+#   (entorno sin revisores, ramas de despliegue = main): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
+# ANTERIOR (1.3.1): legacy/workflows/auto-merge_v1.3.1_20261117.yml
 # ANTERIOR: legacy/workflows/auto-merge_v1.3.0_20261116.yml
 # CAMBIOS 1.3.1: T-397 (D-155), solo el nombre visible: «P90 Automático — Fusión automática» (antes «_Interno — Fusión automática»). Nadie lo
 #   referencia por nombre (es un disparador, no un objetivo de `workflow_run`); disparador, jobs y permisos intactos.
@@ -43,6 +46,7 @@ concurrency:
 jobs:
   fusionar:
     if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.path == '.github/workflows/p90-automatico.yml' }}
+    environment: registro
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:

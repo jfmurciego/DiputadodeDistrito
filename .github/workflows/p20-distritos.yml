@@ -1,6 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de distritos (botón) y reutilizable de la 00
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.0.1
+# CAMBIOS 1.0.1: T-379 PR 2a (D-147, opción a): todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara `environment: registro`
+#   (entorno sin revisores, ramas de despliegue = main): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
+# ANTERIOR (1.0.0): legacy/workflows/p20-distritos_v1.0.0_20261117.yml
 # FECHA: 2026-11-16
 # ESTADO: candidato
 # CAMBIOS: T-377 (D-139, migración paso 8): fichero nuevo; sustituye a produccion-distritos.yml 8.3.0 («P20 Base territorial — P30 Distritos») y
@@ -1445,6 +1448,7 @@ jobs:
     name: P24 Acreditar evidencia durable previa a Formación inicial
     needs: [entrada, resolve, internal_units]
     if: ${{ always() && (needs.entrada.outputs.preflight_only == 'true') && (needs.entrada.outputs.persist_state == 'true') && needs.resolve.result == 'success' && needs.internal_units.result == 'success' }}
+    environment: registro
     runs-on: ubuntu-24.04
     outputs:
       enabled_source_ref: ${{ steps.persist.outputs.enabled_source_ref }}
@@ -1576,6 +1580,7 @@ jobs:
     name: P24 Registrar evaluación no habilitante de generación
     needs: [entrada, resolve, official_sources, m01, m02, m03, internal_units, pre_m04_evidence]
     if: ${{ always() && (needs.entrada.outputs.preflight_only == 'true') && (needs.entrada.outputs.persist_state == 'true') && needs.resolve.result == 'success' && needs.pre_m04_evidence.result != 'success' }}
+    environment: registro
     runs-on: ubuntu-24.04
     outputs:
       evaluation_status: ${{ steps.classify.outputs.evaluation_status }}
@@ -1991,6 +1996,7 @@ jobs:
     name: P26 Registrar producto territorial
     needs: [entrada, resolve, m04, m05, m06, auditoria]
     if: ${{ always() && needs.resolve.result == 'success' && needs.auditoria.result == 'success' && (needs.entrada.outputs.persist_state == 'true') }}
+    environment: registro
     runs-on: ubuntu-24.04
     env:
       PARAMS: ${{ needs.resolve.outputs.params }}

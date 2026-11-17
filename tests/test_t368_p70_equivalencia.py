@@ -17,6 +17,7 @@ from pathlib import Path
 import yaml
 
 from tests._uses_sin_version import cargar as cargar_sin_version
+from tests._t379_2a import deshacer as sin_2a
 
 ROOT = Path(__file__).resolve().parents[1]
 WF = ROOT / ".github" / "workflows"
@@ -91,7 +92,7 @@ class Congelado(unittest.TestCase):
             datos = ruta.read_bytes()
             assert hashlib.sha256(datos).hexdigest() == sha, f"{nombre}: la copia congelada cambió"
             cls.v[k] = cargar_sin_version(datos.decode("utf-8"))
-        cls.p = cargar_sin_version((WF / "p70-archivo.yml").read_text(encoding="utf-8"))
+        cls.p = sin_2a("p70-archivo", cargar_sin_version((WF / "p70-archivo.yml").read_text(encoding="utf-8")))  # sin la 2a (T-379): tests/test_t379_2a_entorno_registro.py
 
 
 class Disparadores(Congelado):
