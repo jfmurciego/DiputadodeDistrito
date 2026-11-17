@@ -31,13 +31,13 @@ HUELLAS = {  # sha256 de las versiones sustituidas (las mismas que `legacy/workf
 MAPA = {
     **{("pruebas", j): j for j in ("cambios", "guardian", "suite", "contratos", "docs", "productos", "pruebas", "catalogo",
                                    "resultados", "numeracion", "estado_vivo", "aviso_nocturna")},
-    ("forense", "comprobar"): "forense_comprobar", ("forense", "diagnosticar"): "diagnosticar", ("forense", "issue"): "forense_issue",
+    # forense viejo (comprobar/diagnosticar/issue): sustituido en P90 1.1.0 por la IA de cierre (T-379 PR 4, tests/test_t379_p90_ia_cierre.py)
     ("mant", "metricas"): "metricas",
 }
 # jobs de pruebas cuya concurrencia cambia a propósito: la cancelación por PR (antes de workflow) pasa al job
 CONC_CAMBIA = {("pruebas", j) for j in ("guardian", "suite", "contratos", "productos", "pruebas", "cambios")}
 # jobs cuyo `if` se amplía con el evento (se comprueba que el viejo sigue contenido en el nuevo)
-IF_PROPIO = {("forense", "comprobar"), ("forense", "diagnosticar"), ("mant", "metricas"), ("pruebas", "aviso_nocturna")}
+IF_PROPIO = {("mant", "metricas"), ("pruebas", "aviso_nocturna")}
 
 
 def cargar_texto(t):
@@ -121,7 +121,7 @@ class Disparadores(Fixtures):
     def test_ningun_job_de_revisor_ni_fusion_en_p90(self):
         for j in ("veredicto", "revisar", "revisor_comprobar", "fusionar"):
             self.assertNotIn(j, self.p90["jobs"])
-        self.assertEqual(set(self.p90["jobs"]), set(MAPA.values()))
+        self.assertEqual(set(self.p90["jobs"]), set(MAPA.values()) | {"cierre_comprobar", "cierre_ia", "cierre_comentario"})
 
     def test_checks_intocables_conservan_nombre(self):
         jobs = self.p90["jobs"]
@@ -138,8 +138,8 @@ class Disparadores(Fixtures):
             self.assertIn("github.event.action == 'synchronize'", cond, nombre)
             self.assertNotIn("labeled", cond, nombre)
         self.assertIn("github.event.schedule == '17 5 * * 1'", j["metricas"]["if"])
-        self.assertIn("github.event_name == 'workflow_run' && github.event.workflow_run.name == 'P00 Campaña'", j["forense_comprobar"]["if"])
-        self.assertIn("github.event.workflow_run.conclusion == 'failure'", j["forense_comprobar"]["if"])  # condición de hoy
+        self.assertIn("github.event_name == 'workflow_run' && github.event.workflow_run.name == 'P00 Campaña'", norm(j["cierre_comprobar"]["if"]))
+        self.assertIn("github.event.workflow_run.conclusion == 'failure'", j["cierre_comprobar"]["if"])
         for nombre in ("catalogo", "resultados", "numeracion", "estado_vivo"):
             self.assertIn("github.event_name == 'push'", j[nombre]["if"], nombre)
         self.assertIn("github.event.schedule == '23 2 * * *'", j["aviso_nocturna"]["if"])  # no con las métricas del lunes
@@ -186,7 +186,7 @@ class Equivalencia(Fixtures):
             c = job.get("concurrency")
             if c and c["cancel-in-progress"] is False:
                 self.assertEqual(c.get("queue"), "max", nombre)
-        a, b = self.viejos["forense"]["concurrency"], self.p90["jobs"]["diagnosticar"]["concurrency"]
+        a, b = self.viejos["forense"]["concurrency"], self.p90["jobs"]["cierre_ia"]["concurrency"]
         self.assertEqual((a["group"], a["cancel-in-progress"], a["queue"]), (b["group"], b["cancel-in-progress"], b["queue"]))
 
     def test_nocturna_cae_en_grupo_unico_por_run(self):
@@ -205,8 +205,8 @@ class ControlesNegativos(Fixtures):
     def test_detecta_permiso_ganado(self):
         n = self.mutar("catalogo", lambda j: j.__setitem__("permissions", {"contents": "write", "actions": "write"}))
         self.assertTrue(diferencias(self.viejos["pruebas"], "catalogo", n, "catalogo"))
-        n = self.mutar("diagnosticar", lambda j: j["permissions"].__setitem__("contents", "write"))
-        self.assertTrue(diferencias(self.viejos["forense"], "diagnosticar", n, "diagnosticar", conc_cambia=False, if_propio=True))
+        n = self.mutar("catalogo", lambda j: j.__setitem__("permissions", {"contents": "read"}))
+        self.assertTrue(diferencias(self.viejos["pruebas"], "catalogo", n, "catalogo"))
 
     def test_detecta_if_perdido(self):
         n = self.mutar("estado_vivo", lambda j: j.__setitem__("if", "${{ true }}"))
