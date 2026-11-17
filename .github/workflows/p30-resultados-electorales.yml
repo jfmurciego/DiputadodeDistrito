@@ -1,6 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.0.1
+# CAMBIOS 1.0.1: T-379 PR 2b (D-163, 2b mínima): `contents: read` en todo el fichero (el push a main va con el token de la app de registro,
+#   que no depende de GITHUB_TOKEN: `contents: read` NO es barrera para ese push; sin la app, la credencial falla en vez de caer en github.token);
+#   entrada oculta `campana` (workflow_call; vacía = como antes). Con campaña, los jobs (en P30, los pasos) que registran en main se saltan.
+# ANTERIOR (1.0.0): legacy/workflows/p30-resultados-electorales_v1.0.0_20261117b.yml
 # CAMBIOS 1.0.0: T-376 (D-137, migración paso 7). Fichero nuevo: sustituye a `incorporacion-resultados-electorales.yml` 2.0.8 («P40 Resultados electorales») y a
 #   `_reutilizable-incorporacion-electoral.yml` 1.3.0 (este va DENTRO: los pasos de `preparar`, `incorporar` y `registrar` de antes, en un solo job).
 #   Botón: solo `territorio` (UN código, p. ej. aut12; sin matriz, sin run id: producto territorial certificado y paquete
@@ -22,6 +26,7 @@ name: P30 Resultados electorales
 on:
   workflow_call:
     inputs:
+      campana: {required: false, type: string, default: ''}  # T-379 2b (D-163): id de campaña de P00; no vacía = ruta de campaña (sin registro en main)
       territory_id: {required: true, type: string}
       data_edition: {required: false, type: string, default: ''}
       territorial_run_id: {required: false, type: string, default: ''}
@@ -41,7 +46,7 @@ on:
         type: string
 
 permissions:
-  contents: write
+  contents: read  # T-379 2b (D-163): el push a main va con el token de la app de registro, no con GITHUB_TOKEN
   actions: read
 
 jobs:
@@ -575,14 +580,14 @@ jobs:
           retention-days: 30
 
       - name: Cargar persistidor vigente compatible con main
-        if: ${{ success() && needs.resolver.outputs.persistir == 'true' }}
+        if: ${{ success() && needs.resolver.outputs.persistir == 'true' && !inputs.campana }}
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: main
           fetch-depth: 0
           path: persistidor
       - name: Credencial de registro
-        if: ${{ success() && needs.resolver.outputs.persistir == 'true' }}
+        if: ${{ success() && needs.resolver.outputs.persistir == 'true' && !inputs.campana }}
         shell: bash
         working-directory: persistidor
         env:
@@ -590,7 +595,7 @@ jobs:
           APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
         run: |
           set -euo pipefail
-          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "::error::Sin la app de registro (DDD_REGISTRO_APP_*): GITHUB_TOKEN es de solo lectura (T-379 2b, D-163)."; exit 1; fi
           b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
           now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
           unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
@@ -605,7 +610,7 @@ jobs:
           git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
           echo "Registro con la app propia (exenta en el ruleset proteger-main)."
       - name: Archivo en origen — M08 a R2 y votos por partido a git
-        if: ${{ success() && needs.resolver.outputs.persistir == 'true' }}
+        if: ${{ success() && needs.resolver.outputs.persistir == 'true' && !inputs.campana }}
         shell: bash
         working-directory: persistidor
         env:
@@ -633,7 +638,7 @@ jobs:
             --mensaje "chore(archivo): M08 de $TERRITORY_ID en R2 y votos por partido del run $GITHUB_RUN_ID" || rc=$?
           [[ "$rc" == 0 ]] || { echo '::error title=ARCHIVO_ORIGEN_FAILED::No se pudo registrar el archivo en origen en main.'; exit 1; }
       - name: Registrar disponibilidad del producto electoral
-        if: ${{ success() && needs.resolver.outputs.persistir == 'true' }}
+        if: ${{ success() && needs.resolver.outputs.persistir == 'true' && !inputs.campana }}
         shell: bash
         working-directory: persistidor
         env:
