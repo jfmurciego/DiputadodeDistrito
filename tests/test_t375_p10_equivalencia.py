@@ -210,22 +210,50 @@ class P10(unittest.TestCase):
         self.assertEqual(env["EDITION"], "${{ inputs.data_edition || '2025' }}")
         self.assertEqual(env["TERRITORY"], "${{ (inputs.territory_id || inputs.territorio) }}")
 
+    @staticmethod
+    def evaluar_grupo(expresion, **entradas):
+        """Evalúa la expresión REAL de `concurrency.group` de p10-fuentes.yml (subconjunto: contains, format, &&, ||, inputs.X)."""
+        class Entradas(dict):
+            def __getattr__(self, k):
+                return self.get(k) or ""
+
+        cuerpo = re.fullmatch(r"\$\{\{\s*(.*?)\s*\}\}", expresion.strip(), re.S).group(1)
+        py = re.sub(r"inputs\.(\w+)", r"inputs.\1", cuerpo)
+        py = py.replace("&&", " and ").replace("||", " or ")
+        py = re.sub(r"contains\(", "contiene(", py)
+        resultado = eval(py, {"__builtins__": {}}, {
+            "inputs": Entradas(entradas),
+            "contiene": lambda a, b: b in a,
+            "format": lambda f, *a: re.sub(r"\{(\d)\}", lambda m: str(a[int(m.group(1))]), f),
+        })
+        return resultado
+
     def test_codigo_y_nombre_dan_el_mismo_grupo_y_territorios_distintos_no(self):
-        """El grupo se calcula con el id canónico: el nombre del catálogo (que solía pasar la 00) se resuelve al MISMO código."""
+        """La concurrencia REAL de P10 usa el id canónico: botón (código) y 00/Legislatura (`territory_id` canónico) dan el mismo grupo."""
         sys.path.insert(0, str(ROOT))
         from herramientas.catalogo_preparacion import lookup
 
-        def grupo(tipo, territorio, edicion=""):
-            canonico = lookup(territorio, "2025")["territory_id"]
-            return (f"ddd-electoral-prod-{canonico}" if tipo == "electorales" else f"ddd-territorial-prod-{canonico}-{edicion or '2025'}")
+        expr = self.p10["concurrency"]["group"]
 
-        for tipo in ("territoriales", "electorales"):
-            for codigo, nombre in (("aut12", "Galicia"), ("nac28", "Congreso Madrid"), ("aut01", "Andalucía")):
-                self.assertEqual(grupo(tipo, codigo), grupo(tipo, nombre), (tipo, codigo, nombre))
-        # Control negativo: territorios distintos → grupos distintos.
-        self.assertNotEqual(grupo("electorales", "aut12"), grupo("electorales", "aut01"))
-        self.assertNotEqual(grupo("territoriales", "nac28"), grupo("territoriales", "aut12"))
-        # Y los callers de P10 pasan el id canónico (no el nombre).
+        def boton(tipo, codigo):
+            return self.evaluar_grupo(expr, tipo=tipo, territorio=codigo)
+
+        def llamada(tipo, valor_que_pasa_la_00, edicion="2025"):
+            return self.evaluar_grupo(expr, tipo=tipo, territory_id=valor_que_pasa_la_00, data_edition=edicion)
+
+        for codigo, nombre in (("aut12", "Galicia"), ("nac28", "Congreso Madrid"), ("aut01", "Andalucía")):
+            canonico = lookup(nombre, "2025")["territory_id"]
+            self.assertEqual(canonico, codigo)
+            # La 00 y «Legislatura» pasan `territory_id` (el canónico), no el nombre.
+            self.assertEqual(boton("P12 electorales", codigo), llamada("electorales", canonico), codigo)
+            self.assertEqual(boton("P11 territoriales", codigo), llamada("territoriales", canonico), codigo)  # botón con edición vacía = 2025
+        self.assertEqual(boton("P12 electorales", "aut12"), "ddd-electoral-prod-aut12")
+        self.assertEqual(boton("P11 territoriales", "aut12"), "ddd-territorial-prod-aut12-2025")
+        # Control negativo: territorios distintos o tipos distintos → grupos distintos; pasar el NOMBRE no excluye (por eso la 00 pasa el id).
+        self.assertNotEqual(boton("P12 electorales", "aut12"), boton("P12 electorales", "aut01"))
+        self.assertNotEqual(boton("P12 electorales", "aut12"), boton("P11 territoriales", "aut12"))
+        self.assertNotEqual(boton("P12 electorales", "aut12"), llamada("electorales", "Galicia"))
+        # Los callers de P10 pasan el id canónico.
         for fichero, jobs in (("ejecucion-completa-proyecto.yml", ("preparar_territorial", "preparar_electoral")),
                               ("preparacion-legislatura-vigente.yml", ("territorial", "electoral"))):
             w = cargar(WF / fichero)
