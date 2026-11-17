@@ -1,9 +1,9 @@
 {
  "schema": "ddd.contrato-historico-epoca/1.0",
- "version": "1.1.0",
- "anterior": "legacy/contrato_historico_epoca_2011_11_v1.0.0_20261116.json",
+ "version": "1.2.0",
+ "anterior": "legacy/contrato_historico_epoca_2011_11_v1.1.0_20261117.json",
  "motivo": "D-125 (opción A: distritos con los datos de cada época), D-126/D-128 (población), T-199 (elección en el registro)",
- "generado_con": "herramientas/contrato_historico_epoca.py 1.0.0",
+ "generado_con": "herramientas/contrato_historico_epoca.py 1.1.0",
  "eleccion": "2011-11",
  "fecha": "2011-11-20",
  "clave_espejo": "201111",
@@ -13,7 +13,51 @@
   "sha256": "772ad76b84e1b3bb9293a5595d2ccafa06f21a3a58ccc96a9ec5dadd99e46c4a",
   "origen_url": "https://www.ine.es/prodyser/cartografia/seccionado_2012.zip",
   "r2_clave": "arc-e/fuentes/ine/seccionado_2012_772ad76b84e1.zip",
-  "campo_seccion": "CUSEC"
+  "campo_seccion": "CUSEC",
+  "donantes": [
+   {
+    "anio": 2011,
+    "fichero": "cartografia_censo2011_nacional.zip",
+    "sha256": "d0151e0cc126695933bc30a922c803ab09af03fdfb622238b22f769c7a883acc",
+    "origen_url": "https://www.ine.es/censos2011_datos/cartografia_censo2011_nacional.zip"
+   },
+   {
+    "anio": 2015,
+    "fichero": "seccionado_2015.zip",
+    "sha256": "50dda58ed4afb57c7f1f38e6b6b8150768efaa225bfc3a523b9c210a2a218c03",
+    "origen_url": "https://www.ine.es/prodyser/cartografia/seccionado_2015.zip"
+   },
+   {
+    "anio": 2016,
+    "fichero": "seccionado_2016.zip",
+    "sha256": "3410af763bfe58d1b0f9c0d0038cbdd6417e0f3f6d0fce6a3e70bef64c84b3e1",
+    "origen_url": "https://www.ine.es/prodyser/cartografia/seccionado_2016.zip"
+   },
+   {
+    "anio": 2019,
+    "fichero": "seccionado_2019.zip",
+    "sha256": "656119dadadb57ef3fa9d20a8ba33399fe606e553c9fef3fc338786e52fae967",
+    "origen_url": "https://www.ine.es/prodyser/cartografia/seccionado_2019.zip"
+   },
+   {
+    "anio": 2020,
+    "fichero": "seccionado_2020.zip",
+    "sha256": "07544bb49256e9e9f290b6f459a0a833e69c97900eb840c3f5bbe863914ede6e",
+    "origen_url": "https://www.ine.es/prodyser/cartografia/seccionado_2020.zip"
+   },
+   {
+    "anio": 2021,
+    "fichero": "seccionado_2021.zip",
+    "sha256": "03e1b38b8ad6c48157783b34a7d7a52ae1af1ee25c6b7e95e1c9dbfffbac1bcd",
+    "origen_url": "https://www.ine.es/prodyser/cartografia/seccionado_2021.zip"
+   },
+   {
+    "anio": 2022,
+    "fichero": "seccionado_2022.zip",
+    "sha256": "0545f25c60a146fc4d6c15b53f9de03dcc91a5894305f802ce5d8464c60e8e28",
+    "origen_url": "https://www.ine.es/prodyser/cartografia/seccionado_2022.zip"
+   }
+  ]
  },
  "poblacion": {
   "fichero": "poblacion_seccion_2011-11.csv",
@@ -22,7 +66,7 @@
   "anio_referencia": 2011,
   "fuente": "censo",
   "regla_publicacion": "> 1 % estimada → BLOQUEADA_RELLENO (D-126/D-128); sin_dato → BLOQUEADA_SIN_DATO",
-  "regla_sin_seccionado": "secciones con población sin geometría en el seccionado del año: materializar falla cerrado (decisión pendiente del propietario)",
+  "regla_sin_seccionado": "D-153/T-396: sección con población sin geometría en el seccionado del año → sección del seccionado del año que contiene su centroide (punto representativo si el centroide cae fuera de todas), con la geometría del seccionado más cercano en años que la tenga (empate: el anterior); misma provincia (otra → APARTADA); sin geometría en ningún año, punto fuera de todo el seccionado o sucesora sin fila en la tabla → excluida con su población declarada. Reglas que D-153 no cita y declara este contrato: punto representativo si el centroide cae fuera; exclusión si la sucesora no tiene fila; origen dato+dato = dato (no cuenta como estimada)",
   "fuentes": {
    "30832.csv": "37716cba8cda50a492f52e2bae91a1c543bafb4263110e5aa5da18107ef68311",
    "indicadores_seccion_censal_csv.zip": "305a19f11b87d4e13d2ea4267774b9b0e3a69a3b7b1ff8e483aad90867628fe7"
@@ -118,21 +162,70 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/03_da1a9680cb8c.json"
    },
    "poblacion": {
-    "secciones": 1232,
+    "secciones": 1226,
     "total": 1844785,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
     "pct_no_dato": "0.0000",
     "secciones_sin_dato": [],
-    "secciones_sin_seccionado": [
-     "0301401024",
-     "0301405021",
-     "0301407021",
-     "0301408020",
-     "0303101016",
-     "0306503022"
-    ],
-    "poblacion_sin_seccionado": 4705
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "0301401024",
+       "sucesora": "0301401007",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 815
+      },
+      {
+       "seccion": "0301405021",
+       "sucesora": "0301405020",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 910
+      },
+      {
+       "seccion": "0301407021",
+       "sucesora": "0301407002",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 985
+      },
+      {
+       "seccion": "0301408020",
+       "sucesora": "0301408002",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 590
+      },
+      {
+       "seccion": "0303101016",
+       "sucesora": "0303101009",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 600
+      },
+      {
+       "seccion": "0306503022",
+       "sucesora": "0306503021",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 805
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 4705,
+     "poblacion_excluida": 0
+    }
    },
    "estado": "LISTA"
   },
@@ -265,16 +358,27 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/08_4b92e1265db7.json"
    },
    "poblacion": {
-    "secciones": 3577,
-    "total": 5487660,
+    "secciones": 3576,
+    "total": 5487390,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
     "pct_no_dato": "0.0000",
     "secciones_sin_dato": [],
-    "secciones_sin_seccionado": [
-     "0804702003"
-    ],
-    "poblacion_sin_seccionado": 270
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [],
+     "excluidas": [
+      {
+       "seccion": "0804702003",
+       "poblacion": 270,
+       "motivo": "la sucesora 0804703001 no tiene fila en la tabla de población"
+      }
+     ],
+     "apartadas": [],
+     "poblacion_asignada": 0,
+     "poblacion_excluida": 270
+    }
    },
    "estado": "LISTA"
   },
@@ -379,18 +483,46 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/12_1fa5e7fb495b.json"
    },
    "poblacion": {
-    "secciones": 438,
+    "secciones": 435,
     "total": 592200,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
     "pct_no_dato": "0.0000",
     "secciones_sin_dato": [],
-    "secciones_sin_seccionado": [
-     "1204001002",
-     "1204003004",
-     "1204007005"
-    ],
-    "poblacion_sin_seccionado": 2270
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "1204001002",
+       "sucesora": "1204001004",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 710
+      },
+      {
+       "seccion": "1204003004",
+       "sucesora": "1204003003",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 575
+      },
+      {
+       "seccion": "1204007005",
+       "sucesora": "1204007003",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 985
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 2270,
+     "poblacion_excluida": 0
+    }
    },
    "estado": "LISTA"
   },
@@ -467,25 +599,102 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/15_477800bf13d6.json"
    },
    "poblacion": {
-    "secciones": 919,
+    "secciones": 909,
     "total": 1137550,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
     "pct_no_dato": "0.0000",
     "secciones_sin_dato": [],
-    "secciones_sin_seccionado": [
-     "1500901003",
-     "1502501002",
-     "1503003008",
-     "1503003019",
-     "1503802002",
-     "1504003001",
-     "1505602002",
-     "1505903003",
-     "1507601005",
-     "1508201009"
-    ],
-    "poblacion_sin_seccionado": 5955
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "1500901003",
+       "sucesora": "1500901001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 570
+      },
+      {
+       "seccion": "1502501002",
+       "sucesora": "1502501001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 1010
+      },
+      {
+       "seccion": "1503003008",
+       "sucesora": "1503003005",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 355
+      },
+      {
+       "seccion": "1503003019",
+       "sucesora": "1503003018",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 665
+      },
+      {
+       "seccion": "1503802002",
+       "sucesora": "1503802001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 635
+      },
+      {
+       "seccion": "1504003001",
+       "sucesora": "1504002001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 330
+      },
+      {
+       "seccion": "1505602002",
+       "sucesora": "1505602001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 465
+      },
+      {
+       "seccion": "1505903003",
+       "sucesora": "1505903001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 525
+      },
+      {
+       "seccion": "1507601005",
+       "sucesora": "1507601004",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 1050
+      },
+      {
+       "seccion": "1508201009",
+       "sucesora": "1508201002",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 350
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 5955,
+     "poblacion_excluida": 0
+    }
    },
    "estado": "LISTA"
   },
@@ -646,16 +855,30 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/21_7ef1aeea74f2.json"
    },
    "poblacion": {
-    "secciones": 360,
+    "secciones": 359,
     "total": 518195,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
     "pct_no_dato": "0.0000",
     "secciones_sin_dato": [],
-    "secciones_sin_seccionado": [
-     "2101702002"
-    ],
-    "poblacion_sin_seccionado": 685
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "2101702002",
+       "sucesora": "2101702001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 685
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 685,
+     "poblacion_excluida": 0
+    }
    },
    "estado": "LISTA"
   },
@@ -676,16 +899,30 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/22_f9592645571e.json"
    },
    "poblacion": {
-    "secciones": 289,
+    "secciones": 288,
     "total": 223235,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
     "pct_no_dato": "0.0000",
     "secciones_sin_dato": [],
-    "secciones_sin_seccionado": [
-     "2212508001"
-    ],
-    "poblacion_sin_seccionado": 560
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "2212508001",
+       "sucesora": "2212508004",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 560
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 560,
+     "poblacion_excluida": 0
+    }
    },
    "estado": "LISTA"
   },
@@ -734,16 +971,30 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/24_02b41a89a1c9.json"
    },
    "poblacion": {
-    "secciones": 459,
+    "secciones": 458,
     "total": 489625,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
     "pct_no_dato": "0.0000",
     "secciones_sin_dato": [],
-    "secciones_sin_seccionado": [
-     "2408905012"
-    ],
-    "poblacion_sin_seccionado": 1180
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "2408905012",
+       "sucesora": "2408905002",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 1180
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 1180,
+     "poblacion_excluida": 0
+    }
    },
    "estado": "LISTA"
   },
@@ -820,22 +1071,78 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/27_9349f69c104c.json"
    },
    "poblacion": {
-    "secciones": 296,
+    "secciones": 289,
     "total": 345625,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
     "pct_no_dato": "0.0000",
     "secciones_sin_dato": [],
-    "secciones_sin_seccionado": [
-     "2700201003",
-     "2700701004",
-     "2703401002",
-     "2705703002",
-     "2706001004",
-     "2706502003",
-     "2706503003"
-    ],
-    "poblacion_sin_seccionado": 4590
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "2700201003",
+       "sucesora": "2700201002",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 455
+      },
+      {
+       "seccion": "2700701004",
+       "sucesora": "2700701003",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 735
+      },
+      {
+       "seccion": "2703401002",
+       "sucesora": "2703401001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 540
+      },
+      {
+       "seccion": "2705703002",
+       "sucesora": "2705701005",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 495
+      },
+      {
+       "seccion": "2706001004",
+       "sucesora": "2706001003",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 915
+      },
+      {
+       "seccion": "2706502003",
+       "sucesora": "2706502002",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 960
+      },
+      {
+       "seccion": "2706503003",
+       "sucesora": "2706503002",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 490
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 4590,
+     "poblacion_excluida": 0
+    }
    },
    "estado": "LISTA"
   },
@@ -968,20 +1275,62 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/32_da973b8b9dd0.json"
    },
    "poblacion": {
-    "secciones": 283,
+    "secciones": 278,
     "total": 325205,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
     "pct_no_dato": "0.0000",
     "secciones_sin_dato": [],
-    "secciones_sin_seccionado": [
-     "3200103001",
-     "3200701003",
-     "3207603001",
-     "3208601002",
-     "3208603001"
-    ],
-    "poblacion_sin_seccionado": 2630
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "3200103001",
+       "sucesora": "3200102001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 480
+      },
+      {
+       "seccion": "3200701003",
+       "sucesora": "3200701001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 470
+      },
+      {
+       "seccion": "3207603001",
+       "sucesora": "3207602001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 520
+      },
+      {
+       "seccion": "3208601002",
+       "sucesora": "3208601001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 585
+      },
+      {
+       "seccion": "3208603001",
+       "sucesora": "3208602001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 575
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 2630,
+     "poblacion_excluida": 0
+    }
    },
    "estado": "LISTA"
   },
@@ -1002,18 +1351,46 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/33_d2de96026d7a.json"
    },
    "poblacion": {
-    "secciones": 878,
+    "secciones": 875,
     "total": 1069285,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
     "pct_no_dato": "0.0000",
     "secciones_sin_dato": [],
-    "secciones_sin_seccionado": [
-     "3301103001",
-     "3301901003",
-     "3304404017"
-    ],
-    "poblacion_sin_seccionado": 1745
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "3301103001",
+       "sucesora": "3301102001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 0
+      },
+      {
+       "seccion": "3301901003",
+       "sucesora": "3301901001",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 515
+      },
+      {
+       "seccion": "3304404017",
+       "sucesora": "3304404006",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 1230
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 1745,
+     "poblacion_excluida": 0
+    }
    },
    "estado": "LISTA"
   },
@@ -1062,17 +1439,36 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/35_b2c963a6ee54.json"
    },
    "poblacion": {
-    "secciones": 680,
-    "total": 1084825,
+    "secciones": 678,
+    "total": 1084095,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
     "pct_no_dato": "0.0000",
     "secciones_sin_dato": [],
-    "secciones_sin_seccionado": [
-     "3501602060",
-     "3501602062"
-    ],
-    "poblacion_sin_seccionado": 1310
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "3501602062",
+       "sucesora": "3501603043",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 580
+      }
+     ],
+     "excluidas": [
+      {
+       "seccion": "3501602060",
+       "poblacion": 730,
+       "motivo": "la sucesora 3501603042 no tiene fila en la tabla de población"
+      }
+     ],
+     "apartadas": [],
+     "poblacion_asignada": 580,
+     "poblacion_excluida": 730
+    }
    },
    "estado": "LISTA"
   },
@@ -1093,16 +1489,30 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/36_95886cf93d42.json"
    },
    "poblacion": {
-    "secciones": 721,
+    "secciones": 720,
     "total": 951490,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
     "pct_no_dato": "0.0000",
     "secciones_sin_dato": [],
-    "secciones_sin_seccionado": [
-     "3601701005"
-    ],
-    "poblacion_sin_seccionado": 285
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "3601701005",
+       "sucesora": "3601701004",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 285
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 285,
+     "poblacion_excluida": 0
+    }
    },
    "estado": "LISTA"
   },
@@ -1375,18 +1785,46 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/46_cf736ac77024.json"
    },
    "poblacion": {
-    "secciones": 1803,
+    "secciones": 1800,
     "total": 2553485,
     "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
     "pct_no_dato": "0.0000",
     "secciones_sin_dato": [],
-    "secciones_sin_seccionado": [
-     "4600501009",
-     "4602201013",
-     "4625011003"
-    ],
-    "poblacion_sin_seccionado": 2250
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0,
+    "sin_seccionado_resuelto": {
+     "asignadas": [
+      {
+       "seccion": "4600501009",
+       "sucesora": "4600501003",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 800
+      },
+      {
+       "seccion": "4602201013",
+       "sucesora": "4602201012",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 760
+      },
+      {
+       "seccion": "4625011003",
+       "sucesora": "4625011002",
+       "donante_anio": 2011,
+       "punto": "centroide",
+       "mismo_municipio": true,
+       "poblacion": 690
+      }
+     ],
+     "excluidas": [],
+     "apartadas": [],
+     "poblacion_asignada": 2250,
+     "poblacion_excluida": 0
+    }
    },
    "estado": "LISTA"
   },
