@@ -1,7 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.1.0
-# ANTERIOR: legacy/workflows/revisor-pr_v1.0.2_20261114.yml
+# VERSIÓN: 1.1.1
+# ANTERIOR: legacy/workflows/revisor-pr_v1.1.0_20261110.yml
+# CAMBIOS 1.1.1: T-397 (D-155), solo el nombre visible: «P90 Automático — Revisor de PR» (antes «Revisor de PR»). El check `veredicto` (ruleset
+#   proteger-main) es el del job, no cambia; jobs, disparadores y permisos intactos.
 # CAMBIOS 1.1.0: T-293, ahorro de cuota; autorizado por el propietario (solo disparadores; fallo cerrado y permisos intactos).
 #   El revisor solo corre con la etiqueta `revisar-ia` en la PR (a demanda = ponerla; al ponerla, evento `labeled`).
 #   Ya no en cada push, ni en borrador, ni en PR de robots (autor Bot). El workflow sigue disparándose en los mismos
@@ -11,7 +13,7 @@
 # CAMBIOS 1.0.2: T-149, solo el nombre visible («Revisor de PR», sin «_Interno — »). Jobs y check `veredicto` intactos.
 # CAMBIOS 1.0.1: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE DE VERSIÓN: Revisor independiente en cada PR
-# FECHA: 2026-11-10
+# FECHA: 2026-11-17
 # ESTADO: candidato
 # QUÉ HACE: en cada PR (no borrador, de este repositorio) ejecuta el subagente revisor (.claude/agents/revisor.md,
 #   Sonnet, solo lectura) con anthropics/claude-code-action y deja su veredicto JSON, ligado al SHA del HEAD, en un
@@ -20,7 +22,7 @@
 # CAMBIOS: versión inicial (T-48).
 # MOTIVO: §12 del framework de agentes: revisión independiente sistemática; calibración en evals/oro (T-39).
 # ANTERIOR: ninguna (fichero nuevo)
-name: Revisor de PR
+name: P90 Automático — Revisor de PR
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review, labeled]
