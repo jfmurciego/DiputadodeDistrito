@@ -82,18 +82,11 @@ permissions:
   contents: write
   actions: read
 
-# Un solo grupo por ejecución de este fichero, el que tenía cada ruta: «generar» el de produccion-distritos.yml (que llevaba dentro el del motor),
-# «acreditar» el del reutilizable y el botón el de la 02 con lo que escribió el usuario (el botón viejo usaba la etiqueta del selector).
-# Además (Planificador, 17-11), cada job del motor salvo `resolve` y los tres que registran en main (`pre_m04_evidence`, `pre_m04_diagnostic`,
-# `registrar`: sin grupo único, T-360) lleva el grupo `ddd-p20-territorio-<id canónico>` (el `territory_id` que `resolve` saca
-# del contrato): botón, «generar» y «acreditar» del mismo territorio nunca tienen dos jobs del motor a la vez (antes, la ruta «generar» anidaba el grupo
-# del reutilizable; ahora no hay anidamiento). Es por job: dos ejecuciones pueden alternar jobs. El registro en main (los tres sin grupo) lo
-# re-deriva y reintenta herramientas/registrar_en_main.py (T-360), como antes.
-concurrency:
-  group: ${{ format('{0}', inputs.territory_id) != '' && format('ddd-territorial-prod-{0}-{1}', inputs.territory_id, inputs.data_edition) || (format('{0}', inputs.territorio) != '' && format('ddd-territorial-prod-{0}-2025', inputs.territorio) || format('ddd-territorial-engine-{0}', inputs.params)) }}
-  cancel-in-progress: false
-  queue: max
-
+# Exclusión por territorio (Planificador, 17-11; mismo grupo que P10, T-375): no hay `concurrency` de workflow; cada job del motor salvo `resolve` y los
+# tres que registran en main (`pre_m04_evidence`, `pre_m04_diagnostic`, `registrar`: sin grupo único, T-360) lleva
+# `ddd-territorial-prod-<id canónico>-<edición>`, con el `territory_id` que `resolve` saca del contrato (aut12 llegue el código del botón o el nombre de
+# la 00) y la edición 2025 si no se pasa. Así P10 (P11) y P20 del mismo territorio se excluyen, vengan del botón o de la 00. Es por job: dos ejecuciones
+# pueden alternar jobs; el registro en main (los tres sin grupo) lo re-deriva y reintenta herramientas/registrar_en_main.py (T-360), como antes.
 jobs:
   interfaz:
     name: P20 Territorio y modo
@@ -757,7 +750,7 @@ jobs:
     name: P21 Verificar datos territoriales preparados
     needs: [entrada, resolve]
     concurrency:
-      group: ddd-p20-territorio-${{ needs.resolve.outputs.territory_id }}
+      group: ddd-territorial-prod-${{ needs.resolve.outputs.territory_id }}-${{ inputs.data_edition || '2025' }}
       cancel-in-progress: false
       queue: max
     if: ${{ needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 1 }}
@@ -951,7 +944,7 @@ jobs:
     name: P21 Base territorial y población
     needs: [entrada, resolve, official_sources]
     concurrency:
-      group: ddd-p20-territorio-${{ needs.resolve.outputs.territory_id }}
+      group: ddd-territorial-prod-${{ needs.resolve.outputs.territory_id }}-${{ inputs.data_edition || '2025' }}
       cancel-in-progress: false
       queue: max
     if: ${{ needs.resolve.result == 'success' && needs.official_sources.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 1 && fromJSON(needs.resolve.outputs.to_num) >= 1 }}
@@ -1304,7 +1297,7 @@ jobs:
     name: P22 Adyacencias territoriales
     needs: [entrada, resolve, m01]
     concurrency:
-      group: ddd-p20-territorio-${{ needs.resolve.outputs.territory_id }}
+      group: ddd-territorial-prod-${{ needs.resolve.outputs.territory_id }}-${{ inputs.data_edition || '2025' }}
       cancel-in-progress: false
       queue: max
     if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 2 && fromJSON(needs.resolve.outputs.to_num) >= 2 && (needs.m01.result == 'success' || (needs.m01.result == 'skipped' && needs.entrada.outputs.checkpoint_run_id != '' && fromJSON(needs.resolve.outputs.from_num) == 2)) }}
@@ -1317,7 +1310,7 @@ jobs:
     name: P23 Grafo territorial
     needs: [entrada, resolve, m02]
     concurrency:
-      group: ddd-p20-territorio-${{ needs.resolve.outputs.territory_id }}
+      group: ddd-territorial-prod-${{ needs.resolve.outputs.territory_id }}-${{ inputs.data_edition || '2025' }}
       cancel-in-progress: false
       queue: max
     if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 3 && fromJSON(needs.resolve.outputs.to_num) >= 3 && (needs.m02.result == 'success' || (needs.m02.result == 'skipped' && needs.entrada.outputs.checkpoint_run_id != '' && fromJSON(needs.resolve.outputs.from_num) == 3)) }}
@@ -1330,7 +1323,7 @@ jobs:
     name: P24 Preparar unidades internas
     needs: [entrada, resolve, m03]
     concurrency:
-      group: ddd-p20-territorio-${{ needs.resolve.outputs.territory_id }}
+      group: ddd-territorial-prod-${{ needs.resolve.outputs.territory_id }}-${{ inputs.data_edition || '2025' }}
       cancel-in-progress: false
       queue: max
     if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 4 && fromJSON(needs.resolve.outputs.to_num) >= 4 && (needs.m03.result == 'success' || (needs.m03.result == 'skipped' && needs.entrada.outputs.checkpoint_run_id != '' && fromJSON(needs.resolve.outputs.from_num) == 4)) }}
@@ -1753,7 +1746,7 @@ jobs:
     name: P24 Formación inicial de distritos
     needs: [entrada, resolve, internal_units]
     concurrency:
-      group: ddd-p20-territorio-${{ needs.resolve.outputs.territory_id }}
+      group: ddd-territorial-prod-${{ needs.resolve.outputs.territory_id }}-${{ inputs.data_edition || '2025' }}
       cancel-in-progress: false
       queue: max
     if: ${{ always() && !(needs.entrada.outputs.preflight_only == 'true') && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 4 && fromJSON(needs.resolve.outputs.to_num) >= 4 && needs.internal_units.result == 'success' }}
@@ -1766,7 +1759,7 @@ jobs:
     name: P25 Optimización de distritos
     needs: [entrada, resolve, m04]
     concurrency:
-      group: ddd-p20-territorio-${{ needs.resolve.outputs.territory_id }}
+      group: ddd-territorial-prod-${{ needs.resolve.outputs.territory_id }}-${{ inputs.data_edition || '2025' }}
       cancel-in-progress: false
       queue: max
     if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 5 && fromJSON(needs.resolve.outputs.to_num) >= 5 && (needs.m04.result == 'success' || (needs.m04.result == 'skipped' && needs.entrada.outputs.checkpoint_run_id != '' && fromJSON(needs.resolve.outputs.from_num) == 5)) }}
@@ -1779,7 +1772,7 @@ jobs:
     name: P26 Consolidación territorial
     needs: [entrada, resolve, m05]
     concurrency:
-      group: ddd-p20-territorio-${{ needs.resolve.outputs.territory_id }}
+      group: ddd-territorial-prod-${{ needs.resolve.outputs.territory_id }}-${{ inputs.data_edition || '2025' }}
       cancel-in-progress: false
       queue: max
     if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 6 && fromJSON(needs.resolve.outputs.to_num) >= 6 && (needs.m05.result == 'success' || (needs.m05.result == 'skipped' && needs.entrada.outputs.checkpoint_run_id != '' && fromJSON(needs.resolve.outputs.from_num) == 6)) }}
@@ -1792,7 +1785,7 @@ jobs:
     name: P27 Auditoría geométrica de la consolidación territorial
     needs: [entrada, resolve, m06]
     concurrency:
-      group: ddd-p20-territorio-${{ needs.resolve.outputs.territory_id }}
+      group: ddd-territorial-prod-${{ needs.resolve.outputs.territory_id }}-${{ inputs.data_edition || '2025' }}
       cancel-in-progress: false
       queue: max
     if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.to_num) >= 6 && (needs.m06.result == 'success' || (needs.m06.result == 'skipped' && needs.entrada.outputs.checkpoint_run_id != '' && fromJSON(needs.resolve.outputs.from_num) >= 7)) }}

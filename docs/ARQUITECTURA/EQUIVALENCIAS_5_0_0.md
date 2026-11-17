@@ -32,8 +32,7 @@ su traslado a ARC, después del corte.
 | `ejecucion-completa-proyecto.yml` | 00 Ejecución Completa del Proyecto | P00 Campaña | P00 Campaña |
 | `activacion-por-eleccion.yml` | Auxiliar — Activación por Elección | P00 Campaña | P00 Campaña — Elección |
 | `preparacion-legislatura-vigente.yml` | Auxiliar — Activación de Legislatura Vigente | P00 Campaña | P00 Campaña — Legislatura |
-| `preparacion-fuentes.yml` | 01 Preparación de Datos Territoriales | P10 Fuentes | P10 Fuentes — P11 Territoriales |
-| `preparacion-resultados-electorales.yml` | 03 Preparación de Resultados Electorales | P10 Fuentes | P10 Fuentes — P12 Electorales |
+| `p10-fuentes.yml` | 01 Preparación de Datos Territoriales / 03 Preparación de Resultados Electorales (preparacion-fuentes.yml, preparacion-resultados-electorales.yml, T-375) | P10 Fuentes | P10 Fuentes |
 | `p20-distritos.yml` | 02 Generación de Distritos Autonómicos (produccion-distritos.yml, _reutilizable-generacion-territorial.yml, T-377; 06 Escenarios y Ensembles retirado, D-138) | P20 Distritos | P20 Distritos |
 | `incorporacion-resultados-electorales.yml` | 04 Incorporación de Resultados Electorales | P40 Resultados electorales | P40 Resultados electorales |
 | `p40-publicacion.yml` | 05 Publicación del Visor / 05 Cadena de Publicación (desplegar-visor-publico.yml, cadena-publicacion.yml, _reutilizable-publicar-sitio.yml, T-372) | P40 Publicación | P40 Publicación |

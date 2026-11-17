@@ -74,8 +74,8 @@ class PreflightPaqueteElectoral(unittest.TestCase):
     def test_caducado_sin_copia_bloquea_con_remedio(self):
         r = self.run_eval(plan(), fake_api([art(expired=True)]))
         self.assertEqual((r["decision"], r["code"]), ("BLOCK", "ELECTORAL_PACKAGE_EXPIRED"))
-        self.assertIn("preparacion-resultados-electorales.yml", r["message"])
-        self.assertIn("reutilizar_si_ya_preparada=false", r["message"])
+        self.assertIn("p10-fuentes.yml", r["message"])
+        self.assertIn("Regenerar aunque ya exista", r["message"])
         self.assertIn("prepare_one", r["message"])
         self.assertIn("Andalucía", r["message"])
 
@@ -95,7 +95,7 @@ class PreflightPaqueteElectoral(unittest.TestCase):
     def test_caducidad_proxima_solo_avisa(self):
         r = self.run_eval(plan(), fake_api([art(expires_at="2026-11-11T18:00:00Z")]))
         self.assertEqual((r["decision"], r["code"]), ("READY", "ELECTORAL_PACKAGE_EXPIRES_SOON"))
-        self.assertIn("reutilizar_si_ya_preparada=false", r["warning"])
+        self.assertIn("Regenerar aunque ya exista", r["warning"])
 
     def test_expires_at_pasado_es_caducado_aunque_expired_sea_false(self):
         r = self.run_eval(plan(), fake_api([art(expires_at="2026-11-10T00:00:00Z")]))

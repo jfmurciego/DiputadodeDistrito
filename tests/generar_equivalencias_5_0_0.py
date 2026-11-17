@@ -1,13 +1,14 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.1.4
-# CAMBIOS 1.1.4 (T-377): `produccion-distritos.yml` y `_reutilizable-generacion-territorial.yml` pasan a `p20-distritos.yml` («P20 Distritos»);
+# VERSIÓN: 1.1.5
+# CAMBIOS 1.1.5 (T-377): `produccion-distritos.yml` y `_reutilizable-generacion-territorial.yml` pasan a `p20-distritos.yml` («P20 Distritos»);
 #   `generar-alternativas-territoriales.yml` (06 Escenarios y Ensembles) se retira sin sustituto (D-138).
+# CAMBIOS 1.1.4 (T-375): `preparacion-fuentes.yml` y `preparacion-resultados-electorales.yml` pasan a `p10-fuentes.yml` («P10 Fuentes»).
 # CAMBIOS 1.1.3 (T-372): `desplegar-visor-publico.yml` y `cadena-publicacion.yml` pasan a `p40-publicacion.yml` («P40 Publicación»).
 # CAMBIOS 1.1.2 (T-370): «Publicar versión de mapa» pasa a `p50-publicacion-academica.yml` («P50 Publicación académica»).
 # CAMBIOS 1.1.0: T-215, columna «Nombre visible v5» (el nombre que lleva hoy cada fichero tras el paso 4) y nota de separadores.
 # FECHA: 2026-11-12
 # CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-# ANTERIOR: legacy/tests/generar_equivalencias_5_0_0_v1.1.3_20261116.py
+# ANTERIOR: legacy/tests/generar_equivalencias_5_0_0_v1.1.4_20261117.py
 """T-198: genera docs/ARQUITECTURA/EQUIVALENCIAS_5_0_0.md (viejo -> nuevo) de la tabla maestra.
 
 Reproducible: `python tests/generar_equivalencias_5_0_0.py` reescribe el documento;
@@ -42,8 +43,7 @@ FLUJOS = [
     ("ejecucion-completa-proyecto.yml", "00 Ejecución Completa del Proyecto", "P00 Campaña", "P00 Campaña"),
     ("activacion-por-eleccion.yml", "Auxiliar — Activación por Elección", "P00 Campaña", "P00 Campaña — Elección"),
     ("preparacion-legislatura-vigente.yml", "Auxiliar — Activación de Legislatura Vigente", "P00 Campaña", "P00 Campaña — Legislatura"),
-    ("preparacion-fuentes.yml", "01 Preparación de Datos Territoriales", "P10 Fuentes", "P10 Fuentes — P11 Territoriales"),
-    ("preparacion-resultados-electorales.yml", "03 Preparación de Resultados Electorales", "P10 Fuentes", "P10 Fuentes — P12 Electorales"),
+    ("p10-fuentes.yml", "01 Preparación de Datos Territoriales / 03 Preparación de Resultados Electorales (preparacion-fuentes.yml, preparacion-resultados-electorales.yml, T-375)", "P10 Fuentes", "P10 Fuentes"),
     ("p20-distritos.yml", "02 Generación de Distritos Autonómicos (produccion-distritos.yml, _reutilizable-generacion-territorial.yml, T-377; 06 Escenarios y Ensembles retirado, D-138)", "P20 Distritos", "P20 Distritos"),
     ("incorporacion-resultados-electorales.yml", "04 Incorporación de Resultados Electorales", "P40 Resultados electorales", "P40 Resultados electorales"),
     ("p40-publicacion.yml", "05 Publicación del Visor / 05 Cadena de Publicación (desplegar-visor-publico.yml, cadena-publicacion.yml, _reutilizable-publicar-sitio.yml, T-372)", "P40 Publicación", "P40 Publicación"),

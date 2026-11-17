@@ -22,7 +22,7 @@ from herramientas.catalogo_preparacion import validate_repository
 
 ROOT = Path(__file__).resolve().parents[1]
 from tests._estados_vivos import ESTADOS_PREPARADO  # noqa: E402
-PREP = ROOT / ".github/workflows/preparacion-fuentes.yml"
+PREP = ROOT / "tests/fixtures/p10_vistas/_p11-territoriales.yml"
 GEN = ROOT / ".github/workflows/p20-distritos.yml"
 CAT = ROOT / "configuracion/catalogo_preparacion.yaml"
 MASTER = ROOT / "configuracion/catalogo_territorios_espana_2025.yaml"

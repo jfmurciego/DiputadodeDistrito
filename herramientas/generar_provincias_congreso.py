@@ -2,9 +2,9 @@
 """Alta de las provincias del Congreso como territorios del flujo 00, con Huesca como plantilla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.4 · FECHA: 2026-11-16 · ESTADO: candidato
-CAMBIOS 1.2.4 (T-377, D-139): `produccion-distritos.yml` sale de WORKFLOWS: P20 Distritos (`p20-distritos.yml`) no tiene selector de territorios (códigos).
-ANTERIOR (1.2.3): legacy/herramientas/generar_provincias_congreso_v1.2.3_20261116.py
+VERSIÓN: 1.2.5 · FECHA: 2026-11-17 · ESTADO: candidato
+CAMBIOS 1.2.5 (T-377, D-139): `produccion-distritos.yml` sale de WORKFLOWS: P20 Distritos (`p20-distritos.yml`) no tiene selector de territorios (códigos).
+ANTERIOR (1.2.4): legacy/herramientas/generar_provincias_congreso_v1.2.4_20261117.py
 QUÉ HACE: para cada provincia del reparto N06 (K aprobado, 407 escaños) que aún no exista, añade la
   entrada en el catálogo maestro (pilot_territories, con número INE y letras de matrícula), la política,
   la matriz de legislatura, el registro electoral, las fuentes territoriales, el catálogo de preparación,
@@ -20,7 +20,8 @@ CAMBIOS 1.2.1: matrículas en español (Baleares PM, Gerona GE, Orense OR), deci
 CAMBIOS 1.2.2: T-102, la ordenación de los selectores ignora las opciones «Congreso 350 …» (gemelos de
   generar_provincias_congreso_350.py), que van detrás de las 52 provincias.
 CAMBIOS 1.2.3 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/generar_provincias_congreso_v1.2.2_20261112.py
+CAMBIOS 1.2.4: T-375 (D-136): deja de escribir la lista de territorios en P10 (preparacion-fuentes.yml y preparacion-resultados-electorales.yml ya no tienen selector).
+ANTERIOR: legacy/herramientas/generar_provincias_congreso_v1.2.3_20261116.py
 """
 from __future__ import annotations
 
@@ -80,8 +81,8 @@ PROVINCES = {
     "52": ("Melilla", "ML"),
 }
 WORKFLOWS = (
-    "ejecucion-completa-proyecto.yml", "incorporacion-resultados-electorales.yml", "preparacion-fuentes.yml",
-    "preparacion-legislatura-vigente.yml", "preparacion-resultados-electorales.yml",
+    "ejecucion-completa-proyecto.yml", "incorporacion-resultados-electorales.yml",
+    "preparacion-legislatura-vigente.yml",
 )
 
 

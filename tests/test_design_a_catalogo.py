@@ -16,9 +16,10 @@ def triggers(path):
 class DesignA(unittest.TestCase):
     def test_business_interfaces_are_named(self):
         self.assertEqual(load(WF/"ejecucion-completa-proyecto.yml")["name"],"P00 Campaña")
-        self.assertEqual(load(WF/"preparacion-fuentes.yml")["name"],"P10 Fuentes — P11 Territoriales")
-        self.assertEqual(load(WF/"preparacion-resultados-electorales.yml")["name"],"P10 Fuentes — P12 Electorales")
-        self.assertEqual(load(WF/"p20-distritos.yml")["name"],"P20 Distritos")  # T-377 (D-139)
+        self.assertEqual(load(WF/"p10-fuentes.yml")["name"],"P10 Fuentes")  # T-375: un botón; P11/P12 son reutilizables sin botón
+        self.assertEqual(load(WF/"../../tests/fixtures/p10_vistas/_p11-territoriales.yml")["name"],"P10 Fuentes")
+        self.assertEqual(load(WF/"../../tests/fixtures/p10_vistas/_p12-electorales.yml")["name"],"P10 Fuentes")
+        self.assertEqual(load(WF/"p20-distritos.yml")["name"],"P20 Distritos")
         self.assertEqual(load(WF/"incorporacion-resultados-electorales.yml")["name"],"P40 Resultados electorales")
         self.assertEqual(load(WF/"p90-automatico.yml")["name"],"P90 Automático")
 
@@ -32,9 +33,7 @@ class DesignA(unittest.TestCase):
         self.assertEqual(sorted(manual),[
             "ejecucion-completa-proyecto.yml",
             "incorporacion-resultados-electorales.yml",
-            "preparacion-fuentes.yml",
-            "preparacion-resultados-electorales.yml",
-        ])  # T-377: P20 usa códigos (`territorios`); P28 retirada
+        ])  # T-377: P20 usa un código (`territorio`); T-375: P10 Fuentes elige por `tipo` y `territorios` (códigos), sin selector `territory_id`
 
     def test_internal_capabilities_remain(self):
         expected={
@@ -75,12 +74,11 @@ class DesignA(unittest.TestCase):
                         self.assertTrue(q.is_file() and q.stat().st_size>0,(row["territory_id"],key))
 
     def test_preparation_uses_common_registry_and_generation_keeps_readiness_gate(self):
-        prep=triggers(WF/"preparacion-fuentes.yml")["workflow_dispatch"]["inputs"]["territory_id"]["options"]
         electoral=triggers(WF/"incorporacion-resultados-electorales.yml")["workflow_dispatch"]["inputs"]["territory_id"]["options"]
         expected=selector_labels(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")
         generable=[r["name"] for r in rows_for("generation",CAT)]
         electoral_ready=[r["name"] for r in rows_for("electoral_application",CAT)]
-        self.assertEqual(prep,expected)
+        self.assertNotIn("territory_id",triggers(WF/"p10-fuentes.yml")["workflow_dispatch"]["inputs"])  # T-375
         self.assertEqual(electoral,expected)
         self.assertIn("Galicia",generable)
         self.assertIn("Galicia",electoral_ready)

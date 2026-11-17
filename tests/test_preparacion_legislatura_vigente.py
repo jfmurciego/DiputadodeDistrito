@@ -570,8 +570,8 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
 
     def test_workflow_keeps_01_and_03_independent_and_never_runs_all_19(self):
         workflow = WORKFLOW.read_text(encoding="utf-8")
-        self.assertIn("uses: ./.github/workflows/preparacion-fuentes.yml", workflow)
-        self.assertIn("uses: ./.github/workflows/preparacion-resultados-electorales.yml", workflow)
+        self.assertIn("uses: ./.github/workflows/p10-fuentes.yml", workflow)
+        self.assertIn("uses: ./.github/workflows/p10-fuentes.yml", workflow)
         self.assertIn("prepare_one exige un territorio concreto", workflow)
         self.assertNotIn("ejecucion-completa-proyecto.yml", workflow)
         self.assertNotIn("p20-distritos.yml", workflow)

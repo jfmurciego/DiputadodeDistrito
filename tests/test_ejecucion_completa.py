@@ -120,15 +120,15 @@ class FullProjectOrchestratorTests(unittest.TestCase):
 
     def test_premerge_smoke_cannot_persist_catalog_state(self):
         for name in (
-            "preparacion-fuentes.yml",
-            "preparacion-resultados-electorales.yml",
+            "../../tests/fixtures/p10_vistas/_p11-territoriales.yml",
+            "../../tests/fixtures/p10_vistas/_p12-electorales.yml",
             "p20-distritos.yml",
             "_reutilizable-incorporacion-electoral.yml",
         ):
             text = (WF / name).read_text(encoding="utf-8")
             self.assertIn("persist_state", text, name)
-        self.assertIn("needs.resolver.outputs.persist_state", load(WF / "preparacion-fuentes.yml")["jobs"]["registrar"]["if"])
-        self.assertIn("needs.resolver.outputs.persist_state", load(WF / "preparacion-resultados-electorales.yml")["jobs"]["registrar"]["if"])
+        self.assertIn("needs.resolver.outputs.persist_state", load(WF / "../../tests/fixtures/p10_vistas/_p11-territoriales.yml")["jobs"]["registrar"]["if"])
+        self.assertIn("needs.resolver.outputs.persist_state", load(WF / "../../tests/fixtures/p10_vistas/_p12-electorales.yml")["jobs"]["registrar"]["if"])
         self.assertIn("(needs.entrada.outputs.persist_state == 'true')", load(WF / "p20-distritos.yml")["jobs"]["registrar"]["if"])  # T-377
         self.assertIn("inputs.persist_state", load(WF / "_reutilizable-incorporacion-electoral.yml")["jobs"]["registrar"]["if"])
 
@@ -188,19 +188,19 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 "encadenar_par_y_04",
             ],
         )
-        self.assertEqual(jobs["preparar_territorial"]["uses"], "./.github/workflows/preparacion-fuentes.yml")
+        self.assertEqual(jobs["preparar_territorial"]["uses"], "./.github/workflows/p10-fuentes.yml")
         self.assertEqual(jobs["acreditar_generacion"]["uses"], "./.github/workflows/p20-distritos.yml")
         self.assertEqual(jobs["generar"]["uses"], "./.github/workflows/p20-distritos.yml")
-        self.assertEqual(jobs["preparar_electoral"]["uses"], "./.github/workflows/preparacion-resultados-electorales.yml")
+        self.assertEqual(jobs["preparar_electoral"]["uses"], "./.github/workflows/p10-fuentes.yml")
         self.assertEqual(jobs["incorporar"]["uses"], "./.github/workflows/incorporacion-resultados-electorales.yml")
         self.assertEqual(jobs["recuperar_electoral"]["uses"], "./.github/workflows/p70-archivo.yml")
         self.assertEqual(jobs["publicar"]["uses"], "./.github/workflows/p40-publicacion.yml")
 
     def test_business_phases_are_reusable(self):
         for name in (
-            "preparacion-fuentes.yml",
+            "../../tests/fixtures/p10_vistas/_p11-territoriales.yml",
             "p20-distritos.yml",
-            "preparacion-resultados-electorales.yml",
+            "../../tests/fixtures/p10_vistas/_p12-electorales.yml",
             "incorporacion-resultados-electorales.yml",
             "p40-publicacion.yml",
         ):
@@ -208,7 +208,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
 
     def test_from_start_disables_checkpoint_and_prepared_package_reuse(self):
         generation = (WF / "p20-distritos.yml").read_text(encoding="utf-8")
-        preparation = (WF / "preparacion-fuentes.yml").read_text(encoding="utf-8")
+        preparation = (WF / "../../tests/fixtures/p10_vistas/_p11-territoriales.yml").read_text(encoding="utf-8")
         self.assertIn('if [[ "$mode" == from_start ]]', generation)
         self.assertIn('echo "from_stage=M01"', generation)
         self.assertIn("reutilizar_si_ya_preparada", preparation)

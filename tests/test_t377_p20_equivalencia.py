@@ -38,7 +38,9 @@ ETIQUETAS = {"resolve": "P20", "official_sources": "P21", "m01": "P21", "m02": "
 BOOLEANAS = ("persist_state", "preflight_only", "require_unique_hashes")
 # Mitigación exigida por el Planificador (17-11): un motor por territorio a la vez en toda ruta (id canónico del contrato, salida de `resolve`).
 SIN_GRUPO = ("resolve", "pre_m04_evidence", "pre_m04_diagnostic", "registrar")  # los que registran en main, sin grupo único (T-360)
-MITIGACION = {"group": "ddd-p20-territorio-${{ needs.resolve.outputs.territory_id }}", "cancel-in-progress": False, "queue": "max"}
+# Mismo formato que P10 (T-375): `ddd-territorial-prod-<id canónico>-<edición>`, con el id que `resolve` saca del contrato.
+MITIGACION = {"group": "ddd-territorial-prod-${{ needs.resolve.outputs.territory_id }}-${{ inputs.data_edition || '2025' }}",
+              "cancel-in-progress": False, "queue": "max"}
 
 
 def on(d):
@@ -76,6 +78,19 @@ def diferencias_motor(viejo: dict, nuevo: dict) -> list[str]:
             if esperado.get(clave) != b.get(clave):
                 d.append(f"{k}.{clave}")
     return d
+
+
+def id_del_contrato(territorio_ui: str) -> str:
+    """El `territory_id` que el motor de P20 usa en su grupo: catálogo (`resolver_interfaz`) → contrato → `resolve` (herramientas reales)."""
+    sys.path.insert(0, str(ROOT / "herramientas"))
+    import catalogo_preparacion as cp
+    contrato = cp.resolve("generation", territorio_ui, "2025", ROOT / cp.CATALOG)["contract_path"]
+    with tempfile.TemporaryDirectory() as tmp:
+        out = Path(tmp) / "d.json"
+        r = subprocess.run([sys.executable, str(ROOT / "herramientas" / "resolver_ejecucion_territorial.py"), "--params", contrato,
+                            "--run-id", "t377", "--output", str(out)], cwd=ROOT, capture_output=True, text=True)
+        assert r.returncode == 0, r.stderr
+        return json.loads(out.read_text(encoding="utf-8"))["territory_id"]
 
 
 class Congelado(unittest.TestCase):
@@ -149,7 +164,8 @@ class Equivalencia(Congelado):
 
     def test_motor_sin_entradas_directas(self):
         for k in self.ru["jobs"]:
-            self.assertNotIn("inputs.", json.dumps(self.p["jobs"][k], ensure_ascii=False), k)
+            job = {c: v for c, v in self.p["jobs"][k].items() if c != "concurrency"}  # el grupo usa `inputs.data_edition` (como P10)
+            self.assertNotIn("inputs.", json.dumps(job, ensure_ascii=False), k)
 
     def test_resolver_interfaz_identico_salvo_rotulo_ruta_y_permisos(self):
         """Idéntico salvo rótulo, `needs`/`if` de la ruta, permisos (los del workflow viejo) y territorio, edición y modo, que llegan de `interfaz`."""
@@ -180,13 +196,8 @@ class Equivalencia(Congelado):
     def test_concurrencia_por_ruta(self):
         self.assertEqual(self.pd["concurrency"]["group"], "ddd-territorial-prod-${{ inputs.territory_id }}-${{ inputs.data_edition }}")
         self.assertEqual(self.ru["concurrency"]["group"], "ddd-territorial-engine-${{ inputs.params }}")
-        g = self.p["concurrency"]
-        self.assertEqual({k: v for k, v in g.items() if k != "group"}, {"cancel-in-progress": False, "queue": "max"})
-        self.assertEqual({k: v for k, v in self.pd["concurrency"].items() if k != "group"}, {"cancel-in-progress": False, "queue": "max"})
-        self.assertEqual(g["group"],
-                         "${{ format('{0}', inputs.territory_id) != '' && format('ddd-territorial-prod-{0}-{1}', inputs.territory_id, inputs.data_edition)"
-                         " || (format('{0}', inputs.territorio) != '' && format('ddd-territorial-prod-{0}-2025', inputs.territorio)"
-                         " || format('ddd-territorial-engine-{0}', inputs.params)) }}")
+        # Sin grupo de workflow calculado con la entrada en bruto (la 00 pasa el NOMBRE): solo los grupos por job con el id canónico.
+        self.assertNotIn("concurrency", self.p)
         for k, job in self.p["jobs"].items():
             if k in self.ru["jobs"] and k not in SIN_GRUPO:
                 self.assertEqual(job["concurrency"], MITIGACION, k)  # el motor, un territorio a la vez
@@ -202,18 +213,12 @@ class Equivalencia(Congelado):
         import p20_territorios as pt
 
         def grupo(territorio_ui):  # lo que hacen `resolver_interfaz` (catálogo) y `resolve` (contrato) con el territorio de cada ruta
-            contrato = cp.resolve("generation", territorio_ui, "2025", ROOT / cp.CATALOG)["contract_path"]
-            with tempfile.TemporaryDirectory() as tmp:
-                out = Path(tmp) / "d.json"
-                r = subprocess.run([sys.executable, str(ROOT / "herramientas" / "resolver_ejecucion_territorial.py"), "--params", contrato,
-                                    "--run-id", "t377", "--output", str(out)], cwd=ROOT, capture_output=True, text=True)
-                self.assertEqual(r.returncode, 0, r.stderr)
-                tid = json.loads(out.read_text(encoding="utf-8"))["territory_id"]
-            return MITIGACION["group"].replace("${{ needs.resolve.outputs.territory_id }}", tid)
+            return MITIGACION["group"].replace("${{ needs.resolve.outputs.territory_id }}", id_del_contrato(territorio_ui)).replace(
+                "${{ inputs.data_edition || '2025' }}", "2025")
 
         boton = grupo(pt.territorio(ROOT, "aut11")["nombre"])  # botón: código → nombre (job `interfaz`)
         llamada = grupo("Extremadura")  # la 00: `territory_name` del plan
-        self.assertEqual(boton, "ddd-p20-territorio-aut11")
+        self.assertEqual(boton, "ddd-territorial-prod-aut11-2025")
         self.assertEqual(boton, llamada)
         self.assertNotEqual(grupo(pt.territorio(ROOT, "aut10")["nombre"]), boton)
 
@@ -406,6 +411,39 @@ class Negativos(Congelado):
         s = next(s for s in n["jobs"]["resolve"]["steps"] if str(s.get("uses", "")).startswith("actions/upload-artifact"))
         s["with"]["name"] = "otro"
         self.assertIn("resolve.steps", diferencias_motor(self.ru, n))
+
+
+class GruposCruzados(unittest.TestCase):
+    """P10 (P11) y P20 del MISMO territorio comparten grupo de concurrencia (se excluyen), entre el botón y la 00, leyendo los ficheros reales.
+    P30 (T-376) se añade cuando su fichero esté en main."""
+
+    P10_FMT = "format('ddd-territorial-prod-{0}-{1}', inputs.territory_id || inputs.territorio, inputs.data_edition || '2025')"
+
+    def grupo_p10(self, territory_id="", territorio="", data_edition=""):
+        d = yaml.safe_load((WF / "p10-fuentes.yml").read_text(encoding="utf-8"))
+        g = d["concurrency"]["group"]
+        self.assertIn(self.P10_FMT, g)  # si P10 cambia su formato, este test debe cambiar con él
+        return "ddd-territorial-prod-{0}-{1}".format(territory_id or territorio, data_edition or "2025")
+
+    def grupo_p20(self, territorio_ui):
+        d = yaml.safe_load((WF / "p20-distritos.yml").read_text(encoding="utf-8"))
+        grupos = {j["concurrency"]["group"] for j in d["jobs"].values() if "concurrency" in j}
+        self.assertEqual(grupos, {MITIGACION["group"]})
+        return MITIGACION["group"].replace("${{ needs.resolve.outputs.territory_id }}", id_del_contrato(territorio_ui)).replace(
+            "${{ inputs.data_edition || '2025' }}", "2025")
+
+    def test_mismo_territorio_mismo_grupo_en_p10_y_p20(self):
+        sys.path.insert(0, str(ROOT / "herramientas"))
+        import p20_territorios as pt
+        p10_boton = self.grupo_p10(territorio="aut12")  # botón de P10: código, edición vacía
+        p10_00 = self.grupo_p10(territory_id="aut12", data_edition="2025")  # la 00 pasa el id canónico (T-375)
+        p20_boton = self.grupo_p20(pt.territorio(ROOT, "aut12")["nombre"])  # botón de P20: código → nombre del catálogo
+        p20_00 = self.grupo_p20("Galicia")  # la 00: nombre del catálogo
+        self.assertEqual({p10_boton, p10_00, p20_boton, p20_00}, {"ddd-territorial-prod-aut12-2025"})
+
+    def test_territorios_distintos_grupos_distintos(self):
+        self.assertNotEqual(self.grupo_p10(territorio="aut11"), self.grupo_p20("Galicia"))
+        self.assertNotEqual(self.grupo_p20("Extremadura"), self.grupo_p20("Galicia"))
 
 
 class Retirada(Congelado):

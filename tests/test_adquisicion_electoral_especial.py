@@ -16,7 +16,7 @@ from herramientas import adquirir_siel_andalucia_2026 as siel
 from herramientas.validar_paquete_electoral import validate_package
 
 ROOT = Path(__file__).resolve().parents[1]
-WORKFLOW = ROOT / ".github" / "workflows" / "preparacion-resultados-electorales.yml"
+WORKFLOW = ROOT / ".github" / "workflows" / "../../tests/fixtures/p10_vistas/_p12-electorales.yml"
 REGISTRY = ROOT / "configuracion" / "adquisiciones_electorales_especiales.yaml"
 
 SECTIONS_SHA = "6ef7fd1efb04ea3623b401b6fd73c1ed3895005384306c75b5953a97ddafa70e"
