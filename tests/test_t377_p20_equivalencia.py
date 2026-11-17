@@ -92,8 +92,8 @@ class Boton(Congelado):
 
     def test_entradas_del_boton(self):
         e = on(self.p)["workflow_dispatch"]["inputs"]
-        self.assertEqual(set(e), {"territorios", "empezar_de_cero"})
-        self.assertEqual(e["territorios"]["type"], "string")
+        self.assertEqual(set(e), {"territorio", "empezar_de_cero"})  # D-148: un territorio por ejecución
+        self.assertEqual(e["territorio"]["type"], "string")
         self.assertEqual(e["empezar_de_cero"]["type"], "boolean")
         self.assertIs(e["empezar_de_cero"]["default"], False)  # desmarcado = «Reutilizar progreso existente»
         for k in e:
@@ -125,22 +125,15 @@ class Boton(Congelado):
             a[job].pop("uses"), b[job].pop("uses")
         self.assertEqual(a, b)  # el resto de la 00, intacto
 
-    def test_matriz_del_boton_llama_a_la_ruta_generar(self):
+    def test_un_territorio_por_ejecucion_sin_autollamada(self):
+        """D-148: GitHub no admite bucles entre workflows; sin matriz ni `uses:` en P20 (varios territorios, con P00)."""
         j = self.p["jobs"]
-        self.assertEqual(j["distritos"]["uses"], "./.github/workflows/p20-distritos.yml")
-        self.assertEqual(j["distritos"]["strategy"]["fail-fast"], False)  # un territorio que falla no cancela a los demás
-        self.assertEqual(j["distritos"]["strategy"]["matrix"], "${{ fromJSON(needs.territorios.outputs.matriz) }}")
-        w = j["distritos"]["with"]
-        self.assertEqual(w["territory_id"], "${{ matrix.nombre }}")
-        self.assertEqual(w["data_edition"], "2025")
-        self.assertEqual(w["execution_mode"], "${{ inputs.empezar_de_cero && 'Ejecutar desde el principio' || 'Reutilizar progreso existente' }}")
-        self.assertNotEqual(w["invocation_context"], "reusable")  # como el botón viejo: persiste estado
-        self.assertEqual(j["distritos"]["secrets"], "inherit")
-        self.assertIn("python3 herramientas/p20_territorios.py matriz", j["territorios"]["steps"][-1]["run"])
-        self.assertEqual(j["territorios"]["if"], "${{ format('{0}', inputs.territorios) != '' }}")
+        self.assertFalse(any("uses" in job or "strategy" in job for job in j.values()))
+        self.assertIn("python3 herramientas/p20_territorios.py territorio", j["interfaz"]["steps"][-1]["run"])
+        self.assertEqual(j["interfaz"]["if"], "${{ format('{0}', inputs.territory_id) != '' || format('{0}', inputs.territorio) != '' }}")
+        self.assertEqual(j["resolver_interfaz"]["needs"], "interfaz")
         # Las opciones del botón viejo que se quitan existen en la copia congelada (control de que el test no es vacuo).
         self.assertIn("GerryChain 50", on(self.pd)["workflow_dispatch"]["inputs"]["optimization_algorithm"]["options"])
-
 
 class Equivalencia(Congelado):
     def test_motor_equivalente_job_a_job(self):
@@ -151,11 +144,17 @@ class Equivalencia(Congelado):
             self.assertNotIn("inputs.", json.dumps(self.p["jobs"][k], ensure_ascii=False), k)
 
     def test_resolver_interfaz_identico_salvo_rotulo_ruta_y_permisos(self):
+        """Idéntico salvo rótulo, `needs`/`if` de la ruta, permisos (los del workflow viejo) y territorio, edición y modo, que llegan de `interfaz`."""
         a, b = copy.deepcopy(self.pd["jobs"]["resolver_interfaz"]), copy.deepcopy(self.p["jobs"]["resolver_interfaz"])
         self.assertEqual(b.pop("name"), "P20 " + a.pop("name"))
-        self.assertEqual(b.pop("if"), "${{ format('{0}', inputs.territory_id) != '' }}")
-        self.assertEqual(b.pop("permissions"), self.pd["permissions"])  # los mismos que tenía el workflow viejo
-        self.assertEqual(a, b)
+        self.assertEqual(b.pop("needs"), "interfaz")
+        self.assertEqual(b.pop("if"), "${{ needs.interfaz.result == 'success' }}")
+        self.assertEqual(b.pop("permissions"), self.pd["permissions"])
+        t = json.dumps(a, ensure_ascii=False)
+        for k in ("territory_id", "data_edition", "execution_mode"):
+            self.assertIn(f"inputs.{k}", t)
+            t = t.replace(f"inputs.{k}", f"needs.interfaz.outputs.{k}")
+        self.assertEqual(json.loads(t), b)
 
     def test_permisos_ningun_job_gana(self):
         self.assertEqual(self.p["permissions"], self.ru["permissions"])
@@ -163,8 +162,7 @@ class Equivalencia(Congelado):
             self.assertNotIn("permissions", self.p["jobs"][k], k)  # heredan los del reutilizable
         j = self.p["jobs"]
         self.assertEqual(j["entrada"]["permissions"], {})
-        self.assertEqual(j["territorios"]["permissions"], {"contents": "read"})
-        self.assertEqual(j["distritos"]["permissions"], self.pd["permissions"])
+        self.assertEqual(j["interfaz"]["permissions"], {"contents": "read"})
 
     def test_sin_entornos_como_antes(self):
         for d in (self.pd, self.ru, self.p):
@@ -179,8 +177,8 @@ class Equivalencia(Congelado):
         self.assertEqual({k: v for k, v in self.pd["concurrency"].items() if k != "group"}, {"cancel-in-progress": False, "queue": "max"})
         self.assertEqual(g["group"],
                          "${{ format('{0}', inputs.territory_id) != '' && format('ddd-territorial-prod-{0}-{1}', inputs.territory_id, inputs.data_edition)"
-                         " || (format('{0}', inputs.params) != '' && format('ddd-territorial-engine-{0}', inputs.params)"
-                         " || format('ddd-p20-boton-{0}', github.run_id)) }}")
+                         " || (format('{0}', inputs.territorio) != '' && format('ddd-territorial-prod-{0}-2025', inputs.territorio)"
+                         " || format('ddd-territorial-engine-{0}', inputs.params)) }}")
         for k, job in self.p["jobs"].items():
             self.assertNotIn("concurrency", job, k)
 
@@ -248,8 +246,8 @@ class Entrada(Congelado):
         self.assertEqual(v["gerrychain_entrypoint"], "")
         self.assertEqual(v["require_unique_hashes"], "false")
 
-    def test_ruta_generar_del_boton_persiste(self):
-        r, v = self.correr(RUTA="generar", RI_PARAMS="p.yaml", IN_INVOCATION_CONTEXT="boton", IN_PERSIST_STATE="false")
+    def test_ruta_generar_del_boton_persiste(self):  # por dispatch `invocation_context` llega vacío (≠ reusable), como en la 02
+        r, v = self.correr(RUTA="generar", RI_PARAMS="p.yaml", IN_INVOCATION_CONTEXT="", IN_PERSIST_STATE="")
         self.assertEqual(r.returncode, 0, r.stderr)
         self.assertEqual(v["persist_state"], "true")
 
@@ -275,23 +273,74 @@ class Entrada(Congelado):
         self.assertEqual(v, {})
 
 
+class Interfaz(Congelado):
+    """El paso «Resolver territorio, edición y modo» bajo `bash -eo pipefail`, con el resolutor real."""
+
+    def correr(self, **env):
+        paso = self.p["jobs"]["interfaz"]["steps"][-1]
+        base = {k: "" for k in paso["env"]}
+        base.update(env)
+        with tempfile.TemporaryDirectory() as tmp:
+            out, summ = Path(tmp) / "out", Path(tmp) / "summ"
+            out.write_text(""), summ.write_text("")
+            script = Path(tmp) / "s.sh"
+            script.write_text(paso["run"], encoding="utf-8")
+            r = subprocess.run(["bash", "-eo", "pipefail", str(script)], capture_output=True, text=True, cwd=ROOT,
+                               env={"PATH": os.environ["PATH"], "GITHUB_OUTPUT": str(out), "GITHUB_STEP_SUMMARY": str(summ), **base})
+            vals = dict(l.split("=", 1) for l in out.read_text().splitlines() if "=" in l)
+        return r, vals
+
+    def test_la_00_pasa_tal_cual(self):
+        r, v = self.correr(IN_TERRITORY_ID="Extremadura", IN_DATA_EDITION="2025", IN_EXECUTION_MODE="reuse")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(v, {"territory_id": "Extremadura", "data_edition": "2025", "execution_mode": "reuse"})
+
+    def test_boton_reutiliza_por_defecto_y_empieza_de_cero_si_se_marca(self):
+        r, v = self.correr(BOTON_TERRITORIO="aut11", BOTON_DE_CERO="false")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(v, {"territory_id": "Extremadura", "data_edition": "2025", "execution_mode": "Reutilizar progreso existente"})
+        r, v = self.correr(BOTON_TERRITORIO="aut11", BOTON_DE_CERO="true")
+        self.assertEqual(v["execution_mode"], "Ejecutar desde el principio")
+
+    def test_boton_falla_cerrado(self):
+        for t in ("aut11,nac42", "aut99", ""):
+            r, v = self.correr(BOTON_TERRITORIO=t, BOTON_DE_CERO="false")
+            self.assertNotEqual(r.returncode, 0, t)
+            self.assertEqual(v, {}, t)
+
+
 class Territorios(unittest.TestCase):
     def correr(self, *args):
         return subprocess.run([sys.executable, str(ROOT / "herramientas" / "p20_territorios.py"), *args], capture_output=True, text=True, cwd=ROOT)
 
-    def test_matriz_con_el_nombre_del_catalogo(self):
-        r = self.correr("matriz", "--territorios", "aut11, nac42,aut11")
-        self.assertEqual(r.returncode, 0, r.stderr)
-        self.assertEqual(json.loads(r.stdout), {"include": [{"codigo": "aut11", "nombre": "Extremadura"},
-                                                            {"codigo": "nac42", "nombre": "Congreso Soria"}]})
+    def test_codigo_al_nombre_del_catalogo(self):
+        for t, esperado in (("aut11", {"codigo": "aut11", "nombre": "Extremadura"}), (" NAC42 ", {"codigo": "nac42", "nombre": "Congreso Soria"})):
+            r = self.correr("territorio", "--territorio", t)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            self.assertEqual(json.loads(r.stdout), esperado)
 
     def test_fallo_cerrado(self):
-        for t, cod in (("aut99", "P20_TERRITORIO_DESCONOCIDO"), ("", "P20_TERRITORIOS_VACIO"), ("aut11;rm", "P20_TERRITORIO_INVALIDO"),
-                       ("aut11,aut99", "P20_TERRITORIO_DESCONOCIDO")):
-            r = self.correr("matriz", "--territorios", t)
+        for t, cod in (("aut99", "P20_TERRITORIO_DESCONOCIDO"), ("", "P20_TERRITORIO_VACIO"), ("aut11;rm", "P20_TERRITORIO_INVALIDO"),
+                       ("aut11,nac42", "P20_UN_TERRITORIO"), ("congreso350_soria", "P20_VARIANTE_350_RETIRADA"),
+                       ("nac22_h2019_11", "P20_HISTORICO_SIN_CONTRATO"), ("aut99_h2019_11", "P20_TERRITORIO_DESCONOCIDO")):
+            r = self.correr("territorio", "--territorio", t)
             self.assertEqual(r.returncode, 1, t)
             self.assertEqual(r.stdout, "", t)
             self.assertIn(f"::error::{cod}", r.stderr, t)
+
+    def test_historico_con_contrato_en_el_catalogo_pasa(self):
+        """D-149/D-150: un `<t>_hAAAA_MM` pasa si el catálogo lo trae (catálogo de prueba con una fila histórica)."""
+        sys.path.insert(0, str(ROOT / "herramientas"))
+        import p20_territorios as pt
+        import catalogo_preparacion as cp
+        fila = {"territory_id": "nac22_h2019_11", "name": "Congreso Huesca 2019-11", "edition": "2025",
+                "contract_path": "territorios/nac22/config/nac22_h2019_11.yaml"}
+        orig = cp.resolve
+        try:
+            cp.resolve = lambda mode, t, ed, path=None: fila if t == "nac22_h2019_11" else orig(mode, t, ed, path)
+            self.assertEqual(pt.territorio(ROOT, "nac22_h2019_11"), {"codigo": "nac22_h2019_11", "nombre": "Congreso Huesca 2019-11"})
+        finally:
+            cp.resolve = orig
 
     def test_help(self):
         self.assertEqual(self.correr("--help").returncode, 0)

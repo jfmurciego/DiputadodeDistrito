@@ -22,8 +22,8 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
     def test_generation_interface_name_and_controls(self):
         self.assertEqual(self._load(GEN)["name"],"P20 Distritos")  # T-377 (D-139)
         inputs=self._dispatch_inputs(GEN)
-        self.assertEqual(list(inputs),["territorios","empezar_de_cero"])
-        self.assertEqual(self._load(GEN)["jobs"]["distritos"]["with"]["data_edition"],"2025")
+        self.assertEqual(list(inputs),["territorio","empezar_de_cero"])  # D-148: uno por ejecución
+        self.assertIn("data_edition=2025",self._load(GEN)["jobs"]["interfaz"]["steps"][-1]["run"])
 
     def test_electoral_incorporation_name_and_controls(self):
         self.assertEqual(self._load(ELECTORAL)["name"],"P40 Resultados electorales")
@@ -79,14 +79,14 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
 
     def test_interfaces_delegate_to_separate_reusable_chains(self):
         generation=self._load(GEN)
-        self.assertEqual(generation["jobs"]["distritos"]["uses"],"./.github/workflows/p20-distritos.yml")  # T-377
+        self.assertIn("resolve",generation["jobs"])  # T-377: el motor va dentro de P20
         electoral=self._load(ELECTORAL)
         self.assertEqual(electoral["jobs"]["incorporar"]["uses"],"./.github/workflows/_reutilizable-incorporacion-electoral.yml")
 
     def test_routes_inherit_standard_credentials(self):
         generation=self._load(GEN)
         electoral=self._load(ELECTORAL)
-        self.assertEqual(generation["jobs"]["distritos"]["secrets"],"inherit")  # T-377
+        self.assertFalse(any("uses" in j for j in generation["jobs"].values()))  # T-377: sin reutilizables; secretos del propio run
         self.assertEqual(electoral["jobs"]["incorporar"]["secrets"],"inherit")
         for reusable in ("p20-distritos.yml","_reutilizable-incorporacion-electoral.yml"):
             text=(WORKFLOWS/reusable).read_text(encoding="utf-8")
@@ -103,7 +103,7 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         text=GEN.read_text(encoding="utf-8")
         # T-377: la regla de `ruta` la aplica ahora el job `entrada`; la fila del botón pasa invocation_context=boton (persiste).
         self.assertIn('if [[ "$IN_INVOCATION_CONTEXT" != reusable || "$IN_PERSIST_STATE" == true ]]; then persist_state=true',text)
-        self.assertEqual(data["jobs"]["distritos"]["with"]["invocation_context"],"boton")
+        self.assertNotIn("invocation_context",dispatch_inputs)  # el botón: vacío ≠ reusable ⇒ persiste, como la 02
 
     def test_checkpoint_selection_and_engine_are_preserved(self):
         self.assertIn("python -m herramientas.seleccionar_checkpoint_productivo",GEN.read_text(encoding="utf-8"))

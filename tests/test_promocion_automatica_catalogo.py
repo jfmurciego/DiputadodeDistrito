@@ -92,8 +92,8 @@ class AutomaticCatalogPromotionTests(unittest.TestCase):
         data = yaml.safe_load(GEN.read_text(encoding="utf-8"))
         triggers = data.get("on") or data.get(True)
         # T-377 (D-139): P20 recibe códigos; el catálogo decide (p20_territorios.py → catalogo_preparacion resolve).
-        self.assertEqual(triggers["workflow_dispatch"]["inputs"]["territorios"]["type"], "string")
-        self.assertIn("python3 herramientas/p20_territorios.py matriz", GEN.read_text(encoding="utf-8"))
+        self.assertEqual(triggers["workflow_dispatch"]["inputs"]["territorio"]["type"], "string")
+        self.assertIn("python3 herramientas/p20_territorios.py territorio", GEN.read_text(encoding="utf-8"))
         promoter = (ROOT / "herramientas/promover_catalogo_tras_preparacion.py").read_text(encoding="utf-8")
         self.assertNotIn(".github/workflows/p20-distritos.yml", promoter)
 

@@ -7,8 +7,11 @@
 #   _reutilizable-generacion-territorial.yml 1.6.0 («Interno · P30 Generación territorial»): el motor va dentro como jobs (rotulados P20…P27 en el log:
 #   P21 base y población, P22 adyacencias, P23 grafo, P24 solución inicial, P25 optimización, P26 producto certificado y registro, P27 auditoría) con los
 #   MISMOS pasos, comandos, artefactos, entornos y registro; generar-alternativas-territoriales.yml 2.6.2 (P28) se retira sin sustituto (D-138).
-# MOTIVO: un solo botón sin parámetros técnicos (D-129, D-130): `territorios` (códigos; matriz de un job por territorio) y `empezar_de_cero` (desmarcado =
+# MOTIVO: un solo botón sin parámetros técnicos (D-129, D-130): `territorio` (UN código por ejecución, D-148) y `empezar_de_cero` (desmarcado =
 #   «Reutilizar progreso existente»). Edición 2025 fija; estrategia Canónico (con motor2 es la única válida); sin confirmaciones.
+#   D-148 (propietario, 16-11; corrige la matriz de D-139): GitHub no repite en matriz una cadena de jobs sin un reutilizable y no admite que un workflow
+#   se llame a sí mismo («Loops in the workflow tree are not permitted», docs de GitHub, reuse-workflows.md). Varios territorios a la vez: P00 llama a
+#   P20 por workflow_call desde su matriz (cadena de un territorio, D-143/D-145, T-379).
 # ANTERIOR: ninguna (fichero nuevo); sustituye a legacy/workflows/produccion-distritos_v8.3.0_20261116.yml,
 #   legacy/workflows/_reutilizable-generacion-territorial_v1.6.0_20261116.yml y legacy/workflows/generar-alternativas-territoriales_v2.6.2_20261116.yml
 # RUTAS (todas acaban en el mismo motor; el job `entrada` las normaliza a las entradas que tenía el reutilizable):
@@ -16,7 +19,7 @@
 #     tramo, punto de control y paquete; el motor recibe lo que antes le pasaba el job `ruta`. Aquí `source_package_*` son la fuente que impone la 00.
 #   - «acreditar» (job `acreditar_generacion` de la 00): llega `params` sin `territory_id` → el motor recibe las entradas tal cual (antes llamaba directo al
 #     reutilizable). Aquí `source_package_*` son las entradas del motor.
-#   - botón: `territorios` → matriz; cada fila llama a ESTE fichero por workflow_call con el nombre del catálogo (el mismo que pasa la 00).
+#   - botón: `territorio` → el job `interfaz` lo valida y lo traduce al nombre del catálogo (el mismo que pasa la 00) y sigue la ruta «generar».
 # workflow_call: las entradas que no se pasan llegan con su valor por omisión (cadena vacía, salvo las indicadas).
 name: P20 Distritos
 
@@ -64,8 +67,8 @@ on:
         value: ${{ jobs.pre_m04_evidence.result == 'success' && jobs.pre_m04_evidence.outputs.enabled_source_ref || jobs.pre_m04_diagnostic.outputs.evaluation_source_ref }}
   workflow_dispatch:
     inputs:
-      territorios:
-        description: Códigos separados por comas (p. ej. aut11,nac42); un job por territorio
+      territorio:
+        description: Código del territorio (p. ej. aut11); uno por ejecución, varios a la vez con P00
         required: true
         type: string
       empezar_de_cero:
@@ -74,66 +77,69 @@ on:
         default: false
         type: boolean
 
-# Los del motor (antes el reutilizable); `resolver_interfaz` y la matriz del botón declaran además `issues: write`, como produccion-distritos.yml.
+# Los del motor (antes el reutilizable); `resolver_interfaz` declara además `issues: write`, como produccion-distritos.yml.
 permissions:
   contents: write
   actions: read
 
 # Un solo grupo por ejecución de este fichero, el que tenía cada ruta: «generar» el de produccion-distritos.yml (que llevaba dentro el del motor),
-# «acreditar» el del reutilizable y el botón uno propio por run (cada fila de su matriz toma el de «generar»).
+# «acreditar» el del reutilizable y el botón el de la 02 con lo que escribió el usuario (el botón viejo usaba la etiqueta del selector).
 concurrency:
-  group: ${{ format('{0}', inputs.territory_id) != '' && format('ddd-territorial-prod-{0}-{1}', inputs.territory_id, inputs.data_edition) || (format('{0}', inputs.params) != '' && format('ddd-territorial-engine-{0}', inputs.params) || format('ddd-p20-boton-{0}', github.run_id)) }}
+  group: ${{ format('{0}', inputs.territory_id) != '' && format('ddd-territorial-prod-{0}-{1}', inputs.territory_id, inputs.data_edition) || (format('{0}', inputs.territorio) != '' && format('ddd-territorial-prod-{0}-2025', inputs.territorio) || format('ddd-territorial-engine-{0}', inputs.params)) }}
   cancel-in-progress: false
   queue: max
 
 jobs:
-  territorios:
-    name: P20 Territorios del botón
-    if: ${{ format('{0}', inputs.territorios) != '' }}
+  interfaz:
+    name: P20 Territorio y modo
+    # Ruta «generar»: la 00 trae `territory_id` (pasa tal cual) o el botón trae `territorio` (código → nombre del catálogo). «acreditar» lo salta.
+    if: ${{ format('{0}', inputs.territory_id) != '' || format('{0}', inputs.territorio) != '' }}
     runs-on: ubuntu-24.04
     permissions:
       contents: read
     outputs:
-      matriz: ${{ steps.matriz.outputs.matriz }}
+      territory_id: ${{ steps.interfaz.outputs.territory_id }}
+      data_edition: ${{ steps.interfaz.outputs.data_edition }}
+      execution_mode: ${{ steps.interfaz.outputs.execution_mode }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        if: ${{ format('{0}', inputs.territory_id) == '' }}
         with:
           persist-credentials: false
-      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
-      - id: matriz
-        name: Validar los códigos y construir la matriz
+      - if: ${{ format('{0}', inputs.territory_id) == '' }}
+        run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: interfaz
+        name: Resolver territorio, edición y modo
         shell: bash
         env:
-          TERRITORIOS: ${{ inputs.territorios }}
+          IN_TERRITORY_ID: ${{ inputs.territory_id }}
+          IN_DATA_EDITION: ${{ inputs.data_edition }}
+          IN_EXECUTION_MODE: ${{ inputs.execution_mode }}
+          BOTON_TERRITORIO: ${{ inputs.territorio }}
+          BOTON_DE_CERO: ${{ inputs.empezar_de_cero }}
         run: |
           set -euo pipefail
-          matriz="$(python3 herramientas/p20_territorios.py matriz --territorios "$TERRITORIOS" --edicion 2025)"
-          echo "matriz=$matriz" >> "$GITHUB_OUTPUT"
-          jq -r '.include[] | "- \(.codigo) · \(.nombre)"' <<<"$matriz" >> "$GITHUB_STEP_SUMMARY"
-
-  distritos:
-    name: P20 ${{ matrix.codigo }}
-    needs: territorios
-    strategy:
-      fail-fast: false
-      max-parallel: 6
-      matrix: ${{ fromJSON(needs.territorios.outputs.matriz) }}
-    permissions:
-      contents: write
-      actions: read
-      issues: write
-    uses: ./.github/workflows/p20-distritos.yml
-    secrets: inherit
-    with:
-      territory_id: ${{ matrix.nombre }}
-      data_edition: '2025'
-      execution_mode: ${{ inputs.empezar_de_cero && 'Ejecutar desde el principio' || 'Reutilizar progreso existente' }}
-      invocation_context: boton
+          if [[ -n "$IN_TERRITORY_ID" ]]; then
+            # workflow_call (la 00): lo mismo que recibía produccion-distritos.yml.
+            territory_id="$IN_TERRITORY_ID"; data_edition="$IN_DATA_EDITION"; execution_mode="$IN_EXECUTION_MODE"
+          else
+            fila="$(python3 herramientas/p20_territorios.py territorio --territorio "$BOTON_TERRITORIO" --edicion 2025)"
+            territory_id="$(jq -r .nombre <<<"$fila")"; data_edition=2025
+            if [[ "$BOTON_DE_CERO" == true ]]; then execution_mode='Ejecutar desde el principio'; else execution_mode='Reutilizar progreso existente'; fi
+            echo "- $(jq -r .codigo <<<"$fila") · $territory_id · $execution_mode" >> "$GITHUB_STEP_SUMMARY"
+          fi
+          [[ -n "$territory_id" ]] || { echo "::error::P20_SIN_TERRITORIO" >&2; exit 2; }
+          {
+            echo "territory_id=$territory_id"
+            echo "data_edition=$data_edition"
+            echo "execution_mode=$execution_mode"
+          } >> "$GITHUB_OUTPUT"
 
   resolver_interfaz:
     name: P20 Preparar contrato y reanudación
-    # Ruta «generar» (la 00 y el botón): el territorio llega por nombre o código; la ruta «acreditar» de la 00 trae `params` y se la salta.
-    if: ${{ format('{0}', inputs.territory_id) != '' }}
+    # Ruta «generar» (la 00 y el botón): territorio, edición y modo llegan del job `interfaz`; la ruta «acreditar» de la 00 se la salta.
+    needs: interfaz
+    if: ${{ needs.interfaz.result == 'success' }}
     permissions:
       contents: write
       actions: read
@@ -163,8 +169,8 @@ jobs:
         name: Resolver territorio, edición y recorrido necesario
         shell: bash
         env:
-          UI_TERRITORY: ${{ inputs.territory_id }}
-          UI_EDITION: ${{ inputs.data_edition }}
+          UI_TERRITORY: ${{ needs.interfaz.outputs.territory_id }}
+          UI_EDITION: ${{ needs.interfaz.outputs.data_edition }}
           UI_PRODUCT: Distritos
         run: |
           set -euo pipefail
@@ -196,7 +202,7 @@ jobs:
           TO_STAGE: ${{ steps.resolve.outputs.to_stage }}
           PRODUCT: ${{ steps.resolve.outputs.product }}
           CHECKPOINT_POLICY: ${{ steps.resolve.outputs.checkpoint_policy }}
-          EXECUTION_MODE: ${{ inputs.execution_mode }}
+          EXECUTION_MODE: ${{ needs.interfaz.outputs.execution_mode }}
           OPTIMIZATION_ALGORITHM: ${{ inputs.optimization_algorithm }}
           DDD_MOTOR: ${{ inputs.motor || 'motor2' }}
         run: |
@@ -371,7 +377,7 @@ jobs:
         shell: bash
         env:
           TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
-          EDITION: ${{ inputs.data_edition }}
+          EDITION: ${{ needs.interfaz.outputs.data_edition }}
           GENERATION_PREFLIGHT_ARTIFACT_NAME: ${{ inputs.generation_preflight_artifact_name }}
           SOURCE_PACKAGE_RUN_ID: ${{ inputs.source_package_run_id }}
           SOURCE_PACKAGE_ARTIFACT_NAME: ${{ inputs.source_package_artifact_name }}
@@ -443,7 +449,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
-          EDITION: ${{ inputs.data_edition }}
+          EDITION: ${{ needs.interfaz.outputs.data_edition }}
           CHECKPOINT_RUN_ID: ${{ steps.checkpoint.outputs.checkpoint_run_id }}
           PREPARED_SOURCE_RUN_ID: ${{ steps.resolve.outputs.prepared_source_run_id }}
           PREPARED_SOURCE_ARTIFACT_NAME: ${{ steps.resolve.outputs.prepared_source_artifact_name }}

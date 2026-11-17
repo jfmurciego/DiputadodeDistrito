@@ -65,9 +65,9 @@ class EnsembleWebCrsTests(unittest.TestCase):
 class ModularWorkflowContractTests(unittest.TestCase):
     def test_main_interface_exposes_only_resolver_and_selected_route(self):
         workflow = yaml.safe_load((ROOT / ".github/workflows/p20-distritos.yml").read_text(encoding="utf-8"))
-        # T-377 (D-139): el motor va dentro (sin reutilizable); el botón es una matriz que llama al propio fichero.
-        self.assertEqual(list(workflow["jobs"])[:4], ["territorios", "distritos", "resolver_interfaz", "entrada"])
-        self.assertEqual(workflow["jobs"]["distritos"]["uses"], "./.github/workflows/p20-distritos.yml")
+        # T-377 (D-139, D-148): el motor va dentro (sin reutilizable); el botón lleva un territorio por ejecución.
+        self.assertEqual(list(workflow["jobs"])[:4], ["interfaz", "resolver_interfaz", "entrada", "resolve"])
+        self.assertFalse(any("uses" in j for j in workflow["jobs"].values()))
 
 
 

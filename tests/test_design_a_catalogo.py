@@ -46,8 +46,8 @@ class DesignA(unittest.TestCase):
     def test_generation_and_electoral_incorporation_use_separate_reusables(self):
         generation=load(WF/"p20-distritos.yml")
         # T-377 (D-139): el motor va dentro de P20; la matriz del botón llama al propio fichero.
-        self.assertEqual(list(generation["jobs"])[:5],["territorios","distritos","resolver_interfaz","entrada","resolve"])
-        self.assertEqual(generation["jobs"]["distritos"]["uses"],"./.github/workflows/p20-distritos.yml")
+        self.assertEqual(list(generation["jobs"])[:4],["interfaz","resolver_interfaz","entrada","resolve"])
+        self.assertFalse(any("uses" in j for j in generation["jobs"].values()))  # D-148: sin autollamada
         self.assertNotIn("_reutilizable-generacion-territorial.yml",{p.name for p in WF.glob("*.yml")})
         electoral=load(WF/"incorporacion-resultados-electorales.yml")
         self.assertEqual(list(electoral["jobs"]),["preparar","incorporar"])

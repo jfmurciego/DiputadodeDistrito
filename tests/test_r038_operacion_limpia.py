@@ -31,7 +31,7 @@ class R038OperacionLimpia(unittest.TestCase):
         data = yaml.safe_load(text)
         raw_inputs = data[True]["workflow_dispatch"]["inputs"]
         # T-377 (D-139): botón P20 con códigos y «empezar de cero»; los modos viejos se traducen en la matriz.
-        self.assertEqual(list(raw_inputs), ["territorios", "empezar_de_cero"])
+        self.assertEqual(list(raw_inputs), ["territorio", "empezar_de_cero"])  # D-148
         self.assertIn("'Ejecutar desde el principio' || 'Reutilizar progreso existente'", text)
         self.assertNotIn("product", raw_inputs)
         self.assertNotIn("publish_result", raw_inputs)
