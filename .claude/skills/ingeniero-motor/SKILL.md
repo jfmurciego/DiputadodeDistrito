@@ -15,3 +15,9 @@ Parte de la skill `implementador` (mismas reglas de gobernanza, registro y PR). 
 5. Tope: dos ciclos de reparación por causa; después, estudio con presupuesto fijo (FRAMEWORK §11) y cierre con la evidencia.
 6. Cierre al Coordinador: «T-xx · estado · qué · PR #n@sha7 · efectos: <efecto>=<estado> · siguiente · bloqueo · ref de
    autorización»; fila al libro de costes (skill `presupuesto`).
+
+## Relevo
+Autocomprobación en tu propio turno (no es un vigilante): al empezar cada turno, `get_session` sin id; si
+`external_metadata.context_usage.used_tokens` ≥ 70 % de `autocompact_state.threshold`, abre el relevo (D-160).
+Igual que el implementador: al umbral, cierra con la línea al Coordinador; la PR y su registro son el traspaso y el
+Coordinador te releva. No crees sucesora por tu cuenta.
