@@ -204,14 +204,14 @@ class P10(unittest.TestCase):
     def test_permisos_y_plan_sin_permisos(self):
         self.assertEqual(self.p10["permissions"], self.a11["permissions"])
         self.assertEqual(self.p10["permissions"], self.a12["permissions"])
-        self.assertEqual(self.p10["jobs"]["plan"]["permissions"], {})
+        self.assertEqual(self.p10["jobs"]["plan"]["permissions"], {"contents": "read"})
         for j in ("p11", "p12"):
             self.assertNotIn("permissions", self.p10["jobs"][j])
 
     def test_concurrencias_por_tipo_iguales_a_las_de_antes(self):
         n = {k: self.p10["jobs"][k]["concurrency"] for k in ("p11", "p12")}
         c11, c12 = self.a11["concurrency"], self.a12["concurrency"]
-        sust = lambda g: g.replace("inputs.territory_id", "matrix.territorio").replace("inputs.data_edition", "needs.plan.outputs.edicion")
+        sust = lambda g: g.replace("inputs.territory_id", "matrix.t.grupo").replace("inputs.data_edition", "needs.plan.outputs.edicion")
         self.assertEqual(n["p11"], {**c11, "group": sust(c11["group"])})
         self.assertEqual(n["p12"], {**c12, "group": sust(c12["group"])})
         self.assertEqual(n["p11"]["queue"], "max")
@@ -225,7 +225,7 @@ class P10(unittest.TestCase):
             job = self.p10["jobs"][j]
             self.assertIs(job["strategy"]["fail-fast"], False)
             self.assertLessEqual(job["strategy"]["max-parallel"], 6)
-            self.assertIn("fromJSON(needs.plan.outputs.territorios)", job["strategy"]["matrix"]["territorio"])
+            self.assertIn("fromJSON(needs.plan.outputs.territorios)", job["strategy"]["matrix"]["t"])
             self.assertEqual(job["secrets"], "inherit")
             self.assertEqual(job["needs"], "plan")
         self.assertEqual(self.p10["jobs"]["p11"]["uses"], "./.github/workflows/_p11-territoriales.yml")
@@ -298,7 +298,7 @@ class PlanBajoBash(unittest.TestCase):
             out, summ = Path(t) / "out", Path(t) / "summary"
             out.write_text("")
             e = {**os.environ, **base, "GITHUB_OUTPUT": str(out), "GITHUB_STEP_SUMMARY": str(summ)}
-            r = subprocess.run(["bash", "-eo", "pipefail", "-c", self.script], env=e, capture_output=True, text=True)
+            r = subprocess.run(["bash", "-eo", "pipefail", "-c", self.script], env=e, cwd=ROOT, capture_output=True, text=True)
             salida = dict(l.split("=", 1) for l in out.read_text().splitlines() if "=" in l)
         return r, salida
 
@@ -306,7 +306,8 @@ class PlanBajoBash(unittest.TestCase):
         r, o = self.ejecutar(TIPO="P11 territoriales", TERRITORIOS="aut13, nac28,aut13", ELECCION="vigente", REGENERAR="false")
         self.assertEqual(r.returncode, 0, r.stderr)
         self.assertEqual(o["tipo"], "territoriales")
-        self.assertEqual(o["territorios"], '["aut13","nac28"]')
+        # Grupo de exclusión = nombre del catálogo (literales de configuracion/catalogo_territorios_espana_2025.yaml).
+        self.assertEqual(o["territorios"], '[{"codigo":"aut13","grupo":"Comunidad de Madrid"},{"codigo":"nac28","grupo":"Congreso Madrid"}]')
         self.assertEqual((o["edicion"], o["reutilizar"], o["persistir"], o["hueco_fuente"], o["eleccion"]), ("", "true", "true", "false", "vigente"))
 
     def test_boton_electorales_regenerar_y_ensayo(self):
@@ -314,11 +315,17 @@ class PlanBajoBash(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stderr)
         self.assertEqual((o["tipo"], o["edicion"], o["reutilizar"], o["eleccion"]), ("electorales", "2025", "false", "ensayo 2026-11-29"))
 
+    def test_id_de_epoca_se_acepta_y_usa_su_codigo_como_grupo(self):
+        r, o = self.ejecutar(TIPO="P12 electorales", TERRITORIOS="nac22_h2019_11", ELECCION="vigente", REGENERAR="false")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(o["territorios"], '[{"codigo":"nac22_h2019_11","grupo":"nac22_h2019_11"}]')
+        self.assertIn("::warning::", r.stdout + r.stderr)
+
     def test_llamada_de_la_00(self):
         r, o = self.ejecutar(TIPO="territoriales", TERRITORIO_LLAMADA="aut11", DATA_EDITION="2025", REUTILIZAR_LLAMADA="false",
                              PERSISTIR_LLAMADA="true", HUECO_LLAMADA="false")
         self.assertEqual(r.returncode, 0, r.stderr)
-        self.assertEqual((o["territorios"], o["edicion"], o["reutilizar"], o["eleccion"]), ('["aut11"]', "2025", "false", "vigente"))
+        self.assertEqual((o["territorios"], o["edicion"], o["reutilizar"], o["eleccion"]), ('[{"codigo":"aut11","grupo":"aut11"}]', "2025", "false", "vigente"))
         r, o = self.ejecutar(TIPO="electorales", TERRITORIO_LLAMADA="aut11", DATA_EDITION="2025", REUTILIZAR_LLAMADA="true",
                              PERSISTIR_LLAMADA="false", HUECO_LLAMADA="true", ELECCION="vigente")
         self.assertEqual((o["persistir"], o["hueco_fuente"]), ("false", "true"))
