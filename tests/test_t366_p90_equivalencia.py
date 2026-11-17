@@ -207,6 +207,10 @@ class ControlesNegativos(Fixtures):
         self.assertTrue(diferencias(self.viejos["pruebas"], "catalogo", n, "catalogo"))
         n = self.mutar("catalogo", lambda j: j.__setitem__("permissions", {"contents": "read"}))
         self.assertTrue(diferencias(self.viejos["pruebas"], "catalogo", n, "catalogo"))
+        # control del forense viejo (ya sin job equivalente): la comparación sigue detectando un permiso ganado en el diagnóstico
+        n = copy.deepcopy(self.viejos["forense"])
+        n["jobs"]["diagnosticar"]["permissions"]["contents"] = "write"
+        self.assertTrue(diferencias(self.viejos["forense"], "diagnosticar", n, "diagnosticar", if_propio=True))
 
     def test_detecta_if_perdido(self):
         n = self.mutar("estado_vivo", lambda j: j.__setitem__("if", "${{ true }}"))

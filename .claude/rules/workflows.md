@@ -11,7 +11,7 @@ paths:
   `legacy/workflows/<nombre>_v<anterior>.yml`.
 - Los nombres visibles y la lista de workflows con `workflow_dispatch` están fijados en
   `tests/test_design_a_catalogo.py` y `tests/test_design_a_matriz_sintetica.py` (diseño A); `p90-automatico.yml`
-  (P90 Automático, T-366: pruebas, forense y métricas; `revisor-pr.yml` y `auto-merge.yml` siguen aparte) no puede tener botón manual (`tests/test_workflow_safety.py`). Todo bloque `run:` pasa `bash -n`.
+  (P90 Automático, T-366: pruebas, IA de cierre de campaña (T-379 PR 4: solo si falla el job `resultado` de «P00 Campaña»; sin ese job no dispara) y métricas; `revisor-pr.yml` y `auto-merge.yml` siguen aparte) no puede tener botón manual (`tests/test_workflow_safety.py`). Todo bloque `run:` pasa `bash -n`.
 - El ruleset `proteger-main` (id 26311854) exige SOLO `veredicto` (integración 15368; skipped cuenta como cumplido), no `pruebas`: lo garantizan el auto-merge y la regla «CI verde en la PR y en main» (D-144 propone añadirlo). «Require branches to be up to date» bloquearía toda PR mientras
   haya 00 registrando; exigir PR en `main` rechaza los registros de los robots (`GH013`).
 - `Duplicate header: "Authorization"` (HTTP 400): credencial de registro mal combinada con actions/checkout; checkout
@@ -40,7 +40,7 @@ paths:
 - El clasificador del arnés bloquea como «CI Bypass» / «Merge Without Review» / «Create Public Surface» las fusiones con `main`
   en rojo, los dispatch públicos (05/06) y las escrituras externas (comentar/cerrar PR): hace falta frase explícita del
   propietario por caso.
-- «`main` en verde» (D-49, 10-11; desde T-366 los runs son de «P90 Automático», `p90-automatico.yml`: filtra `-e push` y la nocturna por `-e schedule` con run-name «P90 · nocturna de pruebas»; los runs `workflow_run` (forense) y «P90 · métricas del proceso» no cuentan, sus jobs de pruebas salen skipped) = el último push a `main` tiene `guardian` en success (integridad) Y el último run COMPLETADO de la
+- «`main` en verde» (D-49, 10-11; desde T-366 los runs son de «P90 Automático», `p90-automatico.yml`: filtra `-e push` y la nocturna por `-e schedule` con run-name «P90 · nocturna de pruebas»; los runs `workflow_run` (IA de cierre) y «P90 · métricas del proceso» no cuentan, sus jobs de pruebas salen skipped) = el último push a `main` tiene `guardian` en success (integridad) Y el último run COMPLETADO de la
   batería (`pruebas` con la suite) sobre `main` está en success; anota su fecha. Un push de código la ejecuta; un push de robot que solo
   toca ficheros .json/.md/.csv de datos/registro (lista exacta `RUTAS_ROBOT`) pasa solo el guardián y lo cubre la batería nocturna (02:23
   UTC). Un push de código posterior cancela la comprobación superada del anterior: un push de código cancelado cuenta como NO verde hasta
@@ -86,10 +86,10 @@ paths:
 - Borrado irreversible (poda ARC, runs): entorno protegido sin exención de bots, informe como artefacto antes del push y verificación de todas las filas antes de borrar la primera; el Operador repite el inventario.
 - Semilla pública con el id del territorio: si el id cambia, cambia el mapa; sembrar con el código de la tabla maestra vía resolutor (D-61/6). La huella del laboratorio depende de GEOS/shapely (RESULTADO.json guarda el entorno).
 - Al subir VERSIÓN de un fichero de `ddd_motor2/` también se exige copia en `legacy/ddd_motor2/` (el revisor da FAIL si falta).
-- `p40-publicacion.yml` (job `preparar`; antes `desplegar-visor-publico.yml`) y `generar-alternativas-territoriales.yml` solo piden la aprobación `produccion` si `github.workflow ==` su nombre; al renombrar desaparece sin avisar. El nombre de la 00 lo usan el forense, `legislatura_vigente.py` (TITLE_00) y `metricas_proceso.py` (RUN_NAME). El corte exige prueba explícita de que la aprobación sigue (D-61).
+- `p40-publicacion.yml` (job `preparar`; antes `desplegar-visor-publico.yml`) y `generar-alternativas-territoriales.yml` solo piden la aprobación `produccion` si `github.workflow ==` su nombre; al renombrar desaparece sin avisar. El nombre de la 00 lo usan la IA de cierre de P90 (`workflow_run.workflows`), `legislatura_vigente.py` (TITLE_00) y `metricas_proceso.py` (RUN_NAME). El corte exige prueba explícita de que la aprobación sigue (D-61).
 - El registro rechaza `congreso350_*`; en el corte debe rechazar también `nacNN-350`.
 - Ahorro de CI (1.9.0): clasificar en un job sin concurrencia, grupos únicos por run fuera del caso cancelable, diff `--no-renames`; clave `concurrency` duplicada la acepta PyYAML pero no GitHub. Tras squash de PR apilada el merge de origin/main choca con contenido idéntico: diff vacío → «ours». Reducir comprobaciones exige la frase del propietario en el chat que ejecuta («CI Bypass»).
-- Lista de Actions: 24 ficheros (23 sin la Poda de R2); cuatro «Interno ·» aceptadas; fusión automática y forense intactos hasta el corte.
+- Lista de Actions: 24 ficheros (23 sin la Poda de R2); cuatro «Interno ·» aceptadas; fusión automática intacta hasta el corte; el forense por cada 00 pasó a IA de cierre por campaña (P90 1.1.0).
 - CLAUDE.md está en 100 líneas: regla nueva exige compactar otra. Parches de ESTUDIOS: `git apply --check`, luego sustituir el id de decisión con sed. PR sensible: borrador + etiqueta no-automerge por REST y salir de borrador con `pulls/<n>/ccr/ready_for_review`. Los MCP de GitHub se desconectan a ratos: `gh api` REST sigue.
 - Naturalidad/GerryChain: seccionado INE desde ine.es; pyogrio con `where` exige leer la columna filtrada; contigüidad con puentes en vértice (Madrid, Barcelona); GerryChain 1.0 usa ids internos (guardar id real); elegir por naturalidad sin tope propio lleva el desvío al borde de la tolerancia (≈15 %), de ahí D5/D8.
 - Histórico autonómico: medir en `fuentes/observatorio_autonomicas/index.json` (clave sekzioak) antes de descargar; `siglas_sin_homologar.json` se sobrescribe por pasada: fusionar a mano.

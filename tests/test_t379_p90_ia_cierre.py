@@ -140,6 +140,29 @@ class PermisosYEntradaNoConfiable(unittest.TestCase):
         self.assertEqual(self.jobs["cierre_comentario"]["needs"], "cierre_ia")
         self.assertEqual(self.jobs["cierre_ia"]["needs"], "cierre_comprobar")
 
+    def test_checkout_sin_credenciales_persistentes(self):
+        pasos = [s for s in self.jobs["cierre_ia"]["steps"] if "checkout" in str(s.get("uses", ""))]
+        self.assertTrue(pasos)
+        for p in pasos:
+            self.assertIs(p["with"].get("persist-credentials"), False)
+
+    def test_comentario_valida_issue_y_neutraliza_texto(self):
+        run = self.jobs["cierre_comentario"]["steps"][0]["run"]
+        for trozo in ("has(\"pull_request\")", ".state", "== open", "P00 Campaña", "${RUN_ID}", "limpio", '"@"', '"#"', '"://"'):
+            self.assertIn(trozo, run)
+
+    def test_controles_negativos_de_cierre(self):
+        """Mutilar el `if` o los permisos de cierre_* debe hacer fallar los controles de este fichero."""
+        import copy
+        wf = copy.deepcopy(self.wf)
+        wf["jobs"]["cierre_comprobar"]["if"] = "${{ 1 == 1 }}"
+        self.assertTrue(evalua_if(wf["jobs"]["cierre_comprobar"]["if"], evento("success")))  # el test de disparo lo atraparía
+        self.assertFalse(evalua_if(self.jobs["cierre_comprobar"]["if"], evento("success")))
+        wf["jobs"]["cierre_ia"]["permissions"]["issues"] = "write"
+        self.assertNotEqual(wf["jobs"]["cierre_ia"]["permissions"], {"contents": "read", "actions": "read", "checks": "read", "issues": "read"})
+        wf["jobs"]["cierre_comprobar"]["permissions"] = {"actions": "write"}
+        self.assertNotEqual(wf["jobs"]["cierre_comprobar"]["permissions"], {"actions": "read"})
+
     def test_el_forense_viejo_ya_no_existe(self):
         for j in ("forense_comprobar", "diagnosticar", "forense_issue"):
             self.assertNotIn(j, self.jobs)

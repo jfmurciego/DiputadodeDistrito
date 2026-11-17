@@ -4,14 +4,15 @@
 # NOMBRE DE VERSIÓN: P90 Automático — CI, IA de cierre de campaña y métricas en un solo workflow
 # FECHA: 2026-11-17
 # ESTADO: candidato
-# ANTERIOR: legacy/workflows/p90-automatico_v1.0.0_20261117.yml
+# ANTERIOR: legacy/workflows/p90-automatico_v1.0.0_20261116.yml
 # QUÉ HACE: reúne los workflows automáticos (sin botón manual) que sustituye: «Pruebas de la Plataforma» (push a main, pull_request
 #   opened/synchronize/reopened como hoy, nocturna 02:23 UTC), «Forense de la 00» (workflow_run de «P00 Campaña») y el job `metricas` de
 #   «Mantenimiento» (lunes 05:17 UTC). Cada job conserva su condición, permisos y concurrencia; el `if` de cada grupo lo ata a su evento.
 # CAMBIOS: 1.1.0 (T-379 PR 4, D-143/D-145/D-147; diseño P00 §7): el forense por cada 00 (forense_comprobar, diagnosticar, forense_issue) se
 #   sustituye por la IA de cierre por campaña: se abre solo si falla el job `resultado` de «P00 Campaña» (no en la prueba de humo de PR);
 #   `cierre_ia` solo lee (contents/actions/checks/issues: read; logs = entrada no confiable) y `cierre_comentario`, el único con
-#   `issues: write`, comenta en el issue de la campaña (título «P00 Campaña…», una vez por run). Sin cambio en los demás jobs.
+#   `issues: write`, comenta en el issue de la campaña (título «P00 Campaña…», una vez por run, abierto, no PR y citando el run). SIN job `resultado` en la 00 (PR 3 de T-379) esto NO dispara: la PR 3 no debe
+#   fusionarse sin un job llamado exactamente `resultado`. Sin cambio en los demás jobs.
 #   1.0.0 (T-366, D-129/D-130): fichero nuevo. Sustituye a pruebas-plataforma 1.10.4, forense-00 1.0.2 y el job `metricas` de
 #   mantenimiento-programado 1.0.3 (copias en legacy/workflows/). NO absorbe, a propósito y a la espera del propietario:
 #   - revisor-pr.yml: el check `veredicto` necesita `labeled`/`ready_for_review`; en el workflow que define `pruebas` crearían un check-run
@@ -711,6 +712,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           ref: main
+          persist-credentials: false
       - id: forense
         uses: anthropics/claude-code-action@61a9c274fa7110a66dfafc1bbbced03833eb25fe # v1
         env:
@@ -760,9 +762,13 @@ jobs:
           printf '%s' "$DIAGNOSTICO" | jq -e . > diagnostico.json || { echo "::error::La IA de cierre no devolvió JSON."; exit 1; }
           n="$(jq -r '.issue // 0' diagnostico.json)"
           [[ "$n" =~ ^[0-9]+$ && "$n" -gt 0 ]] || { echo "::error::La IA de cierre no identificó el issue de la campaña."; exit 1; }
-          # nunca se comenta en un issue ajeno a la campaña, aunque el JSON lo pida
-          titulo="$(gh api "repos/$GITHUB_REPOSITORY/issues/$n" -q .title)"
-          [[ "$titulo" == "P00 Campaña"* ]] || { echo "::error::El issue #$n no es de una campaña P00."; exit 1; }
+          # nunca se comenta en un issue ajeno a ESTA campaña, aunque el JSON lo pida: debe ser un issue (no una PR), estar abierto,
+          # titularse «P00 Campaña…» y citar este run id
+          gh api "repos/$GITHUB_REPOSITORY/issues/$n" > issue.json
+          [[ "$(jq -r 'has("pull_request")' issue.json)" == false ]] || { echo "::error::#$n es una PR."; exit 1; }
+          [[ "$(jq -r .state issue.json)" == open ]] || { echo "::error::El issue #$n no está abierto."; exit 1; }
+          [[ "$(jq -r .title issue.json)" == "P00 Campaña"* ]] || { echo "::error::El issue #$n no es de una campaña P00."; exit 1; }
+          jq -r '.body // ""' issue.json | grep -qE "(^|[^0-9])${RUN_ID}([^0-9]|$)" || { echo "::error::El issue #$n no cita el run $RUN_ID."; exit 1; }
           marca="<!-- ia-cierre run $RUN_ID -->"
           if gh api "repos/$GITHUB_REPOSITORY/issues/$n/comments?per_page=100" --paginate -q '.[].body' | grep -qF "$marca"; then
             echo "El issue #$n ya tiene el comentario de la IA de cierre del run $RUN_ID."; exit 0
@@ -770,9 +776,11 @@ jobs:
           {
             echo "$marca"
             echo "**IA de cierre** · run [$RUN_ID]($RUN_URL) · confianza $(jq -r '.confianza // "—"' diagnostico.json)"
-            jq -r '.apartados[:71][] | "\n**\(.territorio)** · `\(.causa_id)`\n" + ([.lineas[:5][] | "- \(.)"] | join("\n"))' diagnostico.json
+            # el texto viene de logs no confiables: sin menciones, referencias #n, enlaces ni HTML
+            jq -r 'def limpio: tostring | gsub("@"; "@\u200b") | gsub("#"; "#\u200b") | gsub("://"; "[:]//") | gsub("<"; "‹") | gsub("\\]\\("; "] (") | .[:400];
+              .apartados[:71][] | "\n**\(.territorio | limpio)** · `\(.causa_id | limpio)`\n" + ([.lineas[:5][] | "- \(. | limpio)"] | join("\n"))' diagnostico.json
             echo
-            echo "Siguiente: $(jq -r '.siguiente // "decide el planificador"' diagnostico.json)"
+            echo "Siguiente: $(jq -r 'def limpio: tostring | gsub("@"; "@\u200b") | gsub("#"; "#\u200b") | gsub("://"; "[:]//") | gsub("<"; "‹") | .[:400]; (.siguiente // "decide el planificador") | limpio' diagnostico.json)"
             echo
             echo "_Forense automático (Sonnet, solo lectura; \`.claude/agents/forense.md\`). No relanza nada: la siguiente acción la decide el planificador y la ejecuta el operador con permiso del propietario._"
           } | head -c 60000 > cuerpo.md
