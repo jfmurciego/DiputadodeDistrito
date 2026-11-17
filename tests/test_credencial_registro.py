@@ -11,6 +11,8 @@ PUSHERS = re.compile(r"promover_catalogo_tras_preparacion|promover_catalogo_oper
                      r"persistir_estado_operativo_compartido|persistir_producto_electoral_operacional|persistir_evidencia_pre_m04_operacional|git push")
 # Solo los llama este reutilizable sin llamadores activos.
 UNREACHABLE = set()
+# T-379 2b (D-163): P10-P30 tienen GITHUB_TOKEN de solo lectura; su credencial no cae en github.token.
+SIN_RESPALDO = {"p10-fuentes.yml", "p20-distritos.yml", "p30-resultados-electorales.yml"}
 
 
 class CredencialRegistro(unittest.TestCase):
@@ -86,7 +88,11 @@ class CredencialRegistro(unittest.TestCase):
                 self.assertEqual(cred.get("name"), "Credencial de registro")
                 self.assertEqual(cred["env"]["APP_ID"], "${{ secrets.DDD_REGISTRO_APP_ID }}")
                 self.assertEqual(cred["env"]["APP_KEY"], "${{ secrets.DDD_REGISTRO_APP_KEY }}")
-                self.assertIn("exit 0", cred["run"].split("\n")[1])  # sin secretos sigue con github.token
+                if wf in SIN_RESPALDO:  # T-379 2b (D-163): GITHUB_TOKEN de solo lectura: sin la app, falla
+                    self.assertIn("exit 1", cred["run"].split("\n")[1])
+                    self.assertIn("::error::", cred["run"].split("\n")[1])
+                else:
+                    self.assertIn("exit 0", cred["run"].split("\n")[1])  # sin secretos sigue con github.token
                 self.assertIn("::add-mask::", cred["run"])
                 # actions/checkout v6 guarda su credencial en un include: hay que quitarlo o van dos Authorization.
                 self.assertIn("^includeIf\\.gitdir:", cred["run"])
