@@ -105,7 +105,7 @@ class DraftReleasePromotionTests(unittest.TestCase):
         self.assertIn("herramientas/p40_resolver.py territorios", text)
         self.assertNotIn("produccion-distritos.yml", text)
         self.assertNotIn("preparacion-fuentes.yml", text)
-        self.assertNotIn("incorporacion-resultados-electorales.yml", text)
+        self.assertNotIn("p30-resultados-electorales.yml", text)
 
 
     def test_ensemble_requires_accredited_sha_before_registry_entry(self):

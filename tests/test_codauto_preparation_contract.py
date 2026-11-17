@@ -77,7 +77,6 @@ class CodautoPreparationContractTests(unittest.TestCase):
         expected = selector_labels(MASTER)
         direct = [
             ("produccion-distritos.yml", "territory_id"),
-            ("incorporacion-resultados-electorales.yml", "territory_id"),
             ("ejecucion-completa-proyecto.yml", "territory_id"),
         ]
         for workflow, key in direct:
@@ -159,8 +158,8 @@ class CodautoPreparationContractTests(unittest.TestCase):
                 "ejecucion-completa-proyecto.yml",
                 "generar-alternativas-territoriales.yml",
                 "gestor-campanas.yml",
-                "incorporacion-resultados-electorales.yml",
                 "p10-fuentes.yml",  # T-375: P10 Fuentes (sustituye a preparacion-fuentes y preparacion-resultados-electorales; el selector de territorio ya no existe)
+                "p30-resultados-electorales.yml",  # T-376: P30 Resultados electorales (sustituye a la incorporación electoral y su reutilizable)
                 "p40-publicacion.yml",  # T-372: P40 Publicación (sustituye a 05, cadena y publicador)
                 "p50-publicacion-academica.yml",  # T-370: P50 Publicación académica
                 "p70-archivo.yml",  # T-368: P70 Archivo (poda, recuperación, archivo diario y composición M06)

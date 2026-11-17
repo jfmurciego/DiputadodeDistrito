@@ -297,7 +297,7 @@ class EstadoOperativoUnicoTests(unittest.TestCase):
     def test_electoral_audit_artifact_cardinality_zero_one_two(self):
         root=Path(__file__).resolve().parents[1]
         gate_path=root/".github/workflows/_reutilizable-puerta-validacion.yml"
-        incorporation_path=root/".github/workflows/_reutilizable-incorporacion-electoral.yml"
+        incorporation_path=root/".github/workflows/p30-resultados-electorales.yml"
         gate_text=gate_path.read_text(encoding="utf-8")
         incorporation_text=incorporation_path.read_text(encoding="utf-8")
         for path in (gate_path,incorporation_path):

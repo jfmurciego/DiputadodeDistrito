@@ -23,7 +23,7 @@ PRUEBAS = {"p90-automatico.yml"}
 # Workflows de producción que necesitan sus artefactos (entre jobs, R2, publicación): no se tocan.
 PRODUCCION = {
     "_reutilizable-generacion-territorial.yml",
-    "_reutilizable-incorporacion-electoral.yml",
+    "p30-resultados-electorales.yml",
     "p40-publicacion.yml",
     "_reutilizable-puerta-validacion.yml",
     "ejecucion-completa-proyecto.yml",

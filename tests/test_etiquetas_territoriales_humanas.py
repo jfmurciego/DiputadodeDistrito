@@ -138,7 +138,6 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
     def test_all_human_territory_selectors_use_same_labels_and_order(self):
         selectors = [
             ("produccion-distritos.yml", "territory_id"),
-            ("incorporacion-resultados-electorales.yml", "territory_id"),
             ("ejecucion-completa-proyecto.yml", "territory_id"),
         ]
         for workflow, key in selectors:

@@ -988,9 +988,8 @@ class CampaignManagerTests(unittest.TestCase):
             WORKFLOW,
             ORCH,
             ROOT / ".github/workflows/produccion-distritos.yml",
-            ROOT / ".github/workflows/incorporacion-resultados-electorales.yml",
+            ROOT / ".github/workflows/p30-resultados-electorales.yml",
             ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml",
-            ROOT / ".github/workflows/_reutilizable-incorporacion-electoral.yml",
             ROOT / ".github/workflows/_reutilizable-puerta-validacion.yml",
         ):
             parsed = yaml.load(path.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)

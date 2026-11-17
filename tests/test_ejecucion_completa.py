@@ -123,14 +123,18 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             "../../tests/fixtures/p10_vistas/_p11-territoriales.yml",
             "../../tests/fixtures/p10_vistas/_p12-electorales.yml",
             "_reutilizable-generacion-territorial.yml",
-            "_reutilizable-incorporacion-electoral.yml",
+            "p30-resultados-electorales.yml",
         ):
             text = (WF / name).read_text(encoding="utf-8")
             self.assertIn("persist_state", text, name)
         self.assertIn("needs.resolver.outputs.persist_state", load(WF / "../../tests/fixtures/p10_vistas/_p11-territoriales.yml")["jobs"]["registrar"]["if"])
         self.assertIn("needs.resolver.outputs.persist_state", load(WF / "../../tests/fixtures/p10_vistas/_p12-electorales.yml")["jobs"]["registrar"]["if"])
         self.assertIn("inputs.persist_state", load(WF / "_reutilizable-generacion-territorial.yml")["jobs"]["registrar"]["if"])
-        self.assertIn("inputs.persist_state", load(WF / "_reutilizable-incorporacion-electoral.yml")["jobs"]["registrar"]["if"])
+        # T-376: el registro va dentro del job de P30; solo corre con `persistir` (de `persist_state`, que la 00 pasa) y tras el éxito
+        for step in load(WF / "p30-resultados-electorales.yml")["jobs"]["incorporar"]["steps"]:
+            if step.get("working-directory") == "persistidor":
+                self.assertIn("needs.resolver.outputs.persistir == 'true'", step["if"])
+        self.assertIn("toJSON(inputs.persist_state)", (WF / "p30-resultados-electorales.yml").read_text(encoding="utf-8"))
 
     def test_orchestrator_false_persistence_is_respected_by_generation(self):
         orchestration=load(ORCH)
@@ -193,7 +197,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertEqual(jobs["acreditar_generacion"]["uses"], "./.github/workflows/_reutilizable-generacion-territorial.yml")
         self.assertEqual(jobs["generar"]["uses"], "./.github/workflows/produccion-distritos.yml")
         self.assertEqual(jobs["preparar_electoral"]["uses"], "./.github/workflows/p10-fuentes.yml")
-        self.assertEqual(jobs["incorporar"]["uses"], "./.github/workflows/incorporacion-resultados-electorales.yml")
+        self.assertEqual(jobs["incorporar"]["uses"], "./.github/workflows/p30-resultados-electorales.yml")
         self.assertEqual(jobs["recuperar_electoral"]["uses"], "./.github/workflows/p70-archivo.yml")
         self.assertEqual(jobs["publicar"]["uses"], "./.github/workflows/p40-publicacion.yml")
 
@@ -202,7 +206,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             "../../tests/fixtures/p10_vistas/_p11-territoriales.yml",
             "produccion-distritos.yml",
             "../../tests/fixtures/p10_vistas/_p12-electorales.yml",
-            "incorporacion-resultados-electorales.yml",
+            "p30-resultados-electorales.yml",
             "p40-publicacion.yml",
         ):
             self.assertIn("workflow_call", triggers(WF / name), name)
@@ -233,7 +237,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertIn("needs.puerta_03.outputs.run_id", orchestration)
         self.assertIn("needs.puerta_04.outputs.run_id", orchestration)
         generation = (WF / "produccion-distritos.yml").read_text(encoding="utf-8")
-        electoral = (WF / "incorporacion-resultados-electorales.yml").read_text(encoding="utf-8")
+        electoral = (WF / "p30-resultados-electorales.yml").read_text(encoding="utf-8")
         self.assertIn("OVERRIDE_SOURCE_RUN_ID", generation)
         self.assertIn("OVERRIDE_RUN_ID", electoral)
 

@@ -108,7 +108,7 @@ class FullRunSourceShaPinningTests(unittest.TestCase):
 
     def test_nested_reusables_preserve_code_ref_and_01_returns_prepared_not_enabled_ref(self):
         production = load(WF / "produccion-distritos.yml")
-        incorporation = load(WF / "incorporacion-resultados-electorales.yml")
+        incorporation = load(WF / "p30-resultados-electorales.yml")
         preparation = load(WF / "../../tests/fixtures/p10_vistas/_p11-territoriales.yml")
         full = load(FULL)
         gate = load(WF / "_reutilizable-puerta-validacion.yml")
@@ -117,9 +117,10 @@ class FullRunSourceShaPinningTests(unittest.TestCase):
             production["jobs"]["ruta"]["with"]["source_ref"],
             "${{ inputs.source_ref }}",
         )
+        # T-376: P30 lleva la incorporación dentro; su checkout toma el `source_ref` de la llamada (la 00) o el SHA del workflow
         self.assertEqual(
-            incorporation["jobs"]["incorporar"]["with"]["source_ref"],
-            "${{ inputs.source_ref }}",
+            incorporation["jobs"]["incorporar"]["steps"][0]["with"]["ref"],
+            "${{ inputs.source_ref || github.sha }}",
         )
 
         self.assertNotIn("pre_m04", preparation["jobs"])

@@ -4,7 +4,7 @@ import yaml
 
 ROOT=Path(__file__).resolve().parents[1]
 GEN=ROOT/".github/workflows/produccion-distritos.yml"
-ELECTORAL=ROOT/".github/workflows/incorporacion-resultados-electorales.yml"
+ELECTORAL=ROOT/".github/workflows/p30-resultados-electorales.yml"
 
 def load(path):
     return yaml.safe_load(path.read_text(encoding="utf-8")) or {}
@@ -19,8 +19,8 @@ class ProductRoutingDesignA(unittest.TestCase):
         self.assertEqual(inputs(GEN)["execution_mode"]["options"],["Reutilizar progreso existente","Ejecutar desde el principio"])
         self.assertEqual(inputs(GEN)["optimization_algorithm"]["options"],["Canónico","GerryChain","GerryChain 25","GerryChain 50"])
 
-    def test_electoral_incorporation_form_has_only_territory_and_edition(self):
-        self.assertEqual(list(inputs(ELECTORAL)),["territory_id","data_edition"])
+    def test_electoral_incorporation_form_has_only_one_territory(self):
+        self.assertEqual(list(inputs(ELECTORAL)),["territorio"])  # T-376/D-148: un código; la edición va fijada en el código
 
     def test_generation_is_fixed_to_districts_without_auto_publish(self):
         text=GEN.read_text(encoding="utf-8")
@@ -37,7 +37,7 @@ class ProductRoutingDesignA(unittest.TestCase):
     def test_electoral_incorporation_uses_dedicated_reusable_without_publication(self):
         data=load(ELECTORAL)
         text=ELECTORAL.read_text(encoding="utf-8")
-        self.assertEqual(data["jobs"]["incorporar"]["uses"],"./.github/workflows/_reutilizable-incorporacion-electoral.yml")
+        self.assertNotIn("uses",data["jobs"]["incorporar"])  # T-376: la incorporación va dentro, sin reutilizable
         self.assertNotIn("publish_result:",text)
         self.assertIn("Localizar producto territorial certificado",text)
         self.assertIn("Localizar resultados electorales preparados",text)
@@ -45,7 +45,7 @@ class ProductRoutingDesignA(unittest.TestCase):
     def test_generation_and_electoral_paths_are_separate(self):
         generation=load(GEN); electoral=load(ELECTORAL)
         self.assertEqual(generation["jobs"]["ruta"]["uses"],"./.github/workflows/_reutilizable-generacion-territorial.yml")
-        self.assertEqual(electoral["jobs"]["incorporar"]["uses"],"./.github/workflows/_reutilizable-incorporacion-electoral.yml")
+        self.assertNotIn("uses",electoral["jobs"]["incorporar"])
 
 
 
