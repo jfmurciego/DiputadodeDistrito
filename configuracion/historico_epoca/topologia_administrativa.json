@@ -1,0 +1,39 @@
+{
+ "schema": "ddd.topologia-administrativa-historico/1.0",
+ "version": "1.0.0",
+ "motivo": "T-405: M04 solo admite un municipio no conexo si el contrato lleva validation.topology_accreditation; el yaml de la época (materializar) lo emite desde aquí. Cada declaración se ata al seccionado de la elección por sha256 y materializar la comprueba contra sus secciones y su CUMUN. No añade aristas ni habilita generación.",
+ "elecciones": {
+  "2011-11": {
+   "seccionado_sha256": "772ad76b84e1b3bb9293a5595d2ccafa06f21a3a58ccc96a9ec5dadd99e46c4a",
+   "provincias": {
+    "14": [
+     {
+      "admin_scope": "municipality:14030",
+      "municipio": "Fuente Palmera",
+      "components": [
+       ["1403001001", "1403001002", "1403001003", "1403001004", "1403001005", "1403002002"],
+       ["1403002001"]
+      ],
+      "reason": "El seccionado INE 2012 asigna las siete secciones a Fuente Palmera (14030) pero el municipio son tres polígonos disjuntos; bajo la adyacencia productiva (contacto, min_shared_border_m=1.0) forman dos componentes [6,1]. La sección 1403002001 (1.570 hab., 14,7 km²) dista 993 m de la más cercana del resto y solo linda con Hornachuelos (14036, 445 m) y Palma del Río (14049, 7.075 m). La acreditación describe la estructura administrativa de entrada; no añade aristas ni habilita generación.",
+      "source": "INE seccionado 2012 (seccionado_2012.zip, sha256 772ad76b84e1b3bb9293a5595d2ccafa06f21a3a58ccc96a9ec5dadd99e46c4a); el mismo municipio sale en 3 polígonos disjuntos en los seccionados 2015, 2016 y 2019 (sha256 en SHA256SUMS.txt de T-357)",
+      "evidence": {
+       "section_correspondence": {
+        "section": "1403002001",
+        "component_sections": ["1403002001"],
+        "official_area_km2": 14.74,
+        "nearest_other_component_m": 993,
+        "neighbour_municipalities": {"14036": 445.5, "14049": 7075.1}
+       },
+       "administrative_dataset": {
+        "authority": "INE",
+        "dataset": "seccionado 2012",
+        "municipality_polygons": 3,
+        "working_crs": "EPSG:25830"
+       }
+      }
+     }
+    ]
+   }
+  }
+ }
+}

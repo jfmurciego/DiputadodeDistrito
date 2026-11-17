@@ -3,9 +3,10 @@
 """Histórico de las generales por época (T-365, D-125): contrato por elección, contrato M01-M06 por provincia y puerta M07/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0 · FECHA: 2026-11-17 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/contrato_historico_epoca_v1.1.0_20261117.py
-CAMBIOS: 1.2.0: T-402: `materializar` ya no copia el seccionado crudo: escribe el de la provincia con la normalización auditada de la adquisición
+VERSIÓN: 1.2.1 · FECHA: 2026-11-17 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/contrato_historico_epoca_v1.2.0_20261117.py
+CAMBIOS: 1.2.1: T-405: `materializar` emite `validation.topology_accreditation` desde configuracion/historico_epoca/topologia_administrativa.json (municipios no conexos del seccionado de la época; atada al sha256 del seccionado y comprobada contra sus secciones y CUMUN). Sin ella M04 fallaba en nac14 2011-11 (Fuente Palmera 14030).
+  1.2.0: T-402: `materializar` ya no copia el seccionado crudo: escribe el de la provincia con la normalización auditada de la adquisición
   (ddd_core.official_geometry.normalize_official_geometry, política configuracion/politica_normalizacion_geometrica.yaml; nada nuevo): las
   secciones válidas pasan byte a byte, las inválidas se reparan solo si la política lo permite (si no, FALLA cerrado). La huella del resultado
   (geometrías + política) queda en `meta.historico_epoca.geometria` y en `source_inputs`; acción `geometria` = informe por elección y provincia.
@@ -55,7 +56,7 @@ for _p in (ROOT, ROOT / "herramientas"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-VERSION = "1.2.0"
+VERSION = "1.2.1"
 SCHEMA = "ddd.contrato-historico-epoca/1.0"
 DIR_CONTRATOS = "configuracion/historico_epoca"
 FUENTES_R2 = "orchestracion/fuentes_r2.json"
@@ -501,7 +502,7 @@ def _reemplazar(obj, viejo: str, nuevo: str):
 
 
 def contrato_provincia(base: dict, c: dict, cpro: str, eleccion: str, secc_rel: str, pob_rel: str, huellas: dict,
-                       contrato_sha: str, geometria: dict | None = None) -> dict:
+                       contrato_sha: str, geometria: dict | None = None, topologia: list | None = None) -> dict:
     """Contrato M01-M06 de la época desde el contrato base: cambian fuentes, años, K y rutas; nada más."""
     p = c["provincias"][cpro]
     t, k = p["territorio"], p["K"]
@@ -541,12 +542,41 @@ def contrato_provincia(base: dict, c: dict, cpro: str, eleccion: str, secc_rel: 
                             "section_year": anio_s, "population_total": p["poblacion"]["total"],
                             "target_section_count": p["poblacion"]["secciones"], "package_sha256": paquete,
                             "compatibility_report_sha256": None, "compatibility_identity_sha256": paquete}
+    if topologia:  # T-405: municipios no conexos del seccionado de la época, acreditados contra ESTA fuente
+        from ddd_core.topology_preflight import TOPOLOGY_ACCREDITATION_SCHEMA, topology_source_binding
+        v["topology_accreditation"] = {"schema": TOPOLOGY_ACCREDITATION_SCHEMA, "source_binding": topology_source_binding(cfg),
+                                       "administrative_components": copy.deepcopy(topologia)}
     cfg["generation_state"] = {
         "source_prepared": True, "generation_enabled": True, "package_sha256": paquete,
         "compatibility_identity_sha256": paquete,
         "source_inputs": [{"path": secc_rel, "sha256": huellas["seccionado"], "role": "target_sectioning"},
                           {"path": pob_rel, "sha256": huellas["poblacion"], "role": "population"}]}
     return cfg
+
+
+def _topologia_declarada(root: Path, c: dict, eleccion: str, cpro: str, secc: Path) -> list[dict]:
+    """T-405: acreditaciones de municipios no conexos de la época (topologia_administrativa.json), comprobadas contra el seccionado:
+    sha256 de la fuente, secciones existentes y todas del municipio declarado. Sin declaración: lista vacía (el motor decide)."""
+    ruta = root / DIR_CONTRATOS / "topologia_administrativa.json"
+    if not ruta.exists():
+        return []
+    e = (json.loads(ruta.read_text(encoding="utf-8")).get("elecciones") or {}).get(eleccion)
+    decl = ((e or {}).get("provincias") or {}).get(cpro) or []
+    if not decl:
+        return []
+    if e["seccionado_sha256"] != c["seccionado"]["sha256"]:
+        raise ErrorContrato(f"TOPOLOGIA_DE_OTRO_SECCIONADO {eleccion}/{cpro}: re-acreditar para {c['seccionado']['sha256'][:12]}")
+    g = _leer_seccionado(secc, cpro)
+    mun = {str(a): str(b) for a, b in zip(g["CUSEC"], g["CUMUN"])}
+    salida = []
+    for d in decl:
+        codigo = d["admin_scope"].split(":", 1)[1]
+        miembros = [x for comp in d["components"] for x in comp]
+        # el municipio del seccionado debe estar entero en la declaración (ni de menos ni de más)
+        if set(miembros) != {s for s, m in mun.items() if m == codigo}:
+            raise ErrorContrato(f"TOPOLOGIA_NO_CUBRE_EL_MUNICIPIO {eleccion}/{cpro} {d['admin_scope']}")
+        salida.append({k: v for k, v in d.items() if k != "municipio"})
+    return salida
 
 
 def _exigir_lista(p: dict, territorio: str, eleccion: str) -> None:
@@ -601,7 +631,8 @@ def materializar(eleccion: str, territorio: str, fuentes: Path, root: Path = ROO
     rel = lambda q: q.relative_to(root).as_posix()  # noqa: E731
     huellas = {"seccionado": geometria["normalizado_sha256"], "poblacion": sha256(pob_local), "tabla": c["poblacion"]["sha256"],
                "contrato_base": p["contrato_base"]["sha256"], "votos": p["votos"]["sha256"], "escanos": c["escanos"]["sha256"]}
-    cfg = contrato_provincia(base, c, cpro, eleccion, rel(secc_local), rel(pob_local), huellas, sha256(cpath), geometria)
+    topologia = _topologia_declarada(root, c, eleccion, cpro, secc)
+    cfg = contrato_provincia(base, c, cpro, eleccion, rel(secc_local), rel(pob_local), huellas, sha256(cpath), geometria, topologia)
     out = root / f"territorios/{territorio}/config/{rn}.yaml"
     out.write_text("# Generado por herramientas/contrato_historico_epoca.py (T-365, D-125); no versionado: se regenera desde "
                    f"{rel(cpath)}.\n" + yaml.safe_dump(cfg, allow_unicode=True, sort_keys=False), encoding="utf-8")

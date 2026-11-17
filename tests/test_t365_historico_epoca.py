@@ -2,9 +2,9 @@
 """T-365 (D-125): contrato por elección del histórico por época, contrato M01-M06 por provincia y puerta M07/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.0 · FECHA: 2026-11-17 · ESTADO: candidato
-ANTERIOR: legacy/tests/test_t365_historico_epoca_v1.2.0_20261117.py
-CAMBIOS: 1.3.0: T-402: `materializar` normaliza la geometría (parche del seccionado en los tests con zip falso; clase NormalizacionGeometria con zip real). 1.2.0: T-396 (D-153): estado APARTADA admitido; contratos 1.2.0 con anterior 1.1.0. 1.1.0: T-389 (T-365b): contratos con la tabla de T-364b (1.2.0): provincias apartadas = BLOQUEADA_SIN_DATO sin filas, fallo cerrado con la tabla vieja.
+VERSIÓN: 1.3.1 · FECHA: 2026-11-17 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_t365_historico_epoca_v1.3.0_20261117.py
+CAMBIOS: 1.3.1: T-405: clase TopologiaAdministrativa. 1.3.0: T-402: `materializar` normaliza la geometría (parche del seccionado en los tests con zip falso; clase NormalizacionGeometria con zip real). 1.2.0: T-396 (D-153): estado APARTADA admitido; contratos 1.2.0 con anterior 1.1.0. 1.1.0: T-389 (T-365b): contratos con la tabla de T-364b (1.2.0): provincias apartadas = BLOQUEADA_SIN_DATO sin filas, fallo cerrado con la tabla vieja.
 MOTIVO: T-365. Sin red ni fuentes pesadas: el flujo M07/M08 usa un M06 sintético y los módulos reales.
 """
 from __future__ import annotations
@@ -341,6 +341,66 @@ class MaterializarZipReal(unittest.TestCase):
             self.assertEqual(leido["CUSEC"].tolist(), ["2200101001", "2200101002"])
             self.assertTrue(leido.geometry.iloc[0].equals(wkt.loads(ok)))  # la válida, intacta (el shapefile reordena el anillo: se compara por conjunto)
             self.assertEqual(geo["huella_geometrias_sha256"], che._huella_geometrias(leido))
+
+
+class TopologiaAdministrativa(unittest.TestCase):
+    """T-405: municipio no conexo del seccionado de la época (Fuente Palmera, 14030, 2011-11) acreditado para M04."""
+    FP = ["1403001001", "1403001002", "1403001003", "1403001004", "1403001005", "1403002002", "1403002001"]
+
+    def _decl(self):
+        return json.loads((ROOT / "configuracion/historico_epoca/topologia_administrativa.json").read_text(encoding="utf-8"))["elecciones"]["2011-11"]
+
+    def test_atada_al_seccionado_del_contrato(self):
+        c = json.loads((ROOT / "configuracion/historico_epoca/contrato_2011_11.json").read_text(encoding="utf-8"))
+        self.assertEqual(self._decl()["seccionado_sha256"], c["seccionado"]["sha256"])
+
+    def test_la_validacion_del_motor_acepta_dos_componentes_6_y_1(self):
+        from ddd_core.topology_preflight import validate_administrative_components
+        d = self._decl()["provincias"]["14"][0]
+        ids = [x for comp in d["components"] for x in comp]
+        units = {u: {"province": "14", "municipality": "14030"} for u in ids}
+        resto = [u for u in ids if u != "1403002001"]
+        aristas = list(zip(resto, resto[1:]))  # el resto, conexo; la 1403002001, aislada (hecho medido en el seccionado 2012)
+        ok, mal = validate_administrative_components(units=units, declarations=[{k: v for k, v in d.items() if k != "municipio"}],
+                                                     operational_edges=aristas)
+        self.assertEqual((len(mal), sorted(len(x) for x in ok[0]["components"], reverse=True)), (0, [6, 1]))
+        _, mal = validate_administrative_components(units=units, declarations=[{k: v for k, v in d.items() if k != "municipio"}],
+                                                    operational_edges=aristas + [("1403002001", "1403001001")])
+        self.assertEqual(len(mal), 1)  # si el seccionado cambia y la sección se conecta, la acreditación ya no vale
+
+    def _con_seccionado(self, mun):
+        import pandas as pd
+        return mock.patch.object(che, "_leer_seccionado", return_value=pd.DataFrame({"CUSEC": self.FP, "CUMUN": mun}))
+
+    def test_materializar_la_emite_y_falla_si_no_cubre_el_municipio(self):
+        c = json.loads((ROOT / "configuracion/historico_epoca/contrato_2011_11.json").read_text(encoding="utf-8"))
+        with self._con_seccionado(["14030"] * 7):
+            decl = che._topologia_declarada(ROOT, c, "2011-11", "14", Path("x"))
+        self.assertEqual([d["admin_scope"] for d in decl], ["municipality:14030"])
+        self.assertNotIn("municipio", decl[0])
+        with self._con_seccionado(["14030"] * 6 + ["14031"]), self.assertRaises(SystemExit) as cm:
+            che._topologia_declarada(ROOT, c, "2011-11", "14", Path("x"))
+        self.assertIn("TOPOLOGIA_NO_CUBRE_EL_MUNICIPIO", str(cm.exception))
+
+    def test_otro_seccionado_falla_y_sin_declaracion_es_vacio(self):
+        c = json.loads((ROOT / "configuracion/historico_epoca/contrato_2011_11.json").read_text(encoding="utf-8"))
+        c["seccionado"]["sha256"] = "0" * 64
+        with self.assertRaises(SystemExit) as cm:
+            che._topologia_declarada(ROOT, c, "2011-11", "14", Path("x"))
+        self.assertIn("TOPOLOGIA_DE_OTRO_SECCIONADO", str(cm.exception))
+        self.assertEqual(che._topologia_declarada(ROOT, c, "2011-11", "23", Path("x")), [])
+        self.assertEqual(che._topologia_declarada(ROOT, c, "2019-11", "14", Path("x")), [])
+
+    def test_contrato_provincia_lleva_la_acreditacion_con_el_binding_exacto(self):
+        from ddd_core.topology_preflight import topology_source_binding, validate_topology_accreditation_binding
+        c = _contrato_sintetico("a" * 64, "b" * 64, "c" * 64, "d" * 64)
+        decl = [{"admin_scope": "municipality:22001", "components": [["a"], ["b"]], "reason": "r", "source": "s", "evidence": {}}]
+        cfg = che.contrato_provincia(BASE, c, "22", "2019-11", "s.zip", "p.csv", {"seccionado": "c", "poblacion": "f"}, "9" * 64, None, decl)
+        b = validate_topology_accreditation_binding(cfg)
+        self.assertEqual((b["present"], b["valid"]), (True, True))
+        self.assertEqual(cfg["validation"]["topology_accreditation"]["source_binding"], topology_source_binding(cfg))
+        sin = che.contrato_provincia(BASE, c, "22", "2019-11", "s.zip", "p.csv", {"seccionado": "c", "poblacion": "f"}, "9" * 64)
+        self.assertNotIn("topology_accreditation", sin["validation"])
 
 
 class AdmisionPorEleccion(unittest.TestCase):
