@@ -1,0 +1,1505 @@
+{
+ "schema": "ddd.contrato-historico-epoca/1.0",
+ "version": "1.1.0",
+ "anterior": "legacy/contrato_historico_epoca_2019_04_v1.0.0_20261116.json",
+ "motivo": "D-125 (opción A: distritos con los datos de cada época), D-126/D-128 (población), T-199 (elección en el registro)",
+ "generado_con": "herramientas/contrato_historico_epoca.py 1.0.0",
+ "eleccion": "2019-04",
+ "fecha": "2019-04-28",
+ "clave_espejo": "201904",
+ "seccionado": {
+  "anio": 2019,
+  "fichero": "seccionado_2019.zip",
+  "sha256": "656119dadadb57ef3fa9d20a8ba33399fe606e553c9fef3fc338786e52fae967",
+  "origen_url": "https://www.ine.es/prodyser/cartografia/seccionado_2019.zip",
+  "r2_clave": "arc-e/fuentes/ine/seccionado_2019_656119dadadb.zip",
+  "campo_seccion": "CUSEC"
+ },
+ "poblacion": {
+  "fichero": "poblacion_seccion_2019-04.csv",
+  "sha256": "55048fe207e6ddc97653aa237f700bfa42800846848682aa59d17119f60677e7",
+  "origen": "T-364b herramientas/poblacion_seccion_historica.py 1.2.0 (D-128; provincias apartadas sin filas, reasignada, sin_ajuste_municipal; fuentes con sha256 de T-357/T-364)",
+  "anio_referencia": 2019,
+  "fuente": "atlas",
+  "regla_publicacion": "> 1 % estimada → BLOQUEADA_RELLENO (D-126/D-128); sin_dato → BLOQUEADA_SIN_DATO",
+  "regla_sin_seccionado": "secciones con población sin geometría en el seccionado del año: materializar falla cerrado (decisión pendiente del propietario)",
+  "fuentes": {
+   "30832.csv": "37716cba8cda50a492f52e2bae91a1c543bafb4263110e5aa5da18107ef68311",
+   "indicadores_seccion_censal_csv.zip": "305a19f11b87d4e13d2ea4267774b9b0e3a69a3b7b1ff8e483aad90867628fe7"
+  }
+ },
+ "escanos": {
+  "csv": "configuracion/resultados_oficiales_congreso_2019_04.csv",
+  "sha256": "1f0600b21a69889e9eca433f63c6225375a21c57a6518b3944461907b4fcdc40",
+  "boe": "BOE-A-2019-8070",
+  "regla": "K de la provincia = escanos_circunscripcion del BOE de la elección (D-125)"
+ },
+ "votos": {
+  "fuente": "nazioenbehatokia",
+  "manifiesto": "orchestracion/fuente_nazioenbehatokia.json",
+  "manifiesto_sha256": "b22ff749d3ba9570b9c1000e1d146ee963ab990f0c624388c41ddca803cbc5b3"
+ },
+ "puerta": {
+  "m07": "PASS o PASS_WITH_DECLARED_EXCEPTIONS con votos sin asignar ≤ 0,1 % (2011: D-70)",
+  "contraste_boe": "historico_campana.contraste_boe (por partido, cobertura total, TOLERANCIA de cuadre_historico_espana)",
+  "escanos": "K del contrato = escaños BOE = distritos del M08"
+ },
+ "provincias": {
+  "01": {
+   "territorio": "nac01",
+   "provincia": "Álava",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac01 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac01/config/nac01_2025.yaml",
+    "sha256": "05f8070166fc55f340c25f033c83985f736d9bdfcc8d89263ea46257a81f4cb7"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/01.json",
+    "sha256": "bc55a2009e117b6d243165a07f48a71b6c509697a0cb397e635810e8d2bd0163",
+    "bytes": 27408,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/01_bc55a2009e11.json"
+   },
+   "poblacion": {
+    "secciones": 238,
+    "total": 330065,
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 4271,
+    "pct_no_dato": "1.2940",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "02": {
+   "territorio": "nac02",
+   "provincia": "Albacete",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac02 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac02/config/nac02_2025.yaml",
+    "sha256": "f03e8b35bf6af895238299f764b20695342a371605e1d725bd9fe30a3437c62f"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/02.json",
+    "sha256": "134867cbdac3d5907471a284a77bb857a558080d47563bbb2539ab0755003967",
+    "bytes": 28332,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/02_134867cbdac3.json"
+   },
+   "poblacion": {
+    "secciones": 295,
+    "total": 384919,
+    "secciones_no_dato": 3,
+    "poblacion_no_dato": 257,
+    "pct_no_dato": "0.0668",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "03": {
+   "territorio": "nac03",
+   "provincia": "Alicante",
+   "K": 12,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac03 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac03/config/nac03_2025.yaml",
+    "sha256": "7cea93390865dd86b19ea6996a1a03bbf76eb195e1bca1d40b22ebaea375f0ad"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/03.json",
+    "sha256": "ddba9c3dc7a8316a997d250834f18c4c8f588378a528ef6a3bfb641aeb7cc1a1",
+    "bytes": 129169,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/03_ddba9c3dc7a8.json"
+   },
+   "poblacion": {
+    "secciones": 1222,
+    "total": 1833326,
+    "secciones_no_dato": 4,
+    "poblacion_no_dato": 307,
+    "pct_no_dato": "0.0167",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "04": {
+   "territorio": "nac04",
+   "provincia": "Almería",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac04 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac04/config/nac04_2025.yaml",
+    "sha256": "ecff47ed5c297cd9d754391ce9e3d31d37f041e1ba2358372d32e85292c8ca34"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/04.json",
+    "sha256": "ed0b699f44b18e8d7db17511e23d9c788379e159a3e98aaf60a6d68ca86c3ecf",
+    "bytes": 42173,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/04_ed0b699f44b1.json"
+   },
+   "poblacion": {
+    "secciones": 463,
+    "total": 712277,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 58,
+    "pct_no_dato": "0.0081",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "05": {
+   "territorio": "nac05",
+   "provincia": "Ávila",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac05 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac05/config/nac05_2025.yaml",
+    "sha256": "76e3975db834c5093eac3a0278aa2977613f33dd4a30ffc621df25644cfd194c"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/05.json",
+    "sha256": "b2ffbacf411625b53f9be9f012a6ccefa504111d6b59312d2678d6b6ccb7a2da",
+    "bytes": 25251,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/05_b2ffbacf4116.json"
+   },
+   "poblacion": {
+    "secciones": 312,
+    "total": 156954,
+    "secciones_no_dato": 100,
+    "poblacion_no_dato": 6432,
+    "pct_no_dato": "4.0980",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "06": {
+   "territorio": "nac06",
+   "provincia": "Badajoz",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac06 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac06/config/nac06_2025.yaml",
+    "sha256": "9b2b5eb0debc84a6de2cd18c84708f56860c4102458430bbcb7c182411d96d7c"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/06.json",
+    "sha256": "bc77ea23ff8487b49168e0df40b6e14714de6dcca912fe2c0d19e78681b7a4f3",
+    "bytes": 52512,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/06_bc77ea23ff84.json"
+   },
+   "poblacion": {
+    "secciones": 553,
+    "total": 669124,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 83,
+    "pct_no_dato": "0.0124",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "07": {
+   "territorio": "nac07",
+   "provincia": "Baleares",
+   "K": 8,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac07 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac07/config/nac07_2025.yaml",
+    "sha256": "ad9ea641fbfe4348d3aee5c5a1ce330c828d045b1acab735d28387eec8253b0e"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/07.json",
+    "sha256": "8811c1e4fdb6c7e1c8fb5494260d9514a27bc2a0d0c04645b19bf308fc8ace26",
+    "bytes": 71418,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/07_8811c1e4fdb6.json"
+   },
+   "poblacion": {
+    "secciones": 662,
+    "total": 1148294,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "08": {
+   "territorio": "nac08",
+   "provincia": "Barcelona",
+   "K": 32,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac08 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac08/config/nac08_2025.yaml",
+    "sha256": "b68ba153e7c5537f3a69d3369c54da6cca6e5789084f8a3f4f1a222c167d56a9"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/08.json",
+    "sha256": "649605674011fb83bc214e24d0b74ae3dddd9cf79018a1acd0cff56f47287d7f",
+    "bytes": 414612,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/08_649605674011.json"
+   },
+   "poblacion": {
+    "secciones": 3611,
+    "total": 5639441,
+    "secciones_no_dato": 51,
+    "poblacion_no_dato": 81779,
+    "pct_no_dato": "1.4501",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "09": {
+   "territorio": "nac09",
+   "provincia": "Burgos",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac09 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac09/config/nac09_2025.yaml",
+    "sha256": "7c295af71cee5ac34b1a618627791c48a7537950cd4991f86c7482aa0c5e7ab0"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/09.json",
+    "sha256": "97552781458dfc63c690636de36aedab39679cc9cd2a02a4d5cdde5e0a2cf32b",
+    "bytes": 47245,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/09_97552781458d.json"
+   },
+   "poblacion": {
+    "secciones": 587,
+    "total": 353193,
+    "secciones_no_dato": 171,
+    "poblacion_no_dato": 9966,
+    "pct_no_dato": "2.8217",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "10": {
+   "territorio": "nac10",
+   "provincia": "Cáceres",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac10 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac10/config/nac10_2025.yaml",
+    "sha256": "bf54dd34f428a4f3e21856cfc12253e1754de5173690514353a47ffa5d4d2b45"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/10.json",
+    "sha256": "eec9588c0562bf9869321dcfb221b7fb03c760da240070562392ac71d9bf554b",
+    "bytes": 37371,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/10_eec9588c0562.json"
+   },
+   "poblacion": {
+    "secciones": 412,
+    "total": 389866,
+    "secciones_no_dato": 7,
+    "poblacion_no_dato": 596,
+    "pct_no_dato": "0.1529",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "11": {
+   "territorio": "nac11",
+   "provincia": "Cádiz",
+   "K": 9,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac11 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac11/config/nac11_2025.yaml",
+    "sha256": "d664cc847822cfa43e382b7871f48a3add0afdb2d9dfbc75735422823366459c"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/11.json",
+    "sha256": "9019015172416f8d44b9bfd07b9f2ae3be9e9cbf743c22a1bd7d434c95113c0b",
+    "bytes": 89213,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/11_901901517241.json"
+   },
+   "poblacion": {
+    "secciones": 923,
+    "total": 1233734,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "12": {
+   "territorio": "nac12",
+   "provincia": "Castellón",
+   "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac12 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac12/config/nac12_2025.yaml",
+    "sha256": "e0e7c06f24060be67315fc9513c2e4fc6105df8972d3468ec60fc213393599d7"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/12.json",
+    "sha256": "c00d732096568c536a2ab4c192d5ff03198822069f0d4baefd5ceed661c181b3",
+    "bytes": 47451,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/12_c00d73209656.json"
+   },
+   "poblacion": {
+    "secciones": 443,
+    "total": 580438,
+    "secciones_no_dato": 20,
+    "poblacion_no_dato": 1259,
+    "pct_no_dato": "0.2169",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "13": {
+   "territorio": "nac13",
+   "provincia": "Ciudad Real",
+   "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac13 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac13/config/nac13_2025.yaml",
+    "sha256": "d2e806e9d0a2b9df2e46c084770a3c3c0631fbd146b86cbdf8b1e175b76b0a89"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/13.json",
+    "sha256": "4f4a3022e1fcfc61ca396a348fc2d187bb529bf49ad47826f1d13c6b65815acb",
+    "bytes": 36435,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/13_4f4a3022e1fc.json"
+   },
+   "poblacion": {
+    "secciones": 420,
+    "total": 491082,
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 177,
+    "pct_no_dato": "0.0360",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "14": {
+   "territorio": "nac14",
+   "provincia": "Córdoba",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac14 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac14/config/nac14_2025.yaml",
+    "sha256": "af3ad9ef1fdfe8a61370ae3797b0f54456d91e921710c6aa310daac7db52ae44"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/14.json",
+    "sha256": "26889bce2d0c59b5eb3947b2d89d5013a2ce3d1f0a60f946ae6a3ddb7c44e20e",
+    "bytes": 61539,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/14_26889bce2d0c.json"
+   },
+   "poblacion": {
+    "secciones": 620,
+    "total": 771530,
+    "secciones_no_dato": 6,
+    "poblacion_no_dato": 9127,
+    "pct_no_dato": "1.1830",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "15": {
+   "territorio": "nac15",
+   "provincia": "La Coruña",
+   "K": 8,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac15 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac15/config/nac15_2025.yaml",
+    "sha256": "8c7e31cd1a806081a8998926fbc3a717fcaa7042ef6935672b02ae0a2e670f08"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/15.json",
+    "sha256": "972666da8e53a1f6401eec8902f98bea12655528f231bff4fe37c47e57d12a44",
+    "bytes": 99194,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/15_972666da8e53.json"
+   },
+   "poblacion": {
+    "secciones": 894,
+    "total": 1116217,
+    "secciones_no_dato": 16,
+    "poblacion_no_dato": 13740,
+    "pct_no_dato": "1.2309",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "16": {
+   "territorio": "nac16",
+   "provincia": "Cuenca",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac16 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac16/config/nac16_2025.yaml",
+    "sha256": "1f45734e10bdfde75d14e7806fa094cf171c1490c486999407821199e649f862"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/16.json",
+    "sha256": "ce9a976017933816ec7914a0d5a06fc77e5b2341f2c654e1ed51b127455dccf0",
+    "bytes": 24965,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/16_ce9a97601793.json"
+   },
+   "poblacion": {
+    "secciones": 310,
+    "total": 195097,
+    "secciones_no_dato": 78,
+    "poblacion_no_dato": 4315,
+    "pct_no_dato": "2.2117",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "17": {
+   "territorio": "nac17",
+   "provincia": "Gerona",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac17 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac17/config/nac17_2025.yaml",
+    "sha256": "ebc7502f24519948871868bec3e8eb35443bfade837e94864ef8d4d85b75a2db"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/17.json",
+    "sha256": "b719d165881bb6f5e699b433adab95c26a2b403e114ba459ffb7db207c930887",
+    "bytes": 60034,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/17_b719d165881b.json"
+   },
+   "poblacion": {
+    "secciones": 530,
+    "total": 769063,
+    "secciones_no_dato": 4,
+    "poblacion_no_dato": 385,
+    "pct_no_dato": "0.0501",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "18": {
+   "territorio": "nac18",
+   "provincia": "Granada",
+   "K": 7,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac18 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac18/config/nac18_2025.yaml",
+    "sha256": "4d869bdb96ac977ab0f524542ba5ac7e0182a183303e925ea6e0a63deb674e81"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/18.json",
+    "sha256": "c4c00554e19c5c1f2edae3401c6a88f44737432738e60d5894e454b407c981b2",
+    "bytes": 65949,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/18_c4c00554e19c.json"
+   },
+   "poblacion": {
+    "secciones": 672,
+    "total": 911383,
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 5549,
+    "pct_no_dato": "0.6089",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "19": {
+   "territorio": "nac19",
+   "provincia": "Guadalajara",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac19 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac19/config/nac19_2025.yaml",
+    "sha256": "6fddd69e6bc2617a17f57a62bc30ab4f227bfd464963e95355ce13a31e7550e0"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/19.json",
+    "sha256": "b67eadbdc275352b296f9f5a14478225d80c4d4965d950a3c4bf808081a341a4",
+    "bytes": 30727,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/19_b67eadbdc275.json"
+   },
+   "poblacion": {
+    "secciones": 393,
+    "total": 259115,
+    "secciones_no_dato": 182,
+    "poblacion_no_dato": 8804,
+    "pct_no_dato": "3.3977",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "20": {
+   "territorio": "nac20",
+   "provincia": "Guipúzcoa",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac20 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac20/config/nac20_2025.yaml",
+    "sha256": "30bf741623a822a89a911995eed0cf407eaecf16a2ff87566f749dfac8b832c5"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/20.json",
+    "sha256": "31430634b8ea16b1088ec2906f899605877e9e8db7602ac2e80284f3e246a10f",
+    "bytes": 58240,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/20_31430634b8ea.json"
+   },
+   "poblacion": {
+    "secciones": 544,
+    "total": 719865,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 3031,
+    "pct_no_dato": "0.4211",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "21": {
+   "territorio": "nac21",
+   "provincia": "Huelva",
+   "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac21 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac21/config/nac21_2025.yaml",
+    "sha256": "d56755d57e552e5fabfddc6e41c4246e6785a7ddb47c7a41577851f8acbf9c97"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/21.json",
+    "sha256": "37574df1683b1dcbc45833bf8331699c7a9a5a989f28f44a9c7f1a106ac6dad4",
+    "bytes": 35952,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/21_37574df1683b.json"
+   },
+   "poblacion": {
+    "secciones": 367,
+    "total": 517195,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 56,
+    "pct_no_dato": "0.0108",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "22": {
+   "territorio": "nac22",
+   "provincia": "Huesca",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac22 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac22/config/nac22_2025.yaml",
+    "sha256": "ea01c1ca5d5d43625bc9f20f0b8c358f075b7bc8c064dde860052fb667863ac1"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/22.json",
+    "sha256": "c8d792ddd8db57cc37ece091f349be8d1a3a3c7f557b7212f3fa19c014a6b927",
+    "bytes": 27084,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/22_c8d792ddd8db.json"
+   },
+   "poblacion": {
+    "secciones": 287,
+    "total": 219441,
+    "secciones_no_dato": 34,
+    "poblacion_no_dato": 2517,
+    "pct_no_dato": "1.1470",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "23": {
+   "territorio": "nac23",
+   "provincia": "Jaén",
+   "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac23 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac23/config/nac23_2025.yaml",
+    "sha256": "bfae4f25c0ce07adb42702c597d2c4ff2d16ab6d8d783531c844c93547912032"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/23.json",
+    "sha256": "a70acd837651d10a8d4b5b8ad9e2fb07fa4d6c8418df31222875a44ad108077f",
+    "bytes": 49363,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/23_a70acd837651.json"
+   },
+   "poblacion": {
+    "secciones": 508,
+    "total": 626797,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "24": {
+   "territorio": "nac24",
+   "provincia": "León",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac24 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac24/config/nac24_2025.yaml",
+    "sha256": "9451a2feb3a931857da71a8e119a469eb830cdbab7ffa127cf5943cf954d936a"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/24.json",
+    "sha256": "ebdf87d92669d357187233deb052774eab59b7aafa062bab52d8edf7a289437c",
+    "bytes": 42180,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/24_ebdf87d92669.json"
+   },
+   "poblacion": {
+    "secciones": 453,
+    "total": 452945,
+    "secciones_no_dato": 6,
+    "poblacion_no_dato": 488,
+    "pct_no_dato": "0.1077",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "25": {
+   "territorio": "nac25",
+   "provincia": "Lérida",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac25 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac25/config/nac25_2025.yaml",
+    "sha256": "04e3069a0cc13ad7ab2e6883d1ed16b615cec5d4b62f2bc46db6f7c678657151"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/25.json",
+    "sha256": "5c6a0368e4be68b7ffc14d81d49f8118cf61e9d42f0734a752730c0734123438",
+    "bytes": 42155,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/25_5c6a0368e4be.json"
+   },
+   "poblacion": {
+    "secciones": 388,
+    "total": 431413,
+    "secciones_no_dato": 12,
+    "poblacion_no_dato": 951,
+    "pct_no_dato": "0.2204",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "26": {
+   "territorio": "nac26",
+   "provincia": "La Rioja",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac26 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac26/config/nac26_2025.yaml",
+    "sha256": "742231bb764be3a06e6aacecb04d96b208b048b4218665043058aeeed4c56b57"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/26.json",
+    "sha256": "fae152c14bafc805b0162d7e94835a8b18b85837f7413865687dcc1187f51989",
+    "bytes": 31020,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/26_fae152c14baf.json"
+   },
+   "poblacion": {
+    "secciones": 343,
+    "total": 317054,
+    "secciones_no_dato": 63,
+    "poblacion_no_dato": 3233,
+    "pct_no_dato": "1.0197",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "27": {
+   "territorio": "nac27",
+   "provincia": "Lugo",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac27 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac27/config/nac27_2025.yaml",
+    "sha256": "fae73006bc524bf29db5ebee8f2e1f658734e227a8177dd4b8fa24993ff09722"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/27.json",
+    "sha256": "2c71e7394a4395592a09a056c2ca2fe317bec9a00617f525107c357615160a5d",
+    "bytes": 30906,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/27_2c71e7394a43.json"
+   },
+   "poblacion": {
+    "secciones": 281,
+    "total": 324676,
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 351,
+    "pct_no_dato": "0.1081",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "28": {
+   "territorio": "nac28",
+   "provincia": "Madrid",
+   "K": 37,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac28 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac28/config/nac28_2025.yaml",
+    "sha256": "9f424a7aa62af5b9b4a1f5332c23b0334dae15a8e12a3a58c13a051805ee6ce6"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/28.json",
+    "sha256": "898298504e48153445732b8b0052a1d2ce594bed96729d887354edc93947ed2f",
+    "bytes": 439804,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/28_898298504e48.json"
+   },
+   "poblacion": {
+    "secciones": 4417,
+    "total": 6666097,
+    "secciones_no_dato": 10,
+    "poblacion_no_dato": 734,
+    "pct_no_dato": "0.0110",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "29": {
+   "territorio": "nac29",
+   "provincia": "Málaga",
+   "K": 11,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac29 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac29/config/nac29_2025.yaml",
+    "sha256": "3dc5abb03be82cb8a8a21ce9c56c6b84b567d2f2a6d75c1e55c36a6f30e176f8"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/29.json",
+    "sha256": "3fa2fc881b3c15a493a3dfa1fe66dd8d8061878836b376c1429a2c50bacec839",
+    "bytes": 100919,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/29_3fa2fc881b3c.json"
+   },
+   "poblacion": {
+    "secciones": 1067,
+    "total": 1662888,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 2903,
+    "pct_no_dato": "0.1746",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "30": {
+   "territorio": "nac30",
+   "provincia": "Murcia",
+   "K": 10,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac30 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac30/config/nac30_2025.yaml",
+    "sha256": "98a2efd7fe47c5e997197919f69bfc8cb2738b03a2e3c6fcaa5200f48dde9c7f"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/30.json",
+    "sha256": "6251371bd1531ce506bace1cdfee89d556453ed369e64ea463eb6ce069fe9829",
+    "bytes": 119285,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/30_6251371bd153.json"
+   },
+   "poblacion": {
+    "secciones": 1225,
+    "total": 1489907,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 3125,
+    "pct_no_dato": "0.2097",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "31": {
+   "territorio": "nac31",
+   "provincia": "Navarra",
+   "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac31 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac31/config/nac31_2025.yaml",
+    "sha256": "0ae03c9025d79633d4c3fec0bb8a0b53ff0be4975ba358f3f81fc3946bb47706"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/31.json",
+    "sha256": "138d52ae8728095e0d5a751b7e400c26de14418ebf6145fdc1c88b5fa0a4d2d6",
+    "bytes": 52879,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/31_138d52ae8728.json"
+   },
+   "poblacion": {
+    "secciones": 562,
+    "total": 647823,
+    "secciones_no_dato": 50,
+    "poblacion_no_dato": 3268,
+    "pct_no_dato": "0.5045",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "32": {
+   "territorio": "nac32",
+   "provincia": "Orense",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac32 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac32/config/nac32_2025.yaml",
+    "sha256": "12e713db0f45bbdd6648853e6bcaa6b85088a1727e895837a0d241a6a322b6be"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/32.json",
+    "sha256": "ebca5caddbef31c34f0810561f2e4d793cdd8cabe977c5a3b0860c745a70b349",
+    "bytes": 30144,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/32_ebca5caddbef.json"
+   },
+   "poblacion": {
+    "secciones": 263,
+    "total": 302106,
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 170,
+    "pct_no_dato": "0.0563",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "33": {
+   "territorio": "nac33",
+   "provincia": "Asturias",
+   "K": 7,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac33 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac33/config/nac33_2025.yaml",
+    "sha256": "7d57356715752e816404262263442db6d4b6df93355674c9a733cdd587adb914"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/33.json",
+    "sha256": "5fa5deee5fe52d1ef058b324dabcfab411995dd67bc4d5b717850ab5b9ccd8b3",
+    "bytes": 88592,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/33_5fa5deee5fe5.json"
+   },
+   "poblacion": {
+    "secciones": 850,
+    "total": 1010607,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "34": {
+   "territorio": "nac34",
+   "provincia": "Palencia",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac34 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac34/config/nac34_2025.yaml",
+    "sha256": "25b2e1df6eb4909f20640aa64a1df051ae59e883770b0f1464499e38237c17ec"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/34.json",
+    "sha256": "05f7aa95b08ba86775dfc9eb32f63557cad2b81ec0eec930bcdb1f5f9135e634",
+    "bytes": 23618,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/34_05f7aa95b08b.json"
+   },
+   "poblacion": {
+    "secciones": 277,
+    "total": 158304,
+    "secciones_no_dato": 76,
+    "poblacion_no_dato": 4618,
+    "pct_no_dato": "2.9172",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "35": {
+   "territorio": "nac35",
+   "provincia": "Las Palmas",
+   "K": 8,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac35 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac35/config/nac35_2025.yaml",
+    "sha256": "6a293955ac66b5d134e827eeffe6db314d05ce2b5c5777bb6fc76a1aeef2729c"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/35.json",
+    "sha256": "aea5cd3d8997024c58410561afe09a0d53c146a500a74dd32c910bc9da33b1e0",
+    "bytes": 82391,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/35_aea5cd3d8997.json"
+   },
+   "poblacion": {
+    "secciones": 709,
+    "total": 1115532,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 3063,
+    "pct_no_dato": "0.2746",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "36": {
+   "territorio": "nac36",
+   "provincia": "Pontevedra",
+   "K": 7,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac36 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac36/config/nac36_2025.yaml",
+    "sha256": "58702d2bea8bd6174bbd03b580ff9a49aff3f32d8cc627a140455f8923e88c85"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/36.json",
+    "sha256": "a232d47057d67af260843c6520731360c4f479639ff9a3536ff1eb3a4d7d93cd",
+    "bytes": 80740,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/36_a232d47057d6.json"
+   },
+   "poblacion": {
+    "secciones": 731,
+    "total": 938985,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "37": {
+   "territorio": "nac37",
+   "provincia": "Salamanca",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac37 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac37/config/nac37_2025.yaml",
+    "sha256": "9c94cdf7d5bbedb93b25ac48971bd6a2dba3fbe7fd078a9aff84c0a30e2b4f5b"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/37.json",
+    "sha256": "3ce2c382f612f9d27bf0e98e8b6e0cc43741c6891cb69f821e8eb45703aa34b8",
+    "bytes": 42806,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/37_3ce2c382f612.json"
+   },
+   "poblacion": {
+    "secciones": 532,
+    "total": 327890,
+    "secciones_no_dato": 87,
+    "poblacion_no_dato": 6354,
+    "pct_no_dato": "1.9378",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "38": {
+   "territorio": "nac38",
+   "provincia": "Santa Cruz de Tenerife",
+   "K": 7,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac38 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac38/config/nac38_2025.yaml",
+    "sha256": "55791c2c483258b56e5e07bd81e639e23bc655b5419d533bf224360475051f5c"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/38.json",
+    "sha256": "abebf207aa3fd894b8f071fcc4dff5ad433aa9092b40cf00e3dd2063a5b050fd",
+    "bytes": 73057,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/38_abebf207aa3f.json"
+   },
+   "poblacion": {
+    "secciones": 672,
+    "total": 1028553,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "39": {
+   "territorio": "nac39",
+   "provincia": "Cantabria",
+   "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac39 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac39/config/nac39_2025.yaml",
+    "sha256": "8e2b6bba83b05216c00574ac476d580050521b47e406c4614f8657743bf8cba1"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/39.json",
+    "sha256": "8b377fd1de4561abdaed5738117343a6c7cbb7745926e40a2a2379f52dc9a268",
+    "bytes": 48201,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/39_8b377fd1de45.json"
+   },
+   "poblacion": {
+    "secciones": 467,
+    "total": 576331,
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 140,
+    "pct_no_dato": "0.0243",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "40": {
+   "territorio": "nac40",
+   "provincia": "Segovia",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac40 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac40/config/nac40_2025.yaml",
+    "sha256": "4f0e1778667801d0741b5e5b8d7c49e4be2bbab65b5387779da80ae8a6ca0b7a"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/40.json",
+    "sha256": "ef54c11d5def62d24600e573166e3b6d7f46dcb4c0bd0c332f6a0d9a070b269d",
+    "bytes": 24802,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/40_ef54c11d5def.json"
+   },
+   "poblacion": {
+    "secciones": 276,
+    "total": 152621,
+    "secciones_no_dato": 79,
+    "poblacion_no_dato": 4453,
+    "pct_no_dato": "2.9177",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "41": {
+   "territorio": "nac41",
+   "provincia": "Sevilla",
+   "K": 12,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac41 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac41/config/nac41_2025.yaml",
+    "sha256": "46c59eb1bcee37f6086497bcfe96dffa294d8384d384fc474ee9df61485e952f"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/41.json",
+    "sha256": "f2f4dc24e022e334c28c855138e126c8ac509b4193d0c40b44135f6b17995e52",
+    "bytes": 139922,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/41_f2f4dc24e022.json"
+   },
+   "poblacion": {
+    "secciones": 1361,
+    "total": 1937201,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 3113,
+    "pct_no_dato": "0.1607",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "42": {
+   "territorio": "nac42",
+   "provincia": "Soria",
+   "K": 2,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac42 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac42/config/nac42_2025.yaml",
+    "sha256": "108558010d1792abc66ed9c03893ea1cdfe86a32e833b1e9189fef9e810868e1"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/42.json",
+    "sha256": "52e7801f2d8a5204b51fbb93a0979d2cfdc08c8f05e0bd74cfa96278143a1a9d",
+    "bytes": 17815,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/42_52e7801f2d8a.json"
+   },
+   "poblacion": {
+    "secciones": 216,
+    "total": 88110,
+    "secciones_no_dato": 118,
+    "poblacion_no_dato": 5416,
+    "pct_no_dato": "6.1469",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "43": {
+   "territorio": "nac43",
+   "provincia": "Tarragona",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac43 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac43/config/nac43_2025.yaml",
+    "sha256": "d390f3113e734dfc3b590b071546f26b96edf705fa1a4bed68f3ad6a03508f09"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/43.json",
+    "sha256": "8576be84c01163449a28ab5d283516eaf2c97d5464f0e3b5c0c2d2a3f3ddafa6",
+    "bytes": 63109,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/43_8576be84c011.json"
+   },
+   "poblacion": {
+    "secciones": 542,
+    "total": 806371,
+    "secciones_no_dato": 8,
+    "poblacion_no_dato": 581,
+    "pct_no_dato": "0.0721",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "44": {
+   "territorio": "nac44",
+   "provincia": "Teruel",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac44 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac44/config/nac44_2025.yaml",
+    "sha256": "d43011d3f6e7a6b3d0c0b7c33401536611b537c9daa261f796de069be9896aa7"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/44.json",
+    "sha256": "dcf81355026507d0486a567124b51c49bc1f405eda26a1d44be199965ec148be",
+    "bytes": 23604,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/44_dcf813550265.json"
+   },
+   "poblacion": {
+    "secciones": 285,
+    "total": 132465,
+    "secciones_no_dato": 96,
+    "poblacion_no_dato": 5372,
+    "pct_no_dato": "4.0554",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "45": {
+   "territorio": "nac45",
+   "provincia": "Toledo",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac45 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac45/config/nac45_2025.yaml",
+    "sha256": "5243b6912d98b82b09f2054213bec4ece75c80ed856e186df4ec8baf63ba62a5"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/45.json",
+    "sha256": "491737b3c48be71d207cb5d79863869c31f1e9a747aee880a493b554ce9c1d48",
+    "bytes": 45779,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/45_491737b3c48b.json"
+   },
+   "poblacion": {
+    "secciones": 530,
+    "total": 697099,
+    "secciones_no_dato": 4,
+    "poblacion_no_dato": 227,
+    "pct_no_dato": "0.0326",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "46": {
+   "territorio": "nac46",
+   "provincia": "Valencia",
+   "K": 15,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac46 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac46/config/nac46_2025.yaml",
+    "sha256": "eda58e868eb565bcddadc3622e2fb8152ad17ffb66a392fd4a178577f9bf3d17"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/46.json",
+    "sha256": "1cf8a21db87bf4c5726c3e633a9fb44d43977dccef0d58d803cfb911a387146a",
+    "bytes": 194288,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/46_1cf8a21db87b.json"
+   },
+   "poblacion": {
+    "secciones": 1807,
+    "total": 2564744,
+    "secciones_no_dato": 3,
+    "poblacion_no_dato": 190,
+    "pct_no_dato": "0.0074",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "47": {
+   "territorio": "nac47",
+   "provincia": "Valladolid",
+   "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac47 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac47/config/nac47_2025.yaml",
+    "sha256": "78ba3f3ac30599c0452a87b371151777a9697995b2284bcd93741f5d9dbaaafc"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/47.json",
+    "sha256": "2f1571d19844b8a32503621fc0df7ece343c0e02160a76aba5a67e78bde447c8",
+    "bytes": 52273,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/47_2f1571d19844.json"
+   },
+   "poblacion": {
+    "secciones": 569,
+    "total": 517050,
+    "secciones_no_dato": 61,
+    "poblacion_no_dato": 3808,
+    "pct_no_dato": "0.7365",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "48": {
+   "territorio": "nac48",
+   "provincia": "Vizcaya",
+   "K": 8,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac48 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac48/config/nac48_2025.yaml",
+    "sha256": "5295b77539ddbdddf1ed6ba9bfb3da3949690a771c763d357b279492381ede65"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/48.json",
+    "sha256": "372dfbdc6b03a092bff583c856e0e5af727ae2110d6355825d5ae916ed305db8",
+    "bytes": 98196,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/48_372dfbdc6b03.json"
+   },
+   "poblacion": {
+    "secciones": 929,
+    "total": 1149852,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "49": {
+   "territorio": "nac49",
+   "provincia": "Zamora",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac49 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac49/config/nac49_2025.yaml",
+    "sha256": "1978b3795ea633ec8eaca2117bb1d395ded0cd7276a496b20af5f90cb3a270d5"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/49.json",
+    "sha256": "3ff7252d48c23c5c5bf23e8c5b951cf3906cc8c102494c468d272ff1cadf95ea",
+    "bytes": 27298,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/49_3ff7252d48c2.json"
+   },
+   "poblacion": {
+    "secciones": 321,
+    "total": 169855,
+    "secciones_no_dato": 33,
+    "poblacion_no_dato": 2432,
+    "pct_no_dato": "1.4318",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "50": {
+   "territorio": "nac50",
+   "provincia": "Zaragoza",
+   "K": 7,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac50 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac50/config/nac50_2025.yaml",
+    "sha256": "2394d71a6319ad0e4fc6e7a5e8a1acdf63b645f0af61104be1db3489830a1319"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/50.json",
+    "sha256": "0108e89ded1e82133325014972ad08f737ccce0bc2db453e923e450347e5eb83",
+    "bytes": 85496,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/50_0108e89ded1e.json"
+   },
+   "poblacion": {
+    "secciones": 878,
+    "total": 962148,
+    "secciones_no_dato": 94,
+    "poblacion_no_dato": 16999,
+    "pct_no_dato": "1.7668",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "51": {
+   "territorio": "nac51",
+   "provincia": "Ceuta",
+   "K": 1,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac51 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac51/config/nac51_2025.yaml",
+    "sha256": "cbc3b939ec5846a9c0f1eac981e38dc3ceb7a142a96ee53012fdfd9b842ed925"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/51.json",
+    "sha256": "b0bd85f2fb80dfc509cdd42e0eafa68e32ecdbb71b84107f05b893b060fab6b4",
+    "bytes": 6827,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/51_b0bd85f2fb80.json"
+   },
+   "poblacion": {
+    "secciones": 56,
+    "total": 80496,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "52": {
+   "territorio": "nac52",
+   "provincia": "Melilla",
+   "K": 1,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac52 en la elección 2019-04 según BOE-A-2019-8070 (CSV de T-330, sha256 1f0600b21a69)",
+   "contrato_base": {
+    "ruta": "territorios/nac52/config/nac52_2025.yaml",
+    "sha256": "66ba9616bd9d8a7271fd2072b24cf78ac1ee35fbe8e737ee4bf57c0e73d11e91"
+   },
+   "votos": {
+    "ruta": "data/201904/sekzioa/52.json",
+    "sha256": "2b2cae93e12d832fb4ab4bbdf4f3fab5c576d398cf60fb0260feea9ac80a4072",
+    "bytes": 6246,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201904/sekzioa/52_2b2cae93e12d.json"
+   },
+   "poblacion": {
+    "secciones": 44,
+    "total": 83500,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  }
+ }
+}

@@ -1,9 +1,9 @@
 {
  "schema": "ddd.contrato-historico-epoca/1.0",
- "version": "1.1.0",
- "anterior": "legacy/contrato_historico_epoca_2016_06_v1.0.0_20261116.json",
+ "version": "1.2.0",
+ "anterior": "legacy/contrato_historico_epoca_2016_06_v1.1.0_20261117.json",
  "motivo": "D-125 (opción A: distritos con los datos de cada época), D-126/D-128 (población), T-199 (elección en el registro)",
- "generado_con": "herramientas/contrato_historico_epoca.py 1.0.0",
+ "generado_con": "herramientas/contrato_historico_epoca.py 1.1.0",
  "eleccion": "2016-06",
  "fecha": "2016-06-26",
  "clave_espejo": "201606",
@@ -22,7 +22,7 @@
   "anio_referencia": 2016,
   "fuente": "atlas",
   "regla_publicacion": "> 1 % estimada → BLOQUEADA_RELLENO (D-126/D-128); sin_dato → BLOQUEADA_SIN_DATO",
-  "regla_sin_seccionado": "secciones con población sin geometría en el seccionado del año: materializar falla cerrado (decisión pendiente del propietario)",
+  "regla_sin_seccionado": "D-153/T-396: sección con población sin geometría en el seccionado del año → sección del seccionado del año que contiene su centroide (punto representativo si el centroide cae fuera de todas), con la geometría del seccionado más cercano en años que la tenga (empate: el anterior); misma provincia (otra → APARTADA); sin geometría en ningún año, punto fuera de todo el seccionado o sucesora sin fila en la tabla → excluida con su población declarada. Reglas que D-153 no cita y declara este contrato: punto representativo si el centroide cae fuera; exclusión si la sucesora no tiene fila; origen dato+dato = dato (no cuenta como estimada)",
   "fuentes": {
    "30832.csv": "37716cba8cda50a492f52e2bae91a1c543bafb4263110e5aa5da18107ef68311",
    "indicadores_seccion_censal_csv.zip": "305a19f11b87d4e13d2ea4267774b9b0e3a69a3b7b1ff8e483aad90867628fe7"
