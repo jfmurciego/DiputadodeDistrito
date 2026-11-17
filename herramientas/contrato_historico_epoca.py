@@ -8,7 +8,9 @@ ANTERIOR: legacy/herramientas/contrato_historico_epoca_v1.1.0_20261117.py
 CAMBIOS: 1.2.0: T-399 (D-156, propietario 17-11): 2011-11 usa como seccionado el del Censo 2011 (`cartografia_censo2011_nacional.zip`, T-357) y no el de 2012 (sus 63 secciones nuevas parten una del
   Censo y doblan la población); las secciones del seccionado SIN fila en la tabla (42 con dato) se RELLENAN con el valor de la misma sección en el año más cercano del Atlas (D-126; empate: el anterior),
   origen `rellenada_año_cercano` (cuenta como estimada) y ajuste proporcional al total municipal OFICIAL del Censo 2011 solo si hay fuente con sha256 (hoy no: sin ajuste, declarado); sin dato en ningún
-  año → BLOQUEADA_SIN_DATO. `contrato --atlas`, `informe_poblacion`. 1.1.0: T-396 (D-153; reglas declaradas fuera de D-153: punto representativo, exclusión por sucesora sin fila, dato+dato=dato): las secciones con población sin geometría en el seccionado del año se ASIGNAN a la sección del seccionado
+  año → BLOQUEADA_SIN_DATO. D-156 (A): los votos del Observatorio de las secciones «hija» (que el Censo no trae) NO se asignan a su sección: las 13 provincias de 2011-11 que superan el 0,1 % de
+  votos sin asignar llevan una excepción de la puerta M07 con tope absoluto = esos votos (`puerta.excepciones_votos_sin_asignar` del contrato, fuente `votos_fuera_del_seccionado.csv` con sha256).
+  `contrato --atlas`, `informe_poblacion`. 1.1.0: T-396 (D-153; reglas declaradas fuera de D-153: punto representativo, exclusión por sucesora sin fila, dato+dato=dato): las secciones con población sin geometría en el seccionado del año se ASIGNAN a la sección del seccionado
   que contiene su centroide (geometría del seccionado más cercano en años que la tenga; misma provincia) o se EXCLUYEN declarando su
   población; con sucesora de otra provincia la provincia queda APARTADA. `contrato --donantes`, `informe`. 1.0.0: fichero nuevo.
 MOTIVO: D-125 (propietario, 15-11): distritos generados con los datos de cada época (seccionado y población por sección del año,
@@ -68,6 +70,7 @@ LEGISLATURA = "configuracion/legislatura_vigente.yaml"
 ELECCIONES = {"2011-11": "201111", "2015-12": "201512", "2016-06": "201606", "2019-04": "201904", "2019-11": "201911"}
 # D-156 (propietario, 17-11): 2011-11 usa la cartografía del Censo 2011 (T-357, sha256 acreditado) como seccionado: población, geometría y votos coinciden
 SECCIONADO_PROPIO = {"2011-11": (2011, CARTOGRAFIA_CENSO_2011, "https://www.ine.es/censos2011_datos/" + CARTOGRAFIA_CENSO_2011)}
+VOTOS_FUERA_CSV = "docs/ESTUDIOS/T399_2011_SIN_POBLACION/votos_fuera_del_seccionado.csv"  # fuente de las excepciones D-156 (A)
 UMBRAL_RELLENO_PCT = 1  # D-126: > 1 % de población rellenada → la provincia no se publica sin decisión del propietario
 
 
@@ -246,6 +249,24 @@ def _donantes(e: dict, fr2: dict, dir_donantes: Path | None, root: Path = ROOT) 
 def _geometrias_plano(zip_path: Path) -> dict:
     import equivalencia_seccionados as eqs
     return {c: g for prov in eqs.leer_seccionado(zip_path).values() for c, g in prov.items()}
+
+
+def excepciones_votos(eleccion: str, root: Path = ROOT) -> dict | None:
+    """D-156 (A), solo 2011-11: provincias cuyos votos en secciones que el seccionado del Censo 2011 no trae superan el 0,1 % de los votos válidos
+    (la puerta M07 las daría por FAIL). Tope absoluto = esos votos, medidos en `votos_fuera_del_seccionado.csv` (como las excepciones D-70 de `historico_campana.D70`,
+    medidas con el seccionado 2012; no sirven con el del Censo). Sin tocar el tope general: las demás provincias siguen con ≤ 0,1 %."""
+    if eleccion not in SECCIONADO_PROPIO:
+        return None
+    ruta = root / VOTOS_FUERA_CSV
+    topes = {}
+    with open(ruta, encoding="utf-8", newline="") as f:
+        for fila in csv.DictReader(f):
+            perdidos, total = int(fila["perdidos_con_censo2011"]), int(fila["votos_validos_observatorio"])
+            if perdidos * 1000 > total * 1:  # > 0,1 % (MAX_PERDIDOS)
+                topes[fila["provincia"]] = perdidos
+    return {"decision": "D-156 (A, propietario 17-11): los votos de las secciones hija (sin fila en el seccionado del Censo 2011) no se asignan a su sección; "
+                        "tope absoluto por provincia = esos votos; el tope general (0,1 %) no se relaja",
+            "fuente": VOTOS_FUERA_CSV, "fuente_sha256": sha256(ruta), "topes": dict(sorted(topes.items()))}
 
 
 def sha256(path: Path) -> str:
@@ -476,7 +497,8 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
         "escanos": {"csv": e["csv_boe"], "sha256": meta_boe["sha256_csv"], "boe": meta_boe.get("boe"),
                     "regla": "K de la provincia = escanos_circunscripcion del BOE de la elección (D-125)"},
         "votos": {"fuente": "nazioenbehatokia", "manifiesto": ESPEJO, "manifiesto_sha256": sha256(root / ESPEJO)},
-        "puerta": {"m07": "PASS o PASS_WITH_DECLARED_EXCEPTIONS con votos sin asignar ≤ 0,1 % (2011: D-70)",
+        "puerta": {**({"excepciones_votos_sin_asignar": exc} if (exc := excepciones_votos(eleccion, root)) else {}),
+                   "m07": "PASS o PASS_WITH_DECLARED_EXCEPTIONS con votos sin asignar ≤ 0,1 % (2011: D-70; 2011-11 con el seccionado del Censo: excepciones D-156)",
                    "contraste_boe": "historico_campana.contraste_boe (por partido, cobertura total, TOLERANCIA de cuadre_historico_espana)",
                    "escanos": "K del contrato = escaños BOE = distritos del M08"},
         "provincias": provincias,
@@ -677,8 +699,10 @@ def puerta(c: dict, cpro: str, rec: dict, contraste: dict, distritos_m08: int) -
     clave, k = c["clave_espejo"], c["provincias"][cpro]["K"]
     perdidos, fuente = rec.get("ddd_unassigned_votes"), rec.get("source_votes")
     pct_p = perdidos / fuente if isinstance(perdidos, int) and isinstance(fuente, int) and fuente > 0 else None
-    d70 = cpro in hc.D70.get(clave, {})
-    tope = hc.D70[clave][cpro] if d70 else hc.MAX_PERDIDOS
+    ex = (c.get("puerta") or {}).get("excepciones_votos_sin_asignar")  # D-156 (A): sustituye a hc.D70 (medidas con otro seccionado)
+    topes = ex["topes"] if ex else hc.D70.get(clave, {})
+    d70 = cpro in topes
+    tope = topes[cpro] if d70 else hc.MAX_PERDIDOS
     m07_ok = rec.get("status") in ("PASS", "PASS_WITH_DECLARED_EXCEPTIONS") and pct_p is not None \
         and (perdidos <= tope if d70 else pct_p <= tope)
     escanos_ok = distritos_m08 == k

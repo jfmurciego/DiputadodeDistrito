@@ -47,7 +47,27 @@
   "manifiesto_sha256": "b22ff749d3ba9570b9c1000e1d146ee963ab990f0c624388c41ddca803cbc5b3"
  },
  "puerta": {
-  "m07": "PASS o PASS_WITH_DECLARED_EXCEPTIONS con votos sin asignar ≤ 0,1 % (2011: D-70)",
+  "excepciones_votos_sin_asignar": {
+   "decision": "D-156 (A, propietario 17-11): los votos de las secciones hija (sin fila en el seccionado del Censo 2011) no se asignan a su sección; tope absoluto por provincia = esos votos; el tope general (0,1 %) no se relaja",
+   "fuente": "docs/ESTUDIOS/T399_2011_SIN_POBLACION/votos_fuera_del_seccionado.csv",
+   "fuente_sha256": "ca42304e7917b076440583c0f99c991f8de3be6e3640eacd12e0554f6427c82c",
+   "topes": {
+    "15": 3008,
+    "21": 489,
+    "22": 418,
+    "29": 1831,
+    "31": 620,
+    "32": 473,
+    "34": 607,
+    "35": 477,
+    "37": 533,
+    "41": 2184,
+    "43": 838,
+    "45": 457,
+    "47": 499
+   }
+  },
+  "m07": "PASS o PASS_WITH_DECLARED_EXCEPTIONS con votos sin asignar ≤ 0,1 % (2011: D-70; 2011-11 con el seccionado del Censo: excepciones D-156)",
   "contraste_boe": "historico_campana.contraste_boe (por partido, cobertura total, TOLERANCIA de cuadre_historico_espana)",
   "escanos": "K del contrato = escaños BOE = distritos del M08"
  },

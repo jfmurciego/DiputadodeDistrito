@@ -165,6 +165,53 @@ class SeccionadoDe2011(unittest.TestCase):
             self.assertFalse(any("sin_poblacion_resuelto" in p["poblacion"] for p in c["provincias"].values()), e)
 
 
+class ExcepcionesVotosD156(unittest.TestCase):
+    """D-156 (A): topes absolutos de votos sin asignar en 13 provincias de 2011-11; control negativo (un voto más falla; otra provincia no entra)."""
+
+    TOPES = {"15": 3008, "21": 489, "22": 418, "29": 1831, "31": 620, "32": 473, "34": 607, "35": 477, "37": 533, "41": 2184, "43": 838,
+             "45": 457, "47": 499}  # literal: votos fuera del seccionado del Censo 2011 medidos con el Observatorio (votos_fuera_del_seccionado.csv)
+
+    def _c(self):
+        return json.loads(che.ruta_contrato("2011-11").read_text(encoding="utf-8"))
+
+    def test_contrato_declara_las_13_con_su_fuente(self):
+        ex = self._c()["puerta"]["excepciones_votos_sin_asignar"]
+        self.assertEqual(ex["topes"], self.TOPES)
+        self.assertEqual(ex["fuente_sha256"], _sha(ROOT / ex["fuente"]))
+        self.assertIn("no se asignan a su sección", ex["decision"])
+        for e in ("2015-12", "2016-06", "2019-04", "2019-11"):  # solo 2011-11
+            self.assertNotIn("excepciones_votos_sin_asignar", json.loads(che.ruta_contrato(e).read_text(encoding="utf-8"))["puerta"])
+        self.assertEqual(che.excepciones_votos("2019-11"), None)
+
+    def test_excepciones_salen_del_csv_y_solo_superan_el_tope_general(self):
+        import csv
+        with open(ROOT / che.VOTOS_FUERA_CSV, encoding="utf-8", newline="") as f:
+            filas = list(csv.DictReader(f))
+        self.assertEqual(len(filas), 52)
+        sup = {x["provincia"] for x in filas if int(x["perdidos_con_censo2011"]) * 1000 > int(x["votos_validos_observatorio"])}
+        self.assertEqual(sup, set(self.TOPES))
+        self.assertEqual(che.excepciones_votos("2011-11")["topes"], self.TOPES)
+
+    def test_puerta_tope_exacto_pasa_un_voto_mas_falla_y_otra_provincia_no_entra(self):
+        c = self._c()
+        for cpro, tope in self.TOPES.items():
+            k = c["provincias"][cpro]["K"]
+            rec = {"status": "PASS_WITH_DECLARED_EXCEPTIONS", "ddd_unassigned_votes": tope, "source_votes": 10_000_000}
+            self.assertEqual(che.puerta(c, cpro, rec, {"ok": True}, k)["estado"], "PASS", cpro)
+            self.assertEqual(che.puerta(c, cpro, {**rec, "ddd_unassigned_votes": tope + 1}, {"ok": True}, k)["estado"], "FAIL", cpro)
+        # una provincia sin excepción (28) sigue con el tope general del 0,1 %: 2.082 votos de 3.326.413 (0,063 %) pasan, 3.400 (0,102 %) no
+        k28 = c["provincias"]["28"]["K"]
+        rec = {"status": "PASS", "ddd_unassigned_votes": 2082, "source_votes": 3326413}
+        self.assertEqual(che.puerta(c, "28", rec, {"ok": True}, k28)["estado"], "PASS")
+        self.assertEqual(che.puerta(c, "28", {**rec, "ddd_unassigned_votes": 3400}, {"ok": True}, k28)["estado"], "FAIL")
+        # las D-70 antiguas (hc.D70, medidas con el seccionado 2012) ya no valen en 2011-11: 03 con 1.877 votos de 876.076 (0,214 %) falla
+        rec = {"status": "PASS_WITH_DECLARED_EXCEPTIONS", "ddd_unassigned_votes": 1877, "source_votes": 876076}
+        self.assertEqual(che.puerta(c, "03", rec, {"ok": True}, c["provincias"]["03"]["K"])["estado"], "FAIL")
+        # control: sin la declaración del contrato (comportamiento anterior) 03 pasaba por hc.D70
+        sin = {**c, "puerta": {k: v for k, v in c["puerta"].items() if k != "excepciones_votos_sin_asignar"}}
+        self.assertEqual(che.puerta(sin, "03", rec, {"ok": True}, c["provincias"]["03"]["K"])["estado"], "PASS")
+
+
 class ContratosVersionados(unittest.TestCase):
     ELEC = ("2011-11", "2015-12", "2016-06", "2019-04", "2019-11")
 
