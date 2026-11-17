@@ -1,6 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
-# VERSIÓN: 1.11.5
+# VERSIÓN: 1.11.6
+# CAMBIOS 1.11.6: T-379 PR 2a (D-147, opción a): todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara `environment: registro`
+#   (entorno sin revisores, ramas de despliegue = main): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
+# ANTERIOR (1.11.5): legacy/workflows/ejecucion-completa-proyecto_v1.11.5_20261117.yml
 # CAMBIOS 1.11.5: T-377 (D-139, P20): cambian solo las líneas `uses:` de los jobs `acreditar_generacion` y `generar` (las dos a `p20-distritos.yml`, «P20 Distritos»)
 #   y las rutas homónimas de `paths` del pull_request; entradas, `secrets` y condiciones idénticos.
 # ANTERIOR (1.11.4): legacy/workflows/ejecucion-completa-proyecto_v1.11.4_20261117.yml
@@ -929,6 +932,7 @@ jobs:
     name: Detectar M08 electoral materializado sin registro
     needs: planificar
     if: ${{ github.event_name != 'pull_request' && needs.planificar.result == 'success' && needs.planificar.outputs.persist_state == 'true' && needs.planificar.outputs.execution_mode_internal == 'reuse' && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.outputs.electoral_execution == 'EXECUTE' && needs.planificar.outputs.run_prepare_territorial == 'false' && needs.planificar.outputs.run_generate == 'false' && needs.planificar.outputs.run_prepare_electoral == 'false' }}
+    environment: registro
     runs-on: ubuntu-24.04
     outputs:
       recover: ${{ steps.detect.outputs.recover }}
@@ -1333,6 +1337,7 @@ jobs:
     name: Actualizar estado operativo único
     needs: [planificar, puerta_01, puerta_02, puerta_03, puerta_04, clasificar_electoral]
     if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_01.result == 'success' && needs.puerta_02.result == 'success' && ((needs.planificar.outputs.publication_mode_effective == 'territorial_only') || (needs.planificar.outputs.publication_mode_effective == 'electoral' && (needs.puerta_04.result == 'success' || (needs.clasificar_electoral.result == 'success' && needs.clasificar_electoral.outputs.execution == 'SKIP')))) }}
+    environment: registro
     runs-on: ubuntu-24.04
     outputs:
       source_ref: ${{ steps.state.outputs.source_ref }}
@@ -1534,6 +1539,7 @@ jobs:
     name: Registrar manifiesto de ejecución completa
     needs: [planificar, detectar_recuperacion_electoral, preparar_territorial, puerta_01, generar, puerta_02, preparar_electoral, clasificar_electoral, puerta_03, incorporar, recuperar_electoral, puerta_04, actualizar_estado, publicar]
     if: ${{ always() && needs.planificar.result == 'success' }}
+    environment: ${{ github.event_name != 'pull_request' && 'registro' || '' }}  # T-379 PR 2a: en el humo de las PR, sin entorno (una ref de PR no pasa la regla de ramas)
     runs-on: ubuntu-24.04
     env:
       TERRITORY_ID: ${{ needs.planificar.outputs.territory_id }}

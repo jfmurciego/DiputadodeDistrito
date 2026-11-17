@@ -1,6 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 1.1.0
+# VERSIÓN: 1.2.0
+# CAMBIOS 1.2.0: T-379 PR 2a (D-147, opción a; D-162 opción A): los secretos de la app de registro (DDD_REGISTRO_APP_*) pasan a entornos
+#   limitados a main (`registro`, `github-pages`, `produccion`); desde una rama o una PR un job con la app no los recibe. `preparar`: `produccion`
+#   para personas (T-41, misma condición) y `registro` para robots; `publicar` registra dentro de `github-pages` (los secretos están también ahí). Resto idéntico.
+# ANTERIOR (1.1.0): legacy/workflows/p40-publicacion_v1.1.0_20261117.yml
 # FECHA: 2026-11-16
 # ESTADO: candidato
 # CAMBIOS 1.1.0: T-377 (D-138, P28 Alternativas retirada sin sustituto): se quitan las entradas `workflow_call` `ensemble_release_tag`, `ensemble_sha256`,
@@ -116,7 +120,7 @@ jobs:
     name: Preparar promoción web
     needs: resolver
     if: ${{ needs.resolver.outputs.publicar == 'true' }}
-    environment: ${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == 'P40 Publicación') && 'produccion' || '' }}  # T-41: clic del propietario solo en disparo manual humano
+    environment: ${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == 'P40 Publicación') && 'produccion' || 'registro' }}  # T-379 PR 2a (D-162): robots con `registro`; T-41: clic del propietario solo en disparo manual humano
     runs-on: ubuntu-24.04
     concurrency:
       group: ddd-shared-operational-state

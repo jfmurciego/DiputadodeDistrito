@@ -301,7 +301,8 @@ BLOQUE_MINSAIT = """    # T-332: el ensayo se etiqueta como tal en el paquete y 
 
 
 def _wf(path: Path) -> dict:
-    return yaml.safe_load(path.read_text(encoding="utf-8"))
+    from tests._t379_2a import deshacer as sin_2a  # T-379 PR 2a: sin el entorno `registro`
+    return sin_2a(path.stem, yaml.safe_load(path.read_text(encoding="utf-8")))
 
 
 def _step(wf: dict, job: str, step_id: str) -> str:

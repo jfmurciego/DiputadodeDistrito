@@ -1,6 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.1.0
+# VERSIÓN: 1.1.1
+# CAMBIOS 1.1.1: T-379 PR 2a (D-147, opción a): todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara `environment: registro`
+#   (entorno sin revisores, ramas de despliegue = main): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
+# ANTERIOR (1.1.0): legacy/workflows/p90-automatico_v1.1.0_20261117.yml
 # NOMBRE DE VERSIÓN: P90 Automático — CI, IA de cierre de campaña y métricas en un solo workflow
 # FECHA: 2026-11-17
 # ESTADO: candidato
@@ -391,6 +394,7 @@ jobs:
       queue: max
     permissions:
       contents: write
+    environment: registro
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -455,6 +459,7 @@ jobs:
       queue: max
     permissions:
       contents: write
+    environment: registro
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -521,6 +526,7 @@ jobs:
       queue: max
     permissions:
       contents: write
+    environment: registro
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -804,6 +810,7 @@ jobs:
       contents: write
       actions: read
       pull-requests: read
+    environment: registro
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:

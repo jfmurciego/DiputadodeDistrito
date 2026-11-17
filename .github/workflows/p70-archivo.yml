@@ -1,6 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: p70-archivo.yml
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.1.0
+# CAMBIOS 1.1.0: T-379 PR 2a (D-147, opción a; D-162 opción A): los secretos de la app de registro (DDD_REGISTRO_APP_*) pasan a entornos
+#   limitados a main (`registro`, `github-pages`, `produccion`); desde una rama o una PR un job con la app no los recibe. `podar` sigue con
+#   `produccion` fuera de la simulación (registra dentro, con su grupo); en simulación no tiene entorno ni secretos y no registra. Resto idéntico.
+# ANTERIOR (1.0.0): legacy/workflows/p70-archivo_v1.0.0_20261117.yml
 # NOMBRE DE VERSIÓN: P70 Archivo
 # FECHA: 2026-11-16
 # ESTADO: candidato
@@ -97,6 +101,7 @@ jobs:
       contents: write
       actions: read
     name: Archivar y registrar manifiesto
+    environment: registro
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     env:
@@ -214,6 +219,7 @@ jobs:
   resolver_producto:
     if: ${{ inputs.accion == 'P72 Recuperar producto electoral' }}
     name: Resolver el producto electoral huérfano de un territorio
+    environment: registro
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -389,6 +395,7 @@ jobs:
     name: Acreditar M08 durable y producto previo
     needs: resolver_producto
     if: ${{ !cancelled() && (inputs.confirm_recovery || needs.resolver_producto.outputs.recover == 'true') }}
+    environment: registro
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -605,6 +612,7 @@ jobs:
     name: Registrar producto electoral durable
     needs: [resolver_producto, acreditar, validar_m08]
     if: ${{ !cancelled() && needs.acreditar.result == 'success' && needs.validar_m08.result == 'success' && needs.validar_m08.outputs.decision == 'VALIDADO' }}
+    environment: registro
     runs-on: ubuntu-24.04
     outputs:
       registration_status: ${{ steps.persist.outputs.registration_status }}
@@ -680,6 +688,7 @@ jobs:
     name: Acreditar catálogo y receipt recuperados
     needs: [resolver_producto, validar_m08, registrar]
     if: ${{ !cancelled() && needs.validar_m08.result == 'success' && needs.registrar.result == 'success' }}
+    environment: registro
     runs-on: ubuntu-24.04
     outputs:
       source_run_id: ${{ steps.verify.outputs.source_run_id }}
@@ -774,6 +783,7 @@ jobs:
     permissions:
       contents: write
       actions: read
+    environment: registro
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     env:
