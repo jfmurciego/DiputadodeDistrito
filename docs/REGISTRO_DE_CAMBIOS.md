@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.517
+Versión: 1.0.518
 Fecha: 2026-11-17
-Alcance: T-313 — Diseño de la migración de notación M0x → P2x/P3x
+Alcance: T-411 — Permisos de comunicación entre sesiones sin pregunta
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-17_t313-diseno.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.516_registro_20261117.md
+Cambios/motivo: entrada docs/registro/2026-11-17_planificador-permisos-comunicacion.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.517_registro_20261117.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.516_registro_20261117.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.518 · [2026-11-17 — T-411 — Permisos de comunicación entre sesiones sin pregunta](registro/2026-11-17_planificador-permisos-comunicacion.md)
 - 1.0.517 · [2026-11-17 — T-313 — Diseño de la migración de notación M0x → P2x/P3x](registro/2026-11-17_t313-diseno.md)
 - 1.0.516 · [2026-11-17 — T-379 — PR 2b: entrada `campana` en P10, P20 y P30 (D-163, 2b mínima)](registro/2026-11-17_t379-2b-campana.md)
 - 1.0.515 · [2026-11-17 — T-410 — Plan 1.0.66: D-166 a D-168 y T-409](registro/2026-11-17_planificador-plan-1-0-66.md)
