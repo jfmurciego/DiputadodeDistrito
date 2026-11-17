@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.509
+Versión: 1.0.510
 Fecha: 2026-11-17
-Alcance: T-403 — Relevo automático de chats (D-160)
+Alcance: T-405 — nac14 2011-11: municipio no conexo (Fuente Palmera) sin acreditación topológica
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-17_t403-relevo-chats.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.508_registro_20261117.md
+Cambios/motivo: entrada docs/registro/2026-11-17_t405-topologia-fuente-palmera.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.509_registro_20261117.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.508_registro_20261117.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.510 · [2026-11-17 — T-405 — nac14 2011-11: municipio no conexo (Fuente Palmera) sin acreditación topológica](registro/2026-11-17_t405-topologia-fuente-palmera.md)
 - 1.0.509 · [2026-11-17 — T-403 — Relevo automático de chats (D-160)](registro/2026-11-17_t403-relevo-chats.md)
 - 1.0.508 · [2026-11-17 — T-399 — Histórico 2011-11: secciones del seccionado 2012 sin fila en la tabla del Censo (D-158, opción B')](registro/2026-11-17_claude-t399-sin-poblacion.md)
 - 1.0.507 · [2026-11-17 — T-406 — Plan 1.0.63: D-158 confirmada, D-161, D-162, T-405](registro/2026-11-17_planificador-plan-1-0-63.md)
