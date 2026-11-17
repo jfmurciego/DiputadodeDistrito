@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.495
+Versión: 1.0.496
 Fecha: 2026-11-17
-Alcance: T-395 — Diseño de P43: publicación del histórico por fecha de elección (solo documento)
+Alcance: T-397 — Nombres de la lista de Actions: fusión y revisor bajo P90
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-17_t395-p43-historico.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.494_registro_20261117.md
+Cambios/motivo: entrada docs/registro/2026-11-17_t397-nombres-p90.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.495_registro_20261117.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.494_registro_20261117.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.496 · [2026-11-17 — T-397 — Nombres de la lista de Actions: fusión y revisor bajo P90](registro/2026-11-17_t397-nombres-p90.md)
 - 1.0.495 · [2026-11-17 — T-395 — Diseño de P43: publicación del histórico por fecha de elección (solo documento)](registro/2026-11-17_t395-p43-historico.md)
 - 1.0.494 · [2026-11-17 — T-398 — Plan 1.0.60: D-151 a D-155 y cola T-395 a T-398](registro/2026-11-17_planificador-plan-1-0-60.md)
 - 1.0.493 · [2026-11-17 — Operador — Fichas del re-ensayo con P00 y del histórico 2019-11 (documento, sin frase)](registro/2026-11-17_operador-fichas-reensayo-historico.md)
