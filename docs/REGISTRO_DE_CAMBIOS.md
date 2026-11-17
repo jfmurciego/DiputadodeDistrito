@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.492
+Versión: 1.0.493
 Fecha: 2026-11-17
-Alcance: T-393 — Diseño del alta de los territorios-elección `<t>_hAAAA_MM` (solo documento)
+Alcance: Operador — Fichas del re-ensayo con P00 y del histórico 2019-11 (documento, sin frase)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-17_t393-territorios-eleccion.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.491_registro_20261117.md
+Cambios/motivo: entrada docs/registro/2026-11-17_operador-fichas-reensayo-historico.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.492_registro_20261117.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.491_registro_20261117.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.493 · [2026-11-17 — Operador — Fichas del re-ensayo con P00 y del histórico 2019-11 (documento, sin frase)](registro/2026-11-17_operador-fichas-reensayo-historico.md)
 - 1.0.492 · [2026-11-17 — T-393 — Diseño del alta de los territorios-elección `<t>_hAAAA_MM` (solo documento)](registro/2026-11-17_t393-territorios-eleccion.md)
 - 1.0.491 · [2026-11-16 — Coordinador — lecciones de las tareas T-323…T-389](registro/2026-11-16_coordinador-lecciones-2026-11-16.md)
 - 1.0.490 · [2026-11-16 — T-394 — Plan 1.0.59: D-149 y D-150](registro/2026-11-16_planificador-plan-1-0-59.md)
