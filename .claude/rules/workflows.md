@@ -12,7 +12,7 @@ paths:
 - Los nombres visibles y la lista de workflows con `workflow_dispatch` están fijados en
   `tests/test_design_a_catalogo.py` y `tests/test_design_a_matriz_sintetica.py` (diseño A); `p90-automatico.yml`
   (P90 Automático, T-366: pruebas, forense y métricas; `revisor-pr.yml` y `auto-merge.yml` siguen aparte) no puede tener botón manual (`tests/test_workflow_safety.py`). Todo bloque `run:` pasa `bash -n`.
-- El ruleset de `main` solo exige el job `pruebas`. «Require branches to be up to date» bloquearía toda PR mientras
+- El ruleset `proteger-main` (id 26311854) exige SOLO `veredicto` (integración 15368; skipped cuenta como cumplido), no `pruebas`: lo garantizan el auto-merge y la regla «CI verde en la PR y en main» (D-144 propone añadirlo). «Require branches to be up to date» bloquearía toda PR mientras
   haya 00 registrando; exigir PR en `main` rechaza los registros de los robots (`GH013`).
 - `Duplicate header: "Authorization"` (HTTP 400): credencial de registro mal combinada con actions/checkout; checkout
   v6+ guarda su token en un include (`includeIf.gitdir:`), no en `http.extraheader`; hay que quitar ambos (#381→#386).
@@ -126,3 +126,15 @@ paths:
 - Desde la nube: `servicios.ine.es` lo rechaza el proxy (`www.ine.es` sí). Atlas INE 30832: «.» real en ~1.300-1.600 secciones por año en 2015-2019; población por sección solo desde 2015 (2011 = Censo 2011).
 
 - P40 Publicación (T-372, D-134): un fichero (`p40-publicacion.yml`: resolver → preparar → publicar) sustituye a `desplegar-visor-publico`, `cadena-publicacion` y `_reutilizable-publicar-sitio`. Botón: `que_publicar` (Solo el sitio | Territorios), `territorios`, `simular` (marcado). Sin run id: `herramientas/p40_resolver.py` toma la última 00 completa con la 04 en verde de cada territorio. La ruta del ensemble (alternativas, `workflow_call`) salta resolver y preparar: `publicar` lleva `!cancelled()`. Ya no se exige M06 vivo (M06 del blob del registro).
+
+- Lecciones 11-16 (T-366…T-389, cierres de implementadores):
+  - GitHub da por INVÁLIDO (run `push` fallido sin jobs) un workflow cuyo `workflow_run.workflows` se nombra a sí mismo; un workflow no puede llamarse a sí mismo (matriz de cadenas = reutilizable). D-148: botón de P20/P30 = un territorio por ejecución; varios = P00.
+  - Job con `needs` de otro saltado queda saltado salvo `!cancelled()` en su `if`. Un reutilizable no puede subir permisos del llamador (startup_failure aunque el `if` sea falso). Al mover jobs entre ficheros, baja el `concurrency` de workflow a cada job.
+  - Secretos de repositorio los lee cualquier rama lanzada por API: «la rama no escribe en main» solo es firme con secretos de ENTORNO limitado a main (un job con `environment` desde rama no permitida falla). `a && secrets.X || secrets.Y` cruza secretos: un paso por destino. Una PR creada con `GITHUB_TOKEN` no lanza workflows.
+  - `queue: max` solo bajo actions-nga; «rechazar una segunda campaña» se comprueba en un job. Un exit numérico no clasifica una causa (el 75 tiene 3 orígenes): exige el código impreso. 400/422 genérico no autoriza una acción irreversible (DOI).
+  - Todo workflow con `upload-artifact` se clasifica en `tests/test_artefactos_ci_cuota.py`. `test_credencial_registro` exige «Credencial de registro» tras el checkout en todo job cuyo `run` mencione `persistir_producto_electoral_operacional`/`git push`. Inputs de GitHub sin tildes.
+  - Tests de equivalencia con `legacy/workflows`: fixtures + sha256, sin `skipTest`, con control negativo. La versión de una acción de terceros (Dependabot) la ignora la equivalencia (`tests/_uses_sin_version.py`, T-392).
+  - `gh api --paginate` falla tras el proxy: `&page=N` a mano. Logs de job: `gh api repos/<r>/actions/jobs/<id>/logs`. `docs.github.com` no resuelve desde la nube: `raw.githubusercontent.com/github/docs/main/content/…`. Límites: matriz 256, 20 jobs a la vez (Free), job 6 h, salida de matriz = última fila.
+  - Cloud: sin `gh`/MCP github el implementador no pasa a «listo» ni etiqueta `no-automerge` (lo hace el Coordinador); no crea/edita releases (403): el propietario las crea con los ficheros del Operador, con LF (CRLF cambia la huella). Una sesión parada «a la espera» no despierta sola: avísala al fusionar.
+  - Coste: 00 ≈ 72 min facturables/territorio (r3/r4: 161 runs 00 + 81 Legislatura).
+  - T-392 (#868): `tests/_uses_sin_version.py` normaliza `uses:` al cargar el YAML; tras normalizar, `startswith("x@")` deja de coincidir: usa `startswith("x")`. Prueba un bump de Dependabot sobre `main` (worktree + merge): su rama puede no compartir historia con main.

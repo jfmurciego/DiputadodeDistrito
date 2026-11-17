@@ -3,9 +3,11 @@
 """Histórico de las generales por época (T-365, D-125): contrato por elección, contrato M01-M06 por provincia y puerta M07/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-16 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
-CAMBIOS: 1.0.0: fichero nuevo.
+VERSIÓN: 1.1.0 · FECHA: 2026-11-17 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/contrato_historico_epoca_v1.0.0_20261117.py
+CAMBIOS: 1.1.0: T-396 (D-153; reglas declaradas fuera de D-153: punto representativo, exclusión por sucesora sin fila, dato+dato=dato): las secciones con población sin geometría en el seccionado del año se ASIGNAN a la sección del seccionado
+  que contiene su centroide (geometría del seccionado más cercano en años que la tenga; misma provincia) o se EXCLUYEN declarando su
+  población; con sucesora de otra provincia la provincia queda APARTADA. `contrato --donantes`, `informe`. 1.0.0: fichero nuevo.
 MOTIVO: D-125 (propietario, 15-11): distritos generados con los datos de cada época (seccionado y población por sección del año,
   votos por sección de esa elección y K = escaños oficiales de esa elección según el BOE), sin traslado al mapa 2023.
   D-126/D-128: población por sección (tabla de T-358/T-364). Sin tocar el motor (modulos/01-08 y ddd_core se ejecutan tal cual).
@@ -49,12 +51,14 @@ for _p in (ROOT, ROOT / "herramientas"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 SCHEMA = "ddd.contrato-historico-epoca/1.0"
 DIR_CONTRATOS = "configuracion/historico_epoca"
 FUENTES_R2 = "orchestracion/fuentes_r2.json"
 ESPEJO = "orchestracion/fuente_nazioenbehatokia.json"
 SUMAS_T357 = "docs/ESTUDIOS/T357_PADRON_SECCION_2011_2020/SHA256SUMS.txt"
+CARTOGRAFIA_CENSO_2011 = "cartografia_censo2011_nacional.zip"  # secciones del Censo 2011 (T-357, sha256 acreditado): donante de 2011
+SUMAS_T364 = "docs/ESTUDIOS/T364_POBLACION_SECCION_INTERPOLADA/SHA256SUMS.txt"
 LEGISLATURA = "configuracion/legislatura_vigente.yaml"
 # elección → clave del espejo, fecha (reagregacion_historico.FECHAS), CSV BOE (historico_campana.OFICIAL_BOE) y año de referencia
 # de la población (D-126, poblacion_seccion_historica.ELECCIONES). Se comprueban contra esos módulos en `_eleccion`.
@@ -64,6 +68,117 @@ UMBRAL_RELLENO_PCT = 1  # D-126: > 1 % de población rellenada → la provincia 
 
 class ErrorContrato(SystemExit):
     pass
+
+
+METODO_SIN_SECCIONADO = ("D-153/T-396: sección con población sin geometría en el seccionado del año → sección del seccionado del año que "
+                         "contiene su centroide (punto representativo si el centroide cae fuera de todas), con la geometría del seccionado "
+                         "más cercano en años que la tenga (empate: el anterior); misma provincia (otra → APARTADA); sin geometría en "
+                         "ningún año, punto fuera de todo el seccionado o sucesora sin fila en la tabla → excluida con su población "
+                         "declarada. Reglas que D-153 no cita y declara este contrato: punto representativo si el centroide cae fuera; "
+                         "exclusión si la sucesora no tiene fila; origen dato+dato = dato (no cuenta como estimada)")
+
+
+def asignar_sin_seccionado(sin_geo: list[str], pob: dict[str, int], geo_anio: dict, donantes: list,
+                           con_fila: set | None = None) -> dict[str, dict]:
+    """Resuelve cada sección de `sin_geo` (con población, sin geometría en `geo_anio` {CUSEC: geometría}).
+
+    `donantes` = [(año, función → {CUSEC: geometría})] ya ordenada por cercanía al año del seccionado (la primera que tenga la
+    sección da la geometría). → {sección: {"destino": "asignada"|"excluida"|"apartada", "poblacion", "motivo", ...}}:
+    asignada (sucesora de su provincia, `donante_anio`, `mismo_municipio`, `punto`), excluida (sin geometría en ningún año o
+    punto fuera de todo el seccionado, o sucesora sin fila en la tabla de población si se da `con_fila`) o apartada (la sucesora es de otra provincia: la provincia no se genera)."""
+    from shapely.strtree import STRtree
+    claves = sorted(geo_anio)
+    arbol = STRtree([geo_anio[k] for k in claves])
+    cargados: dict[int, dict] = {}
+    out: dict[str, dict] = {}
+    for sec in sorted(sin_geo):
+        fila = {"poblacion": int(pob.get(sec) or 0)}
+        geom, anio = None, None
+        for y, carga in donantes:
+            if y not in cargados:
+                cargados[y] = carga()
+            if sec in cargados[y]:
+                geom, anio = cargados[y][sec], y
+                break
+        if geom is None:
+            out[sec] = {**fila, "destino": "excluida", "motivo": "sin geometría en ningún seccionado"}
+            continue
+        suc, punto = None, "centroide"
+        for punto, pt in (("centroide", geom.centroid), ("punto_representativo", geom.representative_point())):
+            cand = sorted(claves[i] for i in arbol.query(pt, predicate="intersects") if geo_anio[claves[i]].contains(pt))
+            if cand:
+                suc = cand[0]
+                break
+        if suc is None:
+            out[sec] = {**fila, "destino": "excluida", "donante_anio": anio, "motivo": "el punto de la sección cae fuera del seccionado"}
+        elif suc[:2] != sec[:2]:
+            out[sec] = {**fila, "destino": "apartada", "sucesora": suc, "donante_anio": anio,
+                        "motivo": f"la sucesora {suc} es de otra provincia"}
+        elif con_fila is not None and suc not in con_fila:
+            out[sec] = {**fila, "destino": "excluida", "donante_anio": anio,
+                        "motivo": f"la sucesora {suc} no tiene fila en la tabla de población"}
+        else:
+            out[sec] = {**fila, "destino": "asignada", "sucesora": suc, "donante_anio": anio, "punto": punto,
+                        "mismo_municipio": suc[:5] == sec[:5]}
+    return out
+
+
+def aplicar_asignacion(pob: dict[str, dict], asignadas: list[dict], excluidas: list[dict]) -> dict[str, dict]:
+    """Tabla de población ({sección: {poblacion, origen}}) tras asignar y excluir (D-153). Las poblaciones declaradas deben ser las
+    de la tabla (si no, falla cerrado); la sucesora suma y conserva el origen `dato` si ambas lo eran (población real de la misma
+    zona: no cuenta como estimada) o pasa a `reasignada` (cuenta como estimada, D-126); la excluida desaparece."""
+    out = {k: dict(v) for k, v in pob.items()}
+    for x in list(asignadas) + list(excluidas):
+        sec = x["seccion"]
+        if sec not in pob or (pob[sec]["poblacion"] or 0) != x["poblacion"]:
+            raise ErrorContrato(f"SIN_SECCIONADO_POBLACION_DISTINTA {sec}: contrato {x['poblacion']} tabla "
+                                f"{(pob.get(sec) or {}).get('poblacion')}")
+        out.pop(sec, None)
+    for x in asignadas:
+        s = out.get(x["sucesora"])
+        if s is None or s["poblacion"] is None:
+            raise ErrorContrato(f"SUCESORA_SIN_FILA {x['sucesora']} (de {x['seccion']})")
+        s["poblacion"] += x["poblacion"]
+        if not (s["origen"] == "dato" and pob[x["seccion"]]["origen"] == "dato"):
+            s["origen"] = "reasignada"
+    return out
+
+
+def _sumas_donantes(root: Path) -> dict:
+    """sha256 de los seccionados con huella acreditada fuera de fuentes_r2.json: T-357 (2012-2020) y T-364b (2021-2022)."""
+    out = dict(_sumas_t357(root))
+    for linea in (root / SUMAS_T364).read_text(encoding="utf-8").splitlines():
+        p = linea.split()
+        if len(p) >= 3 and len(p[0]) == 64:
+            out[p[2].rsplit("/", 1)[-1]] = p[0]
+    return out
+
+
+def _donantes(e: dict, fr2: dict, dir_donantes: Path | None, root: Path = ROOT) -> list[dict]:
+    """Seccionados donantes (otros años con sha256 acreditado y fichero en `dir_donantes`; incluye la cartografía del Censo 2011), por cercanía al del año (empate: el
+    anterior). Los mismos que usa T-364b para la geometría de las secciones que el seccionado del año no tiene."""
+    if dir_donantes is None:
+        return []
+    sumas = _sumas_donantes(root)
+    out = []
+    for f in sorted(dir_donantes.glob("seccionado_*.zip")) + sorted(dir_donantes.glob(CARTOGRAFIA_CENSO_2011)):
+        nombre = f.name
+        m = fr2.get(nombre) or {}
+        y = 2011 if nombre == CARTOGRAFIA_CENSO_2011 else int(nombre.split("_")[1].split(".")[0])  # el Censo 2011 es de noviembre de 2011
+        esperado = m.get("sha256") or sumas.get(nombre)
+        if y == e["seccionado"] or not esperado:
+            continue
+        if sha256(f) != esperado:
+            raise ErrorContrato(f"DONANTE_HUELLA_DISTINTA {nombre}")
+        out.append({"anio": y, "fichero": nombre, "sha256": esperado,
+                    "origen_url": m.get("origen_url") or ("https://www.ine.es/censos2011_datos/" if y == 2011 else
+                                                          "https://www.ine.es/prodyser/cartografia/") + nombre, "ruta": f})
+    return sorted(out, key=lambda d: (abs(d["anio"] - e["seccionado"]), d["anio"]))
+
+
+def _geometrias_plano(zip_path: Path) -> dict:
+    import equivalencia_seccionados as eqs
+    return {c: g for prov in eqs.leer_seccionado(zip_path).values() for c, g in prov.items()}
 
 
 def sha256(path: Path) -> str:
@@ -163,9 +278,11 @@ def pct(parte: int, total: int) -> str:
 
 
 def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: str = VERSION,
-                       anterior: str = "ninguna (fichero nuevo)", root: Path = ROOT, seccionado: Path | None = None) -> dict:
-    """`seccionado` (zip del año, sha256 contra fuentes_r2.json) da `secciones_sin_seccionado` por provincia: secciones con
-    población que el seccionado del año no tiene (no se pueden asignar a un distrito; decisión pendiente → fallo cerrado)."""
+                       anterior: str = "ninguna (fichero nuevo)", root: Path = ROOT, seccionado: Path | None = None,
+                       donantes: Path | None = None) -> dict:
+    """`seccionado` (zip del año, sha256 contra fuentes_r2.json) da las secciones con población sin geometría en el seccionado del
+    año. D-153: se asignan a su sucesora o se excluyen (`asignar_sin_seccionado`, con los seccionados de `donantes`); las que no
+    se resuelven (sucesora de otra provincia) quedan en `secciones_sin_seccionado` y la provincia en APARTADA."""
     e = _eleccion(eleccion, root)
     fr2 = _json(FUENTES_R2, root)["fuentes"]
     nombre_secc = f"seccionado_{e['seccionado']}.zip"
@@ -185,6 +302,16 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
     if seccionado is None or sha256(seccionado) != s["sha256"]:
         raise ErrorContrato(f"SECCIONADO_REQUERIDO {nombre_secc} con sha256 {s['sha256']}")
     geo = _secciones_seccionado(seccionado, None)
+    don = _donantes(e, fr2, donantes, root)
+    if any(k not in geo for k in pob) and not don:
+        raise ErrorContrato("DONANTES_REQUERIDOS: hay secciones sin geometría en el seccionado del año (--donantes DIR con "
+                            "seccionado_AAAA.zip de otros años)")
+    resueltas: dict[str, dict] = {}
+    sin_geo_todas = sorted(k for k in pob if k not in geo)
+    if sin_geo_todas:
+        resueltas = asignar_sin_seccionado(
+            sin_geo_todas, {k: pob[k]["poblacion"] for k in sin_geo_todas}, _geometrias_plano(seccionado),
+            [(d["anio"], (lambda r=d["ruta"]: _geometrias_plano(r))) for d in don], set(pob))
     terr = _territorios(root)
     provincias = {}
     for c in sorted(boe):
@@ -199,13 +326,20 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
         if rv.get("sha256") not in (None, fv["sha256"]):
             raise ErrorContrato(f"VOTOS_HUELLA_R2_DISTINTA {ruta}")
         base = root / f"territorios/{t}/config/{t}_2025.yaml"
-        filas = [x for k, x in pob.items() if k[:2] == c]
-        sin_dato = sorted(k for k, x in pob.items() if k[:2] == c and x["poblacion"] is None)
+        pob_c = {k: x for k, x in pob.items() if k[:2] == c}
+        rs = {k: r for k, r in resueltas.items() if k[:2] == c}
+        asig = [{"seccion": k, "sucesora": r["sucesora"], "donante_anio": r["donante_anio"], "punto": r["punto"],
+                 "mismo_municipio": r["mismo_municipio"], "poblacion": r["poblacion"]} for k, r in rs.items() if r["destino"] == "asignada"]
+        excl = [{"seccion": k, "poblacion": r["poblacion"], "motivo": r["motivo"]} for k, r in rs.items() if r["destino"] == "excluida"]
+        apart = [{"seccion": k, "poblacion": r["poblacion"], "motivo": r["motivo"]} for k, r in rs.items() if r["destino"] == "apartada"]
+        final = aplicar_asignacion(pob_c, asig, excl)
+        filas = list(final.values())
+        sin_dato = sorted(k for k, x in pob_c.items() if x["poblacion"] is None)
         total = sum(x["poblacion"] or 0 for x in filas)
         rell = [x for x in filas if x["origen"] != "dato"]
         prell = sum(x["poblacion"] or 0 for x in rell)
-        sin_secc = sorted(k for k in pob if k[:2] == c and k not in geo)
-        estado = ("BLOQUEADA_SIN_DATO" if sin_dato or not filas else
+        sin_secc = sorted(x["seccion"] for x in apart)  # sin resolver: la provincia queda APARTADA
+        estado = ("BLOQUEADA_SIN_DATO" if sin_dato or not filas else "APARTADA" if apart else
                   "BLOQUEADA_RELLENO" if prell * 100 > total * UMBRAL_RELLENO_PCT else "LISTA")
         provincias[c] = {
             "territorio": t, "provincia": boe[c]["provincia"], "K": boe[c]["K"], "k_source": "norma",
@@ -217,7 +351,11 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
             "poblacion": {"secciones": len(filas), "total": total, "secciones_no_dato": len(rell),
                           "poblacion_no_dato": prell, "pct_no_dato": pct(prell, total), "secciones_sin_dato": sin_dato,
                           "secciones_sin_seccionado": sin_secc,
-                          "poblacion_sin_seccionado": sum(pob[k]["poblacion"] or 0 for k in sin_secc)},
+                          "poblacion_sin_seccionado": sum(x["poblacion"] for x in apart),
+                          **({"sin_seccionado_resuelto": {
+                              "asignadas": asig, "excluidas": excl, "apartadas": apart,
+                              "poblacion_asignada": sum(x["poblacion"] for x in asig),
+                              "poblacion_excluida": sum(x["poblacion"] for x in excl)}} if rs else {})},
             "estado": estado,
         }
     return {
@@ -226,12 +364,12 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
         "generado_con": f"herramientas/contrato_historico_epoca.py {VERSION}",
         "eleccion": eleccion, "fecha": e["fecha"], "clave_espejo": e["clave_espejo"],
         "seccionado": {"anio": e["seccionado"], "fichero": nombre_secc, "sha256": s["sha256"], "origen_url": s.get("origen_url"),
-                       "r2_clave": s["clave"], "campo_seccion": "CUSEC"},
+                       "r2_clave": s["clave"], "campo_seccion": "CUSEC",
+                       **({"donantes": [{k: v for k, v in d.items() if k != "ruta"} for d in don]} if resueltas else {})},
         "poblacion": {"fichero": tabla.name, "sha256": sha256(tabla), "origen": tabla_origen, "anio_referencia": e["poblacion_anio"],
                       "fuente": e["poblacion_fuente"],
                       "regla_publicacion": f"> {UMBRAL_RELLENO_PCT} % estimada → BLOQUEADA_RELLENO (D-126/D-128); sin_dato → BLOQUEADA_SIN_DATO",
-                      "regla_sin_seccionado": "secciones con población sin geometría en el seccionado del año: materializar falla "
-                                              "cerrado (decisión pendiente del propietario)",
+                      "regla_sin_seccionado": METODO_SIN_SECCIONADO,
                       "fuentes": {k: sumas.get(k) for k in ("30832.csv", "indicadores_seccion_censal_csv.zip")}},
         "escanos": {"csv": e["csv_boe"], "sha256": meta_boe["sha256_csv"], "boe": meta_boe.get("boe"),
                     "regla": "K de la provincia = escanos_circunscripcion del BOE de la elección (D-125)"},
@@ -353,10 +491,15 @@ def materializar(eleccion: str, territorio: str, fuentes: Path, root: Path = ROO
     tabla = _fuente(fuentes, c["poblacion"]["fichero"], c["poblacion"]["sha256"])
     pob = {s: x for s, x in leer_tabla(tabla, eleccion).items() if s[:2] == cpro}
     geo = _secciones_seccionado(secc, cpro)
-    sin_pob, sin_geo = sorted(geo - set(pob)), sorted(set(pob) - geo)
-    if sin_geo != p["poblacion"].get("secciones_sin_seccionado", sin_geo):
+    sin_geo_tabla = sorted(set(pob) - geo)
+    res = p["poblacion"].get("sin_seccionado_resuelto") or {}
+    asig, excl = res.get("asignadas", []), res.get("excluidas", [])
+    declaradas = sorted(set(p["poblacion"].get("secciones_sin_seccionado", sin_geo_tabla)) | {x["seccion"] for x in asig + excl})
+    if sin_geo_tabla != declaradas:
         raise ErrorContrato(f"SIN_SECCIONADO_DISTINTO_DEL_CONTRATO {territorio} {eleccion}")
-    if sin_pob or sin_geo:  # sin regla aprobada para las secciones sin geometría, cualquier diferencia falla cerrado
+    pob = aplicar_asignacion(pob, asig, excl)  # D-153: asignadas a su sucesora, excluidas fuera (declaradas en el contrato)
+    sin_pob, sin_geo = sorted(geo - set(pob)), sorted(set(pob) - geo)
+    if sin_pob or sin_geo:  # las no resueltas (sin sucesora en su provincia) fallan cerrado
         raise ErrorContrato(f"CASADO_POBLACION_SECCIONADO {territorio} {eleccion}: sin población {len(sin_pob)} {sin_pob[:5]}; "
                             f"población sin geometría {len(sin_geo)} {sin_geo[:5]}")
     base = yaml.safe_load(base_path.read_text(encoding="utf-8"))
@@ -525,6 +668,25 @@ def cadena(eleccion: str, territorio: str, fuentes: Path, salida: Path, root: Pa
     return electoral(eleccion, territorio, fuentes, salida, root)
 
 
+def informe_sin_seccionado(root: Path = ROOT) -> list[dict]:
+    """Por elección y provincia con secciones sin geometría: asignadas, excluidas, apartadas y habitantes (desde el contrato)."""
+    filas = []
+    for e in sorted(ELECCIONES):
+        c = json.loads(ruta_contrato(e, root).read_text(encoding="utf-8"))
+        for cpro, p in sorted(c["provincias"].items()):
+            r = p["poblacion"].get("sin_seccionado_resuelto")
+            if not r and not p["poblacion"]["secciones_sin_seccionado"]:
+                continue
+            r = r or {"asignadas": [], "excluidas": [], "apartadas": [], "poblacion_asignada": 0, "poblacion_excluida": 0}
+            filas.append({"eleccion": e, "provincia": cpro, "territorio": p["territorio"], "estado": p["estado"],
+                          "asignadas": len(r["asignadas"]), "habitantes_asignados": r["poblacion_asignada"],
+                          "asignadas_por_punto_representativo": sum(x["punto"] == "punto_representativo" for x in r["asignadas"]),
+                          "excluidas": len(r["excluidas"]), "habitantes_excluidos": r["poblacion_excluida"],
+                          "excluidas_por_sucesora_sin_fila": sum("no tiene fila" in x["motivo"] for x in r["excluidas"]),
+                          "apartadas": len(r["apartadas"]), "habitantes_apartados": sum(x["poblacion"] for x in r["apartadas"])})
+    return filas
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sub = ap.add_subparsers(dest="accion", required=True)
@@ -533,9 +695,12 @@ def main(argv=None) -> int:
     a1.add_argument("--tabla", type=Path, required=True, help="tabla de población por sección (T-358/T-364)")
     a1.add_argument("--tabla-origen", required=True, help="herramienta y versión que produjo la tabla")
     a1.add_argument("--seccionado", type=Path, required=True, help="seccionado INE del año (zip, sha256 de fuentes_r2.json)")
+    a1.add_argument("--donantes", type=Path, help="carpeta con seccionado_AAAA.zip de otros años (D-153)")
     a1.add_argument("--version", default=VERSION)
     a1.add_argument("--anterior", default="ninguna (fichero nuevo)")
     a1.add_argument("--salida", type=Path)
+    a2 = sub.add_parser("informe")
+    a2.add_argument("--salida", type=Path)
     for nombre in ("materializar", "electoral", "cadena"):
         s = sub.add_parser(nombre)
         s.add_argument("--eleccion", required=True, choices=sorted(ELECCIONES))
@@ -544,9 +709,17 @@ def main(argv=None) -> int:
         s.add_argument("--salida", type=Path, default=ROOT / "salida_historico_epoca")
     a = ap.parse_args(argv)
     if a.accion == "contrato":
-        c = construir_contrato(a.eleccion, a.tabla, a.tabla_origen, a.version, a.anterior, seccionado=a.seccionado)
+        c = construir_contrato(a.eleccion, a.tabla, a.tabla_origen, a.version, a.anterior, seccionado=a.seccionado,
+                               donantes=a.donantes)
         out = a.salida or ruta_contrato(a.eleccion)
         print(out, escribir_json(out, c), Counter(p["estado"] for p in c["provincias"].values()))
+        return 0
+    if a.accion == "informe":
+        filas = informe_sin_seccionado()
+        cols = list(filas[0]) if filas else ["eleccion"]
+        w = csv.DictWriter(open(a.salida, "w", encoding="utf-8", newline="") if a.salida else sys.stdout, cols, lineterminator="\n")
+        w.writeheader()
+        w.writerows(filas)
         return 0
     if a.accion == "materializar":
         print(materializar(a.eleccion, a.territorio, a.fuentes))

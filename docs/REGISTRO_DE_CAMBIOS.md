@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.488
-Fecha: 2026-11-16
-Alcance: T-389 — T-365b: contratos del histórico por época regenerados con las tablas de T-364b
+Versión: 1.0.497
+Fecha: 2026-11-17
+Alcance: T-396 — Histórico por época: secciones sin geometría en el seccionado del año asignadas o excluidas (D-153)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-16_t389-contratos-historico-t364b.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.487_registro_20261116.md
+Cambios/motivo: entrada docs/registro/2026-11-17_claude-t396-sin-seccionado.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.496_registro_20261117.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,15 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.487_registro_20261116.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.497 · [2026-11-17 — T-396 — Histórico por época: secciones sin geometría en el seccionado del año asignadas o excluidas (D-153)](registro/2026-11-17_claude-t396-sin-seccionado.md)
+- 1.0.496 · [2026-11-17 — T-397 — Nombres de la lista de Actions: fusión y revisor bajo P90](registro/2026-11-17_t397-nombres-p90.md)
+- 1.0.495 · [2026-11-17 — T-395 — Diseño de P43: publicación del histórico por fecha de elección (solo documento)](registro/2026-11-17_t395-p43-historico.md)
+- 1.0.494 · [2026-11-17 — T-398 — Plan 1.0.60: D-151 a D-155 y cola T-395 a T-398](registro/2026-11-17_planificador-plan-1-0-60.md)
+- 1.0.493 · [2026-11-17 — Operador — Fichas del re-ensayo con P00 y del histórico 2019-11 (documento, sin frase)](registro/2026-11-17_operador-fichas-reensayo-historico.md)
+- 1.0.492 · [2026-11-17 — T-393 — Diseño del alta de los territorios-elección `<t>_hAAAA_MM` (solo documento)](registro/2026-11-17_t393-territorios-eleccion.md)
+- 1.0.491 · [2026-11-16 — Coordinador — lecciones de las tareas T-323…T-389](registro/2026-11-16_coordinador-lecciones-2026-11-16.md)
+- 1.0.490 · [2026-11-16 — T-394 — Plan 1.0.59: D-149 y D-150](registro/2026-11-16_planificador-plan-1-0-59.md)
+- 1.0.489 · [2026-11-16 — Coordinador — traspaso del Coordinador (relevo por contexto)](registro/2026-11-16_coordinador-traspaso-noche.md)
 - 1.0.488 · [2026-11-16 — T-389 — T-365b: contratos del histórico por época regenerados con las tablas de T-364b](registro/2026-11-16_t389-contratos-historico-t364b.md)
 - 1.0.487 · [2026-11-16 — T-392 — Equivalencia congelada ignora la versión de las acciones de terceros](registro/2026-11-16_claude-t392-equivalencia-sin-version.md)
 - 1.0.486 · [2026-11-16 — T-392 — Plan 1.0.58: D-148 y estados de la noche del 16-11](registro/2026-11-16_planificador-plan-1-0-58.md)
