@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.514
+Versión: 1.0.515
 Fecha: 2026-11-17
-Alcance: T-408 — Plan 1.0.65: D-165 y D-163 con la 2b mínima
+Alcance: T-410 — Plan 1.0.66: D-166 a D-168 y T-409
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-17_planificador-plan-1-0-65.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.513_registro_20261117.md
+Cambios/motivo: entrada docs/registro/2026-11-17_planificador-plan-1-0-66.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.514_registro_20261117.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.513_registro_20261117.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.515 · [2026-11-17 — T-410 — Plan 1.0.66: D-166 a D-168 y T-409](registro/2026-11-17_planificador-plan-1-0-66.md)
 - 1.0.514 · [2026-11-17 — T-408 — Plan 1.0.65: D-165 y D-163 con la 2b mínima](registro/2026-11-17_planificador-plan-1-0-65.md)
 - 1.0.513 · [2026-11-17 — T-397c — Fusión automática sin botón + inventario de workflows retirados](registro/2026-11-17_claude-t397c-auto-merge.md)
 - 1.0.512 · [2026-11-17 — T-407 — Plan 1.0.64: D-163, D-164 y corrección de D-161](registro/2026-11-17_planificador-plan-1-0-64.md)

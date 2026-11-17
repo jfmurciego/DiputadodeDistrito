@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.65
+Versión: 1.0.66
 Fecha: 2026-11-17
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-165 (renombrado M→P, T-313 en diseño) y D-163 con la 2b mínima aprobada (no entraron en #896)
-Anterior: legacy/docs/PLAN_v1.0.64_20261117.md
+Cambios/motivo: D-166 (diseño de T-313 aprobado), D-167 y D-168 (doble vuelta con coaliciones); T-409 (no entraron en #897)
+Anterior: legacy/docs/PLAN_v1.0.65_20261117.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -311,6 +311,9 @@ Fase 4 — producto (en el privado):
 - D-158 confirmada literal por el propietario (17-11, «sí» en el chat del Planificador): seccionado 2012, población 2011 de cada madre repartida con las proporciones del Atlas 2015 conservando los totales del Censo; 03, 24, 27, 32 y 33 apartadas y declaradas (APARTADA_VOTOS).
 - D-161 (17-11, propietario). Umbral del 1 % de D-126/D-128 en 2011-11 con B': cuenta como estimada solo la población movida de cada madre a sus hijas más la rellenada; la que permanece en la madre no. Con #883@a286b6c queda BLOQUEADA_RELLENO 51 (1,70 %); 36 queda BLOQUEADA_SIN_DATO (corregido 17-11); 15, 22, 29, 34 y 47 pasan. Sustituye en 2011-11 el cómputo conservador (madre e hijas enteras).
 - D-163 (17-11, propietario). P00 llama a P10-P30 con `contents: read`: ningún job de P10-P30 ni del reutilizable de registro pide más que `contents: read`/`actions: read` (si no, startup_failure de toda la P00); el push va con el token de la app y se quita el respaldo `github.token`; sobra `issues: write` en P20 `resolver_interfaz`. 2b mínima (propietario, 17-11): sin reutilizable de registro ni partir P30; entrada oculta `campana` (solo `workflow_call`, vacía por defecto) y los 7 jobs de registro y los pasos de registro de P30 `incorporar` con `campana == ''` (sin campaña, idéntico a `main`); en campaña, P20 en serie y grupos globales saltados, con tests; el registro de la campaña lo hace P00 en la PR 3. Garantía «la campaña no escribe en main»: (a) jobs de registro saltados con `campana` no vacía, con test; (b) ningún `git push` ni herramienta de registro fuera de esa lista cerrada, con test y control negativo; (c) entorno `registro` con la 2a. Se declara que `contents: read` no es barrera para el push con la app.
+- D-166 (17-11, propietario). Diseño de T-313 (#898) aprobado con sus 11 recomendaciones: ventana tras la noche del 29-11 y T-379 PR 3 (regenerar las 71); `modulos/p21_base_poblacion.py` … `p32_resultados_distrito.py` y `ddd_core/p24_*`, `p25_*`, `p26_schema`; `git mv` con `ANTERIOR:` y copia en `legacy/` solo de los 8 módulos y las huellas; prefijos en JSON con `normalizar_prefijo` en lectores; alias permanente de `ddd-minimo-…-M06/M08` y solo lectura sin reutilización de `ddd-state-…`; nombre nuevo de productos solo al regenerar; Deslinde sin tocar (adaptador en `ddd_motor2`); carpetas R2 con D-131; `pre_m04` → `pre_p24`; congelación solo de la capa en curso; visor: texto y constantes, `kind` solo con alias.
+- D-168 (17-11, propietario; diseño de T-409, #901). Escenarios: A = los tres bloques coaligados a la vez; B («4») = solo Izquierdas y Patriotas, nacionalistas por partido; `dv_base` = doble vuelta sin coaliciones. PP en Patriotas. Dudosos: Cs, UPyD, EXISTE, PAR, CpM, Caballas, MDyC, PACMA, PIRATA y PT sin bloque; UPN/Navarra Suma, FAC y FE en Patriotas; PRC, Adelante Andalucía y Ahora Canarias en Nacionalistas; En Marea, CHA-IU, Verdes/LV-GV en Izquierdas; JXC, JxG, unio.cat y CCD, a desambiguar con la fuente; resto de menores sin bloque (abstención). Base: votos a candidaturas; empate alfabético con marca; dos finalistas del mismo bloque → al más votado; solo Congreso; campo `bloque_ddd`.
+- D-167 (17-11, propietario). Escenario de doble vuelta con coaliciones (T-409, solo diseño ahora): bloques 1 Izquierdas, 2 Nacionalistas, 3 Patriotas; escenario adicional «4» = solo se coaligan 1 y 3 y los nacionalistas van por partido. Por distrito: primera vuelta por partido con votos reales; >50 % gana; si no, segunda entre los dos más votados y cada partido eliminado transfiere sus votos al finalista de su bloque (sin finalista de su bloque → abstención); sin tasas de trasvase inventadas. Cada partido en un solo bloque (los de izquierda nacionalista, en Nacionalistas), editable por el propietario. Tabla partido→bloque de todas las candidaturas 2011-2023 desde la homologación de siglas, con bloque «propuesta» que aprueba el propietario, en un fichero fechado. Escenario adicional junto a «gana el primero», que se conserva; visor, decisión aparte. Implementación tras la migración y T-313.
 - D-165 (17-11, propietario). Renombrado M01-M08 → nomenclatura P de D-129 (T-313, actualiza D-102): 01→P21 Base y población, 02→P22 Geometría y adyacencias, 03→P23 Grafo, 04→P24 Solución inicial, 05→P25 Optimización, 06→P26 Producto certificado; auditoría P27, alternativas P28; 07→P31 Agregación, 08→P32 Resultados por distrito; puerta P33. Datos guardados no se reescriben; lo nuevo con nombres nuevos y lectores que aceptan ambos (alias únicos). Los checkpoints con nombre viejo dejan de reutilizarse y se regeneran (inventario de lo reutilizable y test de flujo antes de reanudar). Diseño ya (solo documento); implementación tras T-379 PR 3 y T-383, una PR por capa.
 - D-164 (17-11, propietario). T-379 PR 2a (#888) y lo que dependa de ella quedan en pausa; la migración sigue con el resto. La 2b y la 3 van sobre `main` en PR propias sin declarar `environment: registro` (GitHub lo crearía sin la regla «solo main»); la 2a se rebasa al final con la validación desde rama (aut11). Histórico congelado hasta terminar la migración.
 - D-157 aclarada (17-11, propietario, en el chat del Planificador, por tercera vez): no habrá más frases de fusión; todas las PR están en la lista que dio al Coordinador. Nadie le pide «fusiona N»: el Coordinador fusiona bajo D-157 con CI verde en la PR y en `main` y el revisor conforme.
@@ -340,7 +343,7 @@ Fase 4 — producto (en el privado):
 | T-309 | Endurecer las comparaciones `mismo_territorio` con ids legacy | PENDIENTE (después de la P50) |
 | T-310 | maplibre-gl servido desde el sitio | HECHA (#781) |
 | T-311, T-312 | Id canónico al reutilizar P10 (también en el contrato resuelto copiado) y revert de r3 tanda 1 | HECHA (#786) |
-| T-313 | Migración de notación P (D-102, D-165): inventario #784; diseño en curso (Sonnet); implementación tras T-379 PR 3 y T-383 | EN CURSO (diseño) |
+| T-313 | Migración de notación P (D-102, D-165): inventario #784; diseño aprobado (#898, D-166); implementación tras el 29-11 y T-379 PR 3 | ESPERA (ventana) |
 | T-314 | ¿Bloquea `DURABLE_LINEAGE_INCOMPATIBLE` (CLM) «Generar desde fuente»? No: transitorio, solo bloquea «Reutilizar» (lectura de código sobre main actual). Orden: P10 → P00 por territorio seguidos | REVISIÓN (#788); camino crítico |
 | T-315 | Declarar el fondo de OpenStreetMap en el texto de transparencia del contador (D-104); va en #783 (T-294 parte 2) | LISTA (Coordinador) |
 | T-316 | Fondo de mapa propio servido desde Cloudflare, sin terceros (D-104) | PENDIENTE (después del 29-11) |
@@ -430,7 +433,9 @@ Fase 4 — producto (en el privado):
 | T-405 | Histórico 2011-11, provincia 14 (Córdoba, `nac14`): M04 «invalid administrative component source binding»; solo diagnóstico y una PR por causa (Sonnet) | LISTA tras #886 (T-402) |
 | T-397c | «_» en `auto-merge.yml` e inventario en solo lectura de ejecuciones de workflows retirados (D-159) | EN CURSO (session_01KQDtFsHKjJ6KXAcAdTMT6G) |
 | T-407 | Actualización del plan 1.0.64 | HECHA (#896) |
-| T-408 | Actualización del plan 1.0.65 | REVISIÓN (esta PR) |
+| T-409 | Diseño de la doble vuelta con coaliciones (D-167): reglas, escenarios 1-3 y «4», tabla partido→bloque propuesta, salida en P31/P32; solo documento (Sonnet) | EN CURSO (diseño) |
+| T-408 | Actualización del plan 1.0.65 | HECHA (#897) |
+| T-410 | Actualización del plan 1.0.66 | REVISIÓN (esta PR) |
 | T-406 | Actualización del plan 1.0.63 | HECHA (#891) |
 | T-404 | Actualización del plan 1.0.62 y traspaso del Planificador | HECHA (#887) |
 | T-385 | Actualización del plan 1.0.56 | HECHA (#856) |
