@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.58
-Fecha: 2026-11-16
+Versión: 1.0.60
+Fecha: 2026-11-17
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-148 (P20 y P30 con un territorio por ejecución); T-391; estados del 16-11 noche
-Anterior: legacy/docs/PLAN_v1.0.57_20261116.md
+Cambios/motivo: D-151 a D-155 (P10 con un territorio, histórico: id propio, P43, secciones sin geometría, publicación; limpieza de Actions); T-395 a T-398; estados
+Anterior: legacy/docs/PLAN_v1.0.59_20261117.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -297,6 +297,13 @@ Fase 4 — producto (en el privado):
 - D-146 (16-11, propietario). Zenodo: se publican ya los mapas de Deslinde 1.1 (es estable: 71/71 válidos, bit a bit; las mejoras de la investigación serán versiones nuevas de la serie). Las condiciones de D-88 dejan de frenar el depósito de mapas. Solo mapas, sin motor, subidos por la API desde P50 (sin integración GitHub–Zenodo, que el propietario desactiva); licencia CC BY 4.0 para los mapas. El propietario borra el ZIP de código del registro 24093968 y conserva la publicación y los DOI; T-284 queda sin objeto. Encargo T-388: campo «destino» (prueba en sandbox por defecto | Zenodo), nueva versión del concepto 24093967 (o concepto nuevo si Zenodo no deja pasar de software a dataset), paquete firmado + SHA256SUMS + LINAJE.json + licencia + nota de fuentes, tokens `ZENODO_TOKEN` y `ZENODO_SANDBOX_TOKEN` como secretos del entorno `publicacion`, `.zenodo.json` a legacy y `CITATION.cff` a la serie de mapas.
 - D-147 (16-11, propietario). Decisiones finales del diseño 1.1.1 de P00 (#858): una segunda P00 en curso se rechaza con aviso; `configuracion/catalogo_preparacion.yaml` fuera de RUTAS_ROBOT (el commit de cierre dispara la CI de `main`); el cierre de validación va a rama + PR en borrador; entorno `registro` limitado a `main` con los secretos de la app de registro (PR 2a de T-379), aunque haya que tocar unos 25 usos y separar el registro de los jobs de P40 que ya tienen entorno.
 - D-148 (16-11, propietario). Corrige D-139 y D-137: los botones de P20 y P30 admiten un territorio por ejecución; varios en paralelo, con P00 (cadena de un territorio, D-143). GitHub no permite repetir en matriz una cadena de jobs sin un reutilizable ni los bucles entre workflows («Loops in the workflow tree are not permitted»). P10 mantiene la matriz directa (un job por territorio).
+- D-149 (16-11, propietario). Prioridad máxima: terminar la migración de workflows; ninguna campaña hasta entonces. Se suspende el ensayo en seco con los workflows actuales (la frase D-52 del ensayo queda sin efecto; la ficha `2026-11-15_ensayo-noche-29-11` se adapta para el re-ensayo corto con los workflows nuevos, con frase nueva). Se levanta la condición «no fusionar hasta terminar el ensayo» de D-136, D-137 y D-139: T-375, T-376 y T-377 se fusionan con CI verde, revisor y orden del propietario, en el orden 375 → 376 → 377. Siguen permitidas, con su frase, las acciones que no son campaña (prueba de P40 «solo el sitio», T-380, sandbox de Zenodo). Riesgo aceptado: la noche del 29-11 puede ir sin ensayo previo sobre lo nuevo; la 00 vieja sigue disponible.
+- D-150 (16-11, propietario). El histórico no espera al futuro: (1) alta de los territorios-elección `<t>_hAAAA_MM` (T-393) sin versionar los YAML generados (los escribe `materializar` desde los contratos y las fuentes; opción A del Planificador): resolución en `territorio_ids` y en el catálogo, con test que materializa con fuentes sintéticas y valida el contrato; solo son generables las provincias LISTA de cada época (D-126); (2) T-375, T-376 y T-377 aceptan esos ids; (3) P00 se fusiona en cuanto esté validada, sin esperar al 29-11, y la 00 vieja sigue viva hasta después del 29-11 (corrige D-145 C); (4) la validación de P00 incluye el piloto histórico nac22 2019-11; (5) la campaña histórica va con P00, por elecciones y dentro del tope semanal, con las fichas (#842, T-340) reescritas para P00.
+- D-151 (17-11, propietario). Corrige D-136: P10 admite un territorio por ejecución, como P20 y P30 (D-148), sin matriz ni reutilizables (una matriz solo devuelve las salidas de su última fila); varios en paralelo, con P00.
+- D-152 (17-11, propietario). Histórico (T-393, #873): id propio `<t>_hAAAA_MM` con la carpeta de la provincia y 260 filas generadas del catálogo (cifras de provincias generables derivadas del contrato); diseño de P43 (T-395); revisor del diseño antes de implementar. La matriz de una campaña histórica es la de P00; P20 y P30 se llaman con un territorio (D-148).
+- D-153 (17-11, propietario). Secciones con población sin geometría en el seccionado de su año: se asignan a la sección del seccionado del año que las contiene, localizadas con la geometría de otro año (centroide, misma provincia, regla de sucesora de T-364b); sin geometría en ningún año, se excluyen declarando su población (T-396). Los 46 municipios con aviso ya los resolvió D-128 (a).
+- D-154 (17-11, propietario). P43 (#875): el M06 de cada elección es el propio de su época (D-125), no el mapa 2023; etiqueta «distritos de <fecha>, con datos de esa época»; se publican las provincias en verde y las ámbar con aviso visible, nunca las rojas; primera entrega solo en el visor y en el catálogo de procedencia. Decisión del Planificador (17-11): kind propio para el histórico en el registro (aislamiento: ningún histórico sustituye al vigente).
+- D-155 (17-11, propietario). Lista de Actions sin basura (T-397): «P90 Automático — Fusión automática» y «P90 Automático — Revisor de PR»; los ficheros sin botón de P00 se llaman «P00 Campaña — <qué hace>»; al terminar la migración se borran las ejecuciones de los workflows retirados (Operador, con frase); diagnóstico de los dinámicos de GitHub para el propietario. Además, el propietario adelanta T-379 PR 4 (IA de cierre en P90), autoriza al Coordinador a fusionar sin esperarle hasta las 10:00 del 17-11 las PR de la migración, del histórico y del plan con CI verde y revisor conforme (sin lanzar ni publicar), y ordena preparar las fichas del re-ensayo P00 2026-11 y del histórico 2019-11 (#876), con condición previa de migración terminada y P00 validada; las frases se repiten cuando estén fusionadas.
 
 ### Cola T-291 a T-367 (14 a 16-11)
 | Id | Qué | Estado |
@@ -378,14 +385,14 @@ Fase 4 — producto (en el privado):
 | T-369 | Migración paso 3: P80 Verificación del motor (D-132) | HECHA (#853) |
 | T-370 | Migración paso 4: P50 Publicación académica (D-133) | HECHA (#855) |
 | T-371 | Actualización del plan 1.0.53 | HECHA (#846) |
-| T-372 | Migración paso 5: P40 Publicación (D-134) | HECHA (#862); falta la prueba real «solo el sitio» (frase del propietario) |
+| T-372 | Migración paso 5: P40 Publicación (D-134) | HECHA (#862); prueba real «solo el sitio» CONFIRMADA (run 43983546261; visor revisado por el propietario) |
 | T-373 | Actualización del plan 1.0.54 | HECHA (#847) |
 | T-374 | Revisor de PR dentro de P90 sin check-run `pruebas` skipped (D-135): diseño al detalle para el propietario | HECHA (#852; D-144) |
-| T-375 | Migración paso 6: P10 Fuentes (D-136) | EN CURSO (Sonnet); fusión tras el ensayo en seco |
-| T-376 | Migración paso 7: P30 Resultados electorales (D-137) | EN CURSO (Sonnet); fusión tras el ensayo en seco y tras T-375 |
-| T-377 | Migración paso 8: P20 Distritos (D-138, D-139), Opus | EN CURSO (Opus); fusión tras el ensayo en seco y tras T-376 |
+| T-375 | Migración paso 6: P10 Fuentes (D-136) | EN CURSO (#874; D-151: un territorio por ejecución) |
+| T-376 | Migración paso 7: P30 Resultados electorales (D-137) | REVISIÓN (#866); fusión tras T-375 (D-149) |
+| T-377 | Migración paso 8: P20 Distritos (D-138, D-139), Opus | EN CURSO (Opus); fusión tras T-376 (D-149) |
 | T-378 | Migración paso 9a: diseño al detalle de P00 Campaña y la nueva forma de trabajar (D-140), Opus, sin código | HECHA (#850); decisiones en D-143 |
-| T-379 | Migración paso 9b: implementación de P00 Campaña (D-140) | EN CURSO: PR 1 HECHA (#861); PR 2a, 2b, 3 y 4 tras T-377; fusión de P00 después del 29-11 (Opus) |
+| T-379 | Migración paso 9b: implementación de P00 Campaña (D-140) | EN CURSO: PR 1 HECHA (#861); PR 4 (IA de cierre) adelantada; PR 2a, 2b y 3 tras T-377 |
 | T-380 | Retirada de los ensembles del motor viejo (D-141): registro del visor y publicación, luego Releases, configuraciones y selector v1 | ESPERA_APROBACIÓN (#849 fusionada): faltan publicación «solo sitio» y borrado de 3 Releases (frase del propietario); configuraciones con T-377 |
 | T-381 | Detección automática de puntos de control incompatibles con el contrato vigente (sustituiría «empezar de cero»): diseño al detalle para el propietario | PENDIENTE (tras T-377) |
 | T-383 | Migración paso 10: documentación renumerada (D-142) | PENDIENTE (tras T-379) |
@@ -393,10 +400,16 @@ Fase 4 — producto (en el privado):
 | T-386 | Comprobar en solo lectura que P90 crea el check-run `pruebas` en toda PR (código, solo docs, borrador, etiquetas) y preparar el cambio del ruleset `proteger-main` para exigir `pruebas` (D-144) | HECHA (Coordinador): `pruebas` existe en toda PR; falta el cambio del ruleset (propietario) |
 | T-387 | Diseño 1.1 de P00 con D-145 y los arreglos del revisor; nueva revisión (Opus, solo documento) | HECHA (#858, diseño 1.1.4) |
 | T-388 | P50 sube los mapas a Zenodo por la API (D-146) | HECHA (#859); faltan la integración desactivada, la política de ramas de `publicacion`, los tokens y la prueba en sandbox (propietario y Operador) |
-| T-389 | Regenerar los 5 contratos de `configuracion/historico_epoca/` con las tablas de T-364b (T-365b; consecuencia de D-128) | EN CURSO (Sonnet) |
+| T-389 | Regenerar los 5 contratos de `configuracion/historico_epoca/` con las tablas de T-364b (T-365b; consecuencia de D-128) | HECHA (#865) |
 | T-390 | Actualización del plan 1.0.57 | HECHA (#860) |
-| T-391 | Rellenar los source_sha256 PENDIENTE_T333 de los contratos de ensayo con las huellas del release `fuente-ensayo-congreso-2026-11-29` y reanclar F10 | REVISIÓN (#867) |
-| T-392 | Actualización del plan 1.0.58 | REVISIÓN (esta PR) |
+| T-391 | Rellenar los source_sha256 PENDIENTE_T333 de los contratos de ensayo con las huellas del release `fuente-ensayo-congreso-2026-11-29` y reanclar F10 | HECHA (#867) |
+| T-392 | Actualización del plan 1.0.58 | HECHA (#869) |
+| T-393 | Alta de los territorios-elección `<t>_hAAAA_MM` (D-150): resolución en `territorio_ids` y catálogo, sin versionar los YAML generados; test con fuentes sintéticas | HECHA (#873, diseño; implementación tras T-377) |
+| T-394 | Actualización del plan 1.0.59 | HECHA (#872) |
+| T-395 | Diseño de P43, publicación del histórico por fecha (D-152, D-154) | REVISIÓN (#875) |
+| T-396 | Secciones con población sin geometría: asignación por centroide con geometría de otro año (D-153) | EN CURSO (Sonnet) |
+| T-397 | Lista de Actions sin basura (D-155) | REVISIÓN (#877); borrado de ejecuciones de retirados al terminar la migración |
+| T-398 | Actualización del plan 1.0.60 | REVISIÓN (esta PR) |
 | T-385 | Actualización del plan 1.0.56 | HECHA (#856) |
 | T-382 | Actualización del plan 1.0.55 | REVISIÓN (esta PR) |
 | T-340 | Ficha del paso A del histórico con Condición previa, Puerta y Mapa según D-115 (si el código no implementa la puerta, abre tarea) | EN CURSO (Coordinador) |
@@ -417,7 +430,7 @@ Frase de reanudación de r3: DADA en el chat del Operador, condicionada a #786 y
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324, T-327, T-341, T-350, T-363, T-367, T-371, T-373, T-382, T-385, T-390 y T-392. El planificador ha dado T-194 a T-392 (10 a 16-11; T-277 y T-292 sin usar; T-331 a T-340 y T-342 a T-362 los dio el Coordinador con acuerdo del Planificador). Siguiente libre: T-393.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324, T-327, T-341, T-350, T-363, T-367, T-371, T-373, T-382, T-385, T-390, T-392, T-394 y T-398. El planificador ha dado T-194 a T-398 (10 a 16-11; T-277 y T-292 sin usar; T-331 a T-340 y T-342 a T-362 los dio el Coordinador con acuerdo del Planificador). Siguiente libre: T-399.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),

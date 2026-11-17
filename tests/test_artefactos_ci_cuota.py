@@ -34,7 +34,6 @@ PRODUCCION = {
     "preparacion-fuentes.yml",
     "preparacion-legislatura-vigente.yml",
     "preparacion-resultados-electorales.yml",
-    "p20-distritos.yml",
 }
 
 

@@ -12,7 +12,7 @@ paths:
 - Los nombres visibles y la lista de workflows con `workflow_dispatch` están fijados en
   `tests/test_design_a_catalogo.py` y `tests/test_design_a_matriz_sintetica.py` (diseño A); `p90-automatico.yml`
   (P90 Automático, T-366: pruebas, forense y métricas; `revisor-pr.yml` y `auto-merge.yml` siguen aparte) no puede tener botón manual (`tests/test_workflow_safety.py`). Todo bloque `run:` pasa `bash -n`.
-- El ruleset de `main` solo exige el job `pruebas`. «Require branches to be up to date» bloquearía toda PR mientras
+- El ruleset `proteger-main` (id 26311854) exige SOLO `veredicto` (integración 15368; skipped cuenta como cumplido), no `pruebas`: lo garantizan el auto-merge y la regla «CI verde en la PR y en main» (D-144 propone añadirlo). «Require branches to be up to date» bloquearía toda PR mientras
   haya 00 registrando; exigir PR en `main` rechaza los registros de los robots (`GH013`).
 - `Duplicate header: "Authorization"` (HTTP 400): credencial de registro mal combinada con actions/checkout; checkout
   v6+ guarda su token en un include (`includeIf.gitdir:`), no en `http.extraheader`; hay que quitar ambos (#381→#386).
@@ -66,8 +66,7 @@ paths:
 ## Lecciones 09-11 (Coordinador, T-123, T-128)
 - El job «Legislatura vigente» del Gestor solo instala PyYAML: nada que importe `gestor_campanas_2` al planificar puede traer shapely/geopandas al importarse (import perezoso; test `PlanSoloConPyYAML`, #589). Rompió el plan de todas las campañas (run 42705439861).
 - La matriz de GitHub tiene tope de 256: el histórico va en un job de prueba + 2 lotes de 250 con `tipo` y `clave` por fila.
-- El ensemble guardaba el motivo del fallo solo en `failure.json` (artefacto, 403 desde cloud): desde #580 sale como `CANDIDATE_FAILED <id> <Tipo>: <message>` en el log del job generate (`gh api repos/<r>/actions/jobs/<id>/logs | grep CANDIDATE_FAILED`).
-- El 06 solo admite las fases de `TERRITORIAL_STAGES` (herramientas/leer_config_ensemble.py) Y las del `case` del gate del workflow: añadir una fase toca ambos. Entra en el ensemble una comunidad sin `topology_bridges` ni exención por partición y de una provincia; 13 quedan fuera hasta decisión de motor.
+- Ensembles (06, P28 Alternativas): retirados sin sustituto en T-377 (D-138); `leer_config_ensemble.py`, `configuracion/ensemble/` y el workflow, en `legacy/`. `ddd_ensemble/` se queda.
 - La 05 con `production_run_id` vacío es «solo sitio» (T-125); antes resolvía `latest_validated` y registró `congreso350_valladolid` (retirado en T-126). El registro rechaza añadir `congreso350_*`.
 - Una PR que añade ficheros debe regenerar `orchestracion/catalogo_procedencia.json`; el bot de archivo reescribe evidencia que los tests leen vivos (Cantabria): fixture fija (#569).
 
@@ -127,3 +126,15 @@ paths:
 
 - P20 Distritos (T-377, D-139): un fichero (`p20-distritos.yml`) sustituye a `produccion-distritos` y `_reutilizable-generacion-territorial`; P28 Alternativas (`generar-alternativas-territoriales`) se retiró sin sustituto (D-138). Botón (D-148): `territorio` (un código por ejecución; GitHub no admite que un workflow se llame a sí mismo, «Loops in the workflow tree are not permitted»: varios, con P00) y `empezar_de_cero`. Rutas: «generar» (`territory_id` de la 00 o el código del botón: `interfaz` → `resolver_interfaz` → `entrada` → motor) y «acreditar» (`params`, la 00: `entrada` → motor). El motor lee `needs.entrada.outputs.*`, nunca `inputs.*` (las booleanas como `== 'true'`, sin `fromJSON` de una salida que puede llegar vacía).
 - P40 Publicación (T-372, D-134): un fichero (`p40-publicacion.yml`: resolver → preparar → publicar) sustituye a `desplegar-visor-publico`, `cadena-publicacion` y `_reutilizable-publicar-sitio`. Botón: `que_publicar` (Solo el sitio | Territorios), `territorios`, `simular` (marcado). Sin run id: `herramientas/p40_resolver.py` toma la última 00 completa con la 04 en verde de cada territorio. La ruta del ensemble se quitó en T-377 (D-138). Ya no se exige M06 vivo (M06 del blob del registro).
+
+- Lecciones 11-16 (T-366…T-389, cierres de implementadores):
+  - GitHub da por INVÁLIDO (run `push` fallido sin jobs) un workflow cuyo `workflow_run.workflows` se nombra a sí mismo; un workflow no puede llamarse a sí mismo (matriz de cadenas = reutilizable). D-148: botón de P20/P30 = un territorio por ejecución; varios = P00.
+  - Job con `needs` de otro saltado queda saltado salvo `!cancelled()` en su `if`. Un reutilizable no puede subir permisos del llamador (startup_failure aunque el `if` sea falso). Al mover jobs entre ficheros, baja el `concurrency` de workflow a cada job.
+  - Secretos de repositorio los lee cualquier rama lanzada por API: «la rama no escribe en main» solo es firme con secretos de ENTORNO limitado a main (un job con `environment` desde rama no permitida falla). `a && secrets.X || secrets.Y` cruza secretos: un paso por destino. Una PR creada con `GITHUB_TOKEN` no lanza workflows.
+  - `queue: max` solo bajo actions-nga; «rechazar una segunda campaña» se comprueba en un job. Un exit numérico no clasifica una causa (el 75 tiene 3 orígenes): exige el código impreso. 400/422 genérico no autoriza una acción irreversible (DOI).
+  - Todo workflow con `upload-artifact` se clasifica en `tests/test_artefactos_ci_cuota.py`. `test_credencial_registro` exige «Credencial de registro» tras el checkout en todo job cuyo `run` mencione `persistir_producto_electoral_operacional`/`git push`. Inputs de GitHub sin tildes.
+  - Tests de equivalencia con `legacy/workflows`: fixtures + sha256, sin `skipTest`, con control negativo. La versión de una acción de terceros (Dependabot) la ignora la equivalencia (`tests/_uses_sin_version.py`, T-392).
+  - `gh api --paginate` falla tras el proxy: `&page=N` a mano. Logs de job: `gh api repos/<r>/actions/jobs/<id>/logs`. `docs.github.com` no resuelve desde la nube: `raw.githubusercontent.com/github/docs/main/content/…`. Límites: matriz 256, 20 jobs a la vez (Free), job 6 h, salida de matriz = última fila.
+  - Cloud: sin `gh`/MCP github el implementador no pasa a «listo» ni etiqueta `no-automerge` (lo hace el Coordinador); no crea/edita releases (403): el propietario las crea con los ficheros del Operador, con LF (CRLF cambia la huella). Una sesión parada «a la espera» no despierta sola: avísala al fusionar.
+  - Coste: 00 ≈ 72 min facturables/territorio (r3/r4: 161 runs 00 + 81 Legislatura).
+  - T-392 (#868): `tests/_uses_sin_version.py` normaliza `uses:` al cargar el YAML; tras normalizar, `startswith("x@")` deja de coincidir: usa `startswith("x")`. Prueba un bump de Dependabot sobre `main` (worktree + merge): su rama puede no compartir historia con main.
