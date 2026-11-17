@@ -30,10 +30,10 @@ class NombresWorkflows(unittest.TestCase):
     SIN_BOTON = {
         "activacion-por-eleccion.yml": "_P00 Campaña — Elección",
         "revisor-pr.yml": "_P90 Automático — Revisor de PR",
+        "auto-merge.yml": "_P90 Automático — Fusión automática",
     }
     # Pendientes de T-379 2a (#888, turno exclusivo): se pasan a SIN_BOTON después de fusionarla.
     PENDIENTES_2A = {
-        "auto-merge.yml": "P90 Automático — Fusión automática",
         "preparacion-legislatura-vigente.yml": "P00 Campaña — Legislatura",
     }
 
