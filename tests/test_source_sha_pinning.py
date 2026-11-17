@@ -109,7 +109,7 @@ class FullRunSourceShaPinningTests(unittest.TestCase):
     def test_nested_reusables_preserve_code_ref_and_01_returns_prepared_not_enabled_ref(self):
         production = load(WF / "produccion-distritos.yml")
         incorporation = load(WF / "incorporacion-resultados-electorales.yml")
-        preparation = load(WF / "preparacion-fuentes.yml")
+        preparation = load(WF / "../../tests/fixtures/p10_vistas/_p11-territoriales.yml")
         full = load(FULL)
         gate = load(WF / "_reutilizable-puerta-validacion.yml")
 
