@@ -69,14 +69,12 @@ class DescriptoresDeEscenarioTests(unittest.TestCase):
 
 
 class CableadoDePublicacionTests(unittest.TestCase):
-    def test_los_dos_workflows_aceptan_escenario_y_lo_pasan_al_describir(self):
+    def test_p40_ya_no_publica_escenarios(self):
+        # T-377 (D-138): los escenarios solo los pasaba P28 Alternativas (retirada); el registro conserva su descripción (arriba).
         root = Path(__file__).resolve().parents[1] / ".github/workflows"
         publicador = (root / "p40-publicacion.yml").read_text(encoding="utf-8")
-        interfaz = publicador  # T-372: P40 unifica la interfaz y el publicador; el escenario solo entra por workflow_call
-        self.assertIn("scenario_id", publicador)
-        self.assertIn("scenario_strategy", interfaz)
-        self.assertIn('${SCENARIO_ID:+--scenario-id "$SCENARIO_ID" --strategy "$SCENARIO_STRATEGY"}', publicador)
-        self.assertIn("SCENARIO_ID: ${{ inputs.scenario_id || '' }}", interfaz)
+        for s in ("inputs.scenario_id", "inputs.scenario_strategy", "SCENARIO_ID", "--scenario-id"):
+            self.assertNotIn(s, publicador)
 
 
 if __name__ == "__main__":

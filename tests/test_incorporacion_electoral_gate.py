@@ -11,7 +11,7 @@ from herramientas.validar_elegibilidad_incorporacion_electoral import resolve_el
 
 ROOT=Path(__file__).resolve().parents[1]
 ORCH=ROOT/".github/workflows/ejecucion-completa-proyecto.yml"
-WF04=ROOT/".github/workflows/incorporacion-resultados-electorales.yml"
+WF04=ROOT/".github/workflows/p30-resultados-electorales.yml"
 
 def fixture(prepared: bool):
     td=tempfile.TemporaryDirectory(); root=Path(td.name)

@@ -63,7 +63,7 @@ class VerificarPuentes(unittest.TestCase):
 
     def test_paso_del_workflow_solo_en_m02_y_ambitos_nacionales(self):
         root = Path(__file__).resolve().parents[1]
-        wf = yaml.safe_load((root / ".github/workflows/_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8"))
+        wf = yaml.safe_load((root / ".github/workflows/p20-distritos.yml").read_text(encoding="utf-8"))
         steps = wf["jobs"]["m02"]["steps"]
         names = [s.get("name") for s in steps]
         i = names.index("Huella de puentes antes de M02")

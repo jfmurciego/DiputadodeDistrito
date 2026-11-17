@@ -9,6 +9,7 @@ MOTIVO: T-399 (D-158 B'). Atlas, tabla y seccionado sintéticos (valores esperad
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import sys
 import tempfile
@@ -104,7 +105,11 @@ class MaterializarConRelleno(unittest.TestCase):
                                                                        "ajuste": "ajustada"}]}
         cpath = root / "contrato.json"
         cpath.write_text(json.dumps(c), encoding="utf-8")
-        return root, fuentes, cpath, mock.patch.object(che, "_secciones_seccionado", return_value={A, B, N1})
+        def falso(secc, cpro, cache, sha):  # zip de mentira: la normalización real se prueba en test_t365 (MaterializarZipReal)
+            dest = cache / "seccionado_normalizado.zip"
+            dest.write_bytes(secc.read_bytes())
+            return dest, {"normalizado_sha256": hashlib.sha256(dest.read_bytes()).hexdigest(), "corregidas": []}
+        return root, fuentes, cpath, mock.patch.multiple(che, _secciones_seccionado=mock.Mock(return_value={A, B, N1}), _normalizar_seccionado=falso)
 
     def test_rellenada_declarada_materializa_con_su_origen(self):
         with tempfile.TemporaryDirectory() as d:
@@ -116,6 +121,29 @@ class MaterializarConRelleno(unittest.TestCase):
             pob = root / cfg["io"]["input"]["population_cip"]["paths"][0]
             self.assertEqual(pob.read_text(encoding="utf-8").splitlines()[1:],
                              ["2020,2200101001,100,dato", "2020,2200101002,200,dato", "2020,2200101003,90,rellenada_año_cercano"])
+
+    def test_reparto_madre_hija_declarado_materializa_y_conserva_el_total(self):
+        with tempfile.TemporaryDirectory() as d:
+            root, fuentes, cpath, parche = self._arbol(Path(d), False)
+            c = json.loads(cpath.read_text(encoding="utf-8"))
+            c["provincias"]["22"]["poblacion"]["sin_poblacion_resuelto"] = {"repartidas": [{
+                "madre": B, "poblacion_censo_madre": 200,
+                "miembros": [{"seccion": B, "rol": "madre", "poblacion": 120}, {"seccion": N1, "rol": "hija", "solape": 0.9, "poblacion": 80}]}],
+                "rellenadas": []}
+            cpath.write_text(json.dumps(c), encoding="utf-8")
+            with parche:
+                out = che.materializar("2019-11", "nac22", fuentes, root, cpath)
+            import yaml
+            cfg = yaml.safe_load(out.read_text(encoding="utf-8"))
+            filas = (root / cfg["io"]["input"]["population_cip"]["paths"][0]).read_text(encoding="utf-8").splitlines()[1:]
+            self.assertEqual(filas, ["2020,2200101001,100,dato", "2020,2200101002,120,repartida_madre", "2020,2200101003,80,repartida_hija"])
+            self.assertEqual(120 + 80, 200)  # el total de la madre (200) se conserva
+            # control negativo: si la tabla ya no trae esa población en la madre, falla cerrado
+            c["provincias"]["22"]["poblacion"]["sin_poblacion_resuelto"]["repartidas"][0]["poblacion_censo_madre"] = 199
+            cpath.write_text(json.dumps(c), encoding="utf-8")
+            with parche, self.assertRaises(SystemExit) as cm:
+                che.materializar("2019-11", "nac22", fuentes, root, cpath)
+            self.assertIn("REPARTO_MADRE_POBLACION_DISTINTA", str(cm.exception))
 
     def test_control_negativo_sin_declarar_sigue_fallando(self):
         with tempfile.TemporaryDirectory() as d:

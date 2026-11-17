@@ -3,15 +3,20 @@
 """Histórico de las generales por época (T-365, D-125): contrato por elección, contrato M01-M06 por provincia y puerta M07/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0 · FECHA: 2026-11-17 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/contrato_historico_epoca_v1.1.0_20261117.py
-CAMBIOS: 1.2.0: T-399 (D-158 B', aprobada según el Coordinador/Planificador: pendiente de confirmar literal por el propietario): 2011-11 mantiene el seccionado 2012. Las secciones del seccionado SIN fila en
+VERSIÓN: 1.3.0 · FECHA: 2026-11-17 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/contrato_historico_epoca_v1.2.0_20261117.py
+CAMBIOS: 1.3.0: T-399 (D-158 B', aprobada según el Coordinador/Planificador: pendiente de confirmar literal por el propietario): 2011-11 mantiene el seccionado 2012. Las secciones del seccionado SIN fila en
   la tabla se resuelven así: (a) las que parten una sección del Censo (la «hija» cae ≥ 50 % en una sección con población: la «madre») reciben una parte de la población 2011 de la madre repartida entre madre e hijas
   según el Atlas del año más cercano de cada una (restos mayores; se conservan los totales del Censo; origen `repartida_madre`/`repartida_hija`); (b) las que no tienen madre (existen en el Censo sin fila) se
   RELLENAN con el valor de la misma sección en el año más cercano del Atlas (D-126; origen `rellenada_año_cercano`) y ajuste al total municipal oficial del Censo solo si hay fuente con sha256 (hoy no: sin ajuste,
   declarado); sin dato en ningún año → BLOQUEADA_SIN_DATO. Las provincias con votos sin asignar > 0,1 % (2011-11: 03, 24, 27, 32, 33; `votos_fuera_del_seccionado.csv`) quedan APARTADA_VOTOS y declaradas:
   no se toca D-70 ni hay excepciones nuevas en la puerta.
-  `contrato --atlas`, `informe_poblacion`. 1.1.0: T-396 (D-153; reglas declaradas fuera de D-153: punto representativo, exclusión por sucesora sin fila, dato+dato=dato): las secciones con población sin geometría en el seccionado del año se ASIGNAN a la sección del seccionado
+  `contrato --atlas`, `informe_poblacion`.
+  1.2.0: T-402: `materializar` ya no copia el seccionado crudo: escribe el de la provincia con la normalización auditada de la adquisición
+  (ddd_core.official_geometry.normalize_official_geometry, política configuracion/politica_normalizacion_geometrica.yaml; nada nuevo): las
+  secciones válidas pasan byte a byte, las inválidas se reparan solo si la política lo permite (si no, FALLA cerrado). La huella del resultado
+  (geometrías + política) queda en `meta.historico_epoca.geometria` y en `source_inputs`; acción `geometria` = informe por elección y provincia.
+  1.1.0: T-396 (D-153; reglas declaradas fuera de D-153: punto representativo, exclusión por sucesora sin fila, dato+dato=dato): las secciones con población sin geometría en el seccionado del año se ASIGNAN a la sección del seccionado
   que contiene su centroide (geometría del seccionado más cercano en años que la tenga; misma provincia) o se EXCLUYEN declarando su
   población; con sucesora de otra provincia la provincia queda APARTADA. `contrato --donantes`, `informe`. 1.0.0: fichero nuevo.
 MOTIVO: D-125 (propietario, 15-11): distritos generados con los datos de cada época (seccionado y población por sección del año,
@@ -57,7 +62,7 @@ for _p in (ROOT, ROOT / "herramientas"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-VERSION = "1.2.0"
+VERSION = "1.3.0"
 SCHEMA = "ddd.contrato-historico-epoca/1.0"
 DIR_CONTRATOS = "configuracion/historico_epoca"
 FUENTES_R2 = "orchestracion/fuentes_r2.json"
@@ -606,6 +611,81 @@ def _secciones_seccionado(zip_path: Path, cpro: str | None) -> set[str]:
     return {str(x) for x in g["CUSEC"] if cpro is None or str(x)[:2] == cpro}
 
 
+def _leer_seccionado(zip_path: Path, cpro: str | None):
+    """GeoDataFrame del seccionado (solo la provincia `cpro`, o todo si None), con su CRS y columnas originales."""
+    import geopandas as gpd
+    import zipfile
+    with zipfile.ZipFile(zip_path) as z:
+        shp = next(n for n in z.namelist() if n.lower().endswith(".shp"))
+    g = gpd.read_file(f"zip://{zip_path}!{shp}")
+    if cpro is not None:
+        g = g[g["CUSEC"].astype(str).str[:2] == cpro].reset_index(drop=True)
+    return g
+
+
+def normalizar_geometrias(g) -> tuple[object, list[dict], dict]:
+    """T-402: normalización auditada de la adquisición, sección a sección. Válidas intactas; inválidas reparadas o FALLA cerrado.
+
+    Devuelve (GeoDataFrame, correcciones, política). Cada corrección: sección, método, motivo antes y área (m², EPSG de la política)
+    antes/después. El área de un polígono inválido no es evidencia de equivalencia (política): se informa, no se acepta con ella.
+    """
+    import geopandas as gpd
+    from ddd_core.official_geometry import load_geometry_policy, normalize_official_geometry
+    pol, pol_sha, pol_ruta = load_geometry_policy()
+    crs = str(g.crs) if g.crs is not None else "EPSG:4326"
+    metrica = str(pol["metric_crs"])
+
+    def area(geom):
+        return float(gpd.GeoSeries([geom], crs=crs).to_crs(metrica).area.iloc[0])
+
+    geoms, correcciones = list(g.geometry), []
+    for i, (sec, geom) in enumerate(zip(g["CUSEC"].astype(str), geoms)):
+        if geom is not None and not geom.is_empty and geom.is_valid:
+            continue
+        nueva, aud = normalize_official_geometry(sec, geom, source_crs=crs, policy=pol)
+        if aud["status"] != "NORMALIZED":
+            raise ErrorContrato(f"GEOMETRIA_NO_NORMALIZABLE {sec}: {aud.get('reason')}")
+        geoms[i] = nueva
+        correcciones.append({"seccion": sec, "metodo": aud.get("method"), "motivo": aud["before"].get("validity_reason"),
+                             "area_antes_m2": round(area(geom), 3), "area_despues_m2": round(area(nueva), 3)})
+    out = g.copy()
+    out["geometry"] = gpd.GeoSeries(geoms, index=g.index, crs=g.crs)
+    return out, correcciones, {"ruta": pol_ruta, "sha256": pol_sha, "version": pol.get("version")}
+
+
+def _huella_geometrias(g) -> str:
+    h = hashlib.sha256()
+    for sec, geom in sorted(zip(g["CUSEC"].astype(str), g.geometry), key=lambda x: x[0]):
+        h.update(sec.encode() + b"\0" + (geom.wkb if geom is not None else b"") + b"\n")
+    return h.hexdigest()
+
+
+def _normalizar_seccionado(secc: Path, cpro: str, cache: Path, sha_origen: str) -> tuple[Path, dict]:
+    """Escribe en `cache` el seccionado normalizado de la provincia (zip de shapefile) y devuelve (ruta, informe con huellas)."""
+    import tempfile
+    import zipfile
+    g, correcciones, pol = normalizar_geometrias(_leer_seccionado(secc, cpro))
+    destino = cache / f"seccionado_normalizado_{cpro}.zip"
+    with tempfile.TemporaryDirectory() as t:
+        g.to_file(Path(t) / f"seccionado_{cpro}.shp")
+        with zipfile.ZipFile(destino, "w", zipfile.ZIP_DEFLATED) as z:  # fecha fija: zip reproducible
+            for f in sorted(Path(t).iterdir()):
+                z.writestr(zipfile.ZipInfo(f.name, (1980, 1, 1, 0, 0, 0)), f.read_bytes(), zipfile.ZIP_DEFLATED)
+    return destino, {"origen_sha256": sha_origen, "politica": pol, "secciones": len(g), "corregidas": correcciones,
+                     "huella_geometrias_sha256": _huella_geometrias(g), "normalizado_sha256": sha256(destino)}
+
+
+def informe_geometria(eleccion: str, fuentes: Path, root: Path = ROOT, contrato: Path | None = None) -> dict:
+    """T-402: secciones corregidas por provincia (área antes/después) para una elección; no escribe contratos ni cache."""
+    c = json.loads((contrato or ruta_contrato(eleccion, root)).read_text(encoding="utf-8"))
+    secc = _fuente(fuentes, c["seccionado"]["fichero"], c["seccionado"]["sha256"])
+    _, correcciones, pol = normalizar_geometrias(_leer_seccionado(secc, None))
+    prov = {cpro: [x for x in correcciones if x["seccion"][:2] == cpro] for cpro in sorted(c["provincias"])}
+    return {"eleccion": eleccion, "seccionado_sha256": c["seccionado"]["sha256"], "politica": pol,
+            "provincias": {k: {"corregidas": v, "n": len(v)} for k, v in prov.items() if v},
+            "total_corregidas": len(correcciones)}
+
+
 def _reemplazar(obj, viejo: str, nuevo: str):
     if isinstance(obj, dict):
         return {k: _reemplazar(v, viejo, nuevo) for k, v in obj.items()}
@@ -615,7 +695,7 @@ def _reemplazar(obj, viejo: str, nuevo: str):
 
 
 def contrato_provincia(base: dict, c: dict, cpro: str, eleccion: str, secc_rel: str, pob_rel: str, huellas: dict,
-                       contrato_sha: str) -> dict:
+                       contrato_sha: str, geometria: dict | None = None) -> dict:
     """Contrato M01-M06 de la época desde el contrato base: cambian fuentes, años, K y rutas; nada más."""
     p = c["provincias"][cpro]
     t, k = p["territorio"], p["K"]
@@ -632,7 +712,8 @@ def contrato_provincia(base: dict, c: dict, cpro: str, eleccion: str, secc_rel: 
               "status": "generation_ready",
               "historico_epoca": {"eleccion": eleccion, "election_date": c["fecha"], "election_id": f"{t}_{c['fecha']}",
                                   "contrato": ruta_contrato(eleccion, Path("")).as_posix(), "contrato_sha256": contrato_sha,
-                                  "contrato_base_sha256": p["contrato_base"]["sha256"], "decision": "D-125"}})
+                                  "contrato_base_sha256": p["contrato_base"]["sha256"], "decision": "D-125",
+                                  **({"geometria": geometria} if geometria else {})}})
     cfg["io"]["input"]["seccionado"].update({"path": secc_rel, "container": "zip", "materialized_format": "shapefile",
                                              "archive_member": "", "layer": "", "section_key_col": "CUSEC"})
     cfg["io"]["input"]["population_cip"] = {
@@ -705,9 +786,8 @@ def materializar(eleccion: str, territorio: str, fuentes: Path, root: Path = ROO
     rn = run_name(territorio, eleccion)
     cache = root / f"territorios/{territorio}/.cache/ddd/historico_epoca/{rn}"
     cache.mkdir(parents=True, exist_ok=True)
-    secc_local = cache / secc.name
-    if not secc_local.is_file() or sha256(secc_local) != c["seccionado"]["sha256"]:
-        shutil.copyfile(secc, secc_local)
+    # T-402: no se copia el crudo; se escribe el de la provincia con la normalización auditada de la adquisición
+    secc_local, geometria = _normalizar_seccionado(secc, cpro, cache, c["seccionado"]["sha256"])
     pob_local = cache / f"poblacion_{cpro}.csv"
     with open(pob_local, "w", encoding="utf-8", newline="") as f:
         w = csv.writer(f, lineterminator="\n")
@@ -715,9 +795,9 @@ def materializar(eleccion: str, territorio: str, fuentes: Path, root: Path = ROO
         for s in sorted(pob):
             w.writerow([c["poblacion"]["anio_referencia"], s, pob[s]["poblacion"], pob[s]["origen"]])
     rel = lambda q: q.relative_to(root).as_posix()  # noqa: E731
-    huellas = {"seccionado": c["seccionado"]["sha256"], "poblacion": sha256(pob_local), "tabla": c["poblacion"]["sha256"],
+    huellas = {"seccionado": geometria["normalizado_sha256"], "poblacion": sha256(pob_local), "tabla": c["poblacion"]["sha256"],
                "contrato_base": p["contrato_base"]["sha256"], "votos": p["votos"]["sha256"], "escanos": c["escanos"]["sha256"]}
-    cfg = contrato_provincia(base, c, cpro, eleccion, rel(secc_local), rel(pob_local), huellas, sha256(cpath))
+    cfg = contrato_provincia(base, c, cpro, eleccion, rel(secc_local), rel(pob_local), huellas, sha256(cpath), geometria)
     out = root / f"territorios/{territorio}/config/{rn}.yaml"
     out.write_text("# Generado por herramientas/contrato_historico_epoca.py (T-365, D-125); no versionado: se regenera desde "
                    f"{rel(cpath)}.\n" + yaml.safe_dump(cfg, allow_unicode=True, sort_keys=False), encoding="utf-8")
@@ -918,6 +998,10 @@ def main(argv=None) -> int:
     a1.add_argument("--version", default=VERSION)
     a1.add_argument("--anterior", default="ninguna (fichero nuevo)")
     a1.add_argument("--salida", type=Path)
+    a3 = sub.add_parser("geometria", help="T-402: informe de secciones corregidas por provincia (área antes/después)")
+    a3.add_argument("--eleccion", required=True, choices=sorted(ELECCIONES))
+    a3.add_argument("--fuentes", type=Path, required=True)
+    a3.add_argument("--salida", type=Path)
     a2 = sub.add_parser("informe")
     a2.add_argument("--salida", type=Path)
     a3 = sub.add_parser("informe_poblacion")
@@ -950,6 +1034,13 @@ def main(argv=None) -> int:
                 w = csv.DictWriter(f, list(filas[0]) if filas else ["eleccion"], lineterminator="\n")
                 w.writeheader()
                 w.writerows(filas)
+        return 0
+    if a.accion == "geometria":
+        inf = informe_geometria(a.eleccion, a.fuentes)
+        if a.salida:
+            escribir_json(a.salida, inf)
+        print(json.dumps({k: v for k, v in inf.items() if k != "provincias"} | {"provincias": {k: v["n"] for k, v in inf["provincias"].items()}},
+                         ensure_ascii=False))
         return 0
     if a.accion == "materializar":
         print(materializar(a.eleccion, a.territorio, a.fuentes))

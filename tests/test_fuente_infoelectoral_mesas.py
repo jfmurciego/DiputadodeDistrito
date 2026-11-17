@@ -116,7 +116,7 @@ class HuescaContractTests(unittest.TestCase):
         self.assertEqual("02202307_MESA.zip", contract["mirror"]["asset"])
 
     def test_workflow_falls_back_to_mirror_with_same_fingerprint(self):
-        wf = (ROOT / ".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
+        wf = (ROOT / "tests/fixtures/p10_vistas/_p12-electorales.yml").read_text(encoding="utf-8")
         step = wf[wf.index("Recuperar y convertir ZIP oficial"):wf.index("id: prepare")]
         self.assertIn('gh release download "$mirror_tag"', step)
         self.assertLess(step.index("gh release download"), step.index("sha256sum infoelectoral-mesas.zip"))

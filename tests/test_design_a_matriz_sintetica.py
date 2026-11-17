@@ -11,10 +11,10 @@ from herramientas.validar_paquete_electoral import validate_package
 
 ROOT=Path(__file__).resolve().parents[1]
 WF=ROOT/".github/workflows"
-PREP=WF/"preparacion-fuentes.yml"
-ELECTORAL_PREP=WF/"preparacion-resultados-electorales.yml"
-GEN=WF/"produccion-distritos.yml"
-ELECTORAL_APPLY=WF/"incorporacion-resultados-electorales.yml"
+PREP=WF/"../../tests/fixtures/p10_vistas/_p11-territoriales.yml"
+ELECTORAL_PREP=WF/"../../tests/fixtures/p10_vistas/_p12-electorales.yml"
+GEN=WF/"p20-distritos.yml"
+ELECTORAL_APPLY=WF/"p30-resultados-electorales.yml"
 CAT=ROOT/"configuracion/catalogo_preparacion.yaml"
 
 def load(path:Path):
@@ -27,21 +27,19 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
     def test_visible_workflows(self):
         visible={
             "P00 Campaña":WF/"ejecucion-completa-proyecto.yml",
-            "P10 Fuentes — P11 Territoriales":PREP,
-            "P10 Fuentes — P12 Electorales":ELECTORAL_PREP,
-            "P20 Base territorial — P30 Distritos":GEN,
-            "P40 Resultados electorales":ELECTORAL_APPLY,
+            "P10 Fuentes":WF/"p10-fuentes.yml",  # T-375: un botón; PREP y ELECTORAL_PREP son reutilizables sin botón
+            "P20 Distritos":GEN,
+            "P30 Resultados electorales":ELECTORAL_APPLY,
             "P90 Automático":WF/"p90-automatico.yml",
             "P40 Publicación":WF/"p40-publicacion.yml",
             "P00 Campaña — Gestor":WF/"gestor-campanas.yml",
-            "P30 Distritos — P33 Alternativas":WF/"generar-alternativas-territoriales.yml",
         }
         self.assertEqual({load(p)["name"] for p in visible.values()},set(visible))
         dispatch=[p.name for p in WF.glob("*.yml") if "workflow_dispatch" in triggers(p)]
-        self.assertEqual(sorted(dispatch),["activacion-por-eleccion.yml","ejecucion-completa-proyecto.yml","generar-alternativas-territoriales.yml","gestor-campanas.yml","incorporacion-resultados-electorales.yml","p40-publicacion.yml","p50-publicacion-academica.yml","p70-archivo.yml","p80-verificacion-motor.yml","preparacion-fuentes.yml","preparacion-legislatura-vigente.yml","preparacion-resultados-electorales.yml","produccion-distritos.yml"])
+        self.assertEqual(sorted(dispatch),["activacion-por-eleccion.yml","ejecucion-completa-proyecto.yml","gestor-campanas.yml","p10-fuentes.yml","p20-distritos.yml","p30-resultados-electorales.yml","p40-publicacion.yml","p50-publicacion-academica.yml","p70-archivo.yml","p80-verificacion-motor.yml","preparacion-legislatura-vigente.yml"])
 
     def test_preparation_supports_every_registered_territory_and_catalog_gates_generation(self):
-        prep_options=triggers(PREP)["workflow_dispatch"]["inputs"]["territory_id"]["options"]
+        prep_options=expected_all=selector_labels(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")  # T-375: P10 ya no tiene selector; la lista viva es la de la tabla maestra
         expected=selector_labels(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")
         generable=[r["name"] for r in rows_for("generation",CAT)]
         electoral_ready=[r["name"] for r in rows_for("electoral_application",CAT)]
@@ -51,13 +49,13 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertIn("19 Melilla",prep_options)
         # La Rioja conserva preparación histórica, pero no puede anunciarse como\n        # generable hasta que su fuente vigente quede habilitada por pre-M04.\n        self.assertNotIn("La Rioja",generable)\n        self.assertIn("Galicia",generable)
         self.assertIn("Galicia",electoral_ready)
-        self.assertEqual(triggers(GEN)["workflow_dispatch"]["inputs"]["territory_id"]["options"],expected)
-        self.assertEqual(triggers(ELECTORAL_APPLY)["workflow_dispatch"]["inputs"]["territory_id"]["options"],expected)
+        self.assertEqual(list(triggers(ELECTORAL_APPLY)["workflow_dispatch"]["inputs"]),["territorio"])  # T-376/D-148: un código, sin selector
+        self.assertEqual(triggers(GEN)["workflow_dispatch"]["inputs"]["territorio"]["type"],"string")  # T-377: códigos, sin selector
 
     def test_preparation_generates_sources_and_reuses_existing_package_by_default(self):
-        manual_inputs=triggers(PREP)["workflow_dispatch"]["inputs"]
+        manual_inputs=triggers(WF/"p10-fuentes.yml")["workflow_dispatch"]["inputs"]
         reusable_inputs=triggers(PREP)["workflow_call"]["inputs"]
-        self.assertEqual(list(manual_inputs),["territory_id"])
+        self.assertEqual(list(manual_inputs),["tipo","territorio","eleccion","regenerar"])  # T-375
         self.assertNotIn("source_scope",manual_inputs)
         self.assertTrue(reusable_inputs["reutilizar_si_ya_preparada"]["default"])
         text=PREP.read_text(encoding="utf-8")
@@ -82,10 +80,10 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         electoral_text=ELECTORAL_PREP.read_text(encoding="utf-8")
         self.assertNotIn("preparar_fuente_electoral",territorial_text)
         self.assertNotIn("ddd-electoral-package",territorial_text)
-        self.assertNotIn("_reutilizable-generacion-territorial.yml",territorial_text)
+        self.assertNotIn("p20-distritos.yml",territorial_text)
         self.assertIn("Registrar evaluación de generación pendiente",territorial_text)
-        reusable=(WF/"_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
-        self.assertIn("!inputs.preflight_only",reusable)
+        reusable=(WF/"p20-distritos.yml").read_text(encoding="utf-8")
+        self.assertIn("!(needs.entrada.outputs.preflight_only == 'true')",reusable)  # T-377: entradas del job `entrada`
         for text in (territorial_text,electoral_text):
             self.assertNotIn("producir-territorio-por-contrato.yml",text)
         electoral_job=yaml.safe_dump(electoral["jobs"]["electorales"],allow_unicode=True)
@@ -110,7 +108,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
 
     def test_electoral_requires_prepared_inputs_without_recalculating_districts(self):
         text=ELECTORAL_APPLY.read_text(encoding="utf-8")
-        reusable=(WF/"_reutilizable-incorporacion-electoral.yml").read_text(encoding="utf-8")
+        reusable=(WF/"p30-resultados-electorales.yml").read_text(encoding="utf-8")
         self.assertIn("Localizar producto territorial certificado",text)
         self.assertIn("Localizar resultados electorales preparados",text)
         self.assertIn("exit 44",text); self.assertIn("exit 45",text)
@@ -147,8 +145,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertIn("ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}",electoral_prep)
         self.assertIn("ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}",prep)
         for name in [
-            "generar-alternativas-territoriales.yml","p40-publicacion.yml",
-            "_reutilizable-incorporacion-electoral.yml",
+            "p30-resultados-electorales.yml",
         ]: self.assertTrue((WF/name).is_file(),name)
 
     def test_complete_54_case_matrix(self):
@@ -201,7 +198,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         plan=synthetic_matrix_decision("Resultados electorales","existing","existing")
         self.assertTrue(plan["runnable"]); self.assertEqual(plan["to_stage"],"M08")
         self.assertEqual(plan["checkpoint_policy"],"require_m06")
-        text=(WF/"_reutilizable-incorporacion-electoral.yml").read_text(encoding="utf-8")
+        text=(WF/"p30-resultados-electorales.yml").read_text(encoding="utf-8")
         self.assertIn("Recuperar producto territorial consolidado",text)
         self.assertIn("Verificar producto territorial certificado",text)
         self.assertIn("Agregar resultados electorales a los distritos",text)

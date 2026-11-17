@@ -709,9 +709,9 @@ class TemporalSourcePreflightContractTests(unittest.TestCase):
             self.assertFalse(state["generation_enabled"])
 
     def test_workflows_bind_preflight_to_promotion_sha_and_explicit_years(self):
-        preparation = (ROOT / ".github/workflows/preparacion-fuentes.yml").read_text(encoding="utf-8")
-        reusable = (ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
-        production = (ROOT / ".github/workflows/produccion-distritos.yml").read_text(encoding="utf-8")
+        preparation = (ROOT / "tests/fixtures/p10_vistas/_p11-territoriales.yml").read_text(encoding="utf-8")
+        reusable = (ROOT / ".github/workflows/p20-distritos.yml").read_text(encoding="utf-8")
+        production = (ROOT / ".github/workflows/p20-distritos.yml").read_text(encoding="utf-8")
         resolver = (ROOT / "herramientas/resolver_ejecucion_completa.py").read_text(encoding="utf-8")
 
         self.assertIn("promotion_sha", preparation)

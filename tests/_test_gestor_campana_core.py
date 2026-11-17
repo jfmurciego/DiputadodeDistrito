@@ -253,8 +253,8 @@ class CampaignManagerTests(unittest.TestCase):
     def test_contract_is_propagated_to_runtime_runner(self):
         manager = WORKFLOW.read_text(encoding="utf-8")
         orchestration = ORCH.read_text(encoding="utf-8")
-        production = (ROOT / ".github/workflows/produccion-distritos.yml").read_text(encoding="utf-8")
-        reusable = (ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
+        production = (ROOT / ".github/workflows/p20-distritos.yml").read_text(encoding="utf-8")  # T-377: un fichero
+        reusable = production
         procedure = (ROOT / "procedimiento.sh").read_text(encoding="utf-8")
         for text in (manager, orchestration, production, reusable):
             self.assertIn("gerrychain_entrypoint", text)
@@ -267,7 +267,7 @@ class CampaignManagerTests(unittest.TestCase):
     def test_no_implicit_latest_checkpoint_in_campaign_contract(self):
         manager = WORKFLOW.read_text(encoding="utf-8")
         orchestration = ORCH.read_text(encoding="utf-8")
-        production = (ROOT / ".github/workflows/produccion-distritos.yml").read_text(encoding="utf-8")
+        production = (ROOT / ".github/workflows/p20-distritos.yml").read_text(encoding="utf-8")
         self.assertNotIn("reuse_run_id: ${{ matrix.", manager)
         self.assertNotIn("reuse_artifact_name: ${{ matrix.", manager)
         self.assertNotIn("reuse_artifact_sha256: ${{ matrix.", manager)
@@ -980,17 +980,14 @@ class CampaignManagerTests(unittest.TestCase):
         manager = WORKFLOW.read_text(encoding="utf-8")
         publisher = (ROOT / ".github/workflows/p40-publicacion.yml").read_text(encoding="utf-8")
         self.assertNotIn("p40-publicacion.yml", manager)
-        self.assertIn("ensemble_sha256:", publisher)
-        self.assertIn("ENSEMBLE_SHA256: ${{ inputs.ensemble_sha256 || '' }}", publisher)
+        self.assertNotIn("inputs.ensemble_sha256", publisher)  # T-377 (D-138): P40 ya no publica ensembles
 
     def test_workflows_parse(self):
         for path in (
             WORKFLOW,
             ORCH,
-            ROOT / ".github/workflows/produccion-distritos.yml",
-            ROOT / ".github/workflows/incorporacion-resultados-electorales.yml",
-            ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml",
-            ROOT / ".github/workflows/_reutilizable-incorporacion-electoral.yml",
+            ROOT / ".github/workflows/p20-distritos.yml",
+            ROOT / ".github/workflows/p30-resultados-electorales.yml",
             ROOT / ".github/workflows/_reutilizable-puerta-validacion.yml",
         ):
             parsed = yaml.load(path.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)

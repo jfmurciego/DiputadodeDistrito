@@ -181,9 +181,9 @@ class Flujos(unittest.TestCase):
         return yaml.safe_load((WF / nombre).read_text(encoding="utf-8"))
 
     def test_entrada_motor_motor2_por_defecto(self):  # T-234: relevo formal (D-82)
-        r = self._wf("_reutilizable-generacion-territorial.yml")[True]["workflow_call"]["inputs"]["motor"]
+        r = self._wf("p20-distritos.yml")[True]["workflow_call"]["inputs"]["motor"]
         self.assertEqual(r["default"], "motor2")
-        p = self._wf("produccion-distritos.yml")[True]["workflow_call"]["inputs"]["motor"]
+        p = self._wf("p20-distritos.yml")[True]["workflow_call"]["inputs"]["motor"]
         self.assertEqual(p["default"], "motor2")
         e = self._wf("ejecucion-completa-proyecto.yml")[True]
         self.assertEqual(e["workflow_call"]["inputs"]["motor"]["default"], "motor2")
@@ -191,11 +191,11 @@ class Flujos(unittest.TestCase):
         self.assertEqual((boton["default"], boton["options"]), ("motor2", ["motor2", "m05"]))
 
     def test_pasos_p30_solo_con_motor2_en_m06(self):
-        jobs = self._wf("_reutilizable-generacion-territorial.yml")["jobs"]
-        pasos = [s for s in jobs["m06"]["steps"] if str(s.get("name", "")).startswith("P30")]
+        jobs = self._wf("p20-distritos.yml")["jobs"]
+        pasos = [s for s in jobs["m06"]["steps"] if str(s.get("name", "")).startswith("P26 ")]  # T-377: rotulados P26
         self.assertEqual(len(pasos), 5)
         for s in pasos:
-            self.assertIn("env.STAGE == 'M06' && inputs.motor == 'motor2'", s["if"])
+            self.assertIn("env.STAGE == 'M06' && needs.entrada.outputs.motor == 'motor2'", s["if"])
         # el ancla es la misma en todos los jobs de módulo: en M04/M05 los pasos existen pero no se cumplen
         self.assertEqual(jobs["m04"]["env"]["STAGE"], "M04")
 
@@ -208,13 +208,13 @@ class Flujos(unittest.TestCase):
 
 class FlujoFallaCerrado(unittest.TestCase):
     def setUp(self):
-        self.jobs = yaml.safe_load((WF / "_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8"))["jobs"]
+        self.jobs = yaml.safe_load((WF / "p20-distritos.yml").read_text(encoding="utf-8"))["jobs"]
 
     def _resolver(self, motor_, algoritmo):
         import subprocess  # noqa: PLC0415
         paso = next(s for s in self.jobs["resolve"]["steps"] if "motor desconocido" in str(s.get("run", "")))
-        guion = paso["run"].replace("${{ inputs.motor }}", motor_).replace(
-            "${{ inputs.optimization_algorithm }}", algoritmo)
+        guion = paso["run"].replace("${{ needs.entrada.outputs.motor }}", motor_).replace(
+            "${{ needs.entrada.outputs.optimization_algorithm }}", algoritmo)  # T-377: entradas del job `entrada`
         guion = guion.split("stage_num(){")[0]  # solo la comprobación del interruptor
         return subprocess.run(["bash", "-c", guion], capture_output=True, text=True).returncode
 
@@ -229,7 +229,7 @@ class FlujoFallaCerrado(unittest.TestCase):
         nombres = [str(s.get("name", "")) for s in pasos]
         i_emp = nombres.index("Empaquetar checkpoint acumulado del módulo")
         for i, s in enumerate(pasos):
-            if nombres[i].startswith("P30"):
+            if nombres[i].startswith("P26 "):
                 self.assertLess(i, i_emp)
                 self.assertNotIn("continue-on-error", s)
         # empaquetar y subir corren solo si todo lo anterior acabó bien (sin always()/failure())
@@ -237,7 +237,7 @@ class FlujoFallaCerrado(unittest.TestCase):
         subir = pasos[i_emp + 1]
         self.assertTrue(str(subir.get("uses", "")).startswith("actions/upload-artifact"))
         self.assertNotIn("if", subir)
-        rehacer = next(s for s in pasos if nombres[pasos.index(s)] == "P30 · rehacer M06 con el plan ganador")
+        rehacer = next(s for s in pasos if nombres[pasos.index(s)] == "P26 rehacer M06 con el plan ganador")
         self.assertIn("set -o pipefail", rehacer["run"])
 
     def test_n_y_funcion_de_una_sola_constante(self):
@@ -248,7 +248,7 @@ class FlujoFallaCerrado(unittest.TestCase):
         self.assertEqual((h["funcion"], h["cadenas"]), (p30.FUNCION, p30.CADENAS))
 
     def test_dependencias_no_cambian_el_entorno_base(self):
-        dep = next(s for s in self.jobs["m06"]["steps"] if s.get("name") == "P30 · dependencias del motor 2 (las de la batería)")
+        dep = next(s for s in self.jobs["m06"]["steps"] if s.get("name") == "P26 dependencias del motor 2 (las de la batería)")
         self.assertIn("comm -23", dep["run"])
         self.assertIn("requirements.lock", dep["run"])
         self.assertIn("--no-deps", dep["run"])
@@ -349,7 +349,7 @@ class MismaCompeticionQueLaBateria(unittest.TestCase):
         self.assertIn("geos", e)
         for m in ("gerrychain", "networkx", "rustworkx", "scipy", "numpy", "pandas", "shapely", "geopandas"):
             self.assertIn(m, e)
-        wf = (WF / "_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
+        wf = (WF / "p20-distritos.yml").read_text(encoding="utf-8")
         self.assertIn("PYTHONHASHSEED: '0'", wf)
         self.assertIn('for nombre in ("gerrychain", "networkx", "rustworkx", "scipy")', wf)
 

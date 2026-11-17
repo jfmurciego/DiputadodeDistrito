@@ -10,7 +10,7 @@ import unittest
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-WF = ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml"
+WF = ROOT / ".github/workflows/p20-distritos.yml"
 
 
 class GerryChainFailureDiagnosticContract(unittest.TestCase):

@@ -5,8 +5,8 @@ from herramientas.catalogo_territorios import format_territory_label, load_maste
 
 ROOT=Path(__file__).resolve().parents[1]
 WORKFLOWS=ROOT/".github"/"workflows"
-GEN=WORKFLOWS/"produccion-distritos.yml"
-ELECTORAL=WORKFLOWS/"incorporacion-resultados-electorales.yml"
+GEN=WORKFLOWS/"p20-distritos.yml"
+ELECTORAL=WORKFLOWS/"p30-resultados-electorales.yml"
 ALL_TERRITORIES=selector_labels(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")
 
 class WorkflowInterfaceInstitutional(unittest.TestCase):
@@ -20,20 +20,16 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         return ((triggers.get("workflow_dispatch") or {}).get("inputs",{}) or {})
 
     def test_generation_interface_name_and_controls(self):
-        self.assertEqual(self._load(GEN)["name"],"P20 Base territorial — P30 Distritos")
+        self.assertEqual(self._load(GEN)["name"],"P20 Distritos")  # T-377 (D-139)
         inputs=self._dispatch_inputs(GEN)
-        self.assertEqual(list(inputs),["territory_id","data_edition","execution_mode","optimization_algorithm"])
-        self.assertEqual(inputs["territory_id"]["options"],ALL_TERRITORIES)
-        self.assertEqual(inputs["data_edition"]["options"],["2025"])
-        self.assertEqual(inputs["execution_mode"]["options"],["Reutilizar progreso existente","Ejecutar desde el principio"])
-        self.assertEqual(inputs["optimization_algorithm"]["options"],["Canónico","GerryChain","GerryChain 25","GerryChain 50"])
+        self.assertEqual(list(inputs),["territorio","empezar_de_cero"])  # D-148: uno por ejecución
+        self.assertIn("data_edition=2025",self._load(GEN)["jobs"]["interfaz"]["steps"][-1]["run"])
 
     def test_electoral_incorporation_name_and_controls(self):
-        self.assertEqual(self._load(ELECTORAL)["name"],"P40 Resultados electorales")
+        self.assertEqual(self._load(ELECTORAL)["name"],"P30 Resultados electorales")
         inputs=self._dispatch_inputs(ELECTORAL)
-        self.assertEqual(list(inputs),["territory_id","data_edition"])
-        self.assertEqual(inputs["territory_id"]["options"],ALL_TERRITORIES)
-        self.assertEqual(inputs["data_edition"]["options"],["2025"])
+        self.assertEqual(list(inputs),["territorio"])  # T-376/D-148: un código; la edición (2025) va en el código
+        self.assertEqual(inputs["territorio"]["type"],"string")
 
     def test_no_redundant_human_confirmation_or_publish_switch(self):
         for path in (GEN,ELECTORAL):
@@ -43,7 +39,7 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
             self.assertNotIn("product",inputs)
         generation=GEN.read_text(encoding="utf-8")
         electoral=ELECTORAL.read_text(encoding="utf-8")
-        self.assertIn("execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION",generation)
+        self.assertIn("execution_authorization=EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION",generation)  # T-377: job `entrada`
         self.assertNotIn("publish_result:",generation)
         self.assertNotIn("publish_result:",electoral)
 
@@ -82,16 +78,16 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
 
     def test_interfaces_delegate_to_separate_reusable_chains(self):
         generation=self._load(GEN)
-        self.assertEqual(generation["jobs"]["ruta"]["uses"],"./.github/workflows/_reutilizable-generacion-territorial.yml")
+        self.assertIn("resolve",generation["jobs"])  # T-377: el motor va dentro de P20
         electoral=self._load(ELECTORAL)
-        self.assertEqual(electoral["jobs"]["incorporar"]["uses"],"./.github/workflows/_reutilizable-incorporacion-electoral.yml")
+        self.assertNotIn("uses",electoral["jobs"]["incorporar"])  # T-376: la incorporación va dentro (P30), sin reutilizable
 
     def test_routes_inherit_standard_credentials(self):
         generation=self._load(GEN)
         electoral=self._load(ELECTORAL)
-        self.assertEqual(generation["jobs"]["ruta"]["secrets"],"inherit")
-        self.assertEqual(electoral["jobs"]["incorporar"]["secrets"],"inherit")
-        for reusable in ("_reutilizable-generacion-territorial.yml","_reutilizable-incorporacion-electoral.yml"):
+        self.assertFalse(any("uses" in j for j in generation["jobs"].values()))  # T-377: sin reutilizables; secretos del propio run
+        self.assertNotIn("secrets",electoral["jobs"]["incorporar"])  # sin reutilizable no hay `secrets: inherit`: los pasos usan `secrets.*` directamente
+        for reusable in ("p20-distritos.yml","p30-resultados-electorales.yml"):
             text=(WORKFLOWS/reusable).read_text(encoding="utf-8")
             self.assertNotIn("DDD_WORKFLOW_TOKEN",text)
 
@@ -104,7 +100,9 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertNotIn("invocation_context",dispatch_inputs)
         self.assertNotIn("persist_state",dispatch_inputs)
         text=GEN.read_text(encoding="utf-8")
-        self.assertIn("persist_state: ${{ inputs.invocation_context != 'reusable' || inputs.persist_state }}",text)
+        # T-377: la regla de `ruta` la aplica ahora el job `entrada`; la fila del botón pasa invocation_context=boton (persiste).
+        self.assertIn('if [[ "$IN_INVOCATION_CONTEXT" != reusable || "$IN_PERSIST_STATE" == true ]]; then persist_state=true',text)
+        self.assertNotIn("invocation_context",dispatch_inputs)  # el botón: vacío ≠ reusable ⇒ persiste, como la 02
 
     def test_checkpoint_selection_and_engine_are_preserved(self):
         self.assertIn("python -m herramientas.seleccionar_checkpoint_productivo",GEN.read_text(encoding="utf-8"))

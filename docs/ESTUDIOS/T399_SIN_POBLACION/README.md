@@ -1,6 +1,6 @@
 # T-399 · 2011-11: secciones del seccionado 2012 sin fila en la tabla del Censo (D-158, opción B')
 
-Herramienta `herramientas/contrato_historico_epoca.py` 1.2.0, contratos 1.3.0. **B' = D-158 según el Coordinador/Planificador (17-11); pendiente de confirmar literal por el propietario** (PR con `no-automerge`). Sobre el análisis de `docs/ESTUDIOS/T399_2011_SIN_POBLACION/`. La opción A (seccionado del Censo y excepciones M07) queda retirada.
+Herramienta `herramientas/contrato_historico_epoca.py` 1.3.0, contratos 1.3.0. **B' = D-158 según el Coordinador/Planificador (17-11); pendiente de confirmar literal por el propietario** (PR con `no-automerge`). Sobre el análisis de `docs/ESTUDIOS/T399_2011_SIN_POBLACION/`. La opción A (seccionado del Censo y excepciones M07) queda retirada.
 
 El seccionado de 2011-11 sigue siendo el de 2012. De las 105 secciones del seccionado sin fila en la tabla del Censo 2011:
 
@@ -15,6 +15,6 @@ El seccionado de 2011-11 sigue siendo el de 2012. De las 105 secciones del secci
 
 **Criterio del 1 % (a decidir):** se aplica el precedente de D-128 («criterio conservador»): madre e hijas cuentan ENTERAS como estimadas, lo que bloquea por relleno a 15, 22, 29, 34, 47 y 51 (1,37-3,04 %). Si solo contara la población movida a las hijas más la rellenada, solo 36 (2,64 %) y 51 (1,70 %) superarían el 1 %.
 
-Motor real (`cadena`, M01-M08): nac21, 31, 37, 43, 45 y 11 (con hijas) dan `perdidos` = 0 y la puerta PASS. nac10 y nac07 fallan antes, en M01 (`GEOMETRY_INVALID`: T-402, #886); nac14 falla en M04 («invalid administrative component source binding», no relacionado con D-158).
+Motor real (`cadena`, M01-M08, con la normalización de geometría de T-402): nac10, 11, 21, 31, 37, 41, 43 y 45 dan `perdidos` = 0 y la puerta PASS. nac14 falla en M04 («invalid administrative component source binding») y nac07 (Baleares) en M04 («need=8 > unidades abiertas=0», islas): ajenos a D-158.
 
 Informes (derivados del contrato, `informe_poblacion`): `informe_provincias.csv` y `cuadre_municipal.csv`.

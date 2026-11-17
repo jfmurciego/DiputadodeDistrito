@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.496
+Versión: 1.0.503
 Fecha: 2026-11-17
-Alcance: T-397 — Nombres de la lista de Actions: fusión y revisor bajo P90
+Alcance: T-404 — Plan 1.0.62: D-156 corregida, D-158 a D-160 y traspaso del Planificador
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-17_t397-nombres-p90.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.495_registro_20261117.md
+Cambios/motivo: entrada docs/registro/2026-11-17_planificador-plan-1-0-62.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.502_registro_20261117.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,13 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.495_registro_20261117.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.503 · [2026-11-17 — T-404 — Plan 1.0.62: D-156 corregida, D-158 a D-160 y traspaso del Planificador](registro/2026-11-17_planificador-plan-1-0-62.md)
+- 1.0.502 · [2026-11-17 — T-401 — Plan 1.0.61: D-156, D-157 y estados tras la noche](registro/2026-11-17_planificador-plan-1-0-61.md)
+- 1.0.501 · [2026-11-17 — T-379 PR 4 — IA de cierre por campaña en P90 (sustituye al forense por cada 00)](registro/2026-11-17_t379-p90-ia-cierre.md)
+- 1.0.500 · [2026-11-16 — T-377 — P20 Distritos sustituye a la 02 y al reutilizable de generación; se retira P28 Alternativas](registro/2026-11-16_t377-p20-distritos.md)
+- 1.0.499 · [2026-11-16 — T-376 — P30 Resultados electorales sustituye a la incorporación electoral y su reutilizable](registro/2026-11-16_t376-p30-resultados-electorales.md)
+- 1.0.498 · [2026-11-16 — T-375 — P10 Fuentes sustituye a preparacion-fuentes y preparacion-resultados-electorales](registro/2026-11-16_t375-p10-fuentes.md)
+- 1.0.497 · [2026-11-17 — T-396 — Histórico por época: secciones sin geometría en el seccionado del año asignadas o excluidas (D-153)](registro/2026-11-17_claude-t396-sin-seccionado.md)
 - 1.0.496 · [2026-11-17 — T-397 — Nombres de la lista de Actions: fusión y revisor bajo P90](registro/2026-11-17_t397-nombres-p90.md)
 - 1.0.495 · [2026-11-17 — T-395 — Diseño de P43: publicación del histórico por fecha de elección (solo documento)](registro/2026-11-17_t395-p43-historico.md)
 - 1.0.494 · [2026-11-17 — T-398 — Plan 1.0.60: D-151 a D-155 y cola T-395 a T-398](registro/2026-11-17_planificador-plan-1-0-60.md)

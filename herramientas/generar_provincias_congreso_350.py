@@ -2,11 +2,14 @@
 """Alta del producto paralelo «Congreso 350»: un territorio por provincia con K = escaños reales de 2023.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.2 · FECHA: 2026-11-12 · ESTADO: candidato
+VERSIÓN: 1.0.4 · FECHA: 2026-11-17 · ESTADO: candidato
+CAMBIOS 1.0.4 (T-377, D-139): `produccion-distritos.yml` sale de WORKFLOWS: P20 Distritos (`p20-distritos.yml`) no tiene selector de territorios (códigos).
+ANTERIOR (1.0.3): legacy/herramientas/generar_provincias_congreso_350_v1.0.3_20261117.py
 CAMBIOS 1.0.1 (T-214): la fila del gemelo se deriva sin `notacion` ni `id_legacy` del padre (catálogo 1.8.0):
   el gemelo 350 queda fuera del corte (D-76) y el `k_rationale` final vuelve a casar.
 CAMBIOS 1.0.2 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/generar_provincias_congreso_350_v1.0.1_20261112.py
+CAMBIOS 1.0.3: T-375 (D-136): deja de escribir la lista de territorios en P10 (preparacion-fuentes.yml y preparacion-resultados-electorales.yml ya no tienen selector).
+ANTERIOR: legacy/herramientas/generar_provincias_congreso_350_v1.0.2_20261116.py
 QUÉ HACE: T-102 (decisión D-19 del propietario). Para cada provincia del Congreso ya dada de alta
   (`nacNN`, K de N06, 407 distritos) crea su gemelo `congreso350_<prov>` con
   K = escaños de la circunscripción en las generales del 23-07-2023, leídos del CSV oficial
@@ -42,8 +45,8 @@ PREFIX = "congreso350_"
 LABEL_PREFIX = "Congreso 350 "
 VARIANT = "congreso_350"
 WORKFLOWS = (
-    "ejecucion-completa-proyecto.yml", "incorporacion-resultados-electorales.yml", "preparacion-fuentes.yml",
-    "preparacion-legislatura-vigente.yml", "preparacion-resultados-electorales.yml", "produccion-distritos.yml",
+    "ejecucion-completa-proyecto.yml", "p30-resultados-electorales.yml",
+    "preparacion-legislatura-vigente.yml",
 )
 
 

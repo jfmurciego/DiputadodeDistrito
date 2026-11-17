@@ -142,7 +142,7 @@ class DurableM06ManifestTests(unittest.TestCase):
 
     def test_workflow_records_real_checkout_sha_and_requires_source_lineage(self):
         root = Path(__file__).resolve().parents[1]
-        workflow = (root / ".github/workflows/_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
+        workflow = (root / ".github/workflows/p20-distritos.yml").read_text(encoding="utf-8")
         self.assertIn('checkout_sha="$(git rev-parse HEAD)"', workflow)
         self.assertIn('--checkout-sha "$checkout_sha"', workflow)
         self.assertIn("--source-commit '$checkout_sha'", workflow)  # T-360: dentro de la orden re-derivada

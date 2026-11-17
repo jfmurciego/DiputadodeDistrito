@@ -6,7 +6,7 @@ from herramientas.evaluar_persistencia_preparacion import resolve_persist_state
 from herramientas.catalogo_territorios import format_territory_label, load_master, normalize_territory_input
 
 ROOT = Path(__file__).resolve().parents[1]
-WORKFLOW = ROOT / ".github/workflows/preparacion-fuentes.yml"
+WORKFLOW = ROOT / "tests/fixtures/p10_vistas/_p11-territoriales.yml"
 CURRENT = ROOT / "configuracion/preparacion_legislatura_vigente.yaml"
 MASTER = ROOT / "configuracion/catalogo_territorios_espana_2025.yaml"
 
@@ -54,7 +54,9 @@ class RecoverUnregisteredSourceContract(unittest.TestCase):
     def test_manual_selector_resolves_all_19_current_territories(self):
         workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
         event = workflow.get("on") or workflow.get(True)
-        options = event["workflow_dispatch"]["inputs"]["territory_id"]["options"]
+        # T-375: el selector por nombre ya no existe (P10 Fuentes recibe códigos); se comprueba el catálogo vivo.
+        from herramientas.catalogo_territorios import selector_labels as _etiquetas
+        options = _etiquetas(ROOT / "configuracion/catalogo_territorios_espana_2025.yaml")
         current = yaml.safe_load(CURRENT.read_text(encoding="utf-8")) or {}
         rows = current.get("territories") or []
 
@@ -97,9 +99,10 @@ class RecoverUnregisteredSourceContract(unittest.TestCase):
     def test_exact_recovery_never_uses_acquisition_or_unverified_history(self):
         workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
         event = workflow.get("on") or workflow.get(True)
-        manual = event["workflow_dispatch"]["inputs"]
+        p10 = yaml.safe_load((Path(__file__).resolve().parents[1] / ".github/workflows/p10-fuentes.yml").read_text(encoding="utf-8"))
+        manual = (p10.get("on") or p10.get(True))["workflow_dispatch"]["inputs"]
         reusable = event["workflow_call"]["inputs"]
-        self.assertEqual(list(manual), ["territory_id"])
+        self.assertEqual(list(manual), ["tipo", "territorio", "eleccion", "regenerar"])
         self.assertNotIn("recover_run_id", manual)
         self.assertNotIn("recover_artifact_sha256", manual)
         self.assertIn("recover_run_id", reusable)

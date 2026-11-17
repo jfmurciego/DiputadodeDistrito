@@ -45,7 +45,7 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
 - «Reutilizar progreso existente» reutiliza checkpoints M04 aunque haya cambiado el contrato. Tras cambiar umbrales,
   motor o fuente, usa «Generar desde fuente territorial acreditada» o «Ejecutar desde el principio».
 - Si cambia el producto territorial (M06), el par electoral queda incompatible (`TERRITORIAL_READY_PAIR_INCOMPATIBLE`):
-  1. si el paquete electoral ha caducado → `preparacion-resultados-electorales.yml` con reutilizar=false;
+  1. si el paquete electoral ha caducado → `p10-fuentes.yml` (P10 Fuentes, tipo P12 electorales, «regenerar»);
   2. `preparacion-legislatura-vigente.yml` `prepare_one` del territorio;
   3. 00 en «Reutilizar progreso existente» (hace 03/04).
 - Los artefactos de Actions caducan; un producto viejo puede ser válido en el catálogo y no descargable.
