@@ -5,6 +5,7 @@
 # CAMBIOS 1.0.1: T-379 PR 2b (D-163, 2b mínima): `contents: read` en todo el fichero (el push a main va con el token de la app de registro,
 #   que no depende de GITHUB_TOKEN: `contents: read` NO es barrera para ese push; sin la app, la credencial falla en vez de caer en github.token);
 #   entrada oculta `campana` (workflow_call; vacía = como antes). Con campaña, los jobs (en P30, los pasos) que registran en main se saltan.
+#   Con campaña, P10 fuerza `persist_state=false` (P11 y P12): sin registro, `p11_resultado`/`p12_resultado` terminan en verde (PERSISTENCE_NOT_REQUIRED).
 # ANTERIOR (1.0.0): legacy/workflows/p10-fuentes_v1.0.0_20261117b.yml
 # FECHA: 2026-11-17
 # ESTADO: candidato
@@ -121,7 +122,7 @@ jobs:
           SECTION_YEAR_INPUT: ${{ inputs.section_year || '' }}
           REUSE_INPUT: ${{ toJSON(inputs.reutilizar_si_ya_preparada) }}
           REGENERAR_INPUT: ${{ inputs.regenerar }}
-          PERSIST_INPUT: ${{ toJSON(inputs.persist_state) }}
+          PERSIST_INPUT: ${{ inputs.campana && 'false' || toJSON(inputs.persist_state) }}
           RECOVERY_RUN_ID: ${{ inputs.recover_run_id || '' }}
           RECOVERY_SHA256: ${{ inputs.recover_artifact_sha256 || '' }}
         run: |

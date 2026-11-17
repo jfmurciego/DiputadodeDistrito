@@ -4,6 +4,8 @@
 # CAMBIOS 1.0.1: T-379 PR 2b (D-163, 2b mínima): `contents: read` en todo el fichero (el push a main va con el token de la app de registro,
 #   que no depende de GITHUB_TOKEN: `contents: read` NO es barrera para ese push; sin la app, la credencial falla en vez de caer en github.token);
 #   entrada oculta `campana` (workflow_call; vacía = como antes). Con campaña, los jobs (en P30, los pasos) que registran en main se saltan.
+#   `m04` depende también de `pre_m04_evidence` (éxito o saltado; §3, decisión B): hoy nunca corren juntos (preflight_only los separa), así que
+#   sin campaña nada cambia; la serie queda en el grafo y no solo en que se salte el job de registro.
 # ANTERIOR (1.0.0): legacy/workflows/p20-distritos_v1.0.0_20261117b.yml
 # FECHA: 2026-11-16
 # ESTADO: candidato
@@ -1748,12 +1750,12 @@ jobs:
 
   m04:
     name: P24 Formación inicial de distritos
-    needs: [entrada, resolve, internal_units]
+    needs: [entrada, resolve, internal_units, pre_m04_evidence]  # T-379 2b (§3, decisión B): m04 en serie tras pre_m04_evidence (éxito o saltado)
     concurrency:
       group: ddd-territorial-prod-${{ needs.resolve.outputs.territory_id }}-${{ inputs.data_edition || '2025' }}
       cancel-in-progress: false
       queue: max
-    if: ${{ always() && !(needs.entrada.outputs.preflight_only == 'true') && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 4 && fromJSON(needs.resolve.outputs.to_num) >= 4 && needs.internal_units.result == 'success' }}
+    if: ${{ always() && !(needs.entrada.outputs.preflight_only == 'true') && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 4 && fromJSON(needs.resolve.outputs.to_num) >= 4 && needs.internal_units.result == 'success' && (needs.pre_m04_evidence.result == 'success' || needs.pre_m04_evidence.result == 'skipped') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 240
     env: {PARAMS: "${{ needs.resolve.outputs.params }}", RUN_ID: "${{ needs.resolve.outputs.run_id }}", CACHE_DIR: "${{ needs.resolve.outputs.cache_dir }}", RUNS_DIR: "${{ needs.resolve.outputs.runs_dir }}", STAGE: M04, PREVIOUS_STAGE: M03U, PREVIOUS_RESULT: "${{ needs.internal_units.result }}", CHECKPOINT_RUN_ID: "${{ needs.entrada.outputs.checkpoint_run_id }}"}

@@ -18,7 +18,7 @@ from pathlib import Path
 
 import yaml
 
-from tests._t379_2b import SIN_CAMPANA, deshacer
+from tests._t379_2b import M04_SERIE, PERSIST_CAMPANA, SIN_CAMPANA, deshacer
 from tests._uses_sin_version import cargar
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -172,6 +172,43 @@ class Permisos(Base):
                         self.assertIn("exit 1", s["run"].split("\n")[1], (n, j))
 
 
+class Persistencia(Base):
+    """Con campaña, P10 fuerza `persist_state=false`: sin él, `p11_resultado`/`p12_resultado` darían FAILURE REGISTRATION_SKIPPED (exit 56)."""
+
+    def resueltos(self, d):
+        out = []
+        for j in ("p11_resolver", "p12_resolver"):
+            for s in d["jobs"][j]["steps"]:
+                if "PERSIST_INPUT" in (s.get("env") or {}):
+                    out.append((j, s["env"]["PERSIST_INPUT"]))
+        return out
+
+    def test_campana_fuerza_sin_persistencia(self):
+        self.assertEqual(self.resueltos(self.docs["p10-fuentes"]), [("p11_resolver", PERSIST_CAMPANA), ("p12_resolver", PERSIST_CAMPANA)])
+
+    def test_terminal_con_registro_saltado(self):
+        import subprocess
+        import sys
+        import json
+        def terminal(persist):
+            r = subprocess.run([sys.executable, "herramientas/evaluar_persistencia_preparacion.py", "terminal", "--preparation-result", "success",
+                                "--registration-result", "skipped", "--persist-state", persist], cwd=ROOT, capture_output=True, text=True)
+            return r.returncode, r.stdout
+        rc, out = terminal("false")
+        self.assertEqual(rc, 0, out)
+        self.assertIn("PERSISTENCE_NOT_REQUIRED", out)
+        rc, out = terminal("true")  # control negativo: lo que pasaría sin forzar
+        self.assertNotEqual(rc, 0)
+        self.assertIn("REGISTRATION_SKIPPED", out)
+
+    def test_control_negativo_persistencia(self):
+        d = copy.deepcopy(self.docs["p10-fuentes"])
+        for s in d["jobs"]["p12_resolver"]["steps"]:
+            if "PERSIST_INPUT" in (s.get("env") or {}):
+                s["env"]["PERSIST_INPUT"] = "${{ toJSON(inputs.persist_state) }}"
+        self.assertNotEqual(self.resueltos(d), self.resueltos(self.docs["p10-fuentes"]))
+
+
 class Registro(Base):
     def test_lista_cerrada_y_condicion_de_campana(self):
         self.assertEqual(registro_sin_condicion(self.docs), [])
@@ -197,9 +234,17 @@ class RutaDeCampana(Base):
             with self.subTest(rama=rama):
                 self.assertEqual(paralelos(ruta_de_campana(self.docs["p10-fuentes"], prefijo)), [])
 
+    def test_m04_detras_de_pre_m04_evidence(self):
+        m04 = self.docs["p20-distritos"]["jobs"]["m04"]
+        self.assertIn("pre_m04_evidence", m04["needs"])
+        self.assertTrue(m04["if"].endswith(M04_SERIE))  # en éxito o saltado (hoy, sin campaña, siempre saltado cuando m04 corre)
+        self.assertIn("!(needs.entrada.outputs.preflight_only == 'true')", m04["if"])
+        self.assertIn("(needs.entrada.outputs.preflight_only == 'true')", self.docs["p20-distritos"]["jobs"]["pre_m04_evidence"]["if"])
+
     def test_control_negativo_serie(self):
         d = copy.deepcopy(self.docs["p20-distritos"])
-        d["jobs"]["pre_m04_evidence"]["if"] = "${{ always() }}"  # deja de saltarse con campaña: corre a la vez que m04
+        d["jobs"]["pre_m04_evidence"]["if"] = "${{ always() }}"  # deja de saltarse con campaña
+        d["jobs"]["m04"]["needs"] = ["entrada", "resolve", "internal_units"]  # y m04 ya no espera
         self.assertIn(("m04", "pre_m04_evidence"), paralelos(ruta_de_campana(d)))
 
     @staticmethod

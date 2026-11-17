@@ -5,6 +5,7 @@
 # CAMBIOS 1.0.1: T-379 PR 2b (D-163, 2b mínima): `contents: read` en todo el fichero (el push a main va con el token de la app de registro,
 #   que no depende de GITHUB_TOKEN: `contents: read` NO es barrera para ese push; sin la app, la credencial falla en vez de caer en github.token);
 #   entrada oculta `campana` (workflow_call; vacía = como antes). Con campaña, los jobs (en P30, los pasos) que registran en main se saltan.
+#   Con campaña, P10 fuerza `persist_state=false` (P11 y P12): sin registro, `p11_resultado`/`p12_resultado` terminan en verde (PERSISTENCE_NOT_REQUIRED).
 # ANTERIOR (1.0.0): legacy/workflows/p10-fuentes_v1.0.0_20261117b.yml
 # FECHA: 2026-11-17
 # ESTADO: candidato
@@ -117,7 +118,7 @@ jobs:
         with: {ref: '${{ inputs.source_ref || github.sha }}', token: '${{ github.token }}'}
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - id: resolve
-        env: {TERRITORY: '${{ inputs.territory_id }}', EDITION: '${{ inputs.data_edition }}', PERSIST_INPUT: '${{ toJSON(inputs.persist_state) }}', ELECCION: '${{ inputs.eleccion }}'}
+        env: {TERRITORY: '${{ inputs.territory_id }}', EDITION: '${{ inputs.data_edition }}', PERSIST_INPUT: "${{ inputs.campana && 'false' || toJSON(inputs.persist_state) }}", ELECCION: '${{ inputs.eleccion }}'}
         run: |
           set -euo pipefail
           persist_json="$(python herramientas/evaluar_persistencia_preparacion.py resolve --requested "$PERSIST_INPUT")"

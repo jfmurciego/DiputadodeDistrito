@@ -10,6 +10,9 @@ FALLBACK = 'if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro 
 SIN_FALLBACK = ('if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "::error::Sin la app de registro (DDD_REGISTRO_APP_*): '
                 'GITHUB_TOKEN es de solo lectura (T-379 2b, D-163)."; exit 1; fi')
 LECTURA = {"contents": "read", "actions": "read"}
+PERSIST_CAMPANA = "${{ inputs.campana && 'false' || toJSON(inputs.persist_state) }}"
+PERSIST_ANTES = "${{ toJSON(inputs.persist_state) }}"
+M04_SERIE = " && (needs.pre_m04_evidence.result == 'success' || needs.pre_m04_evidence.result == 'skipped') }}"
 
 
 def _on(d):
@@ -32,7 +35,12 @@ def deshacer(nombre, doc):
             job["if"] = "${{ " + m.group(1) + " }}" if m else cond[: -len(SIN_CAMPANA)] + " }}"
         if nombre_job == "resolver_interfaz" and job.get("permissions") == LECTURA:
             job["permissions"] = {"contents": "write", "actions": "read", "issues": "write"}
+        if nombre_job == "m04" and "pre_m04_evidence" in (job.get("needs") or []):
+            job["needs"] = [n for n in job["needs"] if n != "pre_m04_evidence"]
+            job["if"] = job["if"].replace(M04_SERIE, " }}")
         for paso in job.get("steps") or []:
+            if isinstance(paso.get("env"), dict) and paso["env"].get("PERSIST_INPUT") == PERSIST_CAMPANA:
+                paso["env"]["PERSIST_INPUT"] = PERSIST_ANTES
             if isinstance(paso.get("if"), str) and paso["if"].endswith(SIN_CAMPANA):
                 paso["if"] = paso["if"][: -len(SIN_CAMPANA)] + " }}"
             if isinstance(paso.get("run"), str) and SIN_FALLBACK in paso["run"]:
