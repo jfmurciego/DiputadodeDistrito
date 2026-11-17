@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.511
+Versión: 1.0.512
 Fecha: 2026-11-17
-Alcance: T-383 — Documentación al día con los workflows migrados (D-142)
+Alcance: T-407 — Plan 1.0.64: D-163, D-164 y corrección de D-161
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-17_t383-docs-workflows.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.510_registro_20261117.md
+Cambios/motivo: entrada docs/registro/2026-11-17_planificador-plan-1-0-64.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.511_registro_20261117.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.510_registro_20261117.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.512 · [2026-11-17 — T-407 — Plan 1.0.64: D-163, D-164 y corrección de D-161](registro/2026-11-17_planificador-plan-1-0-64.md)
 - 1.0.511 · [2026-11-17 — T-383 — Documentación al día con los workflows migrados (D-142)](registro/2026-11-17_t383-docs-workflows.md)
 - 1.0.510 · [2026-11-17 — T-405 — nac14 2011-11: municipio no conexo (Fuente Palmera) sin acreditación topológica](registro/2026-11-17_t405-topologia-fuente-palmera.md)
 - 1.0.509 · [2026-11-17 — T-403 — Relevo automático de chats (D-160)](registro/2026-11-17_t403-relevo-chats.md)
