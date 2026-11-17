@@ -84,9 +84,11 @@ permissions:
 
 # Un solo grupo por ejecución de este fichero, el que tenía cada ruta: «generar» el de produccion-distritos.yml (que llevaba dentro el del motor),
 # «acreditar» el del reutilizable y el botón el de la 02 con lo que escribió el usuario (el botón viejo usaba la etiqueta del selector).
-# Además (Planificador, 17-11), cada job del motor salvo `resolve` lleva el grupo `ddd-p20-territorio-<id canónico>` (el `territory_id` que `resolve` saca
+# Además (Planificador, 17-11), cada job del motor salvo `resolve` y los tres que registran en main (`pre_m04_evidence`, `pre_m04_diagnostic`,
+# `registrar`: sin grupo único, T-360) lleva el grupo `ddd-p20-territorio-<id canónico>` (el `territory_id` que `resolve` saca
 # del contrato): botón, «generar» y «acreditar» del mismo territorio nunca tienen dos jobs del motor a la vez (antes, la ruta «generar» anidaba el grupo
-# del reutilizable; ahora no hay anidamiento). Es por job: dos ejecuciones pueden alternar jobs, pero nunca escribir a la vez.
+# del reutilizable; ahora no hay anidamiento). Es por job: dos ejecuciones pueden alternar jobs. El registro en main (los tres sin grupo) lo
+# re-deriva y reintenta herramientas/registrar_en_main.py (T-360), como antes.
 concurrency:
   group: ${{ format('{0}', inputs.territory_id) != '' && format('ddd-territorial-prod-{0}-{1}', inputs.territory_id, inputs.data_edition) || (format('{0}', inputs.territorio) != '' && format('ddd-territorial-prod-{0}-2025', inputs.territorio) || format('ddd-territorial-engine-{0}', inputs.params)) }}
   cancel-in-progress: false
@@ -1449,10 +1451,6 @@ jobs:
   pre_m04_evidence:
     name: P24 Acreditar evidencia durable previa a Formación inicial
     needs: [entrada, resolve, internal_units]
-    concurrency:
-      group: ddd-p20-territorio-${{ needs.resolve.outputs.territory_id }}
-      cancel-in-progress: false
-      queue: max
     if: ${{ always() && (needs.entrada.outputs.preflight_only == 'true') && (needs.entrada.outputs.persist_state == 'true') && needs.resolve.result == 'success' && needs.internal_units.result == 'success' }}
     runs-on: ubuntu-24.04
     outputs:
@@ -1584,10 +1582,6 @@ jobs:
   pre_m04_diagnostic:
     name: P24 Registrar evaluación no habilitante de generación
     needs: [entrada, resolve, official_sources, m01, m02, m03, internal_units, pre_m04_evidence]
-    concurrency:
-      group: ddd-p20-territorio-${{ needs.resolve.outputs.territory_id }}
-      cancel-in-progress: false
-      queue: max
     if: ${{ always() && (needs.entrada.outputs.preflight_only == 'true') && (needs.entrada.outputs.persist_state == 'true') && needs.resolve.result == 'success' && needs.pre_m04_evidence.result != 'success' }}
     runs-on: ubuntu-24.04
     outputs:
@@ -2003,10 +1997,6 @@ jobs:
   registrar:
     name: P26 Registrar producto territorial
     needs: [entrada, resolve, m04, m05, m06, auditoria]
-    concurrency:
-      group: ddd-p20-territorio-${{ needs.resolve.outputs.territory_id }}
-      cancel-in-progress: false
-      queue: max
     if: ${{ always() && needs.resolve.result == 'success' && needs.auditoria.result == 'success' && (needs.entrada.outputs.persist_state == 'true') }}
     runs-on: ubuntu-24.04
     env:

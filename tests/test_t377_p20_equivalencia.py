@@ -37,6 +37,7 @@ ETIQUETAS = {"resolve": "P20", "official_sources": "P21", "m01": "P21", "m02": "
              "registrar": "P26"}
 BOOLEANAS = ("persist_state", "preflight_only", "require_unique_hashes")
 # Mitigación exigida por el Planificador (17-11): un motor por territorio a la vez en toda ruta (id canónico del contrato, salida de `resolve`).
+SIN_GRUPO = ("resolve", "pre_m04_evidence", "pre_m04_diagnostic", "registrar")  # los que registran en main, sin grupo único (T-360)
 MITIGACION = {"group": "ddd-p20-territorio-${{ needs.resolve.outputs.territory_id }}", "cancel-in-progress": False, "queue": "max"}
 
 
@@ -69,7 +70,7 @@ def diferencias_motor(viejo: dict, nuevo: dict) -> list[str]:
         esperado = json.loads(motor_normalizado(json.dumps(a, ensure_ascii=False)))
         esperado["name"] = f"{ETIQUETAS[k]} {a['name']}"
         esperado["needs"] = ["entrada"] + list(a["needs"]) if "needs" in a else "entrada"
-        if k != "resolve":
+        if k not in SIN_GRUPO:
             esperado["concurrency"] = MITIGACION
         for clave in sorted(set(esperado) | set(b)):
             if esperado.get(clave) != b.get(clave):
@@ -127,10 +128,10 @@ class Boton(Congelado):
             self.assertEqual(b.pop("uses"), "./.github/workflows/p20-distritos.yml")
             a.pop("uses")
             self.assertEqual(a, b, job)
-        a, b = copy.deepcopy(self.c00v["jobs"]), copy.deepcopy(n["jobs"])
-        for job in ("acreditar_generacion", "generar"):
-            a[job].pop("uses"), b[job].pop("uses")
-        self.assertEqual(a, b)  # el resto de la 00, intacto
+        # El resto de la 00 lo cambian otras PR de la migración (T-375 P10, T-376 P30): aquí solo que nadie más llama a P20 ni a lo borrado.
+        for job, d in n["jobs"].items():
+            if job not in ("acreditar_generacion", "generar"):
+                self.assertNotIn("p20-distritos", str(d.get("uses", "")), job)
 
     def test_un_territorio_por_ejecucion_sin_autollamada(self):
         """D-148: GitHub no admite bucles entre workflows; sin matriz ni `uses:` en P20 (varios territorios, con P00)."""
@@ -187,7 +188,7 @@ class Equivalencia(Congelado):
                          " || (format('{0}', inputs.territorio) != '' && format('ddd-territorial-prod-{0}-2025', inputs.territorio)"
                          " || format('ddd-territorial-engine-{0}', inputs.params)) }}")
         for k, job in self.p["jobs"].items():
-            if k in self.ru["jobs"] and k != "resolve":
+            if k in self.ru["jobs"] and k not in SIN_GRUPO:
                 self.assertEqual(job["concurrency"], MITIGACION, k)  # el motor, un territorio a la vez
             else:
                 self.assertNotIn("concurrency", job, k)
@@ -390,7 +391,8 @@ class Negativos(Congelado):
             "m01.environment": lambda n: n["jobs"]["m01"].__setitem__("environment", "produccion"),
             "m02.name": lambda n: n["jobs"]["m02"].__setitem__("name", "Adyacencias territoriales"),
             "resolve.falta": lambda n: n["jobs"].pop("resolve"),
-            "registrar.concurrency": lambda n: n["jobs"]["registrar"].pop("concurrency"),  # sin la mitigación
+            "m04.concurrency": lambda n: n["jobs"]["m04"].pop("concurrency"),  # sin la mitigación
+            "registrar.concurrency": lambda n: n["jobs"]["registrar"].__setitem__("concurrency", MITIGACION),  # grupo en un registro (T-360)
         }
         for esperado, tocar in casos.items():
             n = copy.deepcopy(self.p)
