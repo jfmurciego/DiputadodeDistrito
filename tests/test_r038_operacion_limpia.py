@@ -32,7 +32,7 @@ class R038OperacionLimpia(unittest.TestCase):
         raw_inputs = data[True]["workflow_dispatch"]["inputs"]
         # T-377 (D-139): botón P20 con códigos y «empezar de cero»; los modos viejos se traducen en la matriz.
         self.assertEqual(list(raw_inputs), ["territorio", "empezar_de_cero"])  # D-148
-        self.assertIn("'Ejecutar desde el principio' || 'Reutilizar progreso existente'", text)
+        self.assertIn("execution_mode='Ejecutar desde el principio'; else execution_mode='Reutilizar progreso existente'", text)
         self.assertNotIn("product", raw_inputs)
         self.assertNotIn("publish_result", raw_inputs)
         self.assertNotIn("confirmar_ejecucion", raw_inputs)
@@ -43,7 +43,7 @@ class R038OperacionLimpia(unittest.TestCase):
         self.assertNotIn("to_stage:", raw_inputs)
         self.assertNotIn("checkpoint_run_id:", raw_inputs)
         self.assertIn("${{ inputs.territory_id }}", text)
-        self.assertIn("p20-distritos.yml", text)
+        self.assertIn("needs.entrada.outputs.params", text)  # T-377: el motor va dentro (antes llamaba al reutilizable)
         routes = (ROOT / "herramientas" / "resolver_producto_produccion.py").read_text(encoding="utf-8")
         self.assertIn('"Distritos":{"to_stage":"M06"', routes)
         self.assertIn('"Resultados electorales":{"to_stage":"M08","checkpoint_policy":"require_m06"', routes)

@@ -18,7 +18,7 @@ class ProductRoutingDesignA(unittest.TestCase):
         # T-377 (D-139): códigos y «empezar de cero» (desmarcado = reutilizar); la estrategia sale del botón (Canónico).
         self.assertEqual(list(inputs(GEN)),["territorio","empezar_de_cero"])  # D-148: uno por ejecución
         self.assertIs(inputs(GEN)["empezar_de_cero"]["default"],False)
-        self.assertIn("'Ejecutar desde el principio' || 'Reutilizar progreso existente'",GEN.read_text(encoding="utf-8"))
+        self.assertIn("execution_mode='Ejecutar desde el principio'; else execution_mode='Reutilizar progreso existente'",GEN.read_text(encoding="utf-8"))
 
     def test_electoral_incorporation_form_has_only_territory_and_edition(self):
         self.assertEqual(list(inputs(ELECTORAL)),["territory_id","data_edition"])
