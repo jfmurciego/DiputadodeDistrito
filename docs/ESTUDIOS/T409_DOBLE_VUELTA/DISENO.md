@@ -1,0 +1,136 @@
+# T-409 · Doble vuelta con coaliciones — diseño (solo documento)
+
+VERSIÓN: 1.3.1 · FECHA: 2026-11-17 · ESTADO: respuestas del propietario relayadas por el Planificador · ANTERIOR: 1.3.0 (misma PR, sin publicar)
+
+Estado: v2 (17-11): incorpora las respuestas del propietario relayadas por el Planificador («sí a todo»). Base: D-167. No toca código ni datos. Implementación tras
+la migración P (D-165/D-166, T-313).
+
+## 1. Escenarios
+
+Bloques (cada partido homologado en uno solo; tabla en `configuracion/bloques_partidos_2026-11-17.csv`):
+1 Izquierdas, 2 Nacionalistas, 3 Patriotas. Partido sin bloque = «independiente».
+
+| Escenario | Quién se coaliga en primera vuelta | Va por partido |
+|---|---|---|
+| `primero` (actual, se conserva) | — | todos; gana el más votado, sin segunda vuelta |
+| `dv_base` (referencia) | nadie | todos |
+| `dv_A` | los tres bloques a la vez (cada uno, una candidatura) | los sin bloque |
+| `dv_B` (el «4») | solo 1 Izquierdas y 3 Patriotas | 2 Nacionalistas (por partido) y los sin bloque |
+
+«Coaligado» = se suman los votos reales de sus partidos en el distrito (sin tasas inventadas) y compite como
+candidatura única.
+
+## 2. Reglas por distrito (operativas)
+
+1. Candidaturas = partidos, salvo los bloques coaligados del escenario (suma de votos).
+2. **Primera vuelta**: si una candidatura tiene >50 % de la base (§4), gana. Sin segunda vuelta.
+3. **Segunda vuelta**: finalistas = las dos más votadas. Cada candidatura eliminada transfiere **todos** sus votos al
+   finalista de su mismo bloque (si el finalista es una candidatura-bloque, o un partido del mismo bloque). Si su bloque
+   no tiene finalista, o no tiene bloque → **abstención** (no suma a nadie). Un finalista conserva sus votos.
+4. Gana el finalista con más votos de la segunda vuelta; su cuota = votos / suma de votos de ambos finalistas
+   (los abstenidos no cuentan).
+5. Dos finalistas del mismo bloque (bloque no coaligado): los eliminados de ese bloque van al más votado de los dos
+   en la primera vuelta (pregunta 4).
+6. Sin ≥2 candidaturas con votos no hay segunda vuelta: gana la única.
+
+## 3. Empates y casos límite
+
+- Empate por el segundo puesto (2.º = 3.º): se desempata por orden alfabético del id canónico y
+  `empate=true` en la salida (determinista, repetible). Recomendación; ver pregunta 3.
+- Empate en la segunda vuelta: igual criterio, `empate=true`.
+- Distrito sin votos (total 0): sin ganador, `ganador` vacío.
+- Votos en blanco/nulos: fuera (los datos agregados son por candidatura).
+
+## 4. Base del cálculo — recomendación
+
+**Votos a candidaturas** (suma de `votes` por partido, que es lo que ya existe como `total_votes` en
+`electoral_outputs`). Razón: los blancos no llegan a P31 (no hay fuente por sección fiable para todos los años) y
+cambiaría la cuota respecto de `winner_share` actual. Con votos válidos (con blancos) la mayoría del 50 % es más
+exigente; requeriría una fuente nueva. Pregunta 2.
+
+## 5. Dónde va (v1.3, decisión del propietario 17-11: paso aparte, sin tocar el ganador actual)
+
+- **No se toca el cálculo del ganador**: `electoral_outputs()` (`modulos/07_agregar_resultados_electorales.py`, ≈ línea 1476,
+  ganador por `idxmax` en ≈ 1484) queda como está; `primero` se conserva.
+- **Entrada del paso nuevo**: la tabla de votos por partido y distrito que `electoral_outputs` ya calcula (`by_party`:
+  `district_id, party, votes, bloc`). Hallazgo: 07 **ya la escribe** (`out_district_party_csv`, ≈ línea 1647; en la
+  auditoría es `audit/M07/resultados_por_partido.csv`, con su sha256 en el `REFERENCIAS` de `generar_outputs_auditables.py`).
+  Lo que falta no es la salida sino su persistencia: vive en la caché del run y en el artefacto (caduca), y
+  `datos/resultados/MANIFEST.json` → `partidos` está vacío. Ver pregunta 9.
+- **Herramienta nueva** (nombre neutro): `herramientas/doble_vuelta.py`. Lee ese CSV por partido y distrito y
+  `configuracion/bloques_partidos_2026-11-17.csv`, y escribe por distrito los escenarios `dv_base`, `dv_A` y `dv_B`
+  (ganador, finalistas, votos de primera y segunda vuelta; formato en §6). Núcleo puro (`resolver`) sin I/O; la CLI lee y
+  escribe CSV y deja el sha256 de entradas y salida en un manifiesto. Sin votos inventados ni reconstruidos: para los
+  territorios ya publicados la entrada sale al regenerarlos.
+- Campo `bloque_ddd` (frente al `bloc` ya existente). Solo Congreso.
+- **Fuera de alcance de estas PR**: `.github/workflows/` (el enganche va tras #899, PR 2b de P00) y el visor.
+- Huellas: no cambian (07 no se toca en esta fase); la herramienta no entra en el flujo hasta el enganche.
+
+## 6. Formato de salida
+
+`resultados_doble_vuelta.csv` (largo, una fila por distrito y escenario):
+`district_id, escenario, vuelta_decisiva (1|2), candidatura_ganadora, bloque_ganador, votos_1v, cuota_1v,
+finalista_a, finalista_b, votos_a_2v, votos_b_2v, cuota_ganador_2v, votos_abstencion, empate`.
+Detalle opcional `resultados_doble_vuelta_detalle.csv` (distrito, escenario, candidatura, votos_1v, destino,
+votos_transferidos). Total de votos conservado: 1v = 2v + abstención (test).
+
+## 7. Ejemplo (valores a mano, independientes del código)
+
+Distrito: A (izq) 30, B (izq) 15, C (pat) 28, D (pat) 12, E (nac) 15; total 100.
+- `primero`: A.
+- `dv_base`: finalistas A 30, C 28; B→A (45), D→C (40), E abstención → **A 45–40** (52,9 %).
+- `dv_A`: izq 45, pat 40, nac 15: nadie >50; finalistas izq y pat; nac sin finalista de su bloque → abstención → **izq 45–40**.
+- `dv_B`: izq 45, pat 40, E 15 por partido: igual → **izq 45–40**.
+(Para distinguir `dv_A` de `dv_B` el test añade un distrito con dos partidos nacionalistas finalistas; valor a mano.)
+
+## 8. Tests
+
+Por rebanadas (un test → código): (1) >50 % gana en primera; (2) ejemplo de §7 en los cuatro escenarios (primero, dv_base, dv_A, dv_B); (3)
+transferencia a finalista de su bloque; (4) abstención sin finalista de su bloque o sin bloque; (5) empate
+determinista con `empate=true`; (6) conservación de votos; (7) invariante: un partido, un bloque, y toda candidatura
+homologada cubierta; (8) `primero` idéntico al `idxmax` actual (regresión); (9) distrito sin votos. Esperados: literales
+y, para el 2023, el BOE (`configuracion/resultados_oficiales_congreso_2023.csv`, sha256 en el manifiesto) como base de
+votos, nunca recalculados con el mismo código.
+
+## 9. Orden de PR
+
+1. Esta (diseño + tabla). 2. `herramientas/doble_vuelta.py` + tests sintéticos (mayoría en primera, transferencia por
+bloque, bloque sin finalista → abstención, empate, dos finalistas del mismo bloque). 3. (sustituida) Enganche en el workflow y archivo en origen en R2 del CSV por partido y distrito, tras #899. 4. Visor, decisión aparte. Una PR por capa; ninguna lanza ni
+publica.
+
+## 10. Preguntas abiertas — resueltas (propietario 17-11, vía Planificador)
+
+1. Escenarios: A (tres bloques), B/«4» (Izquierdas + Patriotas), `dv_base`. 2. Base: votos a candidaturas.
+3. Empates: orden alfabético del id con `empate=true`. 4. Mismo bloque: al más votado de los dos finalistas en primera
+vuelta. 5. Sin bloque: abstención. 6. CHA-IU → Izquierdas. 7. Solo Congreso. 8. Campo `bloque_ddd`.
+9. Resuelta (Planificador, 17-11): el CSV por partido y distrito **ya existe** como salida de 07 (`out_district_party_csv`),
+   pero la auditoría del run va en un artefacto que caduca a los 14 días (se perdieron 47 composiciones, T-67) y un archivista
+   posterior compite con esa caducidad. Regla: **archivar en origen**: el CSV se copia a almacenamiento durable (R2, con su
+   sha256 en el manifiesto) en el mismo job que lo genera. Eso toca el workflow de P30: va en la PR de enganche y archivo, tras
+   fusionar #899 (PR 2b de P00). La «PR 1» (salida nueva en 07) queda sustituida por esa PR. La herramienta (PR 2) sigue leyendo
+   el CSV de la auditoría entretanto.
+
+## 11. Tabla de bloques
+
+Fichero: `configuracion/bloques_partidos_2026-11-17.csv` (sha256 `e50be2c89f07b85fc4d915cc369ee89e27806cee3f342ac09b411f2bfaeae823`).
+Fuente (nunca de memoria): `datos/homologacion_siglas/homologacion_siglas_generales.csv`
+(sha256 `58a179fa41655572fa92b88eb9985963a0685ecc97839a6f520f613fdb5b43a3`; reglas `reglas_generales.json`
+sha256 `fe8a3487c2ca5f5b5f2ab24fc0c3d598b43f01cdac1630bf0733242b1fe59617`), elecciones 2011-11 a 2023-07.
+366 filas (elección, partido homologado). Columnas: `eleccion, siglas, denominacion, bloque_propuesto, motivo`;
+`denominacion` = siglas reales de la fuente (el repositorio no trae nombres largos).
+- Asignadas: 50 filas Izquierdas, 78 Nacionalistas, 30 Patriotas (UPN y coaliciones, FAC y FE en Patriotas; PRC, Adelante
+  Andalucía y Ahora Canarias en Nacionalistas; En Marea, CHA-IU y los Verdes en Izquierdas, según el propietario).
+- Sin bloque (208 filas): Cs, UPyD, EXISTE, PAR, CpM, Caballas, MDyC, PACMA, PIRATA, PT y el resto de menores.
+- **Ambiguas (aprobadas 17-11, ver §12)** (por la provincia de la fuente): `unio.cat` (solo Barcelona, Gerona, Lérida y Tarragona,
+  2015-12) → Nacionalistas propuesto; `JXC` (solo Las Palmas y Tenerife, 2016-06), `JxG` (solo Granada, 2023-07), `CCD` y
+  `CCD-CI` (provincias dispersas): la fuente no acredita su identidad; vacías hasta que el propietario las confirme.
+
+## 12. Comprobación de las 4 siglas ambiguas (aprobadas el 17-11)
+
+Aprobado por el propietario (vía Planificador): `unio.cat` → Nacionalistas; `JXC`, `JxG`, `CCD` y `CCD-CI` sin bloque
+(abstención). Comprobación con los votos por provincia de `homologacion_siglas_generales.csv` (sha256 en §11): las 18
+provincias-elección donde aparecen (2011-11 a 2023-07), en `dv_base`, `dv_A` y `dv_B` (54 casos), resolviendo con y sin
+la asignación de `unio.cat`: **0 cambios de ganador**. Ninguna de las cinco siglas es finalista (la mejor, `unio.cat` en
+Barcelona 2015-12, queda 7.ª con el 1,7 %); en las 4 provincias catalanas de 2015 `unio.cat` solo podría transferir a un
+finalista nacionalista y no altera el resultado. Limitación: base provincial de la homologación (fuente Observatorio),
+no el resultado por distrito de P32; repetir en la PR de implementación con el dato real.
