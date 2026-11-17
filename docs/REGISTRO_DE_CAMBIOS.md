@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.519
+Versión: 1.0.520
 Fecha: 2026-11-17
-Alcance: T-412 — Plan 1.0.67: D-169, D-170, D-165 sin P28 y T-411
+Alcance: T-409 — Diseño de la doble vuelta con coaliciones (D-167)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-17_planificador-plan-1-0-67.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.518_registro_20261117.md
+Cambios/motivo: entrada docs/registro/2026-11-17_implementador-t409-doble-vuelta.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.519_registro_20261117.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.518_registro_20261117.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.520 · [2026-11-17 — T-409 — Diseño de la doble vuelta con coaliciones (D-167)](registro/2026-11-17_implementador-t409-doble-vuelta.md)
 - 1.0.519 · [2026-11-17 — T-412 — Plan 1.0.67: D-169, D-170, D-165 sin P28 y T-411](registro/2026-11-17_planificador-plan-1-0-67.md)
 - 1.0.518 · [2026-11-17 — T-411 — Permisos de comunicación entre sesiones sin pregunta](registro/2026-11-17_planificador-permisos-comunicacion.md)
 - 1.0.517 · [2026-11-17 — T-313 — Diseño de la migración de notación M0x → P2x/P3x](registro/2026-11-17_t313-diseno.md)
