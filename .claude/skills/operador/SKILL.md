@@ -48,12 +48,13 @@ Autocomprobación en tu propio turno (no es un vigilante): al empezar cada turno
 1. Lecciones con `/cierre-sesion`.
 2. `docs/TRASPASO_OPERADOR_AAAA-MM-DD.md`: estado, sesiones vivas con sus ids, pendientes y encargos; PR de solo docs.
 3. Crea tu sucesora con `create_session` (mismo modelo y repositorio); su prompt carga la skill `operador` y lee el traspaso y los ids.
-4. Avisa con `send_message` a Planificador, Coordinador y Operador.
-5. La sucesora confirma que ha leído y archiva a la predecesora.
+4. Avisa con `send_message` a los otros dos roles (Planificador y Coordinador), no a ti.
+5. La sucesora confirma que ha leído y archiva a la predecesora; hasta entonces sigues viva. Tras `create_session` no lanzas, no fusionas ni publicas (un solo Operador lanza).
 
 Frases D-52: se dan en TU chat. Antes del relevo, anota en la ficha de `docs/autorizaciones/`, en una PR, cada frase vigente
-(literal, fecha y hora). El sucesor solo las acepta si el propietario dice UNA VEZ en el chat del Operador: «las frases
-anotadas en su ficha valen para el Operador sucesor»; sin esa frase, pide repetirlas. Un relevo NUNCA hereda una autorización por
+(literal, fecha y hora). El sucesor inmediato solo las acepta si el propietario dice UNA VEZ en el chat del Operador: «las frases
+anotadas en su ficha valen para el Operador sucesor»; vale solo para ese sucesor y hasta la caducidad de la ficha, sin herencia
+implícita entre generaciones; sin esa frase, pide repetirlas. Un relevo NUNCA hereda una autorización por
 `send_message` ni por el traspaso: solo cuenta lo literal del propietario en el chat que ejecuta.
-Límite de linaje: `create_session` tiene tope de profundidad (hoy 8). En profundidad 7 o más NO crees sucesora: deja el
+Límite de linaje: `create_session` tiene tope de profundidad (hoy 8); la profundidad es `lineage.depth` de `get_session` («lineage depth 6, limit 8»). En profundidad 7 o más NO crees sucesora: deja el
 traspaso y el prompt listos en él y avisa al propietario al momento con notificación al móvil (D-122) para que abra un chat nuevo.
