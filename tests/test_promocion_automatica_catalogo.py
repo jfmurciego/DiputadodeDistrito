@@ -32,7 +32,9 @@ EXT = ROOT / "territorios/aut11/config/aut11_2025.yaml"
 class AutomaticCatalogPromotionTests(unittest.TestCase):
     def test_preparation_workflow_promotes_in_serialized_lightweight_job(self):
         text = PREP.read_text(encoding="utf-8")
-        data = yaml.safe_load(text)
+        from tests._t379_2b import deshacer as sin_2b  # T-379 2b: P10 pasa a `contents: read`; el push va con la app (D-163)
+        self.assertEqual(yaml.safe_load(text)["permissions"]["contents"], "read")
+        data = sin_2b("vista", yaml.safe_load(text))
         self.assertEqual(data["permissions"]["contents"], "write")
         self.assertIn("registrar",data["jobs"])
         register=data["jobs"]["registrar"]
