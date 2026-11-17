@@ -773,17 +773,24 @@ jobs:
           if gh api "repos/$GITHUB_REPOSITORY/issues/$n/comments?per_page=100" --paginate -q '.[].body' | grep -qF "$marca"; then
             echo "El issue #$n ya tiene el comentario de la IA de cierre del run $RUN_ID."; exit 0
           fi
-          {
-            echo "$marca"
-            echo "**IA de cierre** · run [$RUN_ID]($RUN_URL) · confianza $(jq -r '.confianza // "—"' diagnostico.json)"
-            # el texto viene de logs no confiables: sin menciones, referencias #n, enlaces ni HTML
-            jq -r 'def limpio: tostring | gsub("@"; "@\u200b") | gsub("#"; "#\u200b") | gsub("://"; "[:]//") | gsub("<"; "‹") | gsub("\\]\\("; "] (") | .[:400];
-              .apartados[:71][] | "\n**\(.territorio | limpio)** · `\(.causa_id | limpio)`\n" + ([.lineas[:5][] | "- \(. | limpio)"] | join("\n"))' diagnostico.json
-            echo
-            echo "Siguiente: $(jq -r 'def limpio: tostring | gsub("@"; "@\u200b") | gsub("#"; "#\u200b") | gsub("://"; "[:]//") | gsub("<"; "‹") | .[:400]; (.siguiente // "decide el planificador") | limpio' diagnostico.json)"
-            echo
-            echo "_Forense automático (Sonnet, solo lectura; \`.claude/agents/forense.md\`). No relanza nada: la siguiente acción la decide el planificador y la ejecuta el operador con permiso del propietario._"
-          } | head -c 60000 > cuerpo.md
+          # El diagnóstico viene de logs no confiables: TODO valor pasa por `limpio` (una línea, sin menciones, #n, enlaces, HTML,
+          # corchetes ni comillas invertidas) y el cuerpo entero lo monta este único filtro jq.
+          cat > cuerpo.jq <<'JQ'
+          def limpio($max): tostring
+            | gsub("[\\r\\n\\t\\v\\f]+"; " ")
+            | gsub("&"; "&amp;") | gsub("<"; "‹") | gsub(">"; "›") | gsub("`"; "'")
+            | gsub("[\\[\\]]"; "|") | gsub("@"; "@\u200b") | gsub("#"; "#\u200b")
+            | gsub("(?<e>(mailto|javascript|data|vbscript|ftp|file|tel|sms)):"; "\(.e)|:|"; "i")
+            | gsub("://"; "|:|//") | gsub("www\\."; "www|.|"; "i")
+            | .[:$max];
+          "\($marca)\n**IA de cierre** · run \($run) · confianza \(.confianza // "—" | limpio(20))\n"
+          + ([.apartados[:71][]
+              | "\n**\(.territorio | limpio(60))** · `\(.causa_id | limpio(60))`\n"
+                + ([.lineas[:5][] | "- \(limpio(300))"] | join("\n"))] | join("\n"))
+          + "\n\nSiguiente: \(.siguiente // "decide el planificador" | limpio(300))\n\n"
+          + "_Forense automático (Sonnet, solo lectura; `.claude/agents/forense.md`). No relanza nada: la siguiente acción la decide el planificador y la ejecuta el operador con permiso del propietario._"
+          JQ
+          jq -r --arg marca "$marca" --arg run "[$RUN_ID]($RUN_URL)" -f cuerpo.jq diagnostico.json | head -c 60000 > cuerpo.md
           cat cuerpo.md >> "$GITHUB_STEP_SUMMARY"
           gh api -X POST "repos/$GITHUB_REPOSITORY/issues/$n/comments" -F body=@cuerpo.md -q .html_url
 

@@ -43,6 +43,32 @@ def evento(conclusion="failure", name="P00 Campaña", origen="workflow_dispatch"
             "event": {"workflow_run": {"name": name, "conclusion": conclusion, "event": origen, "id": 4242}}}
 
 
+def problemas_cierre(wf):
+    """Defectos del disparo, los permisos y el checkout de la IA de cierre (vacía = correcto)."""
+    p, j = [], wf["jobs"]
+    c = j["cierre_comprobar"]["if"]
+    try:
+        if not evalua_if(c, evento("failure")):
+            p.append("no abre con failure")
+        for conc in ("success", "cancelled", "skipped", "timed_out"):
+            if evalua_if(c, evento(conc)):
+                p.append(f"abre con {conc}")
+        if evalua_if(c, evento(origen="pull_request")):
+            p.append("abre desde PR")
+    except Exception as e:  # una mutilación que rompe la expresión también es un defecto
+        p.append(f"if inválido: {e}")
+    esperado = {"cierre_comprobar": {"actions": "read"},
+                "cierre_ia": {"contents": "read", "actions": "read", "checks": "read", "issues": "read"},
+                "cierre_comentario": {"issues": "write"}}
+    for nombre, perm in esperado.items():
+        if j[nombre].get("permissions") != perm:
+            p.append(f"permisos de {nombre}")
+    for s in j["cierre_ia"]["steps"]:
+        if "checkout" in str(s.get("uses", "")) and s.get("with", {}).get("persist-credentials") is not False:
+            p.append("checkout con credenciales")
+    return p
+
+
 class Disparo(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -146,22 +172,64 @@ class PermisosYEntradaNoConfiable(unittest.TestCase):
         for p in pasos:
             self.assertIs(p["with"].get("persist-credentials"), False)
 
-    def test_comentario_valida_issue_y_neutraliza_texto(self):
+    def test_comentario_valida_issue(self):
         run = self.jobs["cierre_comentario"]["steps"][0]["run"]
-        for trozo in ("has(\"pull_request\")", ".state", "== open", "P00 Campaña", "${RUN_ID}", "limpio", '"@"', '"#"', '"://"'):
+        for trozo in ("has(\"pull_request\")", ".state", "== open", "P00 Campaña", "${RUN_ID}"):
             self.assertIn(trozo, run)
 
+    def _filtro(self):
+        run = self.jobs["cierre_comentario"]["steps"][0]["run"]
+        m = re.search(r"<<'JQ'\n(.*?)\nJQ\n", run, re.S)
+        self.assertTrue(m, "falta el filtro jq del comentario")
+        return m.group(1)
+
+    def test_filtro_real_neutraliza_diagnostico_hostil(self):
+        """Ejecuta el filtro jq REAL del YAML con un diagnóstico hostil: no sobrevive ninguna mención, enlace ni inyección."""
+        malo = ("@usuario #12 https://x.io www.x.com WWW.Y.com mailto:a@b.co JavaScript:alert(1) data:text/html,x "
+                "&lt;img&gt; <img src=x> [clic](http://e.vil) `cierra` \n# Encabezado\n> cita\n- lista\r\n")
+        diag = {"caso": "1", "issue": 5, "confianza": malo,
+                "apartados": [{"territorio": malo, "causa_id": malo, "lineas": [malo] * 7}] * 80,
+                "siguiente": malo + "x" * 1000}
+        run_md = "[1](https://github.com/o/r/actions/runs/1)"
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            (d / "f.jq").write_text(self._filtro())
+            (d / "d.json").write_text(json.dumps(diag))
+            r = subprocess.run(["jq", "-r", "--arg", "marca", "<!-- m -->", "--arg", "run", run_md,
+                                "-f", str(d / "f.jq"), str(d / "d.json")], capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        cuerpo = r.stdout
+        pie = "_Forense automático (Sonnet, solo lectura; `.claude/agents/forense.md`)"
+        for propio in ("<!-- m -->", f"**IA de cierre** · run {run_md}", pie):
+            self.assertIn(propio, cuerpo)
+            cuerpo = cuerpo.replace(propio, "")
+        # (el texto propio, ya retirado, lleva el enlace del run y el pie; lo demás es el diagnóstico)
+        for malo_re in (r"@(?!​)\w", r"#(?!​)\d", r"https?:", r"://", r"www\.", r"mailto:", r"javascript:", r"data:",
+                        r"\]\(", r"<img", r"&lt;", r"\[", r"\]"):
+            self.assertIsNone(re.search(malo_re, cuerpo, re.I), malo_re)
+        # los backticks que quedan son solo los de `causa_id` (uno por apartado, abre y cierra)
+        self.assertEqual(cuerpo.count("`"), 71 * 2)  # tope de 71 apartados
+        # cada valor en su línea: ningún encabezado, cita o lista inyectados por saltos de línea del texto
+        for linea in cuerpo.splitlines():
+            if linea.strip():
+                self.assertRegex(linea, r"^( · confianza |\*\*|- |Siguiente: |\. No relanza nada)", linea[:60])
+        self.assertLess(len(cuerpo), 80 * 7 * 330 + 80 * 250 + 3000)
+
     def test_controles_negativos_de_cierre(self):
-        """Mutilar el `if` o los permisos de cierre_* debe hacer fallar los controles de este fichero."""
-        import copy
-        wf = copy.deepcopy(self.wf)
-        wf["jobs"]["cierre_comprobar"]["if"] = "${{ 1 == 1 }}"
-        self.assertTrue(evalua_if(wf["jobs"]["cierre_comprobar"]["if"], evento("success")))  # el test de disparo lo atraparía
-        self.assertFalse(evalua_if(self.jobs["cierre_comprobar"]["if"], evento("success")))
-        wf["jobs"]["cierre_ia"]["permissions"]["issues"] = "write"
-        self.assertNotEqual(wf["jobs"]["cierre_ia"]["permissions"], {"contents": "read", "actions": "read", "checks": "read", "issues": "read"})
-        wf["jobs"]["cierre_comprobar"]["permissions"] = {"actions": "write"}
-        self.assertNotEqual(wf["jobs"]["cierre_comprobar"]["permissions"], {"actions": "read"})
+        """Lee el YAML real, lo mutila en memoria y comprueba que las verificaciones de este fichero lo detectan."""
+        self.assertEqual(problemas_cierre(self.wf), [])
+        texto = P90.read_text(encoding="utf-8")
+        mutaciones = [
+            ("conclusion == 'failure' && github.event.workflow_run.event", "conclusion != 'cancelled' && github.event.workflow_run.event"),
+            (" && github.event.workflow_run.event != 'pull_request'", ""),
+            ("    permissions:\n      actions: read\n    outputs:\n      listo", "    permissions:\n      actions: write\n    outputs:\n      listo"),
+            ("      checks: read\n      issues: read\n    outputs:\n      diagnostico", "      checks: read\n      issues: write\n    outputs:\n      diagnostico"),
+            ("    permissions:\n      issues: write\n    steps:\n      - name: Comentar", "    permissions:\n      issues: write\n      contents: write\n    steps:\n      - name: Comentar"),
+            ("          persist-credentials: false\n      - id: forense", "      - id: forense"),
+        ]
+        for viejo, nuevo in mutaciones:
+            self.assertEqual(texto.count(viejo), 1, viejo)
+            self.assertTrue(problemas_cierre(yaml.safe_load(texto.replace(viejo, nuevo))), f"no detecta: {viejo!r}")
 
     def test_el_forense_viejo_ya_no_existe(self):
         for j in ("forense_comprobar", "diagnosticar", "forense_issue"):
