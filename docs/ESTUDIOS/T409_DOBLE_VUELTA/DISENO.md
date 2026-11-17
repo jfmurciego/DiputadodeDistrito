@@ -1,6 +1,6 @@
 # T-409 · Doble vuelta con coaliciones — diseño (solo documento)
 
-VERSIÓN: 1.1.0 · FECHA: 2026-11-17 · ESTADO: propuesta, respuestas del propietario relayadas por el Planificador · ANTERIOR: 1.0.0 (misma PR, sin publicar)
+VERSIÓN: 1.2.0 · FECHA: 2026-11-17 · ESTADO: respuestas del propietario relayadas por el Planificador · ANTERIOR: 1.1.0 (misma PR, sin publicar)
 
 Estado: v2 (17-11): incorpora las respuestas del propietario relayadas por el Planificador («sí a todo»). Base: D-167. No toca código ni datos. Implementación tras
 la migración P (D-165/D-166, T-313).
@@ -113,6 +113,16 @@ sha256 `fe8a3487c2ca5f5b5f2ab24fc0c3d598b43f01cdac1630bf0733242b1fe59617`), elec
 - Asignadas: 50 filas Izquierdas, 78 Nacionalistas, 30 Patriotas (UPN y coaliciones, FAC y FE en Patriotas; PRC, Adelante
   Andalucía y Ahora Canarias en Nacionalistas; En Marea, CHA-IU y los Verdes en Izquierdas, según el propietario).
 - Sin bloque (208 filas): Cs, UPyD, EXISTE, PAR, CpM, Caballas, MDyC, PACMA, PIRATA, PT y el resto de menores.
-- **Ambiguas, aún propuesta** (por la provincia de la fuente): `unio.cat` (solo Barcelona, Gerona, Lérida y Tarragona,
+- **Ambiguas (aprobadas 17-11, ver §12)** (por la provincia de la fuente): `unio.cat` (solo Barcelona, Gerona, Lérida y Tarragona,
   2015-12) → Nacionalistas propuesto; `JXC` (solo Las Palmas y Tenerife, 2016-06), `JxG` (solo Granada, 2023-07), `CCD` y
   `CCD-CI` (provincias dispersas): la fuente no acredita su identidad; vacías hasta que el propietario las confirme.
+
+## 12. Comprobación de las 4 siglas ambiguas (aprobadas el 17-11)
+
+Aprobado por el propietario (vía Planificador): `unio.cat` → Nacionalistas; `JXC`, `JxG`, `CCD` y `CCD-CI` sin bloque
+(abstención). Comprobación con los votos por provincia de `homologacion_siglas_generales.csv` (sha256 en §11): las 18
+provincias-elección donde aparecen (2011-11 a 2023-07), en `dv_base`, `dv_A` y `dv_B` (54 casos), resolviendo con y sin
+la asignación de `unio.cat`: **0 cambios de ganador**. Ninguna de las cinco siglas es finalista (la mejor, `unio.cat` en
+Barcelona 2015-12, queda 7.ª con el 1,7 %); en las 4 provincias catalanas de 2015 `unio.cat` solo podría transferir a un
+finalista nacionalista y no altera el resultado. Limitación: base provincial de la homologación (fuente Observatorio),
+no el resultado por distrito de P32; repetir en la PR de implementación con el dato real.
