@@ -2,9 +2,9 @@
 """T-396 (D-153): secciones con población sin geometría en el seccionado del año → asignada / excluida / APARTADA.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-17 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
-CAMBIOS: 1.0.0: fichero nuevo.
+VERSIÓN: 1.1.0 · FECHA: 2026-11-17 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_t396_sin_seccionado_v1.0.0_20261117.py
+CAMBIOS: 1.1.0: T-402: `materializar` normaliza la geometría; con zip falso se parchea `_normalizar_seccionado`. 1.0.0: fichero nuevo.
 MOTIVO: T-396. Geometrías y tabla sintéticas (valores esperados escritos a mano, no recalculados); sin red.
 """
 from __future__ import annotations
@@ -127,7 +127,12 @@ class MaterializarConSinSeccionado(unittest.TestCase):
             p["poblacion"]["sin_seccionado_resuelto"] = resuelto
         cpath = root / "contrato.json"
         cpath.write_text(json.dumps(c), encoding="utf-8")
-        return root, fuentes, cpath, mock.patch.object(che, "_secciones_seccionado", return_value={A, B})
+        def falso(secc, cpro, cache, sha):  # zip de mentira: la normalización real se prueba en test_t365 (MaterializarZipReal)
+            dest = cache / "seccionado_normalizado.zip"
+            dest.write_bytes(secc.read_bytes())
+            return dest, {"normalizado_sha256": hashlib.sha256(dest.read_bytes()).hexdigest(), "corregidas": []}
+        return root, fuentes, cpath, mock.patch.multiple(che, _secciones_seccionado=mock.Mock(return_value={A, B}),
+                                                         _normalizar_seccionado=falso)
 
     RES = {"asignadas": [{"seccion": "2200101009", "sucesora": A, "donante_anio": 2019, "poblacion": 7}],
            "excluidas": [{"seccion": "2200101011", "poblacion": 3, "motivo": "x"}], "apartadas": []}

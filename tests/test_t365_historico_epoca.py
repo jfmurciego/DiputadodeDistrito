@@ -298,6 +298,51 @@ class NormalizacionGeometria(unittest.TestCase):
             self.assertEqual(che._leer_seccionado(r[0][0], "22")["CUSEC"].tolist(), g["CUSEC"].tolist())
 
 
+class MaterializarZipReal(unittest.TestCase):
+    """T-402: `materializar` de punta a punta con un seccionado REAL (zip de shapefile con una sección inválida), sin parches."""
+
+    def test_camino_completo_normaliza_y_deja_huellas(self):
+        import zipfile
+        import geopandas as gpd
+        import yaml
+        from shapely import wkt
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            root, fuentes = d / "root", d / "fuentes"
+            (root / "territorios/nac22/config").mkdir(parents=True)
+            fuentes.mkdir()
+            base = root / "territorios/nac22/config/nac22_2025.yaml"
+            base.write_text(yaml.safe_dump(BASE), encoding="utf-8")
+            ok, bow = NormalizacionGeometria.OK, NormalizacionGeometria.BOW
+            g = gpd.GeoDataFrame({"CUSEC": ["2200101001", "2200101002", "2300101001"]},
+                                 geometry=[wkt.loads(ok), wkt.loads(bow), wkt.loads(ok)], crs="EPSG:25830")  # la 23 es de otra provincia
+            (d / "crudo").mkdir()
+            g.to_file(d / "crudo" / "s.shp")
+            with zipfile.ZipFile(fuentes / "seccionado_2020.zip", "w") as z:
+                for f in sorted((d / "crudo").glob("s.*")):
+                    z.write(f, f.name)
+            (fuentes / "tabla.csv").write_text("elección,sección,población,origen,año_fuente_relleno\n"
+                                               "2019-11,2200101001,10,dato,\n2019-11,2200101002,20,dato,\n", encoding="utf-8")
+            c = _contrato_sintetico(_sha(fuentes / "tabla.csv"), _sha(base), _sha(fuentes / "seccionado_2020.zip"), "d" * 64)
+            cpath = root / "contrato.json"
+            cpath.write_text(json.dumps(c), encoding="utf-8")
+            out = che.materializar("2019-11", "nac22", fuentes, root, cpath)
+            cfg = yaml.safe_load(out.read_text(encoding="utf-8"))
+            geo = cfg["meta"]["historico_epoca"]["geometria"]
+            zip_n = root / next(x["path"] for x in cfg["generation_state"]["source_inputs"] if x["role"] == "target_sectioning")
+            sha_n = next(x["sha256"] for x in cfg["generation_state"]["source_inputs"] if x["role"] == "target_sectioning")
+            self.assertEqual(_sha(zip_n), sha_n)  # la huella de source_inputs es la del zip normalizado, no la del crudo
+            self.assertEqual((geo["normalizado_sha256"], geo["origen_sha256"]), (sha_n, c["seccionado"]["sha256"]))
+            self.assertNotEqual(sha_n, c["seccionado"]["sha256"])
+            self.assertEqual([x["seccion"] for x in geo["corregidas"]], ["2200101002"])
+            self.assertEqual(geo["secciones"], 2)  # solo la provincia 22
+            leido = che._leer_seccionado(zip_n, None)
+            self.assertTrue(leido.geometry.is_valid.all())
+            self.assertEqual(leido["CUSEC"].tolist(), ["2200101001", "2200101002"])
+            self.assertTrue(leido.geometry.iloc[0].equals(wkt.loads(ok)))  # la válida, intacta (el shapefile reordena el anillo: se compara por conjunto)
+            self.assertEqual(geo["huella_geometrias_sha256"], che._huella_geometrias(leido))
+
+
 class AdmisionPorEleccion(unittest.TestCase):
     """territory_contract 1.5.0: con `meta.historico_epoca` K se compara con el contrato de SU elección; sin él, como 1.4.1."""
 
