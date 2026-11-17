@@ -1,6 +1,6 @@
 # T-409 · Doble vuelta con coaliciones — diseño (solo documento)
 
-VERSIÓN: 1.3.0 · FECHA: 2026-11-17 · ESTADO: respuestas del propietario relayadas por el Planificador · ANTERIOR: 1.2.0 (misma PR, sin publicar)
+VERSIÓN: 1.3.1 · FECHA: 2026-11-17 · ESTADO: respuestas del propietario relayadas por el Planificador · ANTERIOR: 1.3.0 (misma PR, sin publicar)
 
 Estado: v2 (17-11): incorpora las respuestas del propietario relayadas por el Planificador («sí a todo»). Base: D-167. No toca código ni datos. Implementación tras
 la migración P (D-165/D-166, T-313).
@@ -95,8 +95,7 @@ votos, nunca recalculados con el mismo código.
 ## 9. Orden de PR
 
 1. Esta (diseño + tabla). 2. `herramientas/doble_vuelta.py` + tests sintéticos (mayoría en primera, transferencia por
-bloque, bloque sin finalista → abstención, empate, dos finalistas del mismo bloque). 3. Persistir la tabla por partido (si
-procede, pregunta 9). 4. Enganche en el workflow, tras #899. 5. Visor, decisión aparte. Una PR por capa; ninguna lanza ni
+bloque, bloque sin finalista → abstención, empate, dos finalistas del mismo bloque). 3. (sustituida) Enganche en el workflow y archivo en origen en R2 del CSV por partido y distrito, tras #899. 4. Visor, decisión aparte. Una PR por capa; ninguna lanza ni
 publica.
 
 ## 10. Preguntas abiertas — resueltas (propietario 17-11, vía Planificador)
@@ -104,10 +103,12 @@ publica.
 1. Escenarios: A (tres bloques), B/«4» (Izquierdas + Patriotas), `dv_base`. 2. Base: votos a candidaturas.
 3. Empates: orden alfabético del id con `empate=true`. 4. Mismo bloque: al más votado de los dos finalistas en primera
 vuelta. 5. Sin bloque: abstención. 6. CHA-IU → Izquierdas. 7. Solo Congreso. 8. Campo `bloque_ddd`.
-9. (nueva) El CSV por partido y distrito **ya existe** como salida de 07 (`out_district_party_csv`). La PR «salida nueva en 07»
-   no hace falta tal cual; lo pendiente es dónde persistirlo para los territorios ya publicados. Recomiendo: la
-   herramienta lee el CSV de la auditoría del run; la persistencia en git (`datos/resultados/<t>_partidos.csv`, con el
-   archivista `resultados_partidos.py`) es una PR aparte si el propietario la quiere. Pendiente de respuesta.
+9. Resuelta (Planificador, 17-11): el CSV por partido y distrito **ya existe** como salida de 07 (`out_district_party_csv`),
+   pero la auditoría del run va en un artefacto que caduca a los 14 días (se perdieron 47 composiciones, T-67) y un archivista
+   posterior compite con esa caducidad. Regla: **archivar en origen**: el CSV se copia a almacenamiento durable (R2, con su
+   sha256 en el manifiesto) en el mismo job que lo genera. Eso toca el workflow de P30: va en la PR de enganche y archivo, tras
+   fusionar #899 (PR 2b de P00). La «PR 1» (salida nueva en 07) queda sustituida por esa PR. La herramienta (PR 2) sigue leyendo
+   el CSV de la auditoría entretanto.
 
 ## 11. Tabla de bloques
 
