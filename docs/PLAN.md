@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.60
+Versión: 1.0.61
 Fecha: 2026-11-17
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-151 a D-155 (P10 con un territorio, histórico: id propio, P43, secciones sin geometría, publicación; limpieza de Actions); T-395 a T-398; estados
-Anterior: legacy/docs/PLAN_v1.0.59_20261117.md
+Cambios/motivo: D-156 (2011-11 con el seccionado del Censo 2011) y D-157 (avance del 17-11: autorización diurna, P00 2a); T-399, T-400; estados tras la noche del 16 al 17-11
+Anterior: legacy/docs/PLAN_v1.0.60_20261117.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -304,6 +304,8 @@ Fase 4 — producto (en el privado):
 - D-153 (17-11, propietario). Secciones con población sin geometría en el seccionado de su año: se asignan a la sección del seccionado del año que las contiene, localizadas con la geometría de otro año (centroide, misma provincia, regla de sucesora de T-364b); sin geometría en ningún año, se excluyen declarando su población (T-396). Los 46 municipios con aviso ya los resolvió D-128 (a).
 - D-154 (17-11, propietario). P43 (#875): el M06 de cada elección es el propio de su época (D-125), no el mapa 2023; etiqueta «distritos de <fecha>, con datos de esa época»; se publican las provincias en verde y las ámbar con aviso visible, nunca las rojas; primera entrega solo en el visor y en el catálogo de procedencia. Decisión del Planificador (17-11): kind propio para el histórico en el registro (aislamiento: ningún histórico sustituye al vigente).
 - D-155 (17-11, propietario). Lista de Actions sin basura (T-397): «P90 Automático — Fusión automática» y «P90 Automático — Revisor de PR»; los ficheros sin botón de P00 se llaman «P00 Campaña — <qué hace>»; al terminar la migración se borran las ejecuciones de los workflows retirados (Operador, con frase); diagnóstico de los dinámicos de GitHub para el propietario. Además, el propietario adelanta T-379 PR 4 (IA de cierre en P90), autoriza al Coordinador a fusionar sin esperarle hasta las 10:00 del 17-11 las PR de la migración, del histórico y del plan con CI verde y revisor conforme (sin lanzar ni publicar), y ordena preparar las fichas del re-ensayo P00 2026-11 y del histórico 2019-11 (#876), con condición previa de migración terminada y P00 validada; las frases se repiten cuando estén fusionadas.
+- D-156 (17-11, propietario). Histórico 2011-11: se usa el seccionado del Censo 2011 (cartografía de T-357), no el de 2012; coinciden población, geometría y votos y desaparece el doble cómputo de las 63 secciones hijas del seccionado 2012 (T-399: 179.435 hab. ya incluidos en sus madres; los votos de 2011 siguen el seccionado anterior). Las 42 secciones sin fila en la tabla de indicadores se rellenan con D-126 (Atlas 2015) y el ajuste municipal al total oficial del Censo 2011 (tabla del INE con fuente y sha256; si no aparece, sin ajuste y declarado); lo que siga sin dato, BLOQUEADA_SIN_DATO. La provincia 35 (puente de La Graciosa ausente del seccionado) va en T-400.
+- D-157 (17-11, propietario). Autorización al Coordinador hasta las 23:59 del 17-11 para fusionar sin esperarle, en su orden, las PR de la migración y del histórico (T-379 PR 2a, 2b y 3, T-383, T-393, T-395, T-396, T-397, T-399, T-400, P43) y las del plan, con CI verde en la PR y en `main` y revisor conforme; la PR 2a solo con el entorno `registro` ya con sus secretos y su primera prueba en verde; no autoriza lanzar ni publicar. El Planificador planifica y no da comandos: los pasos manuales al propietario los da el Coordinador.
 
 ### Cola T-291 a T-367 (14 a 16-11)
 | Id | Qué | Estado |
@@ -388,11 +390,11 @@ Fase 4 — producto (en el privado):
 | T-372 | Migración paso 5: P40 Publicación (D-134) | HECHA (#862); prueba real «solo el sitio» CONFIRMADA (run 43983546261; visor revisado por el propietario) |
 | T-373 | Actualización del plan 1.0.54 | HECHA (#847) |
 | T-374 | Revisor de PR dentro de P90 sin check-run `pruebas` skipped (D-135): diseño al detalle para el propietario | HECHA (#852; D-144) |
-| T-375 | Migración paso 6: P10 Fuentes (D-136) | EN CURSO (#874; D-151: un territorio por ejecución) |
-| T-376 | Migración paso 7: P30 Resultados electorales (D-137) | REVISIÓN (#866); fusión tras T-375 (D-149) |
-| T-377 | Migración paso 8: P20 Distritos (D-138, D-139), Opus | EN CURSO (Opus); fusión tras T-376 (D-149) |
+| T-375 | Migración paso 6: P10 Fuentes (D-136) | HECHA (#874) |
+| T-376 | Migración paso 7: P30 Resultados electorales (D-137) | HECHA (#866) |
+| T-377 | Migración paso 8: P20 Distritos (D-138, D-139), Opus | HECHA (#880) |
 | T-378 | Migración paso 9a: diseño al detalle de P00 Campaña y la nueva forma de trabajar (D-140), Opus, sin código | HECHA (#850); decisiones en D-143 |
-| T-379 | Migración paso 9b: implementación de P00 Campaña (D-140) | EN CURSO: PR 1 HECHA (#861); PR 4 (IA de cierre) adelantada; PR 2a, 2b y 3 tras T-377 |
+| T-379 | Migración paso 9b: implementación de P00 Campaña (D-140) | EN CURSO: PR 1 (#861) y PR 4 (#882) HECHAS; PR 2a (entorno `registro`), 2b y 3 hoy (Opus) |
 | T-380 | Retirada de los ensembles del motor viejo (D-141): registro del visor y publicación, luego Releases, configuraciones y selector v1 | ESPERA_APROBACIÓN (#849 fusionada): faltan publicación «solo sitio» y borrado de 3 Releases (frase del propietario); configuraciones con T-377 |
 | T-381 | Detección automática de puntos de control incompatibles con el contrato vigente (sustituiría «empezar de cero»): diseño al detalle para el propietario | PENDIENTE (tras T-377) |
 | T-383 | Migración paso 10: documentación renumerada (D-142) | PENDIENTE (tras T-379) |
@@ -406,10 +408,13 @@ Fase 4 — producto (en el privado):
 | T-392 | Actualización del plan 1.0.58 | HECHA (#869) |
 | T-393 | Alta de los territorios-elección `<t>_hAAAA_MM` (D-150): resolución en `territorio_ids` y catálogo, sin versionar los YAML generados; test con fuentes sintéticas | HECHA (#873, diseño; implementación tras T-377) |
 | T-394 | Actualización del plan 1.0.59 | HECHA (#872) |
-| T-395 | Diseño de P43, publicación del histórico por fecha (D-152, D-154) | REVISIÓN (#875) |
-| T-396 | Secciones con población sin geometría: asignación por centroide con geometría de otro año (D-153) | EN CURSO (Sonnet) |
-| T-397 | Lista de Actions sin basura (D-155) | REVISIÓN (#877); borrado de ejecuciones de retirados al terminar la migración |
-| T-398 | Actualización del plan 1.0.60 | REVISIÓN (esta PR) |
+| T-395 | Diseño de P43, publicación del histórico por fecha (D-152, D-154) | HECHA (#875, diseño; implementación tras la PR 3 de P00) |
+| T-396 | Secciones con población sin geometría: asignación por centroide con geometría de otro año (D-153) | HECHA (#881) |
+| T-397 | Lista de Actions sin basura (D-155) | EN CURSO: (a) HECHA (#877); (b) borrado de ejecuciones de retirados al terminar la migración |
+| T-398 | Actualización del plan 1.0.60 | HECHA (#879) |
+| T-399 | Histórico 2011-11 con el seccionado del Censo 2011 y relleno de las 42 secciones sin fila (D-156) | EN CURSO (#883 se rehace) |
+| T-400 | Provincia 35, 2011-11: puente topológico de La Graciosa (3502401010) ausente del seccionado; diagnóstico y PR | LISTA tras T-399 |
+| T-401 | Actualización del plan 1.0.61 | REVISIÓN (esta PR) |
 | T-385 | Actualización del plan 1.0.56 | HECHA (#856) |
 | T-382 | Actualización del plan 1.0.55 | REVISIÓN (esta PR) |
 | T-340 | Ficha del paso A del histórico con Condición previa, Puerta y Mapa según D-115 (si el código no implementa la puerta, abre tarea) | EN CURSO (Coordinador) |
@@ -430,7 +435,7 @@ Frase de reanudación de r3: DADA en el chat del Operador, condicionada a #786 y
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324, T-327, T-341, T-350, T-363, T-367, T-371, T-373, T-382, T-385, T-390, T-392, T-394 y T-398. El planificador ha dado T-194 a T-398 (10 a 16-11; T-277 y T-292 sin usar; T-331 a T-340 y T-342 a T-362 los dio el Coordinador con acuerdo del Planificador). Siguiente libre: T-399.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324, T-327, T-341, T-350, T-363, T-367, T-371, T-373, T-382, T-385, T-390, T-392, T-394, T-398 y T-401. El planificador ha dado T-194 a T-401 (10 a 16-11; T-277 y T-292 sin usar; T-331 a T-340 y T-342 a T-362 los dio el Coordinador con acuerdo del Planificador). Siguiente libre: T-402.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
