@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.63
+Versión: 1.0.64
 Fecha: 2026-11-17
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-158 confirmada literal, D-161 (1 % de población estimada en 2011-11), D-162 (PR 2a de P00 sin partir P40/P70); T-405, T-406
-Anterior: legacy/docs/PLAN_v1.0.62_20261117.md
+Cambios/motivo: D-163 (permisos de P10-P30 en P00, opción i), D-164 (#888 en pausa; 2b y 3 sin el entorno `registro`); corrección de D-161 (36 = BLOQUEADA_SIN_DATO); T-397c, T-383 en curso
+Anterior: legacy/docs/PLAN_v1.0.63_20261117.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -309,7 +309,9 @@ Fase 4 — producto (en el privado):
 - D-158 (17-11, propietario). Histórico 2011-11 con la opción B': seccionado 2012 y la población 2011 de cada sección madre repartida entre madre e hijas según las proporciones del Atlas 2015, conservando los totales del Censo. Las 5 provincias con más del 0,1 % de votos sin asignar (03, 24, 27, 32, 33) se apartan y se declaran; D-70 no cambia ni hay excepciones nuevas en la puerta. Las 42 secciones sin fila, con D-126 y ajuste municipal si aparece la tabla oficial. Geometrías inválidas del INE: normalización auditada en la materialización (T-402, decisión técnica del Planificador).
 - D-159 (17-11, propietario). Nombres en Actions: los 9 workflows con botón empiezan por «P»; los que no tienen botón llevan «_» delante para salir al final de la lista («_P90 Automático — Fusión automática», «_P90 Automático — Revisor de PR», «_P00 Campaña — <qué hace>»). Los dinámicos de GitHub no se pueden renombrar (diagnóstico de T-397 c). Amplía T-397.
 - D-158 confirmada literal por el propietario (17-11, «sí» en el chat del Planificador): seccionado 2012, población 2011 de cada madre repartida con las proporciones del Atlas 2015 conservando los totales del Censo; 03, 24, 27, 32 y 33 apartadas y declaradas (APARTADA_VOTOS).
-- D-161 (17-11, propietario). Umbral del 1 % de D-126/D-128 en 2011-11 con B': cuenta como estimada solo la población movida de cada madre a sus hijas más la rellenada; la que permanece en la madre no. Con #883@a286b6c quedan BLOQUEADA_RELLENO 36 (2,64 %) y 51 (1,70 %); 15, 22, 29, 34 y 47 pasan. Sustituye en 2011-11 el cómputo conservador (madre e hijas enteras).
+- D-161 (17-11, propietario). Umbral del 1 % de D-126/D-128 en 2011-11 con B': cuenta como estimada solo la población movida de cada madre a sus hijas más la rellenada; la que permanece en la madre no. Con #883@a286b6c queda BLOQUEADA_RELLENO 51 (1,70 %); 36 queda BLOQUEADA_SIN_DATO (corregido 17-11); 15, 22, 29, 34 y 47 pasan. Sustituye en 2011-11 el cómputo conservador (madre e hijas enteras).
+- D-163 (17-11, propietario). P00 llama a P10-P30 con `contents: read`: ningún job de P10-P30 ni del reutilizable de registro pide más que `contents: read`/`actions: read` (si no, startup_failure de toda la P00); el push va con el token de la app y se quita el respaldo `github.token`; sobra `issues: write` en P20 `resolver_interfaz`; el registro de P30 `incorporar` va en un job posterior por artefacto. Garantía «la campaña no escribe en main»: (a) jobs de registro saltados con `campana` no vacía, con test; (b) ningún `git push` ni herramienta de registro fuera del reutilizable, con test; (c) entorno `registro` con la 2a. Se declara que `contents: read` no es barrera para el push con la app.
+- D-164 (17-11, propietario). T-379 PR 2a (#888) y lo que dependa de ella quedan en pausa; la migración sigue con el resto. La 2b y la 3 van sobre `main` en PR propias sin declarar `environment: registro` (GitHub lo crearía sin la regla «solo main»); la 2a se rebasa al final con la validación desde rama (aut11). Histórico congelado hasta terminar la migración.
 - D-157 aclarada (17-11, propietario, en el chat del Planificador, por tercera vez): no habrá más frases de fusión; todas las PR están en la lista que dio al Coordinador. Nadie le pide «fusiona N»: el Coordinador fusiona bajo D-157 con CI verde en la PR y en `main` y el revisor conforme.
 - D-162 (17-11, propietario). T-379 PR 2a (#888), opción A: P40 `publicar` y P70 `podar` NO se parten (un job y su grupo de concurrencia, como en `main`); los 2 secretos de la app van a los entornos `registro`, `github-pages` y `produccion`, los tres limitados a `main`; `preparar` usa `produccion` para personas y `registro` para robots. Cambia el §10 del diseño («se parten»). Consecuencia declarada en la PR: una 00 desde rama ≠ `main` falla en `actualizar_estado` y `manifestar`. Antes de fusionar, el propietario crea/revisa los 3 entornos (solo `main`) y copia los secretos.
 - D-160 (17-11, propietario). Relevo automático de chats sin intervención del propietario (T-403): cada sesión de rol comprueba su contexto al empezar cada turno y, al 70 % del umbral, guarda lecciones, escribe su traspaso, crea su sucesora y avisa; la sucesora archiva a la predecesora. Con profundidad de linaje 7 o más (tope 8), avisa al propietario al móvil para que abra un chat nuevo. El Operador anota en la ficha las frases D-52 vigentes; el sucesor solo las acepta si el propietario ha dicho una vez en el chat del Operador que valen para el sucesor.
@@ -425,7 +427,9 @@ Fase 4 — producto (en el privado):
 | T-402 | Normalización auditada de geometrías inválidas del INE en la materialización del histórico, con huella e informe (D-158) | LISTA (Sonnet), coordinada con T-399 |
 | T-403 | Relevo automático de chats: sección «Relevo» en las skills de rol y línea en CLAUDE.md (D-160) | LISTA (Sonnet) |
 | T-405 | Histórico 2011-11, provincia 14 (Córdoba, `nac14`): M04 «invalid administrative component source binding»; solo diagnóstico y una PR por causa (Sonnet) | LISTA tras #886 (T-402) |
-| T-406 | Actualización del plan 1.0.63 | REVISIÓN (esta PR) |
+| T-397c | «_» en `auto-merge.yml` e inventario en solo lectura de ejecuciones de workflows retirados (D-159) | EN CURSO (session_01KQDtFsHKjJ6KXAcAdTMT6G) |
+| T-407 | Actualización del plan 1.0.64 | REVISIÓN (esta PR) |
+| T-406 | Actualización del plan 1.0.63 | HECHA (#891) |
 | T-404 | Actualización del plan 1.0.62 y traspaso del Planificador | HECHA (#887) |
 | T-385 | Actualización del plan 1.0.56 | HECHA (#856) |
 | T-382 | Actualización del plan 1.0.55 | REVISIÓN (esta PR) |
