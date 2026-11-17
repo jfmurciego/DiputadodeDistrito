@@ -1,9 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: activacion-por-eleccion.yml
-# VERSIÓN: 1.1.2
+# VERSIÓN: 1.1.3
+# CAMBIOS 1.1.3: T-397b (D-159), solo el nombre visible: «_P00 Campaña — Elección» (antes «P00 Campaña — Elección»; sin botón, al final de la lista de Actions). Disparadores, jobs, permisos e `if` intactos; nadie lo busca por nombre.
 # CAMBIOS 1.1.2: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P00 Campaña — Elección» (antes Auxiliar — Activación por Elección).
 # NOMBRE DE VERSIÓN: Activación, 03 y 00 por elección entera
-# FECHA: 2026-11-10
+# FECHA: 2026-11-17
 # ESTADO: candidato
 # QUÉ HACE: resuelve una clave de elección (herramientas/clave_eleccion.py) en sus territorios y lanza, para
 #   todos ellos, una fase: activación del par (prepare_one), 03 o 00. «plan» es la simulación en seco.
@@ -12,9 +13,9 @@
 # NO HACE: esperar a los runs lanzados; cada territorio conserva su cola (concurrency por territorio).
 # MOTIVO: T-03; una sola activación, una 03 y un 00 por elección en lugar de 52 lanzamientos manuales.
 # CAMBIOS 1.1.0: T-41, el job de entrada declara environment produccion (revisor humano) solo en disparo manual de una persona; bots y app ddd-registro no esperan.
-# ANTERIOR: legacy/workflows/activacion-por-eleccion_v1.1.1_20261110.yml
+# ANTERIOR: legacy/workflows/activacion-por-eleccion_v1.1.2_20261117.yml
 # CAMBIOS 1.1.1: T-149, solo el nombre visible ('Auxiliar — Activación por Elección') para ordenar la lista de Actions.
-name: P00 Campaña — Elección
+name: _P00 Campaña — Elección
 run-name: "Activación por Elección · ${{ inputs.eleccion }} · ${{ inputs.fase }}"
 
 on:
