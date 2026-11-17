@@ -1,0 +1,1505 @@
+{
+ "schema": "ddd.contrato-historico-epoca/1.0",
+ "version": "1.1.0",
+ "anterior": "legacy/contrato_historico_epoca_2016_06_v1.0.0_20261116.json",
+ "motivo": "D-125 (opción A: distritos con los datos de cada época), D-126/D-128 (población), T-199 (elección en el registro)",
+ "generado_con": "herramientas/contrato_historico_epoca.py 1.0.0",
+ "eleccion": "2016-06",
+ "fecha": "2016-06-26",
+ "clave_espejo": "201606",
+ "seccionado": {
+  "anio": 2016,
+  "fichero": "seccionado_2016.zip",
+  "sha256": "3410af763bfe58d1b0f9c0d0038cbdd6417e0f3f6d0fce6a3e70bef64c84b3e1",
+  "origen_url": "https://www.ine.es/prodyser/cartografia/seccionado_2016.zip",
+  "r2_clave": "arc-e/fuentes/ine/seccionado_2016_3410af763bfe.zip",
+  "campo_seccion": "CUSEC"
+ },
+ "poblacion": {
+  "fichero": "poblacion_seccion_2016-06.csv",
+  "sha256": "6941ae4af6b8b58ef31dfd7e1aca56d10632b864d59b8b92c55e3838100cd9a5",
+  "origen": "T-364b herramientas/poblacion_seccion_historica.py 1.2.0 (D-128; provincias apartadas sin filas, reasignada, sin_ajuste_municipal; fuentes con sha256 de T-357/T-364)",
+  "anio_referencia": 2016,
+  "fuente": "atlas",
+  "regla_publicacion": "> 1 % estimada → BLOQUEADA_RELLENO (D-126/D-128); sin_dato → BLOQUEADA_SIN_DATO",
+  "regla_sin_seccionado": "secciones con población sin geometría en el seccionado del año: materializar falla cerrado (decisión pendiente del propietario)",
+  "fuentes": {
+   "30832.csv": "37716cba8cda50a492f52e2bae91a1c543bafb4263110e5aa5da18107ef68311",
+   "indicadores_seccion_censal_csv.zip": "305a19f11b87d4e13d2ea4267774b9b0e3a69a3b7b1ff8e483aad90867628fe7"
+  }
+ },
+ "escanos": {
+  "csv": "configuracion/resultados_oficiales_congreso_2016_06.csv",
+  "sha256": "4fd01ba0e6ee92433227060238a23bf151e7e16f4b9761781539e2fe5498626e",
+  "boe": "BOE-A-2016-7133",
+  "regla": "K de la provincia = escanos_circunscripcion del BOE de la elección (D-125)"
+ },
+ "votos": {
+  "fuente": "nazioenbehatokia",
+  "manifiesto": "orchestracion/fuente_nazioenbehatokia.json",
+  "manifiesto_sha256": "b22ff749d3ba9570b9c1000e1d146ee963ab990f0c624388c41ddca803cbc5b3"
+ },
+ "puerta": {
+  "m07": "PASS o PASS_WITH_DECLARED_EXCEPTIONS con votos sin asignar ≤ 0,1 % (2011: D-70)",
+  "contraste_boe": "historico_campana.contraste_boe (por partido, cobertura total, TOLERANCIA de cuadre_historico_espana)",
+  "escanos": "K del contrato = escaños BOE = distritos del M08"
+ },
+ "provincias": {
+  "01": {
+   "territorio": "nac01",
+   "provincia": "Álava",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac01 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac01/config/nac01_2025.yaml",
+    "sha256": "05f8070166fc55f340c25f033c83985f736d9bdfcc8d89263ea46257a81f4cb7"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/01.json",
+    "sha256": "08aeacc366b0b22953b92b71b678d7880f8846c03c98968c0b87b5ac1edcccc9",
+    "bytes": 28384,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/01_08aeacc366b0.json"
+   },
+   "poblacion": {
+    "secciones": 261,
+    "total": 322805,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "02": {
+   "territorio": "nac02",
+   "provincia": "Albacete",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac02 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac02/config/nac02_2025.yaml",
+    "sha256": "f03e8b35bf6af895238299f764b20695342a371605e1d725bd9fe30a3437c62f"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/02.json",
+    "sha256": "89e294a892b78f219d44b2770bb59e3301e62b78580e681e0cb46388564c9df9",
+    "bytes": 26341,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/02_89e294a892b7.json"
+   },
+   "poblacion": {
+    "secciones": 301,
+    "total": 388732,
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 1657,
+    "pct_no_dato": "0.4263",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "03": {
+   "territorio": "nac03",
+   "provincia": "Alicante",
+   "K": 12,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac03 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac03/config/nac03_2025.yaml",
+    "sha256": "7cea93390865dd86b19ea6996a1a03bbf76eb195e1bca1d40b22ebaea375f0ad"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/03.json",
+    "sha256": "be7620d92535ac873c234bf7847e66411709600c707ad8001a3f47062551964d",
+    "bytes": 117055,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/03_be7620d92535.json"
+   },
+   "poblacion": {
+    "secciones": 1222,
+    "total": 1768659,
+    "secciones_no_dato": 4,
+    "poblacion_no_dato": 317,
+    "pct_no_dato": "0.0179",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "04": {
+   "territorio": "nac04",
+   "provincia": "Almería",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac04 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac04/config/nac04_2025.yaml",
+    "sha256": "ecff47ed5c297cd9d754391ce9e3d31d37f041e1ba2358372d32e85292c8ca34"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/04.json",
+    "sha256": "6b9d7288da556f0f319412fc17b7be8f95748917eccc5601392294ff01762723",
+    "bytes": 41017,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/04_6b9d7288da55.json"
+   },
+   "poblacion": {
+    "secciones": 460,
+    "total": 687737,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 69,
+    "pct_no_dato": "0.0100",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "05": {
+   "territorio": "nac05",
+   "provincia": "Ávila",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac05 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac05/config/nac05_2025.yaml",
+    "sha256": "76e3975db834c5093eac3a0278aa2977613f33dd4a30ffc621df25644cfd194c"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/05.json",
+    "sha256": "809075ed5344e6b84d6692f7e9ea1bf599be1419518f243a9e181570b67a70b5",
+    "bytes": 22611,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/05_809075ed5344.json"
+   },
+   "poblacion": {
+    "secciones": 312,
+    "total": 159757,
+    "secciones_no_dato": 90,
+    "poblacion_no_dato": 5889,
+    "pct_no_dato": "3.6862",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "06": {
+   "territorio": "nac06",
+   "provincia": "Badajoz",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac06 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac06/config/nac06_2025.yaml",
+    "sha256": "9b2b5eb0debc84a6de2cd18c84708f56860c4102458430bbcb7c182411d96d7c"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/06.json",
+    "sha256": "4c3f20659dd65264a79a30c49ce51c978041550269f192cd0dc8d909b9d25106",
+    "bytes": 44275,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/06_4c3f20659dd6.json"
+   },
+   "poblacion": {
+    "secciones": 551,
+    "total": 676900,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 74,
+    "pct_no_dato": "0.0109",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "07": {
+   "territorio": "nac07",
+   "provincia": "Baleares",
+   "K": 8,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac07 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac07/config/nac07_2025.yaml",
+    "sha256": "ad9ea641fbfe4348d3aee5c5a1ce330c828d045b1acab735d28387eec8253b0e"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/07.json",
+    "sha256": "1d6fbe5d3952c8d11426cb0bf8567418464558438476cf584d5f6fcbedcb1167",
+    "bytes": 60643,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/07_1d6fbe5d3952.json"
+   },
+   "poblacion": {
+    "secciones": 653,
+    "total": 1097293,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "08": {
+   "territorio": "nac08",
+   "provincia": "Barcelona",
+   "K": 31,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac08 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac08/config/nac08_2025.yaml",
+    "sha256": "b68ba153e7c5537f3a69d3369c54da6cca6e5789084f8a3f4f1a222c167d56a9"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/08.json",
+    "sha256": "cd6c6613a35a4f679575ebe4ddc49681c2b049fa743238258a359caf057fb129",
+    "bytes": 338939,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/08_cd6c6613a35a.json"
+   },
+   "poblacion": {
+    "secciones": 3588,
+    "total": 5481524,
+    "secciones_no_dato": 27,
+    "poblacion_no_dato": 27447,
+    "pct_no_dato": "0.5007",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "09": {
+   "territorio": "nac09",
+   "provincia": "Burgos",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac09 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac09/config/nac09_2025.yaml",
+    "sha256": "7c295af71cee5ac34b1a618627791c48a7537950cd4991f86c7482aa0c5e7ab0"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/09.json",
+    "sha256": "b386df5ae801bb5c26b2e6ca554e168efd5fd989d020ba13610a8ac7f6cde072",
+    "bytes": 46124,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/09_b386df5ae801.json"
+   },
+   "poblacion": {
+    "secciones": 585,
+    "total": 354564,
+    "secciones_no_dato": 161,
+    "poblacion_no_dato": 9297,
+    "pct_no_dato": "2.6221",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "10": {
+   "territorio": "nac10",
+   "provincia": "Cáceres",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac10 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac10/config/nac10_2025.yaml",
+    "sha256": "bf54dd34f428a4f3e21856cfc12253e1754de5173690514353a47ffa5d4d2b45"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/10.json",
+    "sha256": "6004fb64db9c6a94ceed888203b7963eb5ca79cbb4443d509a39c4145ca5b3ea",
+    "bytes": 32965,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/10_6004fb64db9c.json"
+   },
+   "poblacion": {
+    "secciones": 415,
+    "total": 397950,
+    "secciones_no_dato": 6,
+    "poblacion_no_dato": 486,
+    "pct_no_dato": "0.1221",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "11": {
+   "territorio": "nac11",
+   "provincia": "Cádiz",
+   "K": 9,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac11 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac11/config/nac11_2025.yaml",
+    "sha256": "d664cc847822cfa43e382b7871f48a3add0afdb2d9dfbc75735422823366459c"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/11.json",
+    "sha256": "4f81274edd36c35734a1e4541e30aaa3e05210a9803796052e3c94ce272ed679",
+    "bytes": 81161,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/11_4f81274edd36.json"
+   },
+   "poblacion": {
+    "secciones": 901,
+    "total": 1228559,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "12": {
+   "territorio": "nac12",
+   "provincia": "Castellón",
+   "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac12 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac12/config/nac12_2025.yaml",
+    "sha256": "e0e7c06f24060be67315fc9513c2e4fc6105df8972d3468ec60fc213393599d7"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/12.json",
+    "sha256": "4e32e080cf7da4f088241552bf6fa91ee1a8fc486ebe0aefb7cdc91c07242b86",
+    "bytes": 43525,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/12_4e32e080cf7d.json"
+   },
+   "poblacion": {
+    "secciones": 440,
+    "total": 571251,
+    "secciones_no_dato": 20,
+    "poblacion_no_dato": 5756,
+    "pct_no_dato": "1.0076",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "13": {
+   "territorio": "nac13",
+   "provincia": "Ciudad Real",
+   "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac13 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac13/config/nac13_2025.yaml",
+    "sha256": "d2e806e9d0a2b9df2e46c084770a3c3c0631fbd146b86cbdf8b1e175b76b0a89"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/13.json",
+    "sha256": "dc1378ea6a939777a15d87fd4825c1ea11fedb3b94a0de1eba3a34cace08de29",
+    "bytes": 33667,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/13_dc1378ea6a93.json"
+   },
+   "poblacion": {
+    "secciones": 426,
+    "total": 498418,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 93,
+    "pct_no_dato": "0.0187",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "14": {
+   "territorio": "nac14",
+   "provincia": "Córdoba",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac14 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac14/config/nac14_2025.yaml",
+    "sha256": "af3ad9ef1fdfe8a61370ae3797b0f54456d91e921710c6aa310daac7db52ae44"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/14.json",
+    "sha256": "36d50b0462e84cd8614ac4fd0a0577edc291910b8169e9c869eb0afda82587db",
+    "bytes": 59274,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/14_36d50b0462e8.json"
+   },
+   "poblacion": {
+    "secciones": 624,
+    "total": 779209,
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 517,
+    "pct_no_dato": "0.0663",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "15": {
+   "territorio": "nac15",
+   "provincia": "La Coruña",
+   "K": 8,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac15 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac15/config/nac15_2025.yaml",
+    "sha256": "8c7e31cd1a806081a8998926fbc3a717fcaa7042ef6935672b02ae0a2e670f08"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/15.json",
+    "sha256": "159889c90272c4be125ac1c35ec3b028183e5342f795a275dd6fe8d6b208a12e",
+    "bytes": 82883,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/15_159889c90272.json"
+   },
+   "poblacion": {
+    "secciones": 897,
+    "total": 1115081,
+    "secciones_no_dato": 4,
+    "poblacion_no_dato": 1689,
+    "pct_no_dato": "0.1515",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "16": {
+   "territorio": "nac16",
+   "provincia": "Cuenca",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac16 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac16/config/nac16_2025.yaml",
+    "sha256": "1f45734e10bdfde75d14e7806fa094cf171c1490c486999407821199e649f862"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/16.json",
+    "sha256": "6ec98703614d911fc17fdfdbf28924bccd783dc01458b9a8d4866662aef19d1d",
+    "bytes": 23189,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/16_6ec98703614d.json"
+   },
+   "poblacion": {
+    "secciones": 310,
+    "total": 197633,
+    "secciones_no_dato": 71,
+    "poblacion_no_dato": 4012,
+    "pct_no_dato": "2.0300",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "17": {
+   "territorio": "nac17",
+   "provincia": "Gerona",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac17 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac17/config/nac17_2025.yaml",
+    "sha256": "ebc7502f24519948871868bec3e8eb35443bfade837e94864ef8d4d85b75a2db"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/17.json",
+    "sha256": "ce4fa03316d6c1941d7d2fc5b5f42af4245f62ee1b8fb5b6092b3712c3d67ea2",
+    "bytes": 51644,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/17_ce4fa03316d6.json"
+   },
+   "poblacion": {
+    "secciones": 531,
+    "total": 743701,
+    "secciones_no_dato": 4,
+    "poblacion_no_dato": 367,
+    "pct_no_dato": "0.0493",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "18": {
+   "territorio": "nac18",
+   "provincia": "Granada",
+   "K": 7,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac18 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac18/config/nac18_2025.yaml",
+    "sha256": "4d869bdb96ac977ab0f524542ba5ac7e0182a183303e925ea6e0a63deb674e81"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/18.json",
+    "sha256": "9fbf13d3f06dbea86642a093da87a2657c65d8c182373dd371c131cd27a30686",
+    "bytes": 57560,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/18_9fbf13d3f06d.json"
+   },
+   "poblacion": {
+    "secciones": 669,
+    "total": 908046,
+    "secciones_no_dato": 5,
+    "poblacion_no_dato": 10826,
+    "pct_no_dato": "1.1922",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "19": {
+   "territorio": "nac19",
+   "provincia": "Guadalajara",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac19 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac19/config/nac19_2025.yaml",
+    "sha256": "6fddd69e6bc2617a17f57a62bc30ab4f227bfd464963e95355ce13a31e7550e0"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/19.json",
+    "sha256": "ec13964a52db84af55805cfbeadd2259040029fb0a2a515f67b1791d0fd7abb5",
+    "bytes": 29055,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/19_ec13964a52db.json"
+   },
+   "poblacion": {
+    "secciones": 392,
+    "total": 250516,
+    "secciones_no_dato": 180,
+    "poblacion_no_dato": 9262,
+    "pct_no_dato": "3.6972",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "20": {
+   "territorio": "nac20",
+   "provincia": "Guipúzcoa",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac20 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac20/config/nac20_2025.yaml",
+    "sha256": "30bf741623a822a89a911995eed0cf407eaecf16a2ff87566f749dfac8b832c5"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/20.json",
+    "sha256": "f3991cd5ca1470e3e50a6d822cd8ec40596a4b8ca4028e974cc06987498d4c06",
+    "bytes": 53337,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/20_f3991cd5ca14.json"
+   },
+   "poblacion": {
+    "secciones": 543,
+    "total": 712196,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "21": {
+   "territorio": "nac21",
+   "provincia": "Huelva",
+   "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac21 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac21/config/nac21_2025.yaml",
+    "sha256": "d56755d57e552e5fabfddc6e41c4246e6785a7ddb47c7a41577851f8acbf9c97"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/21.json",
+    "sha256": "d221e82a806d84a65680f3ca89808e70e00de8c1fece2c8acca5d63e19a7ddb4",
+    "bytes": 31717,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/21_d221e82a806d.json"
+   },
+   "poblacion": {
+    "secciones": 365,
+    "total": 512555,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 50,
+    "pct_no_dato": "0.0098",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "22": {
+   "territorio": "nac22",
+   "provincia": "Huesca",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac22 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac22/config/nac22_2025.yaml",
+    "sha256": "ea01c1ca5d5d43625bc9f20f0b8c358f075b7bc8c064dde860052fb667863ac1"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/22.json",
+    "sha256": "69c302abf3ccb3b3521d8bfb171006ce0dd7354ef5ffbd163249f062b8d99e1b",
+    "bytes": 25507,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/22_69c302abf3cc.json"
+   },
+   "poblacion": {
+    "secciones": 288,
+    "total": 217145,
+    "secciones_no_dato": 28,
+    "poblacion_no_dato": 2135,
+    "pct_no_dato": "0.9832",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "23": {
+   "territorio": "nac23",
+   "provincia": "Jaén",
+   "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac23 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac23/config/nac23_2025.yaml",
+    "sha256": "bfae4f25c0ce07adb42702c597d2c4ff2d16ab6d8d783531c844c93547912032"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/23.json",
+    "sha256": "d3f67e6bc10687e68b3ac82b688425dbb5f66c7d996d96029dccbbfbdcf63a94",
+    "bytes": 45266,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/23_d3f67e6bc106.json"
+   },
+   "poblacion": {
+    "secciones": 517,
+    "total": 639600,
+    "secciones_no_dato": 5,
+    "poblacion_no_dato": 603,
+    "pct_no_dato": "0.0943",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "24": {
+   "territorio": "nac24",
+   "provincia": "León",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac24 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac24/config/nac24_2025.yaml",
+    "sha256": "9451a2feb3a931857da71a8e119a469eb830cdbab7ffa127cf5943cf954d936a"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/24.json",
+    "sha256": "f219b819df6aeb3b9759a27c045daa7ccf16191d7e67bcbdd533a22aeff8f89c",
+    "bytes": 42619,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/24_f219b819df6a.json"
+   },
+   "poblacion": {
+    "secciones": 457,
+    "total": 466181,
+    "secciones_no_dato": 6,
+    "poblacion_no_dato": 4944,
+    "pct_no_dato": "1.0605",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "25": {
+   "territorio": "nac25",
+   "provincia": "Lérida",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac25 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac25/config/nac25_2025.yaml",
+    "sha256": "04e3069a0cc13ad7ab2e6883d1ed16b615cec5d4b62f2bc46db6f7c678657151"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/25.json",
+    "sha256": "d018c36a09d66e2ace79c34bb95260cbc16acdf0ac44d30b65bbc780010a7f1e",
+    "bytes": 36231,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/25_d018c36a09d6.json"
+   },
+   "poblacion": {
+    "secciones": 387,
+    "total": 426735,
+    "secciones_no_dato": 13,
+    "poblacion_no_dato": 1060,
+    "pct_no_dato": "0.2484",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "26": {
+   "territorio": "nac26",
+   "provincia": "La Rioja",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac26 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac26/config/nac26_2025.yaml",
+    "sha256": "742231bb764be3a06e6aacecb04d96b208b048b4218665043058aeeed4c56b57"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/26.json",
+    "sha256": "e7d8b53524ff53dd080143d34b1db863342c351aa20d4a89ee1a24f77bfee1ad",
+    "bytes": 28435,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/26_e7d8b53524ff.json"
+   },
+   "poblacion": {
+    "secciones": 338,
+    "total": 311748,
+    "secciones_no_dato": 61,
+    "poblacion_no_dato": 3119,
+    "pct_no_dato": "1.0005",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "27": {
+   "territorio": "nac27",
+   "provincia": "Lugo",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac27 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac27/config/nac27_2025.yaml",
+    "sha256": "fae73006bc524bf29db5ebee8f2e1f658734e227a8177dd4b8fa24993ff09722"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/27.json",
+    "sha256": "bc9c2fa1c9aa0c05f80512db88e5911646b3ede0cc6bac5c73e5b5d9427407c7",
+    "bytes": 24774,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/27_bc9c2fa1c9aa.json"
+   },
+   "poblacion": {
+    "secciones": 283,
+    "total": 330302,
+    "secciones_no_dato": 1,
+    "poblacion_no_dato": 2395,
+    "pct_no_dato": "0.7251",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "28": {
+   "territorio": "nac28",
+   "provincia": "Madrid",
+   "K": 36,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac28 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac28/config/nac28_2025.yaml",
+    "sha256": "9f424a7aa62af5b9b4a1f5332c23b0334dae15a8e12a3a58c13a051805ee6ce6"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/28.json",
+    "sha256": "3be2ff38df1c79af9b8e688c324c08248af193986e228e108fe4558d0de0aa06",
+    "bytes": 414819,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/28_3be2ff38df1c.json"
+   },
+   "poblacion": {
+    "secciones": 4341,
+    "total": 6400408,
+    "secciones_no_dato": 13,
+    "poblacion_no_dato": 10913,
+    "pct_no_dato": "0.1705",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "29": {
+   "territorio": "nac29",
+   "provincia": "Málaga",
+   "K": 11,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac29 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac29/config/nac29_2025.yaml",
+    "sha256": "3dc5abb03be82cb8a8a21ce9c56c6b84b567d2f2a6d75c1e55c36a6f30e176f8"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/29.json",
+    "sha256": "232075b6d1c4f5d0803dc7d7bfc4c1f29d27421b7d3c384a10317886b3400f7f",
+    "bytes": 95037,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/29_232075b6d1c4.json"
+   },
+   "poblacion": {
+    "secciones": 1046,
+    "total": 1590986,
+    "secciones_no_dato": 9,
+    "poblacion_no_dato": 28396,
+    "pct_no_dato": "1.7848",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "30": {
+   "territorio": "nac30",
+   "provincia": "Murcia",
+   "K": 10,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac30 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac30/config/nac30_2025.yaml",
+    "sha256": "98a2efd7fe47c5e997197919f69bfc8cb2738b03a2e3c6fcaa5200f48dde9c7f"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/30.json",
+    "sha256": "fb7a42b4af0fe4376b18168fc6aa278dbab3b323af22bcd90b956bbfd9cc255f",
+    "bytes": 108116,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/30_fb7a42b4af0f.json"
+   },
+   "poblacion": {
+    "secciones": 1232,
+    "total": 1441907,
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 284,
+    "pct_no_dato": "0.0197",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "31": {
+   "territorio": "nac31",
+   "provincia": "Navarra",
+   "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac31 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac31/config/nac31_2025.yaml",
+    "sha256": "0ae03c9025d79633d4c3fec0bb8a0b53ff0be4975ba358f3f81fc3946bb47706"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/31.json",
+    "sha256": "4b7349ec1f528688869f3332f0ba6844468e8fad54536c75768c0abafad594a9",
+    "bytes": 55060,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/31_4b7349ec1f52.json"
+   },
+   "poblacion": {
+    "secciones": 562,
+    "total": 634446,
+    "secciones_no_dato": 43,
+    "poblacion_no_dato": 2768,
+    "pct_no_dato": "0.4363",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "32": {
+   "territorio": "nac32",
+   "provincia": "Orense",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac32 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac32/config/nac32_2025.yaml",
+    "sha256": "12e713db0f45bbdd6648853e6bcaa6b85088a1727e895837a0d241a6a322b6be"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/32.json",
+    "sha256": "8c251f81827439cfb366d0e62b13025406a90f408cd9934cb18b5c3e77986c9d",
+    "bytes": 24349,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/32_8c251f818274.json"
+   },
+   "poblacion": {
+    "secciones": 267,
+    "total": 307162,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "33": {
+   "territorio": "nac33",
+   "provincia": "Asturias",
+   "K": 8,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac33 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac33/config/nac33_2025.yaml",
+    "sha256": "7d57356715752e816404262263442db6d4b6df93355674c9a733cdd587adb914"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/33.json",
+    "sha256": "3b96741c920b7c27742cd65729dbd488637438b4e450e0f01f8b55533f55442d",
+    "bytes": 83482,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/33_3b96741c920b.json"
+   },
+   "poblacion": {
+    "secciones": 868,
+    "total": 1033081,
+    "secciones_no_dato": 6,
+    "poblacion_no_dato": 6749,
+    "pct_no_dato": "0.6533",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "34": {
+   "territorio": "nac34",
+   "provincia": "Palencia",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac34 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac34/config/nac34_2025.yaml",
+    "sha256": "25b2e1df6eb4909f20640aa64a1df051ae59e883770b0f1464499e38237c17ec"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/34.json",
+    "sha256": "a555825e5b73745f08298e19e23fdebc9dff05a38e9d6e218196f19ae982a4c1",
+    "bytes": 22000,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/34_a555825e5b73.json"
+   },
+   "poblacion": {
+    "secciones": 282,
+    "total": 163032,
+    "secciones_no_dato": 74,
+    "poblacion_no_dato": 6044,
+    "pct_no_dato": "3.7072",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "35": {
+   "territorio": "nac35",
+   "provincia": "Las Palmas",
+   "K": 8,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac35 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac35/config/nac35_2025.yaml",
+    "sha256": "6a293955ac66b5d134e827eeffe6db314d05ce2b5c5777bb6fc76a1aeef2729c"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/35.json",
+    "sha256": "54acb61da37017266655648b02f3bbc8328cfc7d137ac1df642b9ab4c76168d1",
+    "bytes": 76143,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/35_54acb61da370.json"
+   },
+   "poblacion": {
+    "secciones": 702,
+    "total": 1078227,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "36": {
+   "territorio": "nac36",
+   "provincia": "Pontevedra",
+   "K": 7,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac36 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac36/config/nac36_2025.yaml",
+    "sha256": "58702d2bea8bd6174bbd03b580ff9a49aff3f32d8cc627a140455f8923e88c85"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/36.json",
+    "sha256": "716afea4f36be62c818e20c45fe0d0ddf05f21f388d314bda3875b462427c23e",
+    "bytes": 70462,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/36_716afea4f36b.json"
+   },
+   "poblacion": {
+    "secciones": 0,
+    "total": 0,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_SIN_DATO"
+  },
+  "37": {
+   "territorio": "nac37",
+   "provincia": "Salamanca",
+   "K": 4,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac37 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac37/config/nac37_2025.yaml",
+    "sha256": "9c94cdf7d5bbedb93b25ac48971bd6a2dba3fbe7fd078a9aff84c0a30e2b4f5b"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/37.json",
+    "sha256": "559fb1c0a4559d9953883bfdd82b5a12cdfb2f8795377cc2e206c8065369dd4a",
+    "bytes": 39463,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/37_559fb1c0a455.json"
+   },
+   "poblacion": {
+    "secciones": 532,
+    "total": 331894,
+    "secciones_no_dato": 78,
+    "poblacion_no_dato": 5686,
+    "pct_no_dato": "1.7132",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "38": {
+   "territorio": "nac38",
+   "provincia": "Santa Cruz de Tenerife",
+   "K": 7,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac38 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac38/config/nac38_2025.yaml",
+    "sha256": "55791c2c483258b56e5e07bd81e639e23bc655b5419d533bf224360475051f5c"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/38.json",
+    "sha256": "de86e91e9aa76235d7aae34448e42c8a7116bae99516bd15213f786ac7867f21",
+    "bytes": 63953,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/38_de86e91e9aa7.json"
+   },
+   "poblacion": {
+    "secciones": 665,
+    "total": 987436,
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 5726,
+    "pct_no_dato": "0.5799",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "39": {
+   "territorio": "nac39",
+   "provincia": "Cantabria",
+   "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac39 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac39/config/nac39_2025.yaml",
+    "sha256": "8e2b6bba83b05216c00574ac476d580050521b47e406c4614f8657743bf8cba1"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/39.json",
+    "sha256": "76b0f3161269cac3c05b1bfe76ef0ca0fd09da0c697b9ec6b4c35ac61a66079f",
+    "bytes": 44624,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/39_76b0f3161269.json"
+   },
+   "poblacion": {
+    "secciones": 468,
+    "total": 574325,
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 142,
+    "pct_no_dato": "0.0247",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "40": {
+   "territorio": "nac40",
+   "provincia": "Segovia",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac40 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac40/config/nac40_2025.yaml",
+    "sha256": "4f0e1778667801d0741b5e5b8d7c49e4be2bbab65b5387779da80ae8a6ca0b7a"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/40.json",
+    "sha256": "763c82a47c9284a77d8bd3f4f5a7b7a23599fe35440b212d17ed80a1d4719b24",
+    "bytes": 21858,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/40_763c82a47c92.json"
+   },
+   "poblacion": {
+    "secciones": 276,
+    "total": 153176,
+    "secciones_no_dato": 76,
+    "poblacion_no_dato": 4562,
+    "pct_no_dato": "2.9783",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "41": {
+   "territorio": "nac41",
+   "provincia": "Sevilla",
+   "K": 12,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac41 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac41/config/nac41_2025.yaml",
+    "sha256": "46c59eb1bcee37f6086497bcfe96dffa294d8384d384fc474ee9df61485e952f"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/41.json",
+    "sha256": "e91cccdfa663ba87721264650a42bac15563e56e7410b36a74e5edff0f0515e3",
+    "bytes": 121095,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/41_e91cccdfa663.json"
+   },
+   "poblacion": {
+    "secciones": 1345,
+    "total": 1936353,
+    "secciones_no_dato": 285,
+    "poblacion_no_dato": 422891,
+    "pct_no_dato": "21.8396",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "42": {
+   "territorio": "nac42",
+   "provincia": "Soria",
+   "K": 2,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac42 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac42/config/nac42_2025.yaml",
+    "sha256": "108558010d1792abc66ed9c03893ea1cdfe86a32e833b1e9189fef9e810868e1"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/42.json",
+    "sha256": "ad927c96931173512e40f5890c6e83c9b6e85df9c0263a481490be3347d9ed43",
+    "bytes": 15740,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/42_ad927c969311.json"
+   },
+   "poblacion": {
+    "secciones": 216,
+    "total": 87991,
+    "secciones_no_dato": 116,
+    "poblacion_no_dato": 5463,
+    "pct_no_dato": "6.2086",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "43": {
+   "territorio": "nac43",
+   "provincia": "Tarragona",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac43 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac43/config/nac43_2025.yaml",
+    "sha256": "d390f3113e734dfc3b590b071546f26b96edf705fa1a4bed68f3ad6a03508f09"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/43.json",
+    "sha256": "78aa30c7f559005d77bb3a71a0d7cb81046ecf157f9acfd1edadd19241409a35",
+    "bytes": 51459,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/43_78aa30c7f559.json"
+   },
+   "poblacion": {
+    "secciones": 540,
+    "total": 782167,
+    "secciones_no_dato": 7,
+    "poblacion_no_dato": 484,
+    "pct_no_dato": "0.0619",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "44": {
+   "territorio": "nac44",
+   "provincia": "Teruel",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac44 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac44/config/nac44_2025.yaml",
+    "sha256": "d43011d3f6e7a6b3d0c0b7c33401536611b537c9daa261f796de069be9896aa7"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/44.json",
+    "sha256": "0188066f3e4feb1f5969c328887ac0949db7bc2fffeb6ccfa1876dc5327375be",
+    "bytes": 21392,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/44_0188066f3e4f.json"
+   },
+   "poblacion": {
+    "secciones": 283,
+    "total": 133773,
+    "secciones_no_dato": 92,
+    "poblacion_no_dato": 5305,
+    "pct_no_dato": "3.9657",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "45": {
+   "territorio": "nac45",
+   "provincia": "Toledo",
+   "K": 6,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac45 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac45/config/nac45_2025.yaml",
+    "sha256": "5243b6912d98b82b09f2054213bec4ece75c80ed856e186df4ec8baf63ba62a5"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/45.json",
+    "sha256": "ca3f79c9510735fc3ecb03f547aa6676b01726839007a88488f138017492311c",
+    "bytes": 46854,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/45_ca3f79c95107.json"
+   },
+   "poblacion": {
+    "secciones": 524,
+    "total": 680324,
+    "secciones_no_dato": 3,
+    "poblacion_no_dato": 153,
+    "pct_no_dato": "0.0225",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "46": {
+   "territorio": "nac46",
+   "provincia": "Valencia",
+   "K": 16,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac46 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac46/config/nac46_2025.yaml",
+    "sha256": "eda58e868eb565bcddadc3622e2fb8152ad17ffb66a392fd4a178577f9bf3d17"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/46.json",
+    "sha256": "b9055b7d6b2b9d17dd8d6a93f6154f0be591e1aae6454509939cb3f3a560931a",
+    "bytes": 188324,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/46_b9055b7d6b2b.json"
+   },
+   "poblacion": {
+    "secciones": 1808,
+    "total": 2512104,
+    "secciones_no_dato": 4,
+    "poblacion_no_dato": 1617,
+    "pct_no_dato": "0.0644",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "47": {
+   "territorio": "nac47",
+   "provincia": "Valladolid",
+   "K": 5,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac47 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac47/config/nac47_2025.yaml",
+    "sha256": "78ba3f3ac30599c0452a87b371151777a9697995b2284bcd93741f5d9dbaaafc"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/47.json",
+    "sha256": "d8dd1369497c2e3dd1e8cec07a348389de05653a83e17cfa99c915570c8ed6d9",
+    "bytes": 53712,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/47_d8dd1369497c.json"
+   },
+   "poblacion": {
+    "secciones": 575,
+    "total": 522165,
+    "secciones_no_dato": 61,
+    "poblacion_no_dato": 9001,
+    "pct_no_dato": "1.7238",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "48": {
+   "territorio": "nac48",
+   "provincia": "Vizcaya",
+   "K": 8,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac48 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac48/config/nac48_2025.yaml",
+    "sha256": "5295b77539ddbdddf1ed6ba9bfb3da3949690a771c763d357b279492381ede65"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/48.json",
+    "sha256": "fa71b8a9d8ad49d3f3e094038f65edbf596a49b70394a0fe34b1d9a740cb53a0",
+    "bytes": 94233,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/48_fa71b8a9d8ad.json"
+   },
+   "poblacion": {
+    "secciones": 0,
+    "total": 0,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_SIN_DATO"
+  },
+  "49": {
+   "territorio": "nac49",
+   "provincia": "Zamora",
+   "K": 3,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac49 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac49/config/nac49_2025.yaml",
+    "sha256": "1978b3795ea633ec8eaca2117bb1d395ded0cd7276a496b20af5f90cb3a270d5"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/49.json",
+    "sha256": "359fa9cca5e9b1e6ffc38156bd565eb671c00403b76de95254aef73c0bd1f53d",
+    "bytes": 25090,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/49_359fa9cca5e9.json"
+   },
+   "poblacion": {
+    "secciones": 321,
+    "total": 176526,
+    "secciones_no_dato": 27,
+    "poblacion_no_dato": 2001,
+    "pct_no_dato": "1.1335",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "BLOQUEADA_RELLENO"
+  },
+  "50": {
+   "territorio": "nac50",
+   "provincia": "Zaragoza",
+   "K": 7,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac50 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac50/config/nac50_2025.yaml",
+    "sha256": "2394d71a6319ad0e4fc6e7a5e8a1acdf63b645f0af61104be1db3489830a1319"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/50.json",
+    "sha256": "a4fbdd5fc4e68c5dbfbe197559f6e4491ddce504e53a6a4612e8efff417c695a",
+    "bytes": 80208,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/50_a4fbdd5fc4e6.json"
+   },
+   "poblacion": {
+    "secciones": 877,
+    "total": 946001,
+    "secciones_no_dato": 80,
+    "poblacion_no_dato": 5108,
+    "pct_no_dato": "0.5400",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "51": {
+   "territorio": "nac51",
+   "provincia": "Ceuta",
+   "K": 1,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac51 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac51/config/nac51_2025.yaml",
+    "sha256": "cbc3b939ec5846a9c0f1eac981e38dc3ceb7a142a96ee53012fdfd9b842ed925"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/51.json",
+    "sha256": "5f2383e0ac40ae9d4e6e98d29b343dacc547967b5b43d32222e26bda00d3335b",
+    "bytes": 6389,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/51_5f2383e0ac40.json"
+   },
+   "poblacion": {
+    "secciones": 54,
+    "total": 80545,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  },
+  "52": {
+   "territorio": "nac52",
+   "provincia": "Melilla",
+   "K": 1,
+   "k_source": "norma",
+   "k_rationale": "D-125: K = escaños oficiales de nac52 en la elección 2016-06 según BOE-A-2016-7133 (CSV de T-330, sha256 4fd01ba0e6ee)",
+   "contrato_base": {
+    "ruta": "territorios/nac52/config/nac52_2025.yaml",
+    "sha256": "66ba9616bd9d8a7271fd2072b24cf78ac1ee35fbe8e737ee4bf57c0e73d11e91"
+   },
+   "votos": {
+    "ruta": "data/201606/sekzioa/52.json",
+    "sha256": "57e5e7ca16e023b4291ef03c76048d0fa3509e8cc201f888dfd5997696754e50",
+    "bytes": 5436,
+    "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201606/sekzioa/52_57e5e7ca16e0.json"
+   },
+   "poblacion": {
+    "secciones": 44,
+    "total": 82369,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
+   },
+   "estado": "LISTA"
+  }
+ }
+}

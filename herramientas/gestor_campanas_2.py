@@ -2,7 +2,10 @@
 """Gestor de Campañas 2.0 (T-105, D-22): seis entradas en español → plan en seco o campaña sin chats.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.1 · FECHA: 2026-11-12 · ESTADO: candidato
+VERSIÓN: 1.4.0 · FECHA: 2026-11-16 · ESTADO: candidato
+CAMBIOS: 1.4.0 (T-377, D-138): el ensemble se retira (P28 Alternativas, sin sustituto): «ensemble» distinto de «ninguno» falla al
+  planificar (NoDisponible, sin lanzar) en toda elección; ya no se leen las configuraciones de ensemble (retiradas a legacy/) ni se pasa a `build_plan`.
+ANTERIOR (1.3.1): legacy/herramientas/gestor_campanas_2_v1.3.1_20261116.py
 CAMBIOS: 1.3.0 (T-133): la campaña completa con tipo autonómico planifica también el histórico autonómico desde 2011
   (herramientas/historico_autonomico.py: paso A por comunidad, cada una con su calendario); filas con `tipo`
   («general» o «autonomico») y una prueba de cada tipo. Las comunidades sin paso B se omiten con su motivo.
@@ -18,7 +21,7 @@ CAMBIOS 1.3.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac
 ANTERIOR: legacy/herramientas/gestor_campanas_2_v1.3.0_20261112.py
 QUÉ HACE: traduce las entradas del formulario «0 Gestor de Campañas», en el orden de D-22, a un plan de
   `legislatura_vigente.py` y, si «solo plan» está desactivado, lo lanza: 00 (con su cadena par → 00 electoral)
-  → 05 si «publicar» = sí → 06 `ensemble_10` si «ensemble» = 10.
+  → 05 si «publicar» = sí. «ensemble» solo admite «ninguno» (D-138).
   1) elección: legislatura vigente o histórico (cuál); 2) tipo: nacional o autonómico; 3) territorios: «todos» o
   lista de provincias o comunidades por nombre, código o matrícula; 4) inicio; 5) publicar; 6) ensemble.
   Además `mapa` (407 o 350, T-102) y `solo plan`.
@@ -58,7 +61,6 @@ SI_NO = ["no", "sí"]
 ENSEMBLES = ["ninguno", "10", "25"]
 MAPAS = ["407", "350"]
 CATALOG = Path("configuracion/catalogo_territorios_espana_2025.yaml")
-ENSEMBLE_DIR = Path("configuracion/ensemble")
 
 
 class NoDisponible(lv.GestorError):
@@ -141,22 +143,19 @@ def resolve(entradas: dict, root: Path = Path(".")) -> dict:
     publicar = _choice("publicar", entradas.get("publicar"), SI_NO) == "sí"
     ensemble = _choice("ensemble", entradas.get("ensemble"), ENSEMBLES)
     mapa = _choice("mapa", entradas.get("mapa"), MAPAS)
+    if ensemble != "ninguno":
+        raise NoDisponible("Los ensembles (P28 Alternativas) se retiraron (D-138) y no tienen sustituto. Elija «ninguno».")
     if eleccion == COMPLETA:
         return _resolve_completa(entradas, tipo, publicar, ensemble, mapa, root)
     if tipo == AMBOS:
         raise NoDisponible("El tipo «nacional y autonómico» solo existe con la elección «campaña completa».")
     if eleccion != VIGENTE:
         return _resolve_historico(entradas, eleccion, tipo, publicar, ensemble, mapa, root)
-    if ensemble == "25":
-        raise NoDisponible("El ensemble de 25 no está validado (solo existe `ensemble_10`, T-91). "
-                           "Elija «ninguno» o «10».")
     if mapa == "350":
         if tipo != "nacional":
             raise NoDisponible("El mapa de 350 (T-102) solo existe para el tipo «nacional».")
         if publicar:
             raise NoDisponible("El mapa de 350 no se publica sin aprobación del propietario (D-18). Elija publicar «no».")
-        if ensemble != "ninguno":
-            raise NoDisponible("El mapa de 350 no tiene configuración de ensemble. Elija «ninguno».")
     raw = [t.strip() for t in str(entradas.get("territorios") or "").split(",") if t.strip()]
     auto = {t.removesuffix("@auto") for t in raw if t.endswith("@auto")}  # relevo «continuar»
     raw = [t.removesuffix("@auto") for t in raw]
@@ -165,15 +164,7 @@ def resolve(entradas: dict, root: Path = Path(".")) -> dict:
     ids = _resolve_tokens(cfg, tipo, mapa, tokens, root)
     if not ids:
         raise lv.GestorError("La selección no contiene ningún territorio.")
-    ens = {}
-    if ensemble == "10":
-        missing = [i for i in ids if not (root / ENSEMBLE_DIR / f"{i}.json").is_file()]
-        if missing:
-            raise NoDisponible(f"Sin configuración de ensemble de 10 ({ENSEMBLE_DIR}/<territorio>.json): "
-                               f"{', '.join(missing)}. Elija «ninguno» o una lista con configuración.")
-        ens = {i: i for i in ids}
     return {"ids": ids, "inicio": {i: ("auto" if i in auto else inicio) for i in ids}, "publicar": publicar,
-            "ensemble": ens,
             "entradas": {"eleccion": eleccion, "tipo": tipo, "territorios": ",".join(raw) or "todos",
                          "inicio": entradas.get("inicio"), "publicar": "sí" if publicar else "no",
                          "ensemble": ensemble, "mapa": mapa}}
@@ -191,8 +182,6 @@ def _resolve_historico(entradas: dict, eleccion: str, tipo: str, publicar: bool,
         raise NoDisponible("El histórico solo existe para el tipo «nacional» (generales al Congreso).")
     if mapa != "407":
         raise NoDisponible("El histórico va sobre los distritos vigentes de 407; el mapa de 350 no tiene histórico.")
-    if ensemble != "ninguno":
-        raise NoDisponible("El histórico no tiene ensemble. Elija «ninguno».")
     if publicar:
         raise NoDisponible("El histórico aún no se publica: la puerta 04 del histórico no está adaptada (T-83 A). "
                            "Elija publicar «no».")
@@ -221,7 +210,6 @@ def _resolve_completa(entradas: dict, tipo: str, publicar: bool, ensemble: str, 
     parts = [resolve({**entradas, "eleccion": VIGENTE, "tipo": t}, root) for t in tipos]
     out = {"completa": True, "ids": [i for p in parts for i in p["ids"]], "publicar": publicar,
            "inicio": {k: v for p in parts for k, v in p["inicio"].items()},
-           "ensemble": {k: v for p in parts for k, v in p["ensemble"].items()},
            "entradas": {**parts[0]["entradas"], "eleccion": COMPLETA, "tipo": tipo}, "pendiente": []}
     rows, omitidos, partes = [], {}, []
     if "nacional" in tipos:
@@ -250,7 +238,7 @@ def build(entradas: dict, running: dict[str, str], root: Path = Path("."), today
     r = resolve(entradas, root)
     if r.get("completa"):
         plan = lv.build_plan(lv.load_config(root), "legislatura completa", r["ids"], False, running, root=root,
-                             today=today, inicio=r["inicio"], publicar=r["publicar"], ensemble=r["ensemble"])
+                             today=today, inicio=r["inicio"], publicar=r["publicar"])
         plan.update({"ambito": f"{r['entradas']['tipo']} · campaña completa · mapa 407", "entradas": r["entradas"],
                      "pendiente": r["pendiente"]})
         if "historico" in r:
@@ -259,7 +247,7 @@ def build(entradas: dict, running: dict[str, str], root: Path = Path("."), today
     if "historico" in r:
         return {"historico": r["historico"], "ambito": "histórico · nacional · mapa 407", "entradas": r["entradas"]}
     plan = lv.build_plan(lv.load_config(root), "legislatura completa", r["ids"], False, running, root=root,
-                         today=today, inicio=r["inicio"], publicar=r["publicar"], ensemble=r["ensemble"])
+                         today=today, inicio=r["inicio"], publicar=r["publicar"])
     plan["ambito"] = f"{r['entradas']['tipo']} · mapa {r['entradas']['mapa']}"
     plan["entradas"] = r["entradas"]
     return plan
@@ -273,7 +261,7 @@ def markdown(plan: dict, solo_plan: bool) -> str:
             ""]
     if "territorios" not in plan:
         return "\n".join(head) + hc.plan_markdown(plan["historico"])
-    head += ["Cadena por territorio: 00 (par → 00 electoral) → 05 si publica → 06 si ensemble.", ""]
+    head += ["Cadena por territorio: 00 (par → 00 electoral) → 05 si publica.", ""]
     md = "\n".join(head) + lv.plan_markdown(plan)
     if "historico" in plan:
         h = plan["historico"]

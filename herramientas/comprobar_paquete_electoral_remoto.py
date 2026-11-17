@@ -2,7 +2,7 @@
 """Comprueba al planificar la 00 que el paquete electoral del par sigue descargable.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: Puerta temprana del paquete electoral (T-246)
 FECHA: 2026-11-11
 ESTADO: candidato
@@ -15,7 +15,8 @@ permisos, inventario incompleto) y la caducidad próxima solo avisan (::warning:
 CAMBIOS: herramienta nueva.
 MOTIVO: el paquete fuente se retiene 30 días; con «Reutilizar» la 00 no lo regenera y caía en la
 puerta 03 tras gastar M04-M06.
-ANTERIOR: ninguna (fichero nuevo).
+CAMBIOS 1.0.1: T-375 (D-136): el remedio nombra «P10 Fuentes» (p10-fuentes.yml, tipo P12 electorales) en lugar de preparacion-resultados-electorales.yml.
+ANTERIOR: legacy/herramientas/comprobar_paquete_electoral_remoto_v1.0.0_20261116.py
 """
 from __future__ import annotations
 
@@ -88,8 +89,8 @@ def _parse_time(value: object) -> dt.datetime | None:
 
 def remedio(territory: str) -> str:
     return (
-        f"Regenera el paquete electoral de {territory}: «preparacion-resultados-electorales.yml» con "
-        "reutilizar_si_ya_preparada=false; después «preparacion-legislatura-vigente.yml» prepare_one del "
+        f"Regenera el paquete electoral de {territory}: «P10 Fuentes» (p10-fuentes.yml) con tipo «P12 electorales» y "
+        "«Regenerar aunque ya exista» marcado; después «preparacion-legislatura-vigente.yml» prepare_one del "
         "territorio (registra el par nuevo) y relanza la 00."
     )
 

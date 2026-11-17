@@ -1,9 +1,10 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.1.0
+# VERSIÓN: 1.1.1
+# CAMBIOS 1.1.1 (T-377, D-138): «P30 Distritos — P33 Alternativas» (06) se retira: ya no hay referencias por nombre a ella ni su entorno `produccion`.
 # CAMBIOS 1.1.0: T-215 (paso 4 del corte), nombres v5: la 05 es «P50 Publicación» y la 06 «P30 Distritos — P33 Alternativas»
 #   (siguen exigiendo `produccion`); el forense dispara con «P00 Campaña» (D-61/D-78), sin tolerancia al nombre viejo.
 # FECHA: 2026-11-10
-# ANTERIOR: legacy/tests/test_corte_5_0_0_equivalencias_v1.0.0_20261110.py
+# ANTERIOR: legacy/tests/test_corte_5_0_0_equivalencias_v1.1.0_20261116.py
 """T-198: guardas previas al corte 5.0.0 (D-61): referencias entre flujos y entornos de producción."""
 import re
 import sys
@@ -18,7 +19,6 @@ import generar_equivalencias_5_0_0 as gen  # noqa: E402
 
 WF = ROOT / ".github" / "workflows"
 NOMBRE_05 = "P40 Publicación"  # T-372
-NOMBRE_06 = "P30 Distritos — P33 Alternativas"
 
 
 def _nombres():
@@ -46,15 +46,12 @@ class ReferenciasPorNombre(unittest.TestCase):
             ("p40-publicacion.yml", NOMBRE_05),
             ("p90-automatico.yml", "P00 Campaña"),  # forense, D-61/D-78 (T-366)
             ("auto-merge.yml", "P90 Automático"),  # fusión: workflow_run de P90 (T-366)
-            ("generar-alternativas-territoriales.yml", NOMBRE_06),
-            ("generar-alternativas-territoriales.yml", NOMBRE_06),
         ])
         self.assertEqual(sorted(encontradas), esperadas, "referencia por nombre nueva o perdida: revisa y actualiza la lista")
 
     def test_05_y_06_siguen_exigiendo_produccion(self):
         casos = {
             "p40-publicacion.yml": (NOMBRE_05, 1),
-            "generar-alternativas-territoriales.yml": (NOMBRE_06, 2),
         }
         for fich, (nombre, n) in casos.items():
             txt = (WF / fich).read_text(encoding="utf-8")

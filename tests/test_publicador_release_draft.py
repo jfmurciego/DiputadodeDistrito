@@ -88,9 +88,7 @@ class DraftReleasePromotionTests(unittest.TestCase):
 
     def test_publisher_resolves_drafts_by_release_id_and_never_tags_endpoint(self):
         text = PUBLISHER.read_text(encoding="utf-8")
-        self.assertIn("releases?per_page=100", text)
-        self.assertIn("resolver_release_asset.py release", text)
-        self.assertIn('repos/$GITHUB_REPOSITORY/releases/$release_id', text)
+        # T-377 (D-138): la resolución de la Release del ensemble se fue con P28; queda la subida del M08 por asset_id.
         self.assertIn("uploads.github.com", text)
         self.assertIn('repos/$GITHUB_REPOSITORY/releases/assets/$asset_id', text)
         self.assertIn('persisted_sha="$(sha256sum "$persisted"', text)
@@ -103,24 +101,15 @@ class DraftReleasePromotionTests(unittest.TestCase):
         self.assertEqual(set(dispatch), {"que_publicar", "territorios", "simular"})  # T-372: el run sale del registro durable
         self.assertIn("PRODUCTION_RUN_ID_OVERRIDE: ${{ needs.resolver.outputs.production_run_id }}", text)
         self.assertIn("herramientas/p40_resolver.py territorios", text)
-        self.assertNotIn("produccion-distritos.yml", text)
+        self.assertNotIn("p20-distritos.yml", text)
         self.assertNotIn("preparacion-fuentes.yml", text)
-        self.assertNotIn("incorporacion-resultados-electorales.yml", text)
+        self.assertNotIn("p30-resultados-electorales.yml", text)
 
 
-    def test_ensemble_requires_accredited_sha_before_registry_entry(self):
-        text = PUBLISHER.read_text(encoding="utf-8")
-        self.assertIn("ensemble_sha256:", text)
-        self.assertIn("ENSEMBLE_SHA256:", text)
-        self.assertIn('[[ -n "$expected_sha" ]]', text)
-        self.assertIn('[[ "$expected_sha" =~ ^[0-9a-f]{64}$ ]]', text)
-        download = text.index('repos/$GITHUB_REPOSITORY/releases/assets/$asset_id')
-        compare = text.index('[[ "$sha" == "$expected_sha" ]]')
-        describe = text.index("describe-ensemble")
-        registry_entry = text.index('source_type:"release_asset"', describe)
-        self.assertLess(download, compare)
-        self.assertLess(compare, describe)
-        self.assertLess(describe, registry_entry)
+    def test_p40_ya_no_publica_ensembles(self):  # T-377 (D-138): P28 retirada sin sustituto
+        text = "\n".join(l for l in PUBLISHER.read_text(encoding="utf-8").splitlines() if not l.lstrip().startswith("#"))
+        for s in ("ensemble_sha256", "ENSEMBLE_SHA256", "describe-ensemble", "Resolver ensemble persistente solicitado"):
+            self.assertNotIn(s, text)
 
     def test_correct_ensemble_hash_is_accepted(self):
         expected = "a" * 64

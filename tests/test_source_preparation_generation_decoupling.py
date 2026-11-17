@@ -244,7 +244,7 @@ class GenerationEvaluationStateTests(unittest.TestCase):
 class WorkflowDecouplingTests(unittest.TestCase):
     def test_01_finishes_with_prepared_source_and_full_orchestrator_blocks_on_generation_evaluation(self):
         preparation = yaml.safe_load(
-            (WF / "preparacion-fuentes.yml").read_text(encoding="utf-8")
+            (WF / "../../tests/fixtures/p10_vistas/_p11-territoriales.yml").read_text(encoding="utf-8")
         )
         full = yaml.safe_load(
             (WF / "ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")
@@ -287,10 +287,10 @@ class WorkflowDecouplingTests(unittest.TestCase):
 
     def test_source_and_pair_writers_use_common_rederived_persistence_not_rebase(self):
         territorial = yaml.safe_load(
-            (WF / "preparacion-fuentes.yml").read_text(encoding="utf-8")
+            (WF / "../../tests/fixtures/p10_vistas/_p11-territoriales.yml").read_text(encoding="utf-8")
         )
         electoral = yaml.safe_load(
-            (WF / "preparacion-resultados-electorales.yml").read_text(
+            (WF / "../../tests/fixtures/p10_vistas/_p12-electorales.yml").read_text(
                 encoding="utf-8"
             )
         )

@@ -29,7 +29,7 @@ VIEJO = territorio_ids.tabla()[CANON].id_legacy
 NAC = next(t for t in territorio_ids.tabla() if t.startswith("nac"))
 NAC_VIEJO = territorio_ids.tabla()[NAC].id_legacy
 RUN = 42720735134
-P12 = ROOT / ".github/workflows/preparacion-resultados-electorales.yml"
+P12 = ROOT / "tests/fixtures/p10_vistas/_p12-electorales.yml"
 # Estado congelado en el commit base (id viejo en los 71 recibos): los tests no dependen del catálogo vivo.
 FIX = ROOT / "tests/fixtures/t349_base/raiz"
 FLUJO = ROOT / "tests/fixtures/t349_flujo/raiz"  # estado registrado congelado (git show del commit base); nunca el vivo

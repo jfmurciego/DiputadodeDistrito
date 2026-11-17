@@ -47,10 +47,14 @@ class TestRegistroElectoralComun(unittest.TestCase):
             for row in self.registry["territories"].values()
         ]
         workflow=yaml.safe_load(
-            (ROOT/".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
+            (ROOT/".github/workflows/p10-fuentes.yml").read_text(encoding="utf-8")
         ) or {}
         triggers=workflow.get("on") or workflow.get(True)
-        options=triggers["workflow_dispatch"]["inputs"]["territory_id"]["options"]
+        # T-375: P10 Fuentes ya no tiene selector por nombre (recibe códigos); el orden del registro lo sigue fijando el selector de «Distritos».
+        self.assertNotIn("territory_id",triggers["workflow_dispatch"]["inputs"])
+        # T-376: P30 tampoco tiene selector (un código); T-377: P20 tampoco. El orden del registro lo fija el selector de la 00 (P00 Campaña).
+        otro=yaml.safe_load((ROOT/".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8"))
+        options=(otro.get("on") or otro.get(True))["workflow_dispatch"]["inputs"]["territory_id"]["options"]
         self.assertEqual(options,expected)
 
     def test_registry_has_exactly_19_identified_elections(self):
@@ -62,7 +66,7 @@ class TestRegistroElectoralComun(unittest.TestCase):
                 row=resolve_for_preparation(entry["name"],root_dir=ROOT,edition="2025")
                 self.assertTrue(row["territory_id"]); self.assertEqual(row["election_id"],entry["election_id"]); self.assertEqual(row["codauto"],entry.get("codauto") or entry.get("pilot_code")); self.assertEqual(row["territorial_edition"],"2025")
     def test_every_registered_election_has_a_technical_route_into_03(self):
-        workflow=(ROOT/".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
+        workflow=(ROOT/"tests/fixtures/p10_vistas/_p12-electorales.yml").read_text(encoding="utf-8")
         self.assertIn("adapter=minsait_provisional",workflow)
         self.assertNotIn("adapter=siel_andalucia",workflow)
         self.assertIn("needs.electorales.outputs.production_eligible == 'true'",workflow)
@@ -111,7 +115,7 @@ class TestRegistroElectoralComun(unittest.TestCase):
     def test_cantabria_eleccionesdb_registration_does_not_claim_generic_declaration(self):
         entry=self.registry["territories"]["aut06"]
         self.assertIn(entry["election_id"],ELECTIONS)
-        workflow=(ROOT/".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
+        workflow=(ROOT/"tests/fixtures/p10_vistas/_p12-electorales.yml").read_text(encoding="utf-8")
         self.assertIn("adapter: '${{ steps.mode.outputs.adapter }}'",workflow)
         self.assertIn("ADAPTER: '${{ needs.electorales.outputs.adapter }}'",workflow)
         self.assertIn('[[ "$ADAPTER" == "generic" && -n "$DECLARATION" ]]',workflow)

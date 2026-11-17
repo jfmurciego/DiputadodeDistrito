@@ -620,10 +620,11 @@ class ContractTests(unittest.TestCase):
         def load(path):
             data=yaml.safe_load(path.read_text(encoding="utf-8")) or {}
             return data.get("on") or data.get(True) or {}
-        w02=load(ROOT/".github/workflows/produccion-distritos.yml")
+        w02=load(ROOT/".github/workflows/p20-distritos.yml")
         w00=load(ROOT/".github/workflows/ejecucion-completa-proyecto.yml")
         expected=["Canónico","GerryChain","GerryChain 25","GerryChain 50"]
-        self.assertEqual(w02["workflow_dispatch"]["inputs"]["optimization_algorithm"]["options"],expected)
+        self.assertNotIn("optimization_algorithm",w02["workflow_dispatch"]["inputs"])  # T-377 (D-139): P20 sin selector (Canónico)
+        self.assertEqual(w02["workflow_call"]["inputs"]["optimization_algorithm"]["default"],"Canónico")
         self.assertEqual(w00["workflow_dispatch"]["inputs"]["optimization_algorithm"]["options"],expected)
         text00=(ROOT/".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")
         self.assertIn("optimization_algorithm: ${{ needs.planificar.outputs.optimization_algorithm }}",text00)

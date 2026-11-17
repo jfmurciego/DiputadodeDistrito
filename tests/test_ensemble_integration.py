@@ -164,12 +164,7 @@ class IntegratedRunnerTests(unittest.TestCase):
             manifest = (ROOT / "inputs/MANIFEST.sha256").read_text(encoding="utf-8")
             self.assertIn(f"{EXPECTED_COMARCA_HASH}  inputs/COMARCAS.csv", manifest)
 
-        config = json.loads((ROOT / "configuracion/ensemble/aut02.json").read_text(encoding="utf-8"))
-        self.assertEqual(config["contract"]["province_districts"], {"22": 11, "44": 7, "50": 49})
-        self.assertEqual(config["prepared_bundle_id"], "AUTO")
-        self.assertTrue(config["inputs"]["initial_geojson"].endswith("_m05_distritos_optimizados.geojson.zip"))
-        self.assertEqual(config["topology"]["min_shared_border_m"], 1.0)
-        self.assertTrue(config["topology"]["preserve_atomic_multipart_sections"])
+        # T-377 (D-141 d): configuracion/ensemble/aut02.json se retiró a legacy/ con P28; queda la fuente comarcal.
         self.assertTrue(
             (ROOT / "territorios/aut02/config/continuidad_geometrica_2025.json").is_file()
         )
@@ -234,29 +229,11 @@ class IntegratedRunnerTests(unittest.TestCase):
             resumed = invoke(config, "--mode", "run", "--profile", "balanced")
             self.assertEqual(resumed["run"], {"executed": 1, "skipped": 0, "failed": 0})
 
-    def test_workflow_has_single_visible_entry_and_five_profile_parallelism(self):
-        workflow = (ROOT / ".github/workflows/generar-alternativas-territoriales.yml").read_text(encoding="utf-8")
-        self.assertIn("workflow_call:", workflow)
-        self.assertIn("max-parallel: 5", workflow)
-        self.assertNotIn("actions/deploy-pages@", workflow)
-        self.assertIn("uses: ./.github/workflows/p40-publicacion.yml", workflow)
-        self.assertIn("ensemble_release_tag:", workflow)
-        self.assertIn("--draft", workflow)
-        self.assertNotIn("push:", workflow)
-        self.assertIn("promotion_confirmed", workflow)
-        self.assertIn("aragon_10_certificacion_run_35035474687.json", workflow)
-        self.assertNotIn("PROMOVER_ARAGON_50", workflow)
-        self.assertIn("artifact-manifest.json", workflow)
-        self.assertIn("needs: [synthetic, config, base_territorial]", workflow)  # T-26: base genérica por territorio
-        self.assertIn("DDD_TO_STAGE=M05", workflow)
-        self.assertIn("--entrypoint /bin/bash", workflow)
-        self.assertIn("auditar_topologia_geometrica.py", workflow)
-        self.assertIn("auditar_componentes_geometricos.py", workflow)
-        self.assertIn("base-geometric-components-preflight.json", workflow)
-        interface = (ROOT / ".github/workflows/produccion-distritos.yml").read_text(encoding="utf-8")
+    def test_alternativas_retiradas_sin_sustituto(self):  # T-377 (D-138): P28 a legacy/; ddd_ensemble se queda
+        self.assertFalse((ROOT / ".github/workflows/generar-alternativas-territoriales.yml").exists())
+        interface = (ROOT / ".github/workflows/p20-distritos.yml").read_text(encoding="utf-8")
         self.assertNotIn("generar_alternativas_gerrychain", interface)
         self.assertNotIn("Generar alternativas GerryChain", interface)
-
 
 if __name__ == "__main__":
     unittest.main()

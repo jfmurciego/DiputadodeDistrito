@@ -22,7 +22,7 @@ class FactoryProductionInterface(unittest.TestCase):
             self.assertNotEqual(decision["cache_dir"], decision["runs_dir"])
 
     def test_interfaz_manual_unica_no_contiene_seleccion_codificada(self):
-        text = (ROOT / ".github/workflows/produccion-distritos.yml").read_text(encoding="utf-8")
+        text = (ROOT / ".github/workflows/p20-distritos.yml").read_text(encoding="utf-8")
         self.assertIn("${{ inputs.territory_id }}", text)
         self.assertNotIn("aut02) params=", text)
         self.assertNotIn("aut07) params=", text)

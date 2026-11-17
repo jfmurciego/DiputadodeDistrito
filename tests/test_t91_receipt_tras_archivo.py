@@ -1,7 +1,7 @@
 import unittest
 from pathlib import Path
 
-WF = Path(".github/workflows/_reutilizable-incorporacion-electoral.yml")
+WF = Path(".github/workflows/p30-resultados-electorales.yml")
 
 
 class ReceiptTrasArchivo(unittest.TestCase):

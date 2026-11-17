@@ -58,7 +58,7 @@ class WorkflowShellSyntaxTests(unittest.TestCase):
 
     def test_02_prepared_source_selector_bash_block_is_syntax_valid(self):
         workflow = yaml.safe_load(
-            (WORKFLOWS / "produccion-distritos.yml").read_text(encoding="utf-8")
+            (WORKFLOWS / "p20-distritos.yml").read_text(encoding="utf-8")
         )
         steps = workflow["jobs"]["resolver_interfaz"]["steps"]
         step = next(

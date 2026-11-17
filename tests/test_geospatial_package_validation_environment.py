@@ -68,16 +68,16 @@ class GeospatialPackageValidationEnvironmentTests(unittest.TestCase):
         workflows = {workflow for workflow, _job, _step in found}
         self.assertTrue(
             {
-                "preparacion-fuentes.yml",
-                "produccion-distritos.yml",
-                "_reutilizable-generacion-territorial.yml",
+                "p10-fuentes.yml",
+                "p20-distritos.yml",
+                "p20-distritos.yml",
             }.issubset(workflows),
             found,
         )
 
     def test_generation_reusables_validate_recovered_package_in_container(self):
         for name in (
-            "_reutilizable-generacion-territorial.yml",
+            "p20-distritos.yml",
         ):
             with self.subTest(workflow=name):
                 text = (WORKFLOWS / name).read_text(encoding="utf-8")
@@ -193,7 +193,7 @@ class GeospatialPackageValidationEnvironmentTests(unittest.TestCase):
 
     def test_02_uses_pinned_geospatial_environment_before_package_selection(self):
         workflow = yaml.safe_load(
-            (WORKFLOWS / "produccion-distritos.yml").read_text(encoding="utf-8")
+            (WORKFLOWS / "p20-distritos.yml").read_text(encoding="utf-8")
         )
         steps = workflow["jobs"]["resolver_interfaz"]["steps"]
         install_index = next(

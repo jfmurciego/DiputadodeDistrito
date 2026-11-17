@@ -17,7 +17,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "herramientas" / "promover_catalogo_operacional.py"
-WORKFLOW = ROOT / ".github" / "workflows" / "_reutilizable-generacion-territorial.yml"
+WORKFLOW = ROOT / ".github" / "workflows" / "p20-distritos.yml"
 
 
 class PromocionEjecucionDirectaTests(unittest.TestCase):

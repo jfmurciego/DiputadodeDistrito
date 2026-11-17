@@ -25,7 +25,7 @@ class AgentesEnCI(unittest.TestCase):
     # T-366: el forense vive en p90-automatico.yml (ids renombrados por colisión); el revisor sigue en revisor-pr.yml.
     CASOS = {
         "revisor-pr.yml": ("comprobar", "revisar", "veredicto", ".claude/agents/revisor.md"),
-        "p90-automatico.yml": ("forense_comprobar", "diagnosticar", "forense_issue", ".claude/agents/forense.md"),
+        "p90-automatico.yml": ("cierre_comprobar", "cierre_ia", "cierre_comentario", ".claude/agents/forense.md"),
     }
 
     def test_sin_boton_manual_y_disparador_esperado(self):
@@ -33,8 +33,8 @@ class AgentesEnCI(unittest.TestCase):
         run = disparadores(cargar("p90-automatico.yml"))["workflow_run"]
         self.assertEqual(run["workflows"], ["P00 Campaña"])  # T-215, D-78
         self.assertEqual(run["types"], ["completed"])
-        self.assertIn("conclusion == 'failure'", cargar("p90-automatico.yml")["jobs"]["forense_comprobar"]["if"])
-        self.assertIn("github.event.workflow_run.name == 'P00 Campaña'", cargar("p90-automatico.yml")["jobs"]["forense_comprobar"]["if"])
+        self.assertIn("conclusion == 'failure'", cargar("p90-automatico.yml")["jobs"]["cierre_comprobar"]["if"])
+        self.assertIn("github.event.workflow_run.name == 'P00 Campaña'", cargar("p90-automatico.yml")["jobs"]["cierre_comprobar"]["if"])
         for nombre in self.CASOS:
             self.assertNotIn("workflow_dispatch", disparadores(cargar(nombre)))
 
@@ -98,7 +98,7 @@ class AgentesEnCI(unittest.TestCase):
 
     def test_forense_nunca_relanza(self):
         d = cargar("p90-automatico.yml")
-        texto = json.dumps({k: d["jobs"][k] for k in ("forense_comprobar", "diagnosticar", "forense_issue")})
+        texto = json.dumps({k: d["jobs"][k] for k in ("cierre_comprobar", "cierre_ia", "cierre_comentario")})
         for prohibido in ("dispatches", "rerun", "gh workflow run"):
             self.assertNotIn(prohibido, texto)
 

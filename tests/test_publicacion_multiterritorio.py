@@ -19,7 +19,7 @@ from herramientas.registro_publicaciones_visor import (
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOWS = ROOT / ".github" / "workflows"
 PUBLISHER = WORKFLOWS / "p40-publicacion.yml"
-ENSEMBLE = WORKFLOWS / "generar-alternativas-territoriales.yml"
+ENSEMBLE = WORKFLOWS / "generar-alternativas-territoriales.yml"  # T-377 (D-138): retirado
 FULL = WORKFLOWS / "ejecucion-completa-proyecto.yml"
 REGISTRY = ROOT / "orchestracion/publicaciones_visor.json"
 REPOSITORY = "jfmurciego/DiputadodeDistrito"
@@ -267,11 +267,9 @@ class MultiterritoryPublicationTests(unittest.TestCase):
                 deployers.append(path.name)
         self.assertEqual(deployers, ["p40-publicacion.yml"])
         publisher = PUBLISHER.read_text(encoding="utf-8")
-        ensemble = ENSEMBLE.read_text(encoding="utf-8")
         self.assertEqual(publisher.count("actions/deploy-pages@"), 1)
         self.assertIn("group: ddd-pages-prod", publisher)
-        self.assertNotIn("actions/upload-pages-artifact@", ensemble)
-        self.assertIn("uses: ./.github/workflows/p40-publicacion.yml", ensemble)
+        self.assertFalse(ENSEMBLE.exists())
 
     def test_registry_pins_aragon_and_castilla_y_leon_by_blob_and_sha256(self):
         registry = json.loads(REGISTRY.read_text(encoding="utf-8"))

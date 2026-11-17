@@ -101,7 +101,7 @@ class TerritorialOnlyManualSelectorRegression(unittest.TestCase):
     def test_provisional_non_promotable_source_does_not_downgrade_scope(self):
         from herramientas.resolver_ejecucion_completa import resolve_publication_mode
         adapter = (ROOT / "herramientas/adaptador_minsait_csv.py").read_text(encoding="utf-8")
-        workflow = (ROOT / ".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
+        workflow = (ROOT / "tests/fixtures/p10_vistas/_p12-electorales.yml").read_text(encoding="utf-8")
         self.assertIn("production_eligible: bool = False", adapter)
         self.assertIn("needs.electorales.outputs.production_eligible == 'true'", workflow)
         plan = {"territory_name": "Andalucía", "edition": "2025", "run_prepare_electoral": True}

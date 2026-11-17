@@ -2,7 +2,7 @@
 """Descarga un artefacto de Actions distinguiendo cuota de egress (transitorio) y caducidad (definitivo).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: Descarga de artefactos con clasificación de fallos
 FECHA: 2026-11-11
 ESTADO: candidato
@@ -16,7 +16,8 @@ QUÉ HACE: envuelve `gh run download <run> --name <artefacto> --dir <dir>` y cla
 CAMBIOS: herramienta nueva (T-251).
 MOTIVO: la puerta de validación decía «No se pudo descargar» tanto si el artefacto había caducado
 como si la cuenta había agotado el egress de Actions; se tomaban por perdidos artefactos vivos.
-ANTERIOR: ninguna (fichero nuevo)
+CAMBIOS 1.0.1: T-375 (D-136): los remedios nombran «P10 Fuentes» (p10-fuentes.yml) en lugar de los dos workflows retirados.
+ANTERIOR: legacy/herramientas/descargar_artefacto_v1.0.0_20261116.py
 """
 from __future__ import annotations
 
@@ -44,10 +45,10 @@ REMEDIACION = (
     ("ddd-state-", "-M06", "regenerar con la 00 (ejecucion-completa-proyecto.yml) en «Generar desde fuente territorial "
      "acreditada»; si la copia durable almacen-m06-* existe, la puerta la usa sola"),
     ("ddd-audit-electoral-", "", "regenerar el producto electoral: 00 en «Reutilizar progreso existente» (rehace 03/04) "
-     "o, si caducó el paquete, preparacion-resultados-electorales.yml con reutilizar=false"),
+     "o, si caducó el paquete, P10 Fuentes (p10-fuentes.yml) con tipo «P12 electorales» y «Regenerar aunque ya exista»"),
     ("ddd-audit-", "", "regenerar el producto territorial con la 00 en «Generar desde fuente territorial acreditada»"),
     ("ddd-state-", "-M08", "regenerar el producto electoral con la 00 en «Reutilizar progreso existente» (rehace 03/04)"),
-    ("ddd-fuentes-", "", "regenerar el paquete con preparacion-fuentes.yml"),
+    ("ddd-fuentes-", "", "regenerar el paquete con P10 Fuentes (p10-fuentes.yml, tipo «P11 territoriales»)"),
 )
 
 

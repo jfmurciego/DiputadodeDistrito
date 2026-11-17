@@ -51,9 +51,28 @@ def paso(job, nombre):
     return next(s for s in job["steps"] if s.get("name") == nombre)
 
 
+# T-377 (D-138): P40 1.1.0 pierde la rama del ensemble y los escenarios; lo mismo se quita del publicador viejo antes de comparar.
+SIN_ENSEMBLE = [(' --scenario-id \\"$SCENARIO_ID\\")', ")"),
+                (' ${SCENARIO_ID:+--scenario-id \\"$SCENARIO_ID\\" --strategy \\"$SCENARIO_STRATEGY\\"}', "")]
+ENV_ENSEMBLE = ("SCENARIO_ID", "SCENARIO_STRATEGY", "ENSEMBLE_RELEASE_TAG", "ENSEMBLE_SHA256")
+
+
+def sin_ensemble(job):
+    job = copy.deepcopy(job)
+    job["steps"] = [s for s in job["steps"] if s.get("name") != "Resolver ensemble persistente solicitado"]
+    for k in ENV_ENSEMBLE:
+        job["env"].pop(k, None)
+    t = json.dumps(job["steps"])
+    for a, b in SIN_ENSEMBLE:
+        assert a in t, a
+        t = t.replace(a, b)
+    job["steps"] = json.loads(t)
+    return job
+
+
 def diferencias(viejo, nuevo):
     """Diferencias NO permitidas del job de publicación (vacía = equivalente)."""
-    a, b = viejo["jobs"]["publicar"], nuevo["jobs"]["publicar"]
+    a, b = sin_ensemble(viejo["jobs"]["publicar"]), nuevo["jobs"]["publicar"]
     d = []
     if a["environment"] != b["environment"]:
         d.append("entorno")
@@ -102,10 +121,11 @@ class Boton(Congelado):
 
     def test_entradas_tecnicas_solo_por_workflow_call(self):
         c = on(self.p)["workflow_call"]["inputs"]
-        self.assertTrue({"production_run_id", "scenario_id", "scenario_strategy", "ensemble_release_tag", "ensemble_sha256", "target_page",
-                         "pagina_publicar"} <= set(c))
+        self.assertTrue({"production_run_id", "target_page", "pagina_publicar"} <= set(c))
         self.assertNotIn("source_sha", c)
-        for k in ("scenario_id", "scenario_strategy", "production_run_id"):
+        for k in ("scenario_id", "scenario_strategy", "ensemble_release_tag", "ensemble_sha256"):  # T-377 (D-138)
+            self.assertNotIn(k, c)
+        for k in ("production_run_id",):
             self.assertNotIn(k, on(self.p)["workflow_dispatch"]["inputs"])
 
     def test_siempre_sitio_completo_desde_el_boton(self):
@@ -115,12 +135,7 @@ class Boton(Congelado):
         g = yaml.safe_load((WF / "ejecucion-completa-proyecto.yml").read_text(encoding="utf-8"))["jobs"]["publicar"]
         self.assertEqual(g["uses"], "./.github/workflows/p40-publicacion.yml")
         self.assertEqual(g["with"]["pagina_publicar"], "Sitio completo")
-        alt = yaml.safe_load((WF / "generar-alternativas-territoriales.yml").read_text(encoding="utf-8"))["jobs"]
-        llam = [j for j in alt.values() if j.get("uses") == "./.github/workflows/p40-publicacion.yml"]
-        self.assertEqual(len(llam), 2)  # publish y republish
-        for j in llam:
-            self.assertEqual(j["with"]["target_page"], "Visor territorial")
-            self.assertTrue(j["with"]["ensemble_release_tag"])
+        self.assertFalse((WF / "generar-alternativas-territoriales.yml").exists())  # T-377 (D-138): retirado sin sustituto
         for f in WF.glob("*.yml"):
             t = f.read_text(encoding="utf-8")
             for viejo in ("desplegar-visor-publico", "_reutilizable-publicar-sitio", "cadena-publicacion"):
@@ -171,12 +186,10 @@ class Equivalencia(Congelado):
         self.assertTrue(a)
         self.assertEqual(json.loads(normalizar(json.dumps(a))), b)
 
-    def test_ruta_del_ensemble_sin_resolver_ni_preparar(self):
+    def test_sin_ruta_del_ensemble(self):  # T-377 (D-138): resolver siempre corre; publicar solo tras preparar
         j = self.p["jobs"]
-        self.assertEqual(j["resolver"]["if"], "${{ inputs.ensemble_release_tag == '' }}")
-        self.assertIn("!cancelled()", j["publicar"]["if"])  # needs saltado ⇒ el job queda saltado salvo !cancelled()
-        self.assertIn("inputs.ensemble_release_tag != ''", j["publicar"]["if"])
-        self.assertIn("needs.preparar.result == 'success'", j["publicar"]["if"])
+        self.assertNotIn("if", j["resolver"])
+        self.assertEqual(j["publicar"]["if"], "${{ needs.preparar.result == 'success' }}")
         self.assertEqual(j["publicar"]["needs"], ["resolver", "preparar"])
 
     def test_quita_lo_de_la_cadena_que_no_se_usa(self):

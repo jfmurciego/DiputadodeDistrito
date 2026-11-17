@@ -2,7 +2,7 @@
 """Clave de elección y expansión elección → territorios.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-08 · ESTADO: candidato
+VERSIÓN: 1.2.0 · FECHA: 2026-11-08 · ESTADO: candidato
 QUÉ HACE: define la clave `ES-<ámbito>-[<unidad>-]<AAAAMMDD>` y la resuelve contra el registro electoral.
   - Ámbito NAC (Congreso): unidad = número INE de provincia (canónico, D-2) o letras de matrícula (alias).
     `ES-NAC-20230723` es la elección entera (todas sus provincias); `ES-NAC-22-20230723` = `ES-NAC-HU-20230723`.
@@ -16,7 +16,8 @@ CAMBIOS 1.0.1: D-2 confirmada (INE canónico); solo matrículas en español, las
   (PM, GE, OR…); IB, GI u OU se rechazan.
 CAMBIOS 1.1.0: T-102, producto paralelo «Congreso 350» (pilot_code Rnn, variant congreso_350): clave
   `ES-NAC-R<CPRO>-AAAAMMDD`; la elección entera (`ES-NAC-AAAAMMDD`) no incluye las variantes.
-ANTERIOR: legacy/herramientas/clave_eleccion_v1.0.1_20261101.py
+CAMBIOS 1.2.0: T-375 (D-136): la fase `electoral` lanza `p10-fuentes.yml` (tipo «P12 electorales», `territorio` = código canónico, `regenerar` en lugar de `reutilizar_si_ya_preparada`; sin `data_edition`).
+ANTERIOR: legacy/herramientas/clave_eleccion_v1.1.0_20261116.py
 """
 from __future__ import annotations
 
@@ -36,7 +37,7 @@ MASTER = Path("configuracion/catalogo_territorios_espana_2025.yaml")
 # Workflow, input del territorio y entradas fijas de cada fase.
 PHASES = {
     "activar": ("preparacion-legislatura-vigente.yml", "territory", {"operation": "prepare_one"}),
-    "electoral": ("preparacion-resultados-electorales.yml", "territory_id", {}),
+    "electoral": ("p10-fuentes.yml", "territorio", {"tipo": "P12 electorales"}),
     "completa": ("ejecucion-completa-proyecto.yml", "territory_id", {}),
 }
 
@@ -177,7 +178,13 @@ def plan(key: str, phase: str, units: list[dict], only: list[str] | None = None,
     for u in rows:
         args = {field: u["dispatch_name"], **fixed}
         if phase == "electoral":
-            args.update({"data_edition": u["edition"], **(inputs or {})})
+            # T-375 (D-136): P10 Fuentes recibe UN código canónico (`territorio`) (sin edición: va fijada en el código)
+            # y «regenerar aunque exista» en lugar de reutilizar_si_ya_preparada.
+            args[field] = u["territory_id"]
+            extra = dict(inputs or {})
+            if "reutilizar_si_ya_preparada" in extra:
+                extra["regenerar"] = "false" if str(extra.pop("reutilizar_si_ya_preparada")).lower() == "true" else "true"
+            args.update(extra)
         elif phase == "completa":
             args.update({"data_edition": u["edition"], **(inputs or {}), "lanzado_por_eleccion": "true"})
         dispatches.append({"key": u["key"], "territory_id": u["territory_id"], "workflow": workflow, "inputs": args})

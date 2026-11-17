@@ -126,7 +126,7 @@ class Lanzar(unittest.TestCase):
     """Simula GitHub: cada dispatch de 00 crea un run que termina en el siguiente sondeo."""
 
     def setUp(self):
-        self.runs = {lv.WF_00: [], lv.WF_05: [], lv.WF_06: []}
+        self.runs = {lv.WF_00: [], lv.WF_05: []}
         self.dispatched = []
         self.n = 100
         self.clock = 0.0
@@ -138,7 +138,7 @@ class Lanzar(unittest.TestCase):
             return
         self.n += 1
         title = (f"{lv.TITLE_00} · {inputs['territory_id']} · {inputs['execution_mode']}" if wf == lv.WF_00
-                 else "P40 Publicación" if wf == lv.WF_05 else "P30 Distritos — P33 Alternativas")
+                 else "P40 Publicación")
         self.runs[wf].append({"id": self.n, "display_title": title, "status": "queued", "conclusion": None,
                               "created_at": "2026-11-07T10:00:%02dZ" % (self.n % 60)})
 
@@ -288,18 +288,16 @@ class Lanzar(unittest.TestCase):
         self.assertEqual(len(report), 2)
 
 
-    def test_ensemble_tras_publicar_y_solo_ensemble_si_ya_publicado(self):
+    def test_sin_ensemble_tras_publicar(self):  # T-377 (D-138): el Gestor ya no lanza la 06, aunque la fila traiga «ensemble»
         rows = [{**self.row("A", "desde_el_principio"), "publicar": False, "ensemble": "a"},
                 {**self.row("B", "nada"), "publicar": True, "ensemble": "b"}]
         report = self.campaign(rows, test_first=False)
-        self.assertTrue(all(r["resultado"].startswith("OK") and "06" in r["resultado"] for r in report), report)
-        e06 = [d[1] for d in self.dispatched if d[0] == lv.WF_06]
-        self.assertEqual(sorted(e["territory_id"] for e in e06), ["a", "b"])
-        self.assertEqual({e["territory_id"]: e["deploy_pages"] for e in e06}, {"a": False, "b": True})
-        self.assertTrue(all(e["stage"] == "ensemble_10" and e["execution_confirmed"] for e in e06))
+        self.assertEqual([r["territory_id"] for r in report], ["a"])  # «nada» ya no se lanza por el ensemble
+        self.assertTrue(report[0]["resultado"].startswith("OK") and "06" not in report[0]["resultado"], report)
+        self.assertEqual({d[0] for d in self.dispatched}, {lv.WF_00})
         a00 = [d[1] for d in self.dispatched if d[0] == lv.WF_00]
         self.assertEqual([(d["territory_id"], d["publish_result"]) for d in a00], [("A", False)])
-        self.assertNotIn(lv.WF_05, [d[0] for d in self.dispatched])
+        self.assertFalse(hasattr(lv, "WF_06"))
 
     def test_aprovechar_fuentes(self):
         self.campaign([self.row("A", "aprovechar_fuentes")])

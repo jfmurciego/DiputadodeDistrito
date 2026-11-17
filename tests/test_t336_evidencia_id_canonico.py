@@ -18,7 +18,7 @@ from tests.test_preparacion_fuentes_reutilizacion import build_package, rewrite_
 CANON = "aut11"
 VIEJO = territorio_ids.tabla()[CANON].id_legacy
 ROOT = Path(__file__).resolve().parents[1]
-WORKFLOW = ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml"
+WORKFLOW = ROOT / ".github/workflows/p20-distritos.yml"
 
 
 def _checkpoint(base: Path, territory: str) -> Path:
@@ -115,7 +115,7 @@ class WorkflowPermisos(unittest.TestCase):
 class SelectorCLIyP10(unittest.TestCase):
     """El paso del P10 («Recuperar fuente territorial registrada») ejecutado de verdad bajo `bash -eo pipefail`."""
 
-    PREP = ROOT / ".github/workflows/preparacion-fuentes.yml"
+    PREP = ROOT / "tests/fixtures/p10_vistas/_p11-territoriales.yml"
 
     def _cola_del_paso(self) -> str:
         import yaml
