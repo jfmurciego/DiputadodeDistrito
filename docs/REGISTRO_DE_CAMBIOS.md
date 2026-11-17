@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.497
+Versión: 1.0.498
 Fecha: 2026-11-17
-Alcance: T-396 — Histórico por época: secciones sin geometría en el seccionado del año asignadas o excluidas (D-153)
+Alcance: T-375 — P10 Fuentes sustituye a preparacion-fuentes y preparacion-resultados-electorales
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-17_claude-t396-sin-seccionado.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.496_registro_20261117.md
+Cambios/motivo: entrada docs/registro/2026-11-16_t375-p10-fuentes.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.497_registro_20261117.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.496_registro_20261117.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.498 · [2026-11-16 — T-375 — P10 Fuentes sustituye a preparacion-fuentes y preparacion-resultados-electorales](registro/2026-11-16_t375-p10-fuentes.md)
 - 1.0.497 · [2026-11-17 — T-396 — Histórico por época: secciones sin geometría en el seccionado del año asignadas o excluidas (D-153)](registro/2026-11-17_claude-t396-sin-seccionado.md)
 - 1.0.496 · [2026-11-17 — T-397 — Nombres de la lista de Actions: fusión y revisor bajo P90](registro/2026-11-17_t397-nombres-p90.md)
 - 1.0.495 · [2026-11-17 — T-395 — Diseño de P43: publicación del histórico por fecha de elección (solo documento)](registro/2026-11-17_t395-p43-historico.md)

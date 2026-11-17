@@ -103,7 +103,7 @@ class DraftReleasePromotionTests(unittest.TestCase):
         self.assertIn("herramientas/p40_resolver.py territorios", text)
         self.assertNotIn("p20-distritos.yml", text)
         self.assertNotIn("preparacion-fuentes.yml", text)
-        self.assertNotIn("incorporacion-resultados-electorales.yml", text)
+        self.assertNotIn("p30-resultados-electorales.yml", text)
 
 
     def test_p40_ya_no_publica_ensembles(self):  # T-377 (D-138): P28 retirada sin sustituto

@@ -414,8 +414,8 @@ class Negativos(Congelado):
 
 
 class GruposCruzados(unittest.TestCase):
-    """P10 (P11) y P20 del MISMO territorio comparten grupo de concurrencia (se excluyen), entre el botón y la 00, leyendo los ficheros reales.
-    P30 (T-376) se añade cuando su fichero esté en main."""
+    """El MISMO territorio da el mismo id canónico en los grupos de P10, P20 y P30, venga del botón (código) o de la 00 (nombre o id), leyendo los
+    ficheros reales: P11 y P20 comparten `ddd-territorial-prod-<id>-<edición>` (se excluyen); P12 y P30 comparten `ddd-electoral-prod-<id>`."""
 
     P10_FMT = "format('ddd-territorial-prod-{0}-{1}', inputs.territory_id || inputs.territorio, inputs.data_edition || '2025')"
 
@@ -424,6 +424,20 @@ class GruposCruzados(unittest.TestCase):
         g = d["concurrency"]["group"]
         self.assertIn(self.P10_FMT, g)  # si P10 cambia su formato, este test debe cambiar con él
         return "ddd-territorial-prod-{0}-{1}".format(territory_id or territorio, data_edition or "2025")
+
+    def grupo_p12(self, territory_id="", territorio=""):
+        g = yaml.safe_load((WF / "p10-fuentes.yml").read_text(encoding="utf-8"))["concurrency"]["group"]
+        self.assertIn("format('ddd-electoral-prod-{0}', inputs.territory_id || inputs.territorio)", g)
+        return "ddd-electoral-prod-{0}".format(territory_id or territorio)
+
+    def grupo_p30(self, territorio="", territory_id=""):
+        d = yaml.safe_load((WF / "p30-resultados-electorales.yml").read_text(encoding="utf-8"))
+        g = d["jobs"]["incorporar"]["concurrency"]["group"]
+        self.assertEqual(g, "ddd-electoral-prod-${{ needs.resolver.outputs.territorio }}")
+        r = subprocess.run([sys.executable, str(ROOT / "herramientas" / "p30_resolver.py"), "resolver", "--territorio", territorio,
+                            "--territory-id", territory_id, "--edicion", "", "--persistir", "true"], cwd=ROOT, capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        return g.replace("${{ needs.resolver.outputs.territorio }}", json.loads(r.stdout)["territorio"])
 
     def grupo_p20(self, territorio_ui):
         d = yaml.safe_load((WF / "p20-distritos.yml").read_text(encoding="utf-8"))
@@ -441,7 +455,13 @@ class GruposCruzados(unittest.TestCase):
         p20_00 = self.grupo_p20("Galicia")  # la 00: nombre del catálogo
         self.assertEqual({p10_boton, p10_00, p20_boton, p20_00}, {"ddd-territorial-prod-aut12-2025"})
 
+    def test_mismo_territorio_mismo_grupo_en_p12_y_p30(self):
+        grupos = {self.grupo_p12(territorio="aut12"), self.grupo_p12(territory_id="aut12"),
+                  self.grupo_p30(territorio="aut12"), self.grupo_p30(territory_id="Galicia"), self.grupo_p30(territory_id="aut12")}
+        self.assertEqual(grupos, {"ddd-electoral-prod-aut12"})
+
     def test_territorios_distintos_grupos_distintos(self):
+        self.assertNotEqual(self.grupo_p30(territorio="aut11"), self.grupo_p12(territorio="aut12"))
         self.assertNotEqual(self.grupo_p10(territorio="aut11"), self.grupo_p20("Galicia"))
         self.assertNotEqual(self.grupo_p20("Extremadura"), self.grupo_p20("Galicia"))
 

@@ -6,7 +6,7 @@ from herramientas.catalogo_territorios import format_territory_label, load_maste
 ROOT=Path(__file__).resolve().parents[1]
 WORKFLOWS=ROOT/".github"/"workflows"
 GEN=WORKFLOWS/"p20-distritos.yml"
-ELECTORAL=WORKFLOWS/"incorporacion-resultados-electorales.yml"
+ELECTORAL=WORKFLOWS/"p30-resultados-electorales.yml"
 ALL_TERRITORIES=selector_labels(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")
 
 class WorkflowInterfaceInstitutional(unittest.TestCase):
@@ -26,11 +26,10 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertIn("data_edition=2025",self._load(GEN)["jobs"]["interfaz"]["steps"][-1]["run"])
 
     def test_electoral_incorporation_name_and_controls(self):
-        self.assertEqual(self._load(ELECTORAL)["name"],"P40 Resultados electorales")
+        self.assertEqual(self._load(ELECTORAL)["name"],"P30 Resultados electorales")
         inputs=self._dispatch_inputs(ELECTORAL)
-        self.assertEqual(list(inputs),["territory_id","data_edition"])
-        self.assertEqual(inputs["territory_id"]["options"],ALL_TERRITORIES)
-        self.assertEqual(inputs["data_edition"]["options"],["2025"])
+        self.assertEqual(list(inputs),["territorio"])  # T-376/D-148: un código; la edición (2025) va en el código
+        self.assertEqual(inputs["territorio"]["type"],"string")
 
     def test_no_redundant_human_confirmation_or_publish_switch(self):
         for path in (GEN,ELECTORAL):
@@ -81,14 +80,14 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         generation=self._load(GEN)
         self.assertIn("resolve",generation["jobs"])  # T-377: el motor va dentro de P20
         electoral=self._load(ELECTORAL)
-        self.assertEqual(electoral["jobs"]["incorporar"]["uses"],"./.github/workflows/_reutilizable-incorporacion-electoral.yml")
+        self.assertNotIn("uses",electoral["jobs"]["incorporar"])  # T-376: la incorporación va dentro (P30), sin reutilizable
 
     def test_routes_inherit_standard_credentials(self):
         generation=self._load(GEN)
         electoral=self._load(ELECTORAL)
         self.assertFalse(any("uses" in j for j in generation["jobs"].values()))  # T-377: sin reutilizables; secretos del propio run
-        self.assertEqual(electoral["jobs"]["incorporar"]["secrets"],"inherit")
-        for reusable in ("p20-distritos.yml","_reutilizable-incorporacion-electoral.yml"):
+        self.assertNotIn("secrets",electoral["jobs"]["incorporar"])  # sin reutilizable no hay `secrets: inherit`: los pasos usan `secrets.*` directamente
+        for reusable in ("p20-distritos.yml","p30-resultados-electorales.yml"):
             text=(WORKFLOWS/reusable).read_text(encoding="utf-8")
             self.assertNotIn("DDD_WORKFLOW_TOKEN",text)
 

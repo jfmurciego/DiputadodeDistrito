@@ -45,7 +45,7 @@ FLUJOS = [
     ("preparacion-legislatura-vigente.yml", "Auxiliar — Activación de Legislatura Vigente", "P00 Campaña", "P00 Campaña — Legislatura"),
     ("p10-fuentes.yml", "01 Preparación de Datos Territoriales / 03 Preparación de Resultados Electorales (preparacion-fuentes.yml, preparacion-resultados-electorales.yml, T-375)", "P10 Fuentes", "P10 Fuentes"),
     ("p20-distritos.yml", "02 Generación de Distritos Autonómicos (produccion-distritos.yml, _reutilizable-generacion-territorial.yml, T-377; 06 Escenarios y Ensembles retirado, D-138)", "P20 Distritos", "P20 Distritos"),
-    ("incorporacion-resultados-electorales.yml", "04 Incorporación de Resultados Electorales", "P40 Resultados electorales", "P40 Resultados electorales"),
+    ("p30-resultados-electorales.yml", "04 Incorporación de Resultados Electorales (incorporacion-resultados-electorales.yml, _reutilizable-incorporacion-electoral.yml, T-376)", "P30 Resultados electorales", "P30 Resultados electorales"),
     ("p40-publicacion.yml", "05 Publicación del Visor / 05 Cadena de Publicación (desplegar-visor-publico.yml, cadena-publicacion.yml, _reutilizable-publicar-sitio.yml, T-372)", "P40 Publicación", "P40 Publicación"),
     ("p50-publicacion-academica.yml", "Publicar versión de mapa (publicar-version-mapa.yml, T-370)", "P50 Publicación académica", "P50 Publicación académica"),
     ("p70-archivo.yml", "ARC Archivo — Poda de R2 / Recuperar producto electoral / Automático — Mantenimiento (T-368)", "P70 Archivo", "P70 Archivo"),

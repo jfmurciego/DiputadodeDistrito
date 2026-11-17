@@ -284,7 +284,7 @@ class SinGruposUnicos(unittest.TestCase):
         casos = {
             "ejecucion-completa-proyecto.yml": ("actualizar_estado", "manifestar"),
             "p20-distritos.yml": ("pre_m04_evidence", "pre_m04_diagnostic", "registrar"),
-            "_reutilizable-incorporacion-electoral.yml": ("registrar",),
+            "p30-resultados-electorales.yml": (),  # T-376: el registro va dentro del job por territorio (grupo propio, no el único)
         }
         for fichero, jobs in casos.items():
             texto = (WF / fichero).read_text(encoding="utf-8")
@@ -314,7 +314,7 @@ class SinGruposUnicos(unittest.TestCase):
         territorial = (WF / "p20-distritos.yml").read_text(encoding="utf-8")
         self.assertEqual(territorial.count("python -m herramientas.registrar_en_main"), 2)
         self.assertIn("--aplicar \"$promote\"", territorial)
-        electoral = (WF / "_reutilizable-incorporacion-electoral.yml").read_text(encoding="utf-8")
+        electoral = (WF / "p30-resultados-electorales.yml").read_text(encoding="utf-8")
         self.assertEqual(electoral.count("python -m herramientas.registrar_en_main"), 1)
         orq = (WF / "ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")
         self.assertEqual(orq.count("python -m herramientas.registrar_en_main"), 1)
@@ -360,7 +360,7 @@ class PasosBash(unittest.TestCase):
     def test_archivos_en_origen_y_manifiesto(self):
         casos = [
             ("p20-distritos.yml", "Archivo en origen — M06 a R2 y composición a git", "rc=0", 1),
-            ("_reutilizable-incorporacion-electoral.yml", "Archivo en origen — M08 a R2 y votos por partido a git", "rc=0", 1),
+            ("p30-resultados-electorales.yml", "Archivo en origen — M08 a R2 y votos por partido a git", "rc=0", 1),
         ]
         env = {"TERRITORY_ID": "aut07", "GITHUB_RUN_ID": "1", "GITHUB_REF_NAME": "main"}
         for fichero, paso, desde, rc_fallo in casos:

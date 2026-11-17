@@ -50,9 +50,10 @@ class TestRegistroElectoralComun(unittest.TestCase):
             (ROOT/".github/workflows/p10-fuentes.yml").read_text(encoding="utf-8")
         ) or {}
         triggers=workflow.get("on") or workflow.get(True)
-        # T-375: P10 Fuentes ya no tiene selector por nombre (recibe códigos); el orden del registro lo sigue fijando el selector de P40 resultados.
+        # T-375: P10 Fuentes ya no tiene selector por nombre (recibe códigos); el orden del registro lo sigue fijando el selector de «Distritos».
         self.assertNotIn("territory_id",triggers["workflow_dispatch"]["inputs"])
-        otro=yaml.safe_load((ROOT/".github/workflows/incorporacion-resultados-electorales.yml").read_text(encoding="utf-8"))
+        # T-376: P30 tampoco tiene selector (un código); T-377: P20 tampoco. El orden del registro lo fija el selector de la 00 (P00 Campaña).
+        otro=yaml.safe_load((ROOT/".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8"))
         options=(otro.get("on") or otro.get(True))["workflow_dispatch"]["inputs"]["territory_id"]["options"]
         self.assertEqual(options,expected)
 

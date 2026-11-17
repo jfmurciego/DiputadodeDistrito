@@ -14,7 +14,7 @@ from herramientas.persistir_producto_electoral_operacional import persist_electo
 
 
 ROOT = Path(__file__).resolve().parents[1]
-WORKFLOW = ROOT / ".github" / "workflows" / "_reutilizable-incorporacion-electoral.yml"
+WORKFLOW = ROOT / ".github" / "workflows" / "p30-resultados-electorales.yml"
 SOURCE_COMMIT = "36efca2ee7a025dee93f179d3b9caa2799eada4b"
 
 
@@ -173,20 +173,23 @@ class ElectoralProductConcurrentRegistrationTests(unittest.TestCase):
         self.assertEqual(source_checkout["with"]["ref"], "${{ inputs.source_ref || github.sha }}")
         capture = next(step for step in incorporate["steps"] if step.get("id") == "capture_source")
         self.assertIn('source_commit="$(git rev-parse HEAD)"', capture["run"])
-        self.assertEqual(incorporate["outputs"]["source_commit"],
-                         "${{ steps.capture_source.outputs.source_commit }}")
-        register_steps = data["jobs"]["registrar"]["steps"]
-        compatible_checkout = next(step for step in register_steps
+        # T-376: el registro va dentro del job; el checkout de main (persistidor) se hace en `persistidor/` y DESPUÉS de capturar el SHA del cálculo
+        all_steps = incorporate["steps"]
+        compatible_checkout = next(step for step in all_steps
                                    if step.get("name") == "Cargar persistidor vigente compatible con main")
         self.assertEqual(compatible_checkout["with"]["ref"], "main")
+        self.assertEqual(compatible_checkout["with"]["path"], "persistidor")
+        register_steps = all_steps[all_steps.index(compatible_checkout):]
+        self.assertLess(all_steps.index(capture), all_steps.index(compatible_checkout))
         self.assertFalse(any(step.get("id") == "capture_source" for step in register_steps))
         self.assertFalse(any(step.get("with", {}).get("ref") ==
                              "${{ inputs.source_ref || github.ref_name }}" for step in register_steps))
         register = next(step for step in register_steps
                         if step.get("name") == "Registrar disponibilidad del producto electoral")
         self.assertLess(register_steps.index(compatible_checkout), register_steps.index(register))
+        self.assertEqual(register["working-directory"], "persistidor")
         run = register["run"]
-        self.assertIn('source_commit="${{ needs.incorporar.outputs.source_commit }}"', run)
+        self.assertIn('source_commit="${{ steps.capture_source.outputs.source_commit }}"', run)
         self.assertNotIn('source_commit="$(git rev-parse HEAD)"', run)
         self.assertIn("python -m herramientas.persistir_producto_electoral_operacional", run)
         self.assertIn("--target-branch main", run)
