@@ -7,7 +7,7 @@
 (checkout de `main` en `persistidor/`, credencial, archivo en origen, persistidor) corre solo tras el éxito y con `persistir`.
 - Botón: solo `territorio` (UN código, p. ej. `aut12`); sin run id (producto territorial certificado y paquete electoral vigente desde el catálogo, como en manual); edición fijada en el código (2025).
 - **D-148 (aplicado):** el botón admite UN territorio por ejecución, sin condición; varios en paralelo los da P00. Sin matriz ni `fromJSON`, y por tanto sin `namespace` de estado propio del botón (`ddd-state-<run>-M08` queda como hoy).
-- `workflow_call` (entradas técnicas ocultas): la 00 (solo cambia `uses:`; 00 1.11.3) con las mismas entradas; su `artifact_namespace` se respeta tal cual. `data_edition` vacío = 2025; `persist_state` vacío/ausente = registra
+- `workflow_call` (entradas técnicas ocultas): la 00 (solo cambia `uses:`; 00 1.11.4) con las mismas entradas; su `artifact_namespace` se respeta tal cual. `data_edition` vacío = 2025; `persist_state` vacío/ausente = registra
   (el botón siempre registra); `territory_id` se usa tal cual (el grupo es el mismo texto que pasa la 00 a la 03).
 - `herramientas/p30_resolver.py` (nuevo, `resolver`): código `autNN`/`nacNN` → id CANÓNICO (el código; también lo que llega por la llamada: nombre del catálogo, «12 Galicia» o código se resuelven al mismo id, y el grupo `ddd-electoral-prod-<id>` coincide con el de P10/T-375 y P20; desconocido → falla cerrado); rechaza varios, ids viejos, alias y `congreso350_*` (D-76). Errores `::error::P30_*` a stderr, rc 1.
 - Concurrencia `ddd-electoral-prod-<territorio>` (cancel false, `queue: max`) pasa de workflow a job; registro y permisos (`contents: write`, `actions: read`) sin cambios; `resolver` solo `contents: read`.
@@ -20,7 +20,7 @@
 entradas, llamada de la 00, controles negativos, resolutor (CLI rc/stderr). ~20 ficheros de tests que citaban los dos ficheros viejos, actualizados.
 
 **Lo que se pierde / cambia (declarado).** El botón ya no admite run id, edición, selector de lista ni varios territorios. Un job único: `timeout-minutes` 300 (240 de incorporar + el registro, antes job aparte sin límite propio);
-un fallo del archivo en origen deja en rojo el mismo job. Las credenciales de R2 llegan solo a los dos pasos que las usaban. El grupo pasa a ser el id canónico (antes, el texto que llegaba): coincidirá con P10 (#874, T-375) y P20 (#880) cuando entren; hasta entonces la 03/P10 de `main` agrupa con el texto en bruto («Galicia») y NO excluye con P30. Orden acordado: #874, luego #866, luego #880.
+un fallo del archivo en origen deja en rojo el mismo job. Las credenciales de R2 llegan solo a los dos pasos que las usaban. El grupo pasa a ser el id canónico (antes, el texto que llegaba): coincide con P10 (#874, ya fusionada) y coincidirá con P20 (#880) cuando entre; la 00 sigue pasando el nombre a la generación territorial hasta #880. Orden acordado: #874, #866, #880.
 
 **No probado en Actions.** `concurrency`/`queue` a nivel de job con `needs.resolver.outputs`; `GITHUB_ENV` y `env.ARTIFACT_NAMESPACE` dentro de `with:`; checkout con `path: persistidor` + `working-directory` y el push desde la subcarpeta
 (con los `includeIf` de checkout); `toJSON(inputs.persist_state)` = `null` del botón → persiste (como el botón viejo); la puerta 03→04 busca `ddd-puerta-electoral_source-<run>` sin `namespace`.
