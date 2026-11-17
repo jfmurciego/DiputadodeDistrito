@@ -15,6 +15,8 @@ from pathlib import Path
 
 import yaml
 
+from ddd_core.territorio_ids import id_legacy
+
 ROOT = Path(__file__).resolve().parents[1]
 WF = ROOT / ".github" / "workflows"
 FIX = ROOT / "tests" / "fixtures" / "t376_workflows"
@@ -280,7 +282,8 @@ class Resolutor(unittest.TestCase):
         self.assertEqual(self.run_cli("resolver", "--territory-id", "zz99").returncode, 1)  # nombre desconocido: falla cerrado
 
     def test_fallos_cerrados_a_stderr(self):
-        for args in (["--territorio", ""], ["--territorio", "zz99"], ["--territorio", "congreso350_zamora"], ["--territorio", "congreso_alava"],
+        for args in (["--territorio", ""], ["--territorio", "zz99"], ["--territorio", "congreso350_zamora"], ["--territorio", id_legacy("nac01")],  # id viejo derivado, nunca literal (guardián SinIdsViejos)
+                    
                      ["--territorio", "galicia"], ["--territorio", "aut12,nac42"], ["--territorio", "aut12 nac42"], ["--territorio", "a b!"],
                      ["--territorio", "aut12", "--territory-id", "x"], ["--territory-id", "x", "--persistir", "quizá"], []):
             r = self.run_cli("resolver", *args)

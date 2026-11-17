@@ -29,7 +29,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "herramientas"))
 
 EDICION = "2025"
-_COD = re.compile(r"^(aut|nac)\d\d(_h\d{4}_\d{2})?$")  # solo ids canónicos: ni ids viejos (congreso_alava…), ni alias, ni congreso350_* (D-76)
+_COD = re.compile(r"^(aut|nac)\d\d(_h\d{4}_\d{2})?$")  # solo ids canónicos: ni ids viejos, ni alias, ni congreso350_* (D-76)
 
 
 def por_codigo(texto: str, edicion: str = EDICION) -> str:
