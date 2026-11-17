@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.490
+Versión: 1.0.491
 Fecha: 2026-11-17
-Alcance: T-394 — Plan 1.0.59: D-149 y D-150
+Alcance: Coordinador — lecciones de las tareas T-323…T-389
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-16_planificador-plan-1-0-59.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.489_registro_20261117.md
+Cambios/motivo: entrada docs/registro/2026-11-16_coordinador-lecciones-2026-11-16.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.490_registro_20261117.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.489_registro_20261117.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.491 · [2026-11-16 — Coordinador — lecciones de las tareas T-323…T-389](registro/2026-11-16_coordinador-lecciones-2026-11-16.md)
 - 1.0.490 · [2026-11-16 — T-394 — Plan 1.0.59: D-149 y D-150](registro/2026-11-16_planificador-plan-1-0-59.md)
 - 1.0.489 · [2026-11-16 — Coordinador — traspaso del Coordinador (relevo por contexto)](registro/2026-11-16_coordinador-traspaso-noche.md)
 - 1.0.488 · [2026-11-16 — T-389 — T-365b: contratos del histórico por época regenerados con las tablas de T-364b](registro/2026-11-16_t389-contratos-historico-t364b.md)
