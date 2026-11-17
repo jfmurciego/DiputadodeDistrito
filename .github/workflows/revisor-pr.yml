@@ -1,7 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.1.1
-# ANTERIOR: legacy/workflows/revisor-pr_v1.1.0_20261110.yml
+# VERSIÓN: 1.1.2
+# CAMBIOS 1.1.2: T-397b (D-159), solo el nombre visible: «_P90 Automático — Revisor de PR» (antes «P90 Automático — Revisor de PR»; sin botón, al final de la lista de Actions). Disparadores, jobs, permisos e `if` intactos; nadie lo busca por nombre.
+# ANTERIOR: legacy/workflows/revisor-pr_v1.1.1_20261117.yml
 # CAMBIOS 1.1.1: T-397 (D-155), solo el nombre visible: «P90 Automático — Revisor de PR» (antes «Revisor de PR»). El check `veredicto` (ruleset
 #   proteger-main) es el del job, no cambia; jobs, disparadores y permisos intactos.
 # CAMBIOS 1.1.0: T-293, ahorro de cuota; autorizado por el propietario (solo disparadores; fallo cerrado y permisos intactos).
@@ -22,7 +23,7 @@
 # CAMBIOS: versión inicial (T-48).
 # MOTIVO: §12 del framework de agentes: revisión independiente sistemática; calibración en evals/oro (T-39).
 # ANTERIOR: ninguna (fichero nuevo)
-name: P90 Automático — Revisor de PR
+name: _P90 Automático — Revisor de PR
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review, labeled]

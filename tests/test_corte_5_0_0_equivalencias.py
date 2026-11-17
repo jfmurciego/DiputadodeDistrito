@@ -86,7 +86,7 @@ class Equivalencias(unittest.TestCase):
         nombres = _nombres()
         self.assertEqual(len(set(nombres.values())), len(nombres), "dos flujos con el mismo nombre visible")
         for fich, _, flujo, nombre_v5 in gen.FLUJOS:
-            self.assertTrue(nombre_v5.startswith(flujo.split(" ")[0]), fich)
+            self.assertTrue(nombre_v5.lstrip("_").startswith(flujo.split(" ")[0]), fich)
         self.assertEqual(nombres["p70-archivo.yml"], "P70 Archivo")  # T-368
         self.assertEqual(nombres["p90-automatico.yml"], "P90 Automático")  # T-366
         internos = [n for f, n in nombres.items() if f.startswith("_reutilizable-")]
