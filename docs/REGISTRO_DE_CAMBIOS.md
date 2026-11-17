@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.500
+Versión: 1.0.501
 Fecha: 2026-11-17
-Alcance: T-377 — P20 Distritos sustituye a la 02 y al reutilizable de generación; se retira P28 Alternativas
+Alcance: T-379 PR 4 — IA de cierre por campaña en P90 (sustituye al forense por cada 00)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-16_t377-p20-distritos.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.499_registro_20261117.md
+Cambios/motivo: entrada docs/registro/2026-11-17_t379-p90-ia-cierre.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.500_registro_20261117.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.499_registro_20261117.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.501 · [2026-11-17 — T-379 PR 4 — IA de cierre por campaña en P90 (sustituye al forense por cada 00)](registro/2026-11-17_t379-p90-ia-cierre.md)
 - 1.0.500 · [2026-11-16 — T-377 — P20 Distritos sustituye a la 02 y al reutilizable de generación; se retira P28 Alternativas](registro/2026-11-16_t377-p20-distritos.md)
 - 1.0.499 · [2026-11-16 — T-376 — P30 Resultados electorales sustituye a la incorporación electoral y su reutilizable](registro/2026-11-16_t376-p30-resultados-electorales.md)
 - 1.0.498 · [2026-11-16 — T-375 — P10 Fuentes sustituye a preparacion-fuentes y preparacion-resultados-electorales](registro/2026-11-16_t375-p10-fuentes.md)
