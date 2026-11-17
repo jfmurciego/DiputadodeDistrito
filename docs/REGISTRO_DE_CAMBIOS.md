@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.488
-Fecha: 2026-11-16
-Alcance: T-389 — T-365b: contratos del histórico por época regenerados con las tablas de T-364b
+Versión: 1.0.490
+Fecha: 2026-11-17
+Alcance: T-394 — Plan 1.0.59: D-149 y D-150
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-16_t389-contratos-historico-t364b.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.487_registro_20261116.md
+Cambios/motivo: entrada docs/registro/2026-11-16_planificador-plan-1-0-59.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.489_registro_20261117.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.487_registro_20261116.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.490 · [2026-11-16 — T-394 — Plan 1.0.59: D-149 y D-150](registro/2026-11-16_planificador-plan-1-0-59.md)
+- 1.0.489 · [2026-11-16 — Coordinador — traspaso del Coordinador (relevo por contexto)](registro/2026-11-16_coordinador-traspaso-noche.md)
 - 1.0.488 · [2026-11-16 — T-389 — T-365b: contratos del histórico por época regenerados con las tablas de T-364b](registro/2026-11-16_t389-contratos-historico-t364b.md)
 - 1.0.487 · [2026-11-16 — T-392 — Equivalencia congelada ignora la versión de las acciones de terceros](registro/2026-11-16_claude-t392-equivalencia-sin-version.md)
 - 1.0.486 · [2026-11-16 — T-392 — Plan 1.0.58: D-148 y estados de la noche del 16-11](registro/2026-11-16_planificador-plan-1-0-58.md)
