@@ -122,14 +122,14 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         for name in (
             "../../tests/fixtures/p10_vistas/_p11-territoriales.yml",
             "../../tests/fixtures/p10_vistas/_p12-electorales.yml",
-            "_reutilizable-generacion-territorial.yml",
+            "p20-distritos.yml",
             "p30-resultados-electorales.yml",
         ):
             text = (WF / name).read_text(encoding="utf-8")
             self.assertIn("persist_state", text, name)
         self.assertIn("needs.resolver.outputs.persist_state", load(WF / "../../tests/fixtures/p10_vistas/_p11-territoriales.yml")["jobs"]["registrar"]["if"])
         self.assertIn("needs.resolver.outputs.persist_state", load(WF / "../../tests/fixtures/p10_vistas/_p12-electorales.yml")["jobs"]["registrar"]["if"])
-        self.assertIn("inputs.persist_state", load(WF / "_reutilizable-generacion-territorial.yml")["jobs"]["registrar"]["if"])
+        self.assertIn("(needs.entrada.outputs.persist_state == 'true')", load(WF / "p20-distritos.yml")["jobs"]["registrar"]["if"])  # T-377
         # T-376: el registro va dentro del job de P30; solo corre con `persistir` (de `persist_state`, que la 00 pasa) y tras el éxito
         for step in load(WF / "p30-resultados-electorales.yml")["jobs"]["incorporar"]["steps"]:
             if step.get("working-directory") == "persistidor":
@@ -138,21 +138,20 @@ class FullProjectOrchestratorTests(unittest.TestCase):
 
     def test_orchestrator_false_persistence_is_respected_by_generation(self):
         orchestration=load(ORCH)
-        generation=load(WF / "produccion-distritos.yml")
+        generation=load(WF / "p20-distritos.yml")
         generar=orchestration["jobs"]["generar"]["with"]
         self.assertEqual(
             generar["persist_state"],
             "${{ needs.planificar.outputs.persist_state == 'true' }}",
         )
-        generation_triggers=triggers(WF / "produccion-distritos.yml")
+        generation_triggers=triggers(WF / "p20-distritos.yml")
         self.assertEqual(
             generation_triggers["workflow_call"]["inputs"]["invocation_context"]["default"],
             "reusable",
         )
-        self.assertEqual(
-            generation["jobs"]["ruta"]["with"]["persist_state"],
-            "${{ inputs.invocation_context != 'reusable' || inputs.persist_state }}",
-        )
+        # T-377: la regla del antiguo job `ruta` la aplica el job `entrada` (reusable + persist_state=false ⇒ no persiste).
+        self.assertIn('if [[ "$IN_INVOCATION_CONTEXT" != reusable || "$IN_PERSIST_STATE" == true ]]; then persist_state=true; else persist_state=false; fi',
+                      generation["jobs"]["entrada"]["steps"][0]["run"])
 
     def test_manual_generation_does_not_require_gerrychain_contract(self):
         data = load(ORCH)
@@ -194,8 +193,8 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             ],
         )
         self.assertEqual(jobs["preparar_territorial"]["uses"], "./.github/workflows/p10-fuentes.yml")
-        self.assertEqual(jobs["acreditar_generacion"]["uses"], "./.github/workflows/_reutilizable-generacion-territorial.yml")
-        self.assertEqual(jobs["generar"]["uses"], "./.github/workflows/produccion-distritos.yml")
+        self.assertEqual(jobs["acreditar_generacion"]["uses"], "./.github/workflows/p20-distritos.yml")
+        self.assertEqual(jobs["generar"]["uses"], "./.github/workflows/p20-distritos.yml")
         self.assertEqual(jobs["preparar_electoral"]["uses"], "./.github/workflows/p10-fuentes.yml")
         self.assertEqual(jobs["incorporar"]["uses"], "./.github/workflows/p30-resultados-electorales.yml")
         self.assertEqual(jobs["recuperar_electoral"]["uses"], "./.github/workflows/p70-archivo.yml")
@@ -204,7 +203,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
     def test_business_phases_are_reusable(self):
         for name in (
             "../../tests/fixtures/p10_vistas/_p11-territoriales.yml",
-            "produccion-distritos.yml",
+            "p20-distritos.yml",
             "../../tests/fixtures/p10_vistas/_p12-electorales.yml",
             "p30-resultados-electorales.yml",
             "p40-publicacion.yml",
@@ -212,7 +211,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             self.assertIn("workflow_call", triggers(WF / name), name)
 
     def test_from_start_disables_checkpoint_and_prepared_package_reuse(self):
-        generation = (WF / "produccion-distritos.yml").read_text(encoding="utf-8")
+        generation = (WF / "p20-distritos.yml").read_text(encoding="utf-8")
         preparation = (WF / "../../tests/fixtures/p10_vistas/_p11-territoriales.yml").read_text(encoding="utf-8")
         self.assertIn('if [[ "$mode" == from_start ]]', generation)
         self.assertIn('echo "from_stage=M01"', generation)
@@ -236,7 +235,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertIn("needs.puerta_02.outputs.run_id", orchestration)
         self.assertIn("needs.puerta_03.outputs.run_id", orchestration)
         self.assertIn("needs.puerta_04.outputs.run_id", orchestration)
-        generation = (WF / "produccion-distritos.yml").read_text(encoding="utf-8")
+        generation = (WF / "p20-distritos.yml").read_text(encoding="utf-8")
         electoral = (WF / "p30-resultados-electorales.yml").read_text(encoding="utf-8")
         self.assertIn("OVERRIDE_SOURCE_RUN_ID", generation)
         self.assertIn("OVERRIDE_RUN_ID", electoral)
@@ -851,7 +850,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         gate = (ROOT / "herramientas/validar_puerta_ejecucion.py").read_text(encoding="utf-8")
         self.assertIn('phase == "territorial_source"', gate)
         self.assertIn("validate_prepared_package(", gate)
-        generation = (WF / "produccion-distritos.yml").read_text(encoding="utf-8")
+        generation = (WF / "p20-distritos.yml").read_text(encoding="utf-8")
         self.assertNotIn("SOURCE_RECALCULATION_PLANNED", generation)
         self.assertNotIn("source_recalculation_planned=", generation)
         self.assertIn("require_generation_gate", generation)

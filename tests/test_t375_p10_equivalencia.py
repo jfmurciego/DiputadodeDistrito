@@ -200,7 +200,8 @@ class P10(unittest.TestCase):
         self.assertEqual(self.a11["concurrency"]["queue"], "max")
 
     def test_grupo_de_p11_coincide_con_p30_con_edicion_vacia(self):
-        p30 = cargar(WF / "produccion-distritos.yml")["concurrency"]["group"] if "concurrency" in cargar(WF / "produccion-distritos.yml") else ""
+        # T-377: el grupo del motor de P20 va por job (`ddd-territorial-prod-<id del contrato>-<edición>`); ver tests/test_t377_p20_equivalencia.py (GruposCruzados).
+        p30 = next(j["concurrency"]["group"] for j in cargar(WF / "p20-distritos.yml")["jobs"].values() if "concurrency" in j)
         # Con la edición vacía el botón usa 2025; P30 usa la edición (2025): mismo sufijo.
         self.assertIn("data_edition", p30)
         self.assertIn("'2025'", self.p10["concurrency"]["group"])

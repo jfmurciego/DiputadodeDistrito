@@ -574,7 +574,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertIn("uses: ./.github/workflows/p10-fuentes.yml", workflow)
         self.assertIn("prepare_one exige un territorio concreto", workflow)
         self.assertNotIn("ejecucion-completa-proyecto.yml", workflow)
-        self.assertNotIn("_reutilizable-generacion-territorial.yml", workflow)
+        self.assertNotIn("p20-distritos.yml", workflow)
         self.assertNotIn("incorpor", workflow.lower())
         self.assertNotIn("publicar visor", workflow.lower())
 

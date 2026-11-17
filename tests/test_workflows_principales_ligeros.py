@@ -13,7 +13,7 @@ class LightweightBusinessWorkflows(unittest.TestCase):
         expected={
             "ejecucion-completa-proyecto.yml":"P00 Campaña",
             "p10-fuentes.yml":"P10 Fuentes",
-            "produccion-distritos.yml":"P20 Base territorial — P30 Distritos",
+            "p20-distritos.yml":"P20 Distritos",
             "p30-resultados-electorales.yml":"P30 Resultados electorales",
             "p40-publicacion.yml":"P40 Publicación",
         }
@@ -38,12 +38,12 @@ class LightweightBusinessWorkflows(unittest.TestCase):
         self.assertIn("Registrar disponibilidad del producto electoral",text)
 
     def test_generation_and_electoral_incorporation_do_not_publish_pages(self):
-        generation=(WF/"produccion-distritos.yml").read_text(encoding="utf-8")
+        generation=(WF/"p20-distritos.yml").read_text(encoding="utf-8")
         electoral=(WF/"p30-resultados-electorales.yml").read_text(encoding="utf-8")
         self.assertNotIn("publish_result:",generation)
         self.assertNotIn("pages: write",generation)
         self.assertNotIn("id-token: write",generation)
-        territorial=(WF/"_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
+        territorial=(WF/"p20-distritos.yml").read_text(encoding="utf-8")
         for forbidden in ("M07","M08","p40-publicacion.yml","pages: write","id-token: write","instalar_fuente_electoral_oficial.py"):
             self.assertNotIn(forbidden,territorial)
         self.assertNotIn("publish_result:",electoral)
@@ -52,7 +52,7 @@ class LightweightBusinessWorkflows(unittest.TestCase):
 
     def test_concurrency_domains_are_explicit(self):
         territorial_prep=(WF/"../../tests/fixtures/p10_vistas/_p11-territoriales.yml").read_text(encoding="utf-8")
-        generation=(WF/"produccion-distritos.yml").read_text(encoding="utf-8")
+        generation=(WF/"p20-distritos.yml").read_text(encoding="utf-8")
         electoral_prep=(WF/"../../tests/fixtures/p10_vistas/_p12-electorales.yml").read_text(encoding="utf-8")
         electoral=(WF/"p30-resultados-electorales.yml").read_text(encoding="utf-8")
         publisher=(WF/"p40-publicacion.yml").read_text(encoding="utf-8")
@@ -71,13 +71,13 @@ class LightweightBusinessWorkflows(unittest.TestCase):
         self.assertIn("group: ddd-catalog-promotion",territorial_prep)
         self.assertIn("group: ddd-catalog-promotion",electoral_prep)
         # T-360: las cadenas registran sin grupo único (registro re-derivado con reintento).
-        self.assertNotIn("group: ddd-catalog-promotion",(WF/"_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8"))
+        self.assertNotIn("group: ddd-catalog-promotion",(WF/"p20-distritos.yml").read_text(encoding="utf-8"))
         self.assertNotIn("group: ddd-catalog-promotion", (WF/"p30-resultados-electorales.yml").read_text(encoding="utf-8"))
         self.assertIn("group: ddd-pages-prod",publisher)
         self.assertIn("cancel-in-progress: false",publisher)
 
     def test_territorial_registration_runs_after_resumed_skipped_stages(self):
-        reusable=load("_reutilizable-generacion-territorial.yml")
+        reusable=load("p20-distritos.yml")
         register=reusable["jobs"]["registrar"]
         self.assertIn("always()",register["if"])
         self.assertIn("needs.auditoria.result == 'success'",register["if"])

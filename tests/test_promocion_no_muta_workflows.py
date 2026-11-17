@@ -13,7 +13,7 @@ class PromotionMustNotMutateWorkflowTests(unittest.TestCase):
         ]
         forbidden = (
             ".github/workflows/p30-resultados-electorales.yml",
-            ".github/workflows/produccion-distritos.yml",
+            ".github/workflows/p20-distritos.yml",
             "DDD_WORKFLOW_TOKEN",
         )
         for path in paths:

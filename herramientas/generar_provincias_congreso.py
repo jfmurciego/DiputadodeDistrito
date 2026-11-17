@@ -2,7 +2,9 @@
 """Alta de las provincias del Congreso como territorios del flujo 00, con Huesca como plantilla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.4 · FECHA: 2026-11-12 · ESTADO: candidato
+VERSIÓN: 1.2.5 · FECHA: 2026-11-17 · ESTADO: candidato
+CAMBIOS 1.2.5 (T-377, D-139): `produccion-distritos.yml` sale de WORKFLOWS: P20 Distritos (`p20-distritos.yml`) no tiene selector de territorios (códigos).
+ANTERIOR (1.2.4): legacy/herramientas/generar_provincias_congreso_v1.2.4_20261117.py
 QUÉ HACE: para cada provincia del reparto N06 (K aprobado, 407 escaños) que aún no exista, añade la
   entrada en el catálogo maestro (pilot_territories, con número INE y letras de matrícula), la política,
   la matriz de legislatura, el registro electoral, las fuentes territoriales, el catálogo de preparación,
@@ -80,7 +82,7 @@ PROVINCES = {
 }
 WORKFLOWS = (
     "ejecucion-completa-proyecto.yml", "p30-resultados-electorales.yml",
-    "preparacion-legislatura-vigente.yml", "produccion-distritos.yml",
+    "preparacion-legislatura-vigente.yml",
 )
 
 

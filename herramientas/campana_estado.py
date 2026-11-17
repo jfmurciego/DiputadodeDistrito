@@ -3,11 +3,12 @@
 """Estado de campaña de P00 (T-379 PR 1): comprobación previa, recuento de apartados, parada, resultado, cierre e informe.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: Estado de campaña P00
-FECHA: 2026-11-16
+FECHA: 2026-11-17
 ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/herramientas/campana_estado_v1.0.0_20261117.py
+CAMBIOS 1.0.1 (T-377): las citas de ARCHIVO_ORIGEN_FAILED y SALIDA_48 apuntan a `p20-distritos.yml` (el reutilizable de generación se borró); mismas líneas de código, otra numeración. Solo texto.
 CAMBIOS: 1.0.0: fichero nuevo (T-379 PR 1; incluye los arreglos del revisor de #861: semáforo inmutable, causas
   acreditadas en main con cita, re-ejecución vetada también al registrar, parada pegajosa, «ausente» de R2 exacto,
   entradas saneadas, causa normalizada sin perder el texto, D-147).
@@ -73,9 +74,9 @@ CAUSAS = {
     "CATALOGO_PROCEDENCIA_NO_REGENERADO": (False, 76, "herramientas/registrar_en_main.py l. 46 y 282"),
     "RUTA_NO_FUSIONABLE": (False, 77, "herramientas/registrar_en_main.py l. 47 y 285-286"),
     # Envuelve la salida de registrar_en_main (75, 76 o 77) en `exit 1`: no se sabe si fue el push → no transitoria.
-    "ARCHIVO_ORIGEN_FAILED": (False, 1, ".github/workflows/_reutilizable-generacion-territorial.yml l. 1647; "
+    "ARCHIVO_ORIGEN_FAILED": (False, 1, ".github/workflows/p20-distritos.yml l. 2196; "
                               "_reutilizable-incorporacion-electoral.yml l. 415"),
-    "SALIDA_48": (False, 48, "registro o certificación fallidos: _reutilizable-generacion-territorial.yml l. 1566-1628, "
+    "SALIDA_48": (False, 48, "registro o certificación fallidos: p20-distritos.yml l. 2115-2177, "
                   "preparacion-fuentes.yml l. 534, preparacion-resultados-electorales.yml l. 458"),
     "SALIDA_50": (False, 50, "registro durable incoherente: preparacion-fuentes.yml l. 536, "
                   "preparacion-resultados-electorales.yml l. 647, ejecucion-completa-proyecto.yml l. 1637"),

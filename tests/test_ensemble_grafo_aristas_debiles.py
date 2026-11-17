@@ -79,10 +79,7 @@ class AristasDebilesTests(unittest.TestCase):
             self.assertEqual(len(data.edges), 3)
             self.assertEqual(json.loads(report.read_text(encoding="utf-8"))["edges_pruned"], 1)
 
-    def test_salamanca_activa_la_opcion_y_aragon_no(self):
-        root = Path(__file__).resolve().parents[1] / "configuracion/ensemble"
-        self.assertTrue(json.loads((root / "nac37.json").read_text())["topology"]["prune_weak_adjacencies"])
-        self.assertNotIn("prune_weak_adjacencies", json.loads((root / "aut02.json").read_text())["topology"])
+    # T-377 (D-141 d): la comprobación de la configuración de configuracion/ensemble/ se retira con ella (a legacy/).
 
 
 if __name__ == "__main__":

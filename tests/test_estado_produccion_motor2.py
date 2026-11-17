@@ -11,7 +11,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "herramientas/estado_produccion.py"
-WORKFLOW = ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml"
+WORKFLOW = ROOT / ".github/workflows/p20-distritos.yml"
 
 # Informe M05 canónico: 0 fuera de tolerancia (lo que se certificaba antes con motor2).
 M05 = {"objective_start": [0, 0.0, 2, 0.20, 0.3], "objective_final": [0, 0.0, 0, 0.11, 0.2],
@@ -154,7 +154,7 @@ class Motor2Certificacion(unittest.TestCase):
         texto = WORKFLOW.read_text(encoding="utf-8")
         bloque = texto[texto.index("python herramientas/estado_produccion.py"):]
         bloque = bloque[:bloque.index("--output .ddd-audit/production_status.json")]
-        self.assertIn('--motor "${{ inputs.motor }}" --runs-dir "$RUNS_DIR"', bloque)
+        self.assertIn('--motor "${{ needs.entrada.outputs.motor }}" --runs-dir "$RUNS_DIR"', bloque)
 
 
 if __name__ == "__main__":

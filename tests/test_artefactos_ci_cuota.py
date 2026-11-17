@@ -22,19 +22,18 @@ PRUEBAS = {"p90-automatico.yml"}
 
 # Workflows de producción que necesitan sus artefactos (entre jobs, R2, publicación): no se tocan.
 PRODUCCION = {
-    "_reutilizable-generacion-territorial.yml",
+    "p20-distritos.yml",
     "p30-resultados-electorales.yml",
     "p40-publicacion.yml",
     "_reutilizable-puerta-validacion.yml",
     "ejecucion-completa-proyecto.yml",
-    "generar-alternativas-territoriales.yml",
     "gestor-campanas.yml",
     "p50-publicacion-academica.yml",  # T-370: el plan pasa del resolutor al job de publicación
     "p70-archivo.yml",
     "p80-verificacion-motor.yml",
     "p10-fuentes.yml",  # T-375: P10 Fuentes (P11 y P12 dentro)
     "preparacion-legislatura-vigente.yml",
-    "produccion-distritos.yml",
+    "p20-distritos.yml",
 }
 
 

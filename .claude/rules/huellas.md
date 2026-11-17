@@ -19,7 +19,7 @@ paths:
 - Cambiar M04 o M05 invalida los checkpoints: la 00 siguiente va con «Ejecutar desde el principio».
 - Las evidencias N08 (`docs/ESTUDIOS/N08_*`) fijan hashes de ficheros activos; si cambias uno, monta la copia
   archivada en `herramientas/verificar_evidencia_n08_readonly.py` y en `tests/test_preflight_caceres_n08.py`.
-- El bucle de selección de checkpoints (`produccion-distritos.yml`) baja de etapa (M06→M05→M04→M03) cuando el validador
+- El bucle de selección de checkpoints (job `resolver_interfaz` de `p20-distritos.yml`) baja de etapa (M06→M05→M04→M03) cuando el validador
   rechaza: para rehacer desde Mxx basta con rechazar. Los checkpoints caducan a los 14 días.
 
 ## Lecciones 08-11 (Coordinador)

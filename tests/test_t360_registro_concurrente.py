@@ -283,7 +283,7 @@ class SinGruposUnicos(unittest.TestCase):
     def test_jobs_de_registro_sin_grupo_unico(self):
         casos = {
             "ejecucion-completa-proyecto.yml": ("actualizar_estado", "manifestar"),
-            "_reutilizable-generacion-territorial.yml": ("pre_m04_evidence", "pre_m04_diagnostic", "registrar"),
+            "p20-distritos.yml": ("pre_m04_evidence", "pre_m04_diagnostic", "registrar"),
             "p30-resultados-electorales.yml": (),  # T-376: el registro va dentro del job por territorio (grupo propio, no el único)
         }
         for fichero, jobs in casos.items():
@@ -302,7 +302,7 @@ class SinGruposUnicos(unittest.TestCase):
         orq = yaml.safe_load((WF / "ejecucion-completa-proyecto.yml").read_text(encoding="utf-8"))
         estado = "\n".join(st.get("run", "") for st in orq["jobs"]["actualizar_estado"]["steps"])
         self.assertIn("--max-attempts 20", estado)
-        territorial = (WF / "_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
+        territorial = (WF / "p20-distritos.yml").read_text(encoding="utf-8")
         self.assertEqual(territorial.count("--max-attempts 10"), 2)
         self.assertNotIn("--max-attempts 4", territorial)
         self.assertEqual(rm.MAX_INTENTOS, 10)
@@ -311,7 +311,7 @@ class SinGruposUnicos(unittest.TestCase):
         self.assertLess(run.index("PyYAML"), run.index("registrar_en_main"))  # el catálogo importa yaml y falla cerrado
 
     def test_registros_usan_el_registrador_comun(self):
-        territorial = (WF / "_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
+        territorial = (WF / "p20-distritos.yml").read_text(encoding="utf-8")
         self.assertEqual(territorial.count("python -m herramientas.registrar_en_main"), 2)
         self.assertIn("--aplicar \"$promote\"", territorial)
         electoral = (WF / "p30-resultados-electorales.yml").read_text(encoding="utf-8")
@@ -343,7 +343,7 @@ class PasosBash(unittest.TestCase):
             return p
 
     def test_producto_territorial(self):
-        frag = self._fragmento("_reutilizable-generacion-territorial.yml", "Registrar producto territorial certificado",
+        frag = self._fragmento("p20-distritos.yml", "Registrar producto territorial certificado",
                                "# T-360")
         env = {"TERRITORY_ID": "aut07", "GITHUB_RUN_ID": "1", "GITHUB_REF_NAME": "main", "edition": "2025",
                "artifact_name": "ddd-state-1-M06", "digest": "sha256:" + "a" * 64, "checkout_sha": "b" * 40,
@@ -359,7 +359,7 @@ class PasosBash(unittest.TestCase):
 
     def test_archivos_en_origen_y_manifiesto(self):
         casos = [
-            ("_reutilizable-generacion-territorial.yml", "Archivo en origen — M06 a R2 y composición a git", "rc=0", 1),
+            ("p20-distritos.yml", "Archivo en origen — M06 a R2 y composición a git", "rc=0", 1),
             ("p30-resultados-electorales.yml", "Archivo en origen — M08 a R2 y votos por partido a git", "rc=0", 1),
         ]
         env = {"TERRITORY_ID": "aut07", "GITHUB_RUN_ID": "1", "GITHUB_REF_NAME": "main"}

@@ -23,7 +23,7 @@ from herramientas.catalogo_preparacion import validate_repository
 ROOT = Path(__file__).resolve().parents[1]
 from tests._estados_vivos import ESTADOS_PREPARADO  # noqa: E402
 PREP = ROOT / "tests/fixtures/p10_vistas/_p11-territoriales.yml"
-GEN = ROOT / ".github/workflows/produccion-distritos.yml"
+GEN = ROOT / ".github/workflows/p20-distritos.yml"
 CAT = ROOT / "configuracion/catalogo_preparacion.yaml"
 MASTER = ROOT / "configuracion/catalogo_territorios_espana_2025.yaml"
 EXT = ROOT / "territorios/aut11/config/aut11_2025.yaml"
@@ -61,7 +61,7 @@ class AutomaticCatalogPromotionTests(unittest.TestCase):
         text = PREP.read_text(encoding="utf-8")
         self.assertIn("github.token", text)
         self.assertNotIn("DDD_WORKFLOW_TOKEN", text)
-        self.assertNotIn(".github/workflows/produccion-distritos.yml", text)
+        self.assertNotIn(".github/workflows/p20-distritos.yml", text)
 
     def test_extremadura_preparation_evidence_is_durable(self):
         row = lookup("Extremadura", "2025", CAT)
@@ -91,13 +91,11 @@ class AutomaticCatalogPromotionTests(unittest.TestCase):
     def test_generation_selector_is_stable_and_catalog_gates_readiness(self):
         data = yaml.safe_load(GEN.read_text(encoding="utf-8"))
         triggers = data.get("on") or data.get(True)
-        options = triggers["workflow_dispatch"]["inputs"]["territory_id"]["options"]
-        from herramientas.catalogo_territorios import selector_labels
-        expected = selector_labels(ROOT / "configuracion/catalogo_territorios_espana_2025.yaml")
-        self.assertEqual(options, expected)
-        self.assertIn("11 Extremadura", options)
+        # T-377 (D-139): P20 recibe códigos; el catálogo decide (p20_territorios.py → catalogo_preparacion resolve).
+        self.assertEqual(triggers["workflow_dispatch"]["inputs"]["territorio"]["type"], "string")
+        self.assertIn("python3 herramientas/p20_territorios.py territorio", GEN.read_text(encoding="utf-8"))
         promoter = (ROOT / "herramientas/promover_catalogo_tras_preparacion.py").read_text(encoding="utf-8")
-        self.assertNotIn(".github/workflows/produccion-distritos.yml", promoter)
+        self.assertNotIn(".github/workflows/p20-distritos.yml", promoter)
 
     def test_catalog_state_bounds_accept_current_catalog_indentation(self):
         from herramientas.promover_catalogo_tras_preparacion import _catalog_state_bounds

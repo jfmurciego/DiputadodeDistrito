@@ -76,7 +76,6 @@ class CodautoPreparationContractTests(unittest.TestCase):
         # 19 etiquetas CODAUTO en orden y, al final, los territorios piloto (Congreso Huesca).
         expected = selector_labels(MASTER)
         direct = [
-            ("produccion-distritos.yml", "territory_id"),
             ("ejecucion-completa-proyecto.yml", "territory_id"),
         ]
         for workflow, key in direct:
@@ -156,16 +155,15 @@ class CodautoPreparationContractTests(unittest.TestCase):
             [
                 "activacion-por-eleccion.yml",
                 "ejecucion-completa-proyecto.yml",
-                "generar-alternativas-territoriales.yml",
                 "gestor-campanas.yml",
                 "p10-fuentes.yml",  # T-375: P10 Fuentes (sustituye a preparacion-fuentes y preparacion-resultados-electorales; el selector de territorio ya no existe)
+                "p20-distritos.yml",  # T-377: P20 Distritos (sustituye a la 02); P28 Alternativas retirada
                 "p30-resultados-electorales.yml",  # T-376: P30 Resultados electorales (sustituye a la incorporación electoral y su reutilizable)
                 "p40-publicacion.yml",  # T-372: P40 Publicación (sustituye a 05, cadena y publicador)
                 "p50-publicacion-academica.yml",  # T-370: P50 Publicación académica
                 "p70-archivo.yml",  # T-368: P70 Archivo (poda, recuperación, archivo diario y composición M06)
                 "p80-verificacion-motor.yml",  # T-369: P80 Verificación del motor
                 "preparacion-legislatura-vigente.yml",
-                "produccion-distritos.yml",
             ],
         )
 

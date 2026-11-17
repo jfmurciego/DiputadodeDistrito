@@ -59,23 +59,24 @@ class Seleccion(unittest.TestCase):
 
 class NoDisponible(unittest.TestCase):
     def test_historico_ensemble_25_y_350(self):
-        casos = [({"eleccion": "histórico: generales 2016", "tipo": "autonómico"}, "nacional"), ({"ensemble": "25"}, "no está validado"),
+        casos = [({"eleccion": "histórico: generales 2016", "tipo": "autonómico"}, "nacional"), ({"ensemble": "25"}, "D-138"),
                  ({"mapa": "350", "publicar": "sí"}, "D-18"), ({"mapa": "350", "tipo": "autonómico"}, "nacional"),
-                 ({"ensemble": "10"}, "nac42")]
+                 ({"ensemble": "10"}, "D-138")]
         for kw, msg in casos:
             with self.subTest(kw=kw), self.assertRaisesRegex(g.NoDisponible, msg):
                 g.resolve({**BASE, **kw}, ROOT)
 
-    def test_ensemble_10_con_configuracion(self):
-        r = g.resolve({**BASE, "ensemble": "10", "territorios": "Salamanca"}, ROOT)
-        self.assertEqual(r["ensemble"], {"nac37": "nac37"})
+    def test_ensemble_retirado(self):  # T-377 (D-138): sin P28, el 10 tampoco existe aunque hubiera configuración
+        with self.assertRaisesRegex(g.NoDisponible, "D-138"):
+            g.resolve({**BASE, "ensemble": "10", "territorios": "Salamanca"}, ROOT)
+        self.assertNotIn("ensemble", g.resolve({**BASE, "territorios": "Salamanca"}, ROOT))
 
     def test_cli_falla_sin_lanzar(self):
         p = subprocess.run([sys.executable, "herramientas/gestor_campanas_2.py", "plan", "--sin-api",
                             *[f"--{k}={v}" for k, v in {**BASE, "ensemble": "25"}.items()],
                             "--salida", "/dev/null"], cwd=ROOT, capture_output=True, text=True)
         self.assertEqual(p.returncode, 2)
-        self.assertIn("::error::El ensemble de 25", p.stderr)
+        self.assertIn("::error::Los ensembles (P28 Alternativas) se retiraron (D-138)", p.stderr)
 
 
 class Workflow(unittest.TestCase):
@@ -138,7 +139,7 @@ class CampanaCompleta(unittest.TestCase):
         self.assertEqual({r["tipo"] for r in aut}, {"autonomico"})
 
     def test_rechazos(self):
-        casos = [({"ensemble": "25"}, "no está validado"), ({"mapa": "350"}, "407"),
+        casos = [({"ensemble": "25"}, "D-138"), ({"mapa": "350"}, "407"),
                  ({"territorios": "Aragón"}, "todos"),
                  ({"eleccion": "legislatura vigente"}, "campaña completa")]
         for kw, msg in casos:

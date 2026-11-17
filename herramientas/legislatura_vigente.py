@@ -2,7 +2,10 @@
 """Legislatura vigente: configuración, plan y lanzamiento por ámbito del Gestor de Campañas.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.0 · FECHA: 2026-11-16 · ESTADO: candidato
+VERSIÓN: 1.5.0 · FECHA: 2026-11-16 · ESTADO: candidato
+CAMBIOS 1.5.0: T-377 (D-138, D-139): se retira el ensemble del Gestor: sin WF_06 (`generar-alternativas-territoriales.yml`, a legacy sin sustituto), sin lanzar
+  ni seguir la 06 (fases `cola_06`/`06`) y sin la columna «Ensemble» del plan; `build_plan` ya no acepta `ensemble`. Lo demás, idéntico.
+ANTERIOR (1.4.0): legacy/herramientas/legislatura_vigente_v1.4.0_20261116.py
 CAMBIOS 1.4.0: T-372 (D-134), WF_05 es p40-publicacion.yml («P40 Publicación»): el Gestor la lanza con `que_publicar=Territorios`, `territorios=<id>` y `simular=false` (P40 toma la última 00 válida del registro) y lista los runs del fichero nuevo.
 CAMBIOS 1.3.0: T-234 (relevo formal, D-82): la 00 del Gestor se lanza con `motor=motor2` (Deslinde 1.0) de forma explícita
   (`motor_00`; con `--estrategia` GerryChain, la ruta retirada m05, como el modo matriz del Gestor).
@@ -64,7 +67,6 @@ WF_00 = "ejecucion-completa-proyecto.yml"
 
 WF_05 = "p40-publicacion.yml"
 WF_GESTOR = "gestor-campanas.yml"
-WF_06 = "generar-alternativas-territoriales.yml"
 ARTIFACT_DAYS = 12  # margen bajo los 14 días de los artefactos M06/M08 de la 00
 TITLE_00 = "P00 Campaña"
 TITLES_00 = (TITLE_00, "00 Ejecución Completa del Proyecto")  # T-215: el viejo, para runs anteriores al corte
@@ -215,10 +217,8 @@ def territory_state(root: Path, tid: str, viewer: dict, today, eleccion: str = r
 
 
 def build_plan(cfg: dict, ambito: str, tokens: list[str], forzar: bool, running: dict[str, str],
-               root: Path = Path("."), today=None, inicio: str | dict = "auto", publicar: bool | None = None,
-               ensemble: dict[str, str] | None = None) -> dict:
-    """`inicio`: uno de INICIOS, o un dict territory_id → inicio (relevo); `publicar=None` = por ámbito (D-18);
-    `ensemble`: territory_id → configuración de `configuracion/ensemble/` (06 `ensemble_10` tras publicar)."""
+               root: Path = Path("."), today=None, inicio: str | dict = "auto", publicar: bool | None = None) -> dict:
+    """`inicio`: uno de INICIOS, o un dict territory_id → inicio (relevo); `publicar=None` = por ámbito (D-18)."""
     viewer = json.loads((root / VIEWER).read_text(encoding="utf-8")) if (root / VIEWER).is_file() else {}
     rows = []
     for r in select(cfg, ambito, tokens):
@@ -240,8 +240,7 @@ def build_plan(cfg: dict, ambito: str, tokens: list[str], forzar: bool, running:
                       "COMPLETO_CADUCADO": "reutilizar",
                       "TERRITORIAL_CERTIFICADO": "reutilizar", "SIN_PRODUCTO": "desde_el_principio"}[st["estado"]]
         rows.append({**{k: r[k] for k in ("territory_id", "nombre", "ambito", "selector_00", "clave", "fecha")},
-                     "estado": st["estado"], "run_id": st["run_id"], "accion": accion, "publicar": publica,
-                     "ensemble": (ensemble or {}).get(r["territory_id"], "")})
+                     "estado": st["estado"], "run_id": st["run_id"], "accion": accion, "publicar": publica})
     counts = {}
     for row in rows:
         counts[row["accion"]] = counts.get(row["accion"], 0) + 1
@@ -251,11 +250,10 @@ def build_plan(cfg: dict, ambito: str, tokens: list[str], forzar: bool, running:
 def plan_markdown(plan: dict) -> str:
     acc = ", ".join(f"{k} {v}" for k, v in sorted(plan["acciones"].items()))
     out = [f"### Gestor · plan · {plan['ambito']} · {plan['count']} territorios ({acc})", "",
-           "| # | Clave | Territorio | Estado | Run | Acción | Publicar | Ensemble |", "|---|---|---|---|---|---|---|---|"]
+           "| # | Clave | Territorio | Estado | Run | Acción | Publicar |", "|---|---|---|---|---|---|---|"]
     for i, r in enumerate(plan["territorios"], 1):
         pub = "sí" if r.get("publicar", r.get("ambito") != VARIANT) else "no"
-        out.append(f"| {i} | {r['clave']} | {r['selector_00']} | {r['estado']} | {r['run_id']} | {r['accion']} | {pub} "
-                   f"| {r.get('ensemble') or '—'} |")
+        out.append(f"| {i} | {r['clave']} | {r['selector_00']} | {r['estado']} | {r['run_id']} | {r['accion']} | {pub} |")
     return "\n".join(out) + "\n"
 
 
@@ -357,7 +355,7 @@ class Territorio:
     def start(self) -> None:
         acc = self.row["accion"]
         self.since = _now()
-        if acc == "nada":  # solo queda el ensemble
+        if acc == "nada":
             self._ok(f"OK sin 00 ({self.row.get('estado', '')})")
         elif acc == "publicar" and not self.publishes:
             self._ok("OK sin publicar (D-18)")
@@ -408,19 +406,8 @@ class Territorio:
         self.fase = "05"
         self.log(f"{self.tid}: P40 lanzada para {self.row['territory_id']} (00 {self.run_id})")
 
-    def ensemble(self) -> None:
-        """Una sola 06 del Gestor a la vez (se identifica por orden, como la 05); galería en el visor si publica."""
-        self.since = _now()
-        dispatch(WF_06, {"territory_id": self.row["ensemble"], "stage": "ensemble_10", "execution_confirmed": True,
-                         "deploy_pages": self.publishes})
-        self.fase = "06"
-        self.log(f"{self.tid}: 06 lanzada (ensemble_10, {self.row['ensemble']})")
-
     def _ok(self, text: str) -> None:
-        if self.row.get("ensemble") and self.fase not in ("06", "cola_06"):
-            self.resultado, self.fase = text, "cola_06"
-        else:
-            self._end(text)
+        self._end(text)
 
     def poll(self) -> None:
         if self.fase == "00":
@@ -464,12 +451,6 @@ class Territorio:
                     self._ok(text)
                 else:
                     self._end(text)
-        elif self.fase == "06":
-            runs = [r for r in list_runs(WF_06, since=self.since[:10]) if r.get("created_at", "") >= self.since]
-            if runs and all(r.get("status") == "completed" for r in runs):
-                last = min(runs, key=lambda r: r.get("created_at", ""))
-                ok = last.get("conclusion") == "success"
-                self._end(f"{self.resultado}; {'OK' if ok else 'FALLO'} 06 {last['id']}".lstrip("; "))
 
     def _end(self, text: str) -> None:
         self.fase, self.resultado = "fin", text
@@ -482,7 +463,7 @@ class Territorio:
 
 def run_campaign(plan: dict, algorithm: str, max_parallel: int, test_first: bool, deadline: float,
                  continue_inputs: dict, poll_seconds: int = 60, log=print) -> list[dict]:
-    todo = [Territorio(r, algorithm, log) for r in plan["territorios"] if r["accion"] != "nada" or r.get("ensemble")]
+    todo = [Territorio(r, algorithm, log) for r in plan["territorios"] if r["accion"] != "nada"]
     if not todo:
         log("Nada que lanzar: todos los territorios están publicados.")
         return []
@@ -515,7 +496,7 @@ def run_campaign(plan: dict, algorithm: str, max_parallel: int, test_first: bool
 
 def _step(active: list[Territorio]) -> None:
     for t in active:
-        if t.fase in ("00", "05", "06"):
+        if t.fase in ("00", "05"):
             t.poll()
     if not any(t.fase == "05" for t in active):
         # T-372: se sondea el registro de TODOS los de la cola; lanza el primero que esté listo (uno atascado no bloquea a los demás).
@@ -523,10 +504,6 @@ def _step(active: list[Territorio]) -> None:
             if t.registro_listo():
                 t.publish()
                 break
-    if not any(t.fase == "06" for t in active):
-        queued = [t for t in active if t.fase == "cola_06"]
-        if queued:
-            queued[0].ensemble()
 
 
 def _report(todo: list[Territorio]) -> list[dict]:
@@ -534,9 +511,8 @@ def _report(todo: list[Territorio]) -> list[dict]:
 
 
 def _relay(todo: list[Territorio], inputs: dict, log) -> list[dict]:
-    """Relevo `continuar`: los iniciados van con «@auto» (se retoman por su estado, sin rehacerlos); una 06 ya lanzada
-    no se repite."""
-    rest = [t for t in todo if t.fase not in ("fin", "06")]
+    """Relevo `continuar`: los iniciados van con «@auto» (se retoman por su estado, sin rehacerlos)."""
+    rest = [t for t in todo if t.fase != "fin"]
     log(f"Límite del job: relevo en modo continuar con {len(rest)} territorios.")
     tokens = [t.tid if t.fase == "pendiente" else f"{t.tid}@auto" for t in rest]
     dispatch(WF_GESTOR, {**inputs, "modo": "continuar", "territorios": ",".join(tokens)})

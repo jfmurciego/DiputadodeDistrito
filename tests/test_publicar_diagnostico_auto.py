@@ -20,7 +20,7 @@ import yaml
 from herramientas import publicar_diagnostico_auto as pda
 
 ROOT = Path(__file__).resolve().parents[1]
-WF = ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml"
+WF = ROOT / ".github/workflows/p20-distritos.yml"
 
 
 def _contract(td: Path, run_name="t_2025") -> tuple[Path, Path]:
