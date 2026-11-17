@@ -14,8 +14,8 @@
 # QUÉ HACE: consume un producto territorial certificado y resultados electorales preparados, agrega los resultados por distrito, genera el producto
 #   electoral (M07/M08), lo archiva en origen y registra su disponibilidad en main.
 # NO HACE: generar distritos, repetir auditorías geométricas ni publicar el visor. Puede materializar M07/M08 genéricos desde un paquete electoral autocontenido.
-# NOTAS (llamada de la 00): `data_edition` vacío = 2025; `persist_state` vacío = true (el botón siempre registra); `territory_id` se usa tal cual
-#   (el grupo de concurrencia es el mismo que pasa la 00 a la 03); `artifact_namespace` vacío = sin sufijo (como hoy).
+# NOTAS (llamada de la 00): `data_edition` vacío = 2025; `persist_state` vacío = true (el botón siempre registra); `territory_id` (nombre, «NN Nombre» o código) se resuelve al id
+#   canónico: el grupo `ddd-electoral-prod-<id>` es el mismo para código y nombre y coincide con P10 y P20; `artifact_namespace` vacío = sin sufijo (como hoy).
 # FECHA: 2026-11-16
 name: P30 Resultados electorales
 

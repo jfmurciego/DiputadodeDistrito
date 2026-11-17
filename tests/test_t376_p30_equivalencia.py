@@ -251,8 +251,8 @@ class Resolutor(unittest.TestCase):
     def test_boton_un_territorio(self):
         r = self.run_cli("resolver", "--territorio", "aut12")
         self.assertEqual(r.returncode, 0, r.stderr)
-        self.assertEqual(json.loads(r.stdout), {"territorio": "Galicia", "edicion": "2025", "persistir": "true"})
-        self.assertEqual(json.loads(self.run_cli("resolver", "--territorio", "NAC42").stdout)["territorio"], "Congreso Soria")
+        self.assertEqual(json.loads(r.stdout), {"territorio": "aut12", "edicion": "2025", "persistir": "true"})
+        self.assertEqual(json.loads(self.run_cli("resolver", "--territorio", "NAC42").stdout)["territorio"], "nac42")
 
     def test_historico_por_epoca(self):
         d = json.loads(self.run_cli("resolver", "--territorio", "nac22_h2019_11").stdout)
@@ -264,8 +264,20 @@ class Resolutor(unittest.TestCase):
 
     def test_llamada_tal_cual_y_persistir(self):
         d = json.loads(self.run_cli("resolver", "--territory-id", "Congreso 350 Zamora", "--persistir", "false", "--edicion", "").stdout)
-        self.assertEqual(d, {"territorio": "Congreso 350 Zamora", "edicion": "2025", "persistir": "false"})
-        self.assertEqual(json.loads(self.run_cli("resolver", "--territory-id", "x", "--persistir", "null").stdout)["persistir"], "true")
+        self.assertEqual(d, {"territorio": "congreso350_zamora", "edicion": "2025", "persistir": "false"})
+        self.assertEqual(json.loads(self.run_cli("resolver", "--territory-id", "Galicia", "--persistir", "null").stdout)["persistir"], "true")
+
+    def test_codigo_y_nombre_dan_el_mismo_grupo_y_territorios_distintos_grupos_distintos(self):
+        def grupo(*a):
+            r = self.run_cli("resolver", *a)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            return "ddd-electoral-prod-" + json.loads(r.stdout)["territorio"]
+        g = {grupo("--territorio", "aut12"), grupo("--territory-id", "Galicia"), grupo("--territory-id", "12 Galicia"), grupo("--territory-id", "aut12")}
+        self.assertEqual(g, {"ddd-electoral-prod-aut12"})
+        self.assertNotEqual(grupo("--territorio", "aut12"), grupo("--territorio", "nac42"))  # control negativo
+        self.assertNotEqual(grupo("--territory-id", "Galicia"), grupo("--territory-id", "Congreso Soria"))
+        self.assertEqual(grupo("--territory-id", "Congreso Soria"), grupo("--territorio", "nac42"))
+        self.assertEqual(self.run_cli("resolver", "--territory-id", "zz99").returncode, 1)  # nombre desconocido: falla cerrado
 
     def test_fallos_cerrados_a_stderr(self):
         for args in (["--territorio", ""], ["--territorio", "zz99"], ["--territorio", "congreso350_zamora"], ["--territorio", "congreso_alava"],

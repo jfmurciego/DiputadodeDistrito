@@ -9,7 +9,7 @@
 - **D-148 (aplicado):** el botón admite UN territorio por ejecución, sin condición; varios en paralelo los da P00. Sin matriz ni `fromJSON`, y por tanto sin `namespace` de estado propio del botón (`ddd-state-<run>-M08` queda como hoy).
 - `workflow_call` (entradas técnicas ocultas): la 00 (solo cambia `uses:`; 00 1.11.3) con las mismas entradas; su `artifact_namespace` se respeta tal cual. `data_edition` vacío = 2025; `persist_state` vacío/ausente = registra
   (el botón siempre registra); `territory_id` se usa tal cual (el grupo es el mismo texto que pasa la 00 a la 03).
-- `herramientas/p30_resolver.py` (nuevo, `resolver`): código `autNN`/`nacNN` → nombre del catálogo; rechaza varios, ids viejos, alias y `congreso350_*` (D-76). Errores `::error::P30_*` a stderr, rc 1.
+- `herramientas/p30_resolver.py` (nuevo, `resolver`): código `autNN`/`nacNN` → id CANÓNICO (el código; también lo que llega por la llamada: nombre del catálogo, «12 Galicia» o código se resuelven al mismo id, y el grupo `ddd-electoral-prod-<id>` coincide con el de P10/T-375 y P20; desconocido → falla cerrado); rechaza varios, ids viejos, alias y `congreso350_*` (D-76). Errores `::error::P30_*` a stderr, rc 1.
 - Concurrencia `ddd-electoral-prod-<territorio>` (cancel false, `queue: max`) pasa de workflow a job; registro y permisos (`contents: write`, `actions: read`) sin cambios; `resolver` solo `contents: read`.
 - D-149/D-150: el resolutor acepta también `<t>_hAAAA_MM` (histórico por época; exige `configuracion/historico_epoca/contrato_AAAA_MM.json` y el territorio base válido; el id va tal cual al grupo y a la salida). LÍMITE: el catálogo (`catalogo_preparacion resolve/lookup`) no tiene filas para esos ids, así que el paso «Verificar elegibilidad del territorio» falla cerrado con ellos hasta que el catálogo/contratos de T-389 los admitan.
 - Rutas: 00 (`uses:` y `paths`), `gestor-campanas.yml` 1.11.2 (`paths`), tupla `WORKFLOWS` de `generar_provincias_congreso.py` y `_350.py`; equivalencias del corte regeneradas.
@@ -20,8 +20,7 @@
 entradas, llamada de la 00, controles negativos, resolutor (CLI rc/stderr). ~20 ficheros de tests que citaban los dos ficheros viejos, actualizados.
 
 **Lo que se pierde / cambia (declarado).** El botón ya no admite run id, edición, selector de lista ni varios territorios. Un job único: `timeout-minutes` 300 (240 de incorporar + el registro, antes job aparte sin límite propio);
-un fallo del archivo en origen deja en rojo el mismo job. Las credenciales de R2 llegan solo a los dos pasos que las usaban. El botón NO excluye con la 03 manual de `main` (su selector es «12 Galicia»; el botón usa el `name` del catálogo,
-«Galicia», igual que la 00 y la 03 encadenada): se coordina con T-375 (P10) un nombre de grupo común; si no se logra queda como pérdida.
+un fallo del archivo en origen deja en rojo el mismo job. Las credenciales de R2 llegan solo a los dos pasos que las usaban. El grupo pasa a ser el id canónico (antes, el texto que llegaba): coincide con P10 (T-375, #874) y P20 (`ddd-p20-territorio-<id>`); mientras la 03 de `main` siga con el texto del selector, no excluirá con P30 (se cierra al fusionar T-375).
 
 **No probado en Actions.** `concurrency`/`queue` a nivel de job con `needs.resolver.outputs`; `GITHUB_ENV` y `env.ARTIFACT_NAMESPACE` dentro de `with:`; checkout con `path: persistidor` + `working-directory` y el push desde la subcarpeta
 (con los `includeIf` de checkout); `toJSON(inputs.persist_state)` = `null` del botón → persiste (como el botón viejo); la puerta 03→04 busca `ddd-puerta-electoral_source-<run>` sin `namespace`.

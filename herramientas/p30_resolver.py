@@ -11,9 +11,8 @@ CAMBIOS: fichero nuevo (T-376).
 ANTERIOR: ninguna (fichero nuevo)
 QUÉ HACE: `resolver --territorio aut12 | --territory-id <selector> [--edicion 2025] [--persistir true|false] [--root .]` imprime un JSON
   `{"territorio":…, "edicion":…, "persistir":…}` para P30 (UN territorio por ejecución, D-148; varios en paralelo los da P00).
-  - Botón (`--territorio`): un código autNN o nacNN (o `<t>_hAAAA_MM`, histórico por época con su contrato en `configuracion/historico_epoca/`), resuelto con el catálogo a su nombre visible (el mismo que pasa la 00 a la incorporación, por lo que el
-    grupo `ddd-electoral-prod-<territorio>` excluye igual que antes); se rechazan varios, ids viejos, alias y `congreso350_*`.
-  - Llamada (`--territory-id`): un solo territorio, TAL CUAL llega (la 00 pasa su nombre).
+  - Botón (`--territorio`): un código autNN o nacNN (o `<t>_hAAAA_MM`, histórico por época con su contrato en `configuracion/historico_epoca/`), resuelto con el catálogo a su id CANÓNICO (el código; el mismo grupo `ddd-electoral-prod-<id>` que P10, T-375, y P20); se rechazan varios, ids viejos, alias y `congreso350_*`.
+  - Llamada (`--territory-id`): un solo territorio; lo que llega (nombre del catálogo, «12 Galicia» o código) se resuelve al mismo id canónico, así código y nombre dan el mismo grupo.
   - `edicion` vacía = 2025 (fijada en el código). `persistir` vacío o «null» (toJSON de la entrada ausente del botón) = true (el botón siempre registra; la llamada pasa su valor).
 Errores a stderr con `::error::` y rc 1; nada en la salida.
 """
@@ -51,10 +50,19 @@ def por_codigo(texto: str, edicion: str = EDICION) -> str:
         t = ids.resolver_id(base)
         if ids.es_variante_350(t):
             raise ValueError(f"P30_VARIANTE_350_NO_SE_PUBLICA: {t}")
-        nombre = cat.lookup(t, edicion)["name"]
-        return f"{t}_h{epoca}" if epoca else nombre  # histórico por época (D-149/D-150): el id `<t>_hAAAA_MM` tal cual
+        canonico = cat.lookup(t, edicion)["territory_id"]
+        return f"{canonico}_h{epoca}" if epoca else canonico  # id CANÓNICO (código); histórico por época: `<t>_hAAAA_MM`
     except (ids.IdTerritorioDesconocido, ids.IdReservado, SystemExit) as exc:
         raise ValueError(f"P30_TERRITORIO_DESCONOCIDO: {x} ({exc})") from exc
+
+
+def canonico_de(selector: str, edicion: str) -> str:
+    """Id canónico de lo que llega por la llamada (la 00 pasa el nombre del catálogo; vale también el código o «12 Galicia»): un solo grupo por territorio."""
+    import catalogo_preparacion as cat
+    try:
+        return cat.lookup(selector.strip(), edicion)["territory_id"]
+    except SystemExit as exc:
+        raise ValueError(f"P30_TERRITORIO_DESCONOCIDO: {selector!r} ({exc})") from exc
 
 
 def resolver(territorio: str, territory_id: str, edicion: str, persistir: str) -> dict:
@@ -65,7 +73,7 @@ def resolver(territorio: str, territory_id: str, edicion: str, persistir: str) -
     per = "true" if per in ("", "null") else per  # el botón no tiene `persist_state`: toJSON(null) = «null» → registra
     if per not in ("true", "false"):
         raise ValueError(f"P30_PERSISTIR_INVALIDO: «{persistir}»")
-    return {"territorio": por_codigo(territorio, ed) if territorio else territory_id.strip(), "edicion": ed, "persistir": per}
+    return {"territorio": por_codigo(territorio, ed) if territorio else canonico_de(territory_id, ed), "edicion": ed, "persistir": per}
 
 
 def main(argv: list[str]) -> int:
