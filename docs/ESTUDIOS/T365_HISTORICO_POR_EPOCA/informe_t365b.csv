@@ -1,0 +1,17 @@
+elección,provincia,nombre,apartada,estado_contrato,reasignadas_otro_municipio,motivo
+2015-12,02,Albacete,sí,BLOQUEADA_SIN_DATO,0,0204302001: sin dato en ningún año del Atlas
+2015-12,04,Almería,sí,BLOQUEADA_SIN_DATO,2,0401307046: sin dato en ningún año del Atlas; 0402902005: sin dato en ningún año del Atlas; 0405305003: sin dato en ningún año del Atlas
+2015-12,10,Cáceres,no,LISTA,1,
+2015-12,18,Granada,sí,BLOQUEADA_SIN_DATO,2,1802301006: sin dato en ningún año del Atlas; 1805301002: sin dato en ningún año del Atlas; 1810503001: sin dato en ningún año del Atlas
+2015-12,20,Guipúzcoa,sí,BLOQUEADA_SIN_DATO,0,2007601007: sin dato en ningún año del Atlas
+2015-12,23,Jaén,sí,BLOQUEADA_SIN_DATO,0,2302601002: sin dato en ningún año del Atlas; 2302901002: sin dato en ningún año del Atlas; 2308101003: sin dato en ningún año del Atlas; 2309504002: sin dato en ningún año del Atlas; 2309802001: sin dato en ningún año del Atlas; 2390402001: sin dato en ningún año del Atlas; 2390403001: sin dato en ningún año del Atlas
+2015-12,24,León,sí,BLOQUEADA_SIN_DATO,0,2408901007: sin dato en ningún año del Atlas; 2411401004: sin dato en ningún año del Atlas
+2015-12,25,Lérida,sí,BLOQUEADA_SIN_DATO,0,2521705001: sin dato en ningún año del Atlas; 2523001002: sin dato en ningún año del Atlas
+2015-12,27,Lugo,sí,BLOQUEADA_SIN_DATO,0,2701302002: sin dato en ningún año del Atlas; 2703001004: sin dato en ningún año del Atlas; 2703201003: sin dato en ningún año del Atlas; 2703701002: sin dato en ningún año del Atlas; 2705501002: sin dato en ningún año del Atlas; 2705702002: sin dato en ningún año del Atlas; 2706602002: sin dato en ningún año del Atlas
+2015-12,29,Málaga,sí,BLOQUEADA_SIN_DATO,2,2909001002: sin dato en ningún año del Atlas
+2015-12,33,Asturias,sí,BLOQUEADA_SIN_DATO,0,3300701003: sin dato en ningún año del Atlas; 3301201005: sin dato en ningún año del Atlas; 3302801002: sin dato en ningún año del Atlas; 3307606002: sin dato en ningún año del Atlas
+2015-12,36,Pontevedra,sí,BLOQUEADA_SIN_DATO,0,3602404002: sin dato en ningún año del Atlas
+2015-12,46,Valencia,sí,BLOQUEADA_SIN_DATO,0,4623801003: sin dato en ningún año del Atlas; 4625003028: sin dato en ningún año del Atlas; 4625006005: sin dato en ningún año del Atlas; 4625012005: sin dato en ningún año del Atlas
+2015-12,48,Vizcaya,sí,BLOQUEADA_SIN_DATO,0,4801301007: sin dato en ningún año del Atlas; 4802002017: sin dato en ningún año del Atlas; 4802003012: sin dato en ningún año del Atlas; 4802006047: sin dato en ningún año del Atlas; 4802006048: sin dato en ningún año del Atlas; 4802007011: sin dato en ningún año del Atlas; 4802007025: sin dato en ningún año del Atlas
+2016-06,36,Pontevedra,sí,BLOQUEADA_SIN_DATO,6,3690201004: sin sucesora única (sin_geometria)
+2016-06,48,Vizcaya,sí,BLOQUEADA_SIN_DATO,0,4801301007: sin dato en ningún año del Atlas; 4802002017: sin dato en ningún año del Atlas; 4802003012: sin dato en ningún año del Atlas; 4802006047: sin dato en ningún año del Atlas; 4802006048: sin dato en ningún año del Atlas; 4802007011: sin dato en ningún año del Atlas; 4802007025: sin dato en ningún año del Atlas

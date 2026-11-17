@@ -1,7 +1,7 @@
 {
  "schema": "ddd.contrato-historico-epoca/1.0",
- "version": "1.0.0",
- "anterior": "ninguna (fichero nuevo)",
+ "version": "1.1.0",
+ "anterior": "legacy/contrato_historico_epoca_2015_12_v1.0.0_20261116.json",
  "motivo": "D-125 (opción A: distritos con los datos de cada época), D-126/D-128 (población), T-199 (elección en el registro)",
  "generado_con": "herramientas/contrato_historico_epoca.py 1.0.0",
  "eleccion": "2015-12",
@@ -17,8 +17,8 @@
  },
  "poblacion": {
   "fichero": "poblacion_seccion_2015-12.csv",
-  "sha256": "34c0a1dd1407288a9219d78ccdaf15a69cdb0b023b88cd123718174726df0b34",
-  "origen": "T-364 herramientas/poblacion_seccion_historica.py 1.1.0 (#840@f3e7d9a, D-128, sin --estricto: 46 municipios con aviso pendientes de decisión)",
+  "sha256": "7d8a67dccaca7dd87fbde6bec8b4a13abed808dd8c028a6a429e00324c7909b3",
+  "origen": "T-364b herramientas/poblacion_seccion_historica.py 1.2.0 (D-128; provincias apartadas sin filas, reasignada, sin_ajuste_municipal; fuentes con sha256 de T-357/T-364)",
   "anio_referencia": 2015,
   "fuente": "atlas",
   "regla_publicacion": "> 1 % estimada → BLOQUEADA_RELLENO (D-126/D-128); sin_dato → BLOQUEADA_SIN_DATO",
@@ -90,14 +90,12 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/02_630aa05e04f2.json"
    },
    "poblacion": {
-    "secciones": 302,
-    "total": 389039,
-    "secciones_no_dato": 2,
-    "poblacion_no_dato": 59,
-    "pct_no_dato": "0.0152",
-    "secciones_sin_dato": [
-     "0204302001"
-    ],
+    "secciones": 0,
+    "total": 0,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0
    },
@@ -148,24 +146,14 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/04_8f005dfbcd78.json"
    },
    "poblacion": {
-    "secciones": 464,
-    "total": 687771,
-    "secciones_no_dato": 5,
-    "poblacion_no_dato": 78,
-    "pct_no_dato": "0.0113",
-    "secciones_sin_dato": [
-     "0401307046",
-     "0402902003",
-     "0402902005",
-     "0405305003"
-    ],
-    "secciones_sin_seccionado": [
-     "0401307047",
-     "0401307048",
-     "0490401001",
-     "0490401002"
-    ],
-    "poblacion_sin_seccionado": 5012
+    "secciones": 0,
+    "total": 0,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "BLOQUEADA_SIN_DATO"
   },
@@ -326,20 +314,16 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/10_2649b3dfdf59.json"
    },
    "poblacion": {
-    "secciones": 416,
+    "secciones": 415,
     "total": 401421,
     "secciones_no_dato": 7,
-    "poblacion_no_dato": 491,
-    "pct_no_dato": "0.1223",
-    "secciones_sin_dato": [
-     "1018001006"
-    ],
-    "secciones_sin_seccionado": [
-     "1090501001"
-    ],
-    "poblacion_sin_seccionado": 819
+    "poblacion_no_dato": 1310,
+    "pct_no_dato": "0.3263",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
-   "estado": "BLOQUEADA_SIN_DATO"
+   "estado": "LISTA"
   },
   "11": {
    "territorio": "nac11",
@@ -386,16 +370,14 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/12_873134d56857.json"
    },
    "poblacion": {
-    "secciones": 440,
+    "secciones": 439,
     "total": 573922,
-    "secciones_no_dato": 19,
-    "poblacion_no_dato": 1340,
-    "pct_no_dato": "0.2335",
+    "secciones_no_dato": 20,
+    "poblacion_no_dato": 4315,
+    "pct_no_dato": "0.7518",
     "secciones_sin_dato": [],
-    "secciones_sin_seccionado": [
-     "1204005015"
-    ],
-    "poblacion_sin_seccionado": 1227
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -416,16 +398,14 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/13_a86077b6e09f.json"
    },
    "poblacion": {
-    "secciones": 426,
+    "secciones": 425,
     "total": 503686,
-    "secciones_no_dato": 2,
-    "poblacion_no_dato": 205,
-    "pct_no_dato": "0.0407",
+    "secciones_no_dato": 3,
+    "poblacion_no_dato": 3189,
+    "pct_no_dato": "0.6331",
     "secciones_sin_dato": [],
-    "secciones_sin_seccionado": [
-     "1303401011"
-    ],
-    "poblacion_sin_seccionado": 1321
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -446,16 +426,14 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/14_b87f3374d6e9.json"
    },
    "poblacion": {
-    "secciones": 624,
+    "secciones": 623,
     "total": 782584,
-    "secciones_no_dato": 6,
+    "secciones_no_dato": 5,
     "poblacion_no_dato": 7931,
     "pct_no_dato": "1.0134",
     "secciones_sin_dato": [],
-    "secciones_sin_seccionado": [
-     "1403001006"
-    ],
-    "poblacion_sin_seccionado": 1516
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "BLOQUEADA_RELLENO"
   },
@@ -560,24 +538,14 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/18_a56b056f4b04.json"
    },
    "poblacion": {
-    "secciones": 672,
-    "total": 909327,
-    "secciones_no_dato": 11,
-    "poblacion_no_dato": 12183,
-    "pct_no_dato": "1.3398",
-    "secciones_sin_dato": [
-     "1802301006",
-     "1805301002",
-     "1810503001"
-    ],
-    "secciones_sin_seccionado": [
-     "1802201008",
-     "1803601003",
-     "1804701005",
-     "1810601001",
-     "1891501001"
-    ],
-    "poblacion_sin_seccionado": 5565
+    "secciones": 0,
+    "total": 0,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "BLOQUEADA_SIN_DATO"
   },
@@ -598,16 +566,14 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/19_13e8d07424a4.json"
    },
    "poblacion": {
-    "secciones": 392,
+    "secciones": 391,
     "total": 250242,
-    "secciones_no_dato": 174,
-    "poblacion_no_dato": 9002,
-    "pct_no_dato": "3.5973",
+    "secciones_no_dato": 175,
+    "poblacion_no_dato": 12094,
+    "pct_no_dato": "4.8329",
     "secciones_sin_dato": [],
-    "secciones_sin_seccionado": [
-     "1904601017"
-    ],
-    "poblacion_sin_seccionado": 1830
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "BLOQUEADA_RELLENO"
   },
@@ -628,14 +594,12 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/20_cf28df967e26.json"
    },
    "poblacion": {
-    "secciones": 544,
-    "total": 711236,
-    "secciones_no_dato": 1,
+    "secciones": 0,
+    "total": 0,
+    "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
     "pct_no_dato": "0.0000",
-    "secciones_sin_dato": [
-     "2007601007"
-    ],
+    "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0
    },
@@ -714,20 +678,12 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/23_0781520519d0.json"
    },
    "poblacion": {
-    "secciones": 524,
-    "total": 643950,
-    "secciones_no_dato": 7,
+    "secciones": 0,
+    "total": 0,
+    "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
     "pct_no_dato": "0.0000",
-    "secciones_sin_dato": [
-     "2302601002",
-     "2302901002",
-     "2308101003",
-     "2309504002",
-     "2309802001",
-     "2390402001",
-     "2390403001"
-    ],
+    "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0
    },
@@ -750,15 +706,12 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/24_20944ac66db5.json"
    },
    "poblacion": {
-    "secciones": 459,
-    "total": 469825,
-    "secciones_no_dato": 6,
-    "poblacion_no_dato": 299,
-    "pct_no_dato": "0.0636",
-    "secciones_sin_dato": [
-     "2408901007",
-     "2411401004"
-    ],
+    "secciones": 0,
+    "total": 0,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0
    },
@@ -781,15 +734,12 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/25_baa6db871655.json"
    },
    "poblacion": {
-    "secciones": 389,
-    "total": 428018,
-    "secciones_no_dato": 16,
-    "poblacion_no_dato": 1182,
-    "pct_no_dato": "0.2762",
-    "secciones_sin_dato": [
-     "2521705001",
-     "2523001002"
-    ],
+    "secciones": 0,
+    "total": 0,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0
    },
@@ -840,20 +790,12 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/27_2c7bb8eeae64.json"
    },
    "poblacion": {
-    "secciones": 291,
-    "total": 333812,
-    "secciones_no_dato": 7,
+    "secciones": 0,
+    "total": 0,
+    "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
     "pct_no_dato": "0.0000",
-    "secciones_sin_dato": [
-     "2701302002",
-     "2703001004",
-     "2703201003",
-     "2703701002",
-     "2705501002",
-     "2705702002",
-     "2706602002"
-    ],
+    "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0
    },
@@ -904,21 +846,14 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/29_9189a396ae45.json"
    },
    "poblacion": {
-    "secciones": 1047,
-    "total": 1609308,
-    "secciones_no_dato": 1,
+    "secciones": 0,
+    "total": 0,
+    "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
     "pct_no_dato": "0.0000",
-    "secciones_sin_dato": [
-     "2909001002"
-    ],
-    "secciones_sin_seccionado": [
-     "2902301002",
-     "2908201025",
-     "2990301001",
-     "2990401001"
-    ],
-    "poblacion_sin_seccionado": 5995
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "BLOQUEADA_SIN_DATO"
   },
@@ -1023,21 +958,14 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/33_17c3ffa4b0d0.json"
    },
    "poblacion": {
-    "secciones": 872,
-    "total": 1033622,
-    "secciones_no_dato": 4,
+    "secciones": 0,
+    "total": 0,
+    "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
     "pct_no_dato": "0.0000",
-    "secciones_sin_dato": [
-     "3300701003",
-     "3301201005",
-     "3302801002",
-     "3307606002"
-    ],
-    "secciones_sin_seccionado": [
-     "3302409019"
-    ],
-    "poblacion_sin_seccionado": 1411
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "BLOQUEADA_SIN_DATO"
   },
@@ -1114,14 +1042,12 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/36_f96c8838b824.json"
    },
    "poblacion": {
-    "secciones": 741,
-    "total": 940055,
-    "secciones_no_dato": 1,
+    "secciones": 0,
+    "total": 0,
+    "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
     "pct_no_dato": "0.0000",
-    "secciones_sin_dato": [
-     "3602404002"
-    ],
+    "secciones_sin_dato": [],
     "secciones_sin_seccionado": [],
     "poblacion_sin_seccionado": 0
    },
@@ -1228,20 +1154,14 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/40_703c6289b237.json"
    },
    "poblacion": {
-    "secciones": 276,
+    "secciones": 271,
     "total": 154505,
-    "secciones_no_dato": 72,
-    "poblacion_no_dato": 4338,
-    "pct_no_dato": "2.8077",
+    "secciones_no_dato": 75,
+    "poblacion_no_dato": 11963,
+    "pct_no_dato": "7.7428",
     "secciones_sin_dato": [],
-    "secciones_sin_seccionado": [
-     "4007601004",
-     "4007602002",
-     "4007602003",
-     "4007603001",
-     "4007604001"
-    ],
-    "poblacion_sin_seccionado": 4485
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "BLOQUEADA_RELLENO"
   },
@@ -1262,17 +1182,14 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/41_288eb727b03f.json"
    },
    "poblacion": {
-    "secciones": 1345,
+    "secciones": 1343,
     "total": 1929386,
-    "secciones_no_dato": 0,
-    "poblacion_no_dato": 0,
-    "pct_no_dato": "0.0000",
+    "secciones_no_dato": 2,
+    "poblacion_no_dato": 5779,
+    "pct_no_dato": "0.2995",
     "secciones_sin_dato": [],
-    "secciones_sin_seccionado": [
-     "4103805026",
-     "4108603006"
-    ],
-    "poblacion_sin_seccionado": 3022
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "LISTA"
   },
@@ -1293,16 +1210,14 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/42_f77e73d2c23b.json"
    },
    "poblacion": {
-    "secciones": 216,
+    "secciones": 215,
     "total": 89090,
-    "secciones_no_dato": 114,
-    "poblacion_no_dato": 5465,
-    "pct_no_dato": "6.1342",
+    "secciones_no_dato": 115,
+    "poblacion_no_dato": 9288,
+    "pct_no_dato": "10.4254",
     "secciones_sin_dato": [],
-    "secciones_sin_seccionado": [
-     "4217302014"
-    ],
-    "poblacion_sin_seccionado": 1598
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "BLOQUEADA_RELLENO"
   },
@@ -1407,21 +1322,14 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/46_80d59335e3ab.json"
    },
    "poblacion": {
-    "secciones": 1813,
-    "total": 2517666,
-    "secciones_no_dato": 7,
-    "poblacion_no_dato": 222,
-    "pct_no_dato": "0.0088",
-    "secciones_sin_dato": [
-     "4623801003",
-     "4625003028",
-     "4625006005",
-     "4625012005"
-    ],
-    "secciones_sin_seccionado": [
-     "4622004005"
-    ],
-    "poblacion_sin_seccionado": 196
+    "secciones": 0,
+    "total": 0,
+    "secciones_no_dato": 0,
+    "poblacion_no_dato": 0,
+    "pct_no_dato": "0.0000",
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "BLOQUEADA_SIN_DATO"
   },
@@ -1470,24 +1378,14 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/48_f65b285dfa2e.json"
    },
    "poblacion": {
-    "secciones": 931,
-    "total": 1134717,
-    "secciones_no_dato": 7,
+    "secciones": 0,
+    "total": 0,
+    "secciones_no_dato": 0,
     "poblacion_no_dato": 0,
     "pct_no_dato": "0.0000",
-    "secciones_sin_dato": [
-     "4801301007",
-     "4802002017",
-     "4802003012",
-     "4802006047",
-     "4802006048",
-     "4802007011",
-     "4802007025"
-    ],
-    "secciones_sin_seccionado": [
-     "4804402032"
-    ],
-    "poblacion_sin_seccionado": 1131
+    "secciones_sin_dato": [],
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
    "estado": "BLOQUEADA_SIN_DATO"
   },
@@ -1536,19 +1434,16 @@
     "r2_clave": "arc-e/fuentes/nazioenbehatokia/data/201512/sekzioa/50_4b73e13f636d.json"
    },
    "poblacion": {
-    "secciones": 879,
-    "total": 951830,
+    "secciones": 877,
+    "total": 952696,
     "secciones_no_dato": 74,
-    "poblacion_no_dato": 6352,
-    "pct_no_dato": "0.6673",
+    "poblacion_no_dato": 13078,
+    "pct_no_dato": "1.3727",
     "secciones_sin_dato": [],
-    "secciones_sin_seccionado": [
-     "5029704071",
-     "5029704072"
-    ],
-    "poblacion_sin_seccionado": 1955
+    "secciones_sin_seccionado": [],
+    "poblacion_sin_seccionado": 0
    },
-   "estado": "LISTA"
+   "estado": "BLOQUEADA_RELLENO"
   },
   "51": {
    "territorio": "nac51",

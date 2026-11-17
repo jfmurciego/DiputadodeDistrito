@@ -12,6 +12,8 @@ from pathlib import Path
 
 import yaml
 
+from tests._uses_sin_version import cargar as cargar_sin_version
+
 ROOT = Path(__file__).resolve().parents[1]
 WF = ROOT / ".github" / "workflows"
 FIX = ROOT / "tests" / "fixtures" / "t369_workflows" / "bateria-motor_1.3.1.yml"
@@ -68,8 +70,8 @@ class Congelado(unittest.TestCase):
         assert FIX.is_file(), f"falta la copia congelada {FIX}"  # nunca se salta
         datos = FIX.read_bytes()
         assert hashlib.sha256(datos).hexdigest() == SHA, "la copia congelada cambió"
-        cls.v = yaml.safe_load(datos.decode("utf-8"))
-        cls.p = yaml.safe_load((WF / "p80-verificacion-motor.yml").read_text(encoding="utf-8"))
+        cls.v = cargar_sin_version(datos.decode("utf-8"))
+        cls.p = cargar_sin_version((WF / "p80-verificacion-motor.yml").read_text(encoding="utf-8"))
 
 
 class Disparadores(Congelado):
@@ -147,7 +149,7 @@ class Equivalencia(Congelado):
 
     def test_archivar_p10_lo_cubre_p71_del_paquete_de_fuentes(self):
         a = self.v["jobs"]["archivar_p10"]
-        b = yaml.safe_load((WF / "p70-archivo.yml").read_text(encoding="utf-8"))["jobs"]["archivar_p10"]
+        b = cargar_sin_version((WF / "p70-archivo.yml").read_text(encoding="utf-8"))["jobs"]["archivar_p10"]
         self.assertEqual(a["permissions"], b["permissions"])  # contents: read, actions: read
         self.assertEqual((a["runs-on"], a["timeout-minutes"]), (b["runs-on"], b["timeout-minutes"]))
         self.assertEqual(a["steps"][:3], b["steps"][:3])  # checkout, python 3.13 y pip del lock, idénticos

@@ -308,7 +308,7 @@
         },
         {
           "path": "configuracion/contratos_minsait_provisionales.yaml",
-          "sha256": "500eb9573919ba3c5115814f1ab777ddbfa081309b814f92d5169460a8347c97"
+          "sha256": "25ada01c1d2e3f0a3fbff80eecbda7b856a52051dc363686cf0ed007fe238c8e"
         }
       ],
       "task": {
