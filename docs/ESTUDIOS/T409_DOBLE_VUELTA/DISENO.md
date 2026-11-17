@@ -1,5 +1,7 @@
 # T-409 · Doble vuelta con coaliciones — diseño (solo documento)
 
+VERSIÓN: 1.1.0 · FECHA: 2026-11-17 · ESTADO: propuesta, respuestas del propietario relayadas por el Planificador · ANTERIOR: 1.0.0 (misma PR, sin publicar)
+
 Estado: v2 (17-11): incorpora las respuestas del propietario relayadas por el Planificador («sí a todo»). Base: D-167. No toca código ni datos. Implementación tras
 la migración P (D-165/D-166, T-313).
 
@@ -80,7 +82,7 @@ Distrito: A (izq) 30, B (izq) 15, C (pat) 28, D (pat) 12, E (nac) 15; total 100.
 
 ## 8. Tests
 
-Por rebanadas (un test → código): (1) >50 % gana en primera; (2) ejemplo de §7 en los cinco escenarios; (3)
+Por rebanadas (un test → código): (1) >50 % gana en primera; (2) ejemplo de §7 en los cuatro escenarios (primero, dv_base, dv_A, dv_B); (3)
 transferencia a finalista de su bloque; (4) abstención sin finalista de su bloque o sin bloque; (5) empate
 determinista con `empate=true`; (6) conservación de votos; (7) invariante: un partido, un bloque, y toda candidatura
 homologada cubierta; (8) `primero` idéntico al `idxmax` actual (regresión); (9) distrito sin votos. Esperados: literales
@@ -102,7 +104,7 @@ Pendiente: nada de diseño; las 4 siglas ambiguas siguen como propuesta (§11).
 
 ## 11. Tabla de bloques
 
-Fichero: `configuracion/bloques_partidos_2026-11-17.csv` (sha256 `a8fe519c44028c676119e099160d1bdb46d1ac409996efeeb48361b212b86761`).
+Fichero: `configuracion/bloques_partidos_2026-11-17.csv` (sha256 `e50be2c89f07b85fc4d915cc369ee89e27806cee3f342ac09b411f2bfaeae823`).
 Fuente (nunca de memoria): `datos/homologacion_siglas/homologacion_siglas_generales.csv`
 (sha256 `58a179fa41655572fa92b88eb9985963a0685ecc97839a6f520f613fdb5b43a3`; reglas `reglas_generales.json`
 sha256 `fe8a3487c2ca5f5b5f2ab24fc0c3d598b43f01cdac1630bf0733242b1fe59617`), elecciones 2011-11 a 2023-07.
