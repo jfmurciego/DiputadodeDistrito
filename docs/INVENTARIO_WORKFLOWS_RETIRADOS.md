@@ -25,7 +25,7 @@ Los ficheros salen de los «renamed → legacy/workflows/» de las PR indicadas.
 | #880 | generar-alternativas-territoriales.yml | 358237796 | deleted | 63 |
 | #880 | produccion-distritos.yml | 359809506 | deleted | 61 |
 
-Total: 16 workflows con id, 8 862 ejecuciones (7506 de «Pruebas de la Plataforma»).
+Total: 16 workflows con id, 8 842 ejecuciones (7 506 de «Pruebas de la Plataforma» y 1 336 del resto).
 
 ## Observaciones
 - Solo `pruebas-plataforma.yml` figura `active` en la lista de Actions (aparece como «Pruebas de la Plataforma»): el resto ya sale como `deleted`
