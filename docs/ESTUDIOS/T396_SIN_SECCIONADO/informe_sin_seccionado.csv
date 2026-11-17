@@ -1,0 +1,14 @@
+eleccion,provincia,territorio,estado,asignadas,habitantes_asignados,excluidas,habitantes_excluidos,apartadas,habitantes_apartados
+2011-11,03,nac03,LISTA,6,4705,0,0,0,0
+2011-11,08,nac08,LISTA,0,0,1,270,0,0
+2011-11,12,nac12,LISTA,3,2270,0,0,0,0
+2011-11,15,nac15,LISTA,10,5955,0,0,0,0
+2011-11,21,nac21,LISTA,1,685,0,0,0,0
+2011-11,22,nac22,LISTA,1,560,0,0,0,0
+2011-11,24,nac24,LISTA,1,1180,0,0,0,0
+2011-11,27,nac27,LISTA,7,4590,0,0,0,0
+2011-11,32,nac32,LISTA,5,2630,0,0,0,0
+2011-11,33,nac33,LISTA,3,1745,0,0,0,0
+2011-11,35,nac35,LISTA,1,580,1,730,0,0
+2011-11,36,nac36,LISTA,1,285,0,0,0,0
+2011-11,46,nac46,LISTA,3,2250,0,0,0,0
