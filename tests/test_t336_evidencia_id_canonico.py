@@ -115,7 +115,7 @@ class WorkflowPermisos(unittest.TestCase):
 class SelectorCLIyP10(unittest.TestCase):
     """El paso del P10 («Recuperar fuente territorial registrada») ejecutado de verdad bajo `bash -eo pipefail`."""
 
-    PREP = ROOT / ".github/workflows/preparacion-fuentes.yml"
+    PREP = ROOT / "tests/fixtures/p10_vistas/_p11-territoriales.yml"
 
     def _cola_del_paso(self) -> str:
         import yaml

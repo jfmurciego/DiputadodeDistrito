@@ -1,8 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
-# VERSIÓN: 1.11.3
-# CAMBIOS 1.11.3: T-376 (D-137, P30): cambia solo la línea `uses:` del job `incorporar` y la ruta homónima de `paths` (los dos ficheros viejos pasan a uno): ahora `p30-resultados-electorales.yml` («P30 Resultados electorales»); mismas entradas, `secrets` y condiciones.
-# ANTERIOR (1.11.2): legacy/workflows/ejecucion-completa-proyecto_v1.11.2_20261116.yml
+# VERSIÓN: 1.11.4
+# CAMBIOS 1.11.4: T-376 (D-137, P30): cambia solo la línea `uses:` del job `incorporar` y la ruta homónima de `paths` (los dos ficheros viejos pasan a uno): ahora `p30-resultados-electorales.yml` («P30 Resultados electorales»); mismas entradas, `secrets` y condiciones.
+# ANTERIOR (1.11.3): legacy/workflows/ejecucion-completa-proyecto_v1.11.3_20261117.yml
+# CAMBIOS 1.11.3: T-375 (D-136, P10 Fuentes): cambian solo las dos líneas `uses:` (más el `territory_id` de esas dos llamadas: el id canónico `territory_id` en lugar del nombre, para que P10 agrupe por el mismo id en la 00 y en el botón) de `preparar_territorial` y `preparar_electoral` (ahora `p10-fuentes.yml` con `tipo: territoriales|electorales`) y la ruta homónima de `paths` del pull_request (queda `p10-fuentes.yml`); resto de entradas, `secrets`, condiciones y salidas idénticos.
 # CAMBIOS 1.11.2: T-372 (D-134, P40): cambia solo la línea `uses:` del job `publicar` y la ruta homónima de `paths`: ahora `p40-publicacion.yml` («P40 Publicación»); mismas entradas.
 # ANTERIOR (1.11.1): legacy/workflows/ejecucion-completa-proyecto_v1.11.1_20261116.yml
 # CAMBIOS 1.11.1: T-368 (P70 Archivo, D-131): cambian la línea `uses:` del job `recuperar_electoral` y la ruta homónima de `paths` del pull_request (p70-archivo.yml, P72 producto electoral); entradas, `secrets` y condiciones idénticos.
@@ -111,9 +112,8 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/ejecucion-completa-proyecto.yml'
-      - '.github/workflows/preparacion-fuentes.yml'
+      - '.github/workflows/p10-fuentes.yml'
       - '.github/workflows/produccion-distritos.yml'
-      - '.github/workflows/preparacion-resultados-electorales.yml'
       - '.github/workflows/p30-resultados-electorales.yml'
       - '.github/workflows/p40-publicacion.yml'
       - '.github/workflows/_reutilizable-generacion-territorial.yml'
@@ -1084,10 +1084,11 @@ jobs:
     # from_start y cualquier plan que necesite reacreditar fuentes ejecutan 01;
     # los PR smoke siguen sin tocar producción.
     if: ${{ github.event_name != 'pull_request' && needs.planificar.result == 'success' && needs.planificar.outputs.run_prepare_territorial == 'true' }}
-    uses: ./.github/workflows/preparacion-fuentes.yml
+    uses: ./.github/workflows/p10-fuentes.yml
     secrets: inherit
     with:
-      territory_id: ${{ needs.planificar.outputs.territory_name }}
+      tipo: territoriales
+      territory_id: ${{ needs.planificar.outputs.territory_id }}
       data_edition: ${{ needs.planificar.outputs.edition }}
       population_year: ${{ needs.planificar.outputs.population_year }}
       section_year: ${{ needs.planificar.outputs.section_year }}
@@ -1177,10 +1178,11 @@ jobs:
     needs: [planificar, preparar_territorial, acreditar_generacion, puerta_02]
     # En modo electoral, from_start y cualquier plan sin fuente electoral válida ejecutan 03.
     if: ${{ github.event_name != 'pull_request' && always() && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.outputs.electoral_execution == 'EXECUTE' && needs.planificar.outputs.run_prepare_electoral == 'true' }}
-    uses: ./.github/workflows/preparacion-resultados-electorales.yml
+    uses: ./.github/workflows/p10-fuentes.yml
     secrets: inherit
     with:
-      territory_id: ${{ needs.planificar.outputs.territory_name }}
+      tipo: electorales
+      territory_id: ${{ needs.planificar.outputs.territory_id }}
       data_edition: ${{ needs.planificar.outputs.edition }}
       reutilizar_si_ya_preparada: ${{ needs.planificar.outputs.execution_mode_internal != 'from_start' }}
       source_ref: ${{ needs.acreditar_generacion.result == 'success' && needs.acreditar_generacion.outputs.enabled_source_ref || (needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.prepared_source_ref || needs.planificar.outputs.source_sha) }}

@@ -32,8 +32,7 @@ su traslado a ARC, después del corte.
 | `ejecucion-completa-proyecto.yml` | 00 Ejecución Completa del Proyecto | P00 Campaña | P00 Campaña |
 | `activacion-por-eleccion.yml` | Auxiliar — Activación por Elección | P00 Campaña | P00 Campaña — Elección |
 | `preparacion-legislatura-vigente.yml` | Auxiliar — Activación de Legislatura Vigente | P00 Campaña | P00 Campaña — Legislatura |
-| `preparacion-fuentes.yml` | 01 Preparación de Datos Territoriales | P10 Fuentes | P10 Fuentes — P11 Territoriales |
-| `preparacion-resultados-electorales.yml` | 03 Preparación de Resultados Electorales | P10 Fuentes | P10 Fuentes — P12 Electorales |
+| `p10-fuentes.yml` | 01 Preparación de Datos Territoriales / 03 Preparación de Resultados Electorales (preparacion-fuentes.yml, preparacion-resultados-electorales.yml, T-375) | P10 Fuentes | P10 Fuentes |
 | `produccion-distritos.yml` | 02 Generación de Distritos Autonómicos | P20 Base territorial + P30 Distritos | P20 Base territorial — P30 Distritos |
 | `generar-alternativas-territoriales.yml` | 06 Escenarios y Ensembles | P30 Distritos (P33) | P30 Distritos — P33 Alternativas |
 | `p30-resultados-electorales.yml` | 04 Incorporación de Resultados Electorales (incorporacion-resultados-electorales.yml, _reutilizable-incorporacion-electoral.yml, T-376) | P30 Resultados electorales | P30 Resultados electorales |

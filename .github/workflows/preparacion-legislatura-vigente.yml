@@ -1,6 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: preparacion-legislatura-vigente.yml
-# VERSIÓN: 1.0.11
+# VERSIÓN: 1.0.12
+# CAMBIOS 1.0.12: T-375 (D-136, P10 Fuentes): cambian solo las dos líneas `uses:` de `territorial` y `electoral` (y su `territory_id`: id canónico en lugar del nombre; nueva salida `territory_id` del plan) (ahora `p10-fuentes.yml` con `tipo: territoriales|electorales`); resto de entradas, `secrets` y condiciones idénticos.
 # CAMBIOS 1.0.11: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P00 Campaña — Legislatura» (antes Auxiliar — Activación de Legislatura Vigente).
 # CAMBIOS 1.0.9: T-102: selector con los 49 territorios «Congreso 350 <provincia>» (K = escaños reales de 2023).
 # NOMBRE DE VERSIÓN: Cola durable de operaciones con nombre por territorio
@@ -173,6 +174,7 @@ jobs:
     name: Resolver legislatura y fuentes requeridas
     runs-on: ubuntu-24.04
     outputs:
+      territory_id: ${{ steps.outputs.outputs.territory_id }}
       territory_name: ${{ steps.outputs.outputs.territory_name }}
       population_year: ${{ steps.outputs.outputs.population_year }}
       section_year: ${{ steps.outputs.outputs.section_year }}
@@ -255,6 +257,7 @@ jobs:
         name: Exponer acciones de un territorio
         if: ${{ inputs.territory != 'Todos' }}
         run: |
+          echo "territory_id=$(jq -r '.plans[0].territory_id' ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
           echo "territory_name=$(jq -r '.plans[0].name' ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
           echo "population_year=$(jq -r '.plans[0].population_year_selected' ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
           echo "section_year=$(jq -r '.plans[0].section_year_selected' ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
@@ -272,9 +275,10 @@ jobs:
     name: 01 Adquirir sólo fuente territorial necesaria
     needs: planificar
     if: ${{ inputs.operation == 'prepare_one' && needs.planificar.outputs.territorial_action == 'ACQUIRE' }}
-    uses: ./.github/workflows/preparacion-fuentes.yml
+    uses: ./.github/workflows/p10-fuentes.yml
     with:
-      territory_id: ${{ needs.planificar.outputs.territory_name }}
+      tipo: territoriales
+      territory_id: ${{ needs.planificar.outputs.territory_id }}
       data_edition: '2025'
       population_year: ${{ needs.planificar.outputs.population_year }}
       section_year: ${{ needs.planificar.outputs.section_year }}
@@ -287,9 +291,10 @@ jobs:
     name: 03 Adquirir sólo fuente electoral necesaria
     needs: planificar
     if: ${{ inputs.operation == 'prepare_one' && needs.planificar.outputs.electoral_action == 'ACQUIRE' }}
-    uses: ./.github/workflows/preparacion-resultados-electorales.yml
+    uses: ./.github/workflows/p10-fuentes.yml
     with:
-      territory_id: ${{ needs.planificar.outputs.territory_name }}
+      tipo: electorales
+      territory_id: ${{ needs.planificar.outputs.territory_id }}
       data_edition: '2025'
       reutilizar_si_ya_preparada: false
       source_ref: ${{ github.sha }}

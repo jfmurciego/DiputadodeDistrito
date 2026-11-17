@@ -9,7 +9,7 @@ from herramientas.preparar_fuente_electoral import merge_delimited_sources
 from herramientas.resolver_eleccion_vigente import resolve
 
 ROOT=Path(__file__).resolve().parents[1]
-WF=ROOT/".github/workflows/preparacion-resultados-electorales.yml"
+WF=ROOT/"tests/fixtures/p10_vistas/_p12-electorales.yml"
 DECL=ROOT/"territorios/aut12/config/elecciones/galicia_parlamento_vigente.yaml"
 
 class FakeResponse:
@@ -34,9 +34,11 @@ class GaliciaElectoralVigente(unittest.TestCase):
     def test_workflow_uses_common_territorial_edition_and_current_election_resolver(self):
         d=yaml.safe_load(WF.read_text(encoding="utf-8"))
         trigger=d.get("on") or d.get(True)
-        inputs=trigger["workflow_dispatch"]["inputs"]
-        self.assertEqual(list(inputs),["territory_id","data_edition","reutilizar_si_ya_preparada","eleccion"])
-        self.assertEqual(inputs["data_edition"]["options"],["2025"])
+        # T-375: el botón es P10 Fuentes; la edición va fijada en el código (2025) y el reutilizable la recibe por `data_edition`.
+        p10=yaml.safe_load((ROOT/".github/workflows/p10-fuentes.yml").read_text(encoding="utf-8"))
+        inputs=(p10.get("on") or p10.get(True))["workflow_dispatch"]["inputs"]
+        self.assertEqual(list(inputs),["tipo","territorio","eleccion","regenerar"])
+        self.assertIn("data_edition",trigger["workflow_call"]["inputs"])
         self.assertNotIn("confirmar_preparacion",inputs)
         text=WF.read_text(encoding="utf-8")
         self.assertIn("resolver_eleccion_vigente.py",text)

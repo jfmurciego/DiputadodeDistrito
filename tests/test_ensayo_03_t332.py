@@ -17,7 +17,7 @@ from herramientas.resolver_ensayo_electoral import resolve as resolve_ensayo
 from herramientas.resolver_eleccion_vigente import resolve_for_preparation
 
 ROOT = Path(__file__).resolve().parents[1]
-WORKFLOW = ROOT / ".github" / "workflows" / "preparacion-resultados-electorales.yml"
+WORKFLOW = ROOT / ".github" / "workflows" / "../../tests/fixtures/p10_vistas/_p12-electorales.yml"
 # Votos: literales del ZIP oficial Infoelectoral 2023 (configuracion/contratos_infoelectoral.yaml, sha e78fc231…), que el reparto
 # a claves de sección 2026 conserva. Secciones y mesas: recuentos del fixture de ensayo (MANIFEST de #801, T-333).
 ESPERADO = {
@@ -154,10 +154,12 @@ class PersistStateFalse(unittest.TestCase):
     def test_workflow_declara_entrada_y_version(self):
         wf = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
         on = wf.get("on") or wf.get(True)
-        self.assertEqual(on["workflow_dispatch"]["inputs"]["eleccion"]["default"], "vigente")
-        self.assertIn("ensayo 2026-11-29", on["workflow_dispatch"]["inputs"]["eleccion"]["options"])
-        self.assertEqual(on["workflow_call"]["inputs"]["eleccion"]["default"], "vigente")
-        self.assertRegex(WORKFLOW.read_text(encoding="utf-8"), r"# VERSIÓN: 1\.0\.1[7-9]")
+        p10 = yaml.safe_load((Path(__file__).resolve().parents[1] / ".github/workflows/p10-fuentes.yml").read_text(encoding="utf-8"))
+        dispatch = (p10.get("on") or p10.get(True))["workflow_dispatch"]["inputs"]  # T-375: el botón es P10 Fuentes
+        self.assertEqual(dispatch["eleccion"]["default"], "vigente")
+        self.assertIn("ensayo 2026-11-29", dispatch["eleccion"]["options"])
+        self.assertEqual(on["workflow_call"]["inputs"]["eleccion"]["default"], "")  # T-375 (P10): vacía = vigente
+        self.assertRegex(WORKFLOW.read_text(encoding="utf-8"), r"# VERSIÓN: \d+\.\d+\.\d+")
 
 
 @unittest.skipUnless(os.system("command -v jq >/dev/null 2>&1") == 0, "jq no disponible")
@@ -330,7 +332,7 @@ class EquivalenciaConMain(unittest.TestCase):
 
     def test_estructura_identica_salvo_los_puntos_del_ensayo(self):
         self.assertEqual(self.main["jobs"].keys(), self.new["jobs"].keys())
-        cambiados = {"resolve", "mode", "outcome"}
+        cambiados = {"resolve", "mode", "outcome", "previous"}  # T-375: `previous` = reutilizar automático (caducado → se prepara de nuevo)
         for name, job in self.main["jobs"].items():
             nuevo = self.new["jobs"][name]
             for k in set(job) | set(nuevo):
@@ -346,15 +348,19 @@ class EquivalenciaConMain(unittest.TestCase):
             self.assertEqual(len(job["steps"]), len(nuevo["steps"]), name)
             for a, b in zip(job["steps"], nuevo["steps"]):
                 if a.get("id") in cambiados:
-                    a, b = {k: v for k, v in a.items() if k not in ("run", "env")}, {k: v for k, v in b.items() if k not in ("run", "env")}
+                    a, b = {k: v for k, v in a.items() if k not in ("run", "env", "if")}, {k: v for k, v in b.items() if k not in ("run", "env", "if")}  # `if`: reutilizar automático (T-375)
                 elif "adaptador_minsait_csv" in a.get("run", ""):
                     self.assertIn(BLOQUE_MINSAIT, b["run"])
                     b = {**b, "run": b["run"].replace(BLOQUE_MINSAIT, "")}
                 self.assertEqual(a, b)
         # Las entradas de workflow_call y workflow_dispatch solo ganan `eleccion`.
-        for trig in ("workflow_call", "workflow_dispatch"):
-            a, b = self.main[True][trig]["inputs"], self.new[True][trig]["inputs"]
-            self.assertEqual(a, {k: v for k, v in b.items() if k != "eleccion"})
+        # T-375: las entradas de `workflow_call` de P12 se conservan (P10 suma `tipo` y las de P11; la edición ya no es obligatoria en P11).
+        a, b = self.main[True]["workflow_call"]["inputs"], self.new[True]["workflow_call"]["inputs"]
+        for k, v in a.items():
+            if k == "data_edition":  # en P10 la edición deja de ser obligatoria (vacía = catálogo vigente en P11); P12 la exige en la llamada (job `entrada`/resolver)
+                self.assertEqual(b[k], {"required": False, "type": "string", "default": ""})
+            else:
+                self.assertEqual(b[k], v, k)
 
     def test_resolver_igual_que_main_con_vigente_o_vacia(self):
         old = _step(self.main, "resolver", "resolve")

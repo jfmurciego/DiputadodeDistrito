@@ -17,8 +17,8 @@ from herramientas.compatibilidad_poblacion_seccionado import REPORT_NAME, SCHEMA
 from herramientas.seleccionar_paquete_fuentes import select_first_valid, validate_prepared_package
 
 ROOT = Path(__file__).resolve().parents[1]
-WORKFLOW = ROOT / ".github/workflows/preparacion-fuentes.yml"
-ELECTORAL_WORKFLOW = ROOT / ".github/workflows/preparacion-resultados-electorales.yml"
+WORKFLOW = ROOT / "tests/fixtures/p10_vistas/_p11-territoriales.yml"
+ELECTORAL_WORKFLOW = ROOT / "tests/fixtures/p10_vistas/_p12-electorales.yml"
 
 
 def _section_zip(*, crs: str = "EPSG:4326") -> bytes:
@@ -379,16 +379,14 @@ class PreparedSourceReuseTests(unittest.TestCase):
         territorial_trigger = territorial.get("on") or territorial.get(True)
         electoral_trigger = electoral.get("on") or electoral.get(True)
 
+        # T-375: los reutilizables ya no son botón; el botón es P10 Fuentes (tipo, territorios, eleccion, regenerar).
+        p10 = yaml.safe_load((ROOT / ".github/workflows/p10-fuentes.yml").read_text(encoding="utf-8"))
         self.assertEqual(
-            list(territorial_trigger["workflow_dispatch"]["inputs"]),
-            ["territory_id"],
+            list((p10.get("on") or p10.get(True))["workflow_dispatch"]["inputs"]),
+            ["tipo", "territorio", "eleccion", "regenerar"],
         )
         self.assertEqual(
-            list(electoral_trigger["workflow_dispatch"]["inputs"]),
-            ["territory_id", "data_edition", "reutilizar_si_ya_preparada", "eleccion"],
-        )
-        self.assertEqual(
-            list(territorial_trigger["workflow_call"]["inputs"]),
+            [k for k in territorial_trigger["workflow_call"]["inputs"] if k not in ("tipo", "allow_source_gap_success", "eleccion")],  # T-375: P10 suma `tipo` y las de P12
             ["territory_id", "data_edition", "source_year", "population_year", "section_year", "reutilizar_si_ya_preparada", "source_ref", "persist_state", "recover_run_id", "recover_artifact_sha256"],
         )
         resolver_run = territorial["jobs"]["resolver"]["steps"][-1]["run"]
@@ -408,7 +406,7 @@ class PreparedSourceReuseTests(unittest.TestCase):
         self.assertEqual(territorial_call["section_year"], "${{ needs.planificar.outputs.section_year }}")
         self.assertFalse(territorial_call["reutilizar_si_ya_preparada"])
         self.assertEqual(
-            list(electoral_trigger["workflow_call"]["inputs"]),
+            [k for k in electoral_trigger["workflow_call"]["inputs"] if k not in ("tipo", "source_year", "population_year", "section_year", "recover_run_id", "recover_artifact_sha256")],
             ["territory_id", "data_edition", "reutilizar_si_ya_preparada", "source_ref", "persist_state", "allow_source_gap_success", "eleccion"],
         )
         self.assertFalse(

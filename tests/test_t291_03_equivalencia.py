@@ -11,7 +11,7 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-WORKFLOW = ROOT / ".github/workflows/preparacion-resultados-electorales.yml"
+WORKFLOW = ROOT / "tests/fixtures/p10_vistas/_p12-electorales.yml"
 
 
 def _prepare_script() -> str:

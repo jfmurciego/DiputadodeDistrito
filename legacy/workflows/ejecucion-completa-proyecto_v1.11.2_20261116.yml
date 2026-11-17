@@ -112,9 +112,10 @@ on:
       - '.github/workflows/preparacion-fuentes.yml'
       - '.github/workflows/produccion-distritos.yml'
       - '.github/workflows/preparacion-resultados-electorales.yml'
-      - '.github/workflows/p30-resultados-electorales.yml'
+      - '.github/workflows/incorporacion-resultados-electorales.yml'
       - '.github/workflows/p40-publicacion.yml'
       - '.github/workflows/_reutilizable-generacion-territorial.yml'
+      - '.github/workflows/_reutilizable-incorporacion-electoral.yml'
       - 'herramientas/resolver_ejecucion_completa.py'
       - 'herramientas/consumir_par_fuentes_legislatura.py'
       - 'herramientas/registrar_par_fuentes_legislatura.py'
@@ -1275,7 +1276,7 @@ jobs:
     name: 04 Incorporar resultados electorales
     needs: [planificar, preparar_territorial, acreditar_generacion, generar, puerta_02, puerta_03, detectar_recuperacion_electoral, clasificar_electoral]
     if: ${{ always() && needs.planificar.result == 'success' && needs.clasificar_electoral.result == 'success' && needs.clasificar_electoral.outputs.execution == 'EXECUTE' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && needs.planificar.outputs.run_incorporate == 'true' && (needs.detectar_recuperacion_electoral.result == 'skipped' || (needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover != 'true')) }}
-    uses: ./.github/workflows/p30-resultados-electorales.yml
+    uses: ./.github/workflows/incorporacion-resultados-electorales.yml
     secrets: inherit
     with:
       territory_id: ${{ needs.planificar.outputs.territory_name }}

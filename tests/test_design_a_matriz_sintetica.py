@@ -11,8 +11,8 @@ from herramientas.validar_paquete_electoral import validate_package
 
 ROOT=Path(__file__).resolve().parents[1]
 WF=ROOT/".github/workflows"
-PREP=WF/"preparacion-fuentes.yml"
-ELECTORAL_PREP=WF/"preparacion-resultados-electorales.yml"
+PREP=WF/"../../tests/fixtures/p10_vistas/_p11-territoriales.yml"
+ELECTORAL_PREP=WF/"../../tests/fixtures/p10_vistas/_p12-electorales.yml"
 GEN=WF/"produccion-distritos.yml"
 ELECTORAL_APPLY=WF/"p30-resultados-electorales.yml"
 CAT=ROOT/"configuracion/catalogo_preparacion.yaml"
@@ -27,8 +27,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
     def test_visible_workflows(self):
         visible={
             "P00 Campaña":WF/"ejecucion-completa-proyecto.yml",
-            "P10 Fuentes — P11 Territoriales":PREP,
-            "P10 Fuentes — P12 Electorales":ELECTORAL_PREP,
+            "P10 Fuentes":WF/"p10-fuentes.yml",  # T-375: un botón; PREP y ELECTORAL_PREP son reutilizables sin botón
             "P20 Base territorial — P30 Distritos":GEN,
             "P30 Resultados electorales":ELECTORAL_APPLY,
             "P90 Automático":WF/"p90-automatico.yml",
@@ -38,10 +37,10 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         }
         self.assertEqual({load(p)["name"] for p in visible.values()},set(visible))
         dispatch=[p.name for p in WF.glob("*.yml") if "workflow_dispatch" in triggers(p)]
-        self.assertEqual(sorted(dispatch),["activacion-por-eleccion.yml","ejecucion-completa-proyecto.yml","generar-alternativas-territoriales.yml","gestor-campanas.yml","p30-resultados-electorales.yml","p40-publicacion.yml","p50-publicacion-academica.yml","p70-archivo.yml","p80-verificacion-motor.yml","preparacion-fuentes.yml","preparacion-legislatura-vigente.yml","preparacion-resultados-electorales.yml","produccion-distritos.yml"])
+        self.assertEqual(sorted(dispatch),["activacion-por-eleccion.yml","ejecucion-completa-proyecto.yml","generar-alternativas-territoriales.yml","gestor-campanas.yml","p10-fuentes.yml","p30-resultados-electorales.yml","p40-publicacion.yml","p50-publicacion-academica.yml","p70-archivo.yml","p80-verificacion-motor.yml","preparacion-legislatura-vigente.yml","produccion-distritos.yml"])
 
     def test_preparation_supports_every_registered_territory_and_catalog_gates_generation(self):
-        prep_options=triggers(PREP)["workflow_dispatch"]["inputs"]["territory_id"]["options"]
+        prep_options=expected_all=selector_labels(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")  # T-375: P10 ya no tiene selector; la lista viva es la de la tabla maestra
         expected=selector_labels(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")
         generable=[r["name"] for r in rows_for("generation",CAT)]
         electoral_ready=[r["name"] for r in rows_for("electoral_application",CAT)]
@@ -55,9 +54,9 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertEqual(list(triggers(ELECTORAL_APPLY)["workflow_dispatch"]["inputs"]),["territorio"])  # T-376/D-148: un código, sin selector
 
     def test_preparation_generates_sources_and_reuses_existing_package_by_default(self):
-        manual_inputs=triggers(PREP)["workflow_dispatch"]["inputs"]
+        manual_inputs=triggers(WF/"p10-fuentes.yml")["workflow_dispatch"]["inputs"]
         reusable_inputs=triggers(PREP)["workflow_call"]["inputs"]
-        self.assertEqual(list(manual_inputs),["territory_id"])
+        self.assertEqual(list(manual_inputs),["tipo","territorio","eleccion","regenerar"])  # T-375
         self.assertNotIn("source_scope",manual_inputs)
         self.assertTrue(reusable_inputs["reutilizar_si_ya_preparada"]["default"])
         text=PREP.read_text(encoding="utf-8")
