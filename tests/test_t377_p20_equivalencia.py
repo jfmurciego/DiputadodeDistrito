@@ -36,6 +36,8 @@ ETIQUETAS = {"resolve": "P20", "official_sources": "P21", "m01": "P21", "m02": "
              "pre_m04_evidence": "P24", "pre_m04_diagnostic": "P24", "m04": "P24", "m05": "P25", "m06": "P26", "auditoria": "P27",
              "registrar": "P26"}
 BOOLEANAS = ("persist_state", "preflight_only", "require_unique_hashes")
+# Mitigación exigida por el Planificador (17-11): un motor por territorio a la vez en toda ruta (id canónico del contrato, salida de `resolve`).
+MITIGACION = {"group": "ddd-p20-territorio-${{ needs.resolve.outputs.territory_id }}", "cancel-in-progress": False, "queue": "max"}
 
 
 def on(d):
@@ -67,6 +69,8 @@ def diferencias_motor(viejo: dict, nuevo: dict) -> list[str]:
         esperado = json.loads(motor_normalizado(json.dumps(a, ensure_ascii=False)))
         esperado["name"] = f"{ETIQUETAS[k]} {a['name']}"
         esperado["needs"] = ["entrada"] + list(a["needs"]) if "needs" in a else "entrada"
+        if k != "resolve":
+            esperado["concurrency"] = MITIGACION
         for clave in sorted(set(esperado) | set(b)):
             if esperado.get(clave) != b.get(clave):
                 d.append(f"{k}.{clave}")
@@ -183,7 +187,34 @@ class Equivalencia(Congelado):
                          " || (format('{0}', inputs.territorio) != '' && format('ddd-territorial-prod-{0}-2025', inputs.territorio)"
                          " || format('ddd-territorial-engine-{0}', inputs.params)) }}")
         for k, job in self.p["jobs"].items():
-            self.assertNotIn("concurrency", job, k)
+            if k in self.ru["jobs"] and k != "resolve":
+                self.assertEqual(job["concurrency"], MITIGACION, k)  # el motor, un territorio a la vez
+            else:
+                self.assertNotIn("concurrency", job, k)
+            self.assertNotIn("concurrency", self.ru["jobs"].get(k, {}), k)
+
+    def test_boton_y_00_dan_el_mismo_grupo_del_motor(self):
+        """La clave del grupo del motor es el `territory_id` que `resolve` saca del contrato: el botón (código) y la 00 (nombre del catálogo)
+        llegan al mismo contrato y al mismo grupo; territorios distintos, a grupos distintos (control negativo). Con las herramientas reales."""
+        sys.path.insert(0, str(ROOT / "herramientas"))
+        import catalogo_preparacion as cp
+        import p20_territorios as pt
+
+        def grupo(territorio_ui):  # lo que hacen `resolver_interfaz` (catálogo) y `resolve` (contrato) con el territorio de cada ruta
+            contrato = cp.resolve("generation", territorio_ui, "2025", ROOT / cp.CATALOG)["contract_path"]
+            with tempfile.TemporaryDirectory() as tmp:
+                out = Path(tmp) / "d.json"
+                r = subprocess.run([sys.executable, str(ROOT / "herramientas" / "resolver_ejecucion_territorial.py"), "--params", contrato,
+                                    "--run-id", "t377", "--output", str(out)], cwd=ROOT, capture_output=True, text=True)
+                self.assertEqual(r.returncode, 0, r.stderr)
+                tid = json.loads(out.read_text(encoding="utf-8"))["territory_id"]
+            return MITIGACION["group"].replace("${{ needs.resolve.outputs.territory_id }}", tid)
+
+        boton = grupo(pt.territorio(ROOT, "aut11")["nombre"])  # botón: código → nombre (job `interfaz`)
+        llamada = grupo("Extremadura")  # la 00: `territory_name` del plan
+        self.assertEqual(boton, "ddd-p20-territorio-aut11")
+        self.assertEqual(boton, llamada)
+        self.assertNotEqual(grupo(pt.territorio(ROOT, "aut10")["nombre"]), boton)
 
     def test_salidas_artefactos_y_registro_intactos(self):
         def subidas(d, jobs):
@@ -359,6 +390,7 @@ class Negativos(Congelado):
             "m01.environment": lambda n: n["jobs"]["m01"].__setitem__("environment", "produccion"),
             "m02.name": lambda n: n["jobs"]["m02"].__setitem__("name", "Adyacencias territoriales"),
             "resolve.falta": lambda n: n["jobs"].pop("resolve"),
+            "registrar.concurrency": lambda n: n["jobs"]["registrar"].pop("concurrency"),  # sin la mitigación
         }
         for esperado, tocar in casos.items():
             n = copy.deepcopy(self.p)
