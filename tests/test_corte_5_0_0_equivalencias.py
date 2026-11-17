@@ -56,11 +56,13 @@ class ReferenciasPorNombre(unittest.TestCase):
         for fich, (nombre, n) in casos.items():
             txt = (WF / fich).read_text(encoding="utf-8")
             self.assertEqual(_nombres()[fich], nombre)
-            lineas = [l for l in txt.splitlines() if re.match(r"\s*environment:", l) and "produccion" in l]
-            self.assertEqual(len(lineas), n, fich)
-            for l in lineas:
-                self.assertIn(f"github.workflow == '{nombre}'", l, fich)
-                self.assertIn("workflow_dispatch", l)
+            # T-379 PR 2a: la puerta va en su job (`aprobar`, entorno fijo `produccion`) y la condición humana en su `if`.
+            jobs = [j for j in yaml.safe_load(txt)["jobs"].values() if "produccion" in str(j.get("environment", ""))]
+            self.assertEqual(len(jobs), n, fich)
+            for j in jobs:
+                cond = str(j.get("environment")) + str(j.get("if"))
+                self.assertIn(f"github.workflow == '{nombre}'", cond, fich)
+                self.assertIn("workflow_dispatch", cond)
 
 
 class Equivalencias(unittest.TestCase):

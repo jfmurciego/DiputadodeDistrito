@@ -1,7 +1,10 @@
 # VISTA DERIVADA de .github/workflows/p10-fuentes.yml (tipo P12); no editar: python tests/generar_vistas_p10.py
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de preparación de fuentes
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.0.1
+# CAMBIOS 1.0.1: T-379 PR 2a (D-147, opción a): todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara `environment: registro`
+#   (entorno sin revisores, ramas de despliegue = main): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
+# ANTERIOR (1.0.0): legacy/workflows/p10-fuentes_v1.0.0_20261117.yml
 # FECHA: 2026-11-17
 # ESTADO: candidato
 # CAMBIOS: T-375 (D-136 y D-151, migración paso 6): fichero nuevo; sustituye a preparacion-fuentes.yml 1.4.14 («P10 Fuentes — P11 Territoriales») y preparacion-resultados-electorales.yml 1.0.17 («P10 Fuentes — P12 Electorales»),
@@ -611,6 +614,7 @@ jobs:
     name: Registrar resultados electorales preparados
     needs: [resolver, electorales]
     if: ${{ needs.electorales.result == 'success' && needs.electorales.outputs.electoral_outcome == 'READY' && needs.resolver.outputs.persist_state == 'true' && needs.electorales.outputs.production_eligible == 'true' }}
+    environment: registro
     runs-on: ubuntu-24.04
     concurrency:
       group: ddd-catalog-promotion
