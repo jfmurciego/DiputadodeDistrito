@@ -210,6 +210,29 @@ class P10(unittest.TestCase):
         self.assertEqual(env["EDITION"], "${{ inputs.data_edition || '2025' }}")
         self.assertEqual(env["TERRITORY"], "${{ (inputs.territory_id || inputs.territorio) }}")
 
+    def test_codigo_y_nombre_dan_el_mismo_grupo_y_territorios_distintos_no(self):
+        """El grupo se calcula con el id canónico: el nombre del catálogo (que solía pasar la 00) se resuelve al MISMO código."""
+        sys.path.insert(0, str(ROOT))
+        from herramientas.catalogo_preparacion import lookup
+
+        def grupo(tipo, territorio, edicion=""):
+            canonico = lookup(territorio, "2025")["territory_id"]
+            return (f"ddd-electoral-prod-{canonico}" if tipo == "electorales" else f"ddd-territorial-prod-{canonico}-{edicion or '2025'}")
+
+        for tipo in ("territoriales", "electorales"):
+            for codigo, nombre in (("aut12", "Galicia"), ("nac28", "Congreso Madrid"), ("aut01", "Andalucía")):
+                self.assertEqual(grupo(tipo, codigo), grupo(tipo, nombre), (tipo, codigo, nombre))
+        # Control negativo: territorios distintos → grupos distintos.
+        self.assertNotEqual(grupo("electorales", "aut12"), grupo("electorales", "aut01"))
+        self.assertNotEqual(grupo("territoriales", "nac28"), grupo("territoriales", "aut12"))
+        # Y los callers de P10 pasan el id canónico (no el nombre).
+        for fichero, jobs in (("ejecucion-completa-proyecto.yml", ("preparar_territorial", "preparar_electoral")),
+                              ("preparacion-legislatura-vigente.yml", ("territorial", "electoral"))):
+            w = cargar(WF / fichero)
+            for job in jobs:
+                self.assertEqual(w["jobs"][job]["with"]["territory_id"], "${{ needs.planificar.outputs.territory_id }}", (fichero, job))
+        self.assertIn("territory_id", cargar(WF / "preparacion-legislatura-vigente.yml")["jobs"]["planificar"]["outputs"])
+
     def test_gating_por_tipo_y_entrada(self):
         j = self.p10["jobs"]
         self.assertEqual(j["p11_resolver"]["needs"], "entrada")

@@ -10,10 +10,10 @@
 #   «regenerar aunque exista» (desmarcado). Edición fijada en el código (2025). Reutilizar automático: se reutiliza el paquete registrado si sigue descargable y compatible y se regenera si caducó (P12: antes `exit 44`; el digest nuevo
 #   sustituye al registrado; el digest distinto del registrado sigue fallando, código 45). Acepta también ids de época `<t>_hAAAA_MM` (D-150).
 # EXCLUSIÓN POR TERRITORIO: `concurrency` de workflow, mismos grupos que antes (`ddd-territorial-prod-<territorio>-<edición>` y `ddd-electoral-prod-<territorio>`, `queue: max`); `ddd-catalog-promotion` sigue en los jobs `*_registrar`.
-#   Llamado por la 00 el territorio es el NOMBRE del catálogo (aut12 → «Galicia», como P30); desde el botón es el CÓDIGO, así que el botón no excluye con la 00 ni con P30 (antes el selector llevaba «12 Galicia»: tampoco excluía).
+#   El territorio del grupo es el ID CANÓNICO (aut12) en los dos caminos: el botón recibe el código y la 00 y «Legislatura» pasan `territory_id` (no el nombre del catálogo), así que dos ejecuciones del mismo territorio se excluyen aunque una venga del botón y otra de la 00.
 #   Con la edición vacía (botón) el grupo de P11 usa `2025`, la edición fijada, para coincidir con P30.
 # P12 desde el botón: la edición es la fijada en el código (2025: `inputs.data_edition || '2025'` en el resolver).
-# workflow_call (entradas técnicas ocultas; la 00 y «Legislatura vigente»): `tipo` territoriales|electorales; `territory_id` el territorio canónico; `data_edition` vacía = edición y años del catálogo vigente (solo P11);
+# workflow_call (entradas técnicas ocultas; la 00 y «Legislatura vigente»): `tipo` territoriales|electorales; `territory_id` el id canónico del territorio (aut12, no «Galicia»); `data_edition` vacía = edición y años del catálogo vigente (solo P11);
 #   `eleccion` vacía = vigente; `source_year`, `population_year`, `section_year`, `source_ref`, `recover_run_id` y `recover_artifact_sha256` vacíos = sin valor (solo P11 salvo `source_ref`); `reutilizar_si_ya_preparada`,
 #   `persist_state` y `allow_source_gap_success` booleanos (en el botón llegan vacíos: persistir obligatorio, sin hueco de fuente). Salidas = unión de las dos anteriores (las del tipo no ejecutado salen vacías).
 # ANTERIOR: ninguna (fichero nuevo); sustituye a legacy/workflows/preparacion-fuentes_v1.4.14_20261116.yml y legacy/workflows/preparacion-resultados-electorales_v1.0.17_20261116.yml
