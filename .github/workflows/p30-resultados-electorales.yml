@@ -15,7 +15,7 @@
 #   electoral (M07/M08), lo archiva en origen y registra su disponibilidad en main.
 # NO HACE: generar distritos, repetir auditorías geométricas ni publicar el visor. Puede materializar M07/M08 genéricos desde un paquete electoral autocontenido.
 # NOTAS (llamada de la 00): `data_edition` vacío = 2025; `persist_state` vacío = true (el botón siempre registra); `territory_id` (nombre, «NN Nombre» o código) se resuelve al id
-#   canónico: el grupo `ddd-electoral-prod-<id>` es el mismo para código y nombre y coincide con P10 y P20; `artifact_namespace` vacío = sin sufijo (como hoy).
+#   canónico: el grupo `ddd-electoral-prod-<id>` es el mismo para código y nombre; la coincidencia con P10 y P20 se completa al entrar #874 (T-375) y #880 (P20), no antes: hoy P10 agrupa con el texto en bruto; `artifact_namespace` vacío = sin sufijo (como hoy).
 # FECHA: 2026-11-16
 name: P30 Resultados electorales
 

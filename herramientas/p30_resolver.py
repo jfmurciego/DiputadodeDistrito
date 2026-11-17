@@ -11,7 +11,7 @@ CAMBIOS: fichero nuevo (T-376).
 ANTERIOR: ninguna (fichero nuevo)
 QUÉ HACE: `resolver --territorio aut12 | --territory-id <selector> [--edicion 2025] [--persistir true|false] [--root .]` imprime un JSON
   `{"territorio":…, "edicion":…, "persistir":…}` para P30 (UN territorio por ejecución, D-148; varios en paralelo los da P00).
-  - Botón (`--territorio`): un código autNN o nacNN (o `<t>_hAAAA_MM`, histórico por época con su contrato en `configuracion/historico_epoca/`), resuelto con el catálogo a su id CANÓNICO (el código; el mismo grupo `ddd-electoral-prod-<id>` que P10, T-375, y P20); se rechazan varios, ids viejos, alias y `congreso350_*`.
+  - Botón (`--territorio`): un código autNN o nacNN (o `<t>_hAAAA_MM`, histórico por época con su contrato en `configuracion/historico_epoca/`), resuelto con el catálogo a su id CANÓNICO (el código; grupo `ddd-electoral-prod-<id>`; coincide con P10 y P20 al entrar #874 y #880); se rechazan varios, ids viejos, alias y `congreso350_*`.
   - Llamada (`--territory-id`): un solo territorio; lo que llega (nombre del catálogo, «12 Galicia» o código) se resuelve al mismo id canónico, así código y nombre dan el mismo grupo.
   - `edicion` vacía = 2025 (fijada en el código). `persistir` vacío o «null» (toJSON de la entrada ausente del botón) = true (el botón siempre registra; la llamada pasa su valor).
 Errores a stderr con `::error::` y rc 1; nada en la salida.
