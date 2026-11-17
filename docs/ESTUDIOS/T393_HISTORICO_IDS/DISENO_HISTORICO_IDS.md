@@ -1,6 +1,6 @@
 # T-393 · Diseño: cómo entra el histórico por época en la resolución de territorios
 
-VERSIÓN: 1.0.0 · FECHA: 2026-11-16 · ESTADO: propuesta para el Planificador y el propietario (D-150)
+VERSIÓN: 1.0.0 · FECHA: 2026-11-17 · ESTADO: propuesta para el Planificador y el propietario (D-150)
 ANTERIOR: ninguna (fichero nuevo)
 MOTIVO: D-150 (alta de los territorios-elección `<t>_hAAAA_MM`); sustituye la opción A (implementar ya) por diseño al detalle, por orden del Planificador (D-149: prioridad a T-375/T-376).
 Solo documento: sin cambios en `ddd_core/`, `herramientas/`, catálogos ni workflows. Base: `origin/main` e2702b25.
@@ -94,3 +94,8 @@ Tests: ids (válidos, inexistentes, forma, solo Congreso, `mismo_territorio`, `v
 2. Un consumidor que filtre por `territory_id` sin elección verá filas nuevas: lista de T-199 en §2; la prueba de barrido va con control positivo y negativo.
 3. Si se elige B (variante de `nacNN`), desaparecen H1 y los ids nuevos, pero entran los consumidores de T-199 sin separar el histórico del vigente: más riesgo para el visor (T-355).
 4. Huellas M04/M05 sin cambios: ninguna pieza de este diseño está en el cierre de imports de M05 (T-365 §2). Sin 00 nueva.
+
+## 9. Respuesta de T-375 (P10, #874)
+
+P10 no impone ruta de contrato ni llama nada nuevo: pasa el id tal cual (el regex del botón admite `nac22_h2019_11`) a `catalogo_preparacion.py lookup --territory <id> --edition <E>` y a `resolver_eleccion_vigente.py --for-preparation`, que ya existen dentro de los reutilizables. La edición no la decide P10 para los ids de época: la fija el llamador. Por tanto la clave `'2019-11'` (§3) es decisión de catálogo y resolutores, y P10 no la bloquea; en `plan` solo usa `lookup --edition 2025` para el nombre del grupo de exclusión y, si falla, usa el código con `::warning::`.
+T-375 no toca `catalogo_preparacion.py` ni `territorio_ids.py`; sí toca `clave_eleccion.py` y los dos `generar_provincias_congreso*` en #874: la implementación de §6 debe rebasar sobre ella (la fila de `clave_eleccion.py` pasa a «tras #874»).
