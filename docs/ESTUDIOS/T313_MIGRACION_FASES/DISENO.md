@@ -1,8 +1,8 @@
 # T-313 — Diseño de la migración de notación M0x → P2x/P3x
 
-Versión 1.0 · 17-11 · solo diseño (ningún cambio de código). Base: `origin/main` 6454079. Sustituye a las §4 y
+VERSIÓN: 1.0.0 · FECHA: 2026-11-17 · ANTERIOR: ninguna (fichero nuevo) · solo diseño (ningún cambio de código). Base: `origin/main` 6454079. Sustituye a las §4 y
 «Decisiones del Planificador (14-11)» de `INVENTARIO.md` (#784), que usan la numeración anterior a D-129 y no se reescribe.
-Fija las decisiones del propietario del 17-11. D-165 no consta aún en `docs/PLAN.md`; se citan D-102, D-129, D-142.
+Fija las decisiones del propietario del 17-11: D-165 (renombrado; actualiza D-102) y D-166 (las 11 recomendaciones de este diseño). Citas: D-102, D-129, D-138, D-142.
 
 ## 1. Equivalencias (decisión 1) y qué cambia respecto a #784
 
@@ -15,13 +15,14 @@ Fija las decisiones del propietario del 17-11. D-165 no consta aún en `docs/PLA
 | M05 | P25 | Optimización | `M05_REPARACION_POBLACIONAL_GENERICA` → `P25_REPARACION_…` |
 | M06 | P26 | Producto certificado | |
 | auditoría geométrica | P27 | Auditoría | |
-| ensembles (GerryChain 25/50) | P28 | Alternativas | nombres internos `ensemble25`/`ensemble50`, nunca «25»/«50» sueltos |
+| ensembles (GerryChain 25/50) | — | P28 **retirado** (D-138) | sin fila de alias; `ddd_ensemble` se queda (D-138) y T-380 retira lo publicado (D-141); solo sus referencias Mxx |
 | M07 | P31 | Agregación | |
 | M08 | P32 | Resultados por distrito | |
 | puerta (04) | P33 | Puerta | |
 
 Correcciones a #784: **P41/P42 ya no son M07/M08** (son P40 sitio y lotes, D-129); por tanto `canonical_p42` y `-P41/-P42` del
 14-11 quedan anulados: el `kind` nuevo es `canonical_p26` y `canonical_p32`, y los estados `-P31`/`-P32`.
+P40 = Publicación con P41 sitio y P42 lotes (D-129); no tienen relación con M07/M08.
 Quedan fuera (no son módulos): versiones del motor (`7.4.x`, `m04_engine` como nº), estudios N06/N07/N08.
 
 ## 2. Mecanismo: tabla de alias única (decisión 2)
@@ -112,7 +113,7 @@ M06 equivalente en contenido al de referencia, y regeneración de las 71 con hue
 4. **Deslinde / `ddd_motor2`.** `paquetes/deslinde` (12 ficheros) cita `M03…M06` y la clave `m06_secciones` (4) en su API; es paquete versionado
    (1.0/1.1, DOI). No se toca su API ni se republica; el adaptador de `ddd_motor2` traduce. Solo se renombran sus referencias a ficheros del repo si las hubiera.
 5. **P25/P50 en grep.** Tras migrar, `P25` = optimización y `P50` = Publicación académica; hoy `P50` aparece en 27 ficheros con el sentido viejo de
-   publicación y `P25` en 2. Guardián con límite de palabra; `ensemble25/50` nunca como número suelto.
+   publicación y `P25` en 2. Guardián con límite de palabra; `ensemble25/50` (nombres que se conservan en `ddd_ensemble`) nunca como número suelto.
 6. **Shas de datos abiertos.** Renombrar ficheros dentro de ZIP/GeoJSON publicados cambia `datos_abiertos/INDEX.json`; solo ocurre al
    regenerar/republicar. Test de equivalencia de contenido (no de nombre).
 7. **Conflictos entre PR** en `workflows/`, `herramientas/`, `ddd_core/`: congelar PR ajenas en la capa mientras dure cada PR.
@@ -122,7 +123,7 @@ M06 equivalente en contenido al de referencia, y regeneración de las 71 con hue
 ## 7. Preguntas abiertas (con recomendación)
 
 1. **Ventana.** ¿Cuándo? *Recomiendo después de la noche del 29-11 y de fusionada T-379 PR 3*: invalida huellas y obliga a regenerar las 71; no tocar entre la validación (24-11) y el ensayo.
-2. **Nombres de módulos y ficheros.** *Recomiendo*: `modulos/p21_base_poblacion.py`, `p22_geometria_adyacencias`, `p23_grafo`, `p24_solucion_inicial`, `p25_optimizacion`, `p26_producto_certificado`, `p31_agregacion`, `p32_resultados_distrito`; `ddd_core/p24_*`, `p25_*`, `p26_schema`; la auditoría y alternativas sin módulo propio nuevo. (Levanta la norma «no renombrar `modulos/0X_*`» de la skill implementador y R015, a anotar en PR 6.)
+2. **Nombres de módulos y ficheros.** *Recomiendo*: `modulos/p21_base_poblacion.py`, `p22_geometria_adyacencias`, `p23_grafo`, `p24_solucion_inicial`, `p25_optimizacion`, `p26_producto_certificado`, `p31_agregacion`, `p32_resultados_distrito`; `ddd_core/p24_*`, `p25_*`, `p26_schema`; la auditoría sin módulo propio nuevo. (Levanta la norma «no renombrar `modulos/0X_*`» de la skill implementador y R015, a anotar en PR 6.)
 3. **Copias en `legacy/` de 121 renombrados.** *Recomiendo*: `git mv` + `ANTERIOR: <ruta vieja>`; copia en `legacy/` solo de los 8 módulos y las huellas; R015 se adapta en PR 2.
 4. **Claves y códigos dentro de JSON** (fila 7). *Recomiendo* cambio mecánico de prefijo con `normalizar_prefijo` en lectores, no lista a mano; los manifiestos viejos no se tocan.
 5. **Alias de `ddd-minimo-…-M06/M08` (fila 3).** *Recomiendo permanente* (son los productos en R2 y los lee P72/P50); el alias de `ddd-state-…` (fila 2) solo de lectura y sin reutilización.
