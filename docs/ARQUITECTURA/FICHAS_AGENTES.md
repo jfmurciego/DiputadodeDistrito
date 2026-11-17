@@ -64,7 +64,7 @@ Comunes a todos los chats, salvo que se diga otra cosa:
 
 | Ficha | Auto-merge | Guardián | Archivista | Numeración |
 |---|---|---|---|---|
-| Fichero | `auto-merge.yml` 1.2.0 + `herramientas/decidir_auto_merge.py` | job `guardian` de `p90-automatico.yml` (antes `pruebas-plataforma.yml`) + `herramientas/comprobar_guardian_main.py` | `archivar-artefactos-r2.yml` 1.0.0 | `numerar-registro.yml` 1.0.0 |
+| Fichero | `auto-merge.yml` 1.3.x + `herramientas/decidir_auto_merge.py` | job `guardian` de `p90-automatico.yml` (antes `pruebas-plataforma.yml`) + `herramientas/comprobar_guardian_main.py` | P71 de `p70-archivo.yml` (antes `archivar-artefactos-r2.yml`) | job `numeracion` de `p90-automatico.yml` (antes `numerar-registro.yml`) |
 | Disparo | `workflow_run` de la CI | `push` y `pull_request` | cron diario 05:17 UTC y manual | `push` a `main` |
 | Hace | Squash si `pruebas` del SHA y de esa suite está en success; fuera borradores y `no-automerge` | Marcas de conflicto, numeración del registro, R015 | Copia a R2 lo referenciado antes de 14 días; `orchestracion/archivo_r2.json` | Numera `docs/registro/` en `REGISTRO_DE_CAMBIOS.md` |
 | Autoridad | Fusiona con la app de registro (exenta del ruleset) | Bloquea vía check `pruebas` | Escribe en `main` y R2 | Escribe en `main` |
@@ -77,7 +77,7 @@ Comunes a todos los chats, salvo que se diga otra cosa:
 | Agente | Estado | Qué cubre hoy esa función |
 |---|---|---|
 | Agente de fuentes (P10) | no existe | `p10-fuentes.yml` (antes `preparacion-fuentes.yml`), huellas sha256 de fuentes, espejo Infoelectoral (`CLAUDE.md`) |
-| Analista electoral (P40) | no existe | `resultados-ligeros.yml`, T-53/T-55/T-56 (scripts de hemiciclo) |
+| Analista electoral (P40) | no existe | `resultados-ligeros.yml` (retirado; copias en `legacy/workflows/`), T-53/T-55/T-56 (scripts de hemiciclo) |
 | Redactor académico (P60) | no existe | nada; P60 sin empezar |
 
 ## 4. Estados y handoff
@@ -97,12 +97,12 @@ Propuesta en `ESTADOS_Y_HANDOFF.md`.
 | Resultado de calidad §9.2 | YA CUBIERTO | Veredicto del revisor y forense (`.claude/agents/*.md`) |
 | Handoff §23 | HECHO (T-77) | Línea de cierre ampliada en las skills; sin JSON |
 | Tabla de madurez §25 | INCORPORAR | `MADUREZ.md` (este PR) |
-| Aprobación ligada al HEAD (§11, §15) | YA CUBIERTO | `auto-merge.yml` 1.2.0; veredicto del revisor con SHA |
+| Aprobación ligada al HEAD (§11, §15) | YA CUBIERTO | `auto-merge.yml` 1.3.x; veredicto del revisor con SHA |
 | Revisor como check obligatorio | CAMBIO ARQUITECTÓNICO | Hoy el ruleset solo exige `pruebas`; hacerlo obligatorio cambia la puerta de fusión y depende de un secreto |
 | Allowlist de herramientas por rol en chats | CAMBIO ARQUITECTÓNICO | La restricción es por instrucción; aplicarla en runtime exige `settings.json` por rol o sesiones distintas |
 | Controlador con leases y almacén de eventos (§10–§13) | YA CUBIERTO (descartado) | ADR-001; Actions + `PLAN.md` + registro |
 | Coordinador | CAMBIO ARQUITECTÓNICO si no mide beneficio | Creado en #464 sin línea base; sin métrica de fusiones indebidas o tiempo de cierre por ola. Medir dos olas o fundir con el planificador |
 | Agente de fuentes | YA CUBIERTO (no construir) | Lo mecánico está en workflows y huellas; sin caso que exija juicio |
-| Analista electoral | YA CUBIERTO (no construir) | «Casi todo es un script» (FRAMEWORK §6); `resultados-ligeros.yml` |
+| Analista electoral | YA CUBIERTO (no construir) | «Casi todo es un script» (FRAMEWORK §6); `resultados-ligeros.yml` (retirado) |
 | Redactor académico | INCORPORAR más adelante | Solo cuando arranque P60; hoy sin entrada |
 | Libro de costes de chats | HECHO (T-77) | Skill `presupuesto`: una fila por chat cerrado |

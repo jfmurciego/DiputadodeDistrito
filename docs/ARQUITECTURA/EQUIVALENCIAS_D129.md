@@ -25,14 +25,14 @@ que no tienen botón llevan «_» delante. Opciones visibles siempre en español
 | P30 Resultados electorales (`p30-resultados-electorales.yml`, D-137, D-148) | Agrega los resultados por distrito y pasa la puerta (P31…P33) | territorio (un código por ejecución) | `incorporacion-resultados-electorales`, `_reutilizable-incorporacion-electoral` |
 | P40 Publicación (`p40-publicacion.yml`, D-134) | Publica el sitio y los territorios en el visor; sin run id toma la última 00 completa con la 04 en verde | qué publicar (solo el sitio / territorios), territorios, simular (marcado por defecto) | `desplegar-visor-publico`, `cadena-publicacion`, `_reutilizable-publicar-sitio` |
 | P50 Publicación académica (`p50-publicacion-academica.yml`, D-133, D-146) | Publica mapas versionados (Release por lote; Zenodo solo con permiso) | territorios (códigos o todos), destino (prueba / Zenodo), concepto nuevo | `publicar-version-mapa` |
-| P70 Archivo (`p70-archivo.yml`, D-131) | Archiva, recupera, poda y lista R2 (P71…P74); cron diario de archivo | acción, simular (marcado), territorios, elección | `podar-r2`, `recuperar-producto-electoral-durable`, `archivar_r2`/`extraer_m06` de `mantenimiento-programado` |
+| P70 Archivo (`p70-archivo.yml`, D-131) | Archiva, recupera, poda y lista R2 (P71…P74); cron diario de archivo (P71 absorbe `archivar-artefactos-r2`) | acción, simular (marcado), territorios, elección | `podar-r2`, `recuperar-producto-electoral-durable`, `archivar_r2`/`extraer_m06` de `mantenimiento-programado` |
 | P80 Verificación del motor (`p80-verificacion-motor.yml`, D-132) | Batería del motor sobre los territorios elegidos | territorios (vacío = 71), alcance (motor vigente / motor base M05) | `bateria-motor` |
 
 ## Sin botón
 
 - P90 Automático (`p90-automatico.yml` 1.1.0, D-129, T-379 PR 4): pruebas de la plataforma (checks `veredicto` y `pruebas`),
-  nocturna, métricas semanales e IA de cierre por campaña. Sustituye a `pruebas-plataforma`, `forense-00` y el job
-  `metricas` de `mantenimiento-programado`.
+  nocturna, numeración del registro (antes `numerar-registro`), métricas semanales e IA de cierre por campaña. Sustituye a `pruebas-plataforma`, `forense-00` y el job
+  `metricas` de `mantenimiento-programado`. Retirado sin sustituto: `resultados-ligeros`.
 - Excepciones aprobadas (se quedan como fichero propio, sin botón): fusión automática `auto-merge.yml`, disparada por
   `workflow_run` al terminar «P90 Automático» (D-135; GitHub rechaza un `workflow_run` sobre el propio workflow);
   revisor de PR `revisor-pr.yml`, solo con la etiqueta `revisar-ia` (D-135, D-144 a: excepción permanente).

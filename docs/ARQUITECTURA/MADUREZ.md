@@ -35,7 +35,7 @@ haga cumplir (ver `FICHAS_AGENTES.md` §1).
 | Implementador | Sí | Sí (skill) | Parcial | Parcial | PR de T-47…T-72 con entrada en `docs/registro/`; reglas guardián y R015 en CI |
 | Ingeniero de motor | Parcial | No | No | No | Solo en FRAMEWORK §6 y skill `presupuesto` (Opus); sin skill ni ficha propia |
 | Agente de fuentes | Parcial | No | No | No | FRAMEWORK §6; no construir (`FICHAS_AGENTES.md` §5) |
-| Analista electoral | Parcial | No | No | No | FRAMEWORK §6; cubierto por scripts (`resultados-ligeros.yml`) |
+| Analista electoral | Parcial | No | No | No | FRAMEWORK §6; cubierto por scripts (`resultados-ligeros.yml`, retirado) |
 | Redactor académico | Parcial | No | No | No | FRAMEWORK §6; P60 sin empezar |
 | Estados §9 y handoff §23 | Sí (propuesta) | No | No | No | `ESTADOS_Y_HANDOFF.md` (este PR) |
 | Libro de costes | Sí | Parcial | — | Parcial | `evals/oro/LIBRO_DE_COSTES.md`: agentes con tokens; chats sin medir |
