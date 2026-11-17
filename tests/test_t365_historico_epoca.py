@@ -2,9 +2,9 @@
 """T-365 (D-125): contrato por elección del histórico por época, contrato M01-M06 por provincia y puerta M07/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0 · FECHA: 2026-11-17 · ESTADO: candidato
-ANTERIOR: legacy/tests/test_t365_historico_epoca_v1.1.0_20261117.py
-CAMBIOS: 1.2.0: T-396 (D-153): estado APARTADA admitido; contratos 1.2.0 con anterior 1.1.0. 1.1.0: T-389 (T-365b): contratos con la tabla de T-364b (1.2.0): provincias apartadas = BLOQUEADA_SIN_DATO sin filas, fallo cerrado con la tabla vieja.
+VERSIÓN: 1.3.0 · FECHA: 2026-11-17 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_t365_historico_epoca_v1.2.0_20261117.py
+CAMBIOS: 1.3.0: T-402: `materializar` normaliza la geometría (parche del seccionado en los tests con zip falso; clase NormalizacionGeometria con zip real). 1.2.0: T-396 (D-153): estado APARTADA admitido; contratos 1.2.0 con anterior 1.1.0. 1.1.0: T-389 (T-365b): contratos con la tabla de T-364b (1.2.0): provincias apartadas = BLOQUEADA_SIN_DATO sin filas, fallo cerrado con la tabla vieja.
 MOTIVO: T-365. Sin red ni fuentes pesadas: el flujo M07/M08 usa un M06 sintético y los módulos reales.
 """
 from __future__ import annotations
@@ -167,7 +167,12 @@ class Materializar(unittest.TestCase):
         c = _contrato_sintetico(_sha(fuentes / "tabla.csv"), _sha(base), _sha(fuentes / "seccionado_2020.zip"), "d" * 64)
         cpath = root / "contrato.json"
         cpath.write_text(json.dumps(c), encoding="utf-8")
-        return root, fuentes, cpath, mock.patch.object(che, "_secciones_seccionado", return_value=secciones_geo)
+        def falso(secc, cpro, cache, sha):  # zip de mentira: la normalización real se prueba en NormalizacionGeometria
+            dest = cache / "seccionado_normalizado.zip"
+            dest.write_bytes(secc.read_bytes())
+            return dest, {"normalizado_sha256": _sha(dest), "corregidas": []}
+        parche = mock.patch.multiple(che, _secciones_seccionado=mock.Mock(return_value=secciones_geo), _normalizar_seccionado=falso)
+        return root, fuentes, cpath, parche
 
     def test_casado_completo_escribe_el_contrato(self):
         import yaml
@@ -238,6 +243,104 @@ class Materializar(unittest.TestCase):
             with parche, self.assertRaises(SystemExit) as cm:
                 che.materializar("2019-11", "nac22", fuentes, root, cpath)
             self.assertIn("FUENTE_HUELLA_DISTINTA", str(cm.exception))
+
+
+class NormalizacionGeometria(unittest.TestCase):
+    """T-402: la misma normalización auditada de la adquisición; válida intacta, inválida válida con área conservada."""
+
+    BOW = "POLYGON((0 0, 2 2, 2 0, 0 2, 0 0))"  # corbata: anillo autointersectante, 2 triángulos de 1 unidad² cada uno
+    OK = "POLYGON((10 0, 12 0, 12 2, 10 2, 10 0))"
+
+    def _gdf(self, wkts):
+        import geopandas as gpd
+        from shapely import wkt
+        return gpd.GeoDataFrame({"CUSEC": [f"22001{i:05d}" for i in range(len(wkts))]}, geometry=[wkt.loads(w) for w in wkts],
+                                crs="EPSG:25830")
+
+    def test_invalida_pasa_a_valida_con_area_y_valida_no_cambia(self):
+        g = self._gdf([self.OK, self.BOW])
+        self.assertFalse(g.geometry.is_valid.all())  # control negativo: la entrada es realmente inválida
+        out, corr, pol = che.normalizar_geometrias(g)
+        self.assertTrue(out.geometry.is_valid.all())
+        self.assertEqual([x["seccion"] for x in corr], ["2200100001"])
+        self.assertEqual(out.geometry.iloc[0].wkb, g.geometry.iloc[0].wkb)  # la válida, byte a byte
+        self.assertAlmostEqual(out.geometry.iloc[1].area, 2.0, places=9)  # valor literal: dos triángulos de 1
+        self.assertEqual(len(pol["sha256"]), 64)
+
+    def test_solo_validas_no_cambia_nada(self):
+        g = self._gdf([self.OK])
+        out, corr, _ = che.normalizar_geometrias(g)
+        self.assertEqual((corr, out.geometry.iloc[0].wkb), ([], g.geometry.iloc[0].wkb))
+
+    def test_no_normalizable_falla_cerrado(self):
+        g = self._gdf(["POLYGON EMPTY"])
+        with self.assertRaises(SystemExit):
+            che.normalizar_geometrias(g)
+
+    def test_zip_normalizado_reproducible_con_huella(self):
+        import zipfile
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            g = self._gdf([self.OK, self.BOW])
+            g.to_file(d / "s.shp")
+            zp = d / "origen.zip"
+            with zipfile.ZipFile(zp, "w") as z:
+                for f in sorted(d.glob("s.*")):
+                    z.write(f, f.name)
+            r = []
+            for n in ("a", "b"):
+                (d / n).mkdir()
+                r.append(che._normalizar_seccionado(zp, "22", d / n, _sha(zp)))
+            self.assertEqual(r[0][1]["normalizado_sha256"], r[1][1]["normalizado_sha256"])
+            self.assertEqual(r[0][1]["huella_geometrias_sha256"], r[1][1]["huella_geometrias_sha256"])
+            self.assertEqual(len(r[0][1]["corregidas"]), 1)
+            self.assertTrue(che._leer_seccionado(r[0][0], "22").geometry.is_valid.all())
+            self.assertEqual(che._leer_seccionado(r[0][0], "22")["CUSEC"].tolist(), g["CUSEC"].tolist())
+
+
+class MaterializarZipReal(unittest.TestCase):
+    """T-402: `materializar` de punta a punta con un seccionado REAL (zip de shapefile con una sección inválida), sin parches."""
+
+    def test_camino_completo_normaliza_y_deja_huellas(self):
+        import zipfile
+        import geopandas as gpd
+        import yaml
+        from shapely import wkt
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            root, fuentes = d / "root", d / "fuentes"
+            (root / "territorios/nac22/config").mkdir(parents=True)
+            fuentes.mkdir()
+            base = root / "territorios/nac22/config/nac22_2025.yaml"
+            base.write_text(yaml.safe_dump(BASE), encoding="utf-8")
+            ok, bow = NormalizacionGeometria.OK, NormalizacionGeometria.BOW
+            g = gpd.GeoDataFrame({"CUSEC": ["2200101001", "2200101002", "2300101001"]},
+                                 geometry=[wkt.loads(ok), wkt.loads(bow), wkt.loads(ok)], crs="EPSG:25830")  # la 23 es de otra provincia
+            (d / "crudo").mkdir()
+            g.to_file(d / "crudo" / "s.shp")
+            with zipfile.ZipFile(fuentes / "seccionado_2020.zip", "w") as z:
+                for f in sorted((d / "crudo").glob("s.*")):
+                    z.write(f, f.name)
+            (fuentes / "tabla.csv").write_text("elección,sección,población,origen,año_fuente_relleno\n"
+                                               "2019-11,2200101001,10,dato,\n2019-11,2200101002,20,dato,\n", encoding="utf-8")
+            c = _contrato_sintetico(_sha(fuentes / "tabla.csv"), _sha(base), _sha(fuentes / "seccionado_2020.zip"), "d" * 64)
+            cpath = root / "contrato.json"
+            cpath.write_text(json.dumps(c), encoding="utf-8")
+            out = che.materializar("2019-11", "nac22", fuentes, root, cpath)
+            cfg = yaml.safe_load(out.read_text(encoding="utf-8"))
+            geo = cfg["meta"]["historico_epoca"]["geometria"]
+            zip_n = root / next(x["path"] for x in cfg["generation_state"]["source_inputs"] if x["role"] == "target_sectioning")
+            sha_n = next(x["sha256"] for x in cfg["generation_state"]["source_inputs"] if x["role"] == "target_sectioning")
+            self.assertEqual(_sha(zip_n), sha_n)  # la huella de source_inputs es la del zip normalizado, no la del crudo
+            self.assertEqual((geo["normalizado_sha256"], geo["origen_sha256"]), (sha_n, c["seccionado"]["sha256"]))
+            self.assertNotEqual(sha_n, c["seccionado"]["sha256"])
+            self.assertEqual([x["seccion"] for x in geo["corregidas"]], ["2200101002"])
+            self.assertEqual(geo["secciones"], 2)  # solo la provincia 22
+            leido = che._leer_seccionado(zip_n, None)
+            self.assertTrue(leido.geometry.is_valid.all())
+            self.assertEqual(leido["CUSEC"].tolist(), ["2200101001", "2200101002"])
+            self.assertTrue(leido.geometry.iloc[0].equals(wkt.loads(ok)))  # la válida, intacta (el shapefile reordena el anillo: se compara por conjunto)
+            self.assertEqual(geo["huella_geometrias_sha256"], che._huella_geometrias(leido))
 
 
 class AdmisionPorEleccion(unittest.TestCase):
@@ -473,7 +576,12 @@ class TablaT364b(unittest.TestCase):
         c["provincias"]["22"]["estado"] = estado
         cpath = root / "contrato.json"
         cpath.write_text(json.dumps(c), encoding="utf-8")
-        with mock.patch.object(che, "_secciones_seccionado", return_value={"2200101001", "2200101002"}):
+        def falso(secc, cpro, cache, sha):
+            dest = cache / "seccionado_normalizado.zip"
+            dest.write_bytes(secc.read_bytes())
+            return dest, {"normalizado_sha256": _sha(dest), "corregidas": []}
+        with mock.patch.multiple(che, _secciones_seccionado=mock.Mock(return_value={"2200101001", "2200101002"}),
+                                 _normalizar_seccionado=falso):
             return che.materializar("2019-11", "nac22", fuentes, root, cpath)
 
     def test_tabla_nueva_pasa_y_la_vieja_falla_cerrado(self):
