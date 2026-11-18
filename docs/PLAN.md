@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.67
-Fecha: 2026-11-17
+Versión: 1.0.68
+Fecha: 2026-11-18
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-169 (autorización de fusión de diseño y plan hasta el 30-11), D-170 (siglas ambiguas de la doble vuelta), D-165 sin P28 (D-138), T-411
-Anterior: legacy/docs/PLAN_v1.0.66_20261117.md
+Cambios/motivo: D-171 (doble vuelta ya, paso aparte tras P32, archivo en origen), D-172 (visor de la doble vuelta, #905); T-409 y T-413
+Anterior: legacy/docs/PLAN_v1.0.67_20261118.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -313,6 +313,8 @@ Fase 4 — producto (en el privado):
 - D-163 (17-11, propietario). P00 llama a P10-P30 con `contents: read`: ningún job de P10-P30 ni del reutilizable de registro pide más que `contents: read`/`actions: read` (si no, startup_failure de toda la P00); el push va con el token de la app y se quita el respaldo `github.token`; sobra `issues: write` en P20 `resolver_interfaz`. 2b mínima (propietario, 17-11): sin reutilizable de registro ni partir P30; entrada oculta `campana` (solo `workflow_call`, vacía por defecto) y los 7 jobs de registro y los pasos de registro de P30 `incorporar` con `campana == ''` (sin campaña, idéntico a `main`); en campaña, P20 en serie y grupos globales saltados, con tests; el registro de la campaña lo hace P00 en la PR 3. Garantía «la campaña no escribe en main»: (a) jobs de registro saltados con `campana` no vacía, con test; (b) ningún `git push` ni herramienta de registro fuera de esa lista cerrada, con test y control negativo; (c) entorno `registro` con la 2a. Se declara que `contents: read` no es barrera para el push con la app.
 - D-166 (17-11, propietario). Diseño de T-313 (#898) aprobado con sus 11 recomendaciones: ventana tras la noche del 29-11 y T-379 PR 3 (regenerar las 71); `modulos/p21_base_poblacion.py` … `p32_resultados_distrito.py` y `ddd_core/p24_*`, `p25_*`, `p26_schema`; `git mv` con `ANTERIOR:` y copia en `legacy/` solo de los 8 módulos y las huellas; prefijos en JSON con `normalizar_prefijo` en lectores; alias permanente de `ddd-minimo-…-M06/M08` y solo lectura sin reutilización de `ddd-state-…`; nombre nuevo de productos solo al regenerar; Deslinde sin tocar (adaptador en `ddd_motor2`); carpetas R2 con D-131; `pre_m04` → `pre_p24`; congelación solo de la capa en curso; visor: texto y constantes, `kind` solo con alias.
 - D-169 (17-11, propietario, literal en el chat del Coordinador): «Fusiona #898, #900, #902, #899, #901 y todas las PR de diseño y plan que te pase el Planificador hasta el 30-11, con CI verde y revisor conforme.» No incluye #888, #892 ni lanzar o publicar.
+- D-171 (17-11, propietario). La doble vuelta se implementa ya, como paso aparte tras P32 (`herramientas/doble_vuelta.py`, #904), sin tocar el cálculo del ganador actual. Lee la tabla por partido y distrito que 07 ya escribe. Esa tabla se archiva en origen en R2, en el mismo job y con sha256, dentro de la PR de enganche a P30 tras la 2b (#899); nunca con un archivista posterior. Los territorios publicados necesitan regenerarse para tener votos por partido; recomendación: una sola regeneración tras el 29-11 junto con T-313.
+- D-172 (18-11, propietario; diseño de T-413, #905). Visor V3: la doble vuelta es lo principal, por defecto «Tres bloques» (dv_A); botones «Tres bloques», «Dos bloques», «Sin coaliciones» y «Más votado» (la mayoría simple queda secundaria, para comparar); coloreado por bloque, con alternativa por partido; modo oscuro solo en lo nuevo; línea de comparación entre reglas en la ficha; ventaja pequeña < 5 puntos; bloque y votos por partido de dv_A en el detalle (T-409); aviso fijo «simulación sin valor oficial». Publicar, decisión aparte.
 - D-170 (17-11, propietario). Doble vuelta: unio.cat en Nacionalistas; JXC, JxG, CCD y CCD-CI sin bloque (abstención); T-409 comprueba con los datos que no cambian ningún ganador antes de implementar.
 - D-168 (17-11, propietario; diseño de T-409, #901). Escenarios: A = los tres bloques coaligados a la vez; B («4») = solo Izquierdas y Patriotas, nacionalistas por partido; `dv_base` = doble vuelta sin coaliciones. PP en Patriotas. Dudosos: Cs, UPyD, EXISTE, PAR, CpM, Caballas, MDyC, PACMA, PIRATA y PT sin bloque; UPN/Navarra Suma, FAC y FE en Patriotas; PRC, Adelante Andalucía y Ahora Canarias en Nacionalistas; En Marea, CHA-IU, Verdes/LV-GV en Izquierdas; JXC, JxG, unio.cat y CCD, a desambiguar con la fuente; resto de menores sin bloque (abstención). Base: votos a candidaturas; empate alfabético con marca; dos finalistas del mismo bloque → al más votado; solo Congreso; campo `bloque_ddd`.
 - D-167 (17-11, propietario). Escenario de doble vuelta con coaliciones (T-409, solo diseño ahora): bloques 1 Izquierdas, 2 Nacionalistas, 3 Patriotas; escenario adicional «4» = solo se coaligan 1 y 3 y los nacionalistas van por partido. Por distrito: primera vuelta por partido con votos reales; >50 % gana; si no, segunda entre los dos más votados y cada partido eliminado transfiere sus votos al finalista de su bloque (sin finalista de su bloque → abstención); sin tasas de trasvase inventadas. Cada partido en un solo bloque (los de izquierda nacionalista, en Nacionalistas), editable por el propietario. Tabla partido→bloque de todas las candidaturas 2011-2023 desde la homologación de siglas, con bloque «propuesta» que aprueba el propietario, en un fichero fechado. Escenario adicional junto a «gana el primero», que se conserva; visor, decisión aparte. Implementación tras la migración y T-313.
@@ -435,11 +437,13 @@ Fase 4 — producto (en el privado):
 | T-405 | Histórico 2011-11, provincia 14 (Córdoba, `nac14`): M04 «invalid administrative component source binding»; solo diagnóstico y una PR por causa (Sonnet) | LISTA tras #886 (T-402) |
 | T-397c | «_» en `auto-merge.yml` e inventario en solo lectura de ejecuciones de workflows retirados (D-159) | EN CURSO (session_01KQDtFsHKjJ6KXAcAdTMT6G) |
 | T-407 | Actualización del plan 1.0.64 | HECHA (#896) |
-| T-409 | Diseño de la doble vuelta con coaliciones (D-167): reglas, escenarios 1-3 y «4», tabla partido→bloque propuesta, salida en P31/P32; solo documento (Sonnet) | EN CURSO (diseño) |
+| T-409 | Doble vuelta con coaliciones (D-167, D-168, D-170, D-171): diseño (#901) y herramienta (#904) HECHOS; detalle dv_A para el visor y enganche a P30 con archivo en origen (tras #899) | EN CURSO |
 | T-408 | Actualización del plan 1.0.65 | HECHA (#897) |
 | T-410 | Actualización del plan 1.0.66 | HECHA (#902) |
 | T-411 | Permisos de comunicación entre sesiones sin pregunta (`.claude/settings.json`, lista cerrada de 6 y test) | REVISIÓN (#900) |
-| T-412 | Actualización del plan 1.0.67 | REVISIÓN (esta PR) |
+| T-413 | Visor V3 con escenarios de doble vuelta (D-172): diseño (#905) e implementación; sin publicar | EN CURSO |
+| T-414 | Actualización del plan 1.0.68 | REVISIÓN (esta PR) |
+| T-412 | Actualización del plan 1.0.67 | HECHA (#903) |
 | T-406 | Actualización del plan 1.0.63 | HECHA (#891) |
 | T-404 | Actualización del plan 1.0.62 y traspaso del Planificador | HECHA (#887) |
 | T-385 | Actualización del plan 1.0.56 | HECHA (#856) |
