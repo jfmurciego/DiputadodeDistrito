@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>T-413 · Maquetas del visor (estáticas)</title>
+<style>
+:root{--bg:#fffdf8;--ink:#16201f;--muted:#5b6470;--line:#d9d0c3;--izq:#b3261e;--nac:#0b6e69;--pat:#1f5fa8;--sin:#5b6470}
+@media (prefers-color-scheme:dark){:root:not([data-t=l]){--bg:#14181a;--ink:#eef1f2;--muted:#a8b0bb;--line:#33393d;--izq:#ff8a80;--nac:#4fd1c5;--pat:#7fb2ff;--sin:#a8b0bb}}
+:root[data-t=d]{--bg:#14181a;--ink:#eef1f2;--muted:#a8b0bb;--line:#33393d;--izq:#ff8a80;--nac:#4fd1c5;--pat:#7fb2ff;--sin:#a8b0bb}
+body{margin:0;padding:16px;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,sans-serif}
+h2{font-size:16px;margin:28px 0 8px}.row{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start}
+.m{border:1px solid var(--line);border-radius:14px;padding:14px;width:340px;max-width:100%;box-sizing:border-box}
+.seg{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}.seg b{border:1px solid var(--line);border-radius:999px;padding:10px 14px;white-space:nowrap;font-weight:600;min-height:20px}
+.seg b.on{background:var(--ink);color:var(--bg)}
+.sw{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:6px}
+.izq{background:var(--izq)}.nac{background:var(--nac)}.pat{background:var(--pat)}.sin{background:repeating-linear-gradient(45deg,var(--sin) 0 3px,transparent 3px 6px);border:1px solid var(--sin)}
+.map{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;margin:10px 0}.map i{aspect-ratio:1;border-radius:4px;display:block}
+.bar{display:flex;height:22px;border-radius:5px;overflow:hidden;margin:4px 0}.bar span{display:block;color:#fff}
+small,.mu{color:var(--muted);font-size:13px}table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:4px 6px;border-bottom:1px solid var(--line);text-align:left}td.n,th.n{text-align:right}
+.aviso{border-left:4px solid var(--sin);padding:6px 10px;margin:8px 0;background:transparent}
+</style></head><body>
+<h1 style="font-size:20px">T-413 · Maquetas estáticas (sin datos reales)</h1>
+<p class="mu">Valores del ejemplo a mano de T-409 §7: A (izq) 30, B (izq) 15, C (pat) 28, D (pat) 12, E (nac) 15. Cambia el tema del sistema para ver el modo oscuro.</p>
+
+<h2>Maqueta 1 · Mapa con selector de regla y leyenda (móvil y escritorio)</h2>
+<div class="row"><div class="m">
+<small>Congreso · 407 distritos · regla de elección</small>
+<div class="seg" role="tablist"><b class="on">Tres bloques</b><b>Dos bloques</b><b>Sin coaliciones</b><b>Más votado</b></div>
+<p class="mu" style="margin:6px 0">Todos los bloques se presentan juntos y gana quien tenga mayoría en la segunda vuelta. <u>Cómo funciona</u></p>
+<div class="map"><i class="izq"></i><i class="izq"></i><i class="pat"></i><i class="pat"></i><i class="izq"></i><i class="nac"></i><i class="pat"></i><i class="izq"></i><i class="izq"></i><i class="pat"></i><i class="nac"></i><i class="nac"></i><i class="izq" style="opacity:.55"></i><i class="pat" style="opacity:.55"></i><i class="pat"></i><i class="izq"></i><i class="sin"></i><i class="pat"></i></div>
+<small>Colorear por: <b>bloque</b> · partido</small><br>
+<small><span class="sw izq"></span>Izquierdas <span class="sw nac"></span>Nacionalistas <span class="sw pat"></span>Patriotas <span class="sw sin"></span>Empate / sin dato</small><br>
+<small>Color pleno: el ganador saca más de 5 puntos de ventaja. Color claro: menos de 5.</small>
+</div></div>
+
+<h2>Maqueta 2 · Ficha de distrito (hoja inferior en móvil), regla «Tres bloques»</h2>
+<div class="row"><div class="m">
+<b>Distrito 12 · Ejemplo</b><br><small>Decide la segunda vuelta · gana Izquierdas 52,9 %</small>
+<p style="margin:10px 0 2px"><b>1.ª vuelta</b> <small>(votos a candidaturas; nadie pasa del 50 %)</small></p>
+<div class="bar" role="img" aria-label="Izquierdas 45 %, Patriotas 40 %, Nacionalistas 15 %"><span class="izq" style="width:45%"></span><span class="pat" style="width:40%"></span><span class="nac" style="width:15%"></span></div>
+<table><tr><th>Candidatura</th><th class="n">Votos</th><th class="n">%</th></tr>
+<tr><td><span class="sw izq"></span>Izquierdas (A 30 + B 15)</td><td class="n">45</td><td class="n">45,0</td></tr>
+<tr><td><span class="sw pat"></span>Patriotas (C 28 + D 12)</td><td class="n">40</td><td class="n">40,0</td></tr>
+<tr><td><span class="sw nac"></span>Nacionalistas (E)</td><td class="n">15</td><td class="n">15,0</td></tr></table>
+<p style="margin:10px 0 2px"><b>Finalistas</b>: Izquierdas y Patriotas</p>
+<p style="margin:10px 0 2px"><b>Transferencias</b></p>
+<table><tr><td>Nacionalistas → no hay finalista de su bloque</td><td class="n">15 abstención</td></tr></table>
+<p style="margin:10px 0 2px"><b>2.ª vuelta</b></p>
+<div class="bar" role="img" aria-label="Izquierdas 45, Patriotas 40"><span class="izq" style="width:52.9%"></span><span class="pat" style="width:47.1%"></span></div>
+<small>Izquierdas 45 · Patriotas 40 · abstención 15 · Empate: no</small>
+<details style="margin-top:8px"><summary>Ver por partido</summary><small>A 30, B 15 → Izquierdas · C 28, D 12 → Patriotas · E 15 → abstención</small></details>
+</div>
+<div class="m"><b>Variante: ganador en primera vuelta</b><br><small>Gana Patriotas con el 54,3 % de los votos a candidaturas. No hay segunda vuelta.</small>
+<div class="bar"><span class="pat" style="width:54.3%"></span><span class="izq" style="width:32%"></span><span class="nac" style="width:13.7%"></span></div>
+<div class="aviso"><small>Empate por el segundo puesto: se resuelve por orden alfabético y se marca «empate» (regla fija, no es un sorteo).</small></div></div></div>
+
+<h2>Maqueta 3 · Territorio publicado sin votos por partido</h2>
+<div class="row"><div class="m">
+<small>Congreso · Álava (3 distritos)</small>
+<div class="seg"><b>Tres bloques</b><b>Dos bloques</b><b>Sin coaliciones</b><b class="on">Más votado</b></div>
+<div class="aviso"><small>La doble vuelta aún no está calculada para este territorio. Se muestra el más votado de cada distrito. Los votos por partido llegarán al regenerarlo.</small></div>
+<div class="map" style="grid-template-columns:repeat(3,1fr)"><i style="background:#d32b2b"></i><i style="background:#d32b2b"></i><i style="background:#1d6fb8"></i></div>
+</div></div>
+</body></html>
