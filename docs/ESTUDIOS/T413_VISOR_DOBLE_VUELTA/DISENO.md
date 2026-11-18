@@ -2,7 +2,7 @@
 
 VERSIÓN: 1.1.0 · FECHA: 2026-11-18 · ESTADO: aprobado (D-172) · ANTERIOR: 1.0.0 (misma PR, sin fusionar)
 
-D-172 (18-11, propietario, relayado por el Planificador): «sí a todo», las 10 recomendaciones del §9 quedan **decididas**. Pendiente de plan: la cita de D-171 (no consta aún en `docs/PLAN.md`).
+D-172 (18-11, propietario, relayado por el Planificador): «sí a todo», las 10 recomendaciones del §9 quedan **decididas**. Según el plan 1.0.68 en curso (D-172 aún no consta en `docs/PLAN.md` de `main`; D-171 no se cita).
 
 Base: D-167, D-168, D-170, T-409 (`docs/ESTUDIOS/T409_DOBLE_VUELTA/DISENO.md`, #904, `herramientas/doble_vuelta.py`).
 Maquetas: [`maquetas.html`](maquetas.html) (HTML estático, tema claro/oscuro del sistema; ejemplo de T-409 §7).
@@ -95,7 +95,7 @@ enganche, el CSV por partido y distrito se archiva en origen (R2). Para el visor
 - **Formatos** (los de T-409 §6, sin cambios): `resultados_doble_vuelta.csv` (14 columnas, una fila por distrito y escenario) para el
   mapa y la cabecera de la ficha; `..._detalle.csv` (distrito, escenario, candidatura, bloque, votos_1v, destino, votos_transferidos)
   para primera vuelta, transferencias y desplegable por partido. **Petición a T-409**: añadir `bloque` al detalle y `votos_1v` de cada
-  partido también en `dv_A` (una fila por partido con su candidatura de bloque), para que la ficha no recalcule nada en el navegador. **Estado**: el detalle aún NO está implementado (T-409 §6 lo marca «opcional» y `herramientas/doble_vuelta.py` en `main` solo escribe el CSV de 14 columnas); la ficha de transferencias (§3.4) y el desplegable por partido dependen de él, así que la PR 6 de §8 espera a la PR de T-409 con la pregunta 9.
+  partido también en `dv_A` (una fila por partido con su candidatura de bloque), para que la ficha no recalcule nada en el navegador. **Estado**: el detalle no está en `main` (la PR #907 de T-409 lo añade con `--detalle`, aún sin fusionar) (T-409 §6 lo marca «opcional» y `herramientas/doble_vuelta.py` en `main` solo escribe el CSV de 14 columnas); la ficha de transferencias (§3.4) y el desplegable por partido dependen de él, así que la PR 6 de §8 espera a la PR de T-409 con la pregunta 9.
 - Tamaño estimado: 407 distritos × 4 reglas, ~12 000 filas de detalle ≈ 0,5 MB sin comprimir; se carga bajo demanda por territorio.
   `primero` sale del M08 actual (misma fuente, sin duplicar).
 - El visor **no** aplica la regla en JavaScript: solo muestra lo generado por `doble_vuelta.py` (un solo algoritmo; el test de contrato lo comprueba).
