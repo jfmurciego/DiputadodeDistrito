@@ -3,9 +3,10 @@
 """Doble vuelta con coaliciones por distrito (T-409, D-167): escenarios dv_base, dv_A y dv_B.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-17 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
-CAMBIOS: 1.0.0: fichero nuevo. No toca el ganador actual (`primero`): es un paso aparte que lee la tabla de votos por partido y
+VERSIÓN: 1.1.0 · FECHA: 2026-11-18 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/doble_vuelta_v1.0.0_20261117.py
+CAMBIOS: 1.1.0 (T-409): detalle por partido (`--detalle`, `detalle()`): por distrito y escenario, cada partido con su bloque, su
+  candidatura (la coalición en dv_A/dv_B) y sus votos de primera vuelta; `resolver` no cambia. 1.0.0: fichero nuevo. No toca el ganador actual (`primero`): es un paso aparte que lee la tabla de votos por partido y
   distrito de P31 (`district_id, party, votes`) y la tabla de bloques de `configuracion/`.
 MOTIVO: D-167 (propietario, 17-11): escenario adicional de doble vuelta con coaliciones por bloque; diseño en
   docs/ESTUDIOS/T409_DOBLE_VUELTA/DISENO.md.
@@ -15,7 +16,7 @@ QUÉ HACE: por distrito y escenario (dv_base sin coaliciones; dv_A los tres bloq
   primera vuelta); sin finalista de su bloque, o sin bloque, abstención. Empates: orden alfabético del id con `empate=true`.
   Sin tasas de trasvase inventadas ni votos reconstruidos. Salida CSV determinista y manifiesto con sha256 de entradas y salida.
 USO: python herramientas/doble_vuelta.py --votos P31.csv --bloques configuracion/bloques_partidos_2026-11-17.csv
-  --eleccion 2023-07 --salida salida.csv [--manifiesto manifiesto.json]
+  --eleccion 2023-07 --salida salida.csv [--manifiesto manifiesto.json] [--detalle detalle.csv]
 """
 from __future__ import annotations
 
@@ -72,6 +73,27 @@ def cargar_votos(path) -> dict[str, dict[str, int]]:
     return {k: dict(v) for k, v in d.items()}
 
 
+DETALLE_COLUMNAS = ["district_id", "escenario", "candidatura", "partido", "bloque", "votos_1v", "votos_candidatura"]
+
+
+def _clave(partido: str, bloque_de: dict[str, str], coaligados) -> str:
+    b = bloque_de.get(partido, "")
+    return f"bloque:{b}" if b and b in coaligados else partido
+
+
+def detalle(votos: dict[str, int], bloque_de: dict[str, str], escenario: str) -> list[dict]:
+    """Votos de primera vuelta por partido con su bloque y la candidatura en la que compite (la coalición, si la hay)."""
+    coaligados = ESCENARIOS[escenario]
+    filas = [{"escenario": escenario, "candidatura": _clave(p, bloque_de, coaligados), "partido": p,
+              "bloque": bloque_de.get(p, ""), "votos_1v": v} for p, v in votos.items() if v > 0]
+    por_cand: dict[str, int] = defaultdict(int)
+    for f in filas:
+        por_cand[f["candidatura"]] += f["votos_1v"]
+    for f in filas:
+        f["votos_candidatura"] = por_cand[f["candidatura"]]
+    return sorted(filas, key=lambda f: (-f["votos_candidatura"], f["candidatura"], -f["votos_1v"], f["partido"]))
+
+
 def resolver(votos: dict[str, int], bloque_de: dict[str, str], escenario: str) -> dict:
     """Resuelve un distrito. `votos`: partido → votos; `bloque_de`: partido → bloque (ausente = sin bloque)."""
     coaligados = ESCENARIOS[escenario]
@@ -81,7 +103,7 @@ def resolver(votos: dict[str, int], bloque_de: dict[str, str], escenario: str) -
         if v <= 0:
             continue
         b = bloque_de.get(p, "")
-        k = f"bloque:{b}" if b and b in coaligados else p
+        k = _clave(p, bloque_de, coaligados)
         cand[k] += v
         bloque[k] = b
     fila = {c: "" for c in COLUMNAS}
@@ -116,26 +138,34 @@ def resolver(votos: dict[str, int], bloque_de: dict[str, str], escenario: str) -
     return fila
 
 
-def generar(votos_csv, bloques_csv, eleccion: str, salida, manifiesto=None) -> list[dict]:
+def generar(votos_csv, bloques_csv, eleccion: str, salida, manifiesto=None, detalle_csv=None) -> list[dict]:
     bloque_de = cargar_bloques(bloques_csv, eleccion)
     votos = cargar_votos(votos_csv)
-    filas = []
+    filas, det = [], []
     for distrito in sorted(votos, key=lambda x: (len(x), x)):
         for esc in ESCENARIOS:
             f = resolver(votos[distrito], bloque_de, esc)
             f["district_id"] = distrito
             filas.append(f)
+            det += [{**d, "district_id": distrito} for d in detalle(votos[distrito], bloque_de, esc)]
     Path(salida).parent.mkdir(parents=True, exist_ok=True)
     with open(salida, "w", encoding="utf-8", newline="") as f:
         w = csv.DictWriter(f, fieldnames=COLUMNAS, lineterminator="\n")
         w.writeheader()
         w.writerows(filas)
+    if detalle_csv:
+        Path(detalle_csv).parent.mkdir(parents=True, exist_ok=True)
+        with open(detalle_csv, "w", encoding="utf-8", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=DETALLE_COLUMNAS, lineterminator="\n")
+            w.writeheader()
+            w.writerows(det)
     if manifiesto:
         Path(manifiesto).write_text(json.dumps({
             "schema": "ddd.doble-vuelta/1.0", "eleccion": eleccion,
             "entradas": {"votos": {"ruta": str(votos_csv), "sha256": sha256(votos_csv)},
                          "bloques": {"ruta": str(bloques_csv), "sha256": sha256(bloques_csv)}},
             "salida": {"ruta": str(salida), "sha256": sha256(salida)}, "filas": len(filas),
+            **({"detalle": {"ruta": str(detalle_csv), "sha256": sha256(detalle_csv)}} if detalle_csv else {}),
         }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return filas
 
@@ -147,8 +177,9 @@ def main():
     ap.add_argument("--eleccion", required=True, help="AAAA-MM, como en la tabla de bloques (p. ej. 2023-07)")
     ap.add_argument("--salida", required=True)
     ap.add_argument("--manifiesto")
+    ap.add_argument("--detalle", help="CSV de detalle por partido, bloque y candidatura (opcional)")
     a = ap.parse_args()
-    filas = generar(a.votos, a.bloques, a.eleccion, a.salida, a.manifiesto)
+    filas = generar(a.votos, a.bloques, a.eleccion, a.salida, a.manifiesto, a.detalle)
     print(f"[doble_vuelta] OK distritos={len(filas) // len(ESCENARIOS)} filas={len(filas)}")
 
 
