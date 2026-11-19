@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.69
+Versión: 1.0.70
 Fecha: 2026-11-19
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-173 a D-176 (V4 con portada de Vanesa, diseño aprobado, vídeo en bucket público aparte, limpieza de R2); T-409 alias, T-379 relevo, T-415
-Anterior: legacy/docs/PLAN_v1.0.68_20261119.md
+Cambios/motivo: D-178 (limpieza de R2 aprobada, #920), D-179 (prioridad: V4 en producción con doble vuelta desde R2, 52 nac); T-418; bucket de vídeos
+Anterior: legacy/docs/PLAN_v1.0.69_20261119.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -318,6 +318,8 @@ Fase 4 — producto (en el privado):
 - D-174 (19-11, propietario; diseño 2.0.1 de T-415, #909). V4 en `/v4/`, en paralelo a la V3; versión `web/` por ficheros; imágenes generadas con IA, aportadas por la autora y asumidas por el propietario, con nota de origen; matriz jurídica fuera de la V4 inicial (tarea aparte con cotejo oficial); portada oscura y mapa según T-413; catálogo DOI en el estudio hasta Zenodo; «metodología» solo a lo publicado; vídeo con póster, subtítulos y transcripción, URL configurable. Textos de protección jurídica y reserva de acciones: de trabajo hasta revisión.
 - D-175 (19-11, propietario). Vídeo de presentación en un bucket R2 aparte y público, solo para vídeos, con subdominio propio; el bucket de trabajo sigue privado.
 - D-176 (19-11, propietario). Limpieza de R2 en tres pasos: (a) inventario de solo lectura (P70 «listar», lo lanza el Operador con frase del propietario); (b) cruce de cada carpeta con su uso y propuesta borrar/renombrar/conservar (enlaza con D-131); (c) borrado por el Operador con permiso del propietario, nunca antes de la regeneración posterior al 29-11.
+- D-178 (19-11, propietario). Propuesta de limpieza de R2 de T-416 (#920) aprobada tal cual: ~2,2 GB de restos se borran tras la regeneración posterior al 29-11 (Operador, permiso del propietario en ese momento); `arc-e` se conserva sin listado de 2.º nivel; excepción Asturias. Coste actual ~0,10 USD/mes. Bucket público de vídeos creado (URL provisional r2.dev; falta subdominio propio y mover el vídeo).
+- D-179 (19-11, propietario). PRIORIDAD: la V4 en producción. La doble vuelta se calcula desde los paquetes `ddd-minimo-<run>-M08` ya archivados en R2 de los 71 publicados (sin regenerar) con una opción nueva de solo lectura en P70 (T-418). La primera V4 lleva los 52 territorios del Congreso (`nac`); los 19 `aut` (elecciones autonómicas) van en una segunda tanda cuando la tabla de bloques cubra sus partidos. El Coordinador lleva el camino crítico; al propietario solo se le piden firmas (fusión de código, frase de lanzamiento, permiso de publicar). La limpieza de R2, la 2a y la PR 3 de P00 no lo bloquean.
 - D-177 (19-11, Planificador, criterio técnico). Doble vuelta: tabla de alias id de fuente → partido homologado derivada de `datos/homologacion_siglas/` (#914; 100 % de votos 2011-2023; «LA IZQUIERDA PLURAL» 2011 declarada, sin efecto de bloque); la regeneración no empieza sin #911, #914 y el `--alias` en P30. En campaña, P30 archiva en R2 en el mismo job y solo se salta el registro en main (opción A de T-379); el modo de inicio de P20 es una opción de la campaña (por defecto «Generar desde fuente territorial acreditada»); la campaña no publica salvo opción expresa del propietario (por defecto «No publicar») y siempre con la aprobación de `produccion`.
 - D-172 (18-11, propietario; diseño de T-413, #905). Visor V3: la doble vuelta es lo principal, por defecto «Tres bloques» (dv_A); botones «Tres bloques», «Dos bloques», «Sin coaliciones» y «Más votado» (la mayoría simple queda secundaria, para comparar); coloreado por bloque, con alternativa por partido; modo oscuro solo en lo nuevo; línea de comparación entre reglas en la ficha; ventaja pequeña < 5 puntos; bloque y votos por partido de dv_A en el detalle (T-409); aviso fijo «simulación sin valor oficial». Publicar, decisión aparte.
 - D-170 (17-11, propietario). Doble vuelta: unio.cat en Nacionalistas; JXC, JxG, CCD y CCD-CI sin bloque (abstención); T-409 comprueba con los datos que no cambian ningún ganador antes de implementar.
@@ -448,8 +450,10 @@ Fase 4 — producto (en el privado):
 | T-411 | Permisos de comunicación entre sesiones sin pregunta (`.claude/settings.json`, lista cerrada de 6 y test) | REVISIÓN (#900) |
 | T-413 | Visor V3 con escenarios de doble vuelta (D-172): diseño (#905) e implementación; sin publicar | EN CURSO |
 | T-415 | V4: portada de Vanesa + mapa con doble vuelta (D-173, D-174): originales (#908, #916), diseño (#909) e implementación en `visor/v4/`; sin publicar | EN CURSO |
-| T-416 | Limpieza de R2 (D-176): inventario, propuesta y borrado con permiso | PENDIENTE (paso a: Operador) |
-| T-417 | Actualización del plan 1.0.69 | REVISIÓN (esta PR) |
+| T-416 | Limpieza de R2 (D-176, D-178): inventario (run 44541851289) y propuesta (#920) HECHOS; borrado tras la regeneración | ESPERA |
+| T-418 | Doble vuelta desde R2 para la V4: opción de solo lectura en P70 (D-179), turno exclusivo sobre P70 | LISTA (T-409) |
+| T-419 | Actualización del plan 1.0.70 | REVISIÓN (esta PR) |
+| T-417 | Actualización del plan 1.0.69 | HECHA (#917) |
 | T-414 | Actualización del plan 1.0.68 | HECHA (#906) |
 | T-412 | Actualización del plan 1.0.67 | HECHA (#903) |
 | T-406 | Actualización del plan 1.0.63 | HECHA (#891) |
