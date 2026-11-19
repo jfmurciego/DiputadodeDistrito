@@ -3,11 +3,14 @@
 """Estado de campaña de P00 (T-379 PR 1): comprobación previa, recuento de apartados, parada, resultado, cierre e informe.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0
+VERSIÓN: 1.2.0
 NOMBRE DE VERSIÓN: Estado de campaña P00
 FECHA: 2026-11-19
 ESTADO: candidato
-ANTERIOR: legacy/herramientas/campana_estado_v1.0.1_20261119.py
+ANTERIOR: legacy/herramientas/campana_estado_v1.1.0_20261119.py
+CAMBIOS 1.2.0 (T-379 PR 3b, D-147 y diseño §6): el plan del cierre admite `configuracion/catalogo_preparacion.yaml`, la
+  ÚNICA ruta fuera de RUTAS_ROBOT (el cierre la escribe y su commit lanza la CI completa de main); la 1.0.x la rechazaba,
+  al revés de D-147. Cualquier otra ruta fuera de RUTAS_ROBOT sigue siendo CIERRE_RUTA_NO_ROBOT.
 CAMBIOS 1.1.0 (T-379 PR 3, §3, §4 y §16.1, D-147): `concurrencia` (segunda campaña rechazada con el run que bloquea; sigue la
   de run_id menor; `pull_request` y terminadas no cuentan), `hechos` (CI de la versión, R2 y gasto semanal D-46 para
   `comprobar --hechos`; sin evidencia → aviso, nunca bloqueo) y `cerrar-paso` (resultado de un paso de la cadena desde
@@ -60,6 +63,7 @@ REGISTRO = Path("configuracion/registro_electoral.yaml")
 UNIVERSO_ENSAYO = Path("configuracion/elecciones_generales_2026.yaml")
 CONTRATOS_ENSAYO = Path("configuracion/contratos_minsait_provisionales.yaml")
 P90 = Path(".github/workflows/p90-automatico.yml")
+CATALOGO_CIERRE = "configuracion/catalogo_preparacion.yaml"  # D-147: única ruta del cierre fuera de RUTAS_ROBOT
 
 PASOS = ("P10", "P20", "P30")
 ENSAYO_MES = "2026-11"
@@ -597,15 +601,15 @@ def rutas_robot(root: Path = ROOT) -> re.Pattern:
 def plan_cierre(alm, campana: str, ref: str, run_id: str, ensayo: bool, ficheros: list[str], root: Path = ROOT) -> dict:
     """Commit de cierre (§6, §10): en `main` solo si la ejecución viene de `refs/heads/main`; si no, rama
     `p00-cierre/<run_id>`. En ensayo, sin ficheros ni commit. Toda ruta debe casar con RUTAS_ROBOT de P90 (D-147:
-    `configuracion/catalogo_preparacion.yaml` nunca lo hace y el cierre no lo incluye)."""
+    `configuracion/catalogo_preparacion.yaml` es la única excepción: no está en RUTAS_ROBOT y el cierre sí lo escribe)."""
     if not re.fullmatch(r"\d+", str(run_id)):
         raise EstadoError(f"run_id no válido: {run_id!r}")
     lista = [] if ensayo else sorted(dict.fromkeys(ficheros))
     patron = rutas_robot(root)
-    ajenas = [f for f in lista if not patron.match(f)]
+    ajenas = [f for f in lista if f != CATALOGO_CIERRE and not patron.match(f)]
     if ajenas:
         raise EstadoError(f"CIERRE_RUTA_NO_ROBOT: {', '.join(map(repr, ajenas))} (fuera de RUTAS_ROBOT de P90; "
-                          "D-147: configuracion/catalogo_preparacion.yaml nunca es ruta de robot ni entra en el cierre)")
+                          f"D-147: solo {CATALOGO_CIERRE} entra en el cierre fuera de esa lista)")
     huella = huella_estado(alm, campana)
     rama = "main" if ref == "refs/heads/main" else f"p00-cierre/{run_id}"
     return {"campana": campana, "rama": rama, "ficheros": lista, "commit": bool(lista), "huella": huella,

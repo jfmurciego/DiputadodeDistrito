@@ -1,6 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de distritos (botón) y reutilizable de la 00
-# VERSIÓN: 1.0.1
+# VERSIÓN: 1.0.2
+# CAMBIOS 1.0.2: T-379 PR 3b (diseño P00 §5-§6, opción A del Planificador del 19-11): con campaña, los jobs de registro (pre_m04_evidence, pre_m04_diagnostic, registrar)
+#   YA NO se saltan: corren igual, con la credencial de la app saltada y `origin` en un repositorio local («Registro en ensayo
+#   (campaña)», herramientas/campana_registro.py ensayo), de modo que sus herramientas empujan ahí y nunca a GitHub; al final,
+#   «Capturar el registro (campaña)» sube el cambio a R2 y el cierre de P00 lo re-aplica en un solo commit. 
+#   Sin campaña, idéntico a la 1.0.1 (tests/_t379_3b.deshacer, test_t379_3b_workflows).
+# ANTERIOR (1.0.1): legacy/workflows/p20-distritos_v1.0.1_20261119.yml
 # CAMBIOS 1.0.1: T-379 PR 2b (D-163, 2b mínima): `contents: read` en todo el fichero (el push a main va con el token de la app de registro,
 #   que no depende de GITHUB_TOKEN: `contents: read` NO es barrera para ese push; sin la app, la credencial falla en vez de caer en github.token);
 #   entrada oculta `campana` (workflow_call; vacía = como antes). Con campaña, los jobs (en P30, los pasos) que registran en main se saltan.
@@ -1450,7 +1456,7 @@ jobs:
   pre_m04_evidence:
     name: P24 Acreditar evidencia durable previa a Formación inicial
     needs: [entrada, resolve, internal_units]
-    if: ${{ (always() && (needs.entrada.outputs.preflight_only == 'true') && (needs.entrada.outputs.persist_state == 'true') && needs.resolve.result == 'success' && needs.internal_units.result == 'success') && !inputs.campana }}
+    if: ${{ always() && (needs.entrada.outputs.preflight_only == 'true') && (needs.entrada.outputs.persist_state == 'true') && needs.resolve.result == 'success' && needs.internal_units.result == 'success' }}
     runs-on: ubuntu-24.04
     outputs:
       enabled_source_ref: ${{ steps.persist.outputs.enabled_source_ref }}
@@ -1468,6 +1474,7 @@ jobs:
         with:
           ref: ${{ needs.entrada.outputs.source_ref || github.sha }}
       - name: Credencial de registro
+        if: ${{ !inputs.campana }}
         shell: bash
         env:
           APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
@@ -1488,6 +1495,24 @@ jobs:
           for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
           git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
           echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - id: ensayo_campana
+        name: Registro en ensayo (campaña)
+        if: ${{ inputs.campana }}
+        shell: bash
+        env:
+          CAMPANA: ${{ inputs.campana }}
+          CAMPANA_TERRITORIO: ${{ needs.resolve.outputs.territory_id }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          # T-379 3b: origin pasa a un repositorio local; las herramientas de registro empujan ahí, nunca a GitHub.
+          base="$(python3 herramientas/campana_registro.py ensayo --almacen "${ALMACEN:-r2}" --campana "$CAMPANA" \
+            --territorio "$CAMPANA_TERRITORIO" --destino "$RUNNER_TEMP/ensayo-campana.git" --rama "$GITHUB_REF_NAME" --antes 20)"
+          echo "base=$base" >> "$GITHUB_OUTPUT"
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - name: Recuperar artefactos reales pre-M04
         shell: bash
@@ -1576,12 +1601,27 @@ jobs:
           path: ${{ runner.temp }}/ddd-pre-m04-evidence-${{ github.run_id }}.json
           if-no-files-found: error
           retention-days: 30
-
+      - name: Capturar el registro (campaña)
+        if: ${{ success() && inputs.campana }}
+        shell: bash
+        env:
+          CAMPANA: ${{ inputs.campana }}
+          CAMPANA_TERRITORIO: ${{ needs.resolve.outputs.territory_id }}
+          BASE: ${{ steps.ensayo_campana.outputs.base }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          python3 herramientas/campana_registro.py capturar --almacen "${ALMACEN:-r2}" --campana "$CAMPANA" --territorio "$CAMPANA_TERRITORIO" \
+            --base "$BASE" --rama "$GITHUB_REF_NAME" --orden 20 --nombre pre_m04_evidence --intento "$GITHUB_RUN_ATTEMPT"
 
   pre_m04_diagnostic:
     name: P24 Registrar evaluación no habilitante de generación
     needs: [entrada, resolve, official_sources, m01, m02, m03, internal_units, pre_m04_evidence]
-    if: ${{ (always() && (needs.entrada.outputs.preflight_only == 'true') && (needs.entrada.outputs.persist_state == 'true') && needs.resolve.result == 'success' && needs.pre_m04_evidence.result != 'success') && !inputs.campana }}
+    if: ${{ always() && (needs.entrada.outputs.preflight_only == 'true') && (needs.entrada.outputs.persist_state == 'true') && needs.resolve.result == 'success' && needs.pre_m04_evidence.result != 'success' }}
     runs-on: ubuntu-24.04
     outputs:
       evaluation_status: ${{ steps.classify.outputs.evaluation_status }}
@@ -1602,6 +1642,7 @@ jobs:
         with:
           ref: ${{ needs.entrada.outputs.source_ref || github.sha }}
       - name: Credencial de registro
+        if: ${{ !inputs.campana }}
         shell: bash
         env:
           APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
@@ -1622,6 +1663,24 @@ jobs:
           for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
           git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
           echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - id: ensayo_campana
+        name: Registro en ensayo (campaña)
+        if: ${{ inputs.campana }}
+        shell: bash
+        env:
+          CAMPANA: ${{ inputs.campana }}
+          CAMPANA_TERRITORIO: ${{ needs.resolve.outputs.territory_id }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          # T-379 3b: origin pasa a un repositorio local; las herramientas de registro empujan ahí, nunca a GitHub.
+          base="$(python3 herramientas/campana_registro.py ensayo --almacen "${ALMACEN:-r2}" --campana "$CAMPANA" \
+            --territorio "$CAMPANA_TERRITORIO" --destino "$RUNNER_TEMP/ensayo-campana.git" --rama "$GITHUB_REF_NAME" --antes 21)"
+          echo "base=$base" >> "$GITHUB_OUTPUT"
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
 
       - id: classify
@@ -1747,6 +1806,22 @@ jobs:
             .ddd-generation-evaluation-persistence.json
           if-no-files-found: warn
           retention-days: 30
+      - name: Capturar el registro (campaña)
+        if: ${{ success() && inputs.campana }}
+        shell: bash
+        env:
+          CAMPANA: ${{ inputs.campana }}
+          CAMPANA_TERRITORIO: ${{ needs.resolve.outputs.territory_id }}
+          BASE: ${{ steps.ensayo_campana.outputs.base }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          python3 herramientas/campana_registro.py capturar --almacen "${ALMACEN:-r2}" --campana "$CAMPANA" --territorio "$CAMPANA_TERRITORIO" \
+            --base "$BASE" --rama "$GITHUB_REF_NAME" --orden 21 --nombre pre_m04_diagnostic --intento "$GITHUB_RUN_ATTEMPT"
 
   m04:
     name: P24 Formación inicial de distritos
@@ -1996,7 +2071,7 @@ jobs:
   registrar:
     name: P26 Registrar producto territorial
     needs: [entrada, resolve, m04, m05, m06, auditoria]
-    if: ${{ (always() && needs.resolve.result == 'success' && needs.auditoria.result == 'success' && (needs.entrada.outputs.persist_state == 'true')) && !inputs.campana }}
+    if: ${{ always() && needs.resolve.result == 'success' && needs.auditoria.result == 'success' && (needs.entrada.outputs.persist_state == 'true') }}
     runs-on: ubuntu-24.04
     env:
       PARAMS: ${{ needs.resolve.outputs.params }}
@@ -2020,6 +2095,7 @@ jobs:
         with:
           ref: ${{ needs.entrada.outputs.source_ref || github.sha }}
       - name: Credencial de registro
+        if: ${{ !inputs.campana }}
         shell: bash
         env:
           APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
@@ -2040,6 +2116,24 @@ jobs:
           for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
           git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
           echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - id: ensayo_campana
+        name: Registro en ensayo (campaña)
+        if: ${{ inputs.campana }}
+        shell: bash
+        env:
+          CAMPANA: ${{ inputs.campana }}
+          CAMPANA_TERRITORIO: ${{ needs.resolve.outputs.territory_id }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          # T-379 3b: origin pasa a un repositorio local; las herramientas de registro empujan ahí, nunca a GitHub.
+          base="$(python3 herramientas/campana_registro.py ensayo --almacen "${ALMACEN:-r2}" --campana "$CAMPANA" \
+            --territorio "$CAMPANA_TERRITORIO" --destino "$RUNNER_TEMP/ensayo-campana.git" --rama "$GITHUB_REF_NAME" --antes 22)"
+          echo "base=$base" >> "$GITHUB_OUTPUT"
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - name: Recuperar los bytes M06 y auditoría ya empaquetados
         shell: bash
@@ -2234,3 +2328,19 @@ jobs:
             --ruta orchestracion/archivo_r2.json --ruta datos/composicion/MANIFEST.json --ruta datos/composicion/runs \
             --mensaje "chore(archivo): M06 de $TERRITORY_ID en R2 y composición del run $GITHUB_RUN_ID" || rc=$?
           [[ "$rc" == 0 ]] || { echo '::error title=ARCHIVO_ORIGEN_FAILED::No se pudo registrar el archivo en origen en main.'; exit 1; }
+      - name: Capturar el registro (campaña)
+        if: ${{ success() && inputs.campana }}
+        shell: bash
+        env:
+          CAMPANA: ${{ inputs.campana }}
+          CAMPANA_TERRITORIO: ${{ needs.resolve.outputs.territory_id }}
+          BASE: ${{ steps.ensayo_campana.outputs.base }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          python3 herramientas/campana_registro.py capturar --almacen "${ALMACEN:-r2}" --campana "$CAMPANA" --territorio "$CAMPANA_TERRITORIO" \
+            --base "$BASE" --rama "$GITHUB_REF_NAME" --orden 22 --nombre registrar --intento "$GITHUB_RUN_ATTEMPT"

@@ -82,13 +82,23 @@ class Cadena(unittest.TestCase):
         for nombre in ("puerta_03", "cerrar_p30"):
             self.assertIn("needs.cerrar_p20.outputs.sano == 'true'", self.jobs[nombre]["if"], nombre)
 
-    def test_p10_p30_con_campana_y_sin_persistir(self):
+    def test_p10_p30_con_campana_y_persistencia_en_ensayo(self):
+        """3b: P10 y P20 registran en ensayo (persist_state true); P30 aún no (hasta su humo)."""
         llamados = {j: u for j, u in usos(self.doc).items() if "puerta" not in u}
         self.assertEqual(set(llamados), {"p11", "p12", "acreditar", "p20", "p30"})
         for j in llamados:
             w = self.jobs[j]["with"]
             self.assertEqual(w["campana"], "${{ inputs.campana }}", j)
-            self.assertIs(w["persist_state"], False, j)
+            self.assertIs(w["persist_state"], j != "p30", j)
+
+    def test_source_ref_es_la_version_de_la_campana(self):
+        """Los commits del registro en ensayo no existen en GitHub: ningún checkout puede apuntar a ellos."""
+        for j, job in self.jobs.items():
+            if "source_ref" in (job.get("with") or {}):
+                self.assertEqual(job["with"]["source_ref"], "${{ github.sha }}", j)
+        texto = (WF / "p00-cadena.yml").read_text(encoding="utf-8")
+        self.assertNotIn("prepared_source_ref", texto)
+        self.assertNotIn("enabled_source_ref", texto)
 
     def test_espacio_de_artefactos_por_territorio(self):
         for j in ("p20", "puerta_02", "puerta_03", "p30"):
@@ -226,10 +236,21 @@ class Campana(unittest.TestCase):
         for trozo in ("needs.comprobar.outputs.publicar == 'true'", "needs.cierre_main.outputs.commit == 'true'"):
             self.assertIn(trozo, p["if"])
 
-    def test_p00_no_escribe_en_main_ni_usa_la_app(self):
-        texto = (WF / "p00-campana.yml").read_text(encoding="utf-8")
-        for prohibido in ("git push", "DDD_REGISTRO_APP", "registrar_en_main"):
-            self.assertNotIn(prohibido, texto)
+    def test_solo_el_cierre_escribe(self):
+        """3b: la app de registro solo en cierre_main; el único push directo es la rama de cierre de cierre_rama."""
+        for j, job in self.jobs.items():
+            t = json.dumps(job, ensure_ascii=False)
+            self.assertEqual("DDD_REGISTRO_APP" in t, j == "cierre_main", j)
+            self.assertNotIn("git push", t, j)
+            self.assertEqual("campana_registro.py cerrar" in t, j in ("cierre_main", "cierre_rama"), j)
+        rama = self.jobs["cierre_rama"]
+        crea = next(p for p in rama["steps"] if "git/refs" in p.get("run", ""))
+        self.assertIn('rama="p00-cierre/$GITHUB_RUN_ID"', crea["run"])
+        self.assertIn('"ref=refs/heads/$rama"', crea["run"])
+        # la rama de cierre usa GITHUB_TOKEN; el árbol de main del cierre en main, la app (sin credenciales del checkout)
+        destino = lambda job: next(p for p in self.jobs[job]["steps"] if (p.get("with") or {}).get("path") == "destino")
+        self.assertEqual(destino("cierre_main")["with"]["persist-credentials"], False)
+        self.assertEqual(destino("cierre_rama")["with"]["persist-credentials"], True)
 
     def test_humo_en_pull_request(self):
         self.assertIn("pull_request", self.doc[True])

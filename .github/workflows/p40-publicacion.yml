@@ -1,6 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 1.2.0
+# VERSIÓN: 1.2.1
+# CAMBIOS 1.2.1: T-379 PR 3b (G4, Planificador 19-11): `preparar` pide también `produccion` cuando lo llama P00 Campaña nueva
+#   (`github.workflow_ref` con `p00-campana.yml`; llamado, `github.workflow` es «P00 Campaña» y la condición de la 1.2.0 no la pedía).
+#   La 00 vieja, que también se llama «P00 Campaña», no cambia. Una frase de campaña D-52 no aprueba `produccion`. El resto, idéntico.
+# ANTERIOR (1.2.0): legacy/workflows/p40-publicacion_v1.2.0_20261119.yml
 # CAMBIOS 1.2.0: T-409 (D-172): paso «Doble vuelta de los territorios del Congreso para la V4»: `herramientas/publicar_doble_vuelta.py` baja de R2 el resultado de P75 FIJADO en
 #   configuracion/doble_vuelta_publicada.json (sin ese fichero no hace nada), verifica sha256 y escribe `v4/mapa/datos/` en el sitio candidato (datos de la doble vuelta y la geometría de los distritos, que sale del GeoJSON que este mismo P40 materializa en `datos/`, simplificada con tolerancia fija); mismas credenciales R2 que el resto, `contents: read`,
 #   sin datos en git, sin entradas nuevas. Además P40 copia `visor/v4/` completo al sitio candidato (dos líneas, junto al `cp` de V3: copia y borrado de lo listado en visor/v4/NO_PUBLICAR.txt; V2 y V3 no cambian) para que el visor V4 y su
@@ -121,7 +125,7 @@ jobs:
     name: Preparar promoción web
     needs: resolver
     if: ${{ needs.resolver.outputs.publicar == 'true' }}
-    environment: ${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == 'P40 Publicación') && 'produccion' || '' }}  # T-41: clic del propietario solo en disparo manual humano
+    environment: ${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && (github.workflow == 'P40 Publicación' || contains(github.workflow_ref, '/.github/workflows/p00-campana.yml@'))) && 'produccion' || '' }}  # T-41: clic del propietario solo en disparo manual humano
     runs-on: ubuntu-24.04
     concurrency:
       group: ddd-shared-operational-state

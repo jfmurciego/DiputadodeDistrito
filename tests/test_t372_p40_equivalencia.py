@@ -169,7 +169,8 @@ class Equivalencia(Congelado):
 
     def test_puerta_produccion_intacta(self):
         a = self.des["jobs"]["preparar_publicacion"]["environment"]
-        b = self.p["jobs"]["preparar"]["environment"]
+        from tests._t379_3b import sin_p00_en_p40  # T-379 3b (G4): también la pide P00 Campaña nueva
+        b = sin_p00_en_p40(self.p["jobs"]["preparar"]["environment"])
         self.assertEqual(b, a.replace("P50 Publicación", "P40 Publicación"))
         self.assertIn("github.workflow == 'P40 Publicación'", b)
 

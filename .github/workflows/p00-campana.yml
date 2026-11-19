@@ -9,8 +9,9 @@
 #   1. comprobar: rechaza una segunda campaña viva (D-147), reúne los hechos de campaña (CI de esta versión, R2, gasto
 #      semanal D-46), guarda el semáforo en R2 y abre el issue de la campaña. «Solo comprobar» termina aquí.
 #   2. cadena: matriz de territorios (verde y ámbar), 15 a la vez, fail-fast false → p00-cadena.yml con `contents: read`.
-#   3. cierre_main (ref main) / cierre_rama (otra ref): informe en el issue → plan del commit → objeto «cierre» en R2.
-#      Las rutas del commit y su escritura llegan con la PR 3b (G2); hasta entonces la lista es vacía y no hay commit.
+#   3. cierre_main (ref main, app de registro) / cierre_rama (otra ref, GITHUB_TOKEN a p00-cierre/<run> + PR en borrador):
+#      informe en el issue → UN commit que re-aplica sobre main lo registrado en ensayo por los sanos → objeto «cierre»
+#      en R2 (herramientas/campana_registro.py cerrar; 3b).
 #   4. publicar: P40 solo si se pidió, no es ensayo, no hay parada y el cierre hizo commit en main.
 #   5. resultado: en rojo si hay ≥1 apartado, parada o cierre pendiente (dispara la IA de cierre de P90, §7).
 # NO HACE: lanzar ejecuciones por la API, grupo de concurrencia de workflow (la segunda campaña se rechaza, no se
@@ -233,14 +234,43 @@ jobs:
       contents: read
       issues: write
     outputs:
-      commit: ${{ steps.plan.outputs.commit }}
+      commit: ${{ steps.cerrar.outputs.commit }}
     env:
       GH_TOKEN: ${{ github.token }}
       ISSUE: ${{ needs.comprobar.outputs.issue }}
-    steps: &cierre
+    steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      - name: Árbol de destino (main vigente)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 0
+          path: destino
+          persist-credentials: false
+      - name: Credencial de registro
+        shell: bash
+        working-directory: destino
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "::error::Sin la app de registro (DDD_REGISTRO_APP_*): GITHUB_TOKEN es de solo lectura (T-379 2b, D-163)."; exit 1; fi
+          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
+          echo "::add-mask::$token"
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
+                    echo "Registro con la app propia (exenta en el ruleset proteger-main)."
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - name: Informe en el issue (antes del commit, §6.2)
         shell: bash
@@ -262,8 +292,8 @@ jobs:
           else
             echo "::warning::No pude escribir el informe en el issue $ISSUE."
           fi
-      - id: plan
-        name: Plan del commit de cierre
+      - id: cerrar
+        name: Un commit con lo de los sanos y objeto «cierre» en R2 (§6.3-§6.5)
         shell: bash
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
@@ -273,31 +303,19 @@ jobs:
           R2_BUCKET: ${{ vars.R2_BUCKET }}
         run: |
           set -euo pipefail
-          # PR 3b (G2): las rutas que compone el cierre. Hasta entonces, ninguna: no hay commit.
-          python3 herramientas/campana_estado.py plan-cierre --almacen r2 --campana "$GITHUB_RUN_ID" \
+          # Re-aplica sobre el main vigente las capturas del registro en ensayo de los territorios sanos (campana_registro.py);
+          # rutas ⊆ RUTAS_ROBOT + catalogo_preparacion.yaml (D-147); idempotente por campaña y huella; tope 2 reintentos.
+          python3 herramientas/campana_registro.py cerrar --almacen r2 --campana "$GITHUB_RUN_ID" --root-dir destino \
             --ref "$GITHUB_REF" --run-id "$GITHUB_RUN_ID" > .ddd-p00/cierre.json
           cat .ddd-p00/cierre.json
-          jq -e '.commit == false' .ddd-p00/cierre.json >/dev/null \
-            || { echo "::error::CIERRE_SIN_ESCRITOR: hay ficheros que commitear y el escritor del cierre llega con la PR 3b."; exit 1; }
           {
-            echo "commit=false"
-            echo "huella=$(jq -r .huella .ddd-p00/cierre.json)"
+            echo "commit=$(jq -r .commit .ddd-p00/cierre.json)"
+            echo "sha=$(jq -r '.sha // empty' .ddd-p00/cierre.json)"
             echo "rama=$(jq -r .rama .ddd-p00/cierre.json)"
           } >> "$GITHUB_OUTPUT"
-      - name: Objeto «cierre» en R2 (tras el commit, §6.5)
+      - name: Informe entregado
         shell: bash
-        env:
-          HUELLA: ${{ steps.plan.outputs.huella }}
-          RAMA: ${{ steps.plan.outputs.rama }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: auto
-          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
-          R2_BUCKET: ${{ vars.R2_BUCKET }}
         run: |
-          set -euo pipefail
-          python3 herramientas/campana_estado.py registrar-cierre --almacen r2 --campana "$GITHUB_RUN_ID" \
-            --huella "$HUELLA" --rama "$RAMA"
           [[ -f .ddd-p00/issue_ok ]] || { echo "::error::El informe no llegó al issue: cierre en rojo (§6.2)."; exit 1; }
 
   cierre_rama:
@@ -311,11 +329,91 @@ jobs:
       pull-requests: write
       issues: write
     outputs:
-      commit: ${{ steps.plan.outputs.commit }}
+      commit: ${{ steps.cerrar.outputs.commit }}
     env:
       GH_TOKEN: ${{ github.token }}
       ISSUE: ${{ needs.comprobar.outputs.issue }}
-    steps: *cierre
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Árbol de destino (main vigente)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 0
+          path: destino
+          persist-credentials: true
+      - name: Rama de cierre desde main (§10)
+        shell: bash
+        working-directory: destino
+        run: |
+          set -euo pipefail
+          # §10: la validación desde rama escribe en p00-cierre/<run> con GITHUB_TOKEN, nunca en main (lo impide el ruleset
+          # proteger-main). La rama se crea desde el main del checkout por la API; el commit lo hace el paso siguiente.
+          rama="p00-cierre/$GITHUB_RUN_ID"
+          if ! gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/$rama" >/dev/null 2>&1; then
+            gh api -X POST "repos/$GITHUB_REPOSITORY/git/refs" -f "ref=refs/heads/$rama" -f "sha=$(git rev-parse HEAD)" >/dev/null
+          fi
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Informe en el issue (antes del commit, §6.2)
+        shell: bash
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-p00
+          python3 herramientas/campana_estado.py informe --almacen r2 --campana "$GITHUB_RUN_ID" > .ddd-p00/informe.md
+          cat .ddd-p00/informe.md >> "$GITHUB_STEP_SUMMARY"
+          # Si la API del issue falla, el cierre sigue y termina en rojo al final (§6.2).
+          if [[ -n "$ISSUE" ]] && jq -n --rawfile b .ddd-p00/informe.md '{body: $b}' \
+              | gh api -X POST "repos/$GITHUB_REPOSITORY/issues/$ISSUE/comments" --input - >/dev/null; then
+            echo ok > .ddd-p00/issue_ok
+          else
+            echo "::warning::No pude escribir el informe en el issue $ISSUE."
+          fi
+      - id: cerrar
+        name: Un commit con lo de los sanos y objeto «cierre» en R2 (§6.3-§6.5)
+        shell: bash
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          # Re-aplica sobre el main vigente las capturas del registro en ensayo de los territorios sanos (campana_registro.py);
+          # rutas ⊆ RUTAS_ROBOT + catalogo_preparacion.yaml (D-147); idempotente por campaña y huella; tope 2 reintentos.
+          python3 herramientas/campana_registro.py cerrar --almacen r2 --campana "$GITHUB_RUN_ID" --root-dir destino \
+            --ref "$GITHUB_REF" --run-id "$GITHUB_RUN_ID" > .ddd-p00/cierre.json
+          cat .ddd-p00/cierre.json
+          {
+            echo "commit=$(jq -r .commit .ddd-p00/cierre.json)"
+            echo "sha=$(jq -r '.sha // empty' .ddd-p00/cierre.json)"
+            echo "rama=$(jq -r .rama .ddd-p00/cierre.json)"
+          } >> "$GITHUB_OUTPUT"
+      - name: PR en borrador hacia main, sin fusionar (D-147)
+        if: ${{ steps.cerrar.outputs.commit == 'true' }}
+        shell: bash
+        env:
+          RAMA: ${{ steps.cerrar.outputs.rama }}
+        run: |
+          set -euo pipefail
+          cuerpo="Validación de P00 Campaña (run $GITHUB_RUN_ID). Solo para ver la diferencia: **no se fusiona** (D-147, §10)."
+          n="$(jq -n --arg h "$RAMA" --arg t "P00 Campaña · validación $GITHUB_RUN_ID" --arg b "$cuerpo" \
+            '{title: $t, head: $h, base: "main", body: $b, draft: true}' \
+            | gh api -X POST "repos/$GITHUB_REPOSITORY/pulls" --input - --jq .number)"
+          gh api -X POST "repos/$GITHUB_REPOSITORY/issues/$n/labels" -f "labels[]=no-automerge" >/dev/null
+          echo "PR #$n en borrador con no-automerge."
+      - name: Informe entregado
+        shell: bash
+        run: |
+          [[ -f .ddd-p00/issue_ok ]] || { echo "::error::El informe no llegó al issue: cierre en rojo (§6.2)."; exit 1; }
 
   publicar:
     name: Publicación

@@ -293,6 +293,8 @@ class Estructura(unittest.TestCase):
 
     def test_puerta_produccion_intacta(self):
         job = yaml.safe_load(P50.read_text(encoding="utf-8"))["jobs"]["preparar"]
+        from tests._t379_3b import sin_p00_en_p40  # T-379 3b (G4): también la pide P00 Campaña nueva
+        job["environment"] = sin_p00_en_p40(job["environment"])
         self.assertEqual(job["environment"], "${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == 'P40 Publicación') && 'produccion' || '' }}")
 
 
