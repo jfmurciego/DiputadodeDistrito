@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.68
-Fecha: 2026-11-18
+Versión: 1.0.69
+Fecha: 2026-11-19
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-171 (doble vuelta ya, paso aparte tras P32, archivo en origen), D-172 (visor de la doble vuelta, #905); T-409 y T-413
-Anterior: legacy/docs/PLAN_v1.0.67_20261118.md
+Cambios/motivo: D-173 a D-176 (V4 con portada de Vanesa, diseño aprobado, vídeo en bucket público aparte, limpieza de R2); T-409 alias, T-379 relevo, T-415
+Anterior: legacy/docs/PLAN_v1.0.68_20261119.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -314,6 +314,11 @@ Fase 4 — producto (en el privado):
 - D-166 (17-11, propietario). Diseño de T-313 (#898) aprobado con sus 11 recomendaciones: ventana tras la noche del 29-11 y T-379 PR 3 (regenerar las 71); `modulos/p21_base_poblacion.py` … `p32_resultados_distrito.py` y `ddd_core/p24_*`, `p25_*`, `p26_schema`; `git mv` con `ANTERIOR:` y copia en `legacy/` solo de los 8 módulos y las huellas; prefijos en JSON con `normalizar_prefijo` en lectores; alias permanente de `ddd-minimo-…-M06/M08` y solo lectura sin reutilización de `ddd-state-…`; nombre nuevo de productos solo al regenerar; Deslinde sin tocar (adaptador en `ddd_motor2`); carpetas R2 con D-131; `pre_m04` → `pre_p24`; congelación solo de la capa en curso; visor: texto y constantes, `kind` solo con alias.
 - D-169 (17-11, propietario, literal en el chat del Coordinador): «Fusiona #898, #900, #902, #899, #901 y todas las PR de diseño y plan que te pase el Planificador hasta el 30-11, con CI verde y revisor conforme.» No incluye #888, #892 ni lanzar o publicar.
 - D-171 (17-11, propietario). La doble vuelta se implementa ya, como paso aparte tras P32 (`herramientas/doble_vuelta.py`, #904), sin tocar el cálculo del ganador actual. Lee la tabla por partido y distrito que 07 ya escribe. Esa tabla se archiva en origen en R2, en el mismo job y con sha256, dentro de la PR de enganche a P30 tras la 2b (#899); nunca con un archivista posterior. Los territorios publicados necesitan regenerarse para tener votos por partido; recomendación: una sola regeneración tras el 29-11 junto con T-313.
+- D-173 (19-11, propietario). La doble vuelta y la portada van a una V4 nueva (`visor/v4/`), con la portada de Vanesa (autora; «Nessa» en los ficheros) como entrada y el mapa de T-413; la V3 no se toca (cambia el punto 3 de D-172). Permiso de la autora: decisión literal del propietario («Vanesa me los ha entregado para que los publique yo, tengo todo su permiso y su intención»). Originales en `docs/ESTUDIOS/T415_V4_PORTADA/` (#908, #916), sin enlaces privados.
+- D-174 (19-11, propietario; diseño 2.0.1 de T-415, #909). V4 en `/v4/`, en paralelo a la V3; versión `web/` por ficheros; imágenes generadas con IA, aportadas por la autora y asumidas por el propietario, con nota de origen; matriz jurídica fuera de la V4 inicial (tarea aparte con cotejo oficial); portada oscura y mapa según T-413; catálogo DOI en el estudio hasta Zenodo; «metodología» solo a lo publicado; vídeo con póster, subtítulos y transcripción, URL configurable. Textos de protección jurídica y reserva de acciones: de trabajo hasta revisión.
+- D-175 (19-11, propietario). Vídeo de presentación en un bucket R2 aparte y público, solo para vídeos, con subdominio propio; el bucket de trabajo sigue privado.
+- D-176 (19-11, propietario). Limpieza de R2 en tres pasos: (a) inventario de solo lectura (P70 «listar», lo lanza el Operador con frase del propietario); (b) cruce de cada carpeta con su uso y propuesta borrar/renombrar/conservar (enlaza con D-131); (c) borrado por el Operador con permiso del propietario, nunca antes de la regeneración posterior al 29-11.
+- D-177 (19-11, Planificador, criterio técnico). Doble vuelta: tabla de alias id de fuente → partido homologado derivada de `datos/homologacion_siglas/` (#914; 100 % de votos 2011-2023; «LA IZQUIERDA PLURAL» 2011 declarada, sin efecto de bloque); la regeneración no empieza sin #911, #914 y el `--alias` en P30. En campaña, P30 archiva en R2 en el mismo job y solo se salta el registro en main (opción A de T-379); el modo de inicio de P20 es una opción de la campaña (por defecto «Generar desde fuente territorial acreditada»); la campaña no publica salvo opción expresa del propietario (por defecto «No publicar») y siempre con la aprobación de `produccion`.
 - D-172 (18-11, propietario; diseño de T-413, #905). Visor V3: la doble vuelta es lo principal, por defecto «Tres bloques» (dv_A); botones «Tres bloques», «Dos bloques», «Sin coaliciones» y «Más votado» (la mayoría simple queda secundaria, para comparar); coloreado por bloque, con alternativa por partido; modo oscuro solo en lo nuevo; línea de comparación entre reglas en la ficha; ventaja pequeña < 5 puntos; bloque y votos por partido de dv_A en el detalle (T-409); aviso fijo «simulación sin valor oficial». Publicar, decisión aparte.
 - D-170 (17-11, propietario). Doble vuelta: unio.cat en Nacionalistas; JXC, JxG, CCD y CCD-CI sin bloque (abstención); T-409 comprueba con los datos que no cambian ningún ganador antes de implementar.
 - D-168 (17-11, propietario; diseño de T-409, #901). Escenarios: A = los tres bloques coaligados a la vez; B («4») = solo Izquierdas y Patriotas, nacionalistas por partido; `dv_base` = doble vuelta sin coaliciones. PP en Patriotas. Dudosos: Cs, UPyD, EXISTE, PAR, CpM, Caballas, MDyC, PACMA, PIRATA y PT sin bloque; UPN/Navarra Suma, FAC y FE en Patriotas; PRC, Adelante Andalucía y Ahora Canarias en Nacionalistas; En Marea, CHA-IU, Verdes/LV-GV en Izquierdas; JXC, JxG, unio.cat y CCD, a desambiguar con la fuente; resto de menores sin bloque (abstención). Base: votos a candidaturas; empate alfabético con marca; dos finalistas del mismo bloque → al más votado; solo Congreso; campo `bloque_ddd`.
@@ -442,7 +447,10 @@ Fase 4 — producto (en el privado):
 | T-410 | Actualización del plan 1.0.66 | HECHA (#902) |
 | T-411 | Permisos de comunicación entre sesiones sin pregunta (`.claude/settings.json`, lista cerrada de 6 y test) | REVISIÓN (#900) |
 | T-413 | Visor V3 con escenarios de doble vuelta (D-172): diseño (#905) e implementación; sin publicar | EN CURSO |
-| T-414 | Actualización del plan 1.0.68 | REVISIÓN (esta PR) |
+| T-415 | V4: portada de Vanesa + mapa con doble vuelta (D-173, D-174): originales (#908, #916), diseño (#909) e implementación en `visor/v4/`; sin publicar | EN CURSO |
+| T-416 | Limpieza de R2 (D-176): inventario, propuesta y borrado con permiso | PENDIENTE (paso a: Operador) |
+| T-417 | Actualización del plan 1.0.69 | REVISIÓN (esta PR) |
+| T-414 | Actualización del plan 1.0.68 | HECHA (#906) |
 | T-412 | Actualización del plan 1.0.67 | HECHA (#903) |
 | T-406 | Actualización del plan 1.0.63 | HECHA (#891) |
 | T-404 | Actualización del plan 1.0.62 y traspaso del Planificador | HECHA (#887) |
