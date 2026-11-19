@@ -1,6 +1,6 @@
 # T-415 · V4: portada final de la autora + mapa con doble vuelta — diseño (solo documento)
 
-VERSIÓN: 2.0.0 · FECHA: 2026-11-19 · ESTADO: propuesto (pendiente de aprobación del propietario) · ANTERIOR: 1.0.1 (misma PR, sin fusionar; estaba hecha sobre la primera entrega)
+VERSIÓN: 2.0.1 · FECHA: 2026-11-19 · ESTADO: propuesto (pendiente de aprobación del propietario) · ANTERIOR: 2.0.0 (misma PR, sin fusionar)
 
 Decisión del propietario (19-11): `visor/v4/` es la versión nueva completa: portada de entrada y mapa con la doble vuelta de T-413 (D-172). V3 no se toca.
 Base de este diseño: la **versión final** de la autora, rama `planificador/t415-v4-final`, `docs/ESTUDIOS/T415_V4_PORTADA/final/` (`LEEME_PARA_JESUS.md`, `web/`, `COMPROBACIONES.json`, `SHA256SUMS`; notas en `PROCEDENCIA.md`).
@@ -53,7 +53,7 @@ Se respetan los nombres y rutas relativas de la autora: la hoja de estilos es la
 - Hueco en la portada, bajo el título: bloque «Presentación» con póster estático (primera imagen o el WebP del Congreso), botón «Ver el vídeo» y enlace de texto equivalente.
 - **URL configurable**: un solo valor (`video.json` o constante) que el propietario edita; vacío = el bloque no se pinta (nada roto). Si la URL es de un servicio de terceros, el vídeo se abre en pestaña nueva o se incrusta solo tras pulsar (sin cargar el reproductor ni cookies de terceros al abrir la página; coherente con `test_visor_sin_terceros` y D-104). Sin autoplay ni sonido automático.
 - Accesibilidad: subtítulos y transcripción enlazados (los pone el propietario con el vídeo); `prefers-reduced-motion`: sin reproducción automática (ya no la hay).
-- Alojamiento: decisión aparte del propietario. Nada de 150 MB en git ni en el sitio.
+- Alojamiento (decisión del propietario, 19-11): vídeo ya subido a R2, en la carpeta nueva de vídeos, con póster y subtítulos. **Búsqueda en el repositorio** (workflows, `configuracion/`, `docs/`, `visor/`): R2 solo se usa por la API S3 con credenciales (`https://<R2_ACCOUNT_ID>.r2.cloudflarestorage.com`, `R2_BUCKET`; `p70-archivo.yml`); no hay dominio propio, URL `r2.dev`, CDN ni cabeceras/CSP de medios documentados. Conclusión: **no consta que el bucket se sirva en público**, y esa URL privada no sirve para el visor. Opciones en la pregunta 5. La URL del vídeo y la de póster/subtítulos quedan configurables.
 
 ## 7. Origen y licencia de las 3 imágenes WebP
 
@@ -90,7 +90,7 @@ Orden de PR (una por capa; ninguna lanza ni publica; el propietario aprueba este
 2. ¿`web/` o autónoma? **Recomiendo** `web/` (§2); la autónoma solo como copia de revisión.
 3. ¿Origen y licencia de las 3 imágenes WebP? Hoy: generadas con IA, aportadas por Nessa/Vanesa, sin licencia abierta ni cesión. **Recomiendo** que el propietario confirme (a) quién las generó y con qué herramienta, (b) que asume el uso, (c) el nombre correcto de la autora; publicar con `NOTICE.md` sin la URL privada; si hay dudas, sustituir el logotipo y el mapa por ilustraciones propias o CC0 y dejar el Congreso para después.
 4. ¿La matriz jurídica de la primera entrega se retoma? **Recomiendo** no en la V4 inicial; retomarla como tarea aparte con cotejo oficial.
-5. ¿Dónde se aloja el vídeo de ≈ 150 MB? Decisión del propietario. **Recomiendo** un alojamiento de vídeo externo sin cookies de terceros al cargar (o un release/R2 propio con póster y subtítulos); la URL queda configurable y vacía hasta entonces.
+5. ¿Cómo se sirve en público el vídeo de R2 (póster y subtítulos incluidos)? Hoy no consta ninguna URL pública. Opciones: (a) **dominio propio** enlazado al bucket (p. ej. `media.diputadodedistrito.es`), con HTTPS, caché y rangos de bytes para el vídeo; (b) URL pública `r2.dev` activada en el bucket, sin dominio ni caché, limitada y no pensada para producción. **Recomiendo (a)**, con un bucket o prefijo solo de lectura pública para `videos/` (el resto del bucket, de archivo, sigue privado), y comprobar que `Content-Type` y `Accept-Ranges` son correctos. Mientras tanto, la URL queda vacía y el bloque no se pinta. El propietario confirma bucket, carpeta y nombre del dominio; implementarlo toca Cloudflare, no el repositorio.
 6. ¿Un solo tema o portada oscura + mapa T-413 claro/oscuro? **Recomiendo** no forzar: portada oscura de la autora, mapa según T-413.
 7. ¿Se mueven `generar_catalogo.py` y la plantilla CSV a `herramientas/`? **Recomiendo** sí cuando haya DOI reales (Zenodo); hasta entonces quedan en el estudio.
 8. ¿Qué se enlaza como «metodología» publicada? **Recomiendo** solo lo ya publicado en el repositorio; si no hay página, omitir la tarjeta.
