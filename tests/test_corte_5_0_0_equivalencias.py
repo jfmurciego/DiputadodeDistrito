@@ -84,6 +84,10 @@ class Equivalencias(unittest.TestCase):
     def test_nombres_visibles_unicos_y_con_codigo_v5(self):
         """Lista de Actions: cada flujo del corte con código de fase o ARC/Interno, sin nombres repetidos."""
         nombres = _nombres()
+        # Única excepción (T-379 PR 3, diseño T-378 §9): P00 nueva y la 00 se llaman «P00 Campaña» mientras convivan
+        # (el disparo de P90 por nombre sirve para las dos); la PR de retirada borra la 00.
+        self.assertEqual(nombres.get("p00-campana.yml"), nombres["ejecucion-completa-proyecto.yml"])
+        nombres = {f: n for f, n in nombres.items() if f != "p00-campana.yml"}
         self.assertEqual(len(set(nombres.values())), len(nombres), "dos flujos con el mismo nombre visible")
         for fich, _, flujo, nombre_v5 in gen.FLUJOS:
             self.assertTrue(nombre_v5.lstrip("_").startswith(flujo.split(" ")[0]), fich)

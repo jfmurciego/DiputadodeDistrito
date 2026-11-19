@@ -156,6 +156,7 @@ class CodautoPreparationContractTests(unittest.TestCase):
                 "activacion-por-eleccion.yml",
                 "ejecucion-completa-proyecto.yml",
                 "gestor-campanas.yml",
+                "p00-campana.yml",  # T-379 PR 3: P00 Campaña nueva (convive con la 00 hasta la PR de retirada)
                 "p10-fuentes.yml",  # T-375: P10 Fuentes (sustituye a preparacion-fuentes y preparacion-resultados-electorales; el selector de territorio ya no existe)
                 "p20-distritos.yml",  # T-377: P20 Distritos (sustituye a la 02); P28 Alternativas retirada
                 "p30-resultados-electorales.yml",  # T-376: P30 Resultados electorales (sustituye a la incorporación electoral y su reutilizable)

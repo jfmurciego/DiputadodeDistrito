@@ -1,0 +1,385 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: cadena de un territorio de P00 Campaña (sin botón; solo la llama p00-campana.yml)
+# VERSIÓN: 1.0.0 · FECHA: 2026-11-19 · ESTADO: candidato
+# ANTERIOR: ninguna (fichero nuevo)
+# CAMBIOS 1.0.0: T-379 PR 3 (diseño T-378 1.1.4 §3, §4 y §5; G1 del Planificador, 19-11): fichero nuevo.
+# MOTIVO: D-130/D-140, una campaña = una ejecución; P00 llama a P10, P20 y P30 por dentro como reutilizables.
+# QUÉ HACE: un territorio, EN SERIE (un solo job ocupado a la vez, §3):
+#   plan (empezar P10 y plan) → P11 → puerta 01 → P12 → cerrar P10 + empezar P20 → acreditar (si el plan lo pide) → P20 →
+#   puerta 02 → cerrar P20 + empezar P30 → puerta 03 → P30 → cerrar P30.
+#   Cada «empezar» consulta la parada sistémica y deja la marca `sin_resultado` en R2; cada «cerrar» escribe ok o
+#   apartado con su causa (herramientas/campana_estado.py, PR 1 + PR 3) y la salida `sano`. Todo job con predecesor
+#   lleva `!cancelled()` y exige el éxito y `sano == 'true'` del anterior: un territorio apartado salta el resto sin
+#   poner la matriz en rojo ni tocar a los demás.
+#   Inicio (D-130, opción de la campaña en español): «Reutilizar progreso existente», «Generar desde fuente territorial
+#   acreditada» (por defecto) o «Ejecutar desde el principio»; motor2 y Canónico fijos; edición y años del plan de la
+#   legislatura vigente; contrato de herramientas/resolver_ejecucion_completa.py (sin el «Planificar» de la 00).
+#   `artifact_namespace = campaign-<run>-1--01--<territorio>` en P20 y P30 (formato que acepta la puerta 02): la matriz
+#   comparte run_id y los nombres de artefacto chocarían.
+# NO HACE: escribir en main (P10-P30 reciben `campana` y saltan sus registros, T-379 2b), lanzar ejecuciones por la
+#   API ni publicar. El archivo en origen del M08 y la tabla por partido con campaña (opción A) llegan tras #911.
+name: _P00 Campaña — cadena de un territorio
+
+on:
+  workflow_call:
+    inputs:
+      campana: {required: true, type: string}       # id de campaña = run_id de P00
+      territorio: {required: true, type: string}    # código de la tabla maestra (aut11, nac22)
+      eleccion_p12: {required: false, type: string, default: ''}  # '' = vigente; «ensayo 2026-11-29» en el ensayo
+      inicio: {required: false, type: string, default: 'Generar desde fuente territorial acreditada'}
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  plan:
+    name: Plan y empezar P10
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    outputs:
+      sano: ${{ steps.empezar.outputs.sano }}
+      territory_id: ${{ steps.plan.outputs.territory_id }}
+      territory_name: ${{ steps.plan.outputs.territory_name }}
+      edition: ${{ steps.plan.outputs.edition }}
+      population_year: ${{ steps.plan.outputs.population_year }}
+      section_year: ${{ steps.plan.outputs.section_year }}
+      contract_path: ${{ steps.plan.outputs.contract_path }}
+      acreditar: ${{ steps.plan.outputs.acreditar }}
+      reutilizar: ${{ steps.plan.outputs.reutilizar }}
+      modo_p20: ${{ steps.plan.outputs.modo_p20 }}
+      ns: ${{ steps.plan.outputs.ns }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: empezar
+        name: Empezar P10 (parada sistémica y marca sin_resultado en R2)
+        shell: bash
+        env:
+          CAMPANA: ${{ inputs.campana }}
+          TERRITORIO: ${{ inputs.territorio }}
+          INTENTO: ${{ github.run_attempt }}
+          PASO: P10
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: &empezar |
+          set -euo pipefail
+          rc=0
+          python3 herramientas/campana_estado.py empezar --almacen "${ALMACEN:-r2}" --campana "$CAMPANA" --territorio "$TERRITORIO" \
+            --paso "$PASO" --intento "$INTENTO" || rc=$?
+          case "$rc" in
+            0) echo "sano=true" >> "$GITHUB_OUTPUT" ;;
+            10) echo "::warning::Parada sistémica: $TERRITORIO no empieza $PASO."; echo "sano=false" >> "$GITHUB_OUTPUT" ;;
+            *) exit "$rc" ;;
+          esac
+
+      - id: plan
+        name: Plan del territorio
+        if: ${{ steps.empezar.outputs.sano == 'true' }}
+        shell: bash
+        env:
+          TERRITORIO: ${{ inputs.territorio }}
+          INICIO: ${{ inputs.inicio }}
+        run: |
+          set -euo pipefail
+          case "$INICIO" in
+            "Reutilizar progreso existente") modo=reuse; reutilizar=true; modo_p20="Reutilizar progreso existente" ;;
+            "Generar desde fuente territorial acreditada") modo=catalog_source; reutilizar=true; modo_p20="Ejecutar desde el principio" ;;
+            "Ejecutar desde el principio") modo=from_start; reutilizar=false; modo_p20="Ejecutar desde el principio" ;;
+            *) echo "::error::Inicio no reconocido: $INICIO"; exit 2 ;;
+          esac
+          leg="$(python3 herramientas/resolver_preparacion_legislatura.py --root-dir . --territory "$TERRITORIO")"
+          fila="$(jq -ce '.plans | if length == 1 then .[0] else error("se esperaba un territorio") end' <<<"$leg")"
+          edicion="$(jq -r .project_edition <<<"$fila")"
+          mkdir -p .ddd-cadena
+          python3 -m herramientas.resolver_ejecucion_completa --territory "$TERRITORIO" --edition "$edicion" \
+            --execution-mode "$modo" --optimization-algorithm Canónico --root-dir . --output .ddd-cadena/plan.json >/dev/null
+          plan=.ddd-cadena/plan.json
+          {
+            echo "territory_id=$(jq -r .territory_id "$plan")"
+            echo "territory_name=$(jq -r .territory_name "$plan")"
+            echo "edition=$edicion"
+            echo "population_year=$(jq -r .population_year_selected <<<"$fila")"
+            echo "section_year=$(jq -r .section_year_selected <<<"$fila")"
+            echo "contract_path=$(jq -r '.contract_path // empty' "$plan")"
+            echo "acreditar=$(jq -r '.pre_m04_accreditation_planned == true' "$plan")"
+            echo "reutilizar=$reutilizar"
+            echo "modo_p20=$modo_p20"
+            # Espacio de artefactos en el formato de campaña que acepta la puerta 02 (validar_puerta_ejecucion.py,
+            # CAMPAIGN_ARTIFACT_NAMESPACE_RE): run de P00, intento fijo 1 (los artefactos de P20 no cambian de nombre
+            # al re-ejecutar), hueco 01 y el id canónico. Con `aut11` a secas la puerta daba
+            # NOMBRE_ARTEFACTO_NO_COINCIDE_CON_RUN (humo 44609048607).
+            echo "ns=campaign-$GITHUB_RUN_ID-1--01--$(jq -r .territory_id "$plan")"
+          } | tee -a "$GITHUB_OUTPUT"
+  p11:
+    name: P11 Territoriales
+    needs: plan
+    if: ${{ !cancelled() && needs.plan.result == 'success' && needs.plan.outputs.sano == 'true' }}
+    uses: ./.github/workflows/p10-fuentes.yml
+    secrets: inherit
+    with:
+      campana: ${{ inputs.campana }}
+      tipo: territoriales
+      territory_id: ${{ needs.plan.outputs.territory_id }}
+      data_edition: ${{ needs.plan.outputs.edition }}
+      population_year: ${{ needs.plan.outputs.population_year }}
+      section_year: ${{ needs.plan.outputs.section_year }}
+      reutilizar_si_ya_preparada: ${{ needs.plan.outputs.reutilizar == 'true' }}
+      persist_state: false
+
+  puerta_01:
+    name: Puerta 01 → 02
+    needs: [plan, p11]
+    if: ${{ !cancelled() && needs.p11.result == 'success' }}
+    uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
+    secrets: inherit
+    with:
+      phase: territorial_source
+      territory_id: ${{ needs.plan.outputs.territory_id }}
+      data_edition: ${{ needs.plan.outputs.edition }}
+      run_id: ${{ github.run_id }}
+      artifact_name: ${{ needs.p11.outputs.artifact_name }}
+      source_ref: ${{ needs.p11.outputs.prepared_source_ref }}
+
+  p12:
+    name: P12 Electorales
+    needs: [plan, p11, puerta_01]
+    if: ${{ !cancelled() && needs.puerta_01.result == 'success' }}
+    uses: ./.github/workflows/p10-fuentes.yml
+    secrets: inherit
+    with:
+      campana: ${{ inputs.campana }}
+      tipo: electorales
+      territory_id: ${{ needs.plan.outputs.territory_id }}
+      data_edition: ${{ needs.plan.outputs.edition }}
+      eleccion: ${{ inputs.eleccion_p12 }}
+      reutilizar_si_ya_preparada: ${{ needs.plan.outputs.reutilizar == 'true' }}
+      source_ref: ${{ needs.p11.outputs.prepared_source_ref }}
+      persist_state: false
+      allow_source_gap_success: true
+
+  cerrar_p10:
+    name: Cerrar P10 y empezar P20
+    needs: [plan, p11, puerta_01, p12]
+    if: ${{ !cancelled() && needs.plan.outputs.sano == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    outputs:
+      sano: ${{ steps.empezar.outputs.sano || steps.cerrar.outputs.sano }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: cerrar
+        name: Cerrar P10 en R2
+        shell: bash
+        env:
+          CAMPANA: ${{ inputs.campana }}
+          TERRITORIO: ${{ inputs.territorio }}
+          INTENTO: ${{ github.run_attempt }}
+          PASO: P10
+          RESULTADOS: ${{ format('{{"plan":"{0}","p11":"{1}","puerta_01":"{2}","p12":"{3}"}}', needs.plan.result, needs.p11.result, needs.puerta_01.result, needs.p12.result) }}
+          OBLIGATORIOS: plan p11 puerta_01 p12
+          HUELLAS: ${{ format('{{"paquete_territorial":"{0}","paquete_electoral":"{1}"}}', needs.p11.outputs.artifact_digest, needs.p12.outputs.artifact_digest) }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: &cerrar |
+          set -euo pipefail
+          args=()
+          for j in $OBLIGATORIOS; do args+=(--obligatorio "$j"); done
+          out="$(python3 herramientas/campana_estado.py cerrar-paso --almacen "${ALMACEN:-r2}" --campana "$CAMPANA" --territorio "$TERRITORIO" \
+            --paso "$PASO" --intento "$INTENTO" --resultados "$RESULTADOS" --huellas "$HUELLAS" "${args[@]}")"
+          echo "$out"
+          echo "sano=$(jq -r .sano <<<"$out")" >> "$GITHUB_OUTPUT"
+      - id: empezar
+        name: Empezar P20 (parada sistémica y marca sin_resultado en R2)
+        if: ${{ steps.cerrar.outputs.sano == 'true' }}
+        shell: bash
+        env:
+          CAMPANA: ${{ inputs.campana }}
+          TERRITORIO: ${{ inputs.territorio }}
+          INTENTO: ${{ github.run_attempt }}
+          PASO: P20
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: *empezar
+
+  acreditar:
+    name: P20 acreditar habilitación previa
+    needs: [plan, p11, cerrar_p10]
+    if: ${{ !cancelled() && needs.cerrar_p10.result == 'success' && needs.cerrar_p10.outputs.sano == 'true' && needs.plan.outputs.acreditar == 'true' }}
+    uses: ./.github/workflows/p20-distritos.yml
+    secrets: inherit
+    with:
+      campana: ${{ inputs.campana }}
+      params: ${{ needs.plan.outputs.contract_path }}
+      mode: execute
+      from_stage: TERRITORY_PREPARATION
+      to_stage: DISTRICT_FORMATION
+      source_package_run_id: ${{ github.run_id }}
+      source_package_artifact_name: ${{ needs.p11.outputs.artifact_name }}
+      execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
+      source_ref: ${{ needs.p11.outputs.prepared_source_ref }}
+      persist_state: false
+      preflight_only: true
+
+  p20:
+    name: P20 Distritos
+    needs: [plan, p11, puerta_01, cerrar_p10, acreditar]
+    if: ${{ !cancelled() && needs.cerrar_p10.result == 'success' && needs.cerrar_p10.outputs.sano == 'true' && (needs.acreditar.result == 'success' || (needs.acreditar.result == 'skipped' && needs.plan.outputs.acreditar != 'true')) }}
+    uses: ./.github/workflows/p20-distritos.yml
+    secrets: inherit
+    with:
+      campana: ${{ inputs.campana }}
+      territory_id: ${{ needs.plan.outputs.territory_name }}
+      data_edition: ${{ needs.plan.outputs.edition }}
+      execution_mode: ${{ needs.plan.outputs.modo_p20 }}
+      optimization_algorithm: Canónico
+      motor: motor2
+      source_package_run_id: ${{ github.run_id }}
+      source_package_artifact_name: ${{ needs.puerta_01.outputs.artifact_name }}
+      source_package_artifact_sha256: ${{ needs.puerta_01.outputs.artifact_digest }}
+      source_ref: ${{ needs.acreditar.result == 'success' && needs.acreditar.outputs.enabled_source_ref || needs.p11.outputs.prepared_source_ref }}
+      persist_state: false
+      require_generation_gate: true
+      artifact_namespace: ${{ needs.plan.outputs.ns }}
+
+  puerta_02:
+    name: Puerta 02 → 03
+    needs: [plan, p11, acreditar, p20]
+    if: ${{ !cancelled() && needs.p20.result == 'success' }}
+    uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
+    secrets: inherit
+    with:
+      phase: territorial_product
+      territory_id: ${{ needs.plan.outputs.territory_id }}
+      data_edition: ${{ needs.plan.outputs.edition }}
+      run_id: ${{ github.run_id }}
+      artifact_name: ${{ format('ddd-state-{0}-M06-{1}', github.run_id, needs.plan.outputs.ns) }}
+      audit_artifact_name: ${{ format('ddd-audit-{0}-{1}', github.run_id, needs.plan.outputs.ns) }}
+      artifact_namespace: ${{ needs.plan.outputs.ns }}
+      source_ref: ${{ needs.acreditar.result == 'success' && needs.acreditar.outputs.enabled_source_ref || needs.p11.outputs.prepared_source_ref }}
+
+  cerrar_p20:
+    name: Cerrar P20 y empezar P30
+    needs: [plan, cerrar_p10, acreditar, p20, puerta_02]
+    if: ${{ !cancelled() && needs.cerrar_p10.result == 'success' && needs.cerrar_p10.outputs.sano == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    outputs:
+      sano: ${{ steps.empezar.outputs.sano || steps.cerrar.outputs.sano }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: cerrar
+        name: Cerrar P20 en R2
+        shell: bash
+        env:
+          CAMPANA: ${{ inputs.campana }}
+          TERRITORIO: ${{ inputs.territorio }}
+          INTENTO: ${{ github.run_attempt }}
+          PASO: P20
+          RESULTADOS: ${{ format('{{"acreditar":"{0}","p20":"{1}","puerta_02":"{2}"}}', needs.acreditar.result, needs.p20.result, needs.puerta_02.result) }}
+          OBLIGATORIOS: p20 puerta_02
+          HUELLAS: ${{ format('{{"m06":"{0}"}}', needs.puerta_02.outputs.artifact_digest) }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: *cerrar
+      - id: empezar
+        name: Empezar P30 (parada sistémica y marca sin_resultado en R2)
+        if: ${{ steps.cerrar.outputs.sano == 'true' }}
+        shell: bash
+        env:
+          CAMPANA: ${{ inputs.campana }}
+          TERRITORIO: ${{ inputs.territorio }}
+          INTENTO: ${{ github.run_attempt }}
+          PASO: P30
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: *empezar
+
+  puerta_03:
+    name: Puerta 03 → 04
+    needs: [plan, p11, acreditar, p12, cerrar_p20]
+    if: ${{ !cancelled() && needs.cerrar_p20.result == 'success' && needs.cerrar_p20.outputs.sano == 'true' }}
+    uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
+    secrets: inherit
+    with:
+      phase: electoral_source
+      territory_id: ${{ needs.plan.outputs.territory_id }}
+      data_edition: ${{ needs.plan.outputs.edition }}
+      run_id: ${{ github.run_id }}
+      artifact_name: ${{ needs.p12.outputs.artifact_name }}
+      source_ref: ${{ needs.acreditar.result == 'success' && needs.acreditar.outputs.enabled_source_ref || needs.p11.outputs.prepared_source_ref }}
+      artifact_namespace: ${{ needs.plan.outputs.ns }}
+
+  p30:
+    name: P30 Resultados electorales
+    needs: [plan, p11, acreditar, puerta_02, puerta_03]
+    if: ${{ !cancelled() && needs.puerta_03.result == 'success' }}
+    uses: ./.github/workflows/p30-resultados-electorales.yml
+    secrets: inherit
+    with:
+      campana: ${{ inputs.campana }}
+      territory_id: ${{ needs.plan.outputs.territory_name }}
+      data_edition: ${{ needs.plan.outputs.edition }}
+      territorial_run_id: ${{ needs.puerta_02.outputs.run_id }}
+      territorial_product_artifact_name: ${{ needs.puerta_02.outputs.artifact_name }}
+      territorial_audit_artifact_name: ${{ format('ddd-audit-{0}-{1}', github.run_id, needs.plan.outputs.ns) }}
+      electoral_package_run_id: ${{ needs.puerta_03.outputs.run_id }}
+      electoral_package_artifact_name: ${{ needs.puerta_03.outputs.artifact_name }}
+      electoral_package_artifact_digest: ${{ needs.puerta_03.outputs.artifact_digest }}
+      source_ref: ${{ needs.acreditar.result == 'success' && needs.acreditar.outputs.enabled_source_ref || needs.p11.outputs.prepared_source_ref }}
+      persist_state: false
+      artifact_namespace: ${{ needs.plan.outputs.ns }}
+
+  cerrar_p30:
+    name: Cerrar P30
+    needs: [cerrar_p20, puerta_03, p30]
+    if: ${{ !cancelled() && needs.cerrar_p20.result == 'success' && needs.cerrar_p20.outputs.sano == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    outputs:
+      sano: ${{ steps.cerrar.outputs.sano }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: cerrar
+        name: Cerrar P30 en R2
+        shell: bash
+        env:
+          CAMPANA: ${{ inputs.campana }}
+          TERRITORIO: ${{ inputs.territorio }}
+          INTENTO: ${{ github.run_attempt }}
+          PASO: P30
+          RESULTADOS: ${{ format('{{"puerta_03":"{0}","p30":"{1}"}}', needs.puerta_03.result, needs.p30.result) }}
+          OBLIGATORIOS: puerta_03 p30
+          HUELLAS: '{}'
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: *cerrar

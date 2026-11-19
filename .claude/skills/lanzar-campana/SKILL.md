@@ -1,6 +1,6 @@
 ---
 name: lanzar-campana
-description: Procedimiento para lanzar la legislatura vigente (nacional, autonómicas, una comunidad o provincias) con el «P00 Campaña — Gestor» (gestor-campanas.yml, modos plan y lanzar). Úsala solo en el chat operador; «lanzar» exige permiso explícito del propietario en ese mensaje.
+description: Procedimiento para lanzar la legislatura vigente (nacional, autonómicas, una comunidad o provincias) con el «P00 Campaña — Gestor» (gestor-campanas.yml, modos plan y lanzar) y, tras fusionarse, con la P00 nueva (p00-campana.yml: solo comprobar, comprobar y lanzar). Úsala solo en el chat operador; «lanzar» exige permiso explícito del propietario en ese mensaje.
 ---
 
 # Lanzar una campaña de la legislatura vigente
@@ -29,3 +29,20 @@ generar`; la CI comprueba que coincide). Si cambia una elección, se regenera; n
 5. Tras un fallo no relances: diagnostica (`diagnosticar-run`) e informa. `continuar` solo lo usa el propio Gestor.
 
 `modo=matriz` conserva la campaña anterior (manifiesto inmutable, 00 por `workflow_call`).
+
+## P00 Campaña nueva (`p00-campana.yml`, T-379 PR 3; se usa tras fusionarse, después del 29-11)
+Una campaña = una ejecución (D-130). Botón: territorios (`todos`, `congreso`, `autonómicas` o códigos `nac22, aut11`),
+elección (`vigente` | `2026-11` ensayo: no commitea ni publica), inicio (por defecto «Generar desde fuente territorial
+acreditada»), modo (`solo comprobar` por defecto | `comprobar y lanzar`), publicar.
+1. Siempre primero `solo comprobar` (sin efectos salvo el issue «P00 Campaña · <run>»): semáforo y gasto semanal (D-46)
+   en el resumen y en el issue. Con eso, la ficha D-52 y la frase del propietario; luego `comprobar y lanzar`.
+   ```
+   gh api -X POST repos/jfmurciego/DiputadodeDistrito/actions/workflows/p00-campana.yml/dispatches -f ref=main \
+     -f "inputs[territorios]=nac22, aut11" -f "inputs[modo]=solo comprobar"
+   ```
+2. Si hay otra P00 viva (también un «solo comprobar» o una en `waiting`), la nueva sale en rojo con `CAMPANA_EN_CURSO`
+   y el run que bloquea; no se encola. Cancelarla exige frase del propietario.
+3. Un territorio apartado no para a los demás; la parada sistémica (≥3 con la misma causa o ≥20 % con mínimo 3) es
+   PEGAJOSA: no se levanta en esa campaña, ni re-ejecutando. Se sale con otra campaña.
+4. Re-ejecutar «jobs fallidos» en la misma ejecución solo para `SIN_RESULTADO`/transitorios y para el cierre; un
+   apartado no transitorio sale «no re-ejecutable». El job `resultado` en rojo abre la IA de cierre de P90.
