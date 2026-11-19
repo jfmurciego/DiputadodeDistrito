@@ -1,4 +1,4 @@
-"""T-421: bloques y alias PROPUESTOS de las autonómicas vigentes (interfaz pública, valores literales de la fuente)."""
+"""T-421: bloques y alias  de las autonómicas vigentes (interfaz pública, valores literales de la fuente)."""
 import csv
 import sys
 import tempfile
@@ -28,10 +28,13 @@ class BloquesAutonomicas(unittest.TestCase):
         self.assertEqual(self.fila("aut01", "PSOE")["bloque_propuesto"], "Izquierdas")
         self.assertEqual(self.fila("aut09", "CUP")["bloque_propuesto"], "Nacionalistas")
 
-    def test_junts_nacionalistas_y_dudosos_acotados(self):
-        self.assertEqual(self.fila("aut09", "JUNTS+")["bloque_propuesto"], "Nacionalistas")
-        self.assertLessEqual(len(self.top), 15)
-        self.assertEqual([t[0] for t in self.top], sorted((t[0] for t in self.top), reverse=True))
+    def test_lista_cerrada_del_propietario(self):
+        for aut, sigla, bloque in (("aut09", "ALIANÇA.CAT", "Nacionalistas"), ("aut09", "ALHORA", "Nacionalistas"), ("aut05", "UXGC", "Nacionalistas"),
+                                   ("aut01", "ANDALUCISTAS", "Nacionalistas"), ("aut01", "SALF", "Patriotas"), ("aut07", "SALF", "Patriotas"),
+                                   ("aut05", "DVC", "Izquierdas"), ("aut09", "JUNTS+", "Nacionalistas")):
+            self.assertEqual(self.fila(aut, sigla)["bloque_propuesto"], bloque, (aut, sigla))
+        self.assertEqual(self.top, [])  # sin dudosos: el resto de menores, sin bloque
+        self.assertEqual(self.fila("aut09", "F.N.C.")["bloque_propuesto"], "")
 
     def test_alias_por_comunidad(self):
         a = ROOT / ba.SAL_ALIAS
