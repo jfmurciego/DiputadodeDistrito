@@ -1,6 +1,6 @@
 # T-415 · V4: portada de Vanesa + mapa con doble vuelta — diseño (solo documento)
 
-VERSIÓN: 1.0.0 · FECHA: 2026-11-19 · ESTADO: propuesto (pendiente de aprobación del propietario) · ANTERIOR: ninguna
+VERSIÓN: 1.0.1 · FECHA: 2026-11-19 · ESTADO: propuesto (pendiente de aprobación del propietario) · ANTERIOR: 1.0.0 (misma PR, sin fusionar)
 
 Decisión del propietario (19-11): la V4 (`visor/v4/`) es la versión nueva completa: portada de Vanesa como entrada
 (Comprender, Explorar, Investigación, Matrices) y mapa con la doble vuelta de T-413 (D-172). La V3 no se toca y queda para comparar.
@@ -87,22 +87,27 @@ Tests (por rebanadas, esperados literales, no recalculados):
 9. Regresión: `visor/v3/` y `visor/index.html` sin cambios (hash del árbol contra `main`).
 
 Orden de PR (una por capa; ninguna lanza ni publica; el propietario aprueba este diseño antes):
-1. Licencia y PI (§7): `LICENSE` 1.2.0, `propiedad_intelectual/`, permiso de Vanesa. 2. `v4/comun/` + portada + presentación + menú (tests 1–4, 6, 8). 3. Comprender, con «La doble vuelta» (texto del propietario). 4. Investigación con P y enlaces reales. 5. Matrices: script de filtrado + página (test 7); contenido solo verificado. 6. Integración con `v4/mapa/` de T-413 (enlaces, test 2/9). 7. Publicación: añadir `v4/` al P40 (toca workflow: aviso al Planificador; Operador, frase D-52). 8. Decidir la raíz y el destino de V3.
+1. Licencia y PI (§7): `LICENSE` 1.2.0, `propiedad_intelectual/`, revisión de metadatos (§7). 2. `v4/comun/` + portada + presentación + menú (tests 1–4, 6, 8). 3. Comprender, con «La doble vuelta» (texto del propietario). 4. Investigación con P y enlaces reales. 5. Matrices: script de filtrado + página (test 7); contenido solo verificado. 6. Integración con `v4/mapa/` de T-413 (enlaces, test 2/9). 7. Publicación: añadir `v4/` al P40 (toca workflow: aviso al Planificador; Operador, frase D-52). 8. Decidir la raíz y el destino de V3.
 
 ## 7. Licencia y propiedad intelectual
 
 El material de Vanesa no es obra del titular (LICENSE apartado 1 dice «propiedad del titular» salvo excepciones del 3).
 - `LICENSE` 1.2.0 (copia en `legacy/licencias/` con ANTERIOR): en el apartado 3, «Material de terceros», añadir: portada, maquetas y matriz jurídico-electoral de trabajo de Vanesa (`visor/v4/` portada y `v4/datos/matriz*`), con la licencia que acuerden (pregunta 3) y sin ceder el resto.
   Es edición de LICENSE: requiere la autorización expresa del propietario en el chat que ejecuta (CLAUDE.md); no se hace en esta PR.
-- `propiedad_intelectual/`: el repositorio ya trae `MANIFEST.json`/`SHA256SUMS` del paquete Deslinde. Para lo de Vanesa se propone una subcarpeta `propiedad_intelectual/terceros/vanesa_20261119/` con los originales (sha256 de `original/SHA256SUMS`), un `MANIFEST.json` propio (autora, fecha de entrega, ficheros, tamaño, sha256) y el texto del permiso cuando el propietario lo aporte; `SHA256SUMS` actualizado. Esa carpeta es privada (`exclusion_publicacion.txt`); lo público lleva un `NOTICE.md` en `v4/` con autoría (como `visor/v2/galeria/NOTICE.md`).
+- `propiedad_intelectual/`: el repositorio ya trae `MANIFEST.json`/`SHA256SUMS` del paquete Deslinde. Para lo de Vanesa se propone una subcarpeta `propiedad_intelectual/terceros/vanesa_20261119/` con los originales (sha256 de `original/SHA256SUMS`), un `MANIFEST.json` propio (autora, fecha de entrega, ficheros, tamaño, sha256) y la cita literal del permiso (PROCEDENCIA.md); `SHA256SUMS` actualizado. Esa carpeta es privada (`exclusion_publicacion.txt`); lo público lleva un `NOTICE.md` en `v4/` con autoría (como `visor/v2/galeria/NOTICE.md`).
 - Autoría: «Portada y matriz de trabajo: Vanesa» en `NOTICE.md`, en el pie de la portada y en los metadatos de los ficheros derivados; los cambios de DDD se declaran como adaptación.
-- Sin permiso archivado, no se publica nada de este material (hoy solo hay la declaración del propietario del 19-11).
+- Permiso: resuelto por decisión literal del propietario (19-11, PROCEDENCIA.md, #908@a332bfd): «Vanesa me los ha entregado para que los publique yo, tengo todo su permiso y su intención»; no se exige otro documento. Se cita en el MANIFEST.
+- **Revisión previa de metadatos y contenido** (antes de copiar nada a `v4/` o `propiedad_intelectual/`; paso de la PR 1):
+  1. `Matriz_juridico_electoral_DDD_v1.xlsx`: leer `docProps/core.xml` y `app.xml` (autor, último modificado por, empresa, fechas), rutas absolutas o de usuario en vínculos externos, nombres de hoja y comentarios, hojas ocultas, macros, enlaces a ficheros locales; limpiar o declarar lo que identifique a personas o equipos distintos de la autora. El xlsx limpio se guarda como derivado; el original no se edita (sha256).
+  2. PNG (`preview_*`, `referencia_estructura`): inspección visual de contenido (nombres, rutas, datos personales, marcas de terceros, mapas con fuentes sin licencia) y metadatos EXIF/tEXt/iTXt (`exiftool`/`pngcheck`). Los que no se publiquen quedan solo en `propiedad_intelectual/` (privado); los públicos se regeneran sin metadatos.
+  3. `index.html` y JSON: buscar rutas de usuario, correos, URL internas, comentarios.
+  Resultado en `v4/NOTICE.md` y en el MANIFEST (qué se publicó, qué se limpió). Test: ningún fichero publicable con `/Users/`, `C:\\`, correos o campos de autor distintos de los declarados.
 
 ## 8. Preguntas abiertas (con recomendación)
 
 1. ¿La raíz del sitio pasa a `/v4/` al publicar? **Recomiendo** no: `/v4/` en paralelo hasta comparar; la raíz sigue en `/v3/`.
 2. ¿V4 se publica antes o después de T-313 (nomenclatura P en datos)? **Recomiendo** el texto ya en P (D-165) y no enlazar nombres de ficheros; publicar tras T-313 si hay ids visibles.
-3. ¿Licencia del material de Vanesa? **Recomiendo** CC BY 4.0 para el texto y los datos de la matriz y «todos los derechos reservados al sitio» para el código, con atribución a Vanesa; la decide ella con el propietario.
+3. ¿Licencia del material de Vanesa (el permiso de publicar ya está resuelto)? **Recomiendo** CC BY 4.0 para el texto y los datos de la matriz y «todos los derechos reservados al sitio» para el código, con atribución a Vanesa; la decide ella con el propietario.
 4. ¿Quién coteja la matriz y con qué criterio? **Recomiendo** Vanesa propone, el asistente comprueba con descarga oficial y sha256, el propietario aprueba; empezar por LOREG y las 17 leyes electorales autonómicas.
 5. ¿«Matrices» sale en la primera publicación con solo normas identificadas? **Recomiendo** sí con «pendiente» visible, o ocultarla hasta tener ≥ 1 ámbito completo; prefiero ocultarla.
 6. ¿Una página por sección o una sola? **Recomiendo** páginas separadas (§1).
