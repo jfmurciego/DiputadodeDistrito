@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.537
+Versión: 1.0.538
 Fecha: 2026-11-19
-Alcance: T-415 — PR 1: base de `visor/v4/` (portada final de la autora)
+Alcance: T-418 — P75 «Doble vuelta desde R2» en P70 Archivo (V4 sin regenerar)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-19_implementador-t415-pr1-v4-base.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.536_registro_20261119.md
+Cambios/motivo: entrada docs/registro/2026-11-19_implementador-t418-p75-doble-vuelta-r2.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.537_registro_20261119.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.536_registro_20261119.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.538 · [2026-11-19 — T-418 — P75 «Doble vuelta desde R2» en P70 Archivo (V4 sin regenerar)](registro/2026-11-19_implementador-t418-p75-doble-vuelta-r2.md)
 - 1.0.537 · [2026-11-19 — T-415 — PR 1: base de `visor/v4/` (portada final de la autora)](registro/2026-11-19_implementador-t415-pr1-v4-base.md)
 - 1.0.536 · [2026-11-19 — T-409 — Ajustes de la doble vuelta en P30 tras la revisión de #911](registro/2026-11-19_implementador-t409-p30-dv-ajustes.md)
 - 1.0.535 · [2026-11-19 — T-415 — Diseño de la V4 2.0.3: alineación de redacción](registro/2026-11-19_implementador-t415-diseno-redaccion.md)
