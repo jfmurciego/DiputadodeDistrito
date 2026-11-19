@@ -1,13 +1,16 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 1.0.2
+# VERSIÓN: 1.0.3
+# CAMBIOS 1.0.3: T-409 (revisión de #911): el directorio `doble_vuelta/` existe solo si `doble_vuelta_cobertura.py` y `doble_vuelta.py` terminan bien (trap que lo borra si no);
+#   sin él el paso de archivo no pasa `--extra`, así que no se archiva una salida parcial.
 # CAMBIOS 1.0.2: T-409 (D-171): tras M08, `herramientas/doble_vuelta.py` (dv_base, dv_A, dv_B) y `doble_vuelta_cobertura.py` (% de votos sin casar con la
 #   tabla de bloques) sobre la tabla por partido y distrito de M07, NO FATAL (continue-on-error) y solo con persistir y sin `campana` (D-163: nada en main
 #   con campaña); su salida va al mismo paquete de R2 con `--extra` en el paso de archivo en origen (sin subida nueva). Sin la doble vuelta, P30 es igual.
 # CAMBIOS 1.0.1: T-379 PR 2b (D-163, 2b mínima): `contents: read` en todo el fichero (el push a main va con el token de la app de registro,
 #   que no depende de GITHUB_TOKEN: `contents: read` NO es barrera para ese push; sin la app, la credencial falla en vez de caer en github.token);
 #   entrada oculta `campana` (workflow_call; vacía = como antes). Con campaña, los jobs (en P30, los pasos) que registran en main se saltan.
-# ANTERIOR: legacy/workflows/p30-resultados-electorales_v1.0.1_20261119.yml
+# ANTERIOR: legacy/workflows/p30-resultados-electorales_v1.0.2_20261119.yml
+# ANTERIOR (1.0.1): legacy/workflows/p30-resultados-electorales_v1.0.1_20261119.yml
 # ANTERIOR (1.0.0): legacy/workflows/p30-resultados-electorales_v1.0.0_20261117b.yml
 # CAMBIOS 1.0.0: T-376 (D-137, migración paso 7). Fichero nuevo: sustituye a `incorporacion-resultados-electorales.yml` 2.0.8 («P40 Resultados electorales») y a
 #   `_reutilizable-incorporacion-electoral.yml` 1.3.0 (este va DENTRO: los pasos de `preparar`, `incorporar` y `registrar` de antes, en un solo job).
@@ -484,10 +487,15 @@ jobs:
           PY
           )"
           bloques="$(ls configuracion/bloques_partidos_*.csv | sort | tail -n1)"
+          # `doble_vuelta/` solo queda si ambas herramientas terminan bien: el paso de archivo lo añade al paquete de R2 si existe.
+          rm -rf doble_vuelta
+          ok=0
+          trap '[[ "$ok" == 1 ]] || rm -rf doble_vuelta' EXIT
           mkdir -p doble_vuelta
           python herramientas/doble_vuelta_cobertura.py --votos "$csv" --bloques "$bloques" --eleccion "$eleccion" --salida doble_vuelta/cobertura.json
           python herramientas/doble_vuelta.py --votos "$csv" --bloques "$bloques" --eleccion "$eleccion" \
             --salida doble_vuelta/doble_vuelta.csv --manifiesto doble_vuelta/manifiesto.json
+          ok=1
 
       - name: Diagnosticar fallo de M07/M08
         if: failure()

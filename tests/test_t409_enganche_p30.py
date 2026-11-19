@@ -70,6 +70,12 @@ class DobleVueltaEnP30(unittest.TestCase):
         self.assertIn("doble_vuelta.py", run)
         self.assertIn("doble_vuelta_cobertura.py", run)
 
+    def test_el_directorio_solo_queda_si_ambas_herramientas_terminan_bien(self):
+        run = self.paso["run"]
+        i = {k: run.index(k) for k in ("rm -rf doble_vuelta\n", "trap '", "mkdir -p doble_vuelta", "doble_vuelta_cobertura.py", "herramientas/doble_vuelta.py", "ok=1")}
+        self.assertEqual(sorted(i, key=i.get), ["rm -rf doble_vuelta\n", "trap '", "mkdir -p doble_vuelta", "doble_vuelta_cobertura.py", "herramientas/doble_vuelta.py", "ok=1"])
+        self.assertIn('[[ "$ok" == 1 ]] || rm -rf doble_vuelta', run)
+
     def test_va_despues_de_m08_y_antes_del_archivo(self):
         n = [s.get("name") for s in pasos(self.texto)]
         self.assertLess(n.index("Generar producto electoral territorial"), n.index(PASO_DV))
