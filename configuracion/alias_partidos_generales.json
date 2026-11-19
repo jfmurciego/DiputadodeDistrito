@@ -1,0 +1,82 @@
+{
+  "schema": "ddd.alias-partidos-generales/1.0",
+  "fuentes": {
+    "datos/homologacion_siglas/homologacion_siglas_generales.csv": "58a179fa41655572fa92b88eb9985963a0685ecc97839a6f520f613fdb5b43a3",
+    "datos/homologacion_siglas/reglas_generales.json": "fe8a3487c2ca5f5b5f2ab24fc0c3d598b43f01cdac1630bf0733242b1fe59617",
+    "configuracion/alias_siglas_boe_espejo.csv": "3e9e71e6e9b36306a9165dfa4c2dcd85dd307c598c42edac5152ff8a547d13b4"
+  },
+  "filas": 555,
+  "conflictos": [
+    {
+      "eleccion": "201111",
+      "id_fuente": "LA IZQUIERDA PLURAL",
+      "candidatos": [
+        "CHA-IU",
+        "IU"
+      ]
+    }
+  ],
+  "cobertura_votos": {
+    "201111/BOE": {
+      "votos": 23213765,
+      "sin_alias": 1685991,
+      "pct_cubierto": 92.7371
+    },
+    "201111/M07_HISTORICO": {
+      "votos": 687763,
+      "sin_alias": 0,
+      "pct_cubierto": 100.0
+    },
+    "201512/BOE": {
+      "votos": 24208695,
+      "sin_alias": 0,
+      "pct_cubierto": 100.0
+    },
+    "201512/M07_HISTORICO": {
+      "votos": 693383,
+      "sin_alias": 0,
+      "pct_cubierto": 100.0
+    },
+    "201606/BOE": {
+      "votos": 23279892,
+      "sin_alias": 0,
+      "pct_cubierto": 100.0
+    },
+    "201606/M07_HISTORICO": {
+      "votos": 655325,
+      "sin_alias": 0,
+      "pct_cubierto": 100.0
+    },
+    "201904/BOE": {
+      "votos": 25129777,
+      "sin_alias": 0,
+      "pct_cubierto": 100.0
+    },
+    "201904/M07_HISTORICO": {
+      "votos": 703207,
+      "sin_alias": 0,
+      "pct_cubierto": 100.0
+    },
+    "201911/BOE": {
+      "votos": 23513624,
+      "sin_alias": 0,
+      "pct_cubierto": 100.0
+    },
+    "201911/M07_HISTORICO": {
+      "votos": 646242,
+      "sin_alias": 0,
+      "pct_cubierto": 100.0
+    },
+    "202307/BOE": {
+      "votos": 23880964,
+      "sin_alias": 0,
+      "pct_cubierto": 100.0
+    },
+    "202307/M07_HISTORICO": {
+      "votos": 671881,
+      "sin_alias": 0,
+      "pct_cubierto": 100.0
+    }
+  },
+  "pendientes": 1
+}
