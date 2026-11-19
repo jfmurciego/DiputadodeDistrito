@@ -1,0 +1,556 @@
+eleccion,id_fuente,partido_homologado,origen,fuente
+201111,+MAS+,+MAS+,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,ACIMA,ACIMA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,AMAIUR,EH Bildu,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,ANC,ANC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,ANDECHA,ANDECHA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,ANTICAPITALISTAS,ANTICAPITALISTAS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,ANTICAPITALISTES,ANTICAPITALISTAS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,BASTA YA,BASTA YA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,BNG,BNG,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,C 21,C 21,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,C.D.L.,C.D.L.,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,C.XXI,C 21,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,CC-NC-PNC,CCa,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,CCD,CCD,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,CCa,CCa,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,CEx,CEx,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,CHA-IU,CHA-IU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,COMPROMÍS,COMPROMÍS,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,COMPROMÍS-Q,COMPROMÍS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,CYD,CYD,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,Caballas,Caballas,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,CiU,CiU–Junts,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,CiU–Junts,CiU–Junts,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,D.N.,DN,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,DN,DN,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,DeC,DeC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,EAJ-PNV,EAJ-PNV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,EB,ESCAÑOS EN BLANCO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,EH Bildu,EH Bildu,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,EQUO,EQUO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,ERC,ERC,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,ERC - RI.cat / ESQUERRA,ERC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,ERC/ESQUERRA,ERC,ALIAS_BOE,configuracion/alias_siglas_boe_espejo.csv
+201111,ERPV,ERPV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,ESCAÑOS EN BLANCO,ESCAÑOS EN BLANCO,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,ESPAÑA 2000,ESPAÑA 2000,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,ESQUERRA,ERC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,EU-V,IU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,EUIB,IU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,EUPV-EV,IU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,Eb,ESCAÑOS EN BLANCO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,FAC,FAC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,FE de las JONS,FE de las JONS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,GBAI,GBAI,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,H.D.,H.D.,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,HARTOS.ORG,HARTOS.ORG,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,I.U.,IU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,ICV-EUiA,IU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,INTERNET,INTERNET,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,IU,IU,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,IU-IX,IU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,IU-LV,IU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,IU-PDSC,IU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,IU-V-SIEX: LA IZQUIERDA PLURAL,IU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,IUC,IU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,IUC-IpH-LV,IU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,IUCL,IU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,IUCLM-LV,IU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,IULV-CA,IU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,IUV-RM,IU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,IZQUIERDA-EZKERRA,IU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,LV-GV,LV-GV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,MÉS,MÉS,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,P-LIB,P-LIB,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,P.C.P.E.,PCPE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,P.O.S.I.,POSI,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,P.R.C.,PRC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,P.R.D.E.,P.R.D.E.,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PA,PA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PACMA,PACMA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PCAL,PCAL,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PCAS,PCAS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PCPC,PCPC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PCPE,PCPE,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PDYC,PDYC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PFyV,PFyV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PH,PH,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PIRATA,PIRATA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PIRATA.CAT,PIRATA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,POSI,POSI,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PP,PP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PP-EU,PP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PP-PAR,PP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PRAO,PRAO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PRC,PRC,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PRE-R,PRE-R,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PREPAL,PREPAL,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PSC-PSOE,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PSE-EE (PSOE),PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PSM-IV-EXM-EQUO,MÉS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PSOE,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PSdeG-PSOE,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PUM+J,PUM+J,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,PxC,PxC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,RPS,RPS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,SAIn,SAIn,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,SXT,SXT,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,U.C.I.T.,U.C.I.T.,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,U.R.C.L.,U.R.C.L.,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,UCE,UCE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,UNIDAD DEL PUEBLO,UNIDAD DEL PUEBLO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,UPN y coaliciones,UPN y coaliciones,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,UPN-PP,UPN y coaliciones,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,UPyD,UPyD,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201111,UxV,UxV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,+MAS+,+MAS+,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,AJU,AJU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,ARAPV,ARAPV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,AVANT,AVANT,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,BNG,BNG,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,C's,Cs,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,CANARIAS DE,CANARIAS DE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,CCD,CCD,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,CCa,CCa,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,CCa-PNC,CCa,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,CENTRO MODE,CENTRO MODERADO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,CENTRO MODERADO,CENTRO MODERADO,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,CILUS,CILUS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,COALICIÓN «PODEMOS - AHORA ALTO ARAGÓN EN COMÚN»,Podemos–Sumar,ALIAS_BOE,configuracion/alias_siglas_boe_espejo.csv
+201512,COALICIÓN «UNIDAD POPULAR»,IU,ALIAS_BOE,configuracion/alias_siglas_boe_espejo.csv
+201512,CRA,CRA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,CiU–Junts,CiU–Junts,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,Cs,Cs,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,DL,CiU–Junts,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,DN,DN,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,EAJ-PNV,EAJ-PNV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,EB,ESCAÑOS EN BLANCO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,EH Bildu,EH Bildu,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,EL PI,EL PI,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,EN COMÚ,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,EN POSITIU,EN POSITIU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,ERC,ERC,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,ERC-CATSI,ERC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,ESCAÑOS EN BLANCO,ESCAÑOS EN BLANCO,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,EU-eX,EU-eX,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,FDEE,FDEE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,FE de las J,FE de las JONS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,FE de las JONS,FE de las JONS,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,GBAI,GBAI,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,IFem,IFem,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,INDEPENDIENTES,INDEPENDIENTES,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,IU,IU,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,IU-UPeC,IU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,Independien,INDEPENDIENTES,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,"JS,PC","JS,PC",HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,Ln,Ln,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,MÉS,MÉS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,NÓS,BNG,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,OE,OE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,P-LIB,P-LIB,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,PACMA,PACMA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,PCOE,PCOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,PCPC,PCPC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,PCPE,PCPE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,PFyV,PFyV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,PH,PH,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,PLD,PLD,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,PODEMOS,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,PODEMOS-COM,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,PODEMOS-COMPROMÍS,Podemos–Sumar,ALIAS_BOE,configuracion/alias_siglas_boe_espejo.csv
+201512,PODEMOS-En,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,PODEMOS-En Marea-ANOVA-EU,Podemos–Sumar,ALIAS_BOE,configuracion/alias_siglas_boe_espejo.csv
+201512,PP,PP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,PP-FORO,PP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,PP-PAR,PP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,PREPAL,PREPAL,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,PSC,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,PSE-EE (PSO,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,PSOE,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,PSOE-NCa,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,PSdeG-PSOE,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,PT,PT,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,PUM+J,PUM+J,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,Podemos–Sumar,Podemos–Sumar,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,RECORTES CE,RECORTES CERO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,RECORTES CERO,RECORTES CERO,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,SAIn,SAIn,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,SOLUCIONA,SOLUCIONA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,SOMVAL,SOMVAL,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,UPN y coaliciones,UPN y coaliciones,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,UPN-PP,UPN y coaliciones,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,UPYD,UPyD,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,UPyD,UPyD,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,VOX,VOX,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,X LA IZQUIE,X LA IZQUIE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,mlgXSÍ,mlgXSÍ,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201512,unio.cat,unio.cat,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,ALCD,ALCD,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,AND,AND,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,BNG,BNG,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,BNG-NÓS,BNG,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,C's,Cs,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,CCD,CCD,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,CCD-CI,CCD-CI,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,CCa,CCa,ALIAS_BOE,configuracion/alias_siglas_boe_espejo.csv
+201606,CCa-PNC,CCa,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,CDC,CiU–Junts,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,CENTRO MODERADO,CENTRO MODERADO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,CILUS,CILUS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,CiU–Junts,CiU–Junts,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,Cs,Cs,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,EAJ-PNV,EAJ-PNV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,EB,ESCAÑOS EN BLANCO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,EB-AZ,ESCAÑOS EN BLANCO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,ECP,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,EH Bildu,EH Bildu,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,ENTABAN,ENTABAN,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,ERC,ERC,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,ERC-CATSÍ,ERC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,ESCAÑOS EN BLANCO,ESCAÑOS EN BLANCO,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,FE,FE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,FE de las J,FE de las JONS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,FE de las JONS,FE de las JONS,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,FME,FME,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,GBAI,GBAI,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,HRTS-Ln,HRTS-Ln,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,IMC,IMC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,INDEPENDIEN,INDEPENDIENTES,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,INDEPENDIENTES,INDEPENDIENTES,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,IZAR,IZAR,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,JXC,JXC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,Ln,Ln,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,MAS,MAS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,P-LIB,P-LIB,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PACMA,PACMA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PCOE,PCOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PCPC,PCPC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PCPE,PCPE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PFyV,PFyV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PH,PH,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PODEMOS-COM,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PODEMOS-COMPROMÍS-EUPV,Podemos–Sumar,ALIAS_BOE,configuracion/alias_siglas_boe_espejo.csv
+201606,PODEMOS-EN MAREA-ANOVA-EU,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PODEMOS-EUI,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PODEMOS-IU-,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PODEMOS-IU-EQUO,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PODEMOS-IU-EQUO-BATZARRE,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PODEMOS-IU-EQUO-CLIAS,Podemos–Sumar,ALIAS_BOE,configuracion/alias_siglas_boe_espejo.csv
+201606,PODEMOS/AHAL DUGU-IU-EQUO,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PP,PP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PP-FORO,PP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PP-PAR,PP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PREPAL,PREPAL,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PSC-PSOE,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PSE-EE (PSOE),PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PSOE,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PSOE-NCa,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PSdeG-PSOE,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PUEDE,PUEDE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,Podemos–Sumar,Podemos–Sumar,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,PxC,PxC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,RECORTES CERO,RECORTES CERO,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,RECORTES CERO-GRUPO VERDE,RECORTES CERO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,REPO,REPO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,SAIn,SAIn,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,SI,SI,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,SOMVAL,SOMVAL,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,UDT,UDT,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,UNIDAD DEL PUEBLO,UNIDAD DEL PUEBLO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,UNIDOS PODEMOS,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,UPL,UPL,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,UPN y coaliciones,UPN y coaliciones,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,UPN-PP,UPN y coaliciones,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,UPyD,UPyD,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201606,VOX,VOX,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,"""JF""","""JF""",HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,+MAS+,+MAS+,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,AHORA CANAR,AHORA CANARIAS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,AHORA CANARIAS,AHORA CANARIAS,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,ANDECHA,ANDECHA,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,ANDECHA AST,ANDECHA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,ARA-MES-ESQ,ARA-MES-ESQ,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,AVANT,AVANT,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,AVANT ADELA,AVANT,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,AxSI,AxSI,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,BNG,BNG,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,C 21,C 21,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,C.Ex-C.R.Ex,C.Ex-C.R.Ex,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,CCa,CCa,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,CCa-PNC,CCa,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,CILU-LINARE,CILUS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,CILUS,CILUS,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,CNV,CNV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,COMPROMÍS,COMPROMÍS,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,COMPROMÍS 2,COMPROMÍS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,COMPROMÍS 2019,COMPROMÍS,ALIAS_BOE,configuracion/alias_siglas_boe_espejo.csv
+201904,CiU–Junts,CiU–Junts,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,CpM,CpM,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,Cs,Cs,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,CxG,CxG,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,DP,DP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,DPL,DPL,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,EAJ-PNV,EAJ-PNV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,EB,ESCAÑOS EN BLANCO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,ECP-GUANYEM,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,ECP-GUANYEM EL CANVI,Podemos–Sumar,ALIAS_BOE,configuracion/alias_siglas_boe_espejo.csv
+201904,EH Bildu,EH Bildu,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,EL PI,EL PI,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,EN MAREA,EN MAREA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,ERC,ERC,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,ERC-SOBIRAN,ERC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,ERC-SOBIRANISTES,ERC,ALIAS_BOE,configuracion/alias_siglas_boe_espejo.csv
+201904,ERPV,ERPV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,ESCAÑOS EN BLANCO,ESCAÑOS EN BLANCO,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,F.I.A.,F.I.A.,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,F8,F8,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,FE de las J,FE de las JONS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,FE de las JONS,FE de las JONS,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,FIA,F.I.A.,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,FRONT REPUB,FRONT REPUB,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,GBAI,GBAI,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,IZAR,IZAR,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,IZQP,IZQP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,JxCAT-JUNTS,CiU–Junts,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,NA+,UPN y coaliciones,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,NC,NC,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,NCa,NC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,P-LIB,P-LIB,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PACMA,PACMA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PACT,PACT,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PCOE,PCOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PCPA,PCPA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PCPC,PCPC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PCPE,PCPE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PCTC,PCTC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PCTE,PCTE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PCTE/ELAK,PCTE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PCTG,PCTG,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PDSJE,PDSJE,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PDSJE-UDEC,PDSJE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PH,PH,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PODEMOS-EU-,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PODEMOS-EU-MAREAS EN COMÚN-EQUO,Podemos–Sumar,ALIAS_BOE,configuracion/alias_siglas_boe_espejo.csv
+201904,PODEMOS-EUI,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PODEMOS-EUP,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PODEMOS-IU,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PODEMOS-IU-,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PODEMOS-IU-EQUO,Podemos–Sumar,ALIAS_BOE,configuracion/alias_siglas_boe_espejo.csv
+201904,PODEMOS-IX-,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PP,PP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PP-FORO,PP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PPSO,PP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PR+,PR+,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PRC,PRC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PREPAL,PREPAL,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PSC,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PSE-EE (PSO,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PSOE,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PSdeG-PSOE,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PUM+J,PUM+J,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,PYLN,PYLN,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,Podemos–Sumar,Podemos–Sumar,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,RECORTES CE,RECORTES CERO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,RECORTES CERO,RECORTES CERO,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,RISA,RISA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,SOLIDARIA,SOLIDARIA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,SOMOS REGIÓ,SOMOS REGIÓ,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,UDT,UDT,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,UIG-SOM-CUI,UIG-SOM-CUIDES,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,UIG-SOM-CUIDES,UIG-SOM-CUIDES,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,UNIÓN REGIO,UNIÓN REGIO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,UPN y coaliciones,UPN y coaliciones,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,VOU,VOU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,VOX,VOX,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201904,centrados,centrados,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,AHORA CANARIAS,AHORA CANARIAS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,ANDECHA,ANDECHA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,AUNACV,AUNACV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,AVANT,AVANT,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,AVANT ADELANTE LOS VERDES,AVANT,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,AxSÍ,AxSÍ,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,BNG,BNG,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,C 21,C 21,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,CAnda,CAnda,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,CCa,CCa,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,CCa-PNC-NC,CCa,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,CHA,CHA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,COMPROMÍS,COMPROMÍS,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,CONTIGO,CONTIGO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,CUP,CUP,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,CUP-PR,CUP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,CiU–Junts,CiU–Junts,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,CpM,CpM,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,Cs,Cs,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,DPL,DPL,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,EAJ-PNV,EAJ-PNV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,EB,ESCAÑOS EN BLANCO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,ECP-GUANYEM,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,ECP-GUANYEM EL CANVI,Podemos–Sumar,INTERIOR,datos/homologacion_siglas/reglas_generales.json#interior
+201911,EH Bildu,EH Bildu,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,ERC,ERC,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,ERC-SOBIRANISTES,ERC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,ERPV,ERPV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,ESCAÑOS EN BLANCO,ESCAÑOS EN BLANCO,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,EXISTE,EXISTE,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,EXTREMADURA UNIDA,EXTREMADURA UNIDA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,F.I.A.,F.I.A.,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,FE de las J,FE de las JONS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,FE de las JONS,FE de las JONS,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,FIA,F.I.A.,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,GBAI,GBAI,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,I.Fem,I.Fem,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,IZAR,IZAR,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,IZQP,IZQP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,JxCAT-JUNTS,CiU–Junts,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,LOS VERDES,LOS VERDES,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,M PAÍS,MÁS PAÍS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,M PAÍS-CHA-,MÁS PAÍS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,MAS,MAS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,MDyC,MDyC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,MÁS PAÍS,MÁS PAÍS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,MÁS PAÍS-AN,MÁS PAÍS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,MÁS PAÍS-CA,MÁS PAÍS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,MÁS PAÍS-EQ,MÁS PAÍS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,MÁS PAÍS-EQUO,MÁS PAÍS,INTERIOR,datos/homologacion_siglas/reglas_generales.json#interior
+201911,MÉS,MÉS,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,MÉS COMPROM,COMPROMÍS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,MÉS COMPROMÍS,COMPROMÍS,INTERIOR,datos/homologacion_siglas/reglas_generales.json#interior
+201911,MÉS-ESQUERR,MÉS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,NA+,UPN y coaliciones,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,P-LIB,P-LIB,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PACMA,PACMA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PCOE,PCOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PCPA,PCPA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PCPC,PCPC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PCPE,PCPE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PCTC,PCTC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PCTE,PCTE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PCTE/ELAK,PCTE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PCTG,PCTG,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PDSJE,PDSJE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PH,PH,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PODEMOS-EU,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PODEMOS-EUIB,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PODEMOS-EUPV,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PODEMOS-IU,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PODEMOS-IU LV CA,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PODEMOS-IU-BATZARRE,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PODEMOS-IX,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PP,PP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PP-FORO,PP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PPSO,PP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PRC,PRC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PREPAL,PREPAL,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PSC,PSOE,INTERIOR,datos/homologacion_siglas/reglas_generales.json#interior
+201911,PSC-PSOE,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PSE-EE (PSOE),PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PSOE,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PSdeG-PSOE,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PUM+J,PUM+J,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,PYLN,PYLN,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,Podemos–Sumar,Podemos–Sumar,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,RECORTES CERO,RECORTES CERO,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,RECORTES CERO-GV,RECORTES CERO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,RECORTES CERO-GV-PCAS-TC,RECORTES CERO-GV-PCAS-TC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,RISA,RISA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,SOLIDARIA,SOLIDARIA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,SOMOS REGIÓ,SOMOS REGIÓ,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,UDT,UDT,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,UIG-SOM-CUIDES,UIG-SOM-CUIDES,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,UNIDOS SÍ,UNIDOS SÍ,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,UNIDOS SÍ-A,UNIDOS SÍ,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,UNIÓN REGIO,UNIÓN REGIO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,UPL,UPL,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,UPN y coaliciones,UPN y coaliciones,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,VERDES,VERDES,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,VOX,VOX,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,XAV,XAV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,centrados,centrados,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,¡TERUEL EXI,EXISTE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+201911,¡TERUEL EXISTE!,EXISTE,INTERIOR,datos/homologacion_siglas/reglas_generales.json#interior
+202307,+RDS+,+RDS+,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,3e,3e,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,ADELANTE ANDALUCÍA,ADELANTE ANDALUCÍA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,AHORA CANARIAS,AHORA CANARIAS,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,AHORA CANARIAS-PCPC,AHORA CANARIAS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,ALM,ALM,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,ASTURIAS EXISTE EV,ASTURIAS EXISTE EV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,B.N.G.,BNG,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,BNG,BNG,ALIAS_BOE,configuracion/alias_siglas_boe_espejo.csv
+202307,BQEX,BQEX,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,CCD,CCD,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,CCa,CCa,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,CJ,CJ,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,CUP,CUP,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,CUP-PR,CUP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,CiU–Junts,CiU–Junts,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,CpM,CpM,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,EAJ-PNV,EAJ-PNV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,EH Bildu,EH Bildu,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,ERC,ERC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,ESCAÑOS EN BLANCO,ESCAÑOS EN BLANCO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,ESCONS EN BLANC,ESCAÑOS EN BLANCO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,ESPAÑA VACIADA,ESPAÑA VACIADA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,EV-PCAS-TC,EV-PCAS-TC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,EVB,EVB,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,EVC,EVC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,EXISTE,EXISTE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,F.I.A.,F.I.A.,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,FE de las JONS,FE de las JONS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,FO,FO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,FUERZA CÍVICA,FUERZA CÍVICA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,GBAI,GBAI,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,GITV,GITV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,JM+,JM+,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,JUNTS,CiU–Junts,INTERIOR,datos/homologacion_siglas/reglas_generales.json#interior
+202307,JxCAT - JUNTS,CiU–Junts,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,JxG,JxG,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,LB,LB,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,MÉS PER MALLORCA-MÉS PER MENORCA-SUMAR,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,NC,NC,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,NC-bc,NC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,PACMA,PACMA,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,PAR,PAR,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,PARTIDO AUTÓNOMOS,PARTIDO AUTÓNOMOS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,PCTC,PCTC,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,PCTE,PCTE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,PCTE/ELAK,PCTE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,PCTG,PCTG,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,PDeCAT,PDeCAT,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,PDeCAT-E-CiU,PDeCAT,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,PH,PH,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,POR MI REGIÓN,POR MI REGIÓN,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,PP,PP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,PREPAL,PREPAL,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,PSC,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,PSE-EE (PSOE),PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,PSIB-PSOE,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,PSN-PSOE,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,PSOE,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,PSdeG-PSOE,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,PUEDE,PUEDE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,PUM+J,PUM+J,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,Podemos–Sumar,Podemos–Sumar,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,RECORTES CERO,RECORTES CERO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,SUMAR,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,SUMAR - COMPROMÍS,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,SUMAR - ECP,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,SUMAR ARAGÓN,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,SY,SY,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,Somos Cc,Somos Cc,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,U.P.L.,UPL,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,U.P.N.,UPN y coaliciones,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,UNIDOS SI,UNIDOS SÍ,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,UNIDOS SÍ,UNIDOS SÍ,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,UPL,UPL,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,UPN,UPN y coaliciones,INTERIOR,datos/homologacion_siglas/reglas_generales.json#interior
+202307,UPN y coaliciones,UPN y coaliciones,IDENTIDAD,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,Ud.Ca,Ud.Ca,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,VB,VB,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,VOX,VOX,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,VP,VP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,XAV,XAV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,XH,XH,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
+202307,Zsi,Zsi,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_generales.csv
