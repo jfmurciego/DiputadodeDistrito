@@ -13,5 +13,5 @@
 - Notas de la autora: comprobada a 320, 390, 768 y 1440 px; imágenes integradas; auditoría y registro en franja propia; catálogo preparado para el DOI real de cada mapa; las imágenes son ilustraciones de portada, la cartografía sigue en el visor.
 - Permiso: el mismo que la entrega anterior (decisión del propietario, 19-11-2026).
 - Única modificación sobre el original: `web/assets-manifest.json` sin los tres campos `source_url` (enlaces a una biblioteca privada de un servicio externo con identificadores de cuenta); se conservan sha256 y descripción de cada recurso. `SHA256SUMS` refleja el fichero modificado; el sha256 del ZIP de arriba es el del original.
-- Los ficheros citan a «Nessa» como quien aporta y elige los recursos; pendiente de que el propietario confirme si es la misma autora. El permiso es el citado literal del propietario.
+- «Nessa», citada en los ficheros como quien aporta y elige los recursos, es Vanesa, la autora (confirmado por el propietario el 19-11-2026). El permiso es el citado literal del propietario.
 - Los textos de «Protección jurídica» y de reserva de acciones legales de la portada son de trabajo: no se publican sin revisión.
