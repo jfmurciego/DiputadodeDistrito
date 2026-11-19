@@ -58,7 +58,7 @@ class PortadaV4(unittest.TestCase):
     def test_cabecera_identica_en_todas_las_paginas(self):
         # T-423: una sola plantilla (visor/v4/cabecera.html); cada página la copia con sus rutas; solo cambia aria-current
         plantilla = _txt("cabecera.html").split("-->\n", 1)[1].strip()
-        self.assertEqual(plantilla.count("<a "), 7)  # marca + 6 del menú; sin botones a la derecha en ninguna página
+        self.assertEqual(plantilla.count("<a "), 5)  # marca + 4 del menú; sin botones a la derecha en ninguna página
         quitar = lambda h: re.sub(r'\{% if actual == "[^"]+" %\}|\{% endif %\}| aria-current="page"', "", h)
         paginas = {"index.html": ("", "../docs/"), "comprender.html": ("", "../docs/"), "auditoria-registro.html": ("", "../docs/"),
                    "mapa/index.html": ("../", "../../docs/")}
@@ -93,13 +93,17 @@ class PortadaV4(unittest.TestCase):
 
     def test_menu_unico_e_investigacion(self):
         # T-423: un solo menú en portada, Comprender y Explorar; «Investigación» enlaza Datos, Metodología y Fuentes
-        menu = ["Inicio", "Comprender", "Explorar", "Datos", "Metodología", "Fuentes"]
+        # opción A del propietario (19-11): Datos y Fuentes fuera del menú y de cualquier enlace visible de la V4
+        menu = ["Inicio", "Comprender", "Explorar", "Metodología"]
         for pag in ("index.html", "comprender.html", "mapa/index.html"):
             nav = re.search(r'<nav class="main-nav"[^>]*>(.*?)</nav>', _txt(pag), re.S).group(1)
             self.assertEqual(re.findall(r">([^<]+)</a>", nav), menu, pag)
         inv = re.search(r'id="investigacion".*?</section>', _txt("index.html"), re.S).group(0)
-        for ref in ("../docs/datos-abiertos.html", "../docs/metodo.html", "../docs/fuentes.html"):
-            self.assertIn(f'href="{ref}"', inv)
+        self.assertIn('href="../docs/metodo.html"', inv)
+        zens = (DOCS.parent / "overrides/main.html").read_text(encoding="utf-8")
+        toml = (DOCS.parent / "zensical.toml").read_text(encoding="utf-8")
+        for t in [_txt(p) for p in ("index.html", "comprender.html", "mapa/index.html", "cabecera.html", "app.js")] + [zens, toml, (DOCS / "index.md").read_text(encoding="utf-8")]:
+            self.assertNotRegex(t, r"datos-abiertos\.(html|md)|fuentes\.(html|md)")
 
     def test_sin_nomenclatura_vieja(self):
         for pag in PAGINAS:
@@ -140,6 +144,14 @@ class PortadaV4(unittest.TestCase):
         self.assertRegex(h, r'<section[^>]*data-video[^>]*\bhidden\b')
         self.assertNotIn("<video", h)  # el reproductor no se carga hasta pulsar
         self.assertNotRegex(_txt("app.js"), r"autoplay")
+
+    def test_video_desplegado_sin_autoplay(self):
+        # T-423: reproductor visible sin pulsar nada, con su fotograma o póster; sin reproducción automática ni sonido
+        import shutil, subprocess
+        if not shutil.which("node"):
+            self.skipTest("sin node")
+        r = subprocess.run(["node", str(V4.parent.parent / "tests/test_visor_v4_video.js")], capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
 
     def test_doble_vuelta_en_comprender(self):
         h = _txt("comprender.html")

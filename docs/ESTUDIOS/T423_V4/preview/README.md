@@ -7,4 +7,4 @@ mismos pasos que P40 (`datos/` desde los blobs del registro, secciones del secci
 el mapa): no son resultados. En el sitio real la capa lee lo que deja P40 en `v4/mapa/datos/` (`herramientas/publicar_doble_vuelta.py`).
 
 1. Portada · 2. Explorar, vista nacional, «Tres bloques» · 3. Explorar, Madrid a nivel de sección censal ·
-4. Ficha de un distrito con primera y segunda vuelta · 5. Metodología, 6. Datos y 7. Comprender con la cabecera única, el menú y el pie de la V4 (nomenclatura P de D-165 en el texto).
+4. Ficha de un distrito con primera y segunda vuelta · 5. Metodología y 7. Comprender con la cabecera única, el menú (Inicio · Comprender · Explorar · Metodología) y el pie de la V4 (nomenclatura P de D-165 en el texto). 0. Vídeo de la portada desplegado sin pulsar nada (en la captura, un vídeo de prueba local en lugar del real, porque el dominio de vídeos no es accesible desde la sesión; se comprobó: visible, en pausa, sin autoplay, con controles y primer fotograma).

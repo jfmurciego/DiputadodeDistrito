@@ -2,7 +2,7 @@
 # VERSIÓN: 1.2.0
 # FECHA: 2026-11-19
 # ESTADO: portal público estable (T-73)
-# CAMBIOS: 1.2.0 (T-423): tema de la V4 (extra_css estilos/v4.css) y cabecera, menú único y pie de la V4 (custom_dir overrides/). MOTIVO: un solo diseño.
+# CAMBIOS: 1.2.0 (T-423): tema de la V4 (extra_css estilos/v4.css) y cabecera, menú único y pie de la V4 (custom_dir overrides/); Datos y Fuentes fuera del menú (opción A del propietario). MOTIVO: un solo diseño.
 # ANTERIOR: legacy/documentacion_publica/zensical_v1.1.0_20261119.toml
 [project]
 site_name = "DDD · Documentación e investigación"
@@ -17,8 +17,6 @@ extra_css = ["estilos/v4.css"]
 nav = [
   { "Inicio" = "index.md" },
   { "Método" = "metodo.md" },
-  { "Fuentes y derechos de uso" = "fuentes.md" },
-  { "Datos abiertos y licencia" = "datos-abiertos.md" },
   { "Cómo citar" = "citar.md" },
   { "Archivo con R2" = "archivo-r2.md" },
 ]
