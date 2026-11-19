@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.524
+Versión: 1.0.526
 Fecha: 2026-11-19
-Alcance: T-415 — Originales de la portada de la V4 (sin publicar)
+Alcance: Coordinador — traspaso del Coordinador (relevo D-160) y lecciones
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-19_planificador-t415-v4-originales.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.523_registro_20261119.md
+Cambios/motivo: entrada docs/registro/2026-11-17_coordinador-traspaso-2026-11-17.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.525_registro_20261119.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.523_registro_20261119.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.526 · [2026-11-17 — Coordinador — traspaso del Coordinador (relevo D-160) y lecciones](registro/2026-11-17_coordinador-traspaso-2026-11-17.md)
+- 1.0.525 · [2026-11-18 — T-409 — Detalle por partido y bloque en la doble vuelta (dv_A)](registro/2026-11-18_implementador-t409-detalle-dv.md)
 - 1.0.524 · [2026-11-19 — T-415 — Originales de la portada de la V4 (sin publicar)](registro/2026-11-19_planificador-t415-v4-originales.md)
 - 1.0.523 · [2026-11-18 — T-413 — Diseño del visor de la doble vuelta](registro/2026-11-18_t413-visor-doble-vuelta-diseno.md)
 - 1.0.522 · [2026-11-18 — T-414 — Plan 1.0.68: D-171, D-172, T-409 y T-413](registro/2026-11-18_planificador-plan-1-0-68.md)
