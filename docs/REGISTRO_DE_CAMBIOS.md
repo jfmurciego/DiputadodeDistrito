@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.550
+Versión: 1.0.551
 Fecha: 2026-11-19
-Alcance: T-420b — P74 Listar con duplicados
+Alcance: T-400 (D-180 1 y 2) — K por partición insular y exención de suelo en el histórico 2011-11
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-19_t420b-p74-duplicados.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.549_registro_20261119.md
+Cambios/motivo: entrada docs/registro/2026-11-19_t400-reparto-k-particiones.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.550_registro_20261119.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.549_registro_20261119.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.551 · [2026-11-19 — T-400 (D-180 1 y 2) — K por partición insular y exención de suelo en el histórico 2011-11](registro/2026-11-19_t400-reparto-k-particiones.md)
 - 1.0.550 · [2026-11-19 — T-420b — P74 Listar con duplicados](registro/2026-11-19_t420b-p74-duplicados.md)
 - 1.0.549 · [2026-11-19 — T-400 — nac35 2011-11: puente de La Graciosa ausente del seccionado 2012](registro/2026-11-19_t400-puente-la-graciosa-2011.md)
 - 1.0.548 · [2026-11-19 — T-415 — PR 4: mapa real de la V4 con los datos de los 52 nac, textos y vídeo](registro/2026-11-19_implementador-t415-pr4-mapa.md)
