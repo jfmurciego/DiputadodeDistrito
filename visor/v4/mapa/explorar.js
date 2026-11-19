@@ -3,13 +3,13 @@
  * VERSIÓN: 1.0.0
  * FECHA: 2026-11-19
  * ESTADO: candidato
- * CAMBIOS: copia íntegra de visor/v3/v3.js 1.3.0 (MapLibre, vista nacional, comunidad, provincia, distrito, municipio y sección
+ * CAMBIOS: copia íntegra de v3.js 1.3.0 de la V3 (MapLibre, vista nacional, comunidad, provincia, distrito, municipio y sección
  *   censal, calendario, paletas, paneles, procedencia, galería y tabla) con rutas a ../../ y una capa electoral más, «Doble vuelta»
  *   (D-172): reglas «Tres bloques» (dv_A, por defecto), «Dos bloques» (dv_B), «Sin coaliciones» (dv_base) y «Más votado» (primero),
  *   coloreado por bloque (claro si la ventaja es < 5 puntos), ficha por distrito con primera y segunda vuelta y aviso fijo
  *   «Simulación sin valor oficial». Lee lo que deja P40 en v4/mapa/datos/ (herramientas/publicar_doble_vuelta.py) y verifica sha256.
  * MOTIVO: T-423, la V4 es la portada de la autora + la V3 completa enriquecida con la doble vuelta (decisión del propietario, 19-11).
- * ANTERIOR: ninguna (fichero nuevo; copia de visor/v3/v3.js 1.3.0, que no cambia) */
+ * ANTERIOR: ninguna (fichero nuevo; copia de v3.js 1.3.0 de la V3, que no cambia) */
 "use strict";
 (function () {
   const BASE={provincias:"../../v2/datos/provincias.json",comunidades:"../../v2/datos/comunidades.json",

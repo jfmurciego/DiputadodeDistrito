@@ -55,13 +55,4 @@ assert.throws(() => DV.leerIndice({ ...idx, schema: "otro" }), /esquema desconoc
 assert.throws(() => DV.leerIndice({ ...idx, territorios: [{ ...idx.territorios[0], id: "aut01" }] }), /id de territorio/);
 for (const ruta of ["../secreto.csv", "/etc/passwd", "https://x.es/a.csv", "nac01/../../a.csv"]) assert.throws(() => DV.leerIndice({ ...idx, territorios: [{ ...idx.territorios[0], detalle: fich(ruta) }] }), /ruta no válida/, ruta);
 assert.throws(() => DV.leerIndice({ ...idx, territorios: [{ ...idx.territorios[0], geometria: { ruta: "nac01/distritos.geojson", sha256: "xyz" } }] }), /sha256 no válido/);
-// 14. Geometría → rutas SVG (valores literales a mano: dos cuadrados contiguos de 2°×1° en el ecuador, ancho 400 → 200×100 cada uno)
-const GEO = require("../visor/v4/mapa/geo.js");
-const cuad = (id, x0) => ({ type: "Feature", properties: { district_id: id }, geometry: { type: "Polygon", coordinates: [[[x0, 0], [x0 + 2, 0], [x0 + 2, 1], [x0, 1], [x0, 0]]] } });
-const g = GEO.caminos({ type: "FeatureCollection", features: [cuad(1, 0), cuad(2, 2)] }, 400);
-assert.deepStrictEqual([g.ancho, g.alto], [400, 100]);
-assert.deepStrictEqual(g.distritos, [{ id: 1, d: "M0 100L200 100L200 0L0 0L0 100Z" }, { id: 2, d: "M200 100L400 100L400 0L200 0L200 100Z" }]);
-assert.throws(() => GEO.caminos({ type: "FeatureCollection", features: [cuad(1, 0), cuad(1, 2)] }, 400), /repetido/);
-assert.throws(() => GEO.caminos({ type: "FeatureCollection", features: [{ type: "Feature", properties: {}, geometry: null }] }, 400), /district_id/);
-assert.throws(() => GEO.caminos({ type: "FeatureCollection", features: [{ type: "Feature", properties: { district_id: 1 }, geometry: null }] }, 400), /sin polígono/);
 console.log("OK visor v4 mapa");

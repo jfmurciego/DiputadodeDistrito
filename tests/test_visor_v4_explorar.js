@@ -1,0 +1,164 @@
+/* PROYECTO: Diputado de Distrito
+ * CLASE: prueba de interacción del Explorar de la V4 (T-423)
+ * VERSIÓN: 1.0.0 · FECHA: 2026-11-19 · ESTADO: candidato · ANTERIOR: ninguna (fichero nuevo)
+ * CAMBIOS: el Explorar de la V4 (visor/v4/mapa/explorar.js, copia de la V3 + capa «Doble vuelta») con un navegador simulado,
+ *   la cartografía real de provincias y comunidades, el índice real de los 52 nac (datos_abiertos/INDEX.json) y CSV de doble vuelta
+ *   sintéticos con su sha256. Esperados: literales (bloques y reglas escritos a mano), no recalculados con el código del visor. */
+"use strict";
+const assert = require("node:assert/strict");
+const fs = require("node:fs"), path = require("node:path"), vm = require("node:vm"), crypto = require("node:crypto");
+const ROOT = path.resolve(__dirname, "..");
+const source = fs.readFileSync(path.join(ROOT, "visor/v4/mapa/explorar.js"), "utf8");
+const dvSource = fs.readFileSync(path.join(ROOT, "visor/v4/mapa/dv.js"), "utf8");
+const provincias = JSON.parse(fs.readFileSync(path.join(ROOT, "visor/v2/datos/provincias.json"), "utf8"));
+const comunidades = JSON.parse(fs.readFileSync(path.join(ROOT, "visor/v2/datos/comunidades.json"), "utf8"));
+const index = JSON.parse(fs.readFileSync(path.join(ROOT, "datos_abiertos/INDEX.json"), "utf8"));
+const NAC = Object.keys(index.territorios).filter(k => /^nac\d{2}$/.test(k)).sort();
+assert.equal(NAC.length, 52, "el índice real trae los 52 territorios del Congreso");
+
+// Distritos: un cuadrado diminuto por distrito, con el número público 1..K del índice real.
+const sq = (x, y) => ({ type: "Polygon", coordinates: [[[x, y], [x + .01, y], [x + .01, y + .01], [x, y + .01], [x, y]]] });
+const fixtures = {};
+const bin = {};
+const sha = b => crypto.createHash("sha256").update(b).digest("hex");
+const CAB_R = "district_id,escenario,vuelta_decisiva,candidatura_ganadora,bloque_ganador,votos_1v,cuota_1v,finalista_a,finalista_b,votos_a_2v,votos_b_2v,cuota_ganador_2v,votos_abstencion,empate\n";
+const CAB_D = "district_id,escenario,candidatura,partido,bloque,votos_1v,votos_candidatura\n";
+// Por distrito, literal: dv_A gana Izquierdas en 2.ª vuelta 40-30 (los 15 nacionalistas se abstienen: 40/70 = 57,1 %); dv_B gana Patriotas en 1.ª; dv_base gana PSOE
+// en 2.ª por 50,5-49,5 (ventaja < 5 puntos: color claro); primero gana PP.
+function csvs(k) {
+  let r = CAB_R, d = CAB_D;
+  for (const x of index.territorios[k].distritos) {
+    const i = x.distrito;
+    r += `${i},dv_A,2,bloque:Izquierdas,Izquierdas,40,0.4,bloque:Izquierdas,bloque:Patriotas,40,30,0.571429,15,false\n`;
+    r += `${i},dv_B,1,bloque:Patriotas,Patriotas,60,0.6,,,,,,0,false\n`;
+    r += `${i},dv_base,2,PSOE,Izquierdas,40,0.4,PSOE,PP,505,495,0.505051,0,false\n`;
+    r += `${i},primero,1,PP,Patriotas,41,0.41,,,,,,0,false\n`;
+    d += `${i},dv_A,bloque:Izquierdas,PSOE,Izquierdas,40,40\n${i},dv_A,bloque:Patriotas,PP,Patriotas,30,30\n${i},dv_A,bloque:Nacionalistas,ERC,Nacionalistas,15,15\n`;
+    d += `${i},dv_B,bloque:Patriotas,PP,Patriotas,60,60\n${i},dv_B,bloque:Izquierdas,PSOE,Izquierdas,40,40\n`;
+    d += `${i},dv_base,PSOE,PSOE,Izquierdas,40,40\n${i},dv_base,PP,PP,Patriotas,35,35\n${i},dv_base,VOX,VOX,Patriotas,25,25\n`;
+    d += `${i},primero,PP,PP,Patriotas,41,41\n${i},primero,PSOE,PSOE,Izquierdas,40,40\n`;
+  }
+  return [Buffer.from(r), Buffer.from(d)];
+}
+const dvIndex = { schema: "ddd.v4-doble-vuelta/1.0", eleccion: "2023-07", territorios: [] };
+NAC.forEach((k, n) => {
+  const t = index.territorios[k];
+  fixtures["../../datos/" + t.geojson.ruta] = { type: "FeatureCollection",
+    features: t.distritos.map((x, j) => ({ type: "Feature", geometry: sq(n, j * .02), properties: { distrito: x.distrito, district_pop: x.poblacion, section_count: 1 } })) };
+  const [r, d] = csvs(k);
+  bin["datos/" + k + "/resultados_doble_vuelta.csv"] = r;
+  bin["datos/" + k + "/detalle.csv"] = d;
+  dvIndex.territorios.push({ id: k, nombre: t.provincia, distritos: t.distritos.length,
+    resultados: { ruta: k + "/resultados_doble_vuelta.csv", sha256: sha(r) }, detalle: { ruta: k + "/detalle.csv", sha256: sha(d) },
+    geometria: { ruta: k + "/distritos.geojson", sha256: "0".repeat(64) } });
+});
+// Un territorio con la huella mal: no debe pintarse (fallo cerrado), los otros 51 sí. Se usa en la última prueba.
+bin["datos/INDEX.json"] = Buffer.from(JSON.stringify(dvIndex));
+const madrid = provincias.features.find(f => f.properties.cod === "28");
+const madridKey = Object.entries(index.territorios).find(([, v]) => v.provincia === "Madrid")[0];
+const d1 = index.territorios[madridKey].distritos[0].distrito;
+Object.assign(fixtures, {
+  "../../v2/datos/provincias.json": provincias, "../../v2/datos/comunidades.json": comunidades, "../../datos/INDEX.json": index,
+  "../../v2/datos/secciones/INDEX.json": { provincias: { "28": {} } },
+  "../../v2/datos/secciones/28.geojson": { type: "FeatureCollection", features: [{ type: "Feature", geometry: madrid.geometry, properties: { s: "2807912003", m: "Madrid", p: 1622, d: d1 } }] },
+  "../../v2/datos/territorial.json": { provincias: {} }, "calendario.json": {}
+});
+
+const el = {}, group = {};
+function element(id) {
+  if (id === "level" && !el[id]) el[id] = { id, value: "provincia", options: ["comunidad", "provincia", "distrito", "municipio", "seccion"].map(value => ({ value, disabled: false, removeAttribute(k) { delete this[k]; } })) };
+  return el[id] || (el[id] = { id, value: "", hidden: false, checked: true, innerHTML: "", textContent: "", dataset: {}, style: {},
+    setAttribute(k, v) { this[k] = v; }, addEventListener(k, fn) { this[k] = fn; }, replaceChildren(...c) { this.children = c; },
+    appendChild(c) { (this.children ??= []).push(c); return c; }, querySelectorAll() { return []; } });
+}
+for (const [id, opts] of [["scope", ["nacional", "autonomico"]], ["system", ["proporcional", "mayoritario"]], ["view", ["territorial", "electoral"]], ["regla", ["tres", "dos", "base", "primero"]]])
+  group["#" + id + " button"] = opts.map(value => ({ dataset: { value }, setAttribute(k, v) { this[k] = v; } }));
+group["[data-panel]"] = ["territorio", "resultados", "comparar", "evolucion"].map(panel => ({ dataset: { panel }, setAttribute(k, v) { this[k] = v; } }));
+const doc = { getElementById: element, querySelectorAll: q => group[q] || [], createElement: tag => ({ tag, textContent: "", setAttribute(k, v) { this[k] = v; } }),
+  body: { dataset: {} }, documentElement: {} };
+let map;
+class FakeMap {
+  constructor() { this.sources = new Map(); this.layers = new Map(); this.handlers = {}; this.hit = []; map = this; queueMicrotask(() => this.handlers.load?.()); }
+  addControl() {} on(ev, ...a) { this.handlers[ev] = a.at(-1); }
+  addSource(id, s) { this.sources.set(id, { data: s.data, setData(n) { this.data = n; } }); } getSource(id) { return this.sources.get(id); }
+  addLayer(l) { this.layers.set(l.id, { ...l, layout: { visibility: "visible", ...l.layout }, paint: { ...l.paint } }); } getLayer(id) { return this.layers.get(id); }
+  getLayoutProperty(id, k) { return this.layers.get(id).layout[k]; } setLayoutProperty(id, k, v) { this.layers.get(id).layout[k] = v; }
+  setPaintProperty(id, k, v) { this.layers.get(id).paint[k] = v; } fitBounds() {} getZoom() { return 5; } queryRenderedFeatures() { return this.hit; }
+}
+const libre = { Map: FakeMap, NavigationControl: class {} };
+const ab = b => b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength);
+const sandbox = { document: doc, maplibregl: libre, console, location: { search: "" }, history: { replaceState() {} }, TextDecoder, crypto: crypto.webcrypto,
+  getComputedStyle: () => ({ getPropertyValue: () => "" }),
+  fetch: async key => {
+    if (Object.hasOwn(bin, key)) return { ok: true, status: 200, arrayBuffer: async () => ab(bin[key]) };
+    const ok = Object.hasOwn(fixtures, key); return { ok, status: ok ? 200 : 404, json: async () => fixtures[key] };
+  } };
+sandbox.window = sandbox; sandbox.globalThis = sandbox;
+vm.runInNewContext(dvSource, sandbox, { filename: "dv.js" });
+const marker = "  init();\n})();";
+assert.ok(source.includes(marker), "cambió el arranque del Explorar");
+vm.runInNewContext(source.replace(marker, "  globalThis.__T__={S,D,DVD,setRegla,renderDetail,openProvince};\n  init();\n})();"), sandbox, { filename: "explorar.js", timeout: 10000 });
+const eq = (a, b, m) => assert.deepEqual(JSON.parse(JSON.stringify(a)), b, m); // objetos del contexto vm: otro prototipo de Array
+const flush = async () => { for (let i = 0; i < 60; i++) await new Promise(r => setImmediate(r)); };
+
+(async () => {
+  await flush();
+  const t = sandbox.__T__;
+  assert.equal(doc.body.dataset.ready, "1", "el mapa debe arrancar");
+  // 1. Por defecto: capa «Doble vuelta», regla «Tres bloques», Congreso, mayoritario, electoral, 2023.
+  eq([t.S.layer, t.S.regla, t.S.scope, t.S.system, t.S.view, t.S.election], ["doblevuelta", "tres", "nacional", "mayoritario", "electoral", "202307"]);
+  assert.equal(element("regla-ayuda").textContent, "Izquierdas, Nacionalistas y Patriotas se presentan cada uno como una sola candidatura.");
+  // 2. Vista nacional: los distritos de los 52 nac llevan su bloque en las cuatro reglas.
+  const feats = map.getSource("distritos").data.features;
+  const total = NAC.reduce((s, k) => s + index.territorios[k].distritos.length, 0);
+  assert.equal(feats.length, total, "todos los distritos de los 52 nac");
+  eq([...new Set(feats.map(f => f.properties.identity))].sort(), NAC, "los 52 nac en el mapa nacional");
+  for (const f of feats) eq([f.properties.dv_tres, f.properties.dv_dos, f.properties.dv_base, f.properties.dv_primero],
+    ["izq", "pat", "izq-claro", "pat"], f.properties.identity + "/" + f.properties.distrito);
+  assert.equal(t.DVD.datos.size, 52); assert.equal(t.DVD.fallos.size, 0);
+  // 3. Coloreado por bloque con la regla elegida; aviso fijo visible.
+  const fill = () => map.getLayer("dist-fill").paint["fill-color"];
+  eq(fill().slice(0, 2), ["match", ["coalesce", ["get", "dv_tres"], "nodato"]]);
+  assert.equal(fill()[fill().indexOf("izq") + 1], "#b3261e"); assert.equal(fill()[fill().indexOf("pat") + 1], "#1f5fa8");
+  assert.equal(element("dv-aviso").hidden, false);
+  assert.match(element("legend").innerHTML, /Simulación sin valor oficial/);
+  assert.match(element("map-caption").textContent, /Doble vuelta · Tres bloques/);
+  t.setRegla("dos"); await flush();
+  eq(fill()[1], ["coalesce", ["get", "dv_dos"], "nodato"]);
+  eq(group["#regla button"].map(b => b["aria-pressed"]), ["false", "true", "false", "false"]);
+  t.setRegla("tres"); await flush();
+  // 4. Ficha de un distrito: primera y segunda vuelta, comparación entre reglas y aviso.
+  t.openProvince("28", true); await flush();
+  const dist = map.getSource("distritos").data.features.find(f => f.properties.distrito === d1);
+  map.hit = [{ layer: { id: "dist-fill" }, geometry: dist.geometry, properties: dist.properties }];
+  map.handlers.click({ point: {} }); await flush();
+  assert.equal(element("dv-mode").hidden, false);
+  const ficha = element("dv-content").innerHTML;
+  assert.match(ficha, /Decide la segunda vuelta · gana Izquierdas \(bloque\) con el 57,1 %/);
+  assert.match(ficha, /1\.ª vuelta/); assert.match(ficha, /2\.ª vuelta<\/h3><p>Izquierdas \(bloque\) 40 · Patriotas \(bloque\) 30 · abstención 15/);
+  assert.match(ficha, /Nacionalistas \(bloque\)<\/td><td>→ abstención \(su bloque no tiene finalista\)/);
+  for (const r of ["Tres bloques → Izquierdas (bloque)", "Dos bloques → Patriotas (bloque)", "Sin coaliciones → PSOE", "Más votado → PP"]) assert.ok(ficha.includes(r), r);
+  assert.match(ficha, /Simulación sin valor oficial/);
+  // 5. Sección censal: hereda el bloque de su distrito (no un recuento propio).
+  element("level").value = "seccion"; element("level").onchange({ target: element("level") }); await flush();
+  const sec = map.getSource("secciones").data.features[0];
+  assert.equal(sec.properties.s, "2807912003");
+  eq([sec.properties.dv_tres, sec.properties.dv_base], ["izq", "izq-claro"]);
+  assert.equal(map.getLayer("sec-fill").layout.visibility, "visible");
+  eq(map.getLayer("sec-fill").paint["fill-color"][1], ["coalesce", ["get", "dv_tres"], "nodato"]);
+  // 6. Salir a otra capa de la V3 devuelve la paleta de partidos; volver a la doble vuelta la recupera.
+  element("layer").value = "ganador"; element("layer").onchange({ target: element("layer") }); await flush();
+  assert.equal(element("dv-aviso").hidden, true); assert.equal(element("dv-mode").hidden, true);
+  element("layer").value = "doblevuelta"; element("layer").onchange({ target: element("layer") }); await flush();
+  assert.equal(element("dv-aviso").hidden, false);
+  // 7. Otra elección: sin colores de doble vuelta (solo hay 2023) y la capa vuelve a «Partido más votado».
+  element("elections").children.find(b => b.textContent === "nov. 2011").onclick(); await flush();
+  assert.equal(t.S.layer, "ganador"); assert.equal(map.getLayer("dist-fill").paint["fill-color"], "#a8bac7");
+  // 8. Huella que no coincide: ese territorio no se pinta (fallo cerrado) y se dice por qué.
+  t.DVD.datos.delete(madridKey); bin["datos/" + madridKey + "/detalle.csv"] = Buffer.from(CAB_D);
+  element("elections").children.find(b => b.textContent === "jul. 2023").onclick(); await flush();
+  element("layer").value = "doblevuelta"; element("layer").onchange({ target: element("layer") }); await flush();
+  assert.match(t.DVD.fallos.get(madridKey), /no coincide/);
+  assert.ok(map.getSource("distritos").data.features.every(f => f.properties.dv_tres === "nodato"));
+  console.log("OK visor v4 explorar (52 nac, cuatro reglas, ficha, sección y fallo cerrado)");
+})().catch(e => { console.error(e); process.exitCode = 1; });

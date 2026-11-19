@@ -7,4 +7,4 @@ mismos pasos que P40 (`datos/` desde los blobs del registro, secciones del secci
 el mapa): no son resultados. En el sitio real la capa lee lo que deja P40 en `v4/mapa/datos/` (`herramientas/publicar_doble_vuelta.py`).
 
 1. Portada · 2. Explorar, vista nacional, «Tres bloques» · 3. Explorar, Madrid a nivel de sección censal ·
-4. Ficha de un distrito con primera y segunda vuelta · 5. Metodología con el tema V4.
+4. Ficha de un distrito con primera y segunda vuelta · 5. Metodología y 6. Datos con la cabecera, el menú único y el pie de la V4.

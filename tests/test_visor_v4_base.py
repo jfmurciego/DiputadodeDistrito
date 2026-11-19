@@ -6,6 +6,7 @@ import unittest
 from pathlib import Path
 
 V4 = Path(__file__).resolve().parent.parent / "visor" / "v4"
+DOCS = Path(__file__).resolve().parent.parent / "documentacion_publica" / "docs"
 PAGINAS = ["index.html", "comprender.html", "auditoria-registro.html"]
 # sha256 de los WebP de la autora (final/SHA256SUMS y assets-manifest.json de la entrega)
 SHA = {
@@ -22,6 +23,9 @@ class PortadaV4(unittest.TestCase):
         for pag in PAGINAS:
             h = _txt(pag)
             for ref in re.findall(r'(?:href|src)="([^"#:?]+)(?:[?#][^"]*)?"', h):
+                if ref.startswith("../docs/"):  # T-423: Datos, Metodología y Fuentes las genera P40 (Zensical) de documentacion_publica/docs/*.md
+                    self.assertTrue((DOCS / ref[len("../docs/"):].replace(".html", ".md")).is_file(), f"{pag}: {ref}")
+                    continue
                 destino = (V4 / ref).resolve()
                 self.assertTrue(destino.exists(), f"{pag}: {ref}")
         for pag in PAGINAS:
@@ -36,8 +40,10 @@ class PortadaV4(unittest.TestCase):
         for pag in paginas:
             base = Path(pag).parent
             for ref in re.findall(r'(?:href|src)="([^"#:?]+)(?:[?#][^"]*)?"', _txt(pag)):
-                destino = (base / ref).as_posix()
-                destino = str((V4 / destino).resolve().relative_to(V4.resolve()))
+                destino = (V4 / (base / ref).as_posix()).resolve()
+                if not destino.is_relative_to(V4.resolve()):
+                    continue  # fuera de v4/ (v2/, datos/, docs/ del sitio): NO_PUBLICAR solo afecta a v4/
+                destino = str(destino.relative_to(V4.resolve()))
                 for e in excluidas:
                     self.assertFalse(destino == e or destino.startswith(e.rstrip("/") + "/"), f"{pag} enlaza a {ref}, que NO_PUBLICAR excluye")
         self.assertNotIn("auditoria-registro", "".join(_txt(p) for p in paginas))
@@ -48,6 +54,16 @@ class PortadaV4(unittest.TestCase):
             self.assertNotIn("/v3/", h, pag)
             self.assertNotIn("diputadodedistrito.es", h, pag)
         self.assertIn('href="mapa/"', _txt("index.html"))
+
+    def test_menu_unico_e_investigacion(self):
+        # T-423: un solo menú en portada, Comprender y Explorar; «Investigación» enlaza Datos, Metodología y Fuentes
+        menu = ["Inicio", "Comprender", "Explorar", "Datos", "Metodología", "Fuentes"]
+        for pag in ("index.html", "comprender.html", "mapa/index.html"):
+            nav = re.search(r'<nav class="main-nav"[^>]*>(.*?)</nav>', _txt(pag), re.S).group(1)
+            self.assertEqual(re.findall(r">([^<]+)</a>", nav), menu, pag)
+        inv = re.search(r'id="investigacion".*?</section>', _txt("index.html"), re.S).group(0)
+        for ref in ("../docs/datos-abiertos.html", "../docs/metodo.html", "../docs/fuentes.html"):
+            self.assertIn(f'href="{ref}"', inv)
 
     def test_sin_nomenclatura_vieja(self):
         for pag in PAGINAS:

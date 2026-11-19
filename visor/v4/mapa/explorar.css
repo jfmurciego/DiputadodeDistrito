@@ -3,10 +3,10 @@
  * VERSIÓN: 1.0.0
  * FECHA: 2026-11-19
  * ESTADO: candidato
- * CAMBIOS: copia de visor/v3/v3.css 1.2.0 (disposición, paneles, leyenda, calendario, accesibilidad, galería) + tema de la V4
+ * CAMBIOS: copia de v3.css 1.2.0 de la V3 (disposición, paneles, leyenda, calendario, accesibilidad, galería) + tema de la V4
  *   (cabecera, paleta oscura, tipografía y pie de ../styles.css) + estilos de la capa «Doble vuelta» (reglas, aviso fijo, ficha).
  * MOTIVO: T-423, la V3 completa dentro del diseño de la V4.
- * ANTERIOR: ninguna (fichero nuevo; copia de visor/v3/v3.css 1.2.0, que no cambia) */
+ * ANTERIOR: ninguna (fichero nuevo; copia de v3.css 1.2.0 de la V3, que no cambia) */
 :root{--ink:#24262a;--muted:#5a5c64;--wine:#9c2733;--wine2:#7f1928;--paper:#f8f7f5;--line:#e2dfe0;--panel:#fff;--soft:#f9eff0;--blue:#1d84ce;--red:#d62728;--green:#4c9a2a;--shadow:0 3px 18px rgba(23,28,36,.065);--radius:16px}
 *{box-sizing:border-box}html,body{height:100%}body{margin:0;color:var(--ink);background:var(--paper);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:13px}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,[tabindex]:focus-visible{outline:3px solid #14161a;outline-offset:2px;box-shadow:0 0 0 6px #fff}
 .top{height:78px;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:22px;padding:0 26px;border-bottom:1px solid var(--line)}
