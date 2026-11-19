@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.527
+Versión: 1.0.528
 Fecha: 2026-11-19
-Alcance: T-409 — La doble vuelta informa de los partidos sin casar (menores del revisor de #904)
+Alcance: T-413 — Mapa con doble vuelta en visor/v4/mapa/ (página de ejemplo)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-19_implementador-t409-sin-casar.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.526_registro_20261119.md
+Cambios/motivo: entrada docs/registro/2026-11-19_claude-t413-mapa-v4.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.527_registro_20261119.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.526_registro_20261119.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.528 · [2026-11-19 — T-413 — Mapa con doble vuelta en visor/v4/mapa/ (página de ejemplo)](registro/2026-11-19_claude-t413-mapa-v4.md)
 - 1.0.527 · [2026-11-19 — T-409 — La doble vuelta informa de los partidos sin casar (menores del revisor de #904)](registro/2026-11-19_implementador-t409-sin-casar.md)
 - 1.0.526 · [2026-11-17 — Coordinador — traspaso del Coordinador (relevo D-160) y lecciones](registro/2026-11-17_coordinador-traspaso-2026-11-17.md)
 - 1.0.525 · [2026-11-18 — T-409 — Detalle por partido y bloque en la doble vuelta (dv_A)](registro/2026-11-18_implementador-t409-detalle-dv.md)
