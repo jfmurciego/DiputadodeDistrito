@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.523
-Fecha: 2026-11-18
-Alcance: T-413 — Diseño del visor de la doble vuelta
+Versión: 1.0.530
+Fecha: 2026-11-19
+Alcance: T-409 — Tabla de alias de partidos (id de fuente → partido homologado) y `--alias` en la doble vuelta
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-18_t413-visor-doble-vuelta-diseno.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.522_registro_20261118.md
+Cambios/motivo: entrada docs/registro/2026-11-19_implementador-t409-alias-partidos.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.529_registro_20261119.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,13 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.522_registro_20261118.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.530 · [2026-11-19 — T-409 — Tabla de alias de partidos (id de fuente → partido homologado) y `--alias` en la doble vuelta](registro/2026-11-19_implementador-t409-alias-partidos.md)
+- 1.0.529 · [2026-11-19 — T-409 — Enganche de la doble vuelta a P30 con archivo en origen (D-171)](registro/2026-11-19_implementador-t409-enganche-doble-vuelta.md)
+- 1.0.528 · [2026-11-19 — T-413 — Mapa con doble vuelta en visor/v4/mapa/ (página de ejemplo)](registro/2026-11-19_claude-t413-mapa-v4.md)
+- 1.0.527 · [2026-11-19 — T-409 — La doble vuelta informa de los partidos sin casar (menores del revisor de #904)](registro/2026-11-19_implementador-t409-sin-casar.md)
+- 1.0.526 · [2026-11-17 — Coordinador — traspaso del Coordinador (relevo D-160) y lecciones](registro/2026-11-17_coordinador-traspaso-2026-11-17.md)
+- 1.0.525 · [2026-11-18 — T-409 — Detalle por partido y bloque en la doble vuelta (dv_A)](registro/2026-11-18_implementador-t409-detalle-dv.md)
+- 1.0.524 · [2026-11-19 — T-415 — Originales de la portada de la V4 (sin publicar)](registro/2026-11-19_planificador-t415-v4-originales.md)
 - 1.0.523 · [2026-11-18 — T-413 — Diseño del visor de la doble vuelta](registro/2026-11-18_t413-visor-doble-vuelta-diseno.md)
 - 1.0.522 · [2026-11-18 — T-414 — Plan 1.0.68: D-171, D-172, T-409 y T-413](registro/2026-11-18_planificador-plan-1-0-68.md)
 - 1.0.521 · [2026-11-17 — T-409 — Herramienta de doble vuelta con coaliciones (D-167)](registro/2026-11-17_implementador-t409-herramienta-doble-vuelta.md)

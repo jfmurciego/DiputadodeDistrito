@@ -1,0 +1,669 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: interfaz operativa principal
+# VERSIÓN: 1.0.1
+# CAMBIOS 1.0.1: T-379 PR 2b (D-163, 2b mínima): `contents: read` en todo el fichero (el push a main va con el token de la app de registro,
+#   que no depende de GITHUB_TOKEN: `contents: read` NO es barrera para ese push; sin la app, la credencial falla en vez de caer en github.token);
+#   entrada oculta `campana` (workflow_call; vacía = como antes). Con campaña, los jobs (en P30, los pasos) que registran en main se saltan.
+# ANTERIOR (1.0.0): legacy/workflows/p30-resultados-electorales_v1.0.0_20261117b.yml
+# CAMBIOS 1.0.0: T-376 (D-137, migración paso 7). Fichero nuevo: sustituye a `incorporacion-resultados-electorales.yml` 2.0.8 («P40 Resultados electorales») y a
+#   `_reutilizable-incorporacion-electoral.yml` 1.3.0 (este va DENTRO: los pasos de `preparar`, `incorporar` y `registrar` de antes, en un solo job).
+#   Botón: solo `territorio` (UN código, p. ej. aut12; sin matriz, sin run id: producto territorial certificado y paquete
+#   electoral vigente desde el catálogo). Edición fijada en el código (2025). Entradas técnicas solo por workflow_call (la 00, job `incorporar`).
+# D-148 (aplicado): el botón admite UN territorio por ejecución, sin condición; varios en paralelo los da P00 (cada llamada por `workflow_call` es un territorio,
+#   con su propio `artifact_namespace` si la 00 lo pasa). Sin matriz, sin `fromJSON`, sin reutilizable interno.
+# ANTERIOR: ninguna (fichero nuevo); sustituye a legacy/workflows/incorporacion-resultados-electorales_v2.0.8_20261116.yml
+#   y legacy/workflows/_reutilizable-incorporacion-electoral_v1.3.0_20261116.yml
+# NOMBRE DE VERSIÓN: P30 Resultados electorales
+# ESTADO: candidato
+# QUÉ HACE: consume un producto territorial certificado y resultados electorales preparados, agrega los resultados por distrito, genera el producto
+#   electoral (M07/M08), lo archiva en origen y registra su disponibilidad en main.
+# NO HACE: generar distritos, repetir auditorías geométricas ni publicar el visor. Puede materializar M07/M08 genéricos desde un paquete electoral autocontenido.
+# NOTAS (llamada de la 00): `data_edition` vacío = 2025; `persist_state` vacío = true (el botón siempre registra); `territory_id` (nombre, «NN Nombre» o código) se resuelve al id
+#   canónico: el grupo `ddd-electoral-prod-<id>` es el mismo para código y nombre; coincide con P10 (T-375, #874, ya en main) y coincidirá con P20 (#880) al entrar; `artifact_namespace` vacío = sin sufijo (como hoy).
+# FECHA: 2026-11-16
+name: P30 Resultados electorales
+
+on:
+  workflow_call:
+    inputs:
+      campana: {required: false, type: string, default: ''}  # T-379 2b (D-163): id de campaña de P00; no vacía = ruta de campaña (sin registro en main)
+      territory_id: {required: true, type: string}
+      data_edition: {required: false, type: string, default: ''}
+      territorial_run_id: {required: false, type: string, default: ''}
+      electoral_package_run_id: {required: false, type: string, default: ''}
+      electoral_package_artifact_name: {required: false, type: string, default: ''}
+      electoral_package_artifact_digest: {required: false, type: string, default: ''}
+      source_ref: {required: false, type: string, default: ''}
+      persist_state: {required: false, type: boolean, default: true}
+      territorial_product_artifact_name: {required: false, type: string, default: ''}
+      territorial_audit_artifact_name: {required: false, type: string, default: ''}
+      artifact_namespace: {required: false, type: string, default: ''}
+  workflow_dispatch:
+    inputs:
+      territorio:
+        description: Territorio (un código, p. ej. aut12)
+        required: true
+        type: string
+
+permissions:
+  contents: read  # T-379 2b (D-163): el push a main va con el token de la app de registro, no con GITHUB_TOKEN
+  actions: read
+
+jobs:
+  resolver:
+    name: Resolver el territorio
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    outputs:
+      territorio: ${{ steps.r.outputs.territorio }}
+      edicion: ${{ steps.r.outputs.edicion }}
+      persistir: ${{ steps.r.outputs.persistir }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: r
+        name: Resolver territorio, edición y registro
+        shell: bash
+        env:
+          TERRITORIO: ${{ inputs.territorio }}
+          TERRITORY_ID: ${{ inputs.territory_id }}
+          EDICION: ${{ inputs.data_edition }}
+          PERSISTIR: ${{ toJSON(inputs.persist_state) }}
+        run: |
+          set -euo pipefail
+          out="$(python3 herramientas/p30_resolver.py resolver --territorio "$TERRITORIO" --territory-id "$TERRITORY_ID" --edicion "$EDICION" --persistir "$PERSISTIR")"
+          echo "$out" | jq .
+          {
+            echo "territorio=$(jq -r .territorio <<<"$out")"
+            echo "edicion=$(jq -r .edicion <<<"$out")"
+            echo "persistir=$(jq -r .persistir <<<"$out")"
+          } >> "$GITHUB_OUTPUT"
+
+  incorporar:
+    name: Incorporar resultados
+    needs: resolver
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    concurrency:
+      group: ddd-electoral-prod-${{ needs.resolver.outputs.territorio }}
+      cancel-in-progress: false
+      queue: max
+    env:
+      RUN_ID: production-${{ github.run_id }}-${{ github.run_attempt }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
+
+      - name: Preparar validadores
+        run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+
+      - id: resolve
+        name: Verificar elegibilidad del territorio
+        shell: bash
+        env:
+          UI_TERRITORY: ${{ needs.resolver.outputs.territorio }}
+          UI_EDITION: ${{ needs.resolver.outputs.edicion }}
+          ELECTORAL_RUN_ID: ${{ inputs.electoral_package_run_id }}
+          ELECTORAL_ARTIFACT: ${{ inputs.electoral_package_artifact_name }}
+          ELECTORAL_DIGEST: ${{ inputs.electoral_package_artifact_digest }}
+        run: |
+          set -euo pipefail
+          python herramientas/catalogo_preparacion.py --root-dir . validate
+          explicit=0
+          [[ -n "$ELECTORAL_RUN_ID" ]] && explicit=$((explicit + 1))
+          [[ -n "$ELECTORAL_ARTIFACT" ]] && explicit=$((explicit + 1))
+          [[ -n "$ELECTORAL_DIGEST" ]] && explicit=$((explicit + 1))
+          if (( explicit > 0 && explicit < 3 )); then
+            echo "::error::ELECTORAL_GATE_BLOCK: evidencia explícita incompleta; se requieren run, artefacto y digest."
+            exit 46
+          fi
+          if (( explicit == 3 )); then
+            row="$(python herramientas/catalogo_preparacion.py lookup --territory "$UI_TERRITORY" --edition "$UI_EDITION")"
+            route=validated_gate_evidence
+          else
+            row="$(python herramientas/catalogo_preparacion.py resolve --mode electoral_application --territory "$UI_TERRITORY" --edition "$UI_EDITION")"
+            route=catalog_accredited
+          fi
+          territory_id="$(jq -r '.territory_id' <<<"$row")"
+          params="$(jq -r '.contract_path // empty' <<<"$row")"
+          test -n "$params" && test -f "$params"
+          echo "territory_id=$territory_id" >> "$GITHUB_OUTPUT"
+          echo "params=$params" >> "$GITHUB_OUTPUT"
+          echo "eligibility_route=$route" >> "$GITHUB_OUTPUT"
+
+      - id: territorial
+        name: Localizar producto territorial certificado
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
+          PARAMS: ${{ steps.resolve.outputs.params }}
+          OVERRIDE_RUN_ID: ${{ inputs.territorial_run_id }}
+          OVERRIDE_PRODUCT_ARTIFACT_NAME: ${{ inputs.territorial_product_artifact_name }}
+          OVERRIDE_AUDIT_ARTIFACT_NAME: ${{ inputs.territorial_audit_artifact_name }}
+        run: |
+          set -euo pipefail
+          if [[ -n "$OVERRIDE_RUN_ID" ]]; then
+            run_ids=("$OVERRIDE_RUN_ID")
+          else
+            mapfile -t run_ids < <(gh api "repos/$GITHUB_REPOSITORY/actions/runs?event=workflow_dispatch&status=completed&per_page=100"               --jq '.workflow_runs|sort_by(.created_at)|reverse|.[].id')
+          fi
+          for run_id in "${run_ids[@]}"; do
+            artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
+            product_name="ddd-state-$run_id-M06"
+            audit_name="ddd-audit-$run_id"
+            if [[ "$run_id" == "$OVERRIDE_RUN_ID" && -n "$OVERRIDE_PRODUCT_ARTIFACT_NAME" ]]; then product_name="$OVERRIDE_PRODUCT_ARTIFACT_NAME"; fi
+            if [[ "$run_id" == "$OVERRIDE_RUN_ID" && -n "$OVERRIDE_AUDIT_ARTIFACT_NAME" ]]; then audit_name="$OVERRIDE_AUDIT_ARTIFACT_NAME"; fi
+            jq -e --arg n "$product_name" '.artifacts[]|select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
+            jq -e --arg n "$audit_name" '.artifacts[]|select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
+            tmp="$(mktemp -d)"
+            if ! gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$product_name" --dir "$tmp/state" >/dev/null 2>&1; then
+              rm -rf "$tmp"; continue
+            fi
+            source_dir="$(find "$tmp/state" -type f -path '*/sources/manifest.json' -printf '%h\n' | head -1)"
+            test -n "$source_dir" || { rm -rf "$tmp"; continue; }
+            selection="$tmp/checkpoint_selection.json"
+            set +e
+            python -m herramientas.seleccionar_checkpoint_productivo \
+              --params "$PARAMS" --package "$source_dir" --state-root "$tmp/state" \
+              --run-id "$run_id" --stage M06 --root-dir . --consume-certified-product > "$selection"
+            validation_rc=$?
+            set -e
+            if (( validation_rc == 0 )); then
+              direct_reuse="$(jq -r '(.valid == true) and ((.requires_derivation // false) == false) and (.effective_stage == "M06")' "$selection")"
+              if [[ "$direct_reuse" != true ]]; then
+                rm -rf "$tmp"
+                continue
+              fi
+              if gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$audit_name" --dir "$tmp/audit" >/dev/null 2>&1; then
+                status="$(find "$tmp/audit" -name production_status.json -type f -print -quit)"
+                decision="$(test -n "$status" && jq -r '.decision // empty' "$status" || true)"
+                certified="$(test -n "$status" && jq -r '.territory_id // empty' "$status" || true)"
+                if [[ "$certified" == "$TERRITORY_ID" && "$decision" =~ ^PASS(_WITH_EXCEPTIONS)?$ ]]; then
+                  {
+                    echo "run_id=$run_id"
+                    echo "product_artifact_name=$product_name"
+                    echo "audit_artifact_name=$audit_name"
+                  } >> "$GITHUB_OUTPUT"
+                  rm -rf "$tmp"
+                  exit 0
+                fi
+              fi
+            elif (( validation_rc != 2 )); then
+              echo "::warning::Validador de checkpoint terminó con rc=$validation_rc para run $run_id; se descarta."
+            fi
+            rm -rf "$tmp"
+          done
+          echo "::error::No existe un producto territorial certificado y reutilizable para $TERRITORY_ID."
+          exit 44
+
+      - id: electoral
+        name: Localizar resultados electorales preparados
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
+          EDITION: ${{ needs.resolver.outputs.edicion }}
+          PARAMS: ${{ steps.resolve.outputs.params }}
+          OVERRIDE_RUN_ID: ${{ inputs.electoral_package_run_id }}
+          OVERRIDE_ARTIFACT_NAME: ${{ inputs.electoral_package_artifact_name }}
+          OVERRIDE_ARTIFACT_DIGEST: ${{ inputs.electoral_package_artifact_digest }}
+          ARTIFACT_NAMESPACE: ${{ inputs.artifact_namespace }}
+        run: |
+          set -euo pipefail
+          prefix="ddd-electoral-package-$TERRITORY_ID-$EDITION-"
+
+          if [[ -n "$OVERRIDE_RUN_ID" || -n "$OVERRIDE_ARTIFACT_NAME" || -n "$OVERRIDE_ARTIFACT_DIGEST" ]]; then
+            [[ -n "$OVERRIDE_RUN_ID" && -n "$OVERRIDE_ARTIFACT_NAME" && -n "$OVERRIDE_ARTIFACT_DIGEST" ]] || {
+              echo "::error::ELECTORAL_GATE_BLOCK: evidencia explícita incompleta."
+              exit 46
+            }
+            expected_digest="${OVERRIDE_ARTIFACT_DIGEST#sha256:}"
+            metadata="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$OVERRIDE_RUN_ID/artifacts?per_page=100")"
+            artifact_matches="$(jq --arg n "$OVERRIDE_ARTIFACT_NAME" --arg d "$expected_digest" '[.artifacts[]|select(.name==$n and (.expired|not))|select((((.digest//"")|sub("^sha256:";""))==$d))]|length' <<<"$metadata")"
+            [[ "$artifact_matches" == "1" ]] || {
+              echo "::error::ELECTORAL_GATE_BLOCK: run/artefacto/digest deben identificar exactamente un artefacto electoral durable; encontrados=$artifact_matches."
+              exit 46
+            }
+            artifact_row="$(jq -c --arg n "$OVERRIDE_ARTIFACT_NAME" --arg d "$expected_digest" '[.artifacts[]|select(.name==$n and (.expired|not))|select((((.digest//"")|sub("^sha256:";""))==$d))]|.[0]' <<<"$metadata")"
+
+            tmp="$(mktemp -d)"
+            gate_suffix=""
+            [[ -n "$ARTIFACT_NAMESPACE" ]] && gate_suffix="-$ARTIFACT_NAMESPACE"
+            gate_name="ddd-puerta-electoral_source-$GITHUB_RUN_ID$gate_suffix"
+            gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$gate_name" --dir "$tmp/gate" >/dev/null 2>&1 || {
+              rm -rf "$tmp"
+              echo "::error::ELECTORAL_GATE_BLOCK: falta evidencia durable de puerta 03→04: $gate_name"
+              exit 46
+            }
+            gh run download "$OVERRIDE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$OVERRIDE_ARTIFACT_NAME" --dir "$tmp/package" >/dev/null 2>&1 || {
+              rm -rf "$tmp"
+              echo "::error::ELECTORAL_GATE_BLOCK: no se pudo recuperar el paquete electoral acreditado."
+              exit 46
+            }
+            gate_file="$(find "$tmp/gate" -name puerta.json -type f -print -quit)"
+            manifest="$(find "$tmp/package" -name manifest.json -type f -print -quit)"
+            [[ -n "$gate_file" && -n "$manifest" ]] || {
+              rm -rf "$tmp"
+              echo "::error::ELECTORAL_GATE_BLOCK: evidencia de puerta o manifiesto electoral ausentes."
+              exit 46
+            }
+
+            python herramientas/validar_paquete_electoral.py               --package "$tmp/package" --params "$PARAMS" --territory-id "$TERRITORY_ID"               --edition "$EDITION" --root-dir . >/dev/null || {
+                rm -rf "$tmp"
+                echo "::error::ELECTORAL_GATE_BLOCK: el paquete electoral no supera validación profunda."
+                exit 46
+              }
+            python -m herramientas.validar_elegibilidad_incorporacion_electoral               --root-dir . --territory "$TERRITORY_ID" --edition "$EDITION"               --gate-evidence "$gate_file" --package-manifest "$manifest"               --expected-run-id "$OVERRIDE_RUN_ID"               --expected-artifact-name "$OVERRIDE_ARTIFACT_NAME"               --expected-artifact-digest "$OVERRIDE_ARTIFACT_DIGEST" >/dev/null || {
+                rm -rf "$tmp"
+                echo "::error::ELECTORAL_GATE_BLOCK: evidencia 03→04 no acredita identidad electoral consumible."
+                exit 46
+              }
+            echo "run_id=$OVERRIDE_RUN_ID" >> "$GITHUB_OUTPUT"
+            echo "artifact_name=$OVERRIDE_ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
+            rm -rf "$tmp"
+            exit 0
+          fi
+
+          mapfile -t run_ids < <(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=completed&per_page=100"             --jq '.workflow_runs|sort_by(.created_at)|reverse|.[].id')
+          for run_id in "${run_ids[@]}"; do
+            artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
+            mapfile -t names < <(jq -r --arg p "$prefix" '.artifacts[]|select((.name|startswith($p)) and (.expired|not))|.name' <<<"$artifacts")
+            for artifact_name in "${names[@]}"; do
+              tmp="$(mktemp -d)"
+              if gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir "$tmp" >/dev/null 2>&1 &&
+                 python herramientas/validar_paquete_electoral.py                    --package "$tmp" --params "$PARAMS" --territory-id "$TERRITORY_ID"                    --edition "$EDITION" --root-dir . >/dev/null 2>&1; then
+                echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+                echo "artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
+                rm -rf "$tmp"
+                exit 0
+              fi
+              rm -rf "$tmp"
+            done
+          done
+          echo "::error::No existe un paquete electoral preparado, íntegro y compatible."
+          exit 45
+
+      - name: Fijar el contexto de la incorporación
+        shell: bash
+        env:
+          PARAMS_OUT: ${{ steps.resolve.outputs.params }}
+          TERRITORY_OUT: ${{ steps.resolve.outputs.territory_id }}
+          NAMESPACE: ${{ inputs.artifact_namespace }}
+          TERRITORIAL_OUT: ${{ steps.territorial.outputs.run_id }}
+          ELECTORAL_OUT: ${{ steps.electoral.outputs.run_id }}
+          ELECTORAL_ARTIFACT_OUT: ${{ steps.electoral.outputs.artifact_name }}
+          EDITION_OUT: ${{ needs.resolver.outputs.edicion }}
+        run: |
+          set -euo pipefail
+          {
+            echo "PARAMS=$PARAMS_OUT"
+            echo "TERRITORY_ID=$TERRITORY_OUT"
+            echo "EDITION=$EDITION_OUT"
+            echo "TERRITORIAL_RUN_ID=$TERRITORIAL_OUT"
+            echo "ELECTORAL_PACKAGE_RUN_ID=$ELECTORAL_OUT"
+            echo "ELECTORAL_PACKAGE_ARTIFACT_NAME=$ELECTORAL_ARTIFACT_OUT"
+            echo "ARTIFACT_NAMESPACE=$NAMESPACE"
+          } >> "$GITHUB_ENV"
+
+      - id: capture_source
+        name: Acreditar SHA efectivo del checkout de incorporación M08
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_commit="$(git rev-parse HEAD)"
+          [[ "$source_commit" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::SHA de cálculo no acreditable"; exit 49; }
+          echo "source_commit=$source_commit" >> "$GITHUB_OUTPUT"
+
+      - name: Recuperar producto territorial consolidado
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ${{ steps.territorial.outputs.product_artifact_name != '' && steps.territorial.outputs.product_artifact_name || format('ddd-state-{0}-M06', steps.territorial.outputs.run_id) }}
+          path: .ddd-territorial-product
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.territorial.outputs.run_id }}
+
+      - name: Recuperar certificación territorial existente
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ${{ steps.territorial.outputs.audit_artifact_name != '' && steps.territorial.outputs.audit_artifact_name || format('ddd-audit-{0}', steps.territorial.outputs.run_id) }}
+          path: .ddd-territorial-certification
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.territorial.outputs.run_id }}
+
+      - name: Verificar producto territorial certificado
+        shell: bash
+        run: |
+          set -euo pipefail
+          status="$(find .ddd-territorial-certification -name production_status.json -type f -print -quit)"
+          test -n "$status" || { echo "::error::El producto territorial no transporta certificación."; exit 44; }
+          decision="$(jq -r '.decision // empty' "$status")"
+          certified_territory="$(jq -r '.territory_id // empty' "$status")"
+          case "$decision" in PASS|PASS_WITH_EXCEPTIONS) ;; *) echo "::error::Producto territorial no certificado: $decision"; exit 44;; esac
+          test "$certified_territory" = "$TERRITORY_ID" || { echo "::error::La certificación pertenece a otro territorio."; exit 44; }
+          test -d .ddd-territorial-product/cache
+          test -d .ddd-territorial-product/run
+          test -d .ddd-territorial-product/sources
+          test -f .ddd-territorial-product/run/CHAIN_STATE.json
+          completed="$(jq -r '.completed_stage // 0' .ddd-territorial-product/run/CHAIN_STATE.json)"
+          test "$completed" -ge 6 || { echo "::error::El producto territorial no alcanza la consolidación territorial."; exit 44; }
+
+      - name: Recuperar resultados electorales preparados
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ${{ steps.electoral.outputs.artifact_name }}
+          path: .ddd-electoral-package
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.electoral.outputs.run_id }}
+
+      - name: Verificar resultados electorales preparados
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-electoral-evidence
+          python herramientas/validar_paquete_electoral.py             --package .ddd-electoral-package             --params "$PARAMS"             --territory-id "$TERRITORY_ID"             --edition "$EDITION"             --root-dir .             --materialize             --output .ddd-electoral-evidence/validacion_paquete_electoral.json
+          test "$(jq -r '.decision' .ddd-electoral-evidence/validacion_paquete_electoral.json)" = READY_PACKAGE
+
+      - name: Materializar contrato electoral de ejecución
+        shell: bash
+        run: |
+          set -euo pipefail
+          runtime_params="$(python herramientas/materializar_contrato_electoral_runtime.py             --params "$PARAMS"             --validation .ddd-electoral-evidence/validacion_paquete_electoral.json             --output .ddd-electoral-runtime/params.yaml)"
+          echo "PARAMS=$runtime_params" >> "$GITHUB_ENV"
+          echo "Contrato electoral de ejecución: $runtime_params"
+
+      - name: Restaurar producto territorial como entrada
+        shell: bash
+        run: |
+          set -euo pipefail
+          readarray -t dirs < <(python - "$PARAMS" "$RUN_ID" <<'PY'
+          import sys,yaml
+          from pathlib import Path
+          cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding="utf-8")) or {}
+          io=cfg.get("io") or {}
+          vals={"run_name":(cfg.get("meta") or {}).get("run_name",Path(sys.argv[1]).stem),
+                "run_id":sys.argv[2],"year":(cfg.get("meta") or {}).get("year","")}
+          print(str(((io.get("cache") or {}).get("dir") or ".cache/ddd/preparacion/{run_name}")).format(**vals))
+          print(str(((io.get("runs") or {}).get("dir") or "ejecuciones/{run_id}")).format(**vals))
+          PY
+          )
+          CACHE_DIR="${dirs[0]}"; RUNS_DIR="${dirs[1]}"
+          echo "CACHE_DIR=$CACHE_DIR" >> "$GITHUB_ENV"
+          echo "RUNS_DIR=$RUNS_DIR" >> "$GITHUB_ENV"
+          rm -rf "$CACHE_DIR" "$RUNS_DIR" .ddd-source-package
+          mkdir -p "$CACHE_DIR" "$RUNS_DIR" .ddd-source-package
+          cp -a .ddd-territorial-product/cache/. "$CACHE_DIR/"
+          cp -a .ddd-territorial-product/run/. "$RUNS_DIR/"
+          cp -a .ddd-territorial-product/sources/. .ddd-source-package/
+          test -f "$RUNS_DIR/CHAIN_STATE.json"
+          test -f .ddd-source-package/manifest.json
+          # El overlay sólo añade M07/M08 al mismo contrato territorial. Registrar
+          # explícitamente la transición para que el encadenamiento mantenga trazabilidad
+          # y no confunda el path del contrato M01–M06 con el contrato runtime electoral.
+          python - "$RUNS_DIR/CHAIN_STATE.json" "$PARAMS" <<'PY'
+          import json,sys
+          from pathlib import Path
+          p=Path(sys.argv[1]); runtime=sys.argv[2]
+          state=json.loads(p.read_text(encoding="utf-8"))
+          previous=state.get("params")
+          if previous != runtime:
+              state["territorial_params"]=previous
+              state["params"]=runtime
+              state["electoral_runtime_overlay"]=True
+              p.write_text(json.dumps(state,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          PY
+
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+
+      - name: Preparar entorno reproducible una sola vez
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          pull: true
+          load: true
+          tags: ddd-electoral:${{ github.sha }}
+          cache-from: type=gha,scope=ddd-electoral-${{ github.sha }}
+          cache-to: type=gha,mode=max,scope=ddd-electoral-${{ github.sha }}
+
+      - name: Agregar resultados electorales a los distritos
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-logs
+          docker run --rm -v "$PWD:/app" -w /app             -e DDD_PARAMS="$PARAMS" -e DDD_RUN_ID="$RUN_ID"             -e DDD_FROM_STAGE=M07 -e DDD_TO_STAGE=M07             -e DDD_CHAIN_STATE="$RUNS_DIR/CHAIN_STATE.json"             --entrypoint /bin/bash ddd-electoral:${GITHUB_SHA} /app/procedimiento.sh 2>&1 | tee .ddd-logs/M07.log
+          rm -rf .ddd-state-electoral
+          mkdir -p .ddd-state-electoral/cache .ddd-state-electoral/run .ddd-state-electoral/sources
+          cp -a "$CACHE_DIR/." .ddd-state-electoral/cache/
+          cp -a "$RUNS_DIR/." .ddd-state-electoral/run/
+          cp -a .ddd-source-package/. .ddd-state-electoral/sources/
+
+      - name: Conservar resultado agregado
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ddd-state-${{ github.run_id }}-M07${{ env.ARTIFACT_NAMESPACE != '' && format('-{0}', env.ARTIFACT_NAMESPACE) || '' }}
+          path: .ddd-state-electoral
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Generar producto electoral territorial
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" -w /app             -e DDD_PARAMS="$PARAMS" -e DDD_RUN_ID="$RUN_ID"             -e DDD_FROM_STAGE=M08 -e DDD_TO_STAGE=M08             -e DDD_CHAIN_STATE="$RUNS_DIR/CHAIN_STATE.json"             --entrypoint /bin/bash ddd-electoral:${GITHUB_SHA} /app/procedimiento.sh 2>&1 | tee .ddd-logs/M08.log
+          rm -rf .ddd-state-product
+          mkdir -p .ddd-state-product/cache .ddd-state-product/run .ddd-state-product/sources
+          cp -a "$CACHE_DIR/." .ddd-state-product/cache/
+          cp -a "$RUNS_DIR/." .ddd-state-product/run/
+          cp -a .ddd-source-package/. .ddd-state-product/sources/
+
+      - name: Diagnosticar fallo de M07/M08
+        if: failure()
+        shell: bash
+        run: |
+          # Publica el final de la salida de M07/M08 como anotación; no oculta el fallo.
+          for log in .ddd-logs/M07.log .ddd-logs/M08.log; do
+            [[ -s "$log" ]] || continue
+            stage="$(basename "$log" .log)"
+            body="$(tail -n 40 "$log" | cut -c1-300 | sed -e 's/%/%25/g' -e 's/\r//g' | awk 'BEGIN{ORS=""} {print (NR>1?"%0A":"") $0}')"
+            echo "::error title=DIAG_${stage}::${body}"
+          done
+          report=""
+          for candidate in "ejecuciones/${RUN_ID:-}/VALIDACION.json" "${RUNS_DIR:-.}/VALIDACION.json"; do
+            [[ -s "$candidate" ]] && { report="$candidate"; break; }
+          done
+          if [[ -n "$report" ]]; then
+            body="$(jq -c '{estado,failures,municipality_violations:((.municipality_violations // [])[:10])}' "$report" | cut -c1-6000 | sed -e 's/%/%25/g')"
+            echo "::error title=DIAG_VALIDACION::${body}"
+          fi
+
+      - id: upload_product
+        name: Conservar producto electoral territorial
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ddd-state-${{ github.run_id }}-M08${{ env.ARTIFACT_NAMESPACE != '' && format('-{0}', env.ARTIFACT_NAMESPACE) || '' }}
+          path: .ddd-state-product
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Preservar certificación para publicación posterior
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .ddd-audit
+          mkdir -p .ddd-audit
+          source_status="$(find .ddd-territorial-certification -name production_status.json -type f -print -quit)"
+          test -n "$source_status" || { echo "::error::Falta production_status.json de la certificación territorial."; exit 46; }
+          cp -a .ddd-territorial-certification/. .ddd-audit/
+          python - "$source_status" ".ddd-audit/production_status.json" "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" <<'PY'
+          import json,sys
+          from pathlib import Path
+          src,dst,run_id,attempt=sys.argv[1:]
+          payload=json.loads(Path(src).read_text(encoding="utf-8"))
+          payload["run_id"]=f"production-{run_id}-{attempt}"
+          payload["workflow_run_id"]=int(run_id)
+          payload["source_territorial_run_id"]=int(__import__("os").environ["TERRITORIAL_RUN_ID"])
+          payload["electoral_application"]=True
+          Path(dst).write_text(json.dumps(payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          PY
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        name: Conservar certificación consumible por publicación
+        with:
+          name: ddd-audit-electoral-${{ github.run_id }}${{ env.ARTIFACT_NAMESPACE != '' && format('-{0}', env.ARTIFACT_NAMESPACE) || '' }}
+          path: .ddd-audit
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Generar informe de incorporación
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-electoral-report
+          python - "$PARAMS" "$TERRITORY_ID" "$TERRITORIAL_RUN_ID" "$ELECTORAL_PACKAGE_RUN_ID" "$RUN_ID" <<'PY'
+          import json,sys,yaml
+          from pathlib import Path
+          params,territory,territorial_run,electoral_run,internal_run=sys.argv[1:]
+          cfg=yaml.safe_load(Path(params).read_text(encoding="utf-8")) or {}
+          m07=(cfg.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}
+          m08=(cfg.get("modulos") or {}).get("modulo_08_integrar_resultados") or {}
+          vals={"run_name":(cfg.get("meta") or {}).get("run_name",""),"run_id":internal_run,"year":(cfg.get("meta") or {}).get("year","")}
+          def fmt(v): return str(v).format(**vals) if v else None
+          reconciliation_path=fmt(m07.get("out_reconciliation_report"))
+          if not reconciliation_path or not Path(reconciliation_path).is_file():
+              raise SystemExit("Falta informe M07 de reconciliación electoral")
+          reconciliation=json.loads(Path(reconciliation_path).read_text(encoding="utf-8"))
+          accounting_keys=(
+              "population_total",
+              "source_votes",
+              "incorporated_votes",
+              "ddd_unassigned_votes",
+              "ddd_loss_ratio",
+              "max_ddd_loss_ratio",
+              "source_gap_to_definitive_votes",
+              "source_gap_to_definitive_ratio",
+              "unassigned_votes_breakdown",
+          )
+          payload={
+            "schema":"ddd.electoral-application-report/2.0",
+            "territory_id":territory,
+            "territorial_source_run_id":int(territorial_run),
+            "electoral_package_run_id":int(electoral_run),
+            "workflow_run_id":int(__import__("os").environ["GITHUB_RUN_ID"]),
+            "aggregation_output":fmt(m07.get("out_district_summary_csv")),
+            "reconciliation_output":reconciliation_path,
+            "product_output":fmt(m08.get("out_districts_with_results_geojson")),
+            "electoral_accounting":{key:reconciliation.get(key) for key in accounting_keys},
+            "status":"SUCCESS",
+          }
+          Path(".ddd-electoral-report/report.json").write_text(json.dumps(payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          PY
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ddd-electoral-application-report-${{ github.run_id }}${{ env.ARTIFACT_NAMESPACE != '' && format('-{0}', env.ARTIFACT_NAMESPACE) || '' }}
+          path: |
+            .ddd-electoral-report
+            .ddd-electoral-evidence
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Cargar persistidor vigente compatible con main
+        if: ${{ success() && needs.resolver.outputs.persistir == 'true' && !inputs.campana }}
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 0
+          path: persistidor
+      - name: Credencial de registro
+        if: ${{ success() && needs.resolver.outputs.persistir == 'true' && !inputs.campana }}
+        shell: bash
+        working-directory: persistidor
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "::error::Sin la app de registro (DDD_REGISTRO_APP_*): GITHUB_TOKEN es de solo lectura (T-379 2b, D-163)."; exit 1; fi
+          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
+          echo "::add-mask::$token"
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
+          echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - name: Archivo en origen — M08 a R2 y votos por partido a git
+        if: ${{ success() && needs.resolver.outputs.persistir == 'true' && !inputs.campana }}
+        shell: bash
+        working-directory: persistidor
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          t0=$(date +%s)
+          suffix=''; [[ -n "$ARTIFACT_NAMESPACE" ]] && suffix="-$ARTIFACT_NAMESPACE"
+          artifact_name="ddd-state-$GITHUB_RUN_ID-M08$suffix"
+          python herramientas/archivo_origen.py r2 --run-id "$GITHUB_RUN_ID" --artefacto "$artifact_name" --territorio "$TERRITORY_ID" \
+            --sustituye-m06-run "$TERRITORIAL_RUN_ID"
+          t1=$(date +%s)
+          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir .ddd-m08-state
+          python herramientas/archivo_origen.py partidos --estado .ddd-m08-state --territorio "$TERRITORY_ID" \
+            --run-id "$GITHUB_RUN_ID" --run-territorial "$TERRITORIAL_RUN_ID"
+          echo "ARCHIVO_ORIGEN_TIEMPOS: r2=$((t1-t0))s partidos=$(( $(date +%s)-t1 ))s"
+          rc=0
+          python -m herramientas.registrar_en_main --rama main \
+            --ruta orchestracion/archivo_r2.json --ruta datos/resultados/MANIFEST.json --ruta datos/resultados/runs \
+            --mensaje "chore(archivo): M08 de $TERRITORY_ID en R2 y votos por partido del run $GITHUB_RUN_ID" || rc=$?
+          [[ "$rc" == 0 ]] || { echo '::error title=ARCHIVO_ORIGEN_FAILED::No se pudo registrar el archivo en origen en main.'; exit 1; }
+      - name: Registrar disponibilidad del producto electoral
+        if: ${{ success() && needs.resolver.outputs.persistir == 'true' && !inputs.campana }}
+        shell: bash
+        working-directory: persistidor
+        env:
+          PRODUCT_DIGEST: ${{ steps.upload_product.outputs.artifact-digest }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          test -n "$PRODUCT_DIGEST" || { echo "::error::El producto electoral no tiene digest."; exit 49; }
+          suffix=''
+          [[ -n "$ARTIFACT_NAMESPACE" ]] && suffix="-$ARTIFACT_NAMESPACE"
+          artifact_name="ddd-state-$GITHUB_RUN_ID-M08$suffix"
+          # El SHA procede del checkout REAL del job incorporar (antes de M08).
+          # El checkout de main en este job sólo aporta el persistidor compatible.
+          source_commit="${{ steps.capture_source.outputs.source_commit }}"
+          [[ "$source_commit" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::SHA de cálculo no acreditable"; exit 49; }
+          python -m herramientas.persistir_producto_electoral_operacional \
+            --root-dir . \
+            --territory-id "$TERRITORY_ID" \
+            --edition "$EDITION" \
+            --run-id "$GITHUB_RUN_ID" \
+            --artifact-name "$artifact_name" \
+            --artifact-sha256 "$PRODUCT_DIGEST" \
+            --source-commit "$source_commit" \
+            --target-branch main

@@ -3,8 +3,8 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: pruebas de la doble vuelta con coaliciones (T-409, D-167) sobre casos sintéticos
-VERSIÓN: 1.0.0 · FECHA: 2026-11-17 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.2.0 · FECHA: 2026-11-19 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_t409_doble_vuelta_v1.1.0_20261119.py
 FUNCIÓN: valores esperados calculados a mano (docs/ESTUDIOS/T409_DOBLE_VUELTA/DISENO.md §7), no recalculados con el código.
 """
 import csv
@@ -80,8 +80,73 @@ class Resolver(unittest.TestCase):
         self.assertEqual((r["candidatura_ganadora"], r["votos_1v"]), ("", 0))
 
 
+class Detalle(unittest.TestCase):
+    def test_dv_A_lleva_bloque_y_votos_por_partido(self):
+        d = dv.detalle(V, BL, "dv_A")
+        # Izquierdas 30+15=45, Patriotas 28+12=40, Nacionalistas 15 (valores a mano, DISENO §7)
+        self.assertEqual([(f["partido"], f["candidatura"], f["bloque"], f["votos_1v"], f["votos_candidatura"]) for f in d], [
+            ("A", "bloque:Izquierdas", "Izquierdas", 30, 45), ("B", "bloque:Izquierdas", "Izquierdas", 15, 45),
+            ("C", "bloque:Patriotas", "Patriotas", 28, 40), ("D", "bloque:Patriotas", "Patriotas", 12, 40),
+            ("E", "bloque:Nacionalistas", "Nacionalistas", 15, 15)])
+
+    def test_dv_base_y_dv_B(self):
+        base = dv.detalle(V, BL, "dv_base")
+        self.assertEqual([f["candidatura"] for f in base], ["A", "C", "B", "E", "D"])
+        b = {f["partido"]: f["candidatura"] for f in dv.detalle(V, BL, "dv_B")}
+        self.assertEqual((b["A"], b["C"], b["E"]), ("bloque:Izquierdas", "bloque:Patriotas", "E"))
+
+    def test_sin_bloque_y_votos_cero(self):
+        d = dv.detalle({"A": 10, "Z": 5, "Q": 0}, {"A": "Izquierdas"}, "dv_A")
+        self.assertEqual([(f["partido"], f["bloque"], f["candidatura"]) for f in d],
+                         [("A", "Izquierdas", "bloque:Izquierdas"), ("Z", "", "Z")])
+
+    def test_cli_escribe_detalle_con_sha256(self):
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            (d / "v.csv").write_text("district_id,party,votes,bloc\n" + "".join(f"1,{p},{v},\n" for p, v in V.items()), encoding="utf-8")
+            (d / "b.csv").write_text("eleccion,siglas,denominacion,bloque_propuesto,motivo\n" + "".join(
+                f"2023-07,{p},{p},{b},x\n" for p, b in BL.items()), encoding="utf-8")
+            dv.generar(d / "v.csv", d / "b.csv", "2023-07", d / "s.csv", d / "m.json", d / "det.csv")
+            filas = list(csv.DictReader(open(d / "det.csv", encoding="utf-8")))
+            self.assertEqual(len(filas), 15)  # 5 partidos × 3 escenarios
+            self.assertEqual(list(filas[0]), dv.DETALLE_COLUMNAS)
+            self.assertEqual(json.loads((d / "m.json").read_text())["detalle"]["sha256"], dv.sha256(d / "det.csv"))
+
+
+class SinCasar(unittest.TestCase):
+    def test_sin_casar_no_es_sin_bloque(self):
+        tabla = {"PP": "Patriotas", "Cs": ""}  # Cs casa sin bloque; PSE-EE no está
+        votos = {"1": {"PP": 50, "Cs": 20, "PSE-EE (PSOE)": 30}, "2": {"PSE-EE (PSOE)": 5, "X": 0}}
+        self.assertEqual(dv.sin_casar(votos, tabla), {"PSE-EE (PSOE)": 35})
+
+    def test_generar_informa_en_manifiesto_y_stderr(self):
+        import contextlib
+        import io
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            (d / "v.csv").write_text("district_id,party,votes,bloc\n1,PP,60,\n1,SUMAR,40,\n", encoding="utf-8")
+            (d / "b.csv").write_text("eleccion,siglas,denominacion,bloque_propuesto,motivo\n2023-07,PP,PP,Patriotas,x\n", encoding="utf-8")
+            err = io.StringIO()
+            with contextlib.redirect_stderr(err):
+                dv.generar(d / "v.csv", d / "b.csv", "2023-07", d / "s.csv", d / "m.json")
+            self.assertIn("::warning title=DOBLE_VUELTA_SIN_CASAR::1 partidos con 40 votos (40.00 %)", err.getvalue())
+            m = json.loads((d / "m.json").read_text())["sin_casar"]
+            self.assertEqual((m["n_partidos"], m["votos"], m["lista"]), (1, 40, [{"partido": "SUMAR", "votos": 40}]))
+
+    def test_sin_aviso_si_todo_casa(self):
+        import contextlib
+        import io
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            (d / "v.csv").write_text("district_id,party,votes,bloc\n1,PP,60,\n", encoding="utf-8")
+            (d / "b.csv").write_text("eleccion,siglas,denominacion,bloque_propuesto,motivo\n2023-07,PP,PP,Patriotas,x\n", encoding="utf-8")
+            err = io.StringIO()
+            with contextlib.redirect_stderr(err):
+                dv.generar(d / "v.csv", d / "b.csv", "2023-07", d / "s.csv", d / "m.json")
+            self.assertEqual(err.getvalue(), "")
+
+
 class Tabla(unittest.TestCase):
-    @unittest.skipUnless((ROOT / "configuracion/bloques_partidos_2026-11-17.csv").exists(), "la tabla llega con #901")
     def test_tabla_versionada_un_partido_un_bloque(self):
         p = ROOT / "configuracion/bloques_partidos_2026-11-17.csv"
         por = {}
