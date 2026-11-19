@@ -24,13 +24,28 @@ class MapaV4(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
 
     def test_contraste_tokens_claro_y_oscuro(self):
+        # tokens de bloque: fuente única visor/v4/tokens-bloques.css; fondo: mapa.css (claro #fffdf8, oscuro #14181a)
+        tok = (MAPA.parent / "tokens-bloques.css").read_text(encoding="utf-8")
         css = (MAPA / "mapa.css").read_text(encoding="utf-8")
-        claro = dict(re.findall(r"--(izq|nac|pat|sin|bg):(#[0-9a-f]{6})", css.split("@media")[0]))
-        oscuro = dict(re.findall(r"--(izq|nac|pat|sin|bg):(#[0-9a-f]{6})", css.split("@media")[1].split("}")[0]))
-        for tema in (claro, oscuro):
-            self.assertEqual(len(tema), 5)
-            for k in ("izq", "nac", "pat", "sin"):
-                self.assertGreaterEqual(_cr(tema[k], tema["bg"]), 4.5, k)
+        self.assertIsNone(re.search(r"--(izq|nac|pat|sin)\s*:", css))  # sin definiciones duplicadas (solo se usan)
+        claro = dict(re.findall(r"--(izq|nac|pat|sin):(#[0-9a-f]{6})", tok.split("@media")[0]))
+        oscuro = dict(re.findall(r"--(izq|nac|pat|sin):(#[0-9a-f]{6})", tok.split("[data-theme=dark]{")[1]))
+        fondos = {"claro": re.search(r"--bg:(#[0-9a-f]{6})", css.split("@media")[0]).group(1),
+                  "oscuro": re.search(r"--bg:(#[0-9a-f]{6})", css.split("@media")[1].split("}")[0]).group(1)}
+        self.assertEqual(fondos, {"claro": "#fffdf8", "oscuro": "#14181a"})
+        for nombre, tema in (("claro", claro), ("oscuro", oscuro)):
+            self.assertEqual(set(tema), {"izq", "nac", "pat", "sin"})
+            for k, v in tema.items():
+                self.assertGreaterEqual(_cr(v, fondos[nombre]), 4.5, f"{nombre} {k}")
+
+    def test_pagina_real_lee_datos_y_enlaza_tokens(self):
+        h = (MAPA / "index.html").read_text(encoding="utf-8")
+        for t in ("../tokens-bloques.css", "geo.js", "dv.js", "mapa.js", 'id="territorio"', 'id="mapa"', "Simulación sin valor oficial",
+                  "mayoría aritmética", "irán a la segunda", "Así aseguramos que el ciudadano tenga la última palabra, no los partidos."):
+            self.assertIn(t, h)
+        js = (MAPA / "mapa.js").read_text(encoding="utf-8")
+        self.assertIn('pedir("datos/INDEX.json")', js)
+        self.assertIn("crypto.subtle", js)  # verifica el sha256 antes de mostrar nada
 
     def test_ejemplos_coinciden_con_la_herramienta(self):
         with tempfile.TemporaryDirectory() as d:

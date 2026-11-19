@@ -35,4 +35,33 @@ for (const id of Object.keys(datos.porDistrito)) for (const [r, e] of [["tres", 
   const x = DV.ficha(id, r, datos), fila = datos.porDistrito[id][e];
   assert.strictEqual(x.bloque, fila.bloque_ganador); assert.strictEqual(String(x.vuelta), fila.vuelta_decisiva);
 }
+// 11. «Más votado» dentro de los CSV (T-409 #927): escenario válido, primera vuelta, sin segunda vuelta
+const cabR = "district_id,escenario,vuelta_decisiva,candidatura_ganadora,bloque_ganador,votos_1v,cuota_1v,finalista_a,finalista_b,votos_a_2v,votos_b_2v,cuota_ganador_2v,votos_abstencion,empate\n";
+const cabD = "district_id,escenario,candidatura,partido,bloque,votos_1v,votos_candidatura\n";
+const dp = DV.cargar(cabR + "1,primero,1,PSOE,Izquierdas,40,0.4,,,,,,,false\n", cabD + "1,primero,PSOE,PSOE,Izquierdas,40,40\n1,primero,PP,PP,Patriotas,35,35\n1,primero,VOX,VOX,Patriotas,25,25\n");
+f = DV.ficha("1", "primero", dp);
+assert.strictEqual(f.titular, "Gana PSOE con el 40,0 % de los votos, sin segunda vuelta");
+assert.strictEqual(f.segunda, null); assert.strictEqual(f.nota1, "Gana la candidatura más votada: no hay segunda vuelta");
+assert.deepStrictEqual(DV.comparacion("1", dp), [{ id: "primero", texto: "Más votado", ganador: "PSOE", bloque: "Izquierdas" }]);
+// 12. Comparación entre reglas en el ejemplo: una entrada por regla con datos, en el orden de los botones; «Tres bloques» = Izquierdas (T-409 §7)
+const cmp = DV.comparacion("EJ1", datos);
+assert.deepStrictEqual(cmp.map(c => c.id), ["tres", "dos", "base"]);
+assert.strictEqual(cmp[0].ganador, "Izquierdas (bloque)");
+// 13. Índice publicado (T-409 #927): contrato literal
+const H = "a".repeat(64), fich = r => ({ ruta: r, sha256: H });
+const idx = { schema: "ddd.v4-doble-vuelta/1.0", territorios: [{ id: "nac01", nombre: "Albacete", distritos: 4, resultados: fich("nac01/resultados_doble_vuelta.csv"), detalle: fich("nac01/detalle.csv"), geometria: fich("nac01/distritos.geojson") }] };
+assert.strictEqual(DV.leerIndice(idx).territorios[0].nombre, "Albacete");
+assert.throws(() => DV.leerIndice({ ...idx, schema: "otro" }), /esquema desconocido/);
+assert.throws(() => DV.leerIndice({ ...idx, territorios: [{ ...idx.territorios[0], id: "aut01" }] }), /id de territorio/);
+for (const ruta of ["../secreto.csv", "/etc/passwd", "https://x.es/a.csv", "nac01/../../a.csv"]) assert.throws(() => DV.leerIndice({ ...idx, territorios: [{ ...idx.territorios[0], detalle: fich(ruta) }] }), /ruta no válida/, ruta);
+assert.throws(() => DV.leerIndice({ ...idx, territorios: [{ ...idx.territorios[0], geometria: { ruta: "nac01/distritos.geojson", sha256: "xyz" } }] }), /sha256 no válido/);
+// 14. Geometría → rutas SVG (valores literales a mano: dos cuadrados contiguos de 2°×1° en el ecuador, ancho 400 → 200×100 cada uno)
+const GEO = require("../visor/v4/mapa/geo.js");
+const cuad = (id, x0) => ({ type: "Feature", properties: { district_id: id }, geometry: { type: "Polygon", coordinates: [[[x0, 0], [x0 + 2, 0], [x0 + 2, 1], [x0, 1], [x0, 0]]] } });
+const g = GEO.caminos({ type: "FeatureCollection", features: [cuad(1, 0), cuad(2, 2)] }, 400);
+assert.deepStrictEqual([g.ancho, g.alto], [400, 100]);
+assert.deepStrictEqual(g.distritos, [{ id: 1, d: "M0 100L200 100L200 0L0 0L0 100Z" }, { id: 2, d: "M200 100L400 100L400 0L200 0L200 100Z" }]);
+assert.throws(() => GEO.caminos({ type: "FeatureCollection", features: [cuad(1, 0), cuad(1, 2)] }, 400), /repetido/);
+assert.throws(() => GEO.caminos({ type: "FeatureCollection", features: [{ type: "Feature", properties: {}, geometry: null }] }, 400), /district_id/);
+assert.throws(() => GEO.caminos({ type: "FeatureCollection", features: [{ type: "Feature", properties: { district_id: 1 }, geometry: null }] }, 400), /sin polígono/);
 console.log("OK visor v4 mapa");
