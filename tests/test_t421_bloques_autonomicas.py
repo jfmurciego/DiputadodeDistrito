@@ -26,7 +26,7 @@ class BloquesAutonomicas(unittest.TestCase):
     def test_mismo_partido_mismo_bloque(self):
         self.assertEqual(self.fila("aut01", "PP")["bloque_propuesto"], "Patriotas")
         self.assertEqual(self.fila("aut01", "PSOE")["bloque_propuesto"], "Izquierdas")
-        self.assertEqual(self.fila("aut09", "CUP - DT")["bloque_propuesto"], "Nacionalistas")
+        self.assertEqual(self.fila("aut09", "CUP")["bloque_propuesto"], "Nacionalistas")
 
     def test_junts_nacionalistas_y_dudosos_acotados(self):
         self.assertEqual(self.fila("aut09", "JUNTS+")["bloque_propuesto"], "Nacionalistas")
