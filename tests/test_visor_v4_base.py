@@ -28,6 +28,20 @@ class PortadaV4(unittest.TestCase):
             for r, a in re.findall(r'href="([^"#:]*)#([^"]+)"', _txt(pag)):
                 self.assertIn(f'id="{a}"', _txt(r or pag), f"{pag}: ancla {a}")
 
+    def test_sin_enlaces_a_ficheros_no_publicados(self):
+        # NO_PUBLICAR.txt lista lo que P40 borra del sitio: ningún enlace interno de v4/ puede apuntar a ello (daría 404)
+        excluidas = [l.strip() for l in _txt("NO_PUBLICAR.txt").splitlines() if l.strip() and not l.startswith("#")]
+        self.assertIn("auditoria-registro.html", excluidas)  # guardia: el test comprueba algo real
+        paginas = [p for p in PAGINAS + ["mapa/index.html"] if p not in excluidas]  # las páginas no publicadas no cuentan
+        for pag in paginas:
+            base = Path(pag).parent
+            for ref in re.findall(r'(?:href|src)="([^"#:?]+)(?:[?#][^"]*)?"', _txt(pag)):
+                destino = (base / ref).as_posix()
+                destino = str((V4 / destino).resolve().relative_to(V4.resolve()))
+                for e in excluidas:
+                    self.assertFalse(destino == e or destino.startswith(e.rstrip("/") + "/"), f"{pag} enlaza a {ref}, que NO_PUBLICAR excluye")
+        self.assertNotIn("auditoria-registro", "".join(_txt(p) for p in paginas))
+
     def test_explorar_va_al_mapa_v4_y_no_a_v3(self):
         for pag in PAGINAS:
             h = _txt(pag)
