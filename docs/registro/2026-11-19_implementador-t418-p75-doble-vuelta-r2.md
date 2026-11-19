@@ -15,3 +15,7 @@ Revisión de #923 aplicada aquí: (1) cada ejecución sube objetos nuevos (`…/
 elección: un run mayor de otra elección se ignora; (3) un `aut` o un id desconocido en `territorios` se rechaza (`P75_FUERA_DE_ALCANCE`); la carpeta y el run de R2 son los del archivista
 (legacy, `congreso_*`): se encuentran por run en `archivo_r2.json`; un M08 vigente que no está en R2 queda `SIN_PAQUETE_EN_R2` en el informe; (4) la descripción de `territorios` menciona P75.
 Comprobado contra el repositorio real: 52 `nac` con M08 vigente de 2023-07 y los 52 con `ddd-minimo-<run>-M08` en `archivo_r2.json`.
+
+Segunda revisión de #925: `subir_nuevo` comprueba con `aws s3api head-object` (`r2_existe`: 404 = no existe; otro fallo se propaga) ANTES de subir y falla (`P75_CLAVE_YA_EXISTE`; estado
+`CLAVE_YA_EXISTE`) si la clave ya está: nunca sobrescribe ni borra (test con control negativo); se comprueba que la carpeta de R2 del paquete sea la del territorio pedido
+(`territorio_ids.mismo_territorio`, `CARPETA_NO_ES_DEL_TERRITORIO`; los 52 reales cumplen); las descripciones de `territorios` y `eleccion` mencionan P75 y «vacío = todos los nac».

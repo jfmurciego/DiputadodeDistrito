@@ -81,7 +81,7 @@ on:
         type: string
         default: ''
       eleccion:
-        description: 'Elección (AAAA-MM, p. ej. 2023-07): producto electoral y composición M06 (vacío = 2023-07)'
+        description: 'Elección (AAAA-MM, p. ej. 2023-07): producto electoral, composición M06 y P75 (vacío = 2023-07)'
         required: false
         type: string
         default: ''

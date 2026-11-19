@@ -24,6 +24,8 @@ import argparse
 import hashlib
 import json
 import os
+import re
+import subprocess
 import sys
 import tempfile
 import zipfile
@@ -49,6 +51,29 @@ ELECCION_DEFECTO = "2023-07"
 CSV_M07 = "_m07_resultados_partido.csv"
 UMBRAL_SIN_CASAR = 5.0  # % de votos sin casar a partir del cual se avisa de elección o alias incorrectos
 _FECHA_ZIP = (2020, 1, 1, 0, 0, 0)
+
+
+def r2_existe(bucket: str, cuenta: str):
+    """existe(clave) → bool con `aws s3api head-object`: 404 = no existe; cualquier otro fallo se propaga (nunca se asume que no existe)."""
+    ep = f"https://{cuenta}.r2.cloudflarestorage.com"
+
+    def _una(k: str) -> bool:
+        p = subprocess.run(["aws", "s3api", "head-object", "--bucket", bucket, "--key", k, "--endpoint-url", ep, "--output", "json"],
+                           capture_output=True, text=True)
+        if p.returncode == 0:
+            return True
+        if re.search(r"404|Not Found|NoSuchKey", p.stderr or ""):
+            return False
+        raise subprocess.CalledProcessError(p.returncode, "head-object", stderr=p.stderr)
+
+    return lambda k: ar.con_reintentos(lambda: _una(k), f"R2 head {k}")
+
+
+def subir_nuevo(subir, existe, clave: str, ruta: Path, sha: str) -> None:
+    """Sube SOLO si la clave no existe: nunca sobrescribe ni borra (si existe, FileExistsError y no se sube nada)."""
+    if existe(clave):
+        raise FileExistsError(f"P75_CLAVE_YA_EXISTE: {clave}")
+    subir(clave, ruta, sha)
 
 
 def bloques_vigente(root: Path) -> Path:
@@ -106,6 +131,9 @@ def procesar(root: Path, territorio: str, run: str, eleccion: str, trabajo: Path
         fila["estado"] = "SIN_PAQUETE_EN_R2"
         return fila
     clave, ent = hallado
+    if not territorio_ids.mismo_territorio(clave.split("/")[0], territorio):  # la carpeta del archivista (legacy) debe ser la del territorio pedido
+        fila["estado"] = "CARPETA_NO_ES_DEL_TERRITORIO"
+        return fila
     fila["carpeta_r2"] = clave.rsplit("/", 2)[0]
     fila["sha256_paquete_entrada"] = ent.get("sha256")
     estado = trabajo / territorio / "estado"
@@ -148,7 +176,7 @@ def procesar(root: Path, territorio: str, run: str, eleccion: str, trabajo: Path
     return fila
 
 
-def ejecutar(root: Path, pedidos: str, eleccion: str, trabajo: Path, cp=fuente_r2._cp, subir=None, run_p75: str = "local") -> dict:
+def ejecutar(root: Path, pedidos: str, eleccion: str, trabajo: Path, cp=fuente_r2._cp, subir=None, run_p75: str = "local", existe=None) -> dict:
     """`run_p75` (GITHUB_RUN_ID) entra en las claves de R2 para no sobrescribir nada: cada ejecución sube objetos nuevos."""
     eleccion = cob.normalizar_eleccion(eleccion or ELECCION_DEFECTO)
     filas = []
@@ -156,8 +184,11 @@ def ejecutar(root: Path, pedidos: str, eleccion: str, trabajo: Path, cp=fuente_r
         f = procesar(root, t, run, eleccion, trabajo, cp)
         if f["estado"] == "OK" and subir:
             clave = f"{f['carpeta_r2']}/{run}/ddd-doble-vuelta-{run}-p75-{run_p75}.zip"  # carpeta y run: los del archivista (no propios)
-            subir(clave, trabajo / t / "salida" / f"ddd-doble-vuelta-{run}.zip", f["sha256_salida"])
-            f["clave_r2"] = clave
+            try:
+                subir_nuevo(subir, existe or (lambda k: False), clave, trabajo / t / "salida" / f"ddd-doble-vuelta-{run}.zip", f["sha256_salida"])
+                f["clave_r2"] = clave
+            except FileExistsError:
+                f["estado"] = "CLAVE_YA_EXISTE"
         filas.append(f)
         print(f"[p75] {t} run {run}: {f['estado']}" + (f" (sin casar {f['sin_casar_pct']} %)" if f["sin_casar_pct"] is not None else ""), flush=True)
     informe = {"schema": "ddd.p75-informe/1.0", "eleccion": eleccion, "run_p75": run_p75,
@@ -174,22 +205,27 @@ def main(argv=None) -> int:
     ap.add_argument("--salida", default="", help="directorio donde dejar INFORME.json y los ZIP (por defecto, temporal)")
     ap.add_argument("--sin-subir", action="store_true")
     a = ap.parse_args(argv)
-    subir = None
+    subir = existe = None
     if not a.sin_subir:
         bucket, cuenta = os.environ.get("R2_BUCKET", ""), os.environ.get("R2_ACCOUNT_ID", "")
         if not bucket or not cuenta:
             print("::error title=P75_SIN_CREDENCIALES::faltan R2_BUCKET/R2_ACCOUNT_ID")
             return 3
         _, subir = ar.r2_cliente(bucket, cuenta)
+        existe = r2_existe(bucket, cuenta)
     with tempfile.TemporaryDirectory() as td:
         trabajo = Path(a.salida) if a.salida else Path(td)
         trabajo.mkdir(parents=True, exist_ok=True)
         run_p75 = os.environ.get("GITHUB_RUN_ID") or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-        inf = ejecutar(ROOT, a.territorios, a.eleccion, trabajo, subir=subir, run_p75=run_p75)
+        inf = ejecutar(ROOT, a.territorios, a.eleccion, trabajo, subir=subir, run_p75=run_p75, existe=existe)
         ruta = trabajo / "INFORME.json"
         ruta.write_text(json.dumps(inf, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         if subir:
-            subir(f"doble_vuelta/{inf['eleccion']}/{run_p75}/INFORME.json", ruta, dv.sha256(ruta))
+            try:
+                subir_nuevo(subir, existe, f"doble_vuelta/{inf['eleccion']}/{run_p75}/INFORME.json", ruta, dv.sha256(ruta))
+            except FileExistsError as exc:
+                print(f"::error title=P75_CLAVE_YA_EXISTE::{exc}")
+                return 1
         malos = [f for f in inf["territorios"] if f["estado"] != "OK"]
         for f in malos:
             print(f"::warning title=P75_{f['estado'].split(':')[0]}::{f['territorio']} run {f['run']}")

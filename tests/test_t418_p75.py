@@ -141,6 +141,43 @@ class P75(unittest.TestCase):
         self.assertEqual(subidas, [(f"{LEG}/{RUN}/ddd-doble-vuelta-{RUN}-p75-77.zip", f"ddd-doble-vuelta-{RUN}.zip", inf["territorios"][0]["sha256_salida"])])
         self.assertEqual(inf["run_p75"], "77")
 
+    def test_nunca_sobrescribe_si_la_clave_ya_existe(self):
+        subidas = []
+        subir = lambda k, ruta, h: subidas.append(k)  # noqa: E731
+        with tempfile.TemporaryDirectory() as t, tempfile.TemporaryDirectory() as w, mock.patch.dict(os.environ, ENV):
+            r = montar(Path(t), {RUN: paquete()})
+            inf = p75.ejecutar(r, "nac01", "2023-07", Path(w), cp_de({RUN: paquete()}), subir, "77", existe=lambda k: True)  # control negativo
+            self.assertEqual((inf["territorios"][0]["estado"], subidas), ("CLAVE_YA_EXISTE", []))
+            inf = p75.ejecutar(r, "nac01", "2023-07", Path(w), cp_de({RUN: paquete()}), subir, "77", existe=lambda k: False)
+            self.assertEqual((inf["territorios"][0]["estado"], len(subidas)), ("OK", 1))
+
+    def test_subir_nuevo_y_r2_existe(self):
+        subidas = []
+        with self.assertRaisesRegex(FileExistsError, "P75_CLAVE_YA_EXISTE"):
+            p75.subir_nuevo(lambda *a: subidas.append(a), lambda k: True, "k", Path("x"), "h")
+        self.assertEqual(subidas, [])
+        p75.subir_nuevo(lambda *a: subidas.append(a), lambda k: False, "k", Path("x"), "h")
+        self.assertEqual(len(subidas), 1)
+
+        def head(rc, err):
+            return mock.Mock(returncode=rc, stdout="{}", stderr=err)
+        for rc, err, esperado in ((0, "", True), (254, "An error occurred (404) when calling the HeadObject operation: Not Found", False)):
+            with mock.patch("p75_doble_vuelta_r2.subprocess.run", return_value=head(rc, err)):
+                self.assertIs(p75.r2_existe("b", "a")("clave"), esperado)
+        with mock.patch("p75_doble_vuelta_r2.subprocess.run", return_value=head(255, "AccessDenied")), \
+                mock.patch("p75_doble_vuelta_r2.ar._dormir", lambda s: None):
+            with self.assertRaises(Exception):  # otro fallo: nunca se asume que no existe
+                p75.r2_existe("b", "a")("clave")
+
+    def test_la_carpeta_de_r2_debe_ser_la_del_territorio(self):
+        with tempfile.TemporaryDirectory() as t, tempfile.TemporaryDirectory() as w, mock.patch.dict(os.environ, ENV):
+            r = montar(Path(t), {RUN: paquete()})
+            m = json.loads((r / "orchestracion/archivo_r2.json").read_text())
+            m["artefactos"] = {k.replace(LEG, "otro_territorio"): v for k, v in m["artefactos"].items()}
+            (r / "orchestracion/archivo_r2.json").write_text(json.dumps(m), encoding="utf-8")
+            inf = p75.ejecutar(r, "nac01", "2023-07", Path(w), cp_de({RUN: paquete()}))
+            self.assertEqual(inf["territorios"][0]["estado"], "CARPETA_NO_ES_DEL_TERRITORIO")
+
     def test_un_territorio_malo_no_para_a_los_demas(self):
         inf, _ = self.correr({RUN: paquete()}, pedidos="nac01,nac02")
         self.assertEqual([f["estado"] for f in inf["territorios"]], ["OK", "SIN_PAQUETE_EN_R2"])  # M08 vigente que no está en R2: falla y se informa
@@ -172,6 +209,9 @@ class Workflow(unittest.TestCase):
         ent = (self.wf.get("on") or self.wf.get(True))["workflow_dispatch"]["inputs"]
         self.assertEqual(sorted(ent), ["accion", "eleccion", "simular", "territorios"])
         self.assertEqual(ent["accion"]["options"][-1], "P75 Doble vuelta desde R2")
+        for k in ("territorios", "eleccion"):
+            self.assertIn("P75", ent[k]["description"])
+        self.assertIn("todos los nac", ent["territorios"]["description"])
 
     def test_las_demas_acciones_no_cambian(self):
         import copy
