@@ -20,3 +20,4 @@ Segunda revisión de #925: `subir_nuevo` comprueba con `aws s3api head-object` (
 `CLAVE_YA_EXISTE`) si la clave ya está: nunca sobrescribe ni borra (test con control negativo); se comprueba que la carpeta de R2 del paquete sea la del territorio pedido
 (`territorio_ids.mismo_territorio`, `CARPETA_NO_ES_DEL_TERRITORIO`; los 52 reales cumplen); las descripciones de `territorios` y `eleccion` mencionan P75 y «vacío = todos los nac».
 Tercera revisión de #925: las claves llevan también GITHUB_RUN_ATTEMPT (`<run>-<intento>`: un re-run no repite clave) además de la comprobación de existencia; test del re-run con el mismo run_id.
+Cuarta revisión de #925: `r2_existe` solo lee como «no existe» el error estructurado `(404)`/`NoSuchKey` (un «404» suelto en un id de cuenta o endpoint propaga); test con control negativo.

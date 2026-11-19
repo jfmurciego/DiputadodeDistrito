@@ -180,6 +180,14 @@ class P75(unittest.TestCase):
         for rc, err, esperado in ((0, "", True), (254, "An error occurred (404) when calling the HeadObject operation: Not Found", False)):
             with mock.patch("p75_doble_vuelta_r2.subprocess.run", return_value=head(rc, err)):
                 self.assertIs(p75.r2_existe("b", "a")("clave"), esperado)
+        # control negativo: «404» dentro de un id de cuenta + fallo de conexión NO es «no existe»: debe propagar, nunca devolver False
+        conexion = "Could not connect to the endpoint URL: \"https://a1b2404c3d4e5f60.r2.cloudflarestorage.com/bucket/clave\""
+        with mock.patch("p75_doble_vuelta_r2.subprocess.run", return_value=head(255, conexion)), \
+                mock.patch("p75_doble_vuelta_r2.ar._dormir", lambda s: None):
+            with self.assertRaises(Exception):
+                p75.r2_existe("b", "a")("clave")
+        with mock.patch("p75_doble_vuelta_r2.subprocess.run", return_value=head(254, "An error occurred (NoSuchKey) when calling the HeadObject operation")):
+            self.assertIs(p75.r2_existe("b", "a")("clave"), False)
         with mock.patch("p75_doble_vuelta_r2.subprocess.run", return_value=head(255, "AccessDenied")), \
                 mock.patch("p75_doble_vuelta_r2.ar._dormir", lambda s: None):
             with self.assertRaises(Exception):  # otro fallo: nunca se asume que no existe

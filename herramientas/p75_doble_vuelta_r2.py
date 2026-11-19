@@ -62,7 +62,9 @@ def r2_existe(bucket: str, cuenta: str):
                            capture_output=True, text=True)
         if p.returncode == 0:
             return True
-        if re.search(r"404|Not Found|NoSuchKey", p.stderr or ""):
+        # solo el error estructurado de aws («An error occurred (404) when calling the HeadObject operation») o NoSuchKey; un «404» suelto en el
+        # texto (endpoint, id de cuenta hexadecimal, fallo de conexión) NO es «no existe»
+        if re.search(r"\(404\)|NoSuchKey", p.stderr or ""):
             return False
         raise subprocess.CalledProcessError(p.returncode, "head-object", stderr=p.stderr)
 
