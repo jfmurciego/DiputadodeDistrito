@@ -3,9 +3,9 @@
 """Publicador de la doble vuelta de los territorios del Congreso para la V4: baja de R2 el resultado de P75, lo verifica y lo deja en el sitio (T-409/T-418).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-19 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
-CAMBIOS: 1.0.0: fichero nuevo (con la geometría: decisión del Planificador, opción A).
+VERSIÓN: 1.0.1 · FECHA: 2026-11-19 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/publicar_doble_vuelta_v1.0.0_20261119.py
+CAMBIOS: 1.0.1: T-422, ids de distrito normalizados a entero (M07 puede escribir «0.0»/espacios) y diagnóstico por territorio, fichero, línea y valor exacto. 1.0.0: fichero nuevo (con la geometría: decisión del Planificador, opción A).
 MOTIVO: D-172/D-178: el mapa V4 muestra la doble vuelta de los 52 nac sin regenerar; P75 la calcula y la archiva en R2 (objetos con run e intento);
   P40 la baja al construir el sitio, con el mismo patrón que los GeoJSON M06 (bajar de origen y verificar sha256), sin datos en git.
 QUÉ HACE: lee `configuracion/doble_vuelta_publicada.json` (el run de P75 FIJADO en el repo: elección, `run_p75`, clave y sha256 del INFORME.json). Sin ese fichero no
@@ -131,16 +131,36 @@ def _publico(filas: list[dict]) -> list[dict]:
     return [{**f, "district_id": str(numero_publico(int(f["district_id"])))} for f in filas]
 
 
+_ID_ENTERO = re.compile(r"^\+?(\d+)(?:\.0+)?$")
+
+
+def _normalizar_ids(t: str, filas: list[dict], fichero: str) -> list[dict]:
+    """Normaliza `district_id` a entero interno canónico («0», « 1 », «2.0», «02» → «0», «1», «2», «2»; T-422). M07 puede escribir el id
+    como real (pandas, «0.0») o con espacios. Solo se admiten enteros no negativos con esa forma: lo demás se rechaza con los
+    valores concretos (`ID_FUERA_DE_RANGO: <territorio>/<fichero>: ...`), sin adivinar."""
+    malos: list[tuple[int, str]] = []  # (nº de línea en el fichero, repr exacto)
+    out = []
+    for n, r in enumerate(filas, start=2):  # la línea 1 es la cabecera
+        m = _ID_ENTERO.match(str(r["district_id"]).strip())
+        if m is None:
+            malos.append((n, repr(r["district_id"])))
+            continue
+        out.append({**r, "district_id": str(int(m.group(1)))})
+    if malos:
+        ej = ", ".join(f"línea {n}: {v}" for n, v in malos[:6])
+        raise DobleVueltaError(f"ID_FUERA_DE_RANGO: {t}/{fichero}: district_id no numérico en {len(malos)} de {len(filas)} filas "
+                               f"({ej}); se rechaza (no se excluye en silencio: votos sin distrito no son un distrito); se admiten enteros ('0', '2.0', ' 1 ')")
+    return out
+
+
 def procesar_territorio(fila_informe: dict, zip_bytes: bytes) -> tuple[bytes, bytes, int]:
     """(resultados.csv, detalle.csv, K) públicos y validados de un territorio."""
     t = fila_informe["territorio"]
     f = _extraer(zip_bytes, ("doble_vuelta.csv", "detalle.csv"))
     res = _leer(f["doble_vuelta.csv"], COLUMNAS, f"{t}/doble_vuelta.csv")
     det = _leer(f["detalle.csv"], COLUMNAS_DETALLE, f"{t}/detalle.csv")
-    try:
-        ids = sorted({int(r["district_id"]) for r in res})
-    except ValueError as exc:
-        raise DobleVueltaError(f"ID_FUERA_DE_RANGO: {t}: district_id no numérico") from exc
+    res, det = _normalizar_ids(t, res, "doble_vuelta.csv"), _normalizar_ids(t, det, "detalle.csv")
+    ids = sorted({int(r["district_id"]) for r in res})
     k = len(ids)
     if ids != list(range(k)):
         raise DobleVueltaError(f"ID_FUERA_DE_RANGO: {t}: los distritos internos deben ser 0..K-1 sin huecos, son {ids[:6]}…")
@@ -282,11 +302,18 @@ def publicar(root: Path, destino: Path, cp=fuente_r2._cp, bucket: str = "", fech
     nom = nombres(root)
     ficheros: dict[str, bytes] = {}
     entradas = []
+    fallos_id: list[str] = []
     for x in sorted(inf["territorios"], key=lambda x: x["territorio"]):
         t = x["territorio"]
         if not x.get("clave_r2") or not x.get("sha256_salida"):
             raise DobleVueltaError(f"CLAVE_AUSENTE: {t} sin clave_r2/sha256_salida en el informe")
-        res, det, k = procesar_territorio(x, _bajar(cp, bucket, x["clave_r2"], x["sha256_salida"], "ZIP_SHA256_DISTINTO"))
+        try:
+            res, det, k = procesar_territorio(x, _bajar(cp, bucket, x["clave_r2"], x["sha256_salida"], "ZIP_SHA256_DISTINTO"))
+        except DobleVueltaError as exc:
+            if str(exc).startswith("ID_FUERA_DE_RANGO"):  # diagnóstico por territorio: se siguen recorriendo los 52 y se informa de todos a la vez
+                fallos_id.append(str(exc))
+                continue
+            raise
         ficheros[f"{t}/resultados_doble_vuelta.csv"], ficheros[f"{t}/detalle.csv"] = res, det
         origen = sitio / "datos" / t / "distritos.geojson"
         try:
@@ -304,6 +331,8 @@ def publicar(root: Path, destino: Path, cp=fuente_r2._cp, bucket: str = "", fech
                          "resultados": {"ruta": f"{t}/resultados_doble_vuelta.csv", "sha256": sha256_bytes(res)},
                          "detalle": {"ruta": f"{t}/detalle.csv", "sha256": sha256_bytes(det)},
                          "geometria": {"ruta": f"{t}/distritos.geojson", "sha256": sha256_bytes(geo), "sha256_origen": esperado}})
+    if fallos_id:
+        raise DobleVueltaError(f"{len(fallos_id)} territorios con ids de distrito inválidos: " + " | ".join(fallos_id))
     indice = {"schema": "ddd.v4-doble-vuelta/1.0", "eleccion": pin["eleccion"], "aviso": AVISO, "p75_run": pin["run_p75"],
               "informe_sha256": pin["informe_sha256"], "bloques_sha256": bloques_sha, "alias_sha256": alias_sha,
               "generado": fecha or datetime.now(timezone.utc).strftime("%Y-%m-%d"),

@@ -274,6 +274,55 @@ class Publicar(unittest.TestCase):
         self.assertIn("ZIP_SHA256_DISTINTO", err)
         self.assertEqual(s, {})
 
+    def test_t422_ids_como_real_o_con_espacios_se_normalizan(self):
+        """T-422: M07 puede escribir «0.0» o « 1 »; el público sigue siendo 1..K y 52/52 intacto."""
+        res = resultados(("0.0", " 1 "))
+        det = detalle(("0.0", " 1 "))
+        z = zip_de(res, det)
+        _, err, s = self.correr(zips={"1001": z, "1002": z})
+        self.assertNotIn("ID_FUERA_DE_RANGO", err)
+        csv_pub = s["nac01/resultados_doble_vuelta.csv"].decode("utf-8")
+        self.assertEqual({l.split(",")[0] for l in csv_pub.splitlines()[1:]}, {"1", "2"})
+
+    def test_t422_id_no_numerico_da_diagnostico_por_territorio(self):
+        malo = zip_de(resultados(("0", "nan")), detalle(("0", "nan")))
+        _, err, s = self.correr(zips={"1001": malo, "1002": malo})
+        self.assertIn("nac01/doble_vuelta.csv", err)
+        self.assertIn("nac02/doble_vuelta.csv", err)  # informa de todos, no solo del primero
+        self.assertIn("'nan'", err)
+        self.assertEqual(s, {})
+
+    def test_t422_filas_sin_distrito_vacio_nan_con_linea_y_valor(self):
+        for malo in ("", "nan", "NaN", "None"):
+            r = resultados((0, 1), extra=f"{malo},dv_base,2,PP,Patriotas,1,0.1,PP,PSOE,1,1,0.5,0,false\n")
+            z = zip_de(r, detalle((0, 1)))
+            _, err, s = self.correr(zips={"1001": z, "1002": z})
+            self.assertIn("ID_FUERA_DE_RANGO", err, malo)
+            self.assertIn("nac01/doble_vuelta.csv", err)
+            self.assertIn("línea 8", err)  # cabecera + 6 filas buenas + la mala
+            self.assertIn(repr(malo), err)
+            self.assertEqual(s, {})
+        d = detalle((0, 1)) + ",dv_base,PP,PP,Patriotas,3,3\n"  # el detalle, con id vacío
+        z = zip_de(resultados((0, 1)), d)
+        _, err, _ = self.correr(zips={"1001": z, "1002": z})
+        self.assertIn("nac01/detalle.csv", err)
+
+    def test_t422_barrido_52_ids_reales_de_datos_resultados(self):
+        """Los 52 nac de `datos/resultados/` (ganador por distrito, fuente del M08 publicado) pasan por el publicador como 0..K-1, también escritos «N.0»."""
+        for i in range(1, 53):
+            t = f"nac{i:02d}"
+            with open(ROOT / "datos" / "resultados" / f"{t}.csv", encoding="utf-8", newline="") as f:
+                ids = [r["distrito"] for r in csv.DictReader(f)]
+            for forma in (lambda x: x, lambda x: f"{x}.0"):
+                filas = [{"district_id": forma(d)} for d in ids]
+                norm = pdv._normalizar_ids(t, filas, "doble_vuelta.csv")
+                self.assertEqual(sorted(int(r["district_id"]) for r in norm), list(range(len(ids))), t)
+        # nac02 (Albacete, 3 distritos): caso real del fallo del run 44615106125
+        z = zip_de(resultados(("0.0", "1.0", "2.0")), detalle(("0.0", "1.0", "2.0")))
+        res, _, k = pdv.procesar_territorio({"territorio": "nac02"}, z)
+        self.assertEqual(k, 3)
+        self.assertEqual({l.split(",")[0] for l in res.decode("utf-8").splitlines()[1:]}, {"1", "2", "3"})
+
     def test_id_de_distrito_fuera_de_rango(self):
         for ids in ((1, 2), (0, 2)):  # empieza en 1 o con hueco
             z = zip_de(resultados(ids), detalle(ids))
