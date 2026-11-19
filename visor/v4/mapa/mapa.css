@@ -1,0 +1,19 @@
+/* Mapa V4 con doble vuelta (T-413). Los tokens de bloque son los de T-413 §2 y se sustituirán por los de v4/comun/v4.css (T-415). */
+:root{--bg:#fffdf8;--ink:#16201f;--muted:#5b6470;--line:#d9d0c3;--izq:#b3261e;--nac:#0b6e69;--pat:#1f5fa8;--sin:#5b6470;--on:#ffffff}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#14181a;--ink:#eef1f2;--muted:#a8b0bb;--line:#33393d;--izq:#ff8a80;--nac:#4fd1c5;--pat:#7fb2ff;--sin:#a8b0bb;--on:#14181a}}
+:root[data-theme=dark]{--bg:#14181a;--ink:#eef1f2;--muted:#a8b0bb;--line:#33393d;--izq:#ff8a80;--nac:#4fd1c5;--pat:#7fb2ff;--sin:#a8b0bb;--on:#14181a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:960px;margin:0 auto;padding:16px}h1{font-size:20px;margin:0 0 4px}.mu{color:var(--muted);font-size:14px}
+.reglas{display:flex;gap:8px;overflow-x:auto;padding:8px 0}.reglas button{min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--ink);font:inherit;font-weight:600;white-space:nowrap;cursor:pointer}
+.reglas button[aria-pressed=true]{background:var(--ink);color:var(--bg)}.reglas button:disabled{opacity:.5;cursor:not-allowed}
+.rejilla{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;margin:12px 0}
+.d{min-height:72px;border-radius:10px;border:2px solid transparent;color:var(--on);font:inherit;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.d small{font-weight:400;font-size:12px}.izq{background:var(--izq)}.nac{background:var(--nac)}.pat{background:var(--pat)}
+.sin{background:repeating-linear-gradient(45deg,var(--sin) 0 4px,transparent 4px 8px);color:var(--ink);border-color:var(--sin)}
+.d.claro{opacity:.6}.d.empate{outline:3px dashed var(--ink);outline-offset:-6px}.d[aria-pressed=true]{border-color:var(--ink)}
+.leyenda{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:14px}.sw{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:6px}
+.hoja{border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:12px}.hoja h2{font-size:17px;margin:0}
+.barra{display:flex;height:22px;border-radius:5px;overflow:hidden;margin:6px 0}.barra span{display:block}
+table{border-collapse:collapse;width:100%;font-size:15px}td,th{padding:6px;border-bottom:1px solid var(--line);text-align:left}td.n,th.n{text-align:right}
+.aviso{border-left:4px solid var(--sin);padding:6px 10px;margin:8px 0}
+@media (max-width:640px){.hoja{position:sticky;bottom:0;background:var(--bg);max-height:60vh;overflow:auto;box-shadow:0 -6px 20px rgba(0,0,0,.15)}}

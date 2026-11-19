@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Mapa con doble vuelta · ejemplo</title><link rel="stylesheet" href="mapa.css"></head>
+<body><main>
+<h1>Mapa con doble vuelta</h1>
+<p class="mu">Página de ejemplo (T-413): distritos ficticios con datos de prueba, sin valor oficial. No está enlazada desde ninguna página.</p>
+<div class="reglas" id="reglas" role="group" aria-label="Regla de elección"></div>
+<p class="mu" id="ayuda"></p>
+<div class="rejilla" id="rejilla"></div>
+<div class="leyenda" id="leyenda"><span><span class="sw izq"></span>Izquierdas</span><span><span class="sw nac"></span>Nacionalistas</span><span><span class="sw pat"></span>Patriotas</span><span><span class="sw sin"></span>Sin bloque / sin dato</span></div>
+<p class="mu">Color pleno: ventaja de 5 puntos o más sobre el otro finalista. Color claro: ventaja menor. Borde discontinuo: empate.</p>
+<details><summary>Cómo funciona</summary><p>En cada distrito se cuentan los votos a las candidaturas (sin blancos ni nulos). Si una candidatura saca más de la mitad, gana en primera vuelta. Si no, pasan a segunda vuelta las dos más votadas. Los votos de cada candidatura eliminada se suman a la finalista de su mismo bloque (Izquierdas, Nacionalistas o Patriotas). Si su bloque no tiene finalista, o el partido no pertenece a ningún bloque, esos votos se abstienen y no cuentan. Gana la finalista con más votos. «Tres bloques» agrupa los tres bloques desde la primera vuelta; «Dos bloques», solo Izquierdas y Patriotas; «Sin coaliciones», a nadie. No se inventan porcentajes de trasvase: solo se suman votos reales. Es una simulación; no tiene valor oficial.</p></details>
+<section id="ficha" class="hoja" aria-live="polite" hidden></section>
+</main>
+<script src="dv.js"></script><script src="mapa.js"></script></body></html>

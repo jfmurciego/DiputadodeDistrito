@@ -3,9 +3,13 @@
 """Doble vuelta con coaliciones por distrito (T-409, D-167): escenarios dv_base, dv_A y dv_B.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-18 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/doble_vuelta_v1.0.0_20261117.py
-CAMBIOS: 1.1.0 (T-409): detalle por partido (`--detalle`, `detalle()`): por distrito y escenario, cada partido con su bloque, su
+VERSIÓN: 1.3.0 · FECHA: 2026-11-19 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/doble_vuelta_v1.2.0_20261119.py
+CAMBIOS: 1.3.0 (T-409): `--alias` (configuracion/alias_partidos_generales.csv): el id de partido de P31 pasa a su partido homologado antes de buscar el bloque
+  (los ids que dan el mismo partido suman sus votos); sin `--alias` nada cambia. El manifiesto lleva el sha256 del alias.
+  1.2.0 (T-409, revisor de #904): los partidos con votos que NO están en la tabla de bloques de la elección («sin casar») se informan
+  (manifiesto `sin_casar` con recuento, votos y lista, y ::warning en stderr) en vez de tratarse en silencio como sin bloque; el cálculo no cambia.
+  1.1.0 (T-409): detalle por partido (`--detalle`, `detalle()`): por distrito y escenario, cada partido con su bloque, su
   candidatura (la coalición en dv_A/dv_B) y sus votos de primera vuelta; `resolver` no cambia. 1.0.0: fichero nuevo. No toca el ganador actual (`primero`): es un paso aparte que lee la tabla de votos por partido y
   distrito de P31 (`district_id, party, votes`) y la tabla de bloques de `configuracion/`.
 MOTIVO: D-167 (propietario, 17-11): escenario adicional de doble vuelta con coaliciones por bloque; diseño en
@@ -24,6 +28,7 @@ import argparse
 import csv
 import hashlib
 import json
+import sys
 from collections import defaultdict
 from pathlib import Path
 
@@ -47,8 +52,8 @@ def sha256(path) -> str:
     return h.hexdigest()
 
 
-def cargar_bloques(path, eleccion: str) -> dict[str, str]:
-    """Partido → bloque de una elección. Un partido, un bloque; los vacíos quedan sin bloque."""
+def cargar_tabla(path, eleccion: str) -> dict[str, str]:
+    """Partido → bloque de TODAS las filas de la elección (el bloque vacío = sin bloque, pero casado). Un partido, un bloque."""
     out: dict[str, str] = {}
     with open(path, encoding="utf-8", newline="") as f:
         for fila in csv.DictReader(f):
@@ -62,7 +67,51 @@ def cargar_bloques(path, eleccion: str) -> dict[str, str]:
             out[sigla] = b
     if not out:
         raise ValueError(f"Sin filas de la elección {eleccion} en {path}")
-    return {k: v for k, v in out.items() if v}
+    return out
+
+
+def cargar_bloques(path, eleccion: str) -> dict[str, str]:
+    """Partido → bloque de una elección; los vacíos (sin bloque) no figuran."""
+    return {k: v for k, v in cargar_tabla(path, eleccion).items() if v}
+
+
+def eleccion_alias(eleccion: str) -> str:
+    """'2023-07' → '202307' (formato de la tabla de alias)."""
+    return eleccion.replace("-", "")
+
+
+def cargar_alias(path, eleccion: str) -> dict[str, str]:
+    """id de fuente → partido homologado de una elección (tabla de configuracion/alias_partidos_generales.csv)."""
+    e = eleccion_alias(eleccion)
+    out: dict[str, str] = {}
+    with open(path, encoding="utf-8", newline="") as f:
+        for fila in csv.DictReader(f):
+            if fila["eleccion"] == e:
+                out[fila["id_fuente"]] = fila["partido_homologado"]
+    if not out:
+        raise ValueError(f"Sin alias de la elección {eleccion} en {path}")
+    return out
+
+
+def aplicar_alias(votos: dict[str, dict[str, int]], alias: dict[str, str]) -> dict[str, dict[str, int]]:
+    """Pasa cada id a su partido homologado (los sin alias quedan como están) y suma los que coinciden."""
+    out: dict[str, dict[str, int]] = {}
+    for d, por_partido in votos.items():
+        acc: dict[str, int] = defaultdict(int)
+        for p, v in por_partido.items():
+            acc[alias.get(p, p)] += v
+        out[d] = dict(acc)
+    return out
+
+
+def sin_casar(votos: dict[str, dict[str, int]], tabla: dict[str, str]) -> dict[str, int]:
+    """Partidos con votos que no están en la tabla de la elección (≠ sin bloque): partido → votos."""
+    out: dict[str, int] = defaultdict(int)
+    for por_partido in votos.values():
+        for p, v in por_partido.items():
+            if v > 0 and p not in tabla:
+                out[p] += v
+    return dict(out)
 
 
 def cargar_votos(path) -> dict[str, dict[str, int]]:
@@ -138,9 +187,19 @@ def resolver(votos: dict[str, int], bloque_de: dict[str, str], escenario: str) -
     return fila
 
 
-def generar(votos_csv, bloques_csv, eleccion: str, salida, manifiesto=None, detalle_csv=None) -> list[dict]:
-    bloque_de = cargar_bloques(bloques_csv, eleccion)
+def generar(votos_csv, bloques_csv, eleccion: str, salida, manifiesto=None, detalle_csv=None, alias_csv=None) -> list[dict]:
+    tabla = cargar_tabla(bloques_csv, eleccion)
+    bloque_de = {k: v for k, v in tabla.items() if v}
     votos = cargar_votos(votos_csv)
+    if alias_csv:
+        votos = aplicar_alias(votos, cargar_alias(alias_csv, eleccion))
+    huerfanos = sin_casar(votos, tabla)
+    if huerfanos:
+        total = sum(v for d in votos.values() for v in d.values())
+        top = sorted(huerfanos.items(), key=lambda a: (-a[1], a[0]))
+        print(f"::warning title=DOBLE_VUELTA_SIN_CASAR::{len(huerfanos)} partidos con {sum(huerfanos.values())} votos "
+              f"({100 * sum(huerfanos.values()) / total:.2f} %) no están en la tabla de bloques de {eleccion} y se abstienen: "
+              + ", ".join(f"{p}={v}" for p, v in top[:5]), file=sys.stderr)
     filas, det = [], []
     for distrito in sorted(votos, key=lambda x: (len(x), x)):
         for esc in ESCENARIOS:
@@ -165,6 +224,9 @@ def generar(votos_csv, bloques_csv, eleccion: str, salida, manifiesto=None, deta
             "entradas": {"votos": {"ruta": str(votos_csv), "sha256": sha256(votos_csv)},
                          "bloques": {"ruta": str(bloques_csv), "sha256": sha256(bloques_csv)}},
             "salida": {"ruta": str(salida), "sha256": sha256(salida)}, "filas": len(filas),
+            "sin_casar": {"n_partidos": len(huerfanos), "votos": sum(huerfanos.values()),
+                          "lista": [{"partido": p, "votos": v} for p, v in sorted(huerfanos.items(), key=lambda a: (-a[1], a[0]))[:25]]},
+            **({"alias": {"ruta": str(alias_csv), "sha256": sha256(alias_csv)}} if alias_csv else {}),
             **({"detalle": {"ruta": str(detalle_csv), "sha256": sha256(detalle_csv)}} if detalle_csv else {}),
         }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return filas
@@ -177,9 +239,10 @@ def main():
     ap.add_argument("--eleccion", required=True, help="AAAA-MM, como en la tabla de bloques (p. ej. 2023-07)")
     ap.add_argument("--salida", required=True)
     ap.add_argument("--manifiesto")
+    ap.add_argument("--alias", help="configuracion/alias_partidos_generales.csv: id de partido de P31 → partido homologado (opcional)")
     ap.add_argument("--detalle", help="CSV de detalle por partido, bloque y candidatura (opcional)")
     a = ap.parse_args()
-    filas = generar(a.votos, a.bloques, a.eleccion, a.salida, a.manifiesto, a.detalle)
+    filas = generar(a.votos, a.bloques, a.eleccion, a.salida, a.manifiesto, a.detalle, a.alias)
     print(f"[doble_vuelta] OK distritos={len(filas) // len(ESCENARIOS)} filas={len(filas)}")
 
 
