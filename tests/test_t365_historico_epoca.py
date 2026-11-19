@@ -2,9 +2,9 @@
 """T-365 (D-125): contrato por elección del histórico por época, contrato M01-M06 por provincia y puerta M07/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.2 · FECHA: 2026-11-19 · ESTADO: candidato
-ANTERIOR: legacy/tests/test_t365_historico_epoca_v1.4.1_20261119.py
-CAMBIOS: 1.4.2: T-400: clase PuentesDeEpoca. 1.4.1: T-405: clase TopologiaAdministrativa. 1.4.0: T-399: estado APARTADA_VOTOS admitido (D-158). 1.3.0: T-402: `materializar` normaliza la geometría (parche del seccionado en los tests con zip falso; clase NormalizacionGeometria con zip real). 1.2.0: T-396 (D-153): estado APARTADA admitido; contratos 1.2.0 con anterior 1.1.0. 1.1.0: T-389 (T-365b): contratos con la tabla de T-364b (1.2.0): provincias apartadas = BLOQUEADA_SIN_DATO sin filas, fallo cerrado con la tabla vieja.
+VERSIÓN: 1.4.3 · FECHA: 2026-11-19 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_t365_historico_epoca_v1.4.2_20261119.py
+CAMBIOS: 1.4.3: T-400 (D-180): clase RepartoParticiones. 1.4.2: T-400: clase PuentesDeEpoca. 1.4.1: T-405: clase TopologiaAdministrativa. 1.4.0: T-399: estado APARTADA_VOTOS admitido (D-158). 1.3.0: T-402: `materializar` normaliza la geometría (parche del seccionado en los tests con zip falso; clase NormalizacionGeometria con zip real). 1.2.0: T-396 (D-153): estado APARTADA admitido; contratos 1.2.0 con anterior 1.1.0. 1.1.0: T-389 (T-365b): contratos con la tabla de T-364b (1.2.0): provincias apartadas = BLOQUEADA_SIN_DATO sin filas, fallo cerrado con la tabla vieja.
 MOTIVO: T-365. Sin red ni fuentes pesadas: el flujo M07/M08 usa un M06 sintético y los módulos reales.
 """
 from __future__ import annotations
@@ -371,6 +371,39 @@ class PuentesDeEpoca(unittest.TestCase):
         geo = self.GEO | {"3502401010"}
         out = che._puentes_de_epoca(ROOT, self._c(), "2011-11", "35", self.BASE, geo, None)
         self.assertEqual(out[0]["u"], "3502401010")
+
+
+class RepartoParticiones(unittest.TestCase):
+    """T-400 (D-180): K por partición insular con la población de la época. Poblaciones medidas con poblacion_seccion_2011-11.csv
+    (sha256 45aa3552…) y el lookup de particiones; cuotas esperadas escritas a mano (Hamilton por componentes, ≥ 1 por partición)."""
+
+    def _pob(self, territorio, por_particion):
+        d = json.loads((ROOT / "configuracion/particiones_insulares_2025.json").read_text(encoding="utf-8"))["territories"][territorio]
+        pob = {}
+        for comp, n in por_particion.items():
+            mun = next(m for m, c in d["municipality_to_partition"].items() if c == comp)
+            pob[mun + "01001"] = {"poblacion": n, "origen": "dato"}
+        return pob
+
+    def _base(self, territorio):
+        import yaml
+        return yaml.safe_load((ROOT / f"territorios/{territorio}/config/{territorio}_2025.yaml").read_text(encoding="utf-8"))
+
+    def test_las_palmas_2011_seis_uno_uno_y_fuerteventura_exenta(self):
+        pob = self._pob("nac35", {"35-C01": 846485, "35-C02": 102810, "35-G01": 137980})
+        r = che._reparto_particiones(ROOT, self._base("nac35"), "nac35", 8, pob)
+        self.assertEqual(r["cuota"], {"35-C01": 6, "35-C02": 1, "35-G01": 1})
+        self.assertEqual(r["exentas"], ["35-C02"])  # 102.810 < 0,85 · 1.087.275 / 8 = 115.523
+        self.assertTrue(r["auditoria"]["35-C02"]["floor_exception_governed"])
+
+    def test_cuota_de_contrato_provincial_para_un_territorio_sin_particiones(self):
+        base = {"validation": {}, "territory_contract": {}}
+        self.assertIsNone(che._reparto_particiones(ROOT, base, "nac22", 3, {}))
+
+    def test_santa_cruz_2011_falla_cerrado_sin_politica_de_excepcion(self):
+        pob = self._pob("nac38", {"38-C01": 877740, "38-G01": 115715})  # 38-G01 < suelo 120.634 y la política de nac38 no gobierna la excepción
+        with self.assertRaises(ValueError):
+            che._reparto_particiones(ROOT, self._base("nac38"), "nac38", 7, pob)
 
 
 class TopologiaAdministrativa(unittest.TestCase):
