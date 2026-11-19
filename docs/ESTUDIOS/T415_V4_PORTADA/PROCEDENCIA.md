@@ -2,6 +2,6 @@
 
 - Origen: ZIP «DDD_web_estructura_para_Murciego.zip» entregado por el propietario el 19-11-2026; ficheros sin modificar en `original/` con su sha256 en `original/SHA256SUMS`.
 - Autoría: Vanesa (portada, maquetas y matriz jurídico-electoral de trabajo).
-- Permiso: el propietario declara el 19-11-2026, en el chat del Planificador, que tiene el permiso de la autora para incorporarla al proyecto. El texto del permiso se archivará en `propiedad_intelectual/` cuando el propietario lo aporte.
+- Permiso (decisión del propietario, 19-11-2026, literal en el chat del Planificador): «Vanesa me los ha entregado para que los publique yo, tengo todo su permiso y su intención». El propietario asume la publicación como titular del proyecto; no se exige otro documento.
 - Estado: material de trabajo, NO publicado (fuera de `visor/`). La matriz jurídica es «de trabajo»: normas identificadas, no comprobadas artículo por artículo; no se publica sin fuentes verificadas.
 - Destino: V4 (`visor/v4/`), portada de entrada + mapa con doble vuelta (T-413); la V3 no se toca.
