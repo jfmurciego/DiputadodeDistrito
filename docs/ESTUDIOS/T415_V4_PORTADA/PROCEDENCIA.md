@@ -20,7 +20,7 @@
 
 Mensaje del propietario al Coordinador, tal cual (con sus erratas):
 
-«1. "La doble vuelta garantiza que el diputado sea elegido por la mayoría de su distrito. Si ningún candidato obtiene mayoría artimetica en la primera votación, los dos más votados irana la segunda. Así, las minorías pueden negociar apoyos y hacer públicos sus acuerdos antes de la elección definitiva.  Asi aseguramos que El ciudadano tenga la última palabra, no los partidos." 2. url https://media.diputadodeistrito.es/Video_DDD.mp4»
+«1. "La doble vuelta garantiza que el diputado sea elegido por la mayoría de su distrito. Si ningún candidato obtiene mayoría artimetica en la primera votación, los dos más votados irana la segunda. Así, las minorías pueden negociar apoyos y hacer públicos sus acuerdos antes de la elección definitiva.  Asi aseguramos que El ciudadano tenga la última palabra, no los partidos." 2. url https://media.diputadodedistrito.es/Video_DDD.mp4»
 
 - Texto publicado en `visor/v4/comprender.html` y `visor/v4/mapa/index.html` con 4 correcciones ortográficas evidentes (pendientes de confirmación del propietario): «artimetica»→«aritmética», «irana»→«irán a», «Asi»→«Así», «El ciudadano»→«el ciudadano» (y un solo espacio tras «definitiva.»).
-- URL: el propietario escribió `media.diputadodeistrito.es` (sin la «d» de «dedistrito»); el Coordinador indicó antes `https://media.diputadodedistrito.es/` y `visor/v4/video.json` lleva ese dominio. **Discrepancia pendiente de confirmación del propietario**; no se ha cambiado sin su confirmación.
+- URL: `https://media.diputadodedistrito.es/Video_DDD.mp4`; `visor/v4/video.json` lleva `base` `https://media.diputadodedistrito.es/` y `video` `Video_DDD.mp4`. (El Coordinador transcribió antes el dominio sin la «d» de «dedistrito» por error y lo corrigió el 19-11.)
