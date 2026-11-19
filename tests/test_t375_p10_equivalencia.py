@@ -18,6 +18,8 @@ from pathlib import Path
 
 import yaml
 
+from tests._t379_2b import deshacer as sin_2b
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tests"))
 import generar_vistas_p10 as vistas  # noqa: E402
@@ -42,7 +44,7 @@ def on(d):
 
 
 def cargar(ruta):
-    return yaml.safe_load(Path(ruta).read_text(encoding="utf-8"))
+    return sin_2b(Path(ruta).stem, yaml.safe_load(Path(ruta).read_text(encoding="utf-8")))  # T-379 2b: sin la entrada `campana` ni `contents: read`
 
 
 def viejo(nombre):
@@ -55,7 +57,7 @@ def viejo(nombre):
 
 
 def vista(tipo, texto=None):
-    return yaml.safe_load(vistas.vista(tipo, texto))
+    return sin_2b("vista", yaml.safe_load(vistas.vista(tipo, texto)))  # T-379 2b
 
 
 def paso(job, id_=None, nombre=None):

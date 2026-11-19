@@ -1,6 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de distritos (botón) y reutilizable de la 00
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.0.1
+# CAMBIOS 1.0.1: T-379 PR 2b (D-163, 2b mínima): `contents: read` en todo el fichero (el push a main va con el token de la app de registro,
+#   que no depende de GITHUB_TOKEN: `contents: read` NO es barrera para ese push; sin la app, la credencial falla en vez de caer en github.token);
+#   entrada oculta `campana` (workflow_call; vacía = como antes). Con campaña, los jobs (en P30, los pasos) que registran en main se saltan.
+#   `m04` depende también de `pre_m04_evidence` (éxito o saltado; §3, decisión B): hoy nunca corren juntos (preflight_only los separa), así que
+#   sin campaña nada cambia; la serie queda en el grafo y no solo en que se salte el job de registro.
+# ANTERIOR (1.0.0): legacy/workflows/p20-distritos_v1.0.0_20261117b.yml
 # FECHA: 2026-11-16
 # ESTADO: candidato
 # CAMBIOS: T-377 (D-139, migración paso 8): fichero nuevo; sustituye a produccion-distritos.yml 8.3.0 («P20 Base territorial — P30 Distritos») y
@@ -26,6 +32,7 @@ name: P20 Distritos
 on:
   workflow_call:
     inputs:
+      campana: {required: false, type: string, default: ''}  # T-379 2b (D-163): id de campaña de P00; no vacía = ruta de campaña (sin registro en main)
       # Ruta «generar» (antes produccion-distritos.yml).
       territory_id: {required: false, type: string, default: ''}
       data_edition: {required: false, type: string, default: '2025'}
@@ -79,7 +86,7 @@ on:
 
 # Los del motor (antes el reutilizable); `resolver_interfaz` declara además `issues: write`, como produccion-distritos.yml.
 permissions:
-  contents: write
+  contents: read  # T-379 2b (D-163): el push a main va con el token de la app de registro, no con GITHUB_TOKEN
   actions: read
 
 # Exclusión por territorio (Planificador, 17-11; mismo grupo que P10, T-375): no hay `concurrency` de workflow; cada job del motor salvo `resolve` y los
@@ -139,9 +146,8 @@ jobs:
     needs: interfaz
     if: ${{ needs.interfaz.result == 'success' }}
     permissions:
-      contents: write
+      contents: read
       actions: read
-      issues: write
     runs-on: ubuntu-24.04
     outputs:
       territory_id: ${{ steps.resolve.outputs.territory_id }}
@@ -1444,7 +1450,7 @@ jobs:
   pre_m04_evidence:
     name: P24 Acreditar evidencia durable previa a Formación inicial
     needs: [entrada, resolve, internal_units]
-    if: ${{ always() && (needs.entrada.outputs.preflight_only == 'true') && (needs.entrada.outputs.persist_state == 'true') && needs.resolve.result == 'success' && needs.internal_units.result == 'success' }}
+    if: ${{ (always() && (needs.entrada.outputs.preflight_only == 'true') && (needs.entrada.outputs.persist_state == 'true') && needs.resolve.result == 'success' && needs.internal_units.result == 'success') && !inputs.campana }}
     runs-on: ubuntu-24.04
     outputs:
       enabled_source_ref: ${{ steps.persist.outputs.enabled_source_ref }}
@@ -1468,7 +1474,7 @@ jobs:
           APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
         run: |
           set -euo pipefail
-          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "::error::Sin la app de registro (DDD_REGISTRO_APP_*): GITHUB_TOKEN es de solo lectura (T-379 2b, D-163)."; exit 1; fi
           b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
           now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
           unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
@@ -1575,7 +1581,7 @@ jobs:
   pre_m04_diagnostic:
     name: P24 Registrar evaluación no habilitante de generación
     needs: [entrada, resolve, official_sources, m01, m02, m03, internal_units, pre_m04_evidence]
-    if: ${{ always() && (needs.entrada.outputs.preflight_only == 'true') && (needs.entrada.outputs.persist_state == 'true') && needs.resolve.result == 'success' && needs.pre_m04_evidence.result != 'success' }}
+    if: ${{ (always() && (needs.entrada.outputs.preflight_only == 'true') && (needs.entrada.outputs.persist_state == 'true') && needs.resolve.result == 'success' && needs.pre_m04_evidence.result != 'success') && !inputs.campana }}
     runs-on: ubuntu-24.04
     outputs:
       evaluation_status: ${{ steps.classify.outputs.evaluation_status }}
@@ -1602,7 +1608,7 @@ jobs:
           APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
         run: |
           set -euo pipefail
-          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "::error::Sin la app de registro (DDD_REGISTRO_APP_*): GITHUB_TOKEN es de solo lectura (T-379 2b, D-163)."; exit 1; fi
           b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
           now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
           unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
@@ -1744,12 +1750,12 @@ jobs:
 
   m04:
     name: P24 Formación inicial de distritos
-    needs: [entrada, resolve, internal_units]
+    needs: [entrada, resolve, internal_units, pre_m04_evidence]  # T-379 2b (§3, decisión B): m04 en serie tras pre_m04_evidence (éxito o saltado)
     concurrency:
       group: ddd-territorial-prod-${{ needs.resolve.outputs.territory_id }}-${{ inputs.data_edition || '2025' }}
       cancel-in-progress: false
       queue: max
-    if: ${{ always() && !(needs.entrada.outputs.preflight_only == 'true') && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 4 && fromJSON(needs.resolve.outputs.to_num) >= 4 && needs.internal_units.result == 'success' }}
+    if: ${{ always() && !(needs.entrada.outputs.preflight_only == 'true') && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 4 && fromJSON(needs.resolve.outputs.to_num) >= 4 && needs.internal_units.result == 'success' && (needs.pre_m04_evidence.result == 'success' || needs.pre_m04_evidence.result == 'skipped') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 240
     env: {PARAMS: "${{ needs.resolve.outputs.params }}", RUN_ID: "${{ needs.resolve.outputs.run_id }}", CACHE_DIR: "${{ needs.resolve.outputs.cache_dir }}", RUNS_DIR: "${{ needs.resolve.outputs.runs_dir }}", STAGE: M04, PREVIOUS_STAGE: M03U, PREVIOUS_RESULT: "${{ needs.internal_units.result }}", CHECKPOINT_RUN_ID: "${{ needs.entrada.outputs.checkpoint_run_id }}"}
@@ -1990,7 +1996,7 @@ jobs:
   registrar:
     name: P26 Registrar producto territorial
     needs: [entrada, resolve, m04, m05, m06, auditoria]
-    if: ${{ always() && needs.resolve.result == 'success' && needs.auditoria.result == 'success' && (needs.entrada.outputs.persist_state == 'true') }}
+    if: ${{ (always() && needs.resolve.result == 'success' && needs.auditoria.result == 'success' && (needs.entrada.outputs.persist_state == 'true')) && !inputs.campana }}
     runs-on: ubuntu-24.04
     env:
       PARAMS: ${{ needs.resolve.outputs.params }}
@@ -2020,7 +2026,7 @@ jobs:
           APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
         run: |
           set -euo pipefail
-          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "::error::Sin la app de registro (DDD_REGISTRO_APP_*): GITHUB_TOKEN es de solo lectura (T-379 2b, D-163)."; exit 1; fi
           b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
           now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
           unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"

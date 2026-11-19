@@ -30,3 +30,9 @@ Motor (M04, M05, GerryChain): usa la skill `ingeniero-motor`.
 Tope por chat: una tarea; al agotar los dos ciclos, para y cierra con la evidencia.
 
 Límite: como mucho dos ciclos de reparación por causa; después, informa con la evidencia.
+
+## Relevo
+Autocomprobación en tu propio turno (no es un vigilante): al empezar cada turno, `get_session` sin id; si
+`external_metadata.context_usage.used_tokens` ≥ 70 % de `autocompact_state.threshold`, abre el relevo (D-160).
+Si llegas al umbral: cierra con la línea al Coordinador (PR abierta, estado y pendientes); el Coordinador te releva y la PR
+con su entrada de `docs/registro/` es el traspaso. No crees sucesora por tu cuenta.

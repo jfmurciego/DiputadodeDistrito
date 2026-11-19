@@ -1,5 +1,13 @@
 {
   "permissions": {
+    "allow": [
+      "mcp__claude-code-remote__send_message",
+      "mcp__claude-code-remote__get_session",
+      "mcp__claude-code-remote__list_sessions",
+      "mcp__claude-code-remote__list_events",
+      "mcp__claude-code-remote__get_event",
+      "ReadNotifications"
+    ],
     "deny": [
       "mcp__github__create_repository",
       "mcp__github__fork_repository"

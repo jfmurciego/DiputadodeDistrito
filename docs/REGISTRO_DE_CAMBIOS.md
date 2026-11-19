@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.506
-Fecha: 2026-11-17
-Alcance: Coordinador — tablero `docs/ESTADO.md` del relevo 16-11 noche / 17-11
+Versión: 1.0.525
+Fecha: 2026-11-19
+Alcance: T-409 — Detalle por partido y bloque en la doble vuelta (dv_A)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-17_coordinador-estado-2026-11-17.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.505_registro_20261117.md
+Cambios/motivo: entrada docs/registro/2026-11-18_implementador-t409-detalle-dv.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.524_registro_20261119.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,25 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.505_registro_20261117.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.525 · [2026-11-18 — T-409 — Detalle por partido y bloque en la doble vuelta (dv_A)](registro/2026-11-18_implementador-t409-detalle-dv.md)
+- 1.0.524 · [2026-11-19 — T-415 — Originales de la portada de la V4 (sin publicar)](registro/2026-11-19_planificador-t415-v4-originales.md)
+- 1.0.523 · [2026-11-18 — T-413 — Diseño del visor de la doble vuelta](registro/2026-11-18_t413-visor-doble-vuelta-diseno.md)
+- 1.0.522 · [2026-11-18 — T-414 — Plan 1.0.68: D-171, D-172, T-409 y T-413](registro/2026-11-18_planificador-plan-1-0-68.md)
+- 1.0.521 · [2026-11-17 — T-409 — Herramienta de doble vuelta con coaliciones (D-167)](registro/2026-11-17_implementador-t409-herramienta-doble-vuelta.md)
+- 1.0.520 · [2026-11-17 — T-409 — Diseño de la doble vuelta con coaliciones (D-167)](registro/2026-11-17_implementador-t409-doble-vuelta.md)
+- 1.0.519 · [2026-11-17 — T-412 — Plan 1.0.67: D-169, D-170, D-165 sin P28 y T-411](registro/2026-11-17_planificador-plan-1-0-67.md)
+- 1.0.518 · [2026-11-17 — T-411 — Permisos de comunicación entre sesiones sin pregunta](registro/2026-11-17_planificador-permisos-comunicacion.md)
+- 1.0.517 · [2026-11-17 — T-313 — Diseño de la migración de notación M0x → P2x/P3x](registro/2026-11-17_t313-diseno.md)
+- 1.0.516 · [2026-11-17 — T-379 — PR 2b: entrada `campana` en P10, P20 y P30 (D-163, 2b mínima)](registro/2026-11-17_t379-2b-campana.md)
+- 1.0.515 · [2026-11-17 — T-410 — Plan 1.0.66: D-166 a D-168 y T-409](registro/2026-11-17_planificador-plan-1-0-66.md)
+- 1.0.514 · [2026-11-17 — T-408 — Plan 1.0.65: D-165 y D-163 con la 2b mínima](registro/2026-11-17_planificador-plan-1-0-65.md)
+- 1.0.513 · [2026-11-17 — T-397c — Fusión automática sin botón + inventario de workflows retirados](registro/2026-11-17_claude-t397c-auto-merge.md)
+- 1.0.512 · [2026-11-17 — T-407 — Plan 1.0.64: D-163, D-164 y corrección de D-161](registro/2026-11-17_planificador-plan-1-0-64.md)
+- 1.0.511 · [2026-11-17 — T-383 — Documentación al día con los workflows migrados (D-142)](registro/2026-11-17_t383-docs-workflows.md)
+- 1.0.510 · [2026-11-17 — T-405 — nac14 2011-11: municipio no conexo (Fuente Palmera) sin acreditación topológica](registro/2026-11-17_t405-topologia-fuente-palmera.md)
+- 1.0.509 · [2026-11-17 — T-403 — Relevo automático de chats (D-160)](registro/2026-11-17_t403-relevo-chats.md)
+- 1.0.508 · [2026-11-17 — T-399 — Histórico 2011-11: secciones del seccionado 2012 sin fila en la tabla del Censo (D-158, opción B')](registro/2026-11-17_claude-t399-sin-poblacion.md)
+- 1.0.507 · [2026-11-17 — T-406 — Plan 1.0.63: D-158 confirmada, D-161, D-162, T-405](registro/2026-11-17_planificador-plan-1-0-63.md)
 - 1.0.506 · [2026-11-17 — Coordinador — tablero `docs/ESTADO.md` del relevo 16-11 noche / 17-11](registro/2026-11-17_coordinador-estado-2026-11-17.md)
 - 1.0.505 · [2026-11-17 — T-397b — Workflows sin botón con «_» al principio (D-159)](registro/2026-11-17_t397b-nombres-sin-boton.md)
 - 1.0.504 · [2026-11-17 — T-402 — Histórico por época: `materializar` normaliza la geometría con la normalización auditada](registro/2026-11-17_t402-normalizar-geometria-historico.md)

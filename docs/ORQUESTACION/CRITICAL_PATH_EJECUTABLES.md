@@ -12,6 +12,8 @@ La lista describe el **critical path operativo**. No sustituye las puertas autom
 
 ## Critical path manual
 
+> Nota T-383 (17-11): los workflows de este documento se migraron a P10-P90 (D-129); equivalencias en `docs/ARQUITECTURA/EQUIVALENCIAS_D129.md`. Lo que sigue es histórico (2026-09).
+
 1. **Preparación de Datos Territoriales**  
    Workflow: `.github/workflows/preparacion-fuentes.yml`  
    Materializa y valida las fuentes territoriales reutilizables.

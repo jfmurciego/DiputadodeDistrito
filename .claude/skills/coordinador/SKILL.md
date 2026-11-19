@@ -27,3 +27,15 @@ Reparto: propietario (permisos, decisiones) · planificador (qué y prioridades,
    `no-automerge`. No fusiones ni apruebes tú; no cambies el estado del auto-merge sin autorización del propietario.
 
 No hace: código de producto, lanzamientos, publicaciones, edición de `docs/PLAN.md`.
+
+## Relevo
+Autocomprobación en tu propio turno (no es un vigilante): al empezar cada turno, `get_session` sin id; si
+`external_metadata.context_usage.used_tokens` ≥ 70 % de `autocompact_state.threshold`, abre el relevo (D-160).
+1. Lecciones con `/cierre-sesion`.
+2. `docs/TRASPASO_COORDINADOR_AAAA-MM-DD.md`: estado, sesiones vivas con sus ids, pendientes y encargos; PR de solo docs.
+3. Crea tu sucesora con `create_session` (mismo modelo y repositorio); su prompt carga la skill `coordinador` y lee el traspaso y los ids.
+4. Avisa con `send_message` a los otros dos roles (Planificador y Operador), no a ti.
+5. La sucesora confirma que ha leído y archiva a la predecesora.
+Relevo de implementadores: lo hace el Coordinador igual; la PR y su registro hacen de traspaso.
+Límite de linaje: `create_session` tiene tope de profundidad (hoy 8); la profundidad es `lineage.depth` de `get_session` («lineage depth 6, limit 8»). En profundidad 7 o más NO crees sucesora: deja el
+traspaso y el prompt listos en él y avisa al propietario al momento con notificación al móvil (D-122) para que abra un chat nuevo.

@@ -19,6 +19,8 @@ from pathlib import Path
 
 import yaml
 
+from tests._t379_2b import deshacer as sin_2b
+
 from tests._uses_sin_version import cargar as cargar_sin_version
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -49,7 +51,7 @@ def on(d):
 
 def carga(p):
     # T-392: un bump de versión de una acción de terceros (Dependabot) no es un cambio de lógica.
-    return cargar_sin_version(Path(p).read_text(encoding="utf-8"))
+    return sin_2b(Path(p).stem, cargar_sin_version(Path(p).read_text(encoding="utf-8")))  # T-379 2b: sin la entrada `campana` ni `contents: read`
 
 
 def motor_normalizado(texto: str) -> str:
