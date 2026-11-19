@@ -1,6 +1,8 @@
 # T-413 · Visor: doble vuelta por distrito — diseño (solo documento)
 
-VERSIÓN: 1.1.0 · FECHA: 2026-11-18 · ESTADO: aprobado (D-172) · ANTERIOR: 1.0.0 (misma PR, sin fusionar)
+VERSIÓN: 1.2.0 · FECHA: 2026-11-19 · ESTADO: aprobado (D-172, punto 3 cambiado: V4) · ANTERIOR: 1.1.0 (#905)
+
+**Cambio (19-11, propietario vía Planificador)**: el mapa NO va en `visor/v3/` sino en `visor/v4/mapa/` (diseño de la V4: T-415, `docs/ESTUDIOS/T415_V4_PORTADA/`); donde este documento dice «V3» léase «V4/mapa» (V3 no se toca). Primera entrega: página independiente con datos de ejemplo, sin enlazar.
 
 D-172 (18-11, propietario, relayado por el Planificador): «sí a todo», las 10 recomendaciones del §9 quedan **decididas**. Según el plan 1.0.68 en curso (D-172 aún no consta en `docs/PLAN.md` de `main`; D-171 no se cita).
 

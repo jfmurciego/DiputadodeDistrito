@@ -484,6 +484,11 @@ class Retirada(Congelado):
     def test_p40_publicar_igual_salvo_lo_del_ensemble(self):
         a = copy.deepcopy(self.p40v["jobs"]["publicar"])
         b = carga(WF / "p40-publicacion.yml")["jobs"]["publicar"]
+        # T-409 (P40 1.2.0): el paso de la doble vuelta y las 2 líneas que copian visor/v4/ son lo único nuevo; se ignoran SOLO esos (nombre del paso y líneas exactas)
+        v4 = {"mkdir -p /tmp/site-candidate/v4 && cp -R visor/v4/. /tmp/site-candidate/v4/  # T-409: el visor V4 completo (el paso de la doble vuelta añade v4/mapa/datos/ después)",
+              'while IFS= read -r f; do [[ -z "$f" || "$f" == \\#* || "$f" == /* || "$f" == *..* ]] || rm -rf "/tmp/site-candidate/v4/$f"; done < visor/v4/NO_PUBLICAR.txt  # lo ficticio o interno no se publica'}
+        b["steps"] = [{**s, "run": "\n".join(l for l in s["run"].split("\n") if l.strip() not in v4)} if "run" in s else s
+                      for s in b["steps"] if s.get("name") != "Doble vuelta de los territorios del Congreso para la V4 (D-172)"]
         a["steps"] = [s for s in a["steps"] if s.get("name") != "Resolver ensemble persistente solicitado"]
         for k in ("SCENARIO_ID", "SCENARIO_STRATEGY", "ENSEMBLE_RELEASE_TAG", "ENSEMBLE_SHA256"):
             a["env"].pop(k)

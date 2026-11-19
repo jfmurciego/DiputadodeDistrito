@@ -1,0 +1,222 @@
+comunidad,eleccion,id_fuente,partido_homologado,origen,fuente
+aut01,202605,PP,PP,IDENTIDAD,
+aut01,202605,PSOE-A,PSOE,PROPUESTA,herramientas/bloques_autonomicas.py
+aut01,202605,VOX,VOX,IDENTIDAD,
+aut01,202605,ADELANTE ANDALUCÍA,ADELANTE ANDALUCÍA,IDENTIDAD,
+aut01,202605,POR ANDALUCÍA,POR ANDALUCÍA,IDENTIDAD,
+aut01,202605,SALF,SALF,IDENTIDAD,
+aut01,202605,PACMA,PACMA,IDENTIDAD,
+aut01,202605,100x100,100x100,IDENTIDAD,
+aut01,202605,ANDALUCISTAS,ANDALUCISTAS,IDENTIDAD,
+aut01,202605,ESCAÑOS EN BLANCO,ESCAÑOS EN BLANCO,REGLAS,datos/homologacion_siglas/reglas_generales.json
+aut01,202605,JM+,JM+,IDENTIDAD,
+aut01,202605,PCPA,PCPA,IDENTIDAD,
+aut01,202605,FE de las JONS,FE de las JONS,REGLAS,datos/homologacion_siglas/reglas_generales.json
+aut01,202605,MUNDO+JUSTO,MUNDO+JUSTO,IDENTIDAD,
+aut01,202605,PARTIDO AUTÓNOMOS,PARTIDO AUTÓNOMOS,IDENTIDAD,
+aut01,202605,NA,NA,IDENTIDAD,
+aut01,202605,HE>,HE>,IDENTIDAD,
+aut01,202605,PCTE,PCTE,REGLAS,datos/homologacion_siglas/reglas_generales.json
+aut01,202605,PODER ANDALUZ,PODER ANDALUZ,IDENTIDAD,
+aut01,202605,29,29,IDENTIDAD,
+aut01,202605,ALM,ALM,IDENTIDAD,
+aut01,202605,ANDALUSÍ,ANDALUSÍ,IDENTIDAD,
+aut01,202605,IZAR,IZAR,IDENTIDAD,
+aut01,202605,JUFUDI,JUFUDI,IDENTIDAD,
+aut01,202605,IPAL,IPAL,IDENTIDAD,
+aut01,202605,CONECTA,CONECTA,IDENTIDAD,
+aut01,202605,SOCIEDAD UNIDA,SOCIEDAD UNIDA,IDENTIDAD,
+aut02,202602,PP,PP,IDENTIDAD,
+aut02,202602,PSOE,PSOE,IDENTIDAD,
+aut02,202602,VOX,VOX,IDENTIDAD,
+aut02,202602,CHA,CHA,IDENTIDAD,
+aut02,202602,EXISTE,EXISTE,IDENTIDAD,
+aut02,202602,IU-SUMAR,IU-SUMAR,IDENTIDAD,
+aut02,202602,SALF,SALF,IDENTIDAD,
+aut02,202602,PAR,PAR,IDENTIDAD,
+aut02,202602,PODEMOS-AV,PODEMOS-AV,IDENTIDAD,
+aut02,202602,EB,ESCAÑOS EN BLANCO,REGLAS,datos/homologacion_siglas/reglas_generales.json
+aut02,202602,PACMA,PACMA,IDENTIDAD,
+aut02,202602,PUM+J,PUM+J,IDENTIDAD,
+aut02,202602,PCTE,PCTE,REGLAS,datos/homologacion_siglas/reglas_generales.json
+aut02,202602,COALICIÓN ARAGONESA,COALICIÓN ARAGONESA,IDENTIDAD,
+aut02,202602,ENTRE TODOS BAJO / BAIX CINCA,ENTRE TODOS BAJO / BAIX CINCA,IDENTIDAD,
+aut04,202305,PP,PP,IDENTIDAD,
+aut04,202305,PSIB-PSOE,PSOE,PROPUESTA,herramientas/bloques_autonomicas.py
+aut04,202305,VOX,VOX,IDENTIDAD,
+aut04,202305,MÉS,MÉS,IDENTIDAD,
+aut04,202305,EUIB-PODEMOS,EUIB-PODEMOS,IDENTIDAD,
+aut04,202305,El Pi,EL PI,PROPUESTA,herramientas/bloques_autonomicas.py
+aut04,202305,MxMe,MxMe,IDENTIDAD,
+aut04,202305,Cs,Cs,IDENTIDAD,
+aut04,202305,Progreso en Verde,Progreso en Verde,IDENTIDAD,
+aut04,202305,SA UNIÓ,SA UNIÓ,IDENTIDAD,
+aut04,202305,GXF + PSIB-PSOE,GXF + PSIB-PSOE,IDENTIDAD,
+aut04,202305,ARA EIVISSA,ARA EIVISSA,IDENTIDAD,
+aut04,202305,PLIE,PLIE,IDENTIDAD,
+aut04,202305,CPERB,CPERB,IDENTIDAD,
+aut04,202305,EPIC,EPIC,IDENTIDAD,
+aut04,202305,Reset,Reset,IDENTIDAD,
+aut04,202305,PERXB,PERXB,IDENTIDAD,
+aut04,202305,Nuevo Orden Nacional,Nuevo Orden Nacional,IDENTIDAD,
+aut05,202305,PSOE,PSOE,IDENTIDAD,
+aut05,202305,CCA,CCa,PROPUESTA,herramientas/bloques_autonomicas.py
+aut05,202305,PP,PP,IDENTIDAD,
+aut05,202305,NC-BC,NC,PROPUESTA,herramientas/bloques_autonomicas.py
+aut05,202305,VOX,VOX,IDENTIDAD,
+aut05,202305,UNIDAS SÍ PODEMOS,UNIDAS SÍ PODEMOS,IDENTIDAD,
+aut05,202305,DVC,DVC,IDENTIDAD,
+aut05,202305,UXGC,UXGC,IDENTIDAD,
+aut05,202305,PACMA,PACMA,IDENTIDAD,
+aut05,202305,ASG,ASG,IDENTIDAD,
+aut05,202305,HABLEMOS AHORA,HABLEMOS AHORA,IDENTIDAD,
+aut05,202305,Cs,Cs,IDENTIDAD,
+aut05,202305,AMF,AMF,IDENTIDAD,
+aut05,202305,P.N.C.,P.N.C.,IDENTIDAD,
+aut05,202305,REUNIR CANARIAS SOSTENIBLE,REUNIR CANARIAS SOSTENIBLE,IDENTIDAD,
+aut05,202305,AHORA CANARIAS-PCPC,AHORA CANARIAS,REGLAS,datos/homologacion_siglas/reglas_generales.json
+aut05,202305,3E,3E,IDENTIDAD,
+aut05,202305,A.H.I.,A.H.I.,IDENTIDAD,
+aut05,202305,+C,+C,IDENTIDAD,
+aut05,202305,IXLG,IXLG,IDENTIDAD,
+aut05,202305,ASAMBLEA HERREÑA,ASAMBLEA HERREÑA,IDENTIDAD,
+aut05,202305,MAE,MAE,IDENTIDAD,
+aut05,202305,CONTIGO,CONTIGO,IDENTIDAD,
+aut05,202305,UDC,UDC,IDENTIDAD,
+aut06,202305,PP,PP,IDENTIDAD,
+aut06,202305,PRC,PRC,IDENTIDAD,
+aut06,202305,PSC-PSOE,PSOE,PROPUESTA,herramientas/bloques_autonomicas.py
+aut06,202305,VOX,VOX,IDENTIDAD,
+aut06,202305,PODEMOS-IU,PODEMOS-IU,IDENTIDAD,
+aut06,202305,Cs,Cs,IDENTIDAD,
+aut06,202305,CANTABRISTAS,CANTABRISTAS,IDENTIDAD,
+aut06,202305,PACMA,PACMA,IDENTIDAD,
+aut06,202305,EQUO,EQUO,IDENTIDAD,
+aut06,202305,OLA CANTABRIA,OLA CANTABRIA,IDENTIDAD,
+aut06,202305,PCTE,PCTE,REGLAS,datos/homologacion_siglas/reglas_generales.json
+aut06,202305,CANTABRIA DISTINTA,CANTABRIA DISTINTA,IDENTIDAD,
+aut07,202603,PP,PP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,PSOE,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,VOX,VOX,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,UPL,UPL,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,IU-MS-VQ,IU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,SALF,SALF,IDENTIDAD,
+aut07,202603,XAV,XAV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,PODEMOS - AV,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,SORIA ¡YA!,EXISTE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,PACMA,PACMA,IDENTIDAD,
+aut07,202603,ESCAÑOS EN BLANCO,ESCAÑOS EN BLANCO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,Cs,Cs,IDENTIDAD,
+aut07,202603,NUEVECYL,NUEVECYL,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,VBM,VBM,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,PCAS-TC,PCAS,PROPUESTA,herramientas/bloques_autonomicas.py
+aut07,202603,C. Bierzo,C. Bierzo,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,PCTE,PCTE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,VP,VP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,MUNDO+JUSTO,MUNDO+JUSTO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,AD-EV,AD-EV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,MEV,MEV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,PREPAL,PREPAL,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,FE de las JONS,FE de las JONS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,ESPAÑA VACIADA,EXISTE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,DECIDE-NUEVECYL,DECIDE-NUEVECYL,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,EV,EV,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,P. ALANTRE,P. ALANTRE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,PANCAL-URCI,PANCAL-URCI,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,SAE,SAE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut09,202405,PSC,PSOE,PROPUESTA,herramientas/bloques_autonomicas.py
+aut09,202405,JUNTS+,JUNTS+,IDENTIDAD,
+aut09,202405,ERC,ERC,IDENTIDAD,
+aut09,202405,PP,PP,IDENTIDAD,
+aut09,202405,VOX,VOX,IDENTIDAD,
+aut09,202405,COMUNS SUMAR,COMUNS SUMAR,IDENTIDAD,
+aut09,202405,CUP - DT,CUP,PROPUESTA,herramientas/bloques_autonomicas.py
+aut09,202405,ALIANÇA.CAT,ALIANÇA.CAT,IDENTIDAD,
+aut09,202405,PACMA,PACMA,IDENTIDAD,
+aut09,202405,Cs,Cs,IDENTIDAD,
+aut09,202405,ALHORA,ALHORA,IDENTIDAD,
+aut09,202405,FO,FO,IDENTIDAD,
+aut09,202405,PCTC,PCTC,IDENTIDAD,
+aut09,202405,RECORTES CERO,RECORTES CERO,REGLAS,datos/homologacion_siglas/reglas_generales.json
+aut09,202405,PUM+J,PUM+J,IDENTIDAD,
+aut09,202405,IZQP - UNIDOS - DEf,IZQP - UNIDOS - DEf,IDENTIDAD,
+aut09,202405,F.N.C.,F.N.C.,IDENTIDAD,
+aut09,202405,CNV,CNV,IDENTIDAD,
+aut10,202305,PP,PP,IDENTIDAD,
+aut10,202305,PSOE,PSOE,IDENTIDAD,
+aut10,202305,COMPROMÍS,COMPROMÍS,IDENTIDAD,
+aut10,202305,VOX,VOX,IDENTIDAD,
+aut10,202305,UNIDES PODEM-EUPV,UNIDES PODEM-EUPV,IDENTIDAD,
+aut10,202305,Cs,Cs,IDENTIDAD,
+aut10,202305,PACMA,PACMA,IDENTIDAD,
+aut10,202305,CENTRO MODERADO,CENTRO MODERADO,REGLAS,datos/homologacion_siglas/reglas_generales.json
+aut10,202305,ERPV,ERPV,IDENTIDAD,
+aut10,202305,UNITS,UNITS,IDENTIDAD,
+aut10,202305,P.C.P.E,PCPE,PROPUESTA,herramientas/bloques_autonomicas.py
+aut10,202305,RECORTES CERO,RECORTES CERO,REGLAS,datos/homologacion_siglas/reglas_generales.json
+aut10,202305,DECIDIX,DECIDIX,IDENTIDAD,
+aut10,202305,ESCAÑOS EN BLANCO,ESCAÑOS EN BLANCO,REGLAS,datos/homologacion_siglas/reglas_generales.json
+aut10,202305,RVPVE,RVPVE,IDENTIDAD,
+aut10,202305,ALIANZA C V,ALIANZA C V,IDENTIDAD,
+aut10,202305,PUM+J,PUM+J,IDENTIDAD,
+aut10,202305,CENTRATS,CENTRATS,IDENTIDAD,
+aut10,202305,PAR-ES.C.,PAR-ES.C.,IDENTIDAD,
+aut12,202402,PP,PP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut12,202402,BNG,BNG,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut12,202402,PSdeG-PSOE,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut12,202402,VOX,VOX,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut12,202402,SUMAR GALICIA,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut12,202402,DO,DO,IDENTIDAD,
+aut12,202402,PACMA,PACMA,IDENTIDAD,
+aut12,202402,PODEMOS-ALIANZA VERDE,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut12,202402,ESCANOS EN BRANCO,ESCANOS EN BRANCO,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut12,202402,ECG,ECG,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut12,202402,PUM+J,PUM+J,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut13,202305,PP,PP,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut13,202305,MÁS MADRID,MÁS PAÍS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut13,202305,PSOE,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut13,202305,VOX,VOX,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut13,202305,PODEMOS-IU-AV,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut13,202305,Cs,Cs,IDENTIDAD,
+aut13,202305,PACMA,PACMA,IDENTIDAD,
+aut13,202305,PUM+J,PUM+J,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut13,202305,PFE,PFE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut13,202305,PCTE,PCTE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut13,202305,FE DE LAS JONS,FE de las JONS,PROPUESTA,herramientas/bloques_autonomicas.py
+aut13,202305,ULEG,ULEG,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut13,202305,PH,PH,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut15,202305,UPN,UPN y coaliciones,REGLAS,datos/homologacion_siglas/reglas_generales.json
+aut15,202305,PSN-PSOE,PSOE,PROPUESTA,herramientas/bloques_autonomicas.py
+aut15,202305,EH Bildu,EH Bildu,IDENTIDAD,
+aut15,202305,GBAI,GBAI,IDENTIDAD,
+aut15,202305,PPN,PP,PROPUESTA,herramientas/bloques_autonomicas.py
+aut15,202305,CONTIGO-ZUREKIN,CONTIGO-ZUREKIN,IDENTIDAD,
+aut15,202305,VOX,VOX,IDENTIDAD,
+aut15,202305,PUM_MAS_J,PUM_MAS_J,IDENTIDAD,
+aut15,202305,EGUZKILORE,EGUZKILORE,IDENTIDAD,
+aut15,202305,Cs,Cs,IDENTIDAD,
+aut15,202305,VOLUNTAD_FORAL,VOLUNTAD_FORAL,IDENTIDAD,
+aut16,202404,EAJ-PNV,EAJ-PNV,IDENTIDAD,
+aut16,202404,EH Bildu,EH Bildu,IDENTIDAD,
+aut16,202404,PSE-EE/PSOE,PSOE,PROPUESTA,herramientas/bloques_autonomicas.py
+aut16,202404,PP,PP,IDENTIDAD,
+aut16,202404,SUMAR,SUMAR,IDENTIDAD,
+aut16,202404,PODEMOS-AHAL DUGU - ALIANZA VERDE,PODEMOS-AHAL DUGU - ALIANZA VERDE,IDENTIDAD,
+aut16,202404,VOX,VOX,IDENTIDAD,
+aut16,202404,PACMA,PACMA,IDENTIDAD,
+aut16,202404,EB-AZ,EB-AZ,IDENTIDAD,
+aut16,202404,PUM+J,PUM+J,IDENTIDAD,
+aut16,202404,IZAN,IZAN,IDENTIDAD,
+aut16,202404,PCTE / ELAK,PCTE,PROPUESTA,herramientas/bloques_autonomicas.py
+aut16,202404,PH,PH,IDENTIDAD,
+aut16,202404,O.E.,O.E.,IDENTIDAD,
+aut17,202305,PP,PP,IDENTIDAD,
+aut17,202305,PSOE,PSOE,IDENTIDAD,
+aut17,202305,VOX,VOX,IDENTIDAD,
+aut17,202305,PODEMOS-I.U.,PODEMOS-I.U.,IDENTIDAD,
+aut17,202305,PR+E,PR+E,IDENTIDAD,
+aut17,202305,PLRi,PLRi,IDENTIDAD,
+aut17,202305,Cs,Cs,IDENTIDAD,
+aut17,202305,PACMA,PACMA,IDENTIDAD,
+aut17,202305,VINEA,VINEA,IDENTIDAD,
+aut17,202305,ESCAÑOS EN BLANCO,ESCAÑOS EN BLANCO,REGLAS,datos/homologacion_siglas/reglas_generales.json

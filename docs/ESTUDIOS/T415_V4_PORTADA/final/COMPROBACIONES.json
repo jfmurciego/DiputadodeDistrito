@@ -1,0 +1,51 @@
+{
+  "fecha": "2026-11-19",
+  "estado": "Implementación de presentación comprobada; pendiente de integrar en el alojamiento real",
+  "imagenes": {
+    "archivos": 3,
+    "carga_navegador": "3 de 3 decodificadas con dimensiones naturales positivas",
+    "autonomo": "3 de 3 imágenes como data URI; 0 hojas CSS y 0 scripts externos",
+    "bytes_recursos": "Iguales a los WebP recuperados; hashes en web/assets-manifest.json"
+  },
+  "adaptacion": {
+    "anchos_css_comprobados": [
+      320,
+      390,
+      768,
+      1440
+    ],
+    "desbordamiento_horizontal": false,
+    "metodo": "Viewport CSS fijado dentro de un iframe en Chrome; inspección visual real del código. No simula hardware móvil.",
+    "franja_autoria_escritorio_px": 83
+  },
+  "recorridos_comprobados": [
+    "Inicio a Comprender",
+    "Comprender a Auditoría y registro",
+    "Atrás vuelve a Comprender y a Inicio",
+    "Menú móvil abre y cierra con Escape; aria-expanded vuelve a false",
+    "Estado vacío del catálogo DOI",
+    "Enlaces ORCID y LinkedIn coinciden con los facilitados"
+  ],
+  "comprobaciones_codigo": {
+    "enlaces_locales_y_anclas": "Todos resuelven a archivos o IDs existentes",
+    "node_check_app_js": "Correcto",
+    "manifest_ddd_release": {
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    "doi_registros": 0
+  },
+  "capturas": {
+    "vistas/DDD_escritorio.jpg": "Código con viewport CSS de 1440 px mostrado al 90%; solo se ha recortado el área exterior al diseño.",
+    "vistas/DDD_movil.jpg": "Código con viewport CSS de 390 px mostrado al 84%; solo se ha recortado el área exterior al diseño.",
+    "vistas/DDD_auditoria_registro.jpg": "Vista inicial de la pantalla de registro en el navegador, sin recreación gráfica."
+  },
+  "limites": [
+    "No se ha modificado la web pública ni el repositorio de producción.",
+    "No se ha auditado el visor remoto ni el contenido de ORCID o LinkedIn.",
+    "El catálogo necesita los DOI auténticos de cada mapa.",
+    "Sin mediciones de rendimiento de usuarios reales ni certificación de accesibilidad.",
+    "La comprobación no incluye un informe automatizado de códigos HTTP; el servidor de vista previa no acepta la conexión del proceso local. La carga de imágenes sí se comprobó en el navegador."
+  ]
+}
