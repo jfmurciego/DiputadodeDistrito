@@ -1,0 +1,29 @@
+comunidad,eleccion,id_fuente,partido_homologado,origen,fuente
+aut01,202605,PSOE-A,PSOE,PROPUESTA,herramientas/bloques_autonomicas.py
+aut02,202602,EB,ESCAÑOS EN BLANCO,REGLAS,datos/homologacion_siglas/reglas_generales.json
+aut04,202305,PSIB-PSOE,PSOE,PROPUESTA,herramientas/bloques_autonomicas.py
+aut04,202305,El Pi,EL PI,PROPUESTA,herramientas/bloques_autonomicas.py
+aut05,202305,CCA,CCa,PROPUESTA,herramientas/bloques_autonomicas.py
+aut05,202305,NC-BC,NC,PROPUESTA,herramientas/bloques_autonomicas.py
+aut05,202305,AHORA CANARIAS-PCPC,AHORA CANARIAS,REGLAS,datos/homologacion_siglas/reglas_generales.json
+aut06,202305,PSC-PSOE,PSOE,PROPUESTA,herramientas/bloques_autonomicas.py
+aut07,202603,IU-MS-VQ,IU,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,PODEMOS - AV,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,SORIA ¡YA!,EXISTE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut07,202603,PCAS-TC,PCAS,PROPUESTA,herramientas/bloques_autonomicas.py
+aut07,202603,ESPAÑA VACIADA,EXISTE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut09,202405,PSC,PSOE,PROPUESTA,herramientas/bloques_autonomicas.py
+aut09,202405,CUP - DT,CUP,PROPUESTA,herramientas/bloques_autonomicas.py
+aut10,202305,P.C.P.E,PCPE,PROPUESTA,herramientas/bloques_autonomicas.py
+aut12,202402,PSdeG-PSOE,PSOE,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut12,202402,SUMAR GALICIA,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut12,202402,PODEMOS-ALIANZA VERDE,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut13,202305,MÁS MADRID,MÁS PAÍS,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut13,202305,PODEMOS-IU-AV,Podemos–Sumar,HOMOLOGACION,datos/homologacion_siglas/homologacion_siglas_autonomicas.csv
+aut13,202305,FE DE LAS JONS,FE de las JONS,PROPUESTA,herramientas/bloques_autonomicas.py
+aut15,202305,UPN,UPN y coaliciones,REGLAS,datos/homologacion_siglas/reglas_generales.json
+aut15,202305,PSN-PSOE,PSOE,PROPUESTA,herramientas/bloques_autonomicas.py
+aut15,202305,PPN,PP,PROPUESTA,herramientas/bloques_autonomicas.py
+aut16,202404,PSE-EE/PSOE,PSOE,PROPUESTA,herramientas/bloques_autonomicas.py
+aut16,202404,EB-AZ,ESCAÑOS EN BLANCO,REGLAS,datos/homologacion_siglas/reglas_generales.json
+aut16,202404,PCTE / ELAK,PCTE,PROPUESTA,herramientas/bloques_autonomicas.py

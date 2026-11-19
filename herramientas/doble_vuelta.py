@@ -3,9 +3,10 @@
 """Doble vuelta con coaliciones por distrito (T-409, D-167): escenarios dv_base, dv_A y dv_B.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.0 · FECHA: 2026-11-19 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/doble_vuelta_v1.2.0_20261119.py
-CAMBIOS: 1.3.0 (T-409): `--alias` (configuracion/alias_partidos_generales.csv): el id de partido de P31 pasa a su partido homologado antes de buscar el bloque
+VERSIÓN: 1.4.0 · FECHA: 2026-11-19 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/doble_vuelta_v1.3.0_20261119.py
+CAMBIOS: 1.4.0 (T-421): `--comunidad`: el alias puede llevar columna `comunidad` (configuracion/alias_partidos_autonomicas.csv) y se filtra por ella; sin `--comunidad` nada cambia.
+  1.3.0 (T-409): `--alias` (configuracion/alias_partidos_generales.csv): el id de partido de P31 pasa a su partido homologado antes de buscar el bloque
   (los ids que dan el mismo partido suman sus votos); sin `--alias` nada cambia. El manifiesto lleva el sha256 del alias.
   1.2.0 (T-409, revisor de #904): los partidos con votos que NO están en la tabla de bloques de la elección («sin casar») se informan
   (manifiesto `sin_casar` con recuento, votos y lista, y ::warning en stderr) en vez de tratarse en silencio como sin bloque; el cálculo no cambia.
@@ -80,15 +81,15 @@ def eleccion_alias(eleccion: str) -> str:
     return eleccion.replace("-", "")
 
 
-def cargar_alias(path, eleccion: str) -> dict[str, str]:
+def cargar_alias(path, eleccion: str, comunidad: str | None = None) -> dict[str, str]:
     """id de fuente → partido homologado de una elección (tabla de configuracion/alias_partidos_generales.csv)."""
     e = eleccion_alias(eleccion)
     out: dict[str, str] = {}
     with open(path, encoding="utf-8", newline="") as f:
         for fila in csv.DictReader(f):
-            if fila["eleccion"] == e:
+            if fila["eleccion"] == e and (comunidad is None or fila.get("comunidad") == comunidad):
                 out[fila["id_fuente"]] = fila["partido_homologado"]
-    if not out:
+    if not out and comunidad is None:
         raise ValueError(f"Sin alias de la elección {eleccion} en {path}")
     return out
 
@@ -187,12 +188,12 @@ def resolver(votos: dict[str, int], bloque_de: dict[str, str], escenario: str) -
     return fila
 
 
-def generar(votos_csv, bloques_csv, eleccion: str, salida, manifiesto=None, detalle_csv=None, alias_csv=None) -> list[dict]:
+def generar(votos_csv, bloques_csv, eleccion: str, salida, manifiesto=None, detalle_csv=None, alias_csv=None, comunidad=None) -> list[dict]:
     tabla = cargar_tabla(bloques_csv, eleccion)
     bloque_de = {k: v for k, v in tabla.items() if v}
     votos = cargar_votos(votos_csv)
     if alias_csv:
-        votos = aplicar_alias(votos, cargar_alias(alias_csv, eleccion))
+        votos = aplicar_alias(votos, cargar_alias(alias_csv, eleccion, comunidad))
     huerfanos = sin_casar(votos, tabla)
     if huerfanos:
         total = sum(v for d in votos.values() for v in d.values())
@@ -239,10 +240,11 @@ def main():
     ap.add_argument("--eleccion", required=True, help="AAAA-MM, como en la tabla de bloques (p. ej. 2023-07)")
     ap.add_argument("--salida", required=True)
     ap.add_argument("--manifiesto")
+    ap.add_argument("--comunidad", help="con --alias de autonómicas: id del territorio (aut01…) cuyo alias se usa")
     ap.add_argument("--alias", help="configuracion/alias_partidos_generales.csv: id de partido de P31 → partido homologado (opcional)")
     ap.add_argument("--detalle", help="CSV de detalle por partido, bloque y candidatura (opcional)")
     a = ap.parse_args()
-    filas = generar(a.votos, a.bloques, a.eleccion, a.salida, a.manifiesto, a.detalle, a.alias)
+    filas = generar(a.votos, a.bloques, a.eleccion, a.salida, a.manifiesto, a.detalle, a.alias, a.comunidad)
     print(f"[doble_vuelta] OK distritos={len(filas) // len(ESCENARIOS)} filas={len(filas)}")
 
 
