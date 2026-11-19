@@ -21,9 +21,9 @@ class PortadaV4(unittest.TestCase):
     def test_enlaces_locales_y_anclas_resuelven(self):
         for pag in PAGINAS:
             h = _txt(pag)
-            for ref in re.findall(r'(?:href|src)="([^"#:]+)(?:#([^"]*))?"', h):
-                destino = (V4 / ref[0]).resolve()
-                self.assertTrue(destino.exists(), f"{pag}: {ref[0]}")
+            for ref in re.findall(r'(?:href|src)="([^"#:?]+)(?:[?#][^"]*)?"', h):
+                destino = (V4 / ref).resolve()
+                self.assertTrue(destino.exists(), f"{pag}: {ref}")
         for pag in PAGINAS:
             for r, a in re.findall(r'href="([^"#:]*)#([^"]+)"', _txt(pag)):
                 self.assertIn(f'id="{a}"', _txt(r or pag), f"{pag}: ancla {a}")
@@ -59,6 +59,38 @@ class PortadaV4(unittest.TestCase):
             self.assertEqual(h, a["sha256"], a["file"])
         h = hashlib.sha256((V4 / "assets/congreso.webp").read_bytes()).hexdigest()
         self.assertEqual(h, SHA["congreso.webp"])
+
+    def test_doble_vuelta_en_comprender(self):
+        h = _txt("comprender.html")
+        self.assertIn('id="doble-vuelta"', h)
+        for t in ("Izquierdas", "Nacionalistas", "Patriotas", "Simulación sin valor oficial", "mapa/?regla=tres"):
+            self.assertIn(t, h)
+        self.assertIn("tokens-bloques.css", h)
+
+    def test_contraste_de_tokens_de_bloques(self):
+        css = _txt("tokens-bloques.css")
+
+        def lum(hexc):
+            c = [int(hexc[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+            c = [v / 12.92 if v <= 0.03928 else ((v + 0.055) / 1.055) ** 2.4 for v in c]
+            return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+
+        def ratio(a, b):
+            la, lb = sorted((lum(a), lum(b)), reverse=True)
+            return (la + 0.05) / (lb + 0.05)
+
+        claro = dict(re.findall(r"--(izq|nac|pat|sin):(#[0-9a-f]{6})", css.split("@media")[0]))
+        oscuro = dict(re.findall(r"--(izq|nac|pat|sin):(#[0-9a-f]{6})", css.split("[data-theme=dark]{")[1]))
+        self.assertEqual(set(claro), {"izq", "nac", "pat", "sin"})
+        self.assertEqual(set(oscuro), {"izq", "nac", "pat", "sin"})
+        # texto/objetos: WCAG 2.1 ≥ 4,5 sobre #fffdf8 (claro) y sobre #14181a y #0b0d0e (oscuro)
+        for k, v in claro.items():
+            self.assertGreaterEqual(ratio(v, "#fffdf8"), 4.5, f"claro {k}")
+        for k, v in oscuro.items():
+            for fondo in ("#14181a", "#0b0d0e"):
+                self.assertGreaterEqual(ratio(v, fondo), 4.5, f"oscuro {k} sobre {fondo}")
+        # valores literales de T-413 §2 / D-172
+        self.assertEqual((claro["izq"], oscuro["izq"]), ("#b3261e", "#ff8a80"))
 
     def test_lang_y_una_h1(self):
         for pag in PAGINAS:

@@ -1,0 +1,7 @@
+## 2026-11-19 — T-415 — PR 3: «La doble vuelta» en Comprender y tokens de bloques
+
+Causa: prioridad del propietario, V4 en producción (primera tanda: los 52 `nac`); orden de PR de T-415 (PR 3).
+Cambio: `visor/v4/tokens-bloques.css` (tokens de color de los tres bloques, claro y oscuro, T-413 §2/D-172; fuente única para portada y mapa), sección «La doble vuelta» en `comprender.html` (texto «Cómo funciona» de T-413 §4 como **borrador**: el texto definitivo lo escribe el propietario; muestras con el nombre del bloque siempre escrito, aviso «Simulación sin valor oficial», enlace a `mapa/?regla=tres`), página con `data-theme="dark"`, estilos y 2 tests nuevos (sección y contraste WCAG ≥ 4,5 en claro y oscuro con valores literales) más el test de enlaces ajustado a enlaces con consulta (`?regla=`).
+Pruebas: 22 tests (`test_visor_v4_base`, `test_visor_sin_terceros`, `GovernanceHeaders`); Playwright 360/390/1440 px: sin desbordamiento, una `h1`, muestras de 44 px.
+No incluido (depende de otros): el encaje del mapa de T-413 para los 52 `nac` y la carga de datos esperan la salida de T-418 (T-409, P70); `mapa/` sigue siendo la página de ejemplo y no lee aún `?regla=` ni `?territorio=`. `mapa.css` de T-413 define los mismos tokens: cuando T-413 pase a consumir `tokens-bloques.css`, borra los suyos.
+Riesgos: texto en borrador; no se publica ni toca V3, workflows ni LICENSE. Parte de #918 (apilada).
