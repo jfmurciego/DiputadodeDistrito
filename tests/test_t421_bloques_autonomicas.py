@@ -25,7 +25,7 @@ class BloquesAutonomicas(unittest.TestCase):
 
     def test_mismo_partido_mismo_bloque(self):
         self.assertEqual(self.fila("aut01", "PP")["bloque_propuesto"], "Patriotas")
-        self.assertEqual(self.fila("aut01", "PSOE-A")["bloque_propuesto"], "Izquierdas")
+        self.assertEqual(self.fila("aut01", "PSOE")["bloque_propuesto"], "Izquierdas")
         self.assertEqual(self.fila("aut09", "CUP - DT")["bloque_propuesto"], "Nacionalistas")
 
     def test_junts_nacionalistas_y_dudosos_acotados(self):
@@ -36,11 +36,31 @@ class BloquesAutonomicas(unittest.TestCase):
     def test_alias_por_comunidad(self):
         a = ROOT / ba.SAL_ALIAS
         self.assertEqual(dv.cargar_alias(a, "2026-05", "aut01")["PSOE-A"], "PSOE")
-        self.assertEqual(dv.cargar_alias(a, "2023-05", "aut15").get("PSOE-A"), None)
+        self.assertEqual(dv.cargar_alias(a, "2023-05", "aut15")["PSN-PSOE"], "PSOE")
 
     def test_sin_comunidad_el_alias_general_no_cambia(self):
         a = ROOT / "configuracion/alias_partidos_generales.csv"
         self.assertEqual(dv.cargar_alias(a, "2023-07"), dv.cargar_alias(a, "2023-07", None))
+
+    def test_extremo_a_extremo_sin_votos_sin_casar(self):
+        """generar con --alias --comunidad sobre votos reales: todo partido con alias casa con la tabla (PSOE-A, EB-AZ…)."""
+        for aut, com, ele, ide, literal in (("aut01", "andalucia", "2026-05", "PSOE-A", 946267), ("aut16", "pais_vasco", "2024-04", "EB-AZ", 3072)):
+            with tempfile.TemporaryDirectory() as t:
+                src = ROOT / ba.HIST / com / ele.replace("-", "") / f"{com}_partidos.csv"
+                p31 = Path(t) / "p31.csv"
+                with src.open(encoding="utf-8", newline="") as fi, p31.open("w", encoding="utf-8", newline="") as fo:
+                    w = csv.writer(fo)
+                    w.writerow(["district_id", "party", "votes"])
+                    rows = list(csv.DictReader(fi))
+                    w.writerows([r["distrito"], r["partido"], r["votos"]] for r in rows)
+                self.assertEqual(sum(int(r["votos"]) for r in rows if r["partido"] == ide), literal)
+                dv.generar(p31, ROOT / ba.SAL_BLOQUES, ele, Path(t) / "o.csv", Path(t) / "m.json", None, ROOT / ba.SAL_ALIAS, aut)
+                import json
+                self.assertEqual(json.loads((Path(t) / "m.json").read_text())["sin_casar"]["votos"], 0)
+
+    def test_comunidad_sin_alias_falla(self):
+        with self.assertRaises(ValueError):
+            dv.generar("x", ROOT / ba.SAL_BLOQUES, "2026-05", "y", comunidad="aut01")
 
     def test_la_tabla_escrita_coincide(self):
         with (ROOT / ba.SAL_BLOQUES).open(encoding="utf-8", newline="") as fh:

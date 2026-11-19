@@ -4,7 +4,7 @@
 
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.0.1 · FECHA: 2026-11-19 · ESTADO: candidato
-CAMBIOS: 1.0.1 (T-421, Planificador): JUNTS+ → Nacionalistas (no es el JXC de D-170).
+CAMBIOS: 1.0.1 (T-421, Planificador y revisor): JUNTS+ → Nacionalistas (no es el JXC de D-170); la tabla va por partido tras el alias (como en el nacional) y el alias lleva una fila por sigla; una regla sin socio aprobado conserva la sigla como id.
 CAMBIOS: 1.0.0 (T-421): fichero nuevo.
 MOTIVO: la segunda tanda de la V4 (D-179) lleva los territorios `aut`; sus partidos deben tener bloque con las mismas reglas que las generales.
 QUÉ HACE: lee los votos por partido de la elección vigente de cada comunidad (datos/resultados/historico/autonomicas/<c>/<AAAAMM>/<c>_partidos.csv,
@@ -90,31 +90,39 @@ def construir(max_dudosos: int = 15):
             votos[f["partido"]] += int(f["votos"])
         fsha = sha(ROOT / ruta)
         c = Counter()
+        agr: dict = {}  # id tras el alias → [votos, fuentes, bloque, motivo]; la tabla va por partido homologado, como en el nacional
         for s, v in sorted(votos.items(), key=lambda t: (-t[1], t[0])):
             h, origen, fuente = hom.get((com, ele, s)), "HOMOLOGACION", HOMOLOG
             if h is None:
                 h, _n, rid = ha.resolver(reglas, com, ele, s, "")
-                origen, fuente = ("REGLAS", "datos/homologacion_siglas/reglas_generales.json") if rid != "IDENTIDAD" else (None, None)
+                origen, fuente = ("REGLAS", "datos/homologacion_siglas/reglas_generales.json") if rid != "IDENTIDAD" else ("IDENTIDAD", "")
             bloque, motivo = "", ""
             r = REGLAS.get(s)
             if r:
                 if r[0]:
                     h, origen, fuente = r[0], "PROPUESTA", "herramientas/bloques_autonomicas.py"
+                else:  # sin socio aprobado: el id sigue siendo la sigla (la tabla se decide por ella, no por la homologación general)
+                    h, origen, fuente = s, "IDENTIDAD", ""
                 bloque, motivo = r[1], r[2]
             elif h in ap:
                 bloque = ap[h]
                 motivo = f"misma sigla «{h}» en la tabla aprobada (D-168/D-170)" if bloque else f"sin bloque en la tabla aprobada («{h}»)"
             else:
                 motivo = "dudoso: sin criterio aprobado"
-            if h != s and origen:
-                alias.append({"comunidad": aut, "eleccion": ele, "id_fuente": s, "partido_homologado": h, "origen": origen, "fuente": fuente})
+            alias.append({"comunidad": aut, "eleccion": ele, "id_fuente": s, "partido_homologado": h, "origen": origen, "fuente": fuente})
+            g = agr.setdefault(h, [0, [], bloque, motivo])
+            if g[2] != bloque:
+                raise ValueError(f"{aut} {h}: dos bloques ({g[2]!r} / {bloque!r}) por {s}")
+            g[0] += v
+            g[1].append(s)
+        for h, (v, fuentes, bloque, motivo) in sorted(agr.items(), key=lambda t: (-t[1][0], t[0])):
             decidido = bool(bloque) or motivo.startswith("sin bloque")
             c["con_bloque" if bloque else "sin_bloque_decidido" if decidido else "dudoso"] += v
             c["total"] += v
-            bloques.append({"comunidad": aut, "eleccion": f"{ele[:4]}-{ele[4:]}", "siglas": s, "denominacion": s, "bloque_propuesto": bloque,
+            bloques.append({"comunidad": aut, "eleccion": f"{ele[:4]}-{ele[4:]}", "siglas": h, "denominacion": " + ".join(fuentes), "bloque_propuesto": bloque,
                             "motivo": motivo, "votos": v, "fuente_sha256": fsha})
             if not decidido:
-                dud.append((v, aut, f"{ele[:4]}-{ele[4:]}", s))
+                dud.append((v, aut, f"{ele[:4]}-{ele[4:]}", h))
         cob[aut] = c
     dud.sort(key=lambda t: (-t[0], t[1], t[3]))
     return bloques, alias, dud[:max_dudosos], dud, cob
