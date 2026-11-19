@@ -1,0 +1,6 @@
+## 2026-11-19 — T-415 — PR 2: bloque de vídeo de presentación con URL configurable
+
+Causa: D-174/5 (vídeo en un bucket R2 aparte, público solo para vídeos). El propietario creó el bucket; la URL provisional `r2.dev` solo vale como valor configurable por defecto (el dominio propio queda pendiente) y aún no consta la ruta del fichero.
+Cambio: `visor/v4/video.json` (`base` con la URL provisional; `video`, `poster`, `subtitulos` y `transcripcion` vacíos), sección «Presentación» oculta en `index.html`, `initVideo` en `app.js` y estilos. Sin ruta de vídeo el bloque no se pinta; el reproductor (`<video controls>` con pista de subtítulos) no se crea hasta pulsar «Ver el vídeo»; sin reproducción automática; enlaces de texto al vídeo y a la transcripción. La URL del bucket no está en HTML, JS ni CSS. Ampliado `tests/test_visor_v4_base.py` (8 tests).
+Pruebas: unittest (21 con sin_terceros y GovernanceHeaders) y Playwright con servidor local a 390 y 1440 px: sin ruta, oculto y sin desbordamiento; con ruta simulada, visible, botón de 44 px, el `<video>` y su pista aparecen solo al pulsar.
+Riesgos: `r2.dev` tiene límites y no es para producción; al llegar el dominio propio solo cambia `base`. Falta la ruta, el Content-Type, los subtítulos y la transcripción (del propietario). Esta PR parte de la PR 1 (#918); no se publica.
