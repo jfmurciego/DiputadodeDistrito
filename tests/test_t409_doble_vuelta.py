@@ -3,8 +3,8 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: pruebas de la doble vuelta con coaliciones (T-409, D-167) sobre casos sintéticos
-VERSIÓN: 1.1.0 · FECHA: 2026-11-18 · ESTADO: candidato
-ANTERIOR: legacy/tests/test_t409_doble_vuelta_v1.0.0_20261117.py
+VERSIÓN: 1.2.0 · FECHA: 2026-11-19 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_t409_doble_vuelta_v1.1.0_20261119.py
 FUNCIÓN: valores esperados calculados a mano (docs/ESTUDIOS/T409_DOBLE_VUELTA/DISENO.md §7), no recalculados con el código.
 """
 import csv
@@ -113,8 +113,40 @@ class Detalle(unittest.TestCase):
             self.assertEqual(json.loads((d / "m.json").read_text())["detalle"]["sha256"], dv.sha256(d / "det.csv"))
 
 
+class SinCasar(unittest.TestCase):
+    def test_sin_casar_no_es_sin_bloque(self):
+        tabla = {"PP": "Patriotas", "Cs": ""}  # Cs casa sin bloque; PSE-EE no está
+        votos = {"1": {"PP": 50, "Cs": 20, "PSE-EE (PSOE)": 30}, "2": {"PSE-EE (PSOE)": 5, "X": 0}}
+        self.assertEqual(dv.sin_casar(votos, tabla), {"PSE-EE (PSOE)": 35})
+
+    def test_generar_informa_en_manifiesto_y_stderr(self):
+        import contextlib
+        import io
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            (d / "v.csv").write_text("district_id,party,votes,bloc\n1,PP,60,\n1,SUMAR,40,\n", encoding="utf-8")
+            (d / "b.csv").write_text("eleccion,siglas,denominacion,bloque_propuesto,motivo\n2023-07,PP,PP,Patriotas,x\n", encoding="utf-8")
+            err = io.StringIO()
+            with contextlib.redirect_stderr(err):
+                dv.generar(d / "v.csv", d / "b.csv", "2023-07", d / "s.csv", d / "m.json")
+            self.assertIn("::warning title=DOBLE_VUELTA_SIN_CASAR::1 partidos con 40 votos (40.00 %)", err.getvalue())
+            m = json.loads((d / "m.json").read_text())["sin_casar"]
+            self.assertEqual((m["n_partidos"], m["votos"], m["lista"]), (1, 40, [{"partido": "SUMAR", "votos": 40}]))
+
+    def test_sin_aviso_si_todo_casa(self):
+        import contextlib
+        import io
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            (d / "v.csv").write_text("district_id,party,votes,bloc\n1,PP,60,\n", encoding="utf-8")
+            (d / "b.csv").write_text("eleccion,siglas,denominacion,bloque_propuesto,motivo\n2023-07,PP,PP,Patriotas,x\n", encoding="utf-8")
+            err = io.StringIO()
+            with contextlib.redirect_stderr(err):
+                dv.generar(d / "v.csv", d / "b.csv", "2023-07", d / "s.csv", d / "m.json")
+            self.assertEqual(err.getvalue(), "")
+
+
 class Tabla(unittest.TestCase):
-    @unittest.skipUnless((ROOT / "configuracion/bloques_partidos_2026-11-17.csv").exists(), "la tabla llega con #901")
     def test_tabla_versionada_un_partido_un_bloque(self):
         p = ROOT / "configuracion/bloques_partidos_2026-11-17.csv"
         por = {}
