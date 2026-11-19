@@ -1,6 +1,6 @@
 # T-415 · V4: portada final de la autora + mapa con doble vuelta — diseño (solo documento)
 
-VERSIÓN: 2.0.1 · FECHA: 2026-11-19 · ESTADO: propuesto (pendiente de aprobación del propietario) · ANTERIOR: 2.0.0 (misma PR, sin fusionar)
+VERSIÓN: 2.0.2 · FECHA: 2026-11-19 · ESTADO: aprobado (D-174, 19-11: «sí a todo» a las 9 recomendaciones; relayado por el Planificador, entra en el plan 1.0.69); LICENSE sigue necesitando autorización expresa · ANTERIOR: 2.0.1 (misma PR, sin fusionar)
 
 Decisión del propietario (19-11): `visor/v4/` es la versión nueva completa: portada de entrada y mapa con la doble vuelta de T-413 (D-172). V3 no se toca.
 Base de este diseño: la **versión final** de la autora, rama `planificador/t415-v4-final`, `docs/ESTUDIOS/T415_V4_PORTADA/final/` (`LEEME_PARA_JESUS.md`, `web/`, `COMPROBACIONES.json`, `SHA256SUMS`; notas en `PROCEDENCIA.md`).
@@ -84,7 +84,7 @@ Tests (por rebanadas, esperados literales): 1) enlaces y anclas locales resuelve
 
 Orden de PR (una por capa; ninguna lanza ni publica; el propietario aprueba este diseño antes): 1) revisión de metadatos, `NOTICE.md`, `propiedad_intelectual/`, `LICENSE` (con su autorización); 2) `v4/` portada + estilos + `tokens-bloques.css` + vídeo configurable (tests 1–2, 6–9); 3) Comprender + «La doble vuelta» (texto del propietario, test 3); 4) Auditoría y registro + catálogo vacío (test 4); 5) enlaces cruzados con `v4/mapa/` (test 2, 10); 6) publicación: `v4/` en P40 (toca workflow: aviso al Planificador; Operador con frase D-52); 7) decidir raíz y destino de V3.
 
-## 12. Preguntas abiertas (con recomendación)
+## 12. Preguntas — DECIDIDAS (D-174, 19-11): se adopta la recomendación en las 9
 
 1. ¿La raíz pasa a `/v4/`? **Recomiendo** no: `/v4/` en paralelo hasta comparar con V3.
 2. ¿`web/` o autónoma? **Recomiendo** `web/` (§2); la autónoma solo como copia de revisión.
@@ -95,3 +95,5 @@ Orden de PR (una por capa; ninguna lanza ni publica; el propietario aprueba este
 7. ¿Se mueven `generar_catalogo.py` y la plantilla CSV a `herramientas/`? **Recomiendo** sí cuando haya DOI reales (Zenodo); hasta entonces quedan en el estudio.
 8. ¿Qué se enlaza como «metodología» publicada? **Recomiendo** solo lo ya publicado en el repositorio; si no hay página, omitir la tarjeta.
 9. ¿Subtítulos y transcripción del vídeo? **Recomiendo** obligatorios para publicarlo (accesibilidad), a cargo del propietario.
+
+Precisión de la 5 (D-174): bucket R2 **aparte**, público solo para vídeos, con subdominio propio; el bucket de trabajo sigue privado; los pasos de Cloudflare los da el Coordinador. La URL del vídeo queda vacía y configurable en el repositorio. Siguen fuera de esta decisión: la edición de `LICENSE` (autorización expresa del propietario) y cualquier publicación.

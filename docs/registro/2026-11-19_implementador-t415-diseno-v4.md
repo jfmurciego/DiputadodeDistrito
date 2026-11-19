@@ -5,3 +5,4 @@ Cambio: `docs/ESTUDIOS/T415_V4_PORTADA/DISENO.md` 2.0.0 (solo documento): format
 Pruebas: ninguna de código; sin cambios en `visor/`, `web/` ni workflows.
 Riesgos: ninguno de ejecución. No se publica ni se lanza. Editar LICENSE exige autorización expresa del propietario.
 Actualización (2.0.1): «Nessa» = Vanesa (confirmado por el propietario); vídeo ya en R2. Búsqueda en el repositorio: R2 solo por API S3 con credenciales, sin dominio ni URL pública documentados; la pregunta 5 propone dominio propio de solo lectura para `videos/`.
+Actualización (2.0.2): decisiones D-174 marcadas en DISENO.md (sin cambiar el fondo).
