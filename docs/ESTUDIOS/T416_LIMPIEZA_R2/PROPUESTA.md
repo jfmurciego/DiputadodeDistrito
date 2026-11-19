@@ -1,12 +1,14 @@
 # T-416 (b) — Propuesta de limpieza de R2 (solo propuesta; no se ha borrado ni movido nada)
 
+VERSIÓN: 1.0.0 · FECHA: 2026-11-19 · ANTERIOR: ninguna (fichero nuevo)
+
 ## Resumen para el propietario
 1. El almacén de trabajo pesa 16,47 GB: 6,47 GB por encima de los 10 GB gratuitos. Coste actual: unos 0,10 USD/mes (6,466 GB × 0,015 USD/GB·mes). No urge por dinero.
 2. Lo que ve el visor no está en R2: sus 481 productos son blobs de git. Ninguna limpieza de R2 afecta al visor publicado.
 3. El peso está en `arc-e` (12,87 GB, el 78 %): fuentes oficiales y paquetes P10, que el motor sí necesita. Sin tocarlo no se baja de 10 GB.
 4. Lo demás (3,59 GB) son restos: estados completos viejos (1,81 GB), productos de runs superados, la carpeta `bateria` retirada, vídeos y una prueba de conexión.
-5. Propuesta: borrar unos 2,2 GB seguros tras la regeneración posterior al 29-11, conservar `arc-p` (1,11 GB) hasta entonces, y pedir un listado más fino de `arc-e` (un nivel más) antes de decidir ahí.
-6. Con solo lo seguro quedaría en unos 14,3 GB (aún sobre el límite); bajar de 10 GB exige recortar `arc-e` (hasta ~6 GB posibles si hay paquetes P10 de versiones antiguas; sin confirmar).
+5. Propuesta: borrar unos 2,3 GB seguros tras la regeneración posterior al 29-11, conservar `arc-p` (1,11 GB) hasta entonces, y pedir un listado más fino de `arc-e` (un nivel más) antes de decidir ahí.
+6. Con solo lo seguro quedaría en unos 14,2 GB (aún sobre el límite); bajar de 10 GB exige recortar `arc-e` (hasta ~6 GB posibles si hay paquetes P10 de versiones antiguas; sin confirmar).
 7. Los nombres antiguos (`andalucia`, `congreso_alava`…) no se renombran: R2 no renombra, solo copia y borra. Tras regenerar, lo nuevo se escribe con el id nuevo (`aut01`, `nac01`) y lo antiguo se borra.
 8. Nada se borra antes de la regeneración; el borrado lo hace el Operador con tu permiso.
 
@@ -26,7 +28,7 @@ Run 44541851289 («P70 Archivo · P74 Listar», job 135621981618, `main` f6682bb
 | 52 `nacNN` | 0,056 GB (212) | Ídem | **CONSERVAR** | Ya con el nombre D-131 |
 | 52 `congreso_*` | 0,137 GB (516) | Ídem, id antiguo del Congreso | **BORRAR** tras regenerar (o RENOMBRAR a `nacNN` solo si se quiere conservar evidencia) | Duplican a `nacNN` por provincia; regeneración los reemplaza. Producto vigente: ~0,095 GB |
 | 3 `congreso350_*` | 0,003 GB (12) | Mapa de 350 fuera del corte (D-76) | **CONSERVAR** | Ids sin migrar; tamaño ínfimo |
-| `bateria` | 0,049 GB (19) | Sin lectores: `bateria/entradas` se retiró en T-303; los workflows usan rutas locales | **BORRAR** (tras comprobar el contenido con un listado fino) | Resto huérfano |
+| `bateria` | 0,049 GB (19) | Sin lectores en R2 en el código: `bateria/entradas` se retiró en T-303 (`podar_r2.py:10`); `p80-verificacion-motor.yml` líneas 92, 194 y 212 usan `bateria/...` solo como ruta local del runner. Por comprobar antes del paso (c): contenido real del prefijo | **BORRAR** (tras comprobar el contenido con un listado fino) | Resto huérfano |
 | `videos` | 0,152 GB (2) | Vídeo en el bucket de trabajo; D-175 lo lleva a un bucket aparte | **CONSERVAR** hasta confirmar el vídeo en el bucket público; entonces **BORRAR** | No se toca el otro bucket |
 | `connection-tests` | ~0 GB (1) | Prueba de conexión | **BORRAR** | Sin uso |
 
