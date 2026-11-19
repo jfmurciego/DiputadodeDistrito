@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.544
+Versión: 1.0.545
 Fecha: 2026-11-19
-Alcance: T-409 — Fijar en el repo el run de P75 que publica P40 (doble vuelta V4)
+Alcance: T-420 — Duplicidades en R2 (solo lectura)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-19_implementador-t409-fijar-p75.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.543_registro_20261119.md
+Cambios/motivo: entrada docs/registro/2026-11-19_t420-duplicidades-r2.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.544_registro_20261119.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.543_registro_20261119.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.545 · [2026-11-19 — T-420 — Duplicidades en R2 (solo lectura)](registro/2026-11-19_t420-duplicidades-r2.md)
 - 1.0.544 · [2026-11-19 — T-409 — Fijar en el repo el run de P75 que publica P40 (doble vuelta V4)](registro/2026-11-19_implementador-t409-fijar-p75.md)
 - 1.0.543 · [2026-11-19 — T-409 — Publicador de la doble vuelta de los 52 nac para la V4 (P40)](registro/2026-11-19_implementador-t409-publicador-doble-vuelta.md)
 - 1.0.542 · [2026-11-19 — T-415 — PR 3: «La doble vuelta» en Comprender y tokens de bloques](registro/2026-11-19_implementador-t415-pr3-comprender.md)
