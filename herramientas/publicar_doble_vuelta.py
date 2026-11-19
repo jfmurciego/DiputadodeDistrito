@@ -5,7 +5,7 @@
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.0.0 · FECHA: 2026-11-19 · ESTADO: candidato
 ANTERIOR: ninguna (fichero nuevo)
-CAMBIOS: 1.0.0: fichero nuevo.
+CAMBIOS: 1.0.0: fichero nuevo (con la geometría: decisión del Planificador, opción A).
 MOTIVO: D-172/D-178: el mapa V4 muestra la doble vuelta de los 52 nac sin regenerar; P75 la calcula y la archiva en R2 (objetos con run e intento);
   P40 la baja al construir el sitio, con el mismo patrón que los GeoJSON M06 (bajar de origen y verificar sha256), sin datos en git.
 QUÉ HACE: lee `configuracion/doble_vuelta_publicada.json` (el run de P75 FIJADO en el repo: elección, `run_p75`, clave y sha256 del INFORME.json). Sin ese fichero no
@@ -14,8 +14,12 @@ QUÉ HACE: lee `configuracion/doble_vuelta_publicada.json` (el run de P75 FIJADO
   (numeracion_publica.numero_publico; el interno no se toca); (4) añade el escenario `primero` (la candidatura con más votos en primera vuelta, derivada del detalle de dv_base;
   empate → orden alfabético y `empate=true`) y exige que coincida con los votos de dv_base; (5) escribe en el destino (`<sitio>/v4/mapa/datos/`):
   `INDEX.json` (cabecera: elección, run de P75, sha256 del informe, bloques y alias, y por territorio id, nombre, etiqueta, distritos y sha256 de cada fichero) y, por territorio
-  `nacNN`, `resultados_doble_vuelta.csv` (14 columnas) y `detalle.csv` (7), UTF-8, coma, punto decimal. Todo se valida en memoria antes de escribir nada: o 52/52 o nada.
-USO: python herramientas/publicar_doble_vuelta.py --destino /tmp/site-candidate/v4/mapa/datos [--fecha AAAA-MM-DD] [--fijado configuracion/doble_vuelta_publicada.json]
+  `nacNN`, `resultados_doble_vuelta.csv` (14 columnas), `detalle.csv` (7) y `distritos.geojson`, UTF-8, coma, punto decimal. Todo se valida en memoria antes de escribir nada: o 52/52 o nada.
+  GEOMETRÍA (opción A): reutiliza el GeoJSON de distritos que P40 ya materializa en `<sitio>/datos/<nacNN>/distritos.geojson` (derivado del M06 con sha256, EPSG:4326, propiedad `distrito`
+  1..K) y comprueba su sha256 contra `<sitio>/datos/INDEX.json`; lo SIMPLIFICA con Douglas-Peucker por anillo (tolerancia fija `TOLERANCIA_GRADOS` = 0,0005° ≈ 55 m, coordenadas a
+  5 decimales; sin topología compartida: entre distritos vecinos puede quedar un hueco o solape de hasta la tolerancia, invisible a la escala del mapa), deja solo `district_id` (entero
+  público 1..K) y exige que los distritos de la geometría sean EXACTAMENTE los del CSV (ni uno sin geometría ni uno sin dato). En INDEX.json: `geometria` (ruta, sha256, sha256_origen).
+USO: python herramientas/publicar_doble_vuelta.py --sitio /tmp/site-candidate --destino /tmp/site-candidate/v4/mapa/datos [--fecha AAAA-MM-DD] [--fijado configuracion/doble_vuelta_publicada.json]
 """
 from __future__ import annotations
 
@@ -43,6 +47,8 @@ COLUMNAS = ["district_id", "escenario", "vuelta_decisiva", "candidatura_ganadora
             "finalista_a", "finalista_b", "votos_a_2v", "votos_b_2v", "cuota_ganador_2v", "votos_abstencion", "empate"]
 COLUMNAS_DETALLE = ["district_id", "escenario", "candidatura", "partido", "bloque", "votos_1v", "votos_candidatura"]
 AVISO = "Simulación sin valor oficial"
+TOLERANCIA_GRADOS = 0.0005  # Douglas-Peucker; ≈ 55 m en latitudes españolas
+DECIMALES = 5  # ≈ 1 m
 PREFIJO_ETIQUETA = "Congreso "
 
 
@@ -147,6 +153,78 @@ def procesar_territorio(fila_informe: dict, zip_bytes: bytes) -> tuple[bytes, by
     return _csv(_publico(todas), COLUMNAS), _csv(_publico(todo_det), COLUMNAS_DETALLE), k
 
 
+def _dist_punto_segmento(p, a, b) -> float:
+    (px, py), (ax, ay), (bx, by) = p, a, b
+    dx, dy = bx - ax, by - ay
+    if dx == 0 and dy == 0:
+        return ((px - ax) ** 2 + (py - ay) ** 2) ** 0.5
+    u = max(0.0, min(1.0, ((px - ax) * dx + (py - ay) * dy) / (dx * dx + dy * dy)))
+    return ((px - (ax + u * dx)) ** 2 + (py - (ay + u * dy)) ** 2) ** 0.5
+
+
+def douglas_peucker(puntos: list, tol: float) -> list:
+    """Douglas-Peucker iterativo (sin recursión: los anillos tienen decenas de miles de puntos); conserva siempre el primero y el último."""
+    n = len(puntos)
+    if n < 3:
+        return list(puntos)
+    mantener = [False] * n
+    mantener[0] = mantener[-1] = True
+    pila = [(0, n - 1)]
+    while pila:
+        i, j = pila.pop()
+        maxd, k = 0.0, -1
+        for m in range(i + 1, j):
+            d = _dist_punto_segmento(puntos[m], puntos[i], puntos[j])
+            if d > maxd:
+                maxd, k = d, m
+        if k != -1 and maxd > tol:
+            mantener[k] = True
+            pila.append((i, k))
+            pila.append((k, j))
+    return [p for p, m in zip(puntos, mantener) if m]
+
+
+def _anillo(anillo: list) -> list:
+    pts = []
+    for x, y, *_ in anillo:
+        q = [round(x, DECIMALES), round(y, DECIMALES)]
+        if not pts or pts[-1] != q:
+            pts.append(q)
+    s = douglas_peucker(pts, TOLERANCIA_GRADOS)
+    if len(s) >= 4 and s[0] == s[-1]:
+        return s
+    return pts if len(pts) >= 4 and pts[0] == pts[-1] else anillo  # anillo minúsculo: se conserva tal cual (nunca se pierde un distrito)
+
+
+def _geometria(g: dict) -> dict:
+    if g.get("type") == "Polygon":
+        return {"type": "Polygon", "coordinates": [_anillo(a) for a in g["coordinates"]]}
+    if g.get("type") == "MultiPolygon":
+        return {"type": "MultiPolygon", "coordinates": [[_anillo(a) for a in poli] for poli in g["coordinates"]]}
+    raise DobleVueltaError(f"GEOMETRIA_NO_SOPORTADA: {g.get('type')}")
+
+
+def procesar_geometria(t: str, geojson: bytes, ids_datos: set[int]) -> bytes:
+    """GeoJSON público del territorio (`distrito` 1..K) → simplificado con solo `district_id`; sus distritos deben ser exactamente los del CSV."""
+    gj = json.loads(geojson.decode("utf-8"))
+    feats, vistos = [], []
+    for f in gj["features"]:
+        n = int(f["properties"]["distrito"])
+        if not f.get("geometry") or not f["geometry"].get("coordinates"):
+            raise DobleVueltaError(f"DATO_SIN_GEOMETRIA: {t} distrito {n} sin geometría")
+        vistos.append(n)
+        feats.append({"type": "Feature", "properties": {"district_id": n}, "geometry": _geometria(f["geometry"])})
+    if len(set(vistos)) != len(vistos):
+        raise DobleVueltaError(f"GEOMETRIA_DUPLICADA: {t} repite distritos")
+    sin_geom, sin_dato = sorted(ids_datos - set(vistos)), sorted(set(vistos) - ids_datos)
+    if sin_geom:
+        raise DobleVueltaError(f"DATO_SIN_GEOMETRIA: {t} distritos con dato y sin geometría: {sin_geom[:8]}")
+    if sin_dato:
+        raise DobleVueltaError(f"GEOMETRIA_SIN_DATO: {t} distritos con geometría y sin dato: {sin_dato[:8]}")
+    feats.sort(key=lambda f: f["properties"]["district_id"])
+    return (json.dumps({"type": "FeatureCollection", "features": feats}, ensure_ascii=False, separators=(",", ":")) + "\n").encode("utf-8")
+
+
 def nombres(root: Path) -> dict[str, tuple[str, str]]:
     """id → (nombre, etiqueta) del registro del visor (territory_label; el nombre sin el prefijo «Congreso »)."""
     out = {}
@@ -157,7 +235,7 @@ def nombres(root: Path) -> dict[str, tuple[str, str]]:
     return out
 
 
-def publicar(root: Path, destino: Path, cp=fuente_r2._cp, bucket: str = "", fecha: str = "", fijado: Path | None = None) -> dict | None:
+def publicar(root: Path, destino: Path, cp=fuente_r2._cp, bucket: str = "", fecha: str = "", fijado: Path | None = None, sitio: Path | None = None) -> dict | None:
     f = root / (fijado or FIJADO)
     if not f.is_file():
         print("[doble_vuelta] sin doble vuelta fijada (configuracion/doble_vuelta_publicada.json): nada que publicar")
@@ -174,6 +252,12 @@ def publicar(root: Path, destino: Path, cp=fuente_r2._cp, bucket: str = "", fech
     if malos or inf.get("ok") != inf.get("total") or not inf["territorios"]:
         detalle = ", ".join(f"{x['territorio']}={x.get('estado')}" for x in malos) or f"{inf.get('ok')}/{inf.get('total')} OK"
         raise DobleVueltaError(f"INFORME_INCOMPLETO: {detalle}")
+    if sitio is None:
+        raise DobleVueltaError("GEOMETRIA_AUSENTE: falta --sitio (el sitio candidato con datos/<nacNN>/distritos.geojson de P40)")
+    try:
+        indice_datos = json.loads((sitio / "datos/INDEX.json").read_text(encoding="utf-8"))["territorios"]
+    except (OSError, KeyError, ValueError) as exc:
+        raise DobleVueltaError(f"GEOMETRIA_AUSENTE: sin {sitio}/datos/INDEX.json ({exc})") from exc
     nom = nombres(root)
     ficheros: dict[str, bytes] = {}
     entradas = []
@@ -183,15 +267,28 @@ def publicar(root: Path, destino: Path, cp=fuente_r2._cp, bucket: str = "", fech
             raise DobleVueltaError(f"CLAVE_AUSENTE: {t} sin clave_r2/sha256_salida en el informe")
         res, det, k = procesar_territorio(x, _bajar(cp, bucket, x["clave_r2"], x["sha256_salida"], "ZIP_SHA256_DISTINTO"))
         ficheros[f"{t}/resultados_doble_vuelta.csv"], ficheros[f"{t}/detalle.csv"] = res, det
+        origen = sitio / "datos" / t / "distritos.geojson"
+        try:
+            gbytes = origen.read_bytes()
+            esperado = indice_datos[t]["geojson"]["sha256"]
+        except (OSError, KeyError) as exc:
+            raise DobleVueltaError(f"GEOMETRIA_AUSENTE: {t} sin {origen} o sin entrada en datos/INDEX.json") from exc
+        if sha256_bytes(gbytes) != esperado:
+            raise DobleVueltaError(f"GEOMETRIA_SHA256_DISTINTO: {t} {sha256_bytes(gbytes)} != {esperado}")
+        geo = procesar_geometria(t, gbytes, {int(r["district_id"]) for r in csv.DictReader(io.StringIO(res.decode("utf-8")))})
+        ficheros[f"{t}/distritos.geojson"] = geo
         nombre, etiqueta = nom.get(t, (t, t))
         entradas.append({"id": t, "nombre": nombre, "etiqueta": etiqueta, "distritos": k, "run_m08": x["run"],
                          "sin_casar_pct": x.get("sin_casar_pct"), "sha256_paquete_p75": x["sha256_salida"],
                          "resultados": {"ruta": f"{t}/resultados_doble_vuelta.csv", "sha256": sha256_bytes(res)},
-                         "detalle": {"ruta": f"{t}/detalle.csv", "sha256": sha256_bytes(det)}})
+                         "detalle": {"ruta": f"{t}/detalle.csv", "sha256": sha256_bytes(det)},
+                         "geometria": {"ruta": f"{t}/distritos.geojson", "sha256": sha256_bytes(geo), "sha256_origen": esperado}})
     indice = {"schema": "ddd.v4-doble-vuelta/1.0", "eleccion": pin["eleccion"], "aviso": AVISO, "p75_run": pin["run_p75"],
               "informe_sha256": pin["informe_sha256"], "bloques_sha256": inf["entradas"]["bloques"]["sha256"],
               "alias_sha256": inf["entradas"]["alias"]["sha256"],
-              "generado": fecha or datetime.now(timezone.utc).strftime("%Y-%m-%d"), "territorios": entradas}
+              "generado": fecha or datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+              "simplificacion": {"algoritmo": "Douglas-Peucker por anillo", "tolerancia_grados": TOLERANCIA_GRADOS, "decimales": DECIMALES, "crs": "EPSG:4326"},
+              "territorios": entradas}
     # todo validado: ahora se escribe (o 52/52 o nada)
     for ruta, datos in ficheros.items():
         p = destino / ruta
@@ -204,6 +301,7 @@ def publicar(root: Path, destino: Path, cp=fuente_r2._cp, bucket: str = "", fech
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--sitio", default="/tmp/site-candidate", help="sitio candidato con datos/<nacNN>/distritos.geojson (P40)")
     ap.add_argument("--destino", required=True)
     ap.add_argument("--fecha", default="")
     ap.add_argument("--fijado", default="")
@@ -213,7 +311,7 @@ def main(argv=None) -> int:
         print("::error title=DOBLE_VUELTA_SIN_CREDENCIALES::faltan R2_BUCKET/R2_ACCOUNT_ID")
         return 3
     try:
-        publicar(ROOT, Path(a.destino), bucket=bucket, fecha=a.fecha, fijado=Path(a.fijado) if a.fijado else None)
+        publicar(ROOT, Path(a.destino), bucket=bucket, fecha=a.fecha, fijado=Path(a.fijado) if a.fijado else None, sitio=Path(a.sitio))
     except DobleVueltaError as exc:
         print(f"::error title=DOBLE_VUELTA::{exc}")
         return 1

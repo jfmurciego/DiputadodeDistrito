@@ -59,9 +59,31 @@ def sha(b: bytes) -> str:
     return hashlib.sha256(b).hexdigest()
 
 
+def cuadrado(n: int, extra_colineal=True) -> list:
+    """Cuadrado de 0,01° en la columna n (distrito público n); un punto COLINEAL en medio del lado inferior (DP lo quita) y coordenadas con 7 decimales."""
+    x0 = 0.01 * (n - 1)
+    pts = [[x0, 40.0], ([x0 + 0.005, 40.0000001] if extra_colineal else [x0 + 0.01, 40.0]), [x0 + 0.01, 40.0], [x0 + 0.01, 40.01], [x0, 40.01], [x0, 40.0]]
+    return [pts if extra_colineal else pts[:1] + pts[2:]]
+
+
+def geojson_sitio(ids=(1, 2), sin=()) -> bytes:
+    feats = [{"type": "Feature", "properties": {"distrito": n, "poblacion": 10}, "geometry": {"type": "Polygon", "coordinates": cuadrado(n)}} for n in ids if n not in sin]
+    return json.dumps({"type": "FeatureCollection", "features": feats}).encode()
+
+
 class Montaje:
-    def __init__(self, td: Path, zips: dict, estado_ok=True, informe_total=None):
+    def __init__(self, td: Path, zips: dict, estado_ok=True, informe_total=None, geo=None):
         self.td, self.objetos = td, {}
+        sitio = td / "sitio" / "datos"
+        indice = {}
+        for t in ("nac01", "nac02"):
+            g = geo(t) if geo else geojson_sitio()
+            if g is not None:
+                (sitio / t).mkdir(parents=True, exist_ok=True)
+                (sitio / t / "distritos.geojson").write_bytes(g)
+                indice[t] = {"geojson": {"sha256": sha(g)}}
+        sitio.mkdir(parents=True, exist_ok=True)
+        (sitio / "INDEX.json").write_text(json.dumps({"territorios": indice}), encoding="utf-8")
         (td / "orchestracion").mkdir()
         (td / "configuracion").mkdir()
         (td / "orchestracion/publicaciones_visor.json").write_text(json.dumps({"products": [
@@ -95,13 +117,13 @@ def zips_buenos():
 
 
 class Publicar(unittest.TestCase):
-    def correr(self, mod=None, zips=None, **kw):
+    def correr(self, mod=None, zips=None, **kw):  # kw: estado_ok, informe_total, geo
         with tempfile.TemporaryDirectory() as t, tempfile.TemporaryDirectory() as d:
             m = Montaje(Path(t), zips or zips_buenos(), **kw)
             if mod:
                 mod(m)
             try:
-                ind = pdv.publicar(Path(t), Path(d), m.cp, "b", "2026-11-19")
+                ind = pdv.publicar(Path(t), Path(d), m.cp, "b", "2026-11-19", sitio=Path(t) / "sitio")
             except pdv.DobleVueltaError as exc:
                 return None, str(exc), {}
             salida = {str(p.relative_to(d)): p.read_bytes() for p in Path(d).rglob("*") if p.is_file()}
@@ -110,7 +132,8 @@ class Publicar(unittest.TestCase):
     def test_exito_con_valores_a_mano(self):
         ind, err, s = self.correr()
         self.assertEqual(err, "")
-        self.assertEqual(sorted(s), ["INDEX.json", "nac01/detalle.csv", "nac01/resultados_doble_vuelta.csv", "nac02/detalle.csv", "nac02/resultados_doble_vuelta.csv"])
+        self.assertEqual(sorted(s), ["INDEX.json", "nac01/detalle.csv", "nac01/distritos.geojson", "nac01/resultados_doble_vuelta.csv",
+                                  "nac02/detalle.csv", "nac02/distritos.geojson", "nac02/resultados_doble_vuelta.csv"])
         e = ind["territorios"][0]
         self.assertEqual((e["id"], e["nombre"], e["etiqueta"], e["distritos"]), ("nac01", "Álava", "Congreso Álava", 2))
         res = list(csv.DictReader(io.StringIO(s["nac01/resultados_doble_vuelta.csv"].decode())))
@@ -123,6 +146,52 @@ class Publicar(unittest.TestCase):
         self.assertEqual(e["resultados"]["sha256"], sha(s["nac01/resultados_doble_vuelta.csv"]))
         self.assertEqual((ind["aviso"], ind["generado"], ind["p75_run"], ind["bloques_sha256"]), ("Simulación sin valor oficial", "2026-11-19", "77-1", "b" * 64))
         self.assertEqual(json.loads(s["INDEX.json"]), ind)
+
+    def test_geometria_simplificada_con_district_id_publico(self):
+        ind, err, s = self.correr()
+        self.assertEqual(err, "")
+        gj = json.loads(s["nac01/distritos.geojson"])
+        self.assertEqual([f["properties"] for f in gj["features"]], [{"district_id": 1}, {"district_id": 2}])  # solo district_id, entero público
+        anillo = gj["features"][0]["geometry"]["coordinates"][0]
+        self.assertEqual(anillo, [[0.0, 40.0], [0.01, 40.0], [0.01, 40.01], [0.0, 40.01], [0.0, 40.0]])  # 7 decimales → 5; punto colineal fuera; esquinas dentro
+        g = ind["territorios"][0]["geometria"]
+        self.assertEqual(g["sha256"], sha(s["nac01/distritos.geojson"]))
+        self.assertEqual(g["sha256_origen"], sha(geojson_sitio()))
+        self.assertEqual(ind["simplificacion"]["tolerancia_grados"], pdv.TOLERANCIA_GRADOS)
+
+    def test_douglas_peucker(self):
+        tol = 0.001
+        self.assertEqual(pdv.douglas_peucker([[0, 0], [1, 0.0005], [2, 0]], tol), [[0, 0], [2, 0]])  # desvío 0,0005 < tol: se quita
+        self.assertEqual(pdv.douglas_peucker([[0, 0], [1, 0.002], [2, 0]], tol), [[0, 0], [1, 0.002], [2, 0]])  # 0,002 > tol: se conserva
+        n = 30000  # sin recursión: un anillo grande no desborda la pila
+        zig = [[i * 1e-6, (i % 2) * 1e-7] for i in range(n)]
+        self.assertEqual(len(pdv.douglas_peucker(zig, tol)), 2)
+
+    def test_distrito_sin_geometria_falla(self):  # control negativo obligatorio
+        _, err, s = self.correr(geo=lambda t: geojson_sitio(sin=(2,)))
+        self.assertIn("DATO_SIN_GEOMETRIA", err)
+        self.assertEqual(s, {})  # o todo o nada
+
+    def test_geometria_sin_dato_falla(self):
+        _, err, s = self.correr(geo=lambda t: geojson_sitio(ids=(1, 2, 3)))
+        self.assertIn("GEOMETRIA_SIN_DATO", err)
+        self.assertEqual(s, {})
+
+    def test_geometria_ausente_o_con_sha_distinto(self):
+        _, err, _ = self.correr(geo=lambda t: None)
+        self.assertIn("GEOMETRIA_AUSENTE", err)
+
+        def mod(m):
+            (m.td / "sitio/datos/nac01/distritos.geojson").write_bytes(geojson_sitio() + b" ")
+        _, err, s = self.correr(mod)
+        self.assertIn("GEOMETRIA_SHA256_DISTINTO", err)
+        self.assertEqual(s, {})
+
+    def test_geometria_sin_sitio(self):
+        with tempfile.TemporaryDirectory() as t, tempfile.TemporaryDirectory() as d:
+            m = Montaje(Path(t), zips_buenos())
+            with self.assertRaisesRegex(pdv.DobleVueltaError, "GEOMETRIA_AUSENTE"):
+                pdv.publicar(Path(t), Path(d), m.cp, "b", "2026-11-19")
 
     def test_salida_determinista(self):
         self.assertEqual(self.correr()[2], self.correr()[2])
@@ -180,7 +249,7 @@ class Publicar(unittest.TestCase):
     def test_empate_en_primero(self):
         det = ENC_D + "".join(f"0,dv_base,{p},{p},{b},30,30\n" for p, b in (("AAA", "Patriotas"), ("BBB", "Izquierdas")))
         res = ENC + "0,dv_base,2,AAA,Patriotas,30,0.500000,AAA,BBB,30,30,0.5,0,true\n0,dv_A,2,x,,1,1,,,,,,0,false\n0,dv_B,2,x,,1,1,,,,,,0,false\n"
-        _, err, s = self.correr(zips={"1001": zip_de(res, det), "1002": zip_de(res, det)})
+        _, err, s = self.correr(zips={"1001": zip_de(res, det), "1002": zip_de(res, det)}, geo=lambda t: geojson_sitio(ids=(1,)))
         self.assertEqual(err, "")
         p = [r for r in csv.DictReader(io.StringIO(s["nac01/resultados_doble_vuelta.csv"].decode())) if r["escenario"] == "primero"][0]
         self.assertEqual((p["candidatura_ganadora"], p["empate"]), ("AAA", "true"))  # alfabético, marcado
@@ -215,7 +284,7 @@ class WorkflowP40(unittest.TestCase):
 
     def test_solo_escribe_en_el_sitio_candidato(self):
         run = self.paso["run"]
-        self.assertIn("--destino /tmp/site-candidate/v4/mapa/datos", run)
+        self.assertIn("--sitio /tmp/site-candidate --destino /tmp/site-candidate/v4/mapa/datos", run)
         for prohibido in ("git push", "git add", "registrar_en_main", "gh api", "inputs."):
             self.assertNotIn(prohibido, run)
 
