@@ -388,5 +388,36 @@ class WorkflowP40(unittest.TestCase):
         self.assertEqual(sorted(ent), ["que_publicar", "simular", "territorios"])
 
 
+class Fijado(unittest.TestCase):
+    """El fichero que fija en el repo el run de P75 que publica P40: formato y coherencia (la huella la verificó el Coordinador en el log del run)."""
+
+    def setUp(self):
+        self.pin = json.loads((ROOT / pdv.FIJADO).read_text(encoding="utf-8"))
+
+    def test_formato(self):
+        import re
+        self.assertEqual(sorted(self.pin), ["eleccion", "informe_clave", "informe_sha256", "run_p75", "schema"])
+        self.assertEqual(self.pin["schema"], "ddd.doble-vuelta-publicada/1.0")
+        self.assertRegex(self.pin["eleccion"], r"^\d{4}-\d{2}$")
+        self.assertRegex(self.pin["run_p75"], r"^\d+-\d+$")  # GITHUB_RUN_ID-GITHUB_RUN_ATTEMPT
+        self.assertRegex(self.pin["informe_sha256"], r"^[0-9a-f]{64}$")
+
+    def test_la_clave_es_la_del_run_fijado(self):
+        self.assertEqual(self.pin["informe_clave"], f"doble_vuelta/{self.pin['eleccion']}/{self.pin['run_p75']}/INFORME.json")
+
+    def test_valores_fijados(self):  # literales de la huella verificada en el log del job de P75 (run 44575597009, intento 1, 52/52 OK)
+        self.assertEqual((self.pin["eleccion"], self.pin["run_p75"]), ("2023-07", "44575597009-1"))
+        self.assertEqual(self.pin["informe_sha256"], "c127f66b074a37319b864a090c7585c6db4ccc923482e11342b147e69194711c")
+
+    def test_el_publicador_lo_acepta_como_fijado_valido(self):
+        # control: con un informe cuyo sha256 NO es el fijado, el publicador falla cerrado (no publica con otra huella)
+        with tempfile.TemporaryDirectory() as t, tempfile.TemporaryDirectory() as d:
+            m = Montaje(Path(t), zips_buenos())
+            (Path(t) / "configuracion/doble_vuelta_publicada.json").write_text((ROOT / pdv.FIJADO).read_text(encoding="utf-8"), encoding="utf-8")
+            m.objetos[self.pin["informe_clave"]] = m.informe  # sirve OTRO informe con ese nombre
+            with self.assertRaisesRegex(pdv.DobleVueltaError, "INFORME_SHA256_DISTINTO"):
+                pdv.publicar(Path(t), Path(d), m.cp, "b", "2026-11-19", sitio=Path(t) / "sitio")
+
+
 if __name__ == "__main__":
     unittest.main()
