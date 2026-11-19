@@ -137,7 +137,7 @@ class Equivalencia(unittest.TestCase):
             esperado = {k: v for k, v in viejo.items() if k not in CLAVES_NUEVAS_REGISTRAR}
             if "with" in esperado:
                 esperado["with"] = {**esperado["with"], "path": "persistidor"}
-            sin_t409 = {**nuevo, "run": sin_t409_run(nuevo["run"])} if "run" in nuevo else nuevo  # T-409: `--extra` del archivo en origen
+            sin_t409 = {**nuevo, "run": sin_t409_run(nuevo["run"])} if s["name"] == PASOS_REGISTRAR[2] else nuevo  # T-409: `--extra` del archivo en origen
             self.assertEqual({k: v for k, v in sin_t409.items() if k not in CLAVES_NUEVAS_REGISTRAR}, esperado, s["name"])
             propio = {k: v for k, v in nuevo.get("env", {}).items() if k not in R2 and k != "PRODUCT_DIGEST"}
             self.assertEqual(propio, viejo.get("env", {}), s["name"])
