@@ -3,11 +3,15 @@
 """Estado de campaña de P00 (T-379 PR 1): comprobación previa, recuento de apartados, parada, resultado, cierre e informe.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.1
+VERSIÓN: 1.1.0
 NOMBRE DE VERSIÓN: Estado de campaña P00
-FECHA: 2026-11-17
+FECHA: 2026-11-19
 ESTADO: candidato
-ANTERIOR: legacy/herramientas/campana_estado_v1.0.0_20261117.py
+ANTERIOR: legacy/herramientas/campana_estado_v1.0.1_20261119.py
+CAMBIOS 1.1.0 (T-379 PR 3, §3, §4 y §16.1, D-147): `concurrencia` (segunda campaña rechazada con el run que bloquea; sigue la
+  de run_id menor; `pull_request` y terminadas no cuentan), `hechos` (CI de la versión, R2 y gasto semanal D-46 para
+  `comprobar --hechos`; sin evidencia → aviso, nunca bloqueo) y `cerrar-paso` (resultado de un paso de la cadena desde
+  los `needs.<job>.result`). El resto, igual.
 CAMBIOS 1.0.1 (T-377): las citas de ARCHIVO_ORIGEN_FAILED y SALIDA_48 apuntan a `p20-distritos.yml` (el reutilizable de generación se borró); mismas líneas de código, otra numeración. Solo texto.
 CAMBIOS: 1.0.0: fichero nuevo (T-379 PR 1; incluye los arreglos del revisor de #861: semáforo inmutable, causas
   acreditadas en main con cita, re-ejecución vetada también al registrar, parada pegajosa, «ausente» de R2 exacto,
@@ -22,6 +26,10 @@ QUÉ HACE (sin red, salvo el almacén R2; determinista; fallo cerrado; errores `
   cierre      plan del commit (rama main o p00-cierre/<run_id>; ficheros ⊆ RUTAS_ROBOT; vacío en ensayo) y objeto
               «cierre» idempotente por huella del estado.
   informe     markdown para el issue de la campaña.
+  concurrencia lista de ejecuciones de P00 (API) → rc 3 si otra campaña de run_id menor sigue viva (D-147).
+  hechos      ejecuciones de P90 de la versión + R2 + métricas → hechos de campaña para `comprobar --hechos`.
+  cerrar-paso resultados de los jobs de un paso de la cadena (`needs.<job>.result`) → registrar ok | apartado; imprime
+              {"sano": bool}. Un job en rojo = FALLO_NO_CONTROLADO; un obligatorio saltado o cancelado = PASO_INCOMPLETO.
 NO HACE: lanzar, hacer commits, push ni llamar a la API de GitHub (eso es la PR 3).
 ALMACÉN: `--almacen r2` (R2_BUCKET, R2_ACCOUNT_ID y AWS_*; aws s3/s3api como fuente_r2.py y listar_r2.py) o
   `--almacen dir:<ruta>` (directorio local, para pruebas y simulación). Claves bajo `campanas/<campaña>/`.
@@ -471,6 +479,32 @@ def empezar(alm, campana: str, territorio: str, paso: str, intento: int) -> tupl
     return 0, "marcado"
 
 
+RESULTADOS_JOB = {"success", "failure", "cancelled", "skipped"}
+
+
+def cerrar_paso(alm, campana: str, territorio: str, paso: str, intento: int, resultados: dict[str, str],
+                obligatorios: list[str], huellas: dict | None = None) -> dict:
+    """Cierre de un paso de la cadena (§4) desde los `needs.<job>.result` de sus jobs llamados: algún job en rojo →
+    apartado FALLO_NO_CONTROLADO (la herramienta que fallaba no pudo atraparlo); algún obligatorio no «success» →
+    apartado PASO_INCOMPLETO; si no, ok. Nunca cuenta como verde nada que no sea success en todos los obligatorios."""
+    for job, r in resultados.items():
+        if r not in RESULTADOS_JOB:
+            raise EstadoError(f"resultado de job no válido: {job}={r!r}")
+    faltan = [j for j in obligatorios if j not in resultados]
+    if faltan:
+        raise EstadoError(f"faltan resultados de jobs obligatorios: {', '.join(faltan)}")
+    rojos = sorted(j for j, r in resultados.items() if r == "failure")
+    incompletos = sorted(j for j in obligatorios if resultados[j] != "success")
+    if rojos:
+        estado, causa = "apartado", "FALLO_NO_CONTROLADO"
+    elif incompletos:
+        estado, causa = "apartado", "PASO_INCOMPLETO"
+    else:
+        estado, causa = "ok", None
+    registrar(alm, campana, territorio, paso, intento, estado, causa, huellas if estado == "ok" else None)
+    return {"sano": estado == "ok", "estado": estado, "causa": causa, "rojos": rojos, "incompletos": incompletos}
+
+
 def _comprobar_reejecucion(por: dict, territorio: str, paso: str, intento: int) -> None:
     previos = {i: r for i, r in por.items() if i < intento}
     if not previos:
@@ -642,6 +676,49 @@ def informe(alm, campana: str, jobs: dict | None = None) -> str:
     return "\n".join(out) + "\n"
 
 
+# ───────────────────────── comprobación previa: campaña ─────────────────────────
+
+VIVOS = {"in_progress", "queued", "waiting", "requested", "pending"}
+
+
+def segunda_campana(runs: list[dict], run_id: int) -> tuple[int, str]:
+    """D-147 (§3, §16.1): rc 3 si otra ejecución de P00 de run_id MENOR sigue viva (también «solo comprobar» o `waiting`).
+    Las de la prueba de humo (`pull_request`) y las terminadas no cuentan. Las de run_id mayor se rechazan solas."""
+    propio = int(run_id)
+    otras = []
+    for r in runs:
+        if not isinstance(r, dict) or not isinstance(r.get("id"), int) or not isinstance(r.get("status"), str):
+            raise EstadoError(f"ejecución no válida en la lista: {r!r}")
+        if r["id"] != propio and r["status"] in VIVOS and r.get("event") != "pull_request":
+            otras.append(r["id"])
+    previas = sorted(i for i in otras if i < propio)
+    if previas:
+        return RC_NO_LANZABLE, (f"CAMPANA_EN_CURSO: hay otra campaña en curso (run {previas[0]}); esta se rechaza sin "
+                                "lanzar nada (D-147). La cancela el Operador con frase del propietario.")
+    return 0, "sin otra campaña en curso"
+
+
+def hechos_campana(runs_p90: list[dict], sha: str, r2_responde: bool | None, metricas: dict | None = None) -> dict:
+    """Hechos de campaña (§3): CI de ESTA versión (ejecuciones de P90 con su head_sha; un rojo bloquea, un verde sin rojo
+    acredita, nada concluyente → None = aviso), R2 y gasto de la semana actual (D-46, de orchestracion/metricas_proceso.json)."""
+    if not re.fullmatch(r"[0-9a-f]{40}", str(sha)):
+        raise EstadoError(f"sha no válido: {sha!r}")
+    conclusiones = {r.get("conclusion") for r in runs_p90
+                    if isinstance(r, dict) and r.get("head_sha") == sha and r.get("status") == "completed"
+                    and r.get("event") in ("push", "schedule", "pull_request")}
+    ci = False if "failure" in conclusiones else (True if "success" in conclusiones else None)
+    semanas = (((metricas or {}).get("minutos_actions") or {}).get("gasto_semanal") or {}).get("por_semana") or []
+    gasto = semanas[-1].get("minutos") if semanas and isinstance(semanas[-1], dict) else None
+    return {"campana": {"ci_verde": ci, "r2_responde": r2_responde, "gasto_semanal_min": gasto}}
+
+
+def _lista(d: dict | list, clave: str) -> list:
+    v = d.get(clave) if isinstance(d, dict) else d
+    if not isinstance(v, list):
+        raise EstadoError(f"se esperaba una lista en «{clave}»")
+    return v
+
+
 # ─────────────────────────────── CLI ───────────────────────────────
 
 def _cargar(ruta: str | None) -> dict:
@@ -705,6 +782,18 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--huella", required=True)
     p.add_argument("--rama", required=True)
     p.add_argument("--sha")
+    p = con_paso(sub.add_parser("cerrar-paso", help="registrar un paso desde los resultados de sus jobs"))
+    p.add_argument("--resultados", required=True, help='JSON {job: success|failure|cancelled|skipped}')
+    p.add_argument("--obligatorio", action="append", default=[], help="job que debe estar en success")
+    p.add_argument("--huellas", help="JSON {nombre: sha256} (solo si el paso queda ok)")
+    p = sub.add_parser("concurrencia", help="rc 3 si hay otra campaña viva de run_id menor (D-147)")
+    p.add_argument("--runs", required=True, help="JSON de GET actions/workflows/<p00>/runs ({workflow_runs: [...]})")
+    p.add_argument("--run-id", required=True, type=int)
+    p = sub.add_parser("hechos", help="hechos de campaña para comprobar --hechos")
+    p.add_argument("--runs-p90", required=True, help="JSON de GET actions/workflows/p90-automatico.yml/runs?head_sha=<sha>")
+    p.add_argument("--sha", required=True)
+    p.add_argument("--r2", choices=("ok", "fallo", "desconocido"), default="desconocido")
+    p.add_argument("--metricas", help="orchestracion/metricas_proceso.json")
     ns = ap.parse_args(argv)
     try:
         if ns.accion == "comprobar":
@@ -716,6 +805,15 @@ def main(argv: list[str] | None = None) -> int:
                 _error(f"CAMPANA_NO_LANZABLE: {', '.join(s['bloqueos'])}")
                 return RC_NO_LANZABLE
             return 0
+        if ns.accion == "concurrencia":
+            rc, msg = segunda_campana(_lista(_cargar(ns.runs), "workflow_runs"), ns.run_id)
+            (print if rc == 0 else _error)(msg)
+            return rc
+        if ns.accion == "hechos":
+            met = _cargar(ns.metricas) if ns.metricas and Path(ns.metricas).exists() else {}
+            r2 = {"ok": True, "fallo": False}.get(ns.r2)
+            _imprimir(hechos_campana(_lista(_cargar(ns.runs_p90), "workflow_runs"), ns.sha, r2, met))
+            return 0
         alm = almacen(ns.almacen)
         if ns.accion == "empezar":
             rc, msg = empezar(alm, ns.campana, ns.territorio, ns.paso, ns.intento)
@@ -726,6 +824,16 @@ def main(argv: list[str] | None = None) -> int:
             if huellas is not None and not isinstance(huellas, dict):
                 raise EstadoError("--huellas debe ser un objeto JSON {nombre: sha256}")
             print(registrar(alm, ns.campana, ns.territorio, ns.paso, ns.intento, ns.estado, ns.causa, huellas, ns.salida))
+            return 0
+        if ns.accion == "cerrar-paso":
+            try:
+                res = json.loads(ns.resultados)
+                huellas = {k: v for k, v in json.loads(ns.huellas).items() if v} if ns.huellas else None
+            except ValueError as exc:
+                raise EstadoError(f"JSON no válido: {exc}") from exc
+            if not isinstance(res, dict):
+                raise EstadoError("--resultados debe ser un objeto JSON")
+            _imprimir(cerrar_paso(alm, ns.campana, ns.territorio, ns.paso, ns.intento, res, ns.obligatorio, huellas))
             return 0
         if ns.accion == "recuento":
             r = recuento(alm, ns.campana, ns.final, _cargar(ns.jobs))
