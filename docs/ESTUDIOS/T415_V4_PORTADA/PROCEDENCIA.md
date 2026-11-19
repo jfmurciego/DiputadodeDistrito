@@ -15,3 +15,12 @@
 - Única modificación sobre el original: `web/assets-manifest.json` sin los tres campos `source_url` (enlaces a una biblioteca privada de un servicio externo con identificadores de cuenta); se conservan sha256 y descripción de cada recurso. `SHA256SUMS` refleja el fichero modificado; el sha256 del ZIP de arriba es el del original.
 - «Nessa», citada en los ficheros como quien aporta y elige los recursos, es Vanesa, la autora (confirmado por el propietario el 19-11-2026). El permiso es el citado literal del propietario.
 - Los textos de «Protección jurídica» y de reserva de acciones legales de la portada son de trabajo: no se publican sin revisión.
+
+## Texto de «La doble vuelta» y URL del vídeo (19-11-2026, cita literal)
+
+Mensaje del propietario al Coordinador, tal cual (con sus erratas):
+
+«1. "La doble vuelta garantiza que el diputado sea elegido por la mayoría de su distrito. Si ningún candidato obtiene mayoría artimetica en la primera votación, los dos más votados irana la segunda. Así, las minorías pueden negociar apoyos y hacer públicos sus acuerdos antes de la elección definitiva.  Asi aseguramos que El ciudadano tenga la última palabra, no los partidos." 2. url https://media.diputadodeistrito.es/Video_DDD.mp4»
+
+- Texto publicado en `visor/v4/comprender.html` y `visor/v4/mapa/index.html` con 4 correcciones ortográficas evidentes (pendientes de confirmación del propietario): «artimetica»→«aritmética», «irana»→«irán a», «Asi»→«Así», «El ciudadano»→«el ciudadano» (y un solo espacio tras «definitiva.»).
+- URL: el propietario escribió `media.diputadodeistrito.es` (sin la «d» de «dedistrito»); el Coordinador indicó antes `https://media.diputadodedistrito.es/` y `visor/v4/video.json` lleva ese dominio. **Discrepancia pendiente de confirmación del propietario**; no se ha cambiado sin su confirmación.
