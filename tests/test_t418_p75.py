@@ -162,6 +162,19 @@ class P75(unittest.TestCase):
             self.assertEqual(inf["territorios"][0]["estado"], esperado, intento)
         self.assertEqual(sorted(r2), [f"{LEG}/{RUN}/ddd-doble-vuelta-{RUN}-p75-500-1.zip", f"{LEG}/{RUN}/ddd-doble-vuelta-{RUN}-p75-500-2.zip"])
 
+    def test_log_con_el_sha_del_informe_y_de_cada_zip(self):
+        inf = {"territorios": [{"territorio": "nac01", "run": "1001", "sha256_salida": "ab" * 32, "clave_r2": "c/1001/z.zip"}]}
+        self.assertEqual(p75.lineas_para_log(inf, "cd" * 32, "doble_vuelta/2023-07/9-1/INFORME.json"),
+                         ["INFORME_CLAVE=doble_vuelta/2023-07/9-1/INFORME.json", "INFORME_SHA256=" + "cd" * 32,
+                          "P75_ZIP territorio=nac01 run=1001 sha256=" + "ab" * 32 + " clave=c/1001/z.zip"])
+
+    def test_resumen_del_workflow_imprime_el_sha_del_informe(self):
+        import yaml
+        wf = yaml.safe_load((ROOT / ".github/workflows/p70-archivo.yml").read_text(encoding="utf-8"))
+        run = next(s for s in wf["jobs"]["doble_vuelta_r2"]["steps"] if s.get("name", "").startswith("Calcular"))["run"]
+        self.assertIn("INFORME_SHA256=", run)
+        self.assertIn("INFORME_CLAVE=", run)
+
     def test_run_p75_lleva_el_intento(self):
         self.assertEqual(p75.run_p75_de_entorno({"GITHUB_RUN_ID": "9", "GITHUB_RUN_ATTEMPT": "3"}), "9-3")
         self.assertEqual(p75.run_p75_de_entorno({"GITHUB_RUN_ID": "9"}), "9-1")

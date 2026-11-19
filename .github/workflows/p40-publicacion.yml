@@ -1,11 +1,16 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 1.1.0
+# VERSIÓN: 1.2.0
+# CAMBIOS 1.2.0: T-409 (D-172): paso «Doble vuelta de los territorios del Congreso para la V4»: `herramientas/publicar_doble_vuelta.py` baja de R2 el resultado de P75 FIJADO en
+#   configuracion/doble_vuelta_publicada.json (sin ese fichero no hace nada), verifica sha256 y escribe `v4/mapa/datos/` en el sitio candidato (datos de la doble vuelta y la geometría de los distritos, que sale del GeoJSON que este mismo P40 materializa en `datos/`, simplificada con tolerancia fija); mismas credenciales R2 que el resto, `contents: read`,
+#   sin datos en git, sin entradas nuevas. Además P40 copia `visor/v4/` completo al sitio candidato (dos líneas, junto al `cp` de V3: copia y borrado de lo listado en visor/v4/NO_PUBLICAR.txt; V2 y V3 no cambian) para que el visor V4 y su
+#   `v4/mapa/datos/` lleguen juntos; la copia no publica nada por sí sola. El resto, idéntico.
 # FECHA: 2026-11-16
 # ESTADO: candidato
 # CAMBIOS 1.1.0: T-377 (D-138, P28 Alternativas retirada sin sustituto): se quitan las entradas `workflow_call` `ensemble_release_tag`, `ensemble_sha256`,
 #   `scenario_id` y `scenario_strategy`, la ruta del ensemble (`resolver` ya no se salta; `publicar` corre si `preparar` terminó bien) y el paso
 #   «Resolver ensemble persistente solicitado»; los pasos `parse-run-ids` y `describe-production` ya no pasan escenario. El resto, idéntico.
+# ANTERIOR: legacy/workflows/p40-publicacion_v1.1.0_20261119.yml
 # ANTERIOR (1.0.0): legacy/workflows/p40-publicacion_v1.0.0_20261116.yml
 # CAMBIOS: T-372 (D-134, migración paso 5): fichero nuevo; sustituye a desplegar-visor-publico.yml 3.6.0 («P50 Publicación»), cadena-publicacion.yml 1.1.0 y
 #   _reutilizable-publicar-sitio.yml 3.17.0 (el publicador va dentro como el job `publicar`; mismos pasos, mismo entorno `github-pages`, mismos permisos y concurrencias).
@@ -500,6 +505,8 @@ jobs:
           cp visor/nacional/index.html visor/nacional/nacional.js visor/nacional/styles.css /tmp/site-candidate/nacional/
           cp -R visor/v2/. /tmp/site-candidate/v2/
           cp visor/v3/index.html visor/v3/v3.css visor/v3/v3.js visor/v3/calendario.json /tmp/site-candidate/v3/
+          mkdir -p /tmp/site-candidate/v4 && cp -R visor/v4/. /tmp/site-candidate/v4/  # T-409: el visor V4 completo (el paso de la doble vuelta añade v4/mapa/datos/ después)
+          while IFS= read -r f; do [[ -z "$f" || "$f" == \#* || "$f" == /* || "$f" == *..* ]] || rm -rf "/tmp/site-candidate/v4/$f"; done < visor/v4/NO_PUBLICAR.txt  # lo ficticio o interno no se publica
           rm -f /tmp/site-candidate/v2/README.md /tmp/site-candidate/v2/construir_vista_previa.py
           cp web/textos.md /tmp/site-candidate/v2/textos.md
           sed -i 's#data-textos="../../web/textos.md"#data-textos="textos.md"#' /tmp/site-candidate/v2/index.html
@@ -553,6 +560,19 @@ jobs:
           python herramientas/preparar_portada_v3.py --site=/tmp/site-candidate
           node --check /tmp/site-candidate/v3/v3.js
           python -m unittest discover -s tests -p test_preparar_portada_v3.py
+
+      - name: Doble vuelta de los territorios del Congreso para la V4 (D-172)
+        shell: bash
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          # El resultado de P75 se baja de R2 y se verifica contra el run y el sha256 fijados en el repo; sin fijado no hace nada; con fijado, un fallo detiene la publicación.
+          python3 herramientas/publicar_doble_vuelta.py --sitio /tmp/site-candidate --destino /tmp/site-candidate/v4/mapa/datos
 
       - name: Validar sitio candidato completo
         shell: bash
