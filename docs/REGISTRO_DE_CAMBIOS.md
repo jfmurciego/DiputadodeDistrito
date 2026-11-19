@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.532
+Versión: 1.0.533
 Fecha: 2026-11-19
-Alcance: T-417 — Plan 1.0.69: D-173 a D-177, T-415 y T-416
+Alcance: T-415 — Diseño de la V4: portada final de la autora + mapa con doble vuelta
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-19_planificador-plan-1-0-69.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.531_registro_20261119.md
+Cambios/motivo: entrada docs/registro/2026-11-19_implementador-t415-diseno-v4.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.532_registro_20261119.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.531_registro_20261119.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.533 · [2026-11-19 — T-415 — Diseño de la V4: portada final de la autora + mapa con doble vuelta](registro/2026-11-19_implementador-t415-diseno-v4.md)
 - 1.0.532 · [2026-11-19 — T-417 — Plan 1.0.69: D-173 a D-177, T-415 y T-416](registro/2026-11-19_planificador-plan-1-0-69.md)
 - 1.0.531 · [2026-11-19 — T-415 — Versión final de la portada de la V4 (sin publicar)](registro/2026-11-19_planificador-t415-v4-final.md)
 - 1.0.530 · [2026-11-19 — T-409 — Tabla de alias de partidos (id de fuente → partido homologado) y `--alias` en la doble vuelta](registro/2026-11-19_implementador-t409-alias-partidos.md)
