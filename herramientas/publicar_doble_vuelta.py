@@ -29,6 +29,7 @@ import hashlib
 import io
 import json
 import os
+import re
 import sys
 import tempfile
 import zipfile
@@ -47,6 +48,8 @@ COLUMNAS = ["district_id", "escenario", "vuelta_decisiva", "candidatura_ganadora
             "finalista_a", "finalista_b", "votos_a_2v", "votos_b_2v", "cuota_ganador_2v", "votos_abstencion", "empate"]
 COLUMNAS_DETALLE = ["district_id", "escenario", "candidatura", "partido", "bloque", "votos_1v", "votos_candidatura"]
 AVISO = "Simulación sin valor oficial"
+ESPERADOS = 52  # territorios del Congreso (nac): el informe fijado debe traerlos todos
+TERRITORIO = re.compile(r"^nac\d{2}$")
 TOLERANCIA_GRADOS = 0.0005  # Douglas-Peucker; ≈ 55 m en latitudes españolas
 DECIMALES = 5  # ≈ 1 m
 PREFIJO_ETIQUETA = "Congreso "
@@ -148,6 +151,9 @@ def procesar_territorio(fila_informe: dict, zip_bytes: bytes) -> tuple[bytes, by
     base = {r["district_id"]: r for r in res if r["escenario"] == "dv_base"}
     det_base = [d for d in det if d["escenario"] == "dv_base"]
     p_res, p_det = _primero(det_base, base)
+    faltan = sorted(set(base) - {r["district_id"] for r in p_res}, key=int)
+    if faltan:  # un distrito sin votos por partido en dv_base se quedaría sin fila `primero`
+        raise DobleVueltaError(f"PRIMERO_INCOMPLETO: {t}: sin detalle de dv_base en los distritos {faltan[:8]}")
     todas = sorted(res + p_res, key=lambda r: (int(r["district_id"]), (*ESCENARIOS, "primero").index(r["escenario"])))
     todo_det = sorted(det + p_det, key=lambda d: (int(d["district_id"]), (*ESCENARIOS, "primero").index(d["escenario"])))
     return _csv(_publico(todas), COLUMNAS), _csv(_publico(todo_det), COLUMNAS_DETALLE), k
@@ -258,6 +264,14 @@ def publicar(root: Path, destino: Path, cp=fuente_r2._cp, bucket: str = "", fech
         indice_datos = json.loads((sitio / "datos/INDEX.json").read_text(encoding="utf-8"))["territorios"]
     except (OSError, KeyError, ValueError) as exc:
         raise DobleVueltaError(f"GEOMETRIA_AUSENTE: sin {sitio}/datos/INDEX.json ({exc})") from exc
+    ids = [x["territorio"] for x in inf["territorios"]]
+    malos_ids = [i for i in ids if not isinstance(i, str) or not TERRITORIO.match(i)]
+    if malos_ids:  # el id entra en rutas de salida: solo nacNN
+        raise DobleVueltaError(f"TERRITORIO_INVALIDO: {malos_ids[:5]}")
+    if len(set(ids)) != len(ids):
+        raise DobleVueltaError(f"TERRITORIO_DUPLICADO: {sorted({i for i in ids if ids.count(i) > 1})}")
+    if len(ids) != ESPERADOS or inf.get("total") != ESPERADOS:
+        raise DobleVueltaError(f"INFORME_INCOMPLETO: {len(ids)} territorios (total {inf.get('total')}), se esperan {ESPERADOS}")
     nom = nombres(root)
     ficheros: dict[str, bytes] = {}
     entradas = []

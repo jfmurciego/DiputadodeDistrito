@@ -208,6 +208,13 @@ def ejecutar(root: Path, pedidos: str, eleccion: str, trabajo: Path, cp=fuente_r
     return informe
 
 
+def lineas_para_log(inf: dict, sha_informe: str, clave_informe: str) -> list[str]:
+    """Lo que hay que fijar en el repo para publicar: clave y sha256 del INFORME y, por territorio, el sha256 y la clave de su ZIP."""
+    out = [f"INFORME_CLAVE={clave_informe}", f"INFORME_SHA256={sha_informe}"]
+    out += [f"P75_ZIP territorio={f['territorio']} run={f['run']} sha256={f.get('sha256_salida')} clave={f.get('clave_r2')}" for f in inf["territorios"]]
+    return out
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--territorios", default="", help="códigos separados por comas (vacío = todos los nac)")
@@ -230,12 +237,14 @@ def main(argv=None) -> int:
         inf = ejecutar(ROOT, a.territorios, a.eleccion, trabajo, subir=subir, run_p75=run_p75, existe=existe)
         ruta = trabajo / "INFORME.json"
         ruta.write_text(json.dumps(inf, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        clave_informe = f"doble_vuelta/{inf['eleccion']}/{run_p75}/INFORME.json"
         if subir:
             try:
-                subir_nuevo(subir, existe, f"doble_vuelta/{inf['eleccion']}/{run_p75}/INFORME.json", ruta, dv.sha256(ruta))
+                subir_nuevo(subir, existe, clave_informe, ruta, dv.sha256(ruta))
             except FileExistsError as exc:
                 print(f"::error title=P75_CLAVE_YA_EXISTE::{exc}")
                 return 1
+        print("\n".join(lineas_para_log(inf, dv.sha256(ruta), clave_informe if subir else "(sin subir)")))
         malos = [f for f in inf["territorios"] if f["estado"] != "OK"]
         for f in malos:
             print(f"::warning title=P75_{f['estado'].split(':')[0]}::{f['territorio']} run {f['run']}")

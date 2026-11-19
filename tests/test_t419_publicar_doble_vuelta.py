@@ -117,6 +117,11 @@ def zips_buenos():
 
 
 class Publicar(unittest.TestCase):
+    def setUp(self):
+        p = mock.patch.object(pdv, "ESPERADOS", 2)  # el montaje tiene 2 territorios; en producción son 52
+        p.start()
+        self.addCleanup(p.stop)
+
     def correr(self, mod=None, zips=None, **kw):  # kw: estado_ok, informe_total, geo
         with tempfile.TemporaryDirectory() as t, tempfile.TemporaryDirectory() as d:
             m = Montaje(Path(t), zips or zips_buenos(), **kw)
@@ -192,6 +197,32 @@ class Publicar(unittest.TestCase):
             m = Montaje(Path(t), zips_buenos())
             with self.assertRaisesRegex(pdv.DobleVueltaError, "GEOMETRIA_AUSENTE"):
                 pdv.publicar(Path(t), Path(d), m.cp, "b", "2026-11-19")
+
+    def test_primero_cubre_todos_los_distritos(self):
+        det = detalle(ids=(0,))  # dv_base sin detalle del distrito 1
+        z = zip_de(resultados(), det)
+        _, err, s = self.correr(zips={"1001": z, "1002": z})
+        self.assertIn("PRIMERO_INCOMPLETO", err)
+        self.assertEqual(s, {})
+
+    def test_id_de_territorio_invalido_o_duplicado_y_total(self):
+        for nuevo, causa in (("../x", "TERRITORIO_INVALIDO"), ("nac1", "TERRITORIO_INVALIDO"), ("nac01", "TERRITORIO_DUPLICADO")):
+            def mod(m, nuevo=nuevo):
+                inf = json.loads(m.informe)
+                inf["territorios"][1]["territorio"] = nuevo
+                m.informe = (json.dumps(inf) + "\n").encode()
+                m.objetos["doble_vuelta/2023-07/77-1/INFORME.json"] = m.informe
+                m.pin["informe_sha256"] = sha(m.informe)
+                m.escribir_pin()
+            _, err, s = self.correr(mod)
+            self.assertIn(causa, err, nuevo)
+            self.assertEqual(s, {})
+
+    def test_exige_los_52_no_solo_ok_igual_a_total(self):
+        with mock.patch.object(pdv, "ESPERADOS", 52):  # control negativo con el valor real: un informe sano de 2 territorios no vale
+            _, err, s = self.correr()
+        self.assertIn("INFORME_INCOMPLETO", err)
+        self.assertEqual(s, {})
 
     def test_salida_determinista(self):
         self.assertEqual(self.correr()[2], self.correr()[2])

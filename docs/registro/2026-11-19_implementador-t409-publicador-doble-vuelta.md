@@ -18,3 +18,9 @@ Geometría (decisión del Planificador, opción A): el publicador reutiliza el G
 con solo `district_id` (entero público 1..K) y `geometria {ruta, sha256, sha256_origen}` en INDEX.json (más `simplificacion` en la cabecera). Falla (y no escribe nada) si algún distrito de los
 52 queda sin geometría (`DATO_SIN_GEOMETRIA`) o con geometría y sin dato (`GEOMETRIA_SIN_DATO`), o la geometría falta o su sha256 no casa (tests con control negativo; un anillo de 200.000 puntos
 baja a 65 en 0,6 s). Límite: sin datos reales en git no hay prueba con los M06 de verdad (se comprobará en la primera publicación en simulación).
+
+Revisión de #927 (Coordinador): (1) `primero` debe cubrir los K distritos (`PRIMERO_INCOMPLETO`); (2) el id de cada territorio del informe se valida con `^nac\d{2}$` antes de usarlo en rutas, se rechazan duplicados y se exige
+total == 52 (`ESPERADOS`; `TERRITORIO_INVALIDO`, `TERRITORIO_DUPLICADO`, `INFORME_INCOMPLETO`), con tests negativos; (3) P70 1.1.1 (copia 1.1.0 en `legacy/`): P75 imprime en el log y en el resumen `INFORME_CLAVE=` e
+`INFORME_SHA256=` y, por territorio, `P75_ZIP … sha256=… clave=…`: es lo que se fija en `configuracion/doble_vuelta_publicada.json` tras relanzar P75 (objetos nuevos, sin borrar nada).
+EXPLÍCITO: P40 NO copia `visor/v4/` al sitio candidato; este paso solo escribe `v4/mapa/datos/`. Los datos quedan en el sitio sin visor que los sirva hasta que T-415 despliegue `v4/`
+(decisión pendiente del Coordinador y el Planificador: si P40 debe copiar `visor/v4/` entero; recomendación: sí, con el mismo `cp -R` que V2/V3, cuando la PR 4 de T-415 esté fusionada y antes de este paso).
