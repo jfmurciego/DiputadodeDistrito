@@ -1,0 +1,26 @@
+{
+  "schema": "ddd.puentes-epoca-historico/1.0",
+  "version": "1.0.0",
+  "motivo": "T-400: un puente topológico del contrato base cuyo extremo no existe en el seccionado de la época se traslada a la sección que lo contenía. Cada declaración se ata al seccionado de la elección por sha256 y materializar comprueba que la sección exista y sea del mismo municipio. No añade aristas nuevas fuera de las del contrato base ni habilita generación.",
+  "elecciones": {
+    "2011-11": {
+      "seccionado_sha256": "772ad76b84e1b3bb9293a5595d2ccafa06f21a3a58ccc96a9ec5dadd99e46c4a",
+      "provincias": {
+        "35": [
+          {
+            "seccion_base": "3502401010",
+            "seccion_epoca": "3502401005",
+            "municipio": "Teguise (La Graciosa)",
+            "reason": "En el seccionado INE 2012 La Graciosa no es sección propia: es uno de los dos polígonos de 3502401005 (el otro, en Lanzarote). El INE la segrega como 3502401010 en 2019; esa geometría queda contenida al 100 % en 3502401005 de 2012. El puente de la decisión del propietario (31-10-2026) se traslada a 3502401005.",
+            "evidencia": {
+              "donante_anio": 2019,
+              "donante_sha256": "656119dadadb57ef3fa9d20a8ba33399fe606e553c9fef3fc338786e52fae967",
+              "fraccion_contenida": 1.0,
+              "medido_con": "interseccion de 3502401010 (seccionado 2019) con las secciones del seccionado 2012, ambos de la provincia 35"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
