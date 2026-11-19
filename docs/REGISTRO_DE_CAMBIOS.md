@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.551
+Versión: 1.0.552
 Fecha: 2026-11-19
-Alcance: T-400 (D-180 1 y 2) — K por partición insular y exención de suelo en el histórico 2011-11
+Alcance: T-422 — Id de distrito no numérico de nac02 en el publicador de la doble vuelta
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-19_t400-reparto-k-particiones.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.550_registro_20261119.md
+Cambios/motivo: entrada docs/registro/2026-11-19_t422-id-nac02.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.551_registro_20261119.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.550_registro_20261119.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.552 · [2026-11-19 — T-422 — Id de distrito no numérico de nac02 en el publicador de la doble vuelta](registro/2026-11-19_t422-id-nac02.md)
 - 1.0.551 · [2026-11-19 — T-400 (D-180 1 y 2) — K por partición insular y exención de suelo en el histórico 2011-11](registro/2026-11-19_t400-reparto-k-particiones.md)
 - 1.0.550 · [2026-11-19 — T-420b — P74 Listar con duplicados](registro/2026-11-19_t420b-p74-duplicados.md)
 - 1.0.549 · [2026-11-19 — T-400 — nac35 2011-11: puente de La Graciosa ausente del seccionado 2012](registro/2026-11-19_t400-puente-la-graciosa-2011.md)
