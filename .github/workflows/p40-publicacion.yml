@@ -3,7 +3,8 @@
 # VERSIÓN: 1.2.0
 # CAMBIOS 1.2.0: T-409 (D-172): paso «Doble vuelta de los territorios del Congreso para la V4»: `herramientas/publicar_doble_vuelta.py` baja de R2 el resultado de P75 FIJADO en
 #   configuracion/doble_vuelta_publicada.json (sin ese fichero no hace nada), verifica sha256 y escribe `v4/mapa/datos/` en el sitio candidato (datos de la doble vuelta y la geometría de los distritos, que sale del GeoJSON que este mismo P40 materializa en `datos/`, simplificada con tolerancia fija); mismas credenciales R2 que el resto, `contents: read`,
-#   sin datos en git, sin entradas nuevas. El resto, idéntico.
+#   sin datos en git, sin entradas nuevas. Además P40 copia `visor/v4/` completo al sitio candidato (una línea, junto al `cp` de V3; V2 y V3 no cambian) para que el visor V4 y su
+#   `v4/mapa/datos/` lleguen juntos; la copia no publica nada por sí sola. El resto, idéntico.
 # FECHA: 2026-11-16
 # ESTADO: candidato
 # CAMBIOS 1.1.0: T-377 (D-138, P28 Alternativas retirada sin sustituto): se quitan las entradas `workflow_call` `ensemble_release_tag`, `ensemble_sha256`,
@@ -504,6 +505,7 @@ jobs:
           cp visor/nacional/index.html visor/nacional/nacional.js visor/nacional/styles.css /tmp/site-candidate/nacional/
           cp -R visor/v2/. /tmp/site-candidate/v2/
           cp visor/v3/index.html visor/v3/v3.css visor/v3/v3.js visor/v3/calendario.json /tmp/site-candidate/v3/
+          mkdir -p /tmp/site-candidate/v4 && cp -R visor/v4/. /tmp/site-candidate/v4/  # T-409: el visor V4 completo (el paso de la doble vuelta añade v4/mapa/datos/ después)
           rm -f /tmp/site-candidate/v2/README.md /tmp/site-candidate/v2/construir_vista_previa.py
           cp web/textos.md /tmp/site-candidate/v2/textos.md
           sed -i 's#data-textos="../../web/textos.md"#data-textos="textos.md"#' /tmp/site-candidate/v2/index.html

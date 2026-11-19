@@ -24,3 +24,7 @@ total == 52 (`ESPERADOS`; `TERRITORIO_INVALIDO`, `TERRITORIO_DUPLICADO`, `INFORM
 `INFORME_SHA256=` y, por territorio, `P75_ZIP … sha256=… clave=…`: es lo que se fija en `configuracion/doble_vuelta_publicada.json` tras relanzar P75 (objetos nuevos, sin borrar nada).
 EXPLÍCITO: P40 NO copia `visor/v4/` al sitio candidato; este paso solo escribe `v4/mapa/datos/`. Los datos quedan en el sitio sin visor que los sirva hasta que T-415 despliegue `v4/`
 (decisión pendiente del Coordinador y el Planificador: si P40 debe copiar `visor/v4/` entero; recomendación: sí, con el mismo `cp -R` que V2/V3, cuando la PR 4 de T-415 esté fusionada y antes de este paso).
+
+Decisión del Planificador (copia de la V4): P40 copia `visor/v4/` completo al sitio candidato (`mkdir -p /tmp/site-candidate/v4 && cp -R visor/v4/. /tmp/site-candidate/v4/`, una línea junto al `cp` de V3,
+antes del paso de la doble vuelta, que añade `v4/mapa/datos/`): sustituye lo dicho antes («P40 no copia visor/v4/»). Tests: la línea está y va antes del paso; se ejecuta contra el visor real y el publicador
+sobre un sitio temporal y queda `v4/` completo con `v4/mapa/datos/` sin pisar `dv.js`; V2 y V3 siguen igual (equivalencia de `test_t372_p40_equivalencia.py` con esa única línea ignorada). La copia no publica nada.

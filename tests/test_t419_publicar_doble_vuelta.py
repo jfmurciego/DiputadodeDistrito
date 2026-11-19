@@ -319,6 +319,33 @@ class WorkflowP40(unittest.TestCase):
         for prohibido in ("git push", "git add", "registrar_en_main", "gh api", "inputs."):
             self.assertNotIn(prohibido, run)
 
+    def test_p40_copia_visor_v4_completo_antes_del_paso_de_datos(self):
+        n = [s.get("name") for s in self.wf["jobs"]["publicar"]["steps"]]
+        construir = next(s for s in self.wf["jobs"]["publicar"]["steps"] if s.get("name") == "Construir sitio candidato completo")
+        self.assertIn("cp -R visor/v4/. /tmp/site-candidate/v4/", construir["run"])
+        self.assertLess(n.index("Construir sitio candidato completo"), n.index(self.paso["name"]))  # la copia va antes: el paso añade v4/mapa/datos/ encima
+        for intacto in ("cp -R visor/v2/. /tmp/site-candidate/v2/", "cp visor/v3/index.html visor/v3/v3.css visor/v3/v3.js visor/v3/calendario.json /tmp/site-candidate/v3/"):
+            self.assertIn(intacto, construir["run"])  # V2 y V3 siguen igual
+
+    def test_v4_llega_al_sitio_con_sus_datos(self):
+        """Ejecuta la línea de copia del workflow contra el visor real y el publicador contra un montaje sintético: el sitio queda con v4/ y v4/mapa/datos/."""
+        import re
+        import subprocess
+        construir = next(s for s in self.wf["jobs"]["publicar"]["steps"] if s.get("name") == "Construir sitio candidato completo")
+        linea = next(l for l in construir["run"].splitlines() if "visor/v4/." in l).split("#")[0].strip()
+        with tempfile.TemporaryDirectory() as site, tempfile.TemporaryDirectory() as t:
+            subprocess.run(["bash", "-c", linea.replace("/tmp/site-candidate", site)], cwd=ROOT, check=True)
+            for f in ("index.html", "mapa/index.html", "mapa/dv.js"):
+                self.assertTrue((Path(site) / "v4" / f).is_file(), f)
+            self.assertEqual(sorted(p.name for p in (ROOT / "visor/v4").iterdir()), sorted(p.name for p in (Path(site) / "v4").iterdir()))  # completo
+            m = Montaje(Path(t), zips_buenos())
+            with mock.patch.object(pdv, "ESPERADOS", 2):
+                pdv.publicar(Path(t), Path(site) / "v4/mapa/datos", m.cp, "b", "2026-11-19", sitio=Path(t) / "sitio")
+            self.assertTrue((Path(site) / "v4/mapa/datos/INDEX.json").is_file())
+            self.assertTrue((Path(site) / "v4/mapa/datos/nac01/distritos.geojson").is_file())
+            self.assertTrue((Path(site) / "v4/mapa/dv.js").is_file())  # los datos no pisan el visor
+            self.assertIsNone(re.search(r"\.\.", linea))
+
     def test_va_antes_de_validar_el_sitio_y_sin_entradas_nuevas(self):
         n = [s.get("name") for s in self.wf["jobs"]["publicar"]["steps"]]
         self.assertLess(n.index(self.paso["name"]), n.index("Validar sitio candidato completo"))
