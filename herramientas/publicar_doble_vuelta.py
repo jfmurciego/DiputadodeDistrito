@@ -48,6 +48,7 @@ COLUMNAS = ["district_id", "escenario", "vuelta_decisiva", "candidatura_ganadora
             "finalista_a", "finalista_b", "votos_a_2v", "votos_b_2v", "cuota_ganador_2v", "votos_abstencion", "empate"]
 COLUMNAS_DETALLE = ["district_id", "escenario", "candidatura", "partido", "bloque", "votos_1v", "votos_candidatura"]
 AVISO = "Simulación sin valor oficial"
+MAX_DESCOMPRIMIDO = 64 * 1024 * 1024  # un CSV de un territorio pesa ≈ 0,5 MB: más de 64 MB descomprimidos es un ZIP anómalo
 ESPERADOS = 52  # territorios del Congreso (nac): el informe fijado debe traerlos todos
 TERRITORIO = re.compile(r"^nac\d{2}$")
 TOLERANCIA_GRADOS = 0.0005  # Douglas-Peucker; ≈ 55 m en latitudes españolas
@@ -99,6 +100,8 @@ def _extraer(zip_bytes: bytes, nombres: tuple[str, ...]) -> dict[str, bytes]:
         for n in nombres:  # solo nombres exactos: nada de rutas del ZIP (zip-slip)
             if n not in presentes or presentes[n].is_dir():
                 raise DobleVueltaError(f"ZIP_INCOMPLETO: falta {n}")
+            if presentes[n].file_size > MAX_DESCOMPRIMIDO:
+                raise DobleVueltaError(f"ZIP_DEMASIADO_GRANDE: {n} descomprime {presentes[n].file_size} B (tope {MAX_DESCOMPRIMIDO})")
             out[n] = z.read(presentes[n])
     return out
 
@@ -264,6 +267,10 @@ def publicar(root: Path, destino: Path, cp=fuente_r2._cp, bucket: str = "", fech
         indice_datos = json.loads((sitio / "datos/INDEX.json").read_text(encoding="utf-8"))["territorios"]
     except (OSError, KeyError, ValueError) as exc:
         raise DobleVueltaError(f"GEOMETRIA_AUSENTE: sin {sitio}/datos/INDEX.json ({exc})") from exc
+    try:
+        bloques_sha, alias_sha = inf["entradas"]["bloques"]["sha256"], inf["entradas"]["alias"]["sha256"]
+    except (KeyError, TypeError) as exc:
+        raise DobleVueltaError(f"INFORME_SIN_ENTRADAS: el informe no trae entradas.bloques/alias.sha256 ({exc!r})") from exc
     ids = [x["territorio"] for x in inf["territorios"]]
     malos_ids = [i for i in ids if not isinstance(i, str) or not TERRITORIO.match(i)]
     if malos_ids:  # el id entra en rutas de salida: solo nacNN
@@ -298,8 +305,7 @@ def publicar(root: Path, destino: Path, cp=fuente_r2._cp, bucket: str = "", fech
                          "detalle": {"ruta": f"{t}/detalle.csv", "sha256": sha256_bytes(det)},
                          "geometria": {"ruta": f"{t}/distritos.geojson", "sha256": sha256_bytes(geo), "sha256_origen": esperado}})
     indice = {"schema": "ddd.v4-doble-vuelta/1.0", "eleccion": pin["eleccion"], "aviso": AVISO, "p75_run": pin["run_p75"],
-              "informe_sha256": pin["informe_sha256"], "bloques_sha256": inf["entradas"]["bloques"]["sha256"],
-              "alias_sha256": inf["entradas"]["alias"]["sha256"],
+              "informe_sha256": pin["informe_sha256"], "bloques_sha256": bloques_sha, "alias_sha256": alias_sha,
               "generado": fecha or datetime.now(timezone.utc).strftime("%Y-%m-%d"),
               "simplificacion": {"algoritmo": "Douglas-Peucker por anillo", "tolerancia_grados": TOLERANCIA_GRADOS, "decimales": DECIMALES, "crs": "EPSG:4326"},
               "territorios": entradas}

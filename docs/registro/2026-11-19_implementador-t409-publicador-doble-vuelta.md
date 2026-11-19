@@ -28,3 +28,8 @@ EXPLÍCITO: P40 NO copia `visor/v4/` al sitio candidato; este paso solo escribe 
 Decisión del Planificador (copia de la V4): P40 copia `visor/v4/` completo al sitio candidato (`mkdir -p /tmp/site-candidate/v4 && cp -R visor/v4/. /tmp/site-candidate/v4/`, una línea junto al `cp` de V3,
 antes del paso de la doble vuelta, que añade `v4/mapa/datos/`): sustituye lo dicho antes («P40 no copia visor/v4/»). Tests: la línea está y va antes del paso; se ejecuta contra el visor real y el publicador
 sobre un sitio temporal y queda `v4/` completo con `v4/mapa/datos/` sin pisar `dv.js`; V2 y V3 siguen igual (equivalencia de `test_t372_p40_equivalencia.py` con esa única línea ignorada). La copia no publica nada.
+
+Revisión de #927 (28edf87): (1) la copia de `visor/v4/` ya no publica lo ficticio o interno: tras copiar, P40 borra lo listado en `visor/v4/NO_PUBLICAR.txt` (nuevo; sin `..` ni rutas absolutas, comprobado por un test que además exige que
+cada entrada exista): `NO_PUBLICAR.txt`, `NOTICE.md`, `assets-manifest.json`, `auditoria-registro.html`, `mapa/ejemplo` y `mapa/index.html`; quien termine una de esas páginas quita su línea sin tocar el workflow. AVISO: la portada
+`visor/v4/index.html` enlaza `mapa/` («Explorar»): sin `mapa/index.html` en el sitio ese enlace daría 404 hasta que T-415/T-413 entreguen la página final del mapa y quiten esa línea. (2) El informe sin
+`entradas.bloques/alias.sha256` da `INFORME_SIN_ENTRADAS` (DobleVueltaError con código), no un KeyError; opcional hecho: tope de 64 MB descomprimidos por fichero del ZIP (`ZIP_DEMASIADO_GRANDE`), con tests.

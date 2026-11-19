@@ -224,6 +224,24 @@ class Publicar(unittest.TestCase):
         self.assertIn("INFORME_INCOMPLETO", err)
         self.assertEqual(s, {})
 
+    def test_informe_sin_entradas_da_error_con_codigo(self):
+        def mod(m):
+            inf = json.loads(m.informe)
+            del inf["entradas"]["alias"]
+            m.informe = (json.dumps(inf) + "\n").encode()
+            m.objetos["doble_vuelta/2023-07/77-1/INFORME.json"] = m.informe
+            m.pin["informe_sha256"] = sha(m.informe)
+            m.escribir_pin()
+        _, err, s = self.correr(mod)
+        self.assertIn("INFORME_SIN_ENTRADAS", err)  # DobleVueltaError con código, no un KeyError con traceback
+        self.assertEqual(s, {})
+
+    def test_zip_demasiado_grande_descomprimido(self):
+        with mock.patch.object(pdv, "MAX_DESCOMPRIMIDO", 100):
+            _, err, s = self.correr()
+        self.assertIn("ZIP_DEMASIADO_GRANDE", err)
+        self.assertEqual(s, {})
+
     def test_salida_determinista(self):
         self.assertEqual(self.correr()[2], self.correr()[2])
 
@@ -332,19 +350,36 @@ class WorkflowP40(unittest.TestCase):
         import re
         import subprocess
         construir = next(s for s in self.wf["jobs"]["publicar"]["steps"] if s.get("name") == "Construir sitio candidato completo")
-        linea = next(l for l in construir["run"].splitlines() if "visor/v4/." in l).split("#")[0].strip()
+        lineas = [l.split("  #")[0].strip() for l in construir["run"].splitlines() if "visor/v4/" in l and "site-candidate/v4" in l]
+        self.assertEqual(len(lineas), 2)  # copia + borrado de lo no público
+        linea = " && ".join(lineas[:1]) + "\n" + lineas[1]
         with tempfile.TemporaryDirectory() as site, tempfile.TemporaryDirectory() as t:
             subprocess.run(["bash", "-c", linea.replace("/tmp/site-candidate", site)], cwd=ROOT, check=True)
-            for f in ("index.html", "mapa/index.html", "mapa/dv.js"):
+            for f in ("index.html", "mapa/dv.js"):
                 self.assertTrue((Path(site) / "v4" / f).is_file(), f)
-            self.assertEqual(sorted(p.name for p in (ROOT / "visor/v4").iterdir()), sorted(p.name for p in (Path(site) / "v4").iterdir()))  # completo
+            excluidas = [l for l in (ROOT / "visor/v4/NO_PUBLICAR.txt").read_text(encoding="utf-8").splitlines() if l and not l.startswith("#")]
+            for e in excluidas:  # lo listado no llega al sitio
+                self.assertFalse((Path(site) / "v4" / e).exists(), e)
+            for f in ("index.html", "comprender.html", "styles.css", "mapa/dv.js", "mapa/mapa.js", "mapa/mapa.css"):
+                self.assertTrue((Path(site) / "v4" / f).is_file(), f)  # lo demás sí
+            publicados = {str(p.relative_to(Path(site) / "v4")) for p in (Path(site) / "v4").rglob("*") if p.is_file()}
+            self.assertFalse({"NOTICE.md", "assets-manifest.json", "auditoria-registro.html", "mapa/index.html", "NO_PUBLICAR.txt"} & publicados)
+            self.assertFalse(any(x.startswith("mapa/ejemplo/") for x in publicados))
             m = Montaje(Path(t), zips_buenos())
             with mock.patch.object(pdv, "ESPERADOS", 2):
                 pdv.publicar(Path(t), Path(site) / "v4/mapa/datos", m.cp, "b", "2026-11-19", sitio=Path(t) / "sitio")
             self.assertTrue((Path(site) / "v4/mapa/datos/INDEX.json").is_file())
             self.assertTrue((Path(site) / "v4/mapa/datos/nac01/distritos.geojson").is_file())
             self.assertTrue((Path(site) / "v4/mapa/dv.js").is_file())  # los datos no pisan el visor
-            self.assertIsNone(re.search(r"\.\.", linea))
+            self.assertIsNone(re.search(r"\.\.", linea.replace("*..*", "")))
+
+    def test_la_lista_de_no_publicar_es_segura(self):
+        lista = (ROOT / "visor/v4/NO_PUBLICAR.txt").read_text(encoding="utf-8").splitlines()
+        entradas = [l for l in lista if l and not l.startswith("#")]
+        self.assertTrue(entradas)
+        for e in entradas:
+            self.assertFalse(e.startswith("/") or ".." in e, e)  # nada fuera de visor/v4/
+            self.assertTrue((ROOT / "visor/v4" / e).exists(), f"{e} no existe en visor/v4/: lista desfasada")
 
     def test_va_antes_de_validar_el_sitio_y_sin_entradas_nuevas(self):
         n = [s.get("name") for s in self.wf["jobs"]["publicar"]["steps"]]

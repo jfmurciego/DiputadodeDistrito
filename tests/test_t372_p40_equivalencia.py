@@ -71,7 +71,10 @@ def sin_ensemble(job):
 
 
 PASO_DV_T409 = "Doble vuelta de los territorios del Congreso para la V4 (D-172)"
-CP_V4_T409 = "          mkdir -p /tmp/site-candidate/v4 && cp -R visor/v4/. /tmp/site-candidate/v4/  # T-409: el visor V4 completo (el paso de la doble vuelta añade v4/mapa/datos/ después)\n"
+CP_V4_T409 = ("          mkdir -p /tmp/site-candidate/v4 && cp -R visor/v4/. /tmp/site-candidate/v4/  # T-409: el visor V4 completo (el paso de la doble vuelta añade v4/mapa/datos/ después)\n"
+              "          while IFS= read -r f; do [[ -z \"$f\" || \"$f\" == \\#* || \"$f\" == /* || \"$f\" == *..* ]] || rm -rf \"/tmp/site-candidate/v4/$f\"; done < visor/v4/NO_PUBLICAR.txt  # lo ficticio o interno no se publica\n")
+
+LINEAS_V4_T409 = {l.strip() for l in CP_V4_T409.splitlines()}
 
 
 def diferencias(viejo, nuevo):
@@ -87,8 +90,8 @@ def diferencias(viejo, nuevo):
     if a["runs-on"] != b["runs-on"]:
         d.append("runs-on")
     # T-409 (P40 1.2.0): el paso de la doble vuelta de la V4 no existía en el publicador viejo; lo demás tiene que ser idéntico
-    # y la copia de visor/v4/ es UNA línea añadida junto al cp de V3: quitada esa línea, el resto del paso es idéntico (V2 y V3 no cambian)
-    pasos_nuevo = [{**s, "run": s["run"].replace(CP_V4_T409.lstrip(), "")} if "run" in s else s for s in b["steps"] if s.get("name") != PASO_DV_T409]
+    # y la copia de visor/v4/ son DOS líneas añadidas junto al cp de V3: quitadas esas líneas, el resto del paso es idéntico (V2 y V3 no cambian)
+    pasos_nuevo = [{**s, "run": "\n".join(l for l in s["run"].split("\n") if l.strip() not in LINEAS_V4_T409)} if "run" in s else s for s in b["steps"] if s.get("name") != PASO_DV_T409]
     if json.loads(normalizar(json.dumps(a["steps"]))) != pasos_nuevo:
         d.append("pasos")
     if json.loads(normalizar(json.dumps(a["env"]))) != b["env"]:
