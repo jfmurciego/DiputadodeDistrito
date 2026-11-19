@@ -145,6 +145,24 @@ class PortadaV4(unittest.TestCase):
         self.assertNotIn("<video", h)  # el reproductor no se carga hasta pulsar
         self.assertNotRegex(_txt("app.js"), r"autoplay")
 
+    def test_metodologia_en_lenguaje_llano(self):
+        # T-423 (propietario, 19-11): la Metodología es para el público general: capítulos en español llano, sin jerga ni códigos internos
+        md = (DOCS / "metodo.md").read_text(encoding="utf-8")
+        texto = re.sub(r"<!--.*?-->|^---\n.*?\n---\n", " ", md, flags=re.S)
+        titulos = re.findall(r"(?m)^#{1,6} (.+)$", texto) + re.findall(r"(?m)^title: (.+)$", md)
+        self.assertGreaterEqual(len(titulos), 9)
+        codigos = re.compile(r"\b[PM]\d{2}\b")
+        for t in titulos:
+            self.assertIsNone(codigos.search(t), t)
+        self.assertIsNone(codigos.search(texto), codigos.findall(texto)[:5])
+        jerga = ["commit", "GerryChain", "GeoJSON", "ZIP", "sha256", "SHA-256", "R2", "workflow", "artefacto", "checkpoint", "ensemble",
+                 "CRS", "JSON", "CSV", "hash", "run", "grafo", "pipeline", "portfolio", "script", "repositorio", "legacy"]
+        for j in jerga:
+            self.assertIsNone(re.search(r"(?i)\b%s\b" % re.escape(j), texto), j)
+        self.assertRegex(md, r"(?m)^hide:\n  - navigation$")  # sin el menú de la izquierda
+        self.assertIn("Huesca", texto)  # ejemplo concreto con una provincia real
+        self.assertIn("no tiene valor oficial", texto)
+
     def test_video_desplegado_sin_autoplay(self):
         # T-423: reproductor visible sin pulsar nada, con su fotograma o póster; sin reproducción automática ni sonido
         import shutil, subprocess
