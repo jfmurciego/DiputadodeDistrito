@@ -151,6 +151,22 @@ class P75(unittest.TestCase):
             inf = p75.ejecutar(r, "nac01", "2023-07", Path(w), cp_de({RUN: paquete()}), subir, "77", existe=lambda k: False)
             self.assertEqual((inf["territorios"][0]["estado"], len(subidas)), ("OK", 1))
 
+    def test_un_rerun_con_el_mismo_run_id_no_sobrescribe(self):
+        r2 = {}  # R2 simulado: clave → ruta subida
+        subir = lambda k, ruta, h: r2.update({k: h})  # noqa: E731
+        for intento, esperado in (("1", "OK"), ("1", "CLAVE_YA_EXISTE"), ("2", "OK")):  # mismo run y mismo intento = clave repetida
+            run_p75 = p75.run_p75_de_entorno({"GITHUB_RUN_ID": "500", "GITHUB_RUN_ATTEMPT": intento})
+            with tempfile.TemporaryDirectory() as t, tempfile.TemporaryDirectory() as w, mock.patch.dict(os.environ, ENV):
+                r = montar(Path(t), {RUN: paquete()})
+                inf = p75.ejecutar(r, "nac01", "2023-07", Path(w), cp_de({RUN: paquete()}), subir, run_p75, existe=lambda k: k in r2)
+            self.assertEqual(inf["territorios"][0]["estado"], esperado, intento)
+        self.assertEqual(sorted(r2), [f"{LEG}/{RUN}/ddd-doble-vuelta-{RUN}-p75-500-1.zip", f"{LEG}/{RUN}/ddd-doble-vuelta-{RUN}-p75-500-2.zip"])
+
+    def test_run_p75_lleva_el_intento(self):
+        self.assertEqual(p75.run_p75_de_entorno({"GITHUB_RUN_ID": "9", "GITHUB_RUN_ATTEMPT": "3"}), "9-3")
+        self.assertEqual(p75.run_p75_de_entorno({"GITHUB_RUN_ID": "9"}), "9-1")
+        self.assertRegex(p75.run_p75_de_entorno({}), r"^\d{8}T\d{6}Z$")
+
     def test_subir_nuevo_y_r2_existe(self):
         subidas = []
         with self.assertRaisesRegex(FileExistsError, "P75_CLAVE_YA_EXISTE"):

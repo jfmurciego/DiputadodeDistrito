@@ -19,3 +19,4 @@ Comprobado contra el repositorio real: 52 `nac` con M08 vigente de 2023-07 y los
 Segunda revisión de #925: `subir_nuevo` comprueba con `aws s3api head-object` (`r2_existe`: 404 = no existe; otro fallo se propaga) ANTES de subir y falla (`P75_CLAVE_YA_EXISTE`; estado
 `CLAVE_YA_EXISTE`) si la clave ya está: nunca sobrescribe ni borra (test con control negativo); se comprueba que la carpeta de R2 del paquete sea la del territorio pedido
 (`territorio_ids.mismo_territorio`, `CARPETA_NO_ES_DEL_TERRITORIO`; los 52 reales cumplen); las descripciones de `territorios` y `eleccion` mencionan P75 y «vacío = todos los nac».
+Tercera revisión de #925: las claves llevan también GITHUB_RUN_ATTEMPT (`<run>-<intento>`: un re-run no repite clave) además de la comprobación de existencia; test del re-run con el mismo run_id.

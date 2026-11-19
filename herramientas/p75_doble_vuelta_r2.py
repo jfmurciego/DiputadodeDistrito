@@ -76,6 +76,14 @@ def subir_nuevo(subir, existe, clave: str, ruta: Path, sha: str) -> None:
     subir(clave, ruta, sha)
 
 
+def run_p75_de_entorno(env=None) -> str:
+    """Identifica la ejecución para las claves de R2: GITHUB_RUN_ID-GITHUB_RUN_ATTEMPT (un re-run conserva el run_id y cambia el intento)."""
+    env = os.environ if env is None else env
+    if env.get("GITHUB_RUN_ID"):
+        return f"{env['GITHUB_RUN_ID']}-{env.get('GITHUB_RUN_ATTEMPT') or '1'}"
+    return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+
+
 def bloques_vigente(root: Path) -> Path:
     c = sorted((root / "configuracion").glob("bloques_partidos_*.csv"))
     if not c:
@@ -216,7 +224,7 @@ def main(argv=None) -> int:
     with tempfile.TemporaryDirectory() as td:
         trabajo = Path(a.salida) if a.salida else Path(td)
         trabajo.mkdir(parents=True, exist_ok=True)
-        run_p75 = os.environ.get("GITHUB_RUN_ID") or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        run_p75 = run_p75_de_entorno()
         inf = ejecutar(ROOT, a.territorios, a.eleccion, trabajo, subir=subir, run_p75=run_p75, existe=existe)
         ruta = trabajo / "INFORME.json"
         ruta.write_text(json.dumps(inf, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
