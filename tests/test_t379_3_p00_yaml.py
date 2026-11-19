@@ -92,7 +92,19 @@ class Cadena(unittest.TestCase):
 
     def test_espacio_de_artefactos_por_territorio(self):
         for j in ("p20", "puerta_02", "puerta_03", "p30"):
-            self.assertEqual(self.jobs[j]["with"]["artifact_namespace"], "${{ inputs.territorio }}", j)
+            self.assertEqual(self.jobs[j]["with"]["artifact_namespace"], "${{ needs.plan.outputs.ns }}", j)
+
+    def test_la_puerta_02_acepta_el_nombre_del_m06(self):
+        """Regresión del humo 44609048607: el M06 de la cadena debe pasar la comprobación de nombre de la puerta real."""
+        sys.path.insert(0, str(ROOT))
+        from herramientas.validar_puerta_ejecucion import _artifact_name_is_consistent as ok
+        plan = next(p for p in self.jobs["plan"]["steps"] if p.get("id") == "plan")["run"]
+        linea = next(l for l in plan.splitlines() if l.strip().startswith('echo "ns='))
+        ns = linea.split('"ns=', 1)[1].split("$(", 1)[0].replace("$GITHUB_RUN_ID", "900") + "aut11"
+        self.assertEqual(ns, "campaign-900-1--01--aut11")
+        self.assertTrue(ok("territorial_product", "aut11", "2025", "900", f"ddd-state-900-M06-{ns}", ns))
+        # control negativo: el espacio a secas que llevaba la 1.0.0 del humo
+        self.assertFalse(ok("territorial_product", "aut11", "2025", "900", "ddd-state-900-M06-aut11", "aut11"))
 
     def test_motor_fijo_y_modo_del_plan(self):
         w = self.jobs["p20"]["with"]
