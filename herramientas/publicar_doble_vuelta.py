@@ -5,7 +5,7 @@
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.0.1 · FECHA: 2026-11-19 · ESTADO: candidato
 ANTERIOR: legacy/herramientas/publicar_doble_vuelta_v1.0.0_20261119.py
-CAMBIOS: 1.0.1: T-422, ids de distrito normalizados a entero (M07 puede escribir «0.0»/espacios) y diagnóstico por territorio. 1.0.0: fichero nuevo (con la geometría: decisión del Planificador, opción A).
+CAMBIOS: 1.0.1: T-422, ids de distrito normalizados a entero (M07 puede escribir «0.0»/espacios) y diagnóstico por territorio, fichero, línea y valor exacto. 1.0.0: fichero nuevo (con la geometría: decisión del Planificador, opción A).
 MOTIVO: D-172/D-178: el mapa V4 muestra la doble vuelta de los 52 nac sin regenerar; P75 la calcula y la archiva en R2 (objetos con run e intento);
   P40 la baja al construir el sitio, con el mismo patrón que los GeoJSON M06 (bajar de origen y verificar sha256), sin datos en git.
 QUÉ HACE: lee `configuracion/doble_vuelta_publicada.json` (el run de P75 FIJADO en el repo: elección, `run_p75`, clave y sha256 del INFORME.json). Sin ese fichero no
@@ -138,18 +138,18 @@ def _normalizar_ids(t: str, filas: list[dict], fichero: str) -> list[dict]:
     """Normaliza `district_id` a entero interno canónico («0», « 1 », «2.0», «02» → «0», «1», «2», «2»; T-422). M07 puede escribir el id
     como real (pandas, «0.0») o con espacios. Solo se admiten enteros no negativos con esa forma: lo demás se rechaza con los
     valores concretos (`ID_FUERA_DE_RANGO: <territorio>/<fichero>: ...`), sin adivinar."""
-    malos: dict[str, int] = {}
+    malos: list[tuple[int, str]] = []  # (nº de línea en el fichero, repr exacto)
     out = []
-    for r in filas:
+    for n, r in enumerate(filas, start=2):  # la línea 1 es la cabecera
         m = _ID_ENTERO.match(str(r["district_id"]).strip())
         if m is None:
-            malos[repr(r["district_id"])] = malos.get(repr(r["district_id"]), 0) + 1
+            malos.append((n, repr(r["district_id"])))
             continue
         out.append({**r, "district_id": str(int(m.group(1)))})
     if malos:
-        top = ", ".join(f"{v}×{n}" for v, n in sorted(malos.items(), key=lambda a: (-a[1], a[0]))[:6])
-        raise DobleVueltaError(f"ID_FUERA_DE_RANGO: {t}/{fichero}: district_id no numérico en {sum(malos.values())} de {len(filas)} filas "
-                               f"(valores: {top}); se admiten enteros ('0', '2.0', ' 1 ')")
+        ej = ", ".join(f"línea {n}: {v}" for n, v in malos[:6])
+        raise DobleVueltaError(f"ID_FUERA_DE_RANGO: {t}/{fichero}: district_id no numérico en {len(malos)} de {len(filas)} filas "
+                               f"({ej}); se rechaza (no se excluye en silencio: votos sin distrito no son un distrito); se admiten enteros ('0', '2.0', ' 1 ')")
     return out
 
 

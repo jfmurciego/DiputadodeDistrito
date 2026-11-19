@@ -292,6 +292,21 @@ class Publicar(unittest.TestCase):
         self.assertIn("'nan'", err)
         self.assertEqual(s, {})
 
+    def test_t422_filas_sin_distrito_vacio_nan_con_linea_y_valor(self):
+        for malo in ("", "nan", "NaN", "None"):
+            r = resultados((0, 1), extra=f"{malo},dv_base,2,PP,Patriotas,1,0.1,PP,PSOE,1,1,0.5,0,false\n")
+            z = zip_de(r, detalle((0, 1)))
+            _, err, s = self.correr(zips={"1001": z, "1002": z})
+            self.assertIn("ID_FUERA_DE_RANGO", err, malo)
+            self.assertIn("nac01/doble_vuelta.csv", err)
+            self.assertIn("línea 8", err)  # cabecera + 6 filas buenas + la mala
+            self.assertIn(repr(malo), err)
+            self.assertEqual(s, {})
+        d = detalle((0, 1)) + ",dv_base,PP,PP,Patriotas,3,3\n"  # el detalle, con id vacío
+        z = zip_de(resultados((0, 1)), d)
+        _, err, _ = self.correr(zips={"1001": z, "1002": z})
+        self.assertIn("nac01/detalle.csv", err)
+
     def test_t422_barrido_52_ids_reales_de_datos_resultados(self):
         """Los 52 nac de `datos/resultados/` (ganador por distrito, fuente del M08 publicado) pasan por el publicador como 0..K-1, también escritos «N.0»."""
         for i in range(1, 53):
