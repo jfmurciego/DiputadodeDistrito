@@ -19,7 +19,7 @@ QUÉ HACE: por elección, une cuatro fuentes ficheradas, en este orden de priori
   IDENTIDAD     el propio partido homologado.
   Mide la cobertura (votos) sobre los ids que pueden llegar a P31: los partidos de los CSV oficiales del BOE
   (configuracion/resultados_oficiales_congreso_*.csv) y los de las salidas M07 históricas del repositorio
-  (datos/resultados/historico/*/congreso_*/resultados_partido.csv). Los ids sin alias se escriben en el fichero de pendientes.
+  (datos/resultados/historico/<elección>/<territorio>/resultados_partido.csv). Los ids sin alias se escriben en el fichero de pendientes.
 USO: python herramientas/alias_partidos_generales.py generar | comprobar
   generar     escribe configuracion/alias_partidos_generales.csv, _pendientes.csv y .json (determinista).
   comprobar   falla si lo versionado no es lo que se deriva hoy de las fuentes (huellas incluidas).
@@ -45,7 +45,7 @@ PENDIENTES = Path("configuracion/alias_partidos_generales_pendientes.csv")
 RESUMEN = Path("configuracion/alias_partidos_generales.json")
 COLS = ["eleccion", "id_fuente", "partido_homologado", "origen", "fuente"]
 COLS_P = ["eleccion", "id_fuente", "votos", "universo", "motivo"]
-HISTORICO = "datos/resultados/historico/*/congreso_*/resultados_partido.csv"
+HISTORICO = "datos/resultados/historico/[0-9]*/*/resultados_partido.csv"  # <elección>/<territorio>: sin detección por prefijo (T-220)
 
 
 def sha256(p: Path) -> str:
