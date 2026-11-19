@@ -1,6 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: p70-archivo.yml
-# VERSIÓN: 1.1.1
+# VERSIÓN: 1.1.2
+# CAMBIOS 1.1.2: T-420b: P74 Listar llama a `listar_r2.py --duplicados --json` (solo lectura, T-420/#926), imprime el resumen en el log y en el resumen del job y sube el JSON como artefacto `p74-duplicados-<run>`. El resto, idéntico.
 # CAMBIOS 1.1.1: T-418 (D-178): P75 imprime en el log y en el resumen `INFORME_CLAVE=` e `INFORME_SHA256=` (y el sha256 y la clave de cada ZIP): es lo que se fija en
 #   configuracion/doble_vuelta_publicada.json para publicar la doble vuelta en P40. El resto, idéntico.
 # NOMBRE DE VERSIÓN: P70 Archivo
@@ -23,7 +24,8 @@
 #   mantenimiento-programado.yml 1.1.0 (copias en legacy/workflows/podar-r2_v1.0.1, recuperar-producto-electoral-durable_v1.0.5 y mantenimiento-programado_v1.1.0, _20261116). P71 sin «caduca antes»; P71 suma `archivar_p10` (de
 #   bateria-motor.yml, que lo conserva hasta T-369); P74 listar es nuevo.
 # MOTIVO: D-129 a D-132: un workflow por familia, sin parámetros técnicos visibles.
-# ANTERIOR: legacy/workflows/p70-archivo_v1.1.0_20261119.yml
+# ANTERIOR: legacy/workflows/p70-archivo_v1.1.1_20261119.yml
+# ANTERIOR (1.1.0): legacy/workflows/p70-archivo_v1.1.0_20261119.yml
 # ANTERIOR (1.0.0): legacy/workflows/p70-archivo_v1.0.0_20261119.yml
 # ANTERIOR (1.0.0): legacy/workflows/mantenimiento-programado_v1.1.0_20261116.yml
 name: P70 Archivo
@@ -1006,7 +1008,16 @@ jobs:
           R2_BUCKET: ${{ vars.R2_BUCKET }}
         run: |
           set -euo pipefail
-          python3 herramientas/listar_r2.py
+          mkdir -p salida_p74
+          python3 herramientas/listar_r2.py --duplicados --json salida_p74/duplicados_r2.json
+      - name: Conservar el JSON de duplicados
+        if: ${{ always() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: p74-duplicados-${{ github.run_id }}
+          path: salida_p74/duplicados_r2.json
+          if-no-files-found: warn
+          retention-days: 30
 
   # ---- P75 doble vuelta desde R2 (T-418)
   doble_vuelta_r2:
