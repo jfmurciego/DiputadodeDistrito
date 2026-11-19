@@ -1,8 +1,9 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.1.0
-# FECHA: 2026-11-03
+# VERSIÓN: 1.2.0
+# FECHA: 2026-11-19
 # ESTADO: portal público estable (T-73)
-# ANTERIOR: legacy/documentacion_publica/zensical_v1.0.0_20261103.toml
+# CAMBIOS: 1.2.0 (T-423): tema de la V4 (extra_css estilos/v4.css). MOTIVO: un solo diseño.
+# ANTERIOR: legacy/documentacion_publica/zensical_v1.1.0_20261119.toml
 [project]
 site_name = "DDD · Documentación e investigación"
 site_description = "Método, fuentes y evidencias de Diputado de Distrito"
@@ -12,6 +13,7 @@ repo_name = "Diputado de Distrito"
 docs_dir = "docs"
 site_dir = "site"
 use_directory_urls = false
+extra_css = ["estilos/v4.css"]
 nav = [
   { "Inicio" = "index.md" },
   { "Método" = "metodo.md" },

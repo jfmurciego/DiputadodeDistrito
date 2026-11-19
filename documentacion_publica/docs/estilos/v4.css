@@ -1,0 +1,21 @@
+/* PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.0 · FECHA: 2026-11-19 · ESTADO: candidato
+   CAMBIOS: T-423, tema de la V4 (paleta, tipografía y cabecera de visor/v4/styles.css) para Datos, Metodología y Fuentes.
+   MOTIVO: un solo diseño para el sitio (decisión del propietario, 19-11). ANTERIOR: ninguna (fichero nuevo) */
+:root,[data-md-color-scheme=default]{
+  --md-default-bg-color:#0b0d0e;--md-default-fg-color:#f5f1e8;--md-default-fg-color--light:#cbbfb1;--md-default-fg-color--lighter:#8c7455;--md-default-fg-color--lightest:#3a2f27;
+  --md-primary-fg-color:#0a0c0d;--md-primary-bg-color:#f5f1e8;--md-accent-fg-color:#ef762b;
+  --md-typeset-color:#f5f1e8;--md-typeset-a-color:#ffbf87;--md-code-bg-color:#1b1f20;--md-code-fg-color:#f5f1e8;
+  --md-footer-bg-color:#431019;--md-footer-bg-color--dark:#220e12;--md-text-font:Arial,"Segoe UI",system-ui,sans-serif}
+body{background:#0b0d0e;color-scheme:dark}
+.md-header{background:#0a0c0df7;border-bottom:1px solid #8c74555c;box-shadow:none}
+.md-header__title{font:700 20px/1 Georgia,"Times New Roman",serif;text-transform:uppercase;letter-spacing:-.01em}
+.md-tabs{background:#0a0c0d}
+.md-typeset h1,.md-typeset h2,.md-typeset h3{font-family:Georgia,"Times New Roman",serif;color:#f5f1e8;letter-spacing:-.02em}
+.md-typeset h1{font-weight:700;border-bottom:2px solid #ef762b;padding-bottom:.3em}
+.md-typeset table:not([class]){background:#111516;border:1px solid #76573f}
+.md-typeset table:not([class]) th{background:#40141a;color:#f5f1e8}
+.md-typeset table:not([class]) td{border-top:1px solid #3a2f27}
+.md-nav__link--active,.md-nav__link:hover{color:#ef762b!important}
+.md-search__form{background:#1b1f20}
+.md-footer{background:linear-gradient(110deg,#431019,#220e12)}
+.md-typeset a:focus-visible,.md-nav__link:focus-visible{outline:3px solid #ffc896;outline-offset:3px}
