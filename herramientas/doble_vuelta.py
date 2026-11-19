@@ -86,7 +86,10 @@ def cargar_alias(path, eleccion: str, comunidad: str | None = None) -> dict[str,
     e = eleccion_alias(eleccion)
     out: dict[str, str] = {}
     with open(path, encoding="utf-8", newline="") as f:
-        for fila in csv.DictReader(f):
+        lector = csv.DictReader(f)
+        if "comunidad" in (lector.fieldnames or []) and comunidad is None:
+            raise ValueError(f"El alias {path} es por comunidad: indica --comunidad")
+        for fila in lector:
             if fila["eleccion"] == e and (comunidad is None or fila.get("comunidad") == comunidad):
                 out[fila["id_fuente"]] = fila["partido_homologado"]
     if not out:

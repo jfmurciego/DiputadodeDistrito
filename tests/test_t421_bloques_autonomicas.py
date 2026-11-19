@@ -58,6 +58,10 @@ class BloquesAutonomicas(unittest.TestCase):
                 import json
                 self.assertEqual(json.loads((Path(t) / "m.json").read_text())["sin_casar"]["votos"], 0)
 
+    def test_alias_por_comunidad_exige_comunidad(self):
+        with self.assertRaises(ValueError):
+            dv.cargar_alias(ROOT / ba.SAL_ALIAS, "2026-05")
+
     def test_comunidad_sin_alias_falla(self):
         with self.assertRaises(ValueError):
             dv.generar("x", ROOT / ba.SAL_BLOQUES, "2026-05", "y", comunidad="aut01")
