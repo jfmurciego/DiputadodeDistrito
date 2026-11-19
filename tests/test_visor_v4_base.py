@@ -7,6 +7,9 @@ from pathlib import Path
 
 V4 = Path(__file__).resolve().parent.parent / "visor" / "v4"
 DOCS = Path(__file__).resolve().parent.parent / "documentacion_publica" / "docs"
+# T-423: páginas para el público general (Metodología y Comprender): ni jerga técnica ni códigos internos
+JERGA = ["commit", "GerryChain", "GeoJSON", "ZIP", "sha256", "SHA-256", "R2", "workflow", "artefacto", "checkpoint", "ensemble",
+         "CRS", "JSON", "CSV", "hash", "run", "grafo", "pipeline", "portfolio", "script", "repositorio", "legacy"]
 PAGINAS = ["index.html", "comprender.html", "auditoria-registro.html"]
 # sha256 de los WebP de la autora (final/SHA256SUMS y assets-manifest.json de la entrega)
 SHA = {
@@ -155,13 +158,46 @@ class PortadaV4(unittest.TestCase):
         for t in titulos:
             self.assertIsNone(codigos.search(t), t)
         self.assertIsNone(codigos.search(texto), codigos.findall(texto)[:5])
-        jerga = ["commit", "GerryChain", "GeoJSON", "ZIP", "sha256", "SHA-256", "R2", "workflow", "artefacto", "checkpoint", "ensemble",
-                 "CRS", "JSON", "CSV", "hash", "run", "grafo", "pipeline", "portfolio", "script", "repositorio", "legacy"]
-        for j in jerga:
+        for j in JERGA:
             self.assertIsNone(re.search(r"(?i)\b%s\b" % re.escape(j), texto), j)
         self.assertRegex(md, r"(?m)^hide:\n  - navigation$")  # sin el menú de la izquierda
         self.assertIn("Huesca", texto)  # ejemplo concreto con una provincia real
         self.assertIn("no tiene valor oficial", texto)
+
+    def test_comprender_para_el_publico_general(self):
+        # T-423: Comprender cuenta por qué importa y qué cambia (el cómo, en Metodología); sin jerga ni códigos; con cifras de la fuente
+        h = _txt("comprender.html")
+        visible = re.sub(r"<!--.*?-->|<script\b.*?</script>|<style\b.*?</style>|<head>.*?</head>", " ", h, flags=re.S)
+        texto = re.sub(r"<[^>]+>", " ", visible)
+        titulos = [re.sub(r"<[^>]+>", "", t) for t in re.findall(r"<h[1-3][^>]*>(.*?)</h[1-3]>", visible, re.S)]
+        self.assertGreaterEqual(len(titulos), 6)
+        codigos = re.compile(r"\b[PM]\d{2}\b")
+        self.assertIsNone(codigos.search(texto), codigos.findall(texto)[:5])
+        for j in JERGA:
+            self.assertIsNone(re.search(r"(?i)\b%s\b" % re.escape(j), texto), j)
+        self.assertNotIn("Publicaciones y datos", texto)
+        for t in ("Qué cambia", "Tu distrito", "La doble vuelta", "Qué no es", "Para saber más"):
+            self.assertIn(t, titulos)
+        # 350 escaños y 407 distritos: suma de «escanos» y «k407» de visor/v2/datos/provincias.json (Huesca: 3 → 2)
+        prov = json.loads((V4.parent / "v2/datos/provincias.json").read_text(encoding="utf-8"))["features"]
+        self.assertEqual((sum(f["properties"]["escanos"] for f in prov), sum(f["properties"]["k407"] for f in prov)), (350, 407))
+        hu = next(f["properties"] for f in prov if f["properties"]["nombre"] == "Huesca")
+        self.assertEqual((hu["escanos"], hu["k407"]), (3, 2))
+        for t in ("<strong>350</strong> escaños", "<strong>407</strong> distritos", "Hoy elige 3 diputados", "tendría 2 distritos"):
+            self.assertIn(t, h)
+        for ref in ('href="mapa/"', 'href="../docs/metodo.html"'):
+            self.assertIn(ref, re.search(r'class="routes saber-mas".*?</section>', h, re.S).group(0))
+
+    def test_pie_identico_con_reserva_y_sin_auditoria(self):
+        # T-423: un solo pie (visor/v4/pie.html) en todas las páginas, con la reserva de acciones legales visible y sin enlace a la auditoría
+        pie = _txt("pie.html").split("-->\n", 1)[1].strip()
+        self.assertIn("El autor se reserva el ejercicio de las acciones legales", pie)
+        self.assertNotIn("<a ", pie)
+        zens = (DOCS.parent / "overrides/main.html").read_text(encoding="utf-8")
+        for nombre, t in [(p, _txt(p)) for p in ("index.html", "comprender.html", "auditoria-registro.html", "mapa/index.html")] + [("docs", zens)]:
+            pies = re.findall(r'<footer class="footer[^"]*">.*?</footer>', t, re.S)
+            self.assertEqual(pies, [pie], nombre)
+        self.assertIn("pie.html", _txt("NO_PUBLICAR.txt").split())
 
     def test_video_desplegado_sin_autoplay(self):
         # T-423: reproductor visible sin pulsar nada, con su fotograma o póster; sin reproducción automática ni sonido
