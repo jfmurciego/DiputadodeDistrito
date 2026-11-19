@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.540
+Versión: 1.0.541
 Fecha: 2026-11-19
-Alcance: T-418 — Diseño corto de la doble vuelta desde R2 (opción de P70)
+Alcance: T-419 — Plan 1.0.70: D-178, D-179 y T-418
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-19_implementador-t418-diseno-p70.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.539_registro_20261119.md
+Cambios/motivo: entrada docs/registro/2026-11-19_planificador-plan-1-0-70.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.540_registro_20261119.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.539_registro_20261119.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.541 · [2026-11-19 — T-419 — Plan 1.0.70: D-178, D-179 y T-418](registro/2026-11-19_planificador-plan-1-0-70.md)
 - 1.0.540 · [2026-11-19 — T-418 — Diseño corto de la doble vuelta desde R2 (opción de P70)](registro/2026-11-19_implementador-t418-diseno-p70.md)
 - 1.0.539 · [2026-11-19 — T-415 — PR 2: bloque de vídeo de presentación con URL configurable](registro/2026-11-19_implementador-t415-pr2-video.md)
 - 1.0.538 · [2026-11-19 — T-418 — P75 «Doble vuelta desde R2» en P70 Archivo (V4 sin regenerar)](registro/2026-11-19_implementador-t418-p75-doble-vuelta-r2.md)
