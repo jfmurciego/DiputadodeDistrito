@@ -70,6 +70,18 @@ class DobleVueltaEnP30(unittest.TestCase):
         self.assertIn("doble_vuelta.py", run)
         self.assertIn("doble_vuelta_cobertura.py", run)
 
+    def test_el_directorio_solo_queda_si_ambas_herramientas_terminan_bien(self):
+        run = self.paso["run"]
+        i = {k: run.index(k) for k in ("rm -rf doble_vuelta\n", "trap '", "mkdir -p doble_vuelta", "doble_vuelta_cobertura.py", "herramientas/doble_vuelta.py", "ok=1")}
+        self.assertEqual(sorted(i, key=i.get), ["rm -rf doble_vuelta\n", "trap '", "mkdir -p doble_vuelta", "doble_vuelta_cobertura.py", "herramientas/doble_vuelta.py", "ok=1"])
+        self.assertIn('[[ "$ok" == 1 ]] || rm -rf doble_vuelta', run)
+
+    def test_ambas_herramientas_pasan_el_alias(self):
+        run = self.paso["run"]
+        self.assertEqual(run.count('--alias "$alias"'), 2)
+        self.assertIn("alias=configuracion/alias_partidos_generales.csv", run)
+        self.assertTrue((ROOT / "configuracion/alias_partidos_generales.csv").is_file())
+
     def test_va_despues_de_m08_y_antes_del_archivo(self):
         n = [s.get("name") for s in pasos(self.texto)]
         self.assertLess(n.index("Generar producto electoral territorial"), n.index(PASO_DV))
@@ -121,6 +133,18 @@ class Cobertura(unittest.TestCase):
                 cob.main()
             self.assertIn("::warning title=DOBLE_VUELTA_COBERTURA::40.0 %", out.getvalue())
             self.assertEqual(json.loads((d / "c.json").read_text())["votos_sin_casar"], 40)
+
+    def test_con_alias_los_ids_de_la_fuente_casan(self):
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            (d / "v.csv").write_text("district_id,party,votes,bloc\n1,PP-EU,60,\n1,SUMAR,40,\n", encoding="utf-8")
+            (d / "b.csv").write_text("eleccion,siglas,denominacion,bloque_propuesto,motivo\n2023-07,PP,PP,Patriotas,x\n"
+                                     "2023-07,Podemos–Sumar,x,Izquierdas,x\n", encoding="utf-8")
+            (d / "a.csv").write_text("eleccion,id_fuente,partido_homologado,origen,fuente\n202307,PP-EU,PP,H,x\n202307,SUMAR,Podemos–Sumar,H,x\n", encoding="utf-8")
+            sin = cob.cobertura(d / "v.csv", d / "b.csv", "2023-07")
+            con = cob.cobertura(d / "v.csv", d / "b.csv", "2023-07", d / "a.csv")
+            self.assertEqual((sin["votos_sin_casar"], con["votos_sin_casar"]), (100, 0))
+            self.assertEqual(con["entradas"]["alias"]["sha256"], cob.sha256(d / "a.csv"))
 
     def test_sin_aviso_con_cobertura_total(self):
         with tempfile.TemporaryDirectory() as d:

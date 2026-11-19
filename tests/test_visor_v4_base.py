@@ -60,6 +60,20 @@ class PortadaV4(unittest.TestCase):
         h = hashlib.sha256((V4 / "assets/congreso.webp").read_bytes()).hexdigest()
         self.assertEqual(h, SHA["congreso.webp"])
 
+    def test_video_configurable_y_vacio(self):
+        cfg = json.loads(_txt("video.json"))
+        self.assertEqual(set(cfg), {"base", "video", "poster", "subtitulos", "transcripcion"})
+        self.assertTrue(cfg["base"].startswith("https://"))
+        for k in ("video", "poster", "subtitulos", "transcripcion"):
+            self.assertEqual(cfg[k], "", k)  # la ruta real la aporta el propietario
+        # la URL del bucket solo vive en video.json, nunca fija en el código
+        for f in PAGINAS + ["app.js", "styles.css"]:
+            self.assertNotIn("r2.dev", _txt(f), f)
+        h = _txt("index.html")
+        self.assertRegex(h, r'<section[^>]*data-video[^>]*\bhidden\b')
+        self.assertNotIn("<video", h)  # el reproductor no se carga hasta pulsar
+        self.assertNotRegex(_txt("app.js"), r"autoplay")
+
     def test_doble_vuelta_en_comprender(self):
         h = _txt("comprender.html")
         self.assertIn('id="doble-vuelta"', h)
