@@ -28,6 +28,20 @@ class PortadaV4(unittest.TestCase):
             for r, a in re.findall(r'href="([^"#:]*)#([^"]+)"', _txt(pag)):
                 self.assertIn(f'id="{a}"', _txt(r or pag), f"{pag}: ancla {a}")
 
+    def test_sin_enlaces_a_ficheros_no_publicados(self):
+        # NO_PUBLICAR.txt lista lo que P40 borra del sitio: ningún enlace interno de v4/ puede apuntar a ello (daría 404)
+        excluidas = [l.strip() for l in _txt("NO_PUBLICAR.txt").splitlines() if l.strip() and not l.startswith("#")]
+        self.assertIn("auditoria-registro.html", excluidas)  # guardia: el test comprueba algo real
+        paginas = [p for p in PAGINAS + ["mapa/index.html"] if p not in excluidas]  # las páginas no publicadas no cuentan
+        for pag in paginas:
+            base = Path(pag).parent
+            for ref in re.findall(r'(?:href|src)="([^"#:?]+)(?:[?#][^"]*)?"', _txt(pag)):
+                destino = (base / ref).as_posix()
+                destino = str((V4 / destino).resolve().relative_to(V4.resolve()))
+                for e in excluidas:
+                    self.assertFalse(destino == e or destino.startswith(e.rstrip("/") + "/"), f"{pag} enlaza a {ref}, que NO_PUBLICAR excluye")
+        self.assertNotIn("auditoria-registro", "".join(_txt(p) for p in paginas))
+
     def test_explorar_va_al_mapa_v4_y_no_a_v3(self):
         for pag in PAGINAS:
             h = _txt(pag)
@@ -63,9 +77,10 @@ class PortadaV4(unittest.TestCase):
     def test_video_configurable_y_vacio(self):
         cfg = json.loads(_txt("video.json"))
         self.assertEqual(set(cfg), {"base", "video", "poster", "subtitulos", "transcripcion"})
-        self.assertTrue(cfg["base"].startswith("https://"))
-        for k in ("video", "poster", "subtitulos", "transcripcion"):
-            self.assertEqual(cfg[k], "", k)  # la ruta real la aporta el propietario
+        # dominio propio de vídeos y fichero del propietario (19-11); sin póster, subtítulos ni transcripción por ahora
+        self.assertEqual((cfg["base"], cfg["video"]), ("https://media.diputadodedistrito.es/", "Video_DDD.mp4"))
+        for k in ("poster", "subtitulos", "transcripcion"):
+            self.assertEqual(cfg[k], "", k)
         # la URL del bucket solo vive en video.json, nunca fija en el código
         for f in PAGINAS + ["app.js", "styles.css"]:
             self.assertNotIn("r2.dev", _txt(f), f)
@@ -80,6 +95,12 @@ class PortadaV4(unittest.TestCase):
         for t in ("Izquierdas", "Nacionalistas", "Patriotas", "Simulación sin valor oficial", "mapa/?regla=tres"):
             self.assertIn(t, h)
         self.assertIn("tokens-bloques.css", h)
+        # texto definitivo del propietario (19-11), con las correcciones ortográficas evidentes
+        self.assertIn("La doble vuelta garantiza que el diputado sea elegido por la mayoría de su distrito. Si ningún candidato obtiene mayoría "
+                      "aritmética en la primera votación, los dos más votados irán a la segunda. Así, las minorías pueden negociar apoyos y hacer "
+                      "públicos sus acuerdos antes de la elección definitiva. Así aseguramos que el ciudadano tenga la última palabra, no los partidos.", h)
+        for malo in ("artimetica", "irana", "Asi "):
+            self.assertNotIn(malo, h)
 
     def test_contraste_de_tokens_de_bloques(self):
         css = _txt("tokens-bloques.css")

@@ -36,7 +36,7 @@
 
   /* Devuelve {porDistrito: {id: {escenario: fila}}, detalle: {id: {escenario: [filas]}}}. Rechaza columnas que faltan y escenarios desconocidos. */
   function cargar(csvResultados, csvDetalle) {
-    var res = parseCSV(csvResultados), det = parseCSV(csvDetalle), validos = { dv_A: 1, dv_B: 1, dv_base: 1 }, out = { porDistrito: {}, detalle: {} };
+    var res = parseCSV(csvResultados), det = parseCSV(csvDetalle), validos = { dv_A: 1, dv_B: 1, dv_base: 1, primero: 1 }, out = { porDistrito: {}, detalle: {} };
     exigir(res, COLUMNAS, "resultados"); exigir(det, COLUMNAS_DETALLE, "detalle");
     res.forEach(function (r) {
       if (!validos[r.escenario]) throw new Error("escenario desconocido: " + r.escenario);
@@ -85,16 +85,17 @@
   /* Ficha de un distrito: objeto de texto plano, listo para pintar (y para probar). */
   function ficha(id, regla, datos) {
     var r = REGLAS.filter(function (x) { return x.id === regla; })[0];
-    if (!r || r.esc === "primero") return null;
+    if (!r) return null;
     var fila = datos.porDistrito[id] && datos.porDistrito[id][r.esc], det = datos.detalle[id] && datos.detalle[id][r.esc];
     if (!fila || !det) return null;
     var cands = candidaturas(det), total = cands.reduce(function (s, c) { return s + c.votos; }, 0), segunda = String(fila.vuelta_decisiva) === "2";
-    var gana = nombreCandidatura(fila.candidatura_ganadora);
+    var gana = nombreCandidatura(fila.candidatura_ganadora), primero = r.esc === "primero";
     return {
       regla: r.texto, distrito: id, vuelta: +fila.vuelta_decisiva, ganador: gana, bloque: fila.bloque_ganador, empate: fila.empate === "true",
-      titular: segunda ? "Decide la segunda vuelta · gana " + gana + " con el " + pct(+fila.cuota_ganador_2v) : "Gana " + gana + " en primera vuelta con el " + pct(+fila.cuota_1v),
+      titular: primero ? "Gana " + gana + " con el " + pct(+fila.cuota_1v) + " de los votos, sin segunda vuelta"
+        : segunda ? "Decide la segunda vuelta · gana " + gana + " con el " + pct(+fila.cuota_ganador_2v) : "Gana " + gana + " en primera vuelta con el " + pct(+fila.cuota_1v),
       primera: cands.map(function (c) { return { nombre: c.nombre, bloque: c.bloque, votos: c.votos, texto: num(c.votos), pct: pct(c.votos / total), partidos: c.partidos }; }),
-      nota1: segunda ? "Nadie pasa del 50 %" : "Supera el 50 %: no hay segunda vuelta",
+      nota1: primero ? "Gana la candidatura más votada: no hay segunda vuelta" : segunda ? "Nadie pasa del 50 %" : "Supera el 50 %: no hay segunda vuelta",
       finalistas: segunda ? [nombreCandidatura(fila.finalista_a), nombreCandidatura(fila.finalista_b)] : [],
       transferencias: transferencias(fila, cands),
       segunda: segunda ? { a: { nombre: nombreCandidatura(fila.finalista_a), votos: +fila.votos_a_2v }, b: { nombre: nombreCandidatura(fila.finalista_b), votos: +fila.votos_b_2v }, abstencion: +fila.votos_abstencion } : null,
@@ -109,9 +110,33 @@
     return { territorio: p.territorio || "", regla: ok ? p.regla : "tres" };
   }
 
+  /* Índice publicado (datos/INDEX.json, T-409 #927). Devuelve {territorios:[{id,nombre,distritos,resultados,detalle,geometria}], aviso}
+     y rechaza esquemas desconocidos, rutas con «..», absolutas o externas y huellas que no sean sha256 hexadecimal. */
+  function leerIndice(json) {
+    var idx = typeof json === "string" ? JSON.parse(json) : json, hex = /^[0-9a-f]{64}$/;
+    if (!idx || idx.schema !== "ddd.v4-doble-vuelta/1.0" || !Array.isArray(idx.territorios)) throw new Error("índice: esquema desconocido");
+    idx.territorios.forEach(function (t) {
+      if (!/^nac\d{2}$/.test(t.id)) throw new Error("índice: id de territorio no válido: " + t.id);
+      ["resultados", "detalle", "geometria"].forEach(function (k) {
+        var f = t[k];
+        if (!f || typeof f.ruta !== "string" || /(^|\/)\.\.(\/|$)|^\/|^[a-z]+:/i.test(f.ruta)) throw new Error("índice: ruta no válida en " + t.id + "/" + k);
+        if (!hex.test(f.sha256 || "")) throw new Error("índice: sha256 no válido en " + t.id + "/" + k);
+      });
+    });
+    return idx;
+  }
+
+  /* Comparación entre reglas de un distrito (T-413 §3.7): [{id, texto, ganador, bloque}] con lo que dice el CSV. */
+  function comparacion(id, datos) {
+    return REGLAS.map(function (r) {
+      var f = datos.porDistrito[id] && datos.porDistrito[id][r.esc];
+      return f ? { id: r.id, texto: r.texto, ganador: nombreCandidatura(f.candidatura_ganadora), bloque: f.bloque_ganador } : null;
+    }).filter(Boolean);
+  }
+
   /* Color por bloque: clase CSS de cada candidatura ganadora. */
   function claseBloque(b) { return { Izquierdas: "izq", Nacionalistas: "nac", Patriotas: "pat" }[b] || "sin"; }
 
-  var API = { REGLAS: REGLAS, parseCSV: parseCSV, cargar: cargar, ficha: ficha, leerEnlace: leerEnlace, claseBloque: claseBloque, transferencias: transferencias, candidaturas: candidaturas };
+  var API = { leerIndice: leerIndice, comparacion: comparacion, REGLAS: REGLAS, parseCSV: parseCSV, cargar: cargar, ficha: ficha, leerEnlace: leerEnlace, claseBloque: claseBloque, transferencias: transferencias, candidaturas: candidaturas };
   if (typeof module !== "undefined" && module.exports) module.exports = API; else root.DV = API;
 })(typeof window !== "undefined" ? window : this);
