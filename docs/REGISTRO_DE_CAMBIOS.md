@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.534
+Versión: 1.0.535
 Fecha: 2026-11-19
-Alcance: T-416 — Propuesta de limpieza de R2 (paso b, solo documento)
+Alcance: T-415 — Diseño de la V4 2.0.3: alineación de redacción
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-19_implementador-t416-propuesta-r2.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.533_registro_20261119.md
+Cambios/motivo: entrada docs/registro/2026-11-19_implementador-t415-diseno-redaccion.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.534_registro_20261119.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.533_registro_20261119.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.535 · [2026-11-19 — T-415 — Diseño de la V4 2.0.3: alineación de redacción](registro/2026-11-19_implementador-t415-diseno-redaccion.md)
 - 1.0.534 · [2026-11-19 — T-416 — Propuesta de limpieza de R2 (paso b, solo documento)](registro/2026-11-19_implementador-t416-propuesta-r2.md)
 - 1.0.533 · [2026-11-19 — T-415 — Diseño de la V4: portada final de la autora + mapa con doble vuelta](registro/2026-11-19_implementador-t415-diseno-v4.md)
 - 1.0.532 · [2026-11-19 — T-417 — Plan 1.0.69: D-173 a D-177, T-415 y T-416](registro/2026-11-19_planificador-plan-1-0-69.md)
