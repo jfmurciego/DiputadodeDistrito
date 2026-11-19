@@ -70,6 +70,9 @@ def sin_ensemble(job):
     return job
 
 
+PASO_DV_T409 = "Doble vuelta de los territorios del Congreso para la V4 (D-172)"
+
+
 def diferencias(viejo, nuevo):
     """Diferencias NO permitidas del job de publicación (vacía = equivalente)."""
     a, b = sin_ensemble(viejo["jobs"]["publicar"]), nuevo["jobs"]["publicar"]
@@ -82,7 +85,9 @@ def diferencias(viejo, nuevo):
         d.append("concurrencia")
     if a["runs-on"] != b["runs-on"]:
         d.append("runs-on")
-    if json.loads(normalizar(json.dumps(a["steps"]))) != b["steps"]:
+    # T-409 (P40 1.2.0): el paso de la doble vuelta de la V4 no existía en el publicador viejo; lo demás tiene que ser idéntico
+    pasos_nuevo = [s for s in b["steps"] if s.get("name") != PASO_DV_T409]
+    if json.loads(normalizar(json.dumps(a["steps"]))) != pasos_nuevo:
         d.append("pasos")
     if json.loads(normalizar(json.dumps(a["env"]))) != b["env"]:
         d.append("env")
