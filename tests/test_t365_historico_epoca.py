@@ -2,9 +2,9 @@
 """T-365 (D-125): contrato por elección del histórico por época, contrato M01-M06 por provincia y puerta M07/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.1 · FECHA: 2026-11-17 · ESTADO: candidato
-ANTERIOR: legacy/tests/test_t365_historico_epoca_v1.4.0_20261117.py
-CAMBIOS: 1.4.1: T-405: clase TopologiaAdministrativa. 1.4.0: T-399: estado APARTADA_VOTOS admitido (D-158). 1.3.0: T-402: `materializar` normaliza la geometría (parche del seccionado en los tests con zip falso; clase NormalizacionGeometria con zip real). 1.2.0: T-396 (D-153): estado APARTADA admitido; contratos 1.2.0 con anterior 1.1.0. 1.1.0: T-389 (T-365b): contratos con la tabla de T-364b (1.2.0): provincias apartadas = BLOQUEADA_SIN_DATO sin filas, fallo cerrado con la tabla vieja.
+VERSIÓN: 1.4.2 · FECHA: 2026-11-19 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_t365_historico_epoca_v1.4.1_20261119.py
+CAMBIOS: 1.4.2: T-400: clase PuentesDeEpoca. 1.4.1: T-405: clase TopologiaAdministrativa. 1.4.0: T-399: estado APARTADA_VOTOS admitido (D-158). 1.3.0: T-402: `materializar` normaliza la geometría (parche del seccionado en los tests con zip falso; clase NormalizacionGeometria con zip real). 1.2.0: T-396 (D-153): estado APARTADA admitido; contratos 1.2.0 con anterior 1.1.0. 1.1.0: T-389 (T-365b): contratos con la tabla de T-364b (1.2.0): provincias apartadas = BLOQUEADA_SIN_DATO sin filas, fallo cerrado con la tabla vieja.
 MOTIVO: T-365. Sin red ni fuentes pesadas: el flujo M07/M08 usa un M06 sintético y los módulos reales.
 """
 from __future__ import annotations
@@ -341,6 +341,36 @@ class MaterializarZipReal(unittest.TestCase):
             self.assertEqual(leido["CUSEC"].tolist(), ["2200101001", "2200101002"])
             self.assertTrue(leido.geometry.iloc[0].equals(wkt.loads(ok)))  # la válida, intacta (el shapefile reordena el anillo: se compara por conjunto)
             self.assertEqual(geo["huella_geometrias_sha256"], che._huella_geometrias(leido))
+
+
+class PuentesDeEpoca(unittest.TestCase):
+    """T-400: La Graciosa (3502401010) no existe en el seccionado 2012; está dentro de 3502401005 (contenida al 100 % en el donante 2019): el puente se omite."""
+    BASE = {"modulos": {"modulo_02_construir_adyacencias": {"topology_bridges": [
+        {"u": "3502401010", "v": "3502401001", "admin_scope": "province:35", "edge_type": "maritime_group"}]}}}
+    GEO = {"3502401001", "3502401005"}
+
+    def _c(self):
+        return json.loads((ROOT / "configuracion/historico_epoca/contrato_2011_11.json").read_text(encoding="utf-8"))
+
+    def test_extremo_ausente_declarado_omite_el_puente(self):
+        out = che._puentes_de_epoca(ROOT, self._c(), "2011-11", "35", self.BASE, self.GEO, None)
+        self.assertEqual(out, [])  # la 3502401005 ya contiene La Graciosa: M02 rechaza un puente sin desconexión
+        self.assertEqual(self.BASE["modulos"]["modulo_02_construir_adyacencias"]["topology_bridges"][0]["u"], "3502401010")
+
+    def test_sin_declaracion_o_con_otra_huella_falla_cerrado(self):
+        with self.assertRaises(che.ErrorContrato):
+            che._puentes_de_epoca(ROOT, self._c(), "2011-11", "35", self.BASE, {"3502401001"}, None)  # destino ausente
+        with self.assertRaises(che.ErrorContrato):
+            che._puentes_de_epoca(ROOT, self._c(), "2011-11", "14", self.BASE, self.GEO, None)  # sin declaración en esa provincia
+        c = self._c()
+        c["seccionado"]["sha256"] = "0" * 64
+        with self.assertRaises(che.ErrorContrato):
+            che._puentes_de_epoca(ROOT, c, "2011-11", "35", self.BASE, self.GEO, None)
+
+    def test_puente_con_extremos_presentes_pasa_tal_cual(self):
+        geo = self.GEO | {"3502401010"}
+        out = che._puentes_de_epoca(ROOT, self._c(), "2011-11", "35", self.BASE, geo, None)
+        self.assertEqual(out[0]["u"], "3502401010")
 
 
 class TopologiaAdministrativa(unittest.TestCase):
