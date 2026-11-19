@@ -54,13 +54,13 @@ NAC.forEach((k, n) => {
 });
 // Un territorio con la huella mal: no debe pintarse (fallo cerrado), los otros 51 sí. Se usa en la última prueba.
 bin["datos/INDEX.json"] = Buffer.from(JSON.stringify(dvIndex));
-const madrid = provincias.features.find(f => f.properties.cod === "28");
-const madridKey = Object.entries(index.territorios).find(([, v]) => v.provincia === "Madrid")[0];
-const d1 = index.territorios[madridKey].distritos[0].distrito;
+const prov28 = provincias.features.find(f => f.properties.cod === "28");
+const clave28 = Object.entries(index.territorios).find(([, v]) => v.provincia === "Madrid")[0];
+const d1 = index.territorios[clave28].distritos[0].distrito;
 Object.assign(fixtures, {
   "../../v2/datos/provincias.json": provincias, "../../v2/datos/comunidades.json": comunidades, "../../datos/INDEX.json": index,
   "../../v2/datos/secciones/INDEX.json": { provincias: { "28": {} } },
-  "../../v2/datos/secciones/28.geojson": { type: "FeatureCollection", features: [{ type: "Feature", geometry: madrid.geometry, properties: { s: "2807912003", m: "Madrid", p: 1622, d: d1 } }] },
+  "../../v2/datos/secciones/28.geojson": { type: "FeatureCollection", features: [{ type: "Feature", geometry: prov28.geometry, properties: { s: "2807912003", m: "Madrid", p: 1622, d: d1 } }] },
   "../../v2/datos/territorial.json": { provincias: {} }, "calendario.json": {}
 });
 
@@ -155,10 +155,10 @@ const flush = async () => { for (let i = 0; i < 60; i++) await new Promise(r => 
   element("elections").children.find(b => b.textContent === "nov. 2011").onclick(); await flush();
   assert.equal(t.S.layer, "ganador"); assert.equal(map.getLayer("dist-fill").paint["fill-color"], "#a8bac7");
   // 8. Huella que no coincide: ese territorio no se pinta (fallo cerrado) y se dice por qué.
-  t.DVD.datos.delete(madridKey); bin["datos/" + madridKey + "/detalle.csv"] = Buffer.from(CAB_D);
+  t.DVD.datos.delete(clave28); bin["datos/" + clave28 + "/detalle.csv"] = Buffer.from(CAB_D);
   element("elections").children.find(b => b.textContent === "jul. 2023").onclick(); await flush();
   element("layer").value = "doblevuelta"; element("layer").onchange({ target: element("layer") }); await flush();
-  assert.match(t.DVD.fallos.get(madridKey), /no coincide/);
+  assert.match(t.DVD.fallos.get(clave28), /no coincide/);
   assert.ok(map.getSource("distritos").data.features.every(f => f.properties.dv_tres === "nodato"));
   console.log("OK visor v4 explorar (52 nac, cuatro reglas, ficha, sección y fallo cerrado)");
 })().catch(e => { console.error(e); process.exitCode = 1; });

@@ -71,8 +71,6 @@ EXENTOS = (
     "tests/test_f10_interannual_correspondence.py",
     # Visor V3 (T-292): lee datos_abiertos/INDEX.json y las URL públicas, que conservan ids viejos (D-61); convivencia un ciclo.
     "visor/v3/", "tests/test_visor_v3_ui.js", "tests/test_preparar_portada_v3.py",
-    # Explorar de la V4 (T-423): copia íntegra de la V3, con los mismos datos públicos e ids.
-    "visor/v4/mapa/", "tests/test_visor_v4_explorar.js",
 )
 # Ficheros donde la palabra es otra cosa (slug de provincia, clave de un informe de población, zona del mapa).
 NO_ES_ID = {
@@ -84,6 +82,11 @@ NO_ES_ID = {
     "herramientas/procesar_f10_resultados_aragon_cyl.py": "variables y carpetas de originales F10 (evidencia histórica)",
     "herramientas/preflight_caceres_n08.py": "herramienta N08 con su sha256 anclado en la campaña nacional (histórica)",
     "visor/nacional/nacional.js": "zona del mapa", "visor/nacional/index.html": "zona del mapa",
+    # T-423: copias exactas de la V3 dentro del Explorar de la V4 (mismos datos públicos e ids, D-61). Solo estos tres ficheros:
+    # dv.js, el código nuevo y cualquier fichero que se añada a visor/v4/mapa/ siguen vigilados (test_explorar_v4_solo_copias_de_v3).
+    "visor/v4/mapa/explorar.js": "copia de visor/v3/v3.js (ids públicos de la V3)",
+    "visor/v4/mapa/calendario.json": "copia de visor/v3/calendario.json (ids públicos de la V3)",
+    "visor/v4/mapa/index.html": "copia de visor/v3/index.html (botón «canarias» del encuadre)",
 }
 EXENTOS_RE = re.compile(r"^territorios/[^/]+/(evidencia|resultados|inputs|docs|config/elecciones)/|^territorios/[^/]+/[^/]+\.md$"
                         r"|^territorios/congreso350_|^territorios/congreso/")
@@ -215,6 +218,19 @@ class SinIdsViejos(unittest.TestCase):
                         and "t220: no es id" not in original):
                     malos.append(f"{f}:{n}: {linea.strip()[:100]}")
         self.assertEqual(malos, [], f"{len(malos)} ids viejos vivos:\n" + "\n".join(malos[:5000]))
+
+
+class ExplorarV4(unittest.TestCase):
+    def test_explorar_v4_solo_copias_de_v3(self):
+        # control negativo (revisor de #939): la exención no es la carpeta; dv.js y cualquier fichero nuevo de visor/v4/mapa/ se vigilan
+        exentos = sorted(f for f in _ls_files() if f.startswith("visor/v4/mapa/") and _exento(f))
+        self.assertEqual(exentos, ["visor/v4/mapa/calendario.json", "visor/v4/mapa/explorar.js", "visor/v4/mapa/index.html"])
+        for f in ("visor/v4/mapa/dv.js", "visor/v4/mapa/explorar.css", "visor/v4/mapa/nuevo.js", "visor/v4/mapa/datos/INDEX.json",
+                  "visor/v4/mapa/explorar.js.bak", "tests/test_visor_v4_explorar.js"):
+            self.assertFalse(_exento(f), f)
+        alt = "|".join(sorted(map(re.escape, _viejos()), key=len, reverse=True))
+        token = re.compile(rf"(?<![A-Za-z0-9_.\-])({alt})(?![A-Za-z0-9_\-])")
+        self.assertTrue(token.search('const t = "congreso_madrid";'))  # un id viejo en esos ficheros se detectaría
 
 
 class SinDeteccionPorPrefijo(unittest.TestCase):
