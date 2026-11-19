@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.548
+Versión: 1.0.550
 Fecha: 2026-11-19
-Alcance: T-415 — PR 4: mapa real de la V4 con los datos de los 52 nac, textos y vídeo
+Alcance: T-420b — P74 Listar con duplicados
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-19_implementador-t415-pr4-mapa.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.547_registro_20261119.md
+Cambios/motivo: entrada docs/registro/2026-11-19_t420b-p74-duplicados.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.549_registro_20261119.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.547_registro_20261119.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.550 · [2026-11-19 — T-420b — P74 Listar con duplicados](registro/2026-11-19_t420b-p74-duplicados.md)
+- 1.0.549 · [2026-11-19 — T-400 — nac35 2011-11: puente de La Graciosa ausente del seccionado 2012](registro/2026-11-19_t400-puente-la-graciosa-2011.md)
 - 1.0.548 · [2026-11-19 — T-415 — PR 4: mapa real de la V4 con los datos de los 52 nac, textos y vídeo](registro/2026-11-19_implementador-t415-pr4-mapa.md)
 - 1.0.547 · [2026-11-19 — T-421 — Tabla de bloques de las autonómicas APROBADA (lista cerrada del propietario)](registro/2026-11-19_t-421b-bloques-autonomicas-aprobada.md)
 - 1.0.546 · [2026-11-19 — T-421 — Bloques y alias PROPUESTOS de la doble vuelta para las autonómicas (sin lanzar)](registro/2026-11-19_t-421-bloques-autonomicas.md)

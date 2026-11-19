@@ -255,7 +255,16 @@ class Workflow(unittest.TestCase):
         n = copy.deepcopy(self.wf)
         n["jobs"].pop("doble_vuelta_r2")
         (n.get("on") or n.get(True))["workflow_dispatch"]["inputs"]["accion"]["options"].remove("P75 Doble vuelta desde R2")
-        self.assertEqual(n["jobs"], self.antes["jobs"])
+        # T-420b (P70 1.1.2): P74 `listar` cambia solo su llamada (--duplicados --json) y suma el paso de artefacto; todo lo demás, idéntico.
+        # Su detalle lo fija tests/test_t420b_p74_duplicados.py.
+        listar = n["jobs"].pop("listar")
+        antes = copy.deepcopy(self.antes)
+        antes_listar = antes["jobs"].pop("listar")
+        self.assertEqual(n["jobs"], antes["jobs"])
+        self.assertEqual({k: v for k, v in listar.items() if k != "steps"}, {k: v for k, v in antes_listar.items() if k != "steps"})
+        self.assertEqual(listar["steps"][0], antes_listar["steps"][0])
+        self.assertEqual(listar["steps"][1]["env"], antes_listar["steps"][1]["env"])
+        self.assertEqual(len(listar["steps"]), len(antes_listar["steps"]) + 1)
 
 
 if __name__ == "__main__":
