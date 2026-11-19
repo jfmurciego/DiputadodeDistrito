@@ -1,116 +1,97 @@
-# T-415 · V4: portada de Vanesa + mapa con doble vuelta — diseño (solo documento)
+# T-415 · V4: portada final de la autora + mapa con doble vuelta — diseño (solo documento)
 
-VERSIÓN: 1.0.1 · FECHA: 2026-11-19 · ESTADO: propuesto (pendiente de aprobación del propietario) · ANTERIOR: 1.0.0 (misma PR, sin fusionar)
+VERSIÓN: 2.0.0 · FECHA: 2026-11-19 · ESTADO: propuesto (pendiente de aprobación del propietario) · ANTERIOR: 1.0.1 (misma PR, sin fusionar; estaba hecha sobre la primera entrega)
 
-Decisión del propietario (19-11): la V4 (`visor/v4/`) es la versión nueva completa: portada de Vanesa como entrada
-(Comprender, Explorar, Investigación, Matrices) y mapa con la doble vuelta de T-413 (D-172). La V3 no se toca y queda para comparar.
-Originales en `original/` (PR #908, rama `planificador/t415-v4-originales`; hasta que se fusione no están en `main`). Procedencia: `PROCEDENCIA.md`.
-No toca `visor/`, `web/` ni workflows. Nada se publica.
+Decisión del propietario (19-11): `visor/v4/` es la versión nueva completa: portada de entrada y mapa con la doble vuelta de T-413 (D-172). V3 no se toca.
+Base de este diseño: la **versión final** de la autora, rama `planificador/t415-v4-final`, `docs/ESTUDIOS/T415_V4_PORTADA/final/` (`LEEME_PARA_JESUS.md`, `web/`, `COMPROBACIONES.json`, `SHA256SUMS`; notas en `PROCEDENCIA.md`).
+La primera entrega (`original/`) queda solo como histórico; su matriz jurídica no está en la versión final (§4). No toca `visor/`, `web/` ni workflows. Nada se publica.
 
-## 1. Rutas de `visor/v4/`
+## 1. Qué trae la versión final (hechos)
 
-Sitio estático, sin servidor; rutas relativas (funciona bajo `/v4/` y en doble clic).
+- Dos formatos del mismo diseño: `DDD_portada_autonoma.html` (340 KB, un solo fichero con data URI) y `web/` (3 HTML + `styles.css` + `app.js` + `catalogo-mapas.js` + 3 WebP + manifiesto de imágenes + generador del catálogo).
+- Páginas: `index.html` (portada: «Comprender», «Explorar», franja «Investigación», franja de autoría), `comprender.html` (Sistema y distritos; Publicaciones y datos), `auditoria-registro.html` (catálogo DOI por mapa, procedencia de recursos, sobre el autor, protección jurídica).
+- Sin Matrices, sin pestañas de método, sin presentación animada (el prototipo de «6 segundos» desaparece), sin recursos externos salvo enlaces (V3, ORCID, LinkedIn). Diseño: fondo carbón, marfil, naranja, granate; foco visible, salto al contenido, `prefers-reduced-motion`, 320–1440 px comprobados por la autora.
+- Explorar enlaza hoy a `https://diputadodedistrito.es/v3/`; `catalogo-mapas.js` está vacío (`window.DDD_MAPS = []`) a propósito: no hay DOI reales.
+
+## 2. Decisión de formato: `web/` por ficheros
+
+Se usa `web/` (HTML/CSS/JS modular, rutas relativas, sirve desde raíz o subcarpeta), no la autónoma: encaja con el publicador (copia de ficheros, P40), se revisa en diff, el navegador cachea CSS/JS/imágenes y los tests leen el HTML. La autónoma (data URI) pesa 340 KB por página vista, no cachea y duplica el código. Solo se conserva como entrega de revisión para quien no tenga servidor; no se publica. `generar_portada_autonoma.py` no entra en `visor/`.
+
+## 3. Rutas de `visor/v4/`
 
 | Ruta | Contenido | Origen |
 |---|---|---|
-| `v4/index.html` | Portada: presentación inicial, identidad, introducción, enlaces a las cuatro secciones | `original/index.html` |
-| `v4/comprender/` | Tres pestañas de Comprender + sección nueva «La doble vuelta» (§3) | portada + T-413 §4 |
-| `v4/mapa/` | Mapa V4: regla de elección, leyenda, ficha de distrito | T-413 sobre base V3 (§2) |
-| `v4/investigacion/` | Método P21–P33, fuentes, datos abiertos, limitaciones; selector de territorio | portada |
-| `v4/matrices/` | Matriz jurídico-electoral por ámbito (solo lo verificado, §4) | `matriz_juridico_electoral_v1.json` |
-| `v4/comun/` | `v4.css` (tokens claro/oscuro), `v4.js` (menú, tema, presentación), fuentes y fixtures | nuevo |
-| `v4/datos/` | JSON derivados de la matriz, con sha256 en `MANIFEST.json` | nuevo |
+| `v4/index.html` | Portada | `final/web/index.html` |
+| `v4/comprender.html` | Comprender + sección nueva «La doble vuelta» (§5.2) | final + T-413 §4 |
+| `v4/auditoria-registro.html` | Catálogo DOI (vacío «pendiente»), procedencia, autor, protección jurídica | final |
+| `v4/mapa/` | Mapa V4 con doble vuelta | T-413 (#910) |
+| `v4/styles.css`, `v4/app.js`, `v4/catalogo-mapas.js`, `v4/assets/` | Estilos, menú/búsqueda, catálogo, 3 WebP | final |
+| `v4/NOTICE.md`, `v4/assets-manifest.json` | Autoría y procedencia (sin URL privadas, §7) | final saneado |
+| `v4/video.json` (o constante en `app.js`) | URL configurable del vídeo (§6) | nuevo |
 
-Una página por sección (no una sola página con anclas, como el prototipo): rutas enlazables, foco y título propios, carga más ligera en móvil.
-Menú común generado una sola vez en `v4.js`. La raíz del sitio y `/v3/` no cambian; el cambio de la raíz a `/v4/` es decisión aparte (pregunta 1).
+Se respetan los nombres y rutas relativas de la autora: la hoja de estilos es la referencia de medidas y el LEEME lista los destinos que deben conservarse. Se mantiene `index.html#investigacion`, `auditoria-registro.html#sobre-autor` y `#juridica`. La raíz del sitio y `/v3/` no cambian (pregunta 1).
 
-## 2. Integración portada ↔ mapa de T-413
+## 4. Integración con el mapa de T-413
 
-- «Explorar» enlaza a `v4/mapa/` (relativo), nunca a `/v3/` ni a una URL absoluta. El prototipo enlazaba a `https://diputadodedistrito.es/v3/`: se sustituye.
-- El mapa V4 parte del código de V3 (`v3.js`/`v3.css`, mapa, escenarios, galería) **copiado** a `v4/mapa/`, no compartido: así V3 queda intacta y comparable.
-  Sobre esa copia T-413 aplica su diseño tal cual (selector «Tres bloques / Dos bloques / Sin coaliciones / Más votado», colores por bloque, ficha, comparación, tokens oscuros, `?regla=`).
-- Cabecera común: marca + menú de las cuatro secciones + «Ver V3» (solo mientras V3 exista) en la portada y el mapa; el mapa ocupa la pantalla, con la cabecera plegada en móvil.
-- Los tokens de bloque (T-413 §2) viven en `v4/comun/v4.css` y los usan portada, Comprender y mapa: un solo tema claro/oscuro para toda la V4 (cierra la pregunta 6 de T-413 en V4).
-- Datos: el mapa lee lo mismo que V3 (registro `publicaciones_visor.json`, `datos_abiertos/` con sha256) más `kind=doble_vuelta` (T-413 §5). Nada se recalcula en el navegador.
-- Contrato entre portada y mapa: enlaces profundos `v4/mapa/?territorio=<id>&regla=tres|dos|base|primero`; la portada puede enlazar a un territorio y regla concretos (p. ej. desde «La doble vuelta»).
+- **«Explorar» → `mapa/`** (relativo), no `/v3/`. En la portada y en Comprender. El único cambio de enlace respecto a la final es ese; ORCID y LinkedIn se conservan.
+- El mapa vive en `visor/v4/mapa/` (T-413, #910; copia de V3, V3 intacta). Contrato de enlace profundo (ya aceptado por T-413): `mapa/?territorio=<id>&regla=tres|dos|base|primero`; sin `regla`, «tres»; si el territorio no tiene doble vuelta, «primero» con aviso.
+- Estilo compartido: `v4/styles.css` (paleta de la autora) y tokens de bloque de T-413 §2 (Izquierdas, Nacionalistas, Patriotas, Sin bloque, claro/oscuro) en un fichero aparte `v4/tokens-bloques.css` que crea T-415 en su PR 1 y T-413 consume sin redefinir. La portada es oscura por diseño; el mapa sigue T-413 (claro por defecto, tokens oscuros); no se fuerza un tema único (pregunta 6).
+- Cabecera: se mantiene la de la autora (marca, navegación, «Auditoría y registro»); «Consultar el visor» apunta a `mapa/`. El mapa lleva su cabecera mínima con vuelta a la portada.
+- Datos del mapa: lo de T-413 §5 (registro, `datos_abiertos/` con sha256); la portada no lee datos del visor.
 
-## 3. Cambios respecto a los originales
+## 5. Qué se cambia de la versión final
 
-1. **Nomenclatura**: «Método M01–M08» → P de D-165 (01→P21 Base y población, 02→P22 Geometría y adyacencias, 03→P23 Grafo, 04→P24 Solución inicial,
-   05→P25 Optimización, 06→P26 Producto certificado, 07→P31 Agregación, 08→P32 Resultados por distrito; auditoría P27; puerta P33). Los datos guardados siguen con nombre viejo hasta T-313:
-   el texto público usa solo P y evita ids de ficheros. La V4 no se publica antes de que el texto esté alineado con el estado real de T-313 (pregunta 2).
-2. **Sección «La doble vuelta»** en Comprender (cuarta pestaña): texto de T-413 §4 («Cómo funciona»), tres bloques con nombre y color, ejemplo breve de T-409 §7, aviso fijo «simulación sin valor oficial», distinción oficial/simulado (ya pedida en el LEEME), enlace al mapa con la regla por defecto. El texto final lo escribe el propietario (`web/textos.md` es suyo): aquí solo se reserva el lugar y se cita el borrador de T-413.
-3. **Enlaces reales**: los genéricos de documentación se sustituyen por rutas existentes verificadas por un test (§6): repositorio público, `datos_abiertos/INDEX.json`, metodología, BOE. Un enlace que no resuelve en el repositorio falla el test; no se enlaza a lo que no esté publicado (se omite la tarjeta).
-4. **Presentación inicial**: se conserva (6 s, sin audio, «Saltar», una vez por sesión) con cambios: se muestra solo en `v4/index.html`; **no** se reproduce con `prefers-reduced-motion` (ya) ni si hay `?sinintro`; el contenido se pinta debajo desde el primer instante (la presentación es un velo, no bloquea la carga ni el mapa); `sessionStorage` envuelto en `try/catch`; «Ver presentación inicial» como enlace en el pie, no en la cabecera.
-5. **Accesibilidad**: `lang="es"`, enlace «Saltar al contenido», una sola `h1` por página, pestañas con patrón WAI-ARIA (`role=tablist`, flechas, Inicio/Fin), velo con `role=dialog` + `aria-modal`, foco atrapado y devuelto al cerrar y `Esc` cierra; objetivos ≥ 44 px, texto ≥ 16 px (14 px en controles densos), contraste WCAG 2.1 (≥ 4,5 texto, ≥ 3 objetos) en claro y oscuro; el color nunca es el único portador; sin hover obligatorio; barras con texto equivalente.
-6. **Estructura**: HTML autónomo de 38 KB → páginas con CSS/JS comunes; sin librerías externas (coherente con `test_visor_sin_terceros`).
-7. **Lo que no cambia**: autoría y contenido de Vanesa; jerarquía aprobada (portada → Comprender/Explorar → Investigación verificable → Matrices).
+1. **Nomenclatura P (D-165)**: la final no usa M01–M08 en la portada (comprobado: `comprender.html` sin `M0x`); se revisa el texto de «Investigación» y «Comprender» y se usa P21–P32 donde se cite un paso (P21 Base y población, P22 Geometría y adyacencias, P23 Grafo, P24 Solución inicial, P25 Optimización, P26 Producto certificado, P31 Agregación, P32 Resultados por distrito; P27 auditoría, P33 puerta). Test: ningún `M0[1-8]` en el texto público.
+2. **Sección «La doble vuelta»** en `comprender.html` (tercera sección, mismo estilo): texto «Cómo funciona» de T-413 §4, tres bloques con nombre y color (texto siempre escrito), ejemplo breve de T-409 §7, aviso «simulación sin valor oficial», distinción oficial/simulado, y enlace a `mapa/?regla=tres`. El texto final lo escribe el propietario; aquí se reserva el lugar y el borrador.
+3. **Enlaces reales**: «Publicaciones y datos» y «Investigación» enlazan a rutas existentes (repositorio público, `datos_abiertos/INDEX.json`, metodología publicada); test de resolución; lo no publicado se omite (el LEEME de la autora ya evita simular un repositorio documental).
+4. **Catálogo DOI**: se queda «pendiente» (`DDD_MAPS = []`, estado vacío veraz) hasta Zenodo. Se conservan CSV y `generar_catalogo.py` (se mueven a `herramientas/` si se acepta, pregunta 7). Test: ningún DOI inventado; cada fila futura exige `doi`, `sha256` y versión.
+5. **Presentación inicial**: la final no la tiene; no se añade. La sustituye el hueco de vídeo (§6).
+6. **Accesibilidad**: se parte de lo de la autora (salto al contenido, foco, `aria-expanded` del menú, Escape, movimiento reducido) y se completa: `lang="es"`, una `h1` por página, `alt` real en las imágenes con contenido (hoy `alt=""` por decorativas: se mantiene si lo son), contraste ≥ 4,5 (muestra: marfil sobre carbón y naranja `#ef762b` sobre carbón: calcular y registrar), objetivos ≥ 44 px, sin hover obligatorio. Lo declara la autora: no equivale a certificación; el diseño tampoco lo afirma.
 
-## 4. Matriz jurídico-electoral
+## 6. Vídeo de presentación (≈ 150 MB, fuera del repositorio)
 
-Estado de los originales (medido sobre `matriz_juridico_electoral_v1.json`): 19 ámbitos; 190 filas de reglas, **188 «Pendiente de cotejo»**, 2 «Texto cotejado» (art. 2 y art. 26.1);
-19 normas, 16 «Enlace BOE comprobado» (el enlace existe; no es verificación del contenido) y 3 «Regulación específica por cotejar». La propia matriz se declara «de trabajo».
+- Hueco en la portada, bajo el título: bloque «Presentación» con póster estático (primera imagen o el WebP del Congreso), botón «Ver el vídeo» y enlace de texto equivalente.
+- **URL configurable**: un solo valor (`video.json` o constante) que el propietario edita; vacío = el bloque no se pinta (nada roto). Si la URL es de un servicio de terceros, el vídeo se abre en pestaña nueva o se incrusta solo tras pulsar (sin cargar el reproductor ni cookies de terceros al abrir la página; coherente con `test_visor_sin_terceros` y D-104). Sin autoplay ni sonido automático.
+- Accesibilidad: subtítulos y transcripción enlazados (los pone el propietario con el vídeo); `prefers-reduced-motion`: sin reproducción automática (ya no la hay).
+- Alojamiento: decisión aparte del propietario. Nada de 150 MB en git ni en el sitio.
 
-Regla de publicación (propuesta): una fila solo sale con estado **«verificada»**: norma con `BOE-A-…`, URL oficial (`boe.es`, boletín autonómico o `congreso.es`) y, si se cita de un documento descargado, su sha256; artículo y vigencia consultada con fecha.
-Todo lo demás se muestra como **«pendiente»** (etiqueta visible, sin contenido jurídico) o no se muestra. Nunca se publica la «regla comprobada» ni el «efecto en el visor» de una fila no verificada.
+## 7. Origen y licencia de las 3 imágenes WebP
 
-- Datos: `v4/datos/matriz.json` generado por un script (`herramientas/`, tarea de implementación) desde el original, que filtra y marca; el original no se edita (sha256 en `original/SHA256SUMS`).
-- Verificación: cada fila verificada se coteja con la fuente oficial (descarga con sha256 en `datos/`, como el BOE de escaños 2023 en CLAUDE.md); nunca de memoria. Quién cota (propietario/Vanesa/asistente) es la pregunta 4.
-- Test: ninguna fila publicable sin `ref_boe`/URL oficial y fecha; ningún estado «pendiente» con texto de regla; el JSON publicado coincide con su manifiesto.
-- **No se publica sin verificar**: la sección Matrices se entrega con las 19 normas (identificadas, enlace oficial) y «pendiente» en las reglas hasta cotejar; ninguna PR la publica sin permiso del propietario.
+El manifiesto de la autora declara: ilustraciones generadas, «recurso aportado y seleccionado por Nessa», licencia = «autorización específica para esta entrega, sin licencia abierta ni cesión general», `rights_status: verified` limitado a ese cotejo. Es decir: origen documentado como generado con una herramienta de IA; **titularidad y licencia sin resolver**.
+Problemas concretos: (a) `source_url` apunta a una biblioteca privada de ChatGPT con `account_id=personal`: **no debe publicarse** (se sustituye por «generada con herramienta de IA, fecha, aportada por Nessa»); (b) el LEEME dice «Nessa» mientras PROCEDENCIA dice «Vanesa»: el propietario confirma el nombre y la autora que se declara; (c) el logotipo («distintivo español») y el mapa decorativo pueden contener símbolos oficiales o fronteras: el LEEME ya avisa de que no acreditan delimitaciones electorales; (d) la pregunta de derechos de contenido generado (originalidad y derechos de terceros) la decide el propietario.
+Mientras no se resuelva, en `NOTICE.md` y en «Procedencia de los recursos» se dice solo lo que se sabe. Pregunta 3.
 
-## 5. Reparto de trabajo con T-413
+## 8. Licencia y propiedad intelectual
 
-T-413 (session_01KQDtFsuAFYY5GqXAJHVAkU) pasa a hacer **el mapa en `visor/v4/mapa/`**, no en V3. Reparto por carpetas, sin solaparse:
+- Permiso: decisión literal del propietario (PROCEDENCIA.md): «Vanesa me los ha entregado para que los publique yo, tengo todo su permiso y su intención»; no se exige otro documento.
+- La final pone el pie «© 2026 Jesús Francisco Murciego Vidal. Todos los derechos reservados.», coherente con `LICENSE` (apartado 1/3: visor y sitio, todos los derechos reservados). Para el material de la autora y las imágenes (terceros respecto al titular) se propone: `LICENSE` 1.2.0 (copia en `legacy/licencias/`, ANTERIOR) con una línea en el apartado 3 «Material de terceros» (portada, ilustraciones y catálogo de la autora: autoría conservada, publicados con permiso del propietario) — **edición de LICENSE solo con la autorización expresa del propietario en el chat que ejecuta**; no se hace aquí.
+- `propiedad_intelectual/terceros/portada_v4_20261119/` (privada, `exclusion_publicacion.txt`): originales (primera entrega y final con `SHA256SUMS`), `MANIFEST.json` propio (autora, fechas, ficheros, tamaño, sha256, cita del permiso) y actualización de `SHA256SUMS`. Lo público lleva `v4/NOTICE.md` con autoría de la autora (como `visor/v2/galeria/NOTICE.md`) y declara las adaptaciones de DDD.
+- **Revisión previa de metadatos y contenido** (antes de copiar a `v4/` o a `propiedad_intelectual/`; paso de la PR 1): xlsx de la primera entrega (autor, último modificado por, rutas, hojas ocultas, macros, enlaces locales; limpiar y guardar derivado, el original no se edita); WebP/JPG de la final (EXIF/XMP, texto, contenido visual: nombres, rutas, datos personales, marcas de terceros); `index.html`/JSON/CSV (rutas de usuario, correos, URL internas: ya se ve la `source_url` privada de §7). Test: ningún fichero publicable con `/Users/`, `C:\`, `chatgpt.com/library` ni correos o autores no declarados.
 
-| Quién | Territorio |
-|---|---|
-| T-413 | `v4/mapa/**`, sus tests, `kind=doble_vuelta` (P40/registro: ya previsto en su orden de PR), textos del mapa |
-| T-415 | `v4/index.html`, `v4/comprender/`, `v4/investigacion/`, `v4/matrices/`, `v4/comun/`, `v4/datos/`, licencia y PI |
+## 9. Matriz jurídico-electoral
 
-Puntos de contacto: (a) `v4/comun/v4.css` (tokens): lo crea T-415 en su PR 1 con los tokens de T-413 §2; T-413 los consume y no los redefine; (b) menú y cabecera común (`v4.js`): T-415; (c) enlace profundo `?territorio=&regla=` y la sección «La doble vuelta»: T-413 fija el contrato; T-415 enlaza.
-Antes de nada, T-413 decide si su PR 5 (selector) parte ya de `v4/mapa/` (copia de V3). Lo ya hecho de T-413 en V3 (diseño #905) se reutiliza; si tocó `visor/v3/`, se revierte en esa PR (V3 intacta). Aviso previo a T-413 y al Planificador: `herramientas/` y workflows son compartidos.
+La versión final **no incluye** Matrices. La primera entrega (190 reglas, 188 «Pendiente de cotejo», 19 normas con «Enlace BOE comprobado» en 16) no entra en la V4 inicial. Si se retoma: solo filas verificadas (BOE-A con id, URL oficial y sha256 o fecha de consulta); el resto «pendiente» sin contenido; nunca se publica sin verificar. Pregunta 4.
 
-## 6. Móvil, tests y orden de PR
+## 10. Reparto con T-413
 
-Móvil: gutter 16 px, sin desbordamiento horizontal, menú en hoja (≥ 44 px), pestañas desplazables, presentación a pantalla completa con «Saltar» visible, 360×640 y 390×844 (Playwright), `prefers-color-scheme` y `prefers-reduced-motion`.
+T-413 (session_01KQDtFsuAFYY5GqXAJHVAkU) hace `v4/mapa/**` (#910) y `kind=doble_vuelta`; T-415 hace portada, Comprender, Auditoría y registro, estilos comunes, NOTICE/PI y el hueco de vídeo. Puntos de contacto: `v4/tokens-bloques.css` (T-415 crea, T-413 consume), el contrato `?territorio=&regla=` (T-413 fija, T-415 enlaza) y el texto de «La doble vuelta» (borrador T-413 §4, definitivo del propietario). Compartidos: `herramientas/`, workflows (aviso al Planificador).
 
-Tests (por rebanadas, esperados literales, no recalculados):
-1. Rutas: cada página existe, tiene `lang`, `title`, una `h1`; todos los enlaces internos resuelven.
-2. Enlaces externos de la portada: solo dominios permitidos (BOE, repositorio, INE); ninguno a `/v3/`; «Explorar» → `mapa/`.
-3. Nomenclatura: ningún `M0[1-8]` en el texto público; sí P21–P33 (con tabla de D-165 como fixture literal).
-4. Presentación: no se reproduce con movimiento reducido ni en la segunda visita; «Saltar» y `Esc` la cierran; foco devuelto.
-5. Pestañas: roles ARIA y teclado (Node, como `test_visor_v3_ui.js`).
-6. Contraste de tokens (claro/oscuro) leyendo el CSS.
-7. Matriz: ninguna fila publicable sin fuente oficial y fecha; las 188 pendientes salen como «pendiente» sin texto de regla; JSON = manifiesto.
-8. Sin terceros ni red externa (`test_visor_sin_terceros`); sin scroll horizontal en 2 tamaños (Playwright).
-9. Regresión: `visor/v3/` y `visor/index.html` sin cambios (hash del árbol contra `main`).
+## 11. Móvil, tests y orden de PR
 
-Orden de PR (una por capa; ninguna lanza ni publica; el propietario aprueba este diseño antes):
-1. Licencia y PI (§7): `LICENSE` 1.2.0, `propiedad_intelectual/`, revisión de metadatos (§7). 2. `v4/comun/` + portada + presentación + menú (tests 1–4, 6, 8). 3. Comprender, con «La doble vuelta» (texto del propietario). 4. Investigación con P y enlaces reales. 5. Matrices: script de filtrado + página (test 7); contenido solo verificado. 6. Integración con `v4/mapa/` de T-413 (enlaces, test 2/9). 7. Publicación: añadir `v4/` al P40 (toca workflow: aviso al Planificador; Operador, frase D-52). 8. Decidir la raíz y el destino de V3.
+Móvil: la autora comprobó 320/390/768/1440 px sin desbordamiento (`COMPROBACIONES.json`: método iframe, no hardware móvil). T-415 repite con Playwright (360×640, 390×844), menú desplegable ≤ 1000 px, Escape, `aria-expanded`, franja de autoría ≥ 82 px.
 
-## 7. Licencia y propiedad intelectual
+Tests (por rebanadas, esperados literales): 1) enlaces y anclas locales resuelven; 2) «Explorar» y «Consultar el visor» → `mapa/`, ninguno a `/v3/`; 3) sin `M0[1-8]`, con P21–P33 (tabla de D-165 como fixture); 4) catálogo vacío y sin DOI inventado; 5) menú: roles/teclado (Node); 6) contraste de los pares de color (leyendo el CSS); 7) sin recursos externos (`test_visor_sin_terceros`), vídeo no cargado sin URL ni sin pulsar; 8) sin `/Users/`, `chatgpt.com/library`, correos; `sha256` de los WebP = manifiesto; 9) sin scroll horizontal (Playwright, 2 tamaños); 10) regresión: `visor/v3/` e `index.html` de `visor/` sin cambios.
 
-El material de Vanesa no es obra del titular (LICENSE apartado 1 dice «propiedad del titular» salvo excepciones del 3).
-- `LICENSE` 1.2.0 (copia en `legacy/licencias/` con ANTERIOR): en el apartado 3, «Material de terceros», añadir: portada, maquetas y matriz jurídico-electoral de trabajo de Vanesa (`visor/v4/` portada y `v4/datos/matriz*`), con la licencia que acuerden (pregunta 3) y sin ceder el resto.
-  Es edición de LICENSE: requiere la autorización expresa del propietario en el chat que ejecuta (CLAUDE.md); no se hace en esta PR.
-- `propiedad_intelectual/`: el repositorio ya trae `MANIFEST.json`/`SHA256SUMS` del paquete Deslinde. Para lo de Vanesa se propone una subcarpeta `propiedad_intelectual/terceros/vanesa_20261119/` con los originales (sha256 de `original/SHA256SUMS`), un `MANIFEST.json` propio (autora, fecha de entrega, ficheros, tamaño, sha256) y la cita literal del permiso (PROCEDENCIA.md); `SHA256SUMS` actualizado. Esa carpeta es privada (`exclusion_publicacion.txt`); lo público lleva un `NOTICE.md` en `v4/` con autoría (como `visor/v2/galeria/NOTICE.md`).
-- Autoría: «Portada y matriz de trabajo: Vanesa» en `NOTICE.md`, en el pie de la portada y en los metadatos de los ficheros derivados; los cambios de DDD se declaran como adaptación.
-- Permiso: resuelto por decisión literal del propietario (19-11, PROCEDENCIA.md, #908@a332bfd): «Vanesa me los ha entregado para que los publique yo, tengo todo su permiso y su intención»; no se exige otro documento. Se cita en el MANIFEST.
-- **Revisión previa de metadatos y contenido** (antes de copiar nada a `v4/` o `propiedad_intelectual/`; paso de la PR 1):
-  1. `Matriz_juridico_electoral_DDD_v1.xlsx`: leer `docProps/core.xml` y `app.xml` (autor, último modificado por, empresa, fechas), rutas absolutas o de usuario en vínculos externos, nombres de hoja y comentarios, hojas ocultas, macros, enlaces a ficheros locales; limpiar o declarar lo que identifique a personas o equipos distintos de la autora. El xlsx limpio se guarda como derivado; el original no se edita (sha256).
-  2. PNG (`preview_*`, `referencia_estructura`): inspección visual de contenido (nombres, rutas, datos personales, marcas de terceros, mapas con fuentes sin licencia) y metadatos EXIF/tEXt/iTXt (`exiftool`/`pngcheck`). Los que no se publiquen quedan solo en `propiedad_intelectual/` (privado); los públicos se regeneran sin metadatos.
-  3. `index.html` y JSON: buscar rutas de usuario, correos, URL internas, comentarios.
-  Resultado en `v4/NOTICE.md` y en el MANIFEST (qué se publicó, qué se limpió). Test: ningún fichero publicable con `/Users/`, `C:\\`, correos o campos de autor distintos de los declarados.
+Orden de PR (una por capa; ninguna lanza ni publica; el propietario aprueba este diseño antes): 1) revisión de metadatos, `NOTICE.md`, `propiedad_intelectual/`, `LICENSE` (con su autorización); 2) `v4/` portada + estilos + `tokens-bloques.css` + vídeo configurable (tests 1–2, 6–9); 3) Comprender + «La doble vuelta» (texto del propietario, test 3); 4) Auditoría y registro + catálogo vacío (test 4); 5) enlaces cruzados con `v4/mapa/` (test 2, 10); 6) publicación: `v4/` en P40 (toca workflow: aviso al Planificador; Operador con frase D-52); 7) decidir raíz y destino de V3.
 
-## 8. Preguntas abiertas (con recomendación)
+## 12. Preguntas abiertas (con recomendación)
 
-1. ¿La raíz del sitio pasa a `/v4/` al publicar? **Recomiendo** no: `/v4/` en paralelo hasta comparar; la raíz sigue en `/v3/`.
-2. ¿V4 se publica antes o después de T-313 (nomenclatura P en datos)? **Recomiendo** el texto ya en P (D-165) y no enlazar nombres de ficheros; publicar tras T-313 si hay ids visibles.
-3. ¿Licencia del material de Vanesa (el permiso de publicar ya está resuelto)? **Recomiendo** CC BY 4.0 para el texto y los datos de la matriz y «todos los derechos reservados al sitio» para el código, con atribución a Vanesa; la decide ella con el propietario.
-4. ¿Quién coteja la matriz y con qué criterio? **Recomiendo** Vanesa propone, el asistente comprueba con descarga oficial y sha256, el propietario aprueba; empezar por LOREG y las 17 leyes electorales autonómicas.
-5. ¿«Matrices» sale en la primera publicación con solo normas identificadas? **Recomiendo** sí con «pendiente» visible, o ocultarla hasta tener ≥ 1 ámbito completo; prefiero ocultarla.
-6. ¿Una página por sección o una sola? **Recomiendo** páginas separadas (§1).
-7. ¿Se copia el código de V3 en `v4/mapa/` o se comparte? **Recomiendo** copia, para que V3 no se toque.
-8. ¿La presentación de 6 s se mantiene tal cual? **Recomiendo** sí, con «Saltar», una vez por sesión y sin bloquear la carga.
-9. ¿«Ver V3» en la cabecera? **Recomiendo** sí hasta decidir su destino.
+1. ¿La raíz pasa a `/v4/`? **Recomiendo** no: `/v4/` en paralelo hasta comparar con V3.
+2. ¿`web/` o autónoma? **Recomiendo** `web/` (§2); la autónoma solo como copia de revisión.
+3. ¿Origen y licencia de las 3 imágenes WebP? Hoy: generadas con IA, aportadas por Nessa/Vanesa, sin licencia abierta ni cesión. **Recomiendo** que el propietario confirme (a) quién las generó y con qué herramienta, (b) que asume el uso, (c) el nombre correcto de la autora; publicar con `NOTICE.md` sin la URL privada; si hay dudas, sustituir el logotipo y el mapa por ilustraciones propias o CC0 y dejar el Congreso para después.
+4. ¿La matriz jurídica de la primera entrega se retoma? **Recomiendo** no en la V4 inicial; retomarla como tarea aparte con cotejo oficial.
+5. ¿Dónde se aloja el vídeo de ≈ 150 MB? Decisión del propietario. **Recomiendo** un alojamiento de vídeo externo sin cookies de terceros al cargar (o un release/R2 propio con póster y subtítulos); la URL queda configurable y vacía hasta entonces.
+6. ¿Un solo tema o portada oscura + mapa T-413 claro/oscuro? **Recomiendo** no forzar: portada oscura de la autora, mapa según T-413.
+7. ¿Se mueven `generar_catalogo.py` y la plantilla CSV a `herramientas/`? **Recomiendo** sí cuando haya DOI reales (Zenodo); hasta entonces quedan en el estudio.
+8. ¿Qué se enlaza como «metodología» publicada? **Recomiendo** solo lo ya publicado en el repositorio; si no hay página, omitir la tarjeta.
+9. ¿Subtítulos y transcripción del vídeo? **Recomiendo** obligatorios para publicarlo (accesibilidad), a cargo del propietario.
