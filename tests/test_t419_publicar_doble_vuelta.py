@@ -360,10 +360,10 @@ class WorkflowP40(unittest.TestCase):
             excluidas = [l for l in (ROOT / "visor/v4/NO_PUBLICAR.txt").read_text(encoding="utf-8").splitlines() if l and not l.startswith("#")]
             for e in excluidas:  # lo listado no llega al sitio
                 self.assertFalse((Path(site) / "v4" / e).exists(), e)
-            for f in ("index.html", "comprender.html", "styles.css", "mapa/dv.js", "mapa/mapa.js", "mapa/mapa.css"):
+            for f in ("index.html", "comprender.html", "styles.css", "tokens-bloques.css", "mapa/index.html", "mapa/dv.js", "mapa/geo.js", "mapa/mapa.js", "mapa/mapa.css"):
                 self.assertTrue((Path(site) / "v4" / f).is_file(), f)  # lo demás sí
             publicados = {str(p.relative_to(Path(site) / "v4")) for p in (Path(site) / "v4").rglob("*") if p.is_file()}
-            self.assertFalse({"NOTICE.md", "assets-manifest.json", "auditoria-registro.html", "mapa/index.html", "NO_PUBLICAR.txt"} & publicados)
+            self.assertFalse({"NOTICE.md", "assets-manifest.json", "auditoria-registro.html", "NO_PUBLICAR.txt"} & publicados)
             self.assertFalse(any(x.startswith("mapa/ejemplo/") for x in publicados))
             m = Montaje(Path(t), zips_buenos())
             with mock.patch.object(pdv, "ESPERADOS", 2):

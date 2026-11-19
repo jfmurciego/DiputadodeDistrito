@@ -14,7 +14,8 @@
 #   Inicio (D-130, opción de la campaña en español): «Reutilizar progreso existente», «Generar desde fuente territorial
 #   acreditada» (por defecto) o «Ejecutar desde el principio»; motor2 y Canónico fijos; edición y años del plan de la
 #   legislatura vigente; contrato de herramientas/resolver_ejecucion_completa.py (sin el «Planificar» de la 00).
-#   `artifact_namespace = <territorio>` en P20 y P30: la matriz comparte run_id y los nombres de artefacto chocarían.
+#   `artifact_namespace = campaign-<run>-1--01--<territorio>` en P20 y P30 (formato que acepta la puerta 02): la matriz
+#   comparte run_id y los nombres de artefacto chocarían.
 # NO HACE: escribir en main (P10-P30 reciben `campana` y saltan sus registros, T-379 2b), lanzar ejecuciones por la
 #   API ni publicar. El archivo en origen del M08 y la tabla por partido con campaña (opción A) llegan tras #911.
 name: _P00 Campaña — cadena de un territorio
@@ -47,6 +48,7 @@ jobs:
       acreditar: ${{ steps.plan.outputs.acreditar }}
       reutilizar: ${{ steps.plan.outputs.reutilizar }}
       modo_p20: ${{ steps.plan.outputs.modo_p20 }}
+      ns: ${{ steps.plan.outputs.ns }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -108,6 +110,11 @@ jobs:
             echo "acreditar=$(jq -r '.pre_m04_accreditation_planned == true' "$plan")"
             echo "reutilizar=$reutilizar"
             echo "modo_p20=$modo_p20"
+            # Espacio de artefactos en el formato de campaña que acepta la puerta 02 (validar_puerta_ejecucion.py,
+            # CAMPAIGN_ARTIFACT_NAMESPACE_RE): run de P00, intento fijo 1 (los artefactos de P20 no cambian de nombre
+            # al re-ejecutar), hueco 01 y el id canónico. Con `aut11` a secas la puerta daba
+            # NOMBRE_ARTEFACTO_NO_COINCIDE_CON_RUN (humo 44609048607).
+            echo "ns=campaign-$GITHUB_RUN_ID-1--01--$(jq -r .territory_id "$plan")"
           } | tee -a "$GITHUB_OUTPUT"
   p11:
     name: P11 Territoriales
@@ -247,7 +254,7 @@ jobs:
       source_ref: ${{ needs.acreditar.result == 'success' && needs.acreditar.outputs.enabled_source_ref || needs.p11.outputs.prepared_source_ref }}
       persist_state: false
       require_generation_gate: true
-      artifact_namespace: ${{ inputs.territorio }}
+      artifact_namespace: ${{ needs.plan.outputs.ns }}
 
   puerta_02:
     name: Puerta 02 → 03
@@ -260,9 +267,9 @@ jobs:
       territory_id: ${{ needs.plan.outputs.territory_id }}
       data_edition: ${{ needs.plan.outputs.edition }}
       run_id: ${{ github.run_id }}
-      artifact_name: ${{ format('ddd-state-{0}-M06-{1}', github.run_id, inputs.territorio) }}
-      audit_artifact_name: ${{ format('ddd-audit-{0}-{1}', github.run_id, inputs.territorio) }}
-      artifact_namespace: ${{ inputs.territorio }}
+      artifact_name: ${{ format('ddd-state-{0}-M06-{1}', github.run_id, needs.plan.outputs.ns) }}
+      audit_artifact_name: ${{ format('ddd-audit-{0}-{1}', github.run_id, needs.plan.outputs.ns) }}
+      artifact_namespace: ${{ needs.plan.outputs.ns }}
       source_ref: ${{ needs.acreditar.result == 'success' && needs.acreditar.outputs.enabled_source_ref || needs.p11.outputs.prepared_source_ref }}
 
   cerrar_p20:
@@ -324,7 +331,7 @@ jobs:
       run_id: ${{ github.run_id }}
       artifact_name: ${{ needs.p12.outputs.artifact_name }}
       source_ref: ${{ needs.acreditar.result == 'success' && needs.acreditar.outputs.enabled_source_ref || needs.p11.outputs.prepared_source_ref }}
-      artifact_namespace: ${{ inputs.territorio }}
+      artifact_namespace: ${{ needs.plan.outputs.ns }}
 
   p30:
     name: P30 Resultados electorales
@@ -338,13 +345,13 @@ jobs:
       data_edition: ${{ needs.plan.outputs.edition }}
       territorial_run_id: ${{ needs.puerta_02.outputs.run_id }}
       territorial_product_artifact_name: ${{ needs.puerta_02.outputs.artifact_name }}
-      territorial_audit_artifact_name: ${{ format('ddd-audit-{0}-{1}', github.run_id, inputs.territorio) }}
+      territorial_audit_artifact_name: ${{ format('ddd-audit-{0}-{1}', github.run_id, needs.plan.outputs.ns) }}
       electoral_package_run_id: ${{ needs.puerta_03.outputs.run_id }}
       electoral_package_artifact_name: ${{ needs.puerta_03.outputs.artifact_name }}
       electoral_package_artifact_digest: ${{ needs.puerta_03.outputs.artifact_digest }}
       source_ref: ${{ needs.acreditar.result == 'success' && needs.acreditar.outputs.enabled_source_ref || needs.p11.outputs.prepared_source_ref }}
       persist_state: false
-      artifact_namespace: ${{ inputs.territorio }}
+      artifact_namespace: ${{ needs.plan.outputs.ns }}
 
   cerrar_p30:
     name: Cerrar P30

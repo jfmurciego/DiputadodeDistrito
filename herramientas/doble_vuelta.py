@@ -3,9 +3,10 @@
 """Doble vuelta con coaliciones por distrito (T-409, D-167): escenarios dv_base, dv_A y dv_B.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.0 · FECHA: 2026-11-19 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/doble_vuelta_v1.2.0_20261119.py
-CAMBIOS: 1.3.0 (T-409): `--alias` (configuracion/alias_partidos_generales.csv): el id de partido de P31 pasa a su partido homologado antes de buscar el bloque
+VERSIÓN: 1.4.0 · FECHA: 2026-11-19 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/doble_vuelta_v1.3.0_20261119.py
+CAMBIOS: 1.4.0 (T-421): `--comunidad`: tabla de bloques y alias de autonómicas llevan columna `comunidad` y se filtran por ella (la tabla va por partido tras el alias); `--comunidad` sin `--alias` falla; sin `--comunidad` nada cambia.
+  1.3.0 (T-409): `--alias` (configuracion/alias_partidos_generales.csv): el id de partido de P31 pasa a su partido homologado antes de buscar el bloque
   (los ids que dan el mismo partido suman sus votos); sin `--alias` nada cambia. El manifiesto lleva el sha256 del alias.
   1.2.0 (T-409, revisor de #904): los partidos con votos que NO están en la tabla de bloques de la elección («sin casar») se informan
   (manifiesto `sin_casar` con recuento, votos y lista, y ::warning en stderr) en vez de tratarse en silencio como sin bloque; el cálculo no cambia.
@@ -52,12 +53,12 @@ def sha256(path) -> str:
     return h.hexdigest()
 
 
-def cargar_tabla(path, eleccion: str) -> dict[str, str]:
+def cargar_tabla(path, eleccion: str, comunidad: str | None = None) -> dict[str, str]:
     """Partido → bloque de TODAS las filas de la elección (el bloque vacío = sin bloque, pero casado). Un partido, un bloque."""
     out: dict[str, str] = {}
     with open(path, encoding="utf-8", newline="") as f:
         for fila in csv.DictReader(f):
-            if fila["eleccion"] != eleccion:
+            if fila["eleccion"] != eleccion or (comunidad is not None and fila.get("comunidad") != comunidad):
                 continue
             sigla, b = fila["siglas"], fila["bloque_propuesto"].strip()
             if b and b not in BLOQUES:
@@ -70,9 +71,9 @@ def cargar_tabla(path, eleccion: str) -> dict[str, str]:
     return out
 
 
-def cargar_bloques(path, eleccion: str) -> dict[str, str]:
+def cargar_bloques(path, eleccion: str, comunidad: str | None = None) -> dict[str, str]:
     """Partido → bloque de una elección; los vacíos (sin bloque) no figuran."""
-    return {k: v for k, v in cargar_tabla(path, eleccion).items() if v}
+    return {k: v for k, v in cargar_tabla(path, eleccion, comunidad).items() if v}
 
 
 def eleccion_alias(eleccion: str) -> str:
@@ -80,13 +81,16 @@ def eleccion_alias(eleccion: str) -> str:
     return eleccion.replace("-", "")
 
 
-def cargar_alias(path, eleccion: str) -> dict[str, str]:
+def cargar_alias(path, eleccion: str, comunidad: str | None = None) -> dict[str, str]:
     """id de fuente → partido homologado de una elección (tabla de configuracion/alias_partidos_generales.csv)."""
     e = eleccion_alias(eleccion)
     out: dict[str, str] = {}
     with open(path, encoding="utf-8", newline="") as f:
-        for fila in csv.DictReader(f):
-            if fila["eleccion"] == e:
+        lector = csv.DictReader(f)
+        if "comunidad" in (lector.fieldnames or []) and comunidad is None:
+            raise ValueError(f"El alias {path} es por comunidad: indica --comunidad")
+        for fila in lector:
+            if fila["eleccion"] == e and (comunidad is None or fila.get("comunidad") == comunidad):
                 out[fila["id_fuente"]] = fila["partido_homologado"]
     if not out:
         raise ValueError(f"Sin alias de la elección {eleccion} en {path}")
@@ -187,12 +191,14 @@ def resolver(votos: dict[str, int], bloque_de: dict[str, str], escenario: str) -
     return fila
 
 
-def generar(votos_csv, bloques_csv, eleccion: str, salida, manifiesto=None, detalle_csv=None, alias_csv=None) -> list[dict]:
-    tabla = cargar_tabla(bloques_csv, eleccion)
+def generar(votos_csv, bloques_csv, eleccion: str, salida, manifiesto=None, detalle_csv=None, alias_csv=None, comunidad=None) -> list[dict]:
+    if comunidad and not alias_csv:
+        raise ValueError("--comunidad exige --alias")
+    tabla = cargar_tabla(bloques_csv, eleccion, comunidad)
     bloque_de = {k: v for k, v in tabla.items() if v}
     votos = cargar_votos(votos_csv)
     if alias_csv:
-        votos = aplicar_alias(votos, cargar_alias(alias_csv, eleccion))
+        votos = aplicar_alias(votos, cargar_alias(alias_csv, eleccion, comunidad))
     huerfanos = sin_casar(votos, tabla)
     if huerfanos:
         total = sum(v for d in votos.values() for v in d.values())
@@ -220,7 +226,7 @@ def generar(votos_csv, bloques_csv, eleccion: str, salida, manifiesto=None, deta
             w.writerows(det)
     if manifiesto:
         Path(manifiesto).write_text(json.dumps({
-            "schema": "ddd.doble-vuelta/1.0", "eleccion": eleccion,
+            "schema": "ddd.doble-vuelta/1.0", "eleccion": eleccion, **({"comunidad": comunidad} if comunidad else {}),
             "entradas": {"votos": {"ruta": str(votos_csv), "sha256": sha256(votos_csv)},
                          "bloques": {"ruta": str(bloques_csv), "sha256": sha256(bloques_csv)}},
             "salida": {"ruta": str(salida), "sha256": sha256(salida)}, "filas": len(filas),
@@ -239,10 +245,13 @@ def main():
     ap.add_argument("--eleccion", required=True, help="AAAA-MM, como en la tabla de bloques (p. ej. 2023-07)")
     ap.add_argument("--salida", required=True)
     ap.add_argument("--manifiesto")
+    ap.add_argument("--comunidad", help="con --alias de autonómicas: id del territorio (aut01…) cuyo alias se usa")
     ap.add_argument("--alias", help="configuracion/alias_partidos_generales.csv: id de partido de P31 → partido homologado (opcional)")
     ap.add_argument("--detalle", help="CSV de detalle por partido, bloque y candidatura (opcional)")
     a = ap.parse_args()
-    filas = generar(a.votos, a.bloques, a.eleccion, a.salida, a.manifiesto, a.detalle, a.alias)
+    if a.comunidad and not a.alias:
+        ap.error("--comunidad exige --alias")
+    filas = generar(a.votos, a.bloques, a.eleccion, a.salida, a.manifiesto, a.detalle, a.alias, a.comunidad)
     print(f"[doble_vuelta] OK distritos={len(filas) // len(ESCENARIOS)} filas={len(filas)}")
 
 
