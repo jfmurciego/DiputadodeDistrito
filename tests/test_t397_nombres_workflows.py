@@ -26,11 +26,13 @@ class NombresWorkflows(unittest.TestCase):
         "p30-resultados-electorales.yml": "P30 Resultados electorales", "p40-publicacion.yml": "P40 Publicación",
         "p50-publicacion-academica.yml": "P50 Publicación académica", "p70-archivo.yml": "P70 Archivo",
         "p80-verificacion-motor.yml": "P80 Verificación del motor",
+        "p00-campana.yml": "P00 Campaña",  # T-379 PR 3 (diseño T-378 §9: mismo nombre que la 00 mientras convivan)
     }
     SIN_BOTON = {
         "activacion-por-eleccion.yml": "_P00 Campaña — Elección",
         "revisor-pr.yml": "_P90 Automático — Revisor de PR",
         "auto-merge.yml": "_P90 Automático — Fusión automática",
+        "p00-cadena.yml": "_P00 Campaña — cadena de un territorio",  # T-379 PR 3: solo workflow_call
     }
     # Pendientes de T-379 2a (#888, turno exclusivo): se pasan a SIN_BOTON después de fusionarla.
     PENDIENTES_2A = {
@@ -67,7 +69,9 @@ class NombresWorkflows(unittest.TestCase):
         self.assertIsNone(re.match(r"^P\d0 ", "_P00 Campaña — Elección"))
 
     def test_nombres_unicos(self):
-        ns = [nombre(f) for f in WF.glob("*.yml")]
+        # Única excepción: P00 nueva repite «P00 Campaña» de la 00 mientras convivan (T-379 PR 3, diseño T-378 §9).
+        self.assertEqual(nombre(WF / "p00-campana.yml"), nombre(WF / "ejecucion-completa-proyecto.yml"))
+        ns = [nombre(f) for f in WF.glob("*.yml") if f.name != "p00-campana.yml"]
         self.assertEqual(len(ns), len(set(ns)), ns)
 
     def test_nadie_busca_los_nombres_viejos(self):

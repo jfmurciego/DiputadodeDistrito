@@ -35,8 +35,9 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
             "P00 Campaña — Gestor":WF/"gestor-campanas.yml",
         }
         self.assertEqual({load(p)["name"] for p in visible.values()},set(visible))
+        self.assertEqual(load(WF/"p00-campana.yml")["name"],"P00 Campaña")  # T-379 PR 3, diseño T-378 §9: mismo nombre que la 00
         dispatch=[p.name for p in WF.glob("*.yml") if "workflow_dispatch" in triggers(p)]
-        self.assertEqual(sorted(dispatch),["activacion-por-eleccion.yml","ejecucion-completa-proyecto.yml","gestor-campanas.yml","p10-fuentes.yml","p20-distritos.yml","p30-resultados-electorales.yml","p40-publicacion.yml","p50-publicacion-academica.yml","p70-archivo.yml","p80-verificacion-motor.yml","preparacion-legislatura-vigente.yml"])
+        self.assertEqual(sorted(dispatch),["activacion-por-eleccion.yml","ejecucion-completa-proyecto.yml","gestor-campanas.yml","p00-campana.yml","p10-fuentes.yml","p20-distritos.yml","p30-resultados-electorales.yml","p40-publicacion.yml","p50-publicacion-academica.yml","p70-archivo.yml","p80-verificacion-motor.yml","preparacion-legislatura-vigente.yml"])
 
     def test_preparation_supports_every_registered_territory_and_catalog_gates_generation(self):
         prep_options=expected_all=selector_labels(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")  # T-375: P10 ya no tiene selector; la lista viva es la de la tabla maestra

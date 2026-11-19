@@ -17,7 +17,7 @@
 #   `artifact_namespace = <territorio>` en P20 y P30: la matriz comparte run_id y los nombres de artefacto chocarían.
 # NO HACE: escribir en main (P10-P30 reciben `campana` y saltan sus registros, T-379 2b), lanzar ejecuciones por la
 #   API ni publicar. El archivo en origen del M08 y la tabla por partido con campaña (opción A) llegan tras #911.
-name: P00 Campaña — cadena de un territorio
+name: _P00 Campaña — cadena de un territorio
 
 on:
   workflow_call:
