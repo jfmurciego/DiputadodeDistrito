@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.546
+Versión: 1.0.547
 Fecha: 2026-11-19
-Alcance: T-421 — Bloques y alias PROPUESTOS de la doble vuelta para las autonómicas (sin lanzar)
+Alcance: T-421 — Tabla de bloques de las autonómicas APROBADA (lista cerrada del propietario)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-19_t-421-bloques-autonomicas.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.545_registro_20261119.md
+Cambios/motivo: entrada docs/registro/2026-11-19_t-421b-bloques-autonomicas-aprobada.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.546_registro_20261119.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.545_registro_20261119.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.547 · [2026-11-19 — T-421 — Tabla de bloques de las autonómicas APROBADA (lista cerrada del propietario)](registro/2026-11-19_t-421b-bloques-autonomicas-aprobada.md)
 - 1.0.546 · [2026-11-19 — T-421 — Bloques y alias PROPUESTOS de la doble vuelta para las autonómicas (sin lanzar)](registro/2026-11-19_t-421-bloques-autonomicas.md)
 - 1.0.545 · [2026-11-19 — T-420 — Duplicidades en R2 (solo lectura)](registro/2026-11-19_t420-duplicidades-r2.md)
 - 1.0.544 · [2026-11-19 — T-409 — Fijar en el repo el run de P75 que publica P40 (doble vuelta V4)](registro/2026-11-19_implementador-t409-fijar-p75.md)
