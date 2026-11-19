@@ -4,7 +4,7 @@
 
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.0.1 · FECHA: 2026-11-19 · ESTADO: candidato
-CAMBIOS: 1.0.1 (T-421, Planificador y revisor): CONTIGO-ZUREKIN → Nacionalistas (propietario, 19-11); JUNTS+ → Nacionalistas (no es el JXC de D-170); la tabla va por partido tras el alias (como en el nacional) y el alias lleva una fila por sigla; una regla sin socio aprobado conserva la sigla como id.
+CAMBIOS: 1.0.1 (T-421, Planificador y revisor): CONTIGO-ZUREKIN, DO y 100x100 → Nacionalistas (propietario, 19-11); JUNTS+ → Nacionalistas (no es el JXC de D-170); la tabla va por partido tras el alias (como en el nacional) y el alias lleva una fila por sigla; una regla sin socio aprobado conserva la sigla como id.
 CAMBIOS: 1.0.0 (T-421): fichero nuevo.
 MOTIVO: la segunda tanda de la V4 (D-179) lleva los territorios `aut`; sus partidos deben tener bloque con las mismas reglas que las generales.
 QUÉ HACE: lee los votos por partido de la elección vigente de cada comunidad (datos/resultados/historico/autonomicas/<c>/<AAAAMM>/<c>_partidos.csv,
@@ -61,6 +61,7 @@ REGLAS = {
     "SUMAR": (None, IZQ, CPS), "EB-AZ": (None, IZQ, "Ezker Batua-Berdeak (IU) con Alianza Verde → Izquierdas (IU, D-168)"),
     "PAR-ES.C.": (None, "", "sin bloque (D-168: PAR)"), "Cs": (None, "", "sin bloque (D-168: Cs)"), "PACMA": (None, "", "sin bloque (D-168: PACMA)"),
     "CONTIGO-ZUREKIN": (None, NAC, "decisión del propietario (19-11, vía Planificador): nacionalistas antes que izquierdistas → Nacionalistas"),
+    "DO": (None, NAC, "decisión del propietario (19-11, vía Planificador): → Nacionalistas"), "100x100": (None, NAC, "decisión del propietario (19-11, vía Planificador): → Nacionalistas"),
     "JUNTS+": (None, NAC, "Junts = CiU–Junts de la tabla aprobada → Nacionalistas (no es el JXC de 2016 de D-170)"), "SALF": (None, "", "dudoso: sin criterio aprobado"),
 }
 
