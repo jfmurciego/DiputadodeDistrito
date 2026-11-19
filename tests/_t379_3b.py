@@ -14,21 +14,24 @@ JOBS = {
 }
 PERSIST_3B = "${{ toJSON(inputs.persist_state) }}"
 PERSIST_2B = "${{ inputs.campana && 'false' || toJSON(inputs.persist_state) }}"
-REF_3B = "${{ inputs.campana && github.sha || needs.p11_registrar.outputs.promotion_sha }}"
-REF_2B = "${{ needs.p11_registrar.outputs.promotion_sha }}"
+REF_3B = re.compile(r"\$\{\{ inputs\.campana && github\.sha \|\| (needs\.[a-z0-9_]*registrar\.outputs\.promotion_sha) \}\}")
 GRUPO = re.compile(r"\$\{\{ inputs\.campana && format\('ddd-campana-\{0\}-\{1\}', inputs\.campana, [a-z0-9_.]+\) \|\| '([a-z-]+)' \}\}")
 
 
+def jobs_3b(doc):
+    """Jobs con el paso de ensayo (vale para P10, P20 y las vistas de P10, que renombran los jobs)."""
+    return [j for j, job in (doc.get("jobs") or {}).items() if any(s.get("name") == ENSAYO for s in job.get("steps") or [])]
+
+
 def es_3b(nombre, doc):
-    jobs = (doc.get("jobs") or {})
-    return any(s.get("name") == ENSAYO for j in JOBS.get(nombre, ()) for s in (jobs.get(j) or {}).get("steps") or [])
+    return bool(jobs_3b(doc))
 
 
 def deshacer(nombre, doc):
     d = copy.deepcopy(doc)
     if not es_3b(nombre, d):
         return d
-    for j in JOBS[nombre]:
+    for j in jobs_3b(d):
         job = d["jobs"][j]
         m = re.fullmatch(r"\$\{\{ (.*) \}\}", job["if"])
         job["if"] = "${{ (" + m.group(1) + ") && !inputs.campana }}"
@@ -36,18 +39,20 @@ def deshacer(nombre, doc):
         for s in job["steps"]:
             if s.get("name") == "Credencial de registro" and s.get("if") == SOLO_SIN_CAMPANA:
                 del s["if"]
-            if (s.get("with") or {}).get("ref") == REF_3B:
-                s["with"]["ref"] = REF_2B
+            m = REF_3B.fullmatch(str((s.get("with") or {}).get("ref", "")))
+            if m:
+                s["with"]["ref"] = "${{ " + m.group(1) + " }}"
         c = job.get("concurrency")
         if isinstance(c, dict) and isinstance(c.get("group"), str):
             g = GRUPO.fullmatch(c["group"])
             if g:
                 c["group"] = g.group(1)
-    if nombre == "p10-fuentes":
-        for j in ("p11_resolver", "p12_resolver"):
-            for s in d["jobs"][j]["steps"]:
-                if (s.get("env") or {}).get("PERSIST_INPUT") == PERSIST_3B:
-                    s["env"]["PERSIST_INPUT"] = PERSIST_2B
+    if nombre != "p20-distritos":  # P10 y sus vistas: los resolutores vuelven a forzar sin persistencia con campaña
+        for j, job in d["jobs"].items():
+            if j.endswith("resolver"):
+                for s in job.get("steps") or []:
+                    if (s.get("env") or {}).get("PERSIST_INPUT") == PERSIST_3B:
+                        s["env"]["PERSIST_INPUT"] = PERSIST_2B
     return d
 
 
