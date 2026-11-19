@@ -1,0 +1,6 @@
+/* VERSIÓN: 1.0.0 · T-415 PR 3 · tokens de color de los tres bloques de la doble vuelta (T-413 §2, D-172).
+   Fuente única para portada y mapa de la V4. El color nunca es el único portador: el nombre del bloque va siempre escrito.
+   Claro: fondo #fffdf8. Oscuro: fondo #14181a (mapa) y #0b0d0e (portada). */
+:root{--izq:#b3261e;--nac:#0b6e69;--pat:#1f5fa8;--sin:#5b6470}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--izq:#ff8a80;--nac:#4fd1c5;--pat:#7fb2ff;--sin:#a8b0bb}}
+:root[data-theme=dark]{--izq:#ff8a80;--nac:#4fd1c5;--pat:#7fb2ff;--sin:#a8b0bb}

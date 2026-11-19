@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.536
+Versión: 1.0.544
 Fecha: 2026-11-19
-Alcance: T-409 — Ajustes de la doble vuelta en P30 tras la revisión de #911
+Alcance: T-409 — Fijar en el repo el run de P75 que publica P40 (doble vuelta V4)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-19_implementador-t409-p30-dv-ajustes.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.535_registro_20261119.md
+Cambios/motivo: entrada docs/registro/2026-11-19_implementador-t409-fijar-p75.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.543_registro_20261119.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,14 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.535_registro_20261119.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.544 · [2026-11-19 — T-409 — Fijar en el repo el run de P75 que publica P40 (doble vuelta V4)](registro/2026-11-19_implementador-t409-fijar-p75.md)
+- 1.0.543 · [2026-11-19 — T-409 — Publicador de la doble vuelta de los 52 nac para la V4 (P40)](registro/2026-11-19_implementador-t409-publicador-doble-vuelta.md)
+- 1.0.542 · [2026-11-19 — T-415 — PR 3: «La doble vuelta» en Comprender y tokens de bloques](registro/2026-11-19_implementador-t415-pr3-comprender.md)
+- 1.0.541 · [2026-11-19 — T-419 — Plan 1.0.70: D-178, D-179 y T-418](registro/2026-11-19_planificador-plan-1-0-70.md)
+- 1.0.540 · [2026-11-19 — T-418 — Diseño corto de la doble vuelta desde R2 (opción de P70)](registro/2026-11-19_implementador-t418-diseno-p70.md)
+- 1.0.539 · [2026-11-19 — T-415 — PR 2: bloque de vídeo de presentación con URL configurable](registro/2026-11-19_implementador-t415-pr2-video.md)
+- 1.0.538 · [2026-11-19 — T-418 — P75 «Doble vuelta desde R2» en P70 Archivo (V4 sin regenerar)](registro/2026-11-19_implementador-t418-p75-doble-vuelta-r2.md)
+- 1.0.537 · [2026-11-19 — T-415 — PR 1: base de `visor/v4/` (portada final de la autora)](registro/2026-11-19_implementador-t415-pr1-v4-base.md)
 - 1.0.536 · [2026-11-19 — T-409 — Ajustes de la doble vuelta en P30 tras la revisión de #911](registro/2026-11-19_implementador-t409-p30-dv-ajustes.md)
 - 1.0.535 · [2026-11-19 — T-415 — Diseño de la V4 2.0.3: alineación de redacción](registro/2026-11-19_implementador-t415-diseno-redaccion.md)
 - 1.0.534 · [2026-11-19 — T-416 — Propuesta de limpieza de R2 (paso b, solo documento)](registro/2026-11-19_implementador-t416-propuesta-r2.md)

@@ -29,7 +29,8 @@ HUELLAS = {
 A_TODO, A_P10 = "P71 Archivar todo lo vivo", "P71 Archivar paquete de fuentes de un territorio"
 A_PROD, A_COMP = "P72 Recuperar producto electoral", "P72 Recuperar composición M06"
 A_PODA, A_LIST = "P73 Podar", "P74 Listar"
-ACCIONES = [A_TODO, A_P10, A_PROD, A_COMP, A_PODA, A_LIST]
+A_DV = "P75 Doble vuelta desde R2"  # T-418 (P70 1.1.0)
+ACCIONES = [A_TODO, A_P10, A_PROD, A_COMP, A_PODA, A_LIST, A_DV]
 TECNICAS = ("territory_id", "data_edition", "source_run_id", "artifact_name", "artifact_sha256", "source_commit",
             "expected_context_fingerprint", "confirm_recovery", "caduca_antes", "sha256_lista", "ejecutar", "tarea")
 

@@ -1,12 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: p70-archivo.yml
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.1.1
+# CAMBIOS 1.1.1: T-418 (D-178): P75 imprime en el log y en el resumen `INFORME_CLAVE=` e `INFORME_SHA256=` (y el sha256 y la clave de cada ZIP): es lo que se fija en
+#   configuracion/doble_vuelta_publicada.json para publicar la doble vuelta en P40. El resto, idéntico.
 # NOMBRE DE VERSIÓN: P70 Archivo
 # FECHA: 2026-11-16
 # ESTADO: candidato
 # QUÉ HACE: único punto de entrada del archivo en R2 (D-131, D-132). Botón: acción = P71 archivar todo lo vivo | P71 archivar el paquete
 #   de fuentes de un territorio | P72 recuperar producto electoral | P72 recuperar composición M06 | P73 podar | P74 listar;
-#   `simular` (solo P73, por defecto marcado), `territorios` (código) y `eleccion` (AAAA-MM) solo para recuperar y para el paquete de fuentes.
+#   `simular` (solo P73, por defecto marcado), `territorios` (código) y `eleccion` (AAAA-MM) solo para recuperar, para el paquete de fuentes y para P75 (vacío = todos los `nac` y 2023-07).
 #   Run, artefacto, sha, commit, edición y fecha se resuelven en el código (herramientas/p70_resolver.py), no en el botón.
 #   Cron diario 05:17 = P71 todo lo vivo. `workflow_call` conserva las entradas técnicas de la 00 (job `recuperar_electoral`, P72 producto).
 #   Concurrencia: P71 (los dos), y P73 comparten el grupo `archivar-artefactos-r2` (un solo escritor en R2); P72 conserva sus grupos por
@@ -14,11 +16,16 @@
 #   docs/ESTUDIOS/T145_PODA_R2/SHA256_APROBADO.txt: el workflow lo lee de main y `p70_resolver.py sha-poda` exige sha == sha256(ola1_borrar.csv);
 #   un test fija el literal. Sin revisor en `produccion` (D-127) ni sha tecleado, `simular` desmarcado borra sin paso humano: la barrera real es
 #   la frase de campaña del propietario en el chat del Operador (D-52).
+# CAMBIOS: 1.1.0 (T-418, D-178/D-179): acción nueva «P75 Doble vuelta desde R2» (solo lectura sobre git; escribe objetos nuevos en R2): por territorio (vacío = los `nac`)
+#   baja `ddd-minimo-<run>-M08`, comprueba su sha256, calcula dv_base, dv_A y dv_B con `doble_vuelta.py --alias` y sube `ddd-doble-vuelta-<run>.zip` e `INFORME.json` a R2
+#   (herramientas/p75_doble_vuelta_r2.py). Reutiliza `territorios` y `eleccion`; mismo grupo de concurrencia que P71/P73 (un solo escritor en R2). Lo demás, igual.
 # CAMBIOS: 1.0.0 (T-368): fichero nuevo; sustituye a podar-r2.yml 1.0.1, recuperar-producto-electoral-durable.yml 1.0.5 y
 #   mantenimiento-programado.yml 1.1.0 (copias en legacy/workflows/podar-r2_v1.0.1, recuperar-producto-electoral-durable_v1.0.5 y mantenimiento-programado_v1.1.0, _20261116). P71 sin «caduca antes»; P71 suma `archivar_p10` (de
 #   bateria-motor.yml, que lo conserva hasta T-369); P74 listar es nuevo.
 # MOTIVO: D-129 a D-132: un workflow por familia, sin parámetros técnicos visibles.
-# ANTERIOR: legacy/workflows/mantenimiento-programado_v1.1.0_20261116.yml
+# ANTERIOR: legacy/workflows/p70-archivo_v1.1.0_20261119.yml
+# ANTERIOR (1.0.0): legacy/workflows/p70-archivo_v1.0.0_20261119.yml
+# ANTERIOR (1.0.0): legacy/workflows/mantenimiento-programado_v1.1.0_20261116.yml
 name: P70 Archivo
 run-name: "P70 Archivo · ${{ inputs.accion || 'P71 archivo diario' }}"
 
@@ -65,18 +72,19 @@ on:
           - 'P72 Recuperar composición M06'
           - 'P73 Podar'
           - 'P74 Listar'
+          - 'P75 Doble vuelta desde R2'
       simular:
         description: 'Solo «P73 Podar»: marcado = simulación (no borra); desmarcado = borra de verdad (irreversible, entorno produccion)'
         required: false
         type: boolean
         default: true
       territorios:
-        description: 'Territorio (código, p. ej. aut01 o nac42): paquete de fuentes y producto electoral; composición M06: códigos separados por comas o vacío = todos'
+        description: 'Territorio (código, p. ej. aut01 o nac42): paquete de fuentes y producto electoral; composición M06: códigos separados por comas o vacío = todos; P75: códigos nac separados por comas o vacío = todos los nac'
         required: false
         type: string
         default: ''
       eleccion:
-        description: 'Elección (AAAA-MM, p. ej. 2023-07): producto electoral y composición M06 (vacío = 2023-07)'
+        description: 'Elección (AAAA-MM, p. ej. 2023-07): producto electoral, composición M06 y P75 (vacío = 2023-07)'
         required: false
         type: string
         default: ''
@@ -999,3 +1007,53 @@ jobs:
         run: |
           set -euo pipefail
           python3 herramientas/listar_r2.py
+
+  # ---- P75 doble vuelta desde R2 (T-418)
+  doble_vuelta_r2:
+    if: ${{ inputs.accion == 'P75 Doble vuelta desde R2' }}
+    name: Doble vuelta desde R2
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    concurrency:
+      group: archivar-artefactos-r2
+      cancel-in-progress: false
+      queue: max
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Calcular la doble vuelta de cada territorio desde R2
+        shell: bash
+        env:
+          TERRITORIOS: ${{ inputs.territorios }}
+          ELECCION: ${{ inputs.eleccion }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          mkdir -p salida_p75
+          rc=0
+          python3 herramientas/p75_doble_vuelta_r2.py --territorios "$TERRITORIOS" --eleccion "$ELECCION" --salida salida_p75 || rc=$?
+          if [[ -s salida_p75/INFORME.json ]]; then
+            python3 - salida_p75/INFORME.json >> "$GITHUB_STEP_SUMMARY" <<'PY'
+          import hashlib,json,sys
+          r=json.load(open(sys.argv[1]))
+          print(f"### P75 · doble vuelta desde R2 · {r['eleccion']} · {r['ok']}/{r['total']} OK\n")
+          print(f"`INFORME_CLAVE=doble_vuelta/{r['eleccion']}/{r['run_p75']}/INFORME.json`  \n`INFORME_SHA256={hashlib.sha256(open(sys.argv[1],'rb').read()).hexdigest()}`\n")
+          print("| Territorio | Run | Estado | CSV M07 | Sin casar % | Sin bloque % |\n|---|---|---|---|---:|---:|")
+          for f in r["territorios"]:
+              print(f"| {f['territorio']} | {f['run']} | {f['estado']} | {f['trae_m07']} | {f['sin_casar_pct']} | {f['sin_bloque_pct']} |")
+          PY
+          fi
+          exit "$rc"
+      - name: Conservar el informe
+        if: ${{ always() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: p75-informe-${{ github.run_id }}
+          path: salida_p75/INFORME.json
+          if-no-files-found: ignore
+          retention-days: 14
