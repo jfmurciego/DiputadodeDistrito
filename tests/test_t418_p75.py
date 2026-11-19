@@ -21,10 +21,14 @@ from pathlib import Path
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "herramientas"))
 import p75_doble_vuelta_r2 as p75  # noqa: E402
 
+from ddd_core import territorio_ids  # noqa: E402
+
 RUN = "1001"
+LEG = territorio_ids.id_legacy("nac01")  # id legacy del registro del visor y carpeta del archivista en R2
 VOTOS = ("district_id,party,votes,bloc\n"
          "0,PP-EU,60,\n0,SUMAR,40,\n"
          "1,PP-EU,30,\n1,SUMAR,28,\n1,PSE-EE (PSOE),22,\n1,VOX,15,\n1,XX,5,\n")
@@ -43,14 +47,14 @@ def paquete(con_csv=True, votos=VOTOS) -> bytes:
     return b.getvalue()
 
 
-def montar(td: Path, paquetes: dict, territorios=(("nac01", RUN), ("congreso_alava", RUN), ("nac02", "1002"), ("aut01", "1003"))) -> Path:
+def montar(td: Path, paquetes: dict, territorios=(("nac01", RUN), (LEG, RUN), ("nac02", "1002"), ("aut01", "1003"))) -> Path:
     (td / "orchestracion").mkdir()
     (td / "configuracion").mkdir()
     prods = [{"kind": "canonical_m08", "territory_id": t, "run_id": r} for t, r in territorios]
     prods += [{"kind": "canonical_m08", "territory_id": "nac01", "run_id": "9999", "election_date": "2026-11-29"},  # run mayor de OTRA elección: se ignora
               {"kind": "canonical_m06", "territory_id": "nac03", "run_id": "5"}]
     (td / "orchestracion/publicaciones_visor.json").write_text(json.dumps({"products": prods}), encoding="utf-8")
-    arts = {f"congreso_alava/{r}/ddd-minimo-{r}-M08.zip": {"run_id": r, "artefacto": f"ddd-minimo-{r}-M08", "sha256": hashlib.sha256(b).hexdigest()}
+    arts = {f"{LEG}/{r}/ddd-minimo-{r}-M08.zip": {"run_id": r, "artefacto": f"ddd-minimo-{r}-M08", "sha256": hashlib.sha256(b).hexdigest()}
             for r, b in paquetes.items()}
     (td / "orchestracion/archivo_r2.json").write_text(json.dumps({"schema": "ddd.archivo-r2/1.0", "artefactos": arts}), encoding="utf-8")
     (td / "configuracion/bloques_partidos_2026-11-17.csv").write_text(BLOQUES, encoding="utf-8")
@@ -125,7 +129,7 @@ class P75(unittest.TestCase):
             r = montar(Path(t), {})
             # solo Congreso (ámbito NAC), id nuevo, sin duplicar por el legacy, sin M06 y con el run de LA ELECCIÓN (no el 9999 de 2026)
             self.assertEqual(p75.territorios_con_m08(r), [("nac01", RUN), ("nac02", "1002")])
-            self.assertEqual(p75.territorios_con_m08(r, "congreso_alava"), [("nac01", RUN)])  # el id legacy vale
+            self.assertEqual(p75.territorios_con_m08(r, LEG), [("nac01", RUN)])  # el id legacy vale
             for malo, causa in (("aut01", "P75_FUERA_DE_ALCANCE"), ("andalucia", "P75_FUERA_DE_ALCANCE"), ("nac99", "P75_TERRITORIO_INVALIDO"), ("nac03", "P75_SIN_M08_VIGENTE")):
                 with self.assertRaisesRegex(ValueError, causa):
                     p75.territorios_con_m08(r, malo)
@@ -134,7 +138,7 @@ class P75(unittest.TestCase):
         subidas = []
         inf, _ = self.correr({RUN: paquete()}, subir=lambda k, ruta, h: subidas.append((k, Path(ruta).name, h)))
         # carpeta y run: los del archivista (legacy); el run de P75 entra en el nombre: objetos nuevos, nunca se sobrescribe
-        self.assertEqual(subidas, [(f"congreso_alava/{RUN}/ddd-doble-vuelta-{RUN}-p75-77.zip", f"ddd-doble-vuelta-{RUN}.zip", inf["territorios"][0]["sha256_salida"])])
+        self.assertEqual(subidas, [(f"{LEG}/{RUN}/ddd-doble-vuelta-{RUN}-p75-77.zip", f"ddd-doble-vuelta-{RUN}.zip", inf["territorios"][0]["sha256_salida"])])
         self.assertEqual(inf["run_p75"], "77")
 
     def test_un_territorio_malo_no_para_a_los_demas(self):
