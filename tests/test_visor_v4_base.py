@@ -55,6 +55,42 @@ class PortadaV4(unittest.TestCase):
             self.assertNotIn("diputadodedistrito.es", h, pag)
         self.assertIn('href="mapa/"', _txt("index.html"))
 
+    def test_cabecera_identica_en_todas_las_paginas(self):
+        # T-423: una sola plantilla (visor/v4/cabecera.html); cada página la copia con sus rutas; solo cambia aria-current
+        plantilla = _txt("cabecera.html").split("-->\n", 1)[1].strip()
+        self.assertEqual(plantilla.count("<a "), 7)  # marca + 6 del menú; sin botones a la derecha en ninguna página
+        quitar = lambda h: re.sub(r'\{% if actual == "[^"]+" %\}|\{% endif %\}| aria-current="page"', "", h)
+        paginas = {"index.html": ("", "../docs/"), "comprender.html": ("", "../docs/"), "auditoria-registro.html": ("", "../docs/"),
+                   "mapa/index.html": ("../", "../../docs/")}
+        for pag, (v4, docs) in paginas.items():
+            h = re.search(r'<header class="site-header[^"]*">.*?</header>', _txt(pag), re.S).group(0)
+            self.assertEqual(quitar(h), plantilla.replace("{V4}", v4).replace("{DOCS}", docs), pag)
+        zens = (DOCS.parent / "overrides/main.html").read_text(encoding="utf-8")
+        h = re.search(r'<header class="site-header[^"]*">.*?</header>', zens, re.S).group(0)
+        self.assertEqual(quitar(h), plantilla.replace("{V4}", "../v4/").replace("{DOCS}", ""), "Datos/Metodología/Fuentes")
+        self.assertIn("cabecera.html", _txt("NO_PUBLICAR.txt").split())  # la plantilla no se publica
+
+    def test_sin_nomenclatura_m_en_texto_visible(self):
+        # T-423 (D-165): ningún «M01…M08» en lo que se lee; los ids de datos («M06» como clave exacta) y los ficheros no cuentan (T-313)
+        m0 = re.compile(r"\bM0[1-8]\b")
+        def html(t):
+            t = re.sub(r"<!--.*?-->|<script\b.*?</script>|<style\b.*?</style>", " ", t, flags=re.S)
+            return re.sub(r"<[^>]+>", " ", t) + " ".join(re.findall(r'(?:aria-label|title|alt|placeholder)="([^"]*)"', t))
+        def js(t):
+            t = re.sub(r"/\*.*?\*/|(?<![:\\])//[^\n]*", " ", t, flags=re.S)
+            lits = re.findall(r'"((?:[^"\\\n]|\\.)*)"|\'((?:[^\'\\\n]|\\.)*)\'', t)
+            return " ".join(a or b for a, b in lits if not re.fullmatch(r"M0[1-8]", a or b))
+        def md(t):
+            return re.sub(r"```.*?```|`[^`]*`|\]\([^)]*\)|https?://\S+", " ", t, flags=re.S)
+        textos = {f: html(_txt(f)) for f in ("index.html", "comprender.html", "mapa/index.html")}
+        textos.update({f: js(_txt(f)) for f in ("app.js", "mapa/explorar.js", "mapa/dv.js")})
+        textos.update({d.name: md(d.read_text(encoding="utf-8")) for d in sorted(DOCS.glob("*.md"))})
+        textos["overrides/main.html"] = html((DOCS.parent / "overrides/main.html").read_text(encoding="utf-8"))
+        self.assertIn("metodo.md", textos)  # guardia: Metodología entra
+        for f, t in textos.items():
+            self.assertIsNone(m0.search(t), f"{f}: {m0.findall(t)[:5]}")
+        self.assertIsNotNone(m0.search(js('const a="M06 publicado";')))  # guardia: el extractor sí ve literales con texto
+
     def test_menu_unico_e_investigacion(self):
         # T-423: un solo menú en portada, Comprender y Explorar; «Investigación» enlaza Datos, Metodología y Fuentes
         menu = ["Inicio", "Comprender", "Explorar", "Datos", "Metodología", "Fuentes"]

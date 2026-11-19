@@ -57,6 +57,9 @@
     return "OTROS";
   }
   const LOCALE_ES={"NavigationControl.ZoomIn":"Acercar","NavigationControl.ZoomOut":"Alejar","NavigationControl.ResetBearing":"Orientar al norte"};
+  // T-423 (D-165): el texto visible usa la nomenclatura P; los ids de datos (M06, M08…) no cambian (T-313).
+  const NOMBRE_P={M01:"P21",M02:"P22",M03:"P23",M04:"P24",M05:"P25",M06:"P26",M07:"P31",M08:"P32"};
+  function textoP(t){return String(t??"").replace(/\bM0([1-8])\b/g,m=>NOMBRE_P[m]);}
   function esc(s){return String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");}
   function color(n){return PALETA[family(n)]||PALETA.OTROS;}
   function randomNeutral(n){const pal=["#91aabb","#a5bcc8","#b5c8d0","#9baac2","#c2d0da","#afbeca","#8eabb7"];let h=0;for(const ch of String(n))h=(h*31+ch.charCodeAt(0))>>>0;return pal[h%pal.length];}
@@ -186,9 +189,9 @@
     if(S.scope==="nacional"&&!validElection()&&S.view==="electoral")
       return "Elección histórica elegida. La serie existe en el repositorio, pero no está materializada aquí como capa electoral de sección/distrito V3. No se reutilizan los colores de 2023.";
     if(S.scope==="autonomico"&&S.view==="electoral"&&!S.region)
-      return "Selecciona una comunidad para consultar sus productos M08 publicados; no se mezclan resultados de parlamentos distintos.";
+      return "Selecciona una comunidad para consultar sus resultados por distrito publicados (P32); no se mezclan resultados de parlamentos distintos.";
     if(S.scope==="autonomico"&&S.view==="electoral"&&S.region)
-      return "Los productos M08 autonómicos no acreditan en este visor la identidad de la elección seleccionada: la cartografía se muestra neutra hasta disponer de esa correspondencia.";
+      return "Los resultados por distrito autonómicos (P32) no acreditan en este visor la identidad de la elección seleccionada: la cartografía se muestra neutra hasta disponer de esa correspondencia.";
     return "";
   }
   function provinceFeatures(){return D.prov?.features||[];}
@@ -373,7 +376,7 @@
     installSource("distritos",districts);
     installSource("secciones",sections);
     document.body.dataset.distritos=String(districts.features.length);document.body.dataset.secciones=String(sections.features.length);
-    if(product)$("source-label").textContent=(product.label||"Producto M06/M08")+
+    if(product)$("source-label").textContent=textoP(product.label||"Producto certificado P26 / resultados P32")+
       " · "+(product.certification_status||"sin certificación")+
       " · ejecución "+product.run_id;
     paint();renderDetail();
@@ -427,7 +430,7 @@
       (!showS||S.system==="mayoritario");
     rows(partyVisible);
     if(S.layer==="poblacion"||S.layer==="desviacion"){
-      legend("<h3>"+(S.layer==="poblacion"?"Población":"Desviación de población")+"</h3><div style='height:12px;background:linear-gradient(90deg,#dcebdc,#f3cb84,#b64c53);border-radius:6px'></div><small>Capa basada en población M06, donde está publicada; no representa partidos.</small>");
+      legend("<h3>"+(S.layer==="poblacion"?"Población":"Desviación de población")+"</h3><div style='height:12px;background:linear-gradient(90deg,#dcebdc,#f3cb84,#b64c53);border-radius:6px'></div><small>Capa basada en la población del producto certificado (P26), donde está publicada; no representa partidos.</small>");
     }
     if(dvActiva()){
       const c=bloques();
@@ -494,7 +497,7 @@
       parties.map(p=>"<tr><td><i style='background:"+PALETA[p]+"'></i>"+esc(p)+"</td><td>"+
         fmt(official[p]||0)+"</td><td><strong>"+fmt(proposed[p]||0)+"</strong></td></tr>").join("")+
       "<tr class='total'><td>Total</td><td>"+fmt(actual)+"</td><td>"+fmt(ddd)+"</td></tr></tbody></table>"+
-      "<p class='small-note'>DDD: un escaño para el partido más votado en cada distrito M08. No es el reparto proporcional oficial.</p>";
+      "<p class='small-note'>DDD: un escaño para el partido más votado en cada distrito (resultados P32). No es el reparto proporcional oficial.</p>";
   }
   function provenanceHtml(kind,obj){
     const aviso=t=>"<p class='small-note'>"+esc(t)+"</p>";
@@ -565,7 +568,7 @@
     }else records.push(["Ámbito",S.scope==="nacional"?"Congreso":"Parlamentos autonómicos"],["Sistema",S.system==="mayoritario"?"Mayoritario DDD":"Proporcional actual"],["Vista",S.view]);
     $("context").innerHTML="<dl>"+records.map(([a,b])=>"<div><dt>"+esc(a)+"</dt><dd>"+esc(b)+"</dd></div>").join("")+"</dl>";
     const source=kind==="seccion"?"INE · seccionado 2025 / composición DDD (no resultado de mesa)":
-      kind==="distrito"?"M06 publicado; resultado M08 solo para elección acreditada · "+(obj.run_id||"sin identidad de producto"):
+      kind==="distrito"?"Producto certificado P26 publicado; resultado P32 solo para elección acreditada · "+(obj.run_id||"sin identidad de producto"):
       kind==="provincia"?(validElection()?"Resultados oficiales generales 2023 / catálogo DDD":"Cartografía DDD · capa electoral histórica no disponible"):
         "Productos del registro durable de DDD";
     $("source-label").textContent=source;
@@ -578,7 +581,7 @@
       if(data){const entries=Object.entries(data).sort((a,b)=>b[1]-a[1]);const max=Math.max(1,...entries.map(x=>x[1]));
         content=entries.map(([p,n])=>"<div class='party-row'><b>"+esc(p)+"</b><div class='track'><b style='width:"+(n/max*100)+"%;background:"+color(p)+"'></b></div><strong>"+fmt(n)+"</strong></div>").join("")+
           "<p class='small-note'>Escaños oficiales de esta provincia en el Congreso de 2023.</p>";}
-      else content=winner?"<p>Ganador acreditado M08: <b style='color:"+color(winner)+"'>"+esc(winner)+"</b></p>":
+      else content=winner?"<p>Ganador acreditado (P32): <b style='color:"+color(winner)+"'>"+esc(winner)+"</b></p>":
           "<p class='small-note'>No existe aquí un desglose electoral detallado acreditado para esta selección y fecha.</p>";
     }
     if(S.panel==="comparar")content=compareModels();
@@ -626,7 +629,7 @@
       S.level="comunidad";$("level").value=S.level;
     }
     $("tools-note").textContent=auto?
-      "Ámbito autonómico: distritos M06 publicados; las capas autonómicas de municipios y secciones censales aún no están materializadas. No se sustituyen por secciones del Congreso.":
+      "Ámbito autonómico: distritos certificados (P26) publicados; las capas autonómicas de municipios y secciones censales aún no están materializadas. No se sustituyen por secciones del Congreso.":
       "Las secciones censales disponibles conservan la geometría INE; su color electoral se hereda del ganador de su distrito DDD.";
   }
   function refresh(){

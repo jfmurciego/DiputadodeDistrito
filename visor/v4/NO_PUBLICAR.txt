@@ -5,3 +5,4 @@ NOTICE.md
 assets-manifest.json
 auditoria-registro.html
 mapa/ejemplo
+cabecera.html
