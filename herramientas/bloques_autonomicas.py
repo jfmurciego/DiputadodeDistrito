@@ -3,7 +3,8 @@
 """Tabla PROPUESTA de bloques y alias de la doble vuelta para las elecciones autonómicas vigentes (T-421, D-167, D-168, D-170).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-19 · ESTADO: candidato
+VERSIÓN: 1.0.1 · FECHA: 2026-11-19 · ESTADO: candidato
+CAMBIOS: 1.0.1 (T-421, Planificador): JUNTS+ → Nacionalistas (no es el JXC de D-170).
 CAMBIOS: 1.0.0 (T-421): fichero nuevo.
 MOTIVO: la segunda tanda de la V4 (D-179) lleva los territorios `aut`; sus partidos deben tener bloque con las mismas reglas que las generales.
 QUÉ HACE: lee los votos por partido de la elección vigente de cada comunidad (datos/resultados/historico/autonomicas/<c>/<AAAAMM>/<c>_partidos.csv,
@@ -59,7 +60,7 @@ REGLAS = {
     "PODEMOS-AHAL DUGU - ALIANZA VERDE": (None, IZQ, CPS), "POR ANDALUCÍA": (None, IZQ, CPS), "COMUNS SUMAR": (None, IZQ, CPS),
     "SUMAR": (None, IZQ, CPS), "EB-AZ": (None, IZQ, "Ezker Batua-Berdeak (IU) con Alianza Verde → Izquierdas (IU, D-168)"),
     "PAR-ES.C.": (None, "", "sin bloque (D-168: PAR)"), "Cs": (None, "", "sin bloque (D-168: Cs)"), "PACMA": (None, "", "sin bloque (D-168: PACMA)"),
-    "JUNTS+": (None, "", "sin bloque (D-170: JXC)"), "SALF": (None, "", "dudoso: sin criterio aprobado"),
+    "JUNTS+": (None, NAC, "Junts = CiU–Junts de la tabla aprobada → Nacionalistas (no es el JXC de 2016 de D-170)"), "SALF": (None, "", "dudoso: sin criterio aprobado"),
 }
 
 

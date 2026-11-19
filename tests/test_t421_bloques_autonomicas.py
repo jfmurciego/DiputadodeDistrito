@@ -28,8 +28,8 @@ class BloquesAutonomicas(unittest.TestCase):
         self.assertEqual(self.fila("aut01", "PSOE-A")["bloque_propuesto"], "Izquierdas")
         self.assertEqual(self.fila("aut09", "CUP - DT")["bloque_propuesto"], "Nacionalistas")
 
-    def test_d170_juntos_sin_bloque_y_dudosos_acotados(self):
-        self.assertEqual(self.fila("aut09", "JUNTS+")["bloque_propuesto"], "")
+    def test_junts_nacionalistas_y_dudosos_acotados(self):
+        self.assertEqual(self.fila("aut09", "JUNTS+")["bloque_propuesto"], "Nacionalistas")
         self.assertLessEqual(len(self.top), 15)
         self.assertEqual([t[0] for t in self.top], sorted((t[0] for t in self.top), reverse=True))
 
