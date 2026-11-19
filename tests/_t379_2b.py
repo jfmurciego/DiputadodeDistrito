@@ -20,6 +20,7 @@ def _on(d):
 
 
 PASO_DV_T409 = "Doble vuelta con coaliciones (D-171; no fatal)"  # T-409: lo añadido a P30 1.0.2, que no existía en la 1.0.0 congelada
+PASO_ARCHIVO_T409 = "Archivo en origen — M08 a R2 y votos por partido a git"  # el único paso cuyo comando lleva el `--extra` de T-409
 EXTRA_T409 = 'extra=(); [[ -d "$GITHUB_WORKSPACE/doble_vuelta" ]] && extra=(--extra "$GITHUB_WORKSPACE/doble_vuelta")\n'
 
 
@@ -49,7 +50,7 @@ def deshacer(nombre, doc):
         if job.get("steps"):
             job["steps"] = [s for s in job["steps"] if s.get("name") != PASO_DV_T409]
         for paso in job.get("steps") or []:
-            if isinstance(paso.get("run"), str):
+            if isinstance(paso.get("run"), str) and paso.get("name") == PASO_ARCHIVO_T409:
                 paso["run"] = sin_t409_run(paso["run"])
             if isinstance(paso.get("env"), dict) and paso["env"].get("PERSIST_INPUT") == PERSIST_CAMPANA:
                 paso["env"]["PERSIST_INPUT"] = PERSIST_ANTES
