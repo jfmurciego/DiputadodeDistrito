@@ -76,7 +76,7 @@ on:
         type: boolean
         default: true
       territorios:
-        description: 'Territorio (código, p. ej. aut01 o nac42): paquete de fuentes y producto electoral; composición M06: códigos separados por comas o vacío = todos'
+        description: 'Territorio (código, p. ej. aut01 o nac42): paquete de fuentes y producto electoral; composición M06: códigos separados por comas o vacío = todos; P75: códigos nac separados por comas o vacío = todos los nac'
         required: false
         type: string
         default: ''

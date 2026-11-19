@@ -43,13 +43,14 @@ def paquete(con_csv=True, votos=VOTOS) -> bytes:
     return b.getvalue()
 
 
-def montar(td: Path, paquetes: dict, territorios=(("nac01", RUN), ("nac02", "1002"), ("aut01", "1003"))) -> Path:
+def montar(td: Path, paquetes: dict, territorios=(("nac01", RUN), ("congreso_alava", RUN), ("nac02", "1002"), ("aut01", "1003"))) -> Path:
     (td / "orchestracion").mkdir()
     (td / "configuracion").mkdir()
     prods = [{"kind": "canonical_m08", "territory_id": t, "run_id": r} for t, r in territorios]
-    prods += [{"kind": "canonical_m08", "territory_id": "alava", "run_id": "999"}, {"kind": "canonical_m06", "territory_id": "nac03", "run_id": "5"}]
+    prods += [{"kind": "canonical_m08", "territory_id": "nac01", "run_id": "9999", "election_date": "2026-11-29"},  # run mayor de OTRA elección: se ignora
+              {"kind": "canonical_m06", "territory_id": "nac03", "run_id": "5"}]
     (td / "orchestracion/publicaciones_visor.json").write_text(json.dumps({"products": prods}), encoding="utf-8")
-    arts = {f"alava/{r}/ddd-minimo-{r}-M08.zip": {"run_id": r, "artefacto": f"ddd-minimo-{r}-M08", "sha256": hashlib.sha256(b).hexdigest()}
+    arts = {f"congreso_alava/{r}/ddd-minimo-{r}-M08.zip": {"run_id": r, "artefacto": f"ddd-minimo-{r}-M08", "sha256": hashlib.sha256(b).hexdigest()}
             for r, b in paquetes.items()}
     (td / "orchestracion/archivo_r2.json").write_text(json.dumps({"schema": "ddd.archivo-r2/1.0", "artefactos": arts}), encoding="utf-8")
     (td / "configuracion/bloques_partidos_2026-11-17.csv").write_text(BLOQUES, encoding="utf-8")
@@ -70,10 +71,10 @@ ENV = {"R2_BUCKET": "b", "R2_ACCOUNT_ID": "a"}
 
 
 class P75(unittest.TestCase):
-    def correr(self, paquetes, pedidos="nac01", subir=None, eleccion="2023-07", manifiesto_extra=None):
+    def correr(self, paquetes, pedidos="nac01", subir=None, eleccion="2023-07", manifiesto_extra=None, run_p75="77"):
         with tempfile.TemporaryDirectory() as t, tempfile.TemporaryDirectory() as w, mock.patch.dict(os.environ, ENV):
             r = montar(Path(t), manifiesto_extra if manifiesto_extra is not None else paquetes)
-            inf = p75.ejecutar(r, pedidos, eleccion, Path(w), cp_de(paquetes), subir)
+            inf = p75.ejecutar(r, pedidos, eleccion, Path(w), cp_de(paquetes), subir, run_p75)
             zips = {p.name: p.read_bytes() for p in Path(w).rglob("*.zip") if p.name.startswith("ddd-doble-vuelta")}
             return inf, zips
 
@@ -122,20 +123,23 @@ class P75(unittest.TestCase):
     def test_seleccion_de_territorios(self):
         with tempfile.TemporaryDirectory() as t:
             r = montar(Path(t), {})
-            self.assertEqual(p75.territorios_con_m08(r), [("nac01", RUN), ("nac02", "1002")])  # solo nac; sin ids viejos ni M06
-            self.assertEqual(p75.territorios_con_m08(r, "aut01"), [("aut01", "1003")])
-            for malo in ("alava", "nac99"):
-                with self.assertRaises(ValueError):
+            # solo Congreso (ámbito NAC), id nuevo, sin duplicar por el legacy, sin M06 y con el run de LA ELECCIÓN (no el 9999 de 2026)
+            self.assertEqual(p75.territorios_con_m08(r), [("nac01", RUN), ("nac02", "1002")])
+            self.assertEqual(p75.territorios_con_m08(r, "congreso_alava"), [("nac01", RUN)])  # el id legacy vale
+            for malo, causa in (("aut01", "P75_FUERA_DE_ALCANCE"), ("andalucia", "P75_FUERA_DE_ALCANCE"), ("nac99", "P75_TERRITORIO_INVALIDO"), ("nac03", "P75_SIN_M08_VIGENTE")):
+                with self.assertRaisesRegex(ValueError, causa):
                     p75.territorios_con_m08(r, malo)
 
     def test_sube_el_zip_a_la_carpeta_del_paquete_de_entrada(self):
         subidas = []
         inf, _ = self.correr({RUN: paquete()}, subir=lambda k, ruta, h: subidas.append((k, Path(ruta).name, h)))
-        self.assertEqual(subidas, [(f"alava/{RUN}/ddd-doble-vuelta-{RUN}.zip", f"ddd-doble-vuelta-{RUN}.zip", inf["territorios"][0]["sha256_salida"])])
+        # carpeta y run: los del archivista (legacy); el run de P75 entra en el nombre: objetos nuevos, nunca se sobrescribe
+        self.assertEqual(subidas, [(f"congreso_alava/{RUN}/ddd-doble-vuelta-{RUN}-p75-77.zip", f"ddd-doble-vuelta-{RUN}.zip", inf["territorios"][0]["sha256_salida"])])
+        self.assertEqual(inf["run_p75"], "77")
 
     def test_un_territorio_malo_no_para_a_los_demas(self):
         inf, _ = self.correr({RUN: paquete()}, pedidos="nac01,nac02")
-        self.assertEqual([f["estado"] for f in inf["territorios"]], ["OK", "SIN_PAQUETE_EN_R2"])
+        self.assertEqual([f["estado"] for f in inf["territorios"]], ["OK", "SIN_PAQUETE_EN_R2"])  # M08 vigente que no está en R2: falla y se informa
         self.assertEqual((inf["ok"], inf["total"]), (1, 2))
 
 

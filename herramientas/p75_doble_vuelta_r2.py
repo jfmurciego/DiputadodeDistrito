@@ -8,11 +8,12 @@ ANTERIOR: ninguna (fichero nuevo)
 CAMBIOS: 1.0.0: fichero nuevo.
 MOTIVO: D-178/D-179: la V4 sale sin regenerar los territorios publicados. El paquete mínimo M08 de R2 lleva (por construcción, `_m0[678]_`) la
   tabla de votos por partido y distrito de M07; esta herramienta la lee y calcula la doble vuelta con `doble_vuelta.py` y el alias de partidos.
-QUÉ HACE: por territorio (por defecto los `nacNN` con M08 vigente en orchestracion/publicaciones_visor.json): (1) localiza `ddd-minimo-<run>-M08` en
+QUÉ HACE: por territorio (por defecto los del Congreso, ámbito NAC, con M08 vigente DE LA ELECCIÓN en orchestracion/publicaciones_visor.json; un `aut` se rechaza): (1) localiza `ddd-minimo-<run>-M08` en
   orchestracion/archivo_r2.json, lo baja de R2 y comprueba su sha256 (herramientas/restaurar_estado_r2.py); (2) informa de si trae
   `*_m07_resultados_partido.csv` (sin él no se calcula: nunca se reconstruyen votos); (3) mide la cobertura del alias sobre esos ids (un % alto de votos sin
   casar = elección distinta de la pedida o alias incompleto) y calcula `doble_vuelta.csv`, `detalle.csv`, `cobertura.json` y `manifiesto.json`;
-  (4) sube `<carpeta>/<run>/ddd-doble-vuelta-<run>.zip` a R2 (ZIP determinista) y, al final, `doble_vuelta/<AAAA-MM>/INFORME.json` con una fila por territorio.
+  (4) sube `<carpeta>/<run>/ddd-doble-vuelta-<run>-p75-<run_p75>.zip` a R2 (ZIP determinista; carpeta y run son los del archivista, no propios) y, al final,
+  `doble_vuelta/<AAAA-MM>/<run_p75>/INFORME.json` con una fila por territorio: cada ejecución sube objetos nuevos y no sobrescribe ni borra nada.
   Sale 0 si todos los territorios quedan OK; 1 si alguno no (el informe se sube igualmente). Sin `--sin-subir` necesita R2_BUCKET, R2_ACCOUNT_ID y AWS_*.
   `district_id` va tal como lo escribe M07 (0..K-1); la numeración pública la aplica el publicador (T-135).
 USO: python herramientas/p75_doble_vuelta_r2.py [--territorios nac01,nac02] [--eleccion 2023-07] [--salida DIR] [--sin-subir]
@@ -23,18 +24,22 @@ import argparse
 import hashlib
 import json
 import os
-import re
 import sys
 import tempfile
 import zipfile
+from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import archivar_artefactos_r2 as ar  # noqa: E402
 import doble_vuelta as dv  # noqa: E402
 import doble_vuelta_cobertura as cob  # noqa: E402
 import fuente_r2  # noqa: E402
+import p70_resolver as pr  # noqa: E402
 import restaurar_estado_r2 as rr  # noqa: E402
+import resultados_ligeros as rl  # noqa: E402
+from ddd_core import territorio_ids  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 PUBLICACIONES = Path("orchestracion/publicaciones_visor.json")
@@ -43,8 +48,6 @@ ALIAS = Path("configuracion/alias_partidos_generales.csv")
 ELECCION_DEFECTO = "2023-07"
 CSV_M07 = "_m07_resultados_partido.csv"
 UMBRAL_SIN_CASAR = 5.0  # % de votos sin casar a partir del cual se avisa de elección o alias incorrectos
-_NAC = re.compile(r"^nac\d+$")
-_COD = re.compile(r"^(aut|nac)\d+$")
 _FECHA_ZIP = (2020, 1, 1, 0, 0, 0)
 
 
@@ -55,25 +58,34 @@ def bloques_vigente(root: Path) -> Path:
     return c[-1]
 
 
-def territorios_con_m08(root: Path, pedidos: str = "") -> list[tuple[str, str]]:
-    """(id, run) del canonical_m08 más reciente de cada territorio. Vacío = todos los `nacNN`; si no, los códigos pedidos (coma)."""
+def territorios_con_m08(root: Path, pedidos: str = "", eleccion: str = ELECCION_DEFECTO) -> list[tuple[str, str]]:
+    """(id nuevo, run) del canonical_m08 vigente DE LA ELECCIÓN de cada territorio del Congreso (ámbito NAC por el resolutor, T-220).
+
+    Vacío = todos; si no, los códigos pedidos (coma, id nuevo o legacy). Un `aut` o un id desconocido se rechaza (la tabla de bloques es de las
+    generales). El run se elige con `resultados_ligeros.vigente_por_eleccion` (nunca el mayor entre elecciones); el registro del visor trae cada
+    territorio con su id nuevo y con el legacy, y la clave de R2 (`<carpeta>/<run>/ddd-minimo-<run>-M08.zip`) la pone el archivista con el legacy: se
+    encuentra por run en `archivo_r2.json`."""
+    fecha = pr.fecha_eleccion(root, eleccion)
     prods = json.loads((root / PUBLICACIONES).read_text(encoding="utf-8"))["products"]
-    ult: dict[str, str] = {}
-    for x in prods:
-        if x.get("kind") == "canonical_m08" and _COD.match(str(x.get("territory_id", ""))):
-            t, r = x["territory_id"], str(x["run_id"])
-            if t not in ult or int(r) > int(ult[t]):
-                ult[t] = r
-    if pedidos.strip():
-        cods = [c.strip() for c in pedidos.split(",") if c.strip()]
-        malos = [c for c in cods if not _COD.match(c)]
-        if malos:
-            raise ValueError(f"P75_TERRITORIO_INVALIDO: {', '.join(malos)} (códigos como aut01 o nac42)")
-        faltan = [c for c in cods if c not in ult]
-        if faltan:
-            raise ValueError(f"P75_SIN_M08_VIGENTE: {', '.join(faltan)}")
-        return [(c, ult[c]) for c in cods]
-    return sorted((t, r) for t, r in ult.items() if _NAC.match(t))
+    vig: dict[str, str] = {}
+    for t, p in rl.vigente_por_eleccion(prods, "canonical_m08", fecha, ambito="NAC").items():
+        nuevo = territorio_ids.resolver_id(t)
+        if nuevo not in vig or int(p["run_id"]) > int(vig[nuevo]):
+            vig[nuevo] = str(p["run_id"])
+    if not pedidos.strip():
+        return sorted(vig.items())
+    out = []
+    for c in [c.strip() for c in pedidos.split(",") if c.strip()]:
+        try:
+            nuevo = territorio_ids.resolver_id(c)
+        except (territorio_ids.IdTerritorioDesconocido, territorio_ids.IdReservado) as exc:
+            raise ValueError(f"P75_TERRITORIO_INVALIDO: «{c}» ({exc})") from exc
+        if territorio_ids.ambito(nuevo) != "NAC":
+            raise ValueError(f"P75_FUERA_DE_ALCANCE: {c} no es del Congreso (solo nac; los aut esperan a la tabla de bloques de las autonómicas)")
+        if nuevo not in vig:
+            raise ValueError(f"P75_SIN_M08_VIGENTE: {c} no tiene M08 vigente de {eleccion}")
+        out.append((nuevo, vig[nuevo]))
+    return out
 
 
 def _zip_determinista(destino: Path, ficheros: list[Path]) -> None:
@@ -136,18 +148,19 @@ def procesar(root: Path, territorio: str, run: str, eleccion: str, trabajo: Path
     return fila
 
 
-def ejecutar(root: Path, pedidos: str, eleccion: str, trabajo: Path, cp=fuente_r2._cp, subir=None) -> dict:
+def ejecutar(root: Path, pedidos: str, eleccion: str, trabajo: Path, cp=fuente_r2._cp, subir=None, run_p75: str = "local") -> dict:
+    """`run_p75` (GITHUB_RUN_ID) entra en las claves de R2 para no sobrescribir nada: cada ejecución sube objetos nuevos."""
     eleccion = cob.normalizar_eleccion(eleccion or ELECCION_DEFECTO)
     filas = []
-    for t, run in territorios_con_m08(root, pedidos):
+    for t, run in territorios_con_m08(root, pedidos, eleccion):
         f = procesar(root, t, run, eleccion, trabajo, cp)
         if f["estado"] == "OK" and subir:
-            clave = f"{f['carpeta_r2']}/{run}/ddd-doble-vuelta-{run}.zip"
+            clave = f"{f['carpeta_r2']}/{run}/ddd-doble-vuelta-{run}-p75-{run_p75}.zip"  # carpeta y run: los del archivista (no propios)
             subir(clave, trabajo / t / "salida" / f"ddd-doble-vuelta-{run}.zip", f["sha256_salida"])
             f["clave_r2"] = clave
         filas.append(f)
         print(f"[p75] {t} run {run}: {f['estado']}" + (f" (sin casar {f['sin_casar_pct']} %)" if f["sin_casar_pct"] is not None else ""), flush=True)
-    informe = {"schema": "ddd.p75-informe/1.0", "eleccion": eleccion,
+    informe = {"schema": "ddd.p75-informe/1.0", "eleccion": eleccion, "run_p75": run_p75,
                "entradas": {"bloques": {"ruta": str(bloques_vigente(root).relative_to(root)), "sha256": dv.sha256(bloques_vigente(root))},
                             "alias": {"ruta": str(ALIAS), "sha256": dv.sha256(root / ALIAS)}},
                "territorios": filas, "ok": sum(f["estado"] == "OK" for f in filas), "total": len(filas)}
@@ -171,11 +184,12 @@ def main(argv=None) -> int:
     with tempfile.TemporaryDirectory() as td:
         trabajo = Path(a.salida) if a.salida else Path(td)
         trabajo.mkdir(parents=True, exist_ok=True)
-        inf = ejecutar(ROOT, a.territorios, a.eleccion, trabajo, subir=subir)
+        run_p75 = os.environ.get("GITHUB_RUN_ID") or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        inf = ejecutar(ROOT, a.territorios, a.eleccion, trabajo, subir=subir, run_p75=run_p75)
         ruta = trabajo / "INFORME.json"
         ruta.write_text(json.dumps(inf, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         if subir:
-            subir(f"doble_vuelta/{inf['eleccion']}/INFORME.json", ruta, dv.sha256(ruta))
+            subir(f"doble_vuelta/{inf['eleccion']}/{run_p75}/INFORME.json", ruta, dv.sha256(ruta))
         malos = [f for f in inf["territorios"] if f["estado"] != "OK"]
         for f in malos:
             print(f"::warning title=P75_{f['estado'].split(':')[0]}::{f['territorio']} run {f['run']}")
