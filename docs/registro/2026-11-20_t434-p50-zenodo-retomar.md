@@ -17,3 +17,10 @@
   mapas-v1.0.0 (74 assets): 71 paquetes verificados, Deslinde excluido.
 - Riesgos: la Release `mapas-v1.0.0` sigue con el tarball de código (no se toca; el depósito lo excluye). En una prueba
   de versión nueva, el enlace a la Release en la descripción del sandbox no existe.
+- Incidente (anotado por decisión del propietario, 20-11): el 2026-11-20 a las 13:59 UTC la P50 de prueba subió a la
+  Release pública `mapas-v1.0.0` el asset `ddd-deslinde-v1.0.0.tar.gz` (id 772033851, 62 812 B): el código del motor
+  (`pyproject.toml`, `requirements-deslinde.lock`, `src/deslinde/*.py`), no un mapa. Causa: el glob `paquetes/*/` del
+  empaquetado recogía el directorio versionado `paquetes/deslinde`. Llevaba 3 descargas cuando se detectó; a las 15:2x UTC el
+  contador marca 4, y al menos 2 son de la sesión de T-434 (comprobación del contenido y prueba de `preparar`). No se
+  ha borrado nada: el borrado del asset lo hace el Operador con la frase del propietario. Test nuevo: ningún paquete de
+  P50 lleva código (lista blanca: LINAJE, SHA256SUMS, CITATION.cff, M06 y contexto yaml/json).

@@ -165,6 +165,35 @@ class PasosDePublicar(Congelado):
             # y el lote de la 1.2.0 pasa el `preparar` del depósito
             self.assertEqual(len(z.preparar(db / "salida", "9.9.0", db / "zen")), len(ts))
 
+    def test_ningun_paquete_lleva_codigo_solo_mapas_y_su_contexto(self):
+        """Lista blanca de lo que puede ir en un paquete de P50: nada de código (ni del motor ni de herramientas)."""
+        ts = sorted(res.vigentes(ROOT))[:3]
+        permitido = re.compile(r"^\./(LINAJE\.json|SHA256SUMS|CITATION\.cff|productos/[a-z0-9_]+_m06_\d+\.zip|"
+                               r"contexto/controles_obligatorios\.yaml|contexto/config/[\w./-]+\.(yaml|json))$")
+        codigo = re.compile(r"\.(py|pyc|toml|lock|sh|js|ts|ipynb|cfg|ini|txt|md)$|/src/|requirements")
+        with tempfile.TemporaryDirectory() as b, tempfile.TemporaryDirectory() as tb:
+            db = Path(b)
+            self._arbol(db, ts)
+            nombres = self._publicar(self.nuevo, db, Path(tb), "$RUNNER_TEMP/p50/paquetes")
+            self.assertEqual(nombres, [f"ddd-{t}-v9.9.0.tar.gz" for t in ts])
+            for n in nombres:
+                with tarfile.open(db / "salida" / n) as tf:
+                    ficheros = [m.name for m in tf.getmembers() if not m.isdir()]
+                self.assertTrue(ficheros, n)
+                for f in ficheros:
+                    self.assertRegex(f, permitido, f"{n}: {f} no es mapa ni contexto")
+                    self.assertNotRegex(f, codigo, f"{n}: {f} es código")
+            # y el lote de la Release solo tiene paquetes de territorios del plan, SHA256SUMS, MAPAS.json y PLAN.json
+            self.assertEqual(sorted(p.name for p in (db / "salida").iterdir()),
+                             sorted(nombres + ["MAPAS.json", "PLAN.json", "SHA256SUMS"]))
+
+    def test_la_lista_blanca_detecta_el_codigo_de_deslinde(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = codigo_deslinde(Path(d), "1.0.0")
+            with tarfile.open(p) as tf:
+                self.assertEqual([m.name for m in tf.getmembers()], ["./src/deslinde/api.py"])
+            self.assertRegex("./src/deslinde/api.py", r"\.(py|pyc|toml|lock|sh|js|ts|ipynb|cfg|ini|txt|md)$|/src/|requirements")
+
     def test_ningun_paso_usa_el_directorio_paquetes_del_repo(self):
         for s in self.nuevo["jobs"]["publicar"]["steps"]:
             run = s.get("run", "")
