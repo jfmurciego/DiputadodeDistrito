@@ -1,0 +1,43 @@
+/* PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.0 · FECHA: 2026-11-19 · ESTADO: candidato
+   CAMBIOS: T-423, tema de la V4 (paleta, tipografía y cabecera de visor/v4/styles.css) para Datos, Metodología y Fuentes.
+   MOTIVO: un solo diseño para el sitio (decisión del propietario, 19-11). ANTERIOR: ninguna (fichero nuevo) */
+:root,[data-md-color-scheme=default]{
+  --md-default-bg-color:#0b0d0e;--md-default-fg-color:#f5f1e8;--md-default-fg-color--light:#cbbfb1;--md-default-fg-color--lighter:#8c7455;--md-default-fg-color--lightest:#3a2f27;
+  --md-primary-fg-color:#0a0c0d;--md-primary-bg-color:#f5f1e8;--md-accent-fg-color:#ef762b;
+  --md-typeset-color:#f5f1e8;--md-typeset-a-color:#ffbf87;--md-code-bg-color:#1b1f20;--md-code-fg-color:#f5f1e8;
+  --md-footer-bg-color:#431019;--md-footer-bg-color--dark:#220e12;--md-text-font:Arial,"Segoe UI",system-ui,sans-serif}
+body{background:#0b0d0e;color-scheme:dark}
+.md-header{background:#0a0c0df7;border-bottom:1px solid #8c74555c;box-shadow:none}
+.md-header__title{font:700 20px/1 Georgia,"Times New Roman",serif;text-transform:uppercase;letter-spacing:-.01em}
+.md-tabs{background:#0a0c0d}
+.md-typeset h1,.md-typeset h2,.md-typeset h3{font-family:Georgia,"Times New Roman",serif;color:#f5f1e8;letter-spacing:-.02em}
+.md-typeset h1{font-weight:700;border-bottom:2px solid #ef762b;padding-bottom:.3em}
+.md-typeset table:not([class]){background:#111516;border:1px solid #76573f}
+.md-typeset table:not([class]) th{background:#40141a;color:#f5f1e8}
+.md-typeset table:not([class]) td{border-top:1px solid #3a2f27}
+.md-nav__link--active,.md-nav__link:hover{color:#ef762b!important}
+.md-search__form{background:#1b1f20}
+.md-footer{background:linear-gradient(110deg,#431019,#220e12)}
+.md-typeset a:focus-visible,.md-nav__link:focus-visible{outline:3px solid #ffc896;outline-offset:3px}
+
+/* Cabecera, menú y pie de la V4 (mismas reglas que visor/v4/styles.css, con ámbito) */
+.v4-header,.v4-footer{--coal:#0b0d0e;--cream:#f5f1e8;--orange:#ef762b;--white:#f5f1e8;--serif:Georgia,'Times New Roman',serif;--sans:Arial,'Segoe UI',system-ui,sans-serif;font-family:var(--sans);color:var(--white)}
+.v4-header a,.v4-footer a{color:inherit;text-decoration:none}
+.v4-header .wrap,.v4-footer .wrap{width:min(calc(100% - 80px),1360px);margin-inline:auto}
+.v4-header.site-header{position:sticky;top:0;z-index:40;background:#0a0c0df7;border-bottom:1px solid #8c74555c}
+.v4-header .header-inner{min-height:80px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.v4-header .brand{display:inline-flex;align-items:center;gap:12px;flex-shrink:0}.v4-header .brand img{width:57px;height:45px;object-fit:contain}.v4-header .brand span{font:700 23px/.98 var(--serif);letter-spacing:-.025em}
+.v4-header .main-nav{display:flex;align-items:center;gap:clamp(18px,2.1vw,32px)}
+.v4-header .main-nav a{position:relative;padding-block:12px;text-transform:uppercase;font-size:13px;font-weight:700;letter-spacing:.035em;white-space:nowrap}
+.v4-header .main-nav a:after{content:'';position:absolute;bottom:2px;height:2px;left:0;right:0;background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform .15s ease}
+.v4-header .main-nav a:hover:after,.v4-header .main-nav a[aria-current=page]:after{transform:scaleX(1)}
+.v4-header .menu-toggle{display:none;padding:9px 12px;border:1px solid #8c7455;border-radius:3px;background:transparent;color:var(--white);min-height:44px;font:inherit}
+.v4-header a:focus-visible,.v4-header button:focus-visible{outline:3px solid #ffc896;outline-offset:5px}
+.v4-footer.footer{background:linear-gradient(110deg,#431019,#220e12);padding:17px 0 19px;position:relative}
+.v4-footer.footer:after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#89151f 0 40%,#d3a03c 40% 67%,#89151f 67% 100%)}
+.v4-footer strong{display:block;font:700 13px/1.4 var(--serif)}.v4-footer p{margin:4px 0 0;max-width:890px;color:#dec5c0;font-size:12px;line-height:1.5}
+@media(max-width:1000px){.v4-header .header-inner{min-height:72px;flex-wrap:wrap;position:relative}.v4-header .menu-toggle{display:block}.v4-header .main-nav{width:100%;flex-wrap:wrap;padding:4px 0 14px}
+ .has-js .v4-header .main-nav{display:none;position:absolute;top:72px;left:0;right:0;width:auto;flex-direction:column;align-items:stretch;gap:0;background:#151415;border:1px solid #826347;padding:12px 20px;box-shadow:0 15px 25px #0008}
+ .has-js .v4-header .main-nav.is-open{display:flex}.v4-header .main-nav a{min-height:44px;font-size:14px}}
+@media(max-width:600px){.v4-header .wrap,.v4-footer .wrap{width:calc(100% - 32px)}.v4-header .header-inner{min-height:67px;gap:12px}.v4-header .brand img{width:43px;height:35px}.v4-header .brand span{font-size:18px}.has-js .v4-header .main-nav{top:67px}}
+.md-main{padding-top:8px}
