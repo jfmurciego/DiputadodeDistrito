@@ -1,15 +1,18 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: visor V4 · Explorar (V3 completa + doble vuelta)
- * VERSIÓN: 1.0.0
- * FECHA: 2026-11-19
+ * VERSIÓN: 1.1.0
+ * FECHA: 2026-11-20
  * ESTADO: candidato
- * CAMBIOS: copia íntegra de v3.js 1.3.0 de la V3 (MapLibre, vista nacional, comunidad, provincia, distrito, municipio y sección
+ * CAMBIOS: 1.1.0 (T-427): la capa «Doble vuelta» también en el ámbito «Autonómico» con la autonómica vigente de cada comunidad (índice 1.1):
+ *   pinta los distritos del M08 publicado solo si su ejecución es la del índice (`run_m08`); id público = district_id interno + 1 (T-135);
+ *   comunidades sin doble vuelta, con su motivo declarado. El ámbito nacional, idéntico.
+ *   1.0.0: copia íntegra de v3.js 1.3.0 de la V3 (MapLibre, vista nacional, comunidad, provincia, distrito, municipio y sección
  *   censal, calendario, paletas, paneles, procedencia, galería y tabla) con rutas a ../../ y una capa electoral más, «Doble vuelta»
  *   (D-172): reglas «Tres bloques» (dv_A, por defecto), «Dos bloques» (dv_B), «Sin coaliciones» (dv_base) y «Más votado» (primero),
  *   coloreado por bloque (claro si la ventaja es < 5 puntos), ficha por distrito con primera y segunda vuelta y aviso fijo
  *   «Simulación sin valor oficial». Lee lo que deja P40 en v4/mapa/datos/ (herramientas/publicar_doble_vuelta.py) y verifica sha256.
  * MOTIVO: T-423, la V4 es la portada de la autora + la V3 completa enriquecida con la doble vuelta (decisión del propietario, 19-11).
- * ANTERIOR: ninguna (fichero nuevo; copia de v3.js 1.3.0 de la V3, que no cambia) */
+ * ANTERIOR: legacy/visor/v4/mapa/explorar_v1.0.0_20261120.js */
 "use strict";
 (function () {
   const BASE={provincias:"../../v2/datos/provincias.json",comunidades:"../../v2/datos/comunidades.json",
@@ -76,6 +79,12 @@
   const DVD={indice:null,error:"",datos:new Map(),fallos:new Map(),pend:new Map()};
   const BLOQUE0={izq:"#b3261e",nac:"#0b6e69",pat:"#1f5fa8",sin:"#5b6470"};
   function dvActiva(){return S.layer==="doblevuelta";}
+  // Elección de la doble vuelta: generales de 2023 en el Congreso; en «Autonómico», la autonómica vigente del índice (T-427).
+  function dvEleccionOk(){
+    if(S.scope!=="autonomico")return S.election==="202307";
+    const t=DVD.indice&&S.region?DV.entrada(DVD.indice,S.region):null;
+    return !t||String(t.eleccion).replace("-","")===S.election;
+  }
   function regla(){return REGLAS.find(r=>r.id===S.regla)||REGLAS[0];}
   function bloques(){
     const out={...BLOQUE0};
@@ -108,8 +117,8 @@
     if(!DVD.indice||!key)return Promise.resolve(null);
     if(DVD.datos.has(key))return Promise.resolve(DVD.datos.get(key));
     if(DVD.fallos.has(key))return Promise.resolve(null);
-    const t=DVD.indice.territorios.find(x=>x.id===key);
-    if(!t){DVD.fallos.set(key,"sin doble vuelta publicada");return Promise.resolve(null);}
+    const t=DV.entrada(DVD.indice,key);
+    if(!t){DVD.fallos.set(key,DV.motivoSin(DVD.indice,key)||"sin doble vuelta publicada");return Promise.resolve(null);}
     if(!DVD.pend.has(key))DVD.pend.set(key,(async()=>{
       try{const [r,d]=await Promise.all([dvVerificado(t.resultados),dvVerificado(t.detalle)]);const x=DV.cargar(r,d);DVD.datos.set(key,x);return x;}
       catch(e){DVD.fallos.set(key,String(e.message||e));return null;}
@@ -153,7 +162,8 @@
     toDV();refresh();
   }
   function toDV(){
-    // La doble vuelta se aplica a los distritos DDD del Congreso de 2023: fija ámbito nacional, sistema mayoritario y vista electoral.
+    // Doble vuelta: distritos DDD del Congreso de 2023 o, en «Autonómico» (T-427), de la autonómica vigente; sistema mayoritario y vista electoral.
+    if(S.scope==="autonomico"){S.system="mayoritario";updateSegments("system","mayoritario");S.view="electoral";updateSegments("view","electoral");return;}
     if(S.scope!=="nacional"){S.scope="nacional";S.region="";S.province=null;S.unit={kind:"pais",properties:{}};updateSegments("scope","nacional");}
     S.system="mayoritario";updateSegments("system","mayoritario");S.view="electoral";updateSegments("view","electoral");
     if(S.election!=="202307")S.election="202307";
@@ -337,6 +347,7 @@
       const id=p.distrito??p.district_id??i+1;
       return {...x,properties:{...p,distrito:id,party:family(winner),ganador:winner,
         population:p.population??p.district_pop??p.poblacion??null,region,run_id:product.run_id,
+        dvDistrito:p.district_id!=null&&p.district_id!==""?Number(p.district_id)+1:Number(id),
         neutralColor:randomNeutral(region+":"+id)}};
     })};
     const result={collection,product};
@@ -367,6 +378,12 @@
     if(scope==="nacional"&&province&&(level==="seccion"||level==="municipio")){
       try{sections=await loadSections(provinceByCode(province));}
       catch(e){faults.push("Sin secciones INE publicadas: "+e.message);}
+    }
+    if(dvActiva()&&DVD.indice&&scope==="autonomico"&&region&&districts.features.length){
+      const t=DV.entrada(DVD.indice,region);
+      if(t&&product&&String(product.run_id)!==String(t.run_m08)){DVD.fallos.set(region,"el mapa publicado (ejecución "+product.run_id+") no es el de la doble vuelta ("+t.run_m08+")");}
+      else districts=await dvDecorate(districts,()=>region,f=>f.properties.dvDistrito);
+      if(!DVD.datos.has(region))faults.push("Doble vuelta no disponible en "+regionName(region)+": "+(DVD.fallos.get(region)||"sin datos")+".");
     }
     if(dvActiva()&&DVD.indice&&scope==="nacional"){
       if(districts.features.length)districts=await dvDecorate(districts,f=>f.properties.identity,f=>f.properties.distrito);
@@ -405,7 +422,8 @@
       ["interpolate",["linear"],["abs",["to-number",["get","deviation"],0]],0,"#dcebdc",.12,"#c2d4b4",.25,"#f3cb84",.6,"#b64c53"],neutral];
     function thematic(base){if(S.layer==="poblacion")return popColor;if(S.layer==="desviacion")return devColor;
       if(S.layer==="unidades")return ["coalesce",["get","neutralColor"],neutral];return base;}
-    const dv=dvActiva()&&permitColors&&DVD.indice?dvExpression():null;
+    const dvAut=dvActiva()&&!isN&&isElect&&S.system==="mayoritario"&&!!S.region&&DVD.datos.has(S.region)&&dvEleccionOk();
+    const dv=dvActiva()&&(permitColors||dvAut)&&DVD.indice?dvExpression():null;
     paintWith("prov-fill",dvActiva()?neutral:thematic(permitColors?party:neutral));
     paintWith("dist-fill",dv||thematic(permitColors?party:S.view==="territorial"?["coalesce",["get","neutralColor"],neutral]:neutral));
     const secPop=["interpolate",["linear"],["to-number",["get","p"],0],0,"#eff6f9",500,"#bbd6df",2000,"#497e9b",5000,"#193f61"];
@@ -436,7 +454,7 @@
       const c=bloques();
       legend("<h3>Doble vuelta · "+esc(regla().texto)+"</h3>"+(dv?"<ul>"+[["izq","Izquierdas"],["nac","Nacionalistas"],["pat","Patriotas"],["sin","Sin bloque"]].map(([k,n])=>"<li><i style='background:"+c[k]+"'></i>"+n+"</li>").join("")+
         "<li><i style='background:#a8bac7'></i>Sin dato</li></ul><small>Color pleno: ventaja de 5 puntos o más sobre el otro finalista; claro: ventaja menor. Los empates se indican en la ficha.</small>":
-        "<small>"+esc(DVD.error||"Doble vuelta solo para las generales de 2023 en el Congreso.")+"</small>")+"<small><b>Simulación sin valor oficial.</b></small>");
+        "<small>"+esc(DVD.error||(S.scope==="autonomico"?(S.region?"Doble vuelta no disponible en "+regionName(S.region)+(DVD.fallos.get(S.region)?": "+DVD.fallos.get(S.region):"")+".":"Elige una comunidad."):"Doble vuelta solo para las generales de 2023 en el Congreso."))+"</small>")+"<small><b>Simulación sin valor oficial.</b></small>");
     }
     $("dv-aviso").hidden=!dvActiva();
     if(dvActiva()&&DVD.error)note(DVD.error);
@@ -444,7 +462,7 @@
     const caption=S.scope==="nacional"?
       (S.view==="territorial"?"Geometrías territoriales DDD / INE":
        good?(dvActiva()?"Doble vuelta · "+regla().texto+" · generales de 2023 · simulación":S.system==="mayoritario"?"Ganador por distrito DDD · generales de 2023":"Partido más votado por provincia · generales de 2023"):"Sin capa electoral certificada para la fecha elegida"):
-      (S.system==="mayoritario"?"Distritos autonómicos publicados · "+regionName(S.region):"Comunidades autónomas · cartografía");
+      (S.system==="mayoritario"?(dvAut?"Doble vuelta · "+regla().texto+" · autonómicas · "+regionName(S.region)+" · simulación":"Distritos autonómicos publicados · "+regionName(S.region)):"Comunidades autónomas · cartografía");
     $("map-caption").textContent=caption;
   }
   function findDistrict(d){return D.districtCache.get(S.province)?.features.find(x=>Number(x.properties.distrito)===Number(d));}
@@ -466,7 +484,7 @@
     if(!rows.some(x=>x[0]===S.election)){S.election=auto?rows[rows.length-1][0]:"202307";}
     rows.forEach(([id,label])=>{
       const b=document.createElement("button");b.type="button";b.textContent=label;b.setAttribute("aria-pressed",String(S.election===id));
-      b.onclick=()=>{S.election=id;if(dvActiva()&&id!=="202307"){S.layer="ganador";$("layer").value="ganador";}renderTimeline();note("");refresh();};
+      b.onclick=()=>{S.election=id;if(dvActiva()&&!dvEleccionOk()){S.layer="ganador";$("layer").value="ganador";}renderTimeline();note("");refresh();};
       container.appendChild(b);
     });
     const pn=$("padron-note");if(pn)pn.hidden=!(S.scope==="nacional"&&String(S.election).startsWith("2026"));
@@ -589,12 +607,15 @@
     const headings={territorio:"Perfil territorial",resultados:"Resultados electorales",comparar:"Comparar sistemas",evolucion:"Evolución temporal"};
     $("detail-heading").textContent=headings[S.panel];$("detail-content").innerHTML=content;
     $("prov-content").innerHTML=provenanceHtml(kind,obj);
-    const dvBox=$("dv-mode"),dvDist=kind==="distrito"?obj.distrito:kind==="seccion"?(obj.parentDistrict??obj.d):null;
-    const dvKey=kind==="distrito"?(obj.identity||provinceKey(obj.province)):kind==="seccion"?provinceKey(obj.province):"";
-    dvBox.hidden=!(dvActiva()&&dvDist!=null&&S.scope==="nacional");
+    const aut=S.scope==="autonomico";
+    const dvBox=$("dv-mode"),dvDist=aut?(kind==="distrito"?obj.dvDistrito:null):kind==="distrito"?obj.distrito:kind==="seccion"?(obj.parentDistrict??obj.d):null;
+    const dvKey=aut?S.region:kind==="distrito"?(obj.identity||provinceKey(obj.province)):kind==="seccion"?provinceKey(obj.province):"";
+    dvBox.hidden=!(dvActiva()&&dvDist!=null&&(S.scope==="nacional"||(aut&&!!S.region)));
     if(!dvBox.hidden){
       $("dv-heading").textContent="Doble vuelta · distrito "+dvDist+" · "+regla().texto;
-      $("dv-content").innerHTML=dvFicha(dvKey,dvDist);
+      const te=aut&&DVD.indice?DV.entrada(DVD.indice,dvKey):null;
+      $("dv-content").innerHTML=(te?"<p class='small-note'>Elecciones autonómicas de "+esc(te.eleccion.split("-").reverse().join("/"))+
+        (te.nivel==="municipio"?" · votos por municipio repartidos a sus secciones según la población":te.aproximado_en_distrito?" · algunas secciones nuevas se asignan al distrito más cercano":"")+"</p>":"")+dvFicha(dvKey,dvDist);
       $("dv-content").querySelectorAll?.(".chip").forEach(b=>{b.onclick=()=>setRegla(b.dataset.regla);});
     }else $("dv-content").innerHTML="";
     renderTable();
@@ -662,7 +683,7 @@
     ["scope","system","view"].forEach(id=>document.querySelectorAll("#"+id+" button").forEach(b=>b.onclick=()=>{
       S[id==="scope"?"scope":id==="system"?"system":"view"]=b.dataset.value;
       updateSegments(id,b.dataset.value);
-      if(dvActiva()&&(S.scope!=="nacional"||S.system!=="mayoritario"||S.view!=="electoral")){S.layer="ganador";$("layer").value="ganador";}
+      if(dvActiva()&&(S.system!=="mayoritario"||S.view!=="electoral")){S.layer="ganador";$("layer").value="ganador";}
       if(id==="view"&&b.dataset.value==="territorial"&&S.layer==="ganador"){
         S.layer="desviacion";$("layer").value=S.layer;
       }else if(id==="view"&&b.dataset.value==="electoral"&&S.layer==="desviacion"){
@@ -680,7 +701,7 @@
       note("");refresh();};
     $("level").onchange=e=>{S.level=e.target.value;note("");prepareArea();paint();};
     $("election-region").onchange=e=>{
-      if(dvActiva()){S.layer="ganador";$("layer").value="ganador";}
+      if(dvActiva()&&S.scope!=="autonomico"){S.layer="ganador";$("layer").value="ganador";}
       S.region=e.target.value;
       const community=D.communities?.features.find(f=>regionId(f.properties.nombre)===S.region);
       S.unit=community?{kind:"comunidad",properties:community.properties}:{kind:"pais",properties:{}};

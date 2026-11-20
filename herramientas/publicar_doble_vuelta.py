@@ -3,9 +3,15 @@
 """Publicador de la doble vuelta de los territorios del Congreso para la V4: baja de R2 el resultado de P75, lo verifica y lo deja en el sitio (T-409/T-418).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.1 · FECHA: 2026-11-19 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/publicar_doble_vuelta_v1.0.0_20261119.py
-CAMBIOS: 1.0.1: T-422, ids de distrito normalizados a entero (M07 puede escribir «0.0»/espacios) y diagnóstico por territorio, fichero, línea y valor exacto. 1.0.0: fichero nuevo (con la geometría: decisión del Planificador, opción A).
+VERSIÓN: 1.1.0 · FECHA: 2026-11-20 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/publicar_doble_vuelta_v1.0.1_20261120.py
+CAMBIOS: 1.1.0 (T-427): los `aut` con su autonómica vigente. El fijado admite `autonomicas` (run_p75, informe_clave, informe_sha256 del P75 de los aut,
+  `doble_vuelta/autonomicas/<run>/INFORME.json`); sin él, todo igual que en 1.0.1. Con él: informe con su sha256 y `eleccion = autonomicas`; cada fila
+  `autNN` una vez; OK (ZIP con su sha256, mismas comprobaciones que un nac), o declarada sin doble vuelta (`NO_APLICA`, `SIN_VOTOS_AUTONOMICOS`) con
+  su motivo en `sin_doble_vuelta` del INDEX; cualquier otro estado, o ningún OK, rechaza todo (nada se escribe). Las entradas aut llevan `ambito`
+  AUT, `eleccion`, `clave_visor` (id del visor), `aproximado_en_distrito` y `nivel`, sin geometría (el visor pinta el M08 del registro). Esquema 1.1
+  (`ambito` en todas las entradas; los nac, idénticos).
+  1.0.1: T-422, ids de distrito normalizados a entero (M07 puede escribir «0.0»/espacios) y diagnóstico por territorio, fichero, línea y valor exacto. 1.0.0: fichero nuevo (con la geometría: decisión del Planificador, opción A).
 MOTIVO: D-172/D-178: el mapa V4 muestra la doble vuelta de los 52 nac sin regenerar; P75 la calcula y la archiva en R2 (objetos con run e intento);
   P40 la baja al construir el sitio, con el mismo patrón que los GeoJSON M06 (bajar de origen y verificar sha256), sin datos en git.
 QUÉ HACE: lee `configuracion/doble_vuelta_publicada.json` (el run de P75 FIJADO en el repo: elección, `run_p75`, clave y sha256 del INFORME.json). Sin ese fichero no
@@ -51,6 +57,8 @@ AVISO = "Simulación sin valor oficial"
 MAX_DESCOMPRIMIDO = 64 * 1024 * 1024  # un CSV de un territorio pesa ≈ 0,5 MB: más de 64 MB descomprimidos es un ZIP anómalo
 ESPERADOS = 52  # territorios del Congreso (nac): el informe fijado debe traerlos todos
 TERRITORIO = re.compile(r"^nac\d{2}$")
+TERRITORIO_AUT = re.compile(r"^aut\d{2}$")
+ESTADOS_SIN_DV = ("NO_APLICA", "SIN_VOTOS_AUTONOMICOS")  # declarados con motivo: se publican como «sin doble vuelta», nunca en silencio
 TOLERANCIA_GRADOS = 0.0005  # Douglas-Peucker; ≈ 55 m en latitudes españolas
 DECIMALES = 5  # ≈ 1 m
 PREFIJO_ETIQUETA = "Congreso "
@@ -264,6 +272,55 @@ def nombres(root: Path) -> dict[str, tuple[str, str]]:
     return out
 
 
+def _id_visor(t: str) -> str:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from ddd_core import territorio_ids
+    return territorio_ids.id_legacy(t)
+
+
+def publicar_aut(pin: dict, cp, bucket: str, nom: dict) -> tuple[dict[str, bytes], list[dict], list[dict], dict]:
+    """(ficheros, entradas, sin_doble_vuelta, cabecera) de los aut del P75 fijado; todo validado en memoria."""
+    for k in ("run_p75", "informe_clave", "informe_sha256"):
+        if not pin.get(k):
+            raise DobleVueltaError(f"FIJADO_INVALIDO: falta autonomicas.{k} en {FIJADO}")
+    inf = json.loads(_bajar(cp, bucket, pin["informe_clave"], pin["informe_sha256"], "INFORME_SHA256_DISTINTO"))
+    if inf.get("eleccion") != "autonomicas" or str(inf.get("run_p75")) != str(pin["run_p75"]):
+        raise DobleVueltaError(f"INFORME_NO_ES_EL_FIJADO: {inf.get('eleccion')}/{inf.get('run_p75')} != autonomicas/{pin['run_p75']}")
+    filas = inf.get("territorios") or []
+    ids = [x.get("territorio") for x in filas]
+    malos_ids = [i for i in ids if not isinstance(i, str) or not TERRITORIO_AUT.match(i)]
+    if malos_ids:
+        raise DobleVueltaError(f"TERRITORIO_INVALIDO: {malos_ids[:5]}")
+    if len(set(ids)) != len(ids) or inf.get("total") != len(ids):
+        raise DobleVueltaError(f"INFORME_INCOMPLETO: aut duplicados o total {inf.get('total')} != {len(ids)}")
+    malos = [x for x in filas if x.get("estado") not in ("OK", *ESTADOS_SIN_DV) or (x.get("estado") != "OK" and not x.get("motivo"))]
+    if malos or not any(x.get("estado") == "OK" for x in filas):
+        raise DobleVueltaError("INFORME_INCOMPLETO: " + (", ".join(f"{x['territorio']}={x.get('estado')}" for x in malos) or "ningún aut OK"))
+    try:
+        cab = {"p75_run": pin["run_p75"], "informe_sha256": pin["informe_sha256"],
+               "bloques_sha256": inf["entradas"]["bloques"]["sha256"], "alias_sha256": inf["entradas"]["alias"]["sha256"]}
+    except (KeyError, TypeError) as exc:
+        raise DobleVueltaError(f"INFORME_SIN_ENTRADAS: el informe de los aut no trae entradas.bloques/alias.sha256 ({exc!r})") from exc
+    ficheros, entradas, sin = {}, [], []
+    for x in sorted(filas, key=lambda x: x["territorio"]):
+        t = x["territorio"]
+        nombre, etiqueta = nom.get(t) or nom.get(_id_visor(t)) or (t, t)
+        if x["estado"] != "OK":
+            sin.append({"id": t, "nombre": nombre, "clave_visor": _id_visor(t), "estado": x["estado"], "motivo": x["motivo"]})
+            continue
+        if not x.get("clave_r2") or not x.get("sha256_salida") or not x.get("eleccion"):
+            raise DobleVueltaError(f"CLAVE_AUSENTE: {t} sin clave_r2/sha256_salida/eleccion en el informe")
+        res, det, k = procesar_territorio(x, _bajar(cp, bucket, x["clave_r2"], x["sha256_salida"], "ZIP_SHA256_DISTINTO"))
+        ficheros[f"{t}/resultados_doble_vuelta.csv"], ficheros[f"{t}/detalle.csv"] = res, det
+        entradas.append({"id": t, "ambito": "AUT", "nombre": nombre, "etiqueta": etiqueta, "clave_visor": _id_visor(t), "eleccion": x["eleccion"],
+                         "distritos": k, "run_m08": x["run"], "sin_casar_pct": x.get("sin_casar_pct"),
+                         "aproximado_en_distrito": bool(x.get("aproximado_en_distrito")), "nivel": x.get("nivel"),
+                         "sha256_paquete_p75": x["sha256_salida"],
+                         "resultados": {"ruta": f"{t}/resultados_doble_vuelta.csv", "sha256": sha256_bytes(res)},
+                         "detalle": {"ruta": f"{t}/detalle.csv", "sha256": sha256_bytes(det)}})
+    return ficheros, entradas, sin, cab
+
+
 def publicar(root: Path, destino: Path, cp=fuente_r2._cp, bucket: str = "", fecha: str = "", fijado: Path | None = None, sitio: Path | None = None) -> dict | None:
     f = root / (fijado or FIJADO)
     if not f.is_file():
@@ -326,18 +383,24 @@ def publicar(root: Path, destino: Path, cp=fuente_r2._cp, bucket: str = "", fech
         geo = procesar_geometria(t, gbytes, {int(r["district_id"]) for r in csv.DictReader(io.StringIO(res.decode("utf-8")))})
         ficheros[f"{t}/distritos.geojson"] = geo
         nombre, etiqueta = nom.get(t, (t, t))
-        entradas.append({"id": t, "nombre": nombre, "etiqueta": etiqueta, "distritos": k, "run_m08": x["run"],
+        entradas.append({"id": t, "ambito": "NAC", "nombre": nombre, "etiqueta": etiqueta, "distritos": k, "run_m08": x["run"],
                          "sin_casar_pct": x.get("sin_casar_pct"), "sha256_paquete_p75": x["sha256_salida"],
                          "resultados": {"ruta": f"{t}/resultados_doble_vuelta.csv", "sha256": sha256_bytes(res)},
                          "detalle": {"ruta": f"{t}/detalle.csv", "sha256": sha256_bytes(det)},
                          "geometria": {"ruta": f"{t}/distritos.geojson", "sha256": sha256_bytes(geo), "sha256_origen": esperado}})
     if fallos_id:
         raise DobleVueltaError(f"{len(fallos_id)} territorios con ids de distrito inválidos: " + " | ".join(fallos_id))
-    indice = {"schema": "ddd.v4-doble-vuelta/1.0", "eleccion": pin["eleccion"], "aviso": AVISO, "p75_run": pin["run_p75"],
+    sin_dv, cab_aut = [], None
+    if pin.get("autonomicas"):
+        f_aut, e_aut, sin_dv, cab_aut = publicar_aut(pin["autonomicas"], cp, bucket, nom)
+        ficheros.update(f_aut)
+        entradas += e_aut
+    indice = {"schema": "ddd.v4-doble-vuelta/1.1", "eleccion": pin["eleccion"], "aviso": AVISO, "p75_run": pin["run_p75"],
               "informe_sha256": pin["informe_sha256"], "bloques_sha256": bloques_sha, "alias_sha256": alias_sha,
               "generado": fecha or datetime.now(timezone.utc).strftime("%Y-%m-%d"),
               "simplificacion": {"algoritmo": "Douglas-Peucker por anillo", "tolerancia_grados": TOLERANCIA_GRADOS, "decimales": DECIMALES, "crs": "EPSG:4326"},
-              "territorios": entradas}
+              "territorios": entradas,
+              **({"autonomicas": cab_aut, "sin_doble_vuelta": sin_dv} if cab_aut else {})}
     # todo validado: ahora se escribe (o 52/52 o nada)
     for ruta, datos in ficheros.items():
         p = destino / ruta
