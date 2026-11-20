@@ -382,7 +382,7 @@ class WorkflowP40(unittest.TestCase):
 
     def test_solo_escribe_en_el_sitio_candidato(self):
         run = self.paso["run"]
-        self.assertIn("--sitio /tmp/site-candidate --destino /tmp/site-candidate/v4/mapa/datos", run)
+        self.assertIn("--sitio /tmp/site-candidate --destino /tmp/site-candidate/mapa/datos", run)  # T-428: la V4 (y su Explorar) se sirve en la raíz
         for prohibido in ("git push", "git add", "registrar_en_main", "gh api", "inputs."):
             self.assertNotIn(prohibido, run)
 

@@ -1,6 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 1.2.0
+# VERSIÓN: 1.3.0
+# CAMBIOS 1.3.0: T-428 (D-184): la V4 es la versión OFICIAL. Paso nuevo «Promocionar la V4 como portada oficial» tras el de la V3
+#   (`herramientas/preparar_portada_v4.py`): la V4 pasa de /v4/ a la raíz del sitio, /v4/ queda con redirecciones a la raíz y los
+#   recursos de la V1 se mueven a /v1/; la doble vuelta se escribe en `mapa/datos/` de la raíz; la validación comprueba la portada V4
+#   (antes `url=v3/`), Explorar, la V1 y las redirecciones. /v2/, /v3/, /docs/, /datos/ y /data/ no cambian. El resto, idéntico.
+# ANTERIOR 1.3.0: legacy/workflows/p40-publicacion_v1.2.0_20261120.yml
 # CAMBIOS 1.2.0: T-409 (D-172): paso «Doble vuelta de los territorios del Congreso para la V4»: `herramientas/publicar_doble_vuelta.py` baja de R2 el resultado de P75 FIJADO en
 #   configuracion/doble_vuelta_publicada.json (sin ese fichero no hace nada), verifica sha256 y escribe `v4/mapa/datos/` en el sitio candidato (datos de la doble vuelta y la geometría de los distritos, que sale del GeoJSON que este mismo P40 materializa en `datos/`, simplificada con tolerancia fija); mismas credenciales R2 que el resto, `contents: read`,
 #   sin datos en git, sin entradas nuevas. Además P40 copia `visor/v4/` completo al sitio candidato (dos líneas, junto al `cp` de V3: copia y borrado de lo listado en visor/v4/NO_PUBLICAR.txt; V2 y V3 no cambian) para que el visor V4 y su
@@ -561,6 +566,12 @@ jobs:
           node --check /tmp/site-candidate/v3/v3.js
           python -m unittest discover -s tests -p test_preparar_portada_v3.py
 
+      - name: Promocionar la V4 como portada oficial (T-428)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python herramientas/preparar_portada_v4.py --site=/tmp/site-candidate
+
       - name: Doble vuelta de los territorios del Congreso para la V4 (D-172)
         shell: bash
         env:
@@ -572,7 +583,7 @@ jobs:
         run: |
           set -euo pipefail
           # El resultado de P75 se baja de R2 y se verifica contra el run y el sha256 fijados en el repo; sin fijado no hace nada; con fijado, un fallo detiene la publicación.
-          python3 herramientas/publicar_doble_vuelta.py --sitio /tmp/site-candidate --destino /tmp/site-candidate/v4/mapa/datos
+          python3 herramientas/publicar_doble_vuelta.py --sitio /tmp/site-candidate --destino /tmp/site-candidate/mapa/datos
 
       - name: Validar sitio candidato completo
         shell: bash
@@ -585,7 +596,14 @@ jobs:
           test -s /tmp/site-candidate/nacional/index.html
           node --check /tmp/site-candidate/nacional/nacional.js
           test -s /tmp/site-candidate/index.html
-          grep -q 'url=v3/' /tmp/site-candidate/index.html
+          grep -q '<title>Diputado de Distrito | Portada</title>' /tmp/site-candidate/index.html
+          test -s /tmp/site-candidate/comprender.html
+          test -s /tmp/site-candidate/mapa/index.html
+          test -s /tmp/site-candidate/mapa/explorar.js
+          grep -q 'url=../"' /tmp/site-candidate/v4/index.html
+          grep -q 'url=../../mapa/"' /tmp/site-candidate/v4/mapa/index.html
+          test -s /tmp/site-candidate/v1/app.js
+          grep -q 'src="v1/app.js"' /tmp/site-candidate/v1/index.html
           test -s /tmp/site-candidate/v3/index.html
           test -s /tmp/site-candidate/v3/v3.css
           test -s /tmp/site-candidate/v3/v3.js
