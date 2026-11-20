@@ -15,6 +15,9 @@ class R2Falso:
     def leer(self, clave):
         return self.obj.get(clave)
 
+    def borrar(self, clave):
+        self.obj.pop(clave, None)
+
     def escribir(self, clave, origen, cache):
         b = Path(origen).read_bytes()
         self.obj[clave] = b"X" if clave == self.corromper else b
@@ -51,38 +54,42 @@ class DatosWeb(unittest.TestCase):
     def test_publica_y_actual_al_final_con_sha256(self):
         r2 = R2Falso()
         idx = w.publicar(self.s, r2, "999", ahora="2026-11-20T00:00:00Z")
-        self.assertEqual(r2.escritos[-1], ("actual.json", "public, max-age=60"))
-        self.assertTrue(all(c == "public, max-age=31536000, immutable" for k, c in r2.escritos[:-1]))
-        e = idx["mapas"]["nac01"]
-        self.assertEqual(e["run"], "111")
-        clave = w.ruta_publica("mapas/nac01", e, "datos/nac01/distritos.geojson")
-        self.assertEqual(hashlib.sha256(r2.obj[clave]).hexdigest(), hashlib.sha256(b'{"a":1}').hexdigest())
-        self.assertEqual(json.loads(r2.obj["actual.json"]), idx)
+        self.assertEqual(r2.escritos[-1], ("web/actual/actual.json", "public, max-age=60"))
+        self.assertTrue(all(c == "public, max-age=60" and k.startswith("web/actual/") for k, c in r2.escritos))
+        self.assertEqual(idx["mapas"]["nac01"]["run"], "111")
+        self.assertEqual(r2.obj["web/actual/datos/nac01/distritos.geojson"], b'{"a":1}')  # ruta de hoy, sin códigos ni runs
+        self.assertEqual(json.loads(r2.obj["web/actual/actual.json"]), idx)
+        self.assertEqual(idx["mapas"]["nac01"]["ficheros"]["datos/nac01/distritos.geojson"], hashlib.sha256(b'{"a":1}').hexdigest())
         self.assertEqual(idx["comunes"]["run"], "999")
 
-    def test_regenerar_un_territorio_solo_cambia_su_linea(self):
+    def test_regenerar_un_territorio_solo_sube_lo_suyo(self):
         r2 = R2Falso()
         a = w.publicar(self.s, r2, "1")
         n = len(r2.escritos)
         self.assertEqual(w.publicar(self.s, r2, "2")["mapas"], a["mapas"])
-        self.assertEqual(len(r2.escritos), n + 1)  # nada nuevo: solo actual.json
+        self.assertEqual(r2.escritos[n:], [("web/actual/actual.json", "public, max-age=60")])  # nada nuevo: solo el índice
+        n = len(r2.escritos)
         (self.s / "datos/nac01/distritos.geojson").write_bytes(b'{"a":2}')
         b = w.publicar(self.s, r2, "3")
-        self.assertNotEqual(b["mapas"]["nac01"]["version"], a["mapas"]["nac01"]["version"])
+        self.assertEqual([k for k, _ in r2.escritos[n:]], ["web/actual/datos/nac01/distritos.geojson", "web/actual/actual.json"])
         self.assertEqual({t: b["mapas"][t] for t in ("nac02", "aut14")}, {t: a["mapas"][t] for t in ("nac02", "aut14")})
-        nuevos = [k for k, _ in r2.escritos[n + 1:] if k != "actual.json"]
-        self.assertEqual(sorted(nuevos), sorted(w.ruta_publica("mapas/nac01", b["mapas"]["nac01"], r)
-                                                for r in b["mapas"]["nac01"]["ficheros"]))
+
+    def test_solo_la_vigente_borra_lo_que_sale_del_indice_despues(self):
+        r2 = R2Falso()
+        w.publicar(self.s, r2, "1")
+        (self.s / "mapa/datos/nac01/detalle.csv").unlink()
+        orden = []
+        r2.borrar = lambda k: (orden.append(("borrar", k, "web/actual/actual.json" in r2.obj)), r2.obj.pop(k))
+        w.publicar(self.s, r2, "2")
+        self.assertEqual(orden, [("borrar", "web/actual/mapa/datos/nac01/detalle.csv", True)])
+        self.assertNotIn("mapa/datos/nac01/detalle.csv", json.dumps(json.loads(r2.obj["web/actual/actual.json"])))
 
     def test_sha256_distinto_tras_subir_no_toca_actual(self):
-        g = w.plan(self.s)
-        idx = w.indice_nuevo(g, "1", {}, "x")
-        mala = w.ruta_publica("mapas/nac02", idx["mapas"]["nac02"], "datos/nac02/distritos.geojson")
-        r2 = R2Falso(corromper=mala)
-        r2.obj["actual.json"] = b'{"previo": true}'
+        r2 = R2Falso(corromper="web/actual/datos/nac02/distritos.geojson")
+        r2.obj["web/actual/actual.json"] = b'{"previo": true}'
         with self.assertRaises(w.DatosWebError):
             w.publicar(self.s, r2, "1")
-        self.assertEqual(r2.obj["actual.json"], b'{"previo": true}')
+        self.assertEqual(r2.obj["web/actual/actual.json"], b'{"previo": true}')
 
     def test_simular_no_escribe(self):
         r2 = R2Falso()

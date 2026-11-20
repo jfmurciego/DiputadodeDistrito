@@ -3,16 +3,15 @@
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.0.0 · FECHA: 2026-11-20 · ESTADO: candidato
 ANTERIOR: ninguna (fichero nuevo)
+CAMBIOS (antes de fusionar, D-188): solo la versión vigente en `web/actual/` (sin carpetas inmutables); se borra lo que sale del índice.
 MOTIVO: D-186: los cálculos están en GitHub y los mapas generados en R2; la web tira de R2 cada vez a través de un índice publicado
   («actual») que dice qué versión de cada mapa y dato está vigente, con sha256. Una regeneración se ve sin tocar la web.
-QUÉ HACE: lee el sitio candidato que P40 ya ha montado (sin calcular nada) y separa:
-  - `mapas/<territorio>/<version>/…`: por cada territorio de `datos/INDEX.json` (y cada carpeta `nacNN`/`autNN` de `mapa/datos/`), sus ficheros de `datos/<territorio>/` y de
-    `mapa/datos/<territorio>/` (doble vuelta), con el prefijo `datos/` o `mapa/datos/` dentro de la versión;
-  - `comunes/<version>/…`: el resto de `datos/`, `mapa/datos/`, `v2/datos/` y `data/` (índices, procedencia, registro del visor).
-  `<version>` = 16 primeras cifras hexadecimales del sha256 del listado «ruta sha256» del grupo: contenido igual → misma versión
-  (no se vuelve a subir); contenido distinto → carpeta nueva. Las carpetas son inmutables (`max-age=31536000, immutable`).
-  Orden: (1) sube las versiones que el `actual.json` vigente no tenga ya; (2) vuelve a bajar cada fichero subido y exige su sha256;
-  (3) solo entonces escribe `actual.json` (`max-age=60`). Si algo falla antes de (3), el índice vigente no cambia.
+QUÉ HACE: lee el sitio candidato que P40 ya ha montado (sin calcular nada) y lo agrupa en `comunes` (índices, procedencia, registro
+  del visor, `v2/datos/`) y `mapas/<territorio>` (sus ficheros de `datos/<territorio>/` y `mapa/datos/<territorio>/`). Solo la versión vigente
+  (D-188): cada fichero vive en `web/actual/<ruta de hoy en el sitio>` (p. ej. `web/actual/datos/nac01/distritos.geojson`), sin códigos ni runs.
+  Orden: (1) sube los ficheros cuyo sha256 difiere del índice vigente; (2) los vuelve a bajar y exige su sha256; (3) escribe
+  `web/actual/actual.json`; (4) borra los ficheros que estaban en el índice anterior y ya no están. Caché de 60 s en todo. Si algo falla antes
+  de (3), el índice no cambia (un fichero ya sobrescrito no casa con él y la web lo rechaza por sha256 hasta la siguiente publicación).
   Sin bucket (`R2_WEB_BUCKET` vacío) no hace nada y sale 0: la fase 1 va en paralelo a GitHub Pages, que sigue igual.
 USO: python herramientas/publicar_datos_web.py --sitio /tmp/site-candidate [--bucket B] [--p40-run N] [--simular]
 """
@@ -33,8 +32,9 @@ from pathlib import Path
 VERSION_FORMATO = 1
 ARBOLES_COMUNES = ("datos", "mapa/datos", "v2/datos", "data")
 ARBOLES_MAPA = ("datos", "mapa/datos")
-CACHE_INMUTABLE = "public, max-age=31536000, immutable"
-CACHE_INDICE = "public, max-age=60"
+PREFIJO = "web/actual/"
+INDICE = PREFIJO + "actual.json"
+CACHE = "public, max-age=60"
 TIPOS = {".json": "application/json", ".geojson": "application/geo+json", ".csv": "text/csv; charset=utf-8",
          ".md": "text/markdown; charset=utf-8", ".txt": "text/plain; charset=utf-8"}
 
@@ -96,9 +96,16 @@ def indice_nuevo(grupos: dict, p40_run: str, runs: dict[str, str], ahora: str) -
     return out
 
 
-def ruta_publica(grupo: str, entrada: dict, ruta: str) -> str:
-    """Ruta en el bucket de un fichero del índice: `comunes/<version>/<ruta>` o `mapas/<t>/<version>/<ruta>`."""
-    return f"{grupo}/{entrada['version']}/{ruta}"
+def ruta_publica(ruta: str) -> str:
+    """Clave en el bucket de un fichero del índice: `web/actual/<ruta de hoy en el sitio>`."""
+    return PREFIJO + ruta
+
+
+def _todos(indice: dict) -> dict[str, str]:
+    out = dict((indice.get("comunes") or {}).get("ficheros") or {})
+    for e in (indice.get("mapas") or {}).values():
+        out.update(e.get("ficheros") or {})
+    return out
 
 
 def _endpoint() -> str:
@@ -130,6 +137,11 @@ class R2:
                 raise DatosWebError(f"R2_LECTURA: {clave}: {r.stderr.strip()[:300]}")
             return p.read_bytes()
 
+    def borrar(self, clave: str) -> None:
+        r = _aws(["rm", f"s3://{self.bucket}/{clave}"])
+        if r.returncode != 0 and "404" not in r.stderr and "Not Found" not in r.stderr:
+            raise DatosWebError(f"R2_BORRADO: {clave}: {r.stderr.strip()[:300]}")
+
     def escribir(self, clave: str, origen: Path, cache: str) -> None:
         tipo = TIPOS.get(origen.suffix.lower(), "application/octet-stream")
         r = _aws(["cp", str(origen), f"s3://{self.bucket}/{clave}", "--cache-control", cache, "--content-type", tipo])
@@ -145,32 +157,28 @@ def _runs_territorio(sitio: Path) -> dict[str, str]:
 def publicar(sitio: Path, r2, p40_run: str = "", simular: bool = False, ahora: str = "") -> dict:
     grupos = plan(sitio)
     nuevo = indice_nuevo(grupos, p40_run, _runs_territorio(sitio), ahora or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"))
-    previo_b = r2.leer("actual.json")
-    previo = json.loads(previo_b) if previo_b else {"comunes": None, "mapas": {}}
-    vigentes = {"comunes": (previo.get("comunes") or {}).get("version")}
-    vigentes.update({f"mapas/{t}": e.get("version") for t, e in (previo.get("mapas") or {}).items()})
-    subidos = []
-    for g, f in grupos.items():
-        entrada = nuevo["comunes"] if g == "comunes" else nuevo["mapas"][g.split("/", 1)[1]]
-        if vigentes.get(g) == entrada["version"]:
-            continue
-        for ruta, (h, p) in f.items():
-            subidos.append((ruta_publica(g, entrada, ruta), h, p))
-    print(f"[datos_web] {len(grupos)} grupos; {len(subidos)} ficheros nuevos; simular={simular}")
+    previo_b = r2.leer(INDICE)
+    previo = _todos(json.loads(previo_b)) if previo_b else {}
+    locales = {r: (h, p) for f in grupos.values() for r, (h, p) in f.items()}
+    subir = [(r, h, p) for r, (h, p) in sorted(locales.items()) if previo.get(r) != h]
+    sobran = sorted(set(previo) - set(locales))
+    print(f"[datos_web] {len(grupos)} grupos; {len(subir)} ficheros a subir; {len(sobran)} a borrar; simular={simular}")
     if simular:
         return nuevo
-    for clave, _, p in subidos:
-        r2.escribir(clave, p, CACHE_INMUTABLE)
-    malos = [clave for clave, h, _ in subidos if sha256(r2.leer(clave) or b"") != h]
+    for r, _, p in subir:
+        r2.escribir(ruta_publica(r), p, CACHE)
+    malos = [r for r, h, _ in subir if sha256(r2.leer(ruta_publica(r)) or b"") != h]
     if malos:
         raise DatosWebError(f"SHA256_TRAS_SUBIR: {len(malos)} ficheros no casan (p. ej. {malos[0]}); actual.json no cambia")
     with tempfile.TemporaryDirectory() as d:
         p = Path(d) / "actual.json"
         p.write_text(json.dumps(nuevo, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-        r2.escribir("actual.json", p, CACHE_INDICE)
-        if r2.leer("actual.json") != p.read_bytes():
+        r2.escribir(INDICE, p, CACHE)
+        if r2.leer(INDICE) != p.read_bytes():
             raise DatosWebError("ACTUAL_JSON_DISTINTO tras escribirlo")
-    print(f"[datos_web] actual.json escrito: comunes {nuevo['comunes']['version']}, {len(nuevo['mapas'])} mapas")
+    for r in sobran:  # solo la vigente (D-188): lo que ya no está en el índice se borra, después de escribirlo
+        r2.borrar(ruta_publica(r))
+    print(f"[datos_web] {INDICE} escrito: {len(nuevo['mapas'])} mapas; {len(sobran)} ficheros viejos borrados")
     return nuevo
 
 
