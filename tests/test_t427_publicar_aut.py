@@ -104,5 +104,29 @@ class PublicarAut(unittest.TestCase):
             self.assertEqual(s, {})  # nada escrito
 
 
+class FijadoAut(unittest.TestCase):
+    """`autonomicas` del fijado: literales de la huella verificada en el log del job de P75 (run 44723958051, intento 1, 13/19 OK)."""
+
+    def setUp(self):
+        self.pin = json.loads((ROOT / pdv.FIJADO).read_text(encoding="utf-8"))["autonomicas"]
+
+    def test_valores_fijados(self):
+        self.assertEqual(sorted(self.pin), ["informe_clave", "informe_sha256", "run_p75"])
+        self.assertEqual(self.pin["run_p75"], "44723958051-1")
+        self.assertEqual(self.pin["informe_clave"], "doble_vuelta/autonomicas/44723958051-1/INFORME.json")
+        self.assertEqual(self.pin["informe_sha256"], "2b5b5dc578d40621c4f4f73a0209f2883428c9d8d50034ec41127981933f39ea")
+
+    def test_otro_informe_con_ese_nombre_falla_cerrado(self):
+        with tempfile.TemporaryDirectory() as t, tempfile.TemporaryDirectory() as d:
+            m = Montaje(Path(t), zips_buenos())
+            con_aut()(m)  # informe sintético de los aut con su propia huella
+            m.objetos[self.pin["informe_clave"]] = m.objetos.pop("doble_vuelta/autonomicas/88-1/INFORME.json")
+            m.pin["autonomicas"] = dict(self.pin)  # el fijado real: su sha256 no es el del informe servido
+            m.escribir_pin()
+            with mock.patch.object(pdv, "ESPERADOS", 2), self.assertRaisesRegex(pdv.DobleVueltaError, "INFORME_SHA256_DISTINTO"):
+                pdv.publicar(Path(t), Path(d), m.cp, "b", "2026-11-20", sitio=Path(t) / "sitio")
+            self.assertEqual(list(Path(d).iterdir()), [])  # nada escrito
+
+
 if __name__ == "__main__":
     unittest.main()
