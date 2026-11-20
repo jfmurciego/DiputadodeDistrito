@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.70
-Fecha: 2026-11-19
+Versión: 1.0.71
+Fecha: 2026-11-20
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-178 (limpieza de R2 aprobada, #920), D-179 (prioridad: V4 en producción con doble vuelta desde R2, 52 nac); T-418; bucket de vídeos
-Anterior: legacy/docs/PLAN_v1.0.69_20261119.md
+Cambios/motivo: D-180 (2011-11: islas, Fuerteventura, apartadas; padrón retirado), D-181 (V4 = portada + V3 completa con capa de doble vuelta; menú, Metodología y Comprender para el público; pie con reserva), D-182 (bloques de autonómicas aprobados); V4 publicada y aceptada; T-420 a T-424
+Anterior: legacy/docs/PLAN_v1.0.70_20261120.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -319,6 +319,9 @@ Fase 4 — producto (en el privado):
 - D-175 (19-11, propietario). Vídeo de presentación en un bucket R2 aparte y público, solo para vídeos, con subdominio propio; el bucket de trabajo sigue privado.
 - D-176 (19-11, propietario). Limpieza de R2 en tres pasos: (a) inventario de solo lectura (P70 «listar», lo lanza el Operador con frase del propietario); (b) cruce de cada carpeta con su uso y propuesta borrar/renombrar/conservar (enlaza con D-131); (c) borrado por el Operador con permiso del propietario, nunca antes de la regeneración posterior al 29-11.
 - D-178 (19-11, propietario). Propuesta de limpieza de R2 de T-416 (#920) aprobada tal cual: ~2,2 GB de restos se borran tras la regeneración posterior al 29-11 (Operador, permiso del propietario en ese momento); `arc-e` se conserva sin listado de 2.º nivel; excepción Asturias. Coste actual ~0,10 USD/mes. Bucket público de vídeos creado (URL provisional r2.dev; falta subdominio propio y mover el vídeo).
+- D-180 (19-11, propietario; T-400, #932). Histórico 2011-11: (1) K por partición insular con Hamilton y población de la época (07, 35, 38); (2) exención de suelo de 35-C02 (Fuerteventura); (4) 03, 24, 27, 32 y 33 siguen apartadas (D-70 sin cambios). La (3), padrón municipal de 1-ene-2011 para 08/36/51, se RETIRA: el Planificador la recomendó por error (no cuadra con el Censo de 1-nov-2011). Pendiente del propietario: totales municipales del Censo 2011 del INE con huella para 08/36/51 y exención de suelo de 38-G01 (115.715 < 120.634).
+- D-181 (19-11, propietario). V4 = portada de Vanesa + «Explorar» con la V3 COMPLETA (nacional, comunidad, provincia, distrito, municipio y sección censal) y la doble vuelta como capa electoral (Tres bloques por defecto). Corrige el error del Planificador que encargó un mapa simple (T-413). Menú único en todas las páginas: Inicio · Comprender · Explorar · Metodología (Datos y Fuentes fuera, T-424). Metodología «Cómo se hace este mapa» y Comprender para el público general: sin jerga ni códigos internos (tests). Ningún «M0x» visible. Vídeo desplegado por defecto (https://media.diputadodedistrito.es/Video_DDD.mp4). Pie único con la reserva de acciones legales visible (levanta en el pie la nota de D-174). Publicada el 20-11 (P40 run 44688525685, #939) y ACEPTADA por el propietario.
+- D-182 (19-11, propietario; T-421, #930, #933). Bloques de las autonómicas: Junts y Contigo-Zurekin, DO, 100x100, Aliança Catalana, UxGC, Andalucistas y Alhora en Nacionalistas; SALF en Patriotas; Drago Verdes Canarias en Izquierdas; resto sin bloque. Faltan datos por sección de Asturias, Castilla-La Mancha, Extremadura y Murcia.
 - D-179 (19-11, propietario). PRIORIDAD: la V4 en producción. La doble vuelta se calcula desde los paquetes `ddd-minimo-<run>-M08` ya archivados en R2 de los 71 publicados (sin regenerar) con una opción nueva de solo lectura en P70 (T-418). La primera V4 lleva los 52 territorios del Congreso (`nac`); los 19 `aut` (elecciones autonómicas) van en una segunda tanda cuando la tabla de bloques cubra sus partidos. El Coordinador lleva el camino crítico; al propietario solo se le piden firmas (fusión de código, frase de lanzamiento, permiso de publicar). La limpieza de R2, la 2a y la PR 3 de P00 no lo bloquean.
 - D-177 (19-11, Planificador, criterio técnico). Doble vuelta: tabla de alias id de fuente → partido homologado derivada de `datos/homologacion_siglas/` (#914; 100 % de votos 2011-2023; «LA IZQUIERDA PLURAL» 2011 declarada, sin efecto de bloque); la regeneración no empieza sin #911, #914 y el `--alias` en P30. En campaña, P30 archiva en R2 en el mismo job y solo se salta el registro en main (opción A de T-379); el modo de inicio de P20 es una opción de la campaña (por defecto «Generar desde fuente territorial acreditada»); la campaña no publica salvo opción expresa del propietario (por defecto «No publicar») y siempre con la aprobación de `produccion`.
 - D-172 (18-11, propietario; diseño de T-413, #905). Visor V3: la doble vuelta es lo principal, por defecto «Tres bloques» (dv_A); botones «Tres bloques», «Dos bloques», «Sin coaliciones» y «Más votado» (la mayoría simple queda secundaria, para comparar); coloreado por bloque, con alternativa por partido; modo oscuro solo en lo nuevo; línea de comparación entre reglas en la ficha; ventaja pequeña < 5 puntos; bloque y votos por partido de dv_A en el detalle (T-409); aviso fijo «simulación sin valor oficial». Publicar, decisión aparte.
@@ -449,10 +452,16 @@ Fase 4 — producto (en el privado):
 | T-410 | Actualización del plan 1.0.66 | HECHA (#902) |
 | T-411 | Permisos de comunicación entre sesiones sin pregunta (`.claude/settings.json`, lista cerrada de 6 y test) | REVISIÓN (#900) |
 | T-413 | Visor V3 con escenarios de doble vuelta (D-172): diseño (#905) e implementación; sin publicar | EN CURSO |
-| T-415 | V4: portada de Vanesa + mapa con doble vuelta (D-173, D-174): originales (#908, #916), diseño (#909) e implementación en `visor/v4/`; sin publicar | EN CURSO |
+| T-415 | V4: portada de Vanesa (D-173, D-174): originales (#908, #916), diseño (#909) e implementación (#918, #919, #924, #929) | HECHA |
 | T-416 | Limpieza de R2 (D-176, D-178): inventario (run 44541851289) y propuesta (#920) HECHOS; borrado tras la regeneración | ESPERA |
-| T-418 | Doble vuelta desde R2 para la V4: opción de solo lectura en P70 (D-179), turno exclusivo sobre P70 | LISTA (T-409) |
-| T-419 | Actualización del plan 1.0.70 | REVISIÓN (esta PR) |
+| T-418 | Doble vuelta desde R2 para la V4: P75 en P70 (#923, #925, #928) | HECHA (52/52) |
+| T-420 | Duplicados en R2 (listar_r2 1.1.0 #926, P74 --duplicados #935) | ESPERA (listado del Operador) |
+| T-421 | Doble vuelta en las 19 autonomías: bloques (D-182) y datos de las 4 comunidades sin sección | EN CURSO |
+| T-422 | Publicador V4: id de distrito de nac02 (#937) | HECHA |
+| T-423 | V4 = portada + V3 completa con capa de doble vuelta (D-181, #939) | HECHA (publicada y aceptada) |
+| T-424 | Datos y Fuentes para el público, con su caja en la portada de la V4 | PENDIENTE |
+| T-425 | Actualización del plan 1.0.71 | REVISIÓN (esta PR) |
+| T-419 | Actualización del plan 1.0.70 | HECHA (#922) |
 | T-417 | Actualización del plan 1.0.69 | HECHA (#917) |
 | T-414 | Actualización del plan 1.0.68 | HECHA (#906) |
 | T-412 | Actualización del plan 1.0.67 | HECHA (#903) |
