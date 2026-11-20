@@ -29,7 +29,8 @@ def sin_t409_run(run):
 
 
 def deshacer(nombre, doc):
-    d = copy.deepcopy(doc)
+    from tests._t379_3b import deshacer as deshacer_3b  # T-379 3b: primero la capa de la 3b (registro en ensayo)
+    d = deshacer_3b(nombre, copy.deepcopy(doc))
     on = _on(d) or {}
     wc = (on.get("workflow_call") or {}).get("inputs") or {} if isinstance(on, dict) else {}
     if "campana" not in wc:

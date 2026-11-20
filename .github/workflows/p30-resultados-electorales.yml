@@ -1,6 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 1.0.3
+# VERSIÓN: 1.0.4
+# CAMBIOS 1.0.4: T-379 PR 3b (opción A; humo 44615209522 en verde): con campaña, los pasos de registro de `incorporar` (doble
+#   vuelta, persistidor, archivo en origen, disponibilidad) YA NO se saltan: corren en ensayo («Registro en ensayo (campaña)»
+#   tras la credencial, que sigue saltada; `origin` local) y «Capturar el registro (campaña)» sube el cambio a R2 para el cierre.
+#   El persistidor es la versión de la campaña (`github.sha`) y la retirada del M06 no se hace aquí con campaña (la hace el cierre
+#   por territorio: en una campaña todos comparten run). Sin campaña, idéntico a la 1.0.3 (tests/_t379_3b.deshacer).
+# ANTERIOR (1.0.3): legacy/workflows/p30-resultados-electorales_v1.0.3_20261120.yml
 # CAMBIOS 1.0.3: T-409 (revisión de #911): el directorio `doble_vuelta/` existe solo si `doble_vuelta_cobertura.py` y `doble_vuelta.py` terminan bien (trap que lo borra si no);
 #   sin él el paso de archivo no pasa `--extra`, así que no se archiva una salida parcial. Ambas herramientas llevan `--alias` (configuracion/alias_partidos_generales.csv, #914).
 # CAMBIOS 1.0.2: T-409 (D-171): tras M08, `herramientas/doble_vuelta.py` (dv_base, dv_A, dv_B) y `doble_vuelta_cobertura.py` (% de votos sin casar con la
@@ -473,7 +479,7 @@ jobs:
           cp -a .ddd-source-package/. .ddd-state-product/sources/
 
       - name: Doble vuelta con coaliciones (D-171; no fatal)
-        if: ${{ success() && needs.resolver.outputs.persistir == 'true' && !inputs.campana }}
+        if: ${{ success() && needs.resolver.outputs.persistir == 'true' }}
         continue-on-error: true
         shell: bash
         run: |
@@ -613,10 +619,10 @@ jobs:
           retention-days: 30
 
       - name: Cargar persistidor vigente compatible con main
-        if: ${{ success() && needs.resolver.outputs.persistir == 'true' && !inputs.campana }}
+        if: ${{ success() && needs.resolver.outputs.persistir == 'true' }}
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: main
+          ref: ${{ inputs.campana && github.sha || 'main' }}
           fetch-depth: 0
           path: persistidor
       - name: Credencial de registro
@@ -642,11 +648,31 @@ jobs:
           for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
           git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
           echo "Registro con la app propia (exenta en el ruleset proteger-main)."
-      - name: Archivo en origen — M08 a R2 y votos por partido a git
-        if: ${{ success() && needs.resolver.outputs.persistir == 'true' && !inputs.campana }}
+      - id: ensayo_campana
+        name: Registro en ensayo (campaña)
+        if: ${{ success() && needs.resolver.outputs.persistir == 'true' && inputs.campana }}
         shell: bash
         working-directory: persistidor
         env:
+          CAMPANA: ${{ inputs.campana }}
+          CAMPANA_TERRITORIO: ${{ needs.resolver.outputs.territorio }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          # T-379 3b: origin pasa a un repositorio local; las herramientas de registro empujan ahí, nunca a GitHub.
+          base="$(python3 herramientas/campana_registro.py ensayo --almacen "${ALMACEN:-r2}" --campana "$CAMPANA" \
+            --territorio "$CAMPANA_TERRITORIO" --destino "$RUNNER_TEMP/ensayo-campana.git" --rama main --antes 30)"
+          echo "base=$base" >> "$GITHUB_OUTPUT"
+      - name: Archivo en origen — M08 a R2 y votos por partido a git
+        if: ${{ success() && needs.resolver.outputs.persistir == 'true' }}
+        shell: bash
+        working-directory: persistidor
+        env:
+          CAMPANA: ${{ inputs.campana }}
           GITHUB_TOKEN: ${{ github.token }}
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
@@ -659,8 +685,9 @@ jobs:
           suffix=''; [[ -n "$ARTIFACT_NAMESPACE" ]] && suffix="-$ARTIFACT_NAMESPACE"
           artifact_name="ddd-state-$GITHUB_RUN_ID-M08$suffix"
           extra=(); [[ -d "$GITHUB_WORKSPACE/doble_vuelta" ]] && extra=(--extra "$GITHUB_WORKSPACE/doble_vuelta")
+          sustituye="$TERRITORIAL_RUN_ID"; [[ -z "${CAMPANA:-}" ]] || sustituye=''  # T-379 3b: con campaña retira el cierre
           python herramientas/archivo_origen.py r2 --run-id "$GITHUB_RUN_ID" --artefacto "$artifact_name" --territorio "$TERRITORY_ID" \
-            --sustituye-m06-run "$TERRITORIAL_RUN_ID" "${extra[@]}"
+            --sustituye-m06-run "$sustituye" "${extra[@]}"
           t1=$(date +%s)
           gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir .ddd-m08-state
           python herramientas/archivo_origen.py partidos --estado .ddd-m08-state --territorio "$TERRITORY_ID" \
@@ -672,7 +699,7 @@ jobs:
             --mensaje "chore(archivo): M08 de $TERRITORY_ID en R2 y votos por partido del run $GITHUB_RUN_ID" || rc=$?
           [[ "$rc" == 0 ]] || { echo '::error title=ARCHIVO_ORIGEN_FAILED::No se pudo registrar el archivo en origen en main.'; exit 1; }
       - name: Registrar disponibilidad del producto electoral
-        if: ${{ success() && needs.resolver.outputs.persistir == 'true' && !inputs.campana }}
+        if: ${{ success() && needs.resolver.outputs.persistir == 'true' }}
         shell: bash
         working-directory: persistidor
         env:
@@ -701,3 +728,20 @@ jobs:
             --artifact-sha256 "$PRODUCT_DIGEST" \
             --source-commit "$source_commit" \
             --target-branch main
+      - name: Capturar el registro (campaña)
+        if: ${{ success() && needs.resolver.outputs.persistir == 'true' && inputs.campana }}
+        shell: bash
+        working-directory: persistidor
+        env:
+          CAMPANA: ${{ inputs.campana }}
+          CAMPANA_TERRITORIO: ${{ needs.resolver.outputs.territorio }}
+          BASE: ${{ steps.ensayo_campana.outputs.base }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          python3 herramientas/campana_registro.py capturar --almacen "${ALMACEN:-r2}" --campana "$CAMPANA" --territorio "$CAMPANA_TERRITORIO" \
+            --base "$BASE" --rama main --orden 30 --nombre incorporar --intento "$GITHUB_RUN_ATTEMPT"

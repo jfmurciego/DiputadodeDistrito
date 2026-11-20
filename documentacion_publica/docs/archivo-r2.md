@@ -25,7 +25,7 @@ Una clave por hash evita sobrescrituras accidentales por nombre, pero no constit
 
 ## Contrato de archivado para la siguiente PR
 
-El archivador debe ser idempotente y recibir los productos existentes, sin regenerarlos. No alterar los estados científicos de M06/M08. Emitir un recibo con tamaño, hash, clave, fecha, intento, resultado de comprobación y ubicación. Si un mismo hash apunta a bytes incompatibles, abortar.
+El archivador debe ser idempotente y recibir los productos existentes, sin regenerarlos. No alterar los estados científicos de P26 (producto certificado) ni de P32 (resultados por distrito). Emitir un recibo con tamaño, hash, clave, fecha, intento, resultado de comprobación y ubicación. Si un mismo hash apunta a bytes incompatibles, abortar.
 
 La puerta de conservación del archivo debe fallar si falta cualquier objeto obligatorio o no se ha verificado. Eso no debe reescribir un manifiesto histórico ni convertir una validación fallida en correcta. Los lectores del motor seguirán usando el circuito actual hasta incorporar y probar un adaptador de recuperación.
 
@@ -41,4 +41,4 @@ Empezar con el archivo privado. Publicar únicamente una selección con metadato
 
 [Inicio R2](https://developers.cloudflare.com/r2/get-started/) · [Autenticación S3](https://developers.cloudflare.com/r2/api/tokens/) · [Bucket locks](https://developers.cloudflare.com/r2/buckets/bucket-locks/) · [Tarifas](https://developers.cloudflare.com/r2/pricing/)
 
-*Versión 1.0.0 · 2026-11-03 · Archivo nuevo.*
+*Versión 1.1.0 · 2026-11-19 · T-423: nomenclatura P de D-165 en el texto. Anterior: `legacy/documentacion_publica/docs/archivo-r2_pre_t423_20261119.md`.*

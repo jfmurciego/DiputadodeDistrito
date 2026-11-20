@@ -19,6 +19,7 @@ from pathlib import Path
 import yaml
 
 from tests._t379_2b import M04_SERIE, PERSIST_CAMPANA, SIN_CAMPANA, deshacer
+from tests._t379_3b import deshacer as deshacer_3b
 from tests._uses_sin_version import cargar
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -105,7 +106,9 @@ def paralelos(jobs):
 class Base(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.docs = {n: leer(n) for n in HUELLAS}
+        # Capa 2b: los ficheros reales con la 3b deshecha (la 3b hace correr los registros en ensayo con campaña; sus reglas
+        # sobre el fichero real las fija tests/test_t379_3b_workflows.py).
+        cls.docs = {n: deshacer_3b(n, leer(n)) for n in HUELLAS}
 
 
 class Equivalencia(Base):
@@ -126,7 +129,8 @@ class Equivalencia(Base):
         casos = {
             "p10-fuentes": lambda d: d["jobs"]["p11_registrar"].__setitem__("if", "${{ !inputs.campana }}"),
             "p20-distritos": lambda d: d["jobs"]["m04"].__setitem__("needs", ["entrada"]),
-            "p30-resultados-electorales": lambda d: d["jobs"]["incorporar"]["steps"][-1].__setitem__("if", "${{ always()" + SIN_CAMPANA),
+            "p30-resultados-electorales": lambda d: next(s for s in d["jobs"]["incorporar"]["steps"]  # por nombre: el último es la captura de la 3b
+                                                         if s.get("name") == "Registrar disponibilidad del producto electoral").__setitem__("if", "${{ always() }}"),
         }
         for n, mutar in casos.items():
             with self.subTest(workflow=n):

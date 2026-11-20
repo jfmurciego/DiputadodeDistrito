@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.548
-Fecha: 2026-11-19
-Alcance: T-415 — PR 4: mapa real de la V4 con los datos de los 52 nac, textos y vídeo
+Versión: 1.0.563
+Fecha: 2026-11-20
+Alcance: T-427 — Fijar el P75 de los aut para publicar (13 aut)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-19_implementador-t415-pr4-mapa.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.547_registro_20261119.md
+Cambios/motivo: entrada docs/registro/2026-11-20_t-427-fijar-aut.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.562_registro_20261120.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,21 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.547_registro_20261119.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.563 · [2026-11-20 — T-427 — Fijar el P75 de los aut para publicar (13 aut)](registro/2026-11-20_t-427-fijar-aut.md)
+- 1.0.562 · [2026-11-20 — T-428 — La V4 es la versión oficial: portada en la raíz del dominio](registro/2026-11-20_t-428-v4-raiz.md)
+- 1.0.561 · [2026-11-20 — T-426 — Adaptador SADEI de Asturias 2023 (votos por concejo, aut03)](registro/2026-11-20_t426-adaptador-sadei-asturias.md)
+- 1.0.560 · [2026-11-20 — T-426 — Adaptador CREM de Murcia 2023 (votos por sección, aut14)](registro/2026-11-20_t426-adaptador-crem-murcia.md)
+- 1.0.559 · [2026-11-20 — T-427 — Publicador y V4: doble vuelta en el ámbito «Autonómico» (PR 2; sin publicar)](registro/2026-11-20_t-427-v4-aut.md)
+- 1.0.558 · [2026-11-20 — T-427 — P75 para los 19 `aut` con su autonómica vigente (PR 1: datos y cálculo; sin lanzar)](registro/2026-11-20_t-427-p75-aut.md)
+- 1.0.557 · [2026-11-20 — Operador — Traspaso del Operador: aviso de no herencia de frases](registro/2026-11-20_operador-traspaso-2026-11-20-correccion.md)
+- 1.0.556 · [2026-11-20 — Coordinador — traspaso del Coordinador (renovación ordenada por el propietario) y lecciones](registro/2026-11-20_coordinador-traspaso-2026-11-20.md)
+- 1.0.555 · [2026-11-20 — T-425 — Plan 1.0.71: D-180 a D-182, V4 publicada y aceptada](registro/2026-11-20_planificador-plan-1-0-71.md)
+- 1.0.554 · [2026-11-20 — Operador — Traspaso del Operador (documento)](registro/2026-11-20_operador-traspaso.md)
+- 1.0.553 · [2026-11-19 — T-423 — V4: portada + Explorar con la V3 completa y la doble vuelta como capa electoral](registro/2026-11-19_t423-v4-v3-completa.md)
+- 1.0.552 · [2026-11-19 — T-422 — Id de distrito no numérico de nac02 en el publicador de la doble vuelta](registro/2026-11-19_t422-id-nac02.md)
+- 1.0.551 · [2026-11-19 — T-400 (D-180 1 y 2) — K por partición insular y exención de suelo en el histórico 2011-11](registro/2026-11-19_t400-reparto-k-particiones.md)
+- 1.0.550 · [2026-11-19 — T-420b — P74 Listar con duplicados](registro/2026-11-19_t420b-p74-duplicados.md)
+- 1.0.549 · [2026-11-19 — T-400 — nac35 2011-11: puente de La Graciosa ausente del seccionado 2012](registro/2026-11-19_t400-puente-la-graciosa-2011.md)
 - 1.0.548 · [2026-11-19 — T-415 — PR 4: mapa real de la V4 con los datos de los 52 nac, textos y vídeo](registro/2026-11-19_implementador-t415-pr4-mapa.md)
 - 1.0.547 · [2026-11-19 — T-421 — Tabla de bloques de las autonómicas APROBADA (lista cerrada del propietario)](registro/2026-11-19_t-421b-bloques-autonomicas-aprobada.md)
 - 1.0.546 · [2026-11-19 — T-421 — Bloques y alias PROPUESTOS de la doble vuelta para las autonómicas (sin lanzar)](registro/2026-11-19_t-421-bloques-autonomicas.md)

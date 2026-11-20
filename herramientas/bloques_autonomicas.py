@@ -3,10 +3,12 @@
 """Tabla APROBADA de bloques y alias de la doble vuelta para las elecciones autonómicas vigentes (T-421, D-167, D-168, D-170).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-19 · ESTADO: candidato
+VERSIÓN: 1.2.0 · FECHA: 2026-11-20 · ESTADO: candidato
+CAMBIOS: 1.2.0 (T-426): aut03 (Asturias) y aut14 (Murcia) entran con sus votos por distrito de datos/resultados/doble_vuelta_autonomicas/<aut>/<AAAAMM>/<aut>_partidos.csv (distrito, partido, votos; formato T-427); VIGENTES admite una ruta propia.
 CAMBIOS: 1.1.0 (T-421, lista cerrada del propietario 19-11): ALIANÇA.CAT, UXGC, ANDALUCISTAS y ALHORA → Nacionalistas; SALF → Patriotas; DVC → Izquierdas; el resto de menores, sin bloque; la tabla pasa a configuracion/bloques_partidos_autonomicas_2026-11-19.csv (aprobada, sin PROPUESTA).
 CAMBIOS: 1.0.1 (T-421, Planificador y revisor): CONTIGO-ZUREKIN, DO y 100x100 → Nacionalistas (propietario, 19-11); JUNTS+ → Nacionalistas (no es el JXC de D-170); la tabla va por partido tras el alias (como en el nacional) y el alias lleva una fila por sigla; una regla sin socio aprobado conserva la sigla como id.
 CAMBIOS: 1.0.0 (T-421): fichero nuevo.
+ANTERIOR: legacy/herramientas/bloques_autonomicas_v1.1.0_20261119.py
 MOTIVO: la segunda tanda de la V4 (D-179) lleva los territorios `aut`; sus partidos deben tener bloque con las mismas reglas que las generales.
 QUÉ HACE: lee los votos por partido de la elección vigente de cada comunidad (datos/resultados/historico/autonomicas/<c>/<AAAAMM>/<c>_partidos.csv,
   sha256 en la tabla) y escribe configuracion/bloques_partidos_autonomicas_2026-11-19.csv y configuracion/alias_partidos_autonomicas.csv.
@@ -34,10 +36,12 @@ SAL_BLOQUES = "configuracion/bloques_partidos_autonomicas_2026-11-19.csv"
 SAL_ALIAS = "configuracion/alias_partidos_autonomicas.csv"
 HIST = "datos/resultados/historico/autonomicas"
 
-# territorio → (carpeta de resultados, elección AAAAMM). Asturias (aut03), Extremadura (aut11), Castilla-La Mancha (aut08) y
-# Murcia (aut14) no tienen votos por partido de su elección vigente en el repositorio; Ceuta y Melilla (aut18, aut19) no tienen autonómicas.
+# territorio → (carpeta de resultados, elección AAAAMM[, ruta propia del CSV]). Extremadura (aut11, D-183) y Castilla-La Mancha (aut08,
+# a la espera del fichero oficial) no tienen votos por partido de su elección vigente en el repositorio; Ceuta y Melilla (aut18, aut19) no tienen autonómicas.
+DV = "datos/resultados/doble_vuelta_autonomicas/{0}/{1}/{0}_partidos.csv"  # T-426/T-427: votos por distrito (distrito, partido, votos)
 VIGENTES = {
-    "aut01": ("andalucia", "202605"), "aut02": ("aragon", "202602"), "aut04": ("illes_balears", "202305"),
+    "aut01": ("andalucia", "202605"), "aut03": ("asturias", "202305", DV.format("aut03", "202305")),
+    "aut14": ("region_de_murcia", "202305", DV.format("aut14", "202305")), "aut02": ("aragon", "202602"), "aut04": ("illes_balears", "202305"),
     "aut05": ("canarias", "202305"), "aut06": ("cantabria", "202305"), "aut07": ("castilla_y_leon", "202603"),
     "aut09": ("cataluna", "202405"), "aut10": ("comunidad_valenciana", "202305"), "aut12": ("galicia", "202402"),
     "aut13": ("madrid", "202305"), "aut15": ("comunidad_foral_de_navarra", "202305"), "aut16": ("pais_vasco", "202404"),
@@ -60,7 +64,10 @@ REGLAS = {
     "PODEMOS-IU": (None, IZQ, CPS), "PODEMOS-I.U.": (None, IZQ, CPS), "IU-SUMAR": (None, IZQ, CPS), "UNIDES PODEM-EUPV": (None, IZQ, CPS),
     "UNIDAS SÍ PODEMOS": (None, IZQ, CPS), "EUIB-PODEMOS": (None, IZQ, CPS), "PODEMOS-AV": (None, IZQ, CPS),
     "PODEMOS-AHAL DUGU - ALIANZA VERDE": (None, IZQ, CPS), "POR ANDALUCÍA": (None, IZQ, CPS), "COMUNS SUMAR": (None, IZQ, CPS),
-    "SUMAR": (None, IZQ, CPS), "EB-AZ": (None, IZQ, "Ezker Batua-Berdeak (IU) con Alianza Verde → Izquierdas (IU, D-168)"),
+    "SUMAR": (None, IZQ, CPS), "PODEMOS-IU-VERDES-AV": (None, IZQ, CPS), "IU-MÁS PAÍS-IAS": (None, IZQ, CPS),
+    "PODEMOS ASTURIES": (None, IZQ, "variante regional de Podemos (Podemos–Sumar) → Izquierdas (Planificador, D-168/D-182: marca de partido ya aprobado)"),
+    "V-Q": ("EQUO", IZQ, "Verdes-Equo = EQUO → Izquierdas (Planificador, D-168/D-182: marca de partido ya aprobado)"),
+    "MR-VE": (None, IZQ, "Más Región (rama de Más País) con Verdes Equo → Izquierdas (Planificador, D-168/D-182: marca de partido ya aprobado)"), "EB-AZ": (None, IZQ, "Ezker Batua-Berdeak (IU) con Alianza Verde → Izquierdas (IU, D-168)"),
     "PAR-ES.C.": (None, "", "sin bloque (D-168: PAR)"), "Cs": (None, "", "sin bloque (D-168: Cs)"), "PACMA": (None, "", "sin bloque (D-168: PACMA)"),
     "CONTIGO-ZUREKIN": (None, NAC, "decisión del propietario (19-11, vía Planificador): nacionalistas antes que izquierdistas → Nacionalistas"),
     "DO": (None, NAC, "decisión del propietario (19-11, vía Planificador): → Nacionalistas"), "100x100": (None, NAC, "decisión del propietario (19-11, vía Planificador): → Nacionalistas"),
@@ -89,8 +96,8 @@ def homologadas() -> dict[tuple, str]:
 def construir(max_dudosos: int = 15):
     ap, hom, reglas = aprobada(), homologadas(), ha.reglas()
     bloques, alias, dud, cob = [], [], [], {}
-    for aut, (com, ele) in VIGENTES.items():
-        ruta = Path(HIST) / com / ele / f"{com}_partidos.csv"
+    for aut, (com, ele, *otra) in VIGENTES.items():
+        ruta = Path(otra[0]) if otra else Path(HIST) / com / ele / f"{com}_partidos.csv"
         votos: Counter = Counter()
         for f in csv.DictReader((ROOT / ruta).open(encoding="utf-8", newline="")):
             votos[f["partido"]] += int(f["votos"])

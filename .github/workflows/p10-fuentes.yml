@@ -1,6 +1,15 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de preparación de fuentes
-# VERSIÓN: 1.0.1
+# VERSIÓN: 1.0.2
+# CAMBIOS 1.0.2: T-379 PR 3b (diseño P00 §5-§6, opción A del Planificador del 19-11): con campaña, los jobs de registro (p11_registrar, p11_generation_pending, p12_registrar)
+#   YA NO se saltan: corren igual, con la credencial de la app saltada y `origin` en un repositorio local («Registro en ensayo
+#   (campaña)», herramientas/campana_registro.py ensayo), de modo que sus herramientas empujan ahí y nunca a GitHub; al final,
+#   «Capturar el registro (campaña)» sube el cambio a R2 y el cierre de P00 lo re-aplica en un solo commit. P10 deja de forzar
+#   `persist_state=false` con campaña (la cadena pide persistir: el registro corre en ensayo); p11_generation_pending hace checkout
+#   de `github.sha` con campaña (el commit promovido solo existe en el ensayo) y re-aplica lo de p11_registrar; los grupos
+#   `ddd-catalog-promotion` pasan a `ddd-campana-<campaña>-<territorio>` con campaña.
+#   Sin campaña, idéntico a la 1.0.1 (tests/_t379_3b.deshacer, test_t379_3b_workflows).
+# ANTERIOR (1.0.1): legacy/workflows/p10-fuentes_v1.0.1_20261119.yml
 # CAMBIOS 1.0.1: T-379 PR 2b (D-163, 2b mínima): `contents: read` en todo el fichero (el push a main va con el token de la app de registro,
 #   que no depende de GITHUB_TOKEN: `contents: read` NO es barrera para ese push; sin la app, la credencial falla en vez de caer en github.token);
 #   entrada oculta `campana` (workflow_call; vacía = como antes). Con campaña, los jobs (en P30, los pasos) que registran en main se saltan.
@@ -162,7 +171,7 @@ jobs:
           SECTION_YEAR_INPUT: ${{ inputs.section_year || '' }}
           REUSE_INPUT: ${{ toJSON(inputs.reutilizar_si_ya_preparada) }}
           REGENERAR_INPUT: ${{ inputs.regenerar }}
-          PERSIST_INPUT: ${{ inputs.campana && 'false' || toJSON(inputs.persist_state) }}
+          PERSIST_INPUT: ${{ toJSON(inputs.persist_state) }}
           RECOVERY_RUN_ID: ${{ inputs.recover_run_id || '' }}
           RECOVERY_SHA256: ${{ inputs.recover_artifact_sha256 || '' }}
         run: |
@@ -420,10 +429,10 @@ jobs:
       artifact_sha256: ${{ steps.register.outputs.artifact_sha256 }}
       package_sha256: ${{ steps.register.outputs.package_sha256 }}
       promotion_sha: ${{ steps.register.outputs.promotion_sha }}
-    if: ${{ (needs.p11_territoriales.result == 'success' && needs.p11_resolver.outputs.persist_state == 'true') && !inputs.campana }}
+    if: ${{ needs.p11_territoriales.result == 'success' && needs.p11_resolver.outputs.persist_state == 'true' }}
     runs-on: ubuntu-24.04
     concurrency:
-      group: ddd-catalog-promotion
+      group: ${{ inputs.campana && format('ddd-campana-{0}-{1}', inputs.campana, needs.p11_resolver.outputs.territory_id) || 'ddd-catalog-promotion' }}
       cancel-in-progress: false
       queue: max
     env:
@@ -442,6 +451,7 @@ jobs:
         with:
           ref: ${{ github.ref_name }}
       - name: Credencial de registro
+        if: ${{ !inputs.campana }}
         shell: bash
         env:
           APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
@@ -462,6 +472,24 @@ jobs:
           for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
           git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
           echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - id: ensayo_campana
+        name: Registro en ensayo (campaña)
+        if: ${{ inputs.campana }}
+        shell: bash
+        env:
+          CAMPANA: ${{ inputs.campana }}
+          CAMPANA_TERRITORIO: ${{ needs.p11_resolver.outputs.territory_id }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          # T-379 3b: origin pasa a un repositorio local; las herramientas de registro empujan ahí, nunca a GitHub.
+          base="$(python3 herramientas/campana_registro.py ensayo --almacen "${ALMACEN:-r2}" --campana "$CAMPANA" \
+            --territorio "$CAMPANA_TERRITORIO" --destino "$RUNNER_TEMP/ensayo-campana.git" --rama "$GITHUB_REF_NAME" --antes 10)"
+          echo "base=$base" >> "$GITHUB_OUTPUT"
       - name: Instalar entorno geoespacial de registro
         run: python -m pip install --disable-pip-version-check -r requirements.lock
       - name: Verificar entorno geoespacial de registro
@@ -489,11 +517,27 @@ jobs:
           [[ "$promotion_sha" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::Commit de promoción inválido."; exit 51; }
           [[ "$(git rev-parse HEAD)" == "$promotion_sha" ]] || { echo "::error::El checkout final no coincide con la promoción durable."; exit 52; }
           echo "promotion_sha=$promotion_sha" >> "$GITHUB_OUTPUT"
+      - name: Capturar el registro (campaña)
+        if: ${{ success() && inputs.campana }}
+        shell: bash
+        env:
+          CAMPANA: ${{ inputs.campana }}
+          CAMPANA_TERRITORIO: ${{ needs.p11_resolver.outputs.territory_id }}
+          BASE: ${{ steps.ensayo_campana.outputs.base }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          python3 herramientas/campana_registro.py capturar --almacen "${ALMACEN:-r2}" --campana "$CAMPANA" --territorio "$CAMPANA_TERRITORIO" \
+            --base "$BASE" --rama "$GITHUB_REF_NAME" --orden 10 --nombre p11_registrar --intento "$GITHUB_RUN_ATTEMPT"
 
   p11_generation_pending:
     name: Registrar evaluación de generación pendiente
     needs: [p11_resolver, p11_registrar]
-    if: ${{ (always() && needs.p11_resolver.result == 'success' && needs.p11_registrar.result == 'success' && needs.p11_resolver.outputs.persist_state == 'true') && !inputs.campana }}
+    if: ${{ always() && needs.p11_resolver.result == 'success' && needs.p11_registrar.result == 'success' && needs.p11_resolver.outputs.persist_state == 'true' }}
     runs-on: ubuntu-24.04
     outputs:
       prepared_source_ref: ${{ steps.persist.outputs.prepared_source_ref }}
@@ -505,9 +549,10 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ needs.p11_registrar.outputs.promotion_sha }}
+          ref: ${{ inputs.campana && github.sha || needs.p11_registrar.outputs.promotion_sha }}
           token: ${{ github.token }}
       - name: Credencial de registro
+        if: ${{ !inputs.campana }}
         shell: bash
         env:
           APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
@@ -528,6 +573,24 @@ jobs:
           for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
           git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
           echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - id: ensayo_campana
+        name: Registro en ensayo (campaña)
+        if: ${{ inputs.campana }}
+        shell: bash
+        env:
+          CAMPANA: ${{ inputs.campana }}
+          CAMPANA_TERRITORIO: ${{ needs.p11_resolver.outputs.territory_id }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          # T-379 3b: origin pasa a un repositorio local; las herramientas de registro empujan ahí, nunca a GitHub.
+          base="$(python3 herramientas/campana_registro.py ensayo --almacen "${ALMACEN:-r2}" --campana "$CAMPANA" \
+            --territorio "$CAMPANA_TERRITORIO" --destino "$RUNNER_TEMP/ensayo-campana.git" --rama "$GITHUB_REF_NAME" --antes 11)"
+          echo "base=$base" >> "$GITHUB_OUTPUT"
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - id: candidate
         name: Materializar estado PENDING ligado a la fuente acreditada
@@ -581,6 +644,22 @@ jobs:
             exit 57
           }
           echo "prepared_source_ref=$source_ref" >> "$GITHUB_OUTPUT"
+      - name: Capturar el registro (campaña)
+        if: ${{ success() && inputs.campana }}
+        shell: bash
+        env:
+          CAMPANA: ${{ inputs.campana }}
+          CAMPANA_TERRITORIO: ${{ needs.p11_resolver.outputs.territory_id }}
+          BASE: ${{ steps.ensayo_campana.outputs.base }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          python3 herramientas/campana_registro.py capturar --almacen "${ALMACEN:-r2}" --campana "$CAMPANA" --territorio "$CAMPANA_TERRITORIO" \
+            --base "$BASE" --rama "$GITHUB_REF_NAME" --orden 11 --nombre p11_generation_pending --intento "$GITHUB_RUN_ATTEMPT"
 
   p11_resultado:
     name: Verificar resultado durable de preparación
@@ -630,7 +709,7 @@ jobs:
         with: {ref: '${{ inputs.source_ref || github.sha }}', token: '${{ github.token }}'}
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - id: resolve
-        env: {TERRITORY: '${{ (inputs.territory_id || inputs.territorio) }}', EDITION: "${{ inputs.data_edition || '2025' }}", PERSIST_INPUT: "${{ inputs.campana && 'false' || toJSON(inputs.persist_state) }}", ELECCION: '${{ inputs.eleccion }}'}
+        env: {TERRITORY: '${{ (inputs.territory_id || inputs.territorio) }}', EDITION: "${{ inputs.data_edition || '2025' }}", PERSIST_INPUT: "${{ toJSON(inputs.persist_state) }}", ELECCION: '${{ inputs.eleccion }}'}
         run: |
           set -euo pipefail
           persist_json="$(python herramientas/evaluar_persistencia_preparacion.py resolve --requested "$PERSIST_INPUT")"
@@ -1128,10 +1207,10 @@ jobs:
   p12_registrar:
     name: Registrar resultados electorales preparados
     needs: [p12_resolver, p12_electorales]
-    if: ${{ (needs.p12_electorales.result == 'success' && needs.p12_electorales.outputs.electoral_outcome == 'READY' && needs.p12_resolver.outputs.persist_state == 'true' && needs.p12_electorales.outputs.production_eligible == 'true') && !inputs.campana }}
+    if: ${{ needs.p12_electorales.result == 'success' && needs.p12_electorales.outputs.electoral_outcome == 'READY' && needs.p12_resolver.outputs.persist_state == 'true' && needs.p12_electorales.outputs.production_eligible == 'true' }}
     runs-on: ubuntu-24.04
     concurrency:
-      group: ddd-catalog-promotion
+      group: ${{ inputs.campana && format('ddd-campana-{0}-{1}', inputs.campana, needs.p12_resolver.outputs.territory_id) || 'ddd-catalog-promotion' }}
       cancel-in-progress: false
       queue: max
     env: {TERRITORY_ID: '${{ needs.p12_resolver.outputs.territory_id }}', EDITION: '${{ needs.p12_resolver.outputs.edition }}', DECLARATION: '${{ needs.p12_resolver.outputs.electoral_declaration }}', ELECTION_ID: '${{ needs.p12_resolver.outputs.election_id }}', ADAPTER: '${{ needs.p12_electorales.outputs.adapter }}', ARTIFACT_DIGEST: '${{ needs.p12_electorales.outputs.artifact_digest }}', TARGET_BRANCH: '${{ github.ref_name }}'}
@@ -1139,6 +1218,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with: {ref: '${{ github.ref_name }}'}
       - name: Credencial de registro
+        if: ${{ !inputs.campana }}
         shell: bash
         env:
           APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
@@ -1159,6 +1239,24 @@ jobs:
           for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
           git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
           echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - id: ensayo_campana
+        name: Registro en ensayo (campaña)
+        if: ${{ inputs.campana }}
+        shell: bash
+        env:
+          CAMPANA: ${{ inputs.campana }}
+          CAMPANA_TERRITORIO: ${{ needs.p12_resolver.outputs.territory_id }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          # T-379 3b: origin pasa a un repositorio local; las herramientas de registro empujan ahí, nunca a GitHub.
+          base="$(python3 herramientas/campana_registro.py ensayo --almacen "${ALMACEN:-r2}" --campana "$CAMPANA" \
+            --territorio "$CAMPANA_TERRITORIO" --destino "$RUNNER_TEMP/ensayo-campana.git" --rama "$GITHUB_REF_NAME" --antes 12)"
+          echo "base=$base" >> "$GITHUB_OUTPUT"
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - name: Registrar preparación electoral
         run: |
@@ -1176,6 +1274,22 @@ jobs:
           }
           durable="$(python herramientas/preflight_preparacion_fuente.py --root-dir . --kind electoral --territory "$TERRITORY_ID" --edition "$EDITION")"
           [[ "$(jq -r .run_id <<<"$durable")" == "$GITHUB_RUN_ID" && "$(jq -r .artifact_name <<<"$durable")" == "$artifact_name" && "$(jq -r .artifact_sha256 <<<"$durable")" == "${ARTIFACT_DIGEST#sha256:}" ]] || exit 50
+      - name: Capturar el registro (campaña)
+        if: ${{ success() && inputs.campana }}
+        shell: bash
+        env:
+          CAMPANA: ${{ inputs.campana }}
+          CAMPANA_TERRITORIO: ${{ needs.p12_resolver.outputs.territory_id }}
+          BASE: ${{ steps.ensayo_campana.outputs.base }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          python3 herramientas/campana_registro.py capturar --almacen "${ALMACEN:-r2}" --campana "$CAMPANA" --territorio "$CAMPANA_TERRITORIO" \
+            --base "$BASE" --rama "$GITHUB_REF_NAME" --orden 12 --nombre p12_registrar --intento "$GITHUB_RUN_ATTEMPT"
 
   p12_resultado:
     name: Verificar resultado durable de preparación

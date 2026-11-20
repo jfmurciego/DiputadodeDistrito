@@ -1,10 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: p70-archivo.yml
-# VERSIÓN: 1.1.1
+# VERSIÓN: 1.1.3
+# CAMBIOS 1.1.3: T-427: P75 también para los 19 `aut` con su autonómica vigente: `territorios` = `aut` (o códigos aut) en una ejecución aparte de los nac
+#   (herramientas/p75_doble_vuelta_r2.py 1.1.0; informe en doble_vuelta/autonomicas/<run>/). Solo cambian las descripciones; jobs y pasos, idénticos.
+# CAMBIOS 1.1.2: T-420b: P74 Listar llama a `listar_r2.py --duplicados --json` (solo lectura, T-420/#926), imprime el resumen en el log y en el resumen del job y sube el JSON como artefacto `p74-duplicados-<run>`. El resto, idéntico.
 # CAMBIOS 1.1.1: T-418 (D-178): P75 imprime en el log y en el resumen `INFORME_CLAVE=` e `INFORME_SHA256=` (y el sha256 y la clave de cada ZIP): es lo que se fija en
 #   configuracion/doble_vuelta_publicada.json para publicar la doble vuelta en P40. El resto, idéntico.
 # NOMBRE DE VERSIÓN: P70 Archivo
-# FECHA: 2026-11-16
+# FECHA: 2026-11-20
 # ESTADO: candidato
 # QUÉ HACE: único punto de entrada del archivo en R2 (D-131, D-132). Botón: acción = P71 archivar todo lo vivo | P71 archivar el paquete
 #   de fuentes de un territorio | P72 recuperar producto electoral | P72 recuperar composición M06 | P73 podar | P74 listar;
@@ -23,7 +26,8 @@
 #   mantenimiento-programado.yml 1.1.0 (copias en legacy/workflows/podar-r2_v1.0.1, recuperar-producto-electoral-durable_v1.0.5 y mantenimiento-programado_v1.1.0, _20261116). P71 sin «caduca antes»; P71 suma `archivar_p10` (de
 #   bateria-motor.yml, que lo conserva hasta T-369); P74 listar es nuevo.
 # MOTIVO: D-129 a D-132: un workflow por familia, sin parámetros técnicos visibles.
-# ANTERIOR: legacy/workflows/p70-archivo_v1.1.0_20261119.yml
+# ANTERIOR: legacy/workflows/p70-archivo_v1.1.1_20261119.yml
+# ANTERIOR (1.1.0): legacy/workflows/p70-archivo_v1.1.0_20261119.yml
 # ANTERIOR (1.0.0): legacy/workflows/p70-archivo_v1.0.0_20261119.yml
 # ANTERIOR (1.0.0): legacy/workflows/mantenimiento-programado_v1.1.0_20261116.yml
 name: P70 Archivo
@@ -79,12 +83,12 @@ on:
         type: boolean
         default: true
       territorios:
-        description: 'Territorio (código, p. ej. aut01 o nac42): paquete de fuentes y producto electoral; composición M06: códigos separados por comas o vacío = todos; P75: códigos nac separados por comas o vacío = todos los nac'
+        description: 'Territorio (código, p. ej. aut01 o nac42): paquete de fuentes y producto electoral; composición M06: códigos separados por comas o vacío = todos; P75: códigos nac separados por comas o vacío = todos los nac; aut = los 19 autonómicos (o códigos aut), con su autonómica vigente'
         required: false
         type: string
         default: ''
       eleccion:
-        description: 'Elección (AAAA-MM, p. ej. 2023-07): producto electoral, composición M06 y P75 (vacío = 2023-07)'
+        description: 'Elección (AAAA-MM, p. ej. 2023-07): producto electoral, composición M06 y P75 de los nac (vacío = 2023-07; los aut usan su autonómica vigente)'
         required: false
         type: string
         default: ''
@@ -1006,7 +1010,16 @@ jobs:
           R2_BUCKET: ${{ vars.R2_BUCKET }}
         run: |
           set -euo pipefail
-          python3 herramientas/listar_r2.py
+          mkdir -p salida_p74
+          python3 herramientas/listar_r2.py --duplicados --json salida_p74/duplicados_r2.json
+      - name: Conservar el JSON de duplicados
+        if: ${{ always() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: p74-duplicados-${{ github.run_id }}
+          path: salida_p74/duplicados_r2.json
+          if-no-files-found: warn
+          retention-days: 30
 
   # ---- P75 doble vuelta desde R2 (T-418)
   doble_vuelta_r2:

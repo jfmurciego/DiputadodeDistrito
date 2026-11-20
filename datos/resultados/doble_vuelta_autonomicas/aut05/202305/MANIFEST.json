@@ -1,0 +1,48 @@
+{
+ "composicion_ruta": "datos/composicion/runs/aut05_43733630946.csv",
+ "comunidad": "aut05",
+ "cuadre": {
+  "aproximado_en_distrito": true,
+  "campos_sin_dato_a_cero": {},
+  "cera_excluido": [],
+  "defecto_frente_total": 0.0,
+  "dentro_tope_d17": true,
+  "dif_max_partido": 0,
+  "distritos": 70,
+  "nivel": "seccion",
+  "oficial": "sin fuente oficial local: AVISO",
+  "ok": true,
+  "perdida_dentro_tope": true,
+  "perdida_frente_fuente": 0.0,
+  "perdidos_por_causa": {},
+  "total_autonomico": 889859,
+  "votos_distritos": 889859,
+  "votos_espejo": 889859,
+  "votos_perdidos": 0
+ },
+ "eleccion": "202305",
+ "fuentes": {
+  "asignacion_por_geometria": {
+   "habitantes": 18712,
+   "metodo": "sección vigente ausente de la composición M06 → distrito de la unión de secciones conocidas más próxima; empate: mayor contacto",
+   "secciones": 12
+  },
+  "calendario": "5c866ec5fc13c48f08e7b7e27bca0b8af91b4914c3695fbf55df855298e05cd5",
+  "composicion": "d8d511bba3b49bd3140b65384466d930b19a63f6354d59cb98478a190908295c",
+  "historicos": {
+   "2024": "df931fa0d372808eb81abb2f2645ed5ecccbd6ed397b85db656980748ddd6bf7"
+  },
+  "observatorio": {
+   "hauteskundea/05-202305.json": "d6c6be2b5a16cc2abdf53887ab2f1ada6330117e3881bc192c6aa3e2159326d1",
+   "sekzioa/05-202305/35.json": "09f0c56600bd05f90d422a689b75af5822036fb93abad54c63185fe729c6f04b",
+   "sekzioa/05-202305/38.json": "487538842701465547b9f276924c5958821c77e22d3bced18c6a2e5bf01ff7a7"
+  },
+  "padron_65034": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3",
+  "seccionado_2025": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4"
+ },
+ "peso": "poblacion (D-13)",
+ "run_m08": "43733630946",
+ "schema": "ddd.reagregacion-autonomicas/1.0",
+ "seccionado_historico": 2024,
+ "territorio": "aut05"
+}

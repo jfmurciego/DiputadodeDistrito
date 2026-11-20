@@ -16,8 +16,10 @@
 #   legislatura vigente; contrato de herramientas/resolver_ejecucion_completa.py (sin el «Planificar» de la 00).
 #   `artifact_namespace = campaign-<run>-1--01--<territorio>` en P20 y P30 (formato que acepta la puerta 02): la matriz
 #   comparte run_id y los nombres de artefacto chocarían.
-# NO HACE: escribir en main (P10-P30 reciben `campana` y saltan sus registros, T-379 2b), lanzar ejecuciones por la
-#   API ni publicar. El archivo en origen del M08 y la tabla por partido con campaña (opción A) llegan tras #911.
+#   3b: P10 y P20 registran EN ENSAYO (persist_state true; `origin` local, captura a R2, re-aplicación en el cierre) y
+#   `source_ref` es siempre la versión de la campaña (`github.sha`): los commits del ensayo no existen en GitHub.
+#   P30 también registra en ensayo desde el humo 44615209522; la retirada del M06 la hace el cierre, por territorio.
+# NO HACE: escribir en main, lanzar ejecuciones por la API ni publicar.
 name: _P00 Campaña — cadena de un territorio
 
 on:
@@ -130,7 +132,7 @@ jobs:
       population_year: ${{ needs.plan.outputs.population_year }}
       section_year: ${{ needs.plan.outputs.section_year }}
       reutilizar_si_ya_preparada: ${{ needs.plan.outputs.reutilizar == 'true' }}
-      persist_state: false
+      persist_state: true  # T-379 3b: el registro corre en ensayo (campana_registro.py) y lo re-aplica el cierre
 
   puerta_01:
     name: Puerta 01 → 02
@@ -144,7 +146,7 @@ jobs:
       data_edition: ${{ needs.plan.outputs.edition }}
       run_id: ${{ github.run_id }}
       artifact_name: ${{ needs.p11.outputs.artifact_name }}
-      source_ref: ${{ needs.p11.outputs.prepared_source_ref }}
+      source_ref: ${{ github.sha }}
 
   p12:
     name: P12 Electorales
@@ -159,8 +161,8 @@ jobs:
       data_edition: ${{ needs.plan.outputs.edition }}
       eleccion: ${{ inputs.eleccion_p12 }}
       reutilizar_si_ya_preparada: ${{ needs.plan.outputs.reutilizar == 'true' }}
-      source_ref: ${{ needs.p11.outputs.prepared_source_ref }}
-      persist_state: false
+      source_ref: ${{ github.sha }}
+      persist_state: true  # T-379 3b: el registro corre en ensayo (campana_registro.py) y lo re-aplica el cierre
       allow_source_gap_success: true
 
   cerrar_p10:
@@ -231,8 +233,8 @@ jobs:
       source_package_run_id: ${{ github.run_id }}
       source_package_artifact_name: ${{ needs.p11.outputs.artifact_name }}
       execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
-      source_ref: ${{ needs.p11.outputs.prepared_source_ref }}
-      persist_state: false
+      source_ref: ${{ github.sha }}
+      persist_state: true  # T-379 3b: el registro corre en ensayo (campana_registro.py) y lo re-aplica el cierre
       preflight_only: true
 
   p20:
@@ -251,8 +253,8 @@ jobs:
       source_package_run_id: ${{ github.run_id }}
       source_package_artifact_name: ${{ needs.puerta_01.outputs.artifact_name }}
       source_package_artifact_sha256: ${{ needs.puerta_01.outputs.artifact_digest }}
-      source_ref: ${{ needs.acreditar.result == 'success' && needs.acreditar.outputs.enabled_source_ref || needs.p11.outputs.prepared_source_ref }}
-      persist_state: false
+      source_ref: ${{ github.sha }}
+      persist_state: true  # T-379 3b: el registro corre en ensayo (campana_registro.py) y lo re-aplica el cierre
       require_generation_gate: true
       artifact_namespace: ${{ needs.plan.outputs.ns }}
 
@@ -270,7 +272,7 @@ jobs:
       artifact_name: ${{ format('ddd-state-{0}-M06-{1}', github.run_id, needs.plan.outputs.ns) }}
       audit_artifact_name: ${{ format('ddd-audit-{0}-{1}', github.run_id, needs.plan.outputs.ns) }}
       artifact_namespace: ${{ needs.plan.outputs.ns }}
-      source_ref: ${{ needs.acreditar.result == 'success' && needs.acreditar.outputs.enabled_source_ref || needs.p11.outputs.prepared_source_ref }}
+      source_ref: ${{ github.sha }}
 
   cerrar_p20:
     name: Cerrar P20 y empezar P30
@@ -330,7 +332,7 @@ jobs:
       data_edition: ${{ needs.plan.outputs.edition }}
       run_id: ${{ github.run_id }}
       artifact_name: ${{ needs.p12.outputs.artifact_name }}
-      source_ref: ${{ needs.acreditar.result == 'success' && needs.acreditar.outputs.enabled_source_ref || needs.p11.outputs.prepared_source_ref }}
+      source_ref: ${{ github.sha }}
       artifact_namespace: ${{ needs.plan.outputs.ns }}
 
   p30:
@@ -349,8 +351,8 @@ jobs:
       electoral_package_run_id: ${{ needs.puerta_03.outputs.run_id }}
       electoral_package_artifact_name: ${{ needs.puerta_03.outputs.artifact_name }}
       electoral_package_artifact_digest: ${{ needs.puerta_03.outputs.artifact_digest }}
-      source_ref: ${{ needs.acreditar.result == 'success' && needs.acreditar.outputs.enabled_source_ref || needs.p11.outputs.prepared_source_ref }}
-      persist_state: false
+      source_ref: ${{ github.sha }}
+      persist_state: true  # T-379 3b: el registro corre en ensayo (campana_registro.py) y lo re-aplica el cierre
       artifact_namespace: ${{ needs.plan.outputs.ns }}
 
   cerrar_p30:

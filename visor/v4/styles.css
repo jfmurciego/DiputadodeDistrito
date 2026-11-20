@@ -20,3 +20,20 @@
 .presentacion{background:#0b0d0e;border-bottom:1px solid #6d4c36;padding-block:28px}.presentacion h2{margin:0 0 14px;font:700 28px/1.1 var(--serif)}.presentacion-cuerpo{display:flex;flex-wrap:wrap;align-items:center;gap:14px}.presentacion .video-poster{display:block;width:100%;max-width:640px;height:auto;border:1px solid var(--border)}.presentacion video{display:block;width:100%;max-width:960px;height:auto;background:#000}.video-boton{min-height:44px;padding:8px 22px;font:700 16px/1 var(--sans);color:#0b0d0e;background:var(--cream);border:0;border-radius:4px;cursor:pointer}.video-enlace{display:inline-flex;align-items:center;min-height:44px;color:#ffd0a1;text-decoration:underline}
 
 .doble-vuelta{border-top:1px solid #6d4c36;padding-block:30px;background:#0b0d0e}.doble-vuelta h2{margin:0 0 14px;font:700 28px/1.1 var(--serif)}.doble-vuelta p{max-width:70ch}.bloques{display:flex;flex-wrap:wrap;gap:10px 22px;list-style:none;margin:16px 0;padding:0}.bloques li{display:flex;align-items:center;gap:10px;min-height:44px}.bloques .muestra{display:inline-block;width:22px;height:22px;border-radius:4px;border:1px solid var(--cream)}.bloques .izq{background:var(--izq)}.bloques .nac{background:var(--nac)}.bloques .pat{background:var(--pat)}.aviso-dv{border-left:4px solid var(--orange);padding:6px 12px}
+/* T-423: Comprender (comparación hoy / con distritos, tu distrito, qué no es, para saber más) con la paleta y las cajas de la V4 */
+.sec-titulo{margin:0 0 16px;font:700 28px/1.1 var(--serif)}
+.comparativa-sec,.tu-distrito,.que-no-es,.saber-mas{padding-block:32px;border-bottom:1px solid #6d4c36}
+.comparativa{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.comparativa h3{margin:0;font:700 24px/1.2 var(--serif)}
+.comparativa dl{margin:0}.comparativa dl div{padding:12px 0;border-bottom:1px solid #4a3a2e}.comparativa dl div:first-child{padding-top:0}
+.comparativa dt{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#f1a56f}
+.comparativa dd{margin:4px 0 0;font-size:17px;line-height:1.45;color:#efe6da}
+.comparativa .destacado{border-color:var(--orange)}.comparativa .destacado>header{background:#65151e}
+.cifra{margin:16px 0 0!important;font-size:16px!important}.cifra strong{font:700 40px/1 var(--serif);color:var(--orange);margin-right:8px}
+.ejemplo{margin:22px 0 0;max-width:70ch;font-size:17px;border-left:4px solid var(--orange);padding:6px 14px}
+.tu-distrito{background:linear-gradient(110deg,#65151e,#411117)}.tu-distrito p{max-width:62ch;font-size:18px;margin:0 0 18px}
+.boton-grande{display:inline-flex;align-items:center;min-height:56px;padding:14px 28px;border-radius:6px;background:var(--cream);color:#191312;text-decoration:none;font:700 20px/1 var(--serif);box-shadow:0 9px 22px #0005}
+.boton-grande:hover{background:#fff9ef}
+.que-no-es p{max-width:70ch;font-size:17px;color:#e1d7ca}
+.saber-mas{margin:0}.saber-mas .route h3{margin:0 0 5px;font:700 clamp(24px,2.2vw,32px)/1.05 var(--serif);letter-spacing:-.025em}
+@media(max-width:800px){.comparativa{grid-template-columns:1fr}.sec-titulo{font-size:24px}.boton-grande{width:100%;justify-content:center}}

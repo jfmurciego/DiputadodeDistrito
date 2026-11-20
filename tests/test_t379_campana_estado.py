@@ -204,8 +204,10 @@ class Cierre(Base):
         self.assertEqual(ce.plan_cierre(self.alm, c, "refs/heads/main", "123", False, f)["rama"], "main")
         p = ce.plan_cierre(self.alm, c, "refs/heads/t379-p00", "123", False, f)
         self.assertEqual((p["rama"], p["commit"]), ("p00-cierre/123", True))
+        # D-147 (PR 3b): el catálogo es la única excepción; otra ruta fuera de RUTAS_ROBOT, no
+        self.assertTrue(ce.plan_cierre(self.alm, c, "refs/heads/main", "123", False, ["configuracion/catalogo_preparacion.yaml"])["commit"])
         with self.assertRaises(ce.EstadoError):
-            ce.plan_cierre(self.alm, c, "refs/heads/main", "123", False, ["configuracion/catalogo_preparacion.yaml"])
+            ce.plan_cierre(self.alm, c, "refs/heads/main", "123", False, ["configuracion/registro_electoral.yaml"])
 
     def test_ensayo_sin_ficheros_ni_commit(self):
         c = self.campana("nac22", "2026-11")
@@ -435,7 +437,7 @@ class ArreglosRevisor(Base):
             with self.assertRaises(ce.EstadoError):
                 ce.plan_cierre(self.alm, c, "refs/heads/main", "1", False, [], Path(raiz))
         with self.assertRaises(ce.EstadoError) as e:
-            ce.plan_cierre(self.alm, c, "refs/heads/main", "1", False, ["configuracion/catalogo_preparacion.yaml"])
+            ce.plan_cierre(self.alm, c, "refs/heads/main", "1", False, ["configuracion/registro_electoral.yaml"])
         self.assertIn("D-147", str(e.exception))
 
 

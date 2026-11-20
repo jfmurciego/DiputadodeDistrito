@@ -47,10 +47,12 @@ class ArchivoEnOrigen(unittest.TestCase):
         self.assertIn("run_m07_resultados_partido.csv", nombres)
         self.assertNotIn("otro.csv", nombres)
 
-    def test_paso_de_archivo_sube_el_paquete_a_r2_solo_sin_campana(self):
+    def test_paso_de_archivo_sube_el_paquete_a_r2_tambien_con_campana(self):
+        """T-379 3b (opción A, D-171: archivo en origen en el mismo job): con campaña también corre; su registro en main va al
+        ensayo y lo re-aplica el cierre (tests/test_t379_3b_workflows.py)."""
         p = next(s for s in pasos(WF.read_text(encoding="utf-8")) if s.get("name") == PASO_ARCHIVO)
         self.assertIn("archivo_origen.py r2", p["run"])
-        self.assertIn("!inputs.campana", p["if"])
+        self.assertEqual(p["if"], "${{ success() && needs.resolver.outputs.persistir == 'true' }}")
 
 
 class DobleVueltaEnP30(unittest.TestCase):
@@ -58,10 +60,10 @@ class DobleVueltaEnP30(unittest.TestCase):
         self.texto = WF.read_text(encoding="utf-8")
         self.paso = next(s for s in pasos(self.texto) if s.get("name") == PASO_DV)
 
-    def test_no_fatal_y_sin_campana(self):
+    def test_no_fatal_y_tambien_con_campana(self):
+        """T-379 3b: con campaña también corre (su salida viaja en el paquete de R2 del archivo en origen)."""
         self.assertIs(self.paso.get("continue-on-error"), True)
-        self.assertIn("!inputs.campana", self.paso["if"])
-        self.assertIn("persistir == 'true'", self.paso["if"])
+        self.assertEqual(self.paso["if"], "${{ success() && needs.resolver.outputs.persistir == 'true' }}")
 
     def test_no_escribe_en_main_ni_sube_nada(self):
         run = self.paso["run"]
@@ -93,7 +95,8 @@ class DobleVueltaEnP30(unittest.TestCase):
     def test_sin_la_doble_vuelta_p30_es_igual_que_la_1_0_1(self):
         self.assertTrue(WF_ANTES.is_file(), WF_ANTES)
         nuevo, antes = yaml.safe_load(self.texto), yaml.safe_load(WF_ANTES.read_text(encoding="utf-8"))
-        n = copy.deepcopy(nuevo)
+        from tests._t379_3b import deshacer as sin_3b  # T-379 3b: primero la capa del registro en ensayo
+        n = sin_3b("p30-resultados-electorales", copy.deepcopy(nuevo))
         n["jobs"]["incorporar"]["steps"] = [s for s in n["jobs"]["incorporar"]["steps"] if s.get("name") != PASO_DV]
         for s in n["jobs"]["incorporar"]["steps"]:
             if s.get("name") == PASO_ARCHIVO:

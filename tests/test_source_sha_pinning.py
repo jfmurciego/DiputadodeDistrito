@@ -135,7 +135,8 @@ class FullRunSourceShaPinningTests(unittest.TestCase):
         self.assertNotIn("enabled_source_ref", prep_outputs)
         self.assertEqual(
             preparation["jobs"]["generation_pending"]["steps"][0]["with"]["ref"],
-            "${{ needs.registrar.outputs.promotion_sha }}",
+            # T-379 3b: con campaña, la versión de la campaña (el commit promovido solo existe en el ensayo); sin ella, igual
+            "${{ inputs.campana && github.sha || needs.registrar.outputs.promotion_sha }}",
         )
 
         accreditation = full["jobs"]["acreditar_generacion"]

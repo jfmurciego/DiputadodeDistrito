@@ -18,6 +18,7 @@ from pathlib import Path
 
 import yaml
 
+from tests import _t428
 from tests._uses_sin_version import cargar as cargar_sin_version
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -80,6 +81,7 @@ LINEAS_V4_T409 = {l.strip() for l in CP_V4_T409.splitlines()}
 def diferencias(viejo, nuevo):
     """Diferencias NO permitidas del job de publicación (vacía = equivalente)."""
     a, b = sin_ensemble(viejo["jobs"]["publicar"]), nuevo["jobs"]["publicar"]
+    b = {**b, "steps": _t428.deshacer(b["steps"])}  # T-428 (P40 1.3.0): V4 en la raíz; se deshace solo eso
     d = []
     if a["environment"] != b["environment"]:
         d.append("entorno")
@@ -169,7 +171,8 @@ class Equivalencia(Congelado):
 
     def test_puerta_produccion_intacta(self):
         a = self.des["jobs"]["preparar_publicacion"]["environment"]
-        b = self.p["jobs"]["preparar"]["environment"]
+        from tests._t379_3b import sin_p00_en_p40  # T-379 3b (G4): también la pide P00 Campaña nueva
+        b = sin_p00_en_p40(self.p["jobs"]["preparar"]["environment"])
         self.assertEqual(b, a.replace("P50 Publicación", "P40 Publicación"))
         self.assertIn("github.workflow == 'P40 Publicación'", b)
 

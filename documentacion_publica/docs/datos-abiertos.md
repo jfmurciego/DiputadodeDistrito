@@ -2,7 +2,7 @@
 
 Los datos publicados viven en [`../datos/`](../datos/INDEX.json) (paquete por provincia):
 
-- `distritos.geojson`: distritos del producto territorial M06 (CRS84).
+- `distritos.geojson`: distritos del producto territorial certificado (P26, CRS84).
 - `resultados.csv`: ganador por distrito en las generales de 2023. Solo consta el ganador, no los votos de cada partido.
 - `distrito-<n>.html`: ficha estática del distrito.
 - `INDEX.json`: run de origen, `blob_sha` y sha256 de cada fichero.

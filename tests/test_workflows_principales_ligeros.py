@@ -68,8 +68,9 @@ class LightweightBusinessWorkflows(unittest.TestCase):
         self.assertIn("ddd-territorial-prod-",generation)
         self.assertIn("ddd-electoral-prod-",electoral_prep)
         self.assertIn("ddd-electoral-prod-",electoral)
-        self.assertIn("group: ddd-catalog-promotion",territorial_prep)
-        self.assertIn("group: ddd-catalog-promotion",electoral_prep)
+        # T-379 3b: sin campaña, el grupo único de siempre; con campaña, uno por campaña y territorio
+        self.assertIn("|| 'ddd-catalog-promotion' }}",territorial_prep)
+        self.assertIn("|| 'ddd-catalog-promotion' }}",electoral_prep)
         # T-360: las cadenas registran sin grupo único (registro re-derivado con reintento).
         self.assertNotIn("group: ddd-catalog-promotion",(WF/"p20-distritos.yml").read_text(encoding="utf-8"))
         self.assertNotIn("group: ddd-catalog-promotion", (WF/"p30-resultados-electorales.yml").read_text(encoding="utf-8"))
