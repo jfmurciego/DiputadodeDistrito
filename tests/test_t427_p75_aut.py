@@ -88,10 +88,12 @@ def cp_de(paq: bytes):
 
 
 class P75Aut(unittest.TestCase):
-    def correr(self, paq=None, cp_paq=None, pedidos="aut", **kw):
+    def correr(self, paq=None, cp_paq=None, pedidos="aut", ajuste=None, **kw):
         paq = paq or paquete()
         with tempfile.TemporaryDirectory() as t, tempfile.TemporaryDirectory() as w, mock.patch.dict(os.environ, {"R2_BUCKET": "b", "R2_ACCOUNT_ID": "a"}):
             r = montar(Path(t), paq, **kw)
+            if ajuste:
+                ajuste(r)
             inf = p75.ejecutar(r, pedidos, "", Path(w), cp_de(cp_paq or paq))
             zips = {p.parent.parent.name: p.read_bytes() for p in Path(w).rglob("ddd-doble-vuelta-*.zip")}
             return inf, {f["territorio"]: f for f in inf["territorios"]}, zips
@@ -121,6 +123,19 @@ class P75Aut(unittest.TestCase):
         self.assertEqual((inf["ok"], inf["no_aplica"], inf["total"]), (1, 1, 3))
         for t in ("aut11", "aut18", "aut19"):
             self.assertIn(t, p75.NO_APLICA)
+
+    def test_formato_de_t426(self):
+        """MANIFEST de T-426 (#944): `composicion_sha256` arriba, sin `composicion_ruta`, `cuadre.exacto`; nivel y aproximado arriba."""
+        def t426(td):
+            m = td / "datos/resultados/doble_vuelta_autonomicas/aut01/202605/MANIFEST.json"
+            m.write_text(json.dumps({"schema": "ddd.doble-vuelta-votos-aut/1.0", "territorio": "aut01", "eleccion": "202605", "run_m08": RUN,
+                                     "composicion_sha256": sha(COMP.encode()), "aproximado_en_distrito": True, "nivel": "municipio",
+                                     "cuadre": {"exacto": True, "votos_entrada": 200, "votos_salida": 200}}), encoding="utf-8")
+        _, f, zips = self.correr(ajuste=t426)
+        self.assertEqual((f["aut01"]["estado"], f["aut01"]["nivel"], f["aut01"]["aproximado_en_distrito"]), ("OK", "municipio", True))
+        z = zipfile.ZipFile(io.BytesIO(zips["aut01"]))  # la entrada «distrito,partido,votos» llega a doble_vuelta.py como district_id,party,votes
+        self.assertEqual(json.loads(z.read("manifiesto.json"))["entradas"]["votos"]["ruta"], "votos_autonomica.csv")
+        self.assertEqual(sorted({r["district_id"] for r in csv.DictReader(io.StringIO(z.read("detalle.csv").decode()))}), ["0", "1"])
 
     def test_votos_de_otro_mapa(self):
         _, f, zips = self.correr(run_manifiesto="1999")  # MANIFEST de los votos con otro run
@@ -157,15 +172,15 @@ class DatosReales(unittest.TestCase):
 
     def test_trece_aut_con_votos_del_mapa_vigente(self):
         con = sorted(p.name for p in (ROOT / p75.VOTOS_AUT).iterdir() if p.is_dir())
-        self.assertEqual(con, ["aut01", "aut02", "aut04", "aut05", "aut06", "aut07", "aut09", "aut10", "aut12", "aut13", "aut15", "aut16", "aut17"]
-                         + [t for t in ("aut03", "aut08", "aut14") if t in con])  # T-426 añade aut03, aut08 y aut14
+        self.assertEqual(con, sorted(["aut01", "aut02", "aut04", "aut05", "aut06", "aut07", "aut09", "aut10", "aut12", "aut13", "aut15", "aut16", "aut17"]
+                         + [t for t in ("aut03", "aut08", "aut14") if t in con]))  # T-426 añade aut03, aut08 y aut14
         vig = dict(p75.territorios_aut(ROOT))
         for t in con:
             ele = p75.eleccion_vigente_aut(ROOT, t)
             csvp, man, estado = p75.votos_aut(ROOT, t, vig[t], ele)
             self.assertEqual(estado, "", t)
             self.assertEqual(man["territorio"], t)
-            self.assertTrue(man["cuadre"]["ok"], t)
+            self.assertTrue(man["cuadre"].get("ok") or man["cuadre"].get("exacto"), t)  # reagregación u T-426
 
     def test_reagregacion_usa_la_composicion_del_run_vigente(self):
         import reagregacion_autonomicas as ra

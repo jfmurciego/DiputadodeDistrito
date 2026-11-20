@@ -9,7 +9,7 @@ CAMBIOS: 1.1.0 (T-427, D-179/D-182/D-183): `--territorios aut` (o códigos aut):
   El M08 de R2 de un aut lleva votos de las generales 2023-07 (no de la autonómica): se restaura igual (sha256) y se usa para comprobar el mapa
   (sus distritos deben ser EXACTAMENTE los del CSV de votos); los votos son los de la autonómica vigente reagregados a la composición del run M08
   vigente (datos/resultados/doble_vuelta_autonomicas/<aut>/<AAAAMM>/, `reagregacion_autonomicas.py --mapa-vigente` o T-426), con su MANIFEST
-  (run_m08 y sha256 de la composición, que deben casar). Bloques y alias: los de las autonómicas filtrados por comunidad (`doble_vuelta --comunidad`).
+  (run_m08 y sha256 de la composición, que deben casar; también el formato de T-426: `composicion_sha256` y `cuadre.exacto`, sin ruta). Bloques y alias: los de las autonómicas filtrados por comunidad (`doble_vuelta --comunidad`).
   Ningún aut se calla: sin autonómicas (aut18, aut19) o fuera por decisión (aut11, D-183) → `NO_APLICA` con motivo (no cuenta como fallo);
   sin votos → `SIN_VOTOS_AUTONOMICOS` (fallo). Informe en `doble_vuelta/autonomicas/<run_p75>/INFORME.json`. nac y aut no se mezclan en una ejecución.
   Lo de los nac, idéntico. 1.0.0: fichero nuevo.
@@ -212,12 +212,16 @@ def votos_aut(root: Path, aut: str, run: str, eleccion: str) -> tuple[Path | Non
     man = json.loads(manp.read_text(encoding="utf-8"))
     fich = json.loads((root / COMPOSICION_RUNS).read_text(encoding="utf-8"))["ficheros"]
     ruta = str(man.get("composicion_ruta") or "")
-    ent = fich.get(ruta.removeprefix("datos/composicion/"))
+    if not ruta:  # formato de T-426 (ddd.doble-vuelta-votos-aut/1.0): sin ruta; la composición es la ÚNICA del run en MANIFEST_RUNS
+        c = [k for k, v in fich.items() if v.get("territorio") == aut and str(v.get("run_id")) == run]
+        ruta = f"datos/composicion/{c[0]}" if len(c) == 1 else ""
+    ent = fich.get(ruta.removeprefix("datos/composicion/")) if ruta else None
     sha_m = (man.get("fuentes") or {}).get("composicion") or man.get("composicion_sha256")
     if str(man.get("run_m08")) != run or not ent or str(ent.get("run_id")) != run or ent.get("territorio") != aut \
             or sha_m != ent.get("sha256_csv") or not (root / ruta).is_file() or dv.sha256(root / ruta) != sha_m:
         return None, man, "VOTOS_DE_OTRO_MAPA"
-    if not (man.get("cuadre") or {}).get("ok"):
+    cu = man.get("cuadre") or {}
+    if not (cu.get("ok") or cu.get("exacto")):  # `ok` (reagregación) o `exacto` (T-426: Σ salida = Σ entrada)
         return None, man, "CUADRE_NO_OK"
     return csvp, man, ""
 
@@ -242,7 +246,8 @@ def procesar_aut(root: Path, aut: str, run: str, trabajo: Path, cp=fuente_r2._cp
                                            "CUADRE_NO_OK": "el cuadre de votos de la reagregación no es correcto"}[estado])
         return fila
     c_ = man.get("cuadre") or {}
-    fila.update(aproximado_en_distrito=bool(c_.get("aproximado_en_distrito")), nivel=c_.get("nivel"), sha256_votos=dv.sha256(csvp))
+    fila.update(aproximado_en_distrito=bool(c_.get("aproximado_en_distrito", man.get("aproximado_en_distrito"))),
+                nivel=c_.get("nivel", man.get("nivel")), sha256_votos=dv.sha256(csvp))
     man_r2 = json.loads((root / ARCHIVO).read_text(encoding="utf-8"))
     hallado = rr.buscar(run, "M08", man_r2)
     if not hallado:
