@@ -2,9 +2,9 @@
 """T-365 (D-125): contrato por elección del histórico por época, contrato M01-M06 por provincia y puerta M07/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.4 · FECHA: 2026-11-20 · ESTADO: candidato
-ANTERIOR: legacy/tests/test_t365_historico_epoca_v1.4.3_20261120.py
-CAMBIOS: 1.4.4: T-400 (D-185): contrato 2011-11 en 1.4.0 y total municipal del Censo (huella, lectura). 1.4.3: T-400 (D-180): clase RepartoParticiones. 1.4.2: T-400: clase PuentesDeEpoca. 1.4.1: T-405: clase TopologiaAdministrativa. 1.4.0: T-399: estado APARTADA_VOTOS admitido (D-158). 1.3.0: T-402: `materializar` normaliza la geometría (parche del seccionado en los tests con zip falso; clase NormalizacionGeometria con zip real). 1.2.0: T-396 (D-153): estado APARTADA admitido; contratos 1.2.0 con anterior 1.1.0. 1.1.0: T-389 (T-365b): contratos con la tabla de T-364b (1.2.0): provincias apartadas = BLOQUEADA_SIN_DATO sin filas, fallo cerrado con la tabla vieja.
+VERSIÓN: 1.4.5 · FECHA: 2026-11-20 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_t365_historico_epoca_v1.4.4_20261120.py
+CAMBIOS: 1.4.5: T-400 (D-185): exención de suelo declarada de 38-G01 (clase RepartoParticiones). 1.4.4: T-400 (D-185): contrato 2011-11 en 1.4.0 y total municipal del Censo (huella, lectura). 1.4.3: T-400 (D-180): clase RepartoParticiones. 1.4.2: T-400: clase PuentesDeEpoca. 1.4.1: T-405: clase TopologiaAdministrativa. 1.4.0: T-399: estado APARTADA_VOTOS admitido (D-158). 1.3.0: T-402: `materializar` normaliza la geometría (parche del seccionado en los tests con zip falso; clase NormalizacionGeometria con zip real). 1.2.0: T-396 (D-153): estado APARTADA admitido; contratos 1.2.0 con anterior 1.1.0. 1.1.0: T-389 (T-365b): contratos con la tabla de T-364b (1.2.0): provincias apartadas = BLOQUEADA_SIN_DATO sin filas, fallo cerrado con la tabla vieja.
 MOTIVO: T-365. Sin red ni fuentes pesadas: el flujo M07/M08 usa un M06 sintético y los módulos reales.
 """
 from __future__ import annotations
@@ -400,10 +400,31 @@ class RepartoParticiones(unittest.TestCase):
         base = {"validation": {}, "territory_contract": {}}
         self.assertIsNone(che._reparto_particiones(ROOT, base, "nac22", 3, {}))
 
-    def test_santa_cruz_2011_falla_cerrado_sin_politica_de_excepcion(self):
-        pob = self._pob("nac38", {"38-C01": 877740, "38-G01": 115715})  # 38-G01 < suelo 120.634 y la política de nac38 no gobierna la excepción
+    def test_santa_cruz_2011_sin_declaracion_falla_cerrado(self):
+        pob = self._pob("nac38", {"38-C01": 877740, "38-G01": 115718})  # 38-G01 < suelo 120.634 y la política de nac38 no gobierna la excepción
         with self.assertRaises(ValueError):
-            che._reparto_particiones(ROOT, self._base("nac38"), "nac38", 7, pob)
+            che._reparto_particiones(ROOT, self._base("nac38"), "nac38", 7, pob)  # sin elección: no hay declaración que valga
+
+    def _c2011(self):
+        return json.loads((ROOT / "configuracion/historico_epoca/contrato_2011_11.json").read_text(encoding="utf-8"))
+
+    def test_santa_cruz_2011_con_la_exencion_declarada(self):
+        pob = self._pob("nac38", {"38-C01": 877740, "38-G01": 115718})
+        r = che._reparto_particiones(ROOT, self._base("nac38"), "nac38", 7, pob, "2011-11", "38", self._c2011())
+        self.assertEqual((r["cuota"], r["exentas"]), ({"38-C01": 6, "38-G01": 1}, ["38-G01"]))  # 0,85 · 993.458 / 7 = 120.634 > 115.718
+        self.assertEqual(r["politica_excepcion"], "one_contiguous_district_floor_exception")
+        self.assertEqual([d["particion"] for d in r["exenciones_declaradas"]], ["38-G01"])
+        self.assertTrue(r["auditoria"]["38-G01"]["floor_exception_governed"])
+
+    def test_la_declaracion_debe_coincidir_con_lo_calculado_y_con_el_seccionado(self):
+        grande = self._pob("nac38", {"38-C01": 877740, "38-G01": 140000})  # 38-G01 ya no queda bajo el suelo
+        with self.assertRaises(che.ErrorContrato):
+            che._reparto_particiones(ROOT, self._base("nac38"), "nac38", 7, grande, "2011-11", "38", self._c2011())
+        c = self._c2011()
+        c["seccionado"]["sha256"] = "0" * 64
+        with self.assertRaises(che.ErrorContrato):
+            che._reparto_particiones(ROOT, self._base("nac38"), "nac38", 7, self._pob("nac38", {"38-C01": 877740, "38-G01": 115718}),
+                                     "2011-11", "38", c)
 
 
 class TotalMunicipalCenso(unittest.TestCase):
