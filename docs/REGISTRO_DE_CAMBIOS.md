@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.559
+Versión: 1.0.561
 Fecha: 2026-11-20
-Alcance: T-427 — Publicador y V4: doble vuelta en el ámbito «Autonómico» (PR 2; sin publicar)
+Alcance: T-426 — Adaptador SADEI de Asturias 2023 (votos por concejo, aut03)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-20_t-427-v4-aut.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.558_registro_20261120.md
+Cambios/motivo: entrada docs/registro/2026-11-20_t426-adaptador-sadei-asturias.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.560_registro_20261120.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.558_registro_20261120.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.561 · [2026-11-20 — T-426 — Adaptador SADEI de Asturias 2023 (votos por concejo, aut03)](registro/2026-11-20_t426-adaptador-sadei-asturias.md)
+- 1.0.560 · [2026-11-20 — T-426 — Adaptador CREM de Murcia 2023 (votos por sección, aut14)](registro/2026-11-20_t426-adaptador-crem-murcia.md)
 - 1.0.559 · [2026-11-20 — T-427 — Publicador y V4: doble vuelta en el ámbito «Autonómico» (PR 2; sin publicar)](registro/2026-11-20_t-427-v4-aut.md)
 - 1.0.558 · [2026-11-20 — T-427 — P75 para los 19 `aut` con su autonómica vigente (PR 1: datos y cálculo; sin lanzar)](registro/2026-11-20_t-427-p75-aut.md)
 - 1.0.557 · [2026-11-20 — Operador — Traspaso del Operador: aviso de no herencia de frases](registro/2026-11-20_operador-traspaso-2026-11-20-correccion.md)
