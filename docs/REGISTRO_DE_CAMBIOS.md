@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.572
+Versión: 1.0.575
 Fecha: 2026-11-20
-Alcance: T-435b — Correcciones de redacción del diseño de R2
+Alcance: T-434 — P50 1.2.0: sin el código de Deslinde en el lote, «Retomar el depósito en Zenodo» y prueba sin Release
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-20_t435b-redaccion-r2.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.571_registro_20261120.md
+Cambios/motivo: entrada docs/registro/2026-11-20_t434-p50-zenodo-retomar.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.574_registro_20261120.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,9 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.571_registro_20261120.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.575 · [2026-11-20 — T-434 — P50 1.2.0: sin el código de Deslinde en el lote, «Retomar el depósito en Zenodo» y prueba sin Release](registro/2026-11-20_t434-p50-zenodo-retomar.md)
+- 1.0.574 · [2026-11-20 — T-430 — Fase 1: P40 sube los datos de la web a R2 con el índice `actual.json`](registro/2026-11-20_t430-f1-p40-datos-r2.md)
+- 1.0.573 · [2026-11-20 — T-400 (D-185 2) — Exención de suelo de 38-G01 (Santa Cruz de Tenerife 2011-11)](registro/2026-11-20_t400-exencion-38g01.md)
 - 1.0.572 · [2026-11-20 — T-435b — Correcciones de redacción del diseño de R2](registro/2026-11-20_t435b-redaccion-r2.md)
 - 1.0.571 · [2026-11-20 — T-435 — Diseño de la estructura de R2 (D-188)](registro/2026-11-20_t435-estructura-r2.md)
 - 1.0.570 · [2026-11-20 — T-400 (D-185 1) — Total municipal del Censo 2011 para cuadrar las secciones sin población](registro/2026-11-20_t400-total-municipal-censo.md)
