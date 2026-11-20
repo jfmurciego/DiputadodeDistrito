@@ -109,6 +109,16 @@ class Sitio(unittest.TestCase):
             self.assertEqual((resolver(p, inicio), resolver(p, marca)), ("/", "/"), p)  # «Inicio» y la marca llevan a «/»
             self.assertFalse(inicio.startswith("/"), p)  # relativo: vale en el dominio y en la ruta de proyecto de Pages
 
+    def test_sin_rutas_absolutas_en_la_v4(self):
+        # Planificador (20-11): solo rutas relativas, para que valga en el dominio propio, en github.io (ruta de proyecto) y en otro alojamiento
+        abs_ = re.compile(r'(?:href|src|action)="/(?!/)')
+        self.assertIsNotNone(abs_.search('<a href="/">'))  # guardia
+        self.assertIsNone(abs_.search('<a href="//cdn.example">'))  # «//» es otra cosa (protocolo relativo) y aquí no lo hay
+        fuentes = sorted((ROOT / "visor/v4").rglob("*.html")) + [ROOT / "documentacion_publica/overrides/main.html"]
+        fuentes += [self.site / p for p in ("v4/index.html", "v4/comprender.html", "v4/mapa/index.html")]
+        for p in fuentes:
+            self.assertIsNone(abs_.search(p.read_text(encoding="utf-8")), p)
+
     def test_menu_resuelve_a_rutas_publicas(self):
         esperado = {"Inicio": "/", "Comprender": "/comprender.html", "Explorar": "/mapa/", "Metodología": "/docs/metodo.html"}
         for p in ("index.html", "comprender.html", "mapa/index.html"):
