@@ -1,4 +1,5 @@
 /* Doble vuelta en el visor V4 (T-413): lectura y presentación de lo que genera herramientas/doble_vuelta.py.
+   T-427: el índice 1.1 añade los aut (autonómica vigente; `clave_visor`, sin geometría) y `sin_doble_vuelta` con su motivo; el 1.0 sigue valiendo.
    El visor NO decide ganadores: solo lee resultados_doble_vuelta.csv y detalle.csv. Sin dependencias; funciona en navegador y en Node. */
 (function (root) {
   "use strict";
@@ -114,16 +115,34 @@
      y rechaza esquemas desconocidos, rutas con «..», absolutas o externas y huellas que no sean sha256 hexadecimal. */
   function leerIndice(json) {
     var idx = typeof json === "string" ? JSON.parse(json) : json, hex = /^[0-9a-f]{64}$/;
-    if (!idx || idx.schema !== "ddd.v4-doble-vuelta/1.0" || !Array.isArray(idx.territorios)) throw new Error("índice: esquema desconocido");
+    if (!idx || (idx.schema !== "ddd.v4-doble-vuelta/1.0" && idx.schema !== "ddd.v4-doble-vuelta/1.1") || !Array.isArray(idx.territorios)) throw new Error("índice: esquema desconocido");
+    var v11 = idx.schema === "ddd.v4-doble-vuelta/1.1";
     idx.territorios.forEach(function (t) {
-      if (!/^nac\d{2}$/.test(t.id)) throw new Error("índice: id de territorio no válido: " + t.id);
-      ["resultados", "detalle", "geometria"].forEach(function (k) {
+      var aut = v11 && /^aut\d{2}$/.test(t.id);
+      if (!aut && !/^nac\d{2}$/.test(t.id)) throw new Error("índice: id de territorio no válido: " + t.id);
+      if (aut && (t.ambito !== "AUT" || !/^[a-z_]+$/.test(t.clave_visor || "") || !/^\d{4}-\d{2}$/.test(t.eleccion || ""))) throw new Error("índice: aut incompleto: " + t.id);
+      (aut ? ["resultados", "detalle"] : ["resultados", "detalle", "geometria"]).forEach(function (k) {
         var f = t[k];
         if (!f || typeof f.ruta !== "string" || /(^|\/)\.\.(\/|$)|^\/|^[a-z]+:/i.test(f.ruta)) throw new Error("índice: ruta no válida en " + t.id + "/" + k);
         if (!hex.test(f.sha256 || "")) throw new Error("índice: sha256 no válido en " + t.id + "/" + k);
       });
     });
+    idx.sin_doble_vuelta = v11 ? (idx.sin_doble_vuelta || []) : [];
+    idx.sin_doble_vuelta.forEach(function (t) {
+      if (!/^aut\d{2}$/.test(t.id) || typeof t.motivo !== "string" || !t.motivo) throw new Error("índice: territorio sin doble vuelta sin motivo: " + t.id);
+    });
     return idx;
+  }
+
+  /* Entrada del índice por id (nacNN/autNN) o por la clave del visor (`clave_visor`); null si no hay. */
+  function entrada(idx, clave) {
+    return (idx && idx.territorios.filter(function (t) { return t.id === clave || t.clave_visor === clave; })[0]) || null;
+  }
+
+  /* Motivo declarado de un territorio sin doble vuelta (T-427), o "". */
+  function motivoSin(idx, clave) {
+    var t = idx && (idx.sin_doble_vuelta || []).filter(function (x) { return x.id === clave || x.clave_visor === clave; })[0];
+    return t ? t.motivo : "";
   }
 
   /* Comparación entre reglas de un distrito (T-413 §3.7): [{id, texto, ganador, bloque}] con lo que dice el CSV. */
@@ -137,6 +156,6 @@
   /* Color por bloque: clase CSS de cada candidatura ganadora. */
   function claseBloque(b) { return { Izquierdas: "izq", Nacionalistas: "nac", Patriotas: "pat" }[b] || "sin"; }
 
-  var API = { leerIndice: leerIndice, comparacion: comparacion, REGLAS: REGLAS, parseCSV: parseCSV, cargar: cargar, ficha: ficha, leerEnlace: leerEnlace, claseBloque: claseBloque, transferencias: transferencias, candidaturas: candidaturas };
+  var API = { entrada: entrada, motivoSin: motivoSin, leerIndice: leerIndice, comparacion: comparacion, REGLAS: REGLAS, parseCSV: parseCSV, cargar: cargar, ficha: ficha, leerEnlace: leerEnlace, claseBloque: claseBloque, transferencias: transferencias, candidaturas: candidaturas };
   if (typeof module !== "undefined" && module.exports) module.exports = API; else root.DV = API;
 })(typeof window !== "undefined" ? window : this);

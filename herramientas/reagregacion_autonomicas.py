@@ -3,12 +3,17 @@
 """Reagregación del histórico AUTONÓMICO a los distritos autonómicos vigentes (T-121, paso 3).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.1 · FECHA: 2026-11-12 · ESTADO: candidato
+VERSIÓN: 1.2.0 · FECHA: 2026-11-20 · ESTADO: candidato
+CAMBIOS: 1.2.0 (T-427, D-179): `--mapa-vigente`: solo la elección vigente del calendario (columna `vigente`) y la composición del run
+  M08 VIGENTE del visor (datos/composicion/runs/<aut>_<run>.csv, MANIFEST_RUNS.json; el run debe ser el canonical_m08 vigente de
+  orchestracion/publicaciones_visor.json) en vez de datos/composicion/<comunidad>.csv (mapa anterior); salida por defecto
+  datos/resultados/doble_vuelta_autonomicas/<aut>/<AAAAMM>/ con el id nuevo y MANIFEST con `run_m08` y la ruta y el sha256 de la
+  composición. Es la entrada de votos de P75 para los `aut`. Sin `--mapa-vigente` nada cambia.
 CAMBIOS: 1.1.0 (T-131): excluye el voto CERA que La Rioja trae como pseudo-sección; secciones sin censo (Canarias 2011) cuentan 0 y se declaran. 1.0.0: fichero nuevo.
 MOTIVO: orden del propietario (09-11): reproducir para las comunidades el paso B de las generales (T-83): votos de cada
   autonómica → distritos vigentes con la equivalencia de seccionados de T-85 y peso por población (D-13).
 CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/reagregacion_autonomicas_v1.1.0_20261112.py
+ANTERIOR: legacy/herramientas/reagregacion_autonomicas_v1.1.1_20261120.py
 QUÉ HACE: fuera de línea (no lanza ni publica). Por comunidad y elección en alcance de configuracion/calendario_autonomicas.csv:
   (1) descarga del Observatorio data/autonomikoak/sekzioa/<cca>-<AAAAMM>/<provincia>.json y data/autonomikoak/hauteskundea/
   <cca>-<AAAAMM>.json (sha256 en el MANIFEST; la fuente no publica huellas previas); (2) lleva las secciones históricas
@@ -53,6 +58,9 @@ TOPE_D17 = 0.005
 CALENDARIO = "configuracion/calendario_autonomicas.csv"
 HOMOLOGACION = "datos/homologacion_siglas/homologacion_siglas_autonomicas.csv"
 INDICE = "fuentes/observatorio_autonomicas/index.json"
+COMPOSICION_RUNS = "datos/composicion/MANIFEST_RUNS.json"
+PUBLICACIONES = "orchestracion/publicaciones_visor.json"
+SALIDA_VIGENTE = "datos/resultados/doble_vuelta_autonomicas"
 
 
 def sha(b: bytes) -> str:
@@ -92,6 +100,26 @@ def leer_composicion(comunidad: str, raiz: Path = ROOT) -> dict[str, str]:
     """{cusec vigente: distrito} de datos/composicion/<comunidad>.csv."""
     with open(fichero_por_id(raiz / "datos/composicion", "{}.csv", comunidad), encoding="utf-8", newline="") as f:
         return {r["seccion"]: r["distrito"] for r in csv.DictReader(f)}
+
+
+def composicion_vigente(aut: str, raiz: Path = ROOT) -> tuple[Path, str]:
+    """(CSV de composición, run) del canonical_m08 VIGENTE (2023-07) de `aut` en el visor; falla si no hay exactamente una
+    composición de ese run en MANIFEST_RUNS.json o si su sha256 no cuadra (nunca se cae al mapa anterior)."""
+    import resultados_ligeros as rl
+    from ddd_core import territorio_ids as ti
+    prods = json.loads((raiz / PUBLICACIONES).read_text(encoding="utf-8"))["products"]
+    vig = {ti.resolver_id(t): str(p["run_id"]) for t, p in rl.vigente_por_eleccion(prods, "canonical_m08", ambito="AUT").items()}
+    run = vig.get(aut)
+    if not run:
+        raise SystemExit(f"SIN_M08_VIGENTE {aut}")
+    fich = json.loads((raiz / COMPOSICION_RUNS).read_text(encoding="utf-8"))["ficheros"]
+    c = [k for k, v in fich.items() if v["territorio"] == aut and str(v["run_id"]) == run]
+    if len(c) != 1:
+        raise SystemExit(f"SIN_COMPOSICION_DEL_RUN {aut} run {run}: {c}")
+    ruta = raiz / "datos/composicion" / c[0]
+    if eqs.sha256(ruta) != fich[c[0]]["sha256_csv"]:
+        raise SystemExit(f"COMPOSICION_SHA_DISTINTO {ruta}")
+    return ruta, run
 
 
 def completar_composicion(comp: dict, vig_prov: dict) -> tuple[dict, list]:
@@ -174,8 +202,14 @@ def escribir_rotacion(path: Path, ganadores: dict) -> None:
 
 
 def procesar(com: str, filas: list[dict], a, indice: dict, vig_all: dict, pob: dict, todos: dict, hom: dict,
-             sin: set) -> tuple[dict, dict, list]:
-    comp = leer_composicion(com)
+             sin: set, mapa: tuple[Path, str] | None = None) -> tuple[dict, dict, list]:
+    if mapa:
+        with open(mapa[0], encoding="utf-8", newline="") as f:
+            comp = {r["seccion"]: r["distrito"] for r in csv.DictReader(f)}
+        ruta_comp = mapa[0]
+    else:
+        comp = leer_composicion(com)
+        ruta_comp = fichero_por_id(ROOT / "datos/composicion", "{}.csv", com)
     provincias = sorted({s[:2] for s in comp})
     geom_asignadas = []
     for c in provincias:
@@ -229,10 +263,11 @@ def procesar(com: str, filas: list[dict], a, indice: dict, vig_all: dict, pob: d
         c["aproximado_en_distrito"] = bool(geom_asignadas)
         c["nivel"] = "seccion"
         rh.escribir(salida_c / ele, com, red)
+        extra = {"territorio": com, "run_m08": mapa[1], "composicion_ruta": str(ruta_comp.relative_to(ROOT))} if mapa else {}
         (salida_c / ele / "MANIFEST.json").write_text(json.dumps({
-            "schema": SCHEMA, "comunidad": com, "eleccion": ele, "seccionado_historico": año, "peso": "poblacion (D-13)",
+            "schema": SCHEMA, "comunidad": com, "eleccion": ele, **extra, "seccionado_historico": año, "peso": "poblacion (D-13)",
             "fuentes": {"observatorio": huellas, "seccionado_2025": eqs.sha256(a.seccionado), "padron_65034": eqs.sha256(a.padron),
-                        "composicion": eqs.sha256(fichero_por_id(ROOT / "datos/composicion", "{}.csv", com)),
+                        "composicion": eqs.sha256(ruta_comp),
                         "asignacion_por_geometria": {
                             "secciones": len(geom_asignadas), "habitantes": sum(pob.get(s, 0) for s, _ in geom_asignadas),
                             "metodo": "sección vigente ausente de la composición M06 → distrito de la unión de secciones conocidas más próxima; empate: mayor contacto"},
@@ -261,9 +296,16 @@ def main(argv=None) -> int:
     ap.add_argument("--trabajo", type=Path, required=True)
     ap.add_argument("--seccionado", type=Path, default=ROOT / "inputs/seccionado_2025.zip")
     ap.add_argument("--padron", type=Path, default=ROOT / "inputs/65034.csv.zip")
-    ap.add_argument("--salida", type=Path, default=ROOT / "datos/resultados/historico/autonomicas")
+    ap.add_argument("--salida", type=Path, default=None,
+                    help=f"por defecto datos/resultados/historico/autonomicas ({SALIDA_VIGENTE} con --mapa-vigente)")
+    ap.add_argument("--mapa-vigente", action="store_true",
+                    help="solo la elección vigente, sobre la composición del run M08 vigente del visor (T-427)")
     a = ap.parse_args(argv)
+    if a.salida is None:
+        a.salida = ROOT / (SALIDA_VIGENTE if a.mapa_vigente else "datos/resultados/historico/autonomicas")
     cal = leer_calendario()
+    if a.mapa_vigente:
+        cal = {c: [f for f in fs if f.get("vigente") == "si"] for c, fs in cal.items()}
     desconocidas = [c for c in a.comunidad if c not in cal]
     if desconocidas:
         raise SystemExit(f"COMUNIDAD_SIN_CALENDARIO {desconocidas}")
@@ -279,7 +321,8 @@ def main(argv=None) -> int:
     vig_all, pob = eqs.leer_seccionado(a.seccionado), eqs.leer_padron(a.padron)
     hom, sin, ok = homologacion(), set(), True
     for com in a.comunidad:
-        el, _, _ = procesar(com, cal[com], a, indice, vig_all, pob, todos, hom, sin)
+        mapa = composicion_vigente(com) if a.mapa_vigente else None
+        el, _, _ = procesar(com, cal[com], a, indice, vig_all, pob, todos, hom, sin, mapa)
         ok &= all(c["ok"] for c in el.values())
     if sin:
         a.salida.mkdir(parents=True, exist_ok=True)
