@@ -4,7 +4,7 @@ VERSIÓN: 1.0.0 · FECHA: 2026-11-20 · ESTADO: aprobado (propietario, 20-11: «
 
 Solo diseño: no se mueve ni se borra nada. Parte de lo aprobado el 20-11 (carpetas en español sin códigos ni runs; solo la versión
 vigente; regeneración posterior al 29-11 ya en la estructura nueva y borrado de lo viejo junto con D-178). Fuente de lo actual:
-P74 Listar, run 44751091049 (16,467 GB; el CSV está en el artefacto `p74-inventario-44751091049`, que desde la
+P74 Listar, run 44751091049 (20-11; 16,467 GB = 164,7 % de 10 GB; el listado anterior, run 44541851289 del 19-11, daba 16,466 GB (T-416, Traspaso del Operador): la diferencia de 0,001 GB es de dos listados de días distintos, no verificada, compatible con objetos subidos entre ambos; el CSV está en el artefacto `p74-inventario-44751091049`, que desde la
 sesión cloud no se puede descargar: la tabla b) sale de los totales por carpeta del log y de las claves que escribe el código; la
 asignación clave a clave la genera una herramienta (§c, paso 1) con el CSV.
 
@@ -31,7 +31,9 @@ Las fuentes ya preparadas de cada territorio (los paquetes P10) van en `fuentes/
   carpeta, no en la ruta.
 - Solo la versión vigente, también para la web: se escribe la nueva, se comprueba el sha256 y se borra la anterior; la web refresca la caché cada 60 s (decidido, pregunta 1).
 
-## b) Tabla de rutas actuales → ruta nueva (por patrón; tamaños del P74)
+## b) Tabla de rutas actuales → ruta nueva (por patrón)
+
+**Aviso:** sin el CSV del P74 (no descargable desde la nube) la columna «Tamaño» es el orden de magnitud tomado del log del P74 (totales por carpeta de primer nivel) y los conteos (52 `nacNN`, 19 `autNN`, ~11 objetos por territorio, 57 duplicados) salen del mismo log; las rutas son las que escribe el código. Es una propuesta por patrón, no una lista de claves. «Borrar» significa «candidata a borrar»: **ningún borrado ocurre antes del 29-11 ni antes de regenerar, copiar y verificar, y siempre con frase de campaña del propietario (D-52; D-176/D-178)**.
 
 | Ruta actual | Tamaño | Ruta nueva | Notas |
 |---|---:|---|---|
@@ -71,9 +73,13 @@ Hoy cada herramienta compone la clave a su manera. Orden propuesto (cada paso es
 - **sha256 de los contratos**: los contratos históricos llevan `r2_clave`; cambiarlo cambia el fichero y su huella. Hay que ver si esa huella está fijada en otro sitio (huellas M05/N08, `INDEX.json`) antes de tocarlo. Alternativa: los contratos citan el sha256 del contenido y un índice aparte resuelve la ruta (la ruta deja de estar en el contrato).
 - **Zenodo/DOI** (D-74, D-186 §9): archiva el repositorio, no R2; si algún DOI cita una URL de R2 hay que mantenerla o redirigirla. Comprobar `.zenodo.json`/`CITATION.cff` y `PREINSCRIPCION_OSF.md`.
 - **Web de T-430**: `ddd-web-datos` es otro bucket público (`datos.diputadodedistrito.es`); el diseño de T-430 prevé carpetas inmutables por mapa, que aquí se sustituyen por «solo la vigente» con caché de 60 s: ajustar `DISENO.md` de T-430 y cerrarlo con `session_01KQDtFuyL5pbt5UfWdoL8g4`.
-- **Ventana de coexistencia**: durante los pasos 2-8 conviven rutas viejas y nuevas; el límite gratuito (ya al 164 %) sube con las copias. R2 no renombra: copiar y borrar. Se mitiga copiando por orden de peso y borrando lo seguro de D-178 antes.
+- **Ventana de coexistencia**: durante los pasos 2-8 conviven rutas viejas y nuevas; el límite gratuito (ya al 164,7 %, P74 44751091049) sube con las copias. R2 no renombra: copiar y borrar. Se mitiga copiando por orden de peso. **No se borra nada para hacer sitio**: ningún borrado antes del 29-11 ni antes de regenerar, copiar y verificar, y siempre con frase de campaña D-52 del propietario (D-176/D-178); hasta entonces el bucket sigue sobre el límite.
 - **Borrado**: `podar_r2.py` y la guarda de `produccion`; ningún borrado sin frase de campaña del propietario (D-52).
 - **Datos que no están en R2**: el visor publicado es de blobs de git; esta reestructuración no lo toca.
+
+## Coordinación con T-430
+
+T-430 sigue adelante con «solo la vigente» (su `DISENO.md` 1.3.0, #957@72d75fa, ya sin carpetas inmutables y con todo bajo `web/actual/` de `ddd-web-datos`); el ajuste pendiente queda cerrado.
 
 ## Decisiones del propietario (20-11)
 
