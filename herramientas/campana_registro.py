@@ -27,7 +27,8 @@ QUÉ HACE:
             admitidas, vacío en ensayo) → si la rama ya tiene el commit de esta campaña y huella, nada → si no, UN commit
             con registrar_en_main (re-deriva desde el HEAD remoto en cada intento, catálogo de procedencia en el mismo
             commit, tope 3 intentos = 2 reintentos) → objeto «cierre» en R2 solo tras el push. Solo los territorios
-            sanos del recuento final.
+            sanos del recuento final. Retira, por territorio, el M06 que contiene su M08 (manifiesto en el commit; borrado
+            en R2 después del push).
 NO HACE: borrar en R2 ni abrir la PR de la rama de cierre (lo hace el workflow).
 CÓDIGOS DE SALIDA: 0 bien · 2 entrada o estado inválido · 3 conflicto o ruta no admitida.
 """
@@ -46,6 +47,7 @@ ROOT = Path(__file__).resolve().parents[1]
 for p in (ROOT, ROOT / "herramientas"):
     if str(p) not in sys.path:
         sys.path.insert(0, str(p))
+import archivar_artefactos_r2 as ar  # noqa: E402
 import campana_estado as ce  # noqa: E402
 from herramientas import registrar_en_main as rem  # noqa: E402
 
@@ -212,11 +214,43 @@ def componer(root: Path, alm, campana: str, territorios: list[str]) -> list[str]
     return sorted(hechas)
 
 
+def retirar_m06(root: Path, run_id: str, territorios: list[str]) -> list[str]:
+    """Retirada del M06 que contiene el M08 (lo que P30 hace con `--sustituye-m06-run` fuera de campaña), POR TERRITORIO:
+    en una campaña todos comparten run y retirar por run borraría el M06 de los demás. Solo edita el manifiesto (entra en
+    el commit de cierre); devuelve las claves de R2 a borrar DESPUÉS del push. Sin M08 del territorio, no retira nada."""
+    ruta = Path(root) / ar.MANIFIESTO
+    if not ruta.is_file():
+        return []
+    man = ar.cargar_manifiesto(ruta)
+    arts = man.get("artefactos") or {}
+    claves = []
+
+    def final(e, n):
+        m = ar._FINAL.match(str(e.get("artefacto", "")))
+        return bool(m) and m.group(2) == n and str(e.get("run_id")) == str(run_id)
+
+    for t in sorted(territorios):
+        slug = ar._slug(t)
+        m08 = [k for k, e in arts.items() if final(e, "8") and e.get("territorio") == slug]
+        if not m08:
+            continue
+        for k in m08:
+            arts[k]["incluye_m06_run"] = str(run_id)
+        for k, e in list(arts.items()):
+            if final(e, "6") and e.get("territorio") == slug:
+                del arts[k]
+                claves.append(k)
+    if claves:
+        ar.guardar_manifiesto(ruta, man)
+    return sorted(claves)
+
+
 def mensaje_cierre(campana: str, huella: str) -> str:
     return f"P00 campaña {campana} · cierre · huella {huella}"
 
 
-def cerrar(root: Path, alm, campana: str, ref: str, run_id: str, intentos: int = 3, backoff=rem.espera) -> dict:
+def cerrar(root: Path, alm, campana: str, ref: str, run_id: str, intentos: int = 3, backoff=rem.espera,
+           borrar_r2=None) -> dict:
     root = Path(root).resolve()
     sem = ce.leer_semaforo(alm, campana)
     rec = ce.recuento(alm, campana, final=True)
@@ -230,12 +264,39 @@ def cerrar(root: Path, alm, campana: str, ref: str, run_id: str, intentos: int =
     _git(root, "fetch", "--quiet", "origin", rama)
     previo = _git(root, "log", "FETCH_HEAD", "-n", "200", "--format=%H%x00%s", check=False).stdout
     hecho = next((ln.split("\0")[0] for ln in previo.splitlines() if ln.split("\0")[-1] == mensaje), None)
-    if hecho is None:
-        res = rem.registrar(root_dir=root, rama=rama, mensaje=mensaje, rutas=plan["ficheros"],
-                            aplicar=lambda r: componer(r, alm, campana, sanos), max_intentos=intentos, backoff=backoff)
+    retiradas: list[str] = []
+
+    def aplicar(r: Path) -> None:
+        componer(r, alm, campana, sanos)
+        retiradas[:] = retirar_m06(r, campana, sanos)
+
+    rutas_commit = sorted(set(plan["ficheros"]) | ({ar.MANIFIESTO} if (root / ar.MANIFIESTO).is_file() else set()))
+    nuevo = hecho is None
+    if nuevo:
+        res = rem.registrar(root_dir=root, rama=rama, mensaje=mensaje, rutas=rutas_commit, aplicar=aplicar,
+                            max_intentos=intentos, backoff=backoff)
         hecho = res.head_sha if res.estado == "REGISTRADO" else None
     ce.registrar_cierre(alm, campana, huella, rama, hecho)
-    return {"rama": rama, "sha": hecho, "commit": hecho is not None, "sanos": sanos, "huella": huella}
+    fallidas = []
+    if nuevo and hecho and retiradas:  # borrado en R2 solo tras el push confirmado; si falla, ocupa espacio, no pierde datos
+        borrar = borrar_r2 or _borrador_r2()
+        for k in retiradas:
+            try:
+                borrar(k)
+            except Exception as exc:  # noqa: BLE001
+                print(f"::warning::No se pudo retirar {k} de R2: {exc}", file=sys.stderr)
+                fallidas.append(k)
+    return {"rama": rama, "sha": hecho, "commit": hecho is not None, "sanos": sanos, "huella": huella,
+            "retiradas": retiradas, "retiradas_fallidas": fallidas}
+
+
+def _borrador_r2():
+    import os
+    from herramientas import archivo_origen as ao
+    bucket, cuenta = os.environ.get("R2_BUCKET", ""), os.environ.get("R2_ACCOUNT_ID", "")
+    if not (bucket and cuenta):
+        raise RegistroError("CIERRE_SIN_R2: faltan R2_BUCKET/R2_ACCOUNT_ID para retirar el M06")
+    return ao.r2_borrador(bucket, cuenta)
 
 
 def _territorios(valor: str) -> list[str]:

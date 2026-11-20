@@ -27,10 +27,34 @@ def es_3b(nombre, doc):
     return bool(jobs_3b(doc))
 
 
+P30_PASOS = ("Doble vuelta con coaliciones (D-171; no fatal)", "Cargar persistidor vigente compatible con main",
+             "Archivo en origen — M08 a R2 y votos por partido a git", "Registrar disponibilidad del producto electoral")
+P30_REF_3B = "${{ inputs.campana && github.sha || 'main' }}"
+P30_SUSTITUYE_3B = ('''sustituye="$TERRITORIAL_RUN_ID"; [[ -z "${CAMPANA:-}" ]] || sustituye=''  # T-379 3b: con campaña retira el cierre
+''', '--sustituye-m06-run "$sustituye"')
+P30_SUSTITUYE_ANTES = '--sustituye-m06-run "$TERRITORIAL_RUN_ID"'
+
+
+def _deshacer_p30(d):
+    job = d["jobs"]["incorporar"]
+    job["steps"] = [s for s in job["steps"] if s.get("name") not in (ENSAYO, CAPTURA)]
+    for s in job["steps"]:
+        if s.get("name") in P30_PASOS:
+            s["if"] = s["if"][: -len(" }}")] + " && !inputs.campana }}"
+        if (s.get("with") or {}).get("ref") == P30_REF_3B:
+            s["with"]["ref"] = "main"
+        if s.get("name") == P30_PASOS[2]:
+            s["env"].pop("CAMPANA", None)
+            s["run"] = s["run"].replace(P30_SUSTITUYE_3B[0], "").replace(P30_SUSTITUYE_3B[1], P30_SUSTITUYE_ANTES)
+    return d
+
+
 def deshacer(nombre, doc):
     d = copy.deepcopy(doc)
     if not es_3b(nombre, d):
         return d
+    if nombre.startswith("p30"):
+        return _deshacer_p30(d)
     for j in jobs_3b(d):
         job = d["jobs"][j]
         m = re.fullmatch(r"\$\{\{ (.*) \}\}", job["if"])

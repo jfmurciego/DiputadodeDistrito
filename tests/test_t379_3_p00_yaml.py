@@ -83,13 +83,13 @@ class Cadena(unittest.TestCase):
             self.assertIn("needs.cerrar_p20.outputs.sano == 'true'", self.jobs[nombre]["if"], nombre)
 
     def test_p10_p30_con_campana_y_persistencia_en_ensayo(self):
-        """3b: P10 y P20 registran en ensayo (persist_state true); P30 aún no (hasta su humo)."""
+        """3b: P10, P20 y P30 registran en ensayo (persist_state true)."""
         llamados = {j: u for j, u in usos(self.doc).items() if "puerta" not in u}
         self.assertEqual(set(llamados), {"p11", "p12", "acreditar", "p20", "p30"})
         for j in llamados:
             w = self.jobs[j]["with"]
             self.assertEqual(w["campana"], "${{ inputs.campana }}", j)
-            self.assertIs(w["persist_state"], j != "p30", j)
+            self.assertIs(w["persist_state"], True, j)
 
     def test_source_ref_es_la_version_de_la_campana(self):
         """Los commits del registro en ensayo no existen en GitHub: ningún checkout puede apuntar a ellos."""

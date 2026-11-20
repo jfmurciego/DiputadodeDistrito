@@ -129,7 +129,8 @@ class Equivalencia(Base):
         casos = {
             "p10-fuentes": lambda d: d["jobs"]["p11_registrar"].__setitem__("if", "${{ !inputs.campana }}"),
             "p20-distritos": lambda d: d["jobs"]["m04"].__setitem__("needs", ["entrada"]),
-            "p30-resultados-electorales": lambda d: d["jobs"]["incorporar"]["steps"][-1].__setitem__("if", "${{ always()" + SIN_CAMPANA),
+            "p30-resultados-electorales": lambda d: next(s for s in d["jobs"]["incorporar"]["steps"]  # por nombre: el último es la captura de la 3b
+                                                         if s.get("name") == "Registrar disponibilidad del producto electoral").__setitem__("if", "${{ always() }}"),
         }
         for n, mutar in casos.items():
             with self.subTest(workflow=n):

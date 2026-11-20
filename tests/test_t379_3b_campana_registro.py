@@ -208,6 +208,32 @@ class Cerrar(Base):
         self.assertEqual(git(self.remoto, "rev-parse", "main"), antes)
         self.assertIn("datos/a.json", git(self.remoto, "show", "--name-only", "--format=", "p00-cierre/900"))
 
+    def test_retira_el_m06_por_territorio_tras_el_push(self):
+        """En una campaña todos comparten run: retirar por run borraría el M06 de otro territorio (control negativo: nac22)."""
+        def man(*extra):
+            arts = {"viejo": {"run_id": "1"}}
+            for k, art, t in extra:
+                arts[k] = {"run_id": "900", "artefacto": art, "territorio": t}
+            return json.dumps({"artefactos": arts}, indent=1) + "\n"
+        m06a = ("aut11/900/ddd-minimo-900-M06-x.zip", "ddd-state-900-M06-campaign-900-1--01--aut11", "aut11")
+        m08a = ("aut11/900/ddd-minimo-900-M08-x.zip", "ddd-state-900-M08-campaign-900-1--01--aut11", "aut11")
+        m06n = ("nac22/900/ddd-minimo-900-M06-y.zip", "ddd-state-900-M06-campaign-900-1--01--nac22", "nac22")
+        self.registrar_en_ensayo("aut11", 22, {ARCHIVO: man(m06a)})
+        self.registrar_en_ensayo("aut11", 30, {ARCHIVO: man(m06a, m08a)}, nombre="incorporar")
+        self.registrar_en_ensayo("nac22", 22, {ARCHIVO: man(m06n)})
+        self.sanar("aut11")
+        self.sanar("nac22")
+        borrados = []
+        w = self.tmp / "cierre-ret"
+        git(self.tmp, "clone", "-q", f"file://{self.remoto}", str(w))
+        r = cr.cerrar(w, self.alm, "900", "refs/heads/main", "900", backoff=None, borrar_r2=borrados.append)
+        self.assertEqual(r["retiradas"], [m06a[0]])
+        self.assertEqual(borrados, [m06a[0]])
+        final = json.loads(git(self.remoto, "show", f"main:{ARCHIVO}"))["artefactos"]
+        self.assertNotIn(m06a[0], final)
+        self.assertEqual(final[m08a[0]]["incluye_m06_run"], "900")
+        self.assertIn(m06n[0], final)  # nac22 no tiene M08: su M06 se queda
+
     def test_push_rechazado_deja_el_cierre_pendiente(self):
         self.registrar_en_ensayo("aut11", 10, {"datos/a.json": "{}\n"})
         self.sanar("aut11")

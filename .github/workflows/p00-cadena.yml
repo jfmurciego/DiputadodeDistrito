@@ -18,7 +18,8 @@
 #   comparte run_id y los nombres de artefacto chocarían.
 #   3b: P10 y P20 registran EN ENSAYO (persist_state true; `origin` local, captura a R2, re-aplicación en el cierre) y
 #   `source_ref` es siempre la versión de la campaña (`github.sha`): los commits del ensayo no existen en GitHub.
-# NO HACE: escribir en main, lanzar ejecuciones por la API ni publicar. P30 aún sin registro con campaña (hasta su humo).
+#   P30 también registra en ensayo desde el humo 44615209522; la retirada del M06 la hace el cierre, por territorio.
+# NO HACE: escribir en main, lanzar ejecuciones por la API ni publicar.
 name: _P00 Campaña — cadena de un territorio
 
 on:
@@ -351,7 +352,7 @@ jobs:
       electoral_package_artifact_name: ${{ needs.puerta_03.outputs.artifact_name }}
       electoral_package_artifact_digest: ${{ needs.puerta_03.outputs.artifact_digest }}
       source_ref: ${{ github.sha }}
-      persist_state: false
+      persist_state: true  # T-379 3b: el registro corre en ensayo (campana_registro.py) y lo re-aplica el cierre
       artifact_namespace: ${{ needs.plan.outputs.ns }}
 
   cerrar_p30:

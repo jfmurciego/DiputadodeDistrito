@@ -30,7 +30,9 @@ FIX = ROOT / "tests" / "fixtures" / "t379_3b_workflows"
 HUELLAS = {
     "p10-fuentes": "67ae63df4b96cabe5ecd27ab0e368974c9ff8663806a1a9bfa5dc889b13e6e1c",
     "p20-distritos": "c787e3bcdced5d22f12194fc59feb9b3d75bb3dcf838e67b6862a0a0896a1732",
+    "p30-resultados-electorales": "0bb36d8cd475d38dd755474e80e8a2de863a7afeca8e2caac0899c568a8bc77b",
 }
+VERSION_CONGELADA = {"p10-fuentes": "1.0.1", "p20-distritos": "1.0.1", "p30-resultados-electorales": "1.0.3"}
 # Pares que el grafo deja en paralelo pero las condiciones excluyen: pre_m04_diagnostic solo corre con
 # `preflight_only == 'true'` (P20 acreditar) y m04…registrar solo sin él (P20 generar).
 EXCLUYENTES_P20 = {("auditoria", "pre_m04_diagnostic"), ("m04", "pre_m04_diagnostic"), ("m05", "pre_m04_diagnostic"),
@@ -52,12 +54,12 @@ def orden_de(run):
 class Equivalencia(unittest.TestCase):
     def test_copias_congeladas(self):
         for n, sha in HUELLAS.items():
-            self.assertEqual(hashlib.sha256((FIX / f"{n}_1.0.1.yml").read_bytes()).hexdigest(), sha, n)
+            self.assertEqual(hashlib.sha256((FIX / f"{n}_{VERSION_CONGELADA[n]}.yml").read_bytes()).hexdigest(), sha, n)
 
     def test_sin_campana_igual_que_la_1_0_1(self):
         for n in HUELLAS:
             with self.subTest(workflow=n):
-                antes = cargar((FIX / f"{n}_1.0.1.yml").read_text(encoding="utf-8"))
+                antes = cargar((FIX / f"{n}_{VERSION_CONGELADA[n]}.yml").read_text(encoding="utf-8"))
                 self.assertEqual(deshacer(n, leer(n)), antes)
 
     def test_control_negativo(self):
@@ -126,6 +128,47 @@ class ConCampana(unittest.TestCase):
         d = copy.deepcopy(self.docs["p20-distritos"])
         d["jobs"]["registrar"]["needs"] = ["entrada", "resolve"]  # control negativo: registrar en paralelo con el motor
         self.assertIn(("m06", "registrar"), paralelos(ruta_de_campana(d)))
+
+
+class P30EnEnsayo(unittest.TestCase):
+    """P30 1.0.4: los pasos de registro de `incorporar` corren con campaña, en ensayo; la credencial sigue saltada y el M06
+    no se retira aquí (lo hace el cierre por territorio)."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.pasos = pasos(leer("p30-resultados-electorales"), "incorporar")
+        cls.nombres = [s.get("name") for s in cls.pasos]
+
+    def paso(self, nombre):
+        return self.pasos[self.nombres.index(nombre)]
+
+    def test_orden_y_condiciones(self):
+        cred = self.nombres.index("Credencial de registro")
+        self.assertTrue(self.paso("Credencial de registro")["if"].endswith(" && !inputs.campana }}"))
+        self.assertEqual(self.nombres[cred + 1], ENSAYO)
+        self.assertEqual(self.nombres[-1], CAPTURA)
+        for n in ("Doble vuelta con coaliciones (D-171; no fatal)", "Cargar persistidor vigente compatible con main",
+                  "Archivo en origen — M08 a R2 y votos por partido a git", "Registrar disponibilidad del producto electoral"):
+            self.assertNotIn("inputs.campana", self.paso(n)["if"], n)
+        self.assertGreater(self.nombres.index("Archivo en origen — M08 a R2 y votos por partido a git"), cred + 1)
+        self.assertEqual(orden_de(self.paso(ENSAYO)["run"]), 30)
+        self.assertEqual(orden_de(self.pasos[-1]["run"]), 30)
+        for n in (ENSAYO, CAPTURA):
+            self.assertIn("--rama main", self.paso(n)["run"])  # P30 registra en main con --rama/--target-branch main
+            self.assertEqual(self.paso(n)["working-directory"], "persistidor")
+
+    def test_persistidor_de_la_version_de_campana(self):
+        self.assertEqual(self.paso("Cargar persistidor vigente compatible con main")["with"]["ref"],
+                         "${{ inputs.campana && github.sha || 'main' }}")
+
+    def test_sin_retirada_del_m06_con_campana(self):
+        run = self.paso("Archivo en origen — M08 a R2 y votos por partido a git")["run"]
+        linea = next(l for l in run.splitlines() if l.startswith("sustituye="))
+        for campana, esperado in (("", "123"), ("900", "")):
+            r = subprocess.run(["bash", "-eo", "pipefail", "-c", linea + '\nprintf %s "$sustituye"'], capture_output=True,
+                               text=True, env={**os.environ, "CAMPANA": campana, "TERRITORIAL_RUN_ID": "123"})
+            self.assertEqual((r.returncode, r.stdout), (0, esperado), campana)
+        self.assertIn('--sustituye-m06-run "$sustituye"', run)
 
 
 class Bloques(unittest.TestCase):
