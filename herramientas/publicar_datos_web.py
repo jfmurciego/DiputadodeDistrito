@@ -12,6 +12,9 @@ QUÉ HACE: lee el sitio candidato que P40 ya ha montado (sin calcular nada) y lo
   Orden: (1) sube los ficheros cuyo sha256 difiere del índice vigente; (2) los vuelve a bajar y exige su sha256; (3) escribe
   `web/actual/actual.json`; (4) borra los ficheros que estaban en el índice anterior y ya no están. Caché de 60 s en todo. Si algo falla antes
   de (3), el índice no cambia (un fichero ya sobrescrito no casa con él y la web lo rechaza por sha256 hasta la siguiente publicación).
+  GUARDA DEL BORRADO (antes de escribir nada): solo claves de `datos/`, `mapa/datos/`, `v2/datos/` o `data/` (sin «..», vacías ni absolutas);
+  sin `--permitir-borrado`, se aborta si desaparece un territorio del índice previo o si sobran más de TOPE_BORRAR_FICHEROS ficheros o (a partir de
+  TOPE_BORRAR_MINIMO) más del TOPE_BORRAR_PCT % del índice previo; un candidato sin territorios no se publica. `R2_WEB_BUCKET` no puede ser el bucket de trabajo (`R2_BUCKET`).
   Sin bucket (`R2_WEB_BUCKET` vacío) no hace nada y sale 0: la fase 1 va en paralelo a GitHub Pages, que sigue igual.
 USO: python herramientas/publicar_datos_web.py --sitio /tmp/site-candidate [--bucket B] [--p40-run N] [--simular]
 """
@@ -33,6 +36,9 @@ VERSION_FORMATO = 1
 ARBOLES_COMUNES = ("datos", "mapa/datos", "v2/datos", "data")
 ARBOLES_MAPA = ("datos", "mapa/datos")
 PREFIJO = "web/actual/"
+TOPE_BORRAR_FICHEROS = 50     # más que esto, o más del TOPE_BORRAR_PCT del índice previo, o un territorio que desaparece: se aborta sin borrar
+TOPE_BORRAR_PCT = 10          # el porcentaje solo cuenta a partir de TOPE_BORRAR_MINIMO ficheros (un índice pequeño no aborta por 1)
+TOPE_BORRAR_MINIMO = 5
 INDICE = PREFIJO + "actual.json"
 CACHE = "public, max-age=60"
 TIPOS = {".json": "application/json", ".geojson": "application/geo+json", ".csv": "text/csv; charset=utf-8",
@@ -77,6 +83,8 @@ def plan(sitio: Path) -> dict:
             if arbol in ARBOLES_MAPA and len(rel) > 1 and f"mapas/{rel[0]}" in grupos:
                 destino = f"mapas/{rel[0]}"
             grupos[destino][ruta] = (sha256(p.read_bytes()), p)
+    if len(grupos) == 1:
+        raise DatosWebError("SIN_TERRITORIOS: el sitio candidato no trae ningún mapa; no se publica ni se borra nada")
     vacios = [g for g, f in grupos.items() if not f]
     if vacios:
         raise DatosWebError(f"GRUPO_VACIO: {', '.join(vacios)} sin ficheros en el sitio")
@@ -154,15 +162,38 @@ def _runs_territorio(sitio: Path) -> dict[str, str]:
     return {t: str(v.get("run_id", "")) for t, v in d.items()}
 
 
-def publicar(sitio: Path, r2, p40_run: str = "", simular: bool = False, ahora: str = "") -> dict:
+def clave_valida(ruta: str) -> bool:
+    """Solo se borra (o escribe) dentro de los árboles de datos del sitio: sin «..», sin ruta vacía ni absoluta."""
+    partes = ruta.split("/")
+    return (bool(ruta) and not ruta.startswith("/") and "\\" not in ruta and ".." not in partes and "" not in partes
+            and any(ruta.startswith(a + "/") for a in ARBOLES_COMUNES))
+
+
+def comprobar_borrado(previo_idx: dict, previo: dict[str, str], nuevo: dict, sobran: list[str], permitir: bool) -> None:
+    """Guarda del borrado (D-188): ninguna clave fuera de los árboles de datos; sin anulación explícita, nada masivo."""
+    malas = [r for r in sobran if not clave_valida(r)]
+    if malas:
+        raise DatosWebError(f"CLAVE_NO_BORRABLE: {malas[0]!r} (y {len(malas) - 1} más); no se borra nada")
+    if permitir:
+        return
+    faltan = sorted(set((previo_idx.get("mapas") or {})) - set(nuevo["mapas"]))
+    if faltan:
+        raise DatosWebError(f"TERRITORIOS_DESAPARECEN: {', '.join(faltan[:10])}; no se publica ni se borra nada (anulación: --permitir-borrado)")
+    if len(sobran) > TOPE_BORRAR_FICHEROS or (len(sobran) > TOPE_BORRAR_MINIMO and 100 * len(sobran) > TOPE_BORRAR_PCT * len(previo)):
+        raise DatosWebError(f"BORRADO_MASIVO: {len(sobran)} de {len(previo)} ficheros; no se publica ni se borra nada (anulación: --permitir-borrado)")
+
+
+def publicar(sitio: Path, r2, p40_run: str = "", simular: bool = False, ahora: str = "", permitir_borrado: bool = False) -> dict:
     grupos = plan(sitio)
     nuevo = indice_nuevo(grupos, p40_run, _runs_territorio(sitio), ahora or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"))
     previo_b = r2.leer(INDICE)
-    previo = _todos(json.loads(previo_b)) if previo_b else {}
+    previo_idx = json.loads(previo_b) if previo_b else {}
+    previo = _todos(previo_idx)
     locales = {r: (h, p) for f in grupos.values() for r, (h, p) in f.items()}
     subir = [(r, h, p) for r, (h, p) in sorted(locales.items()) if previo.get(r) != h]
     sobran = sorted(set(previo) - set(locales))
     print(f"[datos_web] {len(grupos)} grupos; {len(subir)} ficheros a subir; {len(sobran)} a borrar; simular={simular}")
+    comprobar_borrado(previo_idx, previo, nuevo, sobran, permitir_borrado)  # antes de escribir nada
     if simular:
         return nuevo
     for r, _, p in subir:
@@ -177,6 +208,7 @@ def publicar(sitio: Path, r2, p40_run: str = "", simular: bool = False, ahora: s
         if r2.leer(INDICE) != p.read_bytes():
             raise DatosWebError("ACTUAL_JSON_DISTINTO tras escribirlo")
     for r in sobran:  # solo la vigente (D-188): lo que ya no está en el índice se borra, después de escribirlo
+        assert clave_valida(r)
         r2.borrar(ruta_publica(r))
     print(f"[datos_web] {INDICE} escrito: {len(nuevo['mapas'])} mapas; {len(sobran)} ficheros viejos borrados")
     return nuevo
@@ -188,12 +220,16 @@ def main(argv=None) -> int:
     ap.add_argument("--bucket", default=os.environ.get("R2_WEB_BUCKET", ""))
     ap.add_argument("--p40-run", default=os.environ.get("GITHUB_RUN_ID", ""))
     ap.add_argument("--simular", action="store_true")
+    ap.add_argument("--permitir-borrado", action="store_true", help="anula el tope de borrado (solo a mano, con permiso)")
     a = ap.parse_args(argv)
     if not a.bucket:
         print("[datos_web] sin R2_WEB_BUCKET: no se sube nada (fase 1, opcional)")
         return 0
+    if a.bucket == os.environ.get("R2_BUCKET", ""):
+        print(f"::error::BUCKET_DE_TRABAJO: R2_WEB_BUCKET es el bucket de trabajo ({a.bucket}); no se toca")
+        return 1
     try:
-        publicar(a.sitio, R2(a.bucket), a.p40_run, a.simular)
+        publicar(a.sitio, R2(a.bucket), a.p40_run, a.simular, permitir_borrado=a.permitir_borrado)
     except DatosWebError as exc:
         print(f"::error::{exc}")
         return 1
