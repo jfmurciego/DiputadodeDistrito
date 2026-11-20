@@ -26,29 +26,29 @@ aut01,2026-05,JUFUDI,JUFUDI,,sin bloque (propietario 19-11: resto de menores sin
 aut01,2026-05,IPAL,IPAL,,sin bloque (propietario 19-11: resto de menores sin bloque),354,f0b93bd741061c54e1653155dbf624d187443fcf26eaa7f41d5c1d0c28113b59
 aut01,2026-05,CONECTA,CONECTA,,sin bloque (propietario 19-11: resto de menores sin bloque),325,f0b93bd741061c54e1653155dbf624d187443fcf26eaa7f41d5c1d0c28113b59
 aut01,2026-05,SOCIEDAD UNIDA,SOCIEDAD UNIDA,,sin bloque (propietario 19-11: resto de menores sin bloque),235,f0b93bd741061c54e1653155dbf624d187443fcf26eaa7f41d5c1d0c28113b59
-aut03,2023-05,PSOE,PSOE,Izquierdas,misma sigla «PSOE» en la tabla aprobada (D-168/D-170),193568,96c9c4a0250c1e1b8347106d474ac71d4ca39df64e65136bc1c63381fd0289da
-aut03,2023-05,PP,PP,Patriotas,misma sigla «PP» en la tabla aprobada (D-168/D-170),173000,96c9c4a0250c1e1b8347106d474ac71d4ca39df64e65136bc1c63381fd0289da
-aut03,2023-05,VOX,VOX,Patriotas,misma sigla «VOX» en la tabla aprobada (D-168/D-170),53388,96c9c4a0250c1e1b8347106d474ac71d4ca39df64e65136bc1c63381fd0289da
-aut03,2023-05,IU-MÁS PAÍS-IAS,IU-MÁS PAÍS-IAS,Izquierdas,"coalición con Podemos/IU/Sumar → Izquierdas (criterio Podemos–Sumar e IU, D-168)",40435,96c9c4a0250c1e1b8347106d474ac71d4ca39df64e65136bc1c63381fd0289da
-aut03,2023-05,PODEMOS ASTURIES,PODEMOS ASTURIES,Izquierdas,"variante regional de Podemos (Podemos–Sumar) → Izquierdas (propuesta T-426, a confirmar)",20655,96c9c4a0250c1e1b8347106d474ac71d4ca39df64e65136bc1c63381fd0289da
-aut03,2023-05,FORO ASTURIAS,FORO ASTURIAS,,sin bloque (propietario 19-11: resto de menores sin bloque),19492,96c9c4a0250c1e1b8347106d474ac71d4ca39df64e65136bc1c63381fd0289da
-aut03,2023-05,C's,C's,,sin bloque (propietario 19-11: resto de menores sin bloque),4837,96c9c4a0250c1e1b8347106d474ac71d4ca39df64e65136bc1c63381fd0289da
-aut03,2023-05,SOS ASTURIAS,SOS ASTURIAS,,sin bloque (propietario 19-11: resto de menores sin bloque),3214,96c9c4a0250c1e1b8347106d474ac71d4ca39df64e65136bc1c63381fd0289da
-aut03,2023-05,PACMA,PACMA,,sin bloque (D-168: PACMA),3094,96c9c4a0250c1e1b8347106d474ac71d4ca39df64e65136bc1c63381fd0289da
-aut03,2023-05,SOS OCCIDENTE,SOS OCCIDENTE,,sin bloque (propietario 19-11: resto de menores sin bloque),2554,96c9c4a0250c1e1b8347106d474ac71d4ca39df64e65136bc1c63381fd0289da
-aut03,2023-05,EQUO,V-Q,Izquierdas,"Verdes-Equo = EQUO → Izquierdas (propuesta T-426, a confirmar)",1598,96c9c4a0250c1e1b8347106d474ac71d4ca39df64e65136bc1c63381fd0289da
-aut03,2023-05,PCTE,PCTE,Izquierdas,misma sigla «PCTE» en la tabla aprobada (D-168/D-170),1339,96c9c4a0250c1e1b8347106d474ac71d4ca39df64e65136bc1c63381fd0289da
-aut03,2023-05,ANDECHA,ANDECHA,Nacionalistas,misma sigla «ANDECHA» en la tabla aprobada (D-168/D-170),1217,96c9c4a0250c1e1b8347106d474ac71d4ca39df64e65136bc1c63381fd0289da
-aut03,2023-05,SMP,SMP,,sin bloque (propietario 19-11: resto de menores sin bloque),1118,96c9c4a0250c1e1b8347106d474ac71d4ca39df64e65136bc1c63381fd0289da
-aut03,2023-05,PUM+J,PUM+J,,sin bloque en la tabla aprobada («PUM+J»),723,96c9c4a0250c1e1b8347106d474ac71d4ca39df64e65136bc1c63381fd0289da
-aut03,2023-05,PUEDE,PUEDE,,sin bloque en la tabla aprobada («PUEDE»),234,96c9c4a0250c1e1b8347106d474ac71d4ca39df64e65136bc1c63381fd0289da
+aut03,2023-05,PSOE,PSOE,Izquierdas,misma sigla «PSOE» en la tabla aprobada (D-168/D-170),193568,45bb6565f24969697dc96fdf1735efcf372ce2208c2c3a9555bba145d24c0eec
+aut03,2023-05,PP,PP,Patriotas,misma sigla «PP» en la tabla aprobada (D-168/D-170),173000,45bb6565f24969697dc96fdf1735efcf372ce2208c2c3a9555bba145d24c0eec
+aut03,2023-05,VOX,VOX,Patriotas,misma sigla «VOX» en la tabla aprobada (D-168/D-170),53388,45bb6565f24969697dc96fdf1735efcf372ce2208c2c3a9555bba145d24c0eec
+aut03,2023-05,IU-MÁS PAÍS-IAS,IU-MÁS PAÍS-IAS,Izquierdas,"coalición con Podemos/IU/Sumar → Izquierdas (criterio Podemos–Sumar e IU, D-168)",40435,45bb6565f24969697dc96fdf1735efcf372ce2208c2c3a9555bba145d24c0eec
+aut03,2023-05,PODEMOS ASTURIES,PODEMOS ASTURIES,Izquierdas,"variante regional de Podemos (Podemos–Sumar) → Izquierdas (Planificador, D-168/D-182: marca de partido ya aprobado)",20655,45bb6565f24969697dc96fdf1735efcf372ce2208c2c3a9555bba145d24c0eec
+aut03,2023-05,FORO ASTURIAS,FORO ASTURIAS,,sin bloque (propietario 19-11: resto de menores sin bloque),19492,45bb6565f24969697dc96fdf1735efcf372ce2208c2c3a9555bba145d24c0eec
+aut03,2023-05,C's,C's,,sin bloque (propietario 19-11: resto de menores sin bloque),4837,45bb6565f24969697dc96fdf1735efcf372ce2208c2c3a9555bba145d24c0eec
+aut03,2023-05,SOS ASTURIAS,SOS ASTURIAS,,sin bloque (propietario 19-11: resto de menores sin bloque),3214,45bb6565f24969697dc96fdf1735efcf372ce2208c2c3a9555bba145d24c0eec
+aut03,2023-05,PACMA,PACMA,,sin bloque (D-168: PACMA),3094,45bb6565f24969697dc96fdf1735efcf372ce2208c2c3a9555bba145d24c0eec
+aut03,2023-05,SOS OCCIDENTE,SOS OCCIDENTE,,sin bloque (propietario 19-11: resto de menores sin bloque),2554,45bb6565f24969697dc96fdf1735efcf372ce2208c2c3a9555bba145d24c0eec
+aut03,2023-05,EQUO,V-Q,Izquierdas,"Verdes-Equo = EQUO → Izquierdas (Planificador, D-168/D-182: marca de partido ya aprobado)",1598,45bb6565f24969697dc96fdf1735efcf372ce2208c2c3a9555bba145d24c0eec
+aut03,2023-05,PCTE,PCTE,Izquierdas,misma sigla «PCTE» en la tabla aprobada (D-168/D-170),1339,45bb6565f24969697dc96fdf1735efcf372ce2208c2c3a9555bba145d24c0eec
+aut03,2023-05,ANDECHA,ANDECHA,Nacionalistas,misma sigla «ANDECHA» en la tabla aprobada (D-168/D-170),1217,45bb6565f24969697dc96fdf1735efcf372ce2208c2c3a9555bba145d24c0eec
+aut03,2023-05,SMP,SMP,,sin bloque (propietario 19-11: resto de menores sin bloque),1118,45bb6565f24969697dc96fdf1735efcf372ce2208c2c3a9555bba145d24c0eec
+aut03,2023-05,PUM+J,PUM+J,,sin bloque en la tabla aprobada («PUM+J»),723,45bb6565f24969697dc96fdf1735efcf372ce2208c2c3a9555bba145d24c0eec
+aut03,2023-05,PUEDE,PUEDE,,sin bloque en la tabla aprobada («PUEDE»),234,45bb6565f24969697dc96fdf1735efcf372ce2208c2c3a9555bba145d24c0eec
 aut14,2023-05,PP,PP,Patriotas,misma sigla «PP» en la tabla aprobada (D-168/D-170),292393,3dcafe444d26b65d1505031a406dece2baf5d420088b6907b43e2fc7ee019890
 aut14,2023-05,PSOE,PSOE,Izquierdas,misma sigla «PSOE» en la tabla aprobada (D-168/D-170),174624,3dcafe444d26b65d1505031a406dece2baf5d420088b6907b43e2fc7ee019890
 aut14,2023-05,VOX,VOX,Patriotas,misma sigla «VOX» en la tabla aprobada (D-168/D-170),120964,3dcafe444d26b65d1505031a406dece2baf5d420088b6907b43e2fc7ee019890
 aut14,2023-05,PODEMOS-IU-VERDES-AV,PODEMOS-IU-VERDES-AV,Izquierdas,"coalición con Podemos/IU/Sumar → Izquierdas (criterio Podemos–Sumar e IU, D-168)",31894,3dcafe444d26b65d1505031a406dece2baf5d420088b6907b43e2fc7ee019890
 aut14,2023-05,MC REG,MC REG,,sin bloque (propietario 19-11: resto de menores sin bloque),20183,3dcafe444d26b65d1505031a406dece2baf5d420088b6907b43e2fc7ee019890
 aut14,2023-05,Cs,Cs,,sin bloque (D-168: Cs),10411,3dcafe444d26b65d1505031a406dece2baf5d420088b6907b43e2fc7ee019890
-aut14,2023-05,MR-VE,MR-VE,Izquierdas,"Más Región (rama de Más País) con Verdes Equo → Izquierdas (propuesta T-426, a confirmar)",8812,3dcafe444d26b65d1505031a406dece2baf5d420088b6907b43e2fc7ee019890
+aut14,2023-05,MR-VE,MR-VE,Izquierdas,"Más Región (rama de Más País) con Verdes Equo → Izquierdas (Planificador, D-168/D-182: marca de partido ya aprobado)",8812,3dcafe444d26b65d1505031a406dece2baf5d420088b6907b43e2fc7ee019890
 aut02,2026-02,PP,PP,Patriotas,misma sigla «PP» en la tabla aprobada (D-168/D-170),227112,38c570a398aa3de1ff703220c002724b188d2db26ddd24bc015a727ab9ce1204
 aut02,2026-02,PSOE,PSOE,Izquierdas,misma sigla «PSOE» en la tabla aprobada (D-168/D-170),161212,38c570a398aa3de1ff703220c002724b188d2db26ddd24bc015a727ab9ce1204
 aut02,2026-02,VOX,VOX,Patriotas,misma sigla «VOX» en la tabla aprobada (D-168/D-170),118635,38c570a398aa3de1ff703220c002724b188d2db26ddd24bc015a727ab9ce1204

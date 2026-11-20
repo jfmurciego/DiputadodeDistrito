@@ -1,17 +1,21 @@
 {
  "aproximado_en_distrito": true,
+ "composicion_ruta": "datos/composicion/runs/aut03_43742340201.csv",
  "composicion_sha256": "256109845b5b00bd4c076a700bb3322a6fc806b5b07f5ce323a7d30144489c19",
  "cuadre": {
   "distritos": 45,
-  "exacto": true,
+  "ok": true,
   "votos_entrada": 520466,
   "votos_salida": 520466
  },
  "eleccion": "202305",
  "entrada_sha256": "c9fd92cf0d04759488ddd43abc571f70e0d1c38fbbfd7c3cc04b7601e23fb6db",
  "fuentes": {
-  "sha256": "197045e10fe0d2ada7170054371673340690d36846d85cb5b8b047226f248f06",
-  "url": "https://www.sadei.es/sadei/pxweb/es/01/19__04/190426.px/"
+  "composicion": "256109845b5b00bd4c076a700bb3322a6fc806b5b07f5ce323a7d30144489c19",
+  "fuente": {
+   "sha256": "197045e10fe0d2ada7170054371673340690d36846d85cb5b8b047226f248f06",
+   "url": "https://www.sadei.es/sadei/pxweb/es/01/19__04/190426.px/"
+  }
  },
  "nivel": "municipio",
  "run_m08": "43742340201",

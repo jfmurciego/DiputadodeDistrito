@@ -12,15 +12,10 @@ import doble_vuelta_votos_aut as d  # noqa: E402
 DV = ROOT / "datos/resultados/doble_vuelta_autonomicas"
 
 
-class Reparto(unittest.TestCase):
-    def test_suma_exacta_y_proporcional(self):
-        self.assertEqual(d.repartir(10, [1, 1, 1]), [4, 3, 3])
-        self.assertEqual(sum(d.repartir(1001, [5, 3, 2, 7])), 1001)
-        self.assertEqual(d.repartir(0, [1, 2]), [0, 0])
-
-    def test_pesos_nulos_fallan(self):
-        with self.assertRaises(ValueError):
-            d.repartir(5, [0, 0])
+class MayorResto(unittest.TestCase):
+    def test_suma_exacta(self):
+        self.assertEqual(d.mayor_resto({"a": 25.25, "b": 75.75}), {"a": 25, "b": 76})
+        self.assertEqual(sum(d.mayor_resto({"a": 1 / 3, "b": 1 / 3, "c": 1 / 3}).values()), 1)
 
 
 class Cuadre(unittest.TestCase):
