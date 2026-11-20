@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.554
+Versión: 1.0.555
 Fecha: 2026-11-20
-Alcance: Operador — Traspaso del Operador (documento)
+Alcance: T-425 — Plan 1.0.71: D-180 a D-182, V4 publicada y aceptada
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-20_operador-traspaso.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.553_registro_20261120.md
+Cambios/motivo: entrada docs/registro/2026-11-20_planificador-plan-1-0-71.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.554_registro_20261120.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.553_registro_20261120.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.555 · [2026-11-20 — T-425 — Plan 1.0.71: D-180 a D-182, V4 publicada y aceptada](registro/2026-11-20_planificador-plan-1-0-71.md)
 - 1.0.554 · [2026-11-20 — Operador — Traspaso del Operador (documento)](registro/2026-11-20_operador-traspaso.md)
 - 1.0.553 · [2026-11-19 — T-423 — V4: portada + Explorar con la V3 completa y la doble vuelta como capa electoral](registro/2026-11-19_t423-v4-v3-completa.md)
 - 1.0.552 · [2026-11-19 — T-422 — Id de distrito no numérico de nac02 en el publicador de la doble vuelta](registro/2026-11-19_t422-id-nac02.md)
