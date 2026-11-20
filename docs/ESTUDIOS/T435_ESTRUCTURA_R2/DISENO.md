@@ -4,7 +4,7 @@ VERSIÓN: 1.0.0 · FECHA: 2026-11-20 · ESTADO: propuesta, a la espera del propi
 
 Solo diseño: no se mueve ni se borra nada. Parte de lo aprobado el 20-11 (carpetas en español sin códigos ni runs; solo la versión
 vigente; regeneración posterior al 29-11 ya en la estructura nueva y borrado de lo viejo junto con D-178). Fuente de lo actual:
-P74 Listar, run 44751091049 (16,467 GB, 1.100 objetos aprox.; el CSV está en el artefacto `p74-inventario-44751091049`, que desde la
+P74 Listar, run 44751091049 (16,467 GB; el CSV está en el artefacto `p74-inventario-44751091049`, que desde la
 sesión cloud no se puede descargar: la tabla b) sale de los totales por carpeta del log y de las claves que escribe el código; la
 asignación clave a clave la genera una herramienta (§c, paso 1) con el CSV.
 
