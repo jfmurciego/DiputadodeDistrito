@@ -2,9 +2,10 @@
   'use strict';
   let controller;
 
-  /* Vídeo de presentación: se pinta solo si video.json trae una ruta de vídeo. Sin ruta, el bloque queda oculto.
-     No se carga el reproductor hasta que la persona pulsa «Ver el vídeo»; sin reproducción automática. */
-  function initVideo(root, signal) {
+  /* Vídeo de presentación (T-423): se pinta solo si video.json trae una ruta de vídeo; sin ruta, el bloque queda oculto.
+     El reproductor se ve desplegado desde el principio, con su póster (o el primer fotograma) y los controles a la vista;
+     nunca se reproduce solo ni suena hasta que la persona pulsa play. */
+  function initVideo(root) {
     const sec = root.querySelector('[data-video]');
     if (!sec || typeof fetch !== 'function') return;
     fetch('video.json', {cache: 'no-cache'}).then(r => (r.ok ? r.json() : null)).then(cfg => {
@@ -14,24 +15,31 @@
       if (!/^https:\/\//.test(url)) return;
       const cuerpo = sec.querySelector('[data-video-cuerpo]');
       cuerpo.textContent = '';
-      const boton = document.createElement('button');
-      boton.type = 'button';
-      boton.className = 'video-boton';
-      boton.textContent = 'Ver el vídeo';
+      const v = document.createElement('video');
+      v.controls = true;
+      v.preload = 'metadata';
+      v.playsInline = true;
+      v.setAttribute('playsinline', '');
+      v.className = 'video-reproductor';
+      // sin póster, «#t=0.1» hace que el navegador muestre el primer fotograma (Safari no lo pinta con t=0)
+      v.src = cfg.poster ? url : url + '#t=0.1';
+      if (cfg.poster) v.poster = join(cfg.poster);
+      if (cfg.subtitulos) {
+        const tr = document.createElement('track');
+        tr.kind = 'subtitles';
+        tr.srclang = 'es';
+        tr.label = 'Español';
+        tr.src = join(cfg.subtitulos);
+        tr.default = true;
+        v.appendChild(tr);
+      }
+      cuerpo.appendChild(v);
       const enlace = document.createElement('a');
       enlace.className = 'video-enlace';
       enlace.href = url;
       enlace.rel = 'noopener';
       enlace.textContent = 'Abrir el vídeo en otra pestaña';
-      if (cfg.poster) {
-        const img = document.createElement('img');
-        img.className = 'video-poster';
-        img.src = join(cfg.poster);
-        img.alt = '';
-        img.loading = 'lazy';
-        cuerpo.appendChild(img);
-      }
-      cuerpo.append(boton, enlace);
+      cuerpo.appendChild(enlace);
       if (cfg.transcripcion) {
         const t = document.createElement('a');
         t.className = 'video-enlace';
@@ -40,26 +48,6 @@
         t.textContent = 'Transcripción';
         cuerpo.appendChild(t);
       }
-      boton.addEventListener('click', () => {
-        const v = document.createElement('video');
-        v.controls = true;
-        v.preload = 'metadata';
-        v.playsInline = true;
-        v.src = url;
-        if (cfg.poster) v.poster = join(cfg.poster);
-        if (cfg.subtitulos) {
-          const tr = document.createElement('track');
-          tr.kind = 'subtitles';
-          tr.srclang = 'es';
-          tr.label = 'Español';
-          tr.src = join(cfg.subtitulos);
-          tr.default = true;
-          v.appendChild(tr);
-        }
-        cuerpo.textContent = '';
-        cuerpo.appendChild(v);
-        v.focus();
-      }, {signal});
       sec.hidden = false;
     }).catch(() => {});
   }
