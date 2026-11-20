@@ -1,6 +1,6 @@
 # T-430 · Web editable en minutos — diseño
 
-VERSIÓN: 1.0.1 · FECHA: 2026-11-20 · ESTADO: propuesta (pendiente de aprobación del propietario) · ANTERIOR: 1.0.0 (#951@03d50f1); 1.0.1 aplica los menores del revisor: cifras externas marcadas «por verificar», tamaño de R2 y preguntas en llano
+VERSIÓN: 1.1.0 · FECHA: 2026-11-20 · ESTADO: aprobado (D-186, 20-11, propietario vía Planificador): preguntas 1 y 3-10 según recomendación; 2 con su precisión; 11 sin respuesta · ANTERIOR: 1.0.1 (#951@ea9eda3); 1.1.0 marca las decisiones D-186 y hace explícito el índice «actual» por mapa y dato (§4.0)
 
 > **Cifras externas.** Toda cifra o límite de Cloudflare, GitHub o GoDaddy de este documento está escrita de memoria y
 > lleva «(por verificar)»: se coteja con la página oficial, con fecha, en el ensayo (§8) y antes de implementar.
@@ -9,6 +9,15 @@ Estado: **DISEÑO** (solo documento; nada creado ni tocado en GitHub, Cloudflare
 Encargo aprobado en líneas generales por el propietario el 20-11. Punto de partida: D-181 (V4 aceptada), D-184 y T-428
 (V4 en la raíz del dominio, publicada por P40 en GitHub Pages), D-175/D-178 (bucket público de vídeos en
 `media.diputadodedistrito.es`).
+
+## 0. Decisiones (D-186, 20-11)
+
+- **La web ES la V4**, y es lo único que vive y se mantiene en `ddd-web`. La V3 no se mantiene: queda como **archivo
+  congelado** (pregunta 2, opción c) solo para no romper enlaces viejos, sin protagonismo (ningún enlace del menú).
+- **Reparto del propietario**: en GitHub (repositorio principal) están los **cálculos y el algoritmo**; en R2 están las
+  **fuentes y los mapas generados**. La web tira de R2 **cada vez**, a través de un índice publicado («actual», §4.0) que
+  dice qué versión de cada mapa y dato está vigente, con sha256: una regeneración se ve sin tocar la web.
+- Preguntas 1 y 3 a 10: **sí, según la recomendación**. Pregunta 11 (espacio en R2): pendiente.
 
 ## 1. Problema y objetivo
 
@@ -25,7 +34,7 @@ IA, sin tocar el motor ni su control. Los **datos** (mapas, resultados, doble vu
         │ cada commit                              │ P40 (aprobación «produccion», como hoy)
         ▼                                          ▼
  Cloudflare Pages ──► diputadodedistrito.es    R2 público «ddd-web-datos» ──► datos.diputadodedistrito.es
-   (vista previa por rama: <rama>.ddd-web.pages.dev)     (prefijos inmutables + actual.json con sha256)
+   (vista previa por rama: <rama>.ddd-web.pages.dev)     (carpetas inmutables por mapa + índice actual.json con sha256)
                          │  Explorar lee con fetch + CORS + sha256  ▲
                          └──────────────────────────────────────────┘
  media.diputadodedistrito.es (vídeo, ya existe, D-175): no cambia.
@@ -82,6 +91,23 @@ y la base de datos de Explorar van en commits normales **después** del filtrado
 
 ## 4. Cómo lee Explorar los datos
 
+### 4.0 De dónde tira la web cada vez (D-186)
+
+```
+ GitHub (principal)            R2 público «datos.diputadodedistrito.es»               ddd-web (la V4)
+ cálculos y algoritmo  ──P40──►  mapas/<territorio>/<run>/…   (inmutable, sha256)
+                                 comunes/<run>/…              (índices, procedencia)
+                                 actual.json  ◄── índice vigente (caché 60 s) ◄── 1. la página lo lee al abrir
+                                    │  "nac28": {run, ruta, sha256}                 2. pide cada fichero por su ruta
+                                    │  "comunes": {run, ruta, sha256}               3. comprueba el sha256 y lo pinta
+                                    └─ lo reescribe P40 al final de cada publicación (solo cambia lo regenerado)
+```
+
+Regla: **la web no lleva datos ni números de run**. Solo sabe la dirección de `actual.json` (en `mapa/datos.json`). Cada
+entrada del índice es independiente: regenerar un territorio sube su carpeta nueva y cambia **solo su línea**; el resto
+de la web y de los mapas no se toca. Volver atrás un territorio = devolver su línea al run anterior.
+
+
 ### 4.1 Rutas
 
 Hoy Explorar usa rutas relativas en el mismo sitio (`explorar.js`, `BASE`): `../v2/datos/…`, `../datos/INDEX.json`,
@@ -89,16 +115,22 @@ Hoy Explorar usa rutas relativas en el mismo sitio (`explorar.js`, `BASE`): `../
 Pasa a **un único origen de datos**:
 
 ```
-https://datos.diputadodedistrito.es/actual.json          ← puntero (caché 60 s)
-https://datos.diputadodedistrito.es/p40-<run>/v2/datos/…  ← inmutable
-                                              /datos/INDEX.json, /datos/<geojson>, /datos/catalogo_procedencia.json
-                                              /data/viewer-results.json
-                                              /mapa/datos/…  (doble vuelta)
+https://datos.diputadodedistrito.es/actual.json                    ← índice vigente (caché 60 s)
+https://datos.diputadodedistrito.es/mapas/<territorio>/<run>/…      ← inmutable: GeoJSON, doble vuelta, resultados
+https://datos.diputadodedistrito.es/comunes/<run>/…                 ← inmutable: v2/datos, INDEX, procedencia, viewer-results
+https://datos.diputadodedistrito.es/archivo/v3-2026-11/…            ← V3 congelada (D-186)
 ```
 
-`actual.json`: `{"prefijo":"p40-<run>/","run":<id>,"fecha":…,"ficheros":{"<ruta>":"<sha256>",…}}`. Explorar lee
-`actual.json`, construye `BASE` con el prefijo (misma estructura de carpetas que hoy: el cambio en `explorar.js` es una
-línea de base, no de lógica) y **verifica el sha256** de cada fichero con `crypto.subtle.digest` antes de pintarlo; si
+`actual.json` (esquema sencillo):
+
+```json
+{"version_formato": 1, "publicado": "2026-11-20T12:00:00Z", "p40_run": 123,
+ "comunes":  {"run": 123, "ficheros": {"datos/INDEX.json": "<sha256>", "v2/datos/provincias.json": "<sha256>"}},
+ "mapas": {"nac28": {"run": 456, "ficheros": {"distritos.geojson": "<sha256>", "doble_vuelta.json": "<sha256>"}}}}
+```
+
+La ruta de cada fichero se deduce sin ambigüedad: `comunes/<run>/<fichero>` o `mapas/<territorio>/<run>/<fichero>`.
+Explorar lee `actual.json`, sustituye las rutas relativas de hoy (`BASE` de `explorar.js`) por esas y **verifica el sha256** de cada fichero con `crypto.subtle.digest` antes de pintarlo; si
 no casa, no lo pinta y lo dice (igual que hoy con el INDEX, #919/T-415 PR4). La URL de `actual.json` va en un
 `mapa/datos.json` de ddd-web, para poder apuntar a otro origen sin tocar código.
 
@@ -110,18 +142,18 @@ públicos y abiertos; `*` cubre también las vistas previas `*.ddd-web.pages.dev
 
 ### 4.3 Caché e invalidación
 
-- Ficheros bajo `p40-<run>/`: `Cache-Control: public, max-age=31536000, immutable` (nunca cambian: nada que purgar).
+- Ficheros bajo `mapas/…/<run>/` y `comunes/<run>/`: `Cache-Control: public, max-age=31536000, immutable` (nunca cambian: nada que purgar).
 - `actual.json`: `Cache-Control: public, max-age=60`; Explorar lo pide con `cache:"no-cache"`.
-- Publicar = subir el prefijo nuevo completo, verificarlo y **al final** reescribir `actual.json` (cambio atómico: una
-  visita a medias sigue con el prefijo anterior, que no se borra).
-- Volver atrás = reescribir `actual.json` con el prefijo anterior (un paso de P40, sin regenerar).
-- Se conservan los 5 últimos prefijos; el borrado de los viejos lo hace P70 con permiso (como D-176).
+- Publicar = subir solo las carpetas nuevas (territorios regenerados y, si cambian, comunes), verificarlas leyendo del
+  dominio público y **al final** reescribir `actual.json` (cambio atómico: una visita a medias sigue con lo anterior, que no se borra).
+- Volver atrás = devolver la línea del territorio (o de comunes) a su run anterior (un paso de P40, sin regenerar).
+- Se conservan los 5 últimos runs de cada territorio y de comunes; el borrado de los viejos lo hace P70 con permiso (como D-176).
 - Sin purga manual en Cloudflare en el camino normal.
 
 ### 4.4 Tamaño en R2 (estimación por verificar)
 
-Un prefijo ≈ árbol de datos que hoy publica P40: GeoJSON M06 (~50 MB, CLAUDE.md), `v2/datos` (~5 MB en `visor/v2`), doble
-vuelta e índices (pocos MB): **~60 MB por prefijo**. Cinco prefijos ≈ 0,3 GB; cada prefijo citado por un DOI (§9) que no se
+Una publicación completa (todos los territorios + comunes) ≈ árbol de datos que hoy publica P40: GeoJSON M06 (~50 MB, CLAUDE.md), `v2/datos` (~5 MB en `visor/v2`), doble
+vuelta e índices (pocos MB): **~60 MB por publicación completa** (una regeneración de un territorio, mucho menos). Cinco versiones de todo ≈ 0,3 GB; cada versión citada por un DOI (§9) que no se
 poda suma ~60 MB; la V3 congelada (pregunta 2), otro ~60 MB una vez. Total previsible **< 1 GB** el primer año. Se mide con
 el primer llenado (paso 12) antes de fijar la poda. El coste en euros depende de la tarifa vigente de R2 (por verificar) y
 entra en el mismo presupuesto que el bucket de trabajo: ver pregunta 11.
@@ -130,7 +162,7 @@ entra en el mismo presupuesto que el bucket de trabajo: ver pregunta 11.
 
 | Hoy | Después |
 |---|---|
-| monta el sitio completo (V1-V4, docs, datos) y lo despliega en GitHub Pages | monta **solo el árbol de datos** (y la documentación técnica, pregunta 4) y lo sube a R2 `ddd-web-datos` bajo `p40-<run>/`; verifica cada sha256 leyendo de `datos.diputadodedistrito.es`; reescribe `actual.json` |
+| monta el sitio completo (V1-V4, docs, datos) y lo despliega en GitHub Pages | monta **solo el árbol de datos** (y la documentación técnica, pregunta 4) y lo sube a R2 `ddd-web-datos` en `mapas/<territorio>/<run>/` (solo los territorios publicados) y `comunes/<run>/`; verifica cada sha256 leyendo de `datos.diputadodedistrito.es`; reescribe `actual.json` |
 | `preparar_portada_v4.py` (V4 a la raíz) | se retira: la portada no es de P40 |
 | entorno `github-pages` + aprobación | misma aprobación (`produccion`); credenciales R2 nuevas solo de escritura en ese bucket |
 | registro `publicaciones_visor.json` | **igual**: el visor sigue mostrando solo lo registrado; la URL de evidencia pasa a la de datos |
@@ -193,7 +225,7 @@ el diseño.
     valores como secretos del repositorio principal (`R2_WEB_ACCESS_KEY_ID`, `R2_WEB_SECRET_ACCESS_KEY`). Nunca en el chat.
 
 **E. Primer llenado de datos (Operador, con frase del propietario)**
-12. P40 en modo nuevo publica el primer prefijo y `actual.json`. Abrir `https://ddd-web.pages.dev/mapa/` y comprobar
+12. P40 en modo nuevo publica la primera versión de todos los territorios, `comunes/` y `actual.json`. Abrir `https://ddd-web.pages.dev/mapa/` y comprobar
     que Explorar carga un territorio.
 
 **F. Corte (5 min, §8)**
@@ -231,8 +263,8 @@ el diseño.
   en la PR del corte (sube VERSIÓN, como manda la gobernanza).
 - Las rutas que cite un DOI quedan como **contrato**: la prueba 1 de ddd-web incluye una lista `pruebas/rutas_estables.txt`
   que deben existir o redirigir, para que una edición no rompa una cita.
-- Los datos citados por un DOI apuntan a su prefijo inmutable `p40-<run>/` (no a `actual.json`): la cita sigue siendo
-  reproducible aunque se publiquen datos nuevos; por eso esos prefijos no se borran (excepción a la poda del §4.3).
+- Los datos citados por un DOI apuntan a su carpeta inmutable `mapas/<territorio>/<run>/` (no a `actual.json`): la cita sigue siendo
+  reproducible aunque se publiquen datos nuevos; por eso esas carpetas no se borran (excepción a la poda del §4.3).
 - Orden: primero el corte, después el próximo depósito en Zenodo con la URL corregida.
 
 ## 10. Riesgos
@@ -250,10 +282,10 @@ el diseño.
 | Coste y espacio | Pages en plan gratuito (cupo de construcciones al mes por verificar). R2: ver §4.4; el bucket de trabajo ya está en 16,47 GB (164,7 % del presupuesto de 10 GB), así que el bucket web suma a un presupuesto ya superado |
 | Dos sitios de verdad durante la transición | la V4 de `visor/v4/` se congela desde que exista ddd-web; se borra del principal tras el corte |
 
-## 11. Preguntas abiertas (con recomendación)
+## 11. Preguntas (con recomendación; respondidas en D-186 salvo la 11)
 
 1. **Nombre del repositorio.** `ddd-web`, `diputadodedistrito.es` o `web`. *Recomiendo `ddd-web`* (corto, claro en la URL de vista previa).
-2. **Dónde queda la V3.** (a) `/v3/` en ddd-web con su código y datos de R2; (b) subdominio `v3.`; (c) **congelada**: una
+2. **Dónde queda la V3.** **Decidido (D-186): (c)**, sin protagonismo. (a) `/v3/` en ddd-web con su código y datos de R2; (b) subdominio `v3.`; (c) **congelada**: una
    instantánea completa (V1, V2, V3 con sus datos de hoy, sin cambiar un byte) en `datos.diputadodedistrito.es/archivo/2026-11/`
    y `/v3/*` redirige allí. *Recomiendo (c)*: Explorar ya es la V3 completa (D-181); no se mantiene dos veces y las URL
    compartidas siguen funcionando. Requisito a comprobar en el ensayo: R2 no sirve `index.html` de carpeta, así que la
@@ -287,7 +319,7 @@ el diseño.
     mismo presupuesto, medirlo en el primer llenado y dejar la decisión sobre el exceso (ampliar el presupuesto o limpiar
     más) donde ya está, en D-176/D-178: el bucket web (~6 % del total) no la cambia de forma apreciable.
 
-## 12. Orden de implementación propuesto (para cuando se apruebe)
+## 12. Orden de implementación (aprobado, D-186; PR pequeñas por fase)
 
 1. PR en el principal: P40 con el modo «datos a R2» detrás de una opción interna, sin quitar Pages (ensayo en paralelo).
 2. Pasos A-D del propietario; filtrado del historial y commits de reorganización en ddd-web.
