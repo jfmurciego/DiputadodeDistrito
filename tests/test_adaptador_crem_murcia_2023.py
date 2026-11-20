@@ -17,7 +17,7 @@ class CremMurcia2023(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.tmp = tempfile.TemporaryDirectory()
-        cls.man = a.construir(F / "sec54.xls", F / "sec55.xls", Path(cls.tmp.name))
+        cls.man = a.construir(F / "sec54.csv", F / "sec55.csv", Path(cls.tmp.name))
         with (Path(cls.tmp.name) / "secciones.csv").open(encoding="utf-8") as f:
             cls.filas = list(csv.DictReader(f))
 
@@ -40,10 +40,10 @@ class CremMurcia2023(unittest.TestCase):
 
     def test_huella_incorrecta_falla(self):
         with tempfile.TemporaryDirectory() as t:
-            malo = Path(t) / "x.xls"
+            malo = Path(t) / "x.csv"
             malo.write_bytes(b"no")
             with self.assertRaises(ValueError):
-                a.construir(malo, F / "sec55.xls", Path(t) / "o")
+                a.construir(malo, F / "sec55.csv", Path(t) / "o")
 
 
 if __name__ == "__main__":

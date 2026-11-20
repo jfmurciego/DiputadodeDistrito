@@ -17,9 +17,17 @@
  "entrada_sha256": "d51308a234256e9cc0ac8cc9d844a88f0d5039658957fac2ab0f907194405873",
  "fuentes": {
   "composicion": "04c94f2ff809fb9b5e8a1b096ffbca98d61f5d02d3e5c2128428f38080ca53b2",
+  "sec54.csv": {
+   "sha256": "78d94df52dabee68d1066eaded67d907f79951092296f4b424b96aa11be8d917",
+   "url": "https://econet.carm.es/web/crem/inicio/-/crem/sicrem/PU2077/excel/sec54.csv"
+  },
   "sec54.xls": {
    "sha256": "62eb0b7bc9774f970ea8f008a06f884e3cb4ab9943d13186b33ef85513f57604",
    "url": "https://econet.carm.es/web/crem/inicio/-/crem/sicrem/PU2077/excel/sec54.xls"
+  },
+  "sec55.csv": {
+   "sha256": "1e6cd86b095df5aa7917b0f462ccf4d4ed9b93d84e118e8f7e785a9e2a1c8990",
+   "url": "https://econet.carm.es/web/crem/inicio/-/crem/sicrem/PU2077/excel/sec55.csv"
   },
   "sec55.xls": {
    "sha256": "dc910666c2941b62e41c06044071cb5e1d3004a19b2966f301de106fd6633846",

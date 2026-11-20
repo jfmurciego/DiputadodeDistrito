@@ -9,12 +9,13 @@ ANTERIOR: ninguna (fichero nuevo)
 MOTIVO: aut14 no tenía votos por partido de su elección vigente (ficha T-421). El CREM (econet.carm.es, PU2077) publica
   «Principales resultados según distrito y sección» de mayo de 2023 (excel/sec54.xls, Abanilla a Mazarrón, y sec55.xls,
   Molina a Yecla): son datos por sección, no municipales, así que no hay que repartir nada.
-QUÉ HACE: lee los dos .xls, verifica su sha256, y escribe `secciones.csv` (section_id, party, votes; section_id = CUSEC de
+QUÉ HACE: lee los dos .xls (o su volcado CSV fiel, `fuentes/crem_murcia_2023/sec5X.csv`, que no necesita xlrd: la CI no lo instala; `xls_a_csv`
+  lo genera), verifica su sha256, y escribe `secciones.csv` (section_id, party, votes; section_id = CUSEC de
   10 cifras: 30 + municipio INE + distrito + sección) y `MANIFEST.json` (huellas, cuadre contra la fila «Región de Murcia»).
   Solo las candidaturas de la tabla (PP, PSOE, VOX, Podemos+IU-Verdes+AV, MC Regional, Cs, Más Región-Verdes Equo);
   el resto de candidaturas no se desglosa en la fuente y se declara en `otros_votos` (= votos a candidaturas − suma).
 NO HACE: descargar, ni lanzar, ni publicar.
-Uso: python herramientas/adaptador_crem_murcia_2023.py --sec54 f54.xls --sec55 f55.xls --salida DIR
+Uso: python herramientas/adaptador_crem_murcia_2023.py --sec54 f54.(xls|csv) --sec55 f55.(xls|csv) --salida DIR
 """
 from __future__ import annotations
 
@@ -30,6 +31,10 @@ ROOT = Path(__file__).resolve().parents[1]
 FUENTES = {
     "sec54.xls": "62eb0b7bc9774f970ea8f008a06f884e3cb4ab9943d13186b33ef85513f57604",
     "sec55.xls": "dc910666c2941b62e41c06044071cb5e1d3004a19b2966f301de106fd6633846",
+}
+VOLCADOS = {  # volcado CSV celda a celda de cada hoja (xls_a_csv); el xls original sigue siendo la fuente de la huella oficial
+    "sec54.csv": ("sec54.xls", "78d94df52dabee68d1066eaded67d907f79951092296f4b424b96aa11be8d917"),
+    "sec55.csv": ("sec55.xls", "1e6cd86b095df5aa7917b0f462ccf4d4ed9b93d84e118e8f7e785a9e2a1c8990"),
 }
 URL = "https://econet.carm.es/web/crem/inicio/-/crem/sicrem/PU2077/excel/{}"
 ELECCION = "28 de mayo de 2023"
@@ -77,10 +82,44 @@ def _codigo(txt: str, muni: dict[str, str], path: Path) -> str:
     return cand[0]
 
 
+def xls_a_csv(xls: Path, destino: Path) -> None:
+    """Vuelca la primera hoja celda a celda (requiere xlrd; solo para regenerar el volcado versionado)."""
+    import xlrd
+    h = xlrd.open_workbook(str(xls)).sheet_by_index(0)
+    with destino.open("w", encoding="utf-8", newline="") as f:
+        w = csv.writer(f, lineterminator="\n")
+        for r in range(h.nrows):
+            w.writerow(h.row_values(r))
+
+
+class _Hoja:
+    """Hoja en memoria con la interfaz mínima de xlrd (nrows, cell_value, row_values)."""
+
+    def __init__(self, filas):
+        self.filas, self.nrows = filas, len(filas)
+
+    def row_values(self, r):
+        return self.filas[r]
+
+    def cell_value(self, r, c):
+        return self.filas[r][c]
+
+
+def _abrir(path: Path):
+    if path.suffix.lower() != ".csv":
+        import xlrd
+        return xlrd.open_workbook(str(path)).sheet_by_index(0)
+    filas = []
+    with path.open(encoding="utf-8", newline="") as f:
+        for fila in csv.reader(f):
+            # columna 0 es texto (rótulos, «001»); el resto son números o vacío, como en el xls
+            filas.append([fila[0]] + [float(c) if re.fullmatch(r"-?\d+(\.\d+)?(e[+-]?\d+)?", c, re.I) else c for c in fila[1:]])
+    return _Hoja(filas)
+
+
 def leer_xls(path: Path, muni: dict[str, str]) -> tuple[dict, dict, dict]:
     """(votos por CUSEC → {sigla: votos}, total regional de la hoja si lo trae)."""
-    import xlrd
-    hoja = xlrd.open_workbook(str(path)).sheet_by_index(0)
+    hoja = _abrir(path)
     cab = next(r for r in range(hoja.nrows) if str(hoja.cell_value(r, 0)).strip() == "" and "CENSO" in [str(c).strip() for c in hoja.row_values(r)])
     nombres = [str(c).strip() for c in hoja.row_values(cab) if str(c).strip()]
     # tras el rótulo de la fila de encabezado, cada magnitud ocupa dos columnas (electores, porcentaje)
@@ -124,9 +163,16 @@ def construir(sec54: Path, sec55: Path, salida: Path, raiz: Path = ROOT) -> dict
     todos, valid, cera = {}, {}, {}
     for nombre, ruta in (("sec54.xls", sec54), ("sec55.xls", sec55)):
         h = sha256(ruta)
-        if h != FUENTES[nombre]:
-            raise ValueError(f"sha256 de {nombre} no coincide: {h}")
-        huellas[nombre] = h
+        if ruta.suffix.lower() == ".csv":  # volcado versionado: su huella y la del xls original que reproduce
+            volc = VOLCADOS.get(ruta.name)
+            if volc is None or volc[0] != nombre or h != volc[1]:
+                raise ValueError(f"sha256 del volcado {ruta.name} no coincide: {h}")
+            huellas[nombre] = FUENTES[nombre]
+            huellas[ruta.name] = h
+        else:
+            if h != FUENTES[nombre]:
+                raise ValueError(f"sha256 de {nombre} no coincide: {h}")
+            huellas[nombre] = h
         v, c, ce = leer_xls(ruta, muni)
         cera.update(ce)
         if set(v) & set(todos):
