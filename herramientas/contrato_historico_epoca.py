@@ -67,7 +67,7 @@ for _p in (ROOT, ROOT / "herramientas"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-VERSION = "1.3.3"
+VERSION = "1.4.0"
 SCHEMA = "ddd.contrato-historico-epoca/1.0"
 DIR_CONTRATOS = "configuracion/historico_epoca"
 FUENTES_R2 = "orchestracion/fuentes_r2.json"

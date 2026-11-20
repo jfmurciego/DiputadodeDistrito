@@ -9,3 +9,5 @@
 **Pruebas.** `tests/test_t399_sin_poblacion.py` 1.1.0 (residuo, mínimo 0, dos sin dato siguen sin dato) y `tests/test_t365_historico_epoca.py` 1.4.4 (clase `TotalMunicipalCenso`); 112 tests OK, guardián OK.
 
 **Riesgos / efectos.** Cambian el contrato 2011-11 y las huellas de población de las 9 provincias citadas: sus yaml de época se regeneran (no versionados); los checkpoints M04 de esas provincias, si los hubiera, no valen. Sin 00 ni publicación. `no-automerge`.
+
+**Notas de revisión.** (a) `poblacion >= 0` en la prueba de coherencia del relleno (antes `> 0`): el residuo municipal tiene mínimo 0 y 3605901003 vale 0 (6.073 − 6.075 < 0); nac36 pasa M01–M08 con ella. (b) Espejo pendiente: `1mun00.csv` (105 MB, sha256 `ad95479c…8267`) no está en el repo ni en `orchestracion/fuentes_r2.json`, así que la CI no recalcula el contrato; propuesta: release de GitHub con la misma huella (como `fuente-infoelectoral-02202307`) o R2/P10; lo sube el Operador con permiso del propietario. (c) Las 9 provincias cambiadas (06, 07, 09, 24, 27, 35, 36, 38, 46) necesitan «Generar desde fuente territorial acreditada», no «Reutilizar».
