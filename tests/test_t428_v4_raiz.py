@@ -104,8 +104,10 @@ class Sitio(unittest.TestCase):
             self.assertIsNone(mal.search(t), p)
         for p in ("index.html", "comprender.html", "mapa/index.html"):
             nav = re.search(r'<nav class="main-nav"[^>]*>(.*?)</nav>', self.html(p), re.S).group(1)
-            self.assertIn('<a href="/"', nav, p)  # «Inicio» apunta a «/»
-            self.assertIn('class="brand" href="/"', self.html(p), p)
+            inicio = re.search(r'<a href="([^"]*)"[^>]*>Inicio</a>', nav).group(1)
+            marca = re.search(r'class="brand" href="([^"]*)"', self.html(p)).group(1)
+            self.assertEqual((resolver(p, inicio), resolver(p, marca)), ("/", "/"), p)  # «Inicio» y la marca llevan a «/»
+            self.assertFalse(inicio.startswith("/"), p)  # relativo: vale en el dominio y en la ruta de proyecto de Pages
 
     def test_menu_resuelve_a_rutas_publicas(self):
         esperado = {"Inicio": "/", "Comprender": "/comprender.html", "Explorar": "/mapa/", "Metodología": "/docs/metodo.html"}

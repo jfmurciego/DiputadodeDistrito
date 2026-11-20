@@ -29,8 +29,6 @@ class PortadaV4(unittest.TestCase):
                 if ref.startswith("docs/"):  # T-423: Datos, Metodología y Fuentes las genera P40 (Zensical) de documentacion_publica/docs/*.md (T-428: V4 en la raíz)
                     self.assertTrue((DOCS / ref[len("docs/"):].replace(".html", ".md")).is_file(), f"{pag}: {ref}")
                     continue
-                if ref == "/":  # T-428: «Inicio» y la marca van a la raíz del sitio, donde se sirve esta portada
-                    continue
                 destino = (V4 / ref).resolve()
                 self.assertTrue(destino.exists(), f"{pag}: {ref}")
         for pag in PAGINAS:
@@ -66,14 +64,14 @@ class PortadaV4(unittest.TestCase):
         self.assertEqual(plantilla.count("<a "), 5)  # marca + 4 del menú; sin botones a la derecha en ninguna página
         quitar = lambda h: re.sub(r'\{% if actual == "[^"]+" %\}|\{% endif %\}| aria-current="page"', "", h)
         # T-428: la V4 se sirve en la raíz del sitio (docs/ al lado); la documentación vive en /docs/ (V4 = ../)
-        paginas = {"index.html": ("", "docs/"), "comprender.html": ("", "docs/"), "auditoria-registro.html": ("", "docs/"),
-                   "mapa/index.html": ("../", "../docs/")}
-        for pag, (v4, docs) in paginas.items():
+        paginas = {"index.html": ("", "docs/", "./"), "comprender.html": ("", "docs/", "./"), "auditoria-registro.html": ("", "docs/", "./"),
+                   "mapa/index.html": ("../", "../docs/", "../")}
+        for pag, (v4, docs, inicio) in paginas.items():
             h = re.search(r'<header class="site-header[^"]*">.*?</header>', _txt(pag), re.S).group(0)
-            self.assertEqual(quitar(h), plantilla.replace("{V4}", v4).replace("{DOCS}", docs), pag)
+            self.assertEqual(quitar(h), plantilla.replace("{V4}", v4).replace("{DOCS}", docs).replace("{INICIO}", inicio), pag)
         zens = (DOCS.parent / "overrides/main.html").read_text(encoding="utf-8")
         h = re.search(r'<header class="site-header[^"]*">.*?</header>', zens, re.S).group(0)
-        self.assertEqual(quitar(h), plantilla.replace("{V4}", "../").replace("{DOCS}", ""), "Datos/Metodología/Fuentes")
+        self.assertEqual(quitar(h), plantilla.replace("{V4}", "../").replace("{DOCS}", "").replace("{INICIO}", "../"), "Datos/Metodología/Fuentes")
         self.assertIn("cabecera.html", _txt("NO_PUBLICAR.txt").split())  # la plantilla no se publica
 
     def test_sin_nomenclatura_m_en_texto_visible(self):

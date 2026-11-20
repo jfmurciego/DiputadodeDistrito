@@ -5,7 +5,7 @@
 #   (`herramientas/preparar_portada_v4.py`): la V4 pasa de /v4/ a la raíz del sitio, /v4/ queda con redirecciones a la raíz y los
 #   recursos de la V1 se mueven a /v1/; la doble vuelta se escribe en `mapa/datos/` de la raíz; la validación comprueba la portada V4
 #   (antes `url=v3/`), Explorar, la V1 y las redirecciones. /v2/, /v3/, /docs/, /datos/ y /data/ no cambian. El resto, idéntico.
-# ANTERIOR 1.3.0: legacy/workflows/p40-publicacion_v1.2.0_20261120.yml
+# ANTERIOR: legacy/workflows/p40-publicacion_v1.2.0_20261120.yml
 # CAMBIOS 1.2.0: T-409 (D-172): paso «Doble vuelta de los territorios del Congreso para la V4»: `herramientas/publicar_doble_vuelta.py` baja de R2 el resultado de P75 FIJADO en
 #   configuracion/doble_vuelta_publicada.json (sin ese fichero no hace nada), verifica sha256 y escribe `v4/mapa/datos/` en el sitio candidato (datos de la doble vuelta y la geometría de los distritos, que sale del GeoJSON que este mismo P40 materializa en `datos/`, simplificada con tolerancia fija); mismas credenciales R2 que el resto, `contents: read`,
 #   sin datos en git, sin entradas nuevas. Además P40 copia `visor/v4/` completo al sitio candidato (dos líneas, junto al `cp` de V3: copia y borrado de lo listado en visor/v4/NO_PUBLICAR.txt; V2 y V3 no cambian) para que el visor V4 y su
@@ -15,7 +15,7 @@
 # CAMBIOS 1.1.0: T-377 (D-138, P28 Alternativas retirada sin sustituto): se quitan las entradas `workflow_call` `ensemble_release_tag`, `ensemble_sha256`,
 #   `scenario_id` y `scenario_strategy`, la ruta del ensemble (`resolver` ya no se salta; `publicar` corre si `preparar` terminó bien) y el paso
 #   «Resolver ensemble persistente solicitado»; los pasos `parse-run-ids` y `describe-production` ya no pasan escenario. El resto, idéntico.
-# ANTERIOR: legacy/workflows/p40-publicacion_v1.1.0_20261119.yml
+# ANTERIOR (1.2.0): legacy/workflows/p40-publicacion_v1.1.0_20261119.yml
 # ANTERIOR (1.0.0): legacy/workflows/p40-publicacion_v1.0.0_20261116.yml
 # CAMBIOS: T-372 (D-134, migración paso 5): fichero nuevo; sustituye a desplegar-visor-publico.yml 3.6.0 («P50 Publicación»), cadena-publicacion.yml 1.1.0 y
 #   _reutilizable-publicar-sitio.yml 3.17.0 (el publicador va dentro como el job `publicar`; mismos pasos, mismo entorno `github-pages`, mismos permisos y concurrencias).
