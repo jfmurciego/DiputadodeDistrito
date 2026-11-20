@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.562
+Versión: 1.0.563
 Fecha: 2026-11-20
-Alcance: T-428 — La V4 es la versión oficial: portada en la raíz del dominio
+Alcance: T-427 — Fijar el P75 de los aut para publicar (13 aut)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-20_t-428-v4-raiz.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.561_registro_20261120.md
+Cambios/motivo: entrada docs/registro/2026-11-20_t-427-fijar-aut.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.562_registro_20261120.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.561_registro_20261120.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.563 · [2026-11-20 — T-427 — Fijar el P75 de los aut para publicar (13 aut)](registro/2026-11-20_t-427-fijar-aut.md)
 - 1.0.562 · [2026-11-20 — T-428 — La V4 es la versión oficial: portada en la raíz del dominio](registro/2026-11-20_t-428-v4-raiz.md)
 - 1.0.561 · [2026-11-20 — T-426 — Adaptador SADEI de Asturias 2023 (votos por concejo, aut03)](registro/2026-11-20_t426-adaptador-sadei-asturias.md)
 - 1.0.560 · [2026-11-20 — T-426 — Adaptador CREM de Murcia 2023 (votos por sección, aut14)](registro/2026-11-20_t426-adaptador-crem-murcia.md)
