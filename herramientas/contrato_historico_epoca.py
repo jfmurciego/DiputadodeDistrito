@@ -3,9 +3,10 @@
 """Histórico de las generales por época (T-365, D-125): contrato por elección, contrato M01-M06 por provincia y puerta M07/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.3 · FECHA: 2026-11-19 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/contrato_historico_epoca_v1.3.2_20261119.py
-CAMBIOS: 1.3.3: T-400 (D-180, propietario): en un territorio con particiones insulares (07, 35, 38) `validation.province_districts` ya no es {provincia: K} sino el reparto por partición de `component_hamilton` (materializar_contrato_generacion) con la población de la época, y la exención de suelo de una partición de un distrito bajo el suelo (`population_floor_exempt_partitions`, p. ej. 35-C02 Fuerteventura 2011) sale de la misma llamada, con `partition_populations` y `partition_apportionment_audit` y el motivo en `meta.historico_epoca.reparto_particiones`. Sin ello M04 fallaba «need=K > unidades abiertas=0».
+VERSIÓN: 1.4.0 · FECHA: 2026-11-20 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/contrato_historico_epoca_v1.3.3_20261120.py
+CAMBIOS: 1.4.0: T-400 (D-185, propietario): `contrato --total-municipal 1mun00.csv` carga el total MUNICIPAL del Censo 2011 (INE, 1-nov-2011; huella en configuracion/historico_epoca/total_municipal_censo_2011.json) y lo usa en `rellenar_sin_poblacion`: las rellenadas se ajustan al residuo municipal (el Padrón 29005 se descartó: otra fecha) y una única sección sin dato en ningún año de un municipio recibe el residuo (mínimo 0; `residuo_municipal_censo`); más de una sigue sin dato (BLOQUEADA_SIN_DATO). Sin la opción, nada cambia.
+  1.3.3: T-400 (D-180, propietario): en un territorio con particiones insulares (07, 35, 38) `validation.province_districts` ya no es {provincia: K} sino el reparto por partición de `component_hamilton` (materializar_contrato_generacion) con la población de la época, y la exención de suelo de una partición de un distrito bajo el suelo (`population_floor_exempt_partitions`, p. ej. 35-C02 Fuerteventura 2011) sale de la misma llamada, con `partition_populations` y `partition_apportionment_audit` y el motivo en `meta.historico_epoca.reparto_particiones`. Sin ello M04 fallaba «need=K > unidades abiertas=0».
   1.3.2: T-400: un puente topológico del contrato base cuyo extremo no existe en el seccionado de la época (nac35: La Graciosa 3502401010, que el INE segrega en 2019 de la 3502401005) se omite si una sección de la época ya lo contenía (M02 rechazaría un puente sin desconexión), declarada en configuracion/historico_epoca/puentes_epoca.json (atada al sha256 del seccionado, con la contención medida contra el donante 2019); sin declaración sigue fallando PUENTE_FUERA_DEL_SECCIONADO.
   1.3.1: 1.3.1: T-405: `materializar` emite `validation.topology_accreditation` desde configuracion/historico_epoca/topologia_administrativa.json (municipios no conexos del seccionado de la época; atada al sha256 del seccionado y comprobada contra sus secciones y CUMUN). Sin ella M04 fallaba en nac14 2011-11 (Fuente Palmera 14030).
   1.3.0: T-399 (D-158 B', decisión del propietario (17-11), confirmada en el chat del Planificador): 2011-11 mantiene el seccionado 2012. Las secciones del seccionado SIN fila en
@@ -196,6 +197,17 @@ def rellenar_sin_poblacion(sin_pob: list[str], pob: dict[str, dict], atlas: dict
         suma_dato = sum(x["poblacion"] or 0 for k, x in pob.items() if k[:5] == mun)
         oficial = total_mun.get(mun)
         atlas_sum = sum(vals[s][0] for s in con)
+        if sd and oficial is not None and len(sd) == 1 and not con:
+            # D-185: única sección del municipio sin dato en ningún año; recibe el residuo del total municipal del Censo (mínimo 0)
+            s0 = sd[0]
+            sin_dato.remove(s0)
+            rellenadas.append({"seccion": s0, "poblacion": max(oficial - suma_dato, 0), "poblacion_atlas": None, "anio_atlas": None,
+                               "ajuste": "residuo_municipal_censo"})
+            cuadre.append({"municipio": mun, "total_municipal_censo": oficial, "suma_con_dato": suma_dato, "residuo": oficial - suma_dato,
+                           "secciones_rellenadas": 1, "rellenado_atlas": 0, "rellenado_final": max(oficial - suma_dato, 0),
+                           "estado": "residuo_sin_dato", "suma_municipio": suma_dato + max(oficial - suma_dato, 0),
+                           "exceso_sobre_censo": max(suma_dato - oficial, 0)})
+            continue
         if sd:
             estado, final = "aviso_sin_dato", [vals[s][0] for s in con]
         elif oficial is None:
@@ -454,15 +466,38 @@ def pct(parte: int, total: int) -> str:
     return f"{n // 10000}.{n % 10000:04d}"
 
 
+TOTAL_MUNICIPAL_2011 = "configuracion/historico_epoca/total_municipal_censo_2011.json"
+
+
+def leer_total_municipal(path: Path, root: Path = ROOT) -> tuple[dict[str, int], dict]:
+    """D-185: total municipal del Censo 2011 (INE 1mun00, «Ambos sexos» / «Total», 1-nov-2011) → ({municipio de 5 cifras: población}, declaración).
+    Falla cerrado si el sha256 no es el acreditado en `total_municipal_censo_2011.json`."""
+    decl = _json(TOTAL_MUNICIPAL_2011, root)
+    if sha256(path) != decl["fuente"]["sha256"]:
+        raise ErrorContrato(f"TOTAL_MUNICIPAL_HUELLA_DISTINTA {path.name}")
+    out: dict[str, int] = {}
+    with open(path, encoding="utf-8-sig", newline="") as f:
+        for r in csv.reader(f, delimiter=";"):
+            if len(r) == 4 and r[1] == "Ambos sexos" and r[2] == "Total" and r[3].strip() and r[0][:5].isdigit():
+                out[r[0][:5]] = int(r[3].replace(".", ""))
+    if not out:
+        raise ErrorContrato("TOTAL_MUNICIPAL_VACIO")
+    return out, decl
+
+
 def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: str = VERSION,
                        anterior: str = "ninguna (fichero nuevo)", root: Path = ROOT, seccionado: Path | None = None,
-                       donantes: Path | None = None, atlas: Path | None = None, total_municipal: dict | None = None, censo: Path | None = None) -> dict:
+                       donantes: Path | None = None, atlas: Path | None = None, total_municipal: dict | None = None, censo: Path | None = None,
+                       total_municipal_fuente: Path | None = None) -> dict:
     """`seccionado` (zip del año, sha256 contra fuentes_r2.json) da las secciones con población sin geometría en el seccionado del
     año. D-153: se asignan a su sucesora o se excluyen (`asignar_sin_seccionado`, con los seccionados de `donantes`); las que no
     se resuelven (sucesora de otra provincia) quedan en `secciones_sin_seccionado` y la provincia en APARTADA.
     T-399: las secciones del seccionado sin población en la tabla se rellenan (`rellenar_sin_poblacion`; exige `atlas`, con sha256 de T-357; `total_municipal` =
     {municipio: total oficial del Censo 2011} si hay fuente con sha256, y si no se ajusta nada y queda declarado)."""
     e = _eleccion(eleccion, root)
+    tm_decl = None
+    if total_municipal_fuente is not None:
+        total_municipal, tm_decl = leer_total_municipal(total_municipal_fuente, root)
     fr2 = _json(FUENTES_R2, root)["fuentes"]
     nombre_secc = f"seccionado_{e['seccionado']}.zip"
     s = fr2.get(nombre_secc) or {}
@@ -571,7 +606,7 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
                               "sin_dato": sorted(rp["sin_dato"] + rep["sin_dato"]),
                               "habitantes_repartidos_a_hijas": sum(y["poblacion"] for x in rep["repartos"] for y in x["miembros"] if y["rol"] == "hija"),
                               "habitantes_madres_censo": sum(x["poblacion_censo_madre"] for x in rep["repartos"]),
-                              "habitantes_atlas": sum(x["poblacion_atlas"] for x in rp["rellenadas"]),
+                              "habitantes_atlas": sum(x["poblacion_atlas"] or 0 for x in rp["rellenadas"]),
                               "habitantes_rellenados": sum(x["poblacion"] for x in rp["rellenadas"]),
                               "cuadre_municipal": rp["cuadre"]}} if rep else {}),
                           **({"votos_sin_asignar": votos_ap} if votos_ap else {})},
@@ -592,8 +627,13 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
                       "regla_sin_poblacion": METODO_SIN_POBLACION,
                       **({"madres_verificadas_contra_censo": {"fuente": "indicadores_seccion_censal_csv.zip", "sha256": sumas.get("indicadores_seccion_censal_csv.zip")}}
                          if "censo" in cargas else {}),
-                      "total_municipal_oficial": {"fuente": None, "sha256": None,
-                                                  "motivo": "sin tabla del INE del total municipal del Censo 2011 con fuente y sha256 (D-158): el relleno no se ajusta"},
+                      "total_municipal_oficial": (
+                          {"fuente": tm_decl["fuente"]["nombre"], "url": tm_decl["fuente"]["url"], "sha256": tm_decl["fuente"]["sha256"],
+                           "referencia": "1-nov-2011", "decision": "D-185",
+                           "regla": "las rellenadas se ajustan al residuo municipal (total del Censo − secciones con dato); una única sección sin dato en ningún año "
+                                    "del municipio recibe el residuo (mínimo 0, `residuo_municipal_censo`)"} if tm_decl else
+                          {"fuente": None, "sha256": None,
+                           "motivo": "sin tabla del INE del total municipal del Censo 2011 con fuente y sha256 (D-158): el relleno no se ajusta"}),
                       "fuentes": {k: sumas.get(k) for k in ("30832.csv", "indicadores_seccion_censal_csv.zip")}},
         "escanos": {"csv": e["csv_boe"], "sha256": meta_boe["sha256_csv"], "boe": meta_boe.get("boe"),
                     "regla": "K de la provincia = escanos_circunscripcion del BOE de la elección (D-125)"},
@@ -1103,6 +1143,7 @@ def main(argv=None) -> int:
     a1.add_argument("--donantes", type=Path, help="carpeta con seccionado_AAAA.zip de otros años (D-153)")
     a1.add_argument("--censo", type=Path, help="ZIP indicadores_seccion_censal_csv del Censo 2011 (T-399: verifica la población de las madres)")
     a1.add_argument("--atlas", type=Path, help="CSV 30832 del INE (T-399: relleno de secciones sin población)")
+    a1.add_argument("--total-municipal", type=Path, help="D-185: 1mun00.csv del INE (total municipal del Censo 2011, sha256 en total_municipal_censo_2011.json)")
     a1.add_argument("--version", default=VERSION)
     a1.add_argument("--anterior", default="ninguna (fichero nuevo)")
     a1.add_argument("--salida", type=Path)
@@ -1124,7 +1165,8 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     if a.accion == "contrato":
         c = construir_contrato(a.eleccion, a.tabla, a.tabla_origen, a.version, a.anterior, seccionado=a.seccionado,
-                               donantes=a.donantes, atlas=a.atlas, censo=a.censo)
+                               donantes=a.donantes, atlas=a.atlas, censo=a.censo,
+                               total_municipal_fuente=a.total_municipal)
         out = a.salida or ruta_contrato(a.eleccion)
         print(out, escribir_json(out, c), Counter(p["estado"] for p in c["provincias"].values()))
         return 0

@@ -1,0 +1,11 @@
+## 2026-11-20 — T-400 (D-185 1) — Total municipal del Censo 2011 para cuadrar las secciones sin población
+
+**Fuente.** INE, Censos 2011, «Población por municipios, sexo y edad (año a año)» (1mun00), «Ambos sexos» / «Total», 1-nov-2011: sha256 `ad95479c…` (105.319.154 B; TOTAL NACIONAL 46.815.916), declarada en `configuracion/historico_epoca/total_municipal_censo_2011.json`. Es de la misma fecha que la tabla de secciones (el Padrón 29005 de 1-ene-2011, descartado en T-400, no lo era). Sobre 1.308 municipios > 5.000 hab. la suma de secciones queda de −22 % a +0,1 % del total (media −0,6 %).
+
+**Cambio.** `herramientas/contrato_historico_epoca.py` 1.4.0: `contrato --total-municipal` y `leer_total_municipal` (falla cerrado con otra huella). Las rellenadas del Atlas se ajustan al residuo municipal y una única sección sin dato en ningún año de un municipio recibe el residuo (mínimo 0, `residuo_municipal_censo`); con más de una sigue sin dato. Sin la opción, nada cambia. Contrato `contrato_2011_11.json` 1.4.0 regenerado con las mismas fuentes (la regeneración sin la opción reproducía el 1.3.0 byte a byte salvo `generado_con`).
+
+**Efecto en 2011-11 (medido).** 36 Pontevedra: BLOQUEADA_SIN_DATO → **LISTA** (3605901003 = 0 hab.: 6.073 − 6.075 < 0; estimada 2,64 % → 0,65 %); nac36 M01–M08 PASS en local (7 distritos, 0 votos sin asignar, contraste BOE ok). El ajuste baja la población rellenada de 06, 07, 09, 24, 27, 35, 38 y 46 (p. ej. 06: 690.518 → 689.229) y no cambia ningún otro estado. **No resuelve 08 ni 51:** en Barcelona 0804703001 es hija de un reparto madre/hijas sin dato en el Atlas (la causa no es el total municipal) y en Ceuta la sección estimada sale de un reparto cuyo total madre+hija del Censo ya se conserva (1,69 % > 1 %): siguen BLOQUEADA_SIN_DATO y BLOQUEADA_RELLENO.
+
+**Pruebas.** `tests/test_t399_sin_poblacion.py` 1.1.0 (residuo, mínimo 0, dos sin dato siguen sin dato) y `tests/test_t365_historico_epoca.py` 1.4.4 (clase `TotalMunicipalCenso`); 112 tests OK, guardián OK.
+
+**Riesgos / efectos.** Cambian el contrato 2011-11 y las huellas de población de las 9 provincias citadas: sus yaml de época se regeneran (no versionados); los checkpoints M04 de esas provincias, si los hubiera, no valen. Sin 00 ni publicación. `no-automerge`.
