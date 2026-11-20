@@ -1,20 +1,21 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: visor V4 · Explorar (V3 completa + doble vuelta)
- * VERSIÓN: 1.2.0
+ * VERSIÓN: 1.2.1
  * FECHA: 2026-11-20
  * ESTADO: candidato
- * CAMBIOS: 1.2.0 (T-428, D-184): la V4 se sirve en la raíz del sitio y Explorar en /mapa/, a la misma profundidad que la V3: las rutas
+ * CAMBIOS: 1.2.1 (T-429): regla «Mayoría simple en el distrito» (antes «Más votado») y, en la ficha, línea fija sobre el trasvase de votos como hipótesis de simulación.
+ *   1.2.0 (T-428, D-184): la V4 se sirve en la raíz del sitio y Explorar en /mapa/, a la misma profundidad que la V3: las rutas
  *   del sitio pasan de ../../ a ../ (las mismas que la V3); la doble vuelta sigue en datos/ junto a la página (P40 la escribe en mapa/datos/).
  *   1.1.0 (T-427): la capa «Doble vuelta» también en el ámbito «Autonómico» con la autonómica vigente de cada comunidad (índice 1.1):
  *   pinta los distritos del M08 publicado solo si su ejecución es la del índice (`run_m08`); id público = district_id interno + 1 (T-135);
  *   comunidades sin doble vuelta, con su motivo declarado. El ámbito nacional, idéntico.
  *   1.0.0: copia íntegra de v3.js 1.3.0 de la V3 (MapLibre, vista nacional, comunidad, provincia, distrito, municipio y sección
  *   censal, calendario, paletas, paneles, procedencia, galería y tabla) con rutas a ../../ y una capa electoral más, «Doble vuelta»
- *   (D-172): reglas «Tres bloques» (dv_A, por defecto), «Dos bloques» (dv_B), «Sin coaliciones» (dv_base) y «Más votado» (primero),
+ *   (D-172): reglas «Tres bloques» (dv_A, por defecto), «Dos bloques» (dv_B), «Sin coaliciones» (dv_base) y «Mayoría simple en el distrito» (primero),
  *   coloreado por bloque (claro si la ventaja es < 5 puntos), ficha por distrito con primera y segunda vuelta y aviso fijo
  *   «Simulación sin valor oficial». Lee lo que deja P40 en mapa/datos/ (antes v4/mapa/datos/) (herramientas/publicar_doble_vuelta.py) y verifica sha256.
  * MOTIVO: T-423, la V4 es la portada de la autora + la V3 completa enriquecida con la doble vuelta (decisión del propietario, 19-11).
- * ANTERIOR: legacy/visor/v4/mapa/explorar_v1.1.0_20261120.js (1.1.0: legacy/visor/v4/mapa/explorar_v1.0.0_20261120.js) */
+ * ANTERIOR: legacy/visor/v4/mapa/explorar_v1.2.0_20261120.js (1.2.0: legacy/visor/v4/mapa/explorar_v1.1.0_20261120.js; 1.1.0: legacy/visor/v4/mapa/explorar_v1.0.0_20261120.js) */
 "use strict";
 (function () {
   const BASE={provincias:"../v2/datos/provincias.json",comunidades:"../v2/datos/comunidades.json",
@@ -154,6 +155,7 @@
     }else h+="<h3>2.ª vuelta</h3><p class='small-note'>No hay segunda vuelta en este distrito con esta regla.</p>";
     if(f.avisoEmpate)h+="<p class='dv-empate'>"+esc(f.avisoEmpate)+"</p>";
     h+="<h3>Con otra regla</h3><p class='dv-comp'>"+DV.comparacion(String(d),x).map(c=>"<button type='button' class='chip' data-regla='"+esc(c.id)+"' aria-pressed='"+(c.id===regla().id)+"'>"+sw(c.bloque)+esc(c.texto)+" → "+esc(c.ganador)+"</button>").join(" ")+"</p>";
+    h+="<p class='small-note dv-hipotesis'>El trasvase de votos entre partidos del mismo bloque es una hipótesis de simulación, no un comportamiento observado.</p>";
     return h+"<p class='dv-aviso-ficha'><strong>Simulación sin valor oficial.</strong></p>";
   }
   function setRegla(id){
