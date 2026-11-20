@@ -3,9 +3,10 @@
 """Histórico de las generales por época (T-365, D-125): contrato por elección, contrato M01-M06 por provincia y puerta M07/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.0 · FECHA: 2026-11-20 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/contrato_historico_epoca_v1.3.3_20261120.py
-CAMBIOS: 1.4.0: T-400 (D-185, propietario): `contrato --total-municipal 1mun00.csv` carga el total MUNICIPAL del Censo 2011 (INE, 1-nov-2011; huella en configuracion/historico_epoca/total_municipal_censo_2011.json) y lo usa en `rellenar_sin_poblacion`: las rellenadas se ajustan al residuo municipal (el Padrón 29005 se descartó: otra fecha) y una única sección sin dato en ningún año de un municipio recibe el residuo (mínimo 0; `residuo_municipal_censo`); más de una sigue sin dato (BLOQUEADA_SIN_DATO). Sin la opción, nada cambia.
+VERSIÓN: 1.4.1 · FECHA: 2026-11-20 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/contrato_historico_epoca_v1.4.0_20261120.py
+CAMBIOS: 1.4.1: T-400 (D-185, propietario): exenciones de suelo de partición declaradas en configuracion/historico_epoca/exenciones_suelo_epoca.json (atadas al sha256 del seccionado; 38-G01 de 2011-11): `_reparto_particiones` las admite si coinciden con las que calcula el reparto por componentes y deja constancia en `meta.historico_epoca.reparto_particiones`; una exención de suelo no declarada y no gobernada por la política del contrato base sigue fallando cerrado.
+  1.4.0: T-400 (D-185, propietario): `contrato --total-municipal 1mun00.csv` carga el total MUNICIPAL del Censo 2011 (INE, 1-nov-2011; huella en configuracion/historico_epoca/total_municipal_censo_2011.json) y lo usa en `rellenar_sin_poblacion`: las rellenadas se ajustan al residuo municipal (el Padrón 29005 se descartó: otra fecha) y una única sección sin dato en ningún año de un municipio recibe el residuo (mínimo 0; `residuo_municipal_censo`); más de una sigue sin dato (BLOQUEADA_SIN_DATO). Sin la opción, nada cambia.
   1.3.3: T-400 (D-180, propietario): en un territorio con particiones insulares (07, 35, 38) `validation.province_districts` ya no es {provincia: K} sino el reparto por partición de `component_hamilton` (materializar_contrato_generacion) con la población de la época, y la exención de suelo de una partición de un distrito bajo el suelo (`population_floor_exempt_partitions`, p. ej. 35-C02 Fuerteventura 2011) sale de la misma llamada, con `partition_populations` y `partition_apportionment_audit` y el motivo en `meta.historico_epoca.reparto_particiones`. Sin ello M04 fallaba «need=K > unidades abiertas=0».
   1.3.2: T-400: un puente topológico del contrato base cuyo extremo no existe en el seccionado de la época (nac35: La Graciosa 3502401010, que el INE segrega en 2019 de la 3502401005) se omite si una sección de la época ya lo contenía (M02 rechazaría un puente sin desconexión), declarada en configuracion/historico_epoca/puentes_epoca.json (atada al sha256 del seccionado, con la contención medida contra el donante 2019); sin declaración sigue fallando PUENTE_FUERA_DEL_SECCIONADO.
   1.3.1: 1.3.1: T-405: `materializar` emite `validation.topology_accreditation` desde configuracion/historico_epoca/topologia_administrativa.json (municipios no conexos del seccionado de la época; atada al sha256 del seccionado y comprobada contra sus secciones y CUMUN). Sin ella M04 fallaba en nac14 2011-11 (Fuente Palmera 14030).
@@ -67,7 +68,7 @@ for _p in (ROOT, ROOT / "herramientas"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-VERSION = "1.4.0"
+VERSION = "1.4.1"
 SCHEMA = "ddd.contrato-historico-epoca/1.0"
 DIR_CONTRATOS = "configuracion/historico_epoca"
 FUENTES_R2 = "orchestracion/fuentes_r2.json"
@@ -812,7 +813,9 @@ def contrato_provincia(base: dict, c: dict, cpro: str, eleccion: str, secc_rel: 
         v["population_floor_exempt_partitions"] = list(reparto["exentas"])
         v["partition_apportionment_audit"] = reparto["auditoria"]
         tc["population_floor_exempt_partitions"] = list(reparto["exentas"])
-        m["historico_epoca"]["reparto_particiones"] = {k2: reparto[k2] for k2 in ("cuota", "exentas", "suelo_ratio", "motivo")}
+        if reparto["exenciones_declaradas"] and not tc.get("small_component_exception_policy"):
+            tc["small_component_exception_policy"] = reparto["politica_excepcion"]
+        m["historico_epoca"]["reparto_particiones"] = {k2: reparto[k2] for k2 in ("cuota", "exentas", "suelo_ratio", "motivo", "exenciones_declaradas")}
     if puentes is not None:  # T-400: puentes con los extremos que existen en el seccionado de la época
         cfg["modulos"]["modulo_02_construir_adyacencias"]["topology_bridges"] = copy.deepcopy(puentes)
     cfg["generation_state"] = {
@@ -875,7 +878,20 @@ def _puentes_de_epoca(root: Path, c: dict, eleccion: str, cpro: str, base: dict,
     return salida
 
 
-def _reparto_particiones(root: Path, base: dict, territorio: str, k: int, pob: dict[str, dict]) -> dict | None:
+def _exenciones_declaradas(root: Path, eleccion: str | None, cpro: str | None, c: dict | None) -> list[dict]:
+    """D-185: exenciones de suelo de partición declaradas para (elección, provincia) en `exenciones_suelo_epoca.json`, atadas al sha256 del seccionado."""
+    ruta = root / DIR_CONTRATOS / "exenciones_suelo_epoca.json"
+    if not (ruta.exists() and eleccion and cpro and c):
+        return []
+    e = (json.loads(ruta.read_text(encoding="utf-8")).get("elecciones") or {}).get(eleccion) or {}
+    decl = (e.get("provincias") or {}).get(cpro) or []
+    if decl and e.get("seccionado_sha256") != c["seccionado"]["sha256"]:
+        raise ErrorContrato(f"EXENCIONES_DE_OTRO_SECCIONADO {eleccion}/{cpro}: re-acreditar para {c['seccionado']['sha256'][:12]}")
+    return decl
+
+
+def _reparto_particiones(root: Path, base: dict, territorio: str, k: int, pob: dict[str, dict], eleccion: str | None = None,
+                         cpro: str | None = None, c: dict | None = None) -> dict | None:
     """T-400 (D-180): reparto de K por partición insular con la población de la época (Hamilton por componentes, ≥ 1 por partición y
     suelo factible; `component_hamilton` de materializar_contrato_generacion, el mismo criterio que el contrato 2025). Una partición de
     un distrito bajo el suelo queda declarada como exención. None si el contrato base no es de particiones físicas."""
@@ -886,8 +902,15 @@ def _reparto_particiones(root: Path, base: dict, territorio: str, k: int, pob: d
     razon = float(base["territory_contract"]["population_floor_ratio"])
     cuota, exentas = mcg.component_hamilton(pops, k, razon)
     politica = base["territory_contract"].get("small_component_exception_policy")
+    declaradas = _exenciones_declaradas(root, eleccion, cpro, c)
+    if declaradas and not politica:  # D-185: la exención la gobierna la declaración atada al seccionado, no la política del contrato base
+        if set(exentas) != {d["particion"] for d in declaradas}:
+            raise ErrorContrato(f"EXENCION_DE_SUELO_DISTINTA_DE_LA_DECLARADA {territorio}: calculadas {exentas}, declaradas "
+                                f"{[d['particion'] for d in declaradas]}")
+        politica = declaradas[0]["politica"]
     auditoria = mcg.component_apportionment_audit(pops, cuota, k, razon, exentas, exception_policy=politica)
     return {"poblaciones": pops, "cuota": cuota, "exentas": exentas, "auditoria": auditoria, "suelo_ratio": razon,
+            "exenciones_declaradas": declaradas, "politica_excepcion": politica,
             "motivo": "D-180 (propietario, 19-11): K por partición insular con Hamilton y la población de la época; una partición de un distrito "
                       "bajo el suelo queda exenta (una isla, un distrito)"}
 
@@ -944,7 +967,7 @@ def materializar(eleccion: str, territorio: str, fuentes: Path, root: Path = ROO
     huellas = {"seccionado": geometria["normalizado_sha256"], "poblacion": sha256(pob_local), "tabla": c["poblacion"]["sha256"],
                "contrato_base": p["contrato_base"]["sha256"], "votos": p["votos"]["sha256"], "escanos": c["escanos"]["sha256"]}
     topologia = _topologia_declarada(root, c, eleccion, cpro, secc)
-    cfg = contrato_provincia(base, c, cpro, eleccion, rel(secc_local), rel(pob_local), huellas, sha256(cpath), geometria, topologia, puentes, _reparto_particiones(root, base, territorio, p["K"], pob))
+    cfg = contrato_provincia(base, c, cpro, eleccion, rel(secc_local), rel(pob_local), huellas, sha256(cpath), geometria, topologia, puentes, _reparto_particiones(root, base, territorio, p["K"], pob, eleccion, cpro, c))
     out = root / f"territorios/{territorio}/config/{rn}.yaml"
     out.write_text("# Generado por herramientas/contrato_historico_epoca.py (T-365, D-125); no versionado: se regenera desde "
                    f"{rel(cpath)}.\n" + yaml.safe_dump(cfg, allow_unicode=True, sort_keys=False), encoding="utf-8")

@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.exenciones-suelo-epoca-historico/1.0",
+  "version": "1.0.0",
+  "motivo": "T-400 (D-185): una partición insular de UN distrito cuya población de la época queda bajo el suelo (0,85 de la media) se declara exenta con motivo y huella. Cada declaración se ata al seccionado de la elección por sha256 y `_reparto_particiones` comprueba que la exención calculada por el reparto por componentes coincida con la declarada; una no declarada sigue fallando cerrado (la política del contrato base no la gobierna). Misma figura que 35-C02 (Fuerteventura, D-180), que ya la gobierna la política de nac35.",
+  "elecciones": {
+    "2011-11": {
+      "seccionado_sha256": "772ad76b84e1b3bb9293a5595d2ccafa06f21a3a58ccc96a9ec5dadd99e46c4a",
+      "provincias": {
+        "38": [
+          {
+            "particion": "38-G01",
+            "distritos": 1,
+            "decision": "D-185 (propietario, 20-11)",
+            "politica": "one_contiguous_district_floor_exception",
+            "reason": "38-G01 (La Gomera, El Hierro y La Palma) = 115.718 hab. con la tabla de 2011 y el total municipal del Censo (D-185), bajo el suelo 120.634 (0,85 · 993.458 / 7; 0,815 de la media): un grupo de islas, un distrito, como Fuerteventura (35-C02).",
+            "medido": {
+              "poblacion": 115718,
+              "suelo": 120634.19,
+              "total_provincia": 993458,
+              "K": 7,
+              "contrato": "configuracion/historico_epoca/contrato_2011_11.json 1.4.0"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
