@@ -81,4 +81,6 @@ Hoy cada herramienta compone la clave a su manera. Orden propuesto (cada paso es
 2. Fuentes preparadas en `fuentes/por-territorio/<territorio>/`: sí.
 3. `web/actual/` solo en `ddd-web-datos`; el bucket de trabajo, con `fuentes/`, `mapas/` e `interno/`: sí.
 
+Bucket público `ddd-web-datos` (acordado con T-430): todo bajo `web/actual/` (`actual.json` y los datos con las rutas del sitio: `datos/`, `mapa/datos/`, `v2/datos/`, `data/`), con carpetas de territorio en español sin códigos ni runs; el run y los sha256 van en `actual.json`. No usa la nomenclatura de `mapas/` de este bucket. P40 sube lo cambiado, comprueba sha256, escribe `actual.json` y borra lo que ya no figura en el índice.
+
 Pendiente: el cruce clave a clave, cuando el propietario suba el CSV del P74.
