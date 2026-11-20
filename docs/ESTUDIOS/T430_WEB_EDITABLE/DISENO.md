@@ -126,10 +126,10 @@ https://datos.diputadodedistrito.es/archivo/v3-2026-11/…            ← V3 con
 ```json
 {"version_formato": 1, "publicado": "2026-11-20T12:00:00Z", "p40_run": 123,
  "comunes":  {"version": "<16 hex>", "run": 123, "ficheros": {"datos/INDEX.json": "<sha256>", "v2/datos/provincias.json": "<sha256>"}},
- "mapas": {"nac28": {"version": "<16 hex>", "run": 456, "ficheros": {"distritos.geojson": "<sha256>", "doble_vuelta.json": "<sha256>"}}}}
+ "mapas": {"nac28": {"version": "<16 hex>", "run": 456, "ficheros": {"datos/nac28/distritos.geojson": "<sha256>", "mapa/datos/nac28/detalle.csv": "<sha256>"}}}}
 ```
 
-`<version>` = 16 primeras cifras hexadecimales del sha256 del listado «ruta sha256» del grupo (fase 1, #957): mismo contenido, misma carpeta; contenido distinto, carpeta nueva. No se usa el número de run porque la doble vuelta puede cambiar sin una 00 nueva; el run va en el índice. La ruta de cada fichero se deduce sin ambigüedad: `comunes/<version>/<fichero>` o `mapas/<territorio>/<version>/<fichero>`.
+`<version>` = 16 primeras cifras hexadecimales del sha256 del listado «ruta sha256» del grupo (fase 1, #957): mismo contenido, misma carpeta; contenido distinto, carpeta nueva. No se usa el número de run porque la doble vuelta puede cambiar sin una 00 nueva; el run va en el índice. Las claves de `ficheros` son la ruta del fichero en el sitio de hoy (`datos/…`, `mapa/datos/…`, `v2/datos/…`, `data/…`). La ruta de cada fichero se deduce sin ambigüedad: `comunes/<version>/<fichero>` o `mapas/<territorio>/<version>/<fichero>`.
 Explorar lee `actual.json`, sustituye las rutas relativas de hoy (`BASE` de `explorar.js`) por esas y **verifica el sha256** de cada fichero con `crypto.subtle.digest` antes de pintarlo; si
 no casa, no lo pinta y lo dice (igual que hoy con el INDEX, #919/T-415 PR4). La URL de `actual.json` va en un
 `mapa/datos.json` de ddd-web, para poder apuntar a otro origen sin tocar código.

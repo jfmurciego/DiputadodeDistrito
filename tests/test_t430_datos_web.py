@@ -98,5 +98,17 @@ class DatosWeb(unittest.TestCase):
             w.plan(self.s)
 
 
+class PasoP40(unittest.TestCase):
+    def test_solo_desde_main_y_secretos_en_el_paso(self):
+        import yaml
+        wf = yaml.safe_load((Path(__file__).resolve().parents[1] / ".github/workflows/p40-publicacion.yml").read_text(encoding="utf-8"))
+        pasos = [s for s in wf["jobs"]["publicar"]["steps"] if s.get("name") == "Datos de la web en R2 (T-430)"]
+        self.assertEqual(len(pasos), 1)
+        p = pasos[0]
+        self.assertEqual(p.get("if"), "${{ github.ref == 'refs/heads/main' }}")  # otra rama no reescribe actual.json de producción
+        self.assertEqual(p["env"]["R2_WEB_BUCKET"], "${{ vars.R2_WEB_BUCKET }}")
+        self.assertIn("publicar_datos_web.py --sitio /tmp/site-candidate", p["run"])
+
+
 if __name__ == "__main__":
     unittest.main()
