@@ -45,15 +45,16 @@ def construir(fuente: Path, salida: Path, raiz: Path = ROOT) -> dict:
         raise ValueError(f"sha256 de SADEI no coincide: {h}")
     filas = [r for r in csv.reader(fuente.read_text(encoding="latin-1").splitlines()) if len(r) > 10 and not r[0].startswith("Ámbito")]
     cab = next(r for r in csv.reader(fuente.read_text(encoding="latin-1").splitlines()) if r and r[0].startswith("Ámbito"))
-    # la cabecera sale en una sola celda entrecomillada: «Ámbito territorial,"Votos TOTAL",...»
-    nombres = [c.strip('"') for c in next(csv.reader([cab[0]]))][1:]
+    nombres = [c.strip().strip('"') for c in cab[1:]]
     partidos = {i: n.split(" - ")[0][6:] for i, n in enumerate(nombres) if n.startswith("Votos ") and n != "Votos TOTAL"}
+    if len(partidos) < 10:
+        raise ValueError(f"cabecera SADEI inesperada: {len(partidos)} candidaturas")
     muni = municipios_ine(raiz)
     votos, ausentes, region = {}, {}, None
     for r in filas:
         nombre = r[0].strip()
         n = [int(x) if x.isdigit() else 0 for x in r[1:]]
-        d = {partidos[i]: n[i + 1] for i in partidos}
+        d = {partidos[i]: n[i] for i in partidos}
         if nombre == "ASTURIAS":
             region = {"total": n[0], **d}
         elif nombre.startswith("Circunscripci"):
