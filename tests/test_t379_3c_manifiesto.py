@@ -5,7 +5,7 @@ Lee los ficheros reales; cada regla con su control negativo:
   puerta real (validar_puerta_ejecucion 1.0.2) acepta ese nombre; sin espacio, solo el canónico (como antes).
 - Las HUELLAS de «Cerrar P10/P20/P30», evaluadas como lo hace GitHub (`format`, `toJSON`), dan JSON con lo que el cierre
   necesita (campana_registro.argumentos_manifiesto) y conservan las claves de la 1.0.0.
-- Equivalencia: quitando lo que añade la 1.1.0, p00-cadena.yml es la 1.0.0 (legacy); p00-campana.yml solo cambia la
+- Equivalencia: quitando lo que añade la 1.1.0, p00-cadena.yml es la 1.0.0 (fixture con sha256); p00-campana.yml solo cambia la
   llamada a `cerrar` (`--source-sha`).
 """
 import copy
@@ -19,7 +19,16 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 WF = ROOT / ".github" / "workflows"
-LEGACY = ROOT / "legacy" / "workflows"
+FIX = ROOT / "tests" / "fixtures" / "t379_3c_workflows"  # copias de la 1.0.0 (legacy/ no entra en la imagen de CI)
+SHA_FIX = {"p00-cadena_1.0.0.yml": "c881cdf0554e694054552323358ee9dc0cbad17429922bce6a564405e390f14a",
+           "p00-campana_1.0.0.yml": "80d23d721e6f6406a3f9eb5cdfc75605b899cae4dbd5987b8127ce329b7970ef"}
+
+
+def fijo(nombre):
+    import hashlib
+    ruta = FIX / nombre
+    assert hashlib.sha256(ruta.read_bytes()).hexdigest() == SHA_FIX[nombre], f"fixture alterada: {nombre}"
+    return ruta
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "herramientas"))
 from herramientas.validar_puerta_ejecucion import _artifact_name_is_consistent as nombre_ok  # noqa: E402
@@ -158,10 +167,10 @@ class Huellas(unittest.TestCase):
 
 
 class Equivalencia(unittest.TestCase):
-    """Sin lo que añade la 3c-i, los dos workflows son los de la 1.0.0 (legacy)."""
+    """Sin lo que añade la 3c-i, los dos workflows son los de la 1.0.0 (fixture con sha256)."""
 
     def test_cadena(self):
-        nuevo, viejo = leer(WF / "p00-cadena.yml"), leer(LEGACY / "p00-cadena_v1.0.0_20261120.yml")
+        nuevo, viejo = leer(WF / "p00-cadena.yml"), leer(fijo("p00-cadena_1.0.0.yml"))
         d = copy.deepcopy(nuevo)
         j = d["jobs"]
         del j["puerta_04"]
@@ -183,7 +192,7 @@ class Equivalencia(unittest.TestCase):
 
     def test_campana(self):
         nuevo = (WF / "p00-campana.yml").read_text(encoding="utf-8")
-        viejo = (LEGACY / "p00-campana_v1.0.0_20261120.yml").read_text(encoding="utf-8")
+        viejo = fijo("p00-campana_1.0.0.yml").read_text(encoding="utf-8")
         cuerpo = lambda t: t.split("\nname: ", 1)[1]  # noqa: E731  (sin la cabecera de versión)
         self.assertEqual(cuerpo(nuevo).count('--source-sha "$GITHUB_SHA"'), 2)
         self.assertEqual(cuerpo(nuevo).replace(' --source-sha "$GITHUB_SHA"', ""), cuerpo(viejo))
