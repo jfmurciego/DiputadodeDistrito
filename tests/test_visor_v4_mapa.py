@@ -88,6 +88,11 @@ class CapaDobleVuelta(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
 
     @unittest.skipUnless(shutil.which("node"), "sin node")
+    def test_explorar_autonomico_t427(self):
+        r = subprocess.run(["node", str(RAIZ / "tests/test_visor_v4_explorar_aut.js")], capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+
+    @unittest.skipUnless(shutil.which("node"), "sin node")
     def test_lector_dv(self):
         r = subprocess.run(["node", str(RAIZ / "tests/test_visor_v4_mapa.js")], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
