@@ -1,6 +1,9 @@
 # T-430 · Web editable en minutos — diseño
 
-VERSIÓN: 1.0.0 · FECHA: 2026-11-20 · ESTADO: propuesta (pendiente de aprobación del propietario) · ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.0.1 · FECHA: 2026-11-20 · ESTADO: propuesta (pendiente de aprobación del propietario) · ANTERIOR: 1.0.0 (#951@03d50f1); 1.0.1 aplica los menores del revisor: cifras externas marcadas «por verificar», tamaño de R2 y preguntas en llano
+
+> **Cifras externas.** Toda cifra o límite de Cloudflare, GitHub o GoDaddy de este documento está escrita de memoria y
+> lleva «(por verificar)»: se coteja con la página oficial, con fecha, en el ensayo (§8) y antes de implementar.
 
 Estado: **DISEÑO** (solo documento; nada creado ni tocado en GitHub, Cloudflare ni GoDaddy).
 Encargo aprobado en líneas generales por el propietario el 20-11. Punto de partida: D-181 (V4 aceptada), D-184 y T-428
@@ -115,6 +118,14 @@ públicos y abiertos; `*` cubre también las vistas previas `*.ddd-web.pages.dev
 - Se conservan los 5 últimos prefijos; el borrado de los viejos lo hace P70 con permiso (como D-176).
 - Sin purga manual en Cloudflare en el camino normal.
 
+### 4.4 Tamaño en R2 (estimación por verificar)
+
+Un prefijo ≈ árbol de datos que hoy publica P40: GeoJSON M06 (~50 MB, CLAUDE.md), `v2/datos` (~5 MB en `visor/v2`), doble
+vuelta e índices (pocos MB): **~60 MB por prefijo**. Cinco prefijos ≈ 0,3 GB; cada prefijo citado por un DOI (§9) que no se
+poda suma ~60 MB; la V3 congelada (pregunta 2), otro ~60 MB una vez. Total previsible **< 1 GB** el primer año. Se mide con
+el primer llenado (paso 12) antes de fijar la poda. El coste en euros depende de la tarifa vigente de R2 (por verificar) y
+entra en el mismo presupuesto que el bucket de trabajo: ver pregunta 11.
+
 ## 5. P40 a partir de ahora
 
 | Hoy | Después |
@@ -160,9 +171,9 @@ el diseño.
 
 **B. Cloudflare: comprobar el dominio (2 min)**
 2. Entrar en dash.cloudflare.com → «Websites» (Sitios). Si `diputadodedistrito.es` aparece como **Activo**, saltar al
-   paso 5 (es lo esperado: `media.diputadodedistrito.es` ya funciona y R2 solo admite dominios propios de zonas de Cloudflare).
+   paso 5 (es lo esperado: `media.diputadodedistrito.es` ya funciona sobre R2, y R2 pide que el dominio propio esté en Cloudflare — por verificar).
 3. Si no aparece: «Add a site» → `diputadodedistrito.es` → plan Free. Cloudflare copia los registros DNS actuales;
-   comprobar que están los de GitHub Pages (4 registros `A` 185.199.108-111.153 y `CNAME www`) y `media`.
+   comprobar que están los que hoy apuntan a GitHub Pages (los `A` y el `CNAME www` que figuren en GoDaddy; direcciones por verificar en la ayuda de GitHub Pages) y `media`.
 4. Cloudflare muestra **dos servidores de nombres**. En GoDaddy: «Mis productos» → dominio → «DNS» → «Servidores de
    nombres» → «Cambiar» → «Usaré mis propios servidores» → pegar los dos → Guardar. Esperar el correo «zona activa»
    (minutos a 24 h). El dominio sigue registrado y pagado en GoDaddy; solo cambia quién responde al DNS.
@@ -232,11 +243,11 @@ el diseño.
 | Sin revisión, un cambio sustantivo (p. ej. reserva legal del pie) se publica sin que nadie lo vea | es decisión del propietario (sin reglas de PR); la historia de git y el «rollback» de Pages (un clic) lo deshacen |
 | Fallo de CORS o de sha256 deja Explorar en blanco | ensayo completo en `pages.dev` antes del corte; mensaje visible en Explorar; vuelta atrás de `actual.json` |
 | Explorar (código) y formato de datos (P40) evolucionan en repos distintos | `actual.json` lleva `version_formato`; Explorar rechaza formatos que no conoce; los cambios de formato se hacen compatibles hacia atrás o en pareja |
-| Límites de Pages (25 MiB por fichero, 20 000 ficheros) | los datos grandes no van a Pages, van a R2 |
+| Límites de tamaño de Pages por fichero y por despliegue (cifras por verificar) | los datos grandes no van a Pages, van a R2 |
 | Credencial de Cloudflare con acceso de más | autorizar la app de Cloudflare solo para `ddd-web`; token R2 solo de ese bucket |
 | URL viejas compartidas (V3, `/docs/`, `/datos/`) | `_redirects` con lista probada; prueba de rutas estables |
 | Pérdida del contador (T-294, sin desplegar) | no depende de dónde se sirva la web; su lista blanca de orígenes ya es el dominio propio |
-| Coste | Pages Free (500 construcciones/mes) y R2 (~0 € a este volumen, sin coste de salida) |
+| Coste y espacio | Pages en plan gratuito (cupo de construcciones al mes por verificar). R2: ver §4.4; el bucket de trabajo ya está en 16,47 GB (164,7 % del presupuesto de 10 GB), así que el bucket web suma a un presupuesto ya superado |
 | Dos sitios de verdad durante la transición | la V4 de `visor/v4/` se congela desde que exista ddd-web; se borra del principal tras el corte |
 
 ## 11. Preguntas abiertas (con recomendación)
@@ -247,25 +258,34 @@ el diseño.
    y `/v3/*` redirige allí. *Recomiendo (c)*: Explorar ya es la V3 completa (D-181); no se mantiene dos veces y las URL
    compartidas siguen funcionando. Requisito a comprobar en el ensayo: R2 no sirve `index.html` de carpeta, así que la
    redirección apunta a `…/v3/index.html` conservando `?consulta` y `#ancla`.
+   **Depende de una comprobación pendiente** (en el ensayo): que la redirección conserve la consulta y el ancla; si no, se
+   vuelve a la opción (a).
 3. **Cabecera y pie: construcción mínima o HTML repetido.** *Recomiendo la construcción mínima* (`construir.py`, < 1 s):
    el menú se edita en un sitio; la alternativa (copia literal en cada página + prueba de igualdad) obliga a editar N
    ficheros por cambio.
 4. **Documentación técnica (`/docs/`, salvo Metodología).** (a) P40 la sigue generando y la sube a `datos./docs/`;
    (b) se queda solo en GitHub (enlace al repositorio). *Recomiendo (a)* con `/docs/*` redirigido; comprobar que la
    documentación se genera con URL de fichero (`citar.html`) y no de carpeta, por lo dicho de R2 en la pregunta 2.
-5. **Descargas `/datos/` y `/data/` con enlaces externos.** *Recomiendo* un alias estable `datos./actual/…` que P40
-   copia también en cada publicación (no inmutable, caché 5 min) y redirigir allí; para citas, el prefijo inmutable.
+   **Depende de esa comprobación** (en el ensayo); si falla, (b).
+5. **Enlaces de descarga ya compartidos fuera de la web (`/datos/…`, `/data/…`).** ¿Deben seguir llevando siempre a la
+   versión más reciente de los datos? *Recomiendo sí*: esas direcciones redirigen a «la última publicación»; las citas
+   científicas, en cambio, apuntan a una publicación fija que no cambia (§9). Detalle técnico para el implementador.
 6. **Opción «Solo el sitio» de P40.** *Recomiendo renombrarla «Solo datos comunes»* (sube índices, procedencia y doble
    vuelta sin territorios nuevos); sin parámetros técnicos nuevos (D-130).
 7. **GitHub Pages del principal tras el corte.** *Recomiendo desactivarlo* tras 2 semanas sin incidencias: una copia
    vieja en `github.io` confunde y Zenodo dejará de citarla.
-8. **Verificación sha256 en el navegador de ficheros grandes.** *Recomiendo verificar todo* (unos ms por MB); si algún
-   GeoJSON pesa demasiado en móvil, verificar el manifiesto y servirlo con `Content-Digest` (decisión tras medir en el ensayo).
+8. **Comprobar en el móvil que cada mapa no ha sido alterado.** Comprobarlo tarda un poco más con los mapas grandes.
+   *Recomiendo comprobarlo siempre*; si en el ensayo algún mapa tarda demasiado en un móvil, el implementador propone
+   una alternativa medida.
 9. **¿Prueba también en GitHub Actions?** *Recomiendo no* al principio: la prueba ya bloquea la publicación en Pages;
    añadirla solo si el propietario quiere ver la marca en GitHub.
 10. **Edición desde el móvil o por IA con acceso al repo.** *Recomiendo* el editor web de GitHub y, para cambios largos,
     rama + vista previa; una IA con permiso de escritura en ddd-web (no en el principal) es posible más adelante, con el
     mismo bloqueo de pruebas.
+11. **Espacio en R2.** El bucket web sumaría < 1 GB previsto (§4.4) a un almacenamiento que ya pasa del presupuesto de
+    10 GB (16,47 GB; aun con los ~2,2 GB de la limpieza de D-178 quedarían ~14,3 GB). *Recomiendo* contarlo dentro del
+    mismo presupuesto, medirlo en el primer llenado y dejar la decisión sobre el exceso (ampliar el presupuesto o limpiar
+    más) donde ya está, en D-176/D-178: el bucket web (~6 % del total) no la cambia de forma apreciable.
 
 ## 12. Orden de implementación propuesto (para cuando se apruebe)
 
