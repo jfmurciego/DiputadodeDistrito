@@ -7,7 +7,7 @@
     { id: "tres", esc: "dv_A", texto: "Tres bloques", ayuda: "Izquierdas, Nacionalistas y Patriotas se presentan cada uno como una sola candidatura." },
     { id: "dos", esc: "dv_B", texto: "Dos bloques", ayuda: "Solo Izquierdas y Patriotas se presentan juntos; los nacionalistas, partido a partido." },
     { id: "base", esc: "dv_base", texto: "Sin coaliciones", ayuda: "Cada partido se presenta por separado." },
-    { id: "primero", esc: "primero", texto: "Más votado", ayuda: "Gana el partido con más votos, sin segunda vuelta (regla de hoy)." }
+    { id: "primero", esc: "primero", texto: "Mayoría simple en el distrito", ayuda: "Gana el partido con más votos en el distrito, sin segunda vuelta. No es el sistema actual: hoy los escaños se reparten de forma proporcional por listas provinciales." }
   ];
   var COLUMNAS = ["district_id", "escenario", "vuelta_decisiva", "candidatura_ganadora", "bloque_ganador", "votos_1v", "cuota_1v",
     "finalista_a", "finalista_b", "votos_a_2v", "votos_b_2v", "cuota_ganador_2v", "votos_abstencion", "empate"];

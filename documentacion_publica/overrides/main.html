@@ -1,8 +1,14 @@
-{#- PROYECTO: Diputado de Distrito · VERSIÓN: 1.1.0 · FECHA: 2026-11-20 · ESTADO: candidato
+{#- PROYECTO: Diputado de Distrito · VERSIÓN: 1.2.0 · FECHA: 2026-11-20 · ESTADO: candidato
+    CAMBIOS 1.2.0: T-429, etiquetas para compartir (og:*, twitter:card, canonical) en la documentación. ANTERIOR: legacy/documentacion_publica/overrides/main_v1.1.0_20261120.html
     CAMBIOS 1.1.0: T-428 (D-184), la V4 en la raíz: menú y recursos con ../ (antes ../v4/), marca e «Inicio» → ../ (la raíz del sitio, «/» en el dominio). ANTERIOR: legacy/documentacion_publica/overrides/main_v1.0.0_20261119.html
     CAMBIOS: T-423, cabecera única (visor/v4/cabecera.html), menú y pie de la V4 en la documentación (Metodología).
     MOTIVO: todo el sitio dentro del diseño de la V4 (propietario, 19-11). ANTERIOR (1.0.0): ninguna (fichero nuevo) -#}
 {% extends "base.html" %}
+{% block extrahead %}
+{{ super() }}
+{%- set ruta = "/docs/" ~ page.url if page else "/docs/" -%}
+<link rel="canonical" href="https://diputadodedistrito.es{{ ruta }}"><meta property="og:type" content="website"><meta property="og:locale" content="es_ES"><meta property="og:site_name" content="Diputado de Distrito"><meta property="og:title" content="{{ page.title ~ " · " if page and page.title }}Diputado de Distrito"><meta property="og:description" content="Método, fuentes y evidencias de Diputado de Distrito"><meta property="og:url" content="https://diputadodedistrito.es{{ ruta }}"><!-- OG-IMAGEN-PENDIENTE: la imagen 1200×630 la aporta el propietario en assets/compartir-1200x630.jpg; para cambiarla, cambia esta URL en todas las páginas --><meta property="og:image" content="https://diputadodedistrito.es/assets/compartir-1200x630.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
+{% endblock %}
 {% block header %}
 {%- set actual = page.url if page else "" -%}
 <header class="site-header v4-header"><div class="wrap header-inner">
