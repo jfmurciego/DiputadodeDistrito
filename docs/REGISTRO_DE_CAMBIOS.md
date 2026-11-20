@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.556
+Versión: 1.0.557
 Fecha: 2026-11-20
-Alcance: Coordinador — traspaso del Coordinador (renovación ordenada por el propietario) y lecciones
+Alcance: Operador — Traspaso del Operador: aviso de no herencia de frases
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-20_coordinador-traspaso-2026-11-20.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.555_registro_20261120.md
+Cambios/motivo: entrada docs/registro/2026-11-20_operador-traspaso-2026-11-20-correccion.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.556_registro_20261120.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.555_registro_20261120.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.557 · [2026-11-20 — Operador — Traspaso del Operador: aviso de no herencia de frases](registro/2026-11-20_operador-traspaso-2026-11-20-correccion.md)
 - 1.0.556 · [2026-11-20 — Coordinador — traspaso del Coordinador (renovación ordenada por el propietario) y lecciones](registro/2026-11-20_coordinador-traspaso-2026-11-20.md)
 - 1.0.555 · [2026-11-20 — T-425 — Plan 1.0.71: D-180 a D-182, V4 publicada y aceptada](registro/2026-11-20_planificador-plan-1-0-71.md)
 - 1.0.554 · [2026-11-20 — Operador — Traspaso del Operador (documento)](registro/2026-11-20_operador-traspaso.md)
