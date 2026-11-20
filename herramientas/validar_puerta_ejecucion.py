@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
-# VERSIÓN: 1.0.1
-# NOMBRE DE VERSIÓN: id canónico exacto (T-349)
-# FECHA: 2026-11-15
+# VERSIÓN: 1.0.2
+# NOMBRE DE VERSIÓN: M08 con espacio de campaña (T-379 3c-i)
+# FECHA: 2026-11-20
+# CAMBIOS 1.0.2 (T-379 3c-i): la fase electoral_product acepta `ddd-state-<run>-M08-<espacio>` con el mismo espacio de campaña
+#   que ya admitía territorial_product (`campaign-<run>-<intento>--<hueco>--<territorio>`, del mismo run y territorio); sin espacio,
+#   solo el nombre canónico, como hasta ahora. Lo necesita la puerta 04 de la cadena de P00 Campaña.
+# ANTERIOR (1.0.1): legacy/herramientas/validar_puerta_ejecucion_v1.0.1_20261120.py
 # CAMBIOS 1.0.1 (T-349, D-102): los nombres de artefacto de fuente territorial y electoral se comparan con igualdad exacta con el id canónico (sin alias).
 # MOTIVO: la r4 se paró en aut11 al reutilizar un registro con id viejo.
 # ANTERIOR: legacy/herramientas/validar_puerta_ejecucion_pre_t349_20261115.py (1.0.0: versión de origin/main, sin cabecera numerada)
@@ -82,8 +86,8 @@ def _artifact_name_is_consistent(
         return artifact_name == f"ddd-source-package-{territory_id}-{edition}-{run_id}"  # T-349: exacto
     if phase == "electoral_source":
         return artifact_name == f"ddd-electoral-package-{territory_id}-{edition}-{run_id}"  # T-349: exacto
-    if phase == "territorial_product":
-        canonical = f"ddd-state-{run_id}-M06"
+    if phase in ("territorial_product", "electoral_product"):
+        canonical = f"ddd-state-{run_id}-{'M06' if phase == 'territorial_product' else 'M08'}"
         if artifact_name == canonical:
             return True
         if not _campaign_namespace_is_consistent(
@@ -93,8 +97,6 @@ def _artifact_name_is_consistent(
         ):
             return False
         return artifact_name == f"{canonical}-{artifact_namespace}"
-    if phase == "electoral_product":
-        return artifact_name == f"ddd-state-{run_id}-M08"
     return False
 
 

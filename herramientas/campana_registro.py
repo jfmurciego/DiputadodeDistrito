@@ -3,12 +3,17 @@
 """Registro de P10-P30 en ensayo dentro de una campaña de P00 y re-aplicación en el cierre (T-379 PR 3b).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.1.0
 NOMBRE DE VERSIÓN: Registro de campaña P00
-FECHA: 2026-11-19
+FECHA: 2026-11-20
 ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
-CAMBIOS: 1.0.0: fichero nuevo (T-379 PR 3b, opción A del Planificador del 19-11).
+ANTERIOR: legacy/herramientas/campana_registro_v1.0.0_20261120.py
+CAMBIOS: 1.1.0 (T-379 3c-i, Planificador 20-11): `cerrar` escribe, en el mismo commit y por territorio sano, el manifiesto
+  de ejecución completa `territorios/<id>/evidencia/ejecuciones_completas/<run>.json` (el que el job `manifestar` de la 00
+  escribe con escribir_manifest_ejecucion_completa.py), con los datos de las puertas 01-04 y la optimización que la cadena
+  deja en las huellas de P10, P20 y P30; sin esos datos → CIERRE_MANIFIESTO_INCOMPLETO (fallo cerrado, sin commit). Nueva
+  entrada obligatoria `--source-sha` (versión de la campaña). Sin campaña nada cambia: la herramienta solo la usa P00 Campaña.
+CAMBIOS 1.0.0: fichero nuevo (T-379 PR 3b, opción A del Planificador del 19-11).
 MOTIVO: diseño P00 1.1.4 §5 y §6 (un solo commit en main al cierre) y D-147; las herramientas de registro de P10-P30
   no cambian: escriben y empujan como siempre, pero contra un repositorio local.
 QUÉ HACE:
@@ -28,7 +33,7 @@ QUÉ HACE:
             con registrar_en_main (re-deriva desde el HEAD remoto en cada intento, catálogo de procedencia en el mismo
             commit, tope 3 intentos = 2 reintentos) → objeto «cierre» en R2 solo tras el push. Solo los territorios
             sanos del recuento final. Retira, por territorio, el M06 que contiene su M08 (manifiesto en el commit; borrado
-            en R2 después del push).
+            en R2 después del push). Escribe el manifiesto de ejecución completa de cada sano (1.1.0) para P40.
 NO HACE: borrar en R2 ni abrir la PR de la rama de cierre (lo hace el workflow).
 CÓDIGOS DE SALIDA: 0 bien · 2 entrada o estado inválido · 3 conflicto o ruta no admitida.
 """
@@ -245,17 +250,93 @@ def retirar_m06(root: Path, run_id: str, territorios: list[str]) -> list[str]:
     return sorted(claves)
 
 
+ESCRITOR = ROOT / "herramientas" / "escribir_manifest_ejecucion_completa.py"
+PUERTAS = (("P10", "puerta_01", "territorial-source"), ("P20", "puerta_02", "territorial-product"),
+           ("P30", "puerta_03", "electoral-source"), ("P30", "puerta_04", "electoral-product"))
+
+
+def ruta_manifiesto(territory_id: str, run_id: str) -> str:
+    return f"territorios/{territory_id}/evidencia/ejecuciones_completas/{run_id}.json"
+
+
+def _huellas(alm, campana: str, territorio: str) -> dict[str, dict]:
+    regs = ce._registros(alm, campana)
+    out = {}
+    for paso in ce.PASOS:
+        u = ce._ultimo(regs, territorio, paso)
+        out[paso] = (u[1].get("huellas") or {}) if u and u[1].get("estado") == "ok" else {}
+    return out
+
+
+def argumentos_manifiesto(alm, campana: str, territorio: str, run_id: str, source_sha: str, evidencia: Path) -> list[str]:
+    """Argumentos de escribir_manifest_ejecucion_completa.py para un territorio sano, desde las huellas de la cadena (la
+    misma información que la 00 pasa desde los `needs.puerta_0X.outputs`). Las cuatro puertas pasaron (son obligatorias
+    en sus pasos): validación VALIDADO. La publicación no es de la cadena: «05» no pedida (P40 registra la suya)."""
+    h = _huellas(alm, campana, territorio)
+    plan, optim = h["P10"].get("plan") or {}, h["P20"].get("optimizacion") or {}
+    faltan = [k for k in ("territory_id", "territory_name", "edition", "modo") if not plan.get(k)]
+    if not optim.get("effective_algorithm"):
+        faltan.append("optimizacion.effective_algorithm")
+    args = ["--territory-id", str(plan.get("territory_id", "")), "--territory-name", str(plan.get("territory_name", "")),
+            "--edition", str(plan.get("edition", "")), "--execution-mode", str(plan.get("modo", "")),
+            "--optimization-algorithm", "Canónico", "--optimization-evidence", str(evidencia),
+            "--workflow-run-id", str(run_id), "--source-sha", source_sha,
+            "--publication-mode-requested", "electoral", "--publication-mode-effective", "electoral",
+            "--publish-requested", "false", "--publish-result", "skipped"]
+    for fase in ("prepare-territorial", "generate", "prepare-electoral", "incorporate"):
+        args += [f"--{fase}-result", "success", f"--{fase}-executed", "true"]
+    for paso, puerta, prefijo in PUERTAS:
+        p = h[paso].get(puerta) or {}
+        for campo in ("run_id", "artifact_name", "artifact_digest", "phase_decision"):
+            if not str(p.get(campo) or "").strip():
+                faltan.append(f"{puerta}.{campo}")
+        args += [f"--{prefijo}-run-id", str(p.get("run_id", "")), f"--{prefijo}-artifact", str(p.get("artifact_name", "")),
+                 f"--{prefijo}-digest", str(p.get("artifact_digest", "")), f"--{prefijo}-validation", "VALIDADO",
+                 f"--{prefijo}-phase-decision", str(p.get("phase_decision", ""))]
+    if faltan:
+        raise RegistroError(f"CIERRE_MANIFIESTO_INCOMPLETO: {territorio} sin {', '.join(faltan)} en las huellas de la cadena")
+    evidencia.write_text(json.dumps({"requested_algorithm": optim.get("requested_algorithm") or "Canónico",
+                                     "effective_algorithm": optim["effective_algorithm"],
+                                     "fallback": bool(optim.get("fallback", False)),
+                                     "fallback_reason": optim.get("fallback_reason")}, ensure_ascii=False), encoding="utf-8")
+    return args
+
+
+def manifiestos(root: Path, alm, campana: str, run_id: str, source_sha: str, territorios: list[str]) -> list[str]:
+    """Escribe el manifiesto de ejecución completa de cada territorio (P40 resuelve con él); devuelve las rutas."""
+    if not re.fullmatch(r"[0-9a-f]{40}", source_sha or ""):
+        raise RegistroError(f"source_sha no válido: {source_sha!r}")
+    rutas_m = []
+    with tempfile.TemporaryDirectory() as td:
+        for t in sorted(territorios):
+            evidencia = Path(td) / f"{t}_optimizacion.json"
+            args = argumentos_manifiesto(alm, campana, t, run_id, source_sha, evidencia)
+            rel = ruta_manifiesto(args[1], run_id)
+            r = subprocess.run([sys.executable, str(ESCRITOR), *args, "--output", str(Path(root) / rel)],
+                               capture_output=True, text=True)
+            if r.returncode != 0:
+                raise RegistroError(f"CIERRE_MANIFIESTO_INCOMPLETO: {t}: {r.stderr.strip()[-400:]}")
+            if json.loads((Path(root) / rel).read_text(encoding="utf-8")).get("status") != "SUCCESS":
+                raise RegistroError(f"CIERRE_MANIFIESTO_INCOMPLETO: {t}: el manifiesto no sale SUCCESS")
+            rutas_m.append(rel)
+    return rutas_m
+
+
 def mensaje_cierre(campana: str, huella: str) -> str:
     return f"P00 campaña {campana} · cierre · huella {huella}"
 
 
-def cerrar(root: Path, alm, campana: str, ref: str, run_id: str, intentos: int = 3, backoff=rem.espera,
+def cerrar(root: Path, alm, campana: str, ref: str, run_id: str, source_sha: str, intentos: int = 3, backoff=rem.espera,
            borrar_r2=None) -> dict:
     root = Path(root).resolve()
     sem = ce.leer_semaforo(alm, campana)
     rec = ce.recuento(alm, campana, final=True)
     sanos = sorted(t for t, f in rec["territorios"].items() if f["estado"] == "sano")
-    plan = ce.plan_cierre(alm, campana, ref, run_id, sem["eleccion"]["ensayo"], rutas(alm, campana, sanos), ROOT)  # RUTAS_ROBOT de la versión fija
+    ensayo_ = sem["eleccion"]["ensayo"]
+    # Rutas de los manifiestos sin escribirlos todavía (se escriben en `aplicar`, sobre el HEAD remoto de cada intento).
+    with tempfile.TemporaryDirectory() as td:
+        rutas_m = [] if ensayo_ else manifiestos(Path(td), alm, campana, run_id, source_sha, sanos)
+    plan = ce.plan_cierre(alm, campana, ref, run_id, ensayo_, rutas(alm, campana, sanos) + rutas_m, ROOT)  # RUTAS_ROBOT de la versión fija
     rama, huella = plan["rama"], plan["huella"]
     if not plan["commit"]:
         ce.registrar_cierre(alm, campana, huella, rama, None)
@@ -268,6 +349,7 @@ def cerrar(root: Path, alm, campana: str, ref: str, run_id: str, intentos: int =
 
     def aplicar(r: Path) -> None:
         componer(r, alm, campana, sanos)
+        manifiestos(r, alm, campana, run_id, source_sha, sanos)
         retiradas[:] = retirar_m06(r, campana, sanos)
 
     rutas_commit = sorted(set(plan["ficheros"]) | ({ar.MANIFIESTO} if (root / ar.MANIFIESTO).is_file() else set()))
@@ -332,6 +414,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--root-dir", default=".")
     p.add_argument("--ref", required=True)
     p.add_argument("--run-id", required=True)
+    p.add_argument("--source-sha", required=True, help="versión de la campaña (GITHUB_SHA), para el manifiesto")
     p = comunes(sub.add_parser("componer"), territorio=False)
     p.add_argument("--root-dir", default=".")
     p.add_argument("--territorios", required=True)
@@ -345,7 +428,7 @@ def main(argv: list[str] | None = None) -> int:
                          ns.intento)
             print(json.dumps([e["ruta"] for e in c["entradas"]], ensure_ascii=False))
         elif ns.accion == "cerrar":
-            print(json.dumps(cerrar(Path(ns.root_dir), alm, ns.campana, ns.ref, ns.run_id), ensure_ascii=False))
+            print(json.dumps(cerrar(Path(ns.root_dir), alm, ns.campana, ns.ref, ns.run_id, ns.source_sha), ensure_ascii=False))
         elif ns.accion == "rutas":
             print("\n".join(rutas(alm, ns.campana, _territorios(ns.territorios))))
         else:
