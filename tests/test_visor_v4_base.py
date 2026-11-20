@@ -26,8 +26,8 @@ class PortadaV4(unittest.TestCase):
         for pag in PAGINAS:
             h = _txt(pag)
             for ref in re.findall(r'(?:href|src)="([^"#:?]+)(?:[?#][^"]*)?"', h):
-                if ref.startswith("../docs/"):  # T-423: Datos, Metodología y Fuentes las genera P40 (Zensical) de documentacion_publica/docs/*.md
-                    self.assertTrue((DOCS / ref[len("../docs/"):].replace(".html", ".md")).is_file(), f"{pag}: {ref}")
+                if ref.startswith("docs/"):  # T-423: Datos, Metodología y Fuentes las genera P40 (Zensical) de documentacion_publica/docs/*.md (T-428: V4 en la raíz)
+                    self.assertTrue((DOCS / ref[len("docs/"):].replace(".html", ".md")).is_file(), f"{pag}: {ref}")
                     continue
                 destino = (V4 / ref).resolve()
                 self.assertTrue(destino.exists(), f"{pag}: {ref}")
@@ -63,14 +63,15 @@ class PortadaV4(unittest.TestCase):
         plantilla = _txt("cabecera.html").split("-->\n", 1)[1].strip()
         self.assertEqual(plantilla.count("<a "), 5)  # marca + 4 del menú; sin botones a la derecha en ninguna página
         quitar = lambda h: re.sub(r'\{% if actual == "[^"]+" %\}|\{% endif %\}| aria-current="page"', "", h)
-        paginas = {"index.html": ("", "../docs/"), "comprender.html": ("", "../docs/"), "auditoria-registro.html": ("", "../docs/"),
-                   "mapa/index.html": ("../", "../../docs/")}
-        for pag, (v4, docs) in paginas.items():
+        # T-428: la V4 se sirve en la raíz del sitio (docs/ al lado); la documentación vive en /docs/ (V4 = ../)
+        paginas = {"index.html": ("", "docs/", "./"), "comprender.html": ("", "docs/", "./"), "auditoria-registro.html": ("", "docs/", "./"),
+                   "mapa/index.html": ("../", "../docs/", "../")}
+        for pag, (v4, docs, inicio) in paginas.items():
             h = re.search(r'<header class="site-header[^"]*">.*?</header>', _txt(pag), re.S).group(0)
-            self.assertEqual(quitar(h), plantilla.replace("{V4}", v4).replace("{DOCS}", docs), pag)
+            self.assertEqual(quitar(h), plantilla.replace("{V4}", v4).replace("{DOCS}", docs).replace("{INICIO}", inicio), pag)
         zens = (DOCS.parent / "overrides/main.html").read_text(encoding="utf-8")
         h = re.search(r'<header class="site-header[^"]*">.*?</header>', zens, re.S).group(0)
-        self.assertEqual(quitar(h), plantilla.replace("{V4}", "../v4/").replace("{DOCS}", ""), "Datos/Metodología/Fuentes")
+        self.assertEqual(quitar(h), plantilla.replace("{V4}", "../").replace("{DOCS}", "").replace("{INICIO}", "../"), "Datos/Metodología/Fuentes")
         self.assertIn("cabecera.html", _txt("NO_PUBLICAR.txt").split())  # la plantilla no se publica
 
     def test_sin_nomenclatura_m_en_texto_visible(self):
@@ -102,7 +103,7 @@ class PortadaV4(unittest.TestCase):
             nav = re.search(r'<nav class="main-nav"[^>]*>(.*?)</nav>', _txt(pag), re.S).group(1)
             self.assertEqual(re.findall(r">([^<]+)</a>", nav), menu, pag)
         inv = re.search(r'id="investigacion".*?</section>', _txt("index.html"), re.S).group(0)
-        self.assertIn('href="../docs/metodo.html"', inv)
+        self.assertIn('href="docs/metodo.html"', inv)
         zens = (DOCS.parent / "overrides/main.html").read_text(encoding="utf-8")
         toml = (DOCS.parent / "zensical.toml").read_text(encoding="utf-8")
         for t in [_txt(p) for p in ("index.html", "comprender.html", "mapa/index.html", "cabecera.html", "app.js")] + [zens, toml, (DOCS / "index.md").read_text(encoding="utf-8")]:
@@ -185,7 +186,7 @@ class PortadaV4(unittest.TestCase):
         self.assertEqual((hu["escanos"], hu["k407"]), (3, 2))
         for t in ("<strong>350</strong> escaños", "<strong>407</strong> distritos", "Hoy elige 3 diputados", "tendría 2 distritos"):
             self.assertIn(t, h)
-        for ref in ('href="mapa/"', 'href="../docs/metodo.html"'):
+        for ref in ('href="mapa/"', 'href="docs/metodo.html"'):
             self.assertIn(ref, re.search(r'class="routes saber-mas".*?</section>', h, re.S).group(0))
 
     def test_pie_identico_con_reserva_y_sin_auditoria(self):

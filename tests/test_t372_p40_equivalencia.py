@@ -18,6 +18,7 @@ from pathlib import Path
 
 import yaml
 
+from tests import _t428
 from tests._uses_sin_version import cargar as cargar_sin_version
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -80,6 +81,7 @@ LINEAS_V4_T409 = {l.strip() for l in CP_V4_T409.splitlines()}
 def diferencias(viejo, nuevo):
     """Diferencias NO permitidas del job de publicación (vacía = equivalente)."""
     a, b = sin_ensemble(viejo["jobs"]["publicar"]), nuevo["jobs"]["publicar"]
+    b = {**b, "steps": _t428.deshacer(b["steps"])}  # T-428 (P40 1.3.0): V4 en la raíz; se deshace solo eso
     d = []
     if a["environment"] != b["environment"]:
         d.append("entorno")

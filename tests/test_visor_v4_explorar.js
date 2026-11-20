@@ -43,7 +43,7 @@ function csvs(k) {
 const dvIndex = { schema: "ddd.v4-doble-vuelta/1.0", eleccion: "2023-07", territorios: [] };
 NAC.forEach((k, n) => {
   const t = index.territorios[k];
-  fixtures["../../datos/" + t.geojson.ruta] = { type: "FeatureCollection",
+  fixtures["../datos/" + t.geojson.ruta] = { type: "FeatureCollection",
     features: t.distritos.map((x, j) => ({ type: "Feature", geometry: sq(n, j * .02), properties: { distrito: x.distrito, district_pop: x.poblacion, section_count: 1 } })) };
   const [r, d] = csvs(k);
   bin["datos/" + k + "/resultados_doble_vuelta.csv"] = r;
@@ -58,10 +58,10 @@ const prov28 = provincias.features.find(f => f.properties.cod === "28");
 const clave28 = Object.entries(index.territorios).find(([, v]) => v.provincia === "Madrid")[0];
 const d1 = index.territorios[clave28].distritos[0].distrito;
 Object.assign(fixtures, {
-  "../../v2/datos/provincias.json": provincias, "../../v2/datos/comunidades.json": comunidades, "../../datos/INDEX.json": index,
-  "../../v2/datos/secciones/INDEX.json": { provincias: { "28": {} } },
-  "../../v2/datos/secciones/28.geojson": { type: "FeatureCollection", features: [{ type: "Feature", geometry: prov28.geometry, properties: { s: "2807912003", m: "Madrid", p: 1622, d: d1 } }] },
-  "../../v2/datos/territorial.json": { provincias: {} }, "calendario.json": {}
+  "../v2/datos/provincias.json": provincias, "../v2/datos/comunidades.json": comunidades, "../datos/INDEX.json": index,
+  "../v2/datos/secciones/INDEX.json": { provincias: { "28": {} } },
+  "../v2/datos/secciones/28.geojson": { type: "FeatureCollection", features: [{ type: "Feature", geometry: prov28.geometry, properties: { s: "2807912003", m: "Madrid", p: 1622, d: d1 } }] },
+  "../v2/datos/territorial.json": { provincias: {} }, "calendario.json": {}
 });
 
 const el = {}, group = {};

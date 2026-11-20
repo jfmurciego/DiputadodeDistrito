@@ -1,23 +1,25 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: visor V4 · Explorar (V3 completa + doble vuelta)
- * VERSIÓN: 1.1.0
+ * VERSIÓN: 1.2.0
  * FECHA: 2026-11-20
  * ESTADO: candidato
- * CAMBIOS: 1.1.0 (T-427): la capa «Doble vuelta» también en el ámbito «Autonómico» con la autonómica vigente de cada comunidad (índice 1.1):
+ * CAMBIOS: 1.2.0 (T-428, D-184): la V4 se sirve en la raíz del sitio y Explorar en /mapa/, a la misma profundidad que la V3: las rutas
+ *   del sitio pasan de ../../ a ../ (las mismas que la V3); la doble vuelta sigue en datos/ junto a la página (P40 la escribe en mapa/datos/).
+ *   1.1.0 (T-427): la capa «Doble vuelta» también en el ámbito «Autonómico» con la autonómica vigente de cada comunidad (índice 1.1):
  *   pinta los distritos del M08 publicado solo si su ejecución es la del índice (`run_m08`); id público = district_id interno + 1 (T-135);
  *   comunidades sin doble vuelta, con su motivo declarado. El ámbito nacional, idéntico.
  *   1.0.0: copia íntegra de v3.js 1.3.0 de la V3 (MapLibre, vista nacional, comunidad, provincia, distrito, municipio y sección
  *   censal, calendario, paletas, paneles, procedencia, galería y tabla) con rutas a ../../ y una capa electoral más, «Doble vuelta»
  *   (D-172): reglas «Tres bloques» (dv_A, por defecto), «Dos bloques» (dv_B), «Sin coaliciones» (dv_base) y «Más votado» (primero),
  *   coloreado por bloque (claro si la ventaja es < 5 puntos), ficha por distrito con primera y segunda vuelta y aviso fijo
- *   «Simulación sin valor oficial». Lee lo que deja P40 en v4/mapa/datos/ (herramientas/publicar_doble_vuelta.py) y verifica sha256.
+ *   «Simulación sin valor oficial». Lee lo que deja P40 en mapa/datos/ (antes v4/mapa/datos/) (herramientas/publicar_doble_vuelta.py) y verifica sha256.
  * MOTIVO: T-423, la V4 es la portada de la autora + la V3 completa enriquecida con la doble vuelta (decisión del propietario, 19-11).
- * ANTERIOR: legacy/visor/v4/mapa/explorar_v1.0.0_20261120.js */
+ * ANTERIOR: legacy/visor/v4/mapa/explorar_v1.1.0_20261120.js (1.1.0: legacy/visor/v4/mapa/explorar_v1.0.0_20261120.js) */
 "use strict";
 (function () {
-  const BASE={provincias:"../../v2/datos/provincias.json",comunidades:"../../v2/datos/comunidades.json",
-    indices:"../../datos/INDEX.json",secciones:"../../v2/datos/secciones/",territorial:"../../v2/datos/territorial.json",
-    productos:"../../data/viewer-results.json",calendario:"calendario.json",procedencia:"../../datos/catalogo_procedencia.json",dv:"datos/"};
+  const BASE={provincias:"../v2/datos/provincias.json",comunidades:"../v2/datos/comunidades.json",
+    indices:"../datos/INDEX.json",secciones:"../v2/datos/secciones/",territorial:"../v2/datos/territorial.json",
+    productos:"../data/viewer-results.json",calendario:"calendario.json",procedencia:"../datos/catalogo_procedencia.json",dv:"datos/"};
   const PALETA={PP:"#1d6fb8",PSOE:"#d32b2b",VOX:"#5fa335",SUMAR:"#cf2a7b",PODEMOS:"#8750b5",
     "EAJ-PNV":"#2c5e36","EH BILDU":"#0f7a52",ERC:"#f0ac00",JUNTS:"#18a99b",BNG:"#7cb2d8",CC:"#e8c400",
     UPN:"#3a55a2",OTROS:"#9aa3ad"};
@@ -274,7 +276,7 @@
     const cod=f.properties.cod;if(D.districtCache.has(cod))return D.districtCache.get(cod);
     const e=getProvinceEntry(f);
     if(!e?.data?.geojson?.ruta)throw Error("No hay producto de distritos acreditado para "+f.properties.nombre);
-    const raw=await getJson("../../datos/"+e.data.geojson.ruta);
+    const raw=await getJson("../datos/"+e.data.geojson.ruta);
     const features=raw.features.map(g=>{
       const d=Number(g.properties?.distrito??g.properties?.district_id??g.properties?.district),m=metaOfDistrict(f,d);
       const gp=g.properties||{};
@@ -339,7 +341,7 @@
     let product=newest(items.filter(x=>x.territory_id===region),kind);
     if(!product&&kind==="canonical_m08")product=newest(items.filter(x=>x.territory_id===region),"canonical_m06");
     if(!product)return {collection:empty(),product:null};
-    const raw=await getJson("../../"+product.viewer_path);
+    const raw=await getJson("../"+product.viewer_path);
     if(raw.type!=="FeatureCollection"||!Array.isArray(raw.features))
       throw Error("Producto territorial inválido "+product.id);
     const collection={type:"FeatureCollection",features:raw.features.map((x,i)=>{
