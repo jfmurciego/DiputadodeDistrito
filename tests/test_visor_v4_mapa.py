@@ -101,7 +101,7 @@ class CapaDobleVuelta(unittest.TestCase):
     def test_reglas_aviso_y_datos_de_p40(self):
         h, js = _txt(MAPA / "index.html"), _txt(MAPA / "explorar.js")
         reglas = re.search(r'<div class="segment segment-4" id="regla">(.*?)</div>', h, re.S).group(1)
-        self.assertEqual(re.findall(r">([^<]+)</button>", reglas), ["Tres bloques", "Dos bloques", "Sin coaliciones", "Más votado"])
+        self.assertEqual(re.findall(r">([^<]+)</button>", reglas), ["Tres bloques", "Dos bloques", "Sin coaliciones", "Mayoría simple en el distrito"])
         self.assertEqual(re.findall(r'data-value="(\w+)"', reglas), ["tres", "dos", "base", "primero"])
         self.assertIn('<option value="doblevuelta" selected>', h)
         self.assertIn("Simulación sin valor oficial.", h)
@@ -121,7 +121,7 @@ class CapaDobleVuelta(unittest.TestCase):
         for f in ("index.html", "explorar.js", "dv.js"):
             t = _txt(MAPA / f)
             self.assertNotIn("/v3/", t)
-            self.assertIsNone(re.search(r"(src|href)=\"https?://", t), f)
+            self.assertIsNone(re.search(r"(src|href)=\"https?://", re.sub(r'<link rel="canonical"[^>]*>', "", t)), f)
 
     def test_ejemplos_coinciden_con_la_herramienta(self):
         with tempfile.TemporaryDirectory() as d:

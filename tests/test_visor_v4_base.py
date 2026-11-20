@@ -55,7 +55,7 @@ class PortadaV4(unittest.TestCase):
         for pag in PAGINAS:
             h = _txt(pag)
             self.assertNotIn("/v3/", h, pag)
-            self.assertNotIn("diputadodedistrito.es", h, pag)
+            self.assertNotIn("diputadodedistrito.es", re.sub(r"<(?:link|meta)[^>]*diputadodedistrito\.es[^>]*>", "", h), pag)  # T-429: canonical y og son absolutos por norma
         self.assertIn('href="mapa/"', _txt("index.html"))
 
     def test_cabecera_identica_en_todas_las_paginas(self):
@@ -121,7 +121,7 @@ class PortadaV4(unittest.TestCase):
         for f in PAGINAS + ["styles.css", "app.js", "catalogo-mapas.js", "assets-manifest.json", "NOTICE.md"]:
             self.assertIsNone(malo.search(_txt(f)), f)
         for pag in PAGINAS:
-            for u in re.findall(r'(?:src|href)="(https?://[^"]+)"', _txt(pag)):
+            for u in re.findall(r'(?:src|href)="(https?://[^"]+)"', re.sub(r'<link rel="canonical"[^>]*>', "", _txt(pag))):
                 self.assertTrue(u.startswith(("https://orcid.org/", "https://www.linkedin.com/")), f"{pag}: {u}")
         self.assertNotRegex(_txt("styles.css"), r"url\(\s*['\"]?https?:|@import")
 
@@ -216,7 +216,7 @@ class PortadaV4(unittest.TestCase):
         self.assertIn("tokens-bloques.css", h)
         # texto definitivo del propietario (19-11), con las correcciones ortográficas evidentes
         self.assertIn("La doble vuelta garantiza que el diputado sea elegido por la mayoría de su distrito. Si ningún candidato obtiene mayoría "
-                      "aritmética en la primera votación, los dos más votados irán a la segunda. Así, las minorías pueden negociar apoyos y hacer "
+                      "absoluta de los votos a candidaturas en la primera votación, los dos más votados irán a la segunda. Así, las minorías pueden negociar apoyos y hacer "
                       "públicos sus acuerdos antes de la elección definitiva. Así aseguramos que el ciudadano tenga la última palabra, no los partidos.", h)
         for malo in ("artimetica", "irana", "Asi "):
             self.assertNotIn(malo, h)

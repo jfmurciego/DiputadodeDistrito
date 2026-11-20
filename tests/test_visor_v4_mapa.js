@@ -6,7 +6,7 @@ const rd = f => fs.readFileSync(dir + f, "utf8"), datos = DV.cargar(rd("resultad
 assert.deepStrictEqual(DV.leerEnlace("?territorio=nac01&regla=dos"), { territorio: "nac01", regla: "dos" });
 assert.strictEqual(DV.leerEnlace("").regla, "tres"); assert.strictEqual(DV.leerEnlace("?regla=zzz").regla, "tres");
 // 2. Orden y textos de las reglas
-assert.deepStrictEqual(DV.REGLAS.map(r => r.texto), ["Tres bloques", "Dos bloques", "Sin coaliciones", "Más votado"]);
+assert.deepStrictEqual(DV.REGLAS.map(r => r.texto), ["Tres bloques", "Dos bloques", "Sin coaliciones", "Mayoría simple en el distrito"]);
 // 3. Ejemplo T-409 §7 en «Tres bloques»: izq 45 – pat 40, nac 15 abstención, 52,9 %
 let f = DV.ficha("EJ1", "tres", datos);
 assert.strictEqual(f.titular, "Decide la segunda vuelta · gana Izquierdas (bloque) con el 52,9 %");
@@ -42,7 +42,7 @@ const dp = DV.cargar(cabR + "1,primero,1,PSOE,Izquierdas,40,0.4,,,,,,,false\n", 
 f = DV.ficha("1", "primero", dp);
 assert.strictEqual(f.titular, "Gana PSOE con el 40,0 % de los votos, sin segunda vuelta");
 assert.strictEqual(f.segunda, null); assert.strictEqual(f.nota1, "Gana la candidatura más votada: no hay segunda vuelta");
-assert.deepStrictEqual(DV.comparacion("1", dp), [{ id: "primero", texto: "Más votado", ganador: "PSOE", bloque: "Izquierdas" }]);
+assert.deepStrictEqual(DV.comparacion("1", dp), [{ id: "primero", texto: "Mayoría simple en el distrito", ganador: "PSOE", bloque: "Izquierdas" }]);
 // 12. Comparación entre reglas en el ejemplo: una entrada por regla con datos, en el orden de los botones; «Tres bloques» = Izquierdas (T-409 §7)
 const cmp = DV.comparacion("EJ1", datos);
 assert.deepStrictEqual(cmp.map(c => c.id), ["tres", "dos", "base"]);

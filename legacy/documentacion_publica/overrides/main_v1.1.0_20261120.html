@@ -1,0 +1,18 @@
+{#- PROYECTO: Diputado de Distrito · VERSIÓN: 1.1.0 · FECHA: 2026-11-20 · ESTADO: candidato
+    CAMBIOS 1.1.0: T-428 (D-184), la V4 en la raíz: menú y recursos con ../ (antes ../v4/), marca e «Inicio» → ../ (la raíz del sitio, «/» en el dominio). ANTERIOR: legacy/documentacion_publica/overrides/main_v1.0.0_20261119.html
+    CAMBIOS: T-423, cabecera única (visor/v4/cabecera.html), menú y pie de la V4 en la documentación (Metodología).
+    MOTIVO: todo el sitio dentro del diseño de la V4 (propietario, 19-11). ANTERIOR (1.0.0): ninguna (fichero nuevo) -#}
+{% extends "base.html" %}
+{% block header %}
+{%- set actual = page.url if page else "" -%}
+<header class="site-header v4-header"><div class="wrap header-inner">
+<a class="brand" href="../" aria-label="Diputado de Distrito, inicio"><img src="../assets/logotipo_espana.webp" alt="" width="59" height="47"><span>DIPUTADO<br>DE DISTRITO</span></a>
+<button class="menu-toggle" type="button" data-menu aria-expanded="false" aria-controls="main-nav">Menú</button>
+<nav class="main-nav" id="main-nav" data-nav aria-label="Navegación principal">
+<a href="../">Inicio</a><a href="../comprender.html">Comprender</a><a href="../mapa/">Explorar</a><a href="metodo.html"{% if actual == "metodo.html" %} aria-current="page"{% endif %}>Metodología</a>
+</nav></div></header>
+{% endblock %}
+{% block footer %}
+<footer class="footer v4-footer"><div class="wrap footer-inner"><div><strong>© 2026 Jesús Francisco Murciego Vidal. Todos los derechos reservados.</strong><p>El autor se reserva el ejercicio de las acciones legales que correspondan frente al plagio, la reproducción no autorizada y la falsa atribución de autoría.</p></div></div></footer>
+<script src="../app.js" defer></script>
+{% endblock %}

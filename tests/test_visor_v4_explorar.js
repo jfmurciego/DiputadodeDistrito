@@ -137,7 +137,7 @@ const flush = async () => { for (let i = 0; i < 60; i++) await new Promise(r => 
   assert.match(ficha, /Decide la segunda vuelta · gana Izquierdas \(bloque\) con el 57,1 %/);
   assert.match(ficha, /1\.ª vuelta/); assert.match(ficha, /2\.ª vuelta<\/h3><p>Izquierdas \(bloque\) 40 · Patriotas \(bloque\) 30 · abstención 15/);
   assert.match(ficha, /Nacionalistas \(bloque\)<\/td><td>→ abstención \(su bloque no tiene finalista\)/);
-  for (const r of ["Tres bloques → Izquierdas (bloque)", "Dos bloques → Patriotas (bloque)", "Sin coaliciones → PSOE", "Más votado → PP"]) assert.ok(ficha.includes(r), r);
+  for (const r of ["Tres bloques → Izquierdas (bloque)", "Dos bloques → Patriotas (bloque)", "Sin coaliciones → PSOE", "Mayoría simple en el distrito → PP"]) assert.ok(ficha.includes(r), r);
   assert.match(ficha, /Simulación sin valor oficial/);
   // 5. Sección censal: hereda el bloque de su distrito (no un recuento propio).
   element("level").value = "seccion"; element("level").onchange({ target: element("level") }); await flush();
