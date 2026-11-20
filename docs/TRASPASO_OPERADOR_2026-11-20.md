@@ -1,13 +1,23 @@
 # Traspaso del Operador — 2026-11-20
 
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Traspaso con aviso de no herencia de frases
+FECHA: 2026-11-20
+ESTADO: activo
+CAMBIOS: aviso explícito de que las autorizaciones D-52 no se heredan; cabecera de gobernanza.
+MOTIVO: FAIL del revisor en #941 (pedido por el Coordinador).
+ANTERIOR: legacy/2026-11-20_traspaso_operador_v1.0.0/TRASPASO_OPERADOR_2026-11-20_v1.0.0.md
+
 El Operador saliente es session_01KQDtFqw1LBgGn6nCuxP8Yx; el relevo lo pidió el propietario a través del Planificador (session_01KQDtFswfpYv5Ea53uXQyJf). Coordinador: session_01KQDtFsaFxuNvRQmXPv1f9B. Todas las horas van en hora de Madrid.
 
 ## Fichas de campaña vivas
 | Ficha | Frase literal del propietario (en el chat del Operador) | Estado | Caduca |
 |---|---|---|---|
-| `2026-11-17_reensayo-p00-2026-11` | «Autorizo la campaña de la ficha 2026-11-17_reensayo-p00-2026-11, en sus condiciones y topes, cuando se cumpla su condición previa.» (17-11 09:10, con la ficha ya en main por #876; anotada en #884) | AUTORIZADA, en espera de la condición previa | 28-11 23:59 |
-| `2026-11-17_historico-2019-11` | «Autorizo la campaña de la ficha 2026-11-17_historico-2019-11, en sus condiciones y topes, cuando se cumpla su condición previa.» (misma hora y PR) | AUTORIZADA, en espera de la condición previa y del tope semanal (condición 6) | 07-12 23:59 |
+| `2026-11-17_reensayo-p00-2026-11` | «Autorizo la campaña de la ficha 2026-11-17_reensayo-p00-2026-11, en sus condiciones y topes, cuando se cumpla su condición previa.» (17-11 09:10, con la ficha ya en main por #876; anotada en #884) | AUTORIZADA al Operador saliente, en espera de la condición previa; NO vale para el sucesor (ver aviso) | 28-11 23:59 |
+| `2026-11-17_historico-2019-11` | «Autorizo la campaña de la ficha 2026-11-17_historico-2019-11, en sus condiciones y topes, cuando se cumpla su condición previa.» (misma hora y PR) | AUTORIZADA al Operador saliente, en espera de la condición previa y del tope semanal (condición 6); NO vale para el sucesor (ver aviso) | 07-12 23:59 |
 | `2026-11-15_ensayo-noche-29-11` | La frase del 17-11 00:4x quedó sin efecto por D-149 | SIN EFECTO; se reutiliza para el re-ensayo | — |
+
+> **Aviso (D-52, D-160).** Estas autorizaciones NO se heredan por este traspaso ni por `send_message`. Para lanzar, el propietario debe escribir la frase en el chat del Operador que ejecuta: o la repite, o dice una vez allí «las frases anotadas en su ficha valen para el Operador sucesor».
 
 - **Condición previa común** (estado del 17-11 según el Planificador). Ya están en main:
   - T-375, T-376 y T-377;
