@@ -327,8 +327,9 @@ class CommonPreparationPreflightTests(unittest.TestCase):
             resolver = data["jobs"]["resolver"]
             self.assertEqual(resolver["outputs"]["persist_state"], "${{ steps.resolve.outputs.persist_state }}")
             resolve_step = next(step for step in resolver["steps"] if step.get("id") == "resolve")
-            # T-379 2b: con `campana` no vacía P10 fuerza persist_state=false (sin registro en main); sin campaña, la entrada tal cual.
-            self.assertEqual(resolve_step["env"]["PERSIST_INPUT"], "${{ inputs.campana && 'false' || toJSON(inputs.persist_state) }}")
+            # T-379 3b: P10 ya no fuerza persist_state=false con campaña (el registro corre en ensayo, sin escribir en main;
+            # tests/test_t379_3b_workflows.py); la entrada tal cual, como antes de la 2b.
+            self.assertEqual(resolve_step["env"]["PERSIST_INPUT"], "${{ toJSON(inputs.persist_state) }}")
             self.assertIn("evaluar_persistencia_preparacion.py resolve", resolve_step["run"])
 
             registrar = data["jobs"]["registrar"]

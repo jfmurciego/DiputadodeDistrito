@@ -177,7 +177,8 @@ class ElectoralProductConcurrentRegistrationTests(unittest.TestCase):
         all_steps = incorporate["steps"]
         compatible_checkout = next(step for step in all_steps
                                    if step.get("name") == "Cargar persistidor vigente compatible con main")
-        self.assertEqual(compatible_checkout["with"]["ref"], "main")
+        # T-379 3b: sin campaña, main como siempre; con campaña, la versión fija de la campaña (registro en ensayo)
+        self.assertEqual(compatible_checkout["with"]["ref"], "${{ inputs.campana && github.sha || 'main' }}")
         self.assertEqual(compatible_checkout["with"]["path"], "persistidor")
         register_steps = all_steps[all_steps.index(compatible_checkout):]
         self.assertLess(all_steps.index(capture), all_steps.index(compatible_checkout))
