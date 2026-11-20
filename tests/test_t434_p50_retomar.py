@@ -381,6 +381,18 @@ class PruebaSinRelease(Congelado):
         self.assertTrue(evaluar(cr["if"], "nueva", "Zenodo"))
         self.assertNotIn("if", paso(self.viejo["jobs"]["publicar"], "Crear Release"))  # la 1.1.0 la creaba siempre
 
+    def test_atestacion_solo_con_destino_zenodo_y_sin_otros_cambios(self):
+        n = paso(self.nuevo["jobs"]["publicar"], "Atestación de procedencia (SLSA, Sigstore)")
+        v = paso(self.viejo["jobs"]["publicar"], "Atestación de procedencia (SLSA, Sigstore)")
+        self.assertFalse(evaluar(n["if"], "nueva", "prueba"))
+        self.assertTrue(evaluar(n["if"], "nueva", "Zenodo"))
+        self.assertNotIn("if", v)  # la 1.1.0 atestaba también las pruebas
+        self.assertEqual({k: x for k, x in n.items() if k != "if"}, v)
+        for jn, job in self.nuevo["jobs"].items():
+            for s in job["steps"]:
+                if str(s.get("uses", "")).startswith("actions/attest"):
+                    self.assertEqual((jn, s.get("name")), ("publicar", "Atestación de procedencia (SLSA, Sigstore)"))
+
     def test_ningun_otro_paso_escribe_releases_ni_etiquetas(self):
         for jn, job in self.nuevo["jobs"].items():
             for s in job["steps"]:
@@ -424,6 +436,7 @@ class PruebaSinRelease(Congelado):
 CAMBIADOS = {("resolver", "Resolver"), ("publicar", "Descargar M06 del visor (sha256 verificado)"),
              ("publicar", "Añadir contexto de linaje"), ("publicar", "Manifiesto SHA-256"),
              ("publicar", "Empaquetar de forma determinista"), ("publicar", "Crear Release"),
+             ("publicar", "Atestación de procedencia (SLSA, Sigstore)"),
              ("zenodo", "Reunir ficheros del depósito (solo mapas, sin código)")}
 NUEVOS = {("publicar", "Guardar el lote de prueba (sin Release)"), ("zenodo", "Lote de prueba de este run (sin Release)")}
 

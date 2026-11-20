@@ -6,7 +6,7 @@
 #   usaba `paquetes/`, que choca con `paquetes/deslinde` (código del motor) y lo metió en la Release como ddd-deslinde-v1.0.0.tar.gz;
 #   el depósito solo toma los paquetes de los territorios de MAPAS.json (`zenodo_deposito.py preparar`). (2) Botón `accion`:
 #   «Retomar el depósito en Zenodo de la última versión» repite solo el job `zenodo` sobre la Release ya creada, sin versión nueva.
-#   (3) Con destino `prueba` no se crea Release: el lote viaja como artefacto del run al job `zenodo`.
+#   (3) Con destino `prueba` no se crea Release ni atestación (Sigstore): el lote viaja como artefacto del run al job `zenodo`.
 # CAMBIOS 1.1.0 (T-388, D-146): job `zenodo` tras la Release: deposita los mapas (CC BY 4.0, sin código) por la API de Zenodo; botón `destino` (prueba | Zenodo). 1.0.0: T-370 (D-133, migración paso 4): fichero nuevo; sustituye a publicar-version-mapa.yml 1.1.2 («P60 Publicación académica»).
 # MOTIVO: un solo botón sin parámetros técnicos: territorios (códigos o «todos» = los publicados). El M06 sale del visor
 #   (blob de orchestracion/publicaciones_visor.json con su sha256, no un artefacto de Actions). Versión automática (D-88/D-94).
@@ -195,6 +195,7 @@ jobs:
           jq '.mapa' plan.json > salida/MAPAS.json
 
       - name: Atestación de procedencia (SLSA, Sigstore)
+        if: ${{ inputs.destino == 'Zenodo' }}   # registro público (Sigstore): nunca para un paquete de prueba
         uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         with:
           subject-path: salida/ddd-*-v*.tar.gz
