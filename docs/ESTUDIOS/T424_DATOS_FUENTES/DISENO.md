@@ -24,7 +24,7 @@ Conclusión: escritas para quien mantiene el proyecto, no para quien lo visita. 
 ## 2. Inventario real (nada de memoria)
 
 **Paquete descargable** (`datos_abiertos/INDEX.json`, esquema `ddd.datos-abiertos/1.1`, generado por `herramientas/generar_datos_abiertos.py` en P40):
-- 52 provincias (`nac01`…`nac52`), **407 distritos**, elecciones generales 2023 (Congreso).
+- 52 provincias (`nac01`…`nac52`), **407 distritos** (suma de `n_distritos` de las 52 entradas de `INDEX.json`; nac22 = Huesca, comprobado ahí), elecciones generales 2023 (Congreso).
 - Por provincia: `distritos.geojson` (límites), `resultados.csv` (columnas `distrito, poblacion, votos_totales, ganador, votos_ganador, porcentaje_ganador`; **solo el ganador**), `distrito-<n>.html` (ficha), y sha256 de cada uno en `INDEX.json`.
 - Licencia: **CC BY 4.0**, atribución «Diputado de Distrito (https://github.com/jfmurciego/DiputadodeDistrito)»; las fuentes oficiales mantienen sus condiciones.
 - Los GeoJSON no se versionan en git; el publicador los reconstruye verificando sha256 (CLAUDE.md, «Los 49 GeoJSON M06»). Hay que confirmar qué queda realmente servido en `/datos/` (pregunta 1).
@@ -36,7 +36,7 @@ Conclusión: escritas para quien mantiene el proyecto, no para quien lo visita. 
 | Fuente | Qué se usa | Dónde consta |
 |---|---|---|
 | INE | Secciones censales (límites, colección anual 2010-2026, API OGC `www.ine.es/geoserver/ogc/features/v1/`); población por sexo y edad (tabla 65034); códigos territoriales (descargados el 10-11-2026, `fuentes/ine_codigos_territoriales_2026-11-10/SHA256SUMS`) | `fuentes/catalogo_oficial.yaml` 1.2.0, `orchestracion/fuentes_r2.json` |
-| Ministerio del Interior (Infoelectoral) | Resultados por mesa de las generales (p. ej. 23-07-2023: `02202307_MESA.zip`, sha256 y bytes en el contrato; cuadra con la JEC) | `configuracion/contratos_infoelectoral.yaml` 1.2.3 |
+| Ministerio del Interior (Infoelectoral) | Resultados por mesa de las generales (p. ej. 23-07-2023: `02202307_MESA.zip`, sha256 y bytes en el contrato; según el contrato, cuadra con la Resolución de la JEC de 30-08-2023 menos el CERA: por verificar por esta tarea) | `configuracion/contratos_infoelectoral.yaml` 1.2.3 |
 | BOE | Escaños y resultados oficiales de la Junta Electoral Central: 2011-11 (BOE-A-2011-19391, 10-12-2011), 2015-12 (BOE-A-2016-867), 2016-06 (BOE-A-2016-7133), 2019-04 (BOE-A-2019-8070), 2019-11 (BOE-A-2019-18147, corrección) y 2023 (BOE-A-2023-18907) | `configuracion/identificadores_boe_resultados_congreso.json`, `resultados_oficiales_congreso_*.json` |
 | Portales autonómicos | 17 comunidades, 79 elecciones autonómicas 2008-2026 (calendario): Junta de Andalucía (SIEL), Aragón Open Data, SADEI (Asturias), IBESTAT, Parlamento de Canarias, Castilla y León, Castilla-La Mancha, Generalitat de Catalunya, Generalitat Valenciana, Xunta de Galicia, Comunidad de Madrid, CREM (Murcia), Navarra, Gobierno Vasco, La Rioja, Junta Electoral de Extremadura. Cantabria sin URL. | `configuracion/calendario_autonomicas.csv` |
 
@@ -52,7 +52,7 @@ Ficheros nuevos (futuros, tras aprobar): `visor/v4/datos.html` y `visor/v4/fuent
 1. Qué puedes descargar (tarjetas: «Distritos de cada provincia», «Quién gana en cada distrito», «Doble vuelta»).
 2. Cómo se abren: un mapa en GeoJSON (se abre en QGIS o geojson.io), una tabla en CSV (Excel, Calc), una ficha en página web. Una frase por formato.
 3. Cómo comprobar que no ha cambiado («huella digital»): 3 pasos con ejemplo de una provincia; la huella de `INDEX.json` es el «DNI» del fichero.
-4. Licencia en dos líneas: puedes copiar y usar, también con fines comerciales, citando; lo oficial conserva sus condiciones.
+4. Licencia en dos líneas: la de DDD es CC BY 4.0 (consta en `INDEX.json`); lo oficial conserva sus condiciones. «También con fines comerciales» y las condiciones de INE, Interior y BOE: **por verificar** antes de afirmarlo.
 5. Lo que NO hay: votos por partido en cada distrito; secciones censales.
 
 **Fuentes** (por fuente): quién es, qué dato, fecha, enlace oficial, y «qué hicimos» en una frase (p. ej. «sumamos las secciones censales hasta formar distritos»; «no cambiamos ni un voto»). Al final, «cómo se comprobó» (cuadre con el BOE) en una línea.
@@ -88,17 +88,17 @@ Generación: las cifras (52, 407) y la tabla de fuentes se leerán de `INDEX.jso
  <ol><li>Descarga el fichero y el índice <code>INDEX.json</code>.</li>
      <li>Calcula su huella digital (una cadena de 64 letras y números): <a href="#">cómo, en Windows, Mac o móvil</a>.</li>
      <li>Si coincide con la del índice, es exactamente el mismo fichero. Si cambia una coma, la huella cambia entera.</li></ol></section>
-<section><h2>Licencia</h2><p>CC BY 4.0: úsalo libremente, también con fines comerciales, citando «Diputado de Distrito».</p></section></main>
+<section><h2>Licencia</h2><p>CC BY 4.0 (datos de DDD): úsalo citando «Diputado de Distrito». <!-- por verificar: usos comerciales y condiciones de INE/Interior/BOE --></p></section></main>
 ```
 
 ### 4.3 Página «Fuentes»
 
 ```html
 <main class="wrap"><h1>Fuentes</h1>
-<p>Solo usamos datos oficiales. Esto es de dónde sale cada uno y qué hicimos con él.</p>
+<p>Estos son los datos en los que nos basamos, de dónde salen y qué hicimos con ellos. <!-- por verificar: «solo oficiales», el calendario autonómico cita un tercero --></p>
 <table><thead><tr><th>Quién</th><th>Qué dato</th><th>Fecha</th><th>Qué hicimos</th></tr></thead><tbody>
 <tr><td><a href="https://www.ine.es">INE</a></td><td>Secciones censales y población</td><td>2026 (colección anual)</td><td>Agrupamos secciones en distritos de población parecida.</td></tr>
-<tr><td><a href="https://infoelectoral.interior.gob.es">Ministerio del Interior</a></td><td>Votos por mesa, 23-07-2023</td><td>23-07-2023</td><td>Sumamos los votos de cada distrito; no cambiamos ninguno.</td></tr>
+<tr><td><a href="https://infoelectoral.interior.gob.es">Ministerio del Interior</a></td><td>Votos por mesa, 23-07-2023</td><td>23-07-2023</td><td>Sumamos los votos de cada distrito. <!-- «sin cambiar ninguno»: por verificar con el cuadre de totales --></td></tr>
 <tr><td><a href="https://www.boe.es/diario_boe/xml.php?id=BOE-A-2023-18907">BOE</a></td><td>Escaños oficiales 2023</td><td>BOE-A-2023-18907</td><td>Comprobamos que nuestros totales cuadran con los oficiales.</td></tr>
 <tr><td>Portales autonómicos (17 comunidades)</td><td>Autonómicas 2008-2026</td><td>según comunidad</td><td>Enlace a cada portal en la lista de abajo.</td></tr>
 </tbody></table></main>
@@ -106,7 +106,7 @@ Generación: las cifras (52, 407) y la tabla de fuentes se leerán de `INDEX.jso
 
 ## 5. Preguntas abiertas (para el propietario)
 
-1. **¿Dónde se descarga?** Recomiendo enlaces directos a `/datos/` (ya servido, con `INDEX.json`) y un único ZIP por provincia solo si lo pides. Antes de aprobar compruebo qué hay servido hoy (no lo he podido ver desde aquí).
+1. **¿Dónde se descarga?** Recomiendo enlaces directos a `/datos/` (por verificar que estén servidos hoy) y un único ZIP por provincia solo si lo pides. No he podido ver desde aquí qué hay servido: por verificar antes de implementar.
 2. **Doble vuelta: ¿se ofrece y con qué licencia?** Recomiendo sí, mismo CC BY 4.0, añadiendo la tabla al paquete `datos_abiertos/` (cambio de `generar_datos_abiertos.py`, tarea aparte). Si no, la tarjeta se retira y se dice «próximamente»… o simplemente no se pone (prefiero lo segundo).
 3. **¿Autonómicas en «Fuentes»?** Recomiendo listarlas solo para las comunidades que Explorar ya muestre, para no prometer datos que no hay (T-421); el resto, una línea general.
 4. **¿Herramienta de huella en la página?** Recomiendo solo instrucciones (3 pasos, Windows/Mac), sin JavaScript: menos mantenimiento y sin cargar ficheros pesados.
@@ -114,6 +114,8 @@ Generación: las cifras (52, 407) y la tabla de fuentes se leerán de `INDEX.jso
 6. **Orden del menú:** Inicio · Comprender · Explorar · Datos · Fuentes · Metodología (recomendado). Metodología queda al final como «cómo se hace».
 7. **Enlaces oficiales:** ¿pongo enlace a cada ficha del BOE y del portal, o solo a la portada de cada organismo? Recomiendo ficha exacta (verificable), comprobando que responde antes de publicar.
 8. **Tiempo de las fechas:** ¿«fecha» = de publicación oficial o de nuestra descarga? Recomiendo ambas cuando existan (columnas separadas).
+
+9. **DECISIÓN 9 — ¿Apruebas este detalle para implementarlo?** Recomiendo sí, con las respuestas 1-8 incorporadas. Sin tu «sí» no se implementa nada.
 
 ## 6. Tamaño y siguiente paso
 
