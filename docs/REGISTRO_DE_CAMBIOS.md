@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.570
+Versión: 1.0.571
 Fecha: 2026-11-20
-Alcance: T-400 (D-185 1) — Total municipal del Censo 2011 para cuadrar las secciones sin población
+Alcance: T-435 — Diseño de la estructura de R2 (D-188)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-20_t400-total-municipal-censo.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.569_registro_20261120.md
+Cambios/motivo: entrada docs/registro/2026-11-20_t435-estructura-r2.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.570_registro_20261120.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.569_registro_20261120.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.571 · [2026-11-20 — T-435 — Diseño de la estructura de R2 (D-188)](registro/2026-11-20_t435-estructura-r2.md)
 - 1.0.570 · [2026-11-20 — T-400 (D-185 1) — Total municipal del Censo 2011 para cuadrar las secciones sin población](registro/2026-11-20_t400-total-municipal-censo.md)
 - 1.0.569 · [2026-11-20 — T-433 — Fijar el nuevo P75 de los aut (15 aut)](registro/2026-11-20_t-433-fijar-aut-v2.md)
 - 1.0.568 · [2026-11-20 — T-435 — Traspaso del Planificador (relevo por contexto)](registro/2026-11-20_planificador-traspaso.md)
