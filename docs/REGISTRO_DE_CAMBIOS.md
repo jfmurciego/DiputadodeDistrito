@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.553
+Versión: 1.0.554
 Fecha: 2026-11-20
-Alcance: T-423 — V4: portada + Explorar con la V3 completa y la doble vuelta como capa electoral
+Alcance: Operador — Traspaso del Operador (documento)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-19_t423-v4-v3-completa.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.552_registro_20261120.md
+Cambios/motivo: entrada docs/registro/2026-11-20_operador-traspaso.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.553_registro_20261120.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.552_registro_20261120.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.554 · [2026-11-20 — Operador — Traspaso del Operador (documento)](registro/2026-11-20_operador-traspaso.md)
 - 1.0.553 · [2026-11-19 — T-423 — V4: portada + Explorar con la V3 completa y la doble vuelta como capa electoral](registro/2026-11-19_t423-v4-v3-completa.md)
 - 1.0.552 · [2026-11-19 — T-422 — Id de distrito no numérico de nac02 en el publicador de la doble vuelta](registro/2026-11-19_t422-id-nac02.md)
 - 1.0.551 · [2026-11-19 — T-400 (D-180 1 y 2) — K por partición insular y exención de suelo en el histórico 2011-11](registro/2026-11-19_t400-reparto-k-particiones.md)
