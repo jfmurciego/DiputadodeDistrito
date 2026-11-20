@@ -21,15 +21,19 @@ sys.path.insert(0, str(ROOT / "herramientas"))
 import publicar_doble_vuelta as pdv  # noqa: E402
 from test_t419_publicar_doble_vuelta import Montaje, detalle, resultados, sha, zip_de, zips_buenos  # noqa: E402
 
+# id del visor de aut01 desde la tabla maestra (fuente independiente del publicador; T-220: sin literales viejos)
+LEG = next(l.strip().split(",")[-1] for l in (ROOT / "configuracion/notacion_territorial.csv").read_text(encoding="utf-8").splitlines()
+           if l.startswith("AUT01,"))
+CLAVE = f"{LEG}/3001/ddd-doble-vuelta-3001-p75-88-1.zip"
 ZA = zip_de(resultados(ids=(0, 1, 2)), detalle(ids=(0, 1, 2)))
 
 
 def con_aut(filas=None, eleccion="autonomicas", run="88-1", pin_run="88-1", motivo=True):
     def mod(m):
-        m.objetos["andalucia/3001/ddd-doble-vuelta-3001-p75-88-1.zip"] = ZA
+        m.objetos[CLAVE] = ZA
         fs = filas if filas is not None else [
             {"territorio": "aut01", "run": "3001", "estado": "OK", "eleccion": "2026-05", "sin_casar_pct": 0.0, "aproximado_en_distrito": False,
-             "nivel": "seccion", "sha256_salida": sha(ZA), "clave_r2": "andalucia/3001/ddd-doble-vuelta-3001-p75-88-1.zip"},
+             "nivel": "seccion", "sha256_salida": sha(ZA), "clave_r2": CLAVE},
             {"territorio": "aut03", "run": "3003", "estado": "SIN_VOTOS_AUTONOMICOS", "motivo": "sin votos" if motivo else None},
             {"territorio": "aut18", "run": "3018", "estado": "NO_APLICA", "motivo": "Ceuta no elige parlamento autonómico"}]
         inf = (json.dumps({"schema": "ddd.p75-informe/1.0", "eleccion": eleccion, "run_p75": run,
@@ -65,7 +69,9 @@ class PublicarAut(unittest.TestCase):
         self.assertIn("aut01/resultados_doble_vuelta.csv", s)
         self.assertNotIn("aut01/distritos.geojson", s)  # el visor pinta el M08 del registro
         a = next(t for t in ind["territorios"] if t["id"] == "aut01")
-        self.assertEqual((a["ambito"], a["clave_visor"], a["eleccion"], a["distritos"], a["run_m08"]), ("AUT", "andalucia", "2026-05", 3, "3001"))
+        self.assertEqual((a["ambito"], a["clave_visor"], a["eleccion"], a["distritos"], a["run_m08"]), ("AUT", LEG, "2026-05", 3, "3001"))
+        # ids: internos 0..2 en el ZIP de P75 → públicos 1..3 en el sitio (T-135), igual que los nac
+        self.assertEqual(sorted({l.split(",")[0] for l in s["aut01/resultados_doble_vuelta.csv"].decode().splitlines()[1:]}), ["1", "2", "3"])
         self.assertEqual(a["resultados"]["sha256"], sha(s["aut01/resultados_doble_vuelta.csv"]))
         self.assertEqual([t["ambito"] for t in ind["territorios"]], ["NAC", "NAC", "AUT"])
         self.assertEqual([(x["id"], x["estado"], x["motivo"]) for x in ind["sin_doble_vuelta"]],
@@ -75,6 +81,12 @@ class PublicarAut(unittest.TestCase):
 
     def test_sin_autonomicas_nada_cambia(self):
         ind, err, s = self.correr()
+        # índice 1.1: los nac llevan EXACTAMENTE las claves de la 1.0.1 más `ambito` (literal de la 1.0.1, revisor de #946)
+        claves_101 = {"id", "nombre", "etiqueta", "distritos", "run_m08", "sin_casar_pct", "sha256_paquete_p75", "resultados", "detalle", "geometria"}
+        for t in ind["territorios"]:
+            self.assertEqual(set(t), claves_101 | {"ambito"})
+            self.assertEqual(t["ambito"], "NAC")
+        self.assertEqual(ind["schema"], "ddd.v4-doble-vuelta/1.1")
         self.assertEqual(err, "")
         self.assertNotIn("autonomicas", ind)
         self.assertFalse(any(k.startswith("aut") for k in s))
