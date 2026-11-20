@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """T-420b: P74 Listar pasa `--duplicados --json` y sube el JSON; el resto de P70 no cambia (control contra la copia 1.1.1)."""
+import copy
 import hashlib
 import unittest
 from pathlib import Path
@@ -36,7 +37,11 @@ class P74Duplicados(unittest.TestCase):
     def test_resto_del_workflow_no_cambia(self):
         self.assertEqual(HUELLA, hashlib.sha256(ANT.read_bytes()).hexdigest())
         a = carga(ANT)
-        self.assertEqual(a["on"] if "on" in a else a[True], self.w["on"] if "on" in self.w else self.w[True])
+        on_a, on_w = (a["on"] if "on" in a else a[True]), copy.deepcopy(self.w["on"] if "on" in self.w else self.w[True])
+        # T-427 (P70 1.1.3): solo cambian las descripciones de `territorios` y `eleccion` (P75 de los aut); las fija tests/test_t427_p75_aut.py
+        for k in ("territorios", "eleccion"):
+            on_w["workflow_dispatch"]["inputs"][k]["description"] = on_a["workflow_dispatch"]["inputs"][k]["description"]
+        self.assertEqual(on_a, on_w)
         self.assertEqual(a.get("permissions"), self.w.get("permissions"))
         self.assertEqual(set(a["jobs"]), set(self.w["jobs"]))
         for n in a["jobs"]:

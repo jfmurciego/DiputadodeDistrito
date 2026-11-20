@@ -1,11 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: p70-archivo.yml
-# VERSIÓN: 1.1.2
+# VERSIÓN: 1.1.3
+# CAMBIOS 1.1.3: T-427: P75 también para los 19 `aut` con su autonómica vigente: `territorios` = `aut` (o códigos aut) en una ejecución aparte de los nac
+#   (herramientas/p75_doble_vuelta_r2.py 1.1.0; informe en doble_vuelta/autonomicas/<run>/). Solo cambian las descripciones; jobs y pasos, idénticos.
 # CAMBIOS 1.1.2: T-420b: P74 Listar llama a `listar_r2.py --duplicados --json` (solo lectura, T-420/#926), imprime el resumen en el log y en el resumen del job y sube el JSON como artefacto `p74-duplicados-<run>`. El resto, idéntico.
 # CAMBIOS 1.1.1: T-418 (D-178): P75 imprime en el log y en el resumen `INFORME_CLAVE=` e `INFORME_SHA256=` (y el sha256 y la clave de cada ZIP): es lo que se fija en
 #   configuracion/doble_vuelta_publicada.json para publicar la doble vuelta en P40. El resto, idéntico.
 # NOMBRE DE VERSIÓN: P70 Archivo
-# FECHA: 2026-11-16
+# FECHA: 2026-11-20
 # ESTADO: candidato
 # QUÉ HACE: único punto de entrada del archivo en R2 (D-131, D-132). Botón: acción = P71 archivar todo lo vivo | P71 archivar el paquete
 #   de fuentes de un territorio | P72 recuperar producto electoral | P72 recuperar composición M06 | P73 podar | P74 listar;
@@ -81,12 +83,12 @@ on:
         type: boolean
         default: true
       territorios:
-        description: 'Territorio (código, p. ej. aut01 o nac42): paquete de fuentes y producto electoral; composición M06: códigos separados por comas o vacío = todos; P75: códigos nac separados por comas o vacío = todos los nac'
+        description: 'Territorio (código, p. ej. aut01 o nac42): paquete de fuentes y producto electoral; composición M06: códigos separados por comas o vacío = todos; P75: códigos nac separados por comas o vacío = todos los nac; aut = los 19 autonómicos (o códigos aut), con su autonómica vigente'
         required: false
         type: string
         default: ''
       eleccion:
-        description: 'Elección (AAAA-MM, p. ej. 2023-07): producto electoral, composición M06 y P75 (vacío = 2023-07)'
+        description: 'Elección (AAAA-MM, p. ej. 2023-07): producto electoral, composición M06 y P75 de los nac (vacío = 2023-07; los aut usan su autonómica vigente)'
         required: false
         type: string
         default: ''
