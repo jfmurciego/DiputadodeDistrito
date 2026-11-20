@@ -2,9 +2,9 @@
 """T-399 (D-126/D-128): secciones del seccionado sin población en la tabla → rellenadas con el Atlas del año más cercano y ajuste municipal.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-17 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
-CAMBIOS: 1.0.0: fichero nuevo.
+VERSIÓN: 1.1.0 · FECHA: 2026-11-20 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_t399_sin_poblacion_v1.0.0_20261120.py
+CAMBIOS: 1.1.0: T-400 (D-185): total municipal del Censo 2011: residuo para la única sección sin dato de un municipio (36059: 0) y 36 pasa a LISTA. 1.0.0: fichero nuevo.
 MOTIVO: T-399 (D-158 B'). Atlas, tabla y seccionado sintéticos (valores esperados escritos a mano, no recalculados); sin red.
 """
 from __future__ import annotations
@@ -67,11 +67,25 @@ class RellenarSinPoblacion(unittest.TestCase):
         r = che.rellenar_sin_poblacion([N1], self.POB, ATLAS, 2011, {})  # municipio sin total oficial
         self.assertEqual((r["rellenadas"][0]["poblacion"], r["cuadre"][0]["estado"]), (60, "aviso_sin_total_municipal"))
 
-    def test_sin_dato_en_ningun_anio_no_se_inventa(self):
-        r = che.rellenar_sin_poblacion([N1, S], self.POB, ATLAS, 2011, {"22001": 450, "22002": 10})
+    def test_sin_dato_en_ningun_anio_y_sin_total_municipal_no_se_inventa(self):
+        r = che.rellenar_sin_poblacion([N1, S], self.POB, ATLAS, 2011, {"22001": 450})  # sin total de 22002
         self.assertEqual(r["sin_dato"], [S])
         self.assertEqual([x["seccion"] for x in r["rellenadas"]], [N1])   # S no aparece con 0
         self.assertEqual({x["municipio"]: x["estado"] for x in r["cuadre"]}["22002"], "aviso_sin_dato")
+
+    def test_unica_seccion_sin_dato_recibe_el_residuo_del_total_municipal(self):
+        pob = {**self.POB, "2200201002": {"poblacion": 15, "origen": "dato"}}
+        r = che.rellenar_sin_poblacion([S], pob, ATLAS, 2011, {"22002": 40})   # 40 − 15 = 25 (a mano)
+        self.assertEqual(r["sin_dato"], [])
+        self.assertEqual([(x["seccion"], x["poblacion"], x["ajuste"]) for x in r["rellenadas"]], [(S, 25, "residuo_municipal_censo")])
+        r = che.rellenar_sin_poblacion([S], pob, ATLAS, 2011, {"22002": 10})   # residuo −5: mínimo 0
+        self.assertEqual([(x["poblacion"], x["ajuste"]) for x in r["rellenadas"]], [(0, "residuo_municipal_censo")])
+        self.assertEqual(r["cuadre"][0]["exceso_sobre_censo"], 5)
+
+    def test_dos_secciones_sin_dato_en_un_municipio_siguen_sin_dato(self):
+        S2 = "2200201003"
+        r = che.rellenar_sin_poblacion([S, S2], self.POB, {**ATLAS, 2015: {**ATLAS[2015], S2: "."}}, 2011, {"22002": 40})
+        self.assertEqual(sorted(r["sin_dato"]), [S, S2])
 
 
 class AplicarRelleno(unittest.TestCase):
@@ -315,17 +329,17 @@ class CriterioDelUnoPorCiento(unittest.TestCase):
     def test_contrato_2011_11_con_el_criterio_nuevo(self):
         c = json.loads(che.ruta_contrato("2011-11").read_text(encoding="utf-8"))
         self.assertIn("D-161", c["poblacion"]["regla_publicacion"])
-        # 51 (1,70 %) y 36 (2,64 %) superan el 1 %; 15, 22, 29, 34 y 47 (con el criterio de madre+hijas enteras superaban el 1 %) ya no
+        # 51 (1,70 %) supera el 1 %; 36 (2,64 %) bajó a 0,65 % con el total municipal del Censo (D-185); 15, 22, 29, 34 y 47 (con el criterio de madre+hijas enteras superaban el 1 %) ya no
         pct = {k: float(c["provincias"][k]["poblacion"]["pct_no_dato"]) for k in ("15", "22", "29", "34", "47", "36", "51")}
-        self.assertTrue(pct["51"] > 1 and pct["36"] > 1)
+        self.assertTrue(pct["51"] > 1 and pct["36"] <= 1)
         self.assertTrue(all(pct[k] <= 1 for k in ("15", "22", "29", "34", "47")), pct)
         self.assertEqual(c["provincias"]["51"]["estado"], "BLOQUEADA_RELLENO")
-        self.assertEqual(c["provincias"]["36"]["estado"], "BLOQUEADA_SIN_DATO")  # además de > 1 %, una sección sin dato en ningún año
+        self.assertEqual(c["provincias"]["36"]["estado"], "LISTA")  # D-185: su única sección sin dato recibe el residuo municipal del Censo
         for k in ("15", "22", "29", "34", "47"):
             self.assertEqual(c["provincias"][k]["estado"], "LISTA", k)
         estados = {k: p["estado"] for k, p in c["provincias"].items()}
         self.assertEqual({e: sum(v == e for v in estados.values()) for e in set(estados.values())},
-                         {"LISTA": 44, "APARTADA_VOTOS": 5, "BLOQUEADA_SIN_DATO": 2, "BLOQUEADA_RELLENO": 1})
+                         {"LISTA": 45, "APARTADA_VOTOS": 5, "BLOQUEADA_SIN_DATO": 1, "BLOQUEADA_RELLENO": 1})  # D-185: 36 pasa a LISTA
 
     def test_las_otras_elecciones_no_cambian_de_criterio(self):
         for e in ("2015-12", "2016-06", "2019-04", "2019-11"):  # sin reparto madre/hijas: mismo cómputo que con D-126
@@ -364,9 +378,12 @@ class ContratoDe2011(unittest.TestCase):
             self.assertNotIn("madres_verificadas_contra_censo", json.loads(che.ruta_contrato(e).read_text(encoding="utf-8"))["poblacion"])
         self.assertEqual(c["provincias"]["08"]["poblacion"]["secciones_sin_dato"], ["0804703001"])  # sin dato en ningún año: no se inventa
         self.assertEqual(c["provincias"]["08"]["estado"], "BLOQUEADA_SIN_DATO")
-        self.assertEqual(c["provincias"]["36"]["poblacion"]["secciones_sin_dato"], ["3605901003"])
-        self.assertIsNone(c["poblacion"]["total_municipal_oficial"]["fuente"])  # sin tabla oficial: sin ajuste, declarado
-        self.assertEqual(sum(len(p["poblacion"].get("sin_poblacion_resuelto", {}).get("rellenadas", [])) for p in c["provincias"].values()), 42)
+        self.assertEqual(c["provincias"]["36"]["poblacion"]["secciones_sin_dato"], [])  # D-185: residuo del total municipal (6.073 − 6.075 < 0 → 0)
+        r36 = {x["seccion"]: x for x in c["provincias"]["36"]["poblacion"]["sin_poblacion_resuelto"]["rellenadas"]}["3605901003"]
+        self.assertEqual((r36["poblacion"], r36["ajuste"]), (0, "residuo_municipal_censo"))
+        decl = json.loads((ROOT / "configuracion/historico_epoca/total_municipal_censo_2011.json").read_text(encoding="utf-8"))
+        self.assertEqual(c["poblacion"]["total_municipal_oficial"]["sha256"], decl["fuente"]["sha256"])
+        self.assertEqual(sum(len(p["poblacion"].get("sin_poblacion_resuelto", {}).get("rellenadas", [])) for p in c["provincias"].values()), 43)  # 42 con Atlas + 3605901003 con el residuo municipal
 
 
 class ContratosVersionados(unittest.TestCase):
@@ -382,8 +399,8 @@ class ContratosVersionados(unittest.TestCase):
                     if not r:
                         continue
                     self.assertEqual(r["habitantes_rellenados"], sum(x["poblacion"] for x in r["rellenadas"]))
-                    self.assertEqual(r["habitantes_atlas"], sum(x["poblacion_atlas"] for x in r["rellenadas"]))
-                    self.assertTrue(all(x["poblacion"] > 0 and x["seccion"][:2] == cpro for x in r["rellenadas"]))
+                    self.assertEqual(r["habitantes_atlas"], sum(x["poblacion_atlas"] or 0 for x in r["rellenadas"]))
+                    self.assertTrue(all(x["poblacion"] >= 0 and x["seccion"][:2] == cpro for x in r["rellenadas"]))
                     self.assertTrue(set(r["sin_dato"]) <= set(pb["secciones_sin_dato"]))
                     if r["sin_dato"]:
                         self.assertEqual(p["estado"], "BLOQUEADA_SIN_DATO")  # sin dato en ningún año: no se inventa

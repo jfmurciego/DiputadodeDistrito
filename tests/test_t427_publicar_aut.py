@@ -105,16 +105,16 @@ class PublicarAut(unittest.TestCase):
 
 
 class FijadoAut(unittest.TestCase):
-    """`autonomicas` del fijado: literales de la huella verificada en el log del job de P75 (run 44723958051, intento 1, 13/19 OK)."""
+    """`autonomicas` del fijado: literales de la huella verificada en el log del job de P75 (run 44747623035, intento 1, 15/19 OK)."""
 
     def setUp(self):
         self.pin = json.loads((ROOT / pdv.FIJADO).read_text(encoding="utf-8"))["autonomicas"]
 
     def test_valores_fijados(self):
         self.assertEqual(sorted(self.pin), ["informe_clave", "informe_sha256", "run_p75"])
-        self.assertEqual(self.pin["run_p75"], "44723958051-1")
-        self.assertEqual(self.pin["informe_clave"], "doble_vuelta/autonomicas/44723958051-1/INFORME.json")
-        self.assertEqual(self.pin["informe_sha256"], "2b5b5dc578d40621c4f4f73a0209f2883428c9d8d50034ec41127981933f39ea")
+        self.assertEqual(self.pin["run_p75"], "44747623035-1")
+        self.assertEqual(self.pin["informe_clave"], "doble_vuelta/autonomicas/44747623035-1/INFORME.json")
+        self.assertEqual(self.pin["informe_sha256"], "e38bd3f5c9ba44f51656a54aeed84345b6da831f18c7c71e242b5c6d0a06d2da")
 
     def test_otro_informe_con_ese_nombre_falla_cerrado(self):
         with tempfile.TemporaryDirectory() as t, tempfile.TemporaryDirectory() as d:
