@@ -65,3 +65,22 @@ class DatosGenerados(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class FueraDeDistritos(unittest.TestCase):
+    """El MANIFEST declara lo que queda fuera de los distritos; con ello se llega al total oficial (valores de la fuente)."""
+
+    def _m(self, aut):
+        import json
+        return json.loads((DV / aut / "202305" / "MANIFEST.json").read_text(encoding="utf-8"))["cuadre"]
+
+    def test_aut14_total_oficial_676554(self):
+        c = self._m("aut14")
+        f = c["fuera_de_distritos"]
+        self.assertEqual(c["votos_salida"] + f["otros_votos"] + f["cera_votos_a_candidaturas_excluidos"], 676554)  # fila «Región de Murcia» del CREM
+
+    def test_aut03_ausentes_declarados_y_total_oficial(self):
+        c = self._m("aut03")
+        aus = c["fuera_de_distritos"]["votos_ausentes_no_repartidos"]
+        self.assertEqual(c["votos_salida"] + sum(aus.values()), 527500)  # fila ASTURIES de SADEI: votos a candidaturas
+        self.assertEqual(aus["PSOE"], 2431)

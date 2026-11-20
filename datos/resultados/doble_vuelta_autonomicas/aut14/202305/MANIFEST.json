@@ -4,6 +4,11 @@
  "composicion_sha256": "04c94f2ff809fb9b5e8a1b096ffbca98d61f5d02d3e5c2128428f38080ca53b2",
  "cuadre": {
   "distritos": 45,
+  "fuera_de_distritos": {
+   "cera_votos_a_candidaturas_excluidos": 2558,
+   "otros_votos": 14715,
+   "votos_a_candidaturas": 673996
+  },
   "ok": true,
   "votos_entrada": 659281,
   "votos_salida": 659281

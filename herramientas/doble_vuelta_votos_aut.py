@@ -41,7 +41,7 @@ def mayor_resto(valores: dict) -> dict:
 
 
 def construir(aut: str, eleccion: str, run: str, entrada: Path, nivel: str, salida: Path,
-              fuentes: dict | None = None, raiz: Path = ROOT) -> dict:
+              fuentes: dict | None = None, fuera: dict | None = None, raiz: Path = ROOT) -> dict:
     comp_path = raiz / f"datos/composicion/runs/{aut}_{run}.csv"
     with comp_path.open(encoding="utf-8", newline="") as f:
         comp = [(r["seccion"], r["distrito"], int(r["poblacion"])) for r in csv.DictReader(f)]
@@ -92,7 +92,8 @@ def construir(aut: str, eleccion: str, run: str, entrada: Path, nivel: str, sali
     man = {"schema": "ddd.doble-vuelta-votos-aut/1.0", "territorio": aut, "eleccion": eleccion, "run_m08": run,
            "composicion_ruta": f"datos/composicion/runs/{aut}_{run}.csv", "composicion_sha256": sha256(comp_path), "aproximado_en_distrito": nivel == "municipio", "nivel": nivel,
            "entrada_sha256": sha256(entrada), "fuentes": {"composicion": sha256(comp_path), **(fuentes or {})},
-           "cuadre": {"ok": True, "votos_entrada": total_in, "votos_salida": total_out, "distritos": len(por_distrito)}}
+           "cuadre": {"ok": True, "votos_entrada": total_in, "votos_salida": total_out, "distritos": len(por_distrito),
+                      "fuera_de_distritos": fuera or {}}}
     (salida / "MANIFEST.json").write_text(json.dumps(man, ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
     return man
 
@@ -109,7 +110,9 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     j = json.loads(a.fuentes.read_text(encoding="utf-8")) if a.fuentes else {}
     fu = j.get("fuentes") or ({"fuente": j["fuente"]} if "fuente" in j else None)
-    m = construir(a.aut, a.eleccion, a.run, a.entrada, a.nivel, a.salida, fu)
+    # votos del total oficial que no llegan a ningún distrito, declarados (C.E.R.A./ausentes y candidaturas sin desglosar)
+    fuera = {k: j[k] for k in ("otros_votos", "cera_votos_a_candidaturas_excluidos", "votos_ausentes_no_repartidos", "votos_a_candidaturas") if k in j}
+    m = construir(a.aut, a.eleccion, a.run, a.entrada, a.nivel, a.salida, fu, fuera)
     print(json.dumps(m["cuadre"]))
     return 0
 
