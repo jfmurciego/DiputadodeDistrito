@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.566
+Versión: 1.0.567
 Fecha: 2026-11-20
-Alcance: T-432 — Inventario completo de R2 (P74 Listar)
+Alcance: T-433 — Plan 1.0.72: D-183 a D-187
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-20_t432-inventario-r2.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.565_registro_20261120.md
+Cambios/motivo: entrada docs/registro/2026-11-20_planificador-plan-1-0-72.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.566_registro_20261120.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.565_registro_20261120.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.567 · [2026-11-20 — T-433 — Plan 1.0.72: D-183 a D-187](registro/2026-11-20_planificador-plan-1-0-72.md)
 - 1.0.566 · [2026-11-20 — T-432 — Inventario completo de R2 (P74 Listar)](registro/2026-11-20_t432-inventario-r2.md)
 - 1.0.565 · [2026-11-20 — T-430 — Diseño de la web editable en minutos (solo documento)](registro/2026-11-20_t430-diseno-web-editable.md)
 - 1.0.564 · [2026-11-20 — T-429 — Correcciones de texto de la V4 y etiquetas para compartir](registro/2026-11-20_t429-textos-v4.md)
