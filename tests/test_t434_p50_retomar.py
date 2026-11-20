@@ -298,10 +298,11 @@ class Retomar(Congelado):
             (d / "MAPAS_srv.json").write_text(json.dumps(mapas_previo))
             bin_ = d / "bin"
             bin_.mkdir()
+            lista_tags = " ".join(tags) or '""'  # fuera del f-string: Python < 3.12 no admite «\\» dentro de las llaves
             (bin_ / "gh").write_text(
                 "#!/bin/bash\n"
                 f'case "$*" in\n'
-                f'  *"/releases --paginate"*) printf "%s\\n" {" ".join(tags) or "\"\""} | grep . || true ;;\n'
+                f'  *"/releases --paginate"*) printf "%s\\n" {lista_tags} | grep . || true ;;\n'
                 f'  *"matching-refs"*) : ;;\n'
                 f'  *"/releases/tags/"*) echo 77 ;;\n'
                 f'  *"/releases/assets/77"*) cat "{d}/MAPAS_srv.json" ;;\n'
