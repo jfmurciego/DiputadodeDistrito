@@ -68,7 +68,10 @@ class SinTerceros(unittest.TestCase):
         self.assertIn("cp -R visor/v2/. /tmp/site-candidate/v2/", wf)
         for p in _publicados({".html"}):
             for ref in re.findall(r'(?:src|href)="([^"]*vendor/maplibre-gl/5\.7\.0/[^"]+)"', p.read_text(encoding="utf-8")):
-                self.assertTrue((p.parent / ref).resolve().is_file(), (p, ref))
+                base = p.parent  # T-428: visor/v4/ se publica en la raíz del sitio (junto a v2/), no en /v4/
+                if (VISOR / "v4") in p.parents or p.parent == VISOR / "v4":
+                    base = VISOR / p.parent.relative_to(VISOR / "v4")
+                self.assertTrue((base / ref).resolve().is_file(), (p, ref))
 
     def test_ningun_visor_usa_unpkg(self):
         for p in list(_publicados({".html", ".js", ".css"})) + [ROOT / "ddd_ensemble" / "gallery.py"]:
