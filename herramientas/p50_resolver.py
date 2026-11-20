@@ -3,17 +3,21 @@
 """Resolutor de P50 Publicación académica (T-370, D-133): territorios, M06 del visor y versión automática.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.1
+VERSIÓN: 1.1.0
 NOMBRE DE VERSIÓN: Resolutor de P50 Publicación académica
-FECHA: 2026-11-16
+FECHA: 2026-11-20
 ESTADO: candidato
-CAMBIOS: 1.0.1: la lista de etiquetas incluye las del repositorio (no solo Releases publicadas) y la versión candidata que ya existe como etiqueta se niega (P50_TAG_EXISTE).
-ANTERIOR: legacy/herramientas/p50_resolver_v1.0.0_20261116.py
+CAMBIOS: 1.1.0 (T-434): `retomar --tags F --mapas MAPAS.json` da el plan de la última Release ya creada (misma versión y
+  territorios de su MAPAS.json), sin versión nueva, para repetir solo el depósito de Zenodo; el plan lleva `modo`.
+CAMBIOS 1.0.1: la lista de etiquetas incluye las del repositorio (no solo Releases publicadas) y la versión candidata que ya existe como etiqueta se niega (P50_TAG_EXISTE).
+ANTERIOR: legacy/herramientas/p50_resolver_v1.0.1_20261120.py
 CAMBIOS 1.0.0: fichero nuevo (T-370).
 QUÉ HACE: `ultima --tags FICHERO` imprime la última etiqueta `mapas-v<X.Y.Z>` (vacío si no hay).
   `plan --territorios T --tags FICHERO [--previo MAPAS.json]` resuelve cada territorio a su M06 vigente de
   `orchestracion/publicaciones_visor.json` (blob + sha256; «todos» = los publicados) y da la versión: 1.0.0 la primera;
   sube la menor si el mapa (territorio → sha256 del M06) cambia respecto de la última Release; se NIEGA si no cambia.
+  `retomar --tags FICHERO --mapas MAPAS.json` NO crea versión: devuelve la última etiqueta y los territorios de su Release
+  (su MAPAS.json); se niega si no hay ninguna versión o si la Release no trae MAPAS.json.
   `blob --blob-sha S --sha256 H --salida F` baja el blob del visor y comprueba su sha256 (fallo cerrado).
   Los errores salen por stderr con rc 1; stdout solo lleva el resultado.
 """
@@ -105,10 +109,25 @@ def plan(root: Path, territorios: str, tags: str, previo: dict | None) -> dict:
     if f"{PREFIJO}{v}" in {l.strip() for l in tags.splitlines()}:  # tag suelto o de una Release borrada/archivada: no se reutiliza
         raise ValueError(f"P50_TAG_EXISTE: {PREFIJO}{v} ya existe como etiqueta; no se reutiliza")
     return {
-        "version": v, "tag": f"{PREFIJO}{v}", "mapa": mapa,
+        "modo": "nueva", "version": v, "tag": f"{PREFIJO}{v}", "mapa": mapa,
         "territorios": [{"territory_id": t, "run_id": str(p["run_id"]), "blob_sha": p["blob_sha"], "sha256": p["sha256"]}
                         for t, p in sel.items()],
     }
+
+
+def retomar(tags: str, mapas: dict | None) -> dict:
+    """Plan para repetir SOLO el depósito de la última Release ya creada: misma versión, sin etiqueta nueva."""
+    tag = ultima(tags)
+    if not tag:
+        raise ValueError("P50_SIN_VERSION_QUE_RETOMAR: no hay ninguna Release mapas-v<versión> creada")
+    if not isinstance(mapas, dict) or not mapas:
+        raise ValueError(f"P50_SIN_MAPAS_PREVIO: la Release {tag} no trae MAPAS.json (o no es una Release publicada)")
+    for t, h in mapas.items():
+        if not _TERR.match(str(t)) or not re.fullmatch(r"[0-9a-f]{64}", str(h)):
+            raise ValueError(f"P50_MAPAS_INVALIDO: entrada «{t}» del MAPAS.json de {tag}")
+    v = tag[len(PREFIJO):]
+    return {"modo": "retomar", "version": v, "tag": tag, "mapa": dict(sorted(mapas.items())),
+            "territorios": [{"territory_id": t} for t in sorted(mapas)]}
 
 
 def bajar(blob_sha: str, sha256: str, salida: Path, repo: str) -> None:
@@ -134,6 +153,9 @@ def main(argv: list[str]) -> int:
     p.add_argument("--territorios", required=True)
     p.add_argument("--tags", required=True)
     p.add_argument("--previo", default="")
+    rt = sub.add_parser("retomar", help="plan de la última Release ya creada (solo el depósito de Zenodo)")
+    rt.add_argument("--tags", required=True)
+    rt.add_argument("--mapas", default="")
     b = sub.add_parser("blob", help="baja un M06 del visor y verifica su sha256")
     b.add_argument("--blob-sha", required=True)
     b.add_argument("--sha256", required=True)
@@ -146,6 +168,9 @@ def main(argv: list[str]) -> int:
         elif a.cmd == "plan":
             prev = json.loads(Path(a.previo).read_text(encoding="utf-8")) if a.previo and Path(a.previo).is_file() else None
             print(json.dumps(plan(Path(a.root), a.territorios, Path(a.tags).read_text(encoding="utf-8"), prev), indent=2))
+        elif a.cmd == "retomar":
+            mp = json.loads(Path(a.mapas).read_text(encoding="utf-8")) if a.mapas and Path(a.mapas).is_file() else None
+            print(json.dumps(retomar(Path(a.tags).read_text(encoding="utf-8"), mp), indent=2))
         else:
             bajar(a.blob_sha, a.sha256, Path(a.salida), a.repo)
     except (ValueError, OSError, KeyError, json.JSONDecodeError) as exc:
