@@ -445,7 +445,8 @@ class Fijado(unittest.TestCase):
 
     def test_formato(self):
         import re
-        self.assertEqual(sorted(self.pin), ["eleccion", "informe_clave", "informe_sha256", "run_p75", "schema"])
+        # T-427: `autonomicas` (P75 de los aut) es opcional; su formato lo fija tests/test_t427_publicar_aut.py
+        self.assertEqual(sorted(k for k in self.pin if k != "autonomicas"), ["eleccion", "informe_clave", "informe_sha256", "run_p75", "schema"])
         self.assertEqual(self.pin["schema"], "ddd.doble-vuelta-publicada/1.0")
         self.assertRegex(self.pin["eleccion"], r"^\d{4}-\d{2}$")
         self.assertRegex(self.pin["run_p75"], r"^\d+-\d+$")  # GITHUB_RUN_ID-GITHUB_RUN_ATTEMPT

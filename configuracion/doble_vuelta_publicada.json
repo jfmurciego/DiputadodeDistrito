@@ -3,5 +3,10 @@
   "eleccion": "2023-07",
   "run_p75": "44575597009-1",
   "informe_clave": "doble_vuelta/2023-07/44575597009-1/INFORME.json",
-  "informe_sha256": "c127f66b074a37319b864a090c7585c6db4ccc923482e11342b147e69194711c"
+  "informe_sha256": "c127f66b074a37319b864a090c7585c6db4ccc923482e11342b147e69194711c",
+  "autonomicas": {
+    "run_p75": "44723958051-1",
+    "informe_clave": "doble_vuelta/autonomicas/44723958051-1/INFORME.json",
+    "informe_sha256": "2b5b5dc578d40621c4f4f73a0209f2883428c9d8d50034ec41127981933f39ea"
+  }
 }
