@@ -67,13 +67,14 @@ class V4ContieneV3(unittest.TestCase):
             self.assertIn(marca, self.h4)
 
     def test_mismo_motor_y_mismas_fuentes(self):
-        # MapLibre con la misma integridad SRI; mismas fuentes de datos, un nivel más abajo (/v4/mapa/ en lugar de /v3/)
+        # MapLibre con la misma integridad SRI; mismas fuentes de datos y a la misma profundidad (/mapa/ en la raíz, como /v3/; T-428)
         for sri in re.findall(r'integrity="(sha384-[^"]+)"', self.h3):
             self.assertIn(sri, self.h4)
         for ruta in ("v2/datos/provincias.json", "v2/datos/comunidades.json", "datos/INDEX.json", "v2/datos/secciones/",
                      "v2/datos/territorial.json", "data/viewer-results.json", "datos/catalogo_procedencia.json"):
             self.assertIn('"../' + ruta, self.j3)
-            self.assertIn('"../../' + ruta, self.j4)
+            self.assertIn('"../' + ruta, self.j4)
+            self.assertNotIn('"../../' + ruta, self.j4)
         self.assertEqual(_txt(MAPA / "calendario.json"), _txt(V3 / "calendario.json"))
         # funciones de la V3 que siguen en la V4 (vista nacional, provincia, distrito, sección, calendario, paletas, paneles)
         for fn in re.findall(r"\n  (?:async )?function (\w+)\(", self.j3):

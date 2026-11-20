@@ -39,11 +39,11 @@ bin["datos/INDEX.json"] = Buffer.from(JSON.stringify({ schema: "ddd.v4-doble-vue
 const prod = (t, run) => ({ territory_id: t, kind: "canonical_m08", viewer_path: "data/" + t + ".geojson", publication_status: "PUBLICABLE", run_id: run, label: "M08" });
 const capa = n => ({ type: "FeatureCollection", features: [0, 1].map(i => ({ type: "Feature", geometry: sq(n + i * .02, 37), properties: { district_id: i, winner_party: "PP" } })) });
 const fixtures = {
-  "../../v2/datos/provincias.json": provincias, "../../v2/datos/comunidades.json": comunidades, "../../datos/INDEX.json": index,
-  "../../v2/datos/secciones/INDEX.json": { provincias: {} }, "../../v2/datos/territorial.json": { provincias: {} },
+  "../v2/datos/provincias.json": provincias, "../v2/datos/comunidades.json": comunidades, "../datos/INDEX.json": index,
+  "../v2/datos/secciones/INDEX.json": { provincias: {} }, "../v2/datos/territorial.json": { provincias: {} },
   "calendario.json": { [AND]: [["202206", "jun. 2022"], ["202605", "may. 2026"]], [CAN]: [["202305", "may. 2023"]], [AST]: [["202305", "may. 2023"]] },
-  "../../data/viewer-results.json": { results: [prod(AND, "500"), prod(CAN, "700"), prod(AST, "600")] },
-  ["../../data/" + AND + ".geojson"]: capa(-5), ["../../data/" + CAN + ".geojson"]: capa(-15), ["../../data/" + AST + ".geojson"]: capa(-6)
+  "../data/viewer-results.json": { results: [prod(AND, "500"), prod(CAN, "700"), prod(AST, "600")] },
+  ["../data/" + AND + ".geojson"]: capa(-5), ["../data/" + CAN + ".geojson"]: capa(-15), ["../data/" + AST + ".geojson"]: capa(-6)
 };
 
 const el = {}, group = {};
