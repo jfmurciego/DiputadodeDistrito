@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# VERSIÓN: 1.0.0
-# FECHA: 2026-11-08
+# VERSIÓN: 1.1.0
+# FECHA: 2026-11-21
 # ESTADO: candidato
-# CAMBIOS: T-87, fichero nuevo.
+# CAMBIOS 1.1.0 (T-379 3c-ii): `resolver(root, run, territorio)` acepta el territorio y solo busca su registro: en una campaña de
+#   P00 todos los territorios comparten run (sin territorio, igual que la 1.0.0: dos registros del run → REGISTRO_00_DUPLICADO).
+# ANTERIOR (1.0.0): legacy/herramientas/resolver_cadena_publicacion_v1.0.0_20261121.py
+# CAMBIOS 1.0.0: T-87, fichero nuevo.
 # MOTIVO: la cadena de publicación debe resolver el run origen de una 00 «Reutilizar» antes de publicar.
 # ANTERIOR: ninguna (fichero nuevo)
 """T-87 · Resuelve, desde el registro durable de una 00, qué publicar en la cadena 05 + versión de mapa.
@@ -16,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -38,14 +42,15 @@ def _validada(fase: dict) -> bool:
     )
 
 
-def resolver(root: Path, run_id: str) -> dict:
+def resolver(root: Path, run_id: str, territorio: str | None = None) -> dict:
     run_id = str(run_id).strip()
     reasons: list[str] = []
     out: dict = {"requested_run_id": run_id, "status": "BLOCK", "reasons": reasons}
     if not run_id.isdigit():
         reasons.append("PRODUCTION_RUN_ID_NO_NUMERICO")
         return out
-    registros = sorted(root.glob(f"territorios/*/evidencia/ejecuciones_completas/{run_id}.json"))
+    carpeta = territorio if territorio and re.fullmatch(r"[a-z0-9_]+", territorio) else "*"
+    registros = sorted(root.glob(f"territorios/{carpeta}/evidencia/ejecuciones_completas/{run_id}.json"))
     if not registros:
         reasons.append("REGISTRO_00_AUSENTE")
         return out

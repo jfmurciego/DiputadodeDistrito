@@ -5,7 +5,10 @@ Los artefactos de Actions sólo pueden actuar como fuente transitoria de una
 promoción. El registro definitivo acepta únicamente activos persistentes con
 ubicación inmutable e integridad SHA-256 verificable.
 
-VERSIÓN: 1.8.1 · FECHA: 2026-11-12 · ESTADO: candidato
+VERSIÓN: 1.9.0 · FECHA: 2026-11-21 · ESTADO: candidato
+CAMBIOS 1.9.0 (T-379 3c-ii): `parse_run_ids` admite también `<run>:<espacio de campaña>` (`campaign-<run>-<intento>--<hueco>--<t>`,
+  del mismo run): en una campaña de P00 los territorios comparten run y P40 publica un par por territorio. Un run a secas, igual.
+ANTERIOR (1.8.1): legacy/herramientas/registro_publicaciones_visor_v1.8.1_20261121.py
 CAMBIOS 1.8.0 (T-249): publicar un territorio es registrar el PAR. `candidate` (CLI) rechaza, todo o nada, si en un
   territorio tocado por las entradas canónicas el M08 vigente falta o no es del linaje del M06 vigente
   (`linaje_m06_m08.pares_incompletos`: mismo run o manifiesto del run del M08 que acredita la 02 del M06). `make_candidate`
@@ -323,14 +326,15 @@ def rechazar_mapa_350(territory_id: str) -> None:
 
 
 RUN_ID_RE = re.compile(r"^[0-9]+$")
+LOTE_CAMPANA_RE = re.compile(r"^(?P<run>[0-9]+):campaign-(?P=run)-[1-9][0-9]*--(?!00)[0-9]{2}--[a-z0-9_]+$")
 
 
 def parse_run_ids(value: str | None, scenario_id: str | None = None) -> list[str]:
     """Lista de runs 00 de `production_run_id` (T-237): separadores espacio o coma; todo o nada."""
     tokens = [token for token in re.split(r"[\s,]+", str(value or "").strip()) if token]
-    invalid = [token for token in tokens if not RUN_ID_RE.fullmatch(token)]
+    invalid = [token for token in tokens if not (RUN_ID_RE.fullmatch(token) or LOTE_CAMPANA_RE.fullmatch(token))]
     if invalid:
-        raise ValueError(f"LOTE_RUN_ID_INVALIDO: {' '.join(invalid)} (cada id es un número de run 00)")
+        raise ValueError(f"LOTE_RUN_ID_INVALIDO: {' '.join(invalid)} (cada id es un número de run 00 o run:espacio de campaña)")
     repeated = [token for index, token in enumerate(tokens) if token in tokens[:index]]
     if repeated:
         raise ValueError(f"LOTE_RUN_ID_DUPLICADO: {' '.join(dict.fromkeys(repeated))} (quita la repetición)")

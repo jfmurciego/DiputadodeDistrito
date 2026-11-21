@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.563
+Versión: 1.0.575
 Fecha: 2026-11-20
-Alcance: T-427 — Fijar el P75 de los aut para publicar (13 aut)
+Alcance: T-434 — P50 1.2.0: sin el código de Deslinde en el lote, «Retomar el depósito en Zenodo» y prueba sin Release
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-20_t-427-fijar-aut.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.562_registro_20261120.md
+Cambios/motivo: entrada docs/registro/2026-11-20_t434-p50-zenodo-retomar.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.574_registro_20261120.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,18 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.562_registro_20261120.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.575 · [2026-11-20 — T-434 — P50 1.2.0: sin el código de Deslinde en el lote, «Retomar el depósito en Zenodo» y prueba sin Release](registro/2026-11-20_t434-p50-zenodo-retomar.md)
+- 1.0.574 · [2026-11-20 — T-430 — Fase 1: P40 sube los datos de la web a R2 con el índice `actual.json`](registro/2026-11-20_t430-f1-p40-datos-r2.md)
+- 1.0.573 · [2026-11-20 — T-400 (D-185 2) — Exención de suelo de 38-G01 (Santa Cruz de Tenerife 2011-11)](registro/2026-11-20_t400-exencion-38g01.md)
+- 1.0.572 · [2026-11-20 — T-435b — Correcciones de redacción del diseño de R2](registro/2026-11-20_t435b-redaccion-r2.md)
+- 1.0.571 · [2026-11-20 — T-435 — Diseño de la estructura de R2 (D-188)](registro/2026-11-20_t435-estructura-r2.md)
+- 1.0.570 · [2026-11-20 — T-400 (D-185 1) — Total municipal del Censo 2011 para cuadrar las secciones sin población](registro/2026-11-20_t400-total-municipal-censo.md)
+- 1.0.569 · [2026-11-20 — T-433 — Fijar el nuevo P75 de los aut (15 aut)](registro/2026-11-20_t-433-fijar-aut-v2.md)
+- 1.0.568 · [2026-11-20 — T-435 — Traspaso del Planificador (relevo por contexto)](registro/2026-11-20_planificador-traspaso.md)
+- 1.0.567 · [2026-11-20 — T-433 — Plan 1.0.72: D-183 a D-187](registro/2026-11-20_planificador-plan-1-0-72.md)
+- 1.0.566 · [2026-11-20 — T-432 — Inventario completo de R2 (P74 Listar)](registro/2026-11-20_t432-inventario-r2.md)
+- 1.0.565 · [2026-11-20 — T-430 — Diseño de la web editable en minutos (solo documento)](registro/2026-11-20_t430-diseno-web-editable.md)
+- 1.0.564 · [2026-11-20 — T-429 — Correcciones de texto de la V4 y etiquetas para compartir](registro/2026-11-20_t429-textos-v4.md)
 - 1.0.563 · [2026-11-20 — T-427 — Fijar el P75 de los aut para publicar (13 aut)](registro/2026-11-20_t-427-fijar-aut.md)
 - 1.0.562 · [2026-11-20 — T-428 — La V4 es la versión oficial: portada en la raíz del dominio](registro/2026-11-20_t-428-v4-raiz.md)
 - 1.0.561 · [2026-11-20 — T-426 — Adaptador SADEI de Asturias 2023 (votos por concejo, aut03)](registro/2026-11-20_t426-adaptador-sadei-asturias.md)

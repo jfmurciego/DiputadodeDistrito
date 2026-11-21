@@ -1,15 +1,29 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 1.3.1
-# CAMBIOS 1.3.1: T-379 PR 3b (G4, Planificador 19-11): `preparar` pide también `produccion` cuando lo llama P00 Campaña nueva
+# VERSIÓN: 1.4.1
+# CAMBIOS 1.4.1: T-379 3c (sobre la 1.4.0 de T-430). (a) Lo de la 3b (G4, Planificador 19-11), que la rama traía como 1.3.1:
+#   `preparar` pide también `produccion` cuando lo llama P00 Campaña nueva
 #   (`github.workflow_ref` con `p00-campana.yml`; llamado, `github.workflow` es «P00 Campaña» y la condición de la 1.3.0 no la pedía).
-#   La 00 vieja, que también se llama «P00 Campaña», no cambia. Una frase de campaña D-52 no aprueba `produccion`. El resto, idéntico.
+#   La 00 vieja, que también se llama «P00 Campaña», no cambia. Una frase de campaña D-52 no aprueba `produccion`.
+#   (b) 3c-ii (opción A del Planificador, 20-11): en una campaña de P00 todos los territorios comparten run. Entradas ocultas
+#   `workflow_call` `que_publicar`, `territorios` y `ref` (vacías = como hasta ahora): P00 llama con «Territorios», los sanos y el
+#   sha del commit de cierre (`resolver` lo saca con ese ref para ver los manifiestos que escribió el cierre). El lote admite
+#   `<run>:<espacio de campaña>` (p40_resolver 1.1.0, registro 1.9.0): una raíz y una evidencia por elemento, descarga solo de los
+#   artefactos de ese espacio (`ddd-*-<run>…-<espacio>`), el manifiesto de la 00 sale del registro durable en git
+#   (`territorios/<t>/evidencia/ejecuciones_completas/<run>.json`) y la evaluación se limita al territorio
+#   (`--territory-id`). Sin espacio de campaña no cambia nada (rutas, nombres y órdenes idénticos).
+#   En campaña no hay respaldo de descarga completa ni de R2: P40 corre justo tras la cadena y los artefactos están vivos;
+#   si falta alguno, LOTE_RECHAZADO.
+# ANTERIOR (1.4.0): legacy/workflows/p40-publicacion_v1.4.0_20261121.yml
+# CAMBIOS 1.4.0: T-430 fase 1 (D-186): paso «Datos de la web en R2 (T-430)» tras persistir el registro: `herramientas/publicar_datos_web.py` sube los datos del
+#   sitio candidato (datos/, mapa/datos/, v2/datos/, data/) al bucket público de la web en `web/actual/` (solo la vigente, D-188: sube lo que cambió, verifica su sha256,
+#   reescribe `web/actual/actual.json` y borra lo que salió del índice, con tope: un candidato truncado o sin territorios aborta sin borrar). Solo desde `main` (otra rama no toca el índice de producción). Sin la variable `R2_WEB_BUCKET` no hace nada; `continue-on-error` mientras dure el ensayo en paralelo a Pages. El resto, idéntico.
 # ANTERIOR (1.3.0): legacy/workflows/p40-publicacion_v1.3.0_20261120.yml
 # CAMBIOS 1.3.0: T-428 (D-184): la V4 es la versión OFICIAL. Paso nuevo «Promocionar la V4 como portada oficial» tras el de la V3
 #   (`herramientas/preparar_portada_v4.py`): la V4 pasa de /v4/ a la raíz del sitio, /v4/ queda con redirecciones a la raíz y los
 #   recursos de la V1 se mueven a /v1/; la doble vuelta se escribe en `mapa/datos/` de la raíz; la validación comprueba la portada V4
 #   (antes `url=v3/`), Explorar, la V1 y las redirecciones. /v2/, /v3/, /docs/, /datos/ y /data/ no cambian. El resto, idéntico.
-# ANTERIOR: legacy/workflows/p40-publicacion_v1.2.0_20261120.yml
+# ANTERIOR (1.3.0): legacy/workflows/p40-publicacion_v1.2.0_20261120.yml
 # CAMBIOS 1.2.0: T-409 (D-172): paso «Doble vuelta de los territorios del Congreso para la V4»: `herramientas/publicar_doble_vuelta.py` baja de R2 el resultado de P75 FIJADO en
 #   configuracion/doble_vuelta_publicada.json (sin ese fichero no hace nada), verifica sha256 y escribe `v4/mapa/datos/` en el sitio candidato (datos de la doble vuelta y la geometría de los distritos, que sale del GeoJSON que este mismo P40 materializa en `datos/`, simplificada con tolerancia fija); mismas credenciales R2 que el resto, `contents: read`,
 #   sin datos en git, sin entradas nuevas. Además P40 copia `visor/v4/` completo al sitio candidato (dos líneas, junto al `cp` de V3: copia y borrado de lo listado en visor/v4/NO_PUBLICAR.txt; V2 y V3 no cambian) para que el visor V4 y su
@@ -41,6 +55,9 @@ on:
       production_run_id: {required: false, type: string, default: ''}
       target_page: {required: false, type: string, default: ''}
       include_congreso_analytical_preview: {required: false, type: boolean, default: false}
+      que_publicar: {required: false, type: string, default: ''}  # T-379 3c-ii: P00 Campaña («Territorios»)
+      territorios: {required: false, type: string, default: ''}   # T-379 3c-ii: los sanos de la campaña
+      ref: {required: false, type: string, default: ''}           # T-379 3c-ii: sha del commit de cierre
   workflow_dispatch:
     inputs:
       que_publicar:
@@ -80,6 +97,8 @@ jobs:
       publicar: ${{ steps.r.outputs.publicar }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.ref }}  # T-379 3c-ii: vacío = el de siempre
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - id: r
         name: Resolver y comprobar
@@ -328,8 +347,14 @@ jobs:
           # Un id: rutas de siempre. Varios: una raíz y una evidencia por run.
           cat > .ddd-publication/lote.sh <<'SH'
           mapfile -t LOTE < .ddd-publication/run-ids.txt
-          raiz_run() { if (( ${#LOTE[@]} == 1 )); then echo /tmp/production; else echo "/tmp/production/$1"; fi; }
-          evidencia_run() { if (( ${#LOTE[@]} == 1 )); then echo .ddd-publication/publicacion_visor.json; else echo ".ddd-publication/publicacion_visor_$1.json"; fi; }
+          # T-379 3c-ii: un elemento es `<run>` o `<run>:<espacio de campaña>` (campaign-<run>-<i>--<hueco>--<territorio>).
+          run_de() { echo "${1%%:*}"; }
+          ns_de() { if [[ "$1" == *:* ]]; then echo "${1#*:}"; fi; }
+          terr_de() { local ns; ns="$(ns_de "$1")"; if [[ -n "$ns" ]]; then echo "${ns##*--}"; fi; }
+          clave() { echo "${1/:/--}"; }
+          raiz_run() { if (( ${#LOTE[@]} == 1 )); then echo /tmp/production; else echo "/tmp/production/$(clave "$1")"; fi; }
+          evidencia_run() { if (( ${#LOTE[@]} == 1 )); then echo .ddd-publication/publicacion_visor.json; else echo ".ddd-publication/publicacion_visor_$(clave "$1").json"; fi; }
+          territorio_args() { local t; t="$(terr_de "$1")"; if [[ -n "$t" ]]; then echo "--territory-id $t"; fi; }
           SH
           echo "Lote de ${#lote[@]} run(s): ${lote[*]}"
 
@@ -351,7 +376,8 @@ jobs:
           #!/usr/bin/env bash
           set -euo pipefail
           source .ddd-publication/lote.sh
-          run="$1"; root="$(raiz_run "$run")"; inicio="$(date +%s)"; modo=selectiva
+          item="$1"; run="$(run_de "$item")"; ns="$(ns_de "$item")"; k="$(clave "$item")"
+          root="$(raiz_run "$item")"; inicio="$(date +%s)"; modo=selectiva
           mkdir -p "$root"
           completa() { [[ -n "$(find "$root" -name "$1" -print -quit)" ]]; }
           lista_completa() {
@@ -365,6 +391,23 @@ jobs:
           for p in "ddd-audit-$run*" "ddd-audit-electoral-$run*" "ddd-decision-$run*" "ddd-full-run-manifest-$run*" "ddd-state-$run-M06*" "ddd-state-$run-M08*"; do
             pats+=(--pattern "$p")
           done
+          if [[ -n "$ns" ]]; then
+            # T-379 3c-ii: solo los artefactos de este territorio en el run compartido de la campaña.
+            pats=()
+            for p in "ddd-audit-$run-$ns" "ddd-audit-electoral-$run-$ns" "ddd-decision-$run-$ns" "ddd-state-$run-M06-$ns" "ddd-state-$run-M08-$ns"; do
+              pats+=(--pattern "$p")
+            done
+            t="$(terr_de "$item")"; man="territorios/$t/evidencia/ejecuciones_completas/$run.json"
+            [[ -f "$man" ]] || { echo "sin manifiesto de la campaña $man" > ".ddd-publication/descargas/$k.fallo"; exit 1; }
+            if ! gh run download "$run" "${pats[@]}" --dir "$root"; then
+              echo "el run $run no se pudo descargar para $ns" > ".ddd-publication/descargas/$k.fallo"; exit 1
+            fi
+            mkdir -p "$root/ddd-full-run-manifest-$run-$ns" && cp "$man" "$root/ddd-full-run-manifest-$run-$ns/manifest.json"
+            lista_completa || { echo "el run $run no trae estado, decisión, auditoría y producto de $ns" > ".ddd-publication/descargas/$k.fallo"; exit 1; }
+            echo "DESCARGA run=$run espacio=$ns modo=campana segundos=$(( $(date +%s) - inicio )) mb=$(du -sm "$root" | cut -f1)"
+            touch ".ddd-publication/descargas/$k.ok"
+            exit 0
+          fi
           # T-305: orden Actions (selectiva → completa, como siempre) → R2 solo si ninguna da producto → error claro.
           if ! gh run download "$run" "${pats[@]}" --dir "$root" || ! lista_completa; then
             echo "::warning::$run: la descarga selectiva falló o no trae estado, decisión, manifiesto, auditoría y producto; descarga completa ddd-*"
@@ -394,8 +437,8 @@ jobs:
           printf '%s\n' "${LOTE[@]}" | xargs -P "${DDD_DESCARGAS_PARALELAS:-6}" -n 1 .ddd-publication/descargar_run.sh || true
           fallos=()
           for run in "${LOTE[@]}"; do
-            if [[ ! -f ".ddd-publication/descargas/$run.ok" ]]; then
-              if [[ -f ".ddd-publication/descargas/$run.fallo" ]]; then fallos+=("$(cat ".ddd-publication/descargas/$run.fallo")"); else fallos+=("el run $run no terminó la descarga"); fi
+            if [[ ! -f ".ddd-publication/descargas/$(clave "$run").ok" ]]; then
+              if [[ -f ".ddd-publication/descargas/$(clave "$run").fallo" ]]; then fallos+=("$(cat ".ddd-publication/descargas/$(clave "$run").fallo")"); else fallos+=("el run $run no terminó la descarga"); fi
             fi
           done
           if (( ${#fallos[@]} > 0 )); then
@@ -410,8 +453,9 @@ jobs:
           source .ddd-publication/lote.sh
           fallos=()
           for run in "${LOTE[@]}"; do
-            python herramientas/evaluar_publicacion_visor.py --requested-run-id "$run" --production-root "$(raiz_run "$run")" \
-              --phase source --output "$(evidencia_run "$run")" --strict-request || fallos+=("$run")
+            # shellcheck disable=SC2046
+            python herramientas/evaluar_publicacion_visor.py --requested-run-id "$(run_de "$run")" --production-root "$(raiz_run "$run")" \
+              --phase source --output "$(evidencia_run "$run")" --strict-request $(territorio_args "$run") || fallos+=("$run")
           done
           (( ${#fallos[@]} == 0 )) || {
             echo "::error::LOTE_RECHAZADO: no acreditan ${fallos[*]} (motivo en las líneas anteriores); no se registra ninguno."; exit 1;
@@ -425,8 +469,8 @@ jobs:
           source .ddd-publication/lote.sh
           fallos=(); salidas=()
           for run in "${LOTE[@]}"; do
-            out="/tmp/product-descriptors-$run.json"
-            python herramientas/registro_publicaciones_visor.py describe-production             --production-root "$(raiz_run "$run")"             --run-id "$run"             --output "$out" || fallos+=("$run")
+            out="/tmp/product-descriptors-$(clave "$run").json"
+            python herramientas/registro_publicaciones_visor.py describe-production             --production-root "$(raiz_run "$run")"             --run-id "$(run_de "$run")"             --output "$out" || fallos+=("$run")
             salidas+=("$out")
             # T-301: la composición del M06 que se publica queda versionada (vigente del visor); sin ella, el lote se rechaza.
             if [[ -s "$out" ]] && ! python herramientas/composicion_m06.py --descriptores "$out" --origen "$(raiz_run "$run")"; then fallos+=("$run"); fi
@@ -663,8 +707,9 @@ jobs:
           else
             source .ddd-publication/lote.sh
             for run in "${LOTE[@]}"; do
-              python herramientas/evaluar_publicacion_visor.py --requested-run-id "$run" --registry /tmp/site-candidate/data/viewer-results.json \
-                --phase prepared --output "$(evidencia_run "$run")" --production-root "$(raiz_run "$run")" --strict-request
+              # shellcheck disable=SC2046
+              python herramientas/evaluar_publicacion_visor.py --requested-run-id "$(run_de "$run")" --registry /tmp/site-candidate/data/viewer-results.json \
+                --phase prepared --output "$(evidencia_run "$run")" --production-root "$(raiz_run "$run")" --strict-request $(territorio_args "$run")
             done
           fi
 
@@ -716,6 +761,22 @@ jobs:
             sleep $((attempt * 2))
           done
 
+      - name: Datos de la web en R2 (T-430)
+        if: ${{ github.ref == 'refs/heads/main' }}
+        continue-on-error: true
+        shell: bash
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_WEB_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_WEB_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_WEB_BUCKET: ${{ vars.R2_WEB_BUCKET }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}  # solo para rechazar que el bucket web sea el de trabajo
+        run: |
+          set -euo pipefail
+          # Fase 1 (D-186): en paralelo a Pages, después de desplegarla. Sin la variable R2_WEB_BUCKET no hace nada; un fallo avisa y no para P40.
+          python3 herramientas/publicar_datos_web.py --sitio /tmp/site-candidate
+
       - name: Registrar evidencia
         if: always()
         shell: bash
@@ -729,13 +790,14 @@ jobs:
             source .ddd-publication/lote.sh
             fallos=()
             for run in "${LOTE[@]}"; do
-              args=(--requested-run-id "$run" --registry /tmp/site-candidate/data/viewer-results.json --viewer-url "$PAGE_URL" --deployment-outcome "$DEPLOYMENT_OUTCOME" --phase final --output "$(evidencia_run "$run")")
+              args=(--requested-run-id "$(run_de "$run")" --registry /tmp/site-candidate/data/viewer-results.json --viewer-url "$PAGE_URL" --deployment-outcome "$DEPLOYMENT_OUTCOME" --phase final --output "$(evidencia_run "$run")")
+              [[ -z "$(terr_de "$run")" ]] || args+=(--territory-id "$(terr_de "$run")")
               [[ -d "$(raiz_run "$run")" ]] && args+=(--production-root "$(raiz_run "$run")")
               python herramientas/evaluar_publicacion_visor.py "${args[@]}" || fallos+=("$run")
             done
             (( ${#fallos[@]} == 0 )) || { echo "::error::Evidencia final fallida para ${fallos[*]}"; exit 1; }
           else
-            args=(--requested-run-id "$PRODUCTION_RUN_ID" --registry /tmp/site-candidate/data/viewer-results.json --viewer-url "$PAGE_URL" --deployment-outcome "$DEPLOYMENT_OUTCOME" --phase final --output .ddd-publication/publicacion_visor.json)
+            args=(--requested-run-id "${PRODUCTION_RUN_ID%%:*}" --registry /tmp/site-candidate/data/viewer-results.json --viewer-url "$PAGE_URL" --deployment-outcome "$DEPLOYMENT_OUTCOME" --phase final --output .ddd-publication/publicacion_visor.json)
             python herramientas/evaluar_publicacion_visor.py "${args[@]}"
           fi
           case "$TARGET_PAGE" in "Dashboard operativo") rel="dashboard/";; *) rel="";; esac

@@ -4,6 +4,8 @@
 
 No usa logs ni catálogo histórico como prueba de una ejecución concreta. La identidad
 sale de production_status.json y del registro estructurado viewer-results.json.
+T-379 3c-ii: `--territory-id` (opcional) limita la identidad a un territorio: en una campaña de P00 todos los territorios
+comparten run y el registro tiene varios territorios con el mismo run. Sin él, igual que antes.
 """
 from __future__ import annotations
 
@@ -69,8 +71,10 @@ def evaluate_publication(
     viewer_url: str | None = None,
     deployment_outcome: str | None = None,
     phase: str = "prepared",
+    territory_id: str | None = None,
 ) -> dict:
     requested = str(requested_run_id or "").strip() or None
+    solo = str(territory_id or "").strip() or None
     generated_run, generated_internal_run, generated_territory = generated_identity(production_root)
     registry = _read_json(registry_path)
     results = registry.get("results") if isinstance(registry.get("results"), list) else []
@@ -87,7 +91,10 @@ def evaluate_publication(
                 reasons.append(f"EJECUCION_REUTILIZADA_PUBLICAR_CON_PRODUCTION_RUN_ID={origin}")
         elif generated_run != requested:
             reasons.append("IDENTIFICADOR_EJECUCION_GENERADA_NO_COINCIDE")
-        matching = [row for row in production_results if str(row.get("run_id") or "") == requested]
+        matching = [row for row in production_results if str(row.get("run_id") or "") == requested
+                    and (solo is None or _mismo(str(row.get("territory_id") or ""), solo))]
+        if solo and generated_territory and not _mismo(generated_territory, solo):
+            reasons.append("TERRITORIO_GENERADO_NO_ES_EL_SOLICITADO")
         if phase in {"prepared", "final"} and not matching:
             reasons.append("EJECUCION_SOLICITADA_NO_CARGADA_EN_VISOR")
     else:
@@ -159,6 +166,15 @@ def evaluate_publication(
     }
 
 
+def _mismo(a: str, b: str) -> bool:
+    import sys
+    raiz = str(Path(__file__).resolve().parents[1])
+    if raiz not in sys.path:
+        sys.path.insert(0, raiz)
+    from ddd_core.territorio_ids import mismo_territorio
+    return mismo_territorio(a, b)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--requested-run-id", default="")
@@ -169,6 +185,7 @@ def main() -> None:
     parser.add_argument("--phase", choices=("source", "prepared", "final"), default="prepared")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--strict-request", action="store_true")
+    parser.add_argument("--territory-id", default="")
     args = parser.parse_args()
 
     payload = evaluate_publication(
@@ -178,6 +195,7 @@ def main() -> None:
         viewer_url=args.viewer_url or None,
         deployment_outcome=args.deployment_outcome or None,
         phase=args.phase,
+        territory_id=args.territory_id or None,
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

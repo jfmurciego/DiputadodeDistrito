@@ -1,12 +1,17 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: cadena de un territorio de P00 Campaña (sin botón; solo la llama p00-campana.yml)
-# VERSIÓN: 1.0.0 · FECHA: 2026-11-19 · ESTADO: candidato
-# ANTERIOR: ninguna (fichero nuevo)
+# VERSIÓN: 1.1.0 · FECHA: 2026-11-20 · ESTADO: candidato
+# ANTERIOR: legacy/workflows/p00-cadena_v1.0.0_20261120.yml
+# CAMBIOS 1.1.0: T-379 3c-i (Planificador 20-11): job `puerta_04` (fase electoral_product, como la 00) tras P30 y obligatorio
+#   en «Cerrar P30»; las HUELLAS de «Cerrar P10/P20/P30» llevan además el plan (id, nombre, edición, modo), las salidas de las
+#   puertas 01-04 y la optimización efectiva del M06 (OPTIMIZATION_EXECUTION.json, como el job `manifestar` de la 00), para
+#   que el cierre escriba el manifiesto de ejecución completa por territorio. Las claves de huella de la 1.0.0 no cambian.
+#   Sin campaña nada cambia: este fichero solo lo llama p00-campana.yml.
 # CAMBIOS 1.0.0: T-379 PR 3 (diseño T-378 1.1.4 §3, §4 y §5; G1 del Planificador, 19-11): fichero nuevo.
 # MOTIVO: D-130/D-140, una campaña = una ejecución; P00 llama a P10, P20 y P30 por dentro como reutilizables.
 # QUÉ HACE: un territorio, EN SERIE (un solo job ocupado a la vez, §3):
 #   plan (empezar P10 y plan) → P11 → puerta 01 → P12 → cerrar P10 + empezar P20 → acreditar (si el plan lo pide) → P20 →
-#   puerta 02 → cerrar P20 + empezar P30 → puerta 03 → P30 → cerrar P30.
+#   puerta 02 → cerrar P20 + empezar P30 → puerta 03 → P30 → puerta 04 → cerrar P30.
 #   Cada «empezar» consulta la parada sistémica y deja la marca `sin_resultado` en R2; cada «cerrar» escribe ok o
 #   apartado con su causa (herramientas/campana_estado.py, PR 1 + PR 3) y la salida `sano`. Todo job con predecesor
 #   lleva `!cancelled()` y exige el éxito y `sano == 'true'` del anterior: un territorio apartado salta el resto sin
@@ -50,6 +55,7 @@ jobs:
       acreditar: ${{ steps.plan.outputs.acreditar }}
       reutilizar: ${{ steps.plan.outputs.reutilizar }}
       modo_p20: ${{ steps.plan.outputs.modo_p20 }}
+      modo: ${{ steps.plan.outputs.modo }}
       ns: ${{ steps.plan.outputs.ns }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -112,6 +118,7 @@ jobs:
             echo "acreditar=$(jq -r '.pre_m04_accreditation_planned == true' "$plan")"
             echo "reutilizar=$reutilizar"
             echo "modo_p20=$modo_p20"
+            echo "modo=$modo"
             # Espacio de artefactos en el formato de campaña que acepta la puerta 02 (validar_puerta_ejecucion.py,
             # CAMPAIGN_ARTIFACT_NAMESPACE_RE): run de P00, intento fijo 1 (los artefactos de P20 no cambian de nombre
             # al re-ejecutar), hueco 01 y el id canónico. Con `aut11` a secas la puerta daba
@@ -188,7 +195,7 @@ jobs:
           PASO: P10
           RESULTADOS: ${{ format('{{"plan":"{0}","p11":"{1}","puerta_01":"{2}","p12":"{3}"}}', needs.plan.result, needs.p11.result, needs.puerta_01.result, needs.p12.result) }}
           OBLIGATORIOS: plan p11 puerta_01 p12
-          HUELLAS: ${{ format('{{"paquete_territorial":"{0}","paquete_electoral":"{1}"}}', needs.p11.outputs.artifact_digest, needs.p12.outputs.artifact_digest) }}
+          HUELLAS: ${{ format('{{"paquete_territorial":"{0}","paquete_electoral":"{1}","plan":{{"territory_id":"{2}","territory_name":"{3}","edition":"{4}","modo":"{5}"}},"puerta_01":{6}}}', needs.p11.outputs.artifact_digest, needs.p12.outputs.artifact_digest, needs.plan.outputs.territory_id, needs.plan.outputs.territory_name, needs.plan.outputs.edition, needs.plan.outputs.modo, toJSON(needs.puerta_01.outputs)) }}
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: auto
@@ -287,6 +294,24 @@ jobs:
         with:
           persist-credentials: false
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Recuperar evidencia de optimización efectiva (como `manifestar` de la 00)
+        if: ${{ needs.puerta_02.result == 'success' }}
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ${{ needs.puerta_02.outputs.artifact_name }}
+          path: .ddd-optimization-state
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ github.run_id }}
+      - id: optim
+        name: Optimización efectiva para el manifiesto
+        if: ${{ needs.puerta_02.result == 'success' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          f="$(find .ddd-optimization-state -name OPTIMIZATION_EXECUTION.json -type f -print -quit 2>/dev/null || true)"
+          [[ -n "$f" ]] || { echo "::error::El M06 no trae OPTIMIZATION_EXECUTION.json: sin evidencia de estrategia efectiva."; exit 51; }
+          echo "json=$(jq -c '{requested_algorithm, effective_algorithm, fallback, fallback_reason}' "$f")" >> "$GITHUB_OUTPUT"
       - id: cerrar
         name: Cerrar P20 en R2
         shell: bash
@@ -297,7 +322,7 @@ jobs:
           PASO: P20
           RESULTADOS: ${{ format('{{"acreditar":"{0}","p20":"{1}","puerta_02":"{2}"}}', needs.acreditar.result, needs.p20.result, needs.puerta_02.result) }}
           OBLIGATORIOS: p20 puerta_02
-          HUELLAS: ${{ format('{{"m06":"{0}"}}', needs.puerta_02.outputs.artifact_digest) }}
+          HUELLAS: ${{ format('{{"m06":"{0}","puerta_02":{1},"optimizacion":{2}}}', needs.puerta_02.outputs.artifact_digest, toJSON(needs.puerta_02.outputs), steps.optim.outputs.json || '{}') }}
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: auto
@@ -355,9 +380,25 @@ jobs:
       persist_state: true  # T-379 3b: el registro corre en ensayo (campana_registro.py) y lo re-aplica el cierre
       artifact_namespace: ${{ needs.plan.outputs.ns }}
 
+  puerta_04:
+    name: Puerta 04 → cierre
+    needs: [plan, p30]
+    if: ${{ !cancelled() && needs.p30.result == 'success' }}
+    uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
+    secrets: inherit
+    with:
+      phase: electoral_product
+      territory_id: ${{ needs.plan.outputs.territory_id }}
+      data_edition: ${{ needs.plan.outputs.edition }}
+      run_id: ${{ github.run_id }}
+      artifact_name: ${{ format('ddd-state-{0}-M08-{1}', github.run_id, needs.plan.outputs.ns) }}
+      audit_artifact_name: ${{ format('ddd-audit-electoral-{0}-{1}', github.run_id, needs.plan.outputs.ns) }}
+      artifact_namespace: ${{ needs.plan.outputs.ns }}
+      source_ref: ${{ github.sha }}
+
   cerrar_p30:
     name: Cerrar P30
-    needs: [cerrar_p20, puerta_03, p30]
+    needs: [cerrar_p20, puerta_03, p30, puerta_04]
     if: ${{ !cancelled() && needs.cerrar_p20.result == 'success' && needs.cerrar_p20.outputs.sano == 'true' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 15
@@ -376,9 +417,9 @@ jobs:
           TERRITORIO: ${{ inputs.territorio }}
           INTENTO: ${{ github.run_attempt }}
           PASO: P30
-          RESULTADOS: ${{ format('{{"puerta_03":"{0}","p30":"{1}"}}', needs.puerta_03.result, needs.p30.result) }}
-          OBLIGATORIOS: puerta_03 p30
-          HUELLAS: '{}'
+          RESULTADOS: ${{ format('{{"puerta_03":"{0}","p30":"{1}","puerta_04":"{2}"}}', needs.puerta_03.result, needs.p30.result, needs.puerta_04.result) }}
+          OBLIGATORIOS: puerta_03 p30 puerta_04
+          HUELLAS: ${{ format('{{"puerta_03":{0},"puerta_04":{1}}}', toJSON(needs.puerta_03.outputs), toJSON(needs.puerta_04.outputs)) }}
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: auto

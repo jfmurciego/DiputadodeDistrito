@@ -21,6 +21,23 @@ import campana_estado as ce  # noqa: E402
 import campana_registro as cr  # noqa: E402
 
 CATALOGO = "configuracion/catalogo_preparacion.yaml"
+SHA = "a" * 40
+
+
+def huellas_cadena(t):
+    """Huellas que la cadena (p00-cadena.yml 1.1.0) deja en R2 al cerrar cada paso; valores literales, no recalculados."""
+    ns = f"campaign-900-1--01--{t}"
+
+    def puerta(art, dig):
+        return {"decision": "PASS", "artifact_digest": dig, "phase_decision": "PASS", "run_id": "900", "artifact_name": art}
+    return {
+        "P10": {"plan": {"territory_id": t, "territory_name": f"Territorio {t}", "edition": "2025", "modo": "catalog_source"},
+                "puerta_01": puerta(f"ddd-source-package-900-{t}", "sha256:" + "1" * 64)},
+        "P20": {"m06": "sha256:" + "2" * 64, "puerta_02": puerta(f"ddd-state-900-M06-{ns}", "sha256:" + "2" * 64),
+                "optimizacion": {"requested_algorithm": "Canónico", "effective_algorithm": "Canónico", "fallback": False}},
+        "P30": {"puerta_03": puerta(f"ddd-electoral-package-900-{t}", "sha256:" + "3" * 64),
+                "puerta_04": puerta(f"ddd-state-900-M08-{ns}", "sha256:" + "4" * 64)},
+    }
 ARCHIVO = "orchestracion/archivo_r2.json"
 
 
@@ -160,9 +177,7 @@ class Componer(Base):
         self.assertEqual(json.loads((w2 / "datos/a.json").read_text()), {"v": 2})
 
 
-class Cerrar(Base):
-    """§6: un solo commit con lo de los sanos, idempotente, y el objeto «cierre» solo tras el push."""
-
+class BaseCierre(Base):
     def setUp(self):
         super().setUp()
         self.remoto = self.tmp / "remoto.git"
@@ -171,15 +186,20 @@ class Cerrar(Base):
         self.origen = self.remoto  # los clones de los registros y del cierre parten del remoto «real»
         ce.guardar_semaforo(self.alm, "900", ce.comprobar("aut11, nac22", "vigente"))
 
-    def sanar(self, t):
+    def sanar(self, t, huellas=True):
+        h = huellas_cadena(t) if huellas else {}
         for paso in ce.PASOS:
             ce.empezar(self.alm, "900", t, paso, 1)
-            ce.registrar(self.alm, "900", t, paso, 1, "ok")
+            ce.registrar(self.alm, "900", t, paso, 1, "ok", huellas=h.get(paso))
 
     def cierre(self, ref="refs/heads/main"):
         w = self.tmp / f"cierre-{len(list(self.tmp.iterdir()))}"
         git(self.tmp, "clone", "-q", f"file://{self.remoto}", str(w))
-        return cr.cerrar(w, self.alm, "900", ref, "900", backoff=None)
+        return cr.cerrar(w, self.alm, "900", ref, "900", SHA, backoff=None)
+
+
+class Cerrar(BaseCierre):
+    """§6: un solo commit con lo de los sanos, idempotente, y el objeto «cierre» solo tras el push."""
 
     def test_un_commit_solo_con_los_sanos(self):
         self.registrar_en_ensayo("aut11", 10, {"datos/a.json": "{}\n"})
@@ -192,7 +212,7 @@ class Cerrar(Base):
         self.assertEqual((r["rama"], r["sanos"], r["commit"]), ("main", ["aut11"], True))
         self.assertEqual(int(git(self.remoto, "rev-list", "--count", "main")), antes + 1)
         ficheros = git(self.remoto, "show", "--name-only", "--format=", "main").split()
-        self.assertEqual(ficheros, ["datos/a.json"])
+        self.assertEqual(ficheros, ["datos/a.json", "territorios/aut11/evidencia/ejecuciones_completas/900.json"])
         self.assertIsNotNone(self.alm.leer("campanas/900/cierre.json"))
         # idempotente: otro cierre no añade commit
         self.assertEqual(self.cierre()["sha"], r["sha"])
@@ -226,7 +246,7 @@ class Cerrar(Base):
         borrados = []
         w = self.tmp / "cierre-ret"
         git(self.tmp, "clone", "-q", f"file://{self.remoto}", str(w))
-        r = cr.cerrar(w, self.alm, "900", "refs/heads/main", "900", backoff=None, borrar_r2=borrados.append)
+        r = cr.cerrar(w, self.alm, "900", "refs/heads/main", "900", SHA, backoff=None, borrar_r2=borrados.append)
         self.assertEqual(r["retiradas"], [m06a[0]])
         self.assertEqual(borrados, [m06a[0]])
         final = json.loads(git(self.remoto, "show", f"main:{ARCHIVO}"))["artefactos"]
@@ -241,8 +261,97 @@ class Cerrar(Base):
         git(self.tmp, "clone", "-q", f"file://{self.remoto}", str(w))
         git(w, "remote", "set-url", "--push", "origin", str(self.tmp / "no-existe.git"))
         with self.assertRaises(cr.rem.PushRechazado):
-            cr.cerrar(w, self.alm, "900", "refs/heads/main", "900", backoff=None)
+            cr.cerrar(w, self.alm, "900", "refs/heads/main", "900", SHA, backoff=None)
         self.assertIsNone(self.alm.leer("campanas/900/cierre.json"))  # §6.5: sin objeto cierre si el push no se confirma
+
+
+class ManifiestoEnElCierre(BaseCierre):
+    """3c-i: el cierre escribe, en el mismo commit, el manifiesto de ejecución completa de cada sano, con el que P40 resuelve."""
+
+    def test_manifiesto_por_territorio_sano(self):
+        self.registrar_en_ensayo("aut11", 10, {"datos/a.json": "{}\n"})
+        self.sanar("aut11")
+        ce.empezar(self.alm, "900", "nac22", "P10", 1)
+        ce.registrar(self.alm, "900", "nac22", "P10", 1, "apartado", "CONTRATO_ROTO")
+        self.cierre()
+        m = json.loads(git(self.remoto, "show", "main:territorios/aut11/evidencia/ejecuciones_completas/900.json"))
+        self.assertEqual((m["territory_id"], m["workflow_run_id"], m["source_sha"], m["status"]), ("aut11", 900, SHA, "SUCCESS"))
+        self.assertEqual(m["optimization_algorithm_effective"], "Canónico")
+        fases = {f["name"][:2]: f for f in m["phases"]}
+        self.assertEqual((fases["02"]["artifact"], fases["02"]["validation_decision"]),
+                         ("ddd-state-900-M06-campaign-900-1--01--aut11", "VALIDADO"))
+        self.assertEqual((fases["04"]["artifact"], fases["04"]["artifact_digest"], fases["04"]["run_id"]),
+                         ("ddd-state-900-M08-campaign-900-1--01--aut11", "sha256:" + "4" * 64, 900))
+        self.assertFalse(fases["05"]["executed"])  # la publicación es de P40, no de la cadena
+        self.assertNotIn("territorios/nac22/", git(self.remoto, "show", "--name-only", "--format=", "main"))
+        # El resolutor de P40 lo da por publicable (un solo territorio en el run; varios: 3c-ii).
+        import resolver_cadena_publicacion as rcp
+        d = self.tmp / "vista"
+        git(self.tmp, "clone", "-q", f"file://{self.remoto}", str(d))
+        r = rcp.resolver(d, "900")
+        self.assertEqual((r["status"], r["m08_artifact"]), ("READY", "ddd-state-900-M08-campaign-900-1--01--aut11"))
+
+    def test_sano_sin_huellas_falla_cerrado(self):
+        """Control negativo: sin los datos de las puertas no hay manifiesto ni commit (nunca uno a medias)."""
+        self.registrar_en_ensayo("aut11", 10, {"datos/a.json": "{}\n"})
+        self.sanar("aut11", huellas=False)
+        antes = git(self.remoto, "rev-parse", "main")
+        with self.assertRaisesRegex(cr.RegistroError, "CIERRE_MANIFIESTO_INCOMPLETO: aut11 sin .*puerta_04.artifact_name"):
+            self.cierre()
+        self.assertEqual(git(self.remoto, "rev-parse", "main"), antes)
+        self.assertIsNone(self.alm.leer("campanas/900/cierre.json"))
+
+    def test_sin_puerta_04_falla_cerrado(self):
+        h = huellas_cadena("aut11")
+        del h["P30"]["puerta_04"]
+        self.registrar_en_ensayo("aut11", 10, {"datos/a.json": "{}\n"})
+        for paso in ce.PASOS:
+            ce.empezar(self.alm, "900", "aut11", paso, 1)
+            ce.registrar(self.alm, "900", "aut11", paso, 1, "ok", huellas=h[paso])
+        with self.assertRaisesRegex(cr.RegistroError, "puerta_04.run_id"):
+            self.cierre()
+
+    def test_territorio_de_las_huellas_distinto_falla_cerrado(self):
+        """Revisor de #956: la ruta del manifiesto es la del territorio del recuento; unas huellas de otro territorio no
+        pueden escribir en la carpeta ajena (control: con las suyas, sí)."""
+        h = huellas_cadena("aut11")
+        h["P10"]["plan"]["territory_id"] = "nac22"
+        self.registrar_en_ensayo("aut11", 10, {"datos/a.json": "{}\n"})
+        for paso in ce.PASOS:
+            ce.empezar(self.alm, "900", "aut11", paso, 1)
+            ce.registrar(self.alm, "900", "aut11", paso, 1, "ok", huellas=h[paso])
+        antes = git(self.remoto, "rev-parse", "main")
+        with self.assertRaisesRegex(cr.RegistroError, "aut11: las huellas dicen territory_id='nac22'"):
+            self.cierre()
+        self.assertEqual(git(self.remoto, "rev-parse", "main"), antes)
+
+    def test_desde_rama_solo_empuja_a_p00_cierre_del_run(self):
+        """Revisor de #956: el límite de `cierre_rama` lo da el código (plan_cierre), no el permiso: desde otra ref solo
+        cambia `p00-cierre/<run_id numérico>`; ninguna otra rama del remoto se toca."""
+        self.registrar_en_ensayo("aut11", 10, {"datos/a.json": "{}\n"})
+        self.sanar("aut11")
+        git(self.remoto, "branch", "p00-cierre/900", "main")
+        git(self.remoto, "branch", "otra", "main")
+        refs = lambda: dict(l.split(" ", 1)[::-1] for l in git(self.remoto, "show-ref").splitlines())  # noqa: E731
+        antes = refs()
+        r = self.cierre("refs/heads/t379-p00")
+        despues = refs()
+        self.assertEqual(r["rama"], "p00-cierre/900")
+        self.assertEqual({k for k in despues if despues[k] != antes.get(k)}, {"refs/heads/p00-cierre/900"})
+        for ref in ("refs/heads/main", "refs/heads/feature/x", "refs/pull/1/merge"):
+            plan = ce.plan_cierre(self.alm, "900", ref, "900", False, ["datos/a.json"])
+            self.assertEqual(plan["rama"], "main" if ref == "refs/heads/main" else "p00-cierre/900", ref)
+        for malo in ("900; rm", "../main", "", "main"):
+            with self.assertRaises(ce.EstadoError):
+                ce.plan_cierre(self.alm, "900", "refs/heads/x", malo, False, ["datos/a.json"])
+
+    def test_source_sha_obligatorio(self):
+        self.registrar_en_ensayo("aut11", 10, {"datos/a.json": "{}\n"})
+        self.sanar("aut11")
+        w = self.tmp / "cierre-sha"
+        git(self.tmp, "clone", "-q", f"file://{self.remoto}", str(w))
+        with self.assertRaisesRegex(cr.RegistroError, "source_sha no válido"):
+            cr.cerrar(w, self.alm, "900", "refs/heads/main", "900", "", backoff=None)
 
 
 class CatalogoEnElCierre(unittest.TestCase):
