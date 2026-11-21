@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.575
-Fecha: 2026-11-20
-Alcance: T-434 — P50 1.2.0: sin el código de Deslinde en el lote, «Retomar el depósito en Zenodo» y prueba sin Release
+Versión: 1.0.577
+Fecha: 2026-11-21
+Alcance: T-436 — Plan 1.0.73
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-20_t434-p50-zenodo-retomar.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.574_registro_20261120.md
+Cambios/motivo: entrada docs/registro/2026-11-21_planificador-plan-1-0-73.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.576_registro_20261121.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.574_registro_20261120.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.577 · [2026-11-21 — T-436 — Plan 1.0.73](registro/2026-11-21_planificador-plan-1-0-73.md)
+- 1.0.576 · [2026-11-20 — Coordinador — Lecciones y costes de la jornada (T-379, T-400, T-424, T-426…T-434)](registro/2026-11-20_coordinador-lecciones.md)
 - 1.0.575 · [2026-11-20 — T-434 — P50 1.2.0: sin el código de Deslinde en el lote, «Retomar el depósito en Zenodo» y prueba sin Release](registro/2026-11-20_t434-p50-zenodo-retomar.md)
 - 1.0.574 · [2026-11-20 — T-430 — Fase 1: P40 sube los datos de la web a R2 con el índice `actual.json`](registro/2026-11-20_t430-f1-p40-datos-r2.md)
 - 1.0.573 · [2026-11-20 — T-400 (D-185 2) — Exención de suelo de 38-G01 (Santa Cruz de Tenerife 2011-11)](registro/2026-11-20_t400-exencion-38g01.md)
