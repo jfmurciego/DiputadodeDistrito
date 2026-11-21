@@ -1,0 +1,288 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.2.0
+# FECHA: 2026-11-20
+# ESTADO: candidato
+# CAMBIOS: 1.2.0 (T-434): (1) el directorio de trabajo pasa a $RUNNER_TEMP y el bucle recorre los territorios del plan: la 1.1.0
+#   usaba `paquetes/`, que choca con `paquetes/deslinde` (código del motor) y lo metió en la Release como ddd-deslinde-v1.0.0.tar.gz;
+#   el depósito solo toma los paquetes de los territorios de MAPAS.json (`zenodo_deposito.py preparar`). (2) Botón `accion`:
+#   «Retomar el depósito en Zenodo de la última versión» repite solo el job `zenodo` sobre la Release ya creada, sin versión nueva.
+#   (3) Con destino `prueba` no se crea Release ni atestación (Sigstore): el lote viaja como artefacto del run al job `zenodo`.
+# CAMBIOS 1.1.0 (T-388, D-146): job `zenodo` tras la Release: deposita los mapas (CC BY 4.0, sin código) por la API de Zenodo; botón `destino` (prueba | Zenodo). 1.0.0: T-370 (D-133, migración paso 4): fichero nuevo; sustituye a publicar-version-mapa.yml 1.1.2 («P60 Publicación académica»).
+# MOTIVO: un solo botón sin parámetros técnicos: territorios (códigos o «todos» = los publicados). El M06 sale del visor
+#   (blob de orchestracion/publicaciones_visor.json con su sha256, no un artefacto de Actions). Versión automática (D-88/D-94).
+# ANTERIOR: legacy/workflows/p50-publicacion-academica_v1.1.0_20261120.yml
+# Publica mapas como versión inmutable: manifiesto SHA-256, atestación SLSA firmada con Sigstore y GitHub Release.
+# Una Release por lote, `mapas-v<versión>`, con todos los territorios elegidos; el job `zenodo` la deposita por la API
+# (herramientas/zenodo_deposito.py; sin integración GitHub–Zenodo) y Zenodo asigna el DOI (uno por versión de la serie). Versión: 1.0.0 la primera; sube la menor si cambia el mapa; se NIEGA si no cambia.
+# El entorno `publicacion`, la atestación y el empaquetado determinista son los de la versión anterior.
+name: P50 Publicación académica
+
+on:
+  workflow_dispatch:
+    inputs:
+      accion:
+        description: "Qué hacer: publicar una versión nueva de los mapas, o retomar solo el depósito en Zenodo de la última versión ya creada (sin crear otra)"
+        required: true
+        default: Publicar una versión nueva
+        type: choice
+        options:
+          - Publicar una versión nueva
+          - Retomar el depósito en Zenodo de la última versión
+      territorios:
+        description: "Códigos separados por comas (p. ej. aut01,nac42) o todos (los publicados en el visor). Al retomar no se usa: van los de esa versión"
+        required: true
+        default: todos
+        type: string
+      destino:
+        description: "Destino del depósito: prueba (sandbox.zenodo.org, por defecto; no crea Release pública) o Zenodo (el real, con DOI definitivo)"
+        required: true
+        default: prueba
+        type: choice
+        options:
+          - prueba
+          - Zenodo
+      concepto_nuevo:
+        description: "Solo si Zenodo no admite seguir la serie de DOI: permitir abrir una serie nueva (por defecto NO; sin marcar, el depósito falla y deja el borrador)"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ddd-p50-publicacion-academica
+  cancel-in-progress: false
+  queue: max
+
+jobs:
+  resolver:
+    name: Resolver territorios y versión
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      version: ${{ steps.r.outputs.version }}
+      tag: ${{ steps.r.outputs.tag }}
+      modo: ${{ steps.r.outputs.modo }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - id: r
+        name: Resolver
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TERRITORIOS: ${{ inputs.territorios }}
+          ACCION: ${{ inputs.accion }}
+        run: |
+          set -euo pipefail
+          # Releases publicadas (los borradores no se ven con contents:read) Y etiquetas del repositorio (incluye las de Releases borradas)
+          {
+            gh api "repos/$GITHUB_REPOSITORY/releases" --paginate --jq '.[].tag_name'
+            gh api "repos/$GITHUB_REPOSITORY/git/matching-refs/tags/mapas-v" --paginate --jq '.[].ref | sub("^refs/tags/"; "")'
+          } | sort -u > tags.txt
+          ult="$(python3 herramientas/p50_resolver.py ultima --tags tags.txt)"
+          previo=""
+          if [[ -n "$ult" ]]; then
+            id="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$ult" --jq '[.assets[] | select(.name=="MAPAS.json")][0].id // empty')"
+            if [[ -n "$id" ]]; then
+              gh api "repos/$GITHUB_REPOSITORY/releases/assets/$id" -H "Accept: application/octet-stream" > MAPAS_previo.json
+              previo=MAPAS_previo.json
+            fi
+          fi
+          if [[ "$ACCION" == "Retomar el depósito en Zenodo de la última versión" ]]; then
+            # sin versión nueva ni Release nueva: la última Release ya creada y los territorios de su MAPAS.json
+            python3 herramientas/p50_resolver.py retomar --tags tags.txt --mapas "$previo" > plan.json
+          else
+            python3 herramientas/p50_resolver.py plan --territorios "$TERRITORIOS" --tags tags.txt --previo "$previo" > plan.json
+          fi
+          jq . plan.json
+          echo "modo=$(jq -r .modo plan.json)" >> "$GITHUB_OUTPUT"
+          echo "version=$(jq -r .version plan.json)" >> "$GITHUB_OUTPUT"
+          echo "tag=$(jq -r .tag plan.json)" >> "$GITHUB_OUTPUT"
+          {
+            echo "### P50 Publicación académica"
+            echo "- Acción: $ACCION · versión: $(jq -r .version plan.json) · Release: $(jq -r .tag plan.json)"
+            echo "- Territorios: $(jq -r '[.territorios[].territory_id] | join(", ")' plan.json)"
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: p50-plan
+          path: plan.json
+
+  publicar:
+    needs: resolver
+    if: ${{ needs.resolver.outputs.modo == 'nueva' }}   # al retomar no se crea nada: ni paquete ni Release
+    runs-on: ubuntu-latest
+    environment: publicacion          # entorno de la versión anterior, sin cambios
+    permissions:
+      contents: write                 # crear la Release
+      actions: read                   # descargar el plan del resolutor
+      id-token: write                 # OIDC para Sigstore
+      attestations: write             # registrar la atestación
+    env:
+      V: ${{ needs.resolver.outputs.version }}
+      TAG: ${{ needs.resolver.outputs.tag }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: p50-plan
+          github-token: ${{ github.token }}
+
+      - name: Descargar M06 del visor (sha256 verificado)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          while IFS=$'\t' read -r T RUN BLOB SHA; do
+            python3 herramientas/p50_resolver.py blob --repo "$GITHUB_REPOSITORY" --blob-sha "$BLOB" --sha256 "$SHA" \
+              --salida "$RUNNER_TEMP/p50/paquetes/$T/productos/${T}_m06_${RUN}.zip"
+          done < <(jq -r '.territorios[] | [.territory_id, .run_id, .blob_sha, .sha256] | @tsv' plan.json)
+
+      - name: Añadir contexto de linaje
+        run: |
+          set -euo pipefail
+          export SRC_SHA="$(git rev-parse HEAD)"
+          P="$RUNNER_TEMP/p50/paquetes"   # fuera del repositorio: el directorio «paquetes» del repo es código (Deslinde)
+          while IFS=$'\t' read -r T RUN BLOB SHA; do
+            test -d "territorios/$T" || { echo "::error::Territorio desconocido: $T"; exit 1; }
+            mkdir -p "$P/$T/contexto"
+            cp -r "territorios/$T/config" "$P/$T/contexto/config"
+            cp configuracion/controles_obligatorios.yaml "$P/$T/contexto/"
+            cp CITATION.cff "$P/$T/"
+            T="$T" RUN="$RUN" BLOB="$BLOB" SHA="$SHA" P="$P" python3 - <<PY
+          import json, os, datetime
+          t = os.environ["T"]
+          json.dump({
+            "schema": "ddd.version-mapa/1.0",
+            "territory_id": t,
+            "version": os.environ["V"],
+            "source_run_id": os.environ["RUN"],
+            "production_run_id": os.environ["RUN"],  # run de la 00 del registro del visor (su run_id)
+            "source_commit": os.environ["SRC_SHA"],
+            "blob_sha": os.environ["BLOB"],
+            "sha256": os.environ["SHA"],
+            "published_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            "oficial": False,
+          }, open(f"{os.environ['P']}/{t}/LINAJE.json", "w"), ensure_ascii=False, indent=2)
+          PY
+          done < <(jq -r '.territorios[] | [.territory_id, .run_id, .blob_sha, .sha256] | @tsv' plan.json)
+
+      - name: Manifiesto SHA-256
+        run: |
+          set -euo pipefail
+          # solo los territorios del plan (nunca un glob del árbol)
+          for T in $(jq -r '.territorios[].territory_id' plan.json); do
+            d="$RUNNER_TEMP/p50/paquetes/$T"
+            (cd "$d" && find . -type f ! -name SHA256SUMS -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS && cat SHA256SUMS)
+          done
+
+      - name: Empaquetar de forma determinista
+        run: |
+          set -euo pipefail
+          mkdir -p salida
+          for T in $(jq -r '.territorios[].territory_id' plan.json); do
+            out="salida/ddd-${T}-v${V}.tar.gz"
+            tar --sort=name --mtime='1980-01-01 00:00Z' --owner=0 --group=0 --numeric-owner \
+                -czf "$out" -C "$RUNNER_TEMP/p50/paquetes/$T" .
+          done
+          # el lote tiene exactamente un paquete por territorio del plan
+          test "$(ls salida/ddd-*-v*.tar.gz | wc -l)" -eq "$(jq '.territorios | length' plan.json)"
+          (cd salida && sha256sum ddd-*-v*.tar.gz > SHA256SUMS)
+          cp plan.json salida/PLAN.json
+          jq '.mapa' plan.json > salida/MAPAS.json
+
+      - name: Atestación de procedencia (SLSA, Sigstore)
+        if: ${{ inputs.destino == 'Zenodo' }}   # registro público (Sigstore): nunca para un paquete de prueba
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: salida/ddd-*-v*.tar.gz
+
+      - name: Crear Release
+        if: ${{ inputs.destino == 'Zenodo' }}   # una prueba (sandbox) nunca crea una Release pública
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          sha="$(git rev-parse HEAD)"
+          gh release create "$TAG" salida/ddd-*-v*.tar.gz salida/SHA256SUMS salida/MAPAS.json --target "$sha" \
+            --title "Mapas v${V}" \
+            --notes "Mapas v${V} ($(jq -r '.territorios | length' plan.json) territorios) sobre el commit ${sha}. Verificar con: gh attestation verify <paquete>.tar.gz --repo ${GITHUB_REPOSITORY}. Mapas de investigación sin valor oficial."
+
+      - name: Guardar el lote de prueba (sin Release)
+        if: ${{ inputs.destino == 'prueba' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: p50-lote-prueba
+          path: |
+            salida/ddd-*-v*.tar.gz
+            salida/SHA256SUMS
+            salida/MAPAS.json
+          retention-days: 7
+
+  zenodo:
+    name: Depositar mapas en Zenodo
+    needs: [resolver, publicar]
+    # nueva: tras `publicar`; retomar: `publicar` se salta y se deposita la Release ya creada
+    if: ${{ !cancelled() && needs.resolver.result == 'success' && (needs.publicar.result == 'success' || (needs.publicar.result == 'skipped' && needs.resolver.outputs.modo == 'retomar')) }}
+    runs-on: ubuntu-latest
+    environment: publicacion          # el mismo entorno; aquí viven ZENODO_TOKEN y ZENODO_SANDBOX_TOKEN
+    permissions:
+      contents: read                  # solo leer la Release y el repositorio: sin escritura ni OIDC
+    env:
+      V: ${{ needs.resolver.outputs.version }}
+      TAG: ${{ needs.resolver.outputs.tag }}
+      DESTINO: ${{ inputs.destino }}
+      MODO: ${{ needs.resolver.outputs.modo }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Lote de prueba de este run (sin Release)
+        if: ${{ needs.resolver.outputs.modo == 'nueva' && inputs.destino == 'prueba' }}
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: p50-lote-prueba
+          path: lote
+
+      - name: Reunir ficheros del depósito (solo mapas, sin código)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p lote zen
+          if [[ "$MODO" == "retomar" || "$DESTINO" == "Zenodo" ]]; then
+            gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --dir lote --pattern 'ddd-*-v*.tar.gz' --pattern SHA256SUMS --pattern MAPAS.json
+          fi
+          # solo los paquetes de los territorios de MAPAS.json, con su sha256 de la Release y su LINAJE
+          python3 herramientas/zenodo_deposito.py preparar --lote lote --version "$V" --salida zen
+          cp docs/zenodo/LICENCIA_CC-BY-4.0.txt docs/zenodo/NOTA_FUENTES.md zen/
+          ls -l zen
+
+      - name: Depositar en Zenodo (prueba)
+        if: ${{ inputs.destino == 'prueba' }}
+        env:
+          ZENODO_TOKEN: ${{ secrets.ZENODO_SANDBOX_TOKEN }}   # solo este secreto, solo en este paso; sin respaldo cruzado
+        run: |
+          set -euo pipefail
+          python3 herramientas/zenodo_deposito.py depositar --destino prueba --version "$V" --tag "$TAG" \
+            --repo "$GITHUB_REPOSITORY" --ficheros zen/* > informe_zenodo.json
+          jq -r '"- Depósito de prueba: \(.doi // "sin publicar") · concepto nuevo: \(.concepto_nuevo)"' informe_zenodo.json >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Depositar en Zenodo (real)
+        if: ${{ inputs.destino == 'Zenodo' }}
+        env:
+          ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}           # solo este secreto, solo en este paso; sin respaldo cruzado
+          CONCEPTO_NUEVO: ${{ inputs.concepto_nuevo }}
+        run: |
+          set -euo pipefail
+          extra=()
+          if [[ "$CONCEPTO_NUEVO" == "true" ]]; then extra=(--permitir-concepto-nuevo); fi
+          python3 herramientas/zenodo_deposito.py depositar --destino Zenodo --version "$V" --tag "$TAG" \
+            --repo "$GITHUB_REPOSITORY" --ficheros zen/* "${extra[@]}" > informe_zenodo.json
+          {
+            echo "### Depósito en Zenodo"
+            echo "- Versión: $V · concepto nuevo: $(jq -r .concepto_nuevo informe_zenodo.json)"
+            echo "- DOI: $(jq -r '.doi // "sin publicar"' informe_zenodo.json) · $(jq -r '.url // .url_borrador // ""' informe_zenodo.json)"
+          } >> "$GITHUB_STEP_SUMMARY"

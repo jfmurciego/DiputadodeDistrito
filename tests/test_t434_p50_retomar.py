@@ -479,6 +479,9 @@ class EquivalenciaResto(Congelado):
             for sv, sn in zip(jv["steps"], [s for s in self.n["jobs"][jn]["steps"] if (jn, s.get("name")) not in NUEVOS]):
                 if (jn, sv.get("name")) in CAMBIADOS:
                     continue
+                if jn == "zenodo" and str(sv.get("name", "")).startswith("Depositar en Zenodo"):
+                    # T-438 (P50 1.2.1): el informe pasa por `| tee` en vez de `>`; lo fija tests/test_t438_p50_informe_log.py
+                    sn = dict(sn, run=sn["run"].replace("| tee informe_zenodo.json", "> informe_zenodo.json"))
                 self.assertEqual(sv, sn, (jn, sv.get("name")))
 
     def test_pasos_cambiados_conservan_lo_esencial(self):
