@@ -191,11 +191,25 @@ class Equivalencia(unittest.TestCase):
         self.assertNotEqual(d, viejo)
 
     def test_campana(self):
-        nuevo = (WF / "p00-campana.yml").read_text(encoding="utf-8")
-        viejo = fijo("p00-campana_1.0.0.yml").read_text(encoding="utf-8")
-        cuerpo = lambda t: t.split("\nname: ", 1)[1]  # noqa: E731  (sin la cabecera de versión)
-        self.assertEqual(cuerpo(nuevo).count('--source-sha "$GITHUB_SHA"'), 2)
-        self.assertEqual(cuerpo(nuevo).replace(' --source-sha "$GITHUB_SHA"', ""), cuerpo(viejo))
+        """Sin `--source-sha`, las salidas `sha`/`sanos` del cierre y la llamada a P40 por territorios (3c-ii), es la 1.0.0."""
+        nuevo, viejo = leer(WF / "p00-campana.yml"), leer(fijo("p00-campana_1.0.0.yml"))
+        texto = (WF / "p00-campana.yml").read_text(encoding="utf-8").split("\nname: ", 1)[1]
+        self.assertEqual(texto.count('--source-sha "$GITHUB_SHA"'), 2)
+        d = copy.deepcopy(nuevo)
+        j = d["jobs"]
+        for nombre in ("cierre_main", "cierre_rama"):
+            p = paso(j[nombre], "cerrar")
+            p["run"] = p["run"].replace(' --source-sha "$GITHUB_SHA"', "")
+        p = paso(j["cierre_main"], "cerrar")
+        p["run"] = re.sub(r"(?m)^ *echo \"sanos=.*\n", "", p["run"])
+        for k in ("sha", "sanos"):
+            del j["cierre_main"]["outputs"][k]
+        j["publicar"]["if"] = j["publicar"]["if"].replace(" && needs.cierre_main.outputs.sanos != ''", "")
+        for k in ("que_publicar", "territorios", "ref"):
+            del j["publicar"]["with"][k]
+        self.assertEqual(d, viejo)
+        d["jobs"]["publicar"]["with"]["pagina_publicar"] = "Otra"  # control negativo
+        self.assertNotEqual(d, viejo)
 
 
 if __name__ == "__main__":

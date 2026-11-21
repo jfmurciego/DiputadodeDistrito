@@ -2,8 +2,10 @@
 # CLASE: interfaz humana de campaña (P00 Campaña, diseño T-378 1.1.4)
 # VERSIÓN: 1.0.1 · FECHA: 2026-11-20 · ESTADO: candidato
 # ANTERIOR: legacy/workflows/p00-campana_v1.0.0_20261120.yml
-# CAMBIOS 1.0.1: T-379 3c-i: «cerrar» recibe `--source-sha "$GITHUB_SHA"` (campana_registro.py 1.1.0 escribe en el commit de
-#   cierre el manifiesto de ejecución completa de cada sano). El resto, idéntico.
+# CAMBIOS 1.0.1: T-379 3c: «cerrar» recibe `--source-sha "$GITHUB_SHA"` (campana_registro.py 1.1.0 escribe en el commit de
+#   cierre el manifiesto de ejecución completa de cada sano). `cierre_main` publica además `sha` (commit de cierre) y `sanos`;
+#   `publicar` llama a P40 con «Territorios», los sanos y `ref` = ese sha (D-177: solo si se eligió publicar, por defecto
+#   «no», y la aprobación `produccion` la pide P40). El resto, idéntico.
 # CAMBIOS 1.0.0: T-379 PR 3: fichero nuevo. Convive con la 00 (`ejecucion-completa-proyecto.yml`), que también se llama
 #   «P00 Campaña» (§9: el disparo de P90 por nombre sirve para las dos); esta lleva «· campaña ·» en el run-name.
 # MOTIVO: D-129, D-130, D-140 y D-147: una campaña = una ejecución.
@@ -237,6 +239,8 @@ jobs:
       issues: write
     outputs:
       commit: ${{ steps.cerrar.outputs.commit }}
+      sha: ${{ steps.cerrar.outputs.sha }}
+      sanos: ${{ steps.cerrar.outputs.sanos }}
     env:
       GH_TOKEN: ${{ github.token }}
       ISSUE: ${{ needs.comprobar.outputs.issue }}
@@ -314,6 +318,7 @@ jobs:
             echo "commit=$(jq -r .commit .ddd-p00/cierre.json)"
             echo "sha=$(jq -r '.sha // empty' .ddd-p00/cierre.json)"
             echo "rama=$(jq -r .rama .ddd-p00/cierre.json)"
+            echo "sanos=$(jq -r '.sanos | join(",")' .ddd-p00/cierre.json)"
           } >> "$GITHUB_OUTPUT"
       - name: Informe entregado
         shell: bash
@@ -420,7 +425,7 @@ jobs:
   publicar:
     name: Publicación
     needs: [comprobar, cierre_main]
-    if: ${{ !cancelled() && needs.comprobar.outputs.publicar == 'true' && needs.cierre_main.result == 'success' && needs.cierre_main.outputs.commit == 'true' }}
+    if: ${{ !cancelled() && needs.comprobar.outputs.publicar == 'true' && needs.cierre_main.result == 'success' && needs.cierre_main.outputs.commit == 'true' && needs.cierre_main.outputs.sanos != '' }}
     permissions:
       contents: write
       actions: read
@@ -430,6 +435,9 @@ jobs:
     secrets: inherit
     with:
       pagina_publicar: Sitio completo
+      que_publicar: Territorios
+      territorios: ${{ needs.cierre_main.outputs.sanos }}
+      ref: ${{ needs.cierre_main.outputs.sha }}
 
   resultado:
     name: resultado
