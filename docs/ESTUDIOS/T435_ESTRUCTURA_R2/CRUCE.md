@@ -39,11 +39,10 @@ Totales por acción: mover 850 (11,06 GB) · mover tras regenerar 335 (1,25 GB) 
    120 paquetes P10 vigentes pesan 9,29 GB y las fuentes INE 1,55 GB (una sola tabla, `30832_…csv`, son 446 MB). La estructura
    nueva ordena; el límite gratuito exige otra decisión (comprimir/recortar paquetes P10, o asumir el coste: unos 0,03 USD/mes por
    cada 2 GB sobre el límite, a 0,015 USD/GB·mes).
-2. **22 paquetes P10 antiguos (1,82 GB)** no son el paquete de ningún contrato vigente: es lo único «seguro» de borrar dentro de
-   `arc-e`. D-178 conservó `arc-e` entero «sin listado de 2.º nivel»; este listado lo da ahora. Hace falta decisión del propietario.
+2. **22 paquetes P10 antiguos (1,82 GB)** no son el paquete de ningún contrato vigente. D-178 conservó `arc-e` entero «sin listado de 2.º nivel»; este listado lo da. **Decidido el 21-11 (propietario, vía Planificador): se borran junto con la limpieza posterior al 29-11 (D-178)**; siguen marcados «borrar» en `CRUCE_claves.csv` y sujetos a D-52.
 3. **Colisión de nombres entre ámbitos.** `aut13` (Madrid) y `nac28` (Madrid), `aut14`/`nac30`, `aut06`/`nac39`… comparten
    nombre en español. Por eso, fuera de `mapas/` (que ya separa ámbito), las carpetas llevan ámbito: `fuentes/por-territorio/{nacionales,autonomicas}/<territorio>/` e
-   `interno/estados/{nacionales,autonomicas}/<territorio>/`. Es un refinamiento de lo aprobado («fuentes/por-territorio/<territorio>/»): ¿vale?
+   `interno/estados/{nacionales,autonomicas}/<territorio>/`. **Decidido el 21-11: vale.**
 4. **Duplicados:** los 57 del P74 anterior son 2 grupos de tipos: 5 pares de Nazioen Behatokia (mismo ETAG; al quitar el sha12
    del nombre colisionan y se guarda uno) y 52 pares de doble vuelta de `nacNN` (p75 superados; se conserva el fijado).
 5. Ceuta y Melilla (`aut18`, `aut19`) no tienen autonómica vigente en `calendario_autonomicas.csv`: su carpeta `mapas/autonomicas/<comunidad>-<año>/` queda con año por fijar.
