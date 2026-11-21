@@ -264,8 +264,9 @@ class Workflow(unittest.TestCase):
         self.assertEqual({k: v for k, v in listar.items() if k != "steps"}, {k: v for k, v in antes_listar.items() if k != "steps"})
         self.assertEqual(listar["steps"][0], antes_listar["steps"][0])
         self.assertEqual(listar["steps"][1]["env"], antes_listar["steps"][1]["env"])
-        # T-432 (P70 1.1.4): un paso más (artefacto del inventario CSV) y nada más: +2 en total, ambos subidas de artefacto.
-        self.assertEqual(len(listar["steps"]), len(antes_listar["steps"]) + 2)
+        # T-432 (P70 1.1.4) y T-437 (1.1.5): dos pasos más en total además de la subida de duplicados: subida del inventario CSV y su impresión en el log (+3).
+        self.assertEqual(len(listar["steps"]), len(antes_listar["steps"]) + 3)
+        self.assertEqual("Imprimir el inventario en el log", listar["steps"][-1]["name"])
         extra = [s for s in listar["steps"][2:] if str(s.get("uses", "")).startswith("actions/upload-artifact@")]
         self.assertEqual(["p74-duplicados-${{ github.run_id }}", "p74-inventario-${{ github.run_id }}"], [s["with"]["name"] for s in extra])
 
