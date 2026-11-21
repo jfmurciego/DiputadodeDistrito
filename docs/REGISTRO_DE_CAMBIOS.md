@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.577
+Versión: 1.0.578
 Fecha: 2026-11-21
-Alcance: T-436 — Plan 1.0.73
+Alcance: Coordinador — Traspaso por contexto lleno
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-21_planificador-plan-1-0-73.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.576_registro_20261121.md
+Cambios/motivo: entrada docs/registro/2026-11-21_coordinador-traspaso.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.577_registro_20261121.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.576_registro_20261121.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.578 · [2026-11-21 — Coordinador — Traspaso por contexto lleno](registro/2026-11-21_coordinador-traspaso.md)
 - 1.0.577 · [2026-11-21 — T-436 — Plan 1.0.73](registro/2026-11-21_planificador-plan-1-0-73.md)
 - 1.0.576 · [2026-11-20 — Coordinador — Lecciones y costes de la jornada (T-379, T-400, T-424, T-426…T-434)](registro/2026-11-20_coordinador-lecciones.md)
 - 1.0.575 · [2026-11-20 — T-434 — P50 1.2.0: sin el código de Deslinde en el lote, «Retomar el depósito en Zenodo» y prueba sin Release](registro/2026-11-20_t434-p50-zenodo-retomar.md)
