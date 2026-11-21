@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.72
-Fecha: 2026-11-20
+Versión: 1.0.73
+Fecha: 2026-11-21
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-183 a D-187 (autonómicas, V4 oficial en la raíz, histórico 2011, web editable, R2); T-424 a T-432
-Anterior: legacy/docs/PLAN_v1.0.71_20261120.md
+Cambios/motivo: D-188 (estructura de R2) y D-189 (diseños con no-automerge); T-432 a T-436 al día; auditoría del 21-11
+Anterior: legacy/docs/PLAN_v1.0.72_20261120.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -326,6 +326,8 @@ Fase 4 — producto (en el privado):
 - D-185 (20-11, propietario). Histórico 2011-11: totales municipales del Censo 2011 del INE (con huella) para cuadrar 08, 36 y 51, o siguen bloqueadas; exención de suelo de 38-G01 como la de 35-C02.
 - D-186 (20-11, propietario; T-430, #951). Web editable en minutos: repositorio aparte `ddd-web` en Cloudflare Pages (publicación en cada commit, vista previa por rama, pruebas de segundos); la web es la V4 y solo se mantiene la V4; la V3 queda como archivo congelado. Reparto: GitHub = cálculos y algoritmo; R2 = fuentes y mapas generados; la web lee de R2 a través de un índice «actual» con sha256, de modo que una regeneración se ve sin tocar la web. Dominio en GoDaddy apuntado a Cloudflare. El espacio de la web en R2 entra en el presupuesto de D-176/D-178. Zenodo no espera a esto: el dominio no cambia.
 - D-187 (20-11, propietario). R2: los duplicados son insignificantes (57 objetos, 0,001 GB); el propietario quiere el inventario completo de R2 (T-432, `--inventario` en P74).
+- D-188 (20-11, propietario). Estructura de R2 clara y en español, sin códigos ni números de run en los nombres: `fuentes/<organismo>/<año>/`, `fuentes/por-territorio/<territorio>/`, `mapas/{nacionales,autonomicas,historicos}/…/<provincia>/`, `interno/` (checkpoints y auditorías); el run y la huella van en `manifiesto.json`. Solo la versión vigente (también la web: se escribe la nueva, se comprueba y se borra la vieja; caché de 60 s). `web/actual/` solo en el bucket público `ddd-web-datos`. La regeneración posterior al 29-11 escribe ya en la estructura nueva; lo viejo se borra después junto con D-178. Diseño: T-435 (#961, #962).
+- D-189 (21-11, propietario). Toda PR de diseño lleva la etiqueta `no-automerge`: el bot fusionó #961 antes de las correcciones y de la conformidad de T-430. Las fusiona el Coordinador tras la aprobación del propietario (D-169).
 - D-182 (19-11, propietario; T-421, #930, #933). Bloques de las autonómicas: Junts y Contigo-Zurekin, DO, 100x100, Aliança Catalana, UxGC, Andalucistas y Alhora en Nacionalistas; SALF en Patriotas; Drago Verdes Canarias en Izquierdas; resto sin bloque. Faltan datos por sección de Asturias, Castilla-La Mancha, Extremadura y Murcia.
 - D-179 (19-11, propietario). PRIORIDAD: la V4 en producción. La doble vuelta se calcula desde los paquetes `ddd-minimo-<run>-M08` ya archivados en R2 de los 71 publicados (sin regenerar) con una opción nueva de solo lectura en P70 (T-418). La primera V4 lleva los 52 territorios del Congreso (`nac`); los 19 `aut` (elecciones autonómicas) van en una segunda tanda cuando la tabla de bloques cubra sus partidos. El Coordinador lleva el camino crítico; al propietario solo se le piden firmas (fusión de código, frase de lanzamiento, permiso de publicar). La limpieza de R2, la 2a y la PR 3 de P00 no lo bloquean.
 - D-177 (19-11, Planificador, criterio técnico). Doble vuelta: tabla de alias id de fuente → partido homologado derivada de `datos/homologacion_siglas/` (#914; 100 % de votos 2011-2023; «LA IZQUIERDA PLURAL» 2011 declarada, sin efecto de bloque); la regeneración no empieza sin #911, #914 y el `--alias` en P30. En campaña, P30 archiva en R2 en el mismo job y solo se salta el registro en main (opción A de T-379); el modo de inicio de P20 es una opción de la campaña (por defecto «Generar desde fuente territorial acreditada»); la campaña no publica salvo opción expresa del propietario (por defecto «No publicar») y siempre con la aprobación de `produccion`.
@@ -469,10 +471,13 @@ Fase 4 — producto (en el privado):
 | T-427 | Doble vuelta autonómica en P75 y en la V4 (#945, #946, #948) | HECHA (13 aut fijadas; 15 tras relanzar P75) |
 | T-428 | V4 en la raíz del dominio (#947) | HECHA |
 | T-429 | Textos de la V4 de la auditoría externa (#949) | REVISIÓN (no prioritaria) |
-| T-430 | Web editable: ddd-web + Cloudflare Pages (D-186, #951) | EN CURSO (fase 1, turno sobre P40) |
+| T-430 | Web editable: ddd-web + Cloudflare Pages (D-186, #951) | EN CURSO (fase 1 #957 fusionada, inerte sin R2_WEB_BUCKET; fase 2 espera el repo ddd-web) |
 | T-379c | P00 3c (manifiesto por territorio, P40 desde campaña), relevo de T-379 | EN CURSO (borrador; 3c-ii tras T-430) |
-| T-432 | Inventario completo de R2 | EN CURSO |
-| T-433 | Actualización del plan 1.0.72 | REVISIÓN (esta PR) |
+| T-432 | Inventario completo de R2 (#952, P74 44751091049) | HECHA |
+| T-434 | P50 sin código de Deslinde, «Retomar» el depósito, prueba sin Release (#960) | HECHA (depósito: espera la clave de Zenodo y la frase al Operador) |
+| T-435 | Diseño de la estructura de R2 (D-188, #961, #962) | REVISIÓN (falta el cruce clave a clave con el CSV del P74, que sube el propietario) |
+| T-436 | Actualización del plan 1.0.73 | REVISIÓN (esta PR) |
+| T-433 | Actualización del plan 1.0.72 (#958) y pin de 15 aut (#955) | HECHA (falta P40 de las 15 aut) |
 | T-425 | Actualización del plan 1.0.71 | HECHA (#940) |
 | T-419 | Actualización del plan 1.0.70 | HECHA (#922) |
 | T-417 | Actualización del plan 1.0.69 | HECHA (#917) |
