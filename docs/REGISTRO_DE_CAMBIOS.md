@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.579
+Versión: 1.0.580
 Fecha: 2026-11-21
-Alcance: T-437 — P74 imprime el inventario en el log
+Alcance: T-438 — P50 imprime el informe del depósito en el log
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-21_t437-p74-log.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.578_registro_20261121.md
+Cambios/motivo: entrada docs/registro/2026-11-21_t438-p50-informe-log.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.579_registro_20261121.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.578_registro_20261121.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.580 · [2026-11-21 — T-438 — P50 imprime el informe del depósito en el log](registro/2026-11-21_t438-p50-informe-log.md)
 - 1.0.579 · [2026-11-21 — T-437 — P74 imprime el inventario en el log](registro/2026-11-21_t437-p74-log.md)
 - 1.0.578 · [2026-11-21 — Coordinador — Traspaso por contexto lleno](registro/2026-11-21_coordinador-traspaso.md)
 - 1.0.577 · [2026-11-21 — T-436 — Plan 1.0.73](registro/2026-11-21_planificador-plan-1-0-73.md)
