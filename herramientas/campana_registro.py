@@ -12,7 +12,8 @@ CAMBIOS: 1.1.0 (T-379 3c-i, Planificador 20-11): `cerrar` escribe, en el mismo c
   de ejecución completa `territorios/<id>/evidencia/ejecuciones_completas/<run>.json` (el que el job `manifestar` de la 00
   escribe con escribir_manifest_ejecucion_completa.py), con los datos de las puertas 01-04 y la optimización que la cadena
   deja en las huellas de P10, P20 y P30; sin esos datos → CIERRE_MANIFIESTO_INCOMPLETO (fallo cerrado, sin commit). Nueva
-  entrada obligatoria `--source-sha` (versión de la campaña). Sin campaña nada cambia: la herramienta solo la usa P00 Campaña.
+  entrada obligatoria `--source-sha` (versión de la campaña). El territory_id de las huellas debe ser el del territorio (si no,
+  CIERRE_MANIFIESTO_INCOMPLETO). Sin campaña nada cambia: la herramienta solo la usa P00 Campaña.
 CAMBIOS 1.0.0: fichero nuevo (T-379 PR 3b, opción A del Planificador del 19-11).
 MOTIVO: diseño P00 1.1.4 §5 y §6 (un solo commit en main al cierre) y D-147; las herramientas de registro de P10-P30
   no cambian: escriben y empujan como siempre, pero contra un repositorio local.
@@ -311,7 +312,9 @@ def manifiestos(root: Path, alm, campana: str, run_id: str, source_sha: str, ter
         for t in sorted(territorios):
             evidencia = Path(td) / f"{t}_optimizacion.json"
             args = argumentos_manifiesto(alm, campana, t, run_id, source_sha, evidencia)
-            rel = ruta_manifiesto(args[1], run_id)
+            if args[1] != t:  # el id del plan (huellas de P10) debe ser el del territorio del recuento
+                raise RegistroError(f"CIERRE_MANIFIESTO_INCOMPLETO: {t}: las huellas dicen territory_id={args[1]!r}")
+            rel = ruta_manifiesto(t, run_id)
             r = subprocess.run([sys.executable, str(ESCRITOR), *args, "--output", str(Path(root) / rel)],
                                capture_output=True, text=True)
             if r.returncode != 0:

@@ -311,6 +311,40 @@ class ManifiestoEnElCierre(BaseCierre):
         with self.assertRaisesRegex(cr.RegistroError, "puerta_04.run_id"):
             self.cierre()
 
+    def test_territorio_de_las_huellas_distinto_falla_cerrado(self):
+        """Revisor de #956: la ruta del manifiesto es la del territorio del recuento; unas huellas de otro territorio no
+        pueden escribir en la carpeta ajena (control: con las suyas, sí)."""
+        h = huellas_cadena("aut11")
+        h["P10"]["plan"]["territory_id"] = "nac22"
+        self.registrar_en_ensayo("aut11", 10, {"datos/a.json": "{}\n"})
+        for paso in ce.PASOS:
+            ce.empezar(self.alm, "900", "aut11", paso, 1)
+            ce.registrar(self.alm, "900", "aut11", paso, 1, "ok", huellas=h[paso])
+        antes = git(self.remoto, "rev-parse", "main")
+        with self.assertRaisesRegex(cr.RegistroError, "aut11: las huellas dicen territory_id='nac22'"):
+            self.cierre()
+        self.assertEqual(git(self.remoto, "rev-parse", "main"), antes)
+
+    def test_desde_rama_solo_empuja_a_p00_cierre_del_run(self):
+        """Revisor de #956: el límite de `cierre_rama` lo da el código (plan_cierre), no el permiso: desde otra ref solo
+        cambia `p00-cierre/<run_id numérico>`; ninguna otra rama del remoto se toca."""
+        self.registrar_en_ensayo("aut11", 10, {"datos/a.json": "{}\n"})
+        self.sanar("aut11")
+        git(self.remoto, "branch", "p00-cierre/900", "main")
+        git(self.remoto, "branch", "otra", "main")
+        refs = lambda: dict(l.split(" ", 1)[::-1] for l in git(self.remoto, "show-ref").splitlines())  # noqa: E731
+        antes = refs()
+        r = self.cierre("refs/heads/t379-p00")
+        despues = refs()
+        self.assertEqual(r["rama"], "p00-cierre/900")
+        self.assertEqual({k for k in despues if despues[k] != antes.get(k)}, {"refs/heads/p00-cierre/900"})
+        for ref in ("refs/heads/main", "refs/heads/feature/x", "refs/pull/1/merge"):
+            plan = ce.plan_cierre(self.alm, "900", ref, "900", False, ["datos/a.json"])
+            self.assertEqual(plan["rama"], "main" if ref == "refs/heads/main" else "p00-cierre/900", ref)
+        for malo in ("900; rm", "../main", "", "main"):
+            with self.assertRaises(ce.EstadoError):
+                ce.plan_cierre(self.alm, "900", "refs/heads/x", malo, False, ["datos/a.json"])
+
     def test_source_sha_obligatorio(self):
         self.registrar_en_ensayo("aut11", 10, {"datos/a.json": "{}\n"})
         self.sanar("aut11")

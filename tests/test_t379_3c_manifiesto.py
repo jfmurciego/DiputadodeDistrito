@@ -166,6 +166,24 @@ class Huellas(unittest.TestCase):
                                                      "fallback": False, "fallback_reason": None})
 
 
+class CierreRama(unittest.TestCase):
+    """Revisor de #956: `cierre_rama` solo corre fuera de main y solo escribe en `p00-cierre/<run_id>` (número del run)."""
+
+    def test_solo_p00_cierre_del_run(self):
+        j = leer(WF / "p00-campana.yml")["jobs"]["cierre_rama"]
+        self.assertIn("github.ref != 'refs/heads/main'", j["if"])
+        runs = "\n".join(p.get("run", "") for p in j["steps"])
+        self.assertIn('rama="p00-cierre/$GITHUB_RUN_ID"', runs)
+        self.assertIn('--ref "$GITHUB_REF" --run-id "$GITHUB_RUN_ID"', runs)
+        # ningún push ni ref de git fuera de esa rama (la herramienta empuja a la rama del plan, p00-cierre/<run>)
+        self.assertNotIn("git push", runs)
+        refs = re.findall(r"ref=refs/heads/([^\" ]+)", runs)
+        self.assertEqual(refs, ["$rama"])
+        self.assertEqual(paso(j, "cerrar")["env"].get("RAMA"), None)
+        pr = next(p for p in j["steps"] if "RAMA" in (p.get("env") or {}))
+        self.assertEqual(pr["env"]["RAMA"], "${{ steps.cerrar.outputs.rama }}")
+
+
 class Equivalencia(unittest.TestCase):
     """Sin lo que añade la 3c-i, los dos workflows son los de la 1.0.0 (fixture con sha256)."""
 
