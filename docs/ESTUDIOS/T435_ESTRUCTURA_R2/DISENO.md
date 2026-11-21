@@ -19,7 +19,7 @@ interno/                                        checkpoints, auditorías, bater�
 ```
 
 El bucket de trabajo tiene solo `fuentes/`, `mapas/` e `interno/`. `web/actual/` (índice vigente `actual.json`, D-186) va **solo** en el bucket público `ddd-web-datos` de T-430.
-Las fuentes ya preparadas de cada territorio (los paquetes P10) van en `fuentes/por-territorio/<territorio>/`.
+Las fuentes ya preparadas de cada territorio (los paquetes P10) van en `fuentes/por-territorio/{nacionales,autonomicas}/<territorio>/` (subcarpeta de ámbito: `nac` y `aut` comparten nombres, como Madrid o Murcia; decidido el 21-11).
 
 - Nombres: español, minúsculas, sin tildes ni «ñ», palabras con guion (`la-coruna`, `santa-cruz-de-tenerife`, `ciudad-real`).
   Topónimos solo en español, según `fuentes/territorios_espana.yaml` (Gerona, Lérida, Orense, Guipúzcoa, Vizcaya, Álava).
@@ -41,11 +41,11 @@ Las fuentes ya preparadas de cada territorio (los paquetes P10) van en `fuentes/
 | `arc-e/fuentes/interior/…` (ZIP por mesa 2023-07) | idem | `fuentes/interior/2023/mesas.zip` | `fuente_r2.py` |
 | `arc-e/fuentes/xunta/<nombre>_<sha12>.csv` | idem | `fuentes/xunta/2024/<nombre>.csv` | |
 | `arc-e/fuentes/nazioenbehatokia/{data,geo}/<época>/…/<NN>_<sha12>.json` | idem | `fuentes/gobierno-vasco/<año>/…` | 5 grupos duplicados idénticos 2019/2020 y 2016/2024: se guarda uno y el manifiesto apunta a ambos años |
-| `arc-e/paquetes-p10/<package_sha256>.zip` | idem | `fuentes/por-territorio/<territorio>/paquete.zip` (+ manifiesto con el sha256) | decidido (pregunta 2) |
+| `arc-e/paquetes-p10/<package_sha256>.zip` | idem | `fuentes/por-territorio/{nacionales,autonomicas}/<territorio>/paquete.zip` (+ manifiesto con el sha256) | decidido (pregunta 2) |
 | `arc-e/<territorio>/<run>/…` (entradas mínimas ddd-minimo) | idem | `interno/entradas/<territorio>/` | solo la última |
 | `arc-p/m06/<asset>_<sha12>.zip` | 1,11 GB (con el resto de `arc-p`) | `mapas/…/<provincia>/mapa.geojson` si es M06 vigente; resto `interno/` | `almacen_m06_r2.py`, `localizar_artefacto_durable.py` |
 | `arc-p/<id>/<run>/auditoria-*.zip` | idem | `interno/auditorias/<territorio>/` | |
-| `<territorio>/<run>/ddd-*.zip` (`cataluna`, `madrid`, `andalucia`…, ~11 objetos c/u; 0,37 GB la mayor) | ~1,8 GB en estados viejos | `interno/estados/<territorio>/` (solo el último) o **borrar** | claves de `archivo_r2.json`; el resto, **borrar** (D-178) |
+| `<territorio>/<run>/ddd-*.zip` (`cataluna`, `madrid`, `andalucia`…, ~11 objetos c/u; 0,37 GB la mayor) | ~1,8 GB en estados viejos | `interno/estados/{nacionales,autonomicas}/<territorio>/` (solo el último) o **borrar** | claves de `archivo_r2.json`; el resto, **borrar** (D-178) |
 | `nacNN/<run>/ddd-doble-vuelta-…-p75-<run>-1.zip` (52) | ~0,1 GB | `mapas/nacionales/congreso-2023/<provincia>/doble-vuelta.zip` | 57 duplicados idénticos (0,001 GB): solo queda el de la última generación |
 | `autNN/…` (19) | ~0,1 GB | `mapas/autonomicas/<comunidad>-<año>/…` | P75 autonómicas |
 | `congreso_<provincia>/…`, `congreso350_<provincia>/…` | ~0,3 GB | `interno/` o **borrar** | territorios antiguos; `congreso350_*` son la competición (T-428), no producto |
@@ -84,7 +84,8 @@ T-430 sigue adelante con «solo la vigente» (su `DISENO.md` 1.3.0, #957@72d75fa
 ## Decisiones del propietario (20-11)
 
 1. Solo la versión vigente también para la web (escribir, comprobar, borrar; caché de 60 s): sí.
-2. Fuentes preparadas en `fuentes/por-territorio/<territorio>/`: sí.
+2. Fuentes preparadas en `fuentes/por-territorio/<territorio>/`: sí. (21-11: con subcarpeta de ámbito `nacionales/` o `autonomicas/` también en `interno/`: sí.)
+4. (21-11) Los 22 paquetes P10 antiguos (1,82 GB) que no cita ningún contrato vigente se borran junto con la limpieza posterior al 29-11 (D-178): sí. Siguen sujetos a D-52.
 3. `web/actual/` solo en `ddd-web-datos`; el bucket de trabajo, con `fuentes/`, `mapas/` e `interno/`: sí.
 
 Bucket público `ddd-web-datos` (acordado con T-430): todo bajo `web/actual/` (`actual.json` y los datos con las rutas del sitio: `datos/`, `mapa/datos/`, `v2/datos/`, `data/`), con carpetas de territorio en español sin códigos ni runs; el run y los sha256 van en `actual.json`. No usa la nomenclatura de `mapas/` de este bucket. P40 sube lo cambiado, comprueba sha256, escribe `actual.json` y borra lo que ya no figura en el índice.
