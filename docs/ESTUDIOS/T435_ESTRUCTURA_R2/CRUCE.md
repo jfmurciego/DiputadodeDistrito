@@ -13,7 +13,7 @@ verificar, y siempre con frase de campaña D-52 del propietario (D-176/D-178).
 | Grupo actual | Acción propuesta | Objetos | Tamaño |
 |---|---|---:|---:|
 | `arc-e/paquetes-p10` | mover a `fuentes/por-territorio/…/paquete.zip` (paquete del contrato vigente) | 120 | 9.288 MB |
-| `arc-e/paquetes-p10` | **borrar**: versión anterior (solo figura en la evidencia de un territorio, no en su contrato vigente) | 22 | 1.818 MB |
+| `arc-e/paquetes-p10` | **borrar**: sin referencia en el repositorio (ni contrato vigente ni evidencia) | 22 | 1.818 MB |
 | `arc-e/fuentes/ine` | mover a `fuentes/ine/<año>/` | 19 | 1.548 MB |
 | `arc-e/fuentes/nazioenbehatokia` | mover a `fuentes/gobierno-vasco/…` (sin sha12) | 625 | 214 MB |
 | `arc-e/fuentes/interior`, `xunta` | mover a `fuentes/interior/2023/`, `fuentes/xunta/2024/` | 5 | 5 MB |
@@ -39,7 +39,7 @@ Totales por acción: mover 850 (11,06 GB) · mover tras regenerar 335 (1,25 GB) 
    120 paquetes P10 vigentes pesan 9,29 GB y las fuentes INE 1,55 GB (una sola tabla, `30832_…csv`, son 446 MB). La estructura
    nueva ordena; el límite gratuito exige otra decisión (comprimir/recortar paquetes P10, o asumir el coste: unos 0,03 USD/mes por
    cada 2 GB sobre el límite, a 0,015 USD/GB·mes).
-2. **22 paquetes P10 antiguos (1,82 GB)** no son el paquete de ningún contrato vigente. D-178 conservó `arc-e` entero «sin listado de 2.º nivel»; este listado lo da. **Decidido el 21-11 (propietario, vía Planificador): se borran junto con la limpieza posterior al 29-11 (D-178)**; siguen marcados «borrar» en `CRUCE_claves.csv` y sujetos a D-52.
+2. **22 paquetes P10 antiguos (1,82 GB)** no son el paquete de ningún contrato vigente ni figuran en la evidencia de ningún territorio (ninguna de las 22 claves aparece en el repositorio). D-178 conservó `arc-e` entero «sin listado de 2.º nivel»; este listado lo da. **Decidido el 21-11 (propietario, vía Planificador): se borran junto con la limpieza posterior al 29-11 (D-178)**; siguen marcados «borrar» en `CRUCE_claves.csv` y sujetos a D-52.
 3. **Colisión de nombres entre ámbitos.** `aut13` (Madrid) y `nac28` (Madrid), `aut14`/`nac30`, `aut06`/`nac39`… comparten
    nombre en español. Por eso, fuera de `mapas/` (que ya separa ámbito), las carpetas llevan ámbito: `fuentes/por-territorio/{nacionales,autonomicas}/<territorio>/` e
    `interno/estados/{nacionales,autonomicas}/<territorio>/`. **Decidido el 21-11: vale.**
@@ -50,7 +50,7 @@ Totales por acción: mover 850 (11,06 GB) · mover tras regenerar 335 (1,25 GB) 
 ## Reglas aplicadas (reproducibles)
 
 - **Vigente de un territorio** = `package_sha256` de `territorios/<t>/config/<t>_2025.yaml`. Un paquete P10 que solo aparece en
-  `territorios/*/evidencia/` es «versión anterior»; el que no aparece en el repositorio, «sin referencia».
+  `territorios/*/evidencia/` sería «versión anterior» (ninguno lo es hoy); el que no aparece en el repositorio es «sin referencia» (los 22).
 - **Doble vuelta vigente** = run p75 fijado en `configuracion/doble_vuelta_publicada.json` (hoy 44575597009-1 y, autonómicas,
   44747623035-1); los demás p75 son duplicados superados.
 - **Último run de su tipo** (`ddd-audit`, `ddd-audit-electoral`, `ddd-minimo-M06/M08`, `ddd-state-…`) por territorio `nacNN`/`autNN`: el de

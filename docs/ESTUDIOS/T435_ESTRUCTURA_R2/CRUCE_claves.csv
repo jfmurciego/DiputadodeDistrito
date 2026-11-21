@@ -672,27 +672,27 @@ arc-e/fuentes/xunta/galicia_parlamento_2024_ourense_mesas_9e7992fc0665.csv,45226
 arc-e/fuentes/xunta/galicia_parlamento_2024_pontevedra_mesas_aa5be16cb070.csv,109012,mover,fuentes/xunta/2024/galicia_parlamento_2024_pontevedra_mesas.csv,Parlamento de Galicia 2024
 arc-e/paquetes-p10/0192eb0046a947d131012375e7d0d5585af948102a3b1f07188b4bfdc650d38e.zip,74807977,mover,fuentes/por-territorio/nacionales/350-valladolid/paquete.zip,paquete vigente de congreso350_valladolid (config 2025)
 arc-e/paquetes-p10/02530f30912c66f33f262973ad696816576fa7fe3329695e9d0417deb1853b0a.zip,83036929,mover,fuentes/por-territorio/nacionales/madrid/paquete.zip,paquete vigente de nac28 (config 2025)
-arc-e/paquetes-p10/02ad2c8ef9f4716f907f8aa9cc9690a9bc721c26c29a4c7fd9fc662bd33de046.zip,80851197,borrar,,sin referencia en el repositorio
+arc-e/paquetes-p10/02ad2c8ef9f4716f907f8aa9cc9690a9bc721c26c29a4c7fd9fc662bd33de046.zip,80851197,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
 arc-e/paquetes-p10/03b246bda8b565956df1efac154332783f9a5b7402a2b4b23be782ccf5de7910.zip,87801769,mover,fuentes/por-territorio/nacionales/navarra/paquete.zip,paquete vigente de nac31 (config 2025)
-arc-e/paquetes-p10/045cbc8f075163bc60451b5a49fffe86563baf9d2a48be8aa89c0480cd61abce.zip,89375444,borrar,,sin referencia en el repositorio
+arc-e/paquetes-p10/045cbc8f075163bc60451b5a49fffe86563baf9d2a48be8aa89c0480cd61abce.zip,89375444,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
 arc-e/paquetes-p10/083d1c566cca85ae1c47d76202669aa7dfa4e834e7364e283f85b764ae615c4f.zip,74486802,mover,fuentes/por-territorio/nacionales/zamora/paquete.zip,paquete vigente de nac49 (config 2025)
 arc-e/paquetes-p10/0bba04d35fc1b9665cce27c8abc99d55b429f4fe8dc1edfc115cf7eaa26646d1.zip,76021391,mover,fuentes/por-territorio/nacionales/350-jaen/paquete.zip,paquete vigente de congreso350_jaen (config 2025)
 arc-e/paquetes-p10/0c67568f43791929e22c85d931e947ecf51feeda11fdd1c597406c78f0b66cab.zip,80536558,mover,fuentes/por-territorio/nacionales/barcelona/paquete.zip,paquete vigente de nac08 (config 2025)
-arc-e/paquetes-p10/14abaecb2364af56af8ca827e2f65b8a8212842f88b1fd2e9394ab15bb33381d.zip,80098401,borrar,,sin referencia en el repositorio
+arc-e/paquetes-p10/14abaecb2364af56af8ca827e2f65b8a8212842f88b1fd2e9394ab15bb33381d.zip,80098401,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
 arc-e/paquetes-p10/151415ae76db981e300e716465611f5f6abb6691226f1543cfb1478b934f3eea.zip,76721559,mover,fuentes/por-territorio/nacionales/350-caceres/paquete.zip,paquete vigente de congreso350_caceres (config 2025)
 arc-e/paquetes-p10/15481287c881a0987fbd9442af2d5caf63a4f151fa6e4ce02fb26b81c697403f.zip,75801566,mover,fuentes/por-territorio/nacionales/350-ciudad-real/paquete.zip,paquete vigente de congreso350_ciudad_real (config 2025)
 arc-e/paquetes-p10/164b80ccbdc6dc82f1ceb1fe496d185b555dd461d64b2173447fca3adde21b46.zip,76849389,mover,fuentes/por-territorio/nacionales/350-zaragoza/paquete.zip,paquete vigente de congreso350_zaragoza (config 2025)
 arc-e/paquetes-p10/16e40982b89410ff605c19763c963a5c26edb1d240c2b57d449084be77b6bb63.zip,73531024,mover,fuentes/por-territorio/nacionales/350-melilla/paquete.zip,paquete vigente de congreso350_melilla (config 2025)
-arc-e/paquetes-p10/18d6198245386da78d425674a0fc2bbd379811c428507602eac96dbfbbb63888.zip,74599005,borrar,,sin referencia en el repositorio
+arc-e/paquetes-p10/18d6198245386da78d425674a0fc2bbd379811c428507602eac96dbfbbb63888.zip,74599005,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
 arc-e/paquetes-p10/19d4a84f562a9db9fad5d41e68603ab5269609e280f83d1d5a23d231181d1d61.zip,73531015,mover,fuentes/por-territorio/autonomicas/melilla/paquete.zip,paquete vigente de aut19 (config 2025)
-arc-e/paquetes-p10/1a9afa6371abbff01b01921916e75bd95b0b75f97efd6b6471e5d31c4064344a.zip,82457180,borrar,,sin referencia en el repositorio
-arc-e/paquetes-p10/1aa62cb7c0ff47a6037322ace1e2ed5c6f36b11bc34f6f19aa0dcdcd36722aa9.zip,73530975,borrar,,sin referencia en el repositorio
+arc-e/paquetes-p10/1a9afa6371abbff01b01921916e75bd95b0b75f97efd6b6471e5d31c4064344a.zip,82457180,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
+arc-e/paquetes-p10/1aa62cb7c0ff47a6037322ace1e2ed5c6f36b11bc34f6f19aa0dcdcd36722aa9.zip,73530975,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
 arc-e/paquetes-p10/1d46447adda72c80a4506121d4ef281c490bee08115b10694741258d2419da8d.zip,74538616,mover,fuentes/por-territorio/nacionales/lugo/paquete.zip,paquete vigente de nac27 (config 2025)
 arc-e/paquetes-p10/1e4ccda4a04efbe772986c755453048de0056d66c8a1ca45e2a5669be14e6255.zip,75286021,mover,fuentes/por-territorio/nacionales/cuenca/paquete.zip,paquete vigente de nac16 (config 2025)
-arc-e/paquetes-p10/208c559a716b904fd9f2bf778feaacd8d976b77bba78b0fd9dc3c06904bf644a.zip,87801928,borrar,,sin referencia en el repositorio
+arc-e/paquetes-p10/208c559a716b904fd9f2bf778feaacd8d976b77bba78b0fd9dc3c06904bf644a.zip,87801928,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
 arc-e/paquetes-p10/208f35fcfb116970b6a9d653a1e1fca09abe064f729ca4f60517235ae80a2502.zip,75339056,mover,fuentes/por-territorio/nacionales/guadalajara/paquete.zip,paquete vigente de nac19 (config 2025)
 arc-e/paquetes-p10/210769bb39ea986b620a6c81551a2b9c9b81c2624f4660c574d73f6d4470c06d.zip,74624592,mover,fuentes/por-territorio/nacionales/350-albacete/paquete.zip,paquete vigente de congreso350_albacete (config 2025)
-arc-e/paquetes-p10/21511daa229d9497f142ad9032d317595cf1cef0b56d1f2ae125a8f0eff107fe.zip,73201562,borrar,,sin referencia en el repositorio
+arc-e/paquetes-p10/21511daa229d9497f142ad9032d317595cf1cef0b56d1f2ae125a8f0eff107fe.zip,73201562,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
 arc-e/paquetes-p10/23bee297123bdc1bc7753f0cea66a6278da9598c0c6b23f21a6854aeff322210.zip,74361342,mover,fuentes/por-territorio/nacionales/350-palencia/paquete.zip,paquete vigente de congreso350_palencia (config 2025)
 arc-e/paquetes-p10/2531924bf713931706d0d60e110e304db93fbdb3aa7e18f973107e0252d18219.zip,74896935,mover,fuentes/por-territorio/nacionales/castellon/paquete.zip,paquete vigente de nac12 (config 2025)
 arc-e/paquetes-p10/2538a0cd8b64d71675aa6ac8c11419e511de5aad839bde7dc4de540130efa26e.zip,75940105,mover,fuentes/por-territorio/nacionales/salamanca/paquete.zip,paquete vigente de nac37 (config 2025)
@@ -703,8 +703,8 @@ arc-e/paquetes-p10/28260ec130572450f6f293048bdd50c3a65931358adbcd07cfa0e0660831b
 arc-e/paquetes-p10/29b9604d8a617e6a0dff74e0a67d738211bd0771a525c954d9fa214eaf6709cb.zip,76750728,mover,fuentes/por-territorio/nacionales/350-cadiz/paquete.zip,paquete vigente de congreso350_cadiz (config 2025)
 arc-e/paquetes-p10/29f140b521f9a4b66d6602b58d886e767192ea51135309eac1c25dca33ffb716.zip,74325197,mover,fuentes/por-territorio/nacionales/350-orense/paquete.zip,paquete vigente de congreso350_orense (config 2025)
 arc-e/paquetes-p10/2ad06714e3b1beff2ad31043e5ac5271d209341470ff0e74a757fbcd98bb7236.zip,75357782,mover,fuentes/por-territorio/nacionales/almeria/paquete.zip,paquete vigente de nac04 (config 2025)
-arc-e/paquetes-p10/2b0a7e7f00cfc12d60c84ab0818e2ece6106bdb48684abfd603f3bc2fd59de34.zip,81179225,borrar,,sin referencia en el repositorio
-arc-e/paquetes-p10/2cfec239eb9b6cf57083b985504e76fd3055f8425989c2aa1589f060afe0aa37.zip,99587174,borrar,,sin referencia en el repositorio
+arc-e/paquetes-p10/2b0a7e7f00cfc12d60c84ab0818e2ece6106bdb48684abfd603f3bc2fd59de34.zip,81179225,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
+arc-e/paquetes-p10/2cfec239eb9b6cf57083b985504e76fd3055f8425989c2aa1589f060afe0aa37.zip,99587174,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
 arc-e/paquetes-p10/2f040a8953f03b71f6bebf69d5bb5e9e3c98b91ba27c8647f4cad972be13d026.zip,77127205,mover,fuentes/por-territorio/nacionales/granada/paquete.zip,paquete vigente de nac18 (config 2025)
 arc-e/paquetes-p10/2fb73fe7f4cd3909b739a94e2ca9d66bcfac872448f966e4db000a9431c36fa0.zip,74896982,mover,fuentes/por-territorio/nacionales/350-castellon/paquete.zip,paquete vigente de congreso350_castellon (config 2025)
 arc-e/paquetes-p10/317a7c727f7ed65c8248ba70cd4cd1bed0484a24f35b4f66e9a8451863cb58b3.zip,74325172,mover,fuentes/por-territorio/nacionales/orense/paquete.zip,paquete vigente de nac32 (config 2025)
@@ -712,10 +712,10 @@ arc-e/paquetes-p10/376536b60057625e599290c8b5173c1157eed276f0afed65062f2791c9f8d
 arc-e/paquetes-p10/37e059f70c8e42da32c2a99a8a5c1211175d290abb1b7e12e8ce72fd3819b8f0.zip,77502244,mover,fuentes/por-territorio/nacionales/350-malaga/paquete.zip,paquete vigente de congreso350_malaga (config 2025)
 arc-e/paquetes-p10/37fedf19c46fe104bfa8cc2bd5bd09f6814a372572c48f7a09258862396e31e2.zip,80851130,mover,fuentes/por-territorio/autonomicas/islas-baleares/paquete.zip,paquete vigente de aut04 (config 2025)
 arc-e/paquetes-p10/39e68085a35ac7c4462d05d8c5960eb8dcaf0ab4cd36350153237f5954ee0608.zip,76351595,mover,fuentes/por-territorio/nacionales/tarragona/paquete.zip,paquete vigente de nac43 (config 2025)
-arc-e/paquetes-p10/3cfc6aafeeb09273ca63b59f916ad2aaace11274e0304fd7e6183cda9957c58b.zip,76781141,borrar,,sin referencia en el repositorio
-arc-e/paquetes-p10/415ce22a65db096f2a03b621489820ec63d9c2b126904dafb322af7b8d80a6cc.zip,80851184,borrar,,sin referencia en el repositorio
+arc-e/paquetes-p10/3cfc6aafeeb09273ca63b59f916ad2aaace11274e0304fd7e6183cda9957c58b.zip,76781141,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
+arc-e/paquetes-p10/415ce22a65db096f2a03b621489820ec63d9c2b126904dafb322af7b8d80a6cc.zip,80851184,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
 arc-e/paquetes-p10/4231edec418d4bbef046bd4205100a0d08de6a73dce3c65ff9bef82669ad9fc6.zip,76863151,mover,fuentes/por-territorio/nacionales/350-asturias/paquete.zip,paquete vigente de congreso350_asturias (config 2025)
-arc-e/paquetes-p10/45171fc1fd60d4ffa731f3bf41f3fa2f889e6f6c167227afc154262310c2940a.zip,83037186,borrar,,sin referencia en el repositorio
+arc-e/paquetes-p10/45171fc1fd60d4ffa731f3bf41f3fa2f889e6f6c167227afc154262310c2940a.zip,83037186,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
 arc-e/paquetes-p10/4591f4d0469002e5a529466dbb69270e8cd1e3ebcd8595f2f3f8063e8c874243.zip,75013126,mover,fuentes/por-territorio/nacionales/350-teruel/paquete.zip,paquete vigente de congreso350_teruel (config 2025)
 arc-e/paquetes-p10/4912eea85523c456f7297e406b76b184b23fc3b46b2cd4aca0c48d908a168330.zip,75298093,mover,fuentes/por-territorio/nacionales/350-huesca/paquete.zip,paquete vigente de congreso350_huesca (config 2025)
 arc-e/paquetes-p10/4a2cefd277079ff3f8f8f819735d67c1b8b9aed21aa88055744c3e0b793834c6.zip,90373743,mover,fuentes/por-territorio/autonomicas/castilla-y-leon/paquete.zip,paquete vigente de aut07 (config 2025)
@@ -752,7 +752,7 @@ arc-e/paquetes-p10/80ccab8079daa6ee5b48918118a58686927c005e8ff310b2b4dd70ce5a0f1
 arc-e/paquetes-p10/8325bca5fc3bc8170e644e6aea14fecc5325d19de22e0b48b268624e3f47a38d.zip,75286089,mover,fuentes/por-territorio/nacionales/350-cuenca/paquete.zip,paquete vigente de congreso350_cuenca (config 2025)
 arc-e/paquetes-p10/867774a6dc44106e590cf586110de9ac763a9ef387fb84e47f76aff0436d7bf9.zip,76763233,mover,fuentes/por-territorio/nacionales/la-coruna/paquete.zip,paquete vigente de nac15 (config 2025)
 arc-e/paquetes-p10/89012683d93b6426a51dbe26181f264e2e4c173bcfe90da44505634a79040eda.zip,76577487,mover,fuentes/por-territorio/nacionales/350-alicante/paquete.zip,paquete vigente de congreso350_alicante (config 2025)
-arc-e/paquetes-p10/891470ada7696896661e9987cd5bf47c6a7332886bbb0669d4d6e3a6ae49b04d.zip,82021638,borrar,,sin referencia en el repositorio
+arc-e/paquetes-p10/891470ada7696896661e9987cd5bf47c6a7332886bbb0669d4d6e3a6ae49b04d.zip,82021638,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
 arc-e/paquetes-p10/8d487ba8cc73c393a03638b3bb908772d1d427692eb674d82e5480642fe8b228.zip,87123936,mover,fuentes/por-territorio/autonomicas/pais-vasco/paquete.zip,paquete vigente de aut16 (config 2025)
 arc-e/paquetes-p10/8e6e46097ff67e2155c605b3c8d36561ff564293c55824e69dc6fa2645e005e4.zip,80098056,mover,fuentes/por-territorio/autonomicas/extremadura/paquete.zip,paquete vigente de aut11 (config 2025)
 arc-e/paquetes-p10/92dc13573e8b1bceeff58a5d05cd91934f202e74815b5220c49d2119042f969f.zip,73201690,mover,fuentes/por-territorio/nacionales/350-ceuta/paquete.zip,paquete vigente de congreso350_ceuta (config 2025)
@@ -769,25 +769,25 @@ arc-e/paquetes-p10/a6ef1344caa231f7dc4a162b97be9dccac80e68e6d9ea73df7dc1e2e9a354
 arc-e/paquetes-p10/a7fdafdf9aa25e5e0a28336a167d0360dd14efeabec3d80bbba5440a8585e171.zip,82457091,mover,fuentes/por-territorio/nacionales/las-palmas/paquete.zip,paquete vigente de nac35 (config 2025)
 arc-e/paquetes-p10/ac16e836871b80664153b1c637aae65ce5a1ac6930c3343cd010039ea9e8e7c9.zip,75802024,mover,fuentes/por-territorio/nacionales/ciudad-real/paquete.zip,paquete vigente de nac13 (config 2025)
 arc-e/paquetes-p10/ad4c13561666a914ad5f187a4eb74b11d44cabef38dfbd2317221abdf1dc0c8b.zip,75353794,mover,fuentes/por-territorio/nacionales/350-leon/paquete.zip,paquete vigente de congreso350_leon (config 2025)
-arc-e/paquetes-p10/ae3086d3ad1ca57984ec2e0696fc870cfcc92d388feeff17dc861a4485752836.zip,92206902,borrar,,sin referencia en el repositorio
+arc-e/paquetes-p10/ae3086d3ad1ca57984ec2e0696fc870cfcc92d388feeff17dc861a4485752836.zip,92206902,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
 arc-e/paquetes-p10/b360a877b4e64184ecf5002e30cf39a3d52a493cac09cbab79e4c7e5b8720121.zip,75357787,mover,fuentes/por-territorio/nacionales/350-almeria/paquete.zip,paquete vigente de congreso350_almeria (config 2025)
-arc-e/paquetes-p10/b3e10ec48bb9879d9614bed5ddd0760b90d49cfb3008b4c2b933b916f10a0b2a.zip,76863234,borrar,,sin referencia en el repositorio
-arc-e/paquetes-p10/b47721cbd4aa28cae80b185814b0a002f903ce7a7b5e07aab372cafdd6cef874.zip,87123899,borrar,,sin referencia en el repositorio
-arc-e/paquetes-p10/b4e48cee202a01d82099f916ab0b0d8e5c0ae15f34b649e07e2de0f9ae5e0c7f.zip,82757182,borrar,,sin referencia en el repositorio
+arc-e/paquetes-p10/b3e10ec48bb9879d9614bed5ddd0760b90d49cfb3008b4c2b933b916f10a0b2a.zip,76863234,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
+arc-e/paquetes-p10/b47721cbd4aa28cae80b185814b0a002f903ce7a7b5e07aab372cafdd6cef874.zip,87123899,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
+arc-e/paquetes-p10/b4e48cee202a01d82099f916ab0b0d8e5c0ae15f34b649e07e2de0f9ae5e0c7f.zip,82757182,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
 arc-e/paquetes-p10/b6d7e221ee86d4760236bf3a901c8f33372bb2fd9c27883ebba980d01eb9d128.zip,73201524,mover,fuentes/por-territorio/autonomicas/ceuta/paquete.zip,paquete vigente de aut18 (config 2025)
 arc-e/paquetes-p10/b7314d58411ef10ca8b972b32d34e87d98fd4e15b6b7f788f8e103764941fe28.zip,74599002,mover,fuentes/por-territorio/nacionales/la-rioja/paquete.zip,paquete vigente de nac26 (config 2025)
-arc-e/paquetes-p10/b8b20dfe69371a0e995b2f0d7c1b09224cd8477a0c1fa6d1d9b65e2d257f33b5.zip,83398724,borrar,,sin referencia en el repositorio
+arc-e/paquetes-p10/b8b20dfe69371a0e995b2f0d7c1b09224cd8477a0c1fa6d1d9b65e2d257f33b5.zip,83398724,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
 arc-e/paquetes-p10/bc1a62ff52c956213d3b58c49e04066def1ccd021fd1eb350c12c751e11be4ce.zip,76750600,mover,fuentes/por-territorio/nacionales/cadiz/paquete.zip,paquete vigente de nac11 (config 2025)
-arc-e/paquetes-p10/c0ab5947c911e815bb2b0657c9a256020916d8c3f9293bb379b1bfb6e6cd0215.zip,90373792,borrar,,sin referencia en el repositorio
+arc-e/paquetes-p10/c0ab5947c911e815bb2b0657c9a256020916d8c3f9293bb379b1bfb6e6cd0215.zip,90373792,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
 arc-e/paquetes-p10/c49b3dc860ad0755c8891d68330989652765081f07a9db6bd26febf021651b09.zip,76021626,mover,fuentes/por-territorio/nacionales/jaen/paquete.zip,paquete vigente de nac23 (config 2025)
-arc-e/paquetes-p10/c9b81def38f3eaed2db7d2cc16ba1f4dd06f114cc412113f4ca1d807c746c570.zip,74693744,borrar,,sin referencia en el repositorio
+arc-e/paquetes-p10/c9b81def38f3eaed2db7d2cc16ba1f4dd06f114cc412113f4ca1d807c746c570.zip,74693744,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
 arc-e/paquetes-p10/cad80db926a5783f220748226415da98777ed5f4d912e56164961ee8c1d3f7d9.zip,79609888,mover,fuentes/por-territorio/nacionales/350-alava/paquete.zip,paquete vigente de congreso350_alava (config 2025)
 arc-e/paquetes-p10/cf1f5b954273e80d7ad1a6078bc3752fff3757cd53498784e73a2e80be7c1bd6.zip,74538588,mover,fuentes/por-territorio/nacionales/350-lugo/paquete.zip,paquete vigente de congreso350_lugo (config 2025)
 arc-e/paquetes-p10/cffe40478cfeec3bd2bf3eb8b3bfe47391ee9c6a95d945d89276cdd0c9df9cde.zip,76276693,mover,fuentes/por-territorio/nacionales/350-gerona/paquete.zip,paquete vigente de congreso350_gerona (config 2025)
 arc-e/paquetes-p10/d12772139e06b1282a55e0f0a0a88a9683929ad19315be341d4d28b38d3487b1.zip,75353680,mover,fuentes/por-territorio/nacionales/leon/paquete.zip,paquete vigente de nac24 (config 2025)
 arc-e/paquetes-p10/d15af2e5e36736b6d23daf85378d0e707fd0027c3e2155d560dd574e71e2ffb4.zip,76849207,mover,fuentes/por-territorio/nacionales/zaragoza/paquete.zip,paquete vigente de nac50 (config 2025)
 arc-e/paquetes-p10/d2b63491275a270210ee326443d3ce9d7223ab3a6155a2d58e58ffc7b67e3046.zip,76781228,mover,fuentes/por-territorio/autonomicas/region-de-murcia/paquete.zip,paquete vigente de aut14 (config 2025)
-arc-e/paquetes-p10/d601e87101c28fab18fc48778854617e20f354ae8bc353265f5e195fdebf56fc.zip,85399612,borrar,,sin referencia en el repositorio
+arc-e/paquetes-p10/d601e87101c28fab18fc48778854617e20f354ae8bc353265f5e195fdebf56fc.zip,85399612,borrar,,paquete sin referencia en el repositorio (ni contrato vigente ni evidencia): borrar con la limpieza posterior al 29-11, decidido 21-11 (D-178; sujeto a D-52)
 arc-e/paquetes-p10/d630d12a0e09e06fb0abcc17aadd445b3afff9b3d44d7a32d8984dc81b8a3e8b.zip,73201669,mover,fuentes/por-territorio/nacionales/ceuta/paquete.zip,paquete vigente de nac51 (config 2025)
 arc-e/paquetes-p10/d6d75f5700c2ccef64103a4d434bf938f9bd6de6fff4dd248e3175e0b405cccd.zip,83037184,mover,fuentes/por-territorio/nacionales/350-madrid/paquete.zip,paquete vigente de congreso350_madrid (config 2025)
 arc-e/paquetes-p10/d6fe74cfdb898b5596c2495240f2b6044a99f1733be01e8ab23c2a32d913c0c5.zip,82021839,mover,fuentes/por-territorio/autonomicas/galicia/paquete.zip,paquete vigente de aut12 (config 2025)
