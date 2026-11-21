@@ -68,7 +68,7 @@ Con el mapa ya dibujado, se suman los votos reales de cada mesa electoral al dis
 
 El mapa muestra dos formas de elegir al diputado:
 
-- **Más votado.** Gana el candidato con más votos, aunque no llegue a la mitad.
+- **Mayoría simple en el distrito.** Gana el candidato con más votos, aunque no llegue a la mitad. No es el sistema actual: hoy los escaños se reparten de forma proporcional por listas provinciales.
 - **Doble vuelta.** Si nadie supera la mitad de los votos, los dos más votados pasan a una segunda vuelta. Los votos de los demás se suman al finalista de su mismo bloque (Izquierdas, Nacionalistas o Patriotas). Si su bloque no tiene finalista, esos votos no cuentan en la segunda vuelta.
 
 La doble vuelta se ve con tres reglas: «Tres bloques» (cada bloque va unido desde el principio), «Dos bloques» (solo Izquierdas y Patriotas van unidos) y «Sin coaliciones» (cada partido por su cuenta). No se inventan porcentajes de trasvase: solo se suman votos reales.

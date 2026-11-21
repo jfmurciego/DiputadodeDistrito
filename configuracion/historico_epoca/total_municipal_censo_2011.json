@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.total-municipal-censo-2011/1.0",
+  "version": "1.0.0",
+  "motivo": "D-185 (propietario, 20-11): total MUNICIPAL del Censo de Población 2011 (1-nov-2011) del INE, para cuadrar las secciones del seccionado de la época sin población en la tabla (rellenadas por el Atlas o sin dato). A diferencia del Padrón 29005 (1-ene-2011, descartado en T-400), es de la misma fecha y del mismo Censo que la tabla de secciones.",
+  "fuente": {
+    "nombre": "INE, Censos de Población y Viviendas 2011, «Población por municipios, sexo y edad (año a año)» (1mun00)",
+    "url": "https://www.ine.es/jaxi/files/_px/es/csv_bdsc/t20/e244/avance/p02/l0/1mun00.csv_bdsc?nocab=1",
+    "fichero": "1mun00.csv",
+    "sha256": "ad95479c07ce4ae37ed03732025d7039b1338f43ead181bb2c450fcac64f8267",
+    "bytes": 105319154,
+    "medido": "2026-11-20, sesión cloud; TOTAL NACIONAL = 46.815.916; 8.116 municipios con total Ambos sexos / Total",
+    "fila": "Municipios = «CCCCC Nombre»; Sexo = «Ambos sexos»; Edad = «Total»; Total = población a 1-nov-2011"
+  }
+}

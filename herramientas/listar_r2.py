@@ -3,14 +3,15 @@
 """P74 listar (T-368, D-131): tamaño de R2 por carpeta y total frente al límite gratuito de 10 GB. Solo lectura.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0
-NOMBRE DE VERSIÓN: Listado de R2 por carpeta y duplicidades
-FECHA: 2026-11-19
+VERSIÓN: 1.1.1
+NOMBRE DE VERSIÓN: Listado de R2 por carpeta, duplicidades e inventario
+FECHA: 2026-11-20
 ESTADO: candidato
-ANTERIOR: legacy/herramientas/listar_r2_v1.0.0_20261119.py
-CAMBIOS: 1.1.0 (T-420): `--duplicados [--json RUTA] [--verificar-indices]`: agrupa por (ETag, tamaño) todo el bucket; grupos, sobrantes, bytes recuperables y claves (arc-e primero). Sin banderas, salida idéntica a la 1.0.0.
+ANTERIOR: legacy/herramientas/listar_r2_v1.1.0_20261119.py
+CAMBIOS: 1.1.1 (T-432): `--inventario RUTA.csv`: CSV de solo lectura con clave, bytes, tamaño legible, última modificación y etag de todos los objetos, por clave, con fila de total. Sin la bandera, salida idéntica.
+CAMBIOS 1.1.0: 1.1.0 (T-420): `--duplicados [--json RUTA] [--verificar-indices]`: agrupa por (ETag, tamaño) todo el bucket; grupos, sobrantes, bytes recuperables y claves (arc-e primero). Sin banderas, salida idéntica a la 1.0.0.
 CAMBIOS 1.0.0: fichero nuevo (T-368).
-USO: python herramientas/listar_r2.py [--duplicados [--json RUTA] [--verificar-indices]]
+USO: python herramientas/listar_r2.py [--duplicados [--json RUTA] [--verificar-indices]] [--inventario RUTA.csv]
      (R2_BUCKET, R2_ACCOUNT_ID y credenciales AWS_* en el entorno; solo `list-objects-v2` y, con --verificar-indices, `get-object` de JSON pequeños.)
 DUPLICADOS: ETag sin «-» = md5 del contenido (verificado). ETag multiparte («-N») NO es md5: se compara el sha256 de los
   índices/metadatos (*.json, INDEX*, manifiestos) y el resto queda «no_verificable». Solo lectura: no borra ni mueve nada.
@@ -18,6 +19,7 @@ DUPLICADOS: ETag sin «-» = md5 del contenido (verificado). ETag multiparte («
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import os
 import subprocess
@@ -51,7 +53,7 @@ def tabla(r: dict) -> str:
 
 def listar(bucket: str, cuenta: str) -> list[dict]:
     p = subprocess.run(["aws", "s3api", "list-objects-v2", "--bucket", bucket, "--endpoint-url",
-                        f"https://{cuenta}.r2.cloudflarestorage.com", "--query", "Contents[].{Key:Key,Size:Size,ETag:ETag}", "--output", "json"],
+                        f"https://{cuenta}.r2.cloudflarestorage.com", "--query", "Contents[].{Key:Key,Size:Size,ETag:ETag,LastModified:LastModified}", "--output", "json"],
                        capture_output=True, text=True)
     if p.returncode != 0:
         raise RuntimeError(f"P74_LISTADO_FALLIDO: {p.stderr.strip()[:300]}")
@@ -137,11 +139,35 @@ def resumen_duplicados(d: dict, max_grupos: int = 15) -> str:
     return "\n".join(out)
 
 
+def legible(b: int) -> str:
+    """Tamaño con unidades decimales (como factura Cloudflare)."""
+    v = float(b)
+    for u in ("B", "KB", "MB", "GB"):
+        if v < 1000:
+            return f"{int(v)} B" if u == "B" else f"{v:.2f} {u}"
+        v /= 1000
+    return f"{v:.2f} TB"
+
+
+def escribir_inventario(objetos: list[dict], ruta: str) -> int:
+    """CSV de todos los objetos, ordenado por clave, con fila de total al final. Devuelve el nº de objetos."""
+    filas = sorted(objetos, key=lambda o: str(o["Key"]))
+    with open(ruta, "w", encoding="utf-8", newline="") as fh:
+        w = csv.writer(fh)
+        w.writerow(["clave", "bytes", "tamano_legible", "ultima_modificacion", "etag"])
+        for o in filas:
+            w.writerow([o["Key"], int(o["Size"]), legible(int(o["Size"])), o.get("LastModified", ""), str(o.get("ETag", "")).strip('"')])
+        total = sum(int(o["Size"]) for o in filas)
+        w.writerow([f"TOTAL ({len(filas)} objetos)", total, legible(total), "", ""])
+    return len(filas)
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=(__doc__ or '').splitlines()[0])
     ap.add_argument("--duplicados", action="store_true", help="agrupa por ETag y tamaño (solo lectura)")
     ap.add_argument("--json", default="", help="ruta del JSON de duplicados")
     ap.add_argument("--verificar-indices", action="store_true", help="descarga metadatos multiparte para comparar su sha256")
+    ap.add_argument("--inventario", default="", help="ruta del CSV con todos los objetos (solo lectura)")
     a = ap.parse_args(argv)
     bucket, cuenta = os.environ.get("R2_BUCKET", ""), os.environ.get("R2_ACCOUNT_ID", "")
     if not bucket or not cuenta:
@@ -159,6 +185,8 @@ def main(argv: list[str] | None = None) -> int:
     if d and a.json:
         with open(a.json, "w", encoding="utf-8") as fh:
             json.dump({"resumen": r, "duplicados": d}, fh, ensure_ascii=False, indent=1)
+    if a.inventario:
+        print(f"Inventario: {escribir_inventario(objs, a.inventario)} objetos en {a.inventario}")
     if os.environ.get("GITHUB_STEP_SUMMARY"):
         with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as fh:
             fh.write(texto + "\n")

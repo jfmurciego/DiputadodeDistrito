@@ -3,13 +3,19 @@
 """Depósito de mapas de Deslinde en Zenodo por la API REST (T-388, D-146): solo mapas, sin código.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0
+VERSIÓN: 1.2.0
 NOMBRE DE VERSIÓN: Depósito de mapas en Zenodo
-FECHA: 2026-11-16
+FECHA: 2026-11-20
 ESTADO: candidato
-CAMBIOS: 1.1.0: concepto nuevo solo si Zenodo rechaza EXACTAMENTE el cambio de tipo (campo upload_type) y solo con `--permitir-concepto-nuevo`; el resto de 400/422 falla cerrado con el borrador documentado; idempotencia por versión Y título; tiempo de espera ajustable. 1.0.0: fichero nuevo (T-388).
-ANTERIOR: legacy/herramientas/zenodo_deposito_v1.0.0_20261116.py
-QUÉ HACE: `linaje --dir D --salida F` une los LINAJE.json de los paquetes `ddd-*-v*.tar.gz` de D en un solo fichero.
+CAMBIOS: 1.2.0 (T-434): `preparar --lote D --version V --salida S` elige SOLO los paquetes de los territorios del MAPAS.json
+  del lote (excluye cualquier otro `ddd-*`, p. ej. el código de `paquetes/deslinde` que la 1.1.0 del workflow metió en la
+  Release mapas-v1.0.0), comprueba su sha256 contra el SHA256SUMS de la Release, escribe un SHA256SUMS solo con ellos y
+  el LINAJE.json unido, cruzando territorio, versión y sha256 del M06 con el MAPAS.json.
+CAMBIOS 1.1.0: concepto nuevo solo si Zenodo rechaza EXACTAMENTE el cambio de tipo (campo upload_type) y solo con `--permitir-concepto-nuevo`; el resto de 400/422 falla cerrado con el borrador documentado; idempotencia por versión Y título; tiempo de espera ajustable. 1.0.0: fichero nuevo (T-388).
+ANTERIOR: legacy/herramientas/zenodo_deposito_v1.1.0_20261120.py
+QUÉ HACE: `preparar --lote D --version V --salida S`: del lote de una Release (paquetes, SHA256SUMS, MAPAS.json) deja en S
+  solo los paquetes de los territorios de MAPAS.json, con su SHA256SUMS y LINAJE.json; fallo cerrado si falta o no cuadra algo.
+  `linaje --dir D --salida F` une los LINAJE.json de los paquetes `ddd-*-v*.tar.gz` de D en un solo fichero.
   `depositar --destino prueba|Zenodo --version V --tag mapas-vV --repo O/R --ficheros F...` crea el depósito, sube los
   ficheros, comprueba sus huellas md5 contra Zenodo y, salvo `--sin-publicar`, publica. Destino `prueba` = sandbox.zenodo.org.
   Token: variable de entorno ZENODO_TOKEN (nunca por argumento, nunca impreso). Zenodo reparte los DOI de la serie: nueva
@@ -126,6 +132,10 @@ def unir_linaje(directorio: Path) -> list[dict]:
     paquetes = sorted(p for p in directorio.glob("ddd-*-v*.tar.gz") if _PAQUETE.match(p.name))
     if not paquetes:
         raise ErrorDeposito("ZENODO_SIN_PAQUETE: no hay paquetes en el directorio")
+    return unir_linaje_de(paquetes)
+
+
+def unir_linaje_de(paquetes: list[Path]) -> list[dict]:
     out = []
     for p in paquetes:
         with tarfile.open(p, "r:gz") as t:
@@ -137,6 +147,59 @@ def unir_linaje(directorio: Path) -> list[dict]:
                 raise ErrorDeposito(f"ZENODO_SIN_LINAJE: {p.name} no trae LINAJE.json")
             out.append(json.loads(m.read().decode("utf-8")))
     return out
+
+
+def _sumas(texto: str) -> dict[str, str]:
+    out = {}
+    for linea in texto.splitlines():
+        m = re.fullmatch(r"([0-9a-f]{64}) [ *]?(\S+)", linea.strip())
+        if not m:
+            if linea.strip():
+                raise ErrorDeposito(f"ZENODO_SHA256SUMS_INVALIDO: línea «{linea.strip()[:80]}»")
+            continue
+        out[m.group(2).removeprefix("./")] = m.group(1)
+    return out
+
+
+def preparar(lote: Path, version: str, salida: Path, avisar=lambda m: None) -> list[dict]:
+    """Solo los paquetes de los territorios del lote (MAPAS.json), verificados contra el SHA256SUMS de la Release."""
+    if not _VERSION.match(version):
+        raise ErrorDeposito(f"ZENODO_VERSION_INVALIDA: {version!r}")
+    try:
+        mapa = json.loads((lote / "MAPAS.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        raise ErrorDeposito("ZENODO_SIN_MAPAS: el lote no trae un MAPAS.json legible") from None
+    if not isinstance(mapa, dict) or not mapa:
+        raise ErrorDeposito("ZENODO_SIN_MAPAS: MAPAS.json vacío o mal formado")
+    try:
+        sumas = _sumas((lote / "SHA256SUMS").read_text(encoding="utf-8"))
+    except OSError:
+        raise ErrorDeposito("ZENODO_FALTAN_FICHEROS: el lote no trae SHA256SUMS") from None
+    elegidos = {f"ddd-{t}-v{version}.tar.gz": t for t in sorted(mapa)}
+    for p in sorted(lote.glob("ddd-*.tar.gz")):
+        if p.name not in elegidos:
+            avisar(f"excluido del depósito: {p.name} (no es un territorio del lote)")
+    salida.mkdir(parents=True, exist_ok=True)
+    lineas, linajes = [], []
+    for nombre, t in elegidos.items():
+        origen = lote / nombre
+        if not origen.is_file():
+            raise ErrorDeposito(f"ZENODO_FICHERO_AUSENTE: {nombre}")
+        datos = origen.read_bytes()
+        h = hashlib.sha256(datos).hexdigest()
+        if sumas.get(nombre) != h:
+            raise ErrorDeposito(f"ZENODO_SHA256_NO_CUADRA: {nombre} no coincide con el SHA256SUMS de la Release")
+        (salida / nombre).write_bytes(datos)
+        lineas.append(f"{h}  {nombre}")
+    for nombre, t in elegidos.items():
+        lin = unir_linaje_de([salida / nombre])[0]
+        if (lin.get("territory_id"), lin.get("version"), lin.get("sha256")) != (t, version, mapa[t]):
+            raise ErrorDeposito(f"ZENODO_LINAJE_NO_CUADRA: el LINAJE.json de {nombre} no corresponde a {t} v{version} "
+                                "con el M06 de MAPAS.json")
+        linajes.append(lin)
+    (salida / "SHA256SUMS").write_text("\n".join(lineas) + "\n", encoding="utf-8")
+    (salida / "LINAJE.json").write_text(json.dumps(linajes, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return linajes
 
 
 class Cliente:
@@ -294,6 +357,10 @@ def main(argv=None) -> int:
     s = sub.add_parser("linaje", help="une los LINAJE.json de los paquetes de un directorio")
     s.add_argument("--dir", required=True)
     s.add_argument("--salida", required=True)
+    pr = sub.add_parser("preparar", help="deja solo los paquetes de los territorios del lote, verificados, con SHA256SUMS y LINAJE.json")
+    pr.add_argument("--lote", required=True)
+    pr.add_argument("--version", required=True)
+    pr.add_argument("--salida", required=True)
     d = sub.add_parser("depositar", help="crea el depósito, sube los ficheros y publica")
     d.add_argument("--destino", required=True, choices=sorted(BASES))
     d.add_argument("--version", required=True)
@@ -308,6 +375,9 @@ def main(argv=None) -> int:
     try:
         if a.cmd == "linaje":
             Path(a.salida).write_text(json.dumps(unir_linaje(Path(a.dir)), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            return 0
+        if a.cmd == "preparar":
+            preparar(Path(a.lote), a.version, Path(a.salida), avisar=lambda m: print(m, file=sys.stderr))
             return 0
         concepto = a.concepto_id if a.concepto_id is not None else (CONCEPTO_REAL if a.destino == "Zenodo" else None)
         informe = depositar(a.destino, os.environ.get("ZENODO_TOKEN", ""), a.version, a.tag, a.repo, [Path(x) for x in a.ficheros],

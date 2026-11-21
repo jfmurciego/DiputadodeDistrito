@@ -26,6 +26,7 @@ class P74Duplicados(unittest.TestCase):
         run = "\n".join(s.get("run", "") for s in self.j["steps"])
         self.assertIn("python3 herramientas/listar_r2.py --duplicados --json salida_p74/duplicados_r2.json", run)
         subida = [s for s in self.j["steps"] if str(s.get("uses", "")).startswith("actions/upload-artifact@")]
+        subida = [x for x in subida if x["with"]["name"].startswith("p74-duplicados-")]
         self.assertEqual(1, len(subida))
         self.assertEqual("p74-duplicados-${{ github.run_id }}", subida[0]["with"]["name"])
         self.assertEqual("salida_p74/duplicados_r2.json", subida[0]["with"]["path"])

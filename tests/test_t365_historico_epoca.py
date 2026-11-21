@@ -2,9 +2,9 @@
 """T-365 (D-125): contrato por elección del histórico por época, contrato M01-M06 por provincia y puerta M07/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.3 · FECHA: 2026-11-19 · ESTADO: candidato
-ANTERIOR: legacy/tests/test_t365_historico_epoca_v1.4.2_20261119.py
-CAMBIOS: 1.4.3: T-400 (D-180): clase RepartoParticiones. 1.4.2: T-400: clase PuentesDeEpoca. 1.4.1: T-405: clase TopologiaAdministrativa. 1.4.0: T-399: estado APARTADA_VOTOS admitido (D-158). 1.3.0: T-402: `materializar` normaliza la geometría (parche del seccionado en los tests con zip falso; clase NormalizacionGeometria con zip real). 1.2.0: T-396 (D-153): estado APARTADA admitido; contratos 1.2.0 con anterior 1.1.0. 1.1.0: T-389 (T-365b): contratos con la tabla de T-364b (1.2.0): provincias apartadas = BLOQUEADA_SIN_DATO sin filas, fallo cerrado con la tabla vieja.
+VERSIÓN: 1.4.5 · FECHA: 2026-11-20 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_t365_historico_epoca_v1.4.4_20261120.py
+CAMBIOS: 1.4.5: T-400 (D-185): exención de suelo declarada de 38-G01 (clase RepartoParticiones). 1.4.4: T-400 (D-185): contrato 2011-11 en 1.4.0 y total municipal del Censo (huella, lectura). 1.4.3: T-400 (D-180): clase RepartoParticiones. 1.4.2: T-400: clase PuentesDeEpoca. 1.4.1: T-405: clase TopologiaAdministrativa. 1.4.0: T-399: estado APARTADA_VOTOS admitido (D-158). 1.3.0: T-402: `materializar` normaliza la geometría (parche del seccionado en los tests con zip falso; clase NormalizacionGeometria con zip real). 1.2.0: T-396 (D-153): estado APARTADA admitido; contratos 1.2.0 con anterior 1.1.0. 1.1.0: T-389 (T-365b): contratos con la tabla de T-364b (1.2.0): provincias apartadas = BLOQUEADA_SIN_DATO sin filas, fallo cerrado con la tabla vieja.
 MOTIVO: T-365. Sin red ni fuentes pesadas: el flujo M07/M08 usa un M06 sintético y los módulos reales.
 """
 from __future__ import annotations
@@ -400,10 +400,53 @@ class RepartoParticiones(unittest.TestCase):
         base = {"validation": {}, "territory_contract": {}}
         self.assertIsNone(che._reparto_particiones(ROOT, base, "nac22", 3, {}))
 
-    def test_santa_cruz_2011_falla_cerrado_sin_politica_de_excepcion(self):
-        pob = self._pob("nac38", {"38-C01": 877740, "38-G01": 115715})  # 38-G01 < suelo 120.634 y la política de nac38 no gobierna la excepción
+    def test_santa_cruz_2011_sin_declaracion_falla_cerrado(self):
+        pob = self._pob("nac38", {"38-C01": 877740, "38-G01": 115718})  # 38-G01 < suelo 120.634 y la política de nac38 no gobierna la excepción
         with self.assertRaises(ValueError):
-            che._reparto_particiones(ROOT, self._base("nac38"), "nac38", 7, pob)
+            che._reparto_particiones(ROOT, self._base("nac38"), "nac38", 7, pob)  # sin elección: no hay declaración que valga
+
+    def _c2011(self):
+        return json.loads((ROOT / "configuracion/historico_epoca/contrato_2011_11.json").read_text(encoding="utf-8"))
+
+    def test_santa_cruz_2011_con_la_exencion_declarada(self):
+        pob = self._pob("nac38", {"38-C01": 877740, "38-G01": 115718})
+        r = che._reparto_particiones(ROOT, self._base("nac38"), "nac38", 7, pob, "2011-11", "38", self._c2011())
+        self.assertEqual((r["cuota"], r["exentas"]), ({"38-C01": 6, "38-G01": 1}, ["38-G01"]))  # 0,85 · 993.458 / 7 = 120.634 > 115.718
+        self.assertEqual(r["politica_excepcion"], "one_contiguous_district_floor_exception")
+        self.assertEqual([d["particion"] for d in r["exenciones_declaradas"]], ["38-G01"])
+        self.assertTrue(r["auditoria"]["38-G01"]["floor_exception_governed"])
+
+    def test_la_declaracion_debe_coincidir_con_lo_calculado_y_con_el_seccionado(self):
+        grande = self._pob("nac38", {"38-C01": 877740, "38-G01": 140000})  # 38-G01 ya no queda bajo el suelo
+        with self.assertRaises(che.ErrorContrato):
+            che._reparto_particiones(ROOT, self._base("nac38"), "nac38", 7, grande, "2011-11", "38", self._c2011())
+        c = self._c2011()
+        c["seccionado"]["sha256"] = "0" * 64
+        with self.assertRaises(che.ErrorContrato):
+            che._reparto_particiones(ROOT, self._base("nac38"), "nac38", 7, self._pob("nac38", {"38-C01": 877740, "38-G01": 115718}),
+                                     "2011-11", "38", c)
+
+
+class TotalMunicipalCenso(unittest.TestCase):
+    """D-185: total municipal del Censo 2011 (INE 1mun00): huella acreditada y lectura."""
+
+    def test_otra_huella_falla_cerrado(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            f = Path(d) / "1mun00.csv"
+            f.write_text("Municipios;Sexo;Edad (año a año);Total\n08047 X;Ambos sexos;Total;5.057\n", encoding="utf-8")
+            with self.assertRaises(che.ErrorContrato):
+                che.leer_total_municipal(f, ROOT)
+
+    def test_declaracion_atada_al_contrato(self):
+        decl = json.loads((ROOT / "configuracion/historico_epoca/total_municipal_censo_2011.json").read_text(encoding="utf-8"))
+        c = json.loads((ROOT / "configuracion/historico_epoca/contrato_2011_11.json").read_text(encoding="utf-8"))
+        self.assertEqual(len(decl["fuente"]["sha256"]), 64)
+        self.assertEqual(c["poblacion"]["total_municipal_oficial"]["sha256"], decl["fuente"]["sha256"])
+        self.assertEqual(c["poblacion"]["total_municipal_oficial"]["referencia"], "1-nov-2011")
+        # municipios de las dos provincias del caso, medidos a mano con el CSV del INE (sha256 ad95479c…)
+        cuadre = {x["municipio"]: x for x in c["provincias"]["36"]["poblacion"]["sin_poblacion_resuelto"]["cuadre_municipal"]}
+        self.assertEqual(cuadre["36059"]["total_municipal_censo"], 6073)
 
 
 class TopologiaAdministrativa(unittest.TestCase):
@@ -637,6 +680,8 @@ class TablaT364b(unittest.TestCase):
 
     @staticmethod
     def _anterior_valido(ruta: str, eleccion: str) -> bool:
+        if eleccion == "2011-11":  # D-185: 1.4.0 desde la 1.3.0 del 20-11
+            return ruta == "legacy/contrato_historico_epoca_2011_11_v1.3.0_20261120.json"
         return ruta == f"legacy/contrato_historico_epoca_{eleccion.replace('-', '_')}_v1.2.0_20261117.json"
 
     def test_anterior_se_valida_por_forma(self):  # control negativo: ruta mal formada o de otra elección falla
@@ -653,7 +698,7 @@ class TablaT364b(unittest.TestCase):
                 self.assertEqual(c["poblacion"]["sha256"], self.NUEVAS[e])
                 self.assertNotEqual(c["poblacion"]["sha256"], self.VIEJAS.get(e))
                 self.assertIn("1.2.0", c["poblacion"]["origen"])
-                self.assertEqual(c["version"], "1.3.0")  # T-399
+                self.assertEqual(c["version"], "1.4.0" if e == "2011-11" else "1.3.0")  # T-399; 2011-11: D-185
                 self.assertTrue(self._anterior_valido(c["anterior"], e), c["anterior"])  # forma; la imagen de CI no trae legacy/
                 if (ROOT / ".git").exists() and (ROOT / "legacy").is_dir():  # existencia solo con árbol completo
                     self.assertTrue((ROOT / c["anterior"]).is_file())

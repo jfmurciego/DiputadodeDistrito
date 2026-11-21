@@ -1,15 +1,20 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 1.3.1
-# CAMBIOS 1.3.1: T-379 PR 3b (G4, Planificador 19-11): `preparar` pide también `produccion` cuando lo llama P00 Campaña nueva
+# VERSIÓN: 1.4.1
+# CAMBIOS 1.4.1: T-379 3c (sobre la 1.4.0 de T-430). (a) Lo de la 3b (G4, Planificador 19-11), que la rama traía como 1.3.1:
+#   `preparar` pide también `produccion` cuando lo llama P00 Campaña nueva
 #   (`github.workflow_ref` con `p00-campana.yml`; llamado, `github.workflow` es «P00 Campaña» y la condición de la 1.3.0 no la pedía).
 #   La 00 vieja, que también se llama «P00 Campaña», no cambia. Una frase de campaña D-52 no aprueba `produccion`. El resto, idéntico.
+# ANTERIOR (1.4.0): legacy/workflows/p40-publicacion_v1.4.0_20261121.yml
+# CAMBIOS 1.4.0: T-430 fase 1 (D-186): paso «Datos de la web en R2 (T-430)» tras persistir el registro: `herramientas/publicar_datos_web.py` sube los datos del
+#   sitio candidato (datos/, mapa/datos/, v2/datos/, data/) al bucket público de la web en `web/actual/` (solo la vigente, D-188: sube lo que cambió, verifica su sha256,
+#   reescribe `web/actual/actual.json` y borra lo que salió del índice, con tope: un candidato truncado o sin territorios aborta sin borrar). Solo desde `main` (otra rama no toca el índice de producción). Sin la variable `R2_WEB_BUCKET` no hace nada; `continue-on-error` mientras dure el ensayo en paralelo a Pages. El resto, idéntico.
 # ANTERIOR (1.3.0): legacy/workflows/p40-publicacion_v1.3.0_20261120.yml
 # CAMBIOS 1.3.0: T-428 (D-184): la V4 es la versión OFICIAL. Paso nuevo «Promocionar la V4 como portada oficial» tras el de la V3
 #   (`herramientas/preparar_portada_v4.py`): la V4 pasa de /v4/ a la raíz del sitio, /v4/ queda con redirecciones a la raíz y los
 #   recursos de la V1 se mueven a /v1/; la doble vuelta se escribe en `mapa/datos/` de la raíz; la validación comprueba la portada V4
 #   (antes `url=v3/`), Explorar, la V1 y las redirecciones. /v2/, /v3/, /docs/, /datos/ y /data/ no cambian. El resto, idéntico.
-# ANTERIOR: legacy/workflows/p40-publicacion_v1.2.0_20261120.yml
+# ANTERIOR (1.3.0): legacy/workflows/p40-publicacion_v1.2.0_20261120.yml
 # CAMBIOS 1.2.0: T-409 (D-172): paso «Doble vuelta de los territorios del Congreso para la V4»: `herramientas/publicar_doble_vuelta.py` baja de R2 el resultado de P75 FIJADO en
 #   configuracion/doble_vuelta_publicada.json (sin ese fichero no hace nada), verifica sha256 y escribe `v4/mapa/datos/` en el sitio candidato (datos de la doble vuelta y la geometría de los distritos, que sale del GeoJSON que este mismo P40 materializa en `datos/`, simplificada con tolerancia fija); mismas credenciales R2 que el resto, `contents: read`,
 #   sin datos en git, sin entradas nuevas. Además P40 copia `visor/v4/` completo al sitio candidato (dos líneas, junto al `cp` de V3: copia y borrado de lo listado en visor/v4/NO_PUBLICAR.txt; V2 y V3 no cambian) para que el visor V4 y su
@@ -715,6 +720,22 @@ jobs:
             }
             sleep $((attempt * 2))
           done
+
+      - name: Datos de la web en R2 (T-430)
+        if: ${{ github.ref == 'refs/heads/main' }}
+        continue-on-error: true
+        shell: bash
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_WEB_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_WEB_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_WEB_BUCKET: ${{ vars.R2_WEB_BUCKET }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}  # solo para rechazar que el bucket web sea el de trabajo
+        run: |
+          set -euo pipefail
+          # Fase 1 (D-186): en paralelo a Pages, después de desplegarla. Sin la variable R2_WEB_BUCKET no hace nada; un fallo avisa y no para P40.
+          python3 herramientas/publicar_datos_web.py --sitio /tmp/site-candidate
 
       - name: Registrar evidencia
         if: always()
