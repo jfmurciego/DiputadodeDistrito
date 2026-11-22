@@ -22,7 +22,7 @@ async function correr(cfg) {
   assert.equal(sec.hidden, false, "el bloque del vídeo se ve sin pulsar nada");
   const v = cuerpo.children[0];
   assert.equal(v.tag, "video", "lo primero es el reproductor, no un botón");
-  assert.equal(v.controls, true); assert.equal(v.preload, "none");  // T-442: nada se descarga hasta pulsar play assert.equal(v.playsInline, true);
+  assert.equal(v.controls, true); assert.equal(v.preload, "none"); assert.equal(v.playsInline, true);  // T-442: preload «none», nada se descarga hasta pulsar play
   assert.equal(v.src, "https://media.diputadodedistrito.es/Video_DDD.mp4#t=0.1", "primer fotograma visible");
   assert.ok(!v.autoplay && !("autoplay" in v.attrs), "sin reproducción automática");
   assert.ok(!cuerpo.children.some(c => c.tag === "button"), "sin botón «Ver el vídeo»");
