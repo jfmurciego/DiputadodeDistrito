@@ -24,12 +24,18 @@ class PruebasWeb(unittest.TestCase):
     def setUp(self):
         os.environ.setdefault("R2_ACCOUNT_ID", "cuenta")
 
-    def test_rama_a_carpeta(self):
-        self.assertEqual(p.rama_a_carpeta("T442/Portada_Ligera"), "t442-portada-ligera")
-        self.assertEqual(p.rama_a_carpeta("claude/x" + "a" * 80), ("claude-x" + "a" * 80)[:60])
-        for mala in ("", "///", "ñ"):
-            with self.assertRaises(p.PruebasError):
-                p.rama_a_carpeta(mala)
+    def test_rama_a_carpeta_sin_colisiones(self):
+        import re
+        c = p.rama_a_carpeta("T442/Portada_Ligera")
+        self.assertTrue(c.startswith("t442-portada-ligera-"), c)
+        parecidas = ["feature/a", "feature_a", "Feature-A", "x" * 70 + "1", "x" * 70 + "2", "ñ", "///"]
+        carpetas = [p.rama_a_carpeta(r) for r in parecidas]
+        self.assertEqual(len(set(carpetas)), len(parecidas), carpetas)
+        for x in carpetas:
+            self.assertRegex(x, r"^[a-z0-9-]{1,60}$")
+        self.assertEqual(p.rama_a_carpeta("feature/a"), p.rama_a_carpeta("feature/a"))  # estable
+        with self.assertRaises(p.PruebasError):
+            p.rama_a_carpeta("  ")
 
     def test_montar_v4_real_sin_buscadores_ni_paginas_internas(self):
         with tempfile.TemporaryDirectory() as d:
@@ -50,19 +56,20 @@ class PruebasWeb(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             (Path(d) / "index.html").write_text("<head>")
             c = p.subir(Path(d), "pruebas", "T430/x", lambda a, **_: llamadas.append(a) or Hecho())
-        self.assertEqual(c, "t430-x")
-        self.assertEqual(llamadas[0][2:5], ["sync", d, "s3://pruebas/t430-x/"])
+        self.assertEqual(c, p.rama_a_carpeta("T430/x"))
+        self.assertEqual(llamadas[0][2:5], ["sync", d, f"s3://pruebas/{c}/"])
         self.assertIn("--delete", llamadas[0])
 
     def test_limpiar_borra_solo_ramas_cerradas_con_tope(self):
-        ls = "                           PRE abierta-1/\n                           PRE cerrada-2/\n2026-11-23 00:00:00  10 suelto.txt\n"
+        ab, ce = p.rama_a_carpeta("Abierta/1"), p.rama_a_carpeta("cerrada/2")
+        ls = f"                           PRE {ab}/\n                           PRE {ce}/\n2026-11-23 00:00:00  10 suelto.txt\n"
         llamadas = []
 
         def ej(a, **_):
             llamadas.append(a)
             return Hecho(ls if a[2] == "ls" else "")
-        self.assertEqual(p.limpiar("pruebas", ["Abierta/1"], ej), ["cerrada-2"])
-        self.assertEqual([a[2:5] for a in llamadas if a[2] == "rm"], [["rm", "s3://pruebas/cerrada-2/", "--recursive"]])
+        self.assertEqual(p.limpiar("pruebas", ["Abierta/1", "ñ"], ej), [ce])  # una rama rara no rompe la limpieza
+        self.assertEqual([a[2:5] for a in llamadas if a[2] == "rm"], [["rm", f"s3://pruebas/{ce}/", "--recursive"]])
         muchas = "".join(f"  PRE r{i}/\n" for i in range(p.TOPE_LIMPIEZA + 1))
         llamadas.clear()
         with self.assertRaises(p.PruebasError):
@@ -84,17 +91,19 @@ class JobsP90(unittest.TestCase):
 
     def test_condiciones_permisos_y_secretos(self):
         j = self.wf["jobs"]
+        co = j["pruebas_web"]["steps"][1]
+        self.assertEqual((co["with"]["ref"], co["with"]["path"], co["with"]["persist-credentials"]), ("main", "_main", False))
         self.assertEqual(j["pruebas_web"]["if"], "${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}")
         self.assertEqual(j["limpiar_pruebas"]["if"], "${{ github.event_name == 'push' }}")
         for n in ("pruebas_web", "limpiar_pruebas"):
             self.assertEqual(j[n]["permissions"], {"contents": "read", "pull-requests": "read"})
             self.assertIs(j[n]["steps"][0]["with"]["persist-credentials"], False)
-            env = j[n]["steps"][1]["env"]
+            env = j[n]["steps"][-1]["env"]
             self.assertEqual(env["AWS_ACCESS_KEY_ID"], "${{ secrets.R2_PRUEBAS_ACCESS_KEY_ID }}")
             self.assertNotIn(n, j["pruebas"].get("needs", []))  # no condiciona el check `pruebas`
 
     def _correr(self, job, gh_salida, pr=""):
-        bloque = self.wf["jobs"][job]["steps"][1]["run"]
+        bloque = self.wf["jobs"][job]["steps"][-1]["run"]
         with tempfile.TemporaryDirectory() as d:
             b = Path(d)
             reg = b / "llamadas.txt"
@@ -110,8 +119,8 @@ class JobsP90(unittest.TestCase):
     def test_bloques_bajo_pipefail(self):
         rc, llamadas, _ = self._correr("pruebas_web", "README.md visor/v4/index.html")
         self.assertEqual(rc, 0)
-        self.assertIn("montar --destino /tmp/pruebas-web", llamadas)
-        self.assertIn("subir --origen /tmp/pruebas-web --rama t430/x", llamadas)
+        self.assertIn("_main/herramientas/pruebas_web_r2.py montar --raiz . --destino /tmp/pruebas-web", llamadas)  # script de main
+        self.assertIn("_main/herramientas/pruebas_web_r2.py subir --origen /tmp/pruebas-web --rama t430/x", llamadas)
         rc, llamadas, salida = self._correr("pruebas_web", "README.md herramientas/x.py")
         self.assertEqual((rc, llamadas), (0, ""))
         self.assertIn("no toca visor/v4/", salida)

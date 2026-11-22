@@ -11,7 +11,8 @@ QUÉ HACE:
   subir   — `aws s3 sync --delete` del montaje a `s3://<bucket>/<rama>/` (solo esa carpeta; `--delete` no sale de ella), sin caché.
   limpiar — borra las carpetas del bucket de pruebas cuya rama ya no tiene PR abierta (lista de ramas abiertas que se le pasa); nunca
             más de `TOPE_LIMPIEZA` de una vez ni nombres fuera de `[a-z0-9-]`.
-  La rama se normaliza a minúsculas, `/` y `_` → `-`, solo `[a-z0-9-]`, máx. 60 caracteres; vacía = error.
+  Carpeta de una rama: nombre normalizado (minúsculas, `/` y `_` → `-`, solo `[a-z0-9-]`, máx. 51) + `-` + 8 cifras del sha256 del
+  nombre original: sin colisiones y válida para cualquier nombre no vacío. En el workflow, el script es el de `main` (no el de la PR).
 USO: python herramientas/pruebas_web_r2.py montar --destino D [--datos-actual URL]
      python herramientas/pruebas_web_r2.py subir --origen D --rama R [--bucket B]
      python herramientas/pruebas_web_r2.py limpiar --abiertas R1,R2,… [--bucket B]
@@ -19,6 +20,7 @@ USO: python herramientas/pruebas_web_r2.py montar --destino D [--datos-actual UR
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -37,13 +39,16 @@ class PruebasError(RuntimeError):
 
 
 def rama_a_carpeta(rama: str) -> str:
-    c = re.sub(r"[^a-z0-9-]", "", re.sub(r"[/_]", "-", rama.strip().lower())).strip("-")[:60].strip("-")
-    if not c:
+    """Nombre legible + 8 cifras de la huella del nombre ORIGINAL: dos ramas distintas nunca comparten carpeta (`feature/a`,
+    `feature_a`, `Feature-A` o dos nombres largos que coinciden en los primeros caracteres), y cualquier nombre no vacío da una."""
+    if not rama.strip():
         raise PruebasError(f"RAMA_NO_VALIDA: {rama!r}")
-    return c
+    legible = re.sub(r"[^a-z0-9-]", "", re.sub(r"[/_]", "-", rama.strip().lower())).strip("-")[:51].strip("-") or "rama"
+    return f"{legible}-{hashlib.sha256(rama.strip().encode('utf-8')).hexdigest()[:8]}"
 
 
 def montar(destino: Path, raiz: Path = RAIZ, datos_actual: str = "") -> int:
+    """`raiz`: el repositorio cuya `visor/` se monta (en el job, la copia de la PR; el script viene de `main`)."""
     v4 = raiz / "visor" / "v4"
     if destino.exists():
         shutil.rmtree(destino)
@@ -115,6 +120,7 @@ def main(argv=None) -> int:
     m = sub.add_parser("montar")
     m.add_argument("--destino", type=Path, required=True)
     m.add_argument("--datos-actual", default=os.environ.get("DATOS_WEB_ACTUAL", ""))
+    m.add_argument("--raiz", type=Path, default=RAIZ, help="repositorio cuya visor/ se monta")
     s = sub.add_parser("subir")
     s.add_argument("--origen", type=Path, required=True)
     s.add_argument("--rama", required=True)
@@ -125,7 +131,7 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     try:
         if a.accion == "montar":
-            montar(a.destino, datos_actual=a.datos_actual)
+            montar(a.destino, raiz=a.raiz, datos_actual=a.datos_actual)
             return 0
         if not a.bucket:
             print("[pruebas_web] sin R2_PRUEBAS_BUCKET: no se sube ni se borra nada")

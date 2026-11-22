@@ -9,7 +9,8 @@
 #   `visor/v4/`, monta la V4 con `herramientas/pruebas_web_r2.py` y la sincroniza en `s3://<R2_PRUEBAS_BUCKET>/<rama>/` =
 #   https://pruebas.diputadodedistrito.es/<rama>/, sin buscadores) y `limpiar_pruebas` (en cada push a `main`, borra las carpetas de ramas
 #   sin PR abierta, con tope). Solo lectura del repositorio (`contents`/`pull-requests: read`), llave propia del bucket de pruebas en el
-#   paso; sin la variable `R2_PRUEBAS_BUCKET` no hacen nada. No entran en `pruebas` ni cambian los eventos. El resto, idéntico.
+#   paso (token de R2 de escritura SOLO en el bucket de pruebas: el job corre en PR con el workflow de la rama); el script que sube es
+#   el de `main` (segundo checkout en `_main/`); sin la variable `R2_PRUEBAS_BUCKET` no hacen nada. No entran en `pruebas` ni cambian los eventos. El resto, idéntico.
 # ANTERIOR (1.2.0): legacy/workflows/p90-automatico_v1.1.0_20261122.yml
 # CAMBIOS 1.2.0: T-440 (propietario, 22-11): job `medir_web`, A PETICIÓN y sin calendario ni botón: disparo `repository_dispatch` de tipo
 #   `medir-web` (el Operador lo lanza por REST con la frase del propietario). `herramientas/medir_web.py` pide la portada, una página de
@@ -896,6 +897,11 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
+          path: _main  # el script que sube es el de main, no el de la PR (la PR solo aporta visor/)
+          persist-credentials: false
       - name: Publicar la vista de pruebas
         shell: bash
         env:
@@ -916,8 +922,8 @@ jobs:
           if [[ -z "${R2_PRUEBAS_BUCKET:-}" ]]; then echo "Sin R2_PRUEBAS_BUCKET: sin vista de pruebas."; exit 0; fi
           ficheros="$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR/files?per_page=100" --paginate --jq '.[].filename')"
           if ! grep -q '^visor/v4/' <<<"$ficheros"; then echo "La PR no toca visor/v4/: sin vista de pruebas."; exit 0; fi
-          python3 herramientas/pruebas_web_r2.py montar --destino /tmp/pruebas-web
-          python3 herramientas/pruebas_web_r2.py subir --origen /tmp/pruebas-web --rama "$RAMA"
+          python3 _main/herramientas/pruebas_web_r2.py montar --raiz . --destino /tmp/pruebas-web
+          python3 _main/herramientas/pruebas_web_r2.py subir --origen /tmp/pruebas-web --rama "$RAMA"
 
   limpiar_pruebas:
     # T-430 paso 3a: en cada push a main, borra las vistas de pruebas de ramas sin PR abierta (sin calendario ni vigilante).
