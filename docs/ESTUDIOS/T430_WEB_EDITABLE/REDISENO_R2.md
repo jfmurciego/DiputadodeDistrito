@@ -1,6 +1,6 @@
 # T-430b · La web servida desde R2, con entorno de pruebas — rediseño (solo documento)
 
-VERSIÓN: 1.2.1 · FECHA: 2026-11-23 · ESTADO: aprobado (D-194); 1.2.1 marca §10 sin efecto (el repositorio sigue público) · ANTERIOR: 1.2.0 (#973@edc9da4)
+VERSIÓN: 1.2.1 · FECHA: 2026-11-23 · ESTADO: aprobado (D-194); 1.2.1 marca §10 sin efecto (D-196: el repositorio sigue público) · ANTERIOR: 1.2.0 (#973@edc9da4)
 
 **Decisión de partida (D-193, propietario, 22-11; sustituye en parte a D-186).** No hay repositorio aparte: la web sigue en este
 repositorio (`visor/v4/`). El propietario quiere (a) un entorno de pruebas donde ver cada cambio antes de publicarlo y (b) la web
@@ -172,7 +172,7 @@ tocan `visor/v4/`) y la 7 (publicar la web sola al fusionar esas PR). Las PR que
 
 ## 10. Qué depende hoy de que el repositorio sea público (D-193: este rediseño es el paso 1 para hacerlo privado)
 
-> **Sin efecto (D-194, 22-11):** el repositorio sigue público y T-445 se cancela; los enlaces a `github.com/jfmurciego/DiputadodeDistrito`
+> **Sin efecto (D-196, 22-11):** el repositorio sigue público y T-445 se cancela; los enlaces a `github.com/jfmurciego/DiputadodeDistrito`
 > no se tocan. Se conserva la tabla como inventario por si se vuelve a plantear.
 
 Revisado el 22-11 sobre `visor/`, `documentacion_publica/`, `herramientas/` y P40. **La web, una vez en R2, no pide nada a GitHub desde
