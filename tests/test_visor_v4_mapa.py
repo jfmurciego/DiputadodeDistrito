@@ -6,6 +6,7 @@ CAMBIOS: 2.0.0 (T-423): el mapa simple de T-413 (SVG, un territorio cada vez) se
   publicada no cambia (sha256 literales de main) y que los datos de ejemplo siguen saliendo igual de la herramienta.
 ANTERIOR: legacy/visor/v4/mapa_simple_t413_20261119/ (código retirado); 1.0.0 en el historial de git.
 """
+import json
 import hashlib, re, shutil, subprocess, sys, tempfile, unittest
 from pathlib import Path
 
@@ -92,6 +93,15 @@ class CapaDobleVuelta(unittest.TestCase):
     def test_explorar_autonomico_t427(self):
         r = subprocess.run(["node", str(RAIZ / "tests/test_visor_v4_explorar_aut.js")], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+
+    @unittest.skipUnless(shutil.which("node"), "sin node")
+    def test_explorar_datos_remotos_t430(self):
+        r = subprocess.run(["node", str(RAIZ / "tests/test_visor_v4_explorar_actual.js")], capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+
+    def test_origen_de_datos_inerte_hasta_configurarlo_t430(self):
+        # T-430 paso 1: mientras los datos no estén en datos.diputadodedistrito.es, Explorar usa las rutas relativas de hoy
+        self.assertEqual(json.loads((RAIZ / "visor/v4/mapa/datos.json").read_text(encoding="utf-8")), {"actual": ""})
 
     @unittest.skipUnless(shutil.which("node"), "sin node")
     def test_lector_dv(self):

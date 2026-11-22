@@ -1,0 +1,8 @@
+## 2026-11-22 — T-430 — Paso 1 de la web en R2: Explorar puede leer los datos de `datos.diputadodedistrito.es` vía `actual.json`
+
+- **Causa:** D-193/D-194 (propietario, 22-11), `REDISENO_R2.md` §9 paso 1: para servir la web desde R2, Explorar debe leer los datos del bucket `ddd-web-datos` (donde ya los sube P40, #957) a través del índice vigente, con su sha256 (D-186, D-188).
+- **Cambio:**
+  - `visor/v4/mapa/explorar.js` 1.3.0 (copia de 1.2.1 en `legacy/`): origen de los datos configurable en `visor/v4/mapa/datos.json` (nuevo). Con `actual` vacío (como queda en esta PR) o sin el fichero, todo igual que hoy. Con `actual` = dirección de `web/actual/actual.json`, cada dato se pide en `web/actual/<ruta de hoy>` y se comprueba su sha256 contra el índice; si no casa, recarga el índice una vez sin caché (ventana de 60 s de D-188) y, si sigue sin casar, no se pinta y se dice; un dato fuera del índice ni se pide. El calendario es de la web: siempre local.
+  - `tests/test_visor_v4_explorar_actual.js` (nuevo): reutiliza el montaje real de `test_visor_v4_explorar.js` y sirve los mismos datos desde un origen remoto: ningún dato por ruta relativa, calendario local, índice de la doble vuelta leído en remoto, huella mal → una recarga y rechazo, huella mal y luego bien → acepta, fuera del índice → no se pide. Falla con la 1.2.1 (control negativo). Lo llama `test_visor_v4_mapa.py`, que además fija `datos.json` inerte.
+- **Pruebas:** suites V4, T-428, T-419, sin terceros, T-220 y gobernanza (104 OK); tests Node de Explorar.
+- **Riesgos:** ninguno hasta activar `actual` (PR aparte, cuando el bucket tenga datos): con el fichero inerte el comportamiento es idéntico. No lanza ni publica.
