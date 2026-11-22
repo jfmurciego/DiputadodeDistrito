@@ -1,6 +1,6 @@
 # T-430b · La web servida desde R2, con entorno de pruebas — rediseño (solo documento)
 
-VERSIÓN: 1.1.0 · FECHA: 2026-11-22 · ESTADO: aprobado (D-194, 22-11: «sí a todo», incluidas expresamente P6 y P7) · ANTERIOR: 1.0.0 (#973@326cbfc); 1.1.0 anota las respuestas
+VERSIÓN: 1.2.0 · FECHA: 2026-11-22 · ESTADO: aprobado (D-194); 1.2.0 añade §10, dependencias de que el repositorio sea público (D-193: paso previo a hacerlo privado) · ANTERIOR: 1.1.0 (#973@d0eb386)
 
 **Decisión de partida (D-193, propietario, 22-11; sustituye en parte a D-186).** No hay repositorio aparte: la web sigue en este
 repositorio (`visor/v4/`). El propietario quiere (a) un entorno de pruebas donde ver cada cambio antes de publicarlo y (b) la web
@@ -169,3 +169,22 @@ tocan `visor/v4/`) y la 7 (publicar la web sola al fusionar esas PR). Las PR que
 3. PR: job `pruebas_web` en P90 y su limpieza (+ preguntas 6 y 7 si son «sí»).
 4. Pasos 1-8 del propietario; ensayo en `nueva.` y `pruebas.`.
 5. Corte (pasos 9-10); dos semanas; retirada de Pages.
+
+## 10. Qué depende hoy de que el repositorio sea público (D-193: este rediseño es el paso 1 para hacerlo privado)
+
+Revisado el 22-11 sobre `visor/`, `documentacion_publica/`, `herramientas/` y P40. **La web, una vez en R2, no pide nada a GitHub desde
+el navegador**: ni `raw.githubusercontent.com` ni blobs de git ni la API (ningún `fetch` del visor apunta a GitHub). Lo que sí depende:
+
+| Dependencia | Dónde | ¿Se rompe con el repositorio privado? | Qué hacer |
+|---|---|---|---|
+| GitHub Pages | P40 publica hoy ahí | sí: Pages en repositorio privado exige plan de pago (por verificar) | el corte a R2 (§3) va **antes** de hacerlo privado; Pages se retira |
+| Blobs de git del registro (M06/M08) | P40 (`git/blobs`), `resultados_ligeros.py`, `composicion_m06.py` y otros, con `GH_TOKEN` | no: se leen con la credencial del propio workflow, lado servidor | nada; el navegador nunca los pide |
+| Enlaces visibles a `github.com/jfmurciego/DiputadodeDistrito` | `documentacion_publica/docs/` (`citar.md`, `index.md`, `fuentes.md`) y `visor/v2/index.html` | sí: darían 404 a los visitantes | apuntarlos al repositorio público de publicación de T-445 (o quitarlos); coordinar con T-445 |
+| Zenodo (integración con GitHub) | depósitos de código y DOI (D-74) | probablemente: la integración archiva repositorios públicos (por verificar) | que Zenodo archive el repositorio público de T-445, no el privado |
+| Minutos de Actions | todos los workflows | sí, en coste: un repositorio privado consume minutos de cuota (hoy 0 facturables por ser público; por verificar el cupo del plan) | decisión del propietario antes de hacerlo privado (la 00 ≈ 72 min por territorio) |
+| Espejo de Interior en una release (`fuente-infoelectoral-02202307`) | P10/03 lo baja con credencial | no (lado servidor, con credencial) | nada |
+| `CITATION.cff` (`url`) | apunta a `github.io` | sí | `https://diputadodedistrito.es/` (ya previsto en `DISENO.md` §9) |
+
+Coordinación con T-445: las rutas de la web en R2 (`ddd-web-sitio`, `ddd-web-pruebas`, `ddd-web-datos/web/actual/`) no cambian por el
+repositorio público de publicación; lo que T-445 publique (código citado, datos abiertos para Zenodo) va aparte y la web solo lo enlaza.
+
