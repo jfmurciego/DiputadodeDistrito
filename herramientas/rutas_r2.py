@@ -194,6 +194,18 @@ def es_nueva(ruta: str) -> bool:
     return str(ruta).startswith(RAICES)
 
 
+@lru_cache(maxsize=1)
+def _ids_antiguos() -> frozenset[str]:
+    # Solo los del Congreso: el id viejo de una comunidad es su propio nombre (`andalucia`), que sí vale como carpeta.
+    return frozenset(t.id_legacy for t in ti.tabla().values() if t.ambito == "NAC" and t.id_legacy != slug(t.nombre_es))
+
+
+def _es_id_antiguo(parte: str) -> bool:
+    """Id viejo de la tabla maestra o variante de 350, según el resolutor (sin detección por prefijo, T-220)."""
+    base = parte.split(".", 1)[0]
+    return base in _ids_antiguos() or ti.es_variante_350(base)
+
+
 def validar(ruta: str) -> list[str]:
     """Problemas de `ruta` frente a la regla de nombres (D-188 §a); lista vacía si vale."""
     r = str(ruta)
@@ -213,7 +225,7 @@ def validar(ruta: str) -> list[str]:
         low = parte.lower()
         if _RE_CODIGO.search(low):
             p.append(f"{parte!r}: código de territorio (nacNN/autNN) prohibido")
-        if "congreso_" in low or "congreso350" in low:
+        if _es_id_antiguo(parte):
             p.append(f"{parte!r}: id antiguo de territorio prohibido")
         if _RE_RUN.search(low):
             p.append(f"{parte!r}: id de run prohibido")

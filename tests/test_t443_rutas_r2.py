@@ -13,6 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from herramientas import rutas_r2 as r  # noqa: E402
+from ddd_core import territorio_ids as ti  # noqa: E402
 
 CRUCE = ROOT / "docs" / "ESTUDIOS" / "T435_ESTRUCTURA_R2" / "CRUCE_claves.csv"
 
@@ -20,7 +21,7 @@ CRUCE = ROOT / "docs" / "ESTUDIOS" / "T435_ESTRUCTURA_R2" / "CRUCE_claves.csv"
 class Arbol(unittest.TestCase):
     def test_paquete_p10_por_ambito(self):
         self.assertEqual(r.ruta_paquete_p10("nac47"), "fuentes/por-territorio/nacionales/valladolid/paquete.zip")
-        self.assertEqual(r.ruta_paquete_p10("congreso_valladolid"), "fuentes/por-territorio/nacionales/valladolid/paquete.zip")
+        self.assertEqual(r.ruta_paquete_p10(ti.id_legacy("nac47")), "fuentes/por-territorio/nacionales/valladolid/paquete.zip")
         self.assertEqual(r.ruta_paquete_p10("aut13"), "fuentes/por-territorio/autonomicas/comunidad-de-madrid/paquete.zip")
         self.assertEqual(r.ruta_paquete_p10("nac28"), "fuentes/por-territorio/nacionales/madrid/paquete.zip")
         self.assertEqual(r.ruta_paquete_p10("aut03"), "fuentes/por-territorio/autonomicas/principado-de-asturias/paquete.zip")
@@ -41,7 +42,6 @@ class Arbol(unittest.TestCase):
             self.assertEqual(r.territorio_r2(t)[1], nombre, t)
         otras_lenguas = {"bizkaia", "gipuzkoa", "alacant", "castello", "araba", "girona", "lleida", "ourense", "illes-balears",
                          "balears", "valencia-valencia", "comunitat-valenciana", "euskadi", "a-coruna"}
-        from ddd_core import territorio_ids as ti
         for t in ti.ids_nuevos():
             self.assertNotIn(r.territorio_r2(t)[1], otras_lenguas, t)
 
@@ -87,7 +87,7 @@ class ReglaDeNombres(unittest.TestCase):
     def test_prohibidos(self):
         for mala in ("nac01/43750441261/ddd-audit-43750441261.zip", "interno/estados/nacionales/nac01/audit.zip",
                      "interno/estados/nacionales/alava/audit-43750441261.zip", "fuentes/ine/2021/seccionado_2021_772ad76b84e1.zip",
-                     "mapas/nacionales/congreso-2023/Álava/mapa.geojson", "interno/estados/nacionales/congreso_alava/audit.zip",
+                     "mapas/nacionales/congreso-2023/Álava/mapa.geojson", f"interno/estados/nacionales/{ti.id_legacy('nac01')}/audit.zip",
                      "interno/estados/nacionales/alava/audit-v1.2.zip", "web/actual/actual.json"):
             self.assertTrue(r.validar(mala), mala)
 
