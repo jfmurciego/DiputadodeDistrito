@@ -3,14 +3,15 @@
 """Restaura desde R2 el estado M08/M06 de un run cuyo artefacto de Actions ya no existe (T-305).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.1.0
 NOMBRE DE VERSIÓN: Restauración del estado final desde R2
-FECHA: 2026-11-14
+FECHA: 2026-11-22
 ESTADO: candidato
-CAMBIOS: 1.0.0: fichero nuevo (T-305).
+CAMBIOS: 1.1.0 (T-443, D-188): si la entrada de orchestracion/archivo_r2.json lleva `clave_anterior` (ruta vieja, transición al árbol nuevo), la
+  prueba cuando falta el objeto de la clave de la entrada; sha256 distinto sigue fallando cerrado (53). 1.0.0: fichero nuevo (T-305).
 MOTIVO: la poda T-278 borró de Actions el ddd-state-<run>-M08 de los runs ya archivados en R2 y la P50 por lotes solo lo buscaba
   allí (LOTE_RECHAZADO «sin producto publicable», run 43617006619).
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/herramientas/restaurar_estado_r2_v1.0.0_20261122.py
 QUÉ HACE: busca en orchestracion/archivo_r2.json el paquete ``ddd-minimo-<run>-<estado>`` (por defecto M08 y luego M06), lo baja de R2
   (aws s3 cp, como fuente_r2.py), verifica su sha256 contra el manifiesto y extrae ``estado/`` en
   ``<destino>/ddd-state-<run>-<estado>/``. Salidas: 0 restaurado; 3 no está en el manifiesto o R2 no disponible/sin credenciales
@@ -72,9 +73,10 @@ def restaurar(run: str, destino: Path, estados=("M08", "M06"), manifiesto: Path 
         with tempfile.TemporaryDirectory() as td:
             zip_ = Path(td) / "paquete.zip"
             try:
-                cp(f"s3://{bucket}/{clave}", str(zip_))
+                clave = fuente_r2.cp_primera(cp, bucket, fuente_r2.claves({**e, "clave": clave}), str(zip_))
             except Exception as exc:  # noqa: BLE001 - sin objeto o sin red
-                print(f"::error::RESTAURAR_R2_NO_DISPONIBLE run {run} estado {estado}: {clave} ({exc})", file=sys.stderr)
+                print(f"::error::RESTAURAR_R2_NO_DISPONIBLE run {run} estado {estado}: {' ni '.join(fuente_r2.claves({**e, 'clave': clave}))} ({exc})",
+                      file=sys.stderr)
                 return 3
             real = fuente_r2.sha256(zip_)
             if real != e.get("sha256"):

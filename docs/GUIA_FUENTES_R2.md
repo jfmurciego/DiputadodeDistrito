@@ -9,6 +9,10 @@ archivado: cambiar M02/M03 cambia lo que se calcula. La batería nunca va a ine.
 - Al archivar y al leer se comprueba que el sha256 del bundle es el `package_sha256` del contrato y que lo acepta la misma validación
   de la 00 (`seleccionar_paquete_fuentes`). Paquete alterado o de otro contrato: `BATERIA_PAQUETE_P10_CORRUPTO`; ausente:
   `BATERIA_FALTA_PAQUETE_P10 <t>` (dice qué archivar).
+- Transición al árbol nuevo (T-443, D-188): el paquete se busca primero en `fuentes/por-territorio/<ámbito>/<territorio>/paquete.zip` y, si falta,
+  en la clave vieja. Toda entrada de índice (`fuentes_r2.json`, `archivo_r2.json`, `almacen_m06_r2.json`, el fijado de la doble vuelta) puede llevar
+  `clave_anterior` (en la doble vuelta, `informe_clave_anterior` y `clave_r2_anterior`) junto a la clave nueva: se prueba solo si falta el objeto
+  nuevo; un sha256 distinto falla cerrado. Se quita al borrar lo viejo (D-178).
 - Índice versionado: `orchestracion/fuentes_r2.json` (huellas medidas de las fuentes INE que consume P10 y la de Interior). El job de
   archivado deja `ARCHIVO_PAQUETES_P10.json` (clave, sha256 del zip, bytes, `package_sha256`, run de origen, fecha) como artefacto.
 - La poda (`podar_r2.py`) solo borra claves `ddd-state-*` de su lista aprobada: nada bajo `arc-e/`.
