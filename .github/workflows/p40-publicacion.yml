@@ -1,10 +1,15 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 1.4.0
+# VERSIÓN: 1.5.0
+# CAMBIOS 1.5.0: T-430 paso 2 (D-193/D-194, REDISENO_R2 §9): paso «Web en R2 (T-430)» tras el de los datos: `herramientas/publicar_sitio_r2.py` sube el
+#   sitio candidato SIN los árboles de datos al bucket del sitio (raíz, ruta de hoy), páginas HTML al final, sha256 comprobado, índice `_sitio/actual.json`
+#   al final y borrado de lo que sale con la misma guarda que los datos. Solo desde `main`; sin la variable `R2_SITIO_BUCKET` no hace nada; secretos
+#   propios del bucket del sitio; `continue-on-error` mientras dure el ensayo en paralelo a Pages. Pages, registro y el resto, idénticos.
+# ANTERIOR: legacy/workflows/p40-publicacion_v1.4.0_20261122.yml
 # CAMBIOS 1.4.0: T-430 fase 1 (D-186): paso «Datos de la web en R2 (T-430)» tras persistir el registro: `herramientas/publicar_datos_web.py` sube los datos del
 #   sitio candidato (datos/, mapa/datos/, v2/datos/, data/) al bucket público de la web en `web/actual/` (solo la vigente, D-188: sube lo que cambió, verifica su sha256,
 #   reescribe `web/actual/actual.json` y borra lo que salió del índice, con tope: un candidato truncado o sin territorios aborta sin borrar). Solo desde `main` (otra rama no toca el índice de producción). Sin la variable `R2_WEB_BUCKET` no hace nada; `continue-on-error` mientras dure el ensayo en paralelo a Pages. El resto, idéntico.
-# ANTERIOR: legacy/workflows/p40-publicacion_v1.3.0_20261120.yml
+# ANTERIOR (1.4.0): legacy/workflows/p40-publicacion_v1.3.0_20261120.yml
 # CAMBIOS 1.3.0: T-428 (D-184): la V4 es la versión OFICIAL. Paso nuevo «Promocionar la V4 como portada oficial» tras el de la V3
 #   (`herramientas/preparar_portada_v4.py`): la V4 pasa de /v4/ a la raíz del sitio, /v4/ queda con redirecciones a la raíz y los
 #   recursos de la V1 se mueven a /v1/; la doble vuelta se escribe en `mapa/datos/` de la raíz; la validación comprueba la portada V4
@@ -731,6 +736,23 @@ jobs:
           set -euo pipefail
           # Fase 1 (D-186): en paralelo a Pages, después de desplegarla. Sin la variable R2_WEB_BUCKET no hace nada; un fallo avisa y no para P40.
           python3 herramientas/publicar_datos_web.py --sitio /tmp/site-candidate
+
+      - name: Web en R2 (T-430)
+        if: ${{ github.ref == 'refs/heads/main' }}
+        continue-on-error: true
+        shell: bash
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_SITIO_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SITIO_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_SITIO_BUCKET: ${{ vars.R2_SITIO_BUCKET }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}  # para rechazar que el bucket del sitio sea el de trabajo
+          R2_WEB_BUCKET: ${{ vars.R2_WEB_BUCKET }}  # o el de datos
+        run: |
+          set -euo pipefail
+          # Paso 2 (D-193/D-194): la web, sin los datos, al bucket del sitio, en paralelo a Pages. Sin la variable R2_SITIO_BUCKET no hace nada.
+          python3 herramientas/publicar_sitio_r2.py --sitio /tmp/site-candidate
 
       - name: Registrar evidencia
         if: always()
