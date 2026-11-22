@@ -106,7 +106,8 @@ class Disparadores(Fixtures):
     def test_nombre_sin_boton_manual_y_disparadores(self):
         self.assertEqual(self.p90["name"], "P90 Automático")
         d = on(self.p90)
-        self.assertEqual(set(d), {"push", "pull_request", "schedule", "workflow_run"})
+        self.assertEqual(set(d), {"push", "pull_request", "schedule", "workflow_run", "repository_dispatch"})
+        self.assertEqual(d["repository_dispatch"], {"types": ["medir-web"]})  # T-440 (P90 1.2.0): medición a petición, sin botón
         self.assertNotIn("workflow_dispatch", d)
         self.assertEqual(d["push"], {"branches": ["main"]})
         # igual que pruebas-plataforma: `pull_request` sin types = opened/synchronize/reopened (labeled/ready_for_review crearían
@@ -121,7 +122,7 @@ class Disparadores(Fixtures):
     def test_ningun_job_de_revisor_ni_fusion_en_p90(self):
         for j in ("veredicto", "revisar", "revisor_comprobar", "fusionar"):
             self.assertNotIn(j, self.p90["jobs"])
-        self.assertEqual(set(self.p90["jobs"]), set(MAPA.values()) | {"cierre_comprobar", "cierre_ia", "cierre_comentario"})
+        self.assertEqual(set(self.p90["jobs"]), set(MAPA.values()) | {"cierre_comprobar", "cierre_ia", "cierre_comentario", "medir_web"})  # medir_web: T-440
 
     def test_checks_intocables_conservan_nombre(self):
         jobs = self.p90["jobs"]

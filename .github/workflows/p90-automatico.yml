@@ -1,10 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.1.0
-# NOMBRE DE VERSIÓN: P90 Automático — CI, IA de cierre de campaña y métricas en un solo workflow
-# FECHA: 2026-11-17
+# VERSIÓN: 1.2.0
+# NOMBRE DE VERSIÓN: P90 Automático — CI, IA de cierre de campaña, métricas y medición de la web en un solo workflow
+# FECHA: 2026-11-22
 # ESTADO: candidato
-# ANTERIOR: legacy/workflows/p90-automatico_v1.0.0_20261116.yml
+# ANTERIOR: legacy/workflows/p90-automatico_v1.1.0_20261122.yml
+# CAMBIOS 1.2.0: T-440 (propietario, 22-11): job `medir_web`, A PETICIÓN y sin calendario ni botón: disparo `repository_dispatch` de tipo
+#   `medir-web` (el Operador lo lanza por REST con la frase del propietario). `herramientas/medir_web.py` pide la portada, una página de
+#   territorio, el mapa y sus datos principales de https://diputadodedistrito.es, 3 veces con y sin compresión, e imprime la tabla en el log
+#   y en el resumen del job. Solo lectura (`contents: read`), sin secretos. Los demás jobs no corren con ese evento (su `if` los ata al suyo). El resto, idéntico.
 # QUÉ HACE: reúne los workflows automáticos (sin botón manual) que sustituye: «Pruebas de la Plataforma» (push a main, pull_request
 #   opened/synchronize/reopened como hoy, nocturna 02:23 UTC), «Forense de la 00» (workflow_run de «P00 Campaña») y el job `metricas` de
 #   «Mantenimiento» (lunes 05:17 UTC). Cada job conserva su condición, permisos y concurrencia; el `if` de cada grupo lo ata a su evento.
@@ -26,6 +30,7 @@ name: P90 Automático
 run-name: >-
   ${{ github.event_name == 'schedule' && (github.event.schedule == '23 2 * * *' && 'P90 · nocturna de pruebas' || 'P90 · métricas del proceso')
   || github.event_name == 'workflow_run' && format('P90 · {0} · run {1}', github.event.workflow_run.name, github.event.workflow_run.id)
+  || github.event_name == 'repository_dispatch' && 'P90 · medir la web'
   || github.event.pull_request.title || github.event.head_commit.message }}
 on:
   push:
@@ -37,6 +42,8 @@ on:
   workflow_run:
     workflows: ["P00 Campaña"]
     types: [completed]
+  repository_dispatch:
+    types: [medir-web]
 permissions:
   contents: read
 
@@ -849,3 +856,21 @@ jobs:
             git pull --rebase origin main
           done
           exit 1
+
+  medir_web:
+    # T-440: a petición (repository_dispatch «medir-web»); solo lectura, sin secretos, sin escribir en el repositorio.
+    if: ${{ github.event_name == 'repository_dispatch' && github.event.action == 'medir-web' }}
+    permissions:
+      contents: read
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Medir la web pública
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 herramientas/medir_web.py --resumen "$GITHUB_STEP_SUMMARY"
