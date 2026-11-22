@@ -1,6 +1,6 @@
 # T-444 · Cierre de la migración de workflows (D-129, D-130)
 
-VERSIÓN: 1.0.0 · FECHA: 2026-11-22 · ESTADO: propuesta, solo diseño (sin implementar) · ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.0.0 · FECHA: 2026-11-22 · ESTADO: aprobado (propietario, 22-11, D-195: «sí a todo», con las recomendaciones; vía Planificador), sin implementar · ANTERIOR: ninguna (fichero nuevo)
 
 Base: `origin/main` @ `0cd77bed`. Lecturas: los 7 ficheros, `docs/PLAN.md` (D-129, D-130, D-135, D-142, D-144, D-145,
 D-149, D-155, D-159, D-164), diseño T-378 1.1.4 (§9, §11, §13), `.claude/rules/workflows.md`, las PR #888, #913, #938 y #956,
@@ -266,3 +266,18 @@ toca.
    regla. La cambia el propietario, o el Operador con su frase.
 7. **R2: ¿acción compuesta (D-129) o se mantiene el reutilizable con otro nombre?** Recomiendo la acción compuesta,
    después de R1, con el test de bloques idénticos y la prueba real de P70 + P00 «solo comprobar».
+
+## 8. Respuestas del propietario (22-11, D-195, vía Planificador)
+
+Responde «sí a todo», con las recomendaciones:
+1. R1 solo se fusiona tras una campaña real de P00 en verde.
+2. El mínimo operativo entra en R1: CLAUDE.md «Ejecución 00», las skills `lanzar-00` y `lanzar-campana`, y
+   `comprobar_paquete_electoral_remoto.py`. El resto va en R4.
+3. Las métricas leen la 00 y P00 por separado.
+4. #888 se decide antes de R1. Si sigue en pausa, se cierra y se rehace sobre los ficheros nuevos.
+5. Los dos ficheros de fusión se renombran a `p90-*.yml` después del 29-11, con la prueba real de §3.6.
+6. `pruebas` se añade al ruleset en una acción aparte después de R3, tras comprobarlo antes.
+7. R2 pasa a acción compuesta después de R1, con el test y la prueba real.
+
+No se implementa nada hasta que se fusione este diseño.
+
