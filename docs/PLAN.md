@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.74
-Fecha: 2026-11-21
+Versión: 1.0.75
+Fecha: 2026-11-22
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-190 y D-191 (R2: paquetes antiguos, ámbitos, tamaño), #842/#950 en espera; T-433 a T-439 al día
-Anterior: legacy/docs/PLAN_v1.0.73_20261121.md
+Cambios/motivo: D-192 a D-196 (web ligera, web desde R2, migración de workflows, Deslinde público con licencia); T-440 a T-447
+Anterior: legacy/docs/PLAN_v1.0.74_20261121.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -330,6 +330,11 @@ Fase 4 — producto (en el privado):
 - D-189 (21-11, propietario). Toda PR de diseño lleva la etiqueta `no-automerge`: el bot fusionó #961 antes de las correcciones y de la conformidad de T-430. Las fusiona el Coordinador tras la aprobación del propietario (D-169).
 - D-190 (21-11, propietario). R2: los 22 paquetes P10 antiguos (1,82 GB) que no cita ningún contrato vigente se borran con D-178 después del 29-11; `fuentes/por-territorio/` e `interno/` llevan subcarpeta de ámbito (`nacionales/`, `autonomicas/`). Cruce clave a clave en #968 (2.042 objetos).
 - D-191 (21-11, propietario). R2 se queda en ~12,3 GB tras la limpieza (las fuentes vigentes pesan 9,3 GB): se asume el exceso sobre los 10 GB gratuitos (~0,04 USD/mes); no se comprimen ni se recortan los paquetes P10. #842 sigue en borrador hasta el 29-11 (P00 3c cambia las campañas); #950 sigue aparcada (D-184).
+- D-192 (22-11, propietario). Carga ligera para el móvil (#971, «sí a todo»): vista rápida del mapa con botón «Abrir el mapa interactivo», solo en el móvil al principio; fotos en dos tamaños y vídeo al pulsar; tope de 100 KB comprimidos en la primera vista; compresión en R2 según T-440; todo con la web nueva salvo la portada (T-442, #972).
+- D-193 (22-11, propietario). No se crea `ddd-web`: la web sigue en este repositorio, con entorno de pruebas, servida desde R2 (T-430b); la fase 2 de T-430 se anula.
+- D-194 (22-11, propietario). «Sí a todo» a #973: tres buckets, regla de Cloudflare, pruebas públicas `noindex` con datos reales, borrado al cerrar la PR, atajo de CI, publicación al fusionar, retirar Pages a las 2 semanas, `nueva.diputadodedistrito.es`.
+- D-195 (22-11, propietario). «Sí a todo» a las 7 preguntas de #975 (T-444, cierre de la migración de workflows); #888 se decide antes de R1.
+- D-196 (22-11, propietario). El código de Deslinde está en el repositorio público (`paquetes/deslinde/`, también en el historial) y la definición formal también es pública; las versiones antiguas siguen bajo Apache-2.0. El repositorio SIGUE PÚBLICO: Deslinde se protege con la licencia propietaria y el registro de la propiedad intelectual (T-281). Sustituye al plan de pasar el repositorio a privado (22-11, 23:42) y deja sin efecto la parte de repositorio privado de D-91 a D-95. T-445 y T-446 se cancelan. El asset `ddd-deslinde-v1.0.0.tar.gz` de `mapas-v1.0.0` lo borró el propietario (comprobado el 22-11: no queda en ninguna Release).
 - D-182 (19-11, propietario; T-421, #930, #933). Bloques de las autonómicas: Junts y Contigo-Zurekin, DO, 100x100, Aliança Catalana, UxGC, Andalucistas y Alhora en Nacionalistas; SALF en Patriotas; Drago Verdes Canarias en Izquierdas; resto sin bloque. Faltan datos por sección de Asturias, Castilla-La Mancha, Extremadura y Murcia.
 - D-179 (19-11, propietario). PRIORIDAD: la V4 en producción. La doble vuelta se calcula desde los paquetes `ddd-minimo-<run>-M08` ya archivados en R2 de los 71 publicados (sin regenerar) con una opción nueva de solo lectura en P70 (T-418). La primera V4 lleva los 52 territorios del Congreso (`nac`); los 19 `aut` (elecciones autonómicas) van en una segunda tanda cuando la tabla de bloques cubra sus partidos. El Coordinador lleva el camino crítico; al propietario solo se le piden firmas (fusión de código, frase de lanzamiento, permiso de publicar). La limpieza de R2, la 2a y la PR 3 de P00 no lo bloquean.
 - D-177 (19-11, Planificador, criterio técnico). Doble vuelta: tabla de alias id de fuente → partido homologado derivada de `datos/homologacion_siglas/` (#914; 100 % de votos 2011-2023; «LA IZQUIERDA PLURAL» 2011 declarada, sin efecto de bloque); la regeneración no empieza sin #911, #914 y el `--alias` en P30. En campaña, P30 archiva en R2 en el mismo job y solo se salta el registro en main (opción A de T-379); el modo de inicio de P20 es una opción de la campaña (por defecto «Generar desde fuente territorial acreditada»); la campaña no publica salvo opción expresa del propietario (por defecto «No publicar») y siempre con la aprobación de `produccion`.
@@ -473,14 +478,22 @@ Fase 4 — producto (en el privado):
 | T-427 | Doble vuelta autonómica en P75 y en la V4 (#945, #946, #948) | HECHA (13 aut fijadas; 15 tras relanzar P75) |
 | T-428 | V4 en la raíz del dominio (#947) | HECHA |
 | T-429 | Textos de la V4 de la auditoría externa (#949) | REVISIÓN (no prioritaria) |
-| T-430 | Web editable: ddd-web + Cloudflare Pages (D-186, #951) | ESPERA (fase 1 #957 fusionada, inerte sin R2_WEB_BUCKET; fase 2 espera el repo ddd-web) |
+| T-430 | Web desde R2 en este repositorio (D-186, D-193, D-194; #951, #957, #973, #974, #976) | EN CURSO (T-430b) |
+| T-440 | Medir la web a petición desde P90 (#970) | REVISIÓN (luego «medir-web» por el Operador) |
+| T-441 | Diseño de la carga ligera para el móvil (D-192, #971) | REVISIÓN |
+| T-442 | Portada ligera en `visor/v4/` (#972) | REVISIÓN (luego P40) |
+| T-443 | Aplicar la estructura de R2 (D-188, D-190), 5 PR (#977…) | EN CURSO (adelantada por el propietario) |
+| T-444 | Cierre de la migración de workflows (D-195, #975) | REVISIÓN |
+| T-445 | Repositorio público de publicación | CANCELADA (D-196) |
+| T-446 | Comprobar que no queda código público | CANCELADA (D-196) |
+| T-447 | Actualización del plan 1.0.75 | REVISIÓN (esta PR) |
 | T-379c | P00 3c (manifiesto por territorio, P40 desde campaña), relevo de T-379 | REVISIÓN (3c completa en #956, borrador; no se fusiona antes del 29-11) |
 | T-432 | Inventario completo de R2 (#952, P74 44751091049) | HECHA |
-| T-434 | P50 sin código de Deslinde, «Retomar» el depósito, prueba sin Release (#960) | HECHA (prueba en sandbox CONFIRMADA, run 44870600635; depósito real pendiente) |
+| T-434 | P50 sin código de Deslinde, «Retomar» el depósito, prueba sin Release (#960) | HECHA (Zenodo real publicado: run 45066466320, DOI 10.5281/zenodo.24448721) |
 | T-435 | Diseño de la estructura de R2 (D-188, D-190; #961, #962, #968) | HECHA (aplicarlo tras el 29-11: tarea nueva) |
 | T-437 | P74 imprime el inventario en el log (#966; run 44871986746, 2.042 objetos, 16,47 GB) | HECHA |
 | T-438 | P50 imprime el informe del depósito en el log (#967) | HECHA |
-| T-439 | Actualización del plan 1.0.74 | REVISIÓN (esta PR) |
+| T-439 | Actualización del plan 1.0.74 | HECHA (#969) |
 | T-436 | Actualización del plan 1.0.73 | HECHA (#964) |
 | T-433 | Actualización del plan 1.0.72 (#958) y pin de 15 aut (#955) | HECHA (P40 44869459141: 67 territorios en la V4) |
 | T-425 | Actualización del plan 1.0.71 | HECHA (#940) |
