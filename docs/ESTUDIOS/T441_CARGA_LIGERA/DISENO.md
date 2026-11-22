@@ -1,6 +1,6 @@
 # T-441 · Carga ligera para el móvil — diseño (solo documento)
 
-VERSIÓN: 1.0.0 · FECHA: 2026-11-22 · ESTADO: propuesta (pendiente del propietario) · ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.1.0 · FECHA: 2026-11-22 · ESTADO: aprobado (D-192, 22-11: «sí a todo» a las 6 preguntas) · ANTERIOR: 1.0.0 (#971@d27f60d); 1.1.0 anota las respuestas del propietario
 
 Encargo del propietario (22-11, vía Planificador): con las cifras de T-440 y el peso real de cada fichero de la V4, decir qué se
 descarga hoy al abrir la portada y el mapa, proponer una primera vista ligera (móvil y visita rápida) con carga diferida, caché y
@@ -135,6 +135,12 @@ En una conexión móvil lenta (por ejemplo 1,5 Mbit/s reales), 470 KB son ≈ 2,
 | Cifras de esta propuesta sin medir | §1.3 se rellena con T-440 antes de aprobar; ninguna cifra de ahorro se publica hasta medirla en el ensayo |
 
 ## 6. Preguntas al propietario (con recomendación)
+
+**Respuestas (D-192, 22-11, propietario vía Planificador): sí a todo.** (1) Vista rápida del mapa con el botón «Abrir el mapa
+interactivo». (2) Solo en el móvil al principio. (3) Fotos en dos tamaños y vídeo solo al pulsar. (4) Compresión previa en R2: se decide
+con las cifras de T-440. (5) Prueba de tope de 100 KB comprimidos para la primera vista en el móvil. (6) Todo después del corte de
+ddd-web, salvo la portada (§2.1), que va ya en `visor/v4/` en una PR pequeña (T-442).
+
 
 1. **¿Vista rápida en el mapa con botón «Abrir el mapa interactivo»?** *Recomiendo sí*: es el mayor ahorro (la librería del mapa es
    más de la mitad de lo que se baja).
