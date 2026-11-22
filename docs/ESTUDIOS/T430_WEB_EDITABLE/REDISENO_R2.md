@@ -1,6 +1,6 @@
 # T-430b · La web servida desde R2, con entorno de pruebas — rediseño (solo documento)
 
-VERSIÓN: 1.0.0 · FECHA: 2026-11-22 · ESTADO: propuesta (pendiente del propietario) · ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.1.0 · FECHA: 2026-11-22 · ESTADO: aprobado (D-194, 22-11: «sí a todo», incluidas expresamente P6 y P7) · ANTERIOR: 1.0.0 (#973@326cbfc); 1.1.0 anota las respuestas
 
 **Decisión de partida (D-193, propietario, 22-11; sustituye en parte a D-186).** No hay repositorio aparte: la web sigue en este
 repositorio (`visor/v4/`). El propietario quiere (a) un entorno de pruebas donde ver cada cambio antes de publicarlo y (b) la web
@@ -143,6 +143,11 @@ En el corte (más adelante, con el Coordinador):
 10. GitHub → «Settings» → «Pages» → quitar el dominio propio (después del 9).
 
 ## 8. Preguntas al propietario (con recomendación)
+
+**Respuestas (D-194, 22-11, propietario vía Planificador): sí a las 9**, incluidas expresamente la 6 (atajo de CI para las PR que solo
+tocan `visor/v4/`) y la 7 (publicar la web sola al fusionar esas PR). Las PR que cambien la CI o el mecanismo de publicación (paso 3 de
+§9, P6 y P7) las fusiona el propietario con su frase en el chat del Coordinador.
+
 
 1. **¿Tres buckets (sitio, pruebas, datos)?** *Recomiendo sí*: cada llave solo puede tocar el suyo.
 2. **¿Regla de Cloudflare (sin código) o Worker para las carpetas?** *Recomiendo la regla*; Worker solo si se quiere una página 404 propia.
