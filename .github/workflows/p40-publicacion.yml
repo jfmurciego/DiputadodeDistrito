@@ -4,7 +4,8 @@
 # CAMBIOS 1.5.0: T-430 paso 2 (D-193/D-194, REDISENO_R2 §9): paso «Web en R2 (T-430)» tras el de los datos: `herramientas/publicar_sitio_r2.py` sube el
 #   sitio candidato SIN los árboles de datos al bucket del sitio (raíz, ruta de hoy), páginas HTML al final, sha256 comprobado, índice `_sitio/actual.json`
 #   al final y borrado de lo que sale con la misma guarda que los datos. Solo desde `main`; sin la variable `R2_SITIO_BUCKET` no hace nada; secretos
-#   propios del bucket del sitio; `continue-on-error` mientras dure el ensayo en paralelo a Pages. Pages, registro y el resto, idénticos.
+#   propios del bucket del sitio; solo si el paso de los datos terminó bien (id `datos_web`): nunca una web nueva sobre datos que no se
+#   subieron; `continue-on-error` mientras dure el ensayo en paralelo a Pages. Pages, registro y el resto, idénticos.
 # ANTERIOR: legacy/workflows/p40-publicacion_v1.4.0_20261122.yml
 # CAMBIOS 1.4.0: T-430 fase 1 (D-186): paso «Datos de la web en R2 (T-430)» tras persistir el registro: `herramientas/publicar_datos_web.py` sube los datos del
 #   sitio candidato (datos/, mapa/datos/, v2/datos/, data/) al bucket público de la web en `web/actual/` (solo la vigente, D-188: sube lo que cambió, verifica su sha256,
@@ -722,6 +723,7 @@ jobs:
           done
 
       - name: Datos de la web en R2 (T-430)
+        id: datos_web
         if: ${{ github.ref == 'refs/heads/main' }}
         continue-on-error: true
         shell: bash
@@ -738,7 +740,7 @@ jobs:
           python3 herramientas/publicar_datos_web.py --sitio /tmp/site-candidate
 
       - name: Web en R2 (T-430)
-        if: ${{ github.ref == 'refs/heads/main' }}
+        if: ${{ github.ref == 'refs/heads/main' && steps.datos_web.outcome == 'success' }}
         continue-on-error: true
         shell: bash
         env:

@@ -8,8 +8,10 @@ MOTIVO: D-193: la web se sirve desde R2 (bucket `ddd-web-sitio`), no desde GitHu
 QUÉ HACE: del sitio candidato que ya monta P40 toma TODO salvo los árboles de datos (`datos/`, `data/`, `mapa/datos/`, `v2/datos/`, que
   sirve `datos.diputadodedistrito.es`) y lo deja en la raíz del bucket con su ruta de hoy, solo la versión vigente (D-188):
   (1) sube los ficheros cuyo sha256 difiere del índice `_sitio/actual.json`, primero imágenes, estilos y código y las páginas HTML al
-  final (una página nueva nunca apunta a un fichero que aún no está); (2) los vuelve a bajar y exige su sha256; (3) escribe el índice;
-  (4) borra lo que salió del índice. Caché de 60 s en todo (la marca de caché larga para estilos y código es de T-441, aparte).
+  final (una página nueva nunca apunta a un fichero que aún no está); (2) los vuelve a bajar y exige su sha256; (3) borra lo que salió
+  del índice; (4) escribe el índice (lo lee solo P40: si el borrado falla a medias, el índice viejo los sigue listando y se reintentan).
+  Son «datos» solo los cuatro árboles que sirve `datos.`; lo demás es web, también los ficheros propios de páginas opcionales como
+  `congreso/data/` (piloto analítico, opt-in), que no están en el índice de datos. Caché de 60 s en todo (la marca de caché larga para estilos y código es de T-441, aparte).
   GUARDA DEL BORRADO (antes de escribir nada, como #957): solo claves relativas sin «..», vacías, absolutas ni dentro de los árboles de
   datos o del índice; sin `--permitir-borrado` aborta si sobran más de `TOPE_BORRAR_FICHEROS` o, a partir de `TOPE_BORRAR_MINIMO`, más del
   `TOPE_BORRAR_PCT` % del índice previo; un sitio sin `index.html` en la raíz no se publica. El bucket del sitio no puede ser el de trabajo
@@ -103,15 +105,17 @@ def publicar(sitio: Path, r2, p40_run: str = "", simular: bool = False, ahora: s
     malos = [r for r, h, _ in subir if sha256(r2.leer(r) or b"") != h]
     if malos:
         raise DatosWebError(f"SHA256_TRAS_SUBIR: {len(malos)} ficheros no casan (p. ej. {malos[0]}); el índice no cambia")
+    # El índice del sitio no lo lee la web (solo P40): se borra ANTES de escribirlo, para que un borrado a medias no deje huérfanos
+    # (el índice viejo los sigue listando y el siguiente P40 los vuelve a intentar).
+    for r in sobran:
+        assert clave_valida(r)
+        r2.borrar(r)
     with tempfile.TemporaryDirectory() as d:
         p = Path(d) / "actual.json"
         p.write_text(json.dumps(nuevo, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
         r2.escribir(INDICE, p, CACHE)
         if r2.leer(INDICE) != p.read_bytes():
             raise DatosWebError("INDICE_DISTINTO tras escribirlo")
-    for r in sobran:
-        assert clave_valida(r)
-        r2.borrar(r)
     print(f"[sitio_r2] {INDICE} escrito; {len(sobran)} ficheros viejos borrados")
     return nuevo
 

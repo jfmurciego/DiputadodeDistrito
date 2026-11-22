@@ -33,7 +33,7 @@ class R2Falso:
 
 FICHEROS = {"index.html": b"<html>portada", "comprender.html": b"<html>c", "styles.css": b"body{}", "app.js": b"1",
             "assets/congreso.webp": b"img", "mapa/index.html": b"<html>m", "mapa/explorar.js": b"2", "mapa/datos.json": b'{"actual":""}',
-            "docs/metodo.html": b"<html>d", "v4/index.html": b"<html>r",
+            "docs/metodo.html": b"<html>d", "v4/index.html": b"<html>r", "congreso/data/24.geojson": b"{}",  # piloto opt-in: web
             # datos: no van al sitio (los sirve datos.)
             "datos/INDEX.json": b"{}", "datos/nac01/distritos.geojson": b"{}", "mapa/datos/INDEX.json": b"{}", "v2/datos/provincias.json": b"[]",
             "data/viewer-results.json": b"{}"}
@@ -90,6 +90,25 @@ class SitioR2(unittest.TestCase):
         for mala in ("../x", "/x", "", "datos/INDEX.json", "v2/datos/x.json", "_sitio/actual.json", "a//b"):
             self.assertFalse(s.clave_valida(mala), mala)
 
+    def test_borrado_a_medias_se_reintenta(self):
+        r2 = R2Falso()
+        s.publicar(self.s, r2, "1")
+        (self.s / "app.js").unlink()
+        (self.s / "styles.css").unlink()
+        falla = {"styles.css"}
+
+        def borrar(k):
+            if k in falla:
+                raise DatosWebError("R2_BORRADO: " + k)
+            r2.obj.pop(k, None)
+        r2.borrar = borrar
+        with self.assertRaises(DatosWebError):
+            s.publicar(self.s, r2, "2")
+        self.assertIn("styles.css", json.loads(r2.obj["_sitio/actual.json"])["ficheros"])  # el índice viejo lo sigue listando
+        falla.clear()
+        s.publicar(self.s, r2, "3")
+        self.assertNotIn("styles.css", r2.obj)
+
     def test_sha256_distinto_no_toca_indice_ni_borra(self):
         r2 = R2Falso()
         s.publicar(self.s, r2, "1")
@@ -120,12 +139,14 @@ class PasoP40(unittest.TestCase):
         nombres = [p.get("name") for p in pasos]
         p = pasos[nombres.index("Web en R2 (T-430)")]
         self.assertGreater(nombres.index("Web en R2 (T-430)"), nombres.index("Datos de la web en R2 (T-430)"))  # datos antes que la web
-        self.assertEqual(p.get("if"), "${{ github.ref == 'refs/heads/main' }}")
         self.assertIs(p.get("continue-on-error"), True)
         self.assertEqual(p["env"]["AWS_ACCESS_KEY_ID"], "${{ secrets.R2_SITIO_ACCESS_KEY_ID }}")
         self.assertEqual(p["env"]["R2_SITIO_BUCKET"], "${{ vars.R2_SITIO_BUCKET }}")
         self.assertEqual((p["env"]["R2_BUCKET"], p["env"]["R2_WEB_BUCKET"]), ("${{ vars.R2_BUCKET }}", "${{ vars.R2_WEB_BUCKET }}"))
         self.assertIn("publicar_sitio_r2.py --sitio /tmp/site-candidate", p["run"])
+        datos = pasos[nombres.index("Datos de la web en R2 (T-430)")]
+        self.assertEqual(datos.get("id"), "datos_web")
+        self.assertEqual(p.get("if"), "${{ github.ref == 'refs/heads/main' && steps.datos_web.outcome == 'success' }}")  # sin datos, no se sube la web
         self.assertNotIn("--permitir-borrado", p["run"])
 
 
