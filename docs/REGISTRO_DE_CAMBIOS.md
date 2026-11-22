@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.582
-Fecha: 2026-11-21
-Alcance: T-439 — Plan 1.0.74
+Versión: 1.0.583
+Fecha: 2026-11-22
+Alcance: T-440 — Medir la web a petición desde P90
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-21_planificador-plan-1-0-74.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.581_registro_20261121.md
+Cambios/motivo: entrada docs/registro/2026-11-22_t440-medir-web.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.582_registro_20261122.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.581_registro_20261121.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.583 · [2026-11-22 — T-440 — Medir la web a petición desde P90](registro/2026-11-22_t440-medir-web.md)
 - 1.0.582 · [2026-11-21 — T-439 — Plan 1.0.74](registro/2026-11-21_planificador-plan-1-0-74.md)
 - 1.0.581 · [2026-11-21 — T-435c — Cruce clave a clave de R2](registro/2026-11-21_t435c-cruce-r2.md)
 - 1.0.580 · [2026-11-21 — T-438 — P50 imprime el informe del depósito en el log](registro/2026-11-21_t438-p50-informe-log.md)
