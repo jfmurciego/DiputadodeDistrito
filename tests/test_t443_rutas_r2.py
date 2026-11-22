@@ -32,6 +32,19 @@ class Arbol(unittest.TestCase):
         self.assertEqual(r.ruta_paquete_p10("nac48"), "fuentes/por-territorio/nacionales/vizcaya/paquete.zip")
         self.assertEqual(r.ruta_paquete_p10("aut08"), "fuentes/por-territorio/autonomicas/castilla-la-mancha/paquete.zip")
 
+    def test_toponimos_solo_en_espanol(self):
+        """Topónimos de la tabla maestra en español, nunca en otras lenguas (regla del propietario, CLAUDE.md)."""
+        esperado = {"nac48": "vizcaya", "nac20": "guipuzcoa", "nac03": "alicante", "nac12": "castellon", "nac01": "alava",
+                    "nac17": "gerona", "nac25": "lerida", "nac32": "orense", "nac07": "baleares", "nac46": "valencia",
+                    "aut04": "islas-baleares", "aut10": "comunidad-valenciana", "aut16": "pais-vasco"}
+        for t, nombre in esperado.items():
+            self.assertEqual(r.territorio_r2(t)[1], nombre, t)
+        otras_lenguas = {"bizkaia", "gipuzkoa", "alacant", "castello", "araba", "girona", "lleida", "ourense", "illes-balears",
+                         "balears", "valencia-valencia", "comunitat-valenciana", "euskadi", "a-coruna"}
+        from ddd_core import territorio_ids as ti
+        for t in ti.ids_nuevos():
+            self.assertNotIn(r.territorio_r2(t)[1], otras_lenguas, t)
+
     def test_mapas(self):
         self.assertEqual(r.ruta_mapa("nac01", "doble-vuelta.zip"), "mapas/nacionales/congreso-2023/alava/doble-vuelta.zip")
         self.assertEqual(r.ruta_mapa("aut01", "doble-vuelta.zip"), "mapas/autonomicas/andalucia-2026/doble-vuelta.zip")
