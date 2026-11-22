@@ -1,6 +1,6 @@
 # T-430 · Web editable en minutos — diseño
 
-VERSIÓN: 1.3.0 · FECHA: 2026-11-20 · ESTADO: aprobado (D-186; estructura de R2 según D-188) · ANTERIOR: 1.2.0 (#957@1d30834); 1.3.0 aplica D-188 (T-435, #961): solo la versión vigente en `web/actual/` del bucket público, sin carpetas inmutables; se escribe, se comprueba y se borra lo viejo; caché de 60 s; Zenodo cita su propio depósito
+VERSIÓN: 1.3.1 · FECHA: 2026-11-22 · ESTADO: sustituido en parte por D-193 (sin repositorio aparte; web en R2): ver `REDISENO_R2.md` · ANTERIOR: 1.3.0 (#957)
 
 > **Cifras externas.** Toda cifra o límite de Cloudflare, GitHub o GoDaddy de este documento está escrita de memoria y
 > lleva «(por verificar)»: se coteja con la página oficial, con fecha, en el ensayo (§8) y antes de implementar.
@@ -9,6 +9,10 @@ Estado: **DISEÑO** (solo documento; nada creado ni tocado en GitHub, Cloudflare
 Encargo aprobado en líneas generales por el propietario el 20-11. Punto de partida: D-181 (V4 aceptada), D-184 y T-428
 (V4 en la raíz del dominio, publicada por P40 en GitHub Pages), D-175/D-178 (bucket público de vídeos en
 `media.diputadodedistrito.es`).
+
+> **D-193 (22-11, propietario): no hay repositorio aparte.** La web sigue en `visor/v4/` de este repositorio y se sirve desde R2 con un
+> entorno de pruebas por rama. Quedan sin efecto el repositorio `ddd-web`, Cloudflare Pages y el traslado con historial (§3, §6 en la
+> construcción de Pages, §7 A y C). Sigue valiendo lo demás. Rediseño: `REDISENO_R2.md`.
 
 ## 0. Decisiones (D-186, 20-11)
 
