@@ -18,6 +18,6 @@
 - **No probado sin Actions.** Secretos de entorno en un job de un reutilizable llamado con `secrets: inherit`; rechazo desde una ref ≠ main.
 - **Puesta al día (23-11, T-379c).** El propietario ya tiene `registro` limitado a `main`, ha revisado `github-pages` y
   `produccion` y ha copiado los secretos a los tres entornos. Se fusiona `origin/main` sin rebase y, en los 9 ficheros
-  en conflicto, se toma la versión de `main` y se reaplica la 2a encima. Versiones (sobre main b40f0e2): auto-merge 1.3.3, la 00 1.11.6, P10 1.0.2, P20 1.0.2, P30 1.0.4, P40 1.5.1, P70 1.1.6, P90 1.3.1 y Legislatura 1.0.13. Copias de `main` en
+  en conflicto, se toma la versión de `main` y se reaplica la 2a encima. Versiones (sobre main be45b80): auto-merge 1.3.3, la 00 1.11.6, P10 1.0.2, P20 1.0.2, P30 1.0.4, P40 1.5.1, P70 1.1.6, P90 1.4.1 y Legislatura 1.0.13. Copias de `main` en
   `legacy/workflows/*_20261123.yml` y fixtures renovadas con sha256. Inventario rehecho sobre `main`: los mismos 25 jobs.
   Las equivalencias de la 2b encadenan `sin_2b(sin_2a(...))`. Se regeneran las vistas de P10.

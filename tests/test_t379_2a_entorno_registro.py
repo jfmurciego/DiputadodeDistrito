@@ -27,7 +27,7 @@ HUELLAS = {
     "p30-resultados-electorales": ("1.0.3", "0bb36d8cd475d38dd755474e80e8a2de863a7afeca8e2caac0899c568a8bc77b"),
     "p40-publicacion": ("1.5.0", "86f7487cc8fbe750b56d712929713c4e8b893492aa3f4c14990bf53657b8e64c"),
     "p70-archivo": ("1.1.5", "1dd7b7dbf3ed6911017bab1c85906fa249412f2e7408262e67268c6711943d91"),
-    "p90-automatico": ("1.3.0", "708697af1a13c988dce81c7b39e954029c343bfb5a02e6065c82552f0b6abe7e"),
+    "p90-automatico": ("1.4.0", "6702aa5d9a6fbfa3353a61d66e701cbf03779d0615445698eb635c64a2d7529d"),
     "preparacion-legislatura-vigente": ("1.0.12", "b96beddd60487e4937e40e2ca5d5652efe4a739ed91e13f8ba7bce6e79cc8245"),
 }
 # Inventario de §10 (25 usos), rehecho sobre main el 23-11 (mismo conjunto que en e7747ea).
