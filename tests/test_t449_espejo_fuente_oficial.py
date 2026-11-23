@@ -183,5 +183,45 @@ class Espejar(unittest.TestCase):
         aws.assert_not_called()
 
 
+class JobP10(unittest.TestCase):
+    """El job `p13_espejo` de P10 1.0.2: solo desde el botón, sin campaña, secretos en el paso y sin escribir en main."""
+
+    @classmethod
+    def setUpClass(cls):
+        import yaml
+
+        cls.w = yaml.safe_load((ROOT / ".github" / "workflows" / "p10-fuentes.yml").read_text(encoding="utf-8"))
+        cls.j = cls.w["jobs"]["p13_espejo"]
+
+    def test_opcion_y_condicion(self):
+        tipo = (self.w.get("on") or self.w[True])["workflow_dispatch"]["inputs"]["tipo"]
+        self.assertEqual(tipo["options"], ["P11 territoriales", "P12 electorales", "Espejo de fuente oficial"])
+        self.assertEqual(self.j["if"], "${{ inputs.tipo == 'Espejo de fuente oficial' && !inputs.campana }}")
+        self.assertEqual(self.j["needs"], "entrada")
+
+    def test_secretos_en_el_paso_y_herramienta(self):
+        self.assertNotIn("env", self.j)
+        paso = next(s for s in self.j["steps"] if s.get("name") == "Bajar, medir y subir a R2 en solo lectura")
+        self.assertEqual(paso["env"]["AWS_SECRET_ACCESS_KEY"], "${{ secrets.R2_SECRET_ACCESS_KEY }}")
+        self.assertIn('herramientas/espejo_fuente_oficial.py espejar --territorio "$TERRITORIO"', paso["run"])
+        self.assertIn("--subir", paso["run"])
+        texto = json.dumps(self.j)
+        for prohibido in ("git push", "DDD_REGISTRO_APP", "contents: write"):
+            self.assertNotIn(prohibido, texto)
+
+    def test_entrada_acepta_el_tipo(self):
+        paso = next(s for s in self.w["jobs"]["entrada"]["steps"] if s.get("name") == "Comprobar tipo, territorio y elección")
+        with tempfile.TemporaryDirectory() as t:
+            env = {**os.environ, "TIPO": "Espejo de fuente oficial", "TERRITORIO": "aut08", "TERRITORIO_LLAMADA": "",
+                   "ELECCION": "vigente", "GITHUB_STEP_SUMMARY": str(Path(t) / "s")}
+            r = subprocess.run(["bash", "-eo", "pipefail", "-c", paso["run"]], env=env, capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+
+    def test_territorio_sin_declaracion_falla(self):
+        with self.assertRaises(ef.ErrorEspejo) as c:
+            ef.declaracion("aut13")
+        self.assertEqual(c.exception.codigo, "ESPEJO_SIN_DECLARACION")
+
+
 if __name__ == "__main__":
     unittest.main()
