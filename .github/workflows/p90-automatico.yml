@@ -1,10 +1,33 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.3.0
+# VERSIÓN: 1.5.1
 # NOMBRE DE VERSIÓN: P90 Automático — CI, IA de cierre de campaña, métricas y medición de la web en un solo workflow
 # FECHA: 2026-11-23
 # ESTADO: candidato
-# ANTERIOR: legacy/workflows/p90-automatico_v1.2.0_20261123.yml
+# ANTERIOR: legacy/workflows/p90-automatico_v1.5.0_20261123.yml
+# CAMBIOS 1.5.1: T-430 3c, menores del revisor de #989: (a) la comprobación de orden de `publicar_web` no depende de la lista de `compare`
+#   (máx. 300 ficheros): con `ahead_by` 0 publica; con 300 o más ficheros no publica (fallo cerrado); (b) aviso visible (`::warning::`)
+#   cuando la web en R2 se queda atrás hasta la siguiente P40: un push a main que toca `visor/v4/` con otros ficheros (`cambios`) y una
+#   publicación omitida por una V4 posterior. El resto, idéntico.
+# ANTERIOR (1.5.0): legacy/workflows/p90-automatico_v1.4.1_20261123.yml
+# CAMBIOS 1.5.0: T-430 paso 3c (D-194, pregunta 7 de REDISENO_R2: publicar la web sola al fusionar, aprobada expresamente por el propietario):
+#   en un push a `main` cuyos ficheros son SOLO de la web (la misma lista `RUTAS_WEB` y el mismo fallo cerrado que el atajo de las PR) y
+#   tocan `visor/v4/`, `cambios` marca `publicar_web=true` (`web` sigue siendo solo de PR: en `main` corre la batería completa) y el job
+#   `publicar_web` monta el sitio de R2 vigente con la V4 de `main` (`herramientas/web_fusion_r2.py`: sha256 de cada fichero contra el
+#   índice del sitio, sin datos) y lo publica con `herramientas/publicar_sitio_r2.py` (mismo tope de borrado), sin P40 completa. Solo
+#   `main`, `contents: read`, secretos `R2_SITIO_*` en el paso, mismo grupo de concurrencia que P40 `publicar` (`ddd-pages-prod`); sin la
+#   variable `R2_SITIO_BUCKET` o sin índice previo del sitio no hace nada. No entra en `pruebas`. GitHub Pages no cambia (lo sigue publicando P40).
+#   Solo con `guardian` y `suite` de ese push en verde, la V4 con `node --check`, un único commit sobre el anterior (si no, no publica) y
+#   sin una V4 posterior ya en `main` (orden); el montaje aborta si un nombre nuevo de la V4 pisaría el sitio o hay enlaces simbólicos.
+#   Arregla además el `rc` del bloque de 3b, que bajo `bash -e` abortaba `cambios` en una PR solo de la web.
+# ANTERIOR (1.4.1): legacy/workflows/p90-automatico_v1.4.0_20261123.yml
+# CAMBIOS 1.4.1: T-379 PR 2a (D-147, opción a; D-162, opción A), puesta al día sobre main el 23-11: todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara un entorno limitado a main (`registro`, sin revisores; P40 `publicar` sigue en `github-pages` y P70 `podar` en `produccion`): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
+# ANTERIOR (1.4.0): legacy/workflows/p90-automatico_v1.3.0_20261123.yml
+# CAMBIOS 1.4.0: T-430 paso 3b (D-194, pregunta 6 de REDISENO_R2: atajo de CI aprobado expresamente por el propietario): en una PR cuyos ficheros
+#   son SOLO de la web (`visor/v4/…`, sus tests `tests/test_visor_v4*` y la entrada de `docs/registro/`), `cambios` marca `web=true`: la
+#   batería completa (`suite`) no corre y en su lugar corre el job `web` (las pruebas de la V4, T-428, sin terceros, T-220 y vista de
+#   pruebas, ~1 min); `pruebas` exige `web` en verde. Cualquier otro fichero, o un push a `main`, o la nocturna: batería completa como hoy.
+# ANTERIOR (1.3.0): legacy/workflows/p90-automatico_v1.2.0_20261123.yml
 # CAMBIOS 1.3.0: T-430 paso 3a (D-193/D-194, REDISENO_R2 §2): jobs `pruebas_web` (en cada PR de una rama de este repositorio que toque
 #   `visor/v4/`, monta la V4 con `herramientas/pruebas_web_r2.py` y la sincroniza en `s3://<R2_PRUEBAS_BUCKET>/<rama>/` =
 #   https://pruebas.diputadodedistrito.es/<rama>/, sin buscadores) y `limpiar_pruebas` (en cada push a `main`, borra las carpetas de ramas
@@ -70,6 +93,8 @@ jobs:
       resultados: ${{ steps.f.outputs.resultados }}
       numeracion: ${{ steps.f.outputs.numeracion }}
       robot: ${{ steps.f.outputs.robot }}
+      web: ${{ steps.f.outputs.web }}
+      publicar_web: ${{ steps.f.outputs.publicar_web }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -82,6 +107,7 @@ jobs:
           BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
           EVENTO: ${{ github.event_name }}
           ACTOR: ${{ github.actor }}
+          RUTAS_WEB: '^(visor/v4/.+|tests/test_visor_v4[^/]*\.(py|js)|docs/registro/[^/]+\.md)$'
           RUTAS_ROBOT: '^(orchestracion/[^/]+\.json|datos/.+\.(json|csv|md)|publicado/.+\.json|datos_abiertos/INDEX\.json|docs/registro/[^/]+\.md|docs/REGISTRO_DE_CAMBIOS\.md|legacy/docs/.+\.md|README\.md|dashboard/metricas_proceso\.json|territorios/[^/]+/evidencia/.+\.json)$'
         run: |
           set -uo pipefail
@@ -113,6 +139,25 @@ jobs:
           fi
           echo "robot=$robot" >> "$GITHUB_OUTPUT"
           echo "robot=$robot (evento=$EVENTO, actor=$ACTOR)"
+          # T-430 3b (D-194, P6): PR que solo toca la web (y toca visor/v4/): pruebas de la web en vez de la batería completa.
+          web=false
+          if [[ "$EVENTO" == "pull_request" && "$files" != "todo" && -n "$files" ]]; then
+            rc=0; ajeno="$(grep -vE "$RUTAS_WEB" <<<"$files")" || rc=$?  # 0: hay ajenos; 1: ninguno; >1: error de grep -> batería completa
+            if (( rc > 1 )); then echo "::notice::No se pudo clasificar la PR como solo web (grep rc=$rc): batería completa."
+            elif [[ -z "$ajeno" ]] && grep -qE '^visor/v4/' <<<"$files"; then web=true; fi
+          fi
+          echo "web=$web" >> "$GITHUB_OUTPUT"
+          echo "web=$web"
+          # T-430 3c (D-194, P7): push a main solo de la web (misma lista y mismo fallo cerrado): publicar la web sola (job `publicar_web`).
+          publicar_web=false
+          if [[ "$EVENTO" == "push" && "$files" != "todo" && -n "$files" ]]; then
+            rc=0; ajeno="$(grep -vE "$RUTAS_WEB" <<<"$files")" || rc=$?  # 0: hay ajenos; 1: ninguno; >1: error de grep -> no se publica
+            if (( rc > 1 )); then echo "::notice::No se pudo clasificar el push como solo web (grep rc=$rc): no se publica la web."
+            elif [[ -z "$ajeno" ]] && grep -qE '^visor/v4/' <<<"$files"; then publicar_web=true
+            elif grep -qE '^visor/v4/' <<<"$files"; then echo "::warning::El push toca visor/v4/ junto con otros ficheros: la web en R2 no se publica sola; queda atrás hasta la siguiente P40."; fi
+          fi
+          echo "publicar_web=$publicar_web" >> "$GITHUB_OUTPUT"
+          echo "publicar_web=$publicar_web"
 
   guardian:
     needs: cambios
@@ -153,7 +198,7 @@ jobs:
 
   suite:
     needs: cambios
-    if: ${{ needs.cambios.outputs.robot != 'true' }}
+    if: ${{ needs.cambios.outputs.robot != 'true' && needs.cambios.outputs.web != 'true' }}
     concurrency:
       group: ${{ github.event_name == 'push' && needs.cambios.outputs.robot != 'true' && format('ddd-main-suite-{0}', matrix.grupo) || github.event_name == 'pull_request' && format('ddd-pr-{0}-suite-{1}', github.event.pull_request.number, matrix.grupo) || format('ddd-run-{0}-suite-{1}', github.run_id, matrix.grupo) }}
       cancel-in-progress: true
@@ -363,7 +408,7 @@ jobs:
     concurrency:
       group: ${{ github.event_name == 'push' && needs.cambios.outputs.robot != 'true' && 'ddd-main-pruebas' || github.event_name == 'pull_request' && format('ddd-pr-{0}-pruebas', github.event.pull_request.number) || format('ddd-run-{0}-pruebas', github.run_id) }}
       cancel-in-progress: true
-    needs: [guardian, suite, cambios, contratos, docs, productos]
+    needs: [guardian, suite, cambios, contratos, docs, productos, web]
     if: ${{ always() && (github.event_name == 'push' || (github.event_name == 'schedule' && github.event.schedule == '23 2 * * *') || (github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.action == 'reopened'))) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 2
@@ -375,6 +420,8 @@ jobs:
           SUITE: ${{ needs.suite.result }}
           CAMBIOS: ${{ needs.cambios.result }}
           ROBOT: ${{ needs.cambios.outputs.robot }}
+          ES_WEB: ${{ needs.cambios.outputs.web }}
+          WEB: ${{ needs.web.result }}
           CONTRATOS: ${{ needs.contratos.result }}
           DOCS: ${{ needs.docs.result }}
           PRODUCTOS: ${{ needs.productos.result }}
@@ -384,8 +431,12 @@ jobs:
             echo "::error::pruebas en rojo: guardian=$GUARDIAN, cambios=$CAMBIOS."; exit 1
           fi
           # La suite es obligatoria salvo en un push de robot que solo toca datos/registro (lo cubre la batería nocturna).
-          if [[ "$SUITE" != "success" && ! ( "$SUITE" == "skipped" && "$ROBOT" == "true" ) ]]; then
-            echo "::error::pruebas en rojo: suite=$SUITE (robot=$ROBOT)."; exit 1
+          # ...o en una PR que solo toca la web (T-430 3b): entonces el job `web` tiene que estar en verde.
+          if [[ "$ES_WEB" == "true" && "$WEB" != "success" ]]; then
+            echo "::error::pruebas en rojo: PR solo de la web y web=$WEB."; exit 1
+          fi
+          if [[ "$SUITE" != "success" && ! ( "$SUITE" == "skipped" && "$ROBOT" == "true" ) && ! ( "$SUITE" == "skipped" && "$ES_WEB" == "true" && "$WEB" == "success" ) ]]; then
+            echo "::error::pruebas en rojo: suite=$SUITE (robot=$ROBOT, web=$ES_WEB/$WEB)."; exit 1
           fi
           for puerta in "contratos=$CONTRATOS" "docs=$DOCS" "productos=$PRODUCTOS"; do
             if [[ "${puerta#*=}" != "success" && "${puerta#*=}" != "skipped" ]]; then
@@ -393,6 +444,35 @@ jobs:
             fi
           done
           echo "pruebas en verde."
+
+  web:
+    # T-430 3b (D-194, P6): pruebas de la web para una PR que solo toca la web; la batería completa no corre (ver `cambios`).
+    needs: cambios
+    if: ${{ needs.cambios.outputs.web == 'true' }}
+    concurrency:
+      group: ${{ format('ddd-pr-{0}-web', github.event.pull_request.number) }}
+      cancel-in-progress: true
+    permissions:
+      contents: read
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11.13'
+      - name: Pruebas de la web
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check -q "$(grep -E '^PyYAML==' requirements.lock)"
+          # Todos los test_visor_v4* (un test nuevo de la web entra solo) y los demás tests de la batería que leen visor/v4/ o recorren visor/
+          # (grep de «visor/v4» y «visor/» en tests/, 23-11; lista en el registro). Más tests que lean la web: añadirlos aquí.
+          python -m unittest discover -s tests -t . -p 'test_visor_v4*.py'
+          python -m unittest tests.test_t428_v4_raiz tests.test_t429_textos_v4 tests.test_t419_publicar_doble_vuelta tests.test_visor_analitica \
+            tests.test_visor_sin_terceros tests.test_t220_renombrado tests.test_t430_pruebas_web tests.test_t430_web_fusion
 
   catalogo:
     name: Regenerar catálogo de procedencia
@@ -405,6 +485,7 @@ jobs:
       queue: max
     permissions:
       contents: write
+    environment: registro
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -469,6 +550,7 @@ jobs:
       queue: max
     permissions:
       contents: write
+    environment: registro
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -535,6 +617,7 @@ jobs:
       queue: max
     permissions:
       contents: write
+    environment: registro
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -818,6 +901,7 @@ jobs:
       contents: write
       actions: read
       pull-requests: read
+    environment: registro
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -959,3 +1043,55 @@ jobs:
           # si la lista de PR abiertas falla, el paso falla y no se borra nada
           abiertas="$(gh api "repos/$GITHUB_REPOSITORY/pulls?state=open&per_page=100" --paginate --jq '.[].head.ref' | paste -sd, -)"
           python3 herramientas/pruebas_web_r2.py limpiar --abiertas "$abiertas"
+
+  publicar_web:
+    # T-430 paso 3c (D-194, P7): la web sola al fusionar una PR que solo toca la web: sitio de R2 vigente + V4 de main, sin datos ni P40.
+    needs: [cambios, guardian, suite]  # solo con la integridad y la batería completa de ESE push en verde
+    if: ${{ !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.cambios.outputs.publicar_web == 'true' && needs.guardian.result == 'success' && needs.suite.result == 'success' }}
+    concurrency:
+      group: ddd-pages-prod  # el mismo que P40 `publicar`: nunca dos escrituras del sitio a la vez
+      cancel-in-progress: false
+      queue: max
+    permissions:
+      contents: read
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2  # el commit anterior, para los nombres de visor/v4/ de antes de la fusión
+          persist-credentials: false
+      - name: Publicar la web en R2
+        shell: bash
+        env:
+          ANTES: ${{ github.event.before }}
+          GH_TOKEN: ${{ github.token }}
+          PYTHONPATH: ${{ github.workspace }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_SITIO_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SITIO_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_SITIO_BUCKET: ${{ vars.R2_SITIO_BUCKET }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}  # para rechazar que el bucket del sitio sea el de trabajo
+          R2_WEB_BUCKET: ${{ vars.R2_WEB_BUCKET }}  # o el de datos
+        run: |
+          set -euo pipefail
+          if [[ -z "${R2_SITIO_BUCKET:-}" ]]; then echo "Sin R2_SITIO_BUCKET: no se publica la web."; exit 0; fi
+          # Fallo cerrado: sin el commit anterior como padre directo (varios commits en el push, o sin `before`) no se sabe qué era de la V4.
+          padre="$(git rev-parse -q --verify "HEAD^" || true)"
+          if [[ -z "$ANTES" || -z "$padre" || "$padre" != "$ANTES" ]]; then
+            echo "::warning::El push no es un único commit sobre el anterior (before=$ANTES, padre=$padre): no se publica la web; lo hará la siguiente P40."; exit 0
+          fi
+          previos="$(git ls-tree --name-only "$ANTES" visor/v4/ | sed 's#^visor/v4/##' | paste -sd, -)"
+          if [[ -z "$previos" ]]; then echo "::warning::Sin visor/v4/ en el commit anterior: no se publica la web."; exit 0; fi
+          find visor/v4 -name '*.js' -print0 | xargs -0 -r -n1 node --check
+          sitio="$RUNNER_TEMP/sitio-web"
+          python3 herramientas/web_fusion_r2.py --destino "$sitio" --previos "$previos"
+          if [[ ! -f "$sitio/index.html" ]]; then echo "Sin sitio previo en R2: la primera publicación es de P40."; exit 0; fi
+          # Orden: si en main ya hay otra V4 (una fusión posterior), no se publica esta encima; si la API falla, el paso falla sin publicar.
+          # `compare` lista como mucho 300 ficheros: con 300 o más no se sabe si hay V4 posterior y no se publica (fallo cerrado).
+          posteriores="$(gh api "repos/$GITHUB_REPOSITORY/compare/$GITHUB_SHA...main" --jq 'if .ahead_by == 0 then 0 elif (.files | length) >= 300 then "muchos" else [.files[].filename | select(startswith("visor/v4/"))] | length end')"
+          if [[ "$posteriores" != "0" ]]; then
+            echo "::warning::main ya tiene cambios posteriores en visor/v4/ ($posteriores ficheros): no se publica esta. Si esa fusión tampoco publica, la web en R2 queda atrás hasta la siguiente P40."; exit 0
+          fi
+          python3 herramientas/publicar_sitio_r2.py --sitio "$sitio"

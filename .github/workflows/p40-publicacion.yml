@@ -1,6 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 1.5.0
+# VERSIÓN: 1.5.1
+# CAMBIOS 1.5.1: T-379 PR 2a (D-147, opción a; D-162, opción A), puesta al día sobre main el 23-11: todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara un entorno limitado a main (`registro`, sin revisores; P40 `publicar` sigue en `github-pages` y P70 `podar` en `produccion`): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
+# ANTERIOR (1.5.0): legacy/workflows/p40-publicacion_v1.5.0_20261123.yml
 # CAMBIOS 1.5.0: T-430 paso 2 (D-193/D-194, REDISENO_R2 §9): paso «Web en R2 (T-430)» tras el de los datos: `herramientas/publicar_sitio_r2.py` sube el
 #   sitio candidato SIN los árboles de datos al bucket del sitio (raíz, ruta de hoy), páginas HTML al final, sha256 comprobado, índice `_sitio/actual.json`
 #   al final y borrado de lo que sale con la misma guarda que los datos. Solo desde `main`; sin la variable `R2_SITIO_BUCKET` no hace nada; secretos
@@ -136,7 +138,7 @@ jobs:
     name: Preparar promoción web
     needs: resolver
     if: ${{ needs.resolver.outputs.publicar == 'true' }}
-    environment: ${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == 'P40 Publicación') && 'produccion' || '' }}  # T-41: clic del propietario solo en disparo manual humano
+    environment: ${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == 'P40 Publicación') && 'produccion' || 'registro' }}  # T-379 PR 2a (D-162): robots con `registro`; T-41: clic del propietario solo en disparo manual humano
     runs-on: ubuntu-24.04
     concurrency:
       group: ddd-shared-operational-state

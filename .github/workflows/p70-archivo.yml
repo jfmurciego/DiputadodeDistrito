@@ -1,6 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: p70-archivo.yml
-# VERSIÓN: 1.1.5
+# VERSIÓN: 1.1.6
+# CAMBIOS 1.1.6: T-379 PR 2a (D-147, opción a; D-162, opción A), puesta al día sobre main el 23-11: todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara un entorno limitado a main (`registro`, sin revisores; P40 `publicar` sigue en `github-pages` y P70 `podar` en `produccion`): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
+# ANTERIOR (1.1.5): legacy/workflows/p70-archivo_v1.1.5_20261123.yml
 # CAMBIOS 1.1.5: T-437: P74 Listar imprime el inventario (`salida_p74/inventario_r2.csv`) en el log, dentro de un grupo `::group::`, con un paso nuevo tras «Conservar el inventario de R2» (se lee con `gh api repos/<r>/actions/jobs/<id>/logs`, porque el artefacto no se descarga desde la nube). El resto, idéntico.
 # CAMBIOS 1.1.4: T-432: P74 Listar añade `--inventario salida_p74/inventario_r2.csv` (listar_r2.py 1.1.1; clave, bytes, tamaño legible, fecha y etag de todos los objetos, con total) y lo sube como artefacto `p74-inventario-<run>` junto al de duplicados. El resto, idéntico.
 # CAMBIOS 1.1.3: T-427: P75 también para los 19 `aut` con su autonómica vigente: `territorios` = `aut` (o códigos aut) en una ejecución aparte de los nac
@@ -113,6 +115,7 @@ jobs:
       contents: write
       actions: read
     name: Archivar y registrar manifiesto
+    environment: registro
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     env:
@@ -230,6 +233,7 @@ jobs:
   resolver_producto:
     if: ${{ inputs.accion == 'P72 Recuperar producto electoral' }}
     name: Resolver el producto electoral huérfano de un territorio
+    environment: registro
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -405,6 +409,7 @@ jobs:
     name: Acreditar M08 durable y producto previo
     needs: resolver_producto
     if: ${{ !cancelled() && (inputs.confirm_recovery || needs.resolver_producto.outputs.recover == 'true') }}
+    environment: registro
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -621,6 +626,7 @@ jobs:
     name: Registrar producto electoral durable
     needs: [resolver_producto, acreditar, validar_m08]
     if: ${{ !cancelled() && needs.acreditar.result == 'success' && needs.validar_m08.result == 'success' && needs.validar_m08.outputs.decision == 'VALIDADO' }}
+    environment: registro
     runs-on: ubuntu-24.04
     outputs:
       registration_status: ${{ steps.persist.outputs.registration_status }}
@@ -696,6 +702,7 @@ jobs:
     name: Acreditar catálogo y receipt recuperados
     needs: [resolver_producto, validar_m08, registrar]
     if: ${{ !cancelled() && needs.validar_m08.result == 'success' && needs.registrar.result == 'success' }}
+    environment: registro
     runs-on: ubuntu-24.04
     outputs:
       source_run_id: ${{ steps.verify.outputs.source_run_id }}
@@ -790,6 +797,7 @@ jobs:
     permissions:
       contents: write
       actions: read
+    environment: registro
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     env:
