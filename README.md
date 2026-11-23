@@ -18,7 +18,7 @@ El estado operativo por territorio no está en este documento: lo genera el sist
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-23T09:25:40.642094+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-23T12:07:34.758717+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
