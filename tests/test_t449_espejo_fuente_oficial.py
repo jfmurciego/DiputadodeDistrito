@@ -3,11 +3,11 @@
 """T-449 (D-183, D-188): espejo de solo lectura de una fuente oficial desde el runner.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.1
+VERSIÓN: 1.0.2
 FECHA: 2026-11-23
-CAMBIOS: 1.0.1: candidatas en orden (`downloadURL` antes que `accessURL`) y salto de la portada a la siguiente (run 45158272014). 1.0.0: fichero nuevo.
+CAMBIOS: 1.0.2: `descubrir` (solo lectura) y su paso en P10 1.0.5 (run 45170670366, portal de la Junta movido). 1.0.1: candidatas en orden (`downloadURL` antes que `accessURL`) y salto de la portada a la siguiente (run 45158272014). 1.0.0: fichero nuevo.
 MOTIVO: fija la elección de la distribución del año, el rechazo de la portada HTML, la clave de D-188 y que nunca sobrescribe.
-ANTERIOR: legacy/tests/test_t449_espejo_fuente_oficial_v1.0.0_20261123.py
+ANTERIOR: legacy/tests/test_t449_espejo_fuente_oficial_v1.0.1_20261123b.py
 """
 from __future__ import annotations
 
@@ -351,6 +351,88 @@ class Descarga(unittest.TestCase):
         self.assertEqual(c.exception.codigo, "ESPEJO_REDIRECCIONES")
 
 
+class Descubrir(unittest.TestCase):
+    """1.2.0: sondeo de solo lectura cuando las distribuciones del catálogo dan 404 (run 45170670366)."""
+
+    XLSX = b"PK\x03\x04" + b"z" * 50
+    SUF = ["castillalamancha.es", "datos.gob.es"]
+
+    def _portal(self):
+        pedidas = []
+        r = {
+            "https://datosabiertos.castillalamancha.es/": (301, {"location": "/system/404"}, b""),
+            "https://datosabiertos.castillalamancha.es/system/404": (404, {}, b"<html>404</html>"),
+            "https://elecciones.castillalamancha.es/": (200, {"content-type": "text/html"},
+                b'<a href="/resultados/2023">Resultados 2023</a><a href="https://otro.invalid/2023.xlsx">fuera</a>'
+                b'<a href="/files/otra-cosa.xlsx">sin a\xc3\xb1o</a>'),
+            "https://elecciones.castillalamancha.es/resultados/2023": (200, {"content-type": "text/html"},
+                b'<a href="/sites/default/files/2023-06/Resultados_municipios_2023.xlsx">Excel</a>'
+                b'<a href="/descarga/portada-2023.csv">csv</a>'),
+            "https://elecciones.castillalamancha.es/sites/default/files/2023-06/Resultados_municipios_2023.xlsx": (200, {}, self.XLSX),
+            "https://elecciones.castillalamancha.es/descarga/portada-2023.csv": (302, {"location": "https://www.castillalamancha.es/"}, b""),
+            "https://www.castillalamancha.es/": (200, {"content-type": "text/html"}, b"<!DOCTYPE html><html>portada</html>"),
+            "https://datos.gob.es/apidata/x.json": (200, {"content-type": "application/json"},
+                b'{"u": "https:\\/\\/datos.gob.es\\/f\\/elecciones-2023.csv"}'),
+            "https://datos.gob.es/f/elecciones-2023.csv": (200, {}, b"Municipio;PSOE\n"),
+        }
+
+        def peticion(url, tope):
+            pedidas.append(url)
+            if url not in r:
+                raise AssertionError(f"petición no prevista {url}")
+            return r[url]
+
+        return peticion, pedidas
+
+    def _decl(self, td, paginas):
+        d = json.loads(ef.DECLARACION.read_text(encoding="utf-8"))
+        d["espejos"]["aut08"]["descubrir"] = {"paginas": paginas, "sufijos_host": self.SUF, "max_paginas": 40, "max_candidatas": 10}
+        ruta = Path(td) / "d.json"
+        ruta.write_text(json.dumps(d), encoding="utf-8")
+        return ruta
+
+    def test_sondea_anota_saltos_y_mide_sin_subir(self):
+        peticion, pedidas = self._portal()
+        with tempfile.TemporaryDirectory() as td, mock.patch.object(ef, "_aws", side_effect=AssertionError("R2 en descubrir")):
+            res = ef.descubrir("aut08", Path(td) / "s", peticion=peticion, ruta_decl=self._decl(td, [
+                "https://datosabiertos.castillalamancha.es/", "https://elecciones.castillalamancha.es/", "https://datos.gob.es/apidata/x.json"]))
+            self.assertTrue((Path(td) / "s" / "descubrimiento.json").is_file())
+        portal = res["paginas"][0]
+        self.assertEqual(portal["saltos"], [{"estado": 301, "a": "https://datosabiertos.castillalamancha.es/system/404"}])
+        self.assertEqual(portal["estado"], 404)
+        por_url = {c["url"]: c for c in res["candidatas"]}
+        bueno = por_url["https://elecciones.castillalamancha.es/sites/default/files/2023-06/Resultados_municipios_2023.xlsx"]
+        self.assertEqual((bueno["estado"], bueno["es_html"], bueno["bytes"], bueno["sha256"]), (200, False, len(self.XLSX), ef.sha256(self.XLSX)))
+        portada = por_url["https://elecciones.castillalamancha.es/descarga/portada-2023.csv"]
+        self.assertTrue(portada["es_html"])
+        self.assertEqual(portada["final"], "https://www.castillalamancha.es/")
+        self.assertIn("https://datos.gob.es/f/elecciones-2023.csv", por_url)  # enlaces escapados dentro de JSON
+        self.assertCountEqual(res["ficheros_de_datos"], ["https://elecciones.castillalamancha.es/sites/default/files/2023-06/Resultados_municipios_2023.xlsx",
+                                                    "https://datos.gob.es/f/elecciones-2023.csv"])
+        self.assertNotIn("https://otro.invalid/2023.xlsx", pedidas)  # host fuera de los sufijos: ni se pide
+        self.assertNotIn("https://elecciones.castillalamancha.es/files/otra-cosa.xlsx", por_url)  # sin año ni elección
+
+    def test_sufijo_exacto(self):
+        for url, ok in (("https://elecciones.castillalamancha.es/a", True), ("https://castillalamancha.es/a", True),
+                        ("https://castillalamancha.es.evil.invalid/a", False), ("https://evilcastillalamancha.es/a", False),
+                        ("http://elecciones.castillalamancha.es/a", False)):
+            self.assertIs(ef.host_sondeable(url, self.SUF), ok, url)
+
+    def test_redireccion_fuera_no_se_sigue(self):
+        def peticion(url, tope):
+            if url == "https://www.castillalamancha.es/x":
+                return 302, {"location": "https://evil.invalid/2023.xlsx"}, b""
+            raise AssertionError(url)
+
+        r = ef.seguir("https://www.castillalamancha.es/x", self.SUF, 10, peticion)
+        self.assertEqual((r["estado"], r["final"], r["motivo"]), (None, "https://evil.invalid/2023.xlsx", "fuera de los sufijos permitidos"))
+
+    def test_declaracion_real_de_aut08(self):
+        d = ef.declaracion("aut08")["descubrir"]
+        self.assertEqual(d["sufijos_host"], ["castillalamancha.es", "datos.gob.es"])
+        self.assertTrue(all(ef.host_sondeable(u, d["sufijos_host"]) for u in d["paginas"]))
+
+
 class JobP10(unittest.TestCase):
     """El job `p13_espejo` de P10 1.0.3: solo desde el botón, sin campaña, secretos en el paso y sin escribir en main."""
 
@@ -383,6 +465,14 @@ class JobP10(unittest.TestCase):
         texto = json.dumps(self.j)
         for prohibido in ("git push", "DDD_REGISTRO_APP", "contents: write"):
             self.assertNotIn(prohibido, texto)
+
+    def test_descubrir_solo_si_falla_la_bajada_y_sin_secretos(self):
+        paso = next(s for s in self.j["steps"] if s.get("name") == "Buscar la fuente en los portales (solo lectura)")
+        self.assertEqual(paso["if"], "${{ failure() && steps.bajar.outcome == 'failure' }}")
+        self.assertEqual(set(paso["env"]), {"TERRITORIO"})
+        self.assertIn("espejo_fuente_oficial.py descubrir", paso["run"])
+        nombres = [s.get("name") for s in self.j["steps"]]
+        self.assertLess(nombres.index("Subir a R2 sin sobrescribir"), nombres.index("Buscar la fuente en los portales (solo lectura)"))
 
     def test_entrada_acepta_el_tipo(self):
         paso = next(s for s in self.w["jobs"]["entrada"]["steps"] if s.get("name") == "Comprobar tipo, territorio y elección")

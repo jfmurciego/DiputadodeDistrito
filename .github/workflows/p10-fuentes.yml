@@ -1,6 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de preparación de fuentes
-# VERSIÓN: 1.0.4
+# VERSIÓN: 1.0.5
+# CAMBIOS 1.0.5: T-449 (run 45170670366, portal de la Junta movido): en `p13_espejo`, si falla «Bajar y medir», el paso «Buscar la fuente en los portales
+#   (solo lectura)» ejecuta `espejo_fuente_oficial.py descubrir` (sin secretos, no sube nada) y deja en el log `ESPEJO_DESCUBRIR` y en el resumen los ficheros
+#   candidatos con su sha256; solo corre si la entrada declara `descubrir`. El job sigue en rojo. Resto idéntico a la 1.0.4.
+# ANTERIOR (1.0.4): legacy/workflows/p10-fuentes_v1.0.4_20261123.yml
 # CAMBIOS 1.0.4: T-448 (D-202): con el tipo «Espejo de fuente oficial», `territorio` es la clave de una entrada de configuracion/espejos_fuentes_oficiales.json
 #   (minúsculas, cifras y guiones, p. ej. ine-censo2011-1mun00; la herramienta comprueba que esté declarada), no un código nacNN/autNN. Resto idéntico a la 1.0.3.
 # ANTERIOR (1.0.3): legacy/workflows/p10-fuentes_v1.0.3_20261123.yml
@@ -1234,6 +1238,7 @@ jobs:
         with: {ref: '${{ github.sha }}', persist-credentials: false}
       - run: python -m pip install --disable-pip-version-check openpyxl==3.1.5
       - name: Bajar y medir (sin secretos)
+        id: bajar
         env:
           TERRITORIO: ${{ inputs.territorio }}
         shell: bash
@@ -1260,6 +1265,18 @@ jobs:
           python herramientas/espejo_fuente_oficial.py subir --territorio "$TERRITORIO" --salida "$salida"
           jq -r '.piezas[] | "| \(.clave) | \(.sha256) | \(.bytes) | \(.r2) |"' "$salida/subida.json" \
             | { echo "### Espejo $TERRITORIO"; echo "| clave | sha256 | bytes | R2 |"; echo "|---|---|---|---|"; cat; } >> "$GITHUB_STEP_SUMMARY"
+      - name: Buscar la fuente en los portales (solo lectura)
+        if: ${{ failure() && steps.bajar.outcome == 'failure' }}
+        env:
+          TERRITORIO: ${{ inputs.territorio }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          jq -e --arg t "$TERRITORIO" '.espejos[$t].descubrir' configuracion/espejos_fuentes_oficiales.json >/dev/null || { echo "Sin «descubrir» declarado."; exit 0; }
+          salida="$RUNNER_TEMP/espejo/descubrir"
+          python herramientas/espejo_fuente_oficial.py descubrir --territorio "$TERRITORIO" --salida "$salida"
+          jq -r '.candidatas[] | "| \(.final) | \(.estado) | \(.es_html) | \(.bytes) | \(.sha256) |"' "$salida/descubrimiento.json" \
+            | { echo "### Candidatas $TERRITORIO (solo lectura)"; echo "| URL final | estado | HTML | bytes | sha256 |"; echo "|---|---|---|---|---|"; cat; } >> "$GITHUB_STEP_SUMMARY"
       - name: Conservar el espejo
         if: ${{ always() }}
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2

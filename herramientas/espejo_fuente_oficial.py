@@ -3,11 +3,18 @@
 """Espejo de solo lectura en R2 de una fuente oficial que solo se alcanza desde un runner de Actions.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0
+VERSIÓN: 1.2.0
 NOMBRE DE VERSIÓN: Espejo de fuente oficial (D-183, D-188)
 FECHA: 2026-11-23
 ESTADO: candidato
-CAMBIOS: 1.1.0 (T-448, D-202): modo «URL directa» para una entrada con `url` (sin `api_url`): baja ese fichero (mismos hosts, redirecciones,
+CAMBIOS: 1.2.0 (T-449, run 45170670366: las 2 distribuciones de datos.gob.es dan 301 a /system/404; el portal de la Junta cambió de
+  plataforma): `descubrir --territorio aut08 --salida DIR`, SOLO LECTURA y sin secretos. Sondea las páginas declaradas en `descubrir.paginas`
+  (portal nuevo, API CKAN si la hay, catálogo del publicador en datos.gob.es, web de elecciones), sin seguir a ciegas las redirecciones
+  (anota cada salto; solo sigue hasta 5 dentro de los sufijos de `descubrir.sufijos_host`). Extrae los enlaces a ficheros de datos que citan el año o
+  las autonómicas, baja como mucho `max_candidatas` con el tope de bytes y deja por cada uno estado, URL final, tipo, bytes, sha256 y si es
+  HTML. Escribe `descubrimiento.json` e imprime `ESPEJO_DESCUBRIR`; no sube nada y sale 0. La URL buena entra después por PR (modo URL
+  directa con su huella), nunca automáticamente.
+  1.1.0 (T-448, D-202): modo «URL directa» para una entrada con `url` (sin `api_url`): baja ese fichero (mismos hosts, redirecciones,
   `max_bytes` y rechazo de HTML), exige `sha256_esperado` y `bytes_esperados` (si no coinciden, ESPEJO_HUELLA_INESPERADA y no se escribe nada) y
   usa la `extension` declarada (la URL del INE acaba en `.csv_bdsc`). Los campos de la elección (`eleccion`, `fecha`, `dataset_url`) pasan a
   opcionales en el manifiesto. Primera entrada: `ine-censo2011-1mun00` (1mun00.csv del Censo 2011 → fuentes/ine/2011/1mun00.csv). El modo
@@ -19,7 +26,7 @@ CAMBIOS: 1.1.0 (T-448, D-202): modo «URL directa» para una entrada con `url` (
 MOTIVO: las autonómicas de Castilla-La Mancha 2023 por municipio solo están en el catálogo de datos.gob.es; la sesión cloud no llega
   (proxy 403) y la URL del portal autonómico devuelve la portada en obras. El runner las baja una vez, mide sha256 y bytes y las deja en
   R2 bajo `fuentes/<organismo>/<año>/` (árbol de D-188) con `manifiesto.json`; la huella pasa después, por PR, al calendario.
-ANTERIOR: legacy/herramientas/espejo_fuente_oficial_v1.0.1_20261123.py
+ANTERIOR: legacy/herramientas/espejo_fuente_oficial_v1.1.0_20261123.py
 QUÉ HACE: `espejar --territorio aut08 --salida DIR` (SIN secretos): lee la declaración (`configuracion/espejos_fuentes_oficiales.json`), pide a la
   API de datos.gob.es las distribuciones del conjunto, elige la del año (falla si hay 0 o más de una), la baja solo por https de los hosts
   exactos declarados (también en cada redirección, como mucho 5) y hasta `max_bytes`, rechaza HTML (portada en obras), mide sha256/bytes,
@@ -28,7 +35,8 @@ QUÉ HACE: `espejar --territorio aut08 --salida DIR` (SIN secretos): lee la decl
   `put-object --if-none-match '*'` (nunca sobrescribe; misma huella = `ya_estaba`, otra = `ESPEJO_HUELLA_DISTINTA`); el manifiesto va el
   último y con la misma regla: si una pieza falla no queda manifiesto, y el siguiente intento completa lo que falta.
   Clave codificada aquí (fuentes/<organismo>/<año>/<nombre>); T-443 la migra a `rutas_r2.ruta_fuente` cuando entre #977.
-USO: python herramientas/espejo_fuente_oficial.py espejar --territorio aut08 --salida "$RUNNER_TEMP/espejo"
+USO: python herramientas/espejo_fuente_oficial.py descubrir --territorio aut08 --salida "$RUNNER_TEMP/descubrir"
+     python herramientas/espejo_fuente_oficial.py espejar --territorio aut08 --salida "$RUNNER_TEMP/espejo"
      python herramientas/espejo_fuente_oficial.py subir --territorio aut08 --salida "$RUNNER_TEMP/espejo"
 """
 from __future__ import annotations
@@ -399,16 +407,133 @@ def subir_espejo(territorio: str, salida: Path, aws=_aws, ruta_decl: Path = DECL
     return resultado
 
 
+# ---------------------------------------------------------------- descubrir (solo lectura) ----------------------------------------------------
+DATOS_EXT = ("xlsx", "xls", "csv", "zip", "json", "ods")
+ENLACE_RE = re.compile(r"""(?:href|src)\s*=\s*["']([^"'#]+)["']|(https://[^\s"'<>\\]+)""", re.I)
+
+
+class _SinRedireccion(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None  # el 30x llega como HTTPError y se anota
+
+
+def _peticion(url: str, tope: int) -> tuple[int, dict, bytes]:
+    """Una petición sin seguir redirecciones: (estado, cabeceras, cuerpo hasta `tope`)."""
+    import urllib.error
+
+    opener = urllib.request.build_opener(_SinRedireccion())
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "*/*"})
+    try:
+        with opener.open(req, timeout=60) as r:
+            return r.status, {k.lower(): v for k, v in r.headers.items()}, r.read(tope + 1)
+    except urllib.error.HTTPError as exc:
+        return exc.code, {k.lower(): v for k, v in (exc.headers or {}).items()}, (exc.read(65536) if exc.fp else b"")
+
+
+def host_sondeable(url: str, sufijos: list[str]) -> bool:
+    u = urllib.parse.urlparse(url)
+    h = (u.hostname or "").lower()
+    return u.scheme == "https" and any(h == s or h.endswith("." + s) for s in sufijos)
+
+
+def seguir(url: str, sufijos: list[str], tope: int, peticion=_peticion) -> dict:
+    """Pide `url` anotando cada salto; solo sigue redirecciones https dentro de los sufijos, como mucho MAX_REDIRECCIONES."""
+    saltos = []
+    actual = url
+    for _ in range(MAX_REDIRECCIONES + 1):
+        if not host_sondeable(actual, sufijos):
+            return {"url": url, "saltos": saltos, "final": actual, "estado": None, "motivo": "fuera de los sufijos permitidos", "cuerpo": b""}
+        try:
+            estado, cab, cuerpo = peticion(actual, tope)
+        except Exception as exc:  # noqa: BLE001 - se anota y se sigue con la siguiente página
+            return {"url": url, "saltos": saltos, "final": actual, "estado": None, "motivo": f"{type(exc).__name__}: {exc}"[:200], "cuerpo": b""}
+        if 300 <= estado < 400 and cab.get("location"):
+            destino = urllib.parse.urljoin(actual, cab["location"])
+            saltos.append({"estado": estado, "a": destino})
+            actual = destino
+            continue
+        return {"url": url, "saltos": saltos, "final": actual, "estado": estado, "tipo": cab.get("content-type", ""),
+                "cuerpo": cuerpo[: tope + 1], "motivo": ""}
+    return {"url": url, "saltos": saltos, "final": actual, "estado": None, "motivo": "demasiadas redirecciones", "cuerpo": b""}
+
+
+def enlaces(texto: str, base: str) -> list[str]:
+    vistos = []
+    texto = texto.replace("\\/", "/")  # JSON escapa las barras: https:\/\/…
+    for m in ENLACE_RE.finditer(texto):
+        u = urllib.parse.urljoin(base, (m.group(1) or m.group(2) or "").strip().replace("\\/", "/"))
+        if u not in vistos:
+            vistos.append(u)
+    return vistos
+
+
+def _es_dato(url: str) -> bool:
+    camino = urllib.parse.unquote(urllib.parse.urlparse(url).path).lower()
+    return camino.rsplit(".", 1)[-1] in DATOS_EXT
+
+
+def _interesa(url: str, anyo: int) -> bool:
+    u = urllib.parse.urlparse(url)
+    t = urllib.parse.unquote(u.path + "?" + u.query).lower()  # el host no cuenta («elecciones.castillalamancha.es» no es una pista)
+    return bool(re.search(rf"(?<!\d){int(anyo)}(?!\d)", t)) or "auton" in t or "elecci" in t or "cortes" in t
+
+
+def descubrir(territorio: str, salida: Path, peticion=_peticion, ruta_decl: Path = DECLARACION) -> dict:
+    """Solo lectura: sondea páginas oficiales y mide los ficheros candidatos; no escribe fuera de `salida` ni sube nada."""
+    e = declaracion(territorio, ruta_decl)
+    d = e.get("descubrir") or {}
+    paginas, sufijos = list(d.get("paginas") or []), list(d.get("sufijos_host") or [])
+    if not paginas or not sufijos:
+        raise ErrorEspejo("ESPEJO_DECLARACION", "descubrir exige `paginas` y `sufijos_host`")
+    tope, anyo = int(e["max_bytes"]), int(e["anyo"])
+    max_pag, max_cand = int(d.get("max_paginas", 40)), int(d.get("max_candidatas", 10))
+    sondeadas, candidatas, pendientes, hechas = [], [], list(paginas), set()
+    while pendientes and len(sondeadas) < max_pag:
+        url = pendientes.pop(0)
+        if url in hechas:
+            continue
+        hechas.add(url)
+        r = seguir(url, sufijos, 2_000_000, peticion)
+        cuerpo = r.pop("cuerpo")
+        r["bytes"] = len(cuerpo)
+        sondeadas.append(r)
+        if r["estado"] != 200 or not cuerpo:
+            continue
+        for u in enlaces(cuerpo.decode("utf-8", "replace"), r["final"]):
+            if not host_sondeable(u, sufijos) or not _interesa(u, anyo):
+                continue
+            if _es_dato(u):
+                if u not in candidatas:
+                    candidatas.append(u)
+            elif url in paginas and u not in hechas and u not in pendientes:
+                pendientes.append(u)  # un nivel más desde las páginas declaradas
+    medidas = []
+    for u in candidatas[:max_cand]:
+        r = seguir(u, sufijos, tope, peticion)
+        cuerpo = r.pop("cuerpo")
+        r.update({"bytes": len(cuerpo), "es_html": es_html(cuerpo), "firma": cuerpo[:8].hex(),
+                  "sha256": sha256(cuerpo) if r["estado"] == 200 and len(cuerpo) <= tope else None})
+        medidas.append(r)
+    resultado = {"territorio": territorio, "anyo": anyo, "paginas": sondeadas, "candidatas": medidas,
+                 "candidatas_sin_medir": candidatas[max_cand:],
+                 "ficheros_de_datos": [m["final"] for m in medidas if m["estado"] == 200 and not m["es_html"] and m["bytes"]]}
+    salida.mkdir(parents=True, exist_ok=True)
+    (salida / "descubrimiento.json").write_text(json.dumps(resultado, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return resultado
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sub = ap.add_subparsers(dest="cmd", required=True)
-    for c in ("espejar", "subir"):
+    for c in ("espejar", "subir", "descubrir"):
         p = sub.add_parser(c)
         p.add_argument("--territorio", required=True)
         p.add_argument("--salida", required=True, type=Path)
     a = ap.parse_args(argv)
     try:
-        if a.cmd == "espejar":
+        if a.cmd == "descubrir":
+            print("ESPEJO_DESCUBRIR " + json.dumps(descubrir(a.territorio, a.salida), ensure_ascii=False, sort_keys=True))
+        elif a.cmd == "espejar":
             # El log es la vía para leer la huella desde la sesión cloud (los artefactos no se descargan allí).
             print("ESPEJO_MANIFIESTO " + json.dumps(espejar(a.territorio, a.salida), ensure_ascii=False, sort_keys=True))
         else:
