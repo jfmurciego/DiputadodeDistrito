@@ -227,7 +227,8 @@ class Workflow(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         import yaml
-        cls.wf = yaml.safe_load((ROOT / ".github/workflows/p70-archivo.yml").read_text(encoding="utf-8"))
+        from tests._t379_2a import deshacer as sin_2a  # T-379 PR 2a: sin el entorno `registro`
+        cls.wf = sin_2a("p70-archivo", yaml.safe_load((ROOT / ".github/workflows/p70-archivo.yml").read_text(encoding="utf-8")))
         f = ROOT / "tests/fixtures/t418_workflows/p70-archivo_1.0.0.yml"  # copia congelada (en CI no hay legacy/)
         assert f.is_file(), f
         cls.antes = yaml.safe_load(f.read_text(encoding="utf-8"))

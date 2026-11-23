@@ -14,7 +14,11 @@ HUELLA = "43b9f2a93dabc013723515cd6c6831e99e40c8cf7bf0ff5331932b9d858cb2d3"
 
 
 def carga(p):
-    return yaml.safe_load(p.read_text(encoding="utf-8"))
+    d = yaml.safe_load(p.read_text(encoding="utf-8"))
+    if p == WF:  # T-379 PR 2a: el workflow vigente, sin el entorno `registro` (su equivalencia: test_t379_2a_entorno_registro)
+        from tests._t379_2a import deshacer as sin_2a
+        d = sin_2a("p70-archivo", d)
+    return d
 
 
 class P74Duplicados(unittest.TestCase):

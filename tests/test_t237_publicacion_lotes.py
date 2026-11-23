@@ -293,7 +293,8 @@ class Estructura(unittest.TestCase):
 
     def test_puerta_produccion_intacta(self):
         job = yaml.safe_load(P50.read_text(encoding="utf-8"))["jobs"]["preparar"]
-        self.assertEqual(job["environment"], "${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == 'P40 Publicación') && 'produccion' || '' }}")
+        # T-379 PR 2a (D-162): los robots (antes sin entorno) van con `registro`; la puerta humana T-41 no cambia.
+        self.assertEqual(job["environment"], "${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == 'P40 Publicación') && 'produccion' || 'registro' }}")
 
 
 if __name__ == "__main__":
