@@ -156,7 +156,9 @@ class Promover(unittest.TestCase):
         self.promover()
         self.assertEqual(self.m.objetos[ZIP_AND], z)
         self.assertEqual(self.m.objetos[INF_AUT], ib)
-        self.assertFalse(any(k.startswith("mapas/autonomicas/aragon") for k in self.m.objetos))
+        aut = sorted(k for k in self.m.objetos if k.startswith("mapas/autonomicas/"))
+        self.assertEqual(aut, [ZIP_AND, "mapas/autonomicas/andalucia-2026/manifiesto.json", INF_AUT,
+                               "mapas/autonomicas/manifiesto.json"])  # la fila NO_APLICA no se promueve
 
 
 class Lector(unittest.TestCase):
