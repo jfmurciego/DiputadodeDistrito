@@ -61,7 +61,61 @@ class ArchivarP10(unittest.TestCase):
             self.assertEqual(r2, n)
 
 
+class LecturaP10(unittest.TestCase):
+    def _zip(self, td: Path, nombre: str, contenido: bytes) -> tuple[Path, str]:
+        import zipfile
+        z = td / nombre
+        h = hashlib.sha256(contenido).hexdigest()
+        with zipfile.ZipFile(z, "w") as zf:
+            zf.writestr("bundle.zip", contenido)
+            zf.writestr("manifest.json", json.dumps({"path": "bundle.zip", "sha256": h}))
+        return z, h
+
+    def test_ruta_nueva_con_otro_contrato_cae_a_la_clave_por_package_sha256(self):
+        with tempfile.TemporaryDirectory() as td:
+            td = Path(td)
+            otro, _ = self._zip(td, "otro.zip", b"contrato anterior")
+            bueno, h = self._zip(td, "bueno.zip", b"contrato vigente")
+            objetos = {"fuentes/por-territorio/nacionales/soria/paquete.zip": otro, f"arc-e/paquetes-p10/{h}.zip": bueno}
+            vistas = []
+
+            def cp(origen, destino):
+                k = origen.split("/", 3)[3]
+                vistas.append(k)
+                Path(destino).write_bytes(objetos[k].read_bytes())
+            with mock.patch.dict("os.environ", {"R2_BUCKET": "bk"}), mock.patch.object(b, "_identidad_contrato", lambda t: {"package_sha256": h}), \
+                    mock.patch.object(b, "_anios_fuentes", lambda t: ("2025", "2023", "2023")), mock.patch.object(b, "_r2_cp", cp), \
+                    mock.patch("herramientas.seleccionar_paquete_fuentes.validate_prepared_package", lambda *a, **k: (True, [])):
+                pkg = b.paquete_p10_desde_r2("nac42", td / "out")
+                self.assertEqual(vistas, list(objetos))
+                self.assertEqual((pkg / "bundle.zip").read_bytes(), b"contrato vigente")
+                objetos.pop(f"arc-e/paquetes-p10/{h}.zip")  # sin respaldo: el paquete de otro contrato sigue siendo un fallo cerrado
+                with self.assertRaises(b.PaqueteP10Corrupto):
+                    b.paquete_p10_desde_r2("nac42", td / "out2")
+
+
+class ArchivoOrigen(unittest.TestCase):
+    def test_superado_falla_en_vez_de_devolver_otro_run(self):
+        from herramientas import archivo_origen as ao
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "orchestracion").mkdir()
+            from herramientas import rutas_r2
+            k = rutas_r2.ruta_estado("aut06", "ddd-audit-1")
+            r2 = {k: {"sha256": "f" * 64, "run": "41037133399", "bytes": 1}}
+            art = {"id": 5, "name": "ddd-audit-41037133327", "expired": False, "expires_at": "2026-12-01T00:00:00Z",
+                   "workflow_run": {"id": 41037133327}}
+            with self.assertRaisesRegex(ValueError, "ARCHIVO_R2_SUPERADO"):
+                ao.archivar_uno(art, ao.ar.rutas_r2.ti.id_legacy("aut06"), root, lambda a, p: p.write_bytes(b"x"), lambda k: None,
+                                lambda *a: self.fail("no debe subir"), "bk", r2_cab=r2.get)
+
+
 class Espejos(unittest.TestCase):
+    def test_fuentes_inmutables(self):
+        self.assertIn("ya existe en R2 con otro sha256 (fuentes inmutables): no se sube", PS1_GALICIA)
+        self.assertIn("$mclave = 'fuentes/xunta/2024/manifiesto.json'", PS1_GALICIA)
+        self.assertIn("elseif ($e1 -eq 'distinto' -and $clave.StartsWith('fuentes/')) { throw", PS1_INE)
+
     def test_galicia_al_arbol_nuevo_con_clave_anterior(self):
         self.assertIn('$clave = "fuentes/xunta/2024/galicia_parlamento_2024_$($f.id).csv"', PS1_GALICIA)
         self.assertIn('clave_anterior = $claveAnterior', PS1_GALICIA)

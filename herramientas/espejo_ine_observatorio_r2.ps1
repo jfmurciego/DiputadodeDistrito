@@ -3,6 +3,7 @@ PROYECTO: Diputado de Distrito - T-356 - VERSION 1.1.0 - 2026-11-23 - ANTERIOR: 
 CAMBIOS 1.1.0 (T-443, D-188): una pieza SIN clave en el indice se sube al arbol nuevo de R2, sin sha12 en el nombre:
 fuentes/ine/<ano>/<nombre> (ano del nombre o del campo anio de la ficha; sin ano, falla la pieza) y fuentes/gobierno-vasco/<ruta>.
 Una pieza CON clave en el indice sigue usando esa clave (lo ya subido no se mueve: lo copia la regeneracion posterior al 29-11).
+D-198: fuentes inmutables en el arbol nuevo: una clave fuentes/... que ya existe con otro sha256 o bytes falla la pieza (no se resube).
 Baja los 17 seccionados del INE (2010-2026), la tabla INE 30832 y el Censo 2011 por seccion (grupo padron, 2 piezas; D-126) y las 625 piezas del Observatorio Electoral de las Naciones, verifica el sha256 del
 indice orchestracion/fuentes_r2.json (donde exista; donde no, lo mide y lo registra), las sube a R2 (ARC-E) en
 arc-e/fuentes/ine/seccionado_<ano>_<sha12>.zip y arc-e/fuentes/nazioenbehatokia/<ruta>_<sha12>.json y escribe el JSON de resultado
@@ -271,6 +272,7 @@ foreach ($p in $piezas) {
         if (-not $SoloBajar) {
             $e1 = if ($cacheR2 -and $cacheR2.ContainsKey($clave)) { $cacheR2[$clave] } else { Estado-R2 $clave $meta.sha256 $meta.bytes }
             if ($e1 -eq 'igual') { $subido = $true; $estadoPieza = 'saltado'; $saltados++ }
+            elseif ($e1 -eq 'distinto' -and $clave.StartsWith('fuentes/')) { throw "fuentes inmutables (D-198): $clave ya existe en R2 con otro sha256 o bytes" }
             else {
                 $cp = Invocar-Aws @('s3', 'cp', $ruta, "s3://$($env:R2_BUCKET)/$clave", '--endpoint-url', $endpoint, '--metadata', "sha256=$($meta.sha256)", '--only-show-errors')
                 if ($cp.Codigo -ne 0) { throw "la subida a R2 fallo (codigo $($cp.Codigo)): $($cp.Salida)" }

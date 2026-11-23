@@ -28,14 +28,19 @@ def art(i, nombre, expira, expired=False):
 class R2Falso:
     def __init__(self):
         self.objs = {}
+        self.runs = {}
         self.subidas = 0
 
     def sha(self, k):
         return self.objs.get(k)
 
-    def subir(self, k, ruta, h):
+    def subir(self, k, ruta, h, run=None):
         self.subidas += 1
         self.objs[k] = h
+        self.runs[k] = run
+
+    def cab(self, k):
+        return {"sha256": self.objs[k], "run": self.runs.get(k), "bytes": 3} if k in self.objs else None
 
 
 class Archivista(unittest.TestCase):
@@ -84,9 +89,9 @@ class Archivista(unittest.TestCase):
         self.assertEqual(len(e["sha256"]), 64)
         self.assertEqual(e["tamano_bytes"], 4)
         # T-443: la auditoría va al árbol nuevo (sin run en la ruta) con el manifiesto de su carpeta; el estado completo, a la clave vieja
-        self.assertIn("interno/estados/autonomicas/cantabria/audit.zip", self.man["artefactos"])
-        self.assertEqual(self.man["artefactos"]["interno/estados/autonomicas/cantabria/audit.zip"]["run_id"], "41037133327")
-        self.assertEqual(res["manifiestos"], ["interno/estados/autonomicas/cantabria/manifiesto.json"])
+        self.assertIn("interno/estados/autonomicas/cantabria/ultimo/audit.zip", self.man["artefactos"])
+        self.assertEqual(self.man["artefactos"]["interno/estados/autonomicas/cantabria/ultimo/audit.zip"]["run_id"], "41037133327")
+        self.assertEqual(res["manifiestos"], ["interno/estados/autonomicas/cantabria/ultimo/manifiesto.json"])
         objs = {k: v for k, v in self.r2.objs.items() if not k.endswith("/manifiesto.json")}
         self.assertEqual(set(objs.values()), {x['sha256'] for x in self.man['artefactos'].values()})
 
@@ -230,7 +235,7 @@ class PaqueteMinimo(unittest.TestCase):
         res = arc.archivar(viv, {"ddd-state-41037133327-M06": "cantabria"}, {}, man,
                            lambda a, p: p.write_bytes((self.d / "e.zip").read_bytes()), r2.sha, r2.subir, "bkt",
                            empaquetar=arc.empaquetar_minimo())
-        k = "interno/estados/autonomicas/cantabria/minimo-m06.zip"  # T-443: árbol nuevo, sin run en la ruta
+        k = "interno/estados/autonomicas/cantabria/ultimo/minimo-m06.zip"  # T-443: árbol nuevo, sin run en la ruta
         self.assertEqual(res["archivados"], [k])
         e = man["artefactos"][k]
         self.assertEqual(e["artefacto"], "ddd-minimo-41037133327-M06")
@@ -249,11 +254,48 @@ class PaqueteMinimo(unittest.TestCase):
         refs = {"ddd-audit-41037133399": "cantabria", "ddd-audit-41037133327": "cantabria"}
         arc.archivar([nuevo], refs, {}, man, bajar, r2.sha, r2.subir, "bkt")
         res = arc.archivar([viejo], refs, {}, man, bajar, r2.sha, r2.subir, "bkt")
-        k = "interno/estados/autonomicas/cantabria/audit.zip"
+        k = "interno/estados/autonomicas/cantabria/ultimo/audit.zip"
         self.assertEqual(res["superados"], [k])
         self.assertEqual(man["artefactos"][k]["run_id"], "41037133399")
-        m = arc.manifiesto_carpeta(man["artefactos"], "interno/estados/autonomicas/cantabria")
+        m = arc.manifiesto_carpeta(man["artefactos"], "interno/estados/autonomicas/cantabria/ultimo")
         self.assertEqual(m["ficheros"]["audit.zip"]["run"], "41037133399")
+
+    def test_t443_publicado_y_ultimo(self):
+        """D-198: el run publicado va a publicado/ y a ultimo/; uno más reciente sin publicar solo a ultimo/, sin tocar publicado/."""
+        r2 = R2Falso()
+        man = {"artefactos": {}}
+        bajar = lambda a, p: p.write_bytes(a["name"].encode())  # noqa: E731
+        refs = {"ddd-audit-41037133327": "cantabria", "ddd-audit-41037133399": "cantabria"}
+        pub = {"aut06": "41037133327"}
+        arc.archivar([art(8, "ddd-audit-41037133327", "2026-11-20T00:00:00Z")], refs, {}, man, bajar, r2.sha, r2.subir, "bkt",
+                     publicado=pub, r2_cab=r2.cab)
+        base = "interno/estados/autonomicas/cantabria"
+        self.assertEqual((r2.runs[f"{base}/publicado/audit.zip"], r2.runs[f"{base}/ultimo/audit.zip"]), ("41037133327", "41037133327"))
+        arc.archivar([art(9, "ddd-audit-41037133399", "2026-11-25T00:00:00Z")], refs, {}, man, bajar, r2.sha, r2.subir, "bkt",
+                     publicado=pub, r2_cab=r2.cab)
+        self.assertEqual((r2.runs[f"{base}/publicado/audit.zip"], r2.runs[f"{base}/ultimo/audit.zip"]), ("41037133327", "41037133399"))
+        # restaurar y P75 encuentran los dos runs por run_id
+        self.assertEqual(sorted(e["run_id"] for e in man["artefactos"].values()), ["41037133327", "41037133399"])
+        self.assertEqual(arc.manifiesto_carpeta(man["artefactos"], f"{base}/publicado", r2.cab)["ficheros"]["audit.zip"]["run"], "41037133327")
+
+    def test_t443_la_guarda_es_la_de_r2_no_la_del_indice(self):
+        """Índice perdido o atrasado (fallo de push): R2 ya tiene un run mayor en ultimo/ → no se pisa."""
+        r2 = R2Falso()
+        k = "interno/estados/autonomicas/cantabria/ultimo/audit.zip"
+        r2.objs[k], r2.runs[k] = "f" * 64, "41037133399"
+        man = {"artefactos": {}}
+        res = arc.archivar([art(8, "ddd-audit-41037133327", "2026-11-20T00:00:00Z")], {"ddd-audit-41037133327": "cantabria"}, {}, man,
+                           lambda a, p: p.write_bytes(b"x"), r2.sha, r2.subir, "bkt", r2_cab=r2.cab)
+        self.assertEqual((res["superados"], r2.subidas, r2.runs[k]), ([k], 0, "41037133399"))
+
+    def test_t443_el_manifiesto_dice_lo_que_hay_en_r2(self):
+        r2 = R2Falso()
+        base = "interno/estados/autonomicas/cantabria/ultimo"
+        r2.objs[f"{base}/audit.zip"], r2.runs[f"{base}/audit.zip"] = "a" * 64, "7"
+        ent = {f"{base}/audit.zip": {"sha256": "b" * 64, "run_id": "6"}, f"{base}/minimo-m08.zip": {"sha256": "c" * 64, "run_id": "6"}}
+        m = arc.manifiesto_carpeta(ent, base, r2.cab)
+        self.assertEqual(sorted(m["ficheros"]), ["audit.zip"])  # el que no está en R2 sale
+        self.assertEqual((m["ficheros"]["audit.zip"]["sha256"], m["ficheros"]["audit.zip"]["run"]), ("a" * 64, "7"))
 
     def test_t443_territorio_sin_resolver_conserva_la_clave_vieja(self):
         a = {"name": "ddd-audit-1234567890", "territorio": "sin_territorio", "run": "1234567890"}

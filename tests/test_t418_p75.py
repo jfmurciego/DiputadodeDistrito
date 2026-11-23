@@ -134,71 +134,87 @@ class P75(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, causa):
                     p75.territorios_con_m08(r, malo)
 
-    # T-443 (D-188, «solo la vigente»): ruta fija en mapas/, sin run en la clave; la nueva sustituye a la anterior y se comprueba en R2.
-    # Sustituye a los tests de T-418 «nunca sobrescribe» (claves `<carpeta>/<run>/ddd-doble-vuelta-<run>-p75-<run_p75>.zip`).
-    CLAVE = "mapas/nacionales/congreso-2023/alava/doble-vuelta.zip"
-    MANIF = "mapas/nacionales/congreso-2023/alava/manifiesto.json"
+    # T-443 (D-188/D-198): P75 escribe en interno/doble-vuelta/ (mapas/ solo lo escribe la publicación), ruta fija sin run en la clave, guarda por
+    # el run del M08 en R2 y sha256 comprobado. Sustituye a los tests de T-418 «nunca sobrescribe» (claves `<carpeta>/<run>/…-p75-<run_p75>.zip`).
+    CLAVE = "interno/doble-vuelta/nacionales/congreso-2023/alava/doble-vuelta.zip"
+    MANIF = "interno/doble-vuelta/nacionales/congreso-2023/alava/manifiesto.json"
 
     def _r2(self):
-        r2 = {}  # clave → bytes
-        subir = lambda k, ruta, h: r2.update({k: Path(ruta).read_bytes()})  # noqa: E731
+        r2, runs = {}, {}  # clave → bytes, clave → metadato run
+
+        def subir(k, ruta, h, run=None):
+            r2[k] = Path(ruta).read_bytes()
+            runs[k] = run
         sha_r2 = lambda k: hashlib.sha256(r2[k]).hexdigest() if k in r2 else None  # noqa: E731
-        return r2, subir, sha_r2
+        cab = lambda k: {"sha256": sha_r2(k), "run": runs.get(k), "bytes": len(r2[k])} if k in r2 else None  # noqa: E731
+        return r2, runs, subir, sha_r2, cab
 
-    def _ejecutar(self, r2, subir, sha_r2, run_p75="77", cp_extra=None):
-        paq = cp_de({RUN: paquete()})
-
-        def cp(origen, destino, extra=None):
-            k = origen.split("/", 3)[3]
-            if k in r2:
-                Path(destino).write_bytes(r2[k])
-            else:
-                paq(origen, destino, extra)
+    def _ejecutar(self, subir, sha_r2, cab, run_p75="77"):
         with tempfile.TemporaryDirectory() as t, tempfile.TemporaryDirectory() as w, mock.patch.dict(os.environ, ENV):
             r = montar(Path(t), {RUN: paquete()})
-            return p75.ejecutar(r, "nac01", "2023-07", Path(w), cp, subir, run_p75, existe=lambda k: True, sha_r2=sha_r2, bucket="b")
+            return p75.ejecutar(r, "nac01", "2023-07", Path(w), cp_de({RUN: paquete()}), subir, run_p75, existe=lambda k: True,
+                                sha_r2=sha_r2, bucket="b", r2_cab=cab)
 
-    def test_sube_el_zip_a_la_carpeta_del_mapa_con_su_manifiesto(self):
-        r2, subir, sha_r2 = self._r2()
-        inf = self._ejecutar(r2, subir, sha_r2)
+    def test_sube_el_zip_a_interno_con_run_y_manifiesto(self):
+        r2, runs, subir, sha_r2, cab = self._r2()
+        inf = self._ejecutar(subir, sha_r2, cab)
         f = inf["territorios"][0]
-        self.assertEqual((f["estado"], f["clave_r2"], f["manifiesto_r2"]), ("OK", self.CLAVE, self.MANIF))
-        self.assertEqual(hashlib.sha256(r2[self.CLAVE]).hexdigest(), f["sha256_salida"])
+        self.assertEqual((f["estado"], f["clave_r2"], f["manifiesto_r2"], f["run_p75"]), ("OK", self.CLAVE, self.MANIF, "77"))
+        self.assertEqual((hashlib.sha256(r2[self.CLAVE]).hexdigest(), runs[self.CLAVE]), (f["sha256_salida"], RUN))
         m = json.loads(r2[self.MANIF])
+        self.assertEqual((m["run"], sorted(m["ficheros"])), (RUN, ["doble-vuelta.zip"]))
         self.assertEqual(m["ficheros"]["doble-vuelta.zip"]["sha256"], f["sha256_salida"])
-        self.assertEqual((m["ficheros"]["doble-vuelta.zip"]["run"], m["ficheros"]["doble-vuelta.zip"]["run_p75"]), (RUN, "77"))
-        self.assertEqual(inf["run_p75"], "77")
+        self.assertFalse(any(k.startswith("mapas/") for k in r2))  # D-198: mapas/ no lo escribe P75
 
-    def test_solo_la_vigente_sustituye_y_conserva_el_resto_del_manifiesto(self):
-        r2, subir, sha_r2 = self._r2()
-        r2[self.CLAVE] = b"anterior"
-        r2[self.MANIF] = json.dumps({"ficheros": {"mapa.geojson": {"sha256": "ab" * 32, "bytes": 9}}}).encode()
-        inf = self._ejecutar(r2, subir, sha_r2, run_p75="500-2")
-        self.assertEqual(inf["territorios"][0]["estado"], "OK")  # `existe` ya no veta la ruta fija
+    def test_mismo_run_sustituye_y_un_run_mayor_no_se_pisa(self):
+        r2, runs, subir, sha_r2, cab = self._r2()
+        r2[self.CLAVE], runs[self.CLAVE] = b"anterior", RUN
+        self.assertEqual(self._ejecutar(subir, sha_r2, cab)["territorios"][0]["estado"], "OK")  # mismo M08: se recalcula
         self.assertNotEqual(r2[self.CLAVE], b"anterior")
-        m = json.loads(r2[self.MANIF])
-        self.assertEqual(sorted(m["ficheros"]), ["doble-vuelta.zip", "mapa.geojson"])
-        self.assertEqual(m["ficheros"]["mapa.geojson"], {"sha256": "ab" * 32, "bytes": 9})
-        self.assertEqual(m["ficheros"]["doble-vuelta.zip"]["run_p75"], "500-2")
+        r2[self.CLAVE], runs[self.CLAVE] = b"de un M08 posterior", "999999"
+        f = self._ejecutar(subir, sha_r2, cab)["territorios"][0]
+        self.assertEqual(f["estado"], "SUPERADO")
+        self.assertEqual(r2[self.CLAVE], b"de un M08 posterior")
 
     def test_sha_en_r2_distinto_tras_subir_falla(self):
-        r2, subir, _ = self._r2()
-        inf = self._ejecutar(r2, subir, lambda k: "00" * 32)  # control negativo: R2 no queda con el sha256 subido
-        f = inf["territorios"][0]
+        r2, runs, subir, _, cab = self._r2()
+        f = self._ejecutar(subir, lambda k: "00" * 32, cab)["territorios"][0]  # control negativo: R2 no queda con el sha256 subido
         self.assertEqual(f["estado"], "SHA_R2_DISTINTO")
         self.assertNotIn("clave_r2", f)
 
+    def test_informe_se_fusiona_por_territorio(self):
+        ent = {"bloques": {"sha256": "b"}, "alias": {"sha256": "a"}}
+        ant = {"eleccion": "2023-07", "run_p75": "1-1", "entradas": ent, "territorios": [
+            {"territorio": "nac01", "estado": "OK", "run_p75": "1-1"}, {"territorio": "nac02", "estado": "OK", "run_p75": "1-1"}]}
+        nue = {"eleccion": "2023-07", "run_p75": "2-1", "entradas": ent, "territorios": [
+            {"territorio": "nac01", "estado": "OK", "run_p75": "2-1"}, {"territorio": "nac03", "estado": "COBERTURA_BAJA", "run_p75": "2-1"}]}
+        f = p75.fusionar_informe(ant, nue)
+        self.assertEqual([(x["territorio"], x["run_p75"]) for x in f["territorios"]], [("nac01", "2-1"), ("nac02", "1-1"), ("nac03", "2-1")])
+        self.assertEqual((f["ok"], f["total"], f["run_p75"]), (2, 3, "2-1"))
+        mal = dict(nue, territorios=[{"territorio": "nac02", "estado": "SIN_CSV_M07", "run_p75": "2-1"}])
+        self.assertEqual(p75.fusionar_informe(ant, mal)["territorios"][1]["run_p75"], "1-1")  # un fallo no sustituye a una fila OK
+        otro = dict(nue, entradas={"bloques": {"sha256": "x"}, "alias": {"sha256": "a"}})
+        self.assertEqual([x["territorio"] for x in p75.fusionar_informe(ant, otro)["territorios"]], ["nac01", "nac03"])  # otros bloques: de nuevo
+
     def test_carpeta_de_entrada_con_claves_nuevas_y_viejas(self):
         self.assertEqual(p75.carpeta_de_entrada(f"{LEG}/{RUN}/ddd-minimo-{RUN}-M08.zip", {}), LEG)
-        self.assertEqual(p75.carpeta_de_entrada("interno/estados/nacionales/alava/minimo-m08.zip", {"territorio": "nac01"}), "nac01")
-        self.assertEqual(p75.clave_informe({"eleccion": "2023-07"}, "9-1"), "mapas/nacionales/congreso-2023/informe-doble-vuelta.json")
-        self.assertEqual(p75.clave_informe({"eleccion": "autonomicas"}, "9-1"), "mapas/autonomicas/informe-doble-vuelta.json")
+        self.assertEqual(p75.carpeta_de_entrada("interno/estados/nacionales/alava/ultimo/minimo-m08.zip", {"territorio": "nac01"}), "nac01")
+        self.assertEqual(p75.clave_informe({"eleccion": "2023-07"}, "9-1"), "interno/doble-vuelta/nacionales/congreso-2023/informe-doble-vuelta.json")
+        self.assertEqual(p75.clave_informe({"eleccion": "autonomicas"}, "9-1"), "interno/doble-vuelta/autonomicas/informe-doble-vuelta.json")
+
+    def test_el_resumen_de_p70_imprime_la_clave_que_sube_p75(self):
+        """Bloqueante 1 de la revisión de #988: el resumen del job no compone la clave por su cuenta; usa `clave_informe` de P75."""
+        import yaml
+        wf = yaml.safe_load((ROOT / ".github/workflows/p70-archivo.yml").read_text(encoding="utf-8"))
+        run = next(x for x in wf["jobs"]["doble_vuelta_r2"]["steps"] if x.get("name", "").startswith("Calcular"))["run"]
+        self.assertIn("clave_informe(", run)
+        self.assertNotIn("INFORME_CLAVE=doble_vuelta/", run)
 
     def test_archivista_en_el_arbol_nuevo_sigue_valiendo(self):
         """El M08 archivado en `interno/estados/…` (archivista 1.2.0) se localiza por run y su territorio sale de la entrada."""
         with tempfile.TemporaryDirectory() as t, tempfile.TemporaryDirectory() as w, mock.patch.dict(os.environ, ENV):
             r = montar(Path(t), {})
-            k = "interno/estados/nacionales/alava/minimo-m08.zip"
+            k = "interno/estados/nacionales/alava/ultimo/minimo-m08.zip"
             arts = {k: {"run_id": RUN, "artefacto": f"ddd-minimo-{RUN}-M08", "sha256": hashlib.sha256(paquete()).hexdigest(), "territorio": "nac01"}}
             (r / "orchestracion/archivo_r2.json").write_text(json.dumps({"artefactos": arts}), encoding="utf-8")
 

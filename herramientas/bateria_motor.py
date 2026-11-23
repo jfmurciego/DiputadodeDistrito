@@ -9,7 +9,9 @@ FECHA: 2026-11-23
 ESTADO: candidato
 CAMBIOS 1.5.0 (T-443, D-188/D-190): `archivar-p10` escribe en el árbol nuevo: `fuentes/por-territorio/<ámbito>/<territorio>/paquete.zip`
   (`interno/competicion/<provincia>/` para la variante de 350) y el `manifiesto.json` de la carpeta (package_sha256 como huella, run de origen,
-  sha256 y bytes del zip). ARCHIVO_PAQUETES_P10.json anota la clave nueva y la vieja en `clave_anterior`. La lectura (1.4.4) ya probaba la nueva primero.
+  sha256 y bytes del zip). ARCHIVO_PAQUETES_P10.json anota la clave nueva y la vieja en `clave_anterior`. La lectura prueba la nueva primero y cae a la
+  vieja (por package_sha256, exacta) también si la nueva guarda el paquete de OTRO contrato (la ruta nueva se sustituye al cambiar el contrato);
+  zip inseguro o paquete que la 00 rechaza siguen fallando cerrado.
 CAMBIOS 1.4.4 (T-443, D-188/D-190): `paquete_p10_desde_r2` lee con doble ruta durante la transición del árbol de R2: primero
   `fuentes/por-territorio/<ámbito>/<territorio>/paquete.zip` (herramientas/rutas_r2.py) y, si no está, `arc-e/paquetes-p10/<package_sha256>.zip`.
   La validación (sha256 del bundle = package_sha256 del contrato) no cambia. `archivar-p10` sigue escribiendo la ruta vieja (cambia en la PR de escritores).
@@ -518,24 +520,35 @@ def paquete_p10_desde_r2(t: str, out: Path) -> Path | None:
     shutil.rmtree(work, ignore_errors=True)
     work.mkdir(parents=True)
     z = work / "paquete.zip"
-    for clave in claves_paquete_lectura(t, ident):
+    claves = claves_paquete_lectura(t, ident)
+    pendiente: PaqueteP10Corrupto | None = None
+    for i, clave in enumerate(claves):
         try:
             _r2_cp(f"s3://{bucket}/{clave}", str(z))
-            break
         except (subprocess.CalledProcessError, KeyError, OSError):
             z.unlink(missing_ok=True)
-    else:
-        shutil.rmtree(work, ignore_errors=True)
-        return None
-    carpeta = work / "pkg"
-    with zipfile.ZipFile(z) as zf:
-        raiz = carpeta.resolve()
-        for m in zf.infolist():
-            if raiz not in (carpeta / m.filename).resolve().parents and (carpeta / m.filename).resolve() != raiz:
-                raise PaqueteP10Corrupto(f"ruta insegura en el paquete: {m.filename}")
-        zf.extractall(carpeta)
-    validar_paquete_p10(t, carpeta)
-    return carpeta
+            continue
+        carpeta = work / f"pkg{i}"
+        with zipfile.ZipFile(z) as zf:
+            raiz = carpeta.resolve()
+            for m in zf.infolist():
+                if raiz not in (carpeta / m.filename).resolve().parents and (carpeta / m.filename).resolve() != raiz:
+                    raise PaqueteP10Corrupto(f"ruta insegura en el paquete: {m.filename}")
+            zf.extractall(carpeta)
+        try:
+            validar_paquete_p10(t, carpeta)
+        except PaqueteP10Corrupto as exc:
+            if i + 1 < len(claves) and "no es el del contrato" in str(exc):  # T-443: la ruta nueva guarda el paquete de otro contrato
+                shutil.rmtree(carpeta, ignore_errors=True)
+                z.unlink(missing_ok=True)
+                pendiente = exc
+                continue
+            raise
+        return carpeta
+    shutil.rmtree(work, ignore_errors=True)
+    if pendiente is not None:  # sin respaldo válido: el paquete de otro contrato es un fallo cerrado, no «falta»
+        raise pendiente
+    return None
 
 
 def entradas(args) -> int:

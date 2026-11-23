@@ -13,11 +13,13 @@ QUÉ HACE: lee el catálogo operativo (orchestracion/estado_operativo.json) y or
   la entrada en orchestracion/archivo_r2.json (URL R2, sha256, tamaño, caducidad original, fecha de archivado).
 IDEMPOTENTE: no vuelve a descargar un artefacto (mismo id) ya archivado, y no vuelve a subir si R2 ya tiene
   la misma clave con el mismo sha256. Un artefacto caducado y no archivado se informa como «perdido».
-CAMBIOS: 1.2.0 (T-443, D-188/D-190): escribe en el árbol nuevo de R2. Clave `interno/estados/<ámbito>/<territorio>/<tipo>.zip`
-  (herramientas/rutas_r2.ruta_estado; `competicion/<provincia>/` para la variante de 350) sin run en la ruta: solo el último de cada tipo. Un
-  run ANTERIOR al ya archivado en esa clave no la pisa (`superados`). Tras subir, escribe el `manifiesto.json` de la carpeta (run, sha256 y
-  bytes de cada fichero, sacados del índice). La entrada de orchestracion/archivo_r2.json sigue llevando run, territorio y sha256 (la buscan por
-  run restaurar_estado_r2 y P75). Un territorio que la tabla maestra no resuelve conserva la clave vieja `<territorio>/<run>/<artefacto>.zip`.
+CAMBIOS: 1.2.0 (T-443, D-188/D-190/D-198): escribe en el árbol nuevo de R2, sin run en la ruta. Vigente = publicado + último (D-198):
+  `interno/estados/<ámbito>/<territorio>/ultimo/<tipo>.zip` (el run más reciente) y, si el run es el publicado del territorio en
+  orchestracion/publicaciones_visor.json, también `…/publicado/<tipo>.zip` (solo cambia al publicar otro run). Guarda en R2, no en el índice: antes
+  de subir lee el metadato `run` del objeto (head-object) y nunca pisa un run mayor en `ultimo/` (`superados`); cada objeto sube con metadatos
+  `sha256` y `run`. Tras subir, el `manifiesto.json` de cada carpeta tocada se rehace con las cabeceras de R2 (run, sha256 y bytes de lo que hay
+  de verdad). Las entradas de orchestracion/archivo_r2.json siguen con run, territorio y sha256 (restaurar_estado_r2 y P75 buscan por run, en
+  `publicado/` o `ultimo/`). Estado completo y territorio sin resolver: clave vieja `<territorio>/<run>/<artefacto>.zip`.
   1.1.1 (T-90): el paquete mínimo acepta los GeoJSON comprimidos *.geojson.zip, que es como los
   escriben M01-M08 (sin ellos el M08 de Barcelona, run 42416213698, falló con «ningún GeoJSON distrital»).
   1.1.0 (T-72): solo archiva el producto final de cada run (ddd-state-<run>-M06/M08) y las auditorías
@@ -166,35 +168,65 @@ def clave_vieja(a: dict, empaquetado: bool = False) -> str:
     return f"{a['territorio']}/{a['run']}/{nombre}.zip"
 
 
-def clave(a: dict, empaquetado: bool = False) -> str:
-    """Clave en el árbol nuevo (D-188): `interno/estados/<ámbito>/<territorio>/<tipo>.zip`; si el territorio no se resuelve, la vieja."""
+def clave(a: dict, empaquetado: bool = False, hueco: str = "ultimo") -> str:
+    """Clave en el árbol nuevo (D-188/D-198): `interno/estados/<ámbito>/<territorio>/<hueco>/<tipo>.zip`; sin territorio resuelto, la vieja."""
     nombre = nombre_paquete(a["name"]) if empaquetado else a["name"]
     if nombre.startswith("ddd-state-"):  # el estado completo no entra en el árbol nuevo: interno/ guarda solo el paquete mínimo
         return clave_vieja(a, empaquetado)
     try:
-        return rutas_r2.ruta_estado(a["territorio"], nombre)
+        return rutas_r2.ruta_estado(a["territorio"], nombre, hueco)
     except (rutas_r2.RutaInvalida, KeyError, ValueError):
         return clave_vieja(a, empaquetado)
+
+
+def _norm(t: str) -> str:
+    try:
+        return rutas_r2.ti.resolver_id(t)
+    except (KeyError, ValueError):
+        return str(t)
+
+
+def publicados(root: Path) -> dict[str, str]:
+    """Territorio (id nuevo) → run publicado (el mayor de sus productos en orchestracion/publicaciones_visor.json)."""
+    vis = root / VISOR
+    out: dict[str, str] = {}
+    if not vis.is_file():
+        return out
+    for p in json.loads(vis.read_text(encoding="utf-8")).get("products", []):
+        run, t = str(p.get("run_id") or ""), p.get("territory_id")
+        if run.isdigit() and t and _run_num(run) > _run_num(out.get(_norm(t))):
+            out[_norm(t)] = run
+    return out
 
 
 def _run_num(x) -> int:
     return int(x) if str(x or "").isdigit() else -1
 
 
-def manifiesto_carpeta(entradas: dict, carpeta: str) -> dict:
-    """`manifiesto.json` de una carpeta del árbol nuevo, a partir de las entradas del índice que viven en ella."""
-    fich = {k.rsplit("/", 1)[1]: {"sha256": e.get("sha256"), "bytes": e.get("tamano_bytes"), "run": e.get("run_id"),
-                                  "artefacto": e.get("artefacto")}
-            for k, e in entradas.items() if k.rsplit("/", 1)[0] == carpeta and not k.endswith("/manifiesto.json")}
+def manifiesto_carpeta(entradas: dict, carpeta: str, r2_cab: Optional[Callable[[str], Optional[dict]]] = None) -> dict:
+    """`manifiesto.json` de una carpeta del árbol nuevo. Con `r2_cab`, cada fichero con lo que R2 tiene de verdad (sha256, run y bytes de su
+    cabecera; uno que ya no está en R2 sale del manifiesto); sin él, lo que anota el índice."""
+    fich = {}
+    for k, e in entradas.items():
+        if k.rsplit("/", 1)[0] != carpeta or k.endswith("/manifiesto.json"):
+            continue
+        ficha = {"sha256": e.get("sha256"), "bytes": e.get("tamano_bytes"), "run": e.get("run_id"), "artefacto": e.get("artefacto")}
+        if r2_cab is not None:
+            cab = r2_cab(k)
+            if cab is None:
+                continue
+            ficha.update({x: cab[x] for x in ("sha256", "bytes", "run") if cab.get(x) is not None})
+        fich[k.rsplit("/", 1)[1]] = ficha
     return rutas_r2.manifiesto(fich, extra={"carpeta": carpeta})
 
 
 def subir_manifiestos(carpetas, entradas: dict, r2_subir: Callable[[str, Path, str], None],
-                      r2_sha: Optional[Callable[[str], Optional[str]]] = None) -> list[str]:
+                      r2_sha: Optional[Callable[[str], Optional[str]]] = None,
+                      r2_cab: Optional[Callable[[str], Optional[dict]]] = None) -> list[str]:
     """Sube el `manifiesto.json` de cada carpeta tocada (contenido determinista; no resube si R2 ya lo tiene igual)."""
     hechos = []
     for c in sorted(carpetas):
-        datos = (json.dumps(manifiesto_carpeta(entradas, c), ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
+        datos = (json.dumps(manifiesto_carpeta(entradas, c, r2_cab), ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
         with tempfile.TemporaryDirectory() as td:
             f = Path(td) / "manifiesto.json"
             f.write_bytes(datos)
@@ -221,38 +253,53 @@ def archivar(
     manifiesto: dict,
     descargar: Callable[[dict, Path], None],
     r2_sha: Callable[[str], Optional[str]],
-    r2_subir: Callable[[str, Path, str], None],
+    r2_subir: Callable[..., None],
     bucket: str,
     ahora: Callable[[], str] = _utcnow,
     caduca_antes: Optional[str] = None,
     maximo: Optional[int] = None,
     empaquetar: Optional[Callable[[dict, Path, Path], Path]] = None,
+    publicado: Optional[dict[str, str]] = None,
+    r2_cab: Optional[Callable[[str], Optional[dict]]] = None,
 ) -> dict:
     """Núcleo sin red: aplica la política y devuelve el resumen; muta `manifiesto`.
 
     Con ``empaquetar(a, zip_estado, dir_tmp) -> zip_paquete``, los estados ddd-state-* no se suben enteros: se sube el
-    paquete mínimo (clave ddd-minimo-…) y la entrada guarda el sha256 y el tamaño del estado original."""
+    paquete mínimo (clave ddd-minimo-…) y la entrada guarda el sha256 y el tamaño del estado original.
+    ``publicado`` (territorio → run publicado, `publicados()`) añade el hueco `publicado/`; ``r2_cab(k)`` → {sha256, run, bytes} | None es la
+    guarda en R2 (sin ella, la del índice)."""
     entradas = manifiesto.setdefault("artefactos", {})
     res = {"archivados": [], "ya_archivados": [], "sin_cambios_r2": [], "errores": [], "omitidos": [], "superados": [], "manifiestos": []}
     tocadas: set[str] = set()
-    ya_ids = {e.get("artifact_id") for e in entradas.values()}
-    pendientes = seleccionar(vivos, nombres, runs)
-    for a in pendientes:
+    publicado = publicado or {}
+
+    def run_remoto(k: str) -> int:
+        if r2_cab is not None:
+            cab = r2_cab(k)
+            return _run_num((cab or {}).get("run"))
+        return _run_num((entradas.get(k) or {}).get("run_id"))
+
+    for a in seleccionar(vivos, nombres, runs):
         emp = empaquetar is not None and a["name"].startswith("ddd-state-")
         k = clave(a, emp)
+        destinos = [k]
+        if rutas_r2.es_nueva(k) and publicado.get(_norm(a["territorio"])) == str(a["run"]):
+            destinos.append(clave(a, emp, "publicado"))
         if caduca_antes and (a.get("expires_at") or "9999") >= caduca_antes:
             res["omitidos"].append(k)
             continue
-        if a["id"] in ya_ids and k in entradas and str(entradas[k].get("artifact_id")) == str(a["id"]):
+        if all(d in entradas and str(entradas[d].get("artifact_id")) == str(a["id"]) for d in destinos):
             res["ya_archivados"].append(k)
-            continue
-        if rutas_r2.es_nueva(k) and k in entradas and _run_num(entradas[k].get("run_id")) > _run_num(a["run"]):
-            res["superados"].append(k)  # solo la vigente: un run anterior no pisa al último archivado
             continue
         if maximo is not None and len(res["archivados"]) + len(res["sin_cambios_r2"]) >= maximo:
             res["omitidos"].append(k)
             continue
         try:
+            if rutas_r2.es_nueva(k) and run_remoto(k) > _run_num(a["run"]):
+                res["superados"].append(k)  # D-198: un run anterior nunca pisa al último (guarda en R2)
+                destinos.remove(k)
+            if not destinos:
+                continue
             with tempfile.TemporaryDirectory() as td:
                 zip_ = Path(td) / "a.zip"
                 descargar(a, zip_)
@@ -262,30 +309,35 @@ def archivar(
                               "tamano_estado_original": zip_.stat().st_size}
                     zip_ = empaquetar(a, zip_, Path(td))
                 sha, tam = sha256_fichero(zip_), zip_.stat().st_size
-                if r2_sha(k) == sha:
-                    res["sin_cambios_r2"].append(k)
-                else:
-                    r2_subir(k, zip_, sha)
-                    res["archivados"].append(k)
+                for d in destinos:
+                    if r2_sha(d) == sha:
+                        res["sin_cambios_r2"].append(d)
+                    elif rutas_r2.es_nueva(d):
+                        r2_subir(d, zip_, sha, str(a["run"]))
+                        res["archivados"].append(d)
+                    else:
+                        r2_subir(d, zip_, sha)
+                        res["archivados"].append(d)
         except Exception as exc:  # noqa: BLE001 - se informa y se sigue con el siguiente
             res["errores"].append(f"{k}: {exc}")
             continue
-        entradas[k] = {
-            **origen,
-            "artefacto": nombre_paquete(a["name"]) if emp else a["name"],
-            "territorio": a["territorio"],
-            "run_id": a["run"],
-            "artifact_id": a["id"],
-            "url": f"r2://{bucket}/{k}",
-            "sha256": sha,
-            "tamano_bytes": tam,
-            "caducidad_original": a.get("expires_at"),
-            "archivado_en": ahora(),
-        }
-        if rutas_r2.es_nueva(k):
-            tocadas.add(k.rsplit("/", 1)[0])
+        for d in destinos:
+            entradas[d] = {
+                **origen,
+                "artefacto": nombre_paquete(a["name"]) if emp else a["name"],
+                "territorio": a["territorio"],
+                "run_id": a["run"],
+                "artifact_id": a["id"],
+                "url": f"r2://{bucket}/{d}",
+                "sha256": sha,
+                "tamano_bytes": tam,
+                "caducidad_original": a.get("expires_at"),
+                "archivado_en": ahora(),
+            }
+            if rutas_r2.es_nueva(d):
+                tocadas.add(d.rsplit("/", 1)[0])
     try:
-        res["manifiestos"] = subir_manifiestos(tocadas, entradas, r2_subir, r2_sha)
+        res["manifiestos"] = subir_manifiestos(tocadas, entradas, r2_subir, r2_sha, r2_cab)
     except Exception as exc:  # noqa: BLE001 - el objeto ya está y su entrada también; se informa
         res["errores"].append(f"manifiesto.json: {exc}")
     existentes = {a["name"] for a in vivos}
@@ -483,16 +535,37 @@ def r2_cliente(bucket: str, account: str):
     def sha(k: str) -> Optional[str]:
         return con_reintentos(lambda: _sha(k), f"R2 head {k}")
 
-    def _subir(k: str, ruta: Path, h: str) -> None:
+    def _subir(k: str, ruta: Path, h: str, run: Optional[str] = None) -> None:
+        meta = f"sha256={h}" + (f",run={run}" if run else "")
         subprocess.run(
-            ["aws", "s3", "cp", str(ruta), f"s3://{bucket}/{k}", "--endpoint-url", ep, "--metadata", f"sha256={h}", "--only-show-errors"],
+            ["aws", "s3", "cp", str(ruta), f"s3://{bucket}/{k}", "--endpoint-url", ep, "--metadata", meta, "--only-show-errors"],
             check=True,
         )
 
-    def subir(k: str, ruta: Path, h: str) -> None:
-        con_reintentos(lambda: _subir(k, ruta, h), f"R2 subida {k}")
+    def subir(k: str, ruta: Path, h: str, run: Optional[str] = None) -> None:
+        con_reintentos(lambda: _subir(k, ruta, h, run), f"R2 subida {k}")
 
     return sha, subir
+
+
+def r2_cabecera(bucket: str, account: str) -> Callable[[str], Optional[dict]]:
+    """cab(k) → {sha256, run, bytes} del objeto (head-object) o None si no existe (404); otro fallo se propaga (T-443, D-198)."""
+    ep = f"https://{account}.r2.cloudflarestorage.com"
+
+    def _cab(k: str) -> Optional[dict]:
+        p = subprocess.run(
+            ["aws", "s3api", "head-object", "--bucket", bucket, "--key", k, "--endpoint-url", ep, "--output", "json"],
+            capture_output=True, text=True,
+        )
+        if p.returncode != 0:
+            if re.search(r"\(404\)|NoSuchKey|Not Found", p.stderr or ""):
+                return None
+            raise subprocess.CalledProcessError(p.returncode, "head-object", stderr=p.stderr)
+        j = json.loads(p.stdout)
+        m = j.get("Metadata") or {}
+        return {"sha256": m.get("sha256"), "run": m.get("run"), "bytes": j.get("ContentLength")}
+
+    return lambda k: con_reintentos(lambda: _cab(k), f"R2 head {k}")
 
 
 def main(argv=None) -> int:
@@ -520,7 +593,8 @@ def main(argv=None) -> int:
         return 1
     sha, subir = r2_cliente(bucket, cuenta)
     res = archivar(vivos, nombres, runs, man, descargar_gh(repo, token), sha, subir, bucket,
-                   caduca_antes=a.caduca_antes, maximo=a.max, empaquetar=empaquetar_minimo())
+                   caduca_antes=a.caduca_antes, maximo=a.max, empaquetar=empaquetar_minimo(),
+                   publicado=publicados(root), r2_cab=r2_cabecera(bucket, cuenta))
     cambio = guardar_manifiesto(root / MANIFIESTO, man)
     print(json.dumps({k: (len(v) if k != "errores" else v) for k, v in res.items()}, ensure_ascii=False))
     for p in res["perdidos"]:
