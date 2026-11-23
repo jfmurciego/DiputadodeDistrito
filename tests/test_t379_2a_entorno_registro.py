@@ -144,6 +144,55 @@ class Entorno(Base):
         docs["ejecucion-completa-proyecto.yml"]["jobs"]["puerta_01"]["if"] = "${{ always() }}"
         self.assertEqual(malos(docs), [("ejecucion-completa-proyecto.yml", "actualizar_estado"), ("ejecucion-completa-proyecto.yml", "manifestar")])
 
+    def test_reutilizables_con_la_app_no_corren_en_las_pr(self):
+        """Revisor de #888: un workflow con `pull_request` que llama con `secrets: inherit` a un reutilizable con la app (P10, P20, P30, P70…)
+        no puede ejecutar esa llamada en el humo de la PR (dentro, `github.event_name` es el del llamador y el entorno `registro` rechazaría
+        la ref de la PR). Cada llamada lo excluye en su `if`, o exige el éxito de un job que lo excluye (transitivo)."""
+        def con_app(nombre, vistos=()):
+            d = self.docs.get(nombre) or {}
+            if any(APP in yaml.safe_dump(job) and job.get("environment") != REGISTRO_PR for job in (d.get("jobs") or {}).values()):
+                return True
+            return any(con_app(job["uses"].rsplit("/", 1)[-1], vistos + (nombre,)) for job in (d.get("jobs") or {}).values()
+                       if str(job.get("uses", "")).startswith("./") and job["uses"].rsplit("/", 1)[-1] not in vistos + (nombre,))
+
+        def excluidos(jobs):
+            ex = ("github.event_name != 'pull_request'", "github.event_name == 'workflow_dispatch'", "github.event_name == 'push'",
+                  "github.event_name == 'schedule'")
+            fuera = {j for j, job in jobs.items() if any(e in str(job.get("if", "")) for e in ex)}
+            cambio = True
+            while cambio:
+                cambio = False
+                for j, job in jobs.items():
+                    if j not in fuera and any(f"needs.{n}.result == 'success'" in str(job.get("if", "")) for n in fuera):
+                        fuera.add(j)
+                        cambio = True
+            return fuera
+
+        def malos(docs):
+            out = []
+            for f, d in sorted(docs.items()):
+                if "pull_request" not in on(d):
+                    continue
+                fuera = excluidos(d["jobs"])
+                for j, job in d["jobs"].items():
+                    u = str(job.get("uses", ""))
+                    if u.startswith("./") and con_app(u.rsplit("/", 1)[-1]) and j not in fuera:
+                        out.append((f, j))
+            return sorted(out)
+
+        llamadas = [(f, j) for f, d in self.docs.items() if "pull_request" in on(d)
+                    for j, job in d["jobs"].items() if str(job.get("uses", "")).startswith("./") and con_app(job["uses"].rsplit("/", 1)[-1])]
+        self.assertGreaterEqual(len(llamadas), 6, llamadas)  # no vacuo: la 00 llama a P10, P20, P30, P40 y P70
+        self.assertEqual(malos(self.docs), [])
+        # control negativo: la llamada a P20 sin depender de la puerta 01 correría en la PR
+        docs = copy.deepcopy(self.docs)
+        docs["ejecucion-completa-proyecto.yml"]["jobs"]["generar"]["if"] = "${{ always() }}"
+        self.docs, guardado = docs, self.docs
+        try:
+            self.assertIn(("ejecucion-completa-proyecto.yml", "generar"), malos(docs))
+        finally:
+            self.docs = guardado
+
     def test_entorno_condicional_solo_donde_hay_pr(self):
         for f, d in self.docs.items():
             for j, job in d["jobs"].items():
