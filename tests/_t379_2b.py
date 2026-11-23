@@ -29,8 +29,14 @@ OPCION_T449 = "Espejo de fuente oficial"
 CASO_T449 = '|"Espejo de fuente oficial") ;;'
 
 
+GRUPO_T449 = "${{ inputs.tipo == 'Espejo de fuente oficial' && format('ddd-espejo-fuente-{0}', inputs.territorio) || "
+
+
 def sin_t449(d):
     (d.get("jobs") or {}).pop("p13_espejo", None)
+    c = d.get("concurrency")
+    if isinstance(c, dict) and str(c.get("group", "")).startswith(GRUPO_T449):
+        c["group"] = "${{ " + c["group"][len(GRUPO_T449):]
     tipo = (((_on(d) or {}).get("workflow_dispatch") or {}).get("inputs") or {}).get("tipo") or {}
     if OPCION_T449 in (tipo.get("options") or []):
         tipo["options"] = [o for o in tipo["options"] if o != OPCION_T449]

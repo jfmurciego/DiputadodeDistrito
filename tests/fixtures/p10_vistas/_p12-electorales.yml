@@ -5,7 +5,8 @@
 # CAMBIOS 1.0.2: T-449 (D-183, D-188): opción de `tipo` «Espejo de fuente oficial» (solo botón) y job aislado `p13_espejo`: con `territorio` = una entrada de
 #   configuracion/espejos_fuentes_oficiales.json (hoy aut08), baja desde el runner la fuente oficial (datos.gob.es; la nube no llega), mide sha256/bytes y la sube
 #   en solo lectura a R2 en fuentes/<organismo>/<año>/ con manifiesto.json (herramientas/espejo_fuente_oficial.py; nunca sobrescribe). Sin registro en main.
-#   El log lleva `ESPEJO_MANIFIESTO` y el volcado CSV de cada hoja. Los jobs p11_* y p12_*, idénticos.
+#   El log lleva `ESPEJO_MANIFIESTO` y el volcado CSV de cada hoja. Solo desde main; bajada y medida en un paso sin secretos, subida condicional
+#   (If-None-Match) en otro; grupo de concurrencia propio `ddd-espejo-fuente-<territorio>`. Los jobs p11_* y p12_*, idénticos.
 # ANTERIOR (1.0.1): legacy/workflows/p10-fuentes_v1.0.1_20261123.yml
 # CAMBIOS 1.0.1: T-379 PR 2b (D-163, 2b mínima): `contents: read` en todo el fichero (el push a main va con el token de la app de registro,
 #   que no depende de GITHUB_TOKEN: `contents: read` NO es barrera para ese push; sin la app, la credencial falla en vez de caer en github.token);
@@ -92,7 +93,7 @@ on:
         type: boolean
 
 concurrency:
-  group: ${{ contains(inputs.tipo, 'electorales') && format('ddd-electoral-prod-{0}', inputs.territory_id || inputs.territorio) || format('ddd-territorial-prod-{0}-{1}', inputs.territory_id || inputs.territorio, inputs.data_edition || '2025') }}
+  group: ${{ inputs.tipo == 'Espejo de fuente oficial' && format('ddd-espejo-fuente-{0}', inputs.territorio) || contains(inputs.tipo, 'electorales') && format('ddd-electoral-prod-{0}', inputs.territory_id || inputs.territorio) || format('ddd-territorial-prod-{0}-{1}', inputs.territory_id || inputs.territorio, inputs.data_edition || '2025') }}
   cancel-in-progress: false
   queue: max
 permissions:

@@ -12,11 +12,16 @@ MOTIVO: las autonómicas de Castilla-La Mancha 2023 por municipio solo están en
   (proxy 403) y la URL del portal autonómico devuelve la portada en obras. El runner las baja una vez, mide sha256 y bytes y las deja en
   R2 bajo `fuentes/<organismo>/<año>/` (árbol de D-188) con `manifiesto.json`; la huella pasa después, por PR, al calendario.
 ANTERIOR: ninguna (fichero nuevo)
-QUÉ HACE: `espejar --territorio aut08 --salida DIR [--subir]`: lee la declaración (`configuracion/espejos_fuentes_oficiales.json`), pide a la
-  API de datos.gob.es las distribuciones del conjunto, elige la del año (falla si hay 0 o más de una), la baja, rechaza HTML (portada en
-  obras), mide sha256/bytes, baja también el PDF oficial de verificación si responde, vuelca cada hoja de un xlsx a CSV (para el cuadre)
-  y escribe `manifiesto.json`. Con `--subir`, nunca sobrescribe: si la clave ya existe con otro sha256 falla (`ESPEJO_HUELLA_DISTINTA`).
-USO: python herramientas/espejo_fuente_oficial.py espejar --territorio aut08 --salida "$RUNNER_TEMP/espejo" --subir
+QUÉ HACE: `espejar --territorio aut08 --salida DIR` (SIN secretos): lee la declaración (`configuracion/espejos_fuentes_oficiales.json`), pide a la
+  API de datos.gob.es las distribuciones del conjunto, elige la del año (falla si hay 0 o más de una), la baja solo por https de los hosts
+  exactos declarados (también en cada redirección, como mucho 5) y hasta `max_bytes`, rechaza HTML (portada en obras), mide sha256/bytes,
+  baja también el PDF oficial de verificación si responde, vuelca cada hoja de un xlsx a CSV y escribe `manifiesto.json`.
+  `subir --territorio aut08 --salida DIR` (con secretos, en otro paso): comprueba cada pieza contra el manifiesto y la sube con
+  `put-object --if-none-match '*'` (nunca sobrescribe; misma huella = `ya_estaba`, otra = `ESPEJO_HUELLA_DISTINTA`); el manifiesto va el
+  último y con la misma regla: si una pieza falla no queda manifiesto, y el siguiente intento completa lo que falta.
+  Clave codificada aquí (fuentes/<organismo>/<año>/<nombre>); T-443 la migra a `rutas_r2.ruta_fuente` cuando entre #977.
+USO: python herramientas/espejo_fuente_oficial.py espejar --territorio aut08 --salida "$RUNNER_TEMP/espejo"
+     python herramientas/espejo_fuente_oficial.py subir --territorio aut08 --salida "$RUNNER_TEMP/espejo"
 """
 from __future__ import annotations
 
@@ -142,13 +147,45 @@ def comprobar_contenido(datos: bytes, extension: str) -> None:
         raise ErrorEspejo("ESPEJO_FORMATO", f"no empieza como un {extension}")
 
 
-def _get(url: str, intentos: int = 4, abrir=urllib.request.urlopen) -> bytes:
+MAX_REDIRECCIONES = 5
+
+
+def comprobar_url(url: str, hosts: list[str]) -> None:
+    u = urllib.parse.urlparse(url)
+    if u.scheme != "https" or (u.hostname or "").lower() not in {h.lower() for h in hosts}:
+        raise ErrorEspejo("ESPEJO_HOST_NO_PERMITIDO", f"{url} (solo https de {', '.join(hosts)})")
+
+
+class _Redirecciones(urllib.request.HTTPRedirectHandler):
+    def __init__(self, hosts):
+        super().__init__()
+        self.hosts, self.saltos = hosts, 0
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        self.saltos += 1
+        if self.saltos > MAX_REDIRECCIONES:
+            raise ErrorEspejo("ESPEJO_REDIRECCIONES", f"más de {MAX_REDIRECCIONES} hacia {newurl}")
+        comprobar_url(newurl, self.hosts)
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+def _abrir(url: str, hosts: list[str]):
+    opener = urllib.request.build_opener(_Redirecciones(hosts))
+    return opener.open(urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "*/*"}), timeout=120)
+
+
+def _get(url: str, hosts: list[str], max_bytes: int, intentos: int = 4, abrir=_abrir) -> bytes:
+    comprobar_url(url, hosts)
     ultimo: Exception | None = None
     for i in range(intentos):
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "*/*"})
-            with abrir(req, timeout=120) as r:
-                return r.read()
+            with abrir(url, hosts) as r:
+                datos = r.read(max_bytes + 1)
+            if len(datos) > max_bytes:
+                raise ErrorEspejo("ESPEJO_DEMASIADO_GRANDE", f"{url} pasa de {max_bytes} bytes")
+            return datos
+        except ErrorEspejo:
+            raise
         except Exception as exc:  # noqa: BLE001 - reintento con backoff ante red/5xx
             ultimo = exc
             if i + 1 < intentos:
@@ -194,26 +231,34 @@ def sha_remoto(clave: str, aws=_aws) -> str | None:
     return (json.loads(r.stdout or "{}").get("Metadata") or {}).get("sha256", "")
 
 
-def subir(fichero: Path, clave: str, huella: str, aws=_aws) -> str:
-    """Solo lectura: no sobrescribe nunca. Devuelve 'subido' o 'ya_estaba'."""
+def poner_si_no_existe(fichero: Path, clave: str, huella: str, aws=_aws) -> str:
+    """Solo lectura: escritura condicional (`If-None-Match: *`), nunca sobrescribe. Devuelve 'subido' o 'ya_estaba'."""
     previo = sha_remoto(clave, aws)
+    if previo is None:
+        r = aws(["s3api", "put-object", "--bucket", os.environ["R2_BUCKET"], "--key", clave, "--body", str(fichero),
+                 "--metadata", f"sha256={huella}", "--if-none-match", "*"], True)
+        if r.returncode == 0:
+            return "subido"
+        if "PreconditionFailed" not in (r.stderr or "") and "412" not in (r.stderr or ""):
+            raise ErrorEspejo("ESPEJO_R2", f"put-object {clave}: {(r.stderr or '').strip()[:300]}")
+        previo = sha_remoto(clave, aws)  # otro escritor ganó la carrera: se compara con lo que dejó
     if previo == huella:
         return "ya_estaba"
-    if previo is not None:
-        raise ErrorEspejo("ESPEJO_HUELLA_DISTINTA", f"{clave} ya existe con sha256 {previo or '(sin metadato)'} ≠ {huella}")
-    r = aws(["s3", "cp", str(fichero), f"s3://{os.environ['R2_BUCKET']}/{clave}", "--only-show-errors",
-             "--metadata", f"sha256={huella}"])
-    if r.returncode != 0:
-        raise ErrorEspejo("ESPEJO_R2", f"no se pudo subir {clave}")
-    return "subido"
+    raise ErrorEspejo("ESPEJO_HUELLA_DISTINTA", f"{clave} ya existe con sha256 {previo or '(sin metadato)'} ≠ {huella}")
 
 
-def espejar(territorio: str, salida: Path, subir_r2: bool, get=_get, aws=_aws, ruta_decl: Path = DECLARACION) -> dict:
+def _piezas_clave(m: dict) -> list[tuple[str, str]]:
+    return sorted((p["clave"], p["sha256"]) for p in m.get("piezas") or [])
+
+
+def espejar(territorio: str, salida: Path, get=_get, ruta_decl: Path = DECLARACION) -> dict:
+    """Bajar, comprobar y medir; sin credenciales ni escritura remota."""
     e = declaracion(territorio, ruta_decl)
+    hosts, tope = e["hosts_permitidos"], int(e["max_bytes"])
     salida.mkdir(parents=True, exist_ok=True)
-    api = json.loads(get(e["api_url"]).decode("utf-8"))
+    api = json.loads(get(e["api_url"], hosts, tope).decode("utf-8"))
     dist = elegir_distribucion(api, e["anyo"])
-    datos = get(dist["url"])
+    datos = get(dist["url"], hosts, tope)
     comprobar_contenido(datos, dist["extension"])
     nombre = f"{e['fichero']}.{dist['extension']}"
     (salida / nombre).write_bytes(datos)
@@ -226,7 +271,7 @@ def espejar(territorio: str, salida: Path, subir_r2: bool, get=_get, aws=_aws, r
     verif = e.get("verificacion") or {}
     if verif.get("url"):
         try:
-            pdf = get(verif["url"], 2)
+            pdf = get(verif["url"], hosts, tope, 2)
             comprobar_contenido(pdf, "pdf")
             nombre_pdf = f"{verif['fichero']}.pdf"
             (salida / nombre_pdf).write_bytes(pdf)
@@ -245,38 +290,65 @@ def espejar(territorio: str, salida: Path, subir_r2: bool, get=_get, aws=_aws, r
         "piezas": piezas,
     }
     (salida / "manifiesto.json").write_text(json.dumps(manifiesto, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    if subir_r2:
-        if not os.environ.get("R2_BUCKET") or not os.environ.get("R2_ACCOUNT_ID"):
-            raise ErrorEspejo("ESPEJO_R2", "faltan R2_BUCKET o R2_ACCOUNT_ID")
-        for p in piezas:
-            p["r2"] = subir(salida / p["nombre"], p["clave"], p["sha256"], aws)
-        if all(p["r2"] == "ya_estaba" for p in piezas):
-            return manifiesto  # nada nuevo: el manifiesto de R2 se queda como estaba
-        (salida / "manifiesto.json").write_text(json.dumps(manifiesto, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        mb = (salida / "manifiesto.json")
-        clave_m = clave_r2(e["organismo"], e["anyo"], "manifiesto.json")
-        r = aws(["s3", "cp", str(mb), f"s3://{os.environ['R2_BUCKET']}/{clave_m}", "--only-show-errors",
-                 "--metadata", f"sha256={sha256(mb.read_bytes())}"])
-        if r.returncode != 0:
-            raise ErrorEspejo("ESPEJO_R2", f"no se pudo subir {clave_m}")
     return manifiesto
+
+
+def subir_espejo(territorio: str, salida: Path, aws=_aws, ruta_decl: Path = DECLARACION) -> dict:
+    """Subir lo medido por `espejar`: piezas primero y manifiesto el último, todo condicional."""
+    if not os.environ.get("R2_BUCKET") or not os.environ.get("R2_ACCOUNT_ID"):
+        raise ErrorEspejo("ESPEJO_R2", "faltan R2_BUCKET o R2_ACCOUNT_ID")
+    e = declaracion(territorio, ruta_decl)
+    prefijo = clave_r2(e["organismo"], e["anyo"], "x")[:-1]
+    mf = salida / "manifiesto.json"
+    m = json.loads(mf.read_text(encoding="utf-8"))
+    if m.get("territorio") != territorio or not m.get("piezas"):
+        raise ErrorEspejo("ESPEJO_MANIFIESTO", "manifiesto de otro territorio o sin piezas")
+    estado = {}
+    for p in m["piezas"]:
+        f = salida / p["nombre"]
+        if not p["clave"].startswith(prefijo) or p["clave"] != clave_r2(e["organismo"], e["anyo"], p["nombre"]):
+            raise ErrorEspejo("ESPEJO_NOMBRE_INVALIDO", f"{p['clave']} fuera de {prefijo}")
+        if sha256(f.read_bytes()) != p["sha256"]:
+            raise ErrorEspejo("ESPEJO_HUELLA_LOCAL", f"{p['nombre']} no cuadra con el manifiesto")
+        estado[p["clave"]] = poner_si_no_existe(f, p["clave"], p["sha256"], aws)
+    clave_m = clave_r2(e["organismo"], e["anyo"], "manifiesto.json")
+    huella_m = sha256(mf.read_bytes())
+    if sha_remoto(clave_m, aws) is None:
+        estado[clave_m] = poner_si_no_existe(mf, clave_m, huella_m, aws)
+    else:
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as td:
+            r = aws(["s3", "cp", f"s3://{os.environ['R2_BUCKET']}/{clave_m}", str(Path(td) / "m.json"), "--only-show-errors"])
+            if r.returncode != 0:
+                raise ErrorEspejo("ESPEJO_R2", f"no se pudo leer {clave_m}")
+            remoto = json.loads((Path(td) / "m.json").read_text(encoding="utf-8"))
+        if _piezas_clave(remoto) != _piezas_clave(m):
+            raise ErrorEspejo("ESPEJO_MANIFIESTO_DISTINTO", f"{clave_m} ya existe con otras piezas")
+        estado[clave_m] = "ya_estaba"
+    resultado = {"territorio": territorio, "estado": estado,
+                 "piezas": [{"clave": p["clave"], "sha256": p["sha256"], "bytes": p["bytes"], "r2": estado[p["clave"]]} for p in m["piezas"]]}
+    (salida / "subida.json").write_text(json.dumps(resultado, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return resultado
 
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sub = ap.add_subparsers(dest="cmd", required=True)
-    p = sub.add_parser("espejar")
-    p.add_argument("--territorio", required=True)
-    p.add_argument("--salida", required=True, type=Path)
-    p.add_argument("--subir", action="store_true")
+    for c in ("espejar", "subir"):
+        p = sub.add_parser(c)
+        p.add_argument("--territorio", required=True)
+        p.add_argument("--salida", required=True, type=Path)
     a = ap.parse_args(argv)
     try:
-        m = espejar(a.territorio, a.salida, a.subir)
+        if a.cmd == "espejar":
+            # El log es la vía para leer la huella desde la sesión cloud (los artefactos no se descargan allí).
+            print("ESPEJO_MANIFIESTO " + json.dumps(espejar(a.territorio, a.salida), ensure_ascii=False, sort_keys=True))
+        else:
+            print("ESPEJO_SUBIDA " + json.dumps(subir_espejo(a.territorio, a.salida), ensure_ascii=False, sort_keys=True))
     except ErrorEspejo as exc:
         print(f"::error::{exc}", file=sys.stderr)
         return 2
-    # El log es la vía para leer la huella desde la sesión cloud (los artefactos no se descargan allí).
-    print("ESPEJO_MANIFIESTO " + json.dumps(m, ensure_ascii=False, sort_keys=True))
     return 0
 
 
