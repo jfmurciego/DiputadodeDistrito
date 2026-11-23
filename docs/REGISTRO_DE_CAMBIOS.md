@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.610
+Versión: 1.0.611
 Fecha: 2026-11-23
-Alcance: T-452 — Plan 1.0.76
+Alcance: T-448 — Espejo de 1mun00 (Censo 2011) en R2 con el «Espejo de fuente oficial» de P10 (D-202)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-23_planificador-plan-1-0-76.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.609_registro_20261123.md
+Cambios/motivo: entrada docs/registro/2026-11-23_t448-espejo-1mun00-r2.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.610_registro_20261123.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.609_registro_20261123.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.611 · [2026-11-23 — T-448 — Espejo de 1mun00 (Censo 2011) en R2 con el «Espejo de fuente oficial» de P10 (D-202)](registro/2026-11-23_t448-espejo-1mun00-r2.md)
 - 1.0.610 · [2026-11-23 — T-452 — Plan 1.0.76](registro/2026-11-23_planificador-plan-1-0-76.md)
 - 1.0.609 · [2026-11-23 — T-449 — Espejo oficial: probar `downloadURL` y todas las candidatas del año](registro/2026-11-23_t449b-espejo-downloadurl.md)
 - 1.0.608 · [2026-11-23 — T-449 — Espejo oficial de las autonómicas de Castilla-La Mancha 2023 (D-183, D-188)](registro/2026-11-23_t449-espejo-aut08-clm.md)
