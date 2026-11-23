@@ -3,9 +3,15 @@
 """Publicador de la doble vuelta de los territorios del Congreso para la V4: baja de R2 el resultado de P75, lo verifica y lo deja en el sitio (T-409/T-418).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0 · FECHA: 2026-11-22 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/publicar_doble_vuelta_v1.1.0_20261122.py
-CAMBIOS: 1.2.0 (T-443, D-188): transición al árbol nuevo de R2. El fijado admite `informe_clave_anterior` y cada fila del informe `clave_r2_anterior`
+VERSIÓN: 1.3.0 · FECHA: 2026-11-23 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/publicar_doble_vuelta_v1.2.0_20261123.py
+CAMBIOS: 1.3.0 (T-443, D-198: `mapas/` solo lo escribe la publicación): (a) subcomando `promover` (P40, tras el despliegue): del fijado (nac y
+  `autonomicas`) copia cada ZIP OK a `mapas/…/<territorio>/doble-vuelta.zip` (rutas_r2.ruta_mapa) y el informe a `mapas/…/informe-doble-vuelta.json`
+  (rutas_r2.ruta_informe_doble_vuelta) TAL CUAL (mismos bytes y sha256, metadatos `sha256` y `run`), solo si en `mapas/` falta o tiene otro sha256;
+  tras subir vuelve a bajar el objeto y exige el sha256; rehace el `manifiesto.json` de cada carpeta tocada (conserva las entradas de otros ficheros).
+  No reescribe el fijado. (b) Lector: prueba primero la clave de `mapas/` y, si falta o su sha256 no es el del informe fijado (aún no promovido), la
+  clave fijada (`interno/` y su `_anterior`), con la verificación de siempre.
+  1.2.0 (T-443, D-188): transición al árbol nuevo de R2. El fijado admite `informe_clave_anterior` y cada fila del informe `clave_r2_anterior`
   (ruta vieja): se prueba solo si falta el objeto de la clave principal; sha256 distinto sigue rechazando. Sin ellos, todo igual que en 1.1.0.
   1.1.0 (T-427): los `aut` con su autonómica vigente. El fijado admite `autonomicas` (run_p75, informe_clave, informe_sha256 del P75 de los aut,
   `doble_vuelta/autonomicas/<run>/INFORME.json`); sin él, todo igual que en 1.0.1. Con él: informe con su sha256 y `eleccion = autonomicas`; cada fila
@@ -27,7 +33,8 @@ QUÉ HACE: lee `configuracion/doble_vuelta_publicada.json` (el run de P75 FIJADO
   1..K) y comprueba su sha256 contra `<sitio>/datos/INDEX.json`; lo SIMPLIFICA con Douglas-Peucker por anillo (tolerancia fija `TOLERANCIA_GRADOS` = 0,0005° ≈ 55 m, coordenadas a
   5 decimales; sin topología compartida: entre distritos vecinos puede quedar un hueco o solape de hasta la tolerancia, invisible a la escala del mapa), deja solo `district_id` (entero
   público 1..K) y exige que los distritos de la geometría sean EXACTAMENTE los del CSV (ni uno sin geometría ni uno sin dato). En INDEX.json: `geometria` (ruta, sha256, sha256_origen).
-USO: python herramientas/publicar_doble_vuelta.py --sitio /tmp/site-candidate --destino /tmp/site-candidate/v4/mapa/datos [--fecha AAAA-MM-DD] [--fijado configuracion/doble_vuelta_publicada.json]
+USO: python herramientas/publicar_doble_vuelta.py promover [--fijado F]   (P40, después del despliegue)
+     python herramientas/publicar_doble_vuelta.py --sitio /tmp/site-candidate --destino /tmp/site-candidate/v4/mapa/datos [--fecha AAAA-MM-DD] [--fijado configuracion/doble_vuelta_publicada.json]
 """
 from __future__ import annotations
 
@@ -46,6 +53,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import fuente_r2  # noqa: E402
+import rutas_r2  # noqa: E402
 from numeracion_publica import numero_publico  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -89,8 +97,40 @@ def _leer(datos: bytes, columnas: list[str], nombre: str) -> list[dict]:
     return filas
 
 
-def _bajar(cp, bucket: str, clave, esperado: str, codigo: str) -> bytes:
-    """`clave`: una clave o la lista de `fuente_r2.claves` (nueva y, de respaldo si falta el objeto, la vieja; T-443)."""
+def _publicada(cp, bucket: str, clave: str | None, esperado: str) -> bytes | None:
+    """Copia promovida en `mapas/` (D-198) si existe y trae el sha256 fijado; si falta o es otra (fijado aún sin promover), None."""
+    if not clave:
+        return None
+    with tempfile.TemporaryDirectory() as td:
+        dest = Path(td) / "objeto"
+        try:
+            cp(f"s3://{bucket}/{clave}", str(dest))
+        except Exception:  # noqa: BLE001 - sin objeto en mapas/: se lee la clave fijada
+            return None
+        datos = dest.read_bytes()
+    return datos if sha256_bytes(datos) == esperado else None
+
+
+def _clave_mapa(t: str, eleccion: str | None) -> str | None:
+    try:
+        return rutas_r2.ruta_mapa(t, "doble-vuelta.zip", eleccion)
+    except rutas_r2.RutaInvalida:
+        return None
+
+
+def _clave_informe(ambito: str, eleccion: str | None) -> str | None:
+    try:
+        return rutas_r2.ruta_informe_doble_vuelta(ambito, eleccion)
+    except rutas_r2.RutaInvalida:
+        return None
+
+
+def _bajar(cp, bucket: str, clave, esperado: str, codigo: str, publicada: str | None = None) -> bytes:
+    """`clave`: una clave o la lista de `fuente_r2.claves` (nueva y, de respaldo si falta el objeto, la vieja; T-443). `publicada`: la clave de
+    `mapas/`, que se prueba antes y solo se usa si trae el sha256 esperado (T-443, D-198)."""
+    datos = _publicada(cp, bucket, publicada, esperado)
+    if datos is not None:
+        return datos
     lista = [clave] if isinstance(clave, str) else list(clave)
     with tempfile.TemporaryDirectory() as td:
         dest = Path(td) / "objeto"
@@ -287,7 +327,8 @@ def publicar_aut(pin: dict, cp, bucket: str, nom: dict) -> tuple[dict[str, bytes
     for k in ("run_p75", "informe_clave", "informe_sha256"):
         if not pin.get(k):
             raise DobleVueltaError(f"FIJADO_INVALIDO: falta autonomicas.{k} en {FIJADO}")
-    inf = json.loads(_bajar(cp, bucket, fuente_r2.claves(pin, "informe_clave"), pin["informe_sha256"], "INFORME_SHA256_DISTINTO"))
+    inf = json.loads(_bajar(cp, bucket, fuente_r2.claves(pin, "informe_clave"), pin["informe_sha256"], "INFORME_SHA256_DISTINTO",
+                           _clave_informe("aut", None)))
     if inf.get("eleccion") != "autonomicas" or str(inf.get("run_p75")) != str(pin["run_p75"]):
         raise DobleVueltaError(f"INFORME_NO_ES_EL_FIJADO: {inf.get('eleccion')}/{inf.get('run_p75')} != autonomicas/{pin['run_p75']}")
     filas = inf.get("territorios") or []
@@ -314,7 +355,8 @@ def publicar_aut(pin: dict, cp, bucket: str, nom: dict) -> tuple[dict[str, bytes
             continue
         if not x.get("clave_r2") or not x.get("sha256_salida") or not x.get("eleccion"):
             raise DobleVueltaError(f"CLAVE_AUSENTE: {t} sin clave_r2/sha256_salida/eleccion en el informe")
-        res, det, k = procesar_territorio(x, _bajar(cp, bucket, fuente_r2.claves(x, "clave_r2"), x["sha256_salida"], "ZIP_SHA256_DISTINTO"))
+        res, det, k = procesar_territorio(x, _bajar(cp, bucket, fuente_r2.claves(x, "clave_r2"), x["sha256_salida"], "ZIP_SHA256_DISTINTO",
+                                                   _clave_mapa(t, None)))
         ficheros[f"{t}/resultados_doble_vuelta.csv"], ficheros[f"{t}/detalle.csv"] = res, det
         entradas.append({"id": t, "ambito": "AUT", "nombre": nombre, "etiqueta": etiqueta, "clave_visor": _id_visor(t), "eleccion": x["eleccion"],
                          "distritos": k, "run_m08": x["run"], "sin_casar_pct": x.get("sin_casar_pct"),
@@ -334,7 +376,8 @@ def publicar(root: Path, destino: Path, cp=fuente_r2._cp, bucket: str = "", fech
     for k in ("eleccion", "run_p75", "informe_clave", "informe_sha256"):
         if not pin.get(k):
             raise DobleVueltaError(f"FIJADO_INVALIDO: falta {k} en {FIJADO}")
-    inf_bytes = _bajar(cp, bucket, fuente_r2.claves(pin, "informe_clave"), pin["informe_sha256"], "INFORME_SHA256_DISTINTO")
+    inf_bytes = _bajar(cp, bucket, fuente_r2.claves(pin, "informe_clave"), pin["informe_sha256"], "INFORME_SHA256_DISTINTO",
+                       _clave_informe("nac", pin["eleccion"]))
     inf = json.loads(inf_bytes)
     if inf.get("eleccion") != pin["eleccion"] or str(inf.get("run_p75")) != str(pin["run_p75"]):
         raise DobleVueltaError(f"INFORME_NO_ES_EL_FIJADO: {inf.get('eleccion')}/{inf.get('run_p75')} != {pin['eleccion']}/{pin['run_p75']}")
@@ -369,7 +412,8 @@ def publicar(root: Path, destino: Path, cp=fuente_r2._cp, bucket: str = "", fech
         if not x.get("clave_r2") or not x.get("sha256_salida"):
             raise DobleVueltaError(f"CLAVE_AUSENTE: {t} sin clave_r2/sha256_salida en el informe")
         try:
-            res, det, k = procesar_territorio(x, _bajar(cp, bucket, fuente_r2.claves(x, "clave_r2"), x["sha256_salida"], "ZIP_SHA256_DISTINTO"))
+            res, det, k = procesar_territorio(x, _bajar(cp, bucket, fuente_r2.claves(x, "clave_r2"), x["sha256_salida"], "ZIP_SHA256_DISTINTO",
+                                                       _clave_mapa(t, pin["eleccion"])))
         except DobleVueltaError as exc:
             if str(exc).startswith("ID_FUERA_DE_RANGO"):  # diagnóstico por territorio: se siguen recorriendo los 52 y se informa de todos a la vez
                 fallos_id.append(str(exc))
@@ -415,7 +459,151 @@ def publicar(root: Path, destino: Path, cp=fuente_r2._cp, bucket: str = "", fech
     return indice
 
 
+# --------------------------------------------------------------------------- promoción a mapas/ (T-443, D-198)
+
+def _subir_verificado(cp, subir, cab, bucket: str, clave: str, datos: bytes, run: str) -> None:
+    """Sube `datos` a `clave` (put condicional: If-Match del objeto leído o If-None-Match si no existe), vuelve a bajarlo y exige el sha256."""
+    h = sha256_bytes(datos)
+    previo = cab(clave)
+    with tempfile.TemporaryDirectory() as td:
+        f = Path(td) / "objeto"
+        f.write_bytes(datos)
+        try:
+            subir(clave, f, h, run, (previo or {}).get("etag") or "*")
+        except RuntimeError as exc:  # 412/409: otro escribió entre la lectura y la escritura; vale solo si dejó este mismo objeto
+            if "R2_ESCRITURA_CONCURRENTE" not in str(exc) or (cab(clave) or {}).get("sha256") != h:
+                raise DobleVueltaError(f"PROMOCION_CONCURRENTE: {clave} ({exc})") from exc
+        vuelta = Path(td) / "vuelta"
+        try:
+            cp(f"s3://{bucket}/{clave}", str(vuelta))
+        except Exception as exc:  # noqa: BLE001
+            raise DobleVueltaError(f"PROMOCION_SIN_VERIFICAR: {clave} no se pudo volver a bajar ({exc})") from exc
+        if sha256_bytes(vuelta.read_bytes()) != h:
+            raise DobleVueltaError(f"PROMOCION_SHA256_DISTINTO: {clave} no quedó en R2 con sha256 {h}")
+
+
+def _manifiesto(cp, bucket: str, carpeta: str) -> dict:
+    with tempfile.TemporaryDirectory() as td:
+        f = Path(td) / "m.json"
+        try:
+            cp(f"s3://{bucket}/{carpeta}/manifiesto.json", str(f))
+        except Exception:  # noqa: BLE001 - carpeta sin manifiesto todavía
+            return {}
+        try:
+            return json.loads(f.read_text(encoding="utf-8"))
+        except ValueError as exc:
+            raise DobleVueltaError(f"MANIFIESTO_INVALIDO: {carpeta}/manifiesto.json ({exc})") from exc
+
+
+def _promover_ambito(pin: dict, ambito: str, cp, cab, subir, bucket: str, fecha: str, carpetas: dict) -> dict:
+    """Copia a `mapas/` los ZIP OK y el informe del P75 fijado de un ámbito; devuelve el resumen. Todo se valida antes de escribir."""
+    aut = ambito == "aut"
+    eleccion = None if aut else pin["eleccion"]
+    for k in ("run_p75", "informe_clave", "informe_sha256"):
+        if not pin.get(k):
+            raise DobleVueltaError(f"FIJADO_INVALIDO: falta {'autonomicas.' if aut else ''}{k} en {FIJADO}")
+    inf_bytes = _bajar(cp, bucket, fuente_r2.claves(pin, "informe_clave"), pin["informe_sha256"], "INFORME_SHA256_DISTINTO")
+    inf = json.loads(inf_bytes)
+    if str(inf.get("run_p75")) != str(pin["run_p75"]) or (aut and inf.get("eleccion") != "autonomicas") or (not aut and inf.get("eleccion") != pin["eleccion"]):
+        raise DobleVueltaError(f"INFORME_NO_ES_EL_FIJADO: {inf.get('eleccion')}/{inf.get('run_p75')} != {pin.get('eleccion', 'autonomicas')}/{pin['run_p75']}")
+    patron = TERRITORIO_AUT if aut else TERRITORIO
+    copias = []  # (clave en mapas/, bytes, fila)
+    for x in sorted(inf.get("territorios") or [], key=lambda x: str(x.get("territorio"))):
+        t = x.get("territorio")
+        if not isinstance(t, str) or not patron.match(t):
+            raise DobleVueltaError(f"TERRITORIO_INVALIDO: {t!r}")
+        if x.get("estado") != "OK":
+            continue
+        if not x.get("clave_r2") or not x.get("sha256_salida"):
+            raise DobleVueltaError(f"CLAVE_AUSENTE: {t} sin clave_r2/sha256_salida en el informe")
+        try:
+            destino = rutas_r2.ruta_mapa(t, "doble-vuelta.zip", eleccion)
+        except rutas_r2.RutaInvalida as exc:
+            raise DobleVueltaError(f"SIN_CARPETA_DE_MAPA: {t} ({exc})") from exc
+        if (cab(destino) or {}).get("sha256") == x["sha256_salida"]:
+            copias.append((destino, None, x))  # ya promovido
+            continue
+        copias.append((destino, _bajar(cp, bucket, fuente_r2.claves(x, "clave_r2"), x["sha256_salida"], "ZIP_SHA256_DISTINTO"), x))
+    if not copias:
+        raise DobleVueltaError(f"INFORME_INCOMPLETO: ningún territorio OK en el informe fijado ({ambito})")
+    res = {"ambito": ambito, "run_p75": pin["run_p75"], "copiados": [], "ya_promovidos": []}
+    for destino, datos, x in copias:
+        if datos is None:
+            res["ya_promovidos"].append(destino)
+        else:
+            _subir_verificado(cp, subir, cab, bucket, destino, datos, str(pin["run_p75"]))
+            res["copiados"].append(destino)
+        carpetas.setdefault(destino.rsplit("/", 1)[0], {})["doble-vuelta.zip"] = {
+            "sha256": x["sha256_salida"], "bytes": len(datos) if datos is not None else (cab(destino) or {}).get("bytes"),
+            "run_p75": str(pin["run_p75"]), "run_m08": str(x.get("run") or ""), "origen": fuente_r2.claves(x, "clave_r2")[0], "fecha": fecha}
+    informe = rutas_r2.ruta_informe_doble_vuelta(ambito, eleccion)
+    if (cab(informe) or {}).get("sha256") == pin["informe_sha256"]:
+        res["ya_promovidos"].append(informe)
+    else:  # el informe va el último: es el índice de lo promovido
+        _subir_verificado(cp, subir, cab, bucket, informe, inf_bytes, str(pin["run_p75"]))
+        res["copiados"].append(informe)
+    carpetas.setdefault(informe.rsplit("/", 1)[0], {})[informe.rsplit("/", 1)[1]] = {
+        "sha256": pin["informe_sha256"], "bytes": len(inf_bytes), "run_p75": str(pin["run_p75"]), "origen": fuente_r2.claves(pin, "informe_clave")[0], "fecha": fecha}
+    return res
+
+
+def promover(root: Path, cp, cab, subir, bucket: str, fecha: str = "", fijado: Path | None = None) -> dict | None:
+    """D-198: P40, tras desplegar, copia a `mapas/` lo fijado (nac y autonómicas) tal cual y rehace los manifiestos. No toca el fijado."""
+    f = root / (fijado or FIJADO)
+    if not f.is_file():
+        print("[doble_vuelta] sin doble vuelta fijada: nada que promover")
+        return None
+    pin = json.loads(f.read_text(encoding="utf-8"))
+    if not pin.get("eleccion"):
+        raise DobleVueltaError(f"FIJADO_INVALIDO: falta eleccion en {FIJADO}")
+    fecha = fecha or datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    carpetas: dict[str, dict] = {}
+    res = [_promover_ambito(pin, "nac", cp, cab, subir, bucket, fecha, carpetas)]
+    if pin.get("autonomicas"):
+        res.append(_promover_ambito(pin["autonomicas"], "aut", cp, cab, subir, bucket, fecha, carpetas))
+    manifiestos = []
+    for carpeta, ficheros in sorted(carpetas.items()):
+        previo = _manifiesto(cp, bucket, carpeta)
+        todos = {**(previo.get("ficheros") or {}), **ficheros}
+        if previo and all({k: v for k, v in (previo.get("ficheros") or {}).get(n, {}).items() if k != "fecha"} == {k: v for k, v in e.items() if k != "fecha"}
+                          for n, e in ficheros.items()):
+            continue  # nada cambió en esta carpeta
+        man = rutas_r2.manifiesto(todos, run=str(pin["run_p75"]), fecha=fecha, extra={"carpeta": carpeta, "escrito_por": "P40 (promover)"})
+        _subir_verificado(cp, subir, cab, bucket, f"{carpeta}/manifiesto.json",
+                          (json.dumps(man, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8"), str(pin["run_p75"]))
+        manifiestos.append(f"{carpeta}/manifiesto.json")
+    out = {"ambitos": res, "manifiestos": manifiestos}
+    print(json.dumps({"promovidos": sum(len(r["copiados"]) for r in res), "ya_promovidos": sum(len(r["ya_promovidos"]) for r in res),
+                      "manifiestos": len(manifiestos)}, ensure_ascii=False))
+    return out
+
+
+def main_promover(argv) -> int:
+    ap = argparse.ArgumentParser(description="P40: promueve a mapas/ la doble vuelta fijada (T-443, D-198)")
+    ap.add_argument("--fijado", default="")
+    ap.add_argument("--fecha", default="")
+    a = ap.parse_args(argv)
+    bucket, cuenta = os.environ.get("R2_BUCKET", ""), os.environ.get("R2_ACCOUNT_ID", "")
+    if (ROOT / (a.fijado or FIJADO)).is_file() and (not bucket or not cuenta):
+        print("::error title=DOBLE_VUELTA_SIN_CREDENCIALES::faltan R2_BUCKET/R2_ACCOUNT_ID")
+        return 3
+    try:
+        if not bucket:  # solo sin fijado (con fijado y sin credenciales ya salió con 3)
+            print("[doble_vuelta] sin doble vuelta fijada: nada que promover")
+            return 0
+        from archivar_artefactos_r2 import r2_cabecera, r2_cliente
+        _, subir = r2_cliente(bucket, cuenta)
+        promover(ROOT, fuente_r2._cp, r2_cabecera(bucket, cuenta), subir, bucket, fecha=a.fecha, fijado=Path(a.fijado) if a.fijado else None)
+    except DobleVueltaError as exc:
+        print(f"::error title=DOBLE_VUELTA_PROMOCION::{exc}")
+        return 1
+    return 0
+
+
 def main(argv=None) -> int:
+    argv = sys.argv[1:] if argv is None else list(argv)
+    if argv[:1] == ["promover"]:
+        return main_promover(argv[1:])
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--sitio", default="/tmp/site-candidate", help="sitio candidato con datos/<nacNN>/distritos.geojson (P40)")
     ap.add_argument("--destino", required=True)

@@ -3,10 +3,14 @@
 """Batería del motor (T-132): entradas reproducibles desde fuente, M04-M06 en local y matriz territorio × regla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.5.0
+VERSIÓN: 1.5.1
 NOMBRE DE VERSIÓN: Batería del motor
 FECHA: 2026-11-23
 ESTADO: candidato
+CAMBIOS 1.5.1 (T-443, 3.ª revisión de #988): `archivar-p10` sin edición del contrato ni ruta nueva falla con BATERIA_PAQUETE_P10_SIN_EDICION (antes caía
+  sin guarda a `arc-e/`); el paquete y el manifiesto de la edición suben con put condicional «solo si no existe» (If-None-Match: un 412 = otro lo
+  escribió antes → BATERIA_PAQUETE_P10_CONCURRENTE, salvo que haya quedado el mismo paquete). Un contrato que cambia dentro del mismo año exige
+  subir `territory.edition` (fuentes_oficiales.yaml): la edición es la carpeta inmutable.
 CAMBIOS 1.5.0 (T-443, D-188/D-190/D-198): `archivar-p10` escribe en el árbol nuevo, inmutable por edición del contrato:
   `fuentes/por-territorio/<ámbito>/<territorio>/<edición>/paquete.zip` (si ya existe con otro sha256 en esa edición, BATERIA_PAQUETE_P10_EDICION_CAMBIADA:
   hay que abrir edición nueva; nunca se pisa)
@@ -76,7 +80,7 @@ MOTIVO: responder en minutos y sin lanzar nada si el motor vigente produce distr
   (52 circunscripciones del Congreso + 19 comunidades) y qué cambia entre versiones del motor (decisión del
   propietario: opción B, batería primero).
 CAMBIOS 1.2.6 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/bateria_motor_v1.4.4_20261123.py
+ANTERIOR: legacy/herramientas/bateria_motor_v1.5.0_20261123.py
 QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como
@@ -623,23 +627,40 @@ def archivar_p10(args) -> int:
             info.compress_type = zipfile.ZIP_DEFLATED
             zf.writestr(info, f.read_bytes())
     h = sha256(z)
-    claves = claves_paquete_lectura(t, ident)  # [nueva, vieja] (o solo la vieja si el territorio no tiene ruta nueva)
+    claves = claves_paquete_lectura(t, ident)  # [nueva, vieja]; solo la vieja = sin edición o sin ruta nueva
     clave = claves[0]
+    if clave == clave_paquete(ident):
+        print(f"::error::BATERIA_PAQUETE_P10_SIN_EDICION {t}: sin edición del contrato (territory.edition) o sin ruta nueva en el árbol de R2; "
+              "no se archiva en arc-e/ (D-198)")
+        return 1
     sha_remoto, subir = r2_cliente(bucket, cuenta)
     remoto = sha_remoto(clave)
-    if remoto is not None and remoto != h and clave != clave_paquete(ident):
+    if remoto is not None and remoto != h:
         print(f"::error::BATERIA_PAQUETE_P10_EDICION_CAMBIADA {t}: {clave} ya tiene otro paquete en esta edición (sha256 {remoto}); "
-              "el paquete es inmutable por edición del contrato: abre una edición nueva")
+              "el paquete es inmutable por edición del contrato: sube territory.edition (abre una edición nueva)")
         return 1
-    if remoto != h:
-        subir(clave, z, h)
-    if clave != clave_paquete(ident) and sha_remoto(rutas_r2_manifiesto(clave)) is None:  # el manifiesto de la edición tampoco se reescribe
+
+    def subir_nuevo(k: str, f: Path, hh: str, otro_vale: bool = False) -> bool:
+        """Put «solo si no existe» (If-None-Match); un 412 vale si quedó el mismo objeto (o, con `otro_vale`, cualquiera: el manifiesto que
+        otro escribió para este mismo paquete no se pisa)."""
+        try:
+            subir(k, f, hh, condicion="*")
+        except RuntimeError as exc:
+            if "R2_ESCRITURA_CONCURRENTE" not in str(exc) or (not otro_vale and sha_remoto(k) != hh):
+                print(f"::error::BATERIA_PAQUETE_P10_CONCURRENTE {t}: {k} ({exc})")
+                return False
+        return True
+
+    if remoto is None and not subir_nuevo(clave, z, h):
+        return 1
+    if sha_remoto(rutas_r2_manifiesto(clave)) is None:  # el manifiesto de la edición tampoco se reescribe
         from herramientas import rutas_r2
         man = rutas_r2.manifiesto({"paquete.zip": {"sha256": h, "bytes": z.stat().st_size}}, run=args.run, huella=ident["package_sha256"],
                                   extra={"carpeta": clave.rsplit("/", 1)[0], "territorio": t})
         mz = out / f"{t}-manifiesto.json"
         mz.write_text(json.dumps(man, indent=2, ensure_ascii=False, sort_keys=True) + "\n", encoding="utf-8")
-        subir(rutas_r2.ruta_manifiesto(clave), mz, sha256(mz))
+        if not subir_nuevo(rutas_r2.ruta_manifiesto(clave), mz, sha256(mz), otro_vale=True):
+            return 1
     registro = {t: {"url": f"r2://{bucket}/{clave}", "clave": clave, "sha256_zip": h, "bytes": z.stat().st_size,
                     "package_sha256": ident["package_sha256"], "origen_run": args.run,
                     "archivado_en": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}}

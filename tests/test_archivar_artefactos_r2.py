@@ -352,6 +352,27 @@ class PaqueteMinimo(unittest.TestCase):
         self.assertEqual(r2.objs[k], "e" * 64)
         self.assertIsNone(cab_vieja["etag"])
 
+    def test_t443_412_en_el_segundo_destino_no_deja_al_primero_sin_entrada(self):
+        """3.ª revisión de #988: ultimo/ sube; publicado/ da 412 (otro lo creó): ultimo/ queda en el índice y su manifiesto se rehace."""
+        r2 = R2Falso()
+        base = "interno/estados/autonomicas/cantabria"
+        kp = f"{base}/publicado/audit.zip"
+
+        def cab(x):  # publicado/ «no existe» al leer; otro proceso lo crea antes de escribir
+            if x == kp and kp not in r2.objs:
+                r2.objs[kp], r2.runs[kp] = "e" * 64, "41037133327"
+                return None
+            return r2.cab(x)
+        man = {"artefactos": {}}
+        pub = {("aut06", "m06"): "41037133327", ("aut06", "m08"): "41037133327"}
+        res = arc.archivar([art(8, "ddd-audit-41037133327", "2026-11-20T00:00:00Z")], {"ddd-audit-41037133327": "cantabria"}, {}, man,
+                           lambda a, p: p.write_bytes(b"x"), r2.sha, r2.subir, "bkt", publicado=pub, r2_cab=cab)
+        self.assertTrue(any("R2_ESCRITURA_CONCURRENTE" in e for e in res["errores"]), res)
+        self.assertIn(f"{base}/ultimo/audit.zip", man["artefactos"])
+        self.assertNotIn(kp, man["artefactos"])
+        self.assertIn(f"{base}/ultimo/manifiesto.json", r2.objs)
+        self.assertEqual(r2.objs[kp], "e" * 64)  # lo de otro no se pisa
+
     def test_t443_territorio_sin_resolver_conserva_la_clave_vieja(self):
         a = {"name": "ddd-audit-1234567890", "territorio": "sin_territorio", "run": "1234567890"}
         self.assertEqual(arc.clave(a), "sin_territorio/1234567890/ddd-audit-1234567890.zip")
