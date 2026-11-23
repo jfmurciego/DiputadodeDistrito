@@ -47,6 +47,9 @@ PASOS_PREVIOS = {("p30-resultados-electorales", "incorporar", "Cargar persistido
 RAMA_P10 = {"p11": "p11_", "p12": "p12_"}
 
 
+from tests._t379_2a import deshacer as sin_2a  # noqa: E402  (T-379 PR 2a)
+
+
 def leer(nombre):
     return yaml.safe_load((WF / f"{nombre}.yml").read_text(encoding="utf-8"))
 
@@ -119,7 +122,7 @@ class Equivalencia(Base):
         for n in HUELLAS:
             with self.subTest(workflow=n):
                 antes = cargar((FIX / f"{n}_1.0.0.yml").read_text(encoding="utf-8"))
-                ahora = cargar((WF / f"{n}.yml").read_text(encoding="utf-8"))
+                ahora = sin_2a(n, cargar((WF / f"{n}.yml").read_text(encoding="utf-8")))  # T-379 PR 2a: sin el entorno `registro`
                 self.assertEqual(deshacer(n, ahora), antes)
 
     def test_control_negativo_equivalencia(self):
@@ -131,7 +134,7 @@ class Equivalencia(Base):
         for n, mutar in casos.items():
             with self.subTest(workflow=n):
                 antes = cargar((FIX / f"{n}_1.0.0.yml").read_text(encoding="utf-8"))
-                ahora = cargar((WF / f"{n}.yml").read_text(encoding="utf-8"))
+                ahora = sin_2a(n, cargar((WF / f"{n}.yml").read_text(encoding="utf-8")))  # T-379 PR 2a: sin el entorno `registro`
                 mutar(ahora)
                 self.assertNotEqual(deshacer(n, ahora), antes)
 

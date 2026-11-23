@@ -1,5 +1,6 @@
 """Ahorro de CI (T-149, D-49): robots solo con guardián, cancelación en main, nocturna; los cambios de código siguen con la batería completa."""
 import os
+import re
 import subprocess
 import tempfile
 import unittest
@@ -10,6 +11,8 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 WF = ROOT / ".github" / "workflows" / "p90-automatico.yml"
 ZEROS = "0" * 40
+# Un test lee la web si cita «visor/v4», la compone por partes (ROOT / "visor" / "v4") o recorre visor/ (rglob, glob, walk).
+LEE_LA_WEB = re.compile(r"""visor/v4|["']visor["']\s*/\s*["']v4["']|["']visor["'][^\n]*\b(rglob|walk|glob)\b|\b(rglob|walk)\b[^\n]*["']visor["']""")
 
 
 def cargar():
@@ -58,8 +61,8 @@ class EstructuraAhorro(unittest.TestCase):
     def test_suite_solo_se_salta_con_robot_y_pruebas_lo_exige_si_no(self):
         d = cargar()
         self.assertEqual(d["jobs"]["suite"]["needs"], "cambios")
-        self.assertEqual(d["jobs"]["suite"]["if"], "${{ needs.cambios.outputs.robot != 'true' }}")
-        self.assertEqual(d["jobs"]["pruebas"]["needs"], ["guardian", "suite", "cambios", "contratos", "docs", "productos"])
+        self.assertEqual(d["jobs"]["suite"]["if"], "${{ needs.cambios.outputs.robot != 'true' && needs.cambios.outputs.web != 'true' }}")  # T-430 3b
+        self.assertEqual(d["jobs"]["pruebas"]["needs"], ["guardian", "suite", "cambios", "contratos", "docs", "productos", "web"])
         run = next(s for s in d["jobs"]["pruebas"]["steps"] if s["name"].startswith("Agregar"))["run"]
         self.assertIn('"$SUITE" == "skipped" && "$ROBOT" == "true"', run)
         subprocess.run(["bash", "-n"], input=run, text=True, check=True)
@@ -129,9 +132,63 @@ class ClasificacionRobot(unittest.TestCase):
             out = repo / "salida.txt"; out.write_text("")
             env = {**os.environ, **{k: str(v) for k, v in (paso.get("env") or {}).items() if "${{" not in str(v)},
                    "EVENTO": evento, "ACTOR": actor, "BASE": base, "GITHUB_SHA": "HEAD", "GITHUB_OUTPUT": str(out)}
-            r = subprocess.run(["bash", "-c", paso["run"]], cwd=repo, env=env, capture_output=True, text=True)
+            r = subprocess.run(["bash", "-eo", "pipefail", "-c", paso["run"]], cwd=repo, env=env, capture_output=True, text=True)
             self.assertEqual(r.returncode, 0, r.stderr)
             return dict(l.split("=", 1) for l in out.read_text().splitlines() if "=" in l)
+
+    def test_pr_solo_de_la_web_usa_el_atajo_y_lo_demas_no(self):
+        # T-430 3b (D-194, P6): solo PR, solo ficheros de la web y al menos uno de visor/v4/
+        for ficheros in (["visor/v4/index.html"], ["visor/v4/mapa/explorar.js", "tests/test_visor_v4_mapa.py", "docs/registro/2026-11-23_x.md"]):
+            self.assertEqual(self.clasificar("pull_request", "persona", ficheros)["web"], "true", ficheros)
+        for nombre, (evento, ficheros) in {
+            "push a main": ("push", ["visor/v4/index.html"]),
+            "web + código": ("pull_request", ["visor/v4/index.html", "herramientas/x.py"]),
+            "web + otro test": ("pull_request", ["visor/v4/index.html", "tests/test_otro.py"]),
+            "web + workflow": ("pull_request", ["visor/v4/index.html", ".github/workflows/p90-automatico.yml"]),
+            "solo registro": ("pull_request", ["docs/registro/2026-11-23_x.md"]),
+            "solo tests de la V4": ("pull_request", ["tests/test_visor_v4_base.py"]),
+            "visor v3": ("pull_request", ["visor/v3/v3.js"]),
+        }.items():
+            with self.subTest(nombre):
+                self.assertEqual(self.clasificar(evento, "persona", ficheros)["web"], "false")
+
+    def test_job_web_python_fijado_y_tests_que_leen_la_web(self):
+        j = yaml.safe_load(WF.read_text(encoding="utf-8"))["jobs"]["web"]
+        self.assertEqual(j["steps"][1]["with"]["python-version"], "3.11.13")
+        run = j["steps"][-1]["run"]
+        self.assertIn("discover -s tests -t . -p 'test_visor_v4*.py'", run)
+        for t in ("test_t428_v4_raiz", "test_t429_textos_v4", "test_t419_publicar_doble_vuelta", "test_visor_analitica",
+                  "test_visor_sin_terceros", "test_t220_renombrado", "test_t430_pruebas_web"):
+            self.assertIn("tests." + t, run)
+        # control: ningún test fuera de la lista lee visor/v4 (si aparece uno nuevo, hay que añadirlo al job)
+        lectores = sorted(p.stem for p in (Path(__file__).parent).glob("test_*.py") if LEE_LA_WEB.search(p.read_text(encoding="utf-8")))
+        fuera = [t for t in lectores if not t.startswith("test_visor_v4") and "tests." + t not in run
+                 and t not in ("test_ahorro_ci_pruebas", "test_t372_p40_equivalencia", "test_t377_p20_equivalencia")]
+        self.assertEqual(fuera, [], "tests que leen visor/v4 fuera del job web")
+
+    def test_detector_de_lectores_de_la_web(self):
+        # revisor de #987: además del literal, la ruta por partes y los recorridos de visor/ (control negativo incluido)
+        for t in ('ROOT / "visor/v4" / "index.html"', "ROOT / 'visor' / 'v4' / 'app.js'", 'for p in (ROOT / "visor").rglob("*.js"):',
+                  'os.walk(ROOT / "visor")', 'sorted((RAIZ / "visor").glob("**/*.html"))'):
+            self.assertRegex(t, LEE_LA_WEB)
+        for t in ('ROOT / "visor_v3.md"', 'ROOT / "docs" / "v4"', '"visores"', "ROOT.rglob('*.py')"):
+            self.assertNotRegex(t, LEE_LA_WEB)
+
+    def test_grep_con_error_no_activa_el_atajo(self):
+        paso = paso_cambios()
+        self.assertIn('rc=0; ajeno="$(grep -vE "$RUTAS_WEB" <<<"$files")" || rc=$?', paso["run"])  # bajo -e, «; rc=$?» abortaba
+        self.assertIn("if (( rc > 1 )); then", paso["run"])
+
+    def test_pruebas_exige_web_en_verde_si_hay_atajo(self):
+        run = yaml.safe_load(WF.read_text(encoding="utf-8"))["jobs"]["pruebas"]["steps"][0]["run"]
+        casos = {  # (suite, es_web, web, robot) -> rc
+            ("skipped", "true", "success", "false"): 0, ("skipped", "true", "failure", "false"): 1, ("skipped", "true", "skipped", "false"): 1,
+            ("skipped", "false", "skipped", "false"): 1, ("success", "false", "skipped", "false"): 0, ("skipped", "false", "skipped", "true"): 0}
+        for (suite, es_web, web, robot), rc in casos.items():
+            env = {**os.environ, "GUARDIAN": "success", "CAMBIOS": "success", "SUITE": suite, "ROBOT": robot, "ES_WEB": es_web, "WEB": web,
+                   "CONTRATOS": "skipped", "DOCS": "skipped", "PRODUCTOS": "skipped"}
+            r = subprocess.run(["bash", "-eo", "pipefail", "-c", run], env=env, capture_output=True, text=True)
+            self.assertEqual(r.returncode, rc, (suite, es_web, web, robot, r.stdout))
 
     def test_robot_con_rutas_de_datos_o_registro_solo_guardian(self):
         for ficheros in (["orchestracion/archivo_r2.json"], ["docs/registro/x.md", "docs/REGISTRO_DE_CAMBIOS.md", "legacy/docs/a.md"],

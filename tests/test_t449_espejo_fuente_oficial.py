@@ -300,7 +300,7 @@ class Descarga(unittest.TestCase):
 
 
 class JobP10(unittest.TestCase):
-    """El job `p13_espejo` de P10 1.0.2: solo desde el botón, sin campaña, secretos en el paso y sin escribir en main."""
+    """El job `p13_espejo` de P10 1.0.3: solo desde el botón, sin campaña, secretos en el paso y sin escribir en main."""
 
     @classmethod
     def setUpClass(cls):

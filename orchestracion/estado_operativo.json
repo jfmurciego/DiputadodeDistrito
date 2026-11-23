@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-23T00:20:01.477771+00:00",
+  "generated_at": "2026-11-23T09:25:40.642094+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 46,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 74,
-      "activable": 0,
+      "activated": 73,
+      "activable": 1,
       "territorial_pending": 46,
       "electoral_pending": 46,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 120,
       "territorial_source": 74,
       "electoral_source": 74,
-      "durable_pair": 74
+      "durable_pair": 73
     },
     "territories": [
       {
@@ -2105,8 +2105,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43772965482,
-            "receipt_path": "territorios/nac22/evidencia/fuentes_territoriales/2025/0ec27f2584d3c68e8281498c88df41284c31fab9ce5c6eca87dc354dee93e939/43772965482/receipt.json"
+            "run_id": 45141456090,
+            "receipt_path": "territorios/nac22/evidencia/fuentes_territoriales/2025/0ec27f2584d3c68e8281498c88df41284c31fab9ce5c6eca87dc354dee93e939/45141456090/receipt.json"
           }
         },
         "electoral": {
@@ -2118,12 +2118,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac22/evidencia/pares_fuentes/2025/df9ee2437574b0d41a1abea772290b6d9bd9ffb7bff08a61102417a8f865a169.json",
             "pair_sha256": "df9ee2437574b0d41a1abea772290b6d9bd9ffb7bff08a61102417a8f865a169",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -9146,9 +9146,9 @@
         "territorial_source": {
           "territory_id": "nac22",
           "edition": "2025",
-          "run_id": 43772965482,
-          "artifact_name": "ddd-source-package-nac22-2025-43772965482",
-          "artifact_sha256": "5eb0cd85d8e328aaac758a4a280374e8a3680a548a39003ded7b1b0a7da17eaf",
+          "run_id": 45141456090,
+          "artifact_name": "ddd-source-package-nac22-2025-45141456090",
+          "artifact_sha256": "dca48beceb48f2e3fba9ec01109c9b6bda29834688286ae3557fa0444cb14381",
           "decision": "VALIDADO"
         },
         "territorial_product": {

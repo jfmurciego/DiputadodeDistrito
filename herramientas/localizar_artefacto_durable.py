@@ -2,20 +2,22 @@
 """Localiza un artefacto acreditado en GitHub Actions o, si caducó, en su release draft.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0
+VERSIÓN: 1.2.0
 NOMBRE DE VERSIÓN: Localización durable de artefactos acreditados (R2 primero)
-FECHA: 2026-11-14
+FECHA: 2026-11-22
 ESTADO: candidato
 QUÉ HACE: dado run, nombre y SHA-256 acreditados, devuelve el artefacto vivo de Actions o su
 copia en la release draft `almacen-m06-<territorio>-<run>` (asset `<nombre>-<id>.zip`), y
 opcionalmente lo descarga y lo extrae. Solo acepta bytes cuyo SHA-256 coincide.
+CAMBIOS: 1.2.0 (T-443, D-188): una entrada del índice con `clave_anterior` (ruta vieja, transición al árbol nuevo de R2) añade esa clave
+como primer respaldo (fuente `r2`) antes de Actions y la release; mismas comprobaciones de SHA-256. Sin `clave_anterior`, como 1.1.0.
 CAMBIOS: 1.1.0 (T-302): lee PRIMERO de R2 (arc-p/m06/, índice orchestracion/almacen_m06_r2.json, sha256 verificado)
 y, si la entrada no existe, R2 no está configurado o sus bytes no valen, cae a Actions y a la release draft como
 antes («R2 primero» vale dentro de esta herramienta; la puerta solo la invoca con el artefacto de Actions
 caducado o ausente). Un objeto de R2 alterado nunca se acepta. 1.0.0: herramienta nueva.
 MOTIVO: los artefactos de Actions caducan a los 14–30 días y los M06 certificados dejaban de
 ser reutilizables aunque sus bytes estuvieran conservados en releases.
-ANTERIOR: legacy/herramientas/localizar_artefacto_durable_v1.0.0_20261114.py
+ANTERIOR: legacy/herramientas/localizar_artefacto_durable_v1.1.0_20261122.py
 """
 from __future__ import annotations
 
@@ -108,9 +110,12 @@ def locate(repo: str, run_id: int, name: str, sha256: str | None, *, api: Api = 
             fallback = _locate(repo, run_id, name, digest, api=api)
         except LocationError:
             fallback = None
-        return {"schema": SCHEMA, "source": "r2", "run_id": run_id, "artifact_name": name,
-                "artifact_id": e.get("artifact_id"), "artifact_sha256": digest,
-                "r2_key": clave, "download_path": clave, "fallback": fallback}
+        base = {"schema": SCHEMA, "source": "r2", "run_id": run_id, "artifact_name": name,
+                "artifact_id": e.get("artifact_id"), "artifact_sha256": digest}
+        anterior = e.get("clave_anterior")
+        if anterior and anterior != clave:  # T-443: la ruta vieja, antes de Actions y la release
+            fallback = dict(base, r2_key=anterior, download_path=anterior, fallback=fallback)
+        return dict(base, r2_key=clave, download_path=clave, fallback=fallback)
     return _locate(repo, run_id, name, sha256, api=api)
 
 

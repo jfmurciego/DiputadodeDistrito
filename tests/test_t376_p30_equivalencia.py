@@ -16,6 +16,7 @@ from pathlib import Path
 import yaml
 
 from tests._t379_2b import deshacer as sin_2b, sin_t409_run
+from tests._t379_2a import deshacer as sin_2a  # T-379 PR 2a: sin el entorno `registro`
 
 from ddd_core.territorio_ids import id_legacy
 
@@ -85,7 +86,7 @@ class Fixtures(unittest.TestCase):
 class Equivalencia(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.nuevo = sin_2b("p30-resultados-electorales", yaml.safe_load((WF / "p30-resultados-electorales.yml").read_text(encoding="utf-8")))  # T-379 2b
+        cls.nuevo = sin_2b("p30-resultados-electorales", sin_2a("p30-resultados-electorales", yaml.safe_load((WF / "p30-resultados-electorales.yml").read_text(encoding="utf-8"))))  # T-379 2b
         cls.viejo = cargar("incorporacion-resultados-electorales_2.0.8.yml")
         cls.reut = cargar("reutilizable-incorporacion-electoral_1.3.0.yml")
         cls.job = cls.nuevo["jobs"]["incorporar"]

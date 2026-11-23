@@ -1,6 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: preparacion-legislatura-vigente.yml
-# VERSIÓN: 1.0.12
+# VERSIÓN: 1.0.13
+# CAMBIOS 1.0.13: T-379 PR 2a (D-147, opción a; D-162, opción A), puesta al día sobre main el 23-11: todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara un entorno limitado a main (`registro`, sin revisores; P40 `publicar` sigue en `github-pages` y P70 `podar` en `produccion`): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
+# ANTERIOR (1.0.12): legacy/workflows/preparacion-legislatura-vigente_v1.0.12_20261123.yml
 # CAMBIOS 1.0.12: T-375 (D-136, P10 Fuentes): cambian solo las dos líneas `uses:` de `territorial` y `electoral` (y su `territory_id`: id canónico en lugar del nombre; nueva salida `territory_id` del plan) (ahora `p10-fuentes.yml` con `tipo: territoriales|electorales`); resto de entradas, `secrets` y condiciones idénticos.
 # CAMBIOS 1.0.11: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P00 Campaña — Legislatura» (antes Auxiliar — Activación de Legislatura Vigente).
 # CAMBIOS 1.0.9: T-102: selector con los 49 territorios «Congreso 350 <provincia>» (K = escaños reales de 2023).
@@ -306,6 +308,7 @@ jobs:
     name: Registrar par preparado durable
     needs: [planificar, territorial, electoral]
     if: ${{ always() && inputs.operation == 'prepare_one' && needs.planificar.result == 'success' && needs.planificar.outputs.electoral_action != 'BLOCKED_PROVISIONAL' && needs.territorial.result != 'failure' && needs.electoral.result != 'failure' }}
+    environment: registro
     runs-on: ubuntu-24.04
     concurrency:
       group: ddd-prepared-source-pair
