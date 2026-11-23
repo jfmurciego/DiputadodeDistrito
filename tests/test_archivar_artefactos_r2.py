@@ -29,18 +29,27 @@ class R2Falso:
     def __init__(self):
         self.objs = {}
         self.runs = {}
+        self.condiciones = []
         self.subidas = 0
 
     def sha(self, k):
         return self.objs.get(k)
 
-    def subir(self, k, ruta, h, run=None):
+    def subir(self, k, ruta, h, run=None, condicion=None):
+        if condicion == "*" and k in self.objs:
+            raise RuntimeError("R2_ESCRITURA_CONCURRENTE")
+        if condicion not in (None, "*") and condicion != self.etag(k):
+            raise RuntimeError("R2_ESCRITURA_CONCURRENTE")
         self.subidas += 1
         self.objs[k] = h
         self.runs[k] = run
+        self.condiciones.append(condicion)
+
+    def etag(self, k):
+        return f'"{self.objs[k][:8]}-{self.runs.get(k)}"' if k in self.objs else None
 
     def cab(self, k):
-        return {"sha256": self.objs[k], "run": self.runs.get(k), "bytes": 3} if k in self.objs else None
+        return {"sha256": self.objs[k], "run": self.runs.get(k), "bytes": 3, "etag": self.etag(k)} if k in self.objs else None
 
 
 class Archivista(unittest.TestCase):
@@ -266,7 +275,7 @@ class PaqueteMinimo(unittest.TestCase):
         man = {"artefactos": {}}
         bajar = lambda a, p: p.write_bytes(a["name"].encode())  # noqa: E731
         refs = {"ddd-audit-41037133327": "cantabria", "ddd-audit-41037133399": "cantabria"}
-        pub = {"aut06": "41037133327"}
+        pub = {("aut06", "m06"): "41037133327", ("aut06", "m08"): "41037133327"}
         arc.archivar([art(8, "ddd-audit-41037133327", "2026-11-20T00:00:00Z")], refs, {}, man, bajar, r2.sha, r2.subir, "bkt",
                      publicado=pub, r2_cab=r2.cab)
         base = "interno/estados/autonomicas/cantabria"
@@ -296,6 +305,52 @@ class PaqueteMinimo(unittest.TestCase):
         m = arc.manifiesto_carpeta(ent, base, r2.cab)
         self.assertEqual(sorted(m["ficheros"]), ["audit.zip"])  # el que no está en R2 sale
         self.assertEqual((m["ficheros"]["audit.zip"]["sha256"], m["ficheros"]["audit.zip"]["run"]), ("a" * 64, "7"))
+
+    def test_t443_publicado_por_tipo(self):
+        """Revisión de 57f1f11 (3): el run publicado se resuelve por territorio Y tipo (canonical_m06 / canonical_m08)."""
+        pub = {("aut06", "m06"): "100", ("aut06", "m08"): "200"}
+        self.assertTrue(arc.es_del_publicado("ddd-minimo-100-M06", "cantabria", "100", pub))
+        self.assertFalse(arc.es_del_publicado("ddd-minimo-200-M06", "cantabria", "200", pub))
+        self.assertTrue(arc.es_del_publicado("ddd-minimo-200-M08", "cantabria", "200", pub))
+        self.assertTrue(arc.es_del_publicado("ddd-audit-100", "cantabria", "100", pub))
+        self.assertFalse(arc.es_del_publicado("ddd-audit-300", "cantabria", "300", pub))
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "orchestracion").mkdir()
+            (root / arc.VISOR).write_text(json.dumps({"products": [
+                {"kind": "canonical_m06", "territory_id": "aut06", "run_id": "100"},
+                {"kind": "canonical_m08", "territory_id": "aut06", "run_id": "200"},
+                {"kind": "canonical_m08", "territory_id": "aut06", "run_id": "150"}]}))
+            self.assertEqual(arc.publicados(root), pub)
+
+    def test_t443_escritura_condicional_y_resubida_por_run(self):
+        r2 = R2Falso()
+        man = {"artefactos": {}}
+        bajar = lambda a, p: p.write_bytes(b"mismo contenido")  # noqa: E731
+        refs = {"ddd-audit-41037133327": "cantabria", "ddd-audit-41037133399": "cantabria"}
+        arc.archivar([art(8, "ddd-audit-41037133327", "2026-11-20T00:00:00Z")], refs, {}, man, bajar, r2.sha, r2.subir, "bkt", r2_cab=r2.cab)
+        k = "interno/estados/autonomicas/cantabria/ultimo/audit.zip"
+        self.assertEqual(r2.condiciones[0], "*")  # no existía: If-None-Match
+        etag = r2.etag(k)
+        res = arc.archivar([art(9, "ddd-audit-41037133399", "2026-11-25T00:00:00Z")], refs, {}, man, bajar, r2.sha, r2.subir, "bkt", r2_cab=r2.cab)
+        self.assertEqual((res["archivados"][0], r2.runs[k]), (k, "41037133399"))  # mismo sha256, otro run: se resube
+        self.assertIn(etag, r2.condiciones)  # If-Match con lo leído (el manifiesto sube sin condición)
+
+    def test_t443_escritura_concurrente_no_pisa(self):
+        r2 = R2Falso()
+        k = "interno/estados/autonomicas/cantabria/ultimo/audit.zip"
+        cab_vieja = {"sha256": None, "run": None, "bytes": None, "etag": None}
+
+        def cab(x):  # lee «no existe»; entre la lectura y la escritura otro proceso la crea
+            if x == k:
+                r2.objs[k], r2.runs[k] = "e" * 64, "41037133327"
+                return None
+            return r2.cab(x)
+        res = arc.archivar([art(8, "ddd-audit-41037133327", "2026-11-20T00:00:00Z")], {"ddd-audit-41037133327": "cantabria"}, {},
+                           {"artefactos": {}}, lambda a, p: p.write_bytes(b"x"), r2.sha, r2.subir, "bkt", r2_cab=cab)
+        self.assertTrue(any("R2_ESCRITURA_CONCURRENTE" in e for e in res["errores"]), res)
+        self.assertEqual(r2.objs[k], "e" * 64)
+        self.assertIsNone(cab_vieja["etag"])
 
     def test_t443_territorio_sin_resolver_conserva_la_clave_vieja(self):
         a = {"name": "ddd-audit-1234567890", "territorio": "sin_territorio", "run": "1234567890"}

@@ -140,16 +140,26 @@ def escribir_manifiesto(subir, sha_r2, clave_fichero: str, ficha: dict) -> str:
     return km
 
 
-def fusionar_informe(anterior: dict | None, nuevo: dict) -> dict:
+def fusionar_informe(anterior: dict | None, nuevo: dict, sha_en_r2=None) -> dict:
     """D-198: el informe de trabajo se fusiona por territorio. Se queda la fila nueva si es OK/NO_APLICA o si el territorio no tenía fila; una
-    fila que falla no sustituye a una OK anterior (su ZIP sigue en R2). Si cambian bloques o alias (`entradas`), o la elección, se empieza de nuevo."""
+    fila que falla no sustituye a una OK anterior SI su ZIP sigue en R2 con su sha256 (`sha_en_r2(clave)`; si no, la fila anterior pasa a
+    `ZIP_R2_DISTINTO` y gana la nueva). Si cambian bloques o alias (`entradas`), o la elección, se empieza de nuevo y los ZIP de las filas que
+    se caen quedan en `huerfanos` (los sustituye la siguiente ejecución completa)."""
     if not anterior or anterior.get("entradas") != nuevo.get("entradas") or anterior.get("eleccion") != nuevo.get("eleccion"):
         out = dict(nuevo)
+        nuevos = {f["territorio"] for f in nuevo["territorios"]}
+        huerf = sorted(f["clave_r2"] for f in (anterior or {}).get("territorios") or [] if f.get("clave_r2") and f["territorio"] not in nuevos)
+        if huerf:
+            out["huerfanos"] = huerf
     else:
         filas = {f["territorio"]: f for f in anterior.get("territorios") or []}
         for f in nuevo["territorios"]:
             previa = filas.get(f["territorio"])
-            if f["estado"] in ("OK", "NO_APLICA") or previa is None or previa.get("estado") not in ("OK", "NO_APLICA"):
+            vale_previa = previa is not None and previa.get("estado") in ("OK", "NO_APLICA")
+            if vale_previa and previa.get("estado") == "OK" and sha_en_r2 is not None and previa.get("clave_r2") \
+                    and sha_en_r2(previa["clave_r2"]) != previa.get("sha256_salida"):
+                vale_previa = False
+            if f["estado"] in ("OK", "NO_APLICA") or not vale_previa:
                 filas[f["territorio"]] = f
         out = dict(nuevo, territorios=[filas[t] for t in sorted(filas)])
     out["ok"] = sum(f["estado"] == "OK" for f in out["territorios"])
@@ -506,11 +516,13 @@ def main(argv=None) -> int:
         run_p75 = run_p75_de_entorno()
         inf = ejecutar(ROOT, a.territorios, a.eleccion, trabajo, subir=subir, run_p75=run_p75, existe=existe, sha_r2=sha_r2, bucket=bucket, r2_cab=r2_cab)
         k_inf = clave_informe(inf, run_p75)
+        # el resultado de ESTA ejecución (filas nuevas, antes de fusionar): un fallo nunca se esconde tras una fila OK anterior
+        malos = [f for f in inf["territorios"] if f["estado"] not in ("OK", "NO_APLICA")]
         if subir and rutas_r2.es_nueva(k_inf) and r2_cab(k_inf) is not None:
             with tempfile.TemporaryDirectory() as td2:  # fusión por territorio (D-198); P70 serializa sus jobs (concurrency)
                 previo = Path(td2) / "informe.json"
                 fuente_r2._cp(f"s3://{bucket}/{k_inf}", str(previo))  # si existe y no se lee, falla: nunca se reescribe a ciegas
-                inf = fusionar_informe(json.loads(previo.read_text(encoding="utf-8")), inf)
+                inf = fusionar_informe(json.loads(previo.read_text(encoding="utf-8")), inf, sha_r2)
         ruta = trabajo / "INFORME.json"
         ruta.write_text(json.dumps(inf, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         if subir:
@@ -526,7 +538,6 @@ def main(argv=None) -> int:
                 print(f"::error title=P75_SHA_R2_DISTINTO::{exc}")
                 return 1
         print("\n".join(lineas_para_log(inf, dv.sha256(ruta), k_inf if subir else "(sin subir)")))
-        malos = [f for f in inf["territorios"] if f["estado"] not in ("OK", "NO_APLICA") and f.get("run_p75") == run_p75]
         for f in malos:
             print(f"::warning title=P75_{f['estado'].split(':')[0]}::{f['territorio']} run {f['run']}")
         print(f"[p75] {inf['ok']}/{inf['total']} OK")

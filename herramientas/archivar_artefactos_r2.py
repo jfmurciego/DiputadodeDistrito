@@ -19,7 +19,10 @@ CAMBIOS: 1.2.0 (T-443, D-188/D-190/D-198): escribe en el árbol nuevo de R2, sin
   de subir lee el metadato `run` del objeto (head-object) y nunca pisa un run mayor en `ultimo/` (`superados`); cada objeto sube con metadatos
   `sha256` y `run`. Tras subir, el `manifiesto.json` de cada carpeta tocada se rehace con las cabeceras de R2 (run, sha256 y bytes de lo que hay
   de verdad). Las entradas de orchestracion/archivo_r2.json siguen con run, territorio y sha256 (restaurar_estado_r2 y P75 buscan por run, en
-  `publicado/` o `ultimo/`). Estado completo y territorio sin resolver: clave vieja `<territorio>/<run>/<artefacto>.zip`.
+  `publicado/` o `ultimo/`). `publicado/` por tipo: el M06 si su run es el M06 publicado, el M08 si es el M08 publicado (canonical_m06/m08),
+  la auditoría si es cualquiera de los dos. En el árbol nuevo la escritura es condicional (put-object con If-Match/If-None-Match: 412 = otro
+  escribió antes, no se pisa) y un objeto con el mismo sha256 pero otro metadato `run` se resube. Estado completo y territorio sin resolver:
+  clave vieja `<territorio>/<run>/<artefacto>.zip`.
   1.1.1 (T-90): el paquete mínimo acepta los GeoJSON comprimidos *.geojson.zip, que es como los
   escriben M01-M08 (sin ellos el M08 de Barcelona, run 42416213698, falló con «ningún GeoJSON distrital»).
   1.1.0 (T-72): solo archiva el producto final de cada run (ddd-state-<run>-M06/M08) y las auditorías
@@ -186,17 +189,29 @@ def _norm(t: str) -> str:
         return str(t)
 
 
-def publicados(root: Path) -> dict[str, str]:
-    """Territorio (id nuevo) → run publicado (el mayor de sus productos en orchestracion/publicaciones_visor.json)."""
+_KIND = {"canonical_m06": "m06", "canonical_m08": "m08"}
+
+
+def publicados(root: Path) -> dict[tuple[str, str], str]:
+    """(territorio id nuevo, "m06" | "m08") → run publicado de ese tipo (el mayor en orchestracion/publicaciones_visor.json)."""
     vis = root / VISOR
-    out: dict[str, str] = {}
+    out: dict[tuple[str, str], str] = {}
     if not vis.is_file():
         return out
     for p in json.loads(vis.read_text(encoding="utf-8")).get("products", []):
-        run, t = str(p.get("run_id") or ""), p.get("territory_id")
-        if run.isdigit() and t and _run_num(run) > _run_num(out.get(_norm(t))):
-            out[_norm(t)] = run
+        run, t, kind = str(p.get("run_id") or ""), p.get("territory_id"), _KIND.get(str(p.get("kind") or ""))
+        if run.isdigit() and t and kind and _run_num(run) > _run_num(out.get((_norm(t), kind))):
+            out[(_norm(t), kind)] = run
     return out
+
+
+def es_del_publicado(nombre: str, territorio: str, run: str, publicado: dict) -> bool:
+    """El artefacto va también a `publicado/`: un M06/M08 si su run es el publicado de ESE tipo; una auditoría si su run es el de cualquiera."""
+    t = _norm(territorio)
+    m = _FINAL.match(nombre)
+    if m:
+        return publicado.get((t, f"m0{m.group(2)}")) == str(run)
+    return nombre.startswith("ddd-audit-") and str(run) in {publicado.get((t, "m06")), publicado.get((t, "m08"))}
 
 
 def _run_num(x) -> int:
@@ -259,7 +274,7 @@ def archivar(
     caduca_antes: Optional[str] = None,
     maximo: Optional[int] = None,
     empaquetar: Optional[Callable[[dict, Path, Path], Path]] = None,
-    publicado: Optional[dict[str, str]] = None,
+    publicado: Optional[dict] = None,
     r2_cab: Optional[Callable[[str], Optional[dict]]] = None,
 ) -> dict:
     """Núcleo sin red: aplica la política y devuelve el resumen; muta `manifiesto`.
@@ -283,7 +298,7 @@ def archivar(
         emp = empaquetar is not None and a["name"].startswith("ddd-state-")
         k = clave(a, emp)
         destinos = [k]
-        if rutas_r2.es_nueva(k) and publicado.get(_norm(a["territorio"])) == str(a["run"]):
+        if rutas_r2.es_nueva(k) and es_del_publicado(a["name"], a["territorio"], a["run"], publicado):
             destinos.append(clave(a, emp, "publicado"))
         if caduca_antes and (a.get("expires_at") or "9999") >= caduca_antes:
             res["omitidos"].append(k)
@@ -309,11 +324,17 @@ def archivar(
                               "tamano_estado_original": zip_.stat().st_size}
                     zip_ = empaquetar(a, zip_, Path(td))
                 sha, tam = sha256_fichero(zip_), zip_.stat().st_size
-                for d in destinos:
-                    if r2_sha(d) == sha:
+                for d in list(destinos):
+                    cab = r2_cab(d) if (r2_cab is not None and rutas_r2.es_nueva(d)) else None
+                    if r2_sha(d) == sha and (cab is None or str(cab.get("run") or "") == str(a["run"])):
                         res["sin_cambios_r2"].append(d)
                     elif rutas_r2.es_nueva(d):
-                        r2_subir(d, zip_, sha, str(a["run"]))
+                        if r2_cab is not None and "/ultimo/" in d and _run_num((cab or {}).get("run")) > _run_num(a["run"]):
+                            res["superados"].append(d)  # cambió entre la primera lectura y ahora
+                            destinos.remove(d)
+                            continue
+                        # put condicional: solo si el objeto sigue siendo el leído (If-Match) o sigue sin existir (If-None-Match)
+                        r2_subir(d, zip_, sha, str(a["run"]), (cab or {}).get("etag") or ("*" if r2_cab is not None else None))
                         res["archivados"].append(d)
                     else:
                         r2_subir(d, zip_, sha)
@@ -535,15 +556,26 @@ def r2_cliente(bucket: str, account: str):
     def sha(k: str) -> Optional[str]:
         return con_reintentos(lambda: _sha(k), f"R2 head {k}")
 
-    def _subir(k: str, ruta: Path, h: str, run: Optional[str] = None) -> None:
+    def _subir(k: str, ruta: Path, h: str, run: Optional[str] = None, condicion: Optional[str] = None) -> None:
         meta = f"sha256={h}" + (f",run={run}" if run else "")
-        subprocess.run(
-            ["aws", "s3", "cp", str(ruta), f"s3://{bucket}/{k}", "--endpoint-url", ep, "--metadata", meta, "--only-show-errors"],
-            check=True,
-        )
+        if condicion is None:
+            subprocess.run(
+                ["aws", "s3", "cp", str(ruta), f"s3://{bucket}/{k}", "--endpoint-url", ep, "--metadata", meta, "--only-show-errors"],
+                check=True,
+            )
+            return
+        # T-443 (D-198): escritura condicional, la guarda real frente a escritores fuera del grupo de concurrencia de P70 (archivo_origen):
+        # «*» = solo si no existe (If-None-Match); un ETag = solo si sigue siendo ese objeto (If-Match). 412 = otro escribió antes: error, no se pisa.
+        cond = ["--if-none-match", "*"] if condicion == "*" else ["--if-match", condicion]
+        p = subprocess.run(["aws", "s3api", "put-object", "--bucket", bucket, "--key", k, "--body", str(ruta), "--endpoint-url", ep,
+                            "--metadata", meta, *cond, "--output", "json"], capture_output=True, text=True)
+        if p.returncode != 0:
+            if re.search(r"PreconditionFailed|\(412\)|ConditionalRequestConflict|\(409\)", p.stderr or ""):
+                raise RuntimeError(f"R2_ESCRITURA_CONCURRENTE: {k} cambió en R2 entre la lectura y la escritura (no se pisa)")
+            raise subprocess.CalledProcessError(p.returncode, "put-object", stderr=p.stderr)
 
-    def subir(k: str, ruta: Path, h: str, run: Optional[str] = None) -> None:
-        con_reintentos(lambda: _subir(k, ruta, h, run), f"R2 subida {k}")
+    def subir(k: str, ruta: Path, h: str, run: Optional[str] = None, condicion: Optional[str] = None) -> None:
+        con_reintentos(lambda: _subir(k, ruta, h, run, condicion), f"R2 subida {k}")
 
     return sha, subir
 
@@ -563,7 +595,7 @@ def r2_cabecera(bucket: str, account: str) -> Callable[[str], Optional[dict]]:
             raise subprocess.CalledProcessError(p.returncode, "head-object", stderr=p.stderr)
         j = json.loads(p.stdout)
         m = j.get("Metadata") or {}
-        return {"sha256": m.get("sha256"), "run": m.get("run"), "bytes": j.get("ContentLength")}
+        return {"sha256": m.get("sha256"), "run": m.get("run"), "bytes": j.get("ContentLength"), "etag": j.get("ETag")}
 
     return lambda k: con_reintentos(lambda: _cab(k), f"R2 head {k}")
 

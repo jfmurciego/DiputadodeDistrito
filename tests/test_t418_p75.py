@@ -196,6 +196,40 @@ class P75(unittest.TestCase):
         otro = dict(nue, entradas={"bloques": {"sha256": "x"}, "alias": {"sha256": "a"}})
         self.assertEqual([x["territorio"] for x in p75.fusionar_informe(ant, otro)["territorios"]], ["nac01", "nac03"])  # otros bloques: de nuevo
 
+    def test_fila_ok_previa_con_zip_distinto_en_r2_no_se_conserva(self):
+        ent = {"bloques": {"sha256": "b"}, "alias": {"sha256": "a"}}
+        ant = {"eleccion": "2023-07", "entradas": ent, "territorios": [
+            {"territorio": "nac01", "estado": "OK", "run_p75": "1-1", "clave_r2": "k1", "sha256_salida": "s1"}]}
+        nue = {"eleccion": "2023-07", "run_p75": "2-1", "entradas": ent, "territorios": [{"territorio": "nac01", "estado": "SUPERADO", "run_p75": "2-1"}]}
+        self.assertEqual(p75.fusionar_informe(ant, nue, lambda k: "s1")["territorios"][0]["run_p75"], "1-1")  # el ZIP sigue: se conserva
+        self.assertEqual(p75.fusionar_informe(ant, nue, lambda k: "otro")["territorios"][0]["estado"], "SUPERADO")  # ya no casa: gana la nueva
+        otro = dict(nue, entradas={"bloques": {"sha256": "x"}, "alias": {"sha256": "a"}}, territorios=[{"territorio": "nac02", "estado": "OK"}])
+        self.assertEqual(p75.fusionar_informe(ant, otro)["huerfanos"], ["k1"])
+
+    def test_el_codigo_de_salida_es_el_de_esta_ejecucion(self):
+        """Revisión de 57f1f11 (2): un fallo nuevo no se esconde tras una fila OK anterior del informe fusionado."""
+        ent = {"bloques": {"ruta": "b", "sha256": "b"}, "alias": {"ruta": "a", "sha256": "a"}}
+        previo = {"eleccion": "2023-07", "run_p75": "1-1", "entradas": ent, "ok": 1, "total": 1, "territorios": [
+            {"territorio": "nac01", "run": RUN, "estado": "OK", "run_p75": "1-1", "clave_r2": self.CLAVE, "sha256_salida": "s1"}]}
+        nuevo = {"eleccion": "2023-07", "run_p75": "2-1", "entradas": ent, "ok": 0, "total": 1, "territorios": [
+            {"territorio": "nac01", "run": RUN, "estado": "SIN_PAQUETE_EN_R2", "run_p75": "2-1", "sha256_salida": None}]}
+        k_inf = "interno/doble-vuelta/nacionales/congreso-2023/informe-doble-vuelta.json"
+        subidas = {}
+
+        def subir(k, ruta, h, run=None):
+            subidas[k] = Path(ruta).read_bytes()
+        with mock.patch.dict(os.environ, {**ENV, "GITHUB_RUN_ID": "2", "GITHUB_RUN_ATTEMPT": "1"}), \
+                mock.patch.object(p75, "ejecutar", lambda *a, **k: json.loads(json.dumps(nuevo))), \
+                mock.patch.object(p75.ar, "r2_cliente", lambda b, c: (lambda k: "s1" if k == self.CLAVE else (hashlib.sha256(subidas[k]).hexdigest() if k in subidas else None), subir)), \
+                mock.patch.object(p75.ar, "r2_cabecera", lambda b, c: (lambda k: {"run": "1"} if k == k_inf else None)), \
+                mock.patch.object(p75, "r2_existe", lambda b, c: (lambda k: False)), \
+                mock.patch.object(p75.fuente_r2, "_cp", lambda o, d, e=None: Path(d).write_text(json.dumps(previo))), \
+                tempfile.TemporaryDirectory() as w:
+            rc = p75.main(["--territorios", "nac01", "--salida", w])
+        self.assertEqual(rc, 1)
+        fusion = json.loads(subidas[k_inf])
+        self.assertEqual((fusion["territorios"][0]["estado"], fusion["territorios"][0]["run_p75"]), ("OK", "1-1"))  # el ZIP previo sigue
+
     def test_carpeta_de_entrada_con_claves_nuevas_y_viejas(self):
         self.assertEqual(p75.carpeta_de_entrada(f"{LEG}/{RUN}/ddd-minimo-{RUN}-M08.zip", {}), LEG)
         self.assertEqual(p75.carpeta_de_entrada("interno/estados/nacionales/alava/ultimo/minimo-m08.zip", {"territorio": "nac01"}), "nac01")
