@@ -20,6 +20,7 @@ import yaml
 
 from tests import _t428, _t430, _t430b
 from tests._uses_sin_version import cargar as cargar_sin_version
+from tests._t379_2a import deshacer as sin_2a
 
 ROOT = Path(__file__).resolve().parents[1]
 WF = ROOT / ".github" / "workflows"
@@ -110,7 +111,7 @@ class Congelado(unittest.TestCase):
         cls.rec = cargar_sin_version((FIX / "reutilizable-publicar-sitio_3.17.0.yml").read_text(encoding="utf-8"))
         cls.des = cargar_sin_version((FIX / "desplegar-visor-publico_3.6.0.yml").read_text(encoding="utf-8"))
         cls.cad = cargar_sin_version((FIX / "cadena-publicacion_1.1.0.yml").read_text(encoding="utf-8"))
-        cls.p = cargar_sin_version((WF / "p40-publicacion.yml").read_text(encoding="utf-8"))
+        cls.p = sin_2a("p40-publicacion", cargar_sin_version((WF / "p40-publicacion.yml").read_text(encoding="utf-8")))  # sin la 2a (T-379): tests/test_t379_2a_entorno_registro.py
         cls.txt = (WF / "p40-publicacion.yml").read_text(encoding="utf-8")
 
 

@@ -1,7 +1,9 @@
 # VISTA DERIVADA de .github/workflows/p10-fuentes.yml (tipo P11); no editar: python tests/generar_vistas_p10.py
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de preparación de fuentes
-# VERSIÓN: 1.0.1
+# VERSIÓN: 1.0.2
+# CAMBIOS 1.0.2: T-379 PR 2a (D-147, opción a; D-162, opción A), puesta al día sobre main el 23-11: todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara un entorno limitado a main (`registro`, sin revisores; P40 `publicar` sigue en `github-pages` y P70 `podar` en `produccion`): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
+# ANTERIOR (1.0.1): legacy/workflows/p10-fuentes_v1.0.1_20261123.yml
 # CAMBIOS 1.0.1: T-379 PR 2b (D-163, 2b mínima): `contents: read` en todo el fichero (el push a main va con el token de la app de registro,
 #   que no depende de GITHUB_TOKEN: `contents: read` NO es barrera para ese push; sin la app, la credencial falla en vez de caer en github.token);
 #   entrada oculta `campana` (workflow_call; vacía = como antes). Con campaña, los jobs (en P30, los pasos) que registran en main se saltan.
@@ -381,6 +383,7 @@ jobs:
       package_sha256: ${{ steps.register.outputs.package_sha256 }}
       promotion_sha: ${{ steps.register.outputs.promotion_sha }}
     if: ${{ (needs.territoriales.result == 'success' && needs.resolver.outputs.persist_state == 'true') && !inputs.campana }}
+    environment: registro
     runs-on: ubuntu-24.04
     concurrency:
       group: ddd-catalog-promotion
@@ -454,6 +457,7 @@ jobs:
     name: Registrar evaluación de generación pendiente
     needs: [resolver, registrar]
     if: ${{ (always() && needs.resolver.result == 'success' && needs.registrar.result == 'success' && needs.resolver.outputs.persist_state == 'true') && !inputs.campana }}
+    environment: registro
     runs-on: ubuntu-24.04
     outputs:
       prepared_source_ref: ${{ steps.persist.outputs.prepared_source_ref }}

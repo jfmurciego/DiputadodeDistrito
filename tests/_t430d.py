@@ -25,6 +25,12 @@ def _uno(texto, viejo, nuevo, que):
 
 
 def deshacer(p90):
+    """3c y después 3b (para la equivalencia con pruebas-plataforma, `test_t366`)."""
+    return _t430c.deshacer(deshacer_3c(p90))
+
+
+def deshacer_3c(p90):
+    """Solo 3c (para comparar con la 1.4.x congelada, `test_t379_2a`)."""
     p = copy.deepcopy(p90)
     c = p["jobs"]["cambios"]
     assert c["outputs"].pop("publicar_web") == "${{ steps.f.outputs.publicar_web }}", "falta la salida publicar_web"
@@ -34,4 +40,4 @@ def deshacer(p90):
     w = p["jobs"]["web"]["steps"][-1]
     w["run"] = _uno(w["run"], " tests.test_t430_web_fusion", "", "el test en el job web")
     del p["jobs"]["publicar_web"]
-    return _t430c.deshacer(p)
+    return p

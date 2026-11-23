@@ -21,6 +21,7 @@ import yaml
 
 from tests import _t428, _t430, _t430b
 from tests._t379_2b import deshacer as sin_2b
+from tests._t379_2a import deshacer as sin_2a  # T-379 PR 2a: sin el entorno `registro`
 
 from tests._uses_sin_version import cargar as cargar_sin_version
 
@@ -52,7 +53,7 @@ def on(d):
 
 def carga(p):
     # T-392: un bump de versión de una acción de terceros (Dependabot) no es un cambio de lógica.
-    return sin_2b(Path(p).stem, cargar_sin_version(Path(p).read_text(encoding="utf-8")))  # T-379 2b: sin la entrada `campana` ni `contents: read`
+    return sin_2b(Path(p).stem, sin_2a(Path(p).stem, cargar_sin_version(Path(p).read_text(encoding="utf-8"))))  # T-379 2b: sin la entrada `campana` ni `contents: read`
 
 
 def motor_normalizado(texto: str) -> str:

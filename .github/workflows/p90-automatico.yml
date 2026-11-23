@@ -4,7 +4,7 @@
 # NOMBRE DE VERSIÓN: P90 Automático — CI, IA de cierre de campaña, métricas y medición de la web en un solo workflow
 # FECHA: 2026-11-23
 # ESTADO: candidato
-# ANTERIOR: legacy/workflows/p90-automatico_v1.4.0_20261123.yml
+# ANTERIOR: legacy/workflows/p90-automatico_v1.4.1_20261123.yml
 # CAMBIOS 1.5.0: T-430 paso 3c (D-194, pregunta 7 de REDISENO_R2: publicar la web sola al fusionar, aprobada expresamente por el propietario):
 #   en un push a `main` cuyos ficheros son SOLO de la web (la misma lista `RUTAS_WEB` y el mismo fallo cerrado que el atajo de las PR) y
 #   tocan `visor/v4/`, `cambios` marca `publicar_web=true` (`web` sigue siendo solo de PR: en `main` corre la batería completa) y el job
@@ -12,6 +12,11 @@
 #   índice del sitio, sin datos) y lo publica con `herramientas/publicar_sitio_r2.py` (mismo tope de borrado), sin P40 completa. Solo
 #   `main`, `contents: read`, secretos `R2_SITIO_*` en el paso, mismo grupo de concurrencia que P40 `publicar` (`ddd-pages-prod`); sin la
 #   variable `R2_SITIO_BUCKET` o sin índice previo del sitio no hace nada. No entra en `pruebas`. GitHub Pages no cambia (lo sigue publicando P40).
+#   Solo con `guardian` y `suite` de ese push en verde, la V4 con `node --check`, un único commit sobre el anterior (si no, no publica) y
+#   sin una V4 posterior ya en `main` (orden); el montaje aborta si un nombre nuevo de la V4 pisaría el sitio o hay enlaces simbólicos.
+#   Arregla además el `rc` del bloque de 3b, que bajo `bash -e` abortaba `cambios` en una PR solo de la web.
+# ANTERIOR (1.4.1): legacy/workflows/p90-automatico_v1.4.0_20261123.yml
+# CAMBIOS 1.4.1: T-379 PR 2a (D-147, opción a; D-162, opción A), puesta al día sobre main el 23-11: todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara un entorno limitado a main (`registro`, sin revisores; P40 `publicar` sigue en `github-pages` y P70 `podar` en `produccion`): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
 # ANTERIOR (1.4.0): legacy/workflows/p90-automatico_v1.3.0_20261123.yml
 # CAMBIOS 1.4.0: T-430 paso 3b (D-194, pregunta 6 de REDISENO_R2: atajo de CI aprobado expresamente por el propietario): en una PR cuyos ficheros
 #   son SOLO de la web (`visor/v4/…`, sus tests `tests/test_visor_v4*` y la entrada de `docs/registro/`), `cambios` marca `web=true`: la
@@ -474,6 +479,7 @@ jobs:
       queue: max
     permissions:
       contents: write
+    environment: registro
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -538,6 +544,7 @@ jobs:
       queue: max
     permissions:
       contents: write
+    environment: registro
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -604,6 +611,7 @@ jobs:
       queue: max
     permissions:
       contents: write
+    environment: registro
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -887,6 +895,7 @@ jobs:
       contents: write
       actions: read
       pull-requests: read
+    environment: registro
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:

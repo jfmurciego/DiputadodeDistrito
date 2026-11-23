@@ -1,6 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 1.0.3
+# VERSIÓN: 1.0.4
+# CAMBIOS 1.0.4: T-379 PR 2a (D-147, opción a; D-162, opción A), puesta al día sobre main el 23-11: todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara un entorno limitado a main (`registro`, sin revisores; P40 `publicar` sigue en `github-pages` y P70 `podar` en `produccion`): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
+# ANTERIOR (1.0.3): legacy/workflows/p30-resultados-electorales_v1.0.3_20261123.yml
 # CAMBIOS 1.0.3: T-409 (revisión de #911): el directorio `doble_vuelta/` existe solo si `doble_vuelta_cobertura.py` y `doble_vuelta.py` terminan bien (trap que lo borra si no);
 #   sin él el paso de archivo no pasa `--extra`, así que no se archiva una salida parcial. Ambas herramientas llevan `--alias` (configuracion/alias_partidos_generales.csv, #914).
 # CAMBIOS 1.0.2: T-409 (D-171): tras M08, `herramientas/doble_vuelta.py` (dv_base, dv_A, dv_B) y `doble_vuelta_cobertura.py` (% de votos sin casar con la
@@ -92,6 +94,7 @@ jobs:
   incorporar:
     name: Incorporar resultados
     needs: resolver
+    environment: registro
     runs-on: ubuntu-24.04
     timeout-minutes: 300
     concurrency:

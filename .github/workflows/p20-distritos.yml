@@ -1,6 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de distritos (botón) y reutilizable de la 00
-# VERSIÓN: 1.0.1
+# VERSIÓN: 1.0.2
+# CAMBIOS 1.0.2: T-379 PR 2a (D-147, opción a; D-162, opción A), puesta al día sobre main el 23-11: todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara un entorno limitado a main (`registro`, sin revisores; P40 `publicar` sigue en `github-pages` y P70 `podar` en `produccion`): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
+# ANTERIOR (1.0.1): legacy/workflows/p20-distritos_v1.0.1_20261123.yml
 # CAMBIOS 1.0.1: T-379 PR 2b (D-163, 2b mínima): `contents: read` en todo el fichero (el push a main va con el token de la app de registro,
 #   que no depende de GITHUB_TOKEN: `contents: read` NO es barrera para ese push; sin la app, la credencial falla en vez de caer en github.token);
 #   entrada oculta `campana` (workflow_call; vacía = como antes). Con campaña, los jobs (en P30, los pasos) que registran en main se saltan.
@@ -1451,6 +1453,7 @@ jobs:
     name: P24 Acreditar evidencia durable previa a Formación inicial
     needs: [entrada, resolve, internal_units]
     if: ${{ (always() && (needs.entrada.outputs.preflight_only == 'true') && (needs.entrada.outputs.persist_state == 'true') && needs.resolve.result == 'success' && needs.internal_units.result == 'success') && !inputs.campana }}
+    environment: registro
     runs-on: ubuntu-24.04
     outputs:
       enabled_source_ref: ${{ steps.persist.outputs.enabled_source_ref }}
@@ -1582,6 +1585,7 @@ jobs:
     name: P24 Registrar evaluación no habilitante de generación
     needs: [entrada, resolve, official_sources, m01, m02, m03, internal_units, pre_m04_evidence]
     if: ${{ (always() && (needs.entrada.outputs.preflight_only == 'true') && (needs.entrada.outputs.persist_state == 'true') && needs.resolve.result == 'success' && needs.pre_m04_evidence.result != 'success') && !inputs.campana }}
+    environment: registro
     runs-on: ubuntu-24.04
     outputs:
       evaluation_status: ${{ steps.classify.outputs.evaluation_status }}
@@ -1997,6 +2001,7 @@ jobs:
     name: P26 Registrar producto territorial
     needs: [entrada, resolve, m04, m05, m06, auditoria]
     if: ${{ (always() && needs.resolve.result == 'success' && needs.auditoria.result == 'success' && (needs.entrada.outputs.persist_state == 'true')) && !inputs.campana }}
+    environment: registro
     runs-on: ubuntu-24.04
     env:
       PARAMS: ${{ needs.resolve.outputs.params }}

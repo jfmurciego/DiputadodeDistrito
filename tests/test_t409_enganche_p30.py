@@ -92,7 +92,8 @@ class DobleVueltaEnP30(unittest.TestCase):
 
     def test_sin_la_doble_vuelta_p30_es_igual_que_la_1_0_1(self):
         self.assertTrue(WF_ANTES.is_file(), WF_ANTES)
-        nuevo, antes = yaml.safe_load(self.texto), yaml.safe_load(WF_ANTES.read_text(encoding="utf-8"))
+        from tests._t379_2a import deshacer as sin_2a  # T-379 PR 2a: sin el entorno `registro`
+        nuevo, antes = sin_2a("p30-resultados-electorales", yaml.safe_load(self.texto)), yaml.safe_load(WF_ANTES.read_text(encoding="utf-8"))
         n = copy.deepcopy(nuevo)
         n["jobs"]["incorporar"]["steps"] = [s for s in n["jobs"]["incorporar"]["steps"] if s.get("name") != PASO_DV]
         for s in n["jobs"]["incorporar"]["steps"]:
