@@ -25,9 +25,9 @@ HUELLAS = {
     "p10-fuentes": ("1.0.1", "67ae63df4b96cabe5ecd27ab0e368974c9ff8663806a1a9bfa5dc889b13e6e1c"),
     "p20-distritos": ("1.0.1", "c787e3bcdced5d22f12194fc59feb9b3d75bb3dcf838e67b6862a0a0896a1732"),
     "p30-resultados-electorales": ("1.0.3", "0bb36d8cd475d38dd755474e80e8a2de863a7afeca8e2caac0899c568a8bc77b"),
-    "p40-publicacion": ("1.4.0", "388855c73e9e6e2ee20d9500340496e47df88806c2844f7a78d610adcd399e36"),
+    "p40-publicacion": ("1.5.0", "86f7487cc8fbe750b56d712929713c4e8b893492aa3f4c14990bf53657b8e64c"),
     "p70-archivo": ("1.1.5", "1dd7b7dbf3ed6911017bab1c85906fa249412f2e7408262e67268c6711943d91"),
-    "p90-automatico": ("1.2.0", "ff42184cb8ca77d5ab19c4ce98530cad104d3aa8119034476f274ef5a2fd9171"),
+    "p90-automatico": ("1.3.0", "708697af1a13c988dce81c7b39e954029c343bfb5a02e6065c82552f0b6abe7e"),
     "preparacion-legislatura-vigente": ("1.0.12", "b96beddd60487e4937e40e2ca5d5652efe4a739ed91e13f8ba7bce6e79cc8245"),
 }
 # Inventario de §10 (25 usos), rehecho sobre main el 23-11 (mismo conjunto que en e7747ea).

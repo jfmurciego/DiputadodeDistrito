@@ -19,7 +19,7 @@ from pathlib import Path
 
 import yaml
 
-from tests import _t428, _t430
+from tests import _t428, _t430, _t430b
 from tests._t379_2b import deshacer as sin_2b
 from tests._t379_2a import deshacer as sin_2a  # T-379 PR 2a: sin el entorno `registro`
 
@@ -486,7 +486,7 @@ class Retirada(Congelado):
     def test_p40_publicar_igual_salvo_lo_del_ensemble(self):
         a = copy.deepcopy(self.p40v["jobs"]["publicar"])
         b = carga(WF / "p40-publicacion.yml")["jobs"]["publicar"]
-        b["steps"] = _t428.deshacer(_t430.deshacer(b["steps"]))  # T-428 (P40 1.3.0) y T-430 (1.4.0): se deshace solo eso
+        b["steps"] = _t428.deshacer(_t430.deshacer(_t430b.deshacer(b["steps"])))  # T-428 (P40 1.3.0) y T-430 (1.4.0): se deshace solo eso
         # T-409 (P40 1.2.0): el paso de la doble vuelta y las 2 líneas que copian visor/v4/ son lo único nuevo; se ignoran SOLO esos (nombre del paso y líneas exactas)
         v4 = {"mkdir -p /tmp/site-candidate/v4 && cp -R visor/v4/. /tmp/site-candidate/v4/  # T-409: el visor V4 completo (el paso de la doble vuelta añade v4/mapa/datos/ después)",
               'while IFS= read -r f; do [[ -z "$f" || "$f" == \\#* || "$f" == /* || "$f" == *..* ]] || rm -rf "/tmp/site-candidate/v4/$f"; done < visor/v4/NO_PUBLICAR.txt  # lo ficticio o interno no se publica'}

@@ -122,7 +122,7 @@ class Disparadores(Fixtures):
     def test_ningun_job_de_revisor_ni_fusion_en_p90(self):
         for j in ("veredicto", "revisar", "revisor_comprobar", "fusionar"):
             self.assertNotIn(j, self.p90["jobs"])
-        self.assertEqual(set(self.p90["jobs"]), set(MAPA.values()) | {"cierre_comprobar", "cierre_ia", "cierre_comentario", "medir_web"})  # medir_web: T-440
+        self.assertEqual(set(self.p90["jobs"]), set(MAPA.values()) | {"cierre_comprobar", "cierre_ia", "cierre_comentario", "medir_web", "pruebas_web", "limpiar_pruebas"})  # medir_web: T-440; pruebas_web y limpiar_pruebas: T-430 paso 3a
 
     def test_checks_intocables_conservan_nombre(self):
         jobs = self.p90["jobs"]

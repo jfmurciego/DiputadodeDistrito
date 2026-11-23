@@ -1,12 +1,19 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.2.1
-# CAMBIOS 1.2.1: T-379 PR 2a (D-147, opción a; D-162, opción A), puesta al día sobre main el 23-11: todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara un entorno limitado a main (`registro`, sin revisores; P40 `publicar` sigue en `github-pages` y P70 `podar` en `produccion`): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
-# ANTERIOR (1.2.0): legacy/workflows/p90-automatico_v1.2.0_20261123.yml
+# VERSIÓN: 1.3.1
+# CAMBIOS 1.3.1: T-379 PR 2a (D-147, opción a; D-162, opción A), puesta al día sobre main el 23-11: todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara un entorno limitado a main (`registro`, sin revisores; P40 `publicar` sigue en `github-pages` y P70 `podar` en `produccion`): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
+# ANTERIOR (1.3.0): legacy/workflows/p90-automatico_v1.3.0_20261123.yml
 # NOMBRE DE VERSIÓN: P90 Automático — CI, IA de cierre de campaña, métricas y medición de la web en un solo workflow
-# FECHA: 2026-11-22
+# FECHA: 2026-11-23
 # ESTADO: candidato
-# ANTERIOR: legacy/workflows/p90-automatico_v1.1.0_20261122.yml
+# ANTERIOR: legacy/workflows/p90-automatico_v1.2.0_20261123.yml
+# CAMBIOS 1.3.0: T-430 paso 3a (D-193/D-194, REDISENO_R2 §2): jobs `pruebas_web` (en cada PR de una rama de este repositorio que toque
+#   `visor/v4/`, monta la V4 con `herramientas/pruebas_web_r2.py` y la sincroniza en `s3://<R2_PRUEBAS_BUCKET>/<rama>/` =
+#   https://pruebas.diputadodedistrito.es/<rama>/, sin buscadores) y `limpiar_pruebas` (en cada push a `main`, borra las carpetas de ramas
+#   sin PR abierta, con tope). Solo lectura del repositorio (`contents`/`pull-requests: read`), llave propia del bucket de pruebas en el
+#   paso (token de R2 de escritura SOLO en el bucket de pruebas: el job corre en PR con el workflow de la rama); el script que sube es
+#   el de `main` (segundo checkout en `_main/`); sin la variable `R2_PRUEBAS_BUCKET` no hacen nada. No entran en `pruebas` ni cambian los eventos. El resto, idéntico.
+# ANTERIOR (1.2.0): legacy/workflows/p90-automatico_v1.1.0_20261122.yml
 # CAMBIOS 1.2.0: T-440 (propietario, 22-11): job `medir_web`, A PETICIÓN y sin calendario ni botón: disparo `repository_dispatch` de tipo
 #   `medir-web` (el Operador lo lanza por REST con la frase del propietario). `herramientas/medir_web.py` pide la portada, una página de
 #   territorio, el mapa y sus datos principales de https://diputadodedistrito.es, 3 veces con y sin compresión, e imprime la tabla en el log
@@ -880,3 +887,81 @@ jobs:
         run: |
           set -euo pipefail
           python3 herramientas/medir_web.py --resumen "$GITHUB_STEP_SUMMARY"
+
+  pruebas_web:
+    # T-430 paso 3a: vista de pruebas de la web por rama (solo ramas de este repositorio: las de forks no reciben secretos).
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+    concurrency:
+      group: ddd-pruebas-web-${{ github.head_ref }}
+      cancel-in-progress: true
+    permissions:
+      contents: read
+      pull-requests: read
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
+          path: _main  # el script que sube es el de main, no el de la PR (la PR solo aporta visor/)
+          persist-credentials: false
+      - name: Publicar la vista de pruebas
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+          RAMA: ${{ github.head_ref }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_PRUEBAS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_PRUEBAS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_PRUEBAS_BUCKET: ${{ vars.R2_PRUEBAS_BUCKET }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+          R2_WEB_BUCKET: ${{ vars.R2_WEB_BUCKET }}
+          R2_SITIO_BUCKET: ${{ vars.R2_SITIO_BUCKET }}
+          DATOS_WEB_ACTUAL: ${{ vars.DATOS_WEB_ACTUAL }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${R2_PRUEBAS_BUCKET:-}" ]]; then echo "Sin R2_PRUEBAS_BUCKET: sin vista de pruebas."; exit 0; fi
+          ficheros="$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR/files?per_page=100" --paginate --jq '.[].filename')"
+          if ! grep -q '^visor/v4/' <<<"$ficheros"; then echo "La PR no toca visor/v4/: sin vista de pruebas."; exit 0; fi
+          python3 _main/herramientas/pruebas_web_r2.py montar --raiz . --destino /tmp/pruebas-web
+          python3 _main/herramientas/pruebas_web_r2.py subir --origen /tmp/pruebas-web --rama "$RAMA"
+
+  limpiar_pruebas:
+    # T-430 paso 3a: en cada push a main, borra las vistas de pruebas de ramas sin PR abierta (sin calendario ni vigilante).
+    if: ${{ github.event_name == 'push' }}
+    concurrency:
+      group: ddd-limpiar-pruebas-web
+      cancel-in-progress: true
+    permissions:
+      contents: read
+      pull-requests: read
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Borrar las vistas de pruebas de ramas cerradas
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_PRUEBAS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_PRUEBAS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_PRUEBAS_BUCKET: ${{ vars.R2_PRUEBAS_BUCKET }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+          R2_WEB_BUCKET: ${{ vars.R2_WEB_BUCKET }}
+          R2_SITIO_BUCKET: ${{ vars.R2_SITIO_BUCKET }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${R2_PRUEBAS_BUCKET:-}" ]]; then echo "Sin R2_PRUEBAS_BUCKET: nada que limpiar."; exit 0; fi
+          # si la lista de PR abiertas falla, el paso falla y no se borra nada
+          abiertas="$(gh api "repos/$GITHUB_REPOSITORY/pulls?state=open&per_page=100" --paginate --jq '.[].head.ref' | paste -sd, -)"
+          python3 herramientas/pruebas_web_r2.py limpiar --abiertas "$abiertas"

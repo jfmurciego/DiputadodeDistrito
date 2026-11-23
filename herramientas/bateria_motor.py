@@ -3,10 +3,13 @@
 """Batería del motor (T-132): entradas reproducibles desde fuente, M04-M06 en local y matriz territorio × regla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.3
+VERSIÓN: 1.4.4
 NOMBRE DE VERSIÓN: Batería del motor
-FECHA: 2026-11-16
+FECHA: 2026-11-22
 ESTADO: candidato
+CAMBIOS 1.4.4 (T-443, D-188/D-190): `paquete_p10_desde_r2` lee con doble ruta durante la transición del árbol de R2: primero
+  `fuentes/por-territorio/<ámbito>/<territorio>/paquete.zip` (herramientas/rutas_r2.py) y, si no está, `arc-e/paquetes-p10/<package_sha256>.zip`.
+  La validación (sha256 del bundle = package_sha256 del contrato) no cambia. `archivar-p10` sigue escribiendo la ruta vieja (cambia en la PR de escritores).
 CAMBIOS 1.4.3 (T-384): el error BATERIA_FALTA_PAQUETE_P10 remite a «P70 Archivo · P71 archivar · paquete de fuentes de un territorio»
   (el workflow bateria-motor y su entrada archivar_p10 ya no existen: P80, D-132). Solo cambia el texto (también BATERIA_PAQUETE_P10_CORRUPTO); sin run id ni parámetros técnicos (D-130).
 CAMBIOS 1.4.2 (T-297): el recuento de candidatos cuenta el candidato exacto de Deslinde 1.1 (generador «exacto», solo con D8 y
@@ -66,7 +69,7 @@ MOTIVO: responder en minutos y sin lanzar nada si el motor vigente produce distr
   (52 circunscripciones del Congreso + 19 comunidades) y qué cambia entre versiones del motor (decisión del
   propietario: opción B, batería primero).
 CAMBIOS 1.2.6 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/bateria_motor_v1.4.2_20261116.py
+ANTERIOR: legacy/herramientas/bateria_motor_v1.4.3_20261122.py
 QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como
@@ -464,6 +467,16 @@ def clave_paquete(ident: dict) -> str:
     return f"arc-e/paquetes-p10/{ident['package_sha256']}.zip"
 
 
+def claves_paquete_lectura(t: str, ident: dict) -> list[str]:
+    """Claves donde buscar el paquete P10 de ``t``, en orden (T-443): la del árbol nuevo y, de respaldo, la vieja por package_sha256."""
+    from herramientas import rutas_r2
+    try:
+        nueva = rutas_r2.ruta_paquete_p10(t)
+    except (rutas_r2.RutaInvalida, KeyError):
+        nueva = None
+    return rutas_r2.candidatas(nueva, clave_paquete(ident))
+
+
 def _anios_fuentes(t: str) -> tuple[str, str, str]:
     d = yaml.safe_load((ROOT / "territorios" / carpeta_de(ROOT, t) / "config" / "fuentes_oficiales.yaml").read_text(encoding="utf-8"))
     terr = d.get("territory") or {}
@@ -502,9 +515,13 @@ def paquete_p10_desde_r2(t: str, out: Path) -> Path | None:
     shutil.rmtree(work, ignore_errors=True)
     work.mkdir(parents=True)
     z = work / "paquete.zip"
-    try:
-        _r2_cp(f"s3://{bucket}/{clave_paquete(ident)}", str(z))
-    except (subprocess.CalledProcessError, KeyError, OSError):
+    for clave in claves_paquete_lectura(t, ident):
+        try:
+            _r2_cp(f"s3://{bucket}/{clave}", str(z))
+            break
+        except (subprocess.CalledProcessError, KeyError, OSError):
+            z.unlink(missing_ok=True)
+    else:
         shutil.rmtree(work, ignore_errors=True)
         return None
     carpeta = work / "pkg"
@@ -537,7 +554,7 @@ def entradas(args) -> int:
                 fallos += 1
                 continue
             if paquete is None:
-                print(f"::error::BATERIA_FALTA_PAQUETE_P10 {t}: no hay paquete de fuentes en R2 ({clave_paquete(_identidad_contrato(t))}). "
+                print(f"::error::BATERIA_FALTA_PAQUETE_P10 {t}: no hay paquete de fuentes en R2 ({' ni '.join(claves_paquete_lectura(t, _identidad_contrato(t)))}). "
                       f"Archívalo una vez con «P70 Archivo · P71 archivar · paquete de fuentes de un territorio» ({t}).", flush=True)
                 fallos += 1
                 continue

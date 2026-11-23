@@ -3,9 +3,13 @@
 """Histórico de las generales por época (T-365, D-125): contrato por elección, contrato M01-M06 por provincia y puerta M07/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.1 · FECHA: 2026-11-20 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/contrato_historico_epoca_v1.4.0_20261120.py
-CAMBIOS: 1.4.1: T-400 (D-185, propietario): exenciones de suelo de partición declaradas en configuracion/historico_epoca/exenciones_suelo_epoca.json (atadas al sha256 del seccionado; 38-G01 de 2011-11): `_reparto_particiones` las admite si coinciden con las que calcula el reparto por componentes y deja constancia en `meta.historico_epoca.reparto_particiones`; una exención de suelo no declarada y no gobernada por la política del contrato base sigue fallando cerrado.
+VERSIÓN: 1.5.0 · FECHA: 2026-11-23 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/contrato_historico_epoca_v1.4.1_20261123.py
+CAMBIOS: 1.5.0: T-448 (D-197, propietario, 23-11): exención del tope del 1 % de población estimada para una provincia de UN diputado,
+  declarada en configuracion/historico_epoca/exenciones_relleno_epoca.json (atada al sha256 del seccionado y a la estimada medida;
+  2011-11: Ceuta 51). `aplicar_exenciones_relleno` la aplica al final de `construir_contrato`: BLOQUEADA_RELLENO → LISTA con
+  `exencion_relleno` (decisión, motivo, medida); con K ≠ 1, otro seccionado u otra medida falla cerrado. Sin declaración, nada cambia.
+  1.4.1: T-400 (D-185, propietario): exenciones de suelo de partición declaradas en configuracion/historico_epoca/exenciones_suelo_epoca.json (atadas al sha256 del seccionado; 38-G01 de 2011-11): `_reparto_particiones` las admite si coinciden con las que calcula el reparto por componentes y deja constancia en `meta.historico_epoca.reparto_particiones`; una exención de suelo no declarada y no gobernada por la política del contrato base sigue fallando cerrado.
   1.4.0: T-400 (D-185, propietario): `contrato --total-municipal 1mun00.csv` carga el total MUNICIPAL del Censo 2011 (INE, 1-nov-2011; huella en configuracion/historico_epoca/total_municipal_censo_2011.json) y lo usa en `rellenar_sin_poblacion`: las rellenadas se ajustan al residuo municipal (el Padrón 29005 se descartó: otra fecha) y una única sección sin dato en ningún año de un municipio recibe el residuo (mínimo 0; `residuo_municipal_censo`); más de una sigue sin dato (BLOQUEADA_SIN_DATO). Sin la opción, nada cambia.
   1.3.3: T-400 (D-180, propietario): en un territorio con particiones insulares (07, 35, 38) `validation.province_districts` ya no es {provincia: K} sino el reparto por partición de `component_hamilton` (materializar_contrato_generacion) con la población de la época, y la exención de suelo de una partición de un distrito bajo el suelo (`population_floor_exempt_partitions`, p. ej. 35-C02 Fuerteventura 2011) sale de la misma llamada, con `partition_populations` y `partition_apportionment_audit` y el motivo en `meta.historico_epoca.reparto_particiones`. Sin ello M04 fallaba «need=K > unidades abiertas=0».
   1.3.2: T-400: un puente topológico del contrato base cuyo extremo no existe en el seccionado de la época (nac35: La Graciosa 3502401010, que el INE segrega en 2019 de la 3502401005) se omite si una sección de la época ya lo contenía (M02 rechazaría un puente sin desconexión), declarada en configuracion/historico_epoca/puentes_epoca.json (atada al sha256 del seccionado, con la contención medida contra el donante 2019); sin declaración sigue fallando PUENTE_FUERA_DEL_SECCIONADO.
@@ -68,7 +72,7 @@ for _p in (ROOT, ROOT / "herramientas"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-VERSION = "1.4.1"
+VERSION = "1.5.0"
 SCHEMA = "ddd.contrato-historico-epoca/1.0"
 DIR_CONTRATOS = "configuracion/historico_epoca"
 FUENTES_R2 = "orchestracion/fuentes_r2.json"
@@ -83,6 +87,7 @@ ELECCIONES = {"2011-11": "201111", "2015-12": "201512", "2016-06": "201606", "20
 VOTOS_FUERA_CSV = "docs/ESTUDIOS/T399_2011_SIN_POBLACION/votos_fuera_del_seccionado.csv"  # votos del Observatorio en secciones fuera del seccionado (2011-11), D-158
 APARTADAS_POR_VOTOS = ("2011-11",)  # elecciones con provincias apartadas por votos sin asignar > 0,1 % (D-158)
 UMBRAL_RELLENO_PCT = 1  # D-126: > 1 % de población rellenada → la provincia no se publica sin decisión del propietario
+EXENCIONES_RELLENO = "configuracion/historico_epoca/exenciones_relleno_epoca.json"  # D-197: provincias de un diputado exentas del 1 %
 
 
 class ErrorContrato(SystemExit):
@@ -486,6 +491,34 @@ def leer_total_municipal(path: Path, root: Path = ROOT) -> tuple[dict[str, int],
     return out, decl
 
 
+def aplicar_exenciones_relleno(c: dict, root: Path = ROOT) -> dict:
+    """D-197 (propietario, 23-11): una provincia de UN diputado declarada en `exenciones_relleno_epoca.json` queda exenta del tope del 1 %
+    de población estimada (un único distrito: el reparto interno no cambia el mapa). Pasa de BLOQUEADA_RELLENO a LISTA con
+    `exencion_relleno`. Falla cerrado si la declaración es de otro seccionado, si K ≠ 1 o si la estimada medida no coincide."""
+    ruta = root / EXENCIONES_RELLENO
+    if not ruta.exists():
+        return c
+    e = (json.loads(ruta.read_text(encoding="utf-8")).get("elecciones") or {}).get(c.get("eleccion")) or {}
+    decl = e.get("provincias") or {}
+    if decl and e.get("seccionado_sha256") != c["seccionado"]["sha256"]:
+        raise ErrorContrato(f"EXENCION_RELLENO_DE_OTRO_SECCIONADO {c['eleccion']}: re-acreditar para {c['seccionado']['sha256'][:12]}")
+    for cpro, d in sorted(decl.items()):
+        p = c["provincias"].get(cpro)
+        if p is None:
+            raise ErrorContrato(f"EXENCION_RELLENO_SIN_PROVINCIA {c['eleccion']}/{cpro}")
+        if p["K"] != 1 or d["medido"]["K"] != 1:
+            raise ErrorContrato(f"EXENCION_RELLENO_SOLO_UN_DIPUTADO {c['eleccion']}/{cpro}: K={p['K']}")
+        pb = p["poblacion"]
+        medido = (pb["total"], pb["poblacion_no_dato"], pb["pct_no_dato"])
+        if medido != (d["medido"]["poblacion_total"], d["medido"]["poblacion_estimada"], d["medido"]["pct_estimada"]):
+            raise ErrorContrato(f"EXENCION_RELLENO_MEDIDA_DISTINTA {c['eleccion']}/{cpro}: {medido}")
+        if p["estado"] == "BLOQUEADA_RELLENO":
+            p["estado"] = "LISTA"
+            p["exencion_relleno"] = {"decision": d["decision"], "reason": d["reason"], "umbral_pct": UMBRAL_RELLENO_PCT,
+                                     "pct_estimada": pb["pct_no_dato"], "declaracion": EXENCIONES_RELLENO}
+    return c
+
+
 def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: str = VERSION,
                        anterior: str = "ninguna (fichero nuevo)", root: Path = ROOT, seccionado: Path | None = None,
                        donantes: Path | None = None, atlas: Path | None = None, total_municipal: dict | None = None, censo: Path | None = None,
@@ -613,7 +646,7 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
                           **({"votos_sin_asignar": votos_ap} if votos_ap else {})},
             "estado": estado,
         }
-    return {
+    return aplicar_exenciones_relleno({
         "schema": SCHEMA, "version": version, "anterior": anterior,
         "motivo": "D-125 (opción A: distritos con los datos de cada época), D-126/D-128 (población), T-199 (elección en el registro)",
         "generado_con": f"herramientas/contrato_historico_epoca.py {VERSION}",
@@ -623,7 +656,7 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
                        **({"donantes": [{k: v for k, v in d.items() if k != "ruta"} for d in don]} if (resueltas or cargas) else {})},
         "poblacion": {"fichero": tabla.name, "sha256": sha256(tabla), "origen": tabla_origen, "anio_referencia": e["poblacion_anio"],
                       "fuente": e["poblacion_fuente"],
-                      "regla_publicacion": f"> {UMBRAL_RELLENO_PCT} % estimada → BLOQUEADA_RELLENO (D-126/D-128; D-161: del reparto madre/hijas cuenta solo lo movido a las hijas más lo rellenado, no la madre); sin_dato → BLOQUEADA_SIN_DATO",
+                      "regla_publicacion": f"> {UMBRAL_RELLENO_PCT} % estimada → BLOQUEADA_RELLENO (D-126/D-128; D-161: del reparto madre/hijas cuenta solo lo movido a las hijas más lo rellenado, no la madre; D-197: exenta la provincia de un diputado declarada en {EXENCIONES_RELLENO}); sin_dato → BLOQUEADA_SIN_DATO",
                       "regla_sin_seccionado": METODO_SIN_SECCIONADO,
                       "regla_sin_poblacion": METODO_SIN_POBLACION,
                       **({"madres_verificadas_contra_censo": {"fuente": "indicadores_seccion_censal_csv.zip", "sha256": sumas.get("indicadores_seccion_censal_csv.zip")}}
@@ -643,7 +676,7 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
                    "contraste_boe": "historico_campana.contraste_boe (por partido, cobertura total, TOLERANCIA de cuadre_historico_espana)",
                    "escanos": "K del contrato = escaños BOE = distritos del M08"},
         "provincias": provincias,
-    }
+    }, root)
 
 
 def escribir_json(path: Path, data: dict) -> str:

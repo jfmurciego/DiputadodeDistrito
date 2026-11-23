@@ -196,7 +196,18 @@ class EspejoIne(unittest.TestCase):
                     st.enter_context(m)
                 with mock.patch.object(b, "_r2_cp", cp):
                     pkg = b.paquete_p10_desde_r2("nac42", td / "out")
-                self.assertEqual(claves, [f"s3://bk/arc-e/paquetes-p10/{h}.zip"])
+                self.assertEqual(claves, ["s3://bk/fuentes/por-territorio/nacionales/soria/paquete.zip"])  # T-443: árbol nuevo primero
+                claves.clear()
+
+                def solo_vieja(origen, destino):
+                    claves.append(origen)
+                    if "/arc-e/" not in origen:
+                        raise OSError("NoSuchKey")
+                    Path(destino).write_bytes(z.read_bytes())
+                with mock.patch.object(b, "_r2_cp", solo_vieja):
+                    pkg = b.paquete_p10_desde_r2("nac42", td / "out-vieja")
+                self.assertEqual(claves, ["s3://bk/fuentes/por-territorio/nacionales/soria/paquete.zip", f"s3://bk/arc-e/paquetes-p10/{h}.zip"])
+                self.assertEqual((pkg / "bundle.zip").read_bytes(), b"bundle")
                 self.assertEqual((pkg / "bundle.zip").read_bytes(), b"bundle")
                 with mock.patch.object(b, "_r2_cp", sin_objeto):
                     self.assertIsNone(b.paquete_p10_desde_r2("nac42", td / "out2"))

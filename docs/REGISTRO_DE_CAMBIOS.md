@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.588
+Versión: 1.0.596
 Fecha: 2026-11-23
-Alcance: T-430 — Paso 1 de la web en R2: Explorar puede leer los datos de `datos.diputadodedistrito.es` vía `actual.json`
+Alcance: T-448 — Histórico 2011-11: Ceuta exenta del 1 % (D-197) y espejo de 1mun00 preparado
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-22_t430c-explorar-actual.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.587_registro_20261123.md
+Cambios/motivo: entrada docs/registro/2026-11-23_t448-ceuta-espejo-1mun00.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.595_registro_20261123.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,14 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.587_registro_20261123.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.596 · [2026-11-23 — T-448 — Histórico 2011-11: Ceuta exenta del 1 % (D-197) y espejo de 1mun00 preparado](registro/2026-11-23_t448-ceuta-espejo-1mun00.md)
+- 1.0.595 · [2026-11-22 — T-444 — Diseño del cierre de la migración de workflows](registro/2026-11-22_t444-diseno-cierre-migracion.md)
+- 1.0.594 · [2026-11-23 — T-430 — Paso 3a de la web en R2: vista de pruebas por rama y su limpieza](registro/2026-11-23_t430e-pruebas-web.md)
+- 1.0.593 · [2026-11-23 — T-440 — Medir la web como un navegador y distinguir el bloqueo del CDN](registro/2026-11-23_t440b-medir-web-cdn.md)
+- 1.0.592 · [2026-11-22 — T-443 — Árbol nuevo de R2 (2/5): índices con clave anterior y lectores por índice con respaldo](registro/2026-11-22_t443-r2-indices.md)
+- 1.0.591 · [2026-11-22 — T-443 — Árbol nuevo de R2 (1/5): módulo de rutas y lectores con doble ruta](registro/2026-11-22_t443-r2-arbol-escritores.md)
+- 1.0.590 · [2026-11-22 — T-430 — Paso 2 de la web en R2: P40 sube también la web (sin datos) al bucket del sitio](registro/2026-11-22_t430d-p40-sitio-r2.md)
+- 1.0.589 · [2026-11-20 — T-424 — Diseño de «Datos» y «Fuentes» para la V4 (solo documento)](registro/2026-11-20_t424-datos-fuentes-diseno.md)
 - 1.0.588 · [2026-11-22 — T-430 — Paso 1 de la web en R2: Explorar puede leer los datos de `datos.diputadodedistrito.es` vía `actual.json`](registro/2026-11-22_t430c-explorar-actual.md)
 - 1.0.587 · [2026-11-22 — T-442 — Portada ligera en el móvil: fotos a la medida y vídeo solo al pulsar](registro/2026-11-22_t442-portada-ligera.md)
 - 1.0.586 · [2026-11-22 — T-430b — Rediseño: la web servida desde R2 con entorno de pruebas (solo documento)](registro/2026-11-22_t430b-rediseno-r2.md)

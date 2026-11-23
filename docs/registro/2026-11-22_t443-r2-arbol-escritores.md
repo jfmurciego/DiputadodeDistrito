@@ -1,0 +1,6 @@
+## 2026-11-22 — T-443 — Árbol nuevo de R2 (1/5): módulo de rutas y lectores con doble ruta
+
+- Causa: D-188/D-190 fijan un árbol de R2 en español (`fuentes/`, `mapas/`, `interno/`) sin códigos, runs ni sha en la ruta; cada herramienta componía su clave a su manera. Paso 1-2 del §c de `docs/ESTUDIOS/T435_ESTRUCTURA_R2/DISENO.md`.
+- Cambio: `herramientas/rutas_r2.py` 1.0.0 (nuevo): rutas de fuentes, paquetes P10, mapas, estados, informe de doble vuelta y manifiesto; regla de nombres (`validar`) y orden de lectura de la transición (`candidatas`). `herramientas/bateria_motor.py` 1.4.4: el paquete P10 se busca primero en `fuentes/por-territorio/<ámbito>/<territorio>/paquete.zip` y, si no está, en `arc-e/paquetes-p10/<package_sha256>.zip`. `DISENO.md` 1.1.0, §e: precisiones (nombre completo de la tabla maestra, competición en `interno/competicion/`, tipos de estado en minúsculas). No escribe, mueve ni borra nada en R2; ningún escritor cambia todavía.
+- Pruebas: `tests/test_t443_rutas_r2.py` (literales del cruce del P74 44871986746) y `tests/test_t298_espejo_ine.py` (doble ruta: nueva primero, vieja de respaldo).
+- Riesgos: ninguno en producción (la ruta nueva no existe aún; el respaldo lee la de siempre).

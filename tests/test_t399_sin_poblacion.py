@@ -2,9 +2,9 @@
 """T-399 (D-126/D-128): secciones del seccionado sin población en la tabla → rellenadas con el Atlas del año más cercano y ajuste municipal.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-20 · ESTADO: candidato
-ANTERIOR: legacy/tests/test_t399_sin_poblacion_v1.0.0_20261120.py
-CAMBIOS: 1.1.0: T-400 (D-185): total municipal del Censo 2011: residuo para la única sección sin dato de un municipio (36059: 0) y 36 pasa a LISTA. 1.0.0: fichero nuevo.
+VERSIÓN: 1.2.0 · FECHA: 2026-11-23 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_t399_sin_poblacion_v1.1.0_20261123.py
+CAMBIOS: 1.2.0: T-448 (D-197): Ceuta (51, un diputado) exenta del 1 % y LISTA; clase ExencionRelleno con controles negativos. 1.1.0: T-400 (D-185): total municipal del Censo 2011: residuo para la única sección sin dato de un municipio (36059: 0) y 36 pasa a LISTA. 1.0.0: fichero nuevo.
 MOTIVO: T-399 (D-158 B'). Atlas, tabla y seccionado sintéticos (valores esperados escritos a mano, no recalculados); sin red.
 """
 from __future__ import annotations
@@ -333,13 +333,14 @@ class CriterioDelUnoPorCiento(unittest.TestCase):
         pct = {k: float(c["provincias"][k]["poblacion"]["pct_no_dato"]) for k in ("15", "22", "29", "34", "47", "36", "51")}
         self.assertTrue(pct["51"] > 1 and pct["36"] <= 1)
         self.assertTrue(all(pct[k] <= 1 for k in ("15", "22", "29", "34", "47")), pct)
-        self.assertEqual(c["provincias"]["51"]["estado"], "BLOQUEADA_RELLENO")
+        self.assertEqual(c["provincias"]["51"]["estado"], "LISTA")  # D-197: un diputado, exenta del 1 % (declarada)
+        self.assertEqual(c["provincias"]["51"]["exencion_relleno"]["decision"], "D-197 (propietario, 23-11)")
         self.assertEqual(c["provincias"]["36"]["estado"], "LISTA")  # D-185: su única sección sin dato recibe el residuo municipal del Censo
         for k in ("15", "22", "29", "34", "47"):
             self.assertEqual(c["provincias"][k]["estado"], "LISTA", k)
         estados = {k: p["estado"] for k, p in c["provincias"].items()}
         self.assertEqual({e: sum(v == e for v in estados.values()) for e in set(estados.values())},
-                         {"LISTA": 45, "APARTADA_VOTOS": 5, "BLOQUEADA_SIN_DATO": 1, "BLOQUEADA_RELLENO": 1})  # D-185: 36 pasa a LISTA
+                         {"LISTA": 46, "APARTADA_VOTOS": 5, "BLOQUEADA_SIN_DATO": 1})  # D-185: 36 pasa a LISTA; D-197: 51 también
 
     def test_las_otras_elecciones_no_cambian_de_criterio(self):
         for e in ("2015-12", "2016-06", "2019-04", "2019-11"):  # sin reparto madre/hijas: mismo cómputo que con D-126
@@ -405,7 +406,7 @@ class ContratosVersionados(unittest.TestCase):
                     if r["sin_dato"]:
                         self.assertEqual(p["estado"], "BLOQUEADA_SIN_DATO")  # sin dato en ningún año: no se inventa
                     # el relleno cuenta como estimado: si pasa del 1 % la provincia no es LISTA (D-126)
-                    if r["habitantes_rellenados"] * 100 > pb["total"]:
+                    if r["habitantes_rellenados"] * 100 > pb["total"] and "exencion_relleno" not in p:
                         self.assertNotEqual(p["estado"], "LISTA")
 
     def test_informe_coincide_con_los_contratos(self):
@@ -416,6 +417,52 @@ class ContratosVersionados(unittest.TestCase):
             n += sum(len((p["poblacion"].get("sin_poblacion_resuelto") or {}).get("rellenadas", [])) for p in c["provincias"].values())
         self.assertEqual(sum(f["secciones_rellenadas"] for f in prov), n)
         self.assertEqual(sum(f["secciones_rellenadas"] for f in mun), n)
+
+
+class ExencionRelleno(unittest.TestCase):
+    """D-197 (propietario, 23-11): una provincia de un diputado declarada queda exenta del tope del 1 %; el resto, no."""
+    SECC = "772ad76b84e1b3bb9293a5595d2ccafa06f21a3a58ccc96a9ec5dadd99e46c4a"
+
+    def _c(self, k=1, estimada=1410, estado="BLOQUEADA_RELLENO", cpro="51"):
+        return {"eleccion": "2011-11", "seccionado": {"sha256": self.SECC},
+                "provincias": {cpro: {"K": k, "estado": estado,
+                                      "poblacion": {"total": 83195, "poblacion_no_dato": estimada, "pct_no_dato": che.pct(estimada, 83195)}}}}
+
+    def test_declarada_y_un_diputado_pasa_a_lista(self):
+        c = che.aplicar_exenciones_relleno(self._c())
+        self.assertEqual(c["provincias"]["51"]["estado"], "LISTA")
+        self.assertEqual(c["provincias"]["51"]["exencion_relleno"]["pct_estimada"], "1.6948")  # 1.410 / 83.195, contrato 1.4.0
+
+    def test_mas_de_un_diputado_falla_cerrado(self):
+        with self.assertRaises(che.ErrorContrato) as cm:
+            che.aplicar_exenciones_relleno(self._c(k=2))
+        self.assertIn("EXENCION_RELLENO_SOLO_UN_DIPUTADO", str(cm.exception))
+
+    def test_otra_medida_falla_cerrado(self):
+        with self.assertRaises(che.ErrorContrato) as cm:
+            che.aplicar_exenciones_relleno(self._c(estimada=1500))
+        self.assertIn("EXENCION_RELLENO_MEDIDA_DISTINTA", str(cm.exception))
+
+    def test_otro_seccionado_falla_cerrado(self):
+        c = self._c()
+        c["seccionado"]["sha256"] = "0" * 64
+        with self.assertRaises(che.ErrorContrato) as cm:
+            che.aplicar_exenciones_relleno(c)
+        self.assertIn("EXENCION_RELLENO_DE_OTRO_SECCIONADO", str(cm.exception))
+
+    def test_otra_eleccion_o_provincia_no_declarada_no_cambia(self):
+        c = self._c()
+        c["eleccion"] = "2019-11"
+        self.assertEqual(che.aplicar_exenciones_relleno(c)["provincias"]["51"]["estado"], "BLOQUEADA_RELLENO")
+        c = self._c(cpro="52")
+        c["provincias"]["51"] = c["provincias"]["52"]
+        with self.assertRaises(che.ErrorContrato):  # la declarada (51) debe existir; 52 no se toca
+            che.aplicar_exenciones_relleno({**c, "provincias": {"52": c["provincias"]["52"]}})
+
+    def test_contrato_materializable_para_ceuta(self):
+        c = json.loads(che.ruta_contrato("2011-11").read_text(encoding="utf-8"))
+        self.assertEqual((c["provincias"]["51"]["K"], c["provincias"]["51"]["estado"]), (1, "LISTA"))
+        self.assertTrue(all(p["estado"] != "LISTA" or "exencion_relleno" not in p or p["K"] == 1 for p in c["provincias"].values()))
 
 
 if __name__ == "__main__":

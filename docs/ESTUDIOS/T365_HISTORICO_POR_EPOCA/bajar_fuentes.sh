@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.0 · FECHA: 2026-11-16 · ESTADO: candidato
-# ANTERIOR: ninguna (fichero nuevo)
-# CAMBIOS: 1.0.0: fichero nuevo (tabla de población de T-358 o de T-364).
+# VERSIÓN: 1.1.0 · FECHA: 2026-11-23 · ESTADO: candidato
+# ANTERIOR: legacy/bajar_fuentes_t365_v1.0.0_20261123.sh
+# CAMBIOS: 1.1.0: T-448 (D-185/D-197): en 2011-11 baja también 1mun00.csv (total municipal del Censo 2011, para
+#   `contrato --total-municipal`): primero de la release espejo declarada en
+#   configuracion/historico_epoca/total_municipal_censo_2011.json (`espejo`), si existe; si no, del INE; sha256 y bytes
+#   contra esa declaración (falla cerrado).
+#   1.0.0: fichero nuevo (tabla de población de T-358 o de T-364).
 # MOTIVO: T-365 (D-125). Baja las fuentes de una elección y provincia del histórico por época y comprueba su sha256 contra el
 #   contrato versionado (configuracion/historico_epoca/contrato_<AAAA_MM>.json). Falla si una huella no coincide.
 #   Desde la sesión cloud (16-11) bajan www.ine.es y nazioenbehatokia.eus (HTTP 200); R2 solo desde Actions (secretos).
@@ -31,6 +35,26 @@ bajar "https://nazioenbehatokia.eus/$RUTA" "$D/nazioenbehatokia/$RUTA" "$(leer "
 bajar https://www.ine.es/jaxiT3/files/t/es/csv_bdsc/30832.csv "$D/30832.csv" "$(leer "c['poblacion']['fuentes']['30832.csv']")"
 bajar https://www.ine.es/censos2011_datos/indicadores_seccion_censal_csv.zip "$D/indicadores_seccion_censal_csv.zip" \
   "$(leer "c['poblacion']['fuentes']['indicadores_seccion_censal_csv.zip']")"
+if [[ "$E" == "2011-11" ]]; then
+  TM="$RAIZ/configuracion/historico_epoca/total_municipal_censo_2011.json"
+  tm() { python3 -c "import json,sys;d=json.load(open(sys.argv[1]));print(eval(sys.argv[2]))" "$TM" "$1"; }
+  F1="$D/$(tm "d['fuente']['fichero']")"; SHA1="$(tm "d['fuente']['sha256']")"; B1="$(tm "d['fuente']['bytes']")"
+  if ! [[ -f "$F1" && "$(sha256sum "$F1" | cut -d' ' -f1)" == "$SHA1" ]]; then
+    REPO="${GITHUB_REPOSITORY:-jfmurciego/diputadodedistrito}"
+    AID=$(gh api "repos/$REPO/releases/tags/$(tm "d['espejo']['release_tag']")" \
+          --jq ".assets[] | select(.name==\"$(tm "d['espejo']['asset']")\") | .id" 2>/dev/null || true)
+    if [[ -n "$AID" ]]; then
+      gh api "repos/$REPO/releases/assets/$AID" -H "Accept: application/octet-stream" > "$F1"
+      got=$(sha256sum "$F1" | cut -d' ' -f1); [[ "$got" == "$SHA1" ]] || { echo "ERROR sha256 espejo $F1: $got" >&2; exit 1; }
+      echo "OK $F1 (release espejo)"
+    else
+      bajar "$(tm "d['fuente']['url']")" "$F1" "$SHA1"
+    fi
+  else
+    echo "ya está: $F1"
+  fi
+  [[ "$(stat -c %s "$F1")" == "$B1" ]] || { echo "ERROR bytes $F1" >&2; exit 1; }
+fi
 TABLA="$D/$(leer "c['poblacion']['fichero']")"
 if [[ "$(leer "c['poblacion']['origen']")" == T-364* ]]; then
   # T-364 (D-128, #840): padrón municipal 29005 y los seccionados de 2015, 2016, 2019 y 2020 (huellas de T-357/T-364)
