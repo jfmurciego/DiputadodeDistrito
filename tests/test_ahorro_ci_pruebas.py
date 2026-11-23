@@ -129,7 +129,7 @@ class ClasificacionRobot(unittest.TestCase):
             out = repo / "salida.txt"; out.write_text("")
             env = {**os.environ, **{k: str(v) for k, v in (paso.get("env") or {}).items() if "${{" not in str(v)},
                    "EVENTO": evento, "ACTOR": actor, "BASE": base, "GITHUB_SHA": "HEAD", "GITHUB_OUTPUT": str(out)}
-            r = subprocess.run(["bash", "-c", paso["run"]], cwd=repo, env=env, capture_output=True, text=True)
+            r = subprocess.run(["bash", "-eo", "pipefail", "-c", paso["run"]], cwd=repo, env=env, capture_output=True, text=True)
             self.assertEqual(r.returncode, 0, r.stderr)
             return dict(l.split("=", 1) for l in out.read_text().splitlines() if "=" in l)
 
@@ -165,7 +165,7 @@ class ClasificacionRobot(unittest.TestCase):
 
     def test_grep_con_error_no_activa_el_atajo(self):
         paso = paso_cambios()
-        self.assertIn('ajeno="$(grep -vE "$RUTAS_WEB" <<<"$files")"; rc=$?', paso["run"])
+        self.assertIn('rc=0; ajeno="$(grep -vE "$RUTAS_WEB" <<<"$files")" || rc=$?', paso["run"])  # bajo -e, «; rc=$?» abortaba
         self.assertIn("if (( rc > 1 )); then", paso["run"])
 
     def test_pruebas_exige_web_en_verde_si_hay_atajo(self):

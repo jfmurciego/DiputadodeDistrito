@@ -16,7 +16,7 @@ from pathlib import Path
 
 import yaml
 
-from tests import _t430c
+from tests import _t430d
 from tests._uses_sin_version import cargar as cargar_sin_version
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -123,7 +123,7 @@ class Disparadores(Fixtures):
     def test_ningun_job_de_revisor_ni_fusion_en_p90(self):
         for j in ("veredicto", "revisar", "revisor_comprobar", "fusionar"):
             self.assertNotIn(j, self.p90["jobs"])
-        self.assertEqual(set(self.p90["jobs"]), set(MAPA.values()) | {"cierre_comprobar", "cierre_ia", "cierre_comentario", "medir_web", "pruebas_web", "limpiar_pruebas", "web"})  # medir_web: T-440; pruebas_web y limpiar_pruebas: T-430 paso 3a
+        self.assertEqual(set(self.p90["jobs"]), set(MAPA.values()) | {"cierre_comprobar", "cierre_ia", "cierre_comentario", "medir_web", "pruebas_web", "limpiar_pruebas", "web", "publicar_web"})  # medir_web: T-440; pruebas_web y limpiar_pruebas: T-430 paso 3a
 
     def test_checks_intocables_conservan_nombre(self):
         jobs = self.p90["jobs"]
@@ -166,7 +166,7 @@ class Equivalencia(Fixtures):
     def test_job_a_job_sin_diferencias(self):
         for (w, j), nuevo in MAPA.items():
             with self.subTest(antes=f"{w}:{j}", ahora=nuevo):
-                self.assertEqual([], diferencias(self.viejos[w], j, _t430c.deshacer(self.p90), nuevo, cambios=(w, j) == ("pruebas", "cambios"),  # T-430 3b: se deshace solo eso
+                self.assertEqual([], diferencias(self.viejos[w], j, _t430d.deshacer(self.p90), nuevo, cambios=(w, j) == ("pruebas", "cambios"),  # T-430 3b: se deshace solo eso
                                                  conc_cambia=(w, j) in CONC_CAMBIA, if_propio=(w, j) in IF_PROPIO))
 
     def test_ningun_job_gana_permisos_y_workflow_solo_lectura(self):

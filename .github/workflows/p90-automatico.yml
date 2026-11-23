@@ -1,10 +1,18 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.4.0
+# VERSIÓN: 1.5.0
 # NOMBRE DE VERSIÓN: P90 Automático — CI, IA de cierre de campaña, métricas y medición de la web en un solo workflow
 # FECHA: 2026-11-23
 # ESTADO: candidato
-# ANTERIOR: legacy/workflows/p90-automatico_v1.3.0_20261123.yml
+# ANTERIOR: legacy/workflows/p90-automatico_v1.4.0_20261123.yml
+# CAMBIOS 1.5.0: T-430 paso 3c (D-194, pregunta 7 de REDISENO_R2: publicar la web sola al fusionar, aprobada expresamente por el propietario):
+#   en un push a `main` cuyos ficheros son SOLO de la web (la misma lista `RUTAS_WEB` y el mismo fallo cerrado que el atajo de las PR) y
+#   tocan `visor/v4/`, `cambios` marca `publicar_web=true` (`web` sigue siendo solo de PR: en `main` corre la batería completa) y el job
+#   `publicar_web` monta el sitio de R2 vigente con la V4 de `main` (`herramientas/web_fusion_r2.py`: sha256 de cada fichero contra el
+#   índice del sitio, sin datos) y lo publica con `herramientas/publicar_sitio_r2.py` (mismo tope de borrado), sin P40 completa. Solo
+#   `main`, `contents: read`, secretos `R2_SITIO_*` en el paso, mismo grupo de concurrencia que P40 `publicar` (`ddd-pages-prod`); sin la
+#   variable `R2_SITIO_BUCKET` o sin índice previo del sitio no hace nada. No entra en `pruebas`. GitHub Pages no cambia (lo sigue publicando P40).
+# ANTERIOR (1.4.0): legacy/workflows/p90-automatico_v1.3.0_20261123.yml
 # CAMBIOS 1.4.0: T-430 paso 3b (D-194, pregunta 6 de REDISENO_R2: atajo de CI aprobado expresamente por el propietario): en una PR cuyos ficheros
 #   son SOLO de la web (`visor/v4/…`, sus tests `tests/test_visor_v4*` y la entrada de `docs/registro/`), `cambios` marca `web=true`: la
 #   batería completa (`suite`) no corre y en su lugar corre el job `web` (las pruebas de la V4, T-428, sin terceros, T-220 y vista de
@@ -76,6 +84,7 @@ jobs:
       numeracion: ${{ steps.f.outputs.numeracion }}
       robot: ${{ steps.f.outputs.robot }}
       web: ${{ steps.f.outputs.web }}
+      publicar_web: ${{ steps.f.outputs.publicar_web }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -123,12 +132,21 @@ jobs:
           # T-430 3b (D-194, P6): PR que solo toca la web (y toca visor/v4/): pruebas de la web en vez de la batería completa.
           web=false
           if [[ "$EVENTO" == "pull_request" && "$files" != "todo" && -n "$files" ]]; then
-            ajeno="$(grep -vE "$RUTAS_WEB" <<<"$files")"; rc=$?  # 0: hay ajenos; 1: ninguno; >1: error de grep -> batería completa
+            rc=0; ajeno="$(grep -vE "$RUTAS_WEB" <<<"$files")" || rc=$?  # 0: hay ajenos; 1: ninguno; >1: error de grep -> batería completa
             if (( rc > 1 )); then echo "::notice::No se pudo clasificar la PR como solo web (grep rc=$rc): batería completa."
             elif [[ -z "$ajeno" ]] && grep -qE '^visor/v4/' <<<"$files"; then web=true; fi
           fi
           echo "web=$web" >> "$GITHUB_OUTPUT"
           echo "web=$web"
+          # T-430 3c (D-194, P7): push a main solo de la web (misma lista y mismo fallo cerrado): publicar la web sola (job `publicar_web`).
+          publicar_web=false
+          if [[ "$EVENTO" == "push" && "$files" != "todo" && -n "$files" ]]; then
+            rc=0; ajeno="$(grep -vE "$RUTAS_WEB" <<<"$files")" || rc=$?  # 0: hay ajenos; 1: ninguno; >1: error de grep -> no se publica
+            if (( rc > 1 )); then echo "::notice::No se pudo clasificar el push como solo web (grep rc=$rc): no se publica la web."
+            elif [[ -z "$ajeno" ]] && grep -qE '^visor/v4/' <<<"$files"; then publicar_web=true; fi
+          fi
+          echo "publicar_web=$publicar_web" >> "$GITHUB_OUTPUT"
+          echo "publicar_web=$publicar_web"
 
   guardian:
     needs: cambios
@@ -443,7 +461,7 @@ jobs:
           # (grep de «visor/v4» y «visor/» en tests/, 23-11; lista en el registro). Más tests que lean la web: añadirlos aquí.
           python -m unittest discover -s tests -t . -p 'test_visor_v4*.py'
           python -m unittest tests.test_t428_v4_raiz tests.test_t429_textos_v4 tests.test_t419_publicar_doble_vuelta tests.test_visor_analitica \
-            tests.test_visor_sin_terceros tests.test_t220_renombrado tests.test_t430_pruebas_web
+            tests.test_visor_sin_terceros tests.test_t220_renombrado tests.test_t430_pruebas_web tests.test_t430_web_fusion
 
   catalogo:
     name: Regenerar catálogo de procedencia
@@ -1010,3 +1028,41 @@ jobs:
           # si la lista de PR abiertas falla, el paso falla y no se borra nada
           abiertas="$(gh api "repos/$GITHUB_REPOSITORY/pulls?state=open&per_page=100" --paginate --jq '.[].head.ref' | paste -sd, -)"
           python3 herramientas/pruebas_web_r2.py limpiar --abiertas "$abiertas"
+
+  publicar_web:
+    # T-430 paso 3c (D-194, P7): la web sola al fusionar una PR que solo toca la web: sitio de R2 vigente + V4 de main, sin datos ni P40.
+    needs: cambios
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.cambios.outputs.publicar_web == 'true' }}
+    concurrency:
+      group: ddd-pages-prod  # el mismo que P40 `publicar`: nunca dos escrituras del sitio a la vez
+      cancel-in-progress: false
+      queue: max
+    permissions:
+      contents: read
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2  # el commit anterior, para los nombres de visor/v4/ de antes de la fusión
+          persist-credentials: false
+      - name: Publicar la web en R2
+        shell: bash
+        env:
+          ANTES: ${{ github.event.before }}
+          PYTHONPATH: ${{ github.workspace }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_SITIO_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SITIO_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_SITIO_BUCKET: ${{ vars.R2_SITIO_BUCKET }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}  # para rechazar que el bucket del sitio sea el de trabajo
+          R2_WEB_BUCKET: ${{ vars.R2_WEB_BUCKET }}  # o el de datos
+        run: |
+          set -euo pipefail
+          if [[ -z "${R2_SITIO_BUCKET:-}" ]]; then echo "Sin R2_SITIO_BUCKET: no se publica la web."; exit 0; fi
+          previos="$( { git ls-tree --name-only "$ANTES" visor/v4/ 2>/dev/null || true; } | sed 's#^visor/v4/##' | paste -sd, -)"
+          sitio="$RUNNER_TEMP/sitio-web"
+          python3 herramientas/web_fusion_r2.py --destino "$sitio" --previos "$previos"
+          if [[ ! -f "$sitio/index.html" ]]; then echo "Sin sitio previo en R2: la primera publicación es de P40."; exit 0; fi
+          python3 herramientas/publicar_sitio_r2.py --sitio "$sitio"
