@@ -1,0 +1,11 @@
+## 2026-11-23 — T-443 — Árbol nuevo de R2 (5/5): `podar_r2.py` protege `fuentes/`, `interno/` y `mapas/` y guarda `arc-e/paquetes-p10/` (D-198)
+
+- Causa: paso 6 del §c de `docs/ESTUDIOS/T435_ESTRUCTURA_R2/DISENO.md` y §f (D-198): la poda se actualiza antes de cualquier borrado; `arc-e/paquetes-p10/` no se borra hasta que exista la copia por edición de cada paquete citado, comprobada por sha256.
+- Cambio (`podar_r2.py` 1.2.0):
+  - Ninguna fila de la lista puede ser de `fuentes/`, `interno/` o `mapas/` (`CLAVE_PROTEGIDA`), ni de `arc-e/` salvo `arc-e/paquetes-p10/<package_sha256>.zip`.
+  - Filas de paquete P10: solo si CADA paquete citado (por territorio y edición de `configuracion/catalogo_preparacion.yaml`: el `generation_state` del contrato —el que archiva `bateria_motor archivar-p10`— o, sin él, la evidencia del catálogo; hoy 120, uno por territorio y edición) tiene `fuentes/por-territorio/<ámbito>/<territorio>/<edición>/paquete.zip` con manifiesto de huella = package_sha256 y sha256 del zip igual al metadato de R2; si falta uno, ninguna fila de paquete pasa (`ARC_E_P10_SIN_COPIA_POR_EDICION`). Paquete citado: su `copia_clave` es esa copia (`P10_CITADO_SIN_SU_COPIA`); no citado (D-178): sin copia.
+  - Lista con claves nuevas: la copia que se conserva puede estar en `interno/estados/…` (territorio = el de su entrada en `orchestracion/archivo_r2.json`); fuera de `interno/estados/`, `COPIA_FUERA_DE_INTERNO_ESTADOS`.
+  - M01/M02/M03/M03U: el paquete P10 del territorio vale en la ruta por edición (`default_edition` del catálogo) o en `arc-e/`.
+  - CLI, simulación por defecto y lista aprobada (`ola1_borrar.csv`, sha256 fijado) sin cambio.
+- Pruebas: `tests/test_podar_r2.py` 1.1.0 (`ArbolNuevo`: claves protegidas, P10 citado y no citado con copia por edición, falta una copia → nada, copia de otro paquete o con otro sha → nada, fila citada sin su copia, copia en `interno/estados/` del mismo u otro territorio, catálogo real: un paquete por territorio y edición), `test_t298_espejo_ine`, `test_t368_p70_equivalencia`.
+- Riesgos: no borra nada (la poda sigue exigiendo lista aprobada, `--ejecutar`, entorno `produccion` y frase D-52). Mientras falte alguna copia por edición, ninguna fila de `arc-e/paquetes-p10/` pasa la verificación: es lo buscado.
