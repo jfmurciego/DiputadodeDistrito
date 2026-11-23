@@ -2,9 +2,10 @@
 """T-396 (D-153): secciones con población sin geometría en el seccionado del año → asignada / excluida / APARTADA.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-17 · ESTADO: candidato
-ANTERIOR: legacy/tests/test_t396_sin_seccionado_v1.0.0_20261117.py
-CAMBIOS: 1.1.0: T-402: `materializar` normaliza la geometría; con zip falso se parchea `_normalizar_seccionado`. 1.0.0: fichero nuevo.
+VERSIÓN: 1.2.0 · FECHA: 2026-11-23 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_t396_sin_seccionado_v1.1.0_20261123.py
+CAMBIOS: 1.2.0: T-448 (D-200): sucesora sin fila que contiene la sección al 100 % con el centroide y en el mismo municipio → asignada y
+  la sucesora nace `reasignada`; controles negativos (contención parcial, otro municipio, punto representativo). 1.1.0: T-402: `materializar` normaliza la geometría; con zip falso se parchea `_normalizar_seccionado`. 1.0.0: fichero nuevo.
 MOTIVO: T-396. Geometrías y tabla sintéticas (valores esperados escritos a mano, no recalculados); sin red.
 """
 from __future__ import annotations
@@ -75,10 +76,35 @@ class AsignarSinSeccionado(unittest.TestCase):
         self.assertEqual(r["2200101009"]["destino"], "excluida")
 
     def test_sucesora_sin_fila_en_la_tabla_se_excluye(self):
-        r = che.asignar_sin_seccionado(["2200101009"], {"2200101009": 7}, _geo_anio(), [(2019, lambda: {"2200101009": box(1, 1, 3, 3)})],
+        # contenida solo en 5/6 (box 5..11 sobre A = 0..10): sigue excluida aunque el centroide (8,2) caiga en A
+        r = che.asignar_sin_seccionado(["2200101009"], {"2200101009": 7}, _geo_anio(), [(2019, lambda: {"2200101009": box(5, 1, 11, 3)})],
                                        con_fila={B})
         self.assertEqual((r["2200101009"]["destino"], r["2200101009"]["poblacion"]), ("excluida", 7))
         self.assertIn(A, r["2200101009"]["motivo"])
+
+    def test_d200_sucesora_sin_fila_que_la_contiene_entera_la_recibe(self):
+        r = che.asignar_sin_seccionado(["2200101009"], {"2200101009": 7}, _geo_anio(), [(2019, lambda: {"2200101009": box(1, 1, 3, 3)})],
+                                       con_fila={B})
+        self.assertEqual((r["2200101009"]["destino"], r["2200101009"]["sucesora"], r["2200101009"]["sucesora_sin_fila"],
+                          r["2200101009"]["contencion"]), ("asignada", A, True, "1.0000"))
+        # otro municipio (22002 dentro de A, que es 22001): excluida
+        r = che.asignar_sin_seccionado(["2200201009"], {"2200201009": 7}, _geo_anio(), [(2019, lambda: {"2200201009": box(1, 1, 3, 3)})],
+                                       con_fila={B})
+        self.assertEqual(r["2200201009"]["destino"], "excluida")
+        # con sucesora con fila no cambia nada (regla D-153 de siempre, sin marca)
+        r = che.asignar_sin_seccionado(["2200101009"], {"2200101009": 7}, _geo_anio(), [(2019, lambda: {"2200101009": box(1, 1, 3, 3)})],
+                                       con_fila={A, B})
+        self.assertEqual((r["2200101009"]["destino"], "sucesora_sin_fila" in r["2200101009"]), ("asignada", False))
+
+    def test_d200_solo_con_centroide_no_con_punto_representativo(self):
+        from shapely.geometry import Polygon
+        ele = Polygon([(1, 1), (9, 1), (9, 2), (2, 2), (2, 9), (1, 9)])  # en L dentro de A; su centroide cae en el hueco, también dentro de A
+        self.assertTrue(box(0, 0, 10, 10).contains(ele.centroid))
+        r = che.asignar_sin_seccionado(["2200101009"], {"2200101009": 7}, _geo_anio(), [(2019, lambda: {"2200101009": ele})], con_fila={B})
+        self.assertEqual((r["2200101009"]["destino"], r["2200101009"]["punto"]), ("asignada", "centroide"))
+        geo = {A: box(0.5, 0.5, 2.5, 9.5), B: box(10, 0, 20, 10)}  # A contiene solo el brazo vertical: no la contiene entera
+        r = che.asignar_sin_seccionado(["2200101009"], {"2200101009": 7}, geo, [(2019, lambda: {"2200101009": ele})], con_fila={B})
+        self.assertEqual(r["2200101009"]["destino"], "excluida")
 
     def test_donante_con_huella_distinta_falla_cerrado(self):
         with tempfile.TemporaryDirectory() as d:
@@ -99,6 +125,17 @@ class AplicarAsignacion(unittest.TestCase):
         out = che.aplicar_asignacion(pob, [{"seccion": "2200101009", "sucesora": A, "poblacion": 7}], [])
         self.assertEqual(out[A], {"poblacion": 17, "origen": "reasignada"})  # con una estimada, cuenta como estimada
         self.assertEqual(pob["2200101009"]["poblacion"], 7)  # la entrada no se muta
+
+    def test_d200_la_sucesora_sin_fila_nace_reasignada(self):
+        pob = {B: {"poblacion": 20, "origen": "dato"}, "2200101009": {"poblacion": 270, "origen": "dato"}}
+        out = che.aplicar_asignacion(pob, [{"seccion": "2200101009", "sucesora": A, "poblacion": 270, "sucesora_sin_fila": True}], [])
+        self.assertEqual(out, {A: {"poblacion": 270, "origen": "reasignada"}, B: {"poblacion": 20, "origen": "dato"}})
+        with self.assertRaises(SystemExit) as cm:  # marcada sin fila pero la tiene: falla cerrado
+            che.aplicar_asignacion(pob, [{"seccion": "2200101009", "sucesora": B, "poblacion": 270, "sucesora_sin_fila": True}], [])
+        self.assertIn("SUCESORA_CON_FILA", str(cm.exception))
+        with self.assertRaises(SystemExit) as cm:  # sin marca y sin fila: como antes
+            che.aplicar_asignacion(pob, [{"seccion": "2200101009", "sucesora": A, "poblacion": 270}], [])
+        self.assertIn("SUCESORA_SIN_FILA", str(cm.exception))
 
     def test_poblacion_declarada_distinta_falla(self):
         pob = {A: {"poblacion": 10, "origen": "dato"}, "2200101009": {"poblacion": 7, "origen": "dato"}}

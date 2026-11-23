@@ -2,9 +2,9 @@
 """T-365 (D-125): contrato por elección del histórico por época, contrato M01-M06 por provincia y puerta M07/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.6 · FECHA: 2026-11-23 · ESTADO: candidato
-ANTERIOR: legacy/tests/test_t365_historico_epoca_v1.4.5_20261123.py
-CAMBIOS: 1.4.6: T-448 (D-197): contrato 2011-11 en 1.5.0 (anterior 1.4.0); clase EspejoTotalMunicipal (release de 1mun00 declarada). 1.4.5: T-400 (D-185): exención de suelo declarada de 38-G01 (clase RepartoParticiones). 1.4.4: T-400 (D-185): contrato 2011-11 en 1.4.0 y total municipal del Censo (huella, lectura). 1.4.3: T-400 (D-180): clase RepartoParticiones. 1.4.2: T-400: clase PuentesDeEpoca. 1.4.1: T-405: clase TopologiaAdministrativa. 1.4.0: T-399: estado APARTADA_VOTOS admitido (D-158). 1.3.0: T-402: `materializar` normaliza la geometría (parche del seccionado en los tests con zip falso; clase NormalizacionGeometria con zip real). 1.2.0: T-396 (D-153): estado APARTADA admitido; contratos 1.2.0 con anterior 1.1.0. 1.1.0: T-389 (T-365b): contratos con la tabla de T-364b (1.2.0): provincias apartadas = BLOQUEADA_SIN_DATO sin filas, fallo cerrado con la tabla vieja.
+VERSIÓN: 1.4.7 · FECHA: 2026-11-23 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_t365_historico_epoca_v1.4.6_20261123.py
+CAMBIOS: 1.4.7: T-448 (D-200): contrato 2011-11 en 1.6.0 (anterior 1.5.0). 1.4.6: T-448 (D-197): contrato 2011-11 en 1.5.0 (anterior 1.4.0); clase EspejoTotalMunicipal (release de 1mun00 declarada). 1.4.5: T-400 (D-185): exención de suelo declarada de 38-G01 (clase RepartoParticiones). 1.4.4: T-400 (D-185): contrato 2011-11 en 1.4.0 y total municipal del Censo (huella, lectura). 1.4.3: T-400 (D-180): clase RepartoParticiones. 1.4.2: T-400: clase PuentesDeEpoca. 1.4.1: T-405: clase TopologiaAdministrativa. 1.4.0: T-399: estado APARTADA_VOTOS admitido (D-158). 1.3.0: T-402: `materializar` normaliza la geometría (parche del seccionado en los tests con zip falso; clase NormalizacionGeometria con zip real). 1.2.0: T-396 (D-153): estado APARTADA admitido; contratos 1.2.0 con anterior 1.1.0. 1.1.0: T-389 (T-365b): contratos con la tabla de T-364b (1.2.0): provincias apartadas = BLOQUEADA_SIN_DATO sin filas, fallo cerrado con la tabla vieja.
 MOTIVO: T-365. Sin red ni fuentes pesadas: el flujo M07/M08 usa un M06 sintético y los módulos reales.
 """
 from __future__ import annotations
@@ -680,8 +680,8 @@ class TablaT364b(unittest.TestCase):
 
     @staticmethod
     def _anterior_valido(ruta: str, eleccion: str) -> bool:
-        if eleccion == "2011-11":  # D-197: 1.5.0 desde la 1.4.0 del 23-11
-            return ruta == "legacy/contrato_historico_epoca_2011_11_v1.4.0_20261123.json"
+        if eleccion == "2011-11":  # D-200: 1.6.0 desde la 1.5.0 del 23-11
+            return ruta == "legacy/contrato_historico_epoca_2011_11_v1.5.0_20261123.json"
         return ruta == f"legacy/contrato_historico_epoca_{eleccion.replace('-', '_')}_v1.2.0_20261117.json"
 
     def test_anterior_se_valida_por_forma(self):  # control negativo: ruta mal formada o de otra elección falla
@@ -698,7 +698,7 @@ class TablaT364b(unittest.TestCase):
                 self.assertEqual(c["poblacion"]["sha256"], self.NUEVAS[e])
                 self.assertNotEqual(c["poblacion"]["sha256"], self.VIEJAS.get(e))
                 self.assertIn("1.2.0", c["poblacion"]["origen"])
-                self.assertEqual(c["version"], "1.5.0" if e == "2011-11" else "1.3.0")  # T-399; 2011-11: D-185, D-197
+                self.assertEqual(c["version"], "1.6.0" if e == "2011-11" else "1.3.0")  # T-399; 2011-11: D-185, D-197, D-200
                 self.assertTrue(self._anterior_valido(c["anterior"], e), c["anterior"])  # forma; la imagen de CI no trae legacy/
                 if (ROOT / ".git").exists() and (ROOT / "legacy").is_dir():  # existencia solo con árbol completo
                     self.assertTrue((ROOT / c["anterior"]).is_file())
