@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.587
+Versión: 1.0.588
 Fecha: 2026-11-23
-Alcance: T-442 — Portada ligera en el móvil: fotos a la medida y vídeo solo al pulsar
+Alcance: T-430 — Paso 1 de la web en R2: Explorar puede leer los datos de `datos.diputadodedistrito.es` vía `actual.json`
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-22_t442-portada-ligera.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.586_registro_20261123.md
+Cambios/motivo: entrada docs/registro/2026-11-22_t430c-explorar-actual.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.587_registro_20261123.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.586_registro_20261123.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.588 · [2026-11-22 — T-430 — Paso 1 de la web en R2: Explorar puede leer los datos de `datos.diputadodedistrito.es` vía `actual.json`](registro/2026-11-22_t430c-explorar-actual.md)
 - 1.0.587 · [2026-11-22 — T-442 — Portada ligera en el móvil: fotos a la medida y vídeo solo al pulsar](registro/2026-11-22_t442-portada-ligera.md)
 - 1.0.586 · [2026-11-22 — T-430b — Rediseño: la web servida desde R2 con entorno de pruebas (solo documento)](registro/2026-11-22_t430b-rediseno-r2.md)
 - 1.0.585 · [2026-11-22 — T-447 — Plan 1.0.75](registro/2026-11-22_planificador-plan-1-0-75.md)
