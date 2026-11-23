@@ -105,6 +105,14 @@ class AsignarSinSeccionado(unittest.TestCase):
         geo = {A: box(0.5, 0.5, 2.5, 9.5), B: box(10, 0, 20, 10)}  # A contiene solo el brazo vertical: no la contiene entera
         r = che.asignar_sin_seccionado(["2200101009"], {"2200101009": 7}, geo, [(2019, lambda: {"2200101009": ele})], con_fila={B})
         self.assertEqual(r["2200101009"]["destino"], "excluida")
+        # contenida entera (≥ 0,999) pero el centroide cae en el hueco de la L, fuera de todo el seccionado: solo la encuentra el punto
+        # representativo → excluida (aísla la condición «centroide dentro» de D-200)
+        geo = {A: ele.buffer(0.1), B: box(10, 0, 20, 10)}
+        self.assertFalse(any(g.contains(ele.centroid) for g in geo.values()))
+        self.assertGreaterEqual(ele.intersection(geo[A]).area / ele.area, che.CONTENCION_SUCESORA)
+        r = che.asignar_sin_seccionado(["2200101009"], {"2200101009": 7}, geo, [(2019, lambda: {"2200101009": ele})], con_fila={B})
+        self.assertEqual(r["2200101009"]["destino"], "excluida")
+        self.assertIn(A, r["2200101009"]["motivo"])
 
     def test_donante_con_huella_distinta_falla_cerrado(self):
         with tempfile.TemporaryDirectory() as d:
