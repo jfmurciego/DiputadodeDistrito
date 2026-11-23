@@ -17,9 +17,9 @@ CAMBIOS: 1.2.0 (T-449, run 45170670366: las 2 distribuciones de datos.gob.es dan
   oficial del catálogo es un fichero, `espejar` busca en la Wayback Machine (API CDX) la última captura 200 no HTML de cada URL oficial,
   baja la copia íntegra (`id_`), exige que su SHA-1 en base32 sea el `digest` de la captura y la declara en el manifiesto como «copia
   archivada» con `oficial: false` y `tipo: copia_archivada` (URL original, captura y URL del archivo); sin `digest` en la captura falla
-  cerrado (ESPEJO_COPIA_SIN_DIGEST); lo mismo para el PDF de verificación. `subir` NO sube una copia archivada mientras
-  `copias_archivadas_destino` sea `no_subir` (por defecto; decisión del propietario pendiente: `fuentes-archivadas` la lleva, con todo su
-  conjunto, a esa raíz; `fuentes` la mezclaría con los originales de D-198). `descubrir` interpreta las respuestas CDX
+  cerrado (ESPEJO_COPIA_SIN_DIGEST); lo mismo para el PDF de verificación. `subir` NUNCA sube una copia archivada
+  (decisión del propietario, 23-11: solo se mide; queda en el log, el resumen y el artefacto con su huella; subirla sería una PR aparte;
+  `copias_archivadas_destino` solo admite `no_subir`). `descubrir` interpreta las respuestas CDX
   (prefijos del portal antiguo y del sitio de elecciones) y sondea también medios (fuente NO oficial: nunca se suben solos).
   1.1.0 (T-448, D-202): modo «URL directa» para una entrada con `url` (sin `api_url`): baja ese fichero (mismos hosts, redirecciones,
   `max_bytes` y rechazo de HTML), exige `sha256_esperado` y `bytes_esperados` (si no coinciden, ESPEJO_HUELLA_INESPERADA y no se escribe nada) y
@@ -87,8 +87,8 @@ def declaracion(territorio: str, ruta: Path = DECLARACION) -> dict:
     return e
 
 
-RAICES = ("fuentes", "fuentes-archivadas")
-DESTINOS_COPIA = ("no_subir", "fuentes-archivadas", "fuentes")  # decisión del propietario pendiente; por defecto, no se sube
+RAICES = ("fuentes",)
+DESTINOS_COPIA = ("no_subir",)  # decisión del propietario (23-11): la copia archivada SOLO se mide; subirla sería una PR aparte
 
 
 def destino_copias(e: dict) -> str:
@@ -100,12 +100,12 @@ def destino_copias(e: dict) -> str:
 
 def raiz_conjunto(e: dict, tipo_principal: str) -> str:
     """Raíz de R2 de todo el conjunto (piezas y manifiesto): la de la pieza principal."""
-    return "fuentes-archivadas" if tipo_principal == "copia_archivada" and destino_copias(e) == "fuentes-archivadas" else "fuentes"
+    destino_copias(e)
+    return "fuentes"
 
 
 def clave_r2(organismo: str, anyo: int, nombre: str, raiz: str = "fuentes") -> str:
-    """Clave del árbol de D-188: <raíz>/<organismo>/<año>/<nombre>; sin códigos de territorio, run ni sha. Raíz `fuentes` (oficiales,
-    inmutable, D-198) o `fuentes-archivadas` (copias archivadas, si el propietario lo elige)."""
+    """Clave del árbol de D-188: fuentes/<organismo>/<año>/<nombre>; sin códigos de territorio, run ni sha (oficiales, inmutable, D-198)."""
     if raiz not in RAICES:
         raise ErrorEspejo("ESPEJO_NOMBRE_INVALIDO", f"raíz {raiz!r}")
     if not NOMBRE_RE.match(organismo) or not re.match(r"^[a-z0-9-]+(\.[a-z0-9]+)?$", nombre):
@@ -476,7 +476,7 @@ def _escribir(territorio: str, e: dict, dist: dict, datos: bytes, salida: Path, 
 
 def subir_espejo(territorio: str, salida: Path, aws=_aws, ruta_decl: Path = DECLARACION) -> dict:
     """Subir lo medido por `espejar`: piezas primero y manifiesto el último, todo condicional. Una copia archivada como pieza principal
-    no se sube con `copias_archivadas_destino` = no_subir (por defecto); con `fuentes-archivadas`, todo el conjunto va a esa raíz."""
+    nunca se sube (decisión del propietario, 23-11): se deja en subida.json como «no_subido»."""
     e = declaracion(territorio, ruta_decl)
     mf = salida / "manifiesto.json"
     m = json.loads(mf.read_text(encoding="utf-8"))
@@ -488,7 +488,7 @@ def subir_espejo(territorio: str, salida: Path, aws=_aws, ruta_decl: Path = DECL
         raise ErrorEspejo("ESPEJO_MANIFIESTO", f"tipo {tipo!r} y oficial={principal.get('oficial')!r} incoherentes")
     if tipo == "copia_archivada" and destino_copias(e) == "no_subir":
         resultado = {"territorio": territorio, "estado": {}, "subido": False,
-                     "motivo": "copia archivada: copias_archivadas_destino=no_subir (decisión del propietario pendiente)",
+                     "motivo": "copia archivada: solo se mide (decisión del propietario, 23-11)",
                      "piezas": [{"clave": p["clave"], "sha256": p["sha256"], "bytes": p["bytes"], "r2": "no_subido"} for p in m["piezas"]]}
         print(f"::warning::ESPEJO_COPIA_NO_SUBIDA {principal['clave']}: {resultado['motivo']}")
         (salida / "subida.json").write_text(json.dumps(resultado, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

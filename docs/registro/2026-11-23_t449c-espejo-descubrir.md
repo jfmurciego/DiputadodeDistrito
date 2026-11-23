@@ -18,10 +18,8 @@
     y lo mismo para el PDF de verificación. Baja la copia íntegra (`id_`), exige que su SHA-1 en base32 sea el `digest` de la captura y la
     declara en el manifiesto con `oficial: false`, `tipo: copia_archivada`, `origen`, `url_original` y `captura`. Si la captura no trae
     digest, falla cerrado.
-  - La subida de la copia queda detrás de `copias_archivadas_destino`, a la espera de la decisión del propietario:
-    - `no_subir`, por defecto: se mide y no se sube;
-    - `fuentes-archivadas`: todo el conjunto va a esa raíz;
-    - `fuentes`: la mezclaría con los originales de D-198.
+  - Decisión del propietario (23-11): la copia archivada SOLO se mide. Queda en el log, el resumen y el artefacto con su huella, y no se
+    sube a R2 (`copias_archivadas_destino` = `no_subir`, único valor admitido; subirla sería una PR aparte).
     `subir` rechaza un manifiesto que dé por oficial una copia.
   - `descubrir` lee respuestas CDX (prefijos del portal antiguo y del sitio de elecciones) y sondea medios (Público, elDiario.es, El Español,
     RTVE, CMM, El País). Los medios se marcan NO oficiales, guardan la huella y las filas de tabla de cada página, y nunca se suben solos.

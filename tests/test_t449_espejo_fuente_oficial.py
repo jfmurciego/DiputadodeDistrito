@@ -514,18 +514,15 @@ class CopiaArchivada(unittest.TestCase):
         self.assertIs(res["subido"], False)
         self.assertEqual({p["r2"] for p in res["piezas"]}, {"no_subido"})
 
-    def test_fuentes_archivadas_lleva_el_conjunto_a_su_raiz(self):
-        r2 = R2Falso()
-        with tempfile.TemporaryDirectory() as td, mock.patch.dict(os.environ, {"R2_BUCKET": "b", "R2_ACCOUNT_ID": "a"}):
-            sal, r = self._espejar_copia(td, "fuentes-archivadas")
-            ef.subir_espejo("aut08", sal, aws=r2, ruta_decl=r)
-        self.assertEqual(sorted(r2.escrituras), ["fuentes-archivadas/junta-castilla-la-mancha/2023/autonomicas-por-municipio.xlsx",
-                                                 "fuentes-archivadas/junta-castilla-la-mancha/2023/manifiesto.json"])
-        self.assertFalse([k for k in r2.objetos if k.startswith("fuentes/")])  # D-198: fuentes/ solo originales
+    def test_otro_destino_no_se_admite(self):
+        for destino in ("fuentes-archivadas", "fuentes"):  # propietario 23-11: la copia solo se mide
+            with tempfile.TemporaryDirectory() as td, self.assertRaises(ef.ErrorEspejo) as c:
+                self._espejar_copia(td, destino)
+            self.assertEqual(c.exception.codigo, "ESPEJO_DECLARACION")
 
     def test_manifiesto_que_dice_oficial_una_copia_se_rechaza(self):
         with tempfile.TemporaryDirectory() as td, mock.patch.dict(os.environ, {"R2_BUCKET": "b", "R2_ACCOUNT_ID": "a"}):
-            sal, r = self._espejar_copia(td, "fuentes-archivadas")
+            sal, r = self._espejar_copia(td, "no_subir")
             m = json.loads((sal / "manifiesto.json").read_text(encoding="utf-8"))
             m["piezas"][0]["oficial"] = True
             (sal / "manifiesto.json").write_text(json.dumps(m), encoding="utf-8")
