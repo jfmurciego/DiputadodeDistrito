@@ -35,7 +35,8 @@ class ArchivarP10(unittest.TestCase):
             def sha(k):
                 return r2.get(k, (None,))[0]
 
-            def subir(k, ruta, hh):
+            def subir(k, ruta, hh, condicion=None):
+                self.assertEqual(condicion, "*")  # put «solo si no existe»
                 r2[k] = (hh, Path(ruta).read_bytes())
             args = argparse.Namespace(territorio="nac42", paquete=str(carpeta), run="44000000001", out=str(td / "out"))
             with mock.patch.dict("os.environ", {"R2_BUCKET": "bk", "R2_ACCOUNT_ID": "a"}), \
@@ -56,7 +57,7 @@ class ArchivarP10(unittest.TestCase):
                     mock.patch.object(b, "validar_paquete_p10", lambda t, c: None), \
                     mock.patch.object(b, "_identidad_contrato", lambda t: {"package_sha256": h}), \
                     mock.patch("herramientas.archivar_artefactos_r2.r2_cliente",
-                               lambda bk, c: (sha, lambda *a: self.fail("resube sin cambios"))):
+                               lambda bk, c: (sha, lambda *a, **k: self.fail("resube sin cambios"))):
                 self.assertEqual(b.archivar_p10(args), 0)
             self.assertEqual(r2, n)
 
@@ -78,9 +79,42 @@ class EdicionInmutable(unittest.TestCase):
                     mock.patch.object(b, "_identidad_contrato", lambda t: {"package_sha256": h}), \
                     mock.patch.object(b, "_anios_fuentes", lambda t: ("2025", "2023", "2023")), \
                     mock.patch("herramientas.archivar_artefactos_r2.r2_cliente",
-                               lambda bk, c: (lambda x: "0" * 64 if x == k else None, lambda *a: subidas.append(a))):
+                               lambda bk, c: (lambda x: "0" * 64 if x == k else None, lambda *a, **kw: subidas.append(a))):
                 self.assertEqual(b.archivar_p10(args), 1)
             self.assertEqual(subidas, [])
+
+
+class SinEdicion(unittest.TestCase):
+    """3.ª revisión de #988: sin edición (o sin ruta nueva) no cae a arc-e/ en silencio; un 412 con otro paquete no se acepta."""
+
+    def _correr(self, anios, r2_cliente):
+        with tempfile.TemporaryDirectory() as td:
+            td = Path(td)
+            carpeta = td / "pkg"
+            carpeta.mkdir()
+            (carpeta / "bundle.zip").write_bytes(b"bundle")
+            h = hashlib.sha256(b"bundle").hexdigest()
+            (carpeta / "manifest.json").write_text(json.dumps({"path": "bundle.zip", "sha256": h}), encoding="utf-8")
+            args = argparse.Namespace(territorio="nac42", paquete=str(carpeta), run="1", out=str(td / "out"))
+            with mock.patch.dict("os.environ", {"R2_BUCKET": "bk", "R2_ACCOUNT_ID": "a"}), \
+                    mock.patch.object(b, "validar_paquete_p10", lambda t, c: None), \
+                    mock.patch.object(b, "_identidad_contrato", lambda t: {"package_sha256": h}), \
+                    mock.patch.object(b, "_anios_fuentes", anios), \
+                    mock.patch("herramientas.archivar_artefactos_r2.r2_cliente", r2_cliente):
+                return b.archivar_p10(args)
+
+    def test_sin_edicion_falla_y_no_sube_a_arc_e(self):
+        subidas = []
+        self.assertEqual(self._correr(lambda t: ("None", "2023", "2023"), lambda bk, c: (lambda k: None, lambda *a, **kw: subidas.append(a))), 1)
+        self.assertEqual(subidas, [])
+
+    def test_412_con_otro_paquete_falla(self):
+        r2 = {}
+
+        def subir(k, ruta, hh, condicion=None):
+            r2[k] = "f" * 64  # otro lo escribió entre la lectura y la escritura
+            raise RuntimeError(f"R2_ESCRITURA_CONCURRENTE: {k}")
+        self.assertEqual(self._correr(lambda t: ("2025", "2023", "2023"), lambda bk, c: (lambda k: r2.get(k), subir)), 1)
 
 
 class LecturaP10(unittest.TestCase):

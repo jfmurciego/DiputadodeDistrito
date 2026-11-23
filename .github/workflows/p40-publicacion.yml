@@ -1,6 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 1.5.1
+# VERSIÓN: 1.6.0
+# CAMBIOS 1.6.0: T-443 (D-198: `mapas/` solo lo escribe la publicación): paso «Promover la doble vuelta a mapas/ (T-443)» al final, DESPUÉS del
+#   despliegue en success (lo de `mapas/` es lo publicado): `herramientas/publicar_doble_vuelta.py promover` copia tal cual (mismo sha256, comprobado
+#   en R2 tras subir) los ZIP y el informe del P75 fijado a `mapas/` y rehace sus `manifiesto.json`; no reescribe el fijado. Solo desde `main` y sin
+#   simulación; secretos R2 solo en el env del paso; un fallo da ::error y el job en rojo (la web ya está desplegada y lee la clave fijada). El resto, idéntico.
+# ANTERIOR (1.5.1): legacy/workflows/p40-publicacion_v1.5.1_20261123.yml
 # CAMBIOS 1.5.1: T-379 PR 2a (D-147, opción a; D-162, opción A), puesta al día sobre main el 23-11: todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara un entorno limitado a main (`registro`, sin revisores; P40 `publicar` sigue en `github-pages` y P70 `podar` en `produccion`): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
 # ANTERIOR (1.5.0): legacy/workflows/p40-publicacion_v1.5.0_20261123.yml
 # CAMBIOS 1.5.0: T-430 paso 2 (D-193/D-194, REDISENO_R2 §9): paso «Web en R2 (T-430)» tras el de los datos: `herramientas/publicar_sitio_r2.py` sube el
@@ -757,6 +762,20 @@ jobs:
           set -euo pipefail
           # Paso 2 (D-193/D-194): la web, sin los datos, al bucket del sitio, en paralelo a Pages. Sin la variable R2_SITIO_BUCKET no hace nada.
           python3 herramientas/publicar_sitio_r2.py --sitio /tmp/site-candidate
+
+      - name: Promover la doble vuelta a mapas/ (T-443)
+        if: ${{ github.ref == 'refs/heads/main' && steps.deployment.outcome == 'success' && inputs.simular != true }}
+        shell: bash
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          # D-198: mapas/ = lo publicado. Copia tal cual lo fijado (mismo sha256, comprobado tras subir); sin fijado no hace nada; un fallo pone el job en rojo.
+          python3 herramientas/publicar_doble_vuelta.py promover
 
       - name: Registrar evidencia
         if: always()
