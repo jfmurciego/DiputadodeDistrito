@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.608
+Versión: 1.0.609
 Fecha: 2026-11-23
-Alcance: T-449 — Espejo oficial de las autonómicas de Castilla-La Mancha 2023 (D-183, D-188)
+Alcance: T-449 — Espejo oficial: probar `downloadURL` y todas las candidatas del año
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-23_t449-espejo-aut08-clm.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.607_registro_20261123.md
+Cambios/motivo: entrada docs/registro/2026-11-23_t449b-espejo-downloadurl.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.608_registro_20261123.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.607_registro_20261123.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.609 · [2026-11-23 — T-449 — Espejo oficial: probar `downloadURL` y todas las candidatas del año](registro/2026-11-23_t449b-espejo-downloadurl.md)
 - 1.0.608 · [2026-11-23 — T-449 — Espejo oficial de las autonómicas de Castilla-La Mancha 2023 (D-183, D-188)](registro/2026-11-23_t449-espejo-aut08-clm.md)
 - 1.0.607 · [2026-11-23 — T-443 — Árbol nuevo de R2 (3/5): los escritores escriben en `fuentes/` e `interno/` (D-198)](registro/2026-11-23_t443-r2-escritores.md)
 - 1.0.606 · [2026-11-23 — T-441 — Cifras reales de la medición de la web en el diseño de carga ligera (§1.3)](registro/2026-11-23_t441-cifras-medicion.md)
