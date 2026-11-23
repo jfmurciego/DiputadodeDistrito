@@ -212,9 +212,54 @@ class ArbolNuevo(unittest.TestCase):
             inf = pr.podar(f, man, {k: "s7", ck: "c8"}.get, lambda t: True, lambda x: None, False)
             self.assertEqual([d["error"] for d in inf["desajustes"]], esperado, territorio)
 
+    def test_citados_vacio_no_borra_ningun_paquete(self):
+        r2, mans = self.r2_con_copia()
+        inf, borradas = self.podar([[P10_B, "", "", "P10", 5, "zb", "m", "", "", ""]], r2, mans, citados=[])
+        self.assertEqual(({d["error"] for d in inf["desajustes"]}, borradas), ({"ARC_E_P10_SIN_COPIA_POR_EDICION"}, []))
+
+    def catalogo(self, ediciones):
+        td = Path(tempfile.mkdtemp())
+        (td / "configuracion").mkdir()
+        import yaml
+        (td / pr.CATALOGO).write_text(yaml.safe_dump({"territories": [{"territory_id": "nac42", "editions": ediciones}]}), encoding="utf-8")
+        return td
+
+    def test_edicion_sin_sha_o_catalogo_vacio_falla_cerrado(self):
+        for ed in ({"2025": {"preparation_evidence": {}}}, {}):
+            with self.subTest(ed=ed), self.assertRaisesRegex(ValueError, "P10_CITADOS_INCOMPLETOS"):
+                pr.paquetes_citados(self.catalogo(ed))
+        self.assertEqual(len(pr.paquetes_citados(self.catalogo({"2025": {"preparation_evidence": {"package_sha256": PKG_A}}}))), 1)
+
+    def test_main_con_catalogo_incompleto_no_borra_paquetes(self):
+        import os
+        from unittest import mock
+        td = self.catalogo({"2025": {"preparation_evidence": {}}})
+        (td / "docs/ESTUDIOS/T145_PODA_R2").mkdir(parents=True)
+        with (td / pr.LISTA).open("w", newline="") as fh:
+            w = csv.writer(fh)
+            w.writerow(CAB)
+            w.writerow([P10_B, "", "", "P10", 5, "zb", "m", "", "", ""])
+        (td / "orchestracion").mkdir()
+        (td / pr.ar.MANIFIESTO).write_text(json.dumps({"schema": "s", "artefactos": {}}))
+        borradas = []
+        with mock.patch.dict(os.environ, {"R2_BUCKET": "b", "R2_ACCOUNT_ID": "a"}), mock.patch.object(
+                pr, "clientes_r2", return_value=({P10_B: "zb"}.get, lambda t: True, borradas.append, lambda k: None)):
+            rc = pr.main(["--root-dir", str(td), "--sha256-lista", hashlib.sha256((td / pr.LISTA).read_bytes()).hexdigest(), "--ejecutar"])
+        self.assertEqual((rc, borradas), (1, []))
+
+    def test_copia_con_prefijo_protegido_fuera_de_interno_estados(self):
+        k = "soria/9/ddd-state-9-M07.zip"
+        for ck in ("fuentes/ine/2023/seccionado.zip", "mapas/nacionales/congreso-2023/soria/mapa.geojson", "interno/doble-vuelta/x/doble-vuelta.zip"):
+            with self.subTest(ck=ck):
+                f, td = self.lista([[k, "soria", "9", "M07", 5, "s7", "m", "c", ck, "c8"]])
+                man = td / "m.json"
+                man.write_text(json.dumps({"schema": "s", "artefactos": {k: {"sha256": "s7"}, ck: {"sha256": "c8", "territorio": "soria"}}}))
+                inf = pr.podar(f, man, {k: "s7", ck: "c8"}.get, lambda t: True, lambda x: None, True)
+                self.assertEqual([d["error"] for d in inf["desajustes"]], ["COPIA_FUERA_DE_INTERNO_ESTADOS"])
+
     def test_catalogo_real_cita_un_paquete_por_territorio_y_edicion(self):
         c = pr.paquetes_citados()
-        self.assertTrue(c)
+        self.assertEqual(len(c), 120)  # 120 ediciones en configuracion/catalogo_preparacion.yaml (23-11); cambia si se añade una
         self.assertEqual(len({(x["territorio"], x["edicion"]) for x in c}), len(c))
         self.assertTrue(all(x["clave"] and x["clave"].endswith("/paquete.zip") for x in c))
         aut01 = next(x for x in c if x["territorio"] == "aut01")

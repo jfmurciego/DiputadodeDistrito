@@ -12,7 +12,8 @@ CAMBIOS: 1.2.0 (T-443, D-188/D-198, paso 6 del §c de docs/ESTUDIOS/T435_ESTRUCT
   filas de paquete P10 solo se borran si CADA paquete citado (por territorio y edición de `configuracion/catalogo_preparacion.yaml`: el
   `generation_state` de su contrato, o la evidencia del catálogo si el contrato no lo trae) tiene su copia por edición `fuentes/por-territorio/<ámbito>/<territorio>/<edición>/paquete.zip` comprobada por sha256
   (manifiesto de la carpeta con huella = package_sha256 y sha256 del zip igual al metadato de R2); si falta una, ninguna fila de paquete se borra
-  (`ARC_E_P10_SIN_COPIA_POR_EDICION`). Una fila de paquete citado debe traer esa copia como `copia_clave`; uno no citado (D-178), sin copia.
+  (`ARC_E_P10_SIN_COPIA_POR_EDICION`; también si no hay paquetes citados o el catálogo está incompleto: `P10_CITADOS_INCOMPLETOS`). La
+  comprobación es de metadato (sha256 del manifiesto contra el metadato `sha256` del objeto en R2, sin bajarlo). Una fila de paquete citado debe traer esa copia como `copia_clave`; uno no citado (D-178), sin copia.
   (c) Lista con claves nuevas: la copia que se conserva puede estar en `interno/estados/…` (territorio = el de su entrada en
   orchestracion/archivo_r2.json). (d) M01/M02/M03/M03U: el paquete P10 del territorio vale en la ruta por edición o en `arc-e/` (lectura con doble ruta).
   Sin borrar nada: simulación por defecto como antes.
@@ -80,19 +81,24 @@ def leer_lista(ruta: Path, sha_esperado: str) -> list[dict]:
 
 def paquetes_citados(root: Path = ROOT) -> list[dict]:
     """Paquetes P10 citados: por cada territorio y edición del catálogo, el `generation_state` de su contrato (o, sin él, la evidencia del catálogo): {territorio, edicion,
-    package_sha256, clave} con la clave por edición (None si el territorio no tiene ruta nueva: cuenta como copia ausente)."""
+    package_sha256, clave} con la clave por edición (None si el territorio no tiene ruta nueva: cuenta como copia ausente).
+    Falla cerrado (ValueError P10_CITADOS_INCOMPLETOS): catálogo sin ediciones, una edición sin package_sha256 en contrato ni catálogo, o un
+    recuento distinto del de ediciones del catálogo (hoy 120)."""
     import yaml
     cat = yaml.safe_load((root / CATALOGO).read_text(encoding="utf-8")) or {}
-    out, vistos = [], set()
+    out, vistos, sin_sha, ediciones = [], set(), [], 0
     for t in cat.get("territories") or []:
         tid = t.get("territory_id")
         for ed, e in sorted((t.get("editions") or {}).items()):
+            ediciones += 1
             # el del contrato (`generation_state`), que es el que archiva `bateria_motor archivar-p10`; sin él, el de la evidencia del catálogo
             contrato = root / str((e or {}).get("contract_path") or "")
             h = None
             if (e or {}).get("contract_path") and contrato.is_file():
                 h = ((yaml.safe_load(contrato.read_text(encoding="utf-8")) or {}).get("generation_state") or {}).get("package_sha256")
             hs = [h or ((e or {}).get("preparation_evidence") or {}).get("package_sha256")]
+            if not hs[0]:
+                sin_sha.append(f"{tid}/{ed}")
             for h in hs:
                 if not h or (tid, str(ed), h) in vistos:
                     continue
@@ -102,6 +108,9 @@ def paquetes_citados(root: Path = ROOT) -> list[dict]:
                 except (rutas_r2.RutaInvalida, KeyError, ValueError):
                     clave = None
                 out.append({"territorio": tid, "edicion": str(ed), "package_sha256": h, "clave": clave})
+    if not ediciones or sin_sha or len(out) != ediciones:
+        raise ValueError(f"P10_CITADOS_INCOMPLETOS: {len(out)} paquetes de {ediciones} ediciones del catálogo; sin package_sha256: "
+                         f"{', '.join(sin_sha[:8]) or 'ninguna'}")
     return out
 
 
@@ -125,6 +134,8 @@ def verificar_p10(filas: list[dict], sha: Callable[[str], Optional[str]], citado
     filas = [f for f in filas if _P10.match(f["clave"])]
     if not filas:
         return []
+    if not citados:  # sin paquetes citados no hay nada que comprobar: falla cerrado (nunca «todo no citado»)
+        return [{"clave": f["clave"], "error": "ARC_E_P10_SIN_COPIA_POR_EDICION", "detalle": "sin paquetes citados"} for f in filas]
     faltan = [c for c in citados if not copia_por_edicion_ok(c, sha, leer_json)]
     if faltan:
         detalle = ", ".join(f"{c['territorio']}/{c['edicion']}" for c in faltan[:8])
@@ -290,7 +301,13 @@ def main(argv=None) -> int:
         print(f"::error::{exc}")
         return 1
     sha, tiene_entrada, borrar, leer_json = clientes_r2(bucket, cuenta)
-    citados = paquetes_citados(root) if any(_P10.match(f["clave"]) for f in filas) else None
+    citados = None
+    if any(_P10.match(f["clave"]) for f in filas):
+        try:
+            citados = paquetes_citados(root)
+        except (OSError, ValueError) as exc:  # catálogo ilegible o incompleto: ninguna fila de paquete pasa
+            print(f"::error::{exc}")
+            citados = []
     inf = podar(filas, root / ar.MANIFIESTO, sha, tiene_entrada, borrar, a.ejecutar, citados, leer_json)
     texto = json.dumps(inf, ensure_ascii=False, indent=2, sort_keys=True)
     if a.informe:
