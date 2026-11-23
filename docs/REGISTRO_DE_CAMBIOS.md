@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.605
+Versión: 1.0.606
 Fecha: 2026-11-23
-Alcance: T-451 — Vista previa al compartir (imagen, iconos y etiquetas de la V4)
+Alcance: T-441 — Cifras reales de la medición de la web en el diseño de carga ligera (§1.3)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-23_t451-vista-previa.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.604_registro_20261123.md
+Cambios/motivo: entrada docs/registro/2026-11-23_t441-cifras-medicion.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.605_registro_20261123.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.604_registro_20261123.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.606 · [2026-11-23 — T-441 — Cifras reales de la medición de la web en el diseño de carga ligera (§1.3)](registro/2026-11-23_t441-cifras-medicion.md)
 - 1.0.605 · [2026-11-23 — T-451 — Vista previa al compartir (imagen, iconos y etiquetas de la V4)](registro/2026-11-23_t451-vista-previa.md)
 - 1.0.604 · [2026-11-23 — T-448 — Histórico 2011-11: sucesora sin fila que contiene la sección del Censo (D-200); Barcelona pasa a LISTA](registro/2026-11-23_t448-d200-cardona.md)
 - 1.0.603 · [2026-11-23 — T-448 — Diagnóstico de la sección 0804703001 de Barcelona (2011-11), solo documento](registro/2026-11-23_t448-doc-barcelona-0804703001.md)
