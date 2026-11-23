@@ -1,6 +1,6 @@
 # Estado operativo (mantiene el Coordinador)
 
-Fecha: 2026-11-17 (00:40 UTC) · Actualizar en cada PR de lecciones o de estado. Verde = cumple el criterio del propietario; amarillo = en marcha o a medias; rojo = bloqueado o fallando. Notación D-47: fases P00-P60 y archivo ARC; en lo que se cuenta al propietario, sin códigos antiguos, sin ids de tarea ni de PR.
+Fecha: 2026-11-23 (tarde) · Actualizar en cada PR de lecciones o de estado. Verde = cumple el criterio del propietario; amarillo = en marcha o a medias; rojo = bloqueado o fallando. Notación D-47: fases P00-P60 y archivo ARC; en lo que se cuenta al propietario, sin códigos antiguos, sin ids de tarea ni de PR.
 
 ## Tablero por tema (prioridad 1: el motor)
 | Tema | Estado | Situación | Siguiente |
@@ -78,3 +78,12 @@ r4 terminada (70/71; falta aut12 Galicia). Fusionadas desde el relevo: #818, #82
 - Coste archivado hoy (libro, USD): T-375 10,32 · T-376 13,59 · T-377 32,04 · T-379 PR4 2,23 · T-389 2,72 · T-391 1,21 · T-392 0,62 · T-393 2,19 · T-395 3,04 · T-396 3,77 · T-397 0,58.
 - Autorización nocturna (propietario, hasta las 10:00 del 17-11): fusionar en orden migración, histórico y plan con CI verde en PR y main y revisor conforme; NO lanzar ni publicar.
 - Pendientes del propietario: decidir la regla de 2011-11 (#883); comprobar Settings → Pages (pages-build-deployment); contraste aut11 del padrón; entorno `publicacion` y Zenodo (D-146); ruleset con `pruebas` (D-144); visor y 3 Releases de ensemble (T-380); borrar ejecuciones de «Pruebas de la Plataforma» tras T-383 (D-155 b).
+
+## Relevo 23-11 (Coordinador nuevo, 10:22 UTC)
+- Fusionadas hoy con orden del propietario: #986 y #999 (espejo de Castilla-La Mancha), #1001 (espejo del Censo 2011 en R2), #997 (P40 promueve a mapas/), #998 (podar_r2 protege el árbol nuevo), #1002 (espejo: descubrir y Wayback solo medida); por auto-merge #996 (traspaso) y #1000 (plan 1.0.76). `main` en verde.
+- Runs: espejo del Censo 2011 CONFIRMADO (fuentes/ine/2011/1mun00.csv, sha256 ad95479c…); espejo de Castilla-La Mancha RECHAZADO dos veces (la web de la Junta cambió de plataforma): pendiente de relanzar con la versión nueva. P40 «Solo el sitio» CONFIRMADO (T-451 en la web).
+- PR abiertas: #995 (registro de propiedad intelectual de Deslinde; presentado hoy; falta decidir si los binarios van al repo, recomendación no, y la orden de fusión). Borradores #842, #913, #938, #956: no antes del 29-11.
+- Chats vivos: Planificador, Operador, T-449 (espera el run del espejo de Castilla-La Mancha).
+- Decisión del propietario (23-11): una copia de la Wayback solo se mide; no se sube a R2.
+- Libro de costes (chats cerrados, USD): Coordinador 21-23/11 75,77 · T-448 19,45 · T-430 (relevo) 15,95 · T-443 (relevo) 10,83 · T-281 3,64. Suma: 125,64.
+- Pendientes del propietario: frase al Operador para relanzar el espejo de Castilla-La Mancha; #995; buckets y llaves de la web en R2 (REDISENO_R2 §7).
