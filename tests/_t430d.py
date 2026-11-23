@@ -42,3 +42,11 @@ def deshacer_3c(p90):
     w["run"] = _uno(w["run"], " tests.test_t430_web_fusion", "", "el test en el job web")
     del p["jobs"]["publicar_web"]
     return p
+
+
+def deshacer_medicion(p90):
+    """T-450 §4 (P90 1.5.2): quita el secreto MEDICION_CDN del paso de `medir_web` (posterior a la 2a)."""
+    p = copy.deepcopy(p90)
+    paso = p["jobs"]["medir_web"]["steps"][-1]
+    assert paso.pop("env") == {"MEDICION_CDN": "${{ secrets.MEDICION_CDN }}"}, "falta MEDICION_CDN en medir_web"
+    return p
