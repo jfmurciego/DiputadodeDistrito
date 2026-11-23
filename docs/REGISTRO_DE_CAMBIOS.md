@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.616
+Versión: 1.0.617
 Fecha: 2026-11-23
-Alcance: T-281 — Paquete para el Registro de la Propiedad Intelectual de Deslinde 1.0
+Alcance: Coordinador — Lecciones y costes de la tarde (T-281, T-443, T-448, T-449)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-23_t281-registro-pi-deslinde.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.615_registro_20261123.md
+Cambios/motivo: entrada docs/registro/2026-11-23_coordinador-lecciones-tarde.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.616_registro_20261123.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.615_registro_20261123.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.617 · [2026-11-23 — Coordinador — Lecciones y costes de la tarde (T-281, T-443, T-448, T-449)](registro/2026-11-23_coordinador-lecciones-tarde.md)
 - 1.0.616 · [2026-11-23 — T-281 — Paquete para el Registro de la Propiedad Intelectual de Deslinde 1.0](registro/2026-11-23_t281-registro-pi-deslinde.md)
 - 1.0.615 · [2026-11-23 — T-449 — Espejo oficial: descubrir en solo lectura dónde está ahora el fichero de la Junta](registro/2026-11-23_t449c-espejo-descubrir.md)
 - 1.0.614 · [2026-11-23 — T-443 — Árbol nuevo de R2 (5/5): `podar_r2.py` protege `fuentes/`, `interno/` y `mapas/` y guarda `arc-e/paquetes-p10/` (D-198)](registro/2026-11-23_t443-podar-r2-arbol-nuevo.md)
