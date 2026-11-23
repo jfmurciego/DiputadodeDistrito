@@ -13,7 +13,11 @@ CAMBIOS: 1.2.0 (T-449, run 45170670366: las 2 distribuciones de datos.gob.es dan
   (anota cada salto; solo sigue hasta 5 dentro de los sufijos de `descubrir.sufijos_host`). Extrae los enlaces a ficheros de datos que citan el año o
   las autonómicas, baja como mucho `max_candidatas` con el tope de bytes y deja por cada uno estado, URL final, tipo, bytes, sha256 y si es
   HTML. Escribe `descubrimiento.json` e imprime `ESPEJO_DESCUBRIR`; no sube nada y sale 0. La URL buena entra después por PR (modo URL
-  directa con su huella), nunca automáticamente.
+  directa con su huella), nunca automáticamente. Copias archivadas (propietario, 23-11: «probar todos los sitios»): si ninguna candidata
+  oficial del catálogo es un fichero, `espejar` busca en la Wayback Machine (API CDX) la última captura 200 no HTML de cada URL oficial,
+  baja la copia íntegra (`id_`), exige que su SHA-1 en base32 sea el `digest` de la captura y la declara en el manifiesto como «copia
+  archivada» (URL original, captura y URL del archivo); lo mismo para el PDF de verificación. `descubrir` interpreta las respuestas CDX
+  (prefijos del portal antiguo y del sitio de elecciones) y sondea también medios (fuente NO oficial: nunca se suben solos).
   1.1.0 (T-448, D-202): modo «URL directa» para una entrada con `url` (sin `api_url`): baja ese fichero (mismos hosts, redirecciones,
   `max_bytes` y rechazo de HTML), exige `sha256_esperado` y `bytes_esperados` (si no coinciden, ESPEJO_HUELLA_INESPERADA y no se escribe nada) y
   usa la `extension` declarada (la URL del INE acaba en `.csv_bdsc`). Los campos de la elección (`eleccion`, `fecha`, `dataset_url`) pasan a
@@ -283,6 +287,59 @@ def _piezas_clave(m: dict) -> list[tuple[str, str]]:
     return sorted((p["clave"], p["sha256"]) for p in m.get("piezas") or [])
 
 
+WAYBACK = "https://web.archive.org"
+
+
+def _sha1_b32(datos: bytes) -> str:
+    import base64
+
+    return base64.b32encode(hashlib.sha1(datos).digest()).decode("ascii")  # noqa: S324 - es el `digest` de la Wayback, no seguridad
+
+
+def capturas_cdx(cuerpo: bytes) -> list[dict]:
+    """Filas de una respuesta CDX `output=json` (la primera es la cabecera)."""
+    try:
+        filas = json.loads(cuerpo.decode("utf-8") or "[]")
+    except ValueError:
+        return []
+    if not filas or not isinstance(filas, list) or not isinstance(filas[0], list):
+        return []
+    cab = filas[0]
+    return [dict(zip(cab, f)) for f in filas[1:] if isinstance(f, list) and len(f) == len(cab)]
+
+
+def url_cdx(original: str, prefijo: bool = False) -> str:
+    q = {"url": original, "output": "json", "fl": "timestamp,original,statuscode,mimetype,length,digest", "filter": "statuscode:200"}
+    if prefijo:
+        q.update({"matchType": "prefix", "collapse": "urlkey", "limit": "500"})
+    return f"{WAYBACK}/cdx/search/cdx?" + urllib.parse.urlencode(q)
+
+
+def copia_archivada(original: str, extension: str, get, hosts: list[str], tope: int) -> tuple[dict, bytes]:
+    """Última captura 200 no HTML de `original` en la Wayback, verificada contra su `digest` (SHA-1 base32)."""
+    if urllib.parse.urlparse(WAYBACK).hostname not in hosts:
+        raise ErrorEspejo("ESPEJO_HOST_NO_PERMITIDO", "web.archive.org no está en hosts_permitidos")
+    capturas = [c for c in capturas_cdx(get(url_cdx(original), hosts, tope, 2)) if "html" not in (c.get("mimetype") or "").lower()]
+    if not capturas:
+        raise ErrorEspejo("ESPEJO_SIN_COPIA", f"sin captura no HTML de {original}")
+    ultimo = None
+    for c in sorted(capturas, key=lambda c: c["timestamp"], reverse=True):
+        archivo = f"{WAYBACK}/web/{c['timestamp']}id_/{c['original']}"
+        try:
+            datos = get(archivo, hosts, tope, 2)
+            comprobar_contenido(datos, extension)
+            if c.get("digest") and _sha1_b32(datos) != c["digest"]:
+                raise ErrorEspejo("ESPEJO_COPIA_ALTERADA", f"{archivo}: SHA-1 {_sha1_b32(datos)} ≠ digest {c['digest']}")
+        except ErrorEspejo as exc:
+            ultimo = exc
+            print(f"::warning::ESPEJO_COPIA {archivo}: {exc}")
+            continue
+        print(f"ESPEJO_ELEGIDA {archivo} (copia archivada de {original}, captura {c['timestamp']})")
+        return {"url": archivo, "origen": "copia archivada (Wayback Machine)", "url_original": original, "captura": c["timestamp"],
+                "digest_sha1_b32": c.get("digest", "")}, datos
+    raise ultimo or ErrorEspejo("ESPEJO_SIN_COPIA", original)
+
+
 def _directa(e: dict, get, hosts: list[str], tope: int) -> tuple[dict, bytes]:
     """D-202: URL directa con huella esperada; falla cerrado antes de escribir nada si sha256 o bytes no son los declarados."""
     ext = e.get("extension") or ""
@@ -328,6 +385,16 @@ def _por_catalogo(e: dict, get, hosts: list[str], tope: int) -> tuple[dict, byte
         dist = c
         print(f"ESPEJO_ELEGIDA {c['url']}")
         break
+    if dist is None and e.get("copias_archivadas"):
+        for c in candidatas:
+            try:
+                copia, datos = copia_archivada(c["url"], c["extension"], get, hosts, tope)
+            except ErrorEspejo as exc:
+                intentos.append(f"copia archivada de {c['url']} → {exc.codigo}")
+                codigos.add(exc.codigo)
+                continue
+            dist = {**c, **copia}
+            break
     if dist is None:
         codigo = codigos.pop() if len(codigos) == 1 else "ESPEJO_SIN_FICHERO"  # el mismo motivo en todas, o «varios»
         raise ErrorEspejo(codigo, "ninguna candidata es un fichero de datos: " + "; ".join(intentos))
@@ -339,6 +406,9 @@ def _escribir(territorio: str, e: dict, dist: dict, datos: bytes, salida: Path, 
     (salida / nombre).write_bytes(datos)
     piezas = [{"nombre": nombre, "clave": clave_r2(e["organismo"], e["anyo"], nombre), "origen_url": dist["url"],
                "titulo_catalogo": dist["titulo"], "sha256": sha256(datos), "bytes": len(datos), "oficial": True}]
+    for k in ("origen", "url_original", "captura", "digest_sha1_b32"):  # copia archivada: el origen va declarado
+        if dist.get(k):
+            piezas[0][k] = dist[k]
     if dist["extension"] == "xlsx":
         volcado = salida / "volcado"
         volcado.mkdir(exist_ok=True)
@@ -346,12 +416,19 @@ def _escribir(territorio: str, e: dict, dist: dict, datos: bytes, salida: Path, 
     verif = e.get("verificacion") or {}
     if verif.get("url"):
         try:
-            pdf = get(verif["url"], hosts, tope, 2)
-            comprobar_contenido(pdf, "pdf")
+            copia = {}
+            try:
+                pdf = get(verif["url"], hosts, tope, 2)
+                comprobar_contenido(pdf, "pdf")
+            except ErrorEspejo:
+                if not e.get("copias_archivadas"):
+                    raise
+                copia, pdf = copia_archivada(verif["url"], "pdf", get, hosts, tope)
             nombre_pdf = f"{verif['fichero']}.pdf"
             (salida / nombre_pdf).write_bytes(pdf)
             piezas.append({"nombre": nombre_pdf, "clave": clave_r2(e["organismo"], e["anyo"], nombre_pdf),
-                           "origen_url": verif["url"], "sha256": sha256(pdf), "bytes": len(pdf), "oficial": True})
+                           "origen_url": copia.get("url", verif["url"]), "sha256": sha256(pdf), "bytes": len(pdf), "oficial": True,
+                           **{k: v for k, v in copia.items() if k != "url"}})
         except ErrorEspejo as exc:
             print(f"::warning::Verificación oficial no disponible ({exc}); el cuadre irá contra los escaños oficiales.")
     manifiesto = {
@@ -486,6 +563,7 @@ def descubrir(territorio: str, salida: Path, peticion=_peticion, ruta_decl: Path
     if not paginas or not sufijos:
         raise ErrorEspejo("ESPEJO_DECLARACION", "descubrir exige `paginas` y `sufijos_host`")
     tope, anyo = int(e["max_bytes"]), int(e["anyo"])
+    oficiales = list(d.get("sufijos_oficiales") or [])  # el resto (medios) se marca NO oficial; web.archive.org: copia de lo original
     max_pag, max_cand = int(d.get("max_paginas", 40)), int(d.get("max_candidatas", 10))
     sondeadas, candidatas, pendientes, hechas = [], [], list(paginas), set()
     while pendientes and len(sondeadas) < max_pag:
@@ -496,8 +574,21 @@ def descubrir(territorio: str, salida: Path, peticion=_peticion, ruta_decl: Path
         r = seguir(url, sufijos, 2_000_000, peticion)
         cuerpo = r.pop("cuerpo")
         r["bytes"] = len(cuerpo)
+        if r["estado"] == 200 and cuerpo:  # páginas de medios: huella y filas de tabla, para fijar la fuente después por PR
+            r["sha256"] = sha256(cuerpo)
+            r["filas_tabla"] = cuerpo.lower().count(b"<tr")
         sondeadas.append(r)
         if r["estado"] != 200 or not cuerpo:
+            continue
+        if urllib.parse.urlparse(r["final"]).path.startswith("/cdx/"):
+            filas = capturas_cdx(cuerpo)
+            r["capturas"] = len(filas)
+            for c in filas:
+                if "html" in (c.get("mimetype") or "").lower() or not _es_dato(c.get("original", "")):
+                    continue
+                u = f"{WAYBACK}/web/{c['timestamp']}id_/{c['original']}"
+                if _interesa(c["original"], anyo) and u not in candidatas:
+                    candidatas.append(u)
             continue
         for u in enlaces(cuerpo.decode("utf-8", "replace"), r["final"]):
             if not host_sondeable(u, sufijos) or not _interesa(u, anyo):
@@ -511,6 +602,10 @@ def descubrir(territorio: str, salida: Path, peticion=_peticion, ruta_decl: Path
     for u in candidatas[:max_cand]:
         r = seguir(u, sufijos, tope, peticion)
         cuerpo = r.pop("cuerpo")
+        origen = u.split("id_/", 1)[1] if u.startswith(f"{WAYBACK}/web/") and "id_/" in u else u
+        h = (urllib.parse.urlparse(origen).hostname or "").lower()
+        r["oficial"] = any(h == x or h.endswith("." + x) for x in oficiales)
+        r["copia_archivada"] = origen != u
         r.update({"bytes": len(cuerpo), "es_html": es_html(cuerpo), "firma": cuerpo[:8].hex(),
                   "sha256": sha256(cuerpo) if r["estado"] == 200 and len(cuerpo) <= tope else None})
         medidas.append(r)

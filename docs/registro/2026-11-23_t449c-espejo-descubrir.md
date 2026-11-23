@@ -13,6 +13,15 @@
   - `configuracion/espejos_fuentes_oficiales.json` 1.2.0: `descubrir` en aut08, con semillas de elecciones2023.castillalamancha.es (descargas por municipio, sitemap) y de las fichas del portal nuevo; ese host, también en `hosts_permitidos`.
   - P10 1.0.5: en `p13_espejo`, el paso «Buscar la fuente en los portales (solo lectura)» corre solo si falla «Bajar y medir». No lleva
     secretos y deja una tabla de candidatas en el resumen. El job sigue en rojo.
+- Ampliación (propietario 23-11, vía Planificador: «probar todos los sitios»):
+  - `espejar` busca en la Wayback Machine (API CDX) una copia archivada de cada URL oficial cuando ninguna candidata del catálogo es un fichero,
+    y lo mismo para el PDF de verificación. Baja la copia íntegra (`id_`), exige que su SHA-1 en base32 sea el `digest` de la captura y la
+    declara en el manifiesto (`origen` «copia archivada (Wayback Machine)», `url_original`, `captura`). Así el mismo run la deja en R2.
+  - `descubrir` lee respuestas CDX (prefijos del portal antiguo y del sitio de elecciones) y sondea medios (Público, elDiario.es, El Español,
+    RTVE, CMM, El País). Los medios se marcan NO oficiales, guardan la huella y las filas de tabla de cada página, y nunca se suben solos.
+  - Orden de las semillas: Wayback, elecciones2023, portal nuevo, otras oficiales y medios.
+  - El cuadre con los totales del PDF oficial no se automatiza en el runner (formato de los ficheros desconocido): va con test en la PR que
+    fija la fuente en el calendario, antes de usarla.
 - La URL buena entra después por PR, en el modo URL directa de T-448, con `sha256_esperado` y `bytes_esperados` medidos en el log.
   Si no aparece ningún fichero oficial, queda el último recurso autorizado: un medio, declarado fuente NO oficial y cuadrado con los totales
   oficiales.

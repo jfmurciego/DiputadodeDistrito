@@ -95,6 +95,7 @@ class Candidatas(unittest.TestCase):
     def _espejar(self, respuestas):
         decl = json.loads(ef.DECLARACION.read_text(encoding="utf-8"))
         decl["espejos"]["aut08"]["hosts_permitidos"].append("ejemplo.invalid")
+        decl["espejos"]["aut08"]["copias_archivadas"] = False  # aquí solo el catálogo; la Wayback tiene su clase
         decl["espejos"]["aut08"].pop("verificacion")
         pedidas = []
 
@@ -225,6 +226,7 @@ class Espejar(unittest.TestCase):
     def _decl(self, td):
         d = json.loads(ef.DECLARACION.read_text(encoding="utf-8"))
         d["espejos"]["aut08"]["hosts_permitidos"].append("ejemplo.invalid")
+        d["espejos"]["aut08"]["copias_archivadas"] = False
         r = Path(td) / "decl.json"
         r.write_text(json.dumps(d), encoding="utf-8")
         return r
@@ -243,7 +245,11 @@ class Espejar(unittest.TestCase):
     def test_host_no_declarado_no_se_descarga(self):
         with tempfile.TemporaryDirectory() as td:
             with self.assertRaises(ef.ErrorEspejo) as c:
-                ef.espejar("aut08", Path(td), get=self._get)  # ejemplo.invalid no está en la declaración real
+                d = json.loads(ef.DECLARACION.read_text(encoding="utf-8"))
+                d["espejos"]["aut08"]["copias_archivadas"] = False
+                r = Path(td) / "real.json"
+                r.write_text(json.dumps(d), encoding="utf-8")
+                ef.espejar("aut08", Path(td), get=self._get, ruta_decl=r)  # ejemplo.invalid no está en los hosts reales
         self.assertEqual(c.exception.codigo, "ESPEJO_HOST_NO_PERMITIDO")
 
     def test_subir_condicional_completa_y_no_sobrescribe(self):
@@ -429,11 +435,93 @@ class Descubrir(unittest.TestCase):
 
     def test_declaracion_real_de_aut08(self):
         d = ef.declaracion("aut08")["descubrir"]
-        self.assertEqual(d["sufijos_host"], ["castillalamancha.es", "datos.gob.es"])
+        self.assertEqual(d["sufijos_oficiales"], ["castillalamancha.es", "datos.gob.es"])
+        self.assertTrue(set(d["sufijos_oficiales"]) <= set(d["sufijos_host"]))
+        self.assertTrue(d["paginas"][0].startswith("https://web.archive.org/cdx/"))  # orden del propietario: 1 Wayback
         self.assertTrue(all(ef.host_sondeable(u, d["sufijos_host"]) for u in d["paginas"]))
         self.assertIn("https://elecciones2023.castillalamancha.es/resultados/descargar-los-resultados-de-las-elecciones-autonomicas-anteriores-por-municipio",
                       d["paginas"])
         self.assertIn("elecciones2023.castillalamancha.es", ef.declaracion("aut08")["hosts_permitidos"])
+
+
+class CopiaArchivada(unittest.TestCase):
+    """Propietario 23-11: probar todos los sitios; la Wayback guarda copias íntegras del fichero oficial del portal antiguo."""
+
+    ORIG = "https://datosabiertos.castillalamancha.es/sites/datosabiertos.castillalamancha.es/files/Resultados_CLM_2023.xlsx"
+    XLSX = b"PK\x03\x04" + b"w" * 64
+
+    def _get(self, datos_copia, digest=None):
+        api = {"result": {"items": [{"distribution": [{"accessURL": self.ORIG, "format": "XLSX", "title": "Resultados 2023"}]}]}}
+        cdx = [["timestamp", "original", "statuscode", "mimetype", "length", "digest"],
+               ["20230601000000", self.ORIG.replace("https://", "http://"), "200", "text/html", "1", "X"],
+               ["20230701000000", self.ORIG.replace("https://", "http://"), "200",
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", str(len(datos_copia)),
+                digest or ef._sha1_b32(datos_copia)]]
+        pedidas = []
+
+        def get(url, hosts, tope, intentos=4):
+            ef.comprobar_url(url, hosts)
+            pedidas.append(url)
+            if url.endswith(".json"):
+                return json.dumps(api).encode()
+            if url == self.ORIG:
+                return b"<!DOCTYPE html><html>404</html>"
+            if url.startswith("https://web.archive.org/cdx/"):
+                return json.dumps(cdx).encode()
+            if url == "https://web.archive.org/web/20230701000000id_/" + self.ORIG.replace("https://", "http://"):
+                return datos_copia
+            raise ef.ErrorEspejo("ESPEJO_DESCARGA", url)
+
+        return get, pedidas
+
+    def _decl(self, td):
+        d = json.loads(ef.DECLARACION.read_text(encoding="utf-8"))
+        d["espejos"]["aut08"].pop("verificacion")
+        r = Path(td) / "d.json"
+        r.write_text(json.dumps(d), encoding="utf-8")
+        return r
+
+    def test_copia_verificada_y_declarada(self):
+        get, pedidas = self._get(self.XLSX)
+        with tempfile.TemporaryDirectory() as td, mock.patch.object(ef, "volcar_xlsx", _volcado_falso):
+            m = ef.espejar("aut08", Path(td) / "s", get=get, ruta_decl=self._decl(td))
+        p = m["piezas"][0]
+        self.assertEqual(p["origen"], "copia archivada (Wayback Machine)")
+        self.assertEqual(p["url_original"], self.ORIG)
+        self.assertEqual(p["captura"], "20230701000000")
+        self.assertEqual(p["sha256"], ef.sha256(self.XLSX))
+        self.assertEqual(p["clave"], "fuentes/junta-castilla-la-mancha/2023/autonomicas-por-municipio.xlsx")
+        self.assertNotIn("https://web.archive.org/web/20230601000000id_/" + self.ORIG.replace("https://", "http://"), pedidas)  # la HTML ni se baja
+
+    def test_digest_distinto_no_vale(self):
+        get, _ = self._get(self.XLSX, digest="AAAA")
+        with tempfile.TemporaryDirectory() as td, self.assertRaises(ef.ErrorEspejo) as c:
+            ef.espejar("aut08", Path(td) / "s", get=get, ruta_decl=self._decl(td))
+        self.assertIn("ESPEJO_COPIA_ALTERADA", str(c.exception))
+
+    def test_sha1_b32_literal(self):
+        # SHA-1 de b"abc" = a9993e36…; en base32 (RFC 4648), valor independiente del código.
+        self.assertEqual(ef._sha1_b32(b"abc"), "VGMT4NSHA2AWVOR6EVYXQUGCNSONBWE5")
+
+    def test_descubrir_lee_cdx(self):
+        cdx = json.dumps([["timestamp", "original", "statuscode", "mimetype", "length", "digest"],
+                          ["20230701000000", "http://elecciones2023.castillalamancha.es/sites/x/municipios_2023.xlsx", "200", "application/x", "9", "D"],
+                          ["20230701000000", "http://elecciones2023.castillalamancha.es/sites/x/portada.html", "200", "text/html", "9", "D"]]).encode()
+        arch = "https://web.archive.org/web/20230701000000id_/http://elecciones2023.castillalamancha.es/sites/x/municipios_2023.xlsx"
+        r = {"https://web.archive.org/cdx/search/cdx?url=x": (200, {}, cdx), arch: (200, {}, self.XLSX)}
+
+        def peticion(url, tope):
+            return r[url]
+
+        d = json.loads(ef.DECLARACION.read_text(encoding="utf-8"))
+        d["espejos"]["aut08"]["descubrir"]["paginas"] = ["https://web.archive.org/cdx/search/cdx?url=x"]
+        with tempfile.TemporaryDirectory() as td:
+            ruta = Path(td) / "d.json"
+            ruta.write_text(json.dumps(d), encoding="utf-8")
+            res = ef.descubrir("aut08", Path(td) / "s", peticion=peticion, ruta_decl=ruta)
+        self.assertEqual(res["ficheros_de_datos"], [arch])
+        c = res["candidatas"][0]
+        self.assertEqual((c["copia_archivada"], c["oficial"], c["sha256"]), (True, True, ef.sha256(self.XLSX)))
 
 
 class JobP10(unittest.TestCase):
