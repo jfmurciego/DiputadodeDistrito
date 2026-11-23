@@ -14,6 +14,7 @@ from pathlib import Path
 import yaml
 
 from tests._t379_2a import APP, P40_PREPARAR, REGISTRO_PR, deshacer, es_registro
+from tests import _t430d
 from tests._uses_sin_version import cargar
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -86,6 +87,8 @@ class Huellas(Base):
             with self.subTest(workflow=n):
                 antes = cargar((FIX / f"{n}_{v}.yml").read_text(encoding="utf-8"))
                 ahora = cargar((WF / f"{n}.yml").read_text(encoding="utf-8"))
+                if n == "p90-automatico":  # T-430 3c (P90 1.5.0), posterior a la 2a: se deshace solo eso
+                    ahora = _t430d.deshacer_3c(ahora)
                 self.assertEqual(deshacer(n, ahora), antes)
 
     def test_control_negativo_equivalencia(self):
