@@ -3,15 +3,18 @@
 """Espejo de solo lectura en R2 de una fuente oficial que solo se alcanza desde un runner de Actions.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: Espejo de fuente oficial (D-183, D-188)
 FECHA: 2026-11-23
 ESTADO: candidato
-CAMBIOS: 1.0.0 (T-449): fichero nuevo.
+CAMBIOS: 1.0.1 (T-449, run 45158272014 rechazado con ESPEJO_ES_HTML sin decir qué URL): cada distribución aporta `downloadURL` antes que
+  `accessURL` (en DCAT `accessURL` suele ser una página de aterrizaje); se prueban en orden todas las candidatas del año (xlsx > csv > xls >
+  zip > json; dentro de cada una, descarga antes que acceso) hasta la primera que sea un fichero de datos, y el log lleva `ESPEJO_CANDIDATAS`
+  y una línea por intento (URL y motivo). Si ninguna vale, el código común (p. ej. `ESPEJO_ES_HTML`) o `ESPEJO_SIN_FICHERO`, con la lista de lo probado. 1.0.0 (T-449): fichero nuevo.
 MOTIVO: las autonómicas de Castilla-La Mancha 2023 por municipio solo están en el catálogo de datos.gob.es; la sesión cloud no llega
   (proxy 403) y la URL del portal autonómico devuelve la portada en obras. El runner las baja una vez, mide sha256 y bytes y las deja en
   R2 bajo `fuentes/<organismo>/<año>/` (árbol de D-188) con `manifiesto.json`; la huella pasa después, por PR, al calendario.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/herramientas/espejo_fuente_oficial_v1.0.0_20261123.py
 QUÉ HACE: `espejar --territorio aut08 --salida DIR` (SIN secretos): lee la declaración (`configuracion/espejos_fuentes_oficiales.json`), pide a la
   API de datos.gob.es las distribuciones del conjunto, elige la del año (falla si hay 0 o más de una), la baja solo por https de los hosts
   exactos declarados (también en cada redirección, como mucho 5) y hasta `max_bytes`, rechaza HTML (portada en obras), mide sha256/bytes,
@@ -88,21 +91,26 @@ def _texto(v) -> str:
 
 
 def distribuciones(api: dict) -> list[dict]:
+    """Una entrada por distribución con sus URL en orden de preferencia: `downloadURL` (fichero) antes que `accessURL` (a menudo, portada)."""
     items = (api.get("result") or {}).get("items") or []
     salida = []
     for it in items:
         dist = it.get("distribution") or []
         for d in dist if isinstance(dist, list) else [dist]:
-            url = _texto(d.get("accessURL") or d.get("downloadURL"))
-            if not url:
+            urls = []
+            for campo in ("downloadURL", "accessURL"):
+                u = _texto(d.get(campo)).strip()
+                if u and u not in urls:
+                    urls.append(u)
+            if not urls:
                 continue
-            fmt = _texto(d.get("format")).lower()
-            salida.append({"url": url.strip(), "titulo": _texto(d.get("title")).strip(), "formato": fmt})
+            salida.append({"url": urls[0], "urls": urls, "titulo": _texto(d.get("title")).strip(),
+                           "formato": _texto(d.get("format")).lower()})
     return salida
 
 
-def _extension(d: dict) -> str:
-    camino = urllib.parse.urlparse(d["url"]).path.lower()
+def _extension(d: dict, url: str | None = None) -> str:
+    camino = urllib.parse.urlparse(url or d["url"]).path.lower()
     for ext in FORMATOS:
         if camino.endswith("." + ext):
             return ext
@@ -112,24 +120,35 @@ def _extension(d: dict) -> str:
     return ""
 
 
-def elegir_distribucion(api: dict, anyo: int) -> dict:
-    """La única distribución de datos del año (en título o URL), prefiriendo xlsx > csv > xls > zip si hay varias del mismo año."""
+ORDEN = ["xlsx", "csv", "xls", "zip", "json"]
+
+
+def candidatas_del_anyo(api: dict, anyo: int) -> list[dict]:
+    """Todas las (distribución, URL) de datos del año, en orden de preferencia. Falla si hay dos distribuciones del año con el mismo formato."""
     patron = re.compile(rf"(?<!\d){int(anyo)}(?!\d)")
-    candidatas = []
+    por_dist = []
     for d in distribuciones(api):
+        if not (patron.search(d["titulo"]) or any(patron.search(urllib.parse.unquote(u)) for u in d["urls"])):
+            continue
         ext = _extension(d)
         if ext in ("", "pdf"):
+            ext = next((e for e in (_extension(d, u) for u in d["urls"]) if e not in ("", "pdf")), "")
+        if ext in ("", "pdf"):
             continue
-        if patron.search(d["titulo"]) or patron.search(urllib.parse.unquote(d["url"])):
-            candidatas.append({**d, "extension": ext})
-    if not candidatas:
+        por_dist.append({**d, "extension": ext})
+    if not por_dist:
         raise ErrorEspejo("ESPEJO_SIN_DISTRIBUCION", f"ninguna distribución de datos del año {anyo}")
-    orden = ["xlsx", "csv", "xls", "zip", "json"]
-    mejor = min(orden.index(c["extension"]) for c in candidatas)
-    elegidas = [c for c in candidatas if orden.index(c["extension"]) == mejor]
-    if len({c["url"] for c in elegidas}) > 1:
-        raise ErrorEspejo("ESPEJO_DISTRIBUCION_AMBIGUA", "; ".join(c["url"] for c in elegidas))
-    return elegidas[0]
+    for ext in ORDEN:
+        mismas = [d for d in por_dist if d["extension"] == ext]
+        if len(mismas) > 1:
+            raise ErrorEspejo("ESPEJO_DISTRIBUCION_AMBIGUA", "; ".join(d["urls"][0] for d in mismas))
+    por_dist.sort(key=lambda d: ORDEN.index(d["extension"]))
+    return [{**d, "url": u} for d in por_dist for u in d["urls"]]
+
+
+def elegir_distribucion(api: dict, anyo: int) -> dict:
+    """La primera candidata del año (ver `candidatas_del_anyo`)."""
+    return candidatas_del_anyo(api, anyo)[0]
 
 
 def es_html(datos: bytes) -> bool:
@@ -257,9 +276,25 @@ def espejar(territorio: str, salida: Path, get=_get, ruta_decl: Path = DECLARACI
     hosts, tope = e["hosts_permitidos"], int(e["max_bytes"])
     salida.mkdir(parents=True, exist_ok=True)
     api = json.loads(get(e["api_url"], hosts, tope).decode("utf-8"))
-    dist = elegir_distribucion(api, e["anyo"])
-    datos = get(dist["url"], hosts, tope)
-    comprobar_contenido(datos, dist["extension"])
+    candidatas = candidatas_del_anyo(api, e["anyo"])
+    print("ESPEJO_CANDIDATAS " + json.dumps([{"url": c["url"], "formato": c["formato"], "titulo": c["titulo"]} for c in candidatas],
+                                           ensure_ascii=False))
+    dist, datos, intentos, codigos = None, b"", [], set()
+    for c in candidatas:
+        try:
+            datos = get(c["url"], hosts, tope)
+            comprobar_contenido(datos, c["extension"])
+        except ErrorEspejo as exc:
+            intentos.append(f"{c['url']} → {exc.codigo}")
+            codigos.add(exc.codigo)
+            print(f"::warning::ESPEJO_INTENTO {c['url']}: {exc}")
+            continue
+        dist = c
+        print(f"ESPEJO_ELEGIDA {c['url']}")
+        break
+    if dist is None:
+        codigo = codigos.pop() if len(codigos) == 1 else "ESPEJO_SIN_FICHERO"  # el mismo motivo en todas, o «varios»
+        raise ErrorEspejo(codigo, "ninguna candidata es un fichero de datos: " + "; ".join(intentos))
     nombre = f"{e['fichero']}.{dist['extension']}"
     (salida / nombre).write_bytes(datos)
     piezas = [{"nombre": nombre, "clave": clave_r2(e["organismo"], e["anyo"], nombre), "origen_url": dist["url"],
