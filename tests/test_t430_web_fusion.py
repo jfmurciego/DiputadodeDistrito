@@ -193,6 +193,41 @@ class JobPublicarWeb(unittest.TestCase):
         self.assertNotIn("publicar_web", yaml.safe_load(WF.read_text(encoding="utf-8"))["jobs"]["pruebas"]["needs"])
         subprocess.run(["bash", "-n"], input=paso["run"], text=True, check=True)
 
+    def test_push_con_la_v4_y_otros_ficheros_avisa(self):
+        # menor (b) del revisor de #989: la web en R2 se queda atrás hasta la siguiente P40, con aviso visible
+        paso = paso_cambios()
+        with tempfile.TemporaryDirectory() as raw:
+            repo = Path(raw)
+            run = lambda *a: subprocess.run(a, cwd=repo, check=True, capture_output=True, text=True)
+            run("git", "init", "-q"); run("git", "config", "user.email", "a@b"); run("git", "config", "user.name", "a")
+            (repo / "base.txt").write_text("0"); run("git", "add", "-A"); run("git", "commit", "-qm", "0")
+            for f in ("visor/v4/index.html", "herramientas/x.py"):
+                (repo / f).parent.mkdir(parents=True, exist_ok=True); (repo / f).write_text("1")
+            run("git", "add", "-A"); run("git", "commit", "-qm", "1")
+            out = repo / "salida.txt"; out.write_text("")
+            env = {**{k: str(v) for k, v in (paso.get("env") or {}).items() if "${{" not in str(v)}, "PATH": "/usr/bin:/bin",
+                   "EVENTO": "push", "ACTOR": "persona", "BASE": "HEAD~1", "GITHUB_SHA": "HEAD", "GITHUB_OUTPUT": str(out)}
+            r = subprocess.run(["bash", "-eo", "pipefail", "-c", paso["run"]], cwd=repo, env=env, capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("publicar_web=false", r.stdout)
+        self.assertIn("::warning::El push toca visor/v4/ junto con otros ficheros", r.stdout)
+
+    def test_orden_no_depende_de_la_lista_de_compare(self):
+        # menor (a) del revisor de #989: `compare` lista como mucho 300 ficheros
+        import re as _re
+        paso = yaml.safe_load(WF.read_text(encoding="utf-8"))["jobs"]["publicar_web"]["steps"][-1]["run"]
+        filtro = _re.search(r"compare/\$GITHUB_SHA\.\.\.main\" --jq '([^']+)'", paso).group(1)
+        casos = {
+            "igual a main": ({"ahead_by": 0, "files": []}, "0"),
+            "robot posterior": ({"ahead_by": 1, "files": [{"filename": "docs/REGISTRO_DE_CAMBIOS.md"}]}, "0"),
+            "V4 posterior": ({"ahead_by": 2, "files": [{"filename": "visor/v4/index.html"}, {"filename": "docs/x.md"}]}, "1"),
+            "300 ficheros sin V4 en la lista": ({"ahead_by": 40, "files": [{"filename": f"datos/{i}.json"} for i in range(300)]}, "muchos"),
+        }
+        for nombre, (entrada, esperado) in casos.items():
+            with self.subTest(nombre):
+                r = subprocess.run(["jq", "-r", filtro], input=json.dumps(entrada), capture_output=True, text=True, check=True)
+                self.assertEqual(r.stdout.strip(), esperado)
+
     def test_push_de_varios_commits_o_sin_before_no_publica(self):
         paso = yaml.safe_load(WF.read_text(encoding="utf-8"))["jobs"]["publicar_web"]["steps"][-1]
         with tempfile.TemporaryDirectory() as raw:

@@ -1,10 +1,15 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.5.0
+# VERSIÓN: 1.5.1
 # NOMBRE DE VERSIÓN: P90 Automático — CI, IA de cierre de campaña, métricas y medición de la web en un solo workflow
 # FECHA: 2026-11-23
 # ESTADO: candidato
-# ANTERIOR: legacy/workflows/p90-automatico_v1.4.1_20261123.yml
+# ANTERIOR: legacy/workflows/p90-automatico_v1.5.0_20261123.yml
+# CAMBIOS 1.5.1: T-430 3c, menores del revisor de #989: (a) la comprobación de orden de `publicar_web` no depende de la lista de `compare`
+#   (máx. 300 ficheros): con `ahead_by` 0 publica; con 300 o más ficheros no publica (fallo cerrado); (b) aviso visible (`::warning::`)
+#   cuando la web en R2 se queda atrás hasta la siguiente P40: un push a main que toca `visor/v4/` con otros ficheros (`cambios`) y una
+#   publicación omitida por una V4 posterior. El resto, idéntico.
+# ANTERIOR (1.5.0): legacy/workflows/p90-automatico_v1.4.1_20261123.yml
 # CAMBIOS 1.5.0: T-430 paso 3c (D-194, pregunta 7 de REDISENO_R2: publicar la web sola al fusionar, aprobada expresamente por el propietario):
 #   en un push a `main` cuyos ficheros son SOLO de la web (la misma lista `RUTAS_WEB` y el mismo fallo cerrado que el atajo de las PR) y
 #   tocan `visor/v4/`, `cambios` marca `publicar_web=true` (`web` sigue siendo solo de PR: en `main` corre la batería completa) y el job
@@ -148,7 +153,8 @@ jobs:
           if [[ "$EVENTO" == "push" && "$files" != "todo" && -n "$files" ]]; then
             rc=0; ajeno="$(grep -vE "$RUTAS_WEB" <<<"$files")" || rc=$?  # 0: hay ajenos; 1: ninguno; >1: error de grep -> no se publica
             if (( rc > 1 )); then echo "::notice::No se pudo clasificar el push como solo web (grep rc=$rc): no se publica la web."
-            elif [[ -z "$ajeno" ]] && grep -qE '^visor/v4/' <<<"$files"; then publicar_web=true; fi
+            elif [[ -z "$ajeno" ]] && grep -qE '^visor/v4/' <<<"$files"; then publicar_web=true
+            elif grep -qE '^visor/v4/' <<<"$files"; then echo "::warning::El push toca visor/v4/ junto con otros ficheros: la web en R2 no se publica sola; queda atrás hasta la siguiente P40."; fi
           fi
           echo "publicar_web=$publicar_web" >> "$GITHUB_OUTPUT"
           echo "publicar_web=$publicar_web"
@@ -1083,6 +1089,9 @@ jobs:
           python3 herramientas/web_fusion_r2.py --destino "$sitio" --previos "$previos"
           if [[ ! -f "$sitio/index.html" ]]; then echo "Sin sitio previo en R2: la primera publicación es de P40."; exit 0; fi
           # Orden: si en main ya hay otra V4 (una fusión posterior), no se publica esta encima; si la API falla, el paso falla sin publicar.
-          posteriores="$(gh api "repos/$GITHUB_REPOSITORY/compare/$GITHUB_SHA...main" --jq '[.files[]?.filename | select(startswith("visor/v4/"))] | length')"
-          if [[ "$posteriores" != "0" ]]; then echo "::notice::main ya tiene una V4 posterior ($posteriores ficheros): no se publica esta."; exit 0; fi
+          # `compare` lista como mucho 300 ficheros: con 300 o más no se sabe si hay V4 posterior y no se publica (fallo cerrado).
+          posteriores="$(gh api "repos/$GITHUB_REPOSITORY/compare/$GITHUB_SHA...main" --jq 'if .ahead_by == 0 then 0 elif (.files | length) >= 300 then "muchos" else [.files[].filename | select(startswith("visor/v4/"))] | length end')"
+          if [[ "$posteriores" != "0" ]]; then
+            echo "::warning::main ya tiene cambios posteriores en visor/v4/ ($posteriores ficheros): no se publica esta. Si esa fusión tampoco publica, la web en R2 queda atrás hasta la siguiente P40."; exit 0
+          fi
           python3 herramientas/publicar_sitio_r2.py --sitio "$sitio"
