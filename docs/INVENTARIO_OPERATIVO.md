@@ -5,6 +5,8 @@
 
 ## Interfaces y workflows vigentes
 
+> Nota T-383 (17-11): los workflows de este documento se migraron a P10-P90 (D-129); equivalencias en `docs/ARQUITECTURA/EQUIVALENCIAS_D129.md`. Lo que sigue es histórico (2026-09).
+
 > Nota T-149 (10-11): `_reutilizable-operacion-territorial`, `producir-territorio-por-contrato`, `_reutilizable-auditoria-topologica`, `orquestacion-control` y `orquestacion-durable` se retiraron (sin llamador en `main`); copias en `legacy/workflows/`. Inventario vigente: `docs/ESTUDIOS/T149_LISTA_ACTIONS/INVENTARIO.md`.
 
 - `.github/workflows/ejecucion-generacion-distritos.yml`: única interfaz humana

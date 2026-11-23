@@ -19,7 +19,9 @@ from pathlib import Path
 
 import yaml
 
-from tests._t379_2a import deshacer as sin_2a
+from tests import _t428, _t430
+from tests._t379_2b import deshacer as sin_2b
+from tests._t379_2a import deshacer as sin_2a  # T-379 PR 2a: sin el entorno `registro`
 
 from tests._uses_sin_version import cargar as cargar_sin_version
 
@@ -51,8 +53,7 @@ def on(d):
 
 def carga(p):
     # T-392: un bump de versión de una acción de terceros (Dependabot) no es un cambio de lógica.
-    # T-379 PR 2a: sin el entorno `registro` ni los jobs partidos de P40 (su equivalencia exacta: tests/test_t379_2a_entorno_registro.py)
-    return sin_2a(Path(p).stem, cargar_sin_version(Path(p).read_text(encoding="utf-8")))
+    return sin_2b(Path(p).stem, sin_2a(Path(p).stem, cargar_sin_version(Path(p).read_text(encoding="utf-8"))))  # T-379 2b: sin la entrada `campana` ni `contents: read`
 
 
 def motor_normalizado(texto: str) -> str:
@@ -485,6 +486,12 @@ class Retirada(Congelado):
     def test_p40_publicar_igual_salvo_lo_del_ensemble(self):
         a = copy.deepcopy(self.p40v["jobs"]["publicar"])
         b = carga(WF / "p40-publicacion.yml")["jobs"]["publicar"]
+        b["steps"] = _t428.deshacer(_t430.deshacer(b["steps"]))  # T-428 (P40 1.3.0) y T-430 (1.4.0): se deshace solo eso
+        # T-409 (P40 1.2.0): el paso de la doble vuelta y las 2 líneas que copian visor/v4/ son lo único nuevo; se ignoran SOLO esos (nombre del paso y líneas exactas)
+        v4 = {"mkdir -p /tmp/site-candidate/v4 && cp -R visor/v4/. /tmp/site-candidate/v4/  # T-409: el visor V4 completo (el paso de la doble vuelta añade v4/mapa/datos/ después)",
+              'while IFS= read -r f; do [[ -z "$f" || "$f" == \\#* || "$f" == /* || "$f" == *..* ]] || rm -rf "/tmp/site-candidate/v4/$f"; done < visor/v4/NO_PUBLICAR.txt  # lo ficticio o interno no se publica'}
+        b["steps"] = [{**s, "run": "\n".join(l for l in s["run"].split("\n") if l.strip() not in v4)} if "run" in s else s
+                      for s in b["steps"] if s.get("name") != "Doble vuelta de los territorios del Congreso para la V4 (D-172)"]
         a["steps"] = [s for s in a["steps"] if s.get("name") != "Resolver ensemble persistente solicitado"]
         for k in ("SCENARIO_ID", "SCENARIO_STRATEGY", "ENSEMBLE_RELEASE_TAG", "ENSEMBLE_SHA256"):
             a["env"].pop(k)

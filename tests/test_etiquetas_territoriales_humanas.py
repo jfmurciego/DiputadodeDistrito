@@ -229,7 +229,14 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
         publication = dispatch_inputs(WORKFLOWS / "p50-publicacion-academica.yml")
         self.assertEqual(publication["territorios"]["type"], "string")
         self.assertNotIn("options", publication["territorios"])
-        self.assertEqual(set(publication), {"territorios", "destino", "concepto_nuevo"})
+        self.assertEqual(set(publication), {"accion", "territorios", "destino", "concepto_nuevo"})  # T-434: accion
+        # `accion` es una elección en español, sin ids internos ni datos técnicos (run, sha, versión, etiqueta)
+        accion = publication["accion"]
+        self.assertEqual(accion["type"], "choice")
+        self.assertEqual(accion["options"], ["Publicar una versión nueva", "Retomar el depósito en Zenodo de la última versión"])
+        self.assertEqual(accion["default"], "Publicar una versión nueva")
+        for texto in accion["options"] + [accion["description"]]:
+            self.assertNotRegex(texto, r"(?i)run[_ ]?id|sha|blob|\b(aut|nac)\d|\bv?\d+\.\d+\.\d+\b|mapas-v|_")
 
 
 if __name__ == "__main__":

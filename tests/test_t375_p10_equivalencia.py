@@ -18,7 +18,8 @@ from pathlib import Path
 
 import yaml
 
-from tests._t379_2a import deshacer as sin_2a
+from tests._t379_2b import deshacer as sin_2b
+from tests._t379_2a import deshacer as sin_2a  # T-379 PR 2a: sin el entorno `registro`
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tests"))
@@ -44,8 +45,7 @@ def on(d):
 
 
 def cargar(ruta):
-    # T-379 PR 2a: sin el entorno `registro` (su equivalencia exacta: tests/test_t379_2a_entorno_registro.py)
-    return sin_2a(Path(ruta).stem, yaml.safe_load(Path(ruta).read_text(encoding="utf-8")))
+    return sin_2b(Path(ruta).stem, sin_2a(Path(ruta).stem, yaml.safe_load(Path(ruta).read_text(encoding="utf-8"))))  # T-379 2b: sin la entrada `campana` ni `contents: read`
 
 
 def viejo(nombre):
@@ -58,7 +58,7 @@ def viejo(nombre):
 
 
 def vista(tipo, texto=None):
-    return sin_2a("vista", yaml.safe_load(vistas.vista(tipo, texto)))  # T-379 PR 2a: sin el entorno `registro`
+    return sin_2b("vista", sin_2a("vista", yaml.safe_load(vistas.vista(tipo, texto))))  # T-379 2b
 
 
 def paso(job, id_=None, nombre=None):

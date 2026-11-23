@@ -1,9 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
 # VERSIÓN: 1.11.6
-# CAMBIOS 1.11.6: T-379 PR 2a (D-147, opción a): todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara `environment: registro`
-#   (entorno sin revisores, ramas de despliegue = main): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
-# ANTERIOR (1.11.5): legacy/workflows/ejecucion-completa-proyecto_v1.11.5_20261117.yml
+# CAMBIOS 1.11.6: T-379 PR 2a (D-147, opción a; D-162, opción A), puesta al día sobre main el 23-11: todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara un entorno limitado a main (`registro`, sin revisores; P40 `publicar` sigue en `github-pages` y P70 `podar` en `produccion`): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
+# ANTERIOR (1.11.5): legacy/workflows/ejecucion-completa-proyecto_v1.11.5_20261123.yml
 # CAMBIOS 1.11.5: T-377 (D-139, P20): cambian solo las líneas `uses:` de los jobs `acreditar_generacion` y `generar` (las dos a `p20-distritos.yml`, «P20 Distritos»)
 #   y las rutas homónimas de `paths` del pull_request; entradas, `secrets` y condiciones idénticos.
 # ANTERIOR (1.11.4): legacy/workflows/ejecucion-completa-proyecto_v1.11.4_20261117.yml

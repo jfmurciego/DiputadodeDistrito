@@ -1,9 +1,19 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 1.0.1
-# CAMBIOS 1.0.1: T-379 PR 2a (D-147, opción a): todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara `environment: registro`
-#   (entorno sin revisores, ramas de despliegue = main): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
-# ANTERIOR (1.0.0): legacy/workflows/p30-resultados-electorales_v1.0.0_20261117.yml
+# VERSIÓN: 1.0.4
+# CAMBIOS 1.0.4: T-379 PR 2a (D-147, opción a; D-162, opción A), puesta al día sobre main el 23-11: todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara un entorno limitado a main (`registro`, sin revisores; P40 `publicar` sigue en `github-pages` y P70 `podar` en `produccion`): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
+# ANTERIOR (1.0.3): legacy/workflows/p30-resultados-electorales_v1.0.3_20261123.yml
+# CAMBIOS 1.0.3: T-409 (revisión de #911): el directorio `doble_vuelta/` existe solo si `doble_vuelta_cobertura.py` y `doble_vuelta.py` terminan bien (trap que lo borra si no);
+#   sin él el paso de archivo no pasa `--extra`, así que no se archiva una salida parcial. Ambas herramientas llevan `--alias` (configuracion/alias_partidos_generales.csv, #914).
+# CAMBIOS 1.0.2: T-409 (D-171): tras M08, `herramientas/doble_vuelta.py` (dv_base, dv_A, dv_B) y `doble_vuelta_cobertura.py` (% de votos sin casar con la
+#   tabla de bloques) sobre la tabla por partido y distrito de M07, NO FATAL (continue-on-error) y solo con persistir y sin `campana` (D-163: nada en main
+#   con campaña); su salida va al mismo paquete de R2 con `--extra` en el paso de archivo en origen (sin subida nueva). Sin la doble vuelta, P30 es igual.
+# CAMBIOS 1.0.1: T-379 PR 2b (D-163, 2b mínima): `contents: read` en todo el fichero (el push a main va con el token de la app de registro,
+#   que no depende de GITHUB_TOKEN: `contents: read` NO es barrera para ese push; sin la app, la credencial falla en vez de caer en github.token);
+#   entrada oculta `campana` (workflow_call; vacía = como antes). Con campaña, los jobs (en P30, los pasos) que registran en main se saltan.
+# ANTERIOR: legacy/workflows/p30-resultados-electorales_v1.0.2_20261119.yml
+# ANTERIOR (1.0.1): legacy/workflows/p30-resultados-electorales_v1.0.1_20261119.yml
+# ANTERIOR (1.0.0): legacy/workflows/p30-resultados-electorales_v1.0.0_20261117b.yml
 # CAMBIOS 1.0.0: T-376 (D-137, migración paso 7). Fichero nuevo: sustituye a `incorporacion-resultados-electorales.yml` 2.0.8 («P40 Resultados electorales») y a
 #   `_reutilizable-incorporacion-electoral.yml` 1.3.0 (este va DENTRO: los pasos de `preparar`, `incorporar` y `registrar` de antes, en un solo job).
 #   Botón: solo `territorio` (UN código, p. ej. aut12; sin matriz, sin run id: producto territorial certificado y paquete
@@ -25,6 +35,7 @@ name: P30 Resultados electorales
 on:
   workflow_call:
     inputs:
+      campana: {required: false, type: string, default: ''}  # T-379 2b (D-163): id de campaña de P00; no vacía = ruta de campaña (sin registro en main)
       territory_id: {required: true, type: string}
       data_edition: {required: false, type: string, default: ''}
       territorial_run_id: {required: false, type: string, default: ''}
@@ -44,7 +55,7 @@ on:
         type: string
 
 permissions:
-  contents: write
+  contents: read  # T-379 2b (D-163): el push a main va con el token de la app de registro, no con GITHUB_TOKEN
   actions: read
 
 jobs:
@@ -464,6 +475,32 @@ jobs:
           cp -a "$RUNS_DIR/." .ddd-state-product/run/
           cp -a .ddd-source-package/. .ddd-state-product/sources/
 
+      - name: Doble vuelta con coaliciones (D-171; no fatal)
+        if: ${{ success() && needs.resolver.outputs.persistir == 'true' && !inputs.campana }}
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          csv="$(ls "$CACHE_DIR"/*_m07_resultados_partido.csv | head -n1)"
+          eleccion="$(python - "$PARAMS" <<'PY'
+          import sys,yaml
+          from pathlib import Path
+          cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding="utf-8")) or {}
+          print((cfg.get("_runtime") or {}).get("electoral_package_election_id") or "")
+          PY
+          )"
+          bloques="$(ls configuracion/bloques_partidos_*.csv | sort | tail -n1)"
+          alias=configuracion/alias_partidos_generales.csv  # id de fuente → partido homologado (T-409, #914)
+          # `doble_vuelta/` solo queda si ambas herramientas terminan bien: el paso de archivo lo añade al paquete de R2 si existe.
+          rm -rf doble_vuelta
+          ok=0
+          trap '[[ "$ok" == 1 ]] || rm -rf doble_vuelta' EXIT
+          mkdir -p doble_vuelta
+          python herramientas/doble_vuelta_cobertura.py --votos "$csv" --bloques "$bloques" --eleccion "$eleccion" --alias "$alias" --salida doble_vuelta/cobertura.json
+          python herramientas/doble_vuelta.py --votos "$csv" --bloques "$bloques" --eleccion "$eleccion" --alias "$alias" \
+            --salida doble_vuelta/doble_vuelta.csv --manifiesto doble_vuelta/manifiesto.json
+          ok=1
+
       - name: Diagnosticar fallo de M07/M08
         if: failure()
         shell: bash
@@ -579,14 +616,14 @@ jobs:
           retention-days: 30
 
       - name: Cargar persistidor vigente compatible con main
-        if: ${{ success() && needs.resolver.outputs.persistir == 'true' }}
+        if: ${{ success() && needs.resolver.outputs.persistir == 'true' && !inputs.campana }}
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: main
           fetch-depth: 0
           path: persistidor
       - name: Credencial de registro
-        if: ${{ success() && needs.resolver.outputs.persistir == 'true' }}
+        if: ${{ success() && needs.resolver.outputs.persistir == 'true' && !inputs.campana }}
         shell: bash
         working-directory: persistidor
         env:
@@ -594,7 +631,7 @@ jobs:
           APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
         run: |
           set -euo pipefail
-          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "::error::Sin la app de registro (DDD_REGISTRO_APP_*): GITHUB_TOKEN es de solo lectura (T-379 2b, D-163)."; exit 1; fi
           b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
           now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
           unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
@@ -609,7 +646,7 @@ jobs:
           git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
           echo "Registro con la app propia (exenta en el ruleset proteger-main)."
       - name: Archivo en origen — M08 a R2 y votos por partido a git
-        if: ${{ success() && needs.resolver.outputs.persistir == 'true' }}
+        if: ${{ success() && needs.resolver.outputs.persistir == 'true' && !inputs.campana }}
         shell: bash
         working-directory: persistidor
         env:
@@ -624,8 +661,9 @@ jobs:
           t0=$(date +%s)
           suffix=''; [[ -n "$ARTIFACT_NAMESPACE" ]] && suffix="-$ARTIFACT_NAMESPACE"
           artifact_name="ddd-state-$GITHUB_RUN_ID-M08$suffix"
+          extra=(); [[ -d "$GITHUB_WORKSPACE/doble_vuelta" ]] && extra=(--extra "$GITHUB_WORKSPACE/doble_vuelta")
           python herramientas/archivo_origen.py r2 --run-id "$GITHUB_RUN_ID" --artefacto "$artifact_name" --territorio "$TERRITORY_ID" \
-            --sustituye-m06-run "$TERRITORIAL_RUN_ID"
+            --sustituye-m06-run "$TERRITORIAL_RUN_ID" "${extra[@]}"
           t1=$(date +%s)
           gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir .ddd-m08-state
           python herramientas/archivo_origen.py partidos --estado .ddd-m08-state --territorio "$TERRITORY_ID" \
@@ -637,7 +675,7 @@ jobs:
             --mensaje "chore(archivo): M08 de $TERRITORY_ID en R2 y votos por partido del run $GITHUB_RUN_ID" || rc=$?
           [[ "$rc" == 0 ]] || { echo '::error title=ARCHIVO_ORIGEN_FAILED::No se pudo registrar el archivo en origen en main.'; exit 1; }
       - name: Registrar disponibilidad del producto electoral
-        if: ${{ success() && needs.resolver.outputs.persistir == 'true' }}
+        if: ${{ success() && needs.resolver.outputs.persistir == 'true' && !inputs.campana }}
         shell: bash
         working-directory: persistidor
         env:

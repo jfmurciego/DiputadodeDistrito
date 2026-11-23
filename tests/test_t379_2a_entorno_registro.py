@@ -20,17 +20,17 @@ ROOT = Path(__file__).resolve().parents[1]
 WF = ROOT / ".github" / "workflows"
 FIX = ROOT / "tests" / "fixtures" / "t379_2a_workflows"
 HUELLAS = {
-    "auto-merge": ("1.3.1", "9b50b3c95b76d2fd2c6f988c0b8989124331750856224805e88179761bb83507"),
+    "auto-merge": ("1.3.2", "893d08a77c02ad5fedd30c68d6c2b934567d0f3f21f383dc6f768d312f8228b1"),
     "ejecucion-completa-proyecto": ("1.11.5", "0020929dad33a797344e5465afa579496b03a2facd959ef4e47ee1d4bf37cac8"),
-    "p10-fuentes": ("1.0.0", "bfffcdb3986093c65d7d6aa80f4f3b9634ec821665dc5940e185f6026bd575c4"),
-    "p20-distritos": ("1.0.0", "20234a06c6785a018731b736524e23aef31d796cb7de046f8134266c87a2aaa8"),
-    "p30-resultados-electorales": ("1.0.0", "18cd270112b9aa4dd3537456067faa5fdcbd9ff912222975118d5b759119e4b5"),
-    "p40-publicacion": ("1.1.0", "83ff6b15487ab4cb2e1fcb49a630f9e54363e2637300859fce1979bfa5bbf741"),
-    "p70-archivo": ("1.0.0", "ddb3166791def05e71d60cbc48e48dab3a98ca3dc07ce0417d4c3688af2651f3"),
-    "p90-automatico": ("1.1.0", "473b6bc87f97383fdd412236e7ff3e801ccd3e7e752e65472aa56caf8e7d9a3a"),
+    "p10-fuentes": ("1.0.1", "67ae63df4b96cabe5ecd27ab0e368974c9ff8663806a1a9bfa5dc889b13e6e1c"),
+    "p20-distritos": ("1.0.1", "c787e3bcdced5d22f12194fc59feb9b3d75bb3dcf838e67b6862a0a0896a1732"),
+    "p30-resultados-electorales": ("1.0.3", "0bb36d8cd475d38dd755474e80e8a2de863a7afeca8e2caac0899c568a8bc77b"),
+    "p40-publicacion": ("1.4.0", "388855c73e9e6e2ee20d9500340496e47df88806c2844f7a78d610adcd399e36"),
+    "p70-archivo": ("1.1.5", "1dd7b7dbf3ed6911017bab1c85906fa249412f2e7408262e67268c6711943d91"),
+    "p90-automatico": ("1.2.0", "ff42184cb8ca77d5ab19c4ce98530cad104d3aa8119034476f274ef5a2fd9171"),
     "preparacion-legislatura-vigente": ("1.0.12", "b96beddd60487e4937e40e2ca5d5652efe4a739ed91e13f8ba7bce6e79cc8245"),
 }
-# Inventario de §10 (25 usos), igual que en main e7747ea.
+# Inventario de §10 (25 usos), rehecho sobre main el 23-11 (mismo conjunto que en e7747ea).
 INVENTARIO = {
     ("auto-merge.yml", "fusionar"),
     ("ejecucion-completa-proyecto.yml", "detectar_recuperacion_electoral"), ("ejecucion-completa-proyecto.yml", "actualizar_estado"),
@@ -164,7 +164,7 @@ class SinPartir(Base):
         self.assertEqual(self.docs["p70-archivo.yml"]["jobs"]["podar"]["concurrency"]["group"], "archivar-artefactos-r2")
 
     def test_puerta_humana_de_preparar_intacta(self):
-        antes = yaml.safe_load((FIX / "p40-publicacion_1.1.0.yml").read_text(encoding="utf-8"))["jobs"]["preparar"]["environment"]
+        antes = yaml.safe_load((FIX / f"p40-publicacion_{HUELLAS['p40-publicacion'][0]}.yml").read_text(encoding="utf-8"))["jobs"]["preparar"]["environment"]
         self.assertEqual(self.docs["p40-publicacion.yml"]["jobs"]["preparar"]["environment"], antes.replace("|| ''", "|| 'registro'"))
 
 

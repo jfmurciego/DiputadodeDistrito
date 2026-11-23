@@ -1,0 +1,9 @@
+# Rutas de visor/v4/ que P40 NO publica (ficticias, de ejemplo o internas). Una por línea, relativa a visor/v4/; se borran del sitio tras copiar v4/ completo.
+# Quien termine una de estas páginas (p. ej. la del mapa) quita su línea aquí; no hace falta tocar el workflow. Sin «..» ni rutas absolutas (lo comprueba un test).
+NO_PUBLICAR.txt
+NOTICE.md
+assets-manifest.json
+auditoria-registro.html
+mapa/ejemplo
+cabecera.html
+pie.html

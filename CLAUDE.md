@@ -40,6 +40,7 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
 - El control de seguridad bloquea ediciones que amplían la autoridad de otra sesión y mecanismos de fusión sin
   revisión, aunque los pida el planificador: exige la autorización del propietario en el chat que ejecuta.
 - Datos oficiales nunca de memoria: de un fichero con fuente y sha256 (una tabla a mano dio Badajoz 6 y no 5).
+- Relevo de chats (D-160, T-403): cada rol, al empezar turno, mira `get_session`; al 70 % del umbral crea sucesora (sección «Relevo» de su skill). Una autorización D-52 nunca se hereda por `send_message` ni traspaso.
 
 ## Ejecución 00 (`ejecucion-completa-proyecto.yml`)
 - «Reutilizar progreso existente» reutiliza checkpoints M04 aunque haya cambiado el contrato. Tras cambiar umbrales,
@@ -94,7 +95,5 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
   entorno Default permite `boe.es`.
 
 ## Historial de lecciones
-- 2026-10-29/11-07 · Murcia/Valencia, Congreso (piloto Huesca, espejo Infoelectoral), CRS 25830, activación por elección; agentes, `.claude/rules/`, hooks, registro por ficheros, cadenas sin Mac · #324–#448.
-- 2026-11-08/09 · Olas 2-3 (ensembles, archivista, siglas, Gestor 2.0, congreso_350), relevo de chats, tests sobre estado vivo, visor v2, registro sin 350, banco de pruebas del motor · #500–#600. Detalle en `.claude/rules/`.
-- 2026-11-14 · Traspaso del Coordinador, renombrado T-220, Deslinde (paquete 1.0, 1.1 con CP-SAT), fuentes en R2/P10, batería desde la fuente, P50 con composición y restauración R2, V3, ficha de procedencia, id canónico en la preparación y revert de robots (r3), contador y maplibre local, licencias · #741–#789. Detalle en `.claude/rules/`.
-- 2026-11-16 · r3/r4 (71/71 publicadas): renombrado de ids → inventario de todo lo reutilizable + test de flujo antes de reanudar; contención con >8 cadenas; espejos Xunta/INE en R2 desde el Windows; D-125 a D-130 · #786–#843. Detalle en `.claude/rules/workflows.md`.
+- 2026-10-29/11-09 · Murcia/Valencia, Congreso (piloto Huesca, espejo Infoelectoral), CRS 25830, activación por elección; agentes, hooks, registro por ficheros, cadenas sin Mac; olas 2-3 (ensembles, archivista, Gestor 2.0, congreso_350), visor v2, banco de pruebas del motor · #324–#600. Detalle en `.claude/rules/`.
+- 2026-11-14/16 · Traspaso del Coordinador, Deslinde (paquete 1.0/1.1 CP-SAT), fuentes en R2/P10, P50, V3, revert de robots (r3/r4, 71/71 publicadas), renombrado de ids → inventario de lo reutilizable + test de flujo, contención con >8 cadenas, espejos Xunta/INE en R2, D-125 a D-130 · #741–#843. Detalle en `.claude/rules/workflows.md`.

@@ -1,0 +1,44 @@
+{
+ "aproximado_en_distrito": true,
+ "composicion_ruta": "datos/composicion/runs/aut03_43742340201.csv",
+ "composicion_sha256": "256109845b5b00bd4c076a700bb3322a6fc806b5b07f5ce323a7d30144489c19",
+ "cuadre": {
+  "distritos": 45,
+  "fuera_de_distritos": {
+   "votos_ausentes_no_repartidos": {
+    "ANDECHA": 28,
+    "C's": 137,
+    "FORO ASTURIAS": 160,
+    "IU-MÁS PAÍS-IAS": 339,
+    "PACMA": 177,
+    "PCTE": 62,
+    "PODEMOS ASTURIES": 397,
+    "PP": 2131,
+    "PSOE": 2431,
+    "PUEDE": 2,
+    "PUM+J": 66,
+    "SMP": 30,
+    "SOS ASTURIAS": 50,
+    "SOS OCCIDENTE": 20,
+    "V-Q": 119,
+    "VOX": 885
+   }
+  },
+  "ok": true,
+  "votos_entrada": 520466,
+  "votos_salida": 520466
+ },
+ "eleccion": "202305",
+ "entrada_sha256": "c9fd92cf0d04759488ddd43abc571f70e0d1c38fbbfd7c3cc04b7601e23fb6db",
+ "fuentes": {
+  "composicion": "256109845b5b00bd4c076a700bb3322a6fc806b5b07f5ce323a7d30144489c19",
+  "fuente": {
+   "sha256": "197045e10fe0d2ada7170054371673340690d36846d85cb5b8b047226f248f06",
+   "url": "https://www.sadei.es/sadei/pxweb/es/01/19__04/190426.px/"
+  }
+ },
+ "nivel": "municipio",
+ "run_m08": "43742340201",
+ "schema": "ddd.doble-vuelta-votos-aut/1.0",
+ "territorio": "aut03"
+}

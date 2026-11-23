@@ -1,9 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de preparación de fuentes
-# VERSIÓN: 1.0.1
-# CAMBIOS 1.0.1: T-379 PR 2a (D-147, opción a): todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara `environment: registro`
-#   (entorno sin revisores, ramas de despliegue = main): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
-# ANTERIOR (1.0.0): legacy/workflows/p10-fuentes_v1.0.0_20261117.yml
+# VERSIÓN: 1.0.2
+# CAMBIOS 1.0.2: T-379 PR 2a (D-147, opción a; D-162, opción A), puesta al día sobre main el 23-11: todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara un entorno limitado a main (`registro`, sin revisores; P40 `publicar` sigue en `github-pages` y P70 `podar` en `produccion`): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
+# ANTERIOR (1.0.1): legacy/workflows/p10-fuentes_v1.0.1_20261123.yml
+# CAMBIOS 1.0.1: T-379 PR 2b (D-163, 2b mínima): `contents: read` en todo el fichero (el push a main va con el token de la app de registro,
+#   que no depende de GITHUB_TOKEN: `contents: read` NO es barrera para ese push; sin la app, la credencial falla en vez de caer en github.token);
+#   entrada oculta `campana` (workflow_call; vacía = como antes). Con campaña, los jobs (en P30, los pasos) que registran en main se saltan.
+#   Con campaña, P10 fuerza `persist_state=false` (P11 y P12): sin registro, `p11_resultado`/`p12_resultado` terminan en verde (PERSISTENCE_NOT_REQUIRED).
+# ANTERIOR (1.0.0): legacy/workflows/p10-fuentes_v1.0.0_20261117b.yml
 # FECHA: 2026-11-17
 # ESTADO: candidato
 # CAMBIOS: T-375 (D-136 y D-151, migración paso 6): fichero nuevo; sustituye a preparacion-fuentes.yml 1.4.14 («P10 Fuentes — P11 Territoriales») y preparacion-resultados-electorales.yml 1.0.17 («P10 Fuentes — P12 Electorales»),
@@ -25,6 +29,7 @@ name: P10 Fuentes
 on:
   workflow_call:
     inputs:
+      campana: {required: false, type: string, default: ''}  # T-379 2b (D-163): id de campaña de P00; no vacía = ruta de campaña (sin registro en main)
       tipo: {required: true, type: string}
       territory_id: {required: true, type: string}
       data_edition: {required: false, type: string, default: ''}
@@ -88,7 +93,7 @@ concurrency:
   cancel-in-progress: false
   queue: max
 permissions:
-  contents: write
+  contents: read  # T-379 2b (D-163): el push a main va con el token de la app de registro, no con GITHUB_TOKEN
   actions: read
 
 env:
@@ -159,7 +164,7 @@ jobs:
           SECTION_YEAR_INPUT: ${{ inputs.section_year || '' }}
           REUSE_INPUT: ${{ toJSON(inputs.reutilizar_si_ya_preparada) }}
           REGENERAR_INPUT: ${{ inputs.regenerar }}
-          PERSIST_INPUT: ${{ toJSON(inputs.persist_state) }}
+          PERSIST_INPUT: ${{ inputs.campana && 'false' || toJSON(inputs.persist_state) }}
           RECOVERY_RUN_ID: ${{ inputs.recover_run_id || '' }}
           RECOVERY_SHA256: ${{ inputs.recover_artifact_sha256 || '' }}
         run: |
@@ -417,7 +422,7 @@ jobs:
       artifact_sha256: ${{ steps.register.outputs.artifact_sha256 }}
       package_sha256: ${{ steps.register.outputs.package_sha256 }}
       promotion_sha: ${{ steps.register.outputs.promotion_sha }}
-    if: ${{ needs.p11_territoriales.result == 'success' && needs.p11_resolver.outputs.persist_state == 'true' }}
+    if: ${{ (needs.p11_territoriales.result == 'success' && needs.p11_resolver.outputs.persist_state == 'true') && !inputs.campana }}
     environment: registro
     runs-on: ubuntu-24.04
     concurrency:
@@ -446,7 +451,7 @@ jobs:
           APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
         run: |
           set -euo pipefail
-          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "::error::Sin la app de registro (DDD_REGISTRO_APP_*): GITHUB_TOKEN es de solo lectura (T-379 2b, D-163)."; exit 1; fi
           b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
           now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
           unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
@@ -491,7 +496,7 @@ jobs:
   p11_generation_pending:
     name: Registrar evaluación de generación pendiente
     needs: [p11_resolver, p11_registrar]
-    if: ${{ always() && needs.p11_resolver.result == 'success' && needs.p11_registrar.result == 'success' && needs.p11_resolver.outputs.persist_state == 'true' }}
+    if: ${{ (always() && needs.p11_resolver.result == 'success' && needs.p11_registrar.result == 'success' && needs.p11_resolver.outputs.persist_state == 'true') && !inputs.campana }}
     environment: registro
     runs-on: ubuntu-24.04
     outputs:
@@ -513,7 +518,7 @@ jobs:
           APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
         run: |
           set -euo pipefail
-          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "::error::Sin la app de registro (DDD_REGISTRO_APP_*): GITHUB_TOKEN es de solo lectura (T-379 2b, D-163)."; exit 1; fi
           b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
           now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
           unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
@@ -629,7 +634,7 @@ jobs:
         with: {ref: '${{ inputs.source_ref || github.sha }}', token: '${{ github.token }}'}
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - id: resolve
-        env: {TERRITORY: '${{ (inputs.territory_id || inputs.territorio) }}', EDITION: "${{ inputs.data_edition || '2025' }}", PERSIST_INPUT: '${{ toJSON(inputs.persist_state) }}', ELECCION: '${{ inputs.eleccion }}'}
+        env: {TERRITORY: '${{ (inputs.territory_id || inputs.territorio) }}', EDITION: "${{ inputs.data_edition || '2025' }}", PERSIST_INPUT: "${{ inputs.campana && 'false' || toJSON(inputs.persist_state) }}", ELECCION: '${{ inputs.eleccion }}'}
         run: |
           set -euo pipefail
           persist_json="$(python herramientas/evaluar_persistencia_preparacion.py resolve --requested "$PERSIST_INPUT")"
@@ -1127,7 +1132,7 @@ jobs:
   p12_registrar:
     name: Registrar resultados electorales preparados
     needs: [p12_resolver, p12_electorales]
-    if: ${{ needs.p12_electorales.result == 'success' && needs.p12_electorales.outputs.electoral_outcome == 'READY' && needs.p12_resolver.outputs.persist_state == 'true' && needs.p12_electorales.outputs.production_eligible == 'true' }}
+    if: ${{ (needs.p12_electorales.result == 'success' && needs.p12_electorales.outputs.electoral_outcome == 'READY' && needs.p12_resolver.outputs.persist_state == 'true' && needs.p12_electorales.outputs.production_eligible == 'true') && !inputs.campana }}
     environment: registro
     runs-on: ubuntu-24.04
     concurrency:
@@ -1145,7 +1150,7 @@ jobs:
           APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
         run: |
           set -euo pipefail
-          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "::error::Sin la app de registro (DDD_REGISTRO_APP_*): GITHUB_TOKEN es de solo lectura (T-379 2b, D-163)."; exit 1; fi
           b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
           now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
           unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"

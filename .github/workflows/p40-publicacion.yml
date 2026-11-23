@@ -1,15 +1,27 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 1.2.0
-# CAMBIOS 1.2.0: T-379 PR 2a (D-147, opción a; D-162 opción A): los secretos de la app de registro (DDD_REGISTRO_APP_*) pasan a entornos
-#   limitados a main (`registro`, `github-pages`, `produccion`); desde una rama o una PR un job con la app no los recibe. `preparar`: `produccion`
-#   para personas (T-41, misma condición) y `registro` para robots; `publicar` registra dentro de `github-pages` (los secretos están también ahí). Resto idéntico.
-# ANTERIOR (1.1.0): legacy/workflows/p40-publicacion_v1.1.0_20261117.yml
+# VERSIÓN: 1.4.1
+# CAMBIOS 1.4.1: T-379 PR 2a (D-147, opción a; D-162, opción A), puesta al día sobre main el 23-11: todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara un entorno limitado a main (`registro`, sin revisores; P40 `publicar` sigue en `github-pages` y P70 `podar` en `produccion`): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
+# ANTERIOR (1.4.0): legacy/workflows/p40-publicacion_v1.4.0_20261123.yml
+# CAMBIOS 1.4.0: T-430 fase 1 (D-186): paso «Datos de la web en R2 (T-430)» tras persistir el registro: `herramientas/publicar_datos_web.py` sube los datos del
+#   sitio candidato (datos/, mapa/datos/, v2/datos/, data/) al bucket público de la web en `web/actual/` (solo la vigente, D-188: sube lo que cambió, verifica su sha256,
+#   reescribe `web/actual/actual.json` y borra lo que salió del índice, con tope: un candidato truncado o sin territorios aborta sin borrar). Solo desde `main` (otra rama no toca el índice de producción). Sin la variable `R2_WEB_BUCKET` no hace nada; `continue-on-error` mientras dure el ensayo en paralelo a Pages. El resto, idéntico.
+# ANTERIOR: legacy/workflows/p40-publicacion_v1.3.0_20261120.yml
+# CAMBIOS 1.3.0: T-428 (D-184): la V4 es la versión OFICIAL. Paso nuevo «Promocionar la V4 como portada oficial» tras el de la V3
+#   (`herramientas/preparar_portada_v4.py`): la V4 pasa de /v4/ a la raíz del sitio, /v4/ queda con redirecciones a la raíz y los
+#   recursos de la V1 se mueven a /v1/; la doble vuelta se escribe en `mapa/datos/` de la raíz; la validación comprueba la portada V4
+#   (antes `url=v3/`), Explorar, la V1 y las redirecciones. /v2/, /v3/, /docs/, /datos/ y /data/ no cambian. El resto, idéntico.
+# ANTERIOR (1.3.0): legacy/workflows/p40-publicacion_v1.2.0_20261120.yml
+# CAMBIOS 1.2.0: T-409 (D-172): paso «Doble vuelta de los territorios del Congreso para la V4»: `herramientas/publicar_doble_vuelta.py` baja de R2 el resultado de P75 FIJADO en
+#   configuracion/doble_vuelta_publicada.json (sin ese fichero no hace nada), verifica sha256 y escribe `v4/mapa/datos/` en el sitio candidato (datos de la doble vuelta y la geometría de los distritos, que sale del GeoJSON que este mismo P40 materializa en `datos/`, simplificada con tolerancia fija); mismas credenciales R2 que el resto, `contents: read`,
+#   sin datos en git, sin entradas nuevas. Además P40 copia `visor/v4/` completo al sitio candidato (dos líneas, junto al `cp` de V3: copia y borrado de lo listado en visor/v4/NO_PUBLICAR.txt; V2 y V3 no cambian) para que el visor V4 y su
+#   `v4/mapa/datos/` lleguen juntos; la copia no publica nada por sí sola. El resto, idéntico.
 # FECHA: 2026-11-16
 # ESTADO: candidato
 # CAMBIOS 1.1.0: T-377 (D-138, P28 Alternativas retirada sin sustituto): se quitan las entradas `workflow_call` `ensemble_release_tag`, `ensemble_sha256`,
 #   `scenario_id` y `scenario_strategy`, la ruta del ensemble (`resolver` ya no se salta; `publicar` corre si `preparar` terminó bien) y el paso
 #   «Resolver ensemble persistente solicitado»; los pasos `parse-run-ids` y `describe-production` ya no pasan escenario. El resto, idéntico.
+# ANTERIOR (1.2.0): legacy/workflows/p40-publicacion_v1.1.0_20261119.yml
 # ANTERIOR (1.0.0): legacy/workflows/p40-publicacion_v1.0.0_20261116.yml
 # CAMBIOS: T-372 (D-134, migración paso 5): fichero nuevo; sustituye a desplegar-visor-publico.yml 3.6.0 («P50 Publicación»), cadena-publicacion.yml 1.1.0 y
 #   _reutilizable-publicar-sitio.yml 3.17.0 (el publicador va dentro como el job `publicar`; mismos pasos, mismo entorno `github-pages`, mismos permisos y concurrencias).
@@ -504,6 +516,8 @@ jobs:
           cp visor/nacional/index.html visor/nacional/nacional.js visor/nacional/styles.css /tmp/site-candidate/nacional/
           cp -R visor/v2/. /tmp/site-candidate/v2/
           cp visor/v3/index.html visor/v3/v3.css visor/v3/v3.js visor/v3/calendario.json /tmp/site-candidate/v3/
+          mkdir -p /tmp/site-candidate/v4 && cp -R visor/v4/. /tmp/site-candidate/v4/  # T-409: el visor V4 completo (el paso de la doble vuelta añade v4/mapa/datos/ después)
+          while IFS= read -r f; do [[ -z "$f" || "$f" == \#* || "$f" == /* || "$f" == *..* ]] || rm -rf "/tmp/site-candidate/v4/$f"; done < visor/v4/NO_PUBLICAR.txt  # lo ficticio o interno no se publica
           rm -f /tmp/site-candidate/v2/README.md /tmp/site-candidate/v2/construir_vista_previa.py
           cp web/textos.md /tmp/site-candidate/v2/textos.md
           sed -i 's#data-textos="../../web/textos.md"#data-textos="textos.md"#' /tmp/site-candidate/v2/index.html
@@ -558,6 +572,25 @@ jobs:
           node --check /tmp/site-candidate/v3/v3.js
           python -m unittest discover -s tests -p test_preparar_portada_v3.py
 
+      - name: Promocionar la V4 como portada oficial (T-428)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python herramientas/preparar_portada_v4.py --site=/tmp/site-candidate
+
+      - name: Doble vuelta de los territorios del Congreso para la V4 (D-172)
+        shell: bash
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          # El resultado de P75 se baja de R2 y se verifica contra el run y el sha256 fijados en el repo; sin fijado no hace nada; con fijado, un fallo detiene la publicación.
+          python3 herramientas/publicar_doble_vuelta.py --sitio /tmp/site-candidate --destino /tmp/site-candidate/mapa/datos
+
       - name: Validar sitio candidato completo
         shell: bash
         run: |
@@ -569,7 +602,14 @@ jobs:
           test -s /tmp/site-candidate/nacional/index.html
           node --check /tmp/site-candidate/nacional/nacional.js
           test -s /tmp/site-candidate/index.html
-          grep -q 'url=v3/' /tmp/site-candidate/index.html
+          grep -q '<title>Diputado de Distrito | Portada</title>' /tmp/site-candidate/index.html
+          test -s /tmp/site-candidate/comprender.html
+          test -s /tmp/site-candidate/mapa/index.html
+          test -s /tmp/site-candidate/mapa/explorar.js
+          grep -q 'url=../"' /tmp/site-candidate/v4/index.html
+          grep -q 'url=../../mapa/"' /tmp/site-candidate/v4/mapa/index.html
+          test -s /tmp/site-candidate/v1/app.js
+          grep -q 'src="v1/app.js"' /tmp/site-candidate/v1/index.html
           test -s /tmp/site-candidate/v3/index.html
           test -s /tmp/site-candidate/v3/v3.css
           test -s /tmp/site-candidate/v3/v3.js
@@ -677,6 +717,22 @@ jobs:
             }
             sleep $((attempt * 2))
           done
+
+      - name: Datos de la web en R2 (T-430)
+        if: ${{ github.ref == 'refs/heads/main' }}
+        continue-on-error: true
+        shell: bash
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_WEB_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_WEB_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_WEB_BUCKET: ${{ vars.R2_WEB_BUCKET }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}  # solo para rechazar que el bucket web sea el de trabajo
+        run: |
+          set -euo pipefail
+          # Fase 1 (D-186): en paralelo a Pages, después de desplegarla. Sin la variable R2_WEB_BUCKET no hace nada; un fallo avisa y no para P40.
+          python3 herramientas/publicar_datos_web.py --sitio /tmp/site-candidate
 
       - name: Registrar evidencia
         if: always()

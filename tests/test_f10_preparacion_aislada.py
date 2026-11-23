@@ -112,7 +112,8 @@ class F10PreparacionAisladaTests(unittest.TestCase):
                                            registration_result='skipped', persist_state=False))
         self.assertEqual('FAILURE', terminal_decision(preparation_result='failure',
                          registration_result='skipped', persist_state=False)['status'])
-        producer = yaml.safe_load((ROOT / 'tests/fixtures/p10_vistas/_p11-territoriales.yml').read_text())
+        from tests._t379_2b import deshacer as sin_2b  # T-379 2b: sin la entrada `campana` ni `contents: read`
+        producer = sin_2b('vista', yaml.safe_load((ROOT / 'tests/fixtures/p10_vistas/_p11-territoriales.yml').read_text()))
         for job in ('registrar', 'generation_pending'):
             self.assertIn("needs.resolver.outputs.persist_state == 'true'", producer['jobs'][job]['if'])
         for key, level in producer['permissions'].items():

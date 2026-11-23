@@ -1,10 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.3.2
-# CAMBIOS 1.3.2: T-379 PR 2a (D-147, opción a): todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara `environment: registro`
-#   (entorno sin revisores, ramas de despliegue = main): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
-# ANTERIOR (1.3.1): legacy/workflows/auto-merge_v1.3.1_20261117.yml
-# ANTERIOR: legacy/workflows/auto-merge_v1.3.0_20261116.yml
+# VERSIÓN: 1.3.3
+# CAMBIOS 1.3.3: T-379 PR 2a (D-147, opción a; D-162, opción A), puesta al día sobre main el 23-11: todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara un entorno limitado a main (`registro`, sin revisores; P40 `publicar` sigue en `github-pages` y P70 `podar` en `produccion`): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
+# ANTERIOR (1.3.2): legacy/workflows/auto-merge_v1.3.2_20261123.yml
+# ANTERIOR: legacy/workflows/auto-merge_v1.3.1_20261117.yml
+# CAMBIOS 1.3.2: T-397c (D-159), solo el nombre visible: «_P90 Automático — Fusión automática» (sin botón: el «_» lo marca). Nadie lo referencia por
+#   nombre; disparador, jobs, permisos y concurrencia intactos.
 # CAMBIOS 1.3.1: T-397 (D-155), solo el nombre visible: «P90 Automático — Fusión automática» (antes «_Interno — Fusión automática»). Nadie lo
 #   referencia por nombre (es un disparador, no un objetivo de `workflow_run`); disparador, jobs y permisos intactos.
 # CAMBIOS 1.3.0: T-366 (D-129/D-130), solo el disparador: workflow_run de «P90 Automático» (antes «Pruebas de la Plataforma») y `path` de
@@ -30,7 +31,7 @@
 #   1.0.0, ejecutada por un `pull_request` cuya referencia de merge aún no incluía #457: por eso aquí no hay disparador
 #   `pull_request` ni auto-merge nativo (un auto-merge nativo activado con la app exenta fusiona sin `pruebas`).
 # ANTERIOR: legacy/workflows/auto-merge_v1.1.0_20261107.yml
-name: P90 Automático — Fusión automática
+name: _P90 Automático — Fusión automática
 on:
   workflow_run:
     workflows: ["P90 Automático"]
