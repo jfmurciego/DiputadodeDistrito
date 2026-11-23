@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.598
+Versión: 1.0.599
 Fecha: 2026-11-23
-Alcance: T-379 — PR 2a: secretos de la app de registro en entornos limitados a main (D-147, opción a; D-162, opción A)
+Alcance: T-430 — Paso 3c: publicar la web sola al fusionar una PR que solo toca la web
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-17_t379-2a-entorno-registro.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.597_registro_20261123.md
+Cambios/motivo: entrada docs/registro/2026-11-23_t430-3c-web-al-fusionar.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.598_registro_20261123.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.597_registro_20261123.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.599 · [2026-11-23 — T-430 — Paso 3c: publicar la web sola al fusionar una PR que solo toca la web](registro/2026-11-23_t430-3c-web-al-fusionar.md)
 - 1.0.598 · [2026-11-17 — T-379 — PR 2a: secretos de la app de registro en entornos limitados a main (D-147, opción a; D-162, opción A)](registro/2026-11-17_t379-2a-entorno-registro.md)
 - 1.0.597 · [2026-11-23 — T-430 — Paso 3b: atajo de CI para las PR que solo tocan la web](registro/2026-11-23_t430f-atajo-ci.md)
 - 1.0.596 · [2026-11-23 — T-448 — Histórico 2011-11: Ceuta exenta del 1 % (D-197) y espejo de 1mun00 preparado](registro/2026-11-23_t448-ceuta-espejo-1mun00.md)
