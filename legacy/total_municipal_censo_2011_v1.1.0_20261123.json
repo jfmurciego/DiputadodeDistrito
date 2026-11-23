@@ -1,0 +1,27 @@
+{
+  "schema": "ddd.total-municipal-censo-2011/1.0",
+  "version": "1.1.0",
+  "anterior": "legacy/total_municipal_censo_2011_v1.0.0_20261123.json",
+  "cambios": "1.1.0: T-448 (D-197): espejo en una Release propia del repositorio (misma huella; como fuente-infoelectoral-02202307), para que la CI y la sesión cloud lo obtengan sin depender del INE. 1.0.0: fichero nuevo.",
+  "motivo": "D-185 (propietario, 20-11): total MUNICIPAL del Censo de Población 2011 (1-nov-2011) del INE, para cuadrar las secciones del seccionado de la época sin población en la tabla (rellenadas por el Atlas o sin dato). A diferencia del Padrón 29005 (1-ene-2011, descartado en T-400), es de la misma fecha y del mismo Censo que la tabla de secciones.",
+  "fuente": {
+    "nombre": "INE, Censos de Población y Viviendas 2011, «Población por municipios, sexo y edad (año a año)» (1mun00)",
+    "url": "https://www.ine.es/jaxi/files/_px/es/csv_bdsc/t20/e244/avance/p02/l0/1mun00.csv_bdsc?nocab=1",
+    "fichero": "1mun00.csv",
+    "sha256": "ad95479c07ce4ae37ed03732025d7039b1338f43ead181bb2c450fcac64f8267",
+    "bytes": 105319154,
+    "medido": "2026-11-20, sesión cloud; TOTAL NACIONAL = 46.815.916; 8.116 municipios con total Ambos sexos / Total",
+    "fila": "Municipios = «CCCCC Nombre»; Sexo = «Ambos sexos»; Edad = «Total»; Total = población a 1-nov-2011"
+  },
+  "espejo": {
+    "tipo": "release",
+    "release_tag": "fuente-ine-censo2011-1mun00",
+    "release_nombre": "INE Censo 2011 · población por municipios (1mun00)",
+    "asset": "1mun00.csv",
+    "content_type": "text/csv",
+    "sha256": "ad95479c07ce4ae37ed03732025d7039b1338f43ead181bb2c450fcac64f8267",
+    "bytes": 105319154,
+    "estado": "pendiente de subir: la crea el Operador con frase del propietario (T-448); hasta entonces la descarga cae a la URL del INE con la misma huella",
+    "descarga": "gh api repos/<repo>/releases/tags/<release_tag> → id del asset → gh api repos/<repo>/releases/assets/<id> -H \"Accept: application/octet-stream\"; sha256 y bytes contra este fichero (fail-closed)"
+  }
+}

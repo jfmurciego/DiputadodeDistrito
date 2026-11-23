@@ -2,9 +2,9 @@
 """T-365 (D-125): contrato por elección del histórico por época, contrato M01-M06 por provincia y puerta M07/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.7 · FECHA: 2026-11-23 · ESTADO: candidato
-ANTERIOR: legacy/tests/test_t365_historico_epoca_v1.4.6_20261123.py
-CAMBIOS: 1.4.7: T-448 (D-200): contrato 2011-11 en 1.6.0 (anterior 1.5.0). 1.4.6: T-448 (D-197): contrato 2011-11 en 1.5.0 (anterior 1.4.0); clase EspejoTotalMunicipal (release de 1mun00 declarada). 1.4.5: T-400 (D-185): exención de suelo declarada de 38-G01 (clase RepartoParticiones). 1.4.4: T-400 (D-185): contrato 2011-11 en 1.4.0 y total municipal del Censo (huella, lectura). 1.4.3: T-400 (D-180): clase RepartoParticiones. 1.4.2: T-400: clase PuentesDeEpoca. 1.4.1: T-405: clase TopologiaAdministrativa. 1.4.0: T-399: estado APARTADA_VOTOS admitido (D-158). 1.3.0: T-402: `materializar` normaliza la geometría (parche del seccionado en los tests con zip falso; clase NormalizacionGeometria con zip real). 1.2.0: T-396 (D-153): estado APARTADA admitido; contratos 1.2.0 con anterior 1.1.0. 1.1.0: T-389 (T-365b): contratos con la tabla de T-364b (1.2.0): provincias apartadas = BLOQUEADA_SIN_DATO sin filas, fallo cerrado con la tabla vieja.
+VERSIÓN: 1.4.8 · FECHA: 2026-11-23 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_t365_historico_epoca_v1.4.7_20261123.py
+CAMBIOS: 1.4.8: T-448 (D-202): EspejoTotalMunicipal contra el espejo en R2 (fuentes/ine/2011/1mun00.csv), sin Release. 1.4.7: T-448 (D-200): contrato 2011-11 en 1.6.0 (anterior 1.5.0). 1.4.6: T-448 (D-197): contrato 2011-11 en 1.5.0 (anterior 1.4.0); clase EspejoTotalMunicipal (release de 1mun00 declarada). 1.4.5: T-400 (D-185): exención de suelo declarada de 38-G01 (clase RepartoParticiones). 1.4.4: T-400 (D-185): contrato 2011-11 en 1.4.0 y total municipal del Censo (huella, lectura). 1.4.3: T-400 (D-180): clase RepartoParticiones. 1.4.2: T-400: clase PuentesDeEpoca. 1.4.1: T-405: clase TopologiaAdministrativa. 1.4.0: T-399: estado APARTADA_VOTOS admitido (D-158). 1.3.0: T-402: `materializar` normaliza la geometría (parche del seccionado en los tests con zip falso; clase NormalizacionGeometria con zip real). 1.2.0: T-396 (D-153): estado APARTADA admitido; contratos 1.2.0 con anterior 1.1.0. 1.1.0: T-389 (T-365b): contratos con la tabla de T-364b (1.2.0): provincias apartadas = BLOQUEADA_SIN_DATO sin filas, fallo cerrado con la tabla vieja.
 MOTIVO: T-365. Sin red ni fuentes pesadas: el flujo M07/M08 usa un M06 sintético y los módulos reales.
 """
 from __future__ import annotations
@@ -13,6 +13,7 @@ import csv
 import hashlib
 import importlib.util
 import json
+import os
 import sys
 import tempfile
 import unittest
@@ -771,22 +772,30 @@ class TablaT364b(unittest.TestCase):
 
 
 class EspejoTotalMunicipal(unittest.TestCase):
-    """T-448: espejo de 1mun00.csv en una release propia, con la misma huella que la fuente del INE (D-185)."""
+    """T-448 (D-202): espejo de 1mun00.csv en R2 (fuentes/ine/2011/), con la misma huella que la fuente del INE (D-185)."""
     SHA = "ad95479c07ce4ae37ed03732025d7039b1338f43ead181bb2c450fcac64f8267"  # medido el 20-11 y el 23-11 (www.ine.es, 200)
 
     def test_declaracion_indice_y_script_coinciden(self):
         d = json.loads((ROOT / "configuracion/historico_epoca/total_municipal_censo_2011.json").read_text(encoding="utf-8"))
         esp, f = d["espejo"], d["fuente"]
         self.assertEqual((f["sha256"], f["bytes"]), (self.SHA, 105319154))
-        self.assertEqual((esp["sha256"], esp["bytes"], esp["asset"]), (f["sha256"], f["bytes"], f["fichero"]))
-        self.assertRegex(esp["release_tag"], r"^fuente-ine-[a-z0-9-]+$")
+        self.assertEqual((esp["tipo"], esp["sha256"], esp["bytes"], esp["clave"]), ("r2", f["sha256"], f["bytes"], "fuentes/ine/2011/1mun00.csv"))
         idx = json.loads((ROOT / "orchestracion/fuentes_r2.json").read_text(encoding="utf-8"))["fuentes"]["1mun00.csv"]
-        self.assertEqual((idx["sha256"], idx["bytes"], idx["origen_url"]), (f["sha256"], f["bytes"], f["url"]))
-        self.assertIn(esp["release_tag"], idx["respaldo"])
+        self.assertEqual((idx["sha256"], idx["bytes"], idx["origen_url"], idx["clave"]), (f["sha256"], f["bytes"], f["url"], esp["clave"]))
+        self.assertNotIn("respaldo", idx)  # D-202: sin Release
         sh = (ROOT / "docs/ESTUDIOS/T365_HISTORICO_POR_EPOCA/bajar_fuentes.sh").read_text(encoding="utf-8")
-        self.assertNotIn(esp["release_tag"], sh)  # el script lee tag, asset y huella de la declaración, no literales
-        self.assertIn("d['espejo']['release_tag']", sh)
+        self.assertNotIn("releases", sh)
+        self.assertIn('herramientas/fuente_r2.py" bajar "$(tm "d[\'fuente\'][\'fichero\']")"', sh)
         self.assertIn("d['fuente']['sha256']", sh)
+
+    def test_script_cae_al_ine_sin_r2(self):
+        # sin credenciales de R2, fuente_r2 sale 3 (el script entonces baja del INE con la misma huella)
+        import subprocess
+        with tempfile.TemporaryDirectory() as d:
+            env = {k: v for k, v in os.environ.items() if not k.startswith("R2_")}
+            r = subprocess.run([sys.executable, "-I", str(ROOT / "herramientas/fuente_r2.py"), "bajar", "1mun00.csv", str(Path(d) / "x")],
+                               env=env, capture_output=True, text=True)
+        self.assertEqual(r.returncode, 3, r.stderr)
 
     def test_script_sintaxis(self):
         import subprocess

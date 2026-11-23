@@ -3,18 +3,23 @@
 """Espejo de solo lectura en R2 de una fuente oficial que solo se alcanza desde un runner de Actions.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.1
+VERSIÓN: 1.1.0
 NOMBRE DE VERSIÓN: Espejo de fuente oficial (D-183, D-188)
 FECHA: 2026-11-23
 ESTADO: candidato
-CAMBIOS: 1.0.1 (T-449, run 45158272014 rechazado con ESPEJO_ES_HTML sin decir qué URL): cada distribución aporta `downloadURL` antes que
+CAMBIOS: 1.1.0 (T-448, D-202): modo «URL directa» para una entrada con `url` (sin `api_url`): baja ese fichero (mismos hosts, redirecciones,
+  `max_bytes` y rechazo de HTML), exige `sha256_esperado` y `bytes_esperados` (si no coinciden, ESPEJO_HUELLA_INESPERADA y no se escribe nada) y
+  usa la `extension` declarada (la URL del INE acaba en `.csv_bdsc`). Los campos de la elección (`eleccion`, `fecha`, `dataset_url`) pasan a
+  opcionales en el manifiesto. Primera entrada: `ine-censo2011-1mun00` (1mun00.csv del Censo 2011 → fuentes/ine/2011/1mun00.csv). El modo
+  datos.gob.es (aut08) no cambia.
+  1.0.1 (T-449, run 45158272014 rechazado con ESPEJO_ES_HTML sin decir qué URL): cada distribución aporta `downloadURL` antes que
   `accessURL` (en DCAT `accessURL` suele ser una página de aterrizaje); se prueban en orden todas las candidatas del año (xlsx > csv > xls >
   zip > json; dentro de cada una, descarga antes que acceso) hasta la primera que sea un fichero de datos, y el log lleva `ESPEJO_CANDIDATAS`
   y una línea por intento (URL y motivo). Si ninguna vale, el código común (p. ej. `ESPEJO_ES_HTML`) o `ESPEJO_SIN_FICHERO`, con la lista de lo probado. 1.0.0 (T-449): fichero nuevo.
 MOTIVO: las autonómicas de Castilla-La Mancha 2023 por municipio solo están en el catálogo de datos.gob.es; la sesión cloud no llega
   (proxy 403) y la URL del portal autonómico devuelve la portada en obras. El runner las baja una vez, mide sha256 y bytes y las deja en
   R2 bajo `fuentes/<organismo>/<año>/` (árbol de D-188) con `manifiesto.json`; la huella pasa después, por PR, al calendario.
-ANTERIOR: legacy/herramientas/espejo_fuente_oficial_v1.0.0_20261123.py
+ANTERIOR: legacy/herramientas/espejo_fuente_oficial_v1.0.1_20261123.py
 QUÉ HACE: `espejar --territorio aut08 --salida DIR` (SIN secretos): lee la declaración (`configuracion/espejos_fuentes_oficiales.json`), pide a la
   API de datos.gob.es las distribuciones del conjunto, elige la del año (falla si hay 0 o más de una), la baja solo por https de los hosts
   exactos declarados (también en cada redirección, como mucho 5) y hasta `max_bytes`, rechaza HTML (portada en obras), mide sha256/bytes,
@@ -270,11 +275,34 @@ def _piezas_clave(m: dict) -> list[tuple[str, str]]:
     return sorted((p["clave"], p["sha256"]) for p in m.get("piezas") or [])
 
 
+def _directa(e: dict, get, hosts: list[str], tope: int) -> tuple[dict, bytes]:
+    """D-202: URL directa con huella esperada; falla cerrado antes de escribir nada si sha256 o bytes no son los declarados."""
+    ext = e.get("extension") or ""
+    if ext not in FORMATOS or not e.get("sha256_esperado") or not e.get("bytes_esperados"):
+        raise ErrorEspejo("ESPEJO_DECLARACION", "la URL directa exige extension, sha256_esperado y bytes_esperados")
+    datos = get(e["url"], hosts, tope)
+    comprobar_contenido(datos, ext)
+    if (sha256(datos), len(datos)) != (e["sha256_esperado"], int(e["bytes_esperados"])):
+        raise ErrorEspejo("ESPEJO_HUELLA_INESPERADA", f"{e['url']}: sha256 {sha256(datos)} · {len(datos)} B ≠ "
+                                                      f"{e['sha256_esperado']} · {e['bytes_esperados']} B")
+    print(f"ESPEJO_ELEGIDA {e['url']}")
+    return {"url": e["url"], "titulo": e.get("titulo", ""), "formato": ext, "extension": ext}, datos
+
+
 def espejar(territorio: str, salida: Path, get=_get, ruta_decl: Path = DECLARACION) -> dict:
     """Bajar, comprobar y medir; sin credenciales ni escritura remota."""
     e = declaracion(territorio, ruta_decl)
     hosts, tope = e["hosts_permitidos"], int(e["max_bytes"])
+    if e.get("url") and not e.get("api_url"):
+        dist, datos = _directa(e, get, hosts, tope)
+    else:
+        dist, datos = _por_catalogo(e, get, hosts, tope)
     salida.mkdir(parents=True, exist_ok=True)
+    return _escribir(territorio, e, dist, datos, salida, get, hosts, tope)
+
+
+def _por_catalogo(e: dict, get, hosts: list[str], tope: int) -> tuple[dict, bytes]:
+    """T-449: la API de datos.gob.es y la primera candidata del año que sea un fichero de datos."""
     api = json.loads(get(e["api_url"], hosts, tope).decode("utf-8"))
     candidatas = candidatas_del_anyo(api, e["anyo"])
     print("ESPEJO_CANDIDATAS " + json.dumps([{"url": c["url"], "formato": c["formato"], "titulo": c["titulo"]} for c in candidatas],
@@ -295,6 +323,10 @@ def espejar(territorio: str, salida: Path, get=_get, ruta_decl: Path = DECLARACI
     if dist is None:
         codigo = codigos.pop() if len(codigos) == 1 else "ESPEJO_SIN_FICHERO"  # el mismo motivo en todas, o «varios»
         raise ErrorEspejo(codigo, "ninguna candidata es un fichero de datos: " + "; ".join(intentos))
+    return dist, datos
+
+
+def _escribir(territorio: str, e: dict, dist: dict, datos: bytes, salida: Path, get, hosts: list[str], tope: int) -> dict:
     nombre = f"{e['fichero']}.{dist['extension']}"
     (salida / nombre).write_bytes(datos)
     piezas = [{"nombre": nombre, "clave": clave_r2(e["organismo"], e["anyo"], nombre), "origen_url": dist["url"],
@@ -317,9 +349,9 @@ def espejar(territorio: str, salida: Path, get=_get, ruta_decl: Path = DECLARACI
     manifiesto = {
         "schema": "ddd-manifiesto-fuente/1.0",
         "territorio": territorio,
-        "eleccion": e["eleccion"],
-        "fecha_eleccion": e["fecha"],
-        "catalogo": e["dataset_url"],
+        "eleccion": e.get("eleccion", ""),
+        "fecha_eleccion": e.get("fecha", ""),
+        "catalogo": e.get("dataset_url") or e.get("url", ""),
         "medido": _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "run": os.environ.get("GITHUB_RUN_ID", ""),
         "piezas": piezas,

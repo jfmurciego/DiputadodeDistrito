@@ -1,4 +1,4 @@
-"""T-379 PR 2b (D-163, 2b mínima; T-409 añade `PASO_DV_T409`/`sin_t409_run`: la doble vuelta de P30 1.0.2; T-449 añade `sin_t449`: el espejo de P10 1.0.3): deshace sobre un workflow ya cargado (P10, P20, P30 o sus vistas) los cambios de la 2b para comparar con
+"""T-379 PR 2b (D-163, 2b mínima; T-409 añade `PASO_DV_T409`/`sin_t409_run`: la doble vuelta de P30 1.0.2; T-449 añade `sin_t449`: el espejo de P10 1.0.3; T-448, la clave del espejo en la entrada de P10 1.0.4): deshace sobre un workflow ya cargado (P10, P20, P30 o sus vistas) los cambios de la 2b para comparar con
 la versión anterior congelada (`tests/fixtures/t379_2b_workflows/`). La igualdad exacta `deshacer(actual) == anterior` la fija
 `tests/test_t379_2b_campana.py`; las equivalencias antiguas (T-375, T-376, T-377, T-332) comparan contra `deshacer(actual)`.
 """
@@ -27,6 +27,13 @@ EXTRA_T409 = 'extra=(); [[ -d "$GITHUB_WORKSPACE/doble_vuelta" ]] && extra=(--ex
 # T-449: lo añadido a P10 1.0.3 (opción «Espejo de fuente oficial», su caso en la entrada y el job aislado `p13_espejo`), que no existía en la 1.0.0 congelada.
 OPCION_T449 = "Espejo de fuente oficial"
 CASO_T449 = '|"Espejo de fuente oficial") ;;'
+# T-448 (P10 1.0.4): la clave del espejo en la entrada (lo que se quita deja el `if [[ -z "$TERRITORIO_LLAMADA" ]]` de antes).
+ENTRADA_T448 = ('if [[ "$TIPO" == "Espejo de fuente oficial" ]]; then\n'
+                '  # Espejo (T-448): una clave de configuracion/espejos_fuentes_oficiales.json; la herramienta comprueba que esté declarada.\n'
+                '  [[ "$TERRITORIO" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]] || {\n'
+                '    echo "::error::Espejo inválido: «$TERRITORIO» (una clave de configuracion/espejos_fuentes_oficiales.json, p. ej. ine-censo2011-1mun00)."; exit 2\n'
+                '  }\n'
+                'el')  # texto del `run:` ya cargado (sin la sangría del YAML)
 
 
 GRUPO_T449 = "${{ inputs.tipo == 'Espejo de fuente oficial' && format('ddd-espejo-fuente-{0}', inputs.territorio) || "
@@ -42,7 +49,7 @@ def sin_t449(d):
         tipo["options"] = [o for o in tipo["options"] if o != OPCION_T449]
     for paso in ((d.get("jobs") or {}).get("entrada") or {}).get("steps") or []:
         if isinstance(paso.get("run"), str):
-            paso["run"] = paso["run"].replace(CASO_T449, ") ;;")
+            paso["run"] = paso["run"].replace(CASO_T449, ") ;;").replace(ENTRADA_T448, "")
     return d
 
 
