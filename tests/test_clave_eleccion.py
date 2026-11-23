@@ -103,7 +103,8 @@ class ClaveEleccion(unittest.TestCase):
     def test_todos_los_territorios_son_lanzables_en_cada_fase(self):
         for phase, (workflow, field, _fixed) in ce.PHASES.items():
             if workflow == "p10-fuentes.yml":  # T-375: códigos canónicos (no selector por nombre)
-                self.assertEqual(_options(workflow, "tipo"), ["P11 territoriales", "P12 electorales"])
+                # T-449: la 3.ª opción (espejo de fuente oficial) no lanza fases por territorio
+                self.assertEqual(_options(workflow, "tipo"), ["P11 territoriales", "P12 electorales", "Espejo de fuente oficial"])
                 for u in self.units:
                     if u["variant"] == "congreso_350":  # el registro aún guarda su id viejo; los 350 están retirados de los flujos (D-76)
                         continue

@@ -15,6 +15,7 @@ import yaml
 
 from tests._t379_2a import APP, P40_PREPARAR, REGISTRO_PR, deshacer, es_registro
 from tests import _t430d
+from tests._t379_2b import sin_t449
 from tests._uses_sin_version import cargar
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -89,6 +90,8 @@ class Huellas(Base):
                 ahora = cargar((WF / f"{n}.yml").read_text(encoding="utf-8"))
                 if n == "p90-automatico":  # T-430 3c (P90 1.5.0), posterior a la 2a: se deshace solo eso
                     ahora = _t430d.deshacer_3c(_t430d.deshacer_medicion(ahora))  # y T-450 §4 (1.5.2)
+                if n == "p10-fuentes":  # T-449 (P10 1.0.3), posterior a la 2a: se deshace solo el espejo
+                    ahora = sin_t449(ahora)
                 if n == "p70-archivo":  # T-443 (p70 1.1.7), posterior a la 2a: se deshace solo eso
                     from tests import _t443
                     ahora = _t443.deshacer(ahora)

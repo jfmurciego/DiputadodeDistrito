@@ -1,6 +1,16 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de preparación de fuentes
-# VERSIÓN: 1.0.2
+# VERSIÓN: 1.0.4
+# CAMBIOS 1.0.4: T-448 (D-202): con el tipo «Espejo de fuente oficial», `territorio` es la clave de una entrada de configuracion/espejos_fuentes_oficiales.json
+#   (minúsculas, cifras y guiones, p. ej. ine-censo2011-1mun00; la herramienta comprueba que esté declarada), no un código nacNN/autNN. Resto idéntico a la 1.0.3.
+# ANTERIOR (1.0.3): legacy/workflows/p10-fuentes_v1.0.3_20261123.yml
+# CAMBIOS 1.0.3: T-449 (D-183, D-188), sobre la 1.0.2 de main (#888): opción de `tipo` «Espejo de fuente oficial» (solo botón) y job aislado `p13_espejo`:
+#   con `territorio` = una entrada de configuracion/espejos_fuentes_oficiales.json (hoy aut08), baja desde el runner la fuente oficial (datos.gob.es; la nube
+#   no llega), mide sha256/bytes y la sube en solo lectura a R2 en fuentes/<organismo>/<año>/ con manifiesto.json (herramientas/espejo_fuente_oficial.py;
+#   nunca sobrescribe). Sin registro en main y sin la app de registro (sin entorno). El log lleva `ESPEJO_MANIFIESTO` y el volcado CSV de cada hoja.
+#   Solo desde main; bajada y medida en un paso sin secretos, subida condicional (If-None-Match) en otro; grupo de concurrencia propio
+#   `ddd-espejo-fuente-<territorio>`. Los jobs p11_* y p12_*, idénticos a la 1.0.2.
+# ANTERIOR (1.0.2): legacy/workflows/p10-fuentes_v1.0.2_20261123.yml
 # CAMBIOS 1.0.2: T-379 PR 2a (D-147, opción a; D-162, opción A), puesta al día sobre main el 23-11: todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara un entorno limitado a main (`registro`, sin revisores; P40 `publicar` sigue en `github-pages` y P70 `podar` en `produccion`): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
 # ANTERIOR (1.0.1): legacy/workflows/p10-fuentes_v1.0.1_20261123.yml
 # CAMBIOS 1.0.1: T-379 PR 2b (D-163, 2b mínima): `contents: read` en todo el fichero (el push a main va con el token de la app de registro,
@@ -8,7 +18,7 @@
 #   entrada oculta `campana` (workflow_call; vacía = como antes). Con campaña, los jobs (en P30, los pasos) que registran en main se saltan.
 #   Con campaña, P10 fuerza `persist_state=false` (P11 y P12): sin registro, `p11_resultado`/`p12_resultado` terminan en verde (PERSISTENCE_NOT_REQUIRED).
 # ANTERIOR (1.0.0): legacy/workflows/p10-fuentes_v1.0.0_20261117b.yml
-# FECHA: 2026-11-17
+# FECHA: 2026-11-23
 # ESTADO: candidato
 # CAMBIOS: T-375 (D-136 y D-151, migración paso 6): fichero nuevo; sustituye a preparacion-fuentes.yml 1.4.14 («P10 Fuentes — P11 Territoriales») y preparacion-resultados-electorales.yml 1.0.17 («P10 Fuentes — P12 Electorales»),
 #   borrados (copias en legacy/workflows/). Los cinco jobs de P11 y los cuatro de P12 pasan con los MISMOS pasos, comandos, permisos, salidas y registro, con ids `p11_*` y `p12_*`; solo corre el del `tipo` elegido.
@@ -70,6 +80,7 @@ on:
         options:
           - P11 territoriales
           - P12 electorales
+          - Espejo de fuente oficial
       territorio:
         description: Un código de territorio (p. ej. aut13 o nac28)
         required: true
@@ -89,7 +100,7 @@ on:
         type: boolean
 
 concurrency:
-  group: ${{ contains(inputs.tipo, 'electorales') && format('ddd-electoral-prod-{0}', inputs.territory_id || inputs.territorio) || format('ddd-territorial-prod-{0}-{1}', inputs.territory_id || inputs.territorio, inputs.data_edition || '2025') }}
+  group: ${{ inputs.tipo == 'Espejo de fuente oficial' && format('ddd-espejo-fuente-{0}', inputs.territorio) || contains(inputs.tipo, 'electorales') && format('ddd-electoral-prod-{0}', inputs.territory_id || inputs.territorio) || format('ddd-territorial-prod-{0}-{1}', inputs.territory_id || inputs.territorio, inputs.data_edition || '2025') }}
   cancel-in-progress: false
   queue: max
 permissions:
@@ -115,7 +126,7 @@ jobs:
         run: |
           set -euo pipefail
           case "$TIPO" in
-            territoriales|"P11 territoriales"|electorales|"P12 electorales") ;;
+            territoriales|"P11 territoriales"|electorales|"P12 electorales"|"Espejo de fuente oficial") ;;
             *) echo "::error::Tipo de fuentes no reconocido: $TIPO"; exit 2 ;;
           esac
           case "${ELECCION:-vigente}" in
@@ -125,7 +136,12 @@ jobs:
           if [[ "$TIPO" == *territoriales && "${ELECCION:-vigente}" != vigente ]]; then
             echo "::error::La elección solo se elige en P12 electorales."; exit 2
           fi
-          if [[ -z "$TERRITORIO_LLAMADA" ]]; then
+          if [[ "$TIPO" == "Espejo de fuente oficial" ]]; then
+            # Espejo (T-448): una clave de configuracion/espejos_fuentes_oficiales.json; la herramienta comprueba que esté declarada.
+            [[ "$TERRITORIO" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]] || {
+              echo "::error::Espejo inválido: «$TERRITORIO» (una clave de configuracion/espejos_fuentes_oficiales.json, p. ej. ine-censo2011-1mun00)."; exit 2
+            }
+          elif [[ -z "$TERRITORIO_LLAMADA" ]]; then
             # Botón: un solo código.
             [[ "$TERRITORIO" =~ ^(nac|aut)[0-9]{2}(-350)?(_h[0-9]{4}_[0-9]{2})?$ ]] || {
               echo "::error::Código de territorio inválido: «$TERRITORIO» (un solo código, p. ej. aut13, nac28 o nac22_h2019_11)."; exit 2
@@ -1205,3 +1221,50 @@ jobs:
             exit 0
           fi
           python herramientas/evaluar_persistencia_preparacion.py terminal             --preparation-result "$PREPARATION_RESULT"             --registration-result "$REGISTRATION_RESULT"             --persist-state "$PERSIST_STATE"
+
+  p13_espejo:
+    name: Espejo de fuente oficial en R2
+    needs: entrada
+    # Solo desde main: un disparo desde otra rama ejecutaría su propio script con R2 de escritura (revisor #986).
+    if: ${{ inputs.tipo == 'Espejo de fuente oficial' && github.ref == 'refs/heads/main' && !inputs.campana }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {ref: '${{ github.sha }}', persist-credentials: false}
+      - run: python -m pip install --disable-pip-version-check openpyxl==3.1.5
+      - name: Bajar y medir (sin secretos)
+        env:
+          TERRITORIO: ${{ inputs.territorio }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          salida="$RUNNER_TEMP/espejo"
+          python herramientas/espejo_fuente_oficial.py espejar --territorio "$TERRITORIO" --salida "$salida"
+          for f in "$salida"/volcado/*.csv; do
+            [[ -f "$f" ]] || continue
+            echo "::group::ESPEJO_VOLCADO $(basename "$f")"; cat "$f"; echo "::endgroup::"
+          done
+      - name: Subir a R2 sin sobrescribir
+        env:
+          TERRITORIO: ${{ inputs.territorio }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          salida="$RUNNER_TEMP/espejo"
+          python herramientas/espejo_fuente_oficial.py subir --territorio "$TERRITORIO" --salida "$salida"
+          jq -r '.piezas[] | "| \(.clave) | \(.sha256) | \(.bytes) | \(.r2) |"' "$salida/subida.json" \
+            | { echo "### Espejo $TERRITORIO"; echo "| clave | sha256 | bytes | R2 |"; echo "|---|---|---|---|"; cat; } >> "$GITHUB_STEP_SUMMARY"
+      - name: Conservar el espejo
+        if: ${{ always() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: espejo-fuente-${{ inputs.territorio }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/espejo
+          if-no-files-found: ignore
+          retention-days: 30
