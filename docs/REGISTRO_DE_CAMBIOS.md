@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.611
+Versión: 1.0.614
 Fecha: 2026-11-23
-Alcance: T-448 — Espejo de 1mun00 (Censo 2011) en R2 con el «Espejo de fuente oficial» de P10 (D-202)
+Alcance: T-443 — Árbol nuevo de R2 (5/5): `podar_r2.py` protege `fuentes/`, `interno/` y `mapas/` y guarda `arc-e/paquetes-p10/` (D-198)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-23_t448-espejo-1mun00-r2.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.610_registro_20261123.md
+Cambios/motivo: entrada docs/registro/2026-11-23_t443-podar-r2-arbol-nuevo.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.613_registro_20261123.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,9 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.610_registro_20261123.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.614 · [2026-11-23 — T-443 — Árbol nuevo de R2 (5/5): `podar_r2.py` protege `fuentes/`, `interno/` y `mapas/` y guarda `arc-e/paquetes-p10/` (D-198)](registro/2026-11-23_t443-podar-r2-arbol-nuevo.md)
+- 1.0.613 · [2026-11-23 — T-443 — Árbol nuevo de R2 (4/5): P40 promueve la doble vuelta a `mapas/` (D-198)](registro/2026-11-23_t443-p40-promueve-mapas.md)
+- 1.0.612 · [2026-11-23 — Coordinador — Lecciones del 21 al 23-11 y traspaso](registro/2026-11-23_coordinador-lecciones-traspaso.md)
 - 1.0.611 · [2026-11-23 — T-448 — Espejo de 1mun00 (Censo 2011) en R2 con el «Espejo de fuente oficial» de P10 (D-202)](registro/2026-11-23_t448-espejo-1mun00-r2.md)
 - 1.0.610 · [2026-11-23 — T-452 — Plan 1.0.76](registro/2026-11-23_planificador-plan-1-0-76.md)
 - 1.0.609 · [2026-11-23 — T-449 — Espejo oficial: probar `downloadURL` y todas las candidatas del año](registro/2026-11-23_t449b-espejo-downloadurl.md)

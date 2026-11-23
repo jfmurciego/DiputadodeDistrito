@@ -2,7 +2,7 @@
 """Archivista: copia a Cloudflare R2 los artefactos de Actions referenciados antes de que caduquen.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0
+VERSIÓN: 1.2.1
 NOMBRE DE VERSIÓN: Archivista R2 solo de productos finales
 FECHA: 2026-11-23
 ESTADO: candidato
@@ -13,7 +13,9 @@ QUÉ HACE: lee el catálogo operativo (orchestracion/estado_operativo.json) y or
   la entrada en orchestracion/archivo_r2.json (URL R2, sha256, tamaño, caducidad original, fecha de archivado).
 IDEMPOTENTE: no vuelve a descargar un artefacto (mismo id) ya archivado, y no vuelve a subir si R2 ya tiene
   la misma clave con el mismo sha256. Un artefacto caducado y no archivado se informa como «perdido».
-CAMBIOS: 1.2.0 (T-443, D-188/D-190/D-198): escribe en el árbol nuevo de R2, sin run en la ruta. Vigente = publicado + último (D-198):
+CAMBIOS: 1.2.1 (T-443, 3.ª revisión de #988): con dos destinos (`ultimo/` y `publicado/`) la entrada del índice se anota en cuanto cada destino queda
+  en R2: un 412/409 (u otro fallo) en el segundo ya no deja al primero, subido, sin entrada en orchestracion/archivo_r2.json (y sin manifiesto).
+  1.2.0 (T-443, D-188/D-190/D-198): escribe en el árbol nuevo de R2, sin run en la ruta. Vigente = publicado + último (D-198):
   `interno/estados/<ámbito>/<territorio>/ultimo/<tipo>.zip` (el run más reciente) y, si el run es el publicado del territorio en
   orchestracion/publicaciones_visor.json, también `…/publicado/<tipo>.zip` (solo cambia al publicar otro run). Guarda en R2, no en el índice: antes
   de subir lee el metadato `run` del objeto (head-object) y nunca pisa un run mayor en `ultimo/` (`superados`); cada objeto sube con metadatos
@@ -36,7 +38,7 @@ CAMBIOS: 1.2.0 (T-443, D-188/D-190/D-198): escribe en el árbol nuevo de R2, sin
   1.0.0: fichero nuevo (T-47).
 MOTIVO: los artefactos caducan a los 14 días y con ellos productos registrados en el catálogo (p. ej. M05 de
   Cantabria, run 41037133327).
-ANTERIOR: legacy/herramientas/archivar_artefactos_r2_v1.1.1_20261123.py
+ANTERIOR: legacy/herramientas/archivar_artefactos_r2_v1.2.0_20261123.py
 Uso: python herramientas/archivar_artefactos_r2.py [--root-dir .] [--caduca-antes AAAA-MM-DD] [--max N] [--simular]
 Entorno: GITHUB_TOKEN, GITHUB_REPOSITORY; R2_BUCKET, R2_ACCOUNT_ID y credenciales AWS_* (aws cli) salvo --simular.
 Salida: 0 si todo lo archivable quedó archivado; 1 si hubo errores de copia.
@@ -309,6 +311,22 @@ def archivar(
         if maximo is not None and len(res["archivados"]) + len(res["sin_cambios_r2"]) >= maximo:
             res["omitidos"].append(k)
             continue
+        def anotar(d: str, origen: dict, sha: str, tam: int) -> None:
+            entradas[d] = {
+                **origen,
+                "artefacto": nombre_paquete(a["name"]) if emp else a["name"],
+                "territorio": a["territorio"],
+                "run_id": a["run"],
+                "artifact_id": a["id"],
+                "url": f"r2://{bucket}/{d}",
+                "sha256": sha,
+                "tamano_bytes": tam,
+                "caducidad_original": a.get("expires_at"),
+                "archivado_en": ahora(),
+            }
+            if rutas_r2.es_nueva(d):
+                tocadas.add(d.rsplit("/", 1)[0])
+
         try:
             if rutas_r2.es_nueva(k) and run_remoto(k) > _run_num(a["run"]):
                 res["superados"].append(k)  # D-198: un run anterior nunca pisa al último (guarda en R2)
@@ -328,6 +346,7 @@ def archivar(
                     cab = r2_cab(d) if (r2_cab is not None and rutas_r2.es_nueva(d)) else None
                     if r2_sha(d) == sha and (cab is None or str(cab.get("run") or "") == str(a["run"])):
                         res["sin_cambios_r2"].append(d)
+                        anotar(d, origen, sha, tam)
                     elif rutas_r2.es_nueva(d):
                         if r2_cab is not None and "/ultimo/" in d and _run_num((cab or {}).get("run")) > _run_num(a["run"]):
                             res["superados"].append(d)  # cambió entre la primera lectura y ahora
@@ -336,27 +355,14 @@ def archivar(
                         # put condicional: solo si el objeto sigue siendo el leído (If-Match) o sigue sin existir (If-None-Match)
                         r2_subir(d, zip_, sha, str(a["run"]), (cab or {}).get("etag") or ("*" if r2_cab is not None else None))
                         res["archivados"].append(d)
+                        anotar(d, origen, sha, tam)  # en cuanto queda en R2: un fallo en el destino siguiente no lo deja sin entrada
                     else:
                         r2_subir(d, zip_, sha)
                         res["archivados"].append(d)
+                        anotar(d, origen, sha, tam)
         except Exception as exc:  # noqa: BLE001 - se informa y se sigue con el siguiente
             res["errores"].append(f"{k}: {exc}")
             continue
-        for d in destinos:
-            entradas[d] = {
-                **origen,
-                "artefacto": nombre_paquete(a["name"]) if emp else a["name"],
-                "territorio": a["territorio"],
-                "run_id": a["run"],
-                "artifact_id": a["id"],
-                "url": f"r2://{bucket}/{d}",
-                "sha256": sha,
-                "tamano_bytes": tam,
-                "caducidad_original": a.get("expires_at"),
-                "archivado_en": ahora(),
-            }
-            if rutas_r2.es_nueva(d):
-                tocadas.add(d.rsplit("/", 1)[0])
     try:
         res["manifiestos"] = subir_manifiestos(tocadas, entradas, r2_subir, r2_sha, r2_cab)
     except Exception as exc:  # noqa: BLE001 - el objeto ya está y su entrada también; se informa

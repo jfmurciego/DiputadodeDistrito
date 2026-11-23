@@ -18,7 +18,7 @@ from pathlib import Path
 
 import yaml
 
-from tests import _t428, _t430, _t430b
+from tests import _t428, _t430, _t430b, _t443
 from tests._uses_sin_version import cargar as cargar_sin_version
 from tests._t379_2a import deshacer as sin_2a
 
@@ -82,7 +82,7 @@ LINEAS_V4_T409 = {l.strip() for l in CP_V4_T409.splitlines()}
 def diferencias(viejo, nuevo):
     """Diferencias NO permitidas del job de publicación (vacía = equivalente)."""
     a, b = sin_ensemble(viejo["jobs"]["publicar"]), nuevo["jobs"]["publicar"]
-    b = {**b, "steps": _t428.deshacer(_t430.deshacer(_t430b.deshacer(b["steps"])))}  # T-428 (P40 1.3.0) y T-430 (1.4.0): se deshace solo eso
+    b = {**b, "steps": _t428.deshacer(_t430.deshacer(_t430b.deshacer(_t443.deshacer_p40_pasos(b["steps"]))))}  # T-428 (P40 1.3.0) y T-430 (1.4.0): se deshace solo eso
     d = []
     if a["environment"] != b["environment"]:
         d.append("entorno")
