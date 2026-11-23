@@ -1,0 +1,10 @@
+## 2026-11-23 — T-451 — Vista previa al compartir (imagen, iconos y etiquetas de la V4)
+
+- **Causa:** al compartir la web (WhatsApp, X y similares) no salía imagen ni icono: `og:image` apuntaba a `assets/compartir-1200x630.jpg`, que no existía en el repositorio, y la V4 no declaraba icono. (Los rastreadores reciben además 403 del CDN: #984/D-199, lo corrige el propietario en Cloudflare.)
+- **Cambio:**
+  - `visor/v4/assets/compartir-1200x630.jpg` (1200×630, JPEG calidad 82, 119 KB): composición de la portada (ilustraciones del Congreso y de España, logotipo, los textos de la portada y el dominio), sin material ni textos nuevos. Fuente en `visor/v4/compartir-tarjeta.html` (en `NO_PUBLICAR.txt`); se regenera con `herramientas/generar_vista_previa_v4.py` (nuevo; Chromium + Pillow, a mano).
+  - Iconos desde el logotipo de la cabecera sobre el fondo de la web: `assets/favicon.ico` (16, 32 y 48 px), `assets/icono-32.png` y `assets/apple-touch-icon.png` (180 px).
+  - En las páginas de la V4 (portada, Comprender, Explorar y la de auditoría): `og:image:alt`, `twitter:title`, `twitter:description`, `twitter:image` (iguales a los `og:`), `twitter:image:alt` y los tres enlaces de icono (rutas relativas, valen también en `pruebas.`); fuera el comentario `OG-IMAGEN-PENDIENTE`. `og:url` ya coincidía con la canónica y `theme-color` ya estaba.
+  - `assets-manifest.json`: las cuatro entradas nuevas como `derived` de sus originales, con su sha256.
+- **Pruebas:** `tests/test_visor_v4_compartir.py` (nuevo; entra en el job `web` por descubrimiento): ninguna página publicada apunta con `og:image`, `twitter:image` o un icono a un fichero que no existe (falla en `main` de antes: el JPG faltaba), control negativo, etiquetas de cada página pública, medidas reales del JPG (1200×630, coinciden con `og:image:width/height`, menos de 300 KB) y de los iconos, y que la tarjeta fuente no se publica. `test_visor_v4_base`: 9 entradas en el manifiesto y toda copia declara el sha256 de su original. Tests de la web, T-220, sin terceros y gobernanza en local.
+- **Riesgos:** ninguno en datos ni motor. La imagen la ve el propietario antes de fusionar.
