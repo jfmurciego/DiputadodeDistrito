@@ -22,7 +22,7 @@ class MedirWeb(unittest.TestCase):
             vistos.append(args)
             return Falso("200 0.120 0.450 12345" if "--compressed" in args else "200 0.100 0.900 54321")
 
-        self.assertEqual(m.medir("https://x/", True, ejecutar), {"codigo": 200, "ttfb": 0.12, "total": 0.45, "bytes": 12345})
+        self.assertEqual(m.medir("https://x/", True, ejecutar), {"codigo": 200, "ttfb": 0.12, "total": 0.45, "bytes": 12345, "cdn": False})
         self.assertEqual(m.medir("https://x/", False, ejecutar)["bytes"], 54321)
         self.assertIn("Accept-Encoding: identity", vistos[1])
         self.assertNotIn("--compressed", vistos[1])
@@ -34,6 +34,31 @@ class MedirWeb(unittest.TestCase):
         self.assertIn("| Portada | sí | 404 | 10 (10/10/10) | 20 (20/20/20) | 10 |", filas)
         self.assertIn("1.000", texto)
         self.assertEqual(ok, 3 * (2 * len(m.URLS) - 4))  # la portada (/) y el mapa (/mapa/) dan 404 en el doble
+
+    def test_como_navegador_y_bloqueo_del_cdn(self):
+        vistos = []
+
+        def ejecutar(args, **_):
+            vistos.append(args)
+            return Falso("403 0.050 0.051 4200 |challenge|cloudflare|")
+        r = m.medir("https://x/", True, ejecutar)
+        self.assertEqual((r["codigo"], r["cdn"]), (403, True))
+        self.assertIn("-A", vistos[0])
+        self.assertTrue(any(a.startswith("Accept: text/html") for a in vistos[0]))
+        self.assertTrue(m.bloqueado_cdn(403, "", "cloudflare"))
+        self.assertFalse(m.bloqueado_cdn(403, "", "nginx"))  # un 403 de la web no es del CDN
+        self.assertFalse(m.bloqueado_cdn(200, "challenge", "cloudflare"))
+        texto, ok = m.tabla("https://x", 2, ejecutar)
+        self.assertEqual(ok, 0)
+        self.assertIn("| Portada | sí | 403 (bloqueado por el CDN) |", texto)
+        self.assertIn(m.AVISO_CDN, texto)
+
+    def test_salida_si_todo_bloqueado_o_caido(self):
+        from unittest import mock
+        with mock.patch.object(m, "tabla", return_value=("x " + m.AVISO_CDN, 0)):
+            self.assertEqual(m.main([]), 0)  # bloqueo del CDN: aviso, no error
+        with mock.patch.object(m, "tabla", return_value=("x", 0)):
+            self.assertEqual(m.main([]), 1)  # nada responde y no es el CDN: error
 
     def test_salida_vacia_de_curl_no_rompe(self):
         self.assertEqual(m.medir("https://x", True, lambda a, **_: Falso(""))["codigo"], 0)
