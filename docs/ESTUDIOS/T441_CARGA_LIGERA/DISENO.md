@@ -1,6 +1,6 @@
 # T-441 · Carga ligera para el móvil — diseño (solo documento)
 
-VERSIÓN: 1.1.0 · FECHA: 2026-11-22 · ESTADO: aprobado (D-192, 22-11: «sí a todo» a las 6 preguntas) · ANTERIOR: 1.0.0 (#971@d27f60d); 1.1.0 anota las respuestas del propietario
+VERSIÓN: 1.2.0 · FECHA: 2026-11-23 · ESTADO: aprobado (D-192, 22-11: «sí a todo» a las 6 preguntas) · ANTERIOR: 1.1.0 (anota las respuestas del propietario; 1.0.0 en #971@d27f60d); 1.2.0 rellena §1.3 con el run 45145365825 de `medir-web`
 
 Encargo del propietario (22-11, vía Planificador): con las cifras de T-440 y el peso real de cada fichero de la V4, decir qué se
 descarga hoy al abrir la portada y el mapa, proponer una primera vista ligera (móvil y visita rápida) con carga diferida, caché y
@@ -50,14 +50,27 @@ Las imágenes son el 89 % y no se comprimen más (WebP ya lo está). En el móvi
 Lo que más pesa es la librería del mapa (más de la mitad de lo comprimido) y la geometría completa de provincias y comunidades,
 que se baja entera aunque la persona solo mire un momento.
 
-### 1.3 Cifras de T-440 (se rellena con el run del Operador)
+### 1.3 Cifras de T-440 (run 45145365825, P90 «medir la web», 23-11, `main`@964f7f3)
+
+Medidas desde el runner de GitHub contra https://diputadodedistrito.es (GitHub Pages detrás de Cloudflare), tres veces por fila, todas
+con HTTP 200 y sin la cabecera de medición. Tiempos: mediana de las tres, con compresión. Bytes: lo transferido con compresión / sin ella.
 
 | Página o fichero | Primer byte (ms) | Total (ms) | Bytes con / sin compresión |
 |---|---:|---:|---:|
-| (pendiente del run de `medir-web`) | | | |
+| Portada (`/`) | 46 | 46 | 3.006 / 6.820 |
+| Página de territorio (`/mapa/?territorio=nac28`) | 42 | 42 | 6.238 / 15.985 |
+| Mapa (`/mapa/`) | 49 | 49 | 6.238 / 15.985 |
+| Código del mapa (`mapa/explorar.js`) | 38 | 38 | 19.540 / 60.689 |
+| Índice de datos (`datos/INDEX.json`) | 44 | 45 | 22.064 / 105.117 |
+| Provincias (`v2/datos/provincias.json`) | 42 | 44 | 102.305 / 358.121 |
+| Distritos de Madrid (`datos/nac28/distritos.geojson`) | 48 | 61 | 890.656 / 2.712.149 |
+| Registro del visor (`data/viewer-results.json`) | 55 | 56 | 67.142 / 680.979 |
+| Doble vuelta: índice (`mapa/datos/INDEX.json`) | 38 | 38 | 16.725 / 58.371 |
 
-Lo que se confirmará con ellas: si GitHub Pages comprime hoy JSON y GeoJSON (y con qué), el tiempo hasta el primer byte desde
-fuera y el peso de los cinco ficheros «por medir».
+Lo que confirman: Pages comprime hoy HTML, JS, JSON y GeoJSON (de 2,3 a 10 veces menos); el primer byte ronda 40-55 ms desde el
+runner (la primera petición de cada fila tarda más, 85-500 ms: caché fría); el fichero más pesado de lo medido es la geometría de
+los distritos de un territorio grande (Madrid: 891 KB comprimido, 2,7 MB sin comprimir), por delante de provincias (102 KB) y del
+registro del visor (67 KB). Son tiempos desde un centro de datos, no desde un móvil: miden el peso, no la red móvil.
 
 ## 2. Propuesta: primera vista ligera
 
