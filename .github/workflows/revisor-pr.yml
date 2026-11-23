@@ -72,7 +72,7 @@ jobs:
         with:
           fetch-depth: 0
       - id: revisor
-        uses: anthropics/claude-code-action@f3b070c88125d33dbae5653df5f143101d4ea9dc # v1
+        uses: anthropics/claude-code-action@c84e279f859e2591391e95bd309286eb111c345f # v1
         env:
           GH_TOKEN: ${{ github.token }}
         with:
