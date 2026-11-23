@@ -130,6 +130,15 @@
       "contenido_sha256": "1938833dea5c4ac1e722e0038c1ed2295c1efa446b930a560e4afd6eb8c18c2a",
       "contenido_nota": "T-323/D-119: sha256 del crudo de la copia (miembro 65034.csv, tabulador, 1640758427 bytes; el INE sirve el mismo CSV con ';'). Solo informa: P10 para por el sha256 del EXTRACTO filtrado, que compara con el del paquete de R2 del territorio."
     },
+    "1mun00.csv": {
+      "clave": null,
+      "sha256": "ad95479c07ce4ae37ed03732025d7039b1338f43ead181bb2c450fcac64f8267",
+      "bytes": 105319154,
+      "origen_url": "https://www.ine.es/jaxi/files/_px/es/csv_bdsc/t20/e244/avance/p02/l0/1mun00.csv_bdsc?nocab=1",
+      "descargado_en": "2026-11-20",
+      "estado": "T-448 (D-185/D-197): total municipal del Censo 2011 (huella de configuracion/historico_epoca/total_municipal_censo_2011.json); sin copia en R2; espejo en release pendiente de subir (Operador)",
+      "respaldo": "release fuente-ine-censo2011-1mun00 (asset 1mun00.csv); sha256 y bytes de configuracion/historico_epoca/total_municipal_censo_2011.json"
+    },
     "02202307_MESA.zip": {
       "clave": "arc-e/fuentes/interior/02202307_MESA_e78fc231326a.zip",
       "sha256": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",

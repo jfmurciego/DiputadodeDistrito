@@ -1,0 +1,24 @@
+{
+  "schema": "ddd.exenciones-relleno-epoca-historico/1.0",
+  "version": "1.0.0",
+  "anterior": "ninguna (fichero nuevo)",
+  "motivo": "T-448 (D-197, propietario, 23-11): una provincia de UN diputado (un único distrito) queda exenta del tope del 1 % de población estimada de D-126/D-128/D-161: el reparto interno de la población entre sus secciones no cambia el mapa (el distrito es la provincia entera). Cada declaración se ata al seccionado de la elección por sha256 y a la población estimada medida; `construir_contrato` (herramientas/contrato_historico_epoca.py ≥ 1.5.0) solo la aplica si la provincia tiene K = 1 y la medida coincide, y si no falla cerrado. Una provincia sobre el 1 % sin declaración sigue BLOQUEADA_RELLENO.",
+  "elecciones": {
+    "2011-11": {
+      "seccionado_sha256": "772ad76b84e1b3bb9293a5595d2ccafa06f21a3a58ccc96a9ec5dadd99e46c4a",
+      "provincias": {
+        "51": {
+          "decision": "D-197 (propietario, 23-11)",
+          "reason": "Ceuta elige un diputado: es un único distrito y repartir su población entre secciones no cambia el mapa. La estimada (1.410 hab., 1,6948 %: hija 5100103014 de la madre 5100103006, D-158 B') supera el 1 % de D-161 sin efecto en el resultado.",
+          "medido": {
+            "K": 1,
+            "poblacion_total": 83195,
+            "poblacion_estimada": 1410,
+            "pct_estimada": "1.6948",
+            "contrato": "configuracion/historico_epoca/contrato_2011_11.json 1.4.0"
+          }
+        }
+      }
+    }
+  }
+}
