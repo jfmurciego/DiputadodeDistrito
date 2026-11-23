@@ -1,9 +1,14 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: visor V4 · Explorar (V3 completa + doble vuelta)
- * VERSIÓN: 1.2.1
- * FECHA: 2026-11-20
+ * VERSIÓN: 1.3.0
+ * FECHA: 2026-11-22
  * ESTADO: candidato
- * CAMBIOS: 1.2.1 (T-429): regla «Mayoría simple en el distrito» (antes «Más votado») y, en la ficha, línea fija sobre el trasvase de votos como hipótesis de simulación.
+ * CAMBIOS: 1.3.0 (T-430, D-186/D-188/D-194, paso 1 de REDISENO_R2 §9): origen de los datos configurable en `mapa/datos.json`. Con
+ *   `actual` vacío o sin el fichero, todo igual que en 1.2.1 (rutas relativas del sitio). Con `actual` = dirección de `web/actual/actual.json`
+ *   (datos.diputadodedistrito.es), cada dato se pide en `web/actual/<ruta de hoy en el sitio>` y se comprueba su sha256 contra el índice;
+ *   si no casa, se recarga el índice una vez sin caché (ventana de 60 s de «solo la vigente») y, si sigue sin casar, no se pinta y se dice.
+ *   El calendario es de la web, no un dato: siempre local.
+ *   1.2.1 (T-429): regla «Mayoría simple en el distrito» (antes «Más votado») y, en la ficha, línea fija sobre el trasvase de votos como hipótesis de simulación.
  *   1.2.0 (T-428, D-184): la V4 se sirve en la raíz del sitio y Explorar en /mapa/, a la misma profundidad que la V3: las rutas
  *   del sitio pasan de ../../ a ../ (las mismas que la V3); la doble vuelta sigue en datos/ junto a la página (P40 la escribe en mapa/datos/).
  *   1.1.0 (T-427): la capa «Doble vuelta» también en el ámbito «Autonómico» con la autonómica vigente de cada comunidad (índice 1.1):
@@ -15,7 +20,7 @@
  *   coloreado por bloque (claro si la ventaja es < 5 puntos), ficha por distrito con primera y segunda vuelta y aviso fijo
  *   «Simulación sin valor oficial». Lee lo que deja P40 en mapa/datos/ (antes v4/mapa/datos/) (herramientas/publicar_doble_vuelta.py) y verifica sha256.
  * MOTIVO: T-423, la V4 es la portada de la autora + la V3 completa enriquecida con la doble vuelta (decisión del propietario, 19-11).
- * ANTERIOR: legacy/visor/v4/mapa/explorar_v1.2.0_20261120.js (1.2.0: legacy/visor/v4/mapa/explorar_v1.1.0_20261120.js; 1.1.0: legacy/visor/v4/mapa/explorar_v1.0.0_20261120.js) */
+ * ANTERIOR: legacy/visor/v4/mapa/explorar_v1.2.1_20261122.js (1.2.1: legacy/visor/v4/mapa/explorar_v1.2.0_20261120.js; 1.2.0: legacy/visor/v4/mapa/explorar_v1.1.0_20261120.js; 1.1.0: legacy/visor/v4/mapa/explorar_v1.0.0_20261120.js) */
 "use strict";
 (function () {
   const BASE={provincias:"../v2/datos/provincias.json",comunidades:"../v2/datos/comunidades.json",
@@ -106,7 +111,34 @@
     const margen=seg?Math.abs(a-b)/((a+b)||1):1;
     return DV.claseBloque(f.bloque_ganador)+(margen<.05?"-claro":"");
   }
-  async function dvBytes(ruta){const r=await fetch(BASE.dv+ruta,{cache:"no-cache"});if(!r.ok)throw Error(ruta+": HTTP "+r.status);return r.arrayBuffer();}
+  /* T-430: origen de los datos (mapa/datos.json). ACT = {base, fich: {ruta de hoy en el sitio: sha256}} o null (rutas relativas). */
+  let ACT=null;
+  function claveSitio(p){return p.startsWith("../")?p.slice(3):"mapa/"+p;}
+  async function cargarActual(){
+    let cfg=null;
+    try{const r=await fetch("datos.json",{cache:"no-cache"});if(r&&r.ok)cfg=await r.json();}catch(e){cfg=null;}
+    const url=cfg&&typeof cfg.actual==="string"?cfg.actual.trim():"";
+    if(!url){ACT=null;return;}
+    if(!/^https:\/\/[a-z0-9.-]+\/[^?#]*actual\.json$/.test(url))throw Error("la dirección del índice de datos no es válida");
+    const r=await fetch(url,{cache:"no-cache"});if(!r.ok)throw Error("índice de datos: HTTP "+r.status);
+    const idx=await r.json(),fich={};
+    if(!idx||idx.version_formato!==1)throw Error("formato del índice de datos desconocido");
+    for(const g of [idx.comunes||{},...Object.values(idx.mapas||{})])Object.assign(fich,g.ficheros||{});
+    ACT={base:url.replace(/actual\.json$/,""),fich};
+  }
+  async function datoBytes(p){
+    const k=claveSitio(p);
+    for(let intento=0;intento<2;intento++){
+      const h=ACT.fich[k];if(!h)throw Error(k+": no está en el índice de datos");
+      const r=await fetch(ACT.base+k,{cache:intento?"no-cache":"default"});if(!r.ok)throw Error(k+": HTTP "+r.status);
+      const b=await r.arrayBuffer();if(await dvHuella(b)===h)return b;
+      if(!intento)await cargarActual();  // ventana de «solo la vigente» (D-188): índice nuevo, una vez
+    }
+    throw Error("la huella de "+k+" no coincide con el índice de datos");
+  }
+  async function dvBytes(ruta){
+    if(ACT)return datoBytes(BASE.dv+ruta);
+    const r=await fetch(BASE.dv+ruta,{cache:"no-cache"});if(!r.ok)throw Error(ruta+": HTTP "+r.status);return r.arrayBuffer();}
   async function dvHuella(b){
     const c=globalThis.crypto;if(!(c&&c.subtle))throw Error("sin verificación de huella");
     return Array.from(new Uint8Array(await c.subtle.digest("SHA-256",b)),x=>x.toString(16).padStart(2,"0")).join("");
@@ -173,7 +205,10 @@
     if(S.election!=="202307")S.election="202307";
     if(S.level==="provincia"||S.level==="comunidad"){S.level=S.province?"distrito":"provincia";$("level").value=S.level;}
   }
-  async function getJson(path){const r=await fetch(path,{cache:"default"});if(!r.ok)throw Error(path+": HTTP "+r.status);return r.json();}
+  async function getLocal(path){const r=await fetch(path,{cache:"default"});if(!r.ok)throw Error(path+": HTTP "+r.status);return r.json();}
+  async function getJson(path){
+    if(!ACT)return getLocal(path);
+    return JSON.parse(new TextDecoder("utf-8").decode(await datoBytes(path)));}
   function dur(n){return typeof matchMedia==="function"&&matchMedia("(prefers-reduced-motion: reduce)").matches?0:n;}
   function announce(t){const e=$("sr-status");if(e)e.textContent=t||"";}
   function note(t){$("map-notice").textContent=t||"";}
@@ -727,11 +762,12 @@
     if(!window.maplibregl){note("No se pudo cargar la librería cartográfica MapLibre.");return;}
     controls();
     try{
+      await cargarActual();
       const [pr,cc,idx,sec,terr,products,calendar,prov]=await Promise.all([
         getJson(BASE.provincias),getJson(BASE.comunidades),
         getJson(BASE.indices).catch(()=>null),getJson(BASE.secciones+"INDEX.json").catch(()=>null),
         getJson(BASE.territorial).catch(()=>null),getJson(BASE.productos).catch(()=>null),
-        getJson(BASE.calendario).catch(()=>({})),getJson(BASE.procedencia).catch(()=>null)
+        getLocal(BASE.calendario).catch(()=>({})),getJson(BASE.procedencia).catch(()=>null)
       ]);
       if(pr.type!=="FeatureCollection"||cc.type!=="FeatureCollection")throw Error("Fuentes base cartográficas inválidas");
       if(window.DV)await loadDVIndex();else DVD.error="No se pudo cargar el lector de la doble vuelta.";
