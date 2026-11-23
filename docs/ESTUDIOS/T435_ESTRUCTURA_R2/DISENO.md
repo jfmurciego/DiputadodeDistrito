@@ -1,6 +1,8 @@
 # T-435 — Estructura clara de R2 (diseño; D-188)
 
-VERSIÓN: 1.0.0 · FECHA: 2026-11-20 · ESTADO: aprobado (propietario, 20-11: «sí» a las tres preguntas, vía Planificador) · ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.1.0 · FECHA: 2026-11-22 · ESTADO: aprobado (propietario, 20-11: «sí» a las tres preguntas, vía Planificador) · ANTERIOR: legacy/docs/ESTUDIOS/T435_ESTRUCTURA_R2/DISENO_v1.0.0.md
+
+CAMBIOS 1.1.0 (T-443): §e, precisiones de la implementación (módulo `herramientas/rutas_r2.py`).
 
 Solo diseño: no se mueve ni se borra nada. Parte de lo aprobado el 20-11 (carpetas en español sin códigos ni runs; solo la versión
 vigente; regeneración posterior al 29-11 ya en la estructura nueva y borrado de lo viejo junto con D-178). Fuente de lo actual:
@@ -91,3 +93,15 @@ T-430 sigue adelante con «solo la vigente» (su `DISENO.md` 1.3.0, #957@72d75fa
 Bucket público `ddd-web-datos` (acordado con T-430): todo bajo `web/actual/` (`actual.json` y los datos con las rutas del sitio: `datos/`, `mapa/datos/`, `v2/datos/`, `data/`), con carpetas de territorio en español sin códigos ni runs; el run y los sha256 van en `actual.json`. No usa la nomenclatura de `mapas/` de este bucket. P40 sube lo cambiado, comprueba sha256, escribe `actual.json` y borra lo que ya no figura en el índice.
 
 Pendiente: el cruce clave a clave, cuando el propietario suba el CSV del P74.
+
+## e) Precisiones de la implementación (T-443, 22-11)
+
+Criterio técnico del Coordinador (22-11), coherente con lo aprobado; el módulo `herramientas/rutas_r2.py` y `tests/test_t443_rutas_r2.py` las fijan:
+
+- **Nombre de territorio**: siempre el `nombre_es` completo de la tabla maestra (`configuracion/notacion_territorial.csv`), igual en `fuentes/por-territorio/`, `interno/estados/` y `mapas/` (`principado-de-asturias`, no `asturias`, en las tres; `CRUCE_claves.csv` mezclaba ambas).
+- **Competición** (`congreso350_*`, T-428): paquete P10 y estados en `interno/competicion/<provincia>/` (`paquete.zip`, `<tipo>.zip`), no en `fuentes/por-territorio/nacionales/350-<provincia>/` ni con el run en el nombre.
+- **Tipos de estado** en `interno/estados/<ámbito>/<territorio>/`: `audit.zip`, `audit-electoral.zip`, `minimo-m06.zip`, `minimo-m08.zip`, `decision.zip` (minúsculas y guion; el cruce escribía `minimoM06`).
+- **Mapa autonómico**: una carpeta por comunidad, `mapas/autonomicas/<comunidad>-<año>/` (como el cruce; sin subcarpeta de provincia). Año = autonómica `vigente=si`; Ceuta y Melilla, sin carpeta hasta fijarlo.
+- **Gobierno Vasco**: conserva la ruta original bajo `fuentes/gobierno-vasco/` (`data/<época>/…`) sin sha12, como el cruce.
+- **Almacén M06** (`interno/almacen-m06/`): excepción de nombre (conserva el asset del release, con su run) hasta que la regeneración lo sustituya.
+- **Transición**: los lectores que componen la clave prueban la nueva y, si falta, la vieja (`rutas_r2.candidatas`); los que la toman de un índice (`archivo_r2.json`, `fuentes_r2.json`, `almacen_m06_r2.json`, `doble_vuelta_publicada.json`) leen la clave que el índice anota, vieja o nueva. Los `r2_clave` de los contratos históricos no se reescriben hasta la regeneración (su huella, §d).
