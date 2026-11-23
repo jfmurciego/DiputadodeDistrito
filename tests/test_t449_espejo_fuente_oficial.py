@@ -3,11 +3,11 @@
 """T-449 (D-183, D-188): espejo de solo lectura de una fuente oficial desde el runner.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 FECHA: 2026-11-23
-CAMBIOS: 1.0.0: fichero nuevo.
+CAMBIOS: 1.0.1: candidatas en orden (`downloadURL` antes que `accessURL`) y salto de la portada a la siguiente (run 45158272014). 1.0.0: fichero nuevo.
 MOTIVO: fija la elección de la distribución del año, el rechazo de la portada HTML, la clave de D-188 y que nunca sobrescribe.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/tests/test_t449_espejo_fuente_oficial_v1.0.0_20261123.py
 """
 from __future__ import annotations
 
@@ -76,6 +76,58 @@ class Eleccion(unittest.TestCase):
         with self.assertRaises(ef.ErrorEspejo) as c:
             ef.elegir_distribucion(api, 2023)
         self.assertEqual(c.exception.codigo, "ESPEJO_DISTRIBUCION_AMBIGUA")
+
+
+class Candidatas(unittest.TestCase):
+    """1.0.1: run 45158272014 (ESPEJO_ES_HTML): `downloadURL` antes que `accessURL` y se prueban todas las candidatas del año."""
+
+    API2 = {"result": {"items": [{"distribution": [
+        {"accessURL": "https://ejemplo.invalid/portal/resultados-2023", "downloadURL": "https://ejemplo.invalid/files/Resultados_CLM_2023.xlsx",
+         "format": "XLSX", "title": "Resultados 2023"},
+        {"accessURL": "https://ejemplo.invalid/files/Resultados_CLM_2023.csv", "format": "text/csv", "title": "Resultados 2023"},
+    ]}]}}
+
+    def test_orden_descarga_antes_que_acceso_y_xlsx_antes_que_csv(self):
+        self.assertEqual([c["url"] for c in ef.candidatas_del_anyo(self.API2, 2023)],
+                         ["https://ejemplo.invalid/files/Resultados_CLM_2023.xlsx", "https://ejemplo.invalid/portal/resultados-2023",
+                          "https://ejemplo.invalid/files/Resultados_CLM_2023.csv"])
+
+    def _espejar(self, respuestas):
+        decl = json.loads(ef.DECLARACION.read_text(encoding="utf-8"))
+        decl["espejos"]["aut08"]["hosts_permitidos"].append("ejemplo.invalid")
+        decl["espejos"]["aut08"].pop("verificacion")
+        pedidas = []
+
+        def get(url, hosts, tope, intentos=4):
+            ef.comprobar_url(url, hosts)
+            pedidas.append(url)
+            return json.dumps(self.API2).encode() if url.endswith(".json") else respuestas[url]
+
+        with tempfile.TemporaryDirectory() as td, mock.patch.object(ef, "volcar_xlsx", _volcado_falso):
+            r = Path(td) / "d.json"
+            r.write_text(json.dumps(decl), encoding="utf-8")
+            try:
+                return ef.espejar("aut08", Path(td) / "s", get=get, ruta_decl=r), pedidas
+            except ef.ErrorEspejo as exc:
+                return exc, pedidas
+
+    def test_portada_en_la_primera_pasa_a_la_siguiente(self):
+        html = b"<!DOCTYPE html><html>portal en obras</html>"
+        m, pedidas = self._espejar({"https://ejemplo.invalid/files/Resultados_CLM_2023.xlsx": html,
+                                    "https://ejemplo.invalid/portal/resultados-2023": html,
+                                    "https://ejemplo.invalid/files/Resultados_CLM_2023.csv": b"Municipio;PSOE\nAlbacete;1\n"})
+        self.assertEqual(m["piezas"][0]["origen_url"], "https://ejemplo.invalid/files/Resultados_CLM_2023.csv")
+        self.assertEqual(m["piezas"][0]["clave"], "fuentes/junta-castilla-la-mancha/2023/autonomicas-por-municipio.csv")
+        self.assertEqual(len(pedidas), 4)  # API + 3 candidatas
+
+    def test_ninguna_vale_da_el_motivo_y_lo_probado(self):
+        html = b"<html>portal</html>"
+        exc, _ = self._espejar({u: html for u in ("https://ejemplo.invalid/files/Resultados_CLM_2023.xlsx",
+                                                  "https://ejemplo.invalid/portal/resultados-2023",
+                                                  "https://ejemplo.invalid/files/Resultados_CLM_2023.csv")})
+        self.assertIsInstance(exc, ef.ErrorEspejo)
+        self.assertEqual(exc.codigo, "ESPEJO_ES_HTML")
+        self.assertIn("portal/resultados-2023", str(exc))
 
 
 class Contenido(unittest.TestCase):
