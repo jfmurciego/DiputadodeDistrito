@@ -1031,8 +1031,8 @@ jobs:
 
   publicar_web:
     # T-430 paso 3c (D-194, P7): la web sola al fusionar una PR que solo toca la web: sitio de R2 vigente + V4 de main, sin datos ni P40.
-    needs: cambios
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.cambios.outputs.publicar_web == 'true' }}
+    needs: [cambios, guardian, suite]  # solo con la integridad y la batería completa de ESE push en verde
+    if: ${{ !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.cambios.outputs.publicar_web == 'true' && needs.guardian.result == 'success' && needs.suite.result == 'success' }}
     concurrency:
       group: ddd-pages-prod  # el mismo que P40 `publicar`: nunca dos escrituras del sitio a la vez
       cancel-in-progress: false
@@ -1050,6 +1050,7 @@ jobs:
         shell: bash
         env:
           ANTES: ${{ github.event.before }}
+          GH_TOKEN: ${{ github.token }}
           PYTHONPATH: ${{ github.workspace }}
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_SITIO_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SITIO_SECRET_ACCESS_KEY }}
@@ -1061,8 +1062,18 @@ jobs:
         run: |
           set -euo pipefail
           if [[ -z "${R2_SITIO_BUCKET:-}" ]]; then echo "Sin R2_SITIO_BUCKET: no se publica la web."; exit 0; fi
-          previos="$( { git ls-tree --name-only "$ANTES" visor/v4/ 2>/dev/null || true; } | sed 's#^visor/v4/##' | paste -sd, -)"
+          # Fallo cerrado: sin el commit anterior como padre directo (varios commits en el push, o sin `before`) no se sabe qué era de la V4.
+          padre="$(git rev-parse -q --verify "HEAD^" || true)"
+          if [[ -z "$ANTES" || -z "$padre" || "$padre" != "$ANTES" ]]; then
+            echo "::warning::El push no es un único commit sobre el anterior (before=$ANTES, padre=$padre): no se publica la web; lo hará la siguiente P40."; exit 0
+          fi
+          previos="$(git ls-tree --name-only "$ANTES" visor/v4/ | sed 's#^visor/v4/##' | paste -sd, -)"
+          if [[ -z "$previos" ]]; then echo "::warning::Sin visor/v4/ en el commit anterior: no se publica la web."; exit 0; fi
+          find visor/v4 -name '*.js' -print0 | xargs -0 -r -n1 node --check
           sitio="$RUNNER_TEMP/sitio-web"
           python3 herramientas/web_fusion_r2.py --destino "$sitio" --previos "$previos"
           if [[ ! -f "$sitio/index.html" ]]; then echo "Sin sitio previo en R2: la primera publicación es de P40."; exit 0; fi
+          # Orden: si en main ya hay otra V4 (una fusión posterior), no se publica esta encima; si la API falla, el paso falla sin publicar.
+          posteriores="$(gh api "repos/$GITHUB_REPOSITORY/compare/$GITHUB_SHA...main" --jq '[.files[]?.filename | select(startswith("visor/v4/"))] | length')"
+          if [[ "$posteriores" != "0" ]]; then echo "::notice::main ya tiene una V4 posterior ($posteriores ficheros): no se publica esta."; exit 0; fi
           python3 herramientas/publicar_sitio_r2.py --sitio "$sitio"

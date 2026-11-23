@@ -20,12 +20,15 @@ PORTADA = b"<html><head><title>Diputado de Distrito | Portada</title></head>"
 # Sitio publicado por P40 (sin datos): la V4 en la raiz y redirecciones en v4/, lo demas de otras versiones.
 SITIO = {"index.html": PORTADA + b"vieja", "comprender.html": b"<html>c", "app.js": b"1", "styles.css": b"a{}", "viejo.html": b"<html>v",
          "mapa/index.html": b"<html>m", "mapa/explorar.js": b"2", "v4/index.html": b"r", "v4/viejo.html": b"r",
-         "v1/index.html": b"<html>v1", "v1/app.js": b"v1", "v2/index.html": b"<html>v2", "v2/vendor/maplibre.js": b"m",
+         "v1/index.html": b'<html><base href="../"><script src="v1/app.js">', "v1/app.js": b"v1", "v2/index.html": b"<html>v2", "v2/vendor/maplibre.js": b"m",
          "v3/index.html": b"<html>v3", "docs/index.html": b"<html>d", "dashboard/index.html": b"<html>db", "robots.txt": b"x"}
 # V4 de main tras la fusion: cambia la portada, quita viejo.html, anade nueva.html; lo de NO_PUBLICAR no sale.
 V4 = {"index.html": PORTADA + b"nueva", "comprender.html": b"<html>c", "app.js": b"1", "styles.css": b"a{}", "nueva.html": b"<html>n",
       "mapa/index.html": b"<html>m", "mapa/explorar.js": b"2", "cabecera.html": b"interno",
       "NO_PUBLICAR.txt": b"# comentario\nNO_PUBLICAR.txt\ncabecera.html\n"}
+
+
+PREVIOS = {"index.html", "viejo.html", "mapa", "app.js", "styles.css", "comprender.html", "NO_PUBLICAR.txt", "cabecera.html"}
 
 
 class R2Falso:
@@ -72,7 +75,7 @@ class Montaje(unittest.TestCase):
 
     def test_sustituye_la_v4_y_conserva_lo_demas(self):
         r2 = bucket(SITIO, {"huerfano.html": b"x"})  # en el bucket pero no en el indice: no entra
-        w.montar(self.dest, r2, self.raiz, {"index.html", "viejo.html", "mapa", "app.js", "styles.css", "comprender.html"})
+        w.montar(self.dest, r2, self.raiz, PREVIOS)
         hay = {p.relative_to(self.dest).as_posix() for p in self.dest.rglob("*") if p.is_file()}
         self.assertEqual(hay, {"index.html", "comprender.html", "app.js", "styles.css", "nueva.html", "mapa/index.html", "mapa/explorar.js",
                                "v4/index.html", "v4/comprender.html", "v4/nueva.html", "v4/mapa/index.html",
@@ -95,7 +98,7 @@ class Montaje(unittest.TestCase):
         r2 = bucket(SITIO)
         r2.obj["v2/index.html"] = b"alterado"
         with self.assertRaisesRegex(DatosWebError, "SITIO_R2_NO_CASA"):
-            w.montar(self.dest, r2, self.raiz)
+            w.montar(self.dest, r2, self.raiz, PREVIOS)
 
     def test_nombre_de_la_v4_que_pisaria_el_sitio_aborta(self):
         for previos, fichero in (({"docs"}, None), (set(), "v2/x.js")):
@@ -106,10 +109,26 @@ class Montaje(unittest.TestCase):
                 with self.assertRaisesRegex(DatosWebError, "V4_PISA_EL_SITIO"):
                     w.montar(self.dest, bucket(SITIO), self.raiz, previos)
 
+    def test_nombre_nuevo_de_la_v4_que_ya_esta_en_el_sitio_aborta(self):
+        # guarda de choques de preparar_portada_v4.py: robots.txt es del sitio, no de la V4; un robots.txt nuevo en la V4 no lo machaca
+        (self.raiz / "visor/v4/robots.txt").write_text("nuevo")
+        with self.assertRaisesRegex(DatosWebError, "V4_PISA_EL_SITIO: robots.txt"):
+            w.montar(self.dest, bucket(SITIO), self.raiz, PREVIOS)
+        self.assertFalse(self.dest.exists())
+
+    def test_sin_previos_todo_es_nuevo_y_no_se_publica(self):
+        with self.assertRaisesRegex(DatosWebError, "V4_PISA_EL_SITIO: comprender.html, mapa"):
+            w.montar(self.dest, bucket(SITIO), self.raiz, set())
+
+    def test_enlace_simbolico_en_la_v4_aborta(self):
+        (self.raiz / "visor/v4/secreto.txt").symlink_to("/etc/hostname")
+        with self.assertRaisesRegex(DatosWebError, "V4_CON_ENLACE: visor/v4/secreto.txt"):
+            w.montar(self.dest, bucket(SITIO), self.raiz, PREVIOS)
+
     def test_sitio_sin_otras_versiones_no_se_publica(self):
         sitio = {k: v for k, v in SITIO.items() if not k.startswith("v3/")}
         with self.assertRaisesRegex(DatosWebError, "SITIO_INCOMPLETO: faltan v3/index.html"):
-            w.montar(self.dest, bucket(sitio), self.raiz)
+            w.montar(self.dest, bucket(sitio), self.raiz, PREVIOS)
 
     def test_main_inerte_sin_bucket(self):
         self.assertEqual(w.main(["--destino", str(self.dest), "--bucket", ""]), 0)
@@ -154,8 +173,9 @@ class JobPublicarWeb(unittest.TestCase):
 
     def test_job_solo_main_sin_escritura_y_serializado_con_p40(self):
         j = yaml.safe_load(WF.read_text(encoding="utf-8"))["jobs"]["publicar_web"]
-        self.assertEqual(j["needs"], "cambios")
-        self.assertEqual(j["if"], "${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.cambios.outputs.publicar_web == 'true' }}")
+        self.assertEqual(j["needs"], ["cambios", "guardian", "suite"])
+        self.assertEqual(j["if"], "${{ !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.cambios.outputs.publicar_web == 'true'"
+                                  " && needs.guardian.result == 'success' && needs.suite.result == 'success' }}")
         self.assertEqual(j["permissions"], {"contents": "read"})
         self.assertEqual(j["concurrency"], {"group": "ddd-pages-prod", "cancel-in-progress": False, "queue": "max"})  # mismo grupo que P40 `publicar`
         p40 = yaml.safe_load((ROOT / ".github/workflows/p40-publicacion.yml").read_text(encoding="utf-8"))["jobs"]["publicar"]["concurrency"]
@@ -167,8 +187,28 @@ class JobPublicarWeb(unittest.TestCase):
         self.assertIn("herramientas/web_fusion_r2.py", paso["run"])
         self.assertIn("herramientas/publicar_sitio_r2.py", paso["run"])
         self.assertNotIn("--permitir-borrado", paso["run"])
+        self.assertIn("node --check", paso["run"])
+        # orden: la comprobación de una V4 posterior en main va justo antes de publicar
+        self.assertLess(paso["run"].index("compare/$GITHUB_SHA...main"), paso["run"].index("publicar_sitio_r2.py"))
         self.assertNotIn("publicar_web", yaml.safe_load(WF.read_text(encoding="utf-8"))["jobs"]["pruebas"]["needs"])
         subprocess.run(["bash", "-n"], input=paso["run"], text=True, check=True)
+
+    def test_push_de_varios_commits_o_sin_before_no_publica(self):
+        paso = yaml.safe_load(WF.read_text(encoding="utf-8"))["jobs"]["publicar_web"]["steps"][-1]
+        with tempfile.TemporaryDirectory() as raw:
+            repo = Path(raw)
+            run = lambda *a: subprocess.run(a, cwd=repo, check=True, capture_output=True, text=True).stdout.strip()
+            run("git", "init", "-q"); run("git", "config", "user.email", "a@b"); run("git", "config", "user.name", "a")
+            for i in range(3):
+                run("git", "commit", "-q", "--allow-empty", "-m", str(i))
+            abuelo = run("git", "rev-parse", "HEAD~2")
+            for antes in ("", "0" * 40, abuelo):
+                with self.subTest(antes=antes):
+                    r = subprocess.run(["bash", "-eo", "pipefail", "-c", paso["run"]], cwd=repo, capture_output=True, text=True,
+                                       env={"PATH": "/usr/bin:/bin", "R2_SITIO_BUCKET": "ddd-web-sitio", "ANTES": antes, "RUNNER_TEMP": raw})
+                    self.assertEqual(r.returncode, 0, r.stderr)
+                    self.assertIn("no se publica la web", r.stdout)
+                    self.assertFalse((repo / "sitio-web").exists())
 
     def test_paso_inerte_sin_bucket_bajo_pipefail(self):
         paso = yaml.safe_load(WF.read_text(encoding="utf-8"))["jobs"]["publicar_web"]["steps"][-1]

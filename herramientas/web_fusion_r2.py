@@ -11,8 +11,10 @@ QUÉ HACE (sin calcular nada ni tocar datos):
   (3) quita lo que es de la V4 (todo `v4/` y, en la raíz, cada nombre de primer nivel de `visor/v4/` de antes o de ahora, `--previos`);
   (4) pone la V4 de ahora como la deja P40 (`preparar_portada_v4.py`): `visor/v4/` sin lo de `NO_PUBLICAR.txt` en la raíz y `v4/` con
       una redirección por página;
-  (5) comprueba que siguen la portada V4, la V1, la V2, la V3 y la documentación.
-  Nombres de la V4 que pisarían otra parte del sitio (`RESERVADOS`) abortan sin montar. Los árboles de datos ni se bajan ni se suben
+  (5) comprueba lo mismo que P40 de la V4 y que siguen la V1, la V2, la V3 y la documentación.
+  Abortan sin montar (como la guarda de choques de `preparar_portada_v4.py`): un nombre de la V4 en `RESERVADOS`, un nombre NUEVO de
+  primer nivel (no está en `--previos`) que ya existe en el sitio (salvo `index.html` y los recursos de la V1, que la V4 ya ocupa), y
+  un enlace simbólico en `visor/v4/`. Sin `--previos` todo nombre es nuevo: no se publica (fallo cerrado). Los árboles de datos ni se bajan ni se suben
   (no están en el bucket del sitio). El borrado y su tope son los de `publicar_sitio_r2.py`, que publica después el montaje.
 USO: python herramientas/web_fusion_r2.py --destino D [--previos n1,n2,…] [--raiz .] [--bucket B]
 """
@@ -25,13 +27,17 @@ import shutil
 import sys
 from pathlib import Path
 
-from herramientas.preparar_portada_v4 import MARCA_V4, REDIRECCION, destino_en_raiz
+from herramientas.preparar_portada_v4 import MARCA_V4, REDIRECCION, V1_RECURSOS, destino_en_raiz
 from herramientas.publicar_datos_web import R2, DatosWebError, _aws, sha256
 from herramientas.publicar_sitio_r2 import INDICE, clave_valida
 
 RAIZ = Path(__file__).resolve().parents[1]
 RESERVADOS = {"v1", "v2", "v3", "v4", "docs", "dashboard", "nacional", "congreso", "datos", "data", "_sitio"}
-OBLIGATORIOS = ("index.html", "v1/index.html", "v2/index.html", "v3/index.html", "docs/index.html")
+OBLIGATORIOS = ("index.html", "comprender.html", "mapa/index.html", "mapa/explorar.js", "v1/index.html", "v1/app.js", "v2/index.html",
+                "v3/index.html", "docs/index.html")
+# Comprobaciones de P40 («Validar sitio candidato completo») que dependen de la V4: (fichero, texto que debe contener).
+CONTIENE = (("index.html", MARCA_V4), ("v4/index.html", 'url=../"'), ("v4/mapa/index.html", 'url=../../mapa/"'),
+            ("v1/index.html", '<base href="../">'), ("v1/index.html", 'src="v1/app.js"'))
 
 
 class R2Bajada(R2):
@@ -55,6 +61,8 @@ def ficheros_v4(v4: Path) -> dict[str, Path]:
     out = {}
     for p in sorted(v4.rglob("*")):
         rel = p.relative_to(v4).as_posix()
+        if p.is_symlink():
+            raise DatosWebError(f"V4_CON_ENLACE: visor/v4/{rel} es un enlace simbólico; no se monta nada")
         if p.is_file() and not any(rel == f or rel.startswith(f + "/") for f in fuera):
             out[rel] = p
     return out
@@ -74,6 +82,10 @@ def montar(destino: Path, r2, raiz: Path = RAIZ, previos: set[str] = frozenset()
     choques = sorted(nombres & RESERVADOS)
     if choques:
         raise DatosWebError(f"V4_PISA_EL_SITIO: {', '.join(choques)}; no se monta nada")
+    en_sitio = {k.split("/", 1)[0] for k in indice}
+    pisa = sorted((nombres - set(previos)) & en_sitio - {"index.html", *V1_RECURSOS})
+    if pisa:
+        raise DatosWebError(f"V4_PISA_EL_SITIO: {', '.join(pisa)} (nombre nuevo de la V4 que ya está en el sitio); no se monta nada")
     if destino.exists():
         shutil.rmtree(destino)
     destino.mkdir(parents=True)
@@ -100,8 +112,9 @@ def montar(destino: Path, r2, raiz: Path = RAIZ, previos: set[str] = frozenset()
     faltan = [f for f in OBLIGATORIOS if not (destino / f).is_file()]
     if faltan:
         raise DatosWebError(f"SITIO_INCOMPLETO: faltan {', '.join(faltan)}; no se publica")
-    if MARCA_V4 not in (destino / "index.html").read_text(encoding="utf-8"):
-        raise DatosWebError("SIN_PORTADA_V4: la raíz montada no es la portada de la V4; no se publica")
+    for f, texto in CONTIENE:
+        if texto not in (destino / f).read_text(encoding="utf-8"):
+            raise DatosWebError(f"SITIO_NO_VALIDO: {f} no contiene {texto!r}; no se publica")
     n = sum(1 for p in destino.rglob("*") if p.is_file())
     print(f"[web_fusion] montado {destino}: {n} ficheros ({len(nuevos)} de la V4)")
     return n
