@@ -1,10 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.5.1
+# VERSIÓN: 1.5.2
 # NOMBRE DE VERSIÓN: P90 Automático — CI, IA de cierre de campaña, métricas y medición de la web en un solo workflow
 # FECHA: 2026-11-23
 # ESTADO: candidato
-# ANTERIOR: legacy/workflows/p90-automatico_v1.5.0_20261123.yml
+# ANTERIOR: legacy/workflows/p90-automatico_v1.5.1_20261123.yml
+# CAMBIOS 1.5.2: T-450 §4 / D-199: el paso de `medir_web` recibe el secreto del repositorio `MEDICION_CDN` (lo crea el propietario; el
+#   mismo valor que la regla del CDN) y `herramientas/medir_web.py` 1.2.0 lo envía como cabecera `X-DDD-Medicion` solo a
+#   diputadodedistrito.es, desde un fichero temporal (nunca en la línea de órdenes ni en la tabla). Sin el secreto, mide como hasta ahora. El resto, idéntico.
+# ANTERIOR (1.5.1): legacy/workflows/p90-automatico_v1.5.0_20261123.yml
 # CAMBIOS 1.5.1: T-430 3c, menores del revisor de #989: (a) la comprobación de orden de `publicar_web` no depende de la lista de `compare`
 #   (máx. 300 ficheros): con `ahead_by` 0 publica; con 300 o más ficheros no publica (fallo cerrado); (b) aviso visible (`::warning::`)
 #   cuando la web en R2 se queda atrás hasta la siguiente P40: un push a main que toca `visor/v4/` con otros ficheros (`cambios`) y una
@@ -949,7 +953,7 @@ jobs:
           exit 1
 
   medir_web:
-    # T-440: a petición (repository_dispatch «medir-web»); solo lectura, sin secretos, sin escribir en el repositorio.
+    # T-440: a petición (repository_dispatch «medir-web»); solo lectura, sin escribir en el repositorio; único secreto, MEDICION_CDN (T-450).
     if: ${{ github.event_name == 'repository_dispatch' && github.event.action == 'medir-web' }}
     permissions:
       contents: read
@@ -962,6 +966,8 @@ jobs:
           persist-credentials: false
       - name: Medir la web pública
         shell: bash
+        env:
+          MEDICION_CDN: ${{ secrets.MEDICION_CDN }}  # T-450 §4: cabecera que deja pasar la regla del CDN; vacío = sin cabecera
         run: |
           set -euo pipefail
           python3 herramientas/medir_web.py --resumen "$GITHUB_STEP_SUMMARY"

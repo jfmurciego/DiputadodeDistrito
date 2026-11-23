@@ -88,7 +88,7 @@ class Huellas(Base):
                 antes = cargar((FIX / f"{n}_{v}.yml").read_text(encoding="utf-8"))
                 ahora = cargar((WF / f"{n}.yml").read_text(encoding="utf-8"))
                 if n == "p90-automatico":  # T-430 3c (P90 1.5.0), posterior a la 2a: se deshace solo eso
-                    ahora = _t430d.deshacer_3c(ahora)
+                    ahora = _t430d.deshacer_3c(_t430d.deshacer_medicion(ahora))  # y T-450 §4 (1.5.2)
                 if n == "p70-archivo":  # T-443 (p70 1.1.7), posterior a la 2a: se deshace solo eso
                     from tests import _t443
                     ahora = _t443.deshacer(ahora)

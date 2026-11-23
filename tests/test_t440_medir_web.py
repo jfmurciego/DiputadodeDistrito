@@ -73,13 +73,63 @@ class MedirWeb(unittest.TestCase):
         self.assertEqual(j["if"], "${{ github.event_name == 'repository_dispatch' && github.event.action == 'medir-web' }}")
         self.assertEqual(j["permissions"], {"contents": "read"})
         bloque = yaml.safe_dump(j)
-        self.assertNotIn("secrets.", bloque)
+        # único secreto (T-450 §4): MEDICION_CDN, en el env del paso que mide
+        self.assertEqual(bloque.count("secrets."), 1)
+        self.assertEqual(j["steps"][-1]["env"], {"MEDICION_CDN": "${{ secrets.MEDICION_CDN }}"})
         self.assertIn("herramientas/medir_web.py", bloque)
         # ningún otro job sin `if` propio ni dependencia corre con este evento
         for nombre, otro in wf["jobs"].items():
             if nombre != "medir_web":
                 self.assertTrue(otro.get("if") or otro.get("needs"), nombre)
                 self.assertNotIn("repository_dispatch", str(otro.get("if", "")), nombre)
+
+
+class CabeceraDeMedicion(unittest.TestCase):
+    """T-450 §4 / D-199: la cabecera secreta va a curl desde un fichero, solo a diputadodedistrito.es."""
+
+    def correr(self, env, argv=()):
+        import os
+        from unittest import mock
+        vistos = []
+
+        def ejecutar(args, **_):
+            f = next((a[1:] for a in args if a.startswith("@")), None)
+            vistos.append((args, Path(f).read_text() if f else None, oct(os.stat(f).st_mode & 0o777) if f else None))
+            return Falso("200 0.1 0.2 1000")
+
+        real = m.tabla
+        with mock.patch.dict(os.environ, env, clear=False), \
+                mock.patch.object(m, "tabla", lambda b, r, cabeceras="": real(b, 1, ejecutar, cabeceras)):
+            rc = m.main(list(argv))
+        return rc, vistos
+
+    def test_con_secreto_va_en_fichero_y_no_en_la_linea(self):
+        rc, vistos = self.correr({"MEDICION_CDN": "abc123SECRETO"})
+        self.assertEqual(rc, 0)
+        self.assertEqual(len(vistos), 2 * len(m.URLS))
+        for args, contenido, modo in vistos:
+            self.assertFalse(any("abc123SECRETO" in a for a in args))
+            self.assertEqual(contenido, "X-DDD-Medicion: abc123SECRETO\n")
+            self.assertEqual(modo, "0o600")
+
+    def test_sin_secreto_no_hay_cabecera(self):
+        rc, vistos = self.correr({"MEDICION_CDN": ""})
+        self.assertEqual(rc, 0)
+        self.assertTrue(all(c is None for _, c, _ in vistos))
+
+    def test_otra_base_no_recibe_el_secreto(self):
+        for base in ("https://ejemplo.org", "http://diputadodedistrito.es", "https://diputadodedistrito.es.ejemplo.org"):
+            with self.subTest(base=base):
+                rc, vistos = self.correr({"MEDICION_CDN": "abc123SECRETO"}, ["--base", base])
+                self.assertEqual(rc, 0)
+                self.assertTrue(all(c is None for _, c, _ in vistos))
+        self.assertTrue(m.propio("https://datos.diputadodedistrito.es"))
+
+    def test_valor_con_salto_de_linea_se_rechaza(self):
+        for malo in ("a\nX-Otra: b", "con espacio", "a\rb", "x" * 513):
+            with self.subTest(malo=malo):
+                rc, vistos = self.correr({"MEDICION_CDN": malo})
+                self.assertEqual((rc, vistos), (2, []))
 
 
 if __name__ == "__main__":
