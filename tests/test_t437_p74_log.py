@@ -16,6 +16,8 @@ def carga(p):
     if p == WF:  # T-379 PR 2a: el workflow vigente, sin el entorno `registro` (su equivalencia: test_t379_2a_entorno_registro)
         from tests._t379_2a import deshacer as sin_2a
         d = sin_2a("p70-archivo", d)
+        from tests import _t443  # T-443 (p70 1.1.7): el resumen de P75 imprime la clave de `clave_informe`
+        d = _t443.deshacer(d)
     return d
 
 

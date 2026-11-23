@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """T-432: `listar_r2.py --inventario` (bucket simulado vía `aws`) y P74 Listar; el resto de P70 no cambia (control contra la copia 1.1.3)."""
 import copy
+
+from tests import _t443
 import csv
 import hashlib
 import io
@@ -75,16 +77,6 @@ def carga(p):
     return d
 
 
-def _deshacer_t443(job: dict) -> dict:
-    """p70 1.1.7 (T-443) → 1.1.6 en el job de P75: el resumen vuelve a componer INFORME_CLAVE a mano."""
-    j = copy.deepcopy(job)
-    for st in j["steps"]:
-        if "run" in st and "clave_informe(" in st["run"]:
-            st["run"] = (st["run"].replace('sys.path.insert(0,"herramientas")\nfrom p75_doble_vuelta_r2 import clave_informe\n', "")
-                         .replace("INFORME_CLAVE={clave_informe(r, r['run_p75'])}", "INFORME_CLAVE=doble_vuelta/{r['eleccion']}/{r['run_p75']}/INFORME.json"))
-    return j
-
-
 class P74Inventario(unittest.TestCase):
     def setUp(self):
         self.w = carga(WF)
@@ -104,7 +96,7 @@ class P74Inventario(unittest.TestCase):
         self.assertEqual(set(a["jobs"]), set(self.w["jobs"]))
         for n in a["jobs"]:
             if n == "doble_vuelta_r2":  # T-443 (p70 1.1.7): solo cambia cómo el resumen compone INFORME_CLAVE
-                self.assertEqual(a["jobs"][n], _deshacer_t443(self.w["jobs"][n]), n)
+                self.assertEqual(a["jobs"][n], _t443.deshacer_job(self.w["jobs"][n]), n)
             elif n != "listar":
                 self.assertEqual(a["jobs"][n], self.w["jobs"][n], n)
         la = a["jobs"]["listar"]
