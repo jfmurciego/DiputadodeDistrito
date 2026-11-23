@@ -14,6 +14,7 @@ visor/v2/datos/territorial.json
 inputs/reconstruido/
 capturas_t119/
 
-# T-281: paquete de propiedad intelectual (el ZIP pesa ~50 MB; solo se versionan manifiesto, hashes y README)
-propiedad_intelectual/*.zip
+# T-281: paquete de propiedad intelectual (ZIP y PDF se generan fuera de git; solo se versiona el README)
+propiedad_intelectual/*
+!propiedad_intelectual/README.md
 territorios/*/config/*_h20[0-9][0-9]_[0-9][0-9].yaml
