@@ -20,7 +20,10 @@
     digest, falla cerrado.
   - Decisión del propietario (23-11): la copia archivada SOLO se mide. Queda en el log, el resumen y el artefacto con su huella, y no se
     sube a R2 (`copias_archivadas_destino` = `no_subir`, único valor admitido; subirla sería una PR aparte).
-    `subir` rechaza un manifiesto que dé por oficial una copia.
+    `subir` evalúa cada pieza. Con la principal copia, no sube nada. Con la principal original y alguna copia (p. ej. el PDF de
+    verificación sacado de la Wayback), sube solo los originales, y el `manifiesto.json` de R2 lleva solo las piezas subidas: R2 describe
+    exactamente lo que guarda y no mezcla copias con oficiales. Las copias quedan como «no_subido» en `subida.json`, en el manifiesto local
+    y en el artefacto. `subir` rechaza un manifiesto que dé por oficial una copia, en cualquier pieza.
   - `descubrir` lee respuestas CDX (prefijos del portal antiguo y del sitio de elecciones) y sondea medios (Público, elDiario.es, El Español,
     RTVE, CMM, El País). Los medios se marcan NO oficiales, guardan la huella y las filas de tabla de cada página, y nunca se suben solos.
   - Orden de las semillas: Wayback, elecciones2023, portal nuevo, otras oficiales y medios. Topes de `descubrir`: 40 páginas y 10 candidatas.

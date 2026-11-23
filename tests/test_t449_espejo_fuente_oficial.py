@@ -530,6 +530,60 @@ class CopiaArchivada(unittest.TestCase):
                 ef.subir_espejo("aut08", sal, aws=R2Falso(), ruta_decl=r)
         self.assertEqual(c.exception.codigo, "ESPEJO_MANIFIESTO")
 
+    def _mixto(self, td):
+        """Original oficial del catálogo y PDF de verificación sacado de la Wayback (revisor #1002@0b44bcd)."""
+        pdf_url = "https://elecciones.castillalamancha.es/sites/default/files/2023-06/Resultados%20electorales%202023.pdf"
+        pdf = b"%PDF-1.4 archivado"
+        api = {"result": {"items": [{"distribution": [{"accessURL": self.ORIG, "format": "XLSX", "title": "Resultados 2023"}]}]}}
+        cdx = [["timestamp", "original", "statuscode", "mimetype", "length", "digest"],
+               ["20230610000000", pdf_url, "200", "application/pdf", str(len(pdf)), ef._sha1_b32(pdf)]]
+
+        def get(url, hosts, tope, intentos=4):
+            ef.comprobar_url(url, hosts)
+            if url.endswith(".json"):
+                return json.dumps(api).encode()
+            if url == self.ORIG:
+                return self.XLSX  # el original sí responde
+            if url == pdf_url:
+                return b"<html>404</html>"
+            if url.startswith("https://web.archive.org/cdx/"):
+                return json.dumps(cdx).encode()
+            if url == f"https://web.archive.org/web/20230610000000id_/{pdf_url}":
+                return pdf
+            raise ef.ErrorEspejo("ESPEJO_DESCARGA", url)
+
+        r = Path(td) / "mixto.json"
+        r.write_text(ef.DECLARACION.read_text(encoding="utf-8"), encoding="utf-8")
+        sal = Path(td) / "s-mixto"
+        with mock.patch.object(ef, "volcar_xlsx", _volcado_falso):
+            m = ef.espejar("aut08", sal, get=get, ruta_decl=r)
+        return sal, r, m
+
+    def test_mixto_sube_solo_el_original_y_su_manifiesto(self):
+        r2 = R2Falso()
+        with tempfile.TemporaryDirectory() as td, mock.patch.dict(os.environ, {"R2_BUCKET": "b", "R2_ACCOUNT_ID": "a"}):
+            sal, r, m = self._mixto(td)
+            self.assertEqual([(p["tipo"], p["oficial"]) for p in m["piezas"]], [("original", True), ("copia_archivada", False)])
+            res = ef.subir_espejo("aut08", sal, aws=r2, ruta_decl=r)
+        self.assertEqual(sorted(r2.escrituras), ["fuentes/junta-castilla-la-mancha/2023/autonomicas-por-municipio.xlsx",
+                                                 "fuentes/junta-castilla-la-mancha/2023/manifiesto.json"])
+        remoto = json.loads(r2.objetos["fuentes/junta-castilla-la-mancha/2023/manifiesto.json"][0])
+        self.assertEqual([p["nombre"] for p in remoto["piezas"]], ["autonomicas-por-municipio.xlsx"])  # sin la copia
+        self.assertEqual({p["clave"].rsplit("/", 1)[1]: p["r2"] for p in res["piezas"]},
+                         {"autonomicas-por-municipio.xlsx": "subido", "resultados-oficiales.pdf": "no_subido"})
+
+    def test_incoherencia_en_pieza_no_principal(self):
+        with tempfile.TemporaryDirectory() as td, mock.patch.dict(os.environ, {"R2_BUCKET": "b", "R2_ACCOUNT_ID": "a"}):
+            sal, r, _ = self._mixto(td)
+            m = json.loads((sal / "manifiesto.json").read_text(encoding="utf-8"))
+            m["piezas"][1]["oficial"] = True  # el PDF copia se hace pasar por oficial
+            (sal / "manifiesto.json").write_text(json.dumps(m), encoding="utf-8")
+            r2 = R2Falso()
+            with self.assertRaises(ef.ErrorEspejo) as c:
+                ef.subir_espejo("aut08", sal, aws=r2, ruta_decl=r)
+        self.assertEqual(c.exception.codigo, "ESPEJO_MANIFIESTO")
+        self.assertEqual(r2.escrituras, [])
+
     def test_sin_digest_falla_cerrado(self):
         get, _ = self._get(self.XLSX, digest="")
         with tempfile.TemporaryDirectory() as td, self.assertRaises(ef.ErrorEspejo) as c:

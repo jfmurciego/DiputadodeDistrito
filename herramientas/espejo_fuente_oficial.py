@@ -474,43 +474,60 @@ def _escribir(territorio: str, e: dict, dist: dict, datos: bytes, salida: Path, 
     return manifiesto
 
 
+def _tipo_coherente(p: dict) -> str:
+    tipo = p.get("tipo", "original")
+    if tipo not in ("original", "copia_archivada") or (tipo == "original") != bool(p.get("oficial")):
+        raise ErrorEspejo("ESPEJO_MANIFIESTO", f"{p.get('nombre')}: tipo {tipo!r} y oficial={p.get('oficial')!r} incoherentes")
+    return tipo
+
+
 def subir_espejo(territorio: str, salida: Path, aws=_aws, ruta_decl: Path = DECLARACION) -> dict:
-    """Subir lo medido por `espejar`: piezas primero y manifiesto el último, todo condicional. Una copia archivada como pieza principal
-    nunca se sube (decisión del propietario, 23-11): se deja en subida.json como «no_subido»."""
+    """Subir lo medido por `espejar`: piezas primero y manifiesto el último, todo condicional.
+
+    Las copias archivadas NUNCA se suben (decisión del propietario, 23-11: solo se miden) y se evalúa cada pieza, no solo la principal:
+    - principal copia: no se sube nada;
+    - principal original y alguna copia (p. ej. el PDF de verificación sacado de la Wayback): se suben solo los originales, y el
+      `manifiesto.json` de R2 lleva solo las piezas subidas, así R2 describe exactamente lo que guarda y no mezcla copias con oficiales.
+      Las copias quedan en el manifiesto local, el artefacto y `subida.json` como «no_subido»."""
     e = declaracion(territorio, ruta_decl)
+    destino_copias(e)
     mf = salida / "manifiesto.json"
     m = json.loads(mf.read_text(encoding="utf-8"))
     if m.get("territorio") != territorio or not m.get("piezas"):
         raise ErrorEspejo("ESPEJO_MANIFIESTO", "manifiesto de otro territorio o sin piezas")
-    principal = m["piezas"][0]
-    tipo = principal.get("tipo", "original")
-    if tipo not in ("original", "copia_archivada") or (tipo == "original") != bool(principal.get("oficial")):
-        raise ErrorEspejo("ESPEJO_MANIFIESTO", f"tipo {tipo!r} y oficial={principal.get('oficial')!r} incoherentes")
-    if tipo == "copia_archivada" and destino_copias(e) == "no_subir":
-        resultado = {"territorio": territorio, "estado": {}, "subido": False,
-                     "motivo": "copia archivada: solo se mide (decisión del propietario, 23-11)",
-                     "piezas": [{"clave": p["clave"], "sha256": p["sha256"], "bytes": p["bytes"], "r2": "no_subido"} for p in m["piezas"]]}
-        print(f"::warning::ESPEJO_COPIA_NO_SUBIDA {principal['clave']}: {resultado['motivo']}")
+    tipos = [_tipo_coherente(p) for p in m["piezas"]]
+    originales = [p for p, t in zip(m["piezas"], tipos) if t == "original"]
+    copias = [p for p, t in zip(m["piezas"], tipos) if t == "copia_archivada"]
+    motivo = "copia archivada: solo se mide (decisión del propietario, 23-11)"
+    for p in copias:
+        print(f"::warning::ESPEJO_COPIA_NO_SUBIDA {p['clave']}: {motivo}")
+    no_subidas = [{"clave": p["clave"], "sha256": p["sha256"], "bytes": p["bytes"], "r2": "no_subido"} for p in copias]
+    if tipos[0] == "copia_archivada":
+        resultado = {"territorio": territorio, "estado": {}, "subido": False, "motivo": motivo,
+                     "piezas": no_subidas + [{"clave": p["clave"], "sha256": p["sha256"], "bytes": p["bytes"], "r2": "no_subido"}
+                                             for p in originales]}
         (salida / "subida.json").write_text(json.dumps(resultado, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         return resultado
     if not os.environ.get("R2_BUCKET") or not os.environ.get("R2_ACCOUNT_ID"):
         raise ErrorEspejo("ESPEJO_R2", "faltan R2_BUCKET o R2_ACCOUNT_ID")
-    raiz = raiz_conjunto(e, tipo)
+    raiz = raiz_conjunto(e, "original")
     if m.get("raiz", "fuentes") != raiz:
         raise ErrorEspejo("ESPEJO_MANIFIESTO", f"raíz {m.get('raiz')!r} ≠ {raiz!r}")
     prefijo = clave_r2(e["organismo"], e["anyo"], "x", raiz)[:-1]
     estado = {}
-    for p in m["piezas"]:
+    for p in originales:
         f = salida / p["nombre"]
         if not p["clave"].startswith(prefijo) or p["clave"] != clave_r2(e["organismo"], e["anyo"], p["nombre"], raiz):
             raise ErrorEspejo("ESPEJO_NOMBRE_INVALIDO", f"{p['clave']} fuera de {prefijo}")
         if sha256(f.read_bytes()) != p["sha256"]:
             raise ErrorEspejo("ESPEJO_HUELLA_LOCAL", f"{p['nombre']} no cuadra con el manifiesto")
         estado[p["clave"]] = poner_si_no_existe(f, p["clave"], p["sha256"], aws)
+    m_r2 = {**m, "piezas": originales}  # el manifiesto de R2 describe solo lo que hay en R2
+    mf_r2 = salida / "manifiesto-r2.json"
+    mf_r2.write_text(json.dumps(m_r2, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     clave_m = clave_r2(e["organismo"], e["anyo"], "manifiesto.json", raiz)
-    huella_m = sha256(mf.read_bytes())
     if sha_remoto(clave_m, aws) is None:
-        estado[clave_m] = poner_si_no_existe(mf, clave_m, huella_m, aws)
+        estado[clave_m] = poner_si_no_existe(mf_r2, clave_m, sha256(mf_r2.read_bytes()), aws)
     else:
         import tempfile
 
@@ -519,11 +536,12 @@ def subir_espejo(territorio: str, salida: Path, aws=_aws, ruta_decl: Path = DECL
             if r.returncode != 0:
                 raise ErrorEspejo("ESPEJO_R2", f"no se pudo leer {clave_m}")
             remoto = json.loads((Path(td) / "m.json").read_text(encoding="utf-8"))
-        if _piezas_clave(remoto) != _piezas_clave(m):
+        if _piezas_clave(remoto) != _piezas_clave(m_r2):
             raise ErrorEspejo("ESPEJO_MANIFIESTO_DISTINTO", f"{clave_m} ya existe con otras piezas")
         estado[clave_m] = "ya_estaba"
-    resultado = {"territorio": territorio, "estado": estado,
-                 "piezas": [{"clave": p["clave"], "sha256": p["sha256"], "bytes": p["bytes"], "r2": estado[p["clave"]]} for p in m["piezas"]]}
+    resultado = {"territorio": territorio, "estado": estado, "subido": True,
+                 "piezas": [{"clave": p["clave"], "sha256": p["sha256"], "bytes": p["bytes"], "r2": estado[p["clave"]]} for p in originales]
+                 + no_subidas}
     (salida / "subida.json").write_text(json.dumps(resultado, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return resultado
 
