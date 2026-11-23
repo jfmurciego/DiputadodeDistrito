@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.591
+Versión: 1.0.593
 Fecha: 2026-11-23
-Alcance: T-443 — Árbol nuevo de R2 (1/5): módulo de rutas y lectores con doble ruta
+Alcance: T-440 — Medir la web como un navegador y distinguir el bloqueo del CDN
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-22_t443-r2-arbol-escritores.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.590_registro_20261123.md
+Cambios/motivo: entrada docs/registro/2026-11-23_t440b-medir-web-cdn.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.592_registro_20261123.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.590_registro_20261123.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.593 · [2026-11-23 — T-440 — Medir la web como un navegador y distinguir el bloqueo del CDN](registro/2026-11-23_t440b-medir-web-cdn.md)
+- 1.0.592 · [2026-11-22 — T-443 — Árbol nuevo de R2 (2/5): índices con clave anterior y lectores por índice con respaldo](registro/2026-11-22_t443-r2-indices.md)
 - 1.0.591 · [2026-11-22 — T-443 — Árbol nuevo de R2 (1/5): módulo de rutas y lectores con doble ruta](registro/2026-11-22_t443-r2-arbol-escritores.md)
 - 1.0.590 · [2026-11-22 — T-430 — Paso 2 de la web en R2: P40 sube también la web (sin datos) al bucket del sitio](registro/2026-11-22_t430d-p40-sitio-r2.md)
 - 1.0.589 · [2026-11-20 — T-424 — Diseño de «Datos» y «Fuentes» para la V4 (solo documento)](registro/2026-11-20_t424-datos-fuentes-diseno.md)
