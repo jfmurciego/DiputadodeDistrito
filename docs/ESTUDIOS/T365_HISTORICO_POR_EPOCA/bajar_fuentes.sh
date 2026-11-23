@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.1.0 · FECHA: 2026-11-23 · ESTADO: candidato
-# ANTERIOR: legacy/bajar_fuentes_t365_v1.0.0_20261123.sh
-# CAMBIOS: 1.1.0: T-448 (D-185/D-197): en 2011-11 baja también 1mun00.csv (total municipal del Censo 2011, para
+# VERSIÓN: 1.2.0 · FECHA: 2026-11-23 · ESTADO: candidato
+# ANTERIOR: legacy/bajar_fuentes_t365_v1.1.0_20261123.sh
+# CAMBIOS: 1.2.0: T-448 (D-202): 1mun00.csv se baja primero de R2 (herramientas/fuente_r2.py, clave e índice de
+#   orchestracion/fuentes_r2.json) en vez de la Release; sin objeto o sin credenciales (rc 3), del INE; huella igual.
+#   1.1.0: T-448 (D-185/D-197): en 2011-11 baja también 1mun00.csv (total municipal del Censo 2011, para
 #   `contrato --total-municipal`): primero de la release espejo declarada en
 #   configuracion/historico_epoca/total_municipal_censo_2011.json (`espejo`), si existe; si no, del INE; sha256 y bytes
 #   contra esa declaración (falla cerrado).
@@ -40,15 +42,13 @@ if [[ "$E" == "2011-11" ]]; then
   tm() { python3 -c "import json,sys;d=json.load(open(sys.argv[1]));print(eval(sys.argv[2]))" "$TM" "$1"; }
   F1="$D/$(tm "d['fuente']['fichero']")"; SHA1="$(tm "d['fuente']['sha256']")"; B1="$(tm "d['fuente']['bytes']")"
   if ! [[ -f "$F1" && "$(sha256sum "$F1" | cut -d' ' -f1)" == "$SHA1" ]]; then
-    REPO="${GITHUB_REPOSITORY:-jfmurciego/diputadodedistrito}"
-    AID=$(gh api "repos/$REPO/releases/tags/$(tm "d['espejo']['release_tag']")" \
-          --jq ".assets[] | select(.name==\"$(tm "d['espejo']['asset']")\") | .id" 2>/dev/null || true)
-    if [[ -n "$AID" ]]; then
-      gh api "repos/$REPO/releases/assets/$AID" -H "Accept: application/octet-stream" > "$F1"
-      got=$(sha256sum "$F1" | cut -d' ' -f1); [[ "$got" == "$SHA1" ]] || { echo "ERROR sha256 espejo $F1: $got" >&2; exit 1; }
-      echo "OK $F1 (release espejo)"
-    else
+    rc=0; python3 -I "$RAIZ/herramientas/fuente_r2.py" bajar "$(tm "d['fuente']['fichero']")" "$F1" || rc=$?
+    if [[ "$rc" == 0 ]]; then
+      echo "OK $F1 (R2 $(tm "d['espejo']['clave']"))"
+    elif [[ "$rc" == 3 ]]; then
       bajar "$(tm "d['fuente']['url']")" "$F1" "$SHA1"
+    else
+      echo "ERROR R2 $F1 (rc $rc)" >&2; exit 1
     fi
   else
     echo "ya está: $F1"

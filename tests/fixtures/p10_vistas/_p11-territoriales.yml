@@ -1,7 +1,10 @@
 # VISTA DERIVADA de .github/workflows/p10-fuentes.yml (tipo P11); no editar: python tests/generar_vistas_p10.py
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de preparación de fuentes
-# VERSIÓN: 1.0.3
+# VERSIÓN: 1.0.4
+# CAMBIOS 1.0.4: T-448 (D-202): con el tipo «Espejo de fuente oficial», `territorio` es la clave de una entrada de configuracion/espejos_fuentes_oficiales.json
+#   (minúsculas, cifras y guiones, p. ej. ine-censo2011-1mun00; la herramienta comprueba que esté declarada), no un código nacNN/autNN. Resto idéntico a la 1.0.3.
+# ANTERIOR (1.0.3): legacy/workflows/p10-fuentes_v1.0.3_20261123.yml
 # CAMBIOS 1.0.3: T-449 (D-183, D-188), sobre la 1.0.2 de main (#888): opción de `tipo` «Espejo de fuente oficial» (solo botón) y job aislado `p13_espejo`:
 #   con `territorio` = una entrada de configuracion/espejos_fuentes_oficiales.json (hoy aut08), baja desde el runner la fuente oficial (datos.gob.es; la nube
 #   no llega), mide sha256/bytes y la sube en solo lectura a R2 en fuentes/<organismo>/<año>/ con manifiesto.json (herramientas/espejo_fuente_oficial.py;

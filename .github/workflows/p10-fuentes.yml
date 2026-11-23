@@ -1,6 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de preparación de fuentes
-# VERSIÓN: 1.0.3
+# VERSIÓN: 1.0.4
+# CAMBIOS 1.0.4: T-448 (D-202): con el tipo «Espejo de fuente oficial», `territorio` es la clave de una entrada de configuracion/espejos_fuentes_oficiales.json
+#   (minúsculas, cifras y guiones, p. ej. ine-censo2011-1mun00; la herramienta comprueba que esté declarada), no un código nacNN/autNN. Resto idéntico a la 1.0.3.
+# ANTERIOR (1.0.3): legacy/workflows/p10-fuentes_v1.0.3_20261123.yml
 # CAMBIOS 1.0.3: T-449 (D-183, D-188), sobre la 1.0.2 de main (#888): opción de `tipo` «Espejo de fuente oficial» (solo botón) y job aislado `p13_espejo`:
 #   con `territorio` = una entrada de configuracion/espejos_fuentes_oficiales.json (hoy aut08), baja desde el runner la fuente oficial (datos.gob.es; la nube
 #   no llega), mide sha256/bytes y la sube en solo lectura a R2 en fuentes/<organismo>/<año>/ con manifiesto.json (herramientas/espejo_fuente_oficial.py;
@@ -133,7 +136,12 @@ jobs:
           if [[ "$TIPO" == *territoriales && "${ELECCION:-vigente}" != vigente ]]; then
             echo "::error::La elección solo se elige en P12 electorales."; exit 2
           fi
-          if [[ -z "$TERRITORIO_LLAMADA" ]]; then
+          if [[ "$TIPO" == "Espejo de fuente oficial" ]]; then
+            # Espejo (T-448): una clave de configuracion/espejos_fuentes_oficiales.json; la herramienta comprueba que esté declarada.
+            [[ "$TERRITORIO" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]] || {
+              echo "::error::Espejo inválido: «$TERRITORIO» (una clave de configuracion/espejos_fuentes_oficiales.json, p. ej. ine-censo2011-1mun00)."; exit 2
+            }
+          elif [[ -z "$TERRITORIO_LLAMADA" ]]; then
             # Botón: un solo código.
             [[ "$TERRITORIO" =~ ^(nac|aut)[0-9]{2}(-350)?(_h[0-9]{4}_[0-9]{2})?$ ]] || {
               echo "::error::Código de territorio inválido: «$TERRITORIO» (un solo código, p. ej. aut13, nac28 o nac22_h2019_11)."; exit 2
