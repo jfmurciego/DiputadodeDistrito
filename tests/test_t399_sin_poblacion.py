@@ -5,7 +5,7 @@ PROYECTO: Diputado de Distrito
 VERSIÓN: 1.3.0 · FECHA: 2026-11-23 · ESTADO: candidato
 ANTERIOR: legacy/tests/test_t399_sin_poblacion_v1.2.0_20261123.py
 CAMBIOS: 1.3.0: T-448 (D-200): Barcelona (08) LISTA: 0804703001 recibe los 270 hab. del Censo de 0804702003 (contenida al 100 %); Las Palmas (35):
-  3501603042 recibe los 730 de 3501602060 en lugar del relleno (1.681). 1.2.0: T-448 (D-197): Ceuta (51, un diputado) exenta del 1 % y LISTA; clase ExencionRelleno con controles negativos. 1.1.0: T-400 (D-185): total municipal del Censo 2011: residuo para la única sección sin dato de un municipio (36059: 0) y 36 pasa a LISTA. 1.0.0: fichero nuevo.
+  3501603042 recibe los 730 de 3501602060 en lugar del relleno (1.681); D-201 (b): sin ajuste al total municipal, declarado (67 y 951). 1.2.0: T-448 (D-197): Ceuta (51, un diputado) exenta del 1 % y LISTA; clase ExencionRelleno con controles negativos. 1.1.0: T-400 (D-185): total municipal del Censo 2011: residuo para la única sección sin dato de un municipio (36059: 0) y 36 pasa a LISTA. 1.0.0: fichero nuevo.
 MOTIVO: T-399 (D-158 B'). Atlas, tabla y seccionado sintéticos (valores esperados escritos a mano, no recalculados); sin red.
 """
 from __future__ import annotations
@@ -439,6 +439,22 @@ class SucesoraSinFila(unittest.TestCase):
                 self.assertNotIn(suc, [m["seccion"] for x in sp.get("repartidas", []) for m in x["miembros"]])  # ni es hija
         self.assertEqual(c["provincias"]["08"]["poblacion"]["secciones_sin_dato"], [])
         self.assertEqual(c["provincias"]["08"]["poblacion"]["total"], 5487390 + 270)  # 1.5.0 + la sección del Censo
+
+    def test_d201_sin_cuadre_municipal_declarado(self):
+        # totales de 1mun00 (sha256 ad95479c…): Cardona 5.057, Las Palmas de Gran Canaria 381.271; secciones del Censo: 4.990 y 380.320
+        c = json.loads(che.ruta_contrato("2011-11").read_text(encoding="utf-8"))
+        got = {cpro: [(x["municipio"], x["total_municipal_censo"], x["suma_secciones"], x["diferencia"], x["decision"])
+                      for x in p["poblacion"].get("sin_cuadre_municipal", [])] for cpro, p in c["provincias"].items()}
+        self.assertEqual({k: v for k, v in got.items() if v},
+                         {"08": [("08047", 5057, 4990, 67, "D-201 (b)")], "35": [("35016", 381271, 380320, 951, "D-201 (b)")]})
+
+    def test_cuadre_sucesoras_sin_fila(self):
+        final = {"0804701001": {"poblacion": 100}, "0804703001": {"poblacion": 20}, "0804801001": {"poblacion": 50}}
+        asig = [{"sucesora": "0804703001", "sucesora_sin_fila": True}, {"sucesora": "0804801001"}]
+        self.assertEqual([(x["municipio"], x["diferencia"]) for x in che.cuadre_sucesoras_sin_fila(final, asig, {"08047": 125, "08048": 60})],
+                         [("08047", 5)])  # 08048 no tiene sucesora sin fila: no se declara
+        self.assertEqual(che.cuadre_sucesoras_sin_fila(final, asig, {"08047": 120}), [])  # cuadra
+        self.assertEqual(che.cuadre_sucesoras_sin_fila(final, asig, {}), [])  # sin total municipal
 
 
 class ExencionRelleno(unittest.TestCase):

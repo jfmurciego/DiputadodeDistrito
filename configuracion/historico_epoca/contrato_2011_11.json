@@ -793,7 +793,17 @@
      "habitantes_atlas": 0,
      "habitantes_rellenados": 0,
      "cuadre_municipal": []
-    }
+    },
+    "sin_cuadre_municipal": [
+     {
+      "municipio": "08047",
+      "total_municipal_censo": 5057,
+      "suma_secciones": 4990,
+      "diferencia": 67,
+      "decision": "D-201 (b)",
+      "motivo": "la sucesora sin fila recibe el dato del Censo por secciones (D-200) sin ajuste al total municipal"
+     }
+    ]
    },
    "estado": "LISTA"
   },
@@ -2984,7 +2994,17 @@
        "exceso_sobre_censo": 0
       }
      ]
-    }
+    },
+    "sin_cuadre_municipal": [
+     {
+      "municipio": "35016",
+      "total_municipal_censo": 381271,
+      "suma_secciones": 380320,
+      "diferencia": 951,
+      "decision": "D-201 (b)",
+      "motivo": "la sucesora sin fila recibe el dato del Censo por secciones (D-200) sin ajuste al total municipal"
+     }
+    ]
    },
    "estado": "LISTA"
   },
