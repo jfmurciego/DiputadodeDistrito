@@ -1,5 +1,9 @@
 <#
-PROYECTO: Diputado de Distrito - T-356 - VERSION 1.0.0 - 2026-11-15 - ANTERIOR: ninguna (fichero nuevo)
+PROYECTO: Diputado de Distrito - T-356 - VERSION 1.1.0 - 2026-11-23 - ANTERIOR: legacy/herramientas/espejo_ine_observatorio_r2_v1.0.0_20261123.ps1
+CAMBIOS 1.1.0 (T-443, D-188): una pieza SIN clave en el indice se sube al arbol nuevo de R2, sin sha12 en el nombre:
+fuentes/ine/<ano>/<nombre> (ano del nombre o del campo anio de la ficha; sin ano, falla la pieza) y fuentes/gobierno-vasco/<ruta>.
+Una pieza CON clave en el indice sigue usando esa clave (lo ya subido no se mueve: lo copia la regeneracion posterior al 29-11).
+D-198: fuentes inmutables en el arbol nuevo: una clave fuentes/... que ya existe con otro sha256 o bytes falla la pieza (no se resube).
 Baja los 17 seccionados del INE (2010-2026), la tabla INE 30832 y el Censo 2011 por seccion (grupo padron, 2 piezas; D-126) y las 625 piezas del Observatorio Electoral de las Naciones, verifica el sha256 del
 indice orchestracion/fuentes_r2.json (donde exista; donde no, lo mide y lo registra), las sube a R2 (ARC-E) en
 arc-e/fuentes/ine/seccionado_<ano>_<sha12>.zip y arc-e/fuentes/nazioenbehatokia/<ruta>_<sha12>.json y escribe el JSON de resultado
@@ -253,11 +257,14 @@ foreach ($p in $piezas) {
             $meta = [pscustomobject]@{ sha256 = $sha; bytes = $bytes; http = $http; descargado_en = (Get-Date -Format 'yyyy-MM-dd'); verificado = $(if ($f.sha256) { 'indice' } else { 'registrado' }); subido = $false }
             Escribir-Sin-Bom $ok ($meta | ConvertTo-Json)
         }
-        # 3. clave con sha12 en el nombre
+        # 3. clave: la del indice; si no hay, la del arbol nuevo (T-443, D-188), sin sha12 (el sha256 va en el indice)
         $clave = $f.clave
         if (-not $clave) {
-            if ($p.tipo -eq 'ine') { $clave = "arc-e/fuentes/ine/$($p.nombre -replace '\.zip$', '')_$($meta.sha256.Substring(0, 12)).zip" }
-            else { $r0 = $p.nombre -replace '^nazioenbehatokia/', ''; $clave = "arc-e/fuentes/nazioenbehatokia/$($r0 -replace '\.json$', '')_$($meta.sha256.Substring(0, 12)).json" }
+            if ($p.tipo -eq 'ine') {
+                $anio = if ($p.nombre -match '(19|20)\d\d') { $Matches[0] } elseif ($f.anio) { [string]$f.anio } else { throw "sin ano en el nombre ni campo anio en el indice" }
+                $clave = "fuentes/ine/$anio/$($p.nombre)"
+            }
+            else { $r0 = $p.nombre -replace '^nazioenbehatokia/', ''; $clave = "fuentes/gobierno-vasco/$r0" }
         }
         # 4. subir (si no esta ya con el mismo sha256)
         $subido = $false
@@ -265,6 +272,7 @@ foreach ($p in $piezas) {
         if (-not $SoloBajar) {
             $e1 = if ($cacheR2 -and $cacheR2.ContainsKey($clave)) { $cacheR2[$clave] } else { Estado-R2 $clave $meta.sha256 $meta.bytes }
             if ($e1 -eq 'igual') { $subido = $true; $estadoPieza = 'saltado'; $saltados++ }
+            elseif ($e1 -eq 'distinto' -and $clave.StartsWith('fuentes/')) { throw "fuentes inmutables (D-198): $clave ya existe en R2 con otro sha256 o bytes" }
             else {
                 $cp = Invocar-Aws @('s3', 'cp', $ruta, "s3://$($env:R2_BUCKET)/$clave", '--endpoint-url', $endpoint, '--metadata', "sha256=$($meta.sha256)", '--only-show-errors')
                 if ($cp.Codigo -ne 0) { throw "la subida a R2 fallo (codigo $($cp.Codigo)): $($cp.Salida)" }

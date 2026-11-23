@@ -19,19 +19,24 @@ CRUCE = ROOT / "docs" / "ESTUDIOS" / "T435_ESTRUCTURA_R2" / "CRUCE_claves.csv"
 
 
 class Arbol(unittest.TestCase):
+    def test_paquete_p10_por_edicion(self):
+        self.assertEqual(r.ruta_paquete_p10("nac47", "2025"), "fuentes/por-territorio/nacionales/valladolid/2025/paquete.zip")
+        with self.assertRaises(r.RutaInvalida):
+            r.ruta_paquete_p10("nac47", "")
+
     def test_paquete_p10_por_ambito(self):
-        self.assertEqual(r.ruta_paquete_p10("nac47"), "fuentes/por-territorio/nacionales/valladolid/paquete.zip")
-        self.assertEqual(r.ruta_paquete_p10(ti.id_legacy("nac47")), "fuentes/por-territorio/nacionales/valladolid/paquete.zip")
-        self.assertEqual(r.ruta_paquete_p10("aut13"), "fuentes/por-territorio/autonomicas/comunidad-de-madrid/paquete.zip")
-        self.assertEqual(r.ruta_paquete_p10("nac28"), "fuentes/por-territorio/nacionales/madrid/paquete.zip")
-        self.assertEqual(r.ruta_paquete_p10("aut03"), "fuentes/por-territorio/autonomicas/principado-de-asturias/paquete.zip")
-        self.assertEqual(r.ruta_paquete_p10("congreso350_valladolid"), "interno/competicion/valladolid/paquete.zip")
+        self.assertEqual(r.ruta_paquete_p10("nac47", "2025"), "fuentes/por-territorio/nacionales/valladolid/2025/paquete.zip")
+        self.assertEqual(r.ruta_paquete_p10(ti.id_legacy("nac47"), "2025"), "fuentes/por-territorio/nacionales/valladolid/2025/paquete.zip")
+        self.assertEqual(r.ruta_paquete_p10("aut13", "2025"), "fuentes/por-territorio/autonomicas/comunidad-de-madrid/2025/paquete.zip")
+        self.assertEqual(r.ruta_paquete_p10("nac28", "2025"), "fuentes/por-territorio/nacionales/madrid/2025/paquete.zip")
+        self.assertEqual(r.ruta_paquete_p10("aut03", "2025"), "fuentes/por-territorio/autonomicas/principado-de-asturias/2025/paquete.zip")
+        self.assertEqual(r.ruta_paquete_p10("congreso350_valladolid", "2025"), "interno/competicion/valladolid/2025/paquete.zip")
 
     def test_nombres_en_espanol_sin_tildes(self):
-        self.assertEqual(r.ruta_paquete_p10("nac15"), "fuentes/por-territorio/nacionales/la-coruna/paquete.zip")
-        self.assertEqual(r.ruta_paquete_p10("nac38"), "fuentes/por-territorio/nacionales/santa-cruz-de-tenerife/paquete.zip")
-        self.assertEqual(r.ruta_paquete_p10("nac48"), "fuentes/por-territorio/nacionales/vizcaya/paquete.zip")
-        self.assertEqual(r.ruta_paquete_p10("aut08"), "fuentes/por-territorio/autonomicas/castilla-la-mancha/paquete.zip")
+        self.assertEqual(r.ruta_paquete_p10("nac15", "2025"), "fuentes/por-territorio/nacionales/la-coruna/2025/paquete.zip")
+        self.assertEqual(r.ruta_paquete_p10("nac38", "2025"), "fuentes/por-territorio/nacionales/santa-cruz-de-tenerife/2025/paquete.zip")
+        self.assertEqual(r.ruta_paquete_p10("nac48", "2025"), "fuentes/por-territorio/nacionales/vizcaya/2025/paquete.zip")
+        self.assertEqual(r.ruta_paquete_p10("aut08", "2025"), "fuentes/por-territorio/autonomicas/castilla-la-mancha/2025/paquete.zip")
 
     def test_toponimos_solo_en_espanol(self):
         """Topónimos de la tabla maestra en español, nunca en otras lenguas (regla del propietario, CLAUDE.md)."""
@@ -59,13 +64,23 @@ class Arbol(unittest.TestCase):
             r.ruta_mapa("nac01", "otro.zip")
 
     def test_estados_sin_run(self):
-        self.assertEqual(r.ruta_estado("nac01", "ddd-audit-43750441261"), "interno/estados/nacionales/alava/audit.zip")
-        self.assertEqual(r.ruta_estado("aut01", "ddd-audit-electoral-43728682179"), "interno/estados/autonomicas/andalucia/audit-electoral.zip")
-        self.assertEqual(r.ruta_estado("nac01", "ddd-minimo-43750441261-M08"), "interno/estados/nacionales/alava/minimo-m08.zip")
-        self.assertEqual(r.ruta_estado("nac01", "ddd-state-43750441261-M06"), "interno/estados/nacionales/alava/minimo-m06.zip")
-        self.assertEqual(r.ruta_estado("congreso350_soria", "ddd-audit-42601453125"), "interno/competicion/soria/audit.zip")
+        self.assertEqual(r.ruta_estado("nac01", "ddd-audit-43750441261"), "interno/estados/nacionales/alava/ultimo/audit.zip")
+        self.assertEqual(r.ruta_estado("aut01", "ddd-audit-electoral-43728682179"), "interno/estados/autonomicas/andalucia/ultimo/audit-electoral.zip")
+        self.assertEqual(r.ruta_estado("nac01", "ddd-minimo-43750441261-M08"), "interno/estados/nacionales/alava/ultimo/minimo-m08.zip")
+        self.assertEqual(r.ruta_estado("nac01", "ddd-state-43750441261-M06"), "interno/estados/nacionales/alava/ultimo/minimo-m06.zip")
+        self.assertEqual(r.ruta_estado("congreso350_soria", "ddd-audit-42601453125"), "interno/competicion/soria/ultimo/audit.zip")
         with self.assertRaises(r.RutaInvalida):
             r.ruta_estado("nac01", "ddd-full-run-manifest-1")
+        self.assertEqual(r.ruta_estado("nac01", "ddd-minimo-1-M08", "publicado"), "interno/estados/nacionales/alava/publicado/minimo-m08.zip")
+        with self.assertRaises(r.RutaInvalida):
+            r.ruta_estado("nac01", "ddd-minimo-1-M08", "otro")
+
+    def test_doble_vuelta_de_trabajo_en_interno(self):  # D-198: mapas/ solo lo escribe la publicación
+        self.assertEqual(r.ruta_doble_vuelta("nac01", "2023-07"), "interno/doble-vuelta/nacionales/congreso-2023/alava/doble-vuelta.zip")
+        self.assertEqual(r.ruta_doble_vuelta("aut01"), "interno/doble-vuelta/autonomicas/andalucia-2026/doble-vuelta.zip")
+        self.assertEqual(r.ruta_informe_doble_vuelta_interno("nac", "2023-07"),
+                         "interno/doble-vuelta/nacionales/congreso-2023/informe-doble-vuelta.json")
+        self.assertEqual(r.ruta_informe_doble_vuelta_interno("aut"), "interno/doble-vuelta/autonomicas/informe-doble-vuelta.json")
 
     def test_fuentes_sin_sha12(self):
         self.assertEqual(r.ruta_fuente("interior", "2023", "02202307_MESA_e78fc231326a.zip"), "fuentes/interior/2023/02202307_MESA.zip")

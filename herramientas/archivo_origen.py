@@ -3,9 +3,9 @@
 """Archivo en origen: el propio run guarda en R2 su M06/M08 y en git la composición y los votos por partido (T-72).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.5
+VERSIÓN: 1.0.6
 NOMBRE DE VERSIÓN: Archivo en origen
-FECHA: 2026-11-12
+FECHA: 2026-11-23
 ESTADO: candidato
 CAMBIOS: 1.0.4 (T-119): si el run archivado es el del M06 vigente (orchestracion/publicaciones_visor.json) y no existe
   datos/composicion/<territorio>.csv (o es de otro run), composicion lo promueve también a canónico con su entrada en
@@ -21,8 +21,11 @@ CAMBIOS: 1.0.4 (T-119): si el run archivado es el del M06 vigente (orchestracion
   M06 y M08; antes solo veían *.geojson sueltos).
   1.0.1 (T-72b): r2 sube el paquete mínimo y no el ZIP de estado (R2 total ≤ 8 GB); --extra; --sustituye-m06-run (el M08 acumulativo retira su M06 de R2) y el check acepta el M08
   que contiene el M06 publicado.
+CAMBIOS 1.0.6 (T-443, D-198): `r2` archiva con el árbol nuevo del archivista 1.2.0 (huecos `publicado/` y `ultimo/`, guarda por el metadato
+  `run` de R2) y localiza su entrada por el id del artefacto, no por la clave (fija por territorio): si un run mayor ya está en `ultimo/` y este
+  no es el publicado, falla con ARCHIVO_R2_SUPERADO en vez de devolver la entrada de otro run.
 CAMBIOS 1.0.5 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/archivo_origen_v1.0.4_20261112.py
+ANTERIOR: legacy/herramientas/archivo_origen_v1.0.5_20261123.py
 QUÉ HACE: cinco subcomandos (r2, composicion, canonica, partidos, comprobar).
   r2          sube a R2 el paquete mínimo (``ddd-minimo-<run>-M06``/M08: GeoJSON distritales, CSV/JSON de M06-M08,
               VALIDACION, manifiestos y ``--extra``; herramientas/archivar_artefactos_r2.empaquetar_minimo) del
@@ -86,18 +89,20 @@ def _escribir(ruta: Path, datos: dict) -> None:
 # --- r2 --------------------------------------------------------------------------------------------
 
 def archivar_uno(artefacto: dict, territorio: str, root: Path, descargar, r2_sha, r2_subir, bucket: str,
-                 empaquetar=None) -> dict:
+                 empaquetar=None, r2_cab=None) -> dict:
     """Archiva un artefacto concreto con el núcleo del archivista (con ``empaquetar``, su paquete mínimo);
     ValueError si no queda en R2."""
     man = ar.cargar_manifiesto(root / ar.MANIFIESTO)
     res = ar.archivar([artefacto], {artefacto["name"]: territorio}, {}, man, descargar, r2_sha, r2_subir, bucket,
-                      empaquetar=empaquetar)
+                      empaquetar=empaquetar, publicado=ar.publicados(root), r2_cab=r2_cab)
     if res["errores"]:
         raise ValueError("; ".join(res["errores"]))
-    k = ar.clave({**artefacto, "territorio": ar._slug(territorio), "run": str(artefacto["workflow_run"]["id"])},
-                 empaquetar is not None and artefacto["name"].startswith("ddd-state-"))
-    if k not in man["artefactos"]:
-        raise ValueError(f"{artefacto['name']}: no quedó anotado en el manifiesto")
+    suyas = sorted((k for k, e in man["artefactos"].items() if str(e.get("artifact_id")) == str(artefacto["id"])),
+                   key=lambda k: "/publicado/" in k)  # ultimo/ (o la clave vieja) primero
+    if not suyas:
+        motivo = "ARCHIVO_R2_SUPERADO: R2 ya tiene un run mayor y este no es el publicado" if res.get("superados") else "no quedó anotado en el manifiesto"
+        raise ValueError(f"{artefacto['name']}: {motivo}")
+    k = suyas[0]
     ar.guardar_manifiesto(root / ar.MANIFIESTO, man)
     return man["artefactos"][k]
 
@@ -150,7 +155,7 @@ def cmd_r2(a) -> int:
         art = {**cand[0], "workflow_run": {"id": int(a.run_id)}}
         sha, subir = ar.r2_cliente(bucket, cuenta)
         e = archivar_uno(art, a.territorio, root, ar.descargar_gh(repo, token), sha, subir, bucket,
-                         empaquetar=ar.empaquetar_minimo(tuple(a.extra)))
+                         empaquetar=ar.empaquetar_minimo(tuple(a.extra)), r2_cab=ar.r2_cabecera(bucket, cuenta))
     except Exception as exc:  # noqa: BLE001 - el paso debe fallar con mensaje claro
         print(f"::error title=ARCHIVO_R2_FAILED::{a.artefacto}: {exc}")
         return 1

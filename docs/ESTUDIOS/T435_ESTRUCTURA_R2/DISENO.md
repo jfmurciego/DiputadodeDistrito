@@ -1,8 +1,8 @@
 # T-435 — Estructura clara de R2 (diseño; D-188)
 
-VERSIÓN: 1.1.0 · FECHA: 2026-11-22 · ESTADO: aprobado (propietario, 20-11: «sí» a las tres preguntas, vía Planificador) · ANTERIOR: legacy/docs/ESTUDIOS/T435_ESTRUCTURA_R2/DISENO_v1.0.0.md
+VERSIÓN: 1.2.0 · FECHA: 2026-11-23 · ESTADO: aprobado (propietario, 20-11: «sí» a las tres preguntas, vía Planificador) · ANTERIOR: legacy/docs/ESTUDIOS/T435_ESTRUCTURA_R2/DISENO_v1.1.0.md
 
-CAMBIOS 1.1.0 (T-443): §e, precisiones de la implementación (módulo `herramientas/rutas_r2.py`).
+CAMBIOS 1.2.0 (T-443): §f, D-198 (quién escribe cada rama y «vigente = publicado + último» en `interno/`). 1.1.0: §e, precisiones de la implementación (módulo `herramientas/rutas_r2.py`).
 
 Solo diseño: no se mueve ni se borra nada. Parte de lo aprobado el 20-11 (carpetas en español sin códigos ni runs; solo la versión
 vigente; regeneración posterior al 29-11 ya en la estructura nueva y borrado de lo viejo junto con D-178). Fuente de lo actual:
@@ -105,3 +105,14 @@ Criterio técnico del Coordinador (22-11), coherente con lo aprobado; el módulo
 - **Gobierno Vasco**: conserva la ruta original bajo `fuentes/gobierno-vasco/` (`data/<época>/…`) sin sha12, como el cruce.
 - **Almacén M06** (`interno/almacen-m06/`): excepción de nombre (conserva el asset del release, con su run) hasta que la regeneración lo sustituya.
 - **Transición**: los lectores que componen la clave prueban la nueva y, si falta, la vieja (`rutas_r2.candidatas`); los que la toman de un índice (`archivo_r2.json`, `fuentes_r2.json`, `almacen_m06_r2.json`, `doble_vuelta_publicada.json`) leen la clave que el índice anota, vieja o nueva. Los `r2_clave` de los contratos históricos no se reescriben hasta la regeneración (su huella, §d).
+
+## f) D-198 (propietario, 23-11, «sí a todo»): quién escribe cada rama
+
+Tras la revisión de #988 (sobrescribir lo publicado o certificado). Matiza D-188 en `interno/`: la vigente es **publicado + último**.
+
+- **`mapas/` solo lo escribe la publicación**: P40 promueve lo fijado en el repositorio tras verificar su sha256, y el fijado pasa a la clave de `mapas/`. Ningún cálculo (P75, archivista) escribe en `mapas/`.
+- **`interno/` con dos huecos por territorio**: `interno/estados/<ámbito>/<territorio>/publicado/` (el run de `orchestracion/publicaciones_visor.json`; solo cambia al publicar otro) y `…/ultimo/` (el más reciente). Restaurar y P75 buscan el run en los dos.
+- **Guarda en R2, no en el índice**: cada objeto sube con metadatos `sha256` y `run`; antes de subir se lee con `head-object` y nunca se pisa un run mayor. El `manifiesto.json` de la carpeta se rehace con las cabeceras de R2.
+- **P75** escribe en `interno/doble-vuelta/<lo mismo que su carpeta de mapas>/doble-vuelta.zip` y su informe (`interno/doble-vuelta/…/informe-doble-vuelta.json`) **se fusiona por territorio**: una ejecución parcial solo cambia sus filas OK; un fallo no sustituye a una fila OK; con otros bloques o alias, el informe empieza de nuevo. P70 serializa sus jobs (`concurrency: archivar-artefactos-r2`).
+- **`fuentes/` inmutable**: si la clave ya existe con otro sha256, falla (espejos Galicia e INE/Observatorio).
+- **Paquete P10 inmutable por edición del contrato** (Planificador, 23-11, dentro de D-198): `fuentes/por-territorio/<ámbito>/<territorio>/<edición>/paquete.zip` (edición = año del contrato); si cambia dentro de la misma edición, falla (`BATERIA_PAQUETE_P10_EDICION_CAMBIADA`) y obliga a abrir edición nueva; el sha256 y el package_sha256 van en el manifiesto, no en la ruta. Se conservan las ediciones que cita algún contrato vigente o histórico de `configuracion/`; el resto se borra con D-178/D-190. Lector: la edición del contrato primero y `arc-e/paquetes-p10/<package_sha256>.zip` de respaldo. **`arc-e/paquetes-p10/` no se borra hasta que exista la copia por edición de cada paquete citado, comprobada por sha256** (lo exige `podar_r2.py`, PR 5/5).

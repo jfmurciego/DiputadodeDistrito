@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """T-432: `listar_r2.py --inventario` (bucket simulado vía `aws`) y P74 Listar; el resto de P70 no cambia (control contra la copia 1.1.3)."""
 import copy
+
+from tests import _t443
 import csv
 import hashlib
 import io
@@ -93,7 +95,9 @@ class P74Inventario(unittest.TestCase):
         self.assertEqual(a.get("permissions"), self.w.get("permissions"))
         self.assertEqual(set(a["jobs"]), set(self.w["jobs"]))
         for n in a["jobs"]:
-            if n != "listar":
+            if n == "doble_vuelta_r2":  # T-443 (p70 1.1.7): solo cambia cómo el resumen compone INFORME_CLAVE
+                self.assertEqual(a["jobs"][n], _t443.deshacer_job(self.w["jobs"][n]), n)
+            elif n != "listar":
                 self.assertEqual(a["jobs"][n], self.w["jobs"][n], n)
         la = a["jobs"]["listar"]
         self.assertEqual({k: v for k, v in la.items() if k != "steps"}, {k: v for k, v in self.j.items() if k != "steps"})

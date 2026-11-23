@@ -1,6 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: p70-archivo.yml
-# VERSIÓN: 1.1.6
+# VERSIÓN: 1.1.7
+# CAMBIOS 1.1.7: T-443 (D-198): P75 escribe en `interno/doble-vuelta/` (herramientas/p75_doble_vuelta_r2.py 1.2.0, informe fusionado por territorio); el resumen
+#   del job imprime `INFORME_CLAVE` con `clave_informe` de P75 (la clave que de verdad sube), no la compone. El resto, idéntico.
+# ANTERIOR (1.1.6): legacy/workflows/p70-archivo_v1.1.6_20261123.yml
 # CAMBIOS 1.1.6: T-379 PR 2a (D-147, opción a; D-162, opción A), puesta al día sobre main el 23-11: todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara un entorno limitado a main (`registro`, sin revisores; P40 `publicar` sigue en `github-pages` y P70 `podar` en `produccion`): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
 # ANTERIOR (1.1.5): legacy/workflows/p70-archivo_v1.1.5_20261123.yml
 # CAMBIOS 1.1.5: T-437: P74 Listar imprime el inventario (`salida_p74/inventario_r2.csv`) en el log, dentro de un grupo `::group::`, con un paso nuevo tras «Conservar el inventario de R2» (se lee con `gh api repos/<r>/actions/jobs/<id>/logs`, porque el artefacto no se descarga desde la nube). El resto, idéntico.
@@ -1084,9 +1087,11 @@ jobs:
           if [[ -s salida_p75/INFORME.json ]]; then
             python3 - salida_p75/INFORME.json >> "$GITHUB_STEP_SUMMARY" <<'PY'
           import hashlib,json,sys
+          sys.path.insert(0,"herramientas")
+          from p75_doble_vuelta_r2 import clave_informe
           r=json.load(open(sys.argv[1]))
           print(f"### P75 · doble vuelta desde R2 · {r['eleccion']} · {r['ok']}/{r['total']} OK\n")
-          print(f"`INFORME_CLAVE=doble_vuelta/{r['eleccion']}/{r['run_p75']}/INFORME.json`  \n`INFORME_SHA256={hashlib.sha256(open(sys.argv[1],'rb').read()).hexdigest()}`\n")
+          print(f"`INFORME_CLAVE={clave_informe(r, r['run_p75'])}`  \n`INFORME_SHA256={hashlib.sha256(open(sys.argv[1],'rb').read()).hexdigest()}`\n")
           print("| Territorio | Run | Estado | CSV M07 | Sin casar % | Sin bloque % |\n|---|---|---|---|---:|---:|")
           for f in r["territorios"]:
               print(f"| {f['territorio']} | {f['run']} | {f['estado']} | {f['trae_m07']} | {f['sin_casar_pct']} | {f['sin_bloque_pct']} |")

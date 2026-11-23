@@ -66,7 +66,7 @@ class Indice(unittest.TestCase):
 class Script(unittest.TestCase):
     def test_requisitos(self):
         for frag in ("-SoloBajar", "[switch]$Forzar", "Read-Host", "exit 1", "PK", "Retry-After", "429", "C:\\ddd",
-                     "arc-e/fuentes/ine/", "arc-e/fuentes/nazioenbehatokia/", "raw.githubusercontent.com", "head-object",
+                     "fuentes/ine/$anio/", "fuentes/gobierno-vasco/", "raw.githubusercontent.com", "head-object",
                      "UTF8Encoding($false)", "descargado_en", "origen_url"):
             self.assertIn(frag, PS1)
 
@@ -234,8 +234,8 @@ class Script(unittest.TestCase):
         self.assertIn("[Math]::Min(512, $n)", PS1)
 
     def test_cabecera_y_sin_ids_viejos(self):
-        self.assertIn("VERSION 1.0.0", PS1.splitlines()[1])
-        self.assertIn("ANTERIOR: ninguna (fichero nuevo)", PS1)
+        self.assertIn("VERSION 1.1.0", PS1.splitlines()[1])  # T-443: árbol nuevo de R2
+        self.assertIn("ANTERIOR: legacy/herramientas/espejo_ine_observatorio_r2_v1.0.0_20261123.ps1", PS1)
         self.assertNotRegex(PS1, r"territorios/(?!aut|nac)[a-z_]+/")
 
 
