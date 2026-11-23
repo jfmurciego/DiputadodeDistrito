@@ -3,9 +3,11 @@
 """Publicador de la doble vuelta de los territorios del Congreso para la V4: baja de R2 el resultado de P75, lo verifica y lo deja en el sitio (T-409/T-418).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-20 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/publicar_doble_vuelta_v1.0.1_20261120.py
-CAMBIOS: 1.1.0 (T-427): los `aut` con su autonómica vigente. El fijado admite `autonomicas` (run_p75, informe_clave, informe_sha256 del P75 de los aut,
+VERSIÓN: 1.2.0 · FECHA: 2026-11-22 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/publicar_doble_vuelta_v1.1.0_20261122.py
+CAMBIOS: 1.2.0 (T-443, D-188): transición al árbol nuevo de R2. El fijado admite `informe_clave_anterior` y cada fila del informe `clave_r2_anterior`
+  (ruta vieja): se prueba solo si falta el objeto de la clave principal; sha256 distinto sigue rechazando. Sin ellos, todo igual que en 1.1.0.
+  1.1.0 (T-427): los `aut` con su autonómica vigente. El fijado admite `autonomicas` (run_p75, informe_clave, informe_sha256 del P75 de los aut,
   `doble_vuelta/autonomicas/<run>/INFORME.json`); sin él, todo igual que en 1.0.1. Con él: informe con su sha256 y `eleccion = autonomicas`; cada fila
   `autNN` una vez; OK (ZIP con su sha256, mismas comprobaciones que un nac), o declarada sin doble vuelta (`NO_APLICA`, `SIN_VOTOS_AUTONOMICOS`) con
   su motivo en `sin_doble_vuelta` del INDEX; cualquier otro estado, o ningún OK, rechaza todo (nada se escribe). Las entradas aut llevan `ambito`
@@ -87,13 +89,15 @@ def _leer(datos: bytes, columnas: list[str], nombre: str) -> list[dict]:
     return filas
 
 
-def _bajar(cp, bucket: str, clave: str, esperado: str, codigo: str) -> bytes:
+def _bajar(cp, bucket: str, clave, esperado: str, codigo: str) -> bytes:
+    """`clave`: una clave o la lista de `fuente_r2.claves` (nueva y, de respaldo si falta el objeto, la vieja; T-443)."""
+    lista = [clave] if isinstance(clave, str) else list(clave)
     with tempfile.TemporaryDirectory() as td:
         dest = Path(td) / "objeto"
         try:
-            cp(f"s3://{bucket}/{clave}", str(dest))
+            clave = fuente_r2.cp_primera(cp, bucket, lista, str(dest))
         except Exception as exc:  # noqa: BLE001 - clave ausente o R2 no disponible
-            raise DobleVueltaError(f"CLAVE_AUSENTE: {clave} ({exc})") from exc
+            raise DobleVueltaError(f"CLAVE_AUSENTE: {' ni '.join(lista)} ({exc})") from exc
         datos = dest.read_bytes()
     real = sha256_bytes(datos)
     if real != esperado:
@@ -283,7 +287,7 @@ def publicar_aut(pin: dict, cp, bucket: str, nom: dict) -> tuple[dict[str, bytes
     for k in ("run_p75", "informe_clave", "informe_sha256"):
         if not pin.get(k):
             raise DobleVueltaError(f"FIJADO_INVALIDO: falta autonomicas.{k} en {FIJADO}")
-    inf = json.loads(_bajar(cp, bucket, pin["informe_clave"], pin["informe_sha256"], "INFORME_SHA256_DISTINTO"))
+    inf = json.loads(_bajar(cp, bucket, fuente_r2.claves(pin, "informe_clave"), pin["informe_sha256"], "INFORME_SHA256_DISTINTO"))
     if inf.get("eleccion") != "autonomicas" or str(inf.get("run_p75")) != str(pin["run_p75"]):
         raise DobleVueltaError(f"INFORME_NO_ES_EL_FIJADO: {inf.get('eleccion')}/{inf.get('run_p75')} != autonomicas/{pin['run_p75']}")
     filas = inf.get("territorios") or []
@@ -310,7 +314,7 @@ def publicar_aut(pin: dict, cp, bucket: str, nom: dict) -> tuple[dict[str, bytes
             continue
         if not x.get("clave_r2") or not x.get("sha256_salida") or not x.get("eleccion"):
             raise DobleVueltaError(f"CLAVE_AUSENTE: {t} sin clave_r2/sha256_salida/eleccion en el informe")
-        res, det, k = procesar_territorio(x, _bajar(cp, bucket, x["clave_r2"], x["sha256_salida"], "ZIP_SHA256_DISTINTO"))
+        res, det, k = procesar_territorio(x, _bajar(cp, bucket, fuente_r2.claves(x, "clave_r2"), x["sha256_salida"], "ZIP_SHA256_DISTINTO"))
         ficheros[f"{t}/resultados_doble_vuelta.csv"], ficheros[f"{t}/detalle.csv"] = res, det
         entradas.append({"id": t, "ambito": "AUT", "nombre": nombre, "etiqueta": etiqueta, "clave_visor": _id_visor(t), "eleccion": x["eleccion"],
                          "distritos": k, "run_m08": x["run"], "sin_casar_pct": x.get("sin_casar_pct"),
@@ -330,7 +334,7 @@ def publicar(root: Path, destino: Path, cp=fuente_r2._cp, bucket: str = "", fech
     for k in ("eleccion", "run_p75", "informe_clave", "informe_sha256"):
         if not pin.get(k):
             raise DobleVueltaError(f"FIJADO_INVALIDO: falta {k} en {FIJADO}")
-    inf_bytes = _bajar(cp, bucket, pin["informe_clave"], pin["informe_sha256"], "INFORME_SHA256_DISTINTO")
+    inf_bytes = _bajar(cp, bucket, fuente_r2.claves(pin, "informe_clave"), pin["informe_sha256"], "INFORME_SHA256_DISTINTO")
     inf = json.loads(inf_bytes)
     if inf.get("eleccion") != pin["eleccion"] or str(inf.get("run_p75")) != str(pin["run_p75"]):
         raise DobleVueltaError(f"INFORME_NO_ES_EL_FIJADO: {inf.get('eleccion')}/{inf.get('run_p75')} != {pin['eleccion']}/{pin['run_p75']}")
@@ -365,7 +369,7 @@ def publicar(root: Path, destino: Path, cp=fuente_r2._cp, bucket: str = "", fech
         if not x.get("clave_r2") or not x.get("sha256_salida"):
             raise DobleVueltaError(f"CLAVE_AUSENTE: {t} sin clave_r2/sha256_salida en el informe")
         try:
-            res, det, k = procesar_territorio(x, _bajar(cp, bucket, x["clave_r2"], x["sha256_salida"], "ZIP_SHA256_DISTINTO"))
+            res, det, k = procesar_territorio(x, _bajar(cp, bucket, fuente_r2.claves(x, "clave_r2"), x["sha256_salida"], "ZIP_SHA256_DISTINTO"))
         except DobleVueltaError as exc:
             if str(exc).startswith("ID_FUERA_DE_RANGO"):  # diagnóstico por territorio: se siguen recorriendo los 52 y se informa de todos a la vez
                 fallos_id.append(str(exc))

@@ -3,15 +3,18 @@
 """Fuentes oficiales permanentes en R2 (ARC-E): bajar y subir con verificación de sha256.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0
+VERSIÓN: 1.2.0
 NOMBRE DE VERSIÓN: Fuentes de ARC-E en R2
-FECHA: 2026-11-15
+FECHA: 2026-11-22
 ESTADO: candidato
-CAMBIOS: 1.1.0 (T-354): `traer` (bytes verificados o None) para la 03 de Galicia; una entrada con sha256 null (pendiente del script del propietario) cuenta como
+CAMBIOS: 1.2.0 (T-443, D-188): transición al árbol nuevo de R2. Una entrada de índice puede llevar `clave_anterior` (la ruta vieja) junto a
+  `clave` (la nueva): `bajar` prueba `clave` y, solo si el objeto falta, `clave_anterior`; un sha256 distinto falla cerrado (53) sin probar la
+  otra. `claves()` y `cp_primera()` son el mismo respaldo para los demás lectores por índice. Sin `clave_anterior`, todo igual que en 1.1.0.
+  1.1.0 (T-354): `traer` (bytes verificados o None) para la 03 de Galicia; una entrada con sha256 null (pendiente del script del propietario) cuenta como
   «no disponible» (rc 3). 1.0.0: fichero nuevo (T-299).
 MOTIVO: el ZIP por mesa de Infoelectoral vivía solo en un release del repositorio; pasa a R2 (arc-e/fuentes/interior/) con su sha256 en
   el índice orchestracion/fuentes_r2.json y la 03 lo lee de R2 (el release queda como respaldo hasta confirmación del Operador).
-ANTERIOR: legacy/herramientas/fuente_r2_v1.0.0_20261115.py
+ANTERIOR: legacy/herramientas/fuente_r2_v1.1.0_20261122.py
 QUÉ HACE: `bajar <nombre> <destino>`: baja de R2 la clave del índice y verifica el sha256 (si no cuadra, borra y sale 53; si no hay objeto o
   credenciales, sale 3 sin tocar red externa). `subir <nombre> <fichero>`: verifica el sha256 del índice y sube con metadato sha256.
 USO: python herramientas/fuente_r2.py bajar 02202307_MESA.zip infoelectoral-mesas.zip
@@ -45,6 +48,31 @@ def ficha(nombre: str, indice: Path = INDICE) -> dict:
 def _cp(origen: str, destino: str, extra: list[str] | None = None) -> None:
     ep = f"https://{os.environ['R2_ACCOUNT_ID']}.r2.cloudflarestorage.com"
     subprocess.run(["aws", "s3", "cp", origen, destino, "--endpoint-url", ep, "--only-show-errors", *(extra or [])], check=True)
+
+
+def claves(entrada: dict, campo: str = "clave") -> list[str]:
+    """Claves de una entrada de índice en orden de lectura (T-443): `campo` (nueva) y `<campo>_anterior` (vieja), sin vacías ni repetidas."""
+    out: list[str] = []
+    for k in (entrada.get(campo), entrada.get(f"{campo}_anterior")):
+        if k and k not in out:
+            out.append(k)
+    return out
+
+
+def cp_primera(cp, bucket: str, lista, destino: str) -> str:
+    """Baja a `destino` el primer objeto de `lista` que exista y devuelve su clave; si ninguno, relanza el último error."""
+    lista = [lista] if isinstance(lista, str) else list(lista)
+    if not lista:
+        raise KeyError("sin clave")
+    ultimo: Exception | None = None
+    for k in lista:
+        try:
+            cp(f"s3://{bucket}/{k}", str(destino))
+            return k
+        except Exception as exc:  # noqa: BLE001 - sin objeto o sin red: se prueba la siguiente
+            ultimo = exc
+            Path(destino).unlink(missing_ok=True)
+    raise ultimo  # type: ignore[misc]
 
 
 def _pendiente(f: dict) -> bool:
@@ -81,9 +109,9 @@ def bajar(nombre: str, destino: Path, cp=_cp, indice: Path = INDICE) -> int:
         print("fuente_r2: sin credenciales de R2", file=sys.stderr)
         return 3
     try:
-        cp(f"s3://{os.environ['R2_BUCKET']}/{f['clave']}", str(destino))
+        usada = cp_primera(cp, os.environ["R2_BUCKET"], claves(f), str(destino))
     except Exception as exc:  # noqa: BLE001 - sin objeto o sin red: el llamador usa su respaldo
-        print(f"fuente_r2: {f['clave']} no disponible en R2 ({exc})", file=sys.stderr)
+        print(f"fuente_r2: {' ni '.join(claves(f))} no disponible en R2 ({exc})", file=sys.stderr)
         Path(destino).unlink(missing_ok=True)
         return 3
     real = sha256(Path(destino))
@@ -91,7 +119,7 @@ def bajar(nombre: str, destino: Path, cp=_cp, indice: Path = INDICE) -> int:
         Path(destino).unlink(missing_ok=True)
         print(f"::error::FUENTE_R2_SHA256 {nombre}: {real} != {f['sha256']}", file=sys.stderr)
         return 53
-    print(f"fuente_r2: {nombre} desde R2 ({f['clave']}) sha256 verificado")
+    print(f"fuente_r2: {nombre} desde R2 ({usada}) sha256 verificado")
     return 0
 
 
