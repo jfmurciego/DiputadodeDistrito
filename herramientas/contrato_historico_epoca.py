@@ -3,9 +3,16 @@
 """Histórico de las generales por época (T-365, D-125): contrato por elección, contrato M01-M06 por provincia y puerta M07/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.5.0 · FECHA: 2026-11-23 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/contrato_historico_epoca_v1.4.1_20261123.py
-CAMBIOS: 1.5.0: T-448 (D-197, propietario, 23-11): exención del tope del 1 % de población estimada para una provincia de UN diputado,
+VERSIÓN: 1.6.0 · FECHA: 2026-11-23 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/contrato_historico_epoca_v1.5.0_20261123.py
+CAMBIOS: 1.6.0: T-448 (D-200, propietario, 23-11): una sección con población sin geometría en el seccionado del año cuya sucesora NO tiene
+  fila en la tabla ya no se excluye si su geometría (del donante) cae al 100 % dentro de la sucesora (≥ CONTENCION_SUCESORA de su área),
+  con el centroide dentro y en el mismo municipio: se ASIGNA a la sucesora, que recibe esa población como `reasignada` (cuenta como
+  estimada) y deja de ser «sin población» (no pasa por el reparto madre/hijas ni por el relleno). Resto de exclusiones, igual.
+  2011-11: Cardona 0804702003 (270) → 0804703001 y Las Palmas de Gran Canaria 3501602060 (730) → 3501603042.
+  D-201 (propietario, 23-11, opción b): esa población es el dato del Censo por secciones y NO se ajusta al total municipal de 1mun00; el municipio
+  de cada sucesora sin fila que no cuadra queda declarado en `poblacion.sin_cuadre_municipal` (`cuadre_sucesoras_sin_fila`) con su diferencia.
+  1.5.0: T-448 (D-197, propietario, 23-11): exención del tope del 1 % de población estimada para una provincia de UN diputado,
   declarada en configuracion/historico_epoca/exenciones_relleno_epoca.json (atada al sha256 del seccionado y a la estimada medida;
   2011-11: Ceuta 51). `aplicar_exenciones_relleno` la aplica al final de `construir_contrato`: BLOQUEADA_RELLENO → LISTA con
   `exencion_relleno` (decisión, motivo, medida); con K ≠ 1, otro seccionado u otra medida falla cerrado. Sin declaración, nada cambia.
@@ -72,7 +79,7 @@ for _p in (ROOT, ROOT / "herramientas"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-VERSION = "1.5.0"
+VERSION = "1.6.0"
 SCHEMA = "ddd.contrato-historico-epoca/1.0"
 DIR_CONTRATOS = "configuracion/historico_epoca"
 FUENTES_R2 = "orchestracion/fuentes_r2.json"
@@ -99,7 +106,10 @@ METODO_SIN_SECCIONADO = ("D-153/T-396: sección con población sin geometría en
                          "más cercano en años que la tenga (empate: el anterior); misma provincia (otra → APARTADA); sin geometría en "
                          "ningún año, punto fuera de todo el seccionado o sucesora sin fila en la tabla → excluida con su población "
                          "declarada. Reglas que D-153 no cita y declara este contrato: punto representativo si el centroide cae fuera; "
-                         "exclusión si la sucesora no tiene fila; origen dato+dato = dato (no cuenta como estimada)")
+                         "exclusión si la sucesora no tiene fila; origen dato+dato = dato (no cuenta como estimada). D-200: si la sucesora no "
+                         "tiene fila pero contiene la sección al 100 % (≥ 0,999 de su área), con el centroide dentro y en el mismo municipio, "
+                         "se asigna igual y la sucesora recibe esa población como `reasignada`")
+CONTENCION_SUCESORA = 0.999  # D-200: «contenida al 100 %» (tolerancia de cálculo sobre áreas del INE; medido 1,0000 en 0804702003 y 3501602060)
 
 
 def asignar_sin_seccionado(sin_geo: list[str], pob: dict[str, int], geo_anio: dict, donantes: list,
@@ -139,8 +149,13 @@ def asignar_sin_seccionado(sin_geo: list[str], pob: dict[str, int], geo_anio: di
             out[sec] = {**fila, "destino": "apartada", "sucesora": suc, "donante_anio": anio,
                         "motivo": f"la sucesora {suc} es de otra provincia"}
         elif con_fila is not None and suc not in con_fila:
-            out[sec] = {**fila, "destino": "excluida", "donante_anio": anio,
-                        "motivo": f"la sucesora {suc} no tiene fila en la tabla de población"}
+            cont = geom.intersection(geo_anio[suc]).area / geom.area if geom.area > 0 else 0.0
+            if punto == "centroide" and suc[:5] == sec[:5] and cont >= CONTENCION_SUCESORA:  # D-200
+                out[sec] = {**fila, "destino": "asignada", "sucesora": suc, "donante_anio": anio, "punto": punto,
+                            "mismo_municipio": True, "sucesora_sin_fila": True, "contencion": f"{min(cont, 1.0):.4f}"}
+            else:
+                out[sec] = {**fila, "destino": "excluida", "donante_anio": anio,
+                            "motivo": f"la sucesora {suc} no tiene fila en la tabla de población"}
         else:
             out[sec] = {**fila, "destino": "asignada", "sucesora": suc, "donante_anio": anio, "punto": punto,
                         "mismo_municipio": suc[:5] == sec[:5]}
@@ -159,6 +174,10 @@ def aplicar_asignacion(pob: dict[str, dict], asignadas: list[dict], excluidas: l
                                 f"{(pob.get(sec) or {}).get('poblacion')}")
         out.pop(sec, None)
     for x in asignadas:
+        if x.get("sucesora_sin_fila"):  # D-200: la sucesora sin fila nace con la población de la sección que contiene
+            if x["sucesora"] in pob:
+                raise ErrorContrato(f"SUCESORA_CON_FILA {x['sucesora']} (de {x['seccion']}): no es sucesora sin fila")
+            out.setdefault(x["sucesora"], {"poblacion": 0, "origen": "reasignada"})
         s = out.get(x["sucesora"])
         if s is None or s["poblacion"] is None:
             raise ErrorContrato(f"SUCESORA_SIN_FILA {x['sucesora']} (de {x['seccion']})")
@@ -166,6 +185,21 @@ def aplicar_asignacion(pob: dict[str, dict], asignadas: list[dict], excluidas: l
         if not (s["origen"] == "dato" and pob[x["seccion"]]["origen"] == "dato"):
             s["origen"] = "reasignada"
     return out
+
+def cuadre_sucesoras_sin_fila(final: dict[str, dict], asignadas: list[dict], total_mun: dict[str, int]) -> list[dict]:
+    """D-201 (b): por cada municipio con una sucesora sin fila (D-200), su suma de secciones frente al total municipal del Censo (1mun00);
+    solo los que no cuadran, con la diferencia (total − suma). Sin total municipal (otra elección o sin fuente), lista vacía."""
+    out = []
+    for mun in sorted({x["sucesora"][:5] for x in asignadas if x.get("sucesora_sin_fila")}):
+        if mun not in total_mun:
+            continue
+        suma = sum(v["poblacion"] or 0 for k, v in final.items() if k[:5] == mun)
+        if suma != total_mun[mun]:
+            out.append({"municipio": mun, "total_municipal_censo": total_mun[mun], "suma_secciones": suma,
+                        "diferencia": total_mun[mun] - suma, "decision": "D-201 (b)",
+                        "motivo": "la sucesora sin fila recibe el dato del Censo por secciones (D-200) sin ajuste al total municipal"})
+    return out
+
 
 ORIGEN_RELLENADA = "rellenada_año_cercano"
 ORIGEN_MADRE, ORIGEN_HIJA = "repartida_madre", "repartida_hija"
@@ -601,7 +635,9 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
         pob_c = {k: x for k, x in pob.items() if k[:2] == c}
         rs = {k: r for k, r in resueltas.items() if k[:2] == c}
         asig = [{"seccion": k, "sucesora": r["sucesora"], "donante_anio": r["donante_anio"], "punto": r["punto"],
-                 "mismo_municipio": r["mismo_municipio"], "poblacion": r["poblacion"]} for k, r in rs.items() if r["destino"] == "asignada"]
+                 "mismo_municipio": r["mismo_municipio"], "poblacion": r["poblacion"],
+                 **({"sucesora_sin_fila": True, "contencion": r["contencion"], "decision": "D-200"} if r.get("sucesora_sin_fila") else {})}
+                for k, r in rs.items() if r["destino"] == "asignada"]
         excl = [{"seccion": k, "poblacion": r["poblacion"], "motivo": r["motivo"]} for k, r in rs.items() if r["destino"] == "excluida"]
         apart = [{"seccion": k, "poblacion": r["poblacion"], "motivo": r["motivo"]} for k, r in rs.items() if r["destino"] == "apartada"]
         final = aplicar_asignacion(pob_c, asig, excl)
@@ -612,6 +648,7 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
             final = aplicar_reparto(final, rep["repartos"])
             final = aplicar_relleno(final, rp["rellenadas"])
         filas = list(final.values())
+        sin_cuadre = cuadre_sucesoras_sin_fila(final, asig, total_municipal or {})
         sin_dato = sorted([k for k, x in pob_c.items() if x["poblacion"] is None] + (rp["sin_dato"] + rep["sin_dato"] if rep else []))
         total = sum(x["poblacion"] or 0 for x in filas)
         rell = filas_estimadas(filas)
@@ -643,6 +680,7 @@ def construir_contrato(eleccion: str, tabla: Path, tabla_origen: str, version: s
                               "habitantes_atlas": sum(x["poblacion_atlas"] or 0 for x in rp["rellenadas"]),
                               "habitantes_rellenados": sum(x["poblacion"] for x in rp["rellenadas"]),
                               "cuadre_municipal": rp["cuadre"]}} if rep else {}),
+                          **({"sin_cuadre_municipal": sin_cuadre} if sin_cuadre else {}),
                           **({"votos_sin_asignar": votos_ap} if votos_ap else {})},
             "estado": estado,
         }
