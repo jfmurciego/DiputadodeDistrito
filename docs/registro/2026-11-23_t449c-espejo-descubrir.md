@@ -10,7 +10,7 @@
     - Extrae los enlaces a ficheros de datos que citan el año o las autonómicas, incluidos los escapados en JSON.
     - Mide como mucho 10: estado, URL final, bytes, sha256 y si es HTML.
     - Escribe `descubrimiento.json` e imprime `ESPEJO_DESCUBRIR`. No sube nada.
-  - `configuracion/espejos_fuentes_oficiales.json` 1.2.0: `descubrir` en aut08.
+  - `configuracion/espejos_fuentes_oficiales.json` 1.2.0: `descubrir` en aut08, con semillas de elecciones2023.castillalamancha.es (descargas por municipio, sitemap) y de las fichas del portal nuevo; ese host, también en `hosts_permitidos`.
   - P10 1.0.5: en `p13_espejo`, el paso «Buscar la fuente en los portales (solo lectura)» corre solo si falla «Bajar y medir». No lleva
     secretos y deja una tabla de candidatas en el resumen. El job sigue en rojo.
 - La URL buena entra después por PR, en el modo URL directa de T-448, con `sha256_esperado` y `bytes_esperados` medidos en el log.

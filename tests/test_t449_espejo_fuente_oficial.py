@@ -431,6 +431,9 @@ class Descubrir(unittest.TestCase):
         d = ef.declaracion("aut08")["descubrir"]
         self.assertEqual(d["sufijos_host"], ["castillalamancha.es", "datos.gob.es"])
         self.assertTrue(all(ef.host_sondeable(u, d["sufijos_host"]) for u in d["paginas"]))
+        self.assertIn("https://elecciones2023.castillalamancha.es/resultados/descargar-los-resultados-de-las-elecciones-autonomicas-anteriores-por-municipio",
+                      d["paginas"])
+        self.assertIn("elecciones2023.castillalamancha.es", ef.declaracion("aut08")["hosts_permitidos"])
 
 
 class JobP10(unittest.TestCase):
