@@ -456,7 +456,7 @@ class CopiaArchivada(unittest.TestCase):
                ["20230601000000", self.ORIG.replace("https://", "http://"), "200", "text/html", "1", "X"],
                ["20230701000000", self.ORIG.replace("https://", "http://"), "200",
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", str(len(datos_copia)),
-                digest or ef._sha1_b32(datos_copia)]]
+                ef._sha1_b32(datos_copia) if digest is None else digest]]
         pedidas = []
 
         def get(url, hosts, tope, intentos=4):
@@ -486,12 +486,76 @@ class CopiaArchivada(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td, mock.patch.object(ef, "volcar_xlsx", _volcado_falso):
             m = ef.espejar("aut08", Path(td) / "s", get=get, ruta_decl=self._decl(td))
         p = m["piezas"][0]
+        self.assertIs(p["oficial"], False)  # una copia no es el original (revisor #1002)
+        self.assertEqual(p["tipo"], "copia_archivada")
         self.assertEqual(p["origen"], "copia archivada (Wayback Machine)")
         self.assertEqual(p["url_original"], self.ORIG)
         self.assertEqual(p["captura"], "20230701000000")
         self.assertEqual(p["sha256"], ef.sha256(self.XLSX))
         self.assertEqual(p["clave"], "fuentes/junta-castilla-la-mancha/2023/autonomicas-por-municipio.xlsx")
         self.assertNotIn("https://web.archive.org/web/20230601000000id_/" + self.ORIG.replace("https://", "http://"), pedidas)  # la HTML ni se baja
+
+    def _espejar_copia(self, td, destino):
+        get, _ = self._get(self.XLSX)
+        d = json.loads(self._decl(td).read_text(encoding="utf-8"))
+        d["espejos"]["aut08"]["copias_archivadas_destino"] = destino
+        r = Path(td) / f"d-{destino}.json"
+        r.write_text(json.dumps(d), encoding="utf-8")
+        sal = Path(td) / f"s-{destino}"
+        with mock.patch.object(ef, "volcar_xlsx", _volcado_falso):
+            ef.espejar("aut08", sal, get=get, ruta_decl=r)
+        return sal, r
+
+    def test_no_subir_por_defecto_no_toca_r2(self):
+        self.assertEqual(ef.declaracion("aut08")["copias_archivadas_destino"], "no_subir")
+        with tempfile.TemporaryDirectory() as td, mock.patch.dict(os.environ, {}, clear=False):
+            sal, r = self._espejar_copia(td, "no_subir")
+            res = ef.subir_espejo("aut08", sal, aws=mock.Mock(side_effect=AssertionError("R2")), ruta_decl=r)
+        self.assertIs(res["subido"], False)
+        self.assertEqual({p["r2"] for p in res["piezas"]}, {"no_subido"})
+
+    def test_fuentes_archivadas_lleva_el_conjunto_a_su_raiz(self):
+        r2 = R2Falso()
+        with tempfile.TemporaryDirectory() as td, mock.patch.dict(os.environ, {"R2_BUCKET": "b", "R2_ACCOUNT_ID": "a"}):
+            sal, r = self._espejar_copia(td, "fuentes-archivadas")
+            ef.subir_espejo("aut08", sal, aws=r2, ruta_decl=r)
+        self.assertEqual(sorted(r2.escrituras), ["fuentes-archivadas/junta-castilla-la-mancha/2023/autonomicas-por-municipio.xlsx",
+                                                 "fuentes-archivadas/junta-castilla-la-mancha/2023/manifiesto.json"])
+        self.assertFalse([k for k in r2.objetos if k.startswith("fuentes/")])  # D-198: fuentes/ solo originales
+
+    def test_manifiesto_que_dice_oficial_una_copia_se_rechaza(self):
+        with tempfile.TemporaryDirectory() as td, mock.patch.dict(os.environ, {"R2_BUCKET": "b", "R2_ACCOUNT_ID": "a"}):
+            sal, r = self._espejar_copia(td, "fuentes-archivadas")
+            m = json.loads((sal / "manifiesto.json").read_text(encoding="utf-8"))
+            m["piezas"][0]["oficial"] = True
+            (sal / "manifiesto.json").write_text(json.dumps(m), encoding="utf-8")
+            with self.assertRaises(ef.ErrorEspejo) as c:
+                ef.subir_espejo("aut08", sal, aws=R2Falso(), ruta_decl=r)
+        self.assertEqual(c.exception.codigo, "ESPEJO_MANIFIESTO")
+
+    def test_sin_digest_falla_cerrado(self):
+        get, _ = self._get(self.XLSX, digest="")
+        with tempfile.TemporaryDirectory() as td, self.assertRaises(ef.ErrorEspejo) as c:
+            ef.espejar("aut08", Path(td) / "s", get=get, ruta_decl=self._decl(td))
+        self.assertIn("ESPEJO_COPIA_SIN_DIGEST", str(c.exception))
+
+    def test_wayback_solo_https_y_sin_salto_de_host(self):
+        hosts = ef.declaracion("aut08")["hosts_permitidos"]
+        with self.assertRaises(ef.ErrorEspejo):
+            ef.comprobar_url("http://web.archive.org/web/2023id_/x", hosts)
+        h = ef._Redirecciones(hosts)
+        with self.assertRaises(ef.ErrorEspejo) as c:
+            h.redirect_request(urllib.request.Request("https://web.archive.org/web/2023id_/x"), None, 302, "Found", {},
+                               "https://archive.ph/x")
+        self.assertEqual(c.exception.codigo, "ESPEJO_HOST_NO_PERMITIDO")
+
+    def test_un_medio_no_llega_a_espejar(self):
+        hosts = ef.declaracion("aut08")["hosts_permitidos"]
+        for medio in ("www.publico.es", "www.eldiario.es", "www.elespanol.com", "www.rtve.es", "www.cmmedia.es", "resultados.elpais.com"):
+            self.assertNotIn(medio, hosts)
+            with self.assertRaises(ef.ErrorEspejo):
+                ef.comprobar_url(f"https://{medio}/2023.xlsx", hosts)
+        self.assertFalse(any(m in ef.declaracion("aut08")["descubrir"]["sufijos_oficiales"] for m in ("publico.es", "rtve.es")))
 
     def test_digest_distinto_no_vale(self):
         get, _ = self._get(self.XLSX, digest="AAAA")

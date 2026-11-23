@@ -16,7 +16,10 @@ CAMBIOS: 1.2.0 (T-449, run 45170670366: las 2 distribuciones de datos.gob.es dan
   directa con su huella), nunca automáticamente. Copias archivadas (propietario, 23-11: «probar todos los sitios»): si ninguna candidata
   oficial del catálogo es un fichero, `espejar` busca en la Wayback Machine (API CDX) la última captura 200 no HTML de cada URL oficial,
   baja la copia íntegra (`id_`), exige que su SHA-1 en base32 sea el `digest` de la captura y la declara en el manifiesto como «copia
-  archivada» (URL original, captura y URL del archivo); lo mismo para el PDF de verificación. `descubrir` interpreta las respuestas CDX
+  archivada» con `oficial: false` y `tipo: copia_archivada` (URL original, captura y URL del archivo); sin `digest` en la captura falla
+  cerrado (ESPEJO_COPIA_SIN_DIGEST); lo mismo para el PDF de verificación. `subir` NO sube una copia archivada mientras
+  `copias_archivadas_destino` sea `no_subir` (por defecto; decisión del propietario pendiente: `fuentes-archivadas` la lleva, con todo su
+  conjunto, a esa raíz; `fuentes` la mezclaría con los originales de D-198). `descubrir` interpreta las respuestas CDX
   (prefijos del portal antiguo y del sitio de elecciones) y sondea también medios (fuente NO oficial: nunca se suben solos).
   1.1.0 (T-448, D-202): modo «URL directa» para una entrada con `url` (sin `api_url`): baja ese fichero (mismos hosts, redirecciones,
   `max_bytes` y rechazo de HTML), exige `sha256_esperado` y `bytes_esperados` (si no coinciden, ESPEJO_HUELLA_INESPERADA y no se escribe nada) y
@@ -84,13 +87,32 @@ def declaracion(territorio: str, ruta: Path = DECLARACION) -> dict:
     return e
 
 
-def clave_r2(organismo: str, anyo: int, nombre: str) -> str:
-    """Clave del árbol de D-188: fuentes/<organismo>/<año>/<nombre>; sin códigos de territorio, run ni sha."""
+RAICES = ("fuentes", "fuentes-archivadas")
+DESTINOS_COPIA = ("no_subir", "fuentes-archivadas", "fuentes")  # decisión del propietario pendiente; por defecto, no se sube
+
+
+def destino_copias(e: dict) -> str:
+    d = e.get("copias_archivadas_destino", "no_subir")
+    if d not in DESTINOS_COPIA:
+        raise ErrorEspejo("ESPEJO_DECLARACION", f"copias_archivadas_destino={d!r} (valores: {', '.join(DESTINOS_COPIA)})")
+    return d
+
+
+def raiz_conjunto(e: dict, tipo_principal: str) -> str:
+    """Raíz de R2 de todo el conjunto (piezas y manifiesto): la de la pieza principal."""
+    return "fuentes-archivadas" if tipo_principal == "copia_archivada" and destino_copias(e) == "fuentes-archivadas" else "fuentes"
+
+
+def clave_r2(organismo: str, anyo: int, nombre: str, raiz: str = "fuentes") -> str:
+    """Clave del árbol de D-188: <raíz>/<organismo>/<año>/<nombre>; sin códigos de territorio, run ni sha. Raíz `fuentes` (oficiales,
+    inmutable, D-198) o `fuentes-archivadas` (copias archivadas, si el propietario lo elige)."""
+    if raiz not in RAICES:
+        raise ErrorEspejo("ESPEJO_NOMBRE_INVALIDO", f"raíz {raiz!r}")
     if not NOMBRE_RE.match(organismo) or not re.match(r"^[a-z0-9-]+(\.[a-z0-9]+)?$", nombre):
         raise ErrorEspejo("ESPEJO_NOMBRE_INVALIDO", f"{organismo}/{nombre}")
     if re.search(r"(^|-)(nac|aut)\d{2}|sha|\d{6,}", nombre):
         raise ErrorEspejo("ESPEJO_NOMBRE_INVALIDO", f"{nombre} lleva código, sha o run (D-188)")
-    return f"fuentes/{organismo}/{int(anyo)}/{nombre}"
+    return f"{raiz}/{organismo}/{int(anyo)}/{nombre}"
 
 
 def _texto(v) -> str:
@@ -328,7 +350,9 @@ def copia_archivada(original: str, extension: str, get, hosts: list[str], tope: 
         try:
             datos = get(archivo, hosts, tope, 2)
             comprobar_contenido(datos, extension)
-            if c.get("digest") and _sha1_b32(datos) != c["digest"]:
+            if not c.get("digest"):
+                raise ErrorEspejo("ESPEJO_COPIA_SIN_DIGEST", f"{archivo}: la captura no trae digest; no se puede verificar")
+            if _sha1_b32(datos) != c["digest"]:
                 raise ErrorEspejo("ESPEJO_COPIA_ALTERADA", f"{archivo}: SHA-1 {_sha1_b32(datos)} ≠ digest {c['digest']}")
         except ErrorEspejo as exc:
             ultimo = exc
@@ -404,8 +428,11 @@ def _por_catalogo(e: dict, get, hosts: list[str], tope: int) -> tuple[dict, byte
 def _escribir(territorio: str, e: dict, dist: dict, datos: bytes, salida: Path, get, hosts: list[str], tope: int) -> dict:
     nombre = f"{e['fichero']}.{dist['extension']}"
     (salida / nombre).write_bytes(datos)
-    piezas = [{"nombre": nombre, "clave": clave_r2(e["organismo"], e["anyo"], nombre), "origen_url": dist["url"],
-               "titulo_catalogo": dist["titulo"], "sha256": sha256(datos), "bytes": len(datos), "oficial": True}]
+    tipo = "copia_archivada" if dist.get("origen") else "original"
+    raiz = raiz_conjunto(e, tipo)
+    piezas = [{"nombre": nombre, "clave": clave_r2(e["organismo"], e["anyo"], nombre, raiz), "origen_url": dist["url"],
+               "titulo_catalogo": dist["titulo"], "sha256": sha256(datos), "bytes": len(datos),
+               "oficial": tipo == "original", "tipo": tipo}]  # una copia archivada no es el original: oficial=false
     for k in ("origen", "url_original", "captura", "digest_sha1_b32"):  # copia archivada: el origen va declarado
         if dist.get(k):
             piezas[0][k] = dist[k]
@@ -426,8 +453,9 @@ def _escribir(territorio: str, e: dict, dist: dict, datos: bytes, salida: Path, 
                 copia, pdf = copia_archivada(verif["url"], "pdf", get, hosts, tope)
             nombre_pdf = f"{verif['fichero']}.pdf"
             (salida / nombre_pdf).write_bytes(pdf)
-            piezas.append({"nombre": nombre_pdf, "clave": clave_r2(e["organismo"], e["anyo"], nombre_pdf),
-                           "origen_url": copia.get("url", verif["url"]), "sha256": sha256(pdf), "bytes": len(pdf), "oficial": True,
+            piezas.append({"nombre": nombre_pdf, "clave": clave_r2(e["organismo"], e["anyo"], nombre_pdf, raiz),
+                           "origen_url": copia.get("url", verif["url"]), "sha256": sha256(pdf), "bytes": len(pdf),
+                           "oficial": not copia, "tipo": "copia_archivada" if copia else "original",
                            **{k: v for k, v in copia.items() if k != "url"}})
         except ErrorEspejo as exc:
             print(f"::warning::Verificación oficial no disponible ({exc}); el cuadre irá contra los escaños oficiales.")
@@ -439,6 +467,7 @@ def _escribir(territorio: str, e: dict, dist: dict, datos: bytes, salida: Path, 
         "catalogo": e.get("dataset_url") or e.get("url", ""),
         "medido": _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "run": os.environ.get("GITHUB_RUN_ID", ""),
+        "raiz": raiz,
         "piezas": piezas,
     }
     (salida / "manifiesto.json").write_text(json.dumps(manifiesto, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -446,24 +475,39 @@ def _escribir(territorio: str, e: dict, dist: dict, datos: bytes, salida: Path, 
 
 
 def subir_espejo(territorio: str, salida: Path, aws=_aws, ruta_decl: Path = DECLARACION) -> dict:
-    """Subir lo medido por `espejar`: piezas primero y manifiesto el último, todo condicional."""
-    if not os.environ.get("R2_BUCKET") or not os.environ.get("R2_ACCOUNT_ID"):
-        raise ErrorEspejo("ESPEJO_R2", "faltan R2_BUCKET o R2_ACCOUNT_ID")
+    """Subir lo medido por `espejar`: piezas primero y manifiesto el último, todo condicional. Una copia archivada como pieza principal
+    no se sube con `copias_archivadas_destino` = no_subir (por defecto); con `fuentes-archivadas`, todo el conjunto va a esa raíz."""
     e = declaracion(territorio, ruta_decl)
-    prefijo = clave_r2(e["organismo"], e["anyo"], "x")[:-1]
     mf = salida / "manifiesto.json"
     m = json.loads(mf.read_text(encoding="utf-8"))
     if m.get("territorio") != territorio or not m.get("piezas"):
         raise ErrorEspejo("ESPEJO_MANIFIESTO", "manifiesto de otro territorio o sin piezas")
+    principal = m["piezas"][0]
+    tipo = principal.get("tipo", "original")
+    if tipo not in ("original", "copia_archivada") or (tipo == "original") != bool(principal.get("oficial")):
+        raise ErrorEspejo("ESPEJO_MANIFIESTO", f"tipo {tipo!r} y oficial={principal.get('oficial')!r} incoherentes")
+    if tipo == "copia_archivada" and destino_copias(e) == "no_subir":
+        resultado = {"territorio": territorio, "estado": {}, "subido": False,
+                     "motivo": "copia archivada: copias_archivadas_destino=no_subir (decisión del propietario pendiente)",
+                     "piezas": [{"clave": p["clave"], "sha256": p["sha256"], "bytes": p["bytes"], "r2": "no_subido"} for p in m["piezas"]]}
+        print(f"::warning::ESPEJO_COPIA_NO_SUBIDA {principal['clave']}: {resultado['motivo']}")
+        (salida / "subida.json").write_text(json.dumps(resultado, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        return resultado
+    if not os.environ.get("R2_BUCKET") or not os.environ.get("R2_ACCOUNT_ID"):
+        raise ErrorEspejo("ESPEJO_R2", "faltan R2_BUCKET o R2_ACCOUNT_ID")
+    raiz = raiz_conjunto(e, tipo)
+    if m.get("raiz", "fuentes") != raiz:
+        raise ErrorEspejo("ESPEJO_MANIFIESTO", f"raíz {m.get('raiz')!r} ≠ {raiz!r}")
+    prefijo = clave_r2(e["organismo"], e["anyo"], "x", raiz)[:-1]
     estado = {}
     for p in m["piezas"]:
         f = salida / p["nombre"]
-        if not p["clave"].startswith(prefijo) or p["clave"] != clave_r2(e["organismo"], e["anyo"], p["nombre"]):
+        if not p["clave"].startswith(prefijo) or p["clave"] != clave_r2(e["organismo"], e["anyo"], p["nombre"], raiz):
             raise ErrorEspejo("ESPEJO_NOMBRE_INVALIDO", f"{p['clave']} fuera de {prefijo}")
         if sha256(f.read_bytes()) != p["sha256"]:
             raise ErrorEspejo("ESPEJO_HUELLA_LOCAL", f"{p['nombre']} no cuadra con el manifiesto")
         estado[p["clave"]] = poner_si_no_existe(f, p["clave"], p["sha256"], aws)
-    clave_m = clave_r2(e["organismo"], e["anyo"], "manifiesto.json")
+    clave_m = clave_r2(e["organismo"], e["anyo"], "manifiesto.json", raiz)
     huella_m = sha256(mf.read_bytes())
     if sha_remoto(clave_m, aws) is None:
         estado[clave_m] = poner_si_no_existe(mf, clave_m, huella_m, aws)
