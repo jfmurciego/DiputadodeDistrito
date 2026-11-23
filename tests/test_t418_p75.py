@@ -134,33 +134,79 @@ class P75(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, causa):
                     p75.territorios_con_m08(r, malo)
 
-    def test_sube_el_zip_a_la_carpeta_del_paquete_de_entrada(self):
-        subidas = []
-        inf, _ = self.correr({RUN: paquete()}, subir=lambda k, ruta, h: subidas.append((k, Path(ruta).name, h)))
-        # carpeta y run: los del archivista (legacy); el run de P75 entra en el nombre: objetos nuevos, nunca se sobrescribe
-        self.assertEqual(subidas, [(f"{LEG}/{RUN}/ddd-doble-vuelta-{RUN}-p75-77.zip", f"ddd-doble-vuelta-{RUN}.zip", inf["territorios"][0]["sha256_salida"])])
-        self.assertEqual(inf["run_p75"], "77")
+    # T-443 (D-188, «solo la vigente»): ruta fija en mapas/, sin run en la clave; la nueva sustituye a la anterior y se comprueba en R2.
+    # Sustituye a los tests de T-418 «nunca sobrescribe» (claves `<carpeta>/<run>/ddd-doble-vuelta-<run>-p75-<run_p75>.zip`).
+    CLAVE = "mapas/nacionales/congreso-2023/alava/doble-vuelta.zip"
+    MANIF = "mapas/nacionales/congreso-2023/alava/manifiesto.json"
 
-    def test_nunca_sobrescribe_si_la_clave_ya_existe(self):
-        subidas = []
-        subir = lambda k, ruta, h: subidas.append(k)  # noqa: E731
+    def _r2(self):
+        r2 = {}  # clave → bytes
+        subir = lambda k, ruta, h: r2.update({k: Path(ruta).read_bytes()})  # noqa: E731
+        sha_r2 = lambda k: hashlib.sha256(r2[k]).hexdigest() if k in r2 else None  # noqa: E731
+        return r2, subir, sha_r2
+
+    def _ejecutar(self, r2, subir, sha_r2, run_p75="77", cp_extra=None):
+        paq = cp_de({RUN: paquete()})
+
+        def cp(origen, destino, extra=None):
+            k = origen.split("/", 3)[3]
+            if k in r2:
+                Path(destino).write_bytes(r2[k])
+            else:
+                paq(origen, destino, extra)
         with tempfile.TemporaryDirectory() as t, tempfile.TemporaryDirectory() as w, mock.patch.dict(os.environ, ENV):
             r = montar(Path(t), {RUN: paquete()})
-            inf = p75.ejecutar(r, "nac01", "2023-07", Path(w), cp_de({RUN: paquete()}), subir, "77", existe=lambda k: True)  # control negativo
-            self.assertEqual((inf["territorios"][0]["estado"], subidas), ("CLAVE_YA_EXISTE", []))
-            inf = p75.ejecutar(r, "nac01", "2023-07", Path(w), cp_de({RUN: paquete()}), subir, "77", existe=lambda k: False)
-            self.assertEqual((inf["territorios"][0]["estado"], len(subidas)), ("OK", 1))
+            return p75.ejecutar(r, "nac01", "2023-07", Path(w), cp, subir, run_p75, existe=lambda k: True, sha_r2=sha_r2, bucket="b")
 
-    def test_un_rerun_con_el_mismo_run_id_no_sobrescribe(self):
-        r2 = {}  # R2 simulado: clave → ruta subida
-        subir = lambda k, ruta, h: r2.update({k: h})  # noqa: E731
-        for intento, esperado in (("1", "OK"), ("1", "CLAVE_YA_EXISTE"), ("2", "OK")):  # mismo run y mismo intento = clave repetida
-            run_p75 = p75.run_p75_de_entorno({"GITHUB_RUN_ID": "500", "GITHUB_RUN_ATTEMPT": intento})
-            with tempfile.TemporaryDirectory() as t, tempfile.TemporaryDirectory() as w, mock.patch.dict(os.environ, ENV):
-                r = montar(Path(t), {RUN: paquete()})
-                inf = p75.ejecutar(r, "nac01", "2023-07", Path(w), cp_de({RUN: paquete()}), subir, run_p75, existe=lambda k: k in r2)
-            self.assertEqual(inf["territorios"][0]["estado"], esperado, intento)
-        self.assertEqual(sorted(r2), [f"{LEG}/{RUN}/ddd-doble-vuelta-{RUN}-p75-500-1.zip", f"{LEG}/{RUN}/ddd-doble-vuelta-{RUN}-p75-500-2.zip"])
+    def test_sube_el_zip_a_la_carpeta_del_mapa_con_su_manifiesto(self):
+        r2, subir, sha_r2 = self._r2()
+        inf = self._ejecutar(r2, subir, sha_r2)
+        f = inf["territorios"][0]
+        self.assertEqual((f["estado"], f["clave_r2"], f["manifiesto_r2"]), ("OK", self.CLAVE, self.MANIF))
+        self.assertEqual(hashlib.sha256(r2[self.CLAVE]).hexdigest(), f["sha256_salida"])
+        m = json.loads(r2[self.MANIF])
+        self.assertEqual(m["ficheros"]["doble-vuelta.zip"]["sha256"], f["sha256_salida"])
+        self.assertEqual((m["ficheros"]["doble-vuelta.zip"]["run"], m["ficheros"]["doble-vuelta.zip"]["run_p75"]), (RUN, "77"))
+        self.assertEqual(inf["run_p75"], "77")
+
+    def test_solo_la_vigente_sustituye_y_conserva_el_resto_del_manifiesto(self):
+        r2, subir, sha_r2 = self._r2()
+        r2[self.CLAVE] = b"anterior"
+        r2[self.MANIF] = json.dumps({"ficheros": {"mapa.geojson": {"sha256": "ab" * 32, "bytes": 9}}}).encode()
+        inf = self._ejecutar(r2, subir, sha_r2, run_p75="500-2")
+        self.assertEqual(inf["territorios"][0]["estado"], "OK")  # `existe` ya no veta la ruta fija
+        self.assertNotEqual(r2[self.CLAVE], b"anterior")
+        m = json.loads(r2[self.MANIF])
+        self.assertEqual(sorted(m["ficheros"]), ["doble-vuelta.zip", "mapa.geojson"])
+        self.assertEqual(m["ficheros"]["mapa.geojson"], {"sha256": "ab" * 32, "bytes": 9})
+        self.assertEqual(m["ficheros"]["doble-vuelta.zip"]["run_p75"], "500-2")
+
+    def test_sha_en_r2_distinto_tras_subir_falla(self):
+        r2, subir, _ = self._r2()
+        inf = self._ejecutar(r2, subir, lambda k: "00" * 32)  # control negativo: R2 no queda con el sha256 subido
+        f = inf["territorios"][0]
+        self.assertEqual(f["estado"], "SHA_R2_DISTINTO")
+        self.assertNotIn("clave_r2", f)
+
+    def test_carpeta_de_entrada_con_claves_nuevas_y_viejas(self):
+        self.assertEqual(p75.carpeta_de_entrada(f"{LEG}/{RUN}/ddd-minimo-{RUN}-M08.zip", {}), LEG)
+        self.assertEqual(p75.carpeta_de_entrada("interno/estados/nacionales/alava/minimo-m08.zip", {"territorio": "nac01"}), "nac01")
+        self.assertEqual(p75.clave_informe({"eleccion": "2023-07"}, "9-1"), "mapas/nacionales/congreso-2023/informe-doble-vuelta.json")
+        self.assertEqual(p75.clave_informe({"eleccion": "autonomicas"}, "9-1"), "mapas/autonomicas/informe-doble-vuelta.json")
+
+    def test_archivista_en_el_arbol_nuevo_sigue_valiendo(self):
+        """El M08 archivado en `interno/estados/…` (archivista 1.2.0) se localiza por run y su territorio sale de la entrada."""
+        with tempfile.TemporaryDirectory() as t, tempfile.TemporaryDirectory() as w, mock.patch.dict(os.environ, ENV):
+            r = montar(Path(t), {})
+            k = "interno/estados/nacionales/alava/minimo-m08.zip"
+            arts = {k: {"run_id": RUN, "artefacto": f"ddd-minimo-{RUN}-M08", "sha256": hashlib.sha256(paquete()).hexdigest(), "territorio": "nac01"}}
+            (r / "orchestracion/archivo_r2.json").write_text(json.dumps({"artefactos": arts}), encoding="utf-8")
+
+            def cp(origen, destino, extra=None):
+                self.assertTrue(origen.endswith(k))
+                Path(destino).write_bytes(paquete())
+            inf = p75.ejecutar(r, "nac01", "2023-07", Path(w), cp)
+        self.assertEqual(inf["territorios"][0]["estado"], "OK")
 
     def test_log_con_el_sha_del_informe_y_de_cada_zip(self):
         inf = {"territorios": [{"territorio": "nac01", "run": "1001", "sha256_salida": "ab" * 32, "clave_r2": "c/1001/z.zip"}]}

@@ -2,9 +2,9 @@
 """Archivista: copia a Cloudflare R2 los artefactos de Actions referenciados antes de que caduquen.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.1
+VERSIÓN: 1.2.0
 NOMBRE DE VERSIÓN: Archivista R2 solo de productos finales
-FECHA: 2026-11-07
+FECHA: 2026-11-23
 ESTADO: candidato
 QUÉ HACE: lee el catálogo operativo (orchestracion/estado_operativo.json) y orchestracion/publicaciones_visor.json,
   obtiene los runs y artefactos «ddd-state-<run>-M0x», «ddd-audit-<run>…» (y paquetes fuente) que referencian,
@@ -13,7 +13,12 @@ QUÉ HACE: lee el catálogo operativo (orchestracion/estado_operativo.json) y or
   la entrada en orchestracion/archivo_r2.json (URL R2, sha256, tamaño, caducidad original, fecha de archivado).
 IDEMPOTENTE: no vuelve a descargar un artefacto (mismo id) ya archivado, y no vuelve a subir si R2 ya tiene
   la misma clave con el mismo sha256. Un artefacto caducado y no archivado se informa como «perdido».
-CAMBIOS: 1.1.1 (T-90): el paquete mínimo acepta los GeoJSON comprimidos *.geojson.zip, que es como los
+CAMBIOS: 1.2.0 (T-443, D-188/D-190): escribe en el árbol nuevo de R2. Clave `interno/estados/<ámbito>/<territorio>/<tipo>.zip`
+  (herramientas/rutas_r2.ruta_estado; `competicion/<provincia>/` para la variante de 350) sin run en la ruta: solo el último de cada tipo. Un
+  run ANTERIOR al ya archivado en esa clave no la pisa (`superados`). Tras subir, escribe el `manifiesto.json` de la carpeta (run, sha256 y
+  bytes de cada fichero, sacados del índice). La entrada de orchestracion/archivo_r2.json sigue llevando run, territorio y sha256 (la buscan por
+  run restaurar_estado_r2 y P75). Un territorio que la tabla maestra no resuelve conserva la clave vieja `<territorio>/<run>/<artefacto>.zip`.
+  1.1.1 (T-90): el paquete mínimo acepta los GeoJSON comprimidos *.geojson.zip, que es como los
   escriben M01-M08 (sin ellos el M08 de Barcelona, run 42416213698, falló con «ningún GeoJSON distrital»).
   1.1.0 (T-72): solo archiva el producto final de cada run (ddd-state-<run>-M06/M08) y las auditorías
   (KB); nunca los estados intermedios M01-M05 ni los paquetes fuente. Si el run tiene vivo su M08, no copia su M06:
@@ -26,7 +31,7 @@ CAMBIOS: 1.1.1 (T-90): el paquete mínimo acepta los GeoJSON comprimidos *.geojs
   1.0.0: fichero nuevo (T-47).
 MOTIVO: los artefactos caducan a los 14 días y con ellos productos registrados en el catálogo (p. ej. M05 de
   Cantabria, run 41037133327).
-ANTERIOR: legacy/herramientas/archivar_artefactos_r2_v1.1.0_20261107.py
+ANTERIOR: legacy/herramientas/archivar_artefactos_r2_v1.1.1_20261123.py
 Uso: python herramientas/archivar_artefactos_r2.py [--root-dir .] [--caduca-antes AAAA-MM-DD] [--max N] [--simular]
 Entorno: GITHUB_TOKEN, GITHUB_REPOSITORY; R2_BUCKET, R2_ACCOUNT_ID y credenciales AWS_* (aws cli) salvo --simular.
 Salida: 0 si todo lo archivable quedó archivado; 1 si hubo errores de copia.
@@ -50,6 +55,9 @@ from pathlib import Path
 from typing import Callable, Optional
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from herramientas import rutas_r2  # noqa: E402
 CATALOGO = "orchestracion/estado_operativo.json"
 VISOR = "orchestracion/publicaciones_visor.json"
 MANIFIESTO = "orchestracion/archivo_r2.json"
@@ -152,9 +160,50 @@ def nombre_paquete(nombre: str) -> str:
     return nombre.replace("ddd-state-", "ddd-minimo-", 1) if nombre.startswith("ddd-state-") else nombre
 
 
-def clave(a: dict, empaquetado: bool = False) -> str:
+def clave_vieja(a: dict, empaquetado: bool = False) -> str:
+    """Clave anterior a T-443: `<territorio>/<run>/<artefacto>.zip`."""
     nombre = nombre_paquete(a["name"]) if empaquetado else a["name"]
     return f"{a['territorio']}/{a['run']}/{nombre}.zip"
+
+
+def clave(a: dict, empaquetado: bool = False) -> str:
+    """Clave en el árbol nuevo (D-188): `interno/estados/<ámbito>/<territorio>/<tipo>.zip`; si el territorio no se resuelve, la vieja."""
+    nombre = nombre_paquete(a["name"]) if empaquetado else a["name"]
+    if nombre.startswith("ddd-state-"):  # el estado completo no entra en el árbol nuevo: interno/ guarda solo el paquete mínimo
+        return clave_vieja(a, empaquetado)
+    try:
+        return rutas_r2.ruta_estado(a["territorio"], nombre)
+    except (rutas_r2.RutaInvalida, KeyError, ValueError):
+        return clave_vieja(a, empaquetado)
+
+
+def _run_num(x) -> int:
+    return int(x) if str(x or "").isdigit() else -1
+
+
+def manifiesto_carpeta(entradas: dict, carpeta: str) -> dict:
+    """`manifiesto.json` de una carpeta del árbol nuevo, a partir de las entradas del índice que viven en ella."""
+    fich = {k.rsplit("/", 1)[1]: {"sha256": e.get("sha256"), "bytes": e.get("tamano_bytes"), "run": e.get("run_id"),
+                                  "artefacto": e.get("artefacto")}
+            for k, e in entradas.items() if k.rsplit("/", 1)[0] == carpeta and not k.endswith("/manifiesto.json")}
+    return rutas_r2.manifiesto(fich, extra={"carpeta": carpeta})
+
+
+def subir_manifiestos(carpetas, entradas: dict, r2_subir: Callable[[str, Path, str], None],
+                      r2_sha: Optional[Callable[[str], Optional[str]]] = None) -> list[str]:
+    """Sube el `manifiesto.json` de cada carpeta tocada (contenido determinista; no resube si R2 ya lo tiene igual)."""
+    hechos = []
+    for c in sorted(carpetas):
+        datos = (json.dumps(manifiesto_carpeta(entradas, c), ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
+        with tempfile.TemporaryDirectory() as td:
+            f = Path(td) / "manifiesto.json"
+            f.write_bytes(datos)
+            h, k = hashlib.sha256(datos).hexdigest(), f"{c}/manifiesto.json"
+            if r2_sha is not None and r2_sha(k) == h:
+                continue
+            r2_subir(k, f, h)
+        hechos.append(k)
+    return hechos
 
 
 def sha256_fichero(ruta: Path) -> str:
@@ -184,7 +233,8 @@ def archivar(
     Con ``empaquetar(a, zip_estado, dir_tmp) -> zip_paquete``, los estados ddd-state-* no se suben enteros: se sube el
     paquete mínimo (clave ddd-minimo-…) y la entrada guarda el sha256 y el tamaño del estado original."""
     entradas = manifiesto.setdefault("artefactos", {})
-    res = {"archivados": [], "ya_archivados": [], "sin_cambios_r2": [], "errores": [], "omitidos": []}
+    res = {"archivados": [], "ya_archivados": [], "sin_cambios_r2": [], "errores": [], "omitidos": [], "superados": [], "manifiestos": []}
+    tocadas: set[str] = set()
     ya_ids = {e.get("artifact_id") for e in entradas.values()}
     pendientes = seleccionar(vivos, nombres, runs)
     for a in pendientes:
@@ -193,8 +243,11 @@ def archivar(
         if caduca_antes and (a.get("expires_at") or "9999") >= caduca_antes:
             res["omitidos"].append(k)
             continue
-        if a["id"] in ya_ids and k in entradas:
+        if a["id"] in ya_ids and k in entradas and str(entradas[k].get("artifact_id")) == str(a["id"]):
             res["ya_archivados"].append(k)
+            continue
+        if rutas_r2.es_nueva(k) and k in entradas and _run_num(entradas[k].get("run_id")) > _run_num(a["run"]):
+            res["superados"].append(k)  # solo la vigente: un run anterior no pisa al último archivado
             continue
         if maximo is not None and len(res["archivados"]) + len(res["sin_cambios_r2"]) >= maximo:
             res["omitidos"].append(k)
@@ -229,6 +282,12 @@ def archivar(
             "caducidad_original": a.get("expires_at"),
             "archivado_en": ahora(),
         }
+        if rutas_r2.es_nueva(k):
+            tocadas.add(k.rsplit("/", 1)[0])
+    try:
+        res["manifiestos"] = subir_manifiestos(tocadas, entradas, r2_subir, r2_sha)
+    except Exception as exc:  # noqa: BLE001 - el objeto ya está y su entrada también; se informa
+        res["errores"].append(f"manifiesto.json: {exc}")
     existentes = {a["name"] for a in vivos}
     res["perdidos"] = sorted(
         n for n in nombres if es_final(n) and n not in existentes and not any(n in (e["artefacto"], e.get("artefacto_origen")) for e in entradas.values())

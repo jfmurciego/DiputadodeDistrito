@@ -1,5 +1,7 @@
 <#
-PROYECTO: Diputado de Distrito · T-354 · VERSIÓN 1.0.0 · 2026-11-15 · ANTERIOR: ninguna (fichero nuevo)
+PROYECTO: Diputado de Distrito · T-354 · VERSIÓN 1.1.0 · 2026-11-23 · ANTERIOR: legacy/herramientas/espejo_galicia_r2_v1.0.0_20261123.ps1
+CAMBIOS 1.1.0 (T-443, D-188): sube al árbol nuevo de R2, fuentes/xunta/2024/<nombre>.csv (sin sha12; el sha256 va en el índice), y anota
+la clave vieja (arc-e/fuentes/xunta/<nombre>_<sha12>.csv, donde ya está) en clave_anterior para la transición.
 Baja las 4 fuentes oficiales de mesas de Galicia 2024 (abertos.xunta.gal; las de territorios/aut12/config/elecciones/galicia_parlamento_vigente.yaml),
 calcula sha256 y bytes, las sube a R2 (ARC-E) en arc-e/fuentes/xunta/<nombre>_<sha12>.csv con metadato sha256 y escribe
 espejo_galicia_r2_resultado.json (entradas listas para orchestracion/fuentes_r2.json). La nube no llega a la Xunta (proxy 403): se ejecuta en Windows.
@@ -59,7 +61,8 @@ foreach ($f in $fuentes) {
     $bytes = (Get-Item $ruta).Length
     $inicio = (Get-Content $ruta -TotalCount 20 -Encoding UTF8) -join "`n"
     if ($bytes -eq 0 -or $inicio -match '(?i)<\s*(html|head|body)\b|<!DOCTYPE' -or $inicio -notmatch '(?i)mesa|censo') { Write-Warning "$($f.id): contenido vacío, HTML o sin cabecera mesa/censo"; $fallos++; continue }
-    $clave = "arc-e/fuentes/xunta/galicia_parlamento_2024_$($f.id)_$($sha.Substring(0, 12)).csv"
+    $clave = "fuentes/xunta/2024/galicia_parlamento_2024_$($f.id).csv"
+    $claveAnterior = "arc-e/fuentes/xunta/galicia_parlamento_2024_$($f.id)_$($sha.Substring(0, 12)).csv"
     Write-Host "$($f.id): HTTP $http, $bytes bytes, sha256 $sha"
     if (-not $SoloBajar) {
         aws s3 cp $ruta "s3://$($env:R2_BUCKET)/$clave" --endpoint-url "https://$($env:R2_ACCOUNT_ID).r2.cloudflarestorage.com" `
@@ -67,7 +70,7 @@ foreach ($f in $fuentes) {
         if ($LASTEXITCODE -ne 0) { Write-Warning "$($f.id): la subida a R2 falló (código $LASTEXITCODE)"; $fallos++; continue }
     }
     $resultado[$nombre] = [ordered]@{
-        clave = $clave; sha256 = $sha; bytes = $bytes; origen_url = $f.url
+        clave = $clave; clave_anterior = $claveAnterior; sha256 = $sha; bytes = $bytes; origen_url = $f.url
         descargado_en = (Get-Date -Format 'yyyy-MM-dd'); http = $http; subido = (-not $SoloBajar)
     }
 }

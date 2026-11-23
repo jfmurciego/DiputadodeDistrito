@@ -83,12 +83,17 @@ class Archivista(unittest.TestCase):
         self.assertEqual(e["caducidad_original"], "2026-11-20T00:00:00Z")
         self.assertEqual(len(e["sha256"]), 64)
         self.assertEqual(e["tamano_bytes"], 4)
-        self.assertEqual(set(self.r2.objs.values()), {x['sha256'] for x in self.man['artefactos'].values()})
+        # T-443: la auditoría va al árbol nuevo (sin run en la ruta) con el manifiesto de su carpeta; el estado completo, a la clave vieja
+        self.assertIn("interno/estados/autonomicas/cantabria/audit.zip", self.man["artefactos"])
+        self.assertEqual(self.man["artefactos"]["interno/estados/autonomicas/cantabria/audit.zip"]["run_id"], "41037133327")
+        self.assertEqual(res["manifiestos"], ["interno/estados/autonomicas/cantabria/manifiesto.json"])
+        objs = {k: v for k, v in self.r2.objs.items() if not k.endswith("/manifiesto.json")}
+        self.assertEqual(set(objs.values()), {x['sha256'] for x in self.man['artefactos'].values()})
 
     def test_idempotente(self):
         self.correr()
         res = self.correr()
-        self.assertEqual(self.r2.subidas, 2)
+        self.assertEqual(self.r2.subidas, 3)  # 2 objetos + manifiesto.json (T-443); el segundo pase no resube nada
         self.assertEqual(len(res["ya_archivados"]), 2)
         self.assertEqual(res["archivados"], [])
 
@@ -96,7 +101,7 @@ class Archivista(unittest.TestCase):
         self.correr()
         self.man["artefactos"].clear()  # manifiesto perdido, R2 conserva los objetos
         res = self.correr()
-        self.assertEqual(self.r2.subidas, 2)
+        self.assertEqual(self.r2.subidas, 3)  # el manifiesto reconstruido es idéntico: no se resube
         self.assertEqual(len(res["sin_cambios_r2"]), 2)
 
     def test_caduca_antes_y_maximo(self):
@@ -225,7 +230,7 @@ class PaqueteMinimo(unittest.TestCase):
         res = arc.archivar(viv, {"ddd-state-41037133327-M06": "cantabria"}, {}, man,
                            lambda a, p: p.write_bytes((self.d / "e.zip").read_bytes()), r2.sha, r2.subir, "bkt",
                            empaquetar=arc.empaquetar_minimo())
-        k = "cantabria/41037133327/ddd-minimo-41037133327-M06.zip"
+        k = "interno/estados/autonomicas/cantabria/minimo-m06.zip"  # T-443: árbol nuevo, sin run en la ruta
         self.assertEqual(res["archivados"], [k])
         e = man["artefactos"][k]
         self.assertEqual(e["artefacto"], "ddd-minimo-41037133327-M06")
@@ -233,6 +238,26 @@ class PaqueteMinimo(unittest.TestCase):
         self.assertEqual(e["sha256_estado_original"], arc.sha256_fichero(self.d / "e.zip"))
         self.assertLess(e["tamano_bytes"], e["tamano_estado_original"])
         self.assertEqual(res["perdidos"], [])
+        self.assertEqual(e["run_id"], "41037133327")
+
+    def test_t443_un_run_anterior_no_pisa_al_ultimo(self):
+        r2 = R2Falso()
+        man = {"artefactos": {}}
+        bajar = lambda a, p: p.write_bytes(a["name"].encode())  # noqa: E731
+        nuevo = {**art(9, "ddd-audit-41037133399", "2026-11-25T00:00:00Z")}
+        viejo = {**art(8, "ddd-audit-41037133327", "2026-11-20T00:00:00Z")}
+        refs = {"ddd-audit-41037133399": "cantabria", "ddd-audit-41037133327": "cantabria"}
+        arc.archivar([nuevo], refs, {}, man, bajar, r2.sha, r2.subir, "bkt")
+        res = arc.archivar([viejo], refs, {}, man, bajar, r2.sha, r2.subir, "bkt")
+        k = "interno/estados/autonomicas/cantabria/audit.zip"
+        self.assertEqual(res["superados"], [k])
+        self.assertEqual(man["artefactos"][k]["run_id"], "41037133399")
+        m = arc.manifiesto_carpeta(man["artefactos"], "interno/estados/autonomicas/cantabria")
+        self.assertEqual(m["ficheros"]["audit.zip"]["run"], "41037133399")
+
+    def test_t443_territorio_sin_resolver_conserva_la_clave_vieja(self):
+        a = {"name": "ddd-audit-1234567890", "territorio": "sin_territorio", "run": "1234567890"}
+        self.assertEqual(arc.clave(a), "sin_territorio/1234567890/ddd-audit-1234567890.zip")
 
 
 class Reintentos(unittest.TestCase):

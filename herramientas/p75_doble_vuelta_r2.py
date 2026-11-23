@@ -3,9 +3,16 @@
 """P75 Doble vuelta desde R2: calcula dv_base, dv_A y dv_B de cada territorio a partir del ddd-minimo-<run>-M08 archivado (T-418).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-20 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/p75_doble_vuelta_r2_v1.0.0_20261120.py
-CAMBIOS: 1.1.0 (T-427, D-179/D-182/D-183): `--territorios aut` (o códigos aut): los 19 territorios autonómicos con su elección autonómica VIGENTE.
+VERSIÓN: 1.2.0 · FECHA: 2026-11-23 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/p75_doble_vuelta_r2_v1.1.0_20261123.py
+CAMBIOS: 1.2.0 (T-443, D-188 «solo la vigente»): escribe en el árbol nuevo de R2. El ZIP va a `mapas/nacionales/congreso-2023/<provincia>/doble-vuelta.zip`
+  o `mapas/autonomicas/<comunidad>-<año>/doble-vuelta.zip` (herramientas/rutas_r2) y el informe a `mapas/…/informe-doble-vuelta.json`; el run de P75 y
+  el sha256 van en el informe y en el `manifiesto.json` de la carpeta (se actualiza su entrada `doble-vuelta.zip`, sin tocar las demás). La ruta es
+  fija: la nueva SUSTITUYE a la anterior y se comprueba su sha256 en R2 tras subir (`SHA_R2_DISTINTO` si no cuadra). El fijado del repo
+  (configuracion/doble_vuelta_publicada.json) protege la publicación: tras una ejecución nueva, P40 rechaza hasta fijar el informe nuevo. Sin ruta nueva
+  (territorio sin autonómica vigente), la clave vieja con su regla de no sobrescribir. La comprobación de carpeta acepta las claves nuevas del
+  archivista (territorio de la entrada).
+  1.1.0: 1.1.0 (T-427, D-179/D-182/D-183): `--territorios aut` (o códigos aut): los 19 territorios autonómicos con su elección autonómica VIGENTE.
   El M08 de R2 de un aut lleva votos de las generales 2023-07 (no de la autonómica): se restaura igual (sha256) y se usa para comprobar el mapa
   (sus distritos deben ser EXACTAMENTE los del CSV de votos); los votos son los de la autonómica vigente reagregados a la composición del run M08
   vigente (datos/resultados/doble_vuelta_autonomicas/<aut>/<AAAAMM>/, `reagregacion_autonomicas.py --mapa-vigente` o T-426), con su MANIFEST
@@ -19,8 +26,8 @@ QUÉ HACE: por territorio (por defecto los del Congreso, ámbito NAC, con M08 vi
   orchestracion/archivo_r2.json, lo baja de R2 y comprueba su sha256 (herramientas/restaurar_estado_r2.py); (2) informa de si trae
   `*_m07_resultados_partido.csv` (sin él no se calcula: nunca se reconstruyen votos); (3) mide la cobertura del alias sobre esos ids (un % alto de votos sin
   casar = elección distinta de la pedida o alias incompleto) y calcula `doble_vuelta.csv`, `detalle.csv`, `cobertura.json` y `manifiesto.json`;
-  (4) sube `<carpeta>/<run>/ddd-doble-vuelta-<run>-p75-<run_p75>.zip` a R2 (ZIP determinista; carpeta y run son los del archivista, no propios) y, al final,
-  `doble_vuelta/<AAAA-MM>/<run_p75>/INFORME.json` con una fila por territorio: cada ejecución sube objetos nuevos y no sobrescribe ni borra nada.
+  (4) sube el ZIP determinista a `mapas/…/doble-vuelta.zip` y, al final, `mapas/…/informe-doble-vuelta.json` con una fila por territorio (1.2.0: solo la
+  vigente; antes `<carpeta>/<run>/ddd-doble-vuelta-<run>-p75-<run_p75>.zip` y `doble_vuelta/<AAAA-MM>/<run_p75>/INFORME.json`, sin sobrescribir).
   Sale 0 si todos los territorios quedan OK; 1 si alguno no (el informe se sube igualmente). Sin `--sin-subir` necesita R2_BUCKET, R2_ACCOUNT_ID y AWS_*.
   `district_id` va tal como lo escribe M07 (0..K-1); la numeración pública la aplica el publicador (T-135).
 USO: python herramientas/p75_doble_vuelta_r2.py [--territorios nac01,nac02 | aut | aut01,aut02] [--eleccion 2023-07] [--salida DIR] [--sin-subir]
@@ -48,6 +55,7 @@ import doble_vuelta_cobertura as cob  # noqa: E402
 import fuente_r2  # noqa: E402
 import p70_resolver as pr  # noqa: E402
 import restaurar_estado_r2 as rr  # noqa: E402
+import rutas_r2  # noqa: E402
 import resultados_ligeros as rl  # noqa: E402
 from ddd_core import territorio_ids  # noqa: E402
 
@@ -91,6 +99,54 @@ def subir_nuevo(subir, existe, clave: str, ruta: Path, sha: str) -> None:
     if existe(clave):
         raise FileExistsError(f"P75_CLAVE_YA_EXISTE: {clave}")
     subir(clave, ruta, sha)
+
+
+def subir_vigente(subir, sha_r2, clave: str, ruta: Path, sha: str) -> None:
+    """Solo la vigente (D-188): sube a la ruta fija (sustituye la anterior) y comprueba en R2 que queda con este sha256."""
+    subir(clave, ruta, sha)
+    if sha_r2 is not None and sha_r2(clave) != sha:
+        raise RuntimeError(f"P75_SHA_R2_DISTINTO: {clave} no quedó en R2 con sha256 {sha}")
+
+
+def carpeta_de_entrada(clave: str, ent: dict) -> str:
+    """Territorio de una entrada del archivista: la carpeta de la clave vieja (`<territorio>/<run>/…`) o el campo `territorio` (árbol nuevo)."""
+    return str(ent.get("territorio") or "") if rutas_r2.es_nueva(clave) else clave.split("/")[0]
+
+
+def clave_doble_vuelta(t: str, aut: bool, eleccion: str, carpeta_r2: str, run: str, run_p75: str) -> str:
+    try:
+        return rutas_r2.ruta_mapa(t, "doble-vuelta.zip", None if aut else eleccion)
+    except (rutas_r2.RutaInvalida, KeyError, ValueError):
+        return f"{carpeta_r2}/{run}/ddd-doble-vuelta-{run}-p75-{run_p75}.zip"
+
+
+def clave_informe(inf: dict, run_p75: str) -> str:
+    aut = inf["eleccion"] == "autonomicas"
+    try:
+        return rutas_r2.ruta_informe_doble_vuelta("aut" if aut else "nac", None if aut else inf["eleccion"])
+    except rutas_r2.RutaInvalida:
+        return f"doble_vuelta/{inf['eleccion']}/{run_p75}/INFORME.json"
+
+
+def actualizar_manifiesto(cp, bucket: str, subir, sha_r2, clave_fichero: str, ficha: dict) -> str:
+    """Pone la entrada de `clave_fichero` en el `manifiesto.json` de su carpeta, conservando las demás. Si R2 dice que el manifiesto existe
+    y no se puede leer, falla (nunca se reescribe a ciegas)."""
+    km = rutas_r2.ruta_manifiesto(clave_fichero)
+    actual: dict = {}
+    if sha_r2 is not None and sha_r2(km) is not None:
+        with tempfile.TemporaryDirectory() as td:
+            f = Path(td) / "m.json"
+            cp(f"s3://{bucket}/{km}", str(f))
+            actual = json.loads(f.read_text(encoding="utf-8"))
+    fich = dict(actual.get("ficheros") or {})
+    fich[clave_fichero.rsplit("/", 1)[1]] = ficha
+    datos = (json.dumps(rutas_r2.manifiesto(fich, extra={"carpeta": km.rsplit("/", 1)[0]}), ensure_ascii=False, indent=2,
+                        sort_keys=True) + "\n").encode("utf-8")
+    with tempfile.TemporaryDirectory() as td:
+        f = Path(td) / "manifiesto.json"
+        f.write_bytes(datos)
+        subir_vigente(subir, sha_r2, km, f, hashlib.sha256(datos).hexdigest())
+    return km
 
 
 def run_p75_de_entorno(env=None) -> str:
@@ -254,7 +310,7 @@ def procesar_aut(root: Path, aut: str, run: str, trabajo: Path, cp=fuente_r2._cp
         fila["estado"] = "SIN_PAQUETE_EN_R2"
         return fila
     clave, ent = hallado
-    if not territorio_ids.mismo_territorio(clave.split("/")[0], aut):
+    if not territorio_ids.mismo_territorio(carpeta_de_entrada(clave, ent), aut):
         fila["estado"] = "CARPETA_NO_ES_DEL_TERRITORIO"
         return fila
     fila["carpeta_r2"], fila["sha256_paquete_entrada"] = clave.rsplit("/", 2)[0], ent.get("sha256")
@@ -325,7 +381,7 @@ def procesar(root: Path, territorio: str, run: str, eleccion: str, trabajo: Path
         fila["estado"] = "SIN_PAQUETE_EN_R2"
         return fila
     clave, ent = hallado
-    if not territorio_ids.mismo_territorio(clave.split("/")[0], territorio):  # la carpeta del archivista (legacy) debe ser la del territorio pedido
+    if not territorio_ids.mismo_territorio(carpeta_de_entrada(clave, ent), territorio):  # la carpeta del archivista debe ser la del territorio pedido
         fila["estado"] = "CARPETA_NO_ES_DEL_TERRITORIO"
         return fila
     fila["carpeta_r2"] = clave.rsplit("/", 2)[0]
@@ -370,20 +426,30 @@ def procesar(root: Path, territorio: str, run: str, eleccion: str, trabajo: Path
     return fila
 
 
-def ejecutar(root: Path, pedidos: str, eleccion: str, trabajo: Path, cp=fuente_r2._cp, subir=None, run_p75: str = "local", existe=None) -> dict:
-    """`run_p75` (GITHUB_RUN_ID) entra en las claves de R2 para no sobrescribir nada: cada ejecución sube objetos nuevos."""
+def ejecutar(root: Path, pedidos: str, eleccion: str, trabajo: Path, cp=fuente_r2._cp, subir=None, run_p75: str = "local", existe=None,
+             sha_r2=None, bucket: str = "") -> dict:
+    """Árbol nuevo (T-443): ruta fija por territorio, solo la vigente (`subir_vigente`) y su entrada en el `manifiesto.json` de la carpeta.
+    Clave vieja (territorio sin ruta nueva): `run_p75` en la clave y nunca se sobrescribe."""
     aut = es_aut(pedidos)
     eleccion = "autonomicas" if aut else cob.normalizar_eleccion(eleccion or ELECCION_DEFECTO)
     filas = []
     for t, run in (territorios_aut(root, pedidos) if aut else territorios_con_m08(root, pedidos, eleccion)):
         f = procesar_aut(root, t, run, trabajo, cp) if aut else procesar(root, t, run, eleccion, trabajo, cp)
         if f["estado"] == "OK" and subir:
-            clave = f"{f['carpeta_r2']}/{run}/ddd-doble-vuelta-{run}-p75-{run_p75}.zip"  # carpeta y run: los del archivista (no propios)
+            clave = clave_doble_vuelta(t, aut, eleccion, f["carpeta_r2"], run, run_p75)
+            zip_ = trabajo / t / "salida" / f"ddd-doble-vuelta-{run}.zip"
             try:
-                subir_nuevo(subir, existe or (lambda k: False), clave, trabajo / t / "salida" / f"ddd-doble-vuelta-{run}.zip", f["sha256_salida"])
+                if rutas_r2.es_nueva(clave):
+                    subir_vigente(subir, sha_r2, clave, zip_, f["sha256_salida"])
+                    f["manifiesto_r2"] = actualizar_manifiesto(cp, bucket, subir, sha_r2, clave, {
+                        "sha256": f["sha256_salida"], "bytes": zip_.stat().st_size, "run": run, "run_p75": run_p75, "eleccion": eleccion})
+                else:
+                    subir_nuevo(subir, existe or (lambda k: False), clave, zip_, f["sha256_salida"])
                 f["clave_r2"] = clave
             except FileExistsError:
                 f["estado"] = "CLAVE_YA_EXISTE"
+            except RuntimeError as exc:
+                f["estado"], f["motivo"] = "SHA_R2_DISTINTO", str(exc)
         filas.append(f)
         print(f"[p75] {t} run {run}: {f['estado']}" + (f" (sin casar {f['sin_casar_pct']} %)" if f["sin_casar_pct"] is not None else ""), flush=True)
     bl, al = (root / BLOQUES_AUT, root / ALIAS_AUT) if aut else (bloques_vigente(root), root / ALIAS)
@@ -410,29 +476,36 @@ def main(argv=None) -> int:
     ap.add_argument("--salida", default="", help="directorio donde dejar INFORME.json y los ZIP (por defecto, temporal)")
     ap.add_argument("--sin-subir", action="store_true")
     a = ap.parse_args(argv)
-    subir = existe = None
+    subir = existe = sha_r2 = None
+    bucket = ""
     if not a.sin_subir:
         bucket, cuenta = os.environ.get("R2_BUCKET", ""), os.environ.get("R2_ACCOUNT_ID", "")
         if not bucket or not cuenta:
             print("::error title=P75_SIN_CREDENCIALES::faltan R2_BUCKET/R2_ACCOUNT_ID")
             return 3
-        _, subir = ar.r2_cliente(bucket, cuenta)
+        sha_r2, subir = ar.r2_cliente(bucket, cuenta)
         existe = r2_existe(bucket, cuenta)
     with tempfile.TemporaryDirectory() as td:
         trabajo = Path(a.salida) if a.salida else Path(td)
         trabajo.mkdir(parents=True, exist_ok=True)
         run_p75 = run_p75_de_entorno()
-        inf = ejecutar(ROOT, a.territorios, a.eleccion, trabajo, subir=subir, run_p75=run_p75, existe=existe)
+        inf = ejecutar(ROOT, a.territorios, a.eleccion, trabajo, subir=subir, run_p75=run_p75, existe=existe, sha_r2=sha_r2, bucket=bucket)
         ruta = trabajo / "INFORME.json"
         ruta.write_text(json.dumps(inf, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        clave_informe = f"doble_vuelta/{inf['eleccion']}/{run_p75}/INFORME.json"
+        k_inf = clave_informe(inf, run_p75)
         if subir:
             try:
-                subir_nuevo(subir, existe, clave_informe, ruta, dv.sha256(ruta))
+                if rutas_r2.es_nueva(k_inf):
+                    subir_vigente(subir, sha_r2, k_inf, ruta, dv.sha256(ruta))
+                else:
+                    subir_nuevo(subir, existe, k_inf, ruta, dv.sha256(ruta))
             except FileExistsError as exc:
                 print(f"::error title=P75_CLAVE_YA_EXISTE::{exc}")
                 return 1
-        print("\n".join(lineas_para_log(inf, dv.sha256(ruta), clave_informe if subir else "(sin subir)")))
+            except RuntimeError as exc:
+                print(f"::error title=P75_SHA_R2_DISTINTO::{exc}")
+                return 1
+        print("\n".join(lineas_para_log(inf, dv.sha256(ruta), k_inf if subir else "(sin subir)")))
         malos = [f for f in inf["territorios"] if f["estado"] not in ("OK", "NO_APLICA")]
         for f in malos:
             print(f"::warning title=P75_{f['estado'].split(':')[0]}::{f['territorio']} run {f['run']}")

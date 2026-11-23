@@ -3,10 +3,13 @@
 """Batería del motor (T-132): entradas reproducibles desde fuente, M04-M06 en local y matriz territorio × regla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.4
+VERSIÓN: 1.5.0
 NOMBRE DE VERSIÓN: Batería del motor
-FECHA: 2026-11-22
+FECHA: 2026-11-23
 ESTADO: candidato
+CAMBIOS 1.5.0 (T-443, D-188/D-190): `archivar-p10` escribe en el árbol nuevo: `fuentes/por-territorio/<ámbito>/<territorio>/paquete.zip`
+  (`interno/competicion/<provincia>/` para la variante de 350) y el `manifiesto.json` de la carpeta (package_sha256 como huella, run de origen,
+  sha256 y bytes del zip). ARCHIVO_PAQUETES_P10.json anota la clave nueva y la vieja en `clave_anterior`. La lectura (1.4.4) ya probaba la nueva primero.
 CAMBIOS 1.4.4 (T-443, D-188/D-190): `paquete_p10_desde_r2` lee con doble ruta durante la transición del árbol de R2: primero
   `fuentes/por-territorio/<ámbito>/<territorio>/paquete.zip` (herramientas/rutas_r2.py) y, si no está, `arc-e/paquetes-p10/<package_sha256>.zip`.
   La validación (sha256 del bundle = package_sha256 del contrato) no cambia. `archivar-p10` sigue escribiendo la ruta vieja (cambia en la PR de escritores).
@@ -69,7 +72,7 @@ MOTIVO: responder en minutos y sin lanzar nada si el motor vigente produce distr
   (52 circunscripciones del Congreso + 19 comunidades) y qué cambia entre versiones del motor (decisión del
   propietario: opción B, batería primero).
 CAMBIOS 1.2.6 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/bateria_motor_v1.4.3_20261122.py
+ANTERIOR: legacy/herramientas/bateria_motor_v1.4.4_20261123.py
 QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como
@@ -576,7 +579,8 @@ def entradas(args) -> int:
 
 def archivar_p10(args) -> int:
     """Archiva en R2 (ARC-E) el paquete P10 de la fuente de ``territorio`` (carpeta ``--paquete`` = artefacto ddd-source-package-* ya
-    descomprimido): comprueba que es el del contrato y lo sube en ``arc-e/paquetes-p10/<package_sha256>.zip`` con su sha256."""
+    descomprimido): comprueba que es el del contrato y lo sube en ``fuentes/por-territorio/<ámbito>/<territorio>/paquete.zip`` con su sha256
+    y el ``manifiesto.json`` de la carpeta (T-443)."""
     from herramientas.archivar_artefactos_r2 import r2_cliente
     t, carpeta = args.territorio, Path(args.paquete)
     bucket, cuenta = os.environ.get("R2_BUCKET", ""), os.environ.get("R2_ACCOUNT_ID", "")
@@ -598,13 +602,25 @@ def archivar_p10(args) -> int:
             info.compress_type = zipfile.ZIP_DEFLATED
             zf.writestr(info, f.read_bytes())
     h = sha256(z)
-    clave = clave_paquete(ident)
+    claves = claves_paquete_lectura(t, ident)  # [nueva, vieja] (o solo la vieja si el territorio no tiene ruta nueva)
+    clave = claves[0]
     sha_remoto, subir = r2_cliente(bucket, cuenta)
     if sha_remoto(clave) != h:
         subir(clave, z, h)
+    if clave != clave_paquete(ident):
+        from herramientas import rutas_r2
+        man = rutas_r2.manifiesto({"paquete.zip": {"sha256": h, "bytes": z.stat().st_size}}, run=args.run, huella=ident["package_sha256"],
+                                  extra={"carpeta": clave.rsplit("/", 1)[0], "territorio": t})
+        mz = out / f"{t}-manifiesto.json"
+        mz.write_text(json.dumps(man, indent=2, ensure_ascii=False, sort_keys=True) + "\n", encoding="utf-8")
+        km, hm = rutas_r2.ruta_manifiesto(clave), sha256(mz)
+        if sha_remoto(km) != hm:
+            subir(km, mz, hm)
     registro = {t: {"url": f"r2://{bucket}/{clave}", "clave": clave, "sha256_zip": h, "bytes": z.stat().st_size,
                     "package_sha256": ident["package_sha256"], "origen_run": args.run,
                     "archivado_en": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}}
+    if len(claves) > 1:
+        registro[t]["clave_anterior"] = claves[1]
     (out / "ARCHIVO_PAQUETES_P10.json").write_text(json.dumps(registro, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(json.dumps(registro[t]))
     return 0
