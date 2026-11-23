@@ -43,7 +43,7 @@ class ArchivarP10(unittest.TestCase):
                     mock.patch.object(b, "_identidad_contrato", lambda t: {"package_sha256": h}), \
                     mock.patch("herramientas.archivar_artefactos_r2.r2_cliente", lambda bk, c: (sha, subir)):
                 self.assertEqual(b.archivar_p10(args), 0)
-            k, km = "fuentes/por-territorio/nacionales/soria/paquete.zip", "fuentes/por-territorio/nacionales/soria/manifiesto.json"
+            k, km = "fuentes/por-territorio/nacionales/soria/2025/paquete.zip", "fuentes/por-territorio/nacionales/soria/2025/manifiesto.json"
             self.assertEqual(sorted(r2), [km, k])
             man = json.loads(r2[km][1])
             self.assertEqual((man["run"], man["huella"]), ("44000000001", h))  # huella = package_sha256 del contrato
@@ -61,6 +61,28 @@ class ArchivarP10(unittest.TestCase):
             self.assertEqual(r2, n)
 
 
+class EdicionInmutable(unittest.TestCase):
+    def test_otro_paquete_en_la_misma_edicion_falla_y_no_pisa(self):
+        with tempfile.TemporaryDirectory() as td:
+            td = Path(td)
+            carpeta = td / "pkg"
+            carpeta.mkdir()
+            (carpeta / "bundle.zip").write_bytes(b"bundle")
+            h = hashlib.sha256(b"bundle").hexdigest()
+            (carpeta / "manifest.json").write_text(json.dumps({"path": "bundle.zip", "sha256": h}), encoding="utf-8")
+            k = "fuentes/por-territorio/nacionales/soria/2025/paquete.zip"
+            subidas = []
+            args = argparse.Namespace(territorio="nac42", paquete=str(carpeta), run="1", out=str(td / "out"))
+            with mock.patch.dict("os.environ", {"R2_BUCKET": "bk", "R2_ACCOUNT_ID": "a"}), \
+                    mock.patch.object(b, "validar_paquete_p10", lambda t, c: None), \
+                    mock.patch.object(b, "_identidad_contrato", lambda t: {"package_sha256": h}), \
+                    mock.patch.object(b, "_anios_fuentes", lambda t: ("2025", "2023", "2023")), \
+                    mock.patch("herramientas.archivar_artefactos_r2.r2_cliente",
+                               lambda bk, c: (lambda x: "0" * 64 if x == k else None, lambda *a: subidas.append(a))):
+                self.assertEqual(b.archivar_p10(args), 1)
+            self.assertEqual(subidas, [])
+
+
 class LecturaP10(unittest.TestCase):
     def _zip(self, td: Path, nombre: str, contenido: bytes) -> tuple[Path, str]:
         import zipfile
@@ -76,7 +98,7 @@ class LecturaP10(unittest.TestCase):
             td = Path(td)
             otro, _ = self._zip(td, "otro.zip", b"contrato anterior")
             bueno, h = self._zip(td, "bueno.zip", b"contrato vigente")
-            objetos = {"fuentes/por-territorio/nacionales/soria/paquete.zip": otro, f"arc-e/paquetes-p10/{h}.zip": bueno}
+            objetos = {"fuentes/por-territorio/nacionales/soria/2025/paquete.zip": otro, f"arc-e/paquetes-p10/{h}.zip": bueno}
             vistas = []
 
             def cp(origen, destino):

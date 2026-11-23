@@ -7,7 +7,9 @@ VERSIÓN: 1.5.0
 NOMBRE DE VERSIÓN: Batería del motor
 FECHA: 2026-11-23
 ESTADO: candidato
-CAMBIOS 1.5.0 (T-443, D-188/D-190): `archivar-p10` escribe en el árbol nuevo: `fuentes/por-territorio/<ámbito>/<territorio>/paquete.zip`
+CAMBIOS 1.5.0 (T-443, D-188/D-190/D-198): `archivar-p10` escribe en el árbol nuevo, inmutable por edición del contrato:
+  `fuentes/por-territorio/<ámbito>/<territorio>/<edición>/paquete.zip` (si ya existe con otro sha256 en esa edición, BATERIA_PAQUETE_P10_EDICION_CAMBIADA:
+  hay que abrir edición nueva; nunca se pisa)
   (`interno/competicion/<provincia>/` para la variante de 350) y el `manifiesto.json` de la carpeta (package_sha256 como huella, run de origen,
   sha256 y bytes del zip). ARCHIVO_PAQUETES_P10.json anota la clave nueva y la vieja en `clave_anterior`. La lectura prueba la nueva primero y cae a la
   vieja (por package_sha256, exacta) también si la nueva guarda el paquete de OTRO contrato (la ruta nueva se sustituye al cambiar el contrato);
@@ -472,12 +474,18 @@ def clave_paquete(ident: dict) -> str:
     return f"arc-e/paquetes-p10/{ident['package_sha256']}.zip"
 
 
+def rutas_r2_manifiesto(clave: str) -> str:
+    from herramientas import rutas_r2
+    return rutas_r2.ruta_manifiesto(clave)
+
+
 def claves_paquete_lectura(t: str, ident: dict) -> list[str]:
-    """Claves donde buscar el paquete P10 de ``t``, en orden (T-443): la del árbol nuevo y, de respaldo, la vieja por package_sha256."""
+    """Claves donde buscar el paquete P10 de ``t``, en orden (T-443): la de la edición del contrato en el árbol nuevo y, de respaldo, la vieja
+    por package_sha256."""
     from herramientas import rutas_r2
     try:
-        nueva = rutas_r2.ruta_paquete_p10(t)
-    except (rutas_r2.RutaInvalida, KeyError):
+        nueva = rutas_r2.ruta_paquete_p10(t, _anios_fuentes(t)[0])
+    except (rutas_r2.RutaInvalida, KeyError, OSError, TypeError, AttributeError):
         nueva = None
     return rutas_r2.candidatas(nueva, clave_paquete(ident))
 
@@ -618,17 +626,20 @@ def archivar_p10(args) -> int:
     claves = claves_paquete_lectura(t, ident)  # [nueva, vieja] (o solo la vieja si el territorio no tiene ruta nueva)
     clave = claves[0]
     sha_remoto, subir = r2_cliente(bucket, cuenta)
-    if sha_remoto(clave) != h:
+    remoto = sha_remoto(clave)
+    if remoto is not None and remoto != h and clave != clave_paquete(ident):
+        print(f"::error::BATERIA_PAQUETE_P10_EDICION_CAMBIADA {t}: {clave} ya tiene otro paquete en esta edición (sha256 {remoto}); "
+              "el paquete es inmutable por edición del contrato: abre una edición nueva")
+        return 1
+    if remoto != h:
         subir(clave, z, h)
-    if clave != clave_paquete(ident):
+    if clave != clave_paquete(ident) and sha_remoto(rutas_r2_manifiesto(clave)) is None:  # el manifiesto de la edición tampoco se reescribe
         from herramientas import rutas_r2
         man = rutas_r2.manifiesto({"paquete.zip": {"sha256": h, "bytes": z.stat().st_size}}, run=args.run, huella=ident["package_sha256"],
                                   extra={"carpeta": clave.rsplit("/", 1)[0], "territorio": t})
         mz = out / f"{t}-manifiesto.json"
         mz.write_text(json.dumps(man, indent=2, ensure_ascii=False, sort_keys=True) + "\n", encoding="utf-8")
-        km, hm = rutas_r2.ruta_manifiesto(clave), sha256(mz)
-        if sha_remoto(km) != hm:
-            subir(km, mz, hm)
+        subir(rutas_r2.ruta_manifiesto(clave), mz, sha256(mz))
     registro = {t: {"url": f"r2://{bucket}/{clave}", "clave": clave, "sha256_zip": h, "bytes": z.stat().st_size,
                     "package_sha256": ident["package_sha256"], "origen_run": args.run,
                     "archivado_en": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}}

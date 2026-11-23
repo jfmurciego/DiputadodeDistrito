@@ -19,19 +19,24 @@ CRUCE = ROOT / "docs" / "ESTUDIOS" / "T435_ESTRUCTURA_R2" / "CRUCE_claves.csv"
 
 
 class Arbol(unittest.TestCase):
+    def test_paquete_p10_por_edicion(self):
+        self.assertEqual(r.ruta_paquete_p10("nac47", "2025"), "fuentes/por-territorio/nacionales/valladolid/2025/paquete.zip")
+        with self.assertRaises(r.RutaInvalida):
+            r.ruta_paquete_p10("nac47", "")
+
     def test_paquete_p10_por_ambito(self):
-        self.assertEqual(r.ruta_paquete_p10("nac47"), "fuentes/por-territorio/nacionales/valladolid/paquete.zip")
-        self.assertEqual(r.ruta_paquete_p10(ti.id_legacy("nac47")), "fuentes/por-territorio/nacionales/valladolid/paquete.zip")
-        self.assertEqual(r.ruta_paquete_p10("aut13"), "fuentes/por-territorio/autonomicas/comunidad-de-madrid/paquete.zip")
-        self.assertEqual(r.ruta_paquete_p10("nac28"), "fuentes/por-territorio/nacionales/madrid/paquete.zip")
-        self.assertEqual(r.ruta_paquete_p10("aut03"), "fuentes/por-territorio/autonomicas/principado-de-asturias/paquete.zip")
-        self.assertEqual(r.ruta_paquete_p10("congreso350_valladolid"), "interno/competicion/valladolid/paquete.zip")
+        self.assertEqual(r.ruta_paquete_p10("nac47", "2025"), "fuentes/por-territorio/nacionales/valladolid/2025/paquete.zip")
+        self.assertEqual(r.ruta_paquete_p10(ti.id_legacy("nac47"), "2025"), "fuentes/por-territorio/nacionales/valladolid/2025/paquete.zip")
+        self.assertEqual(r.ruta_paquete_p10("aut13", "2025"), "fuentes/por-territorio/autonomicas/comunidad-de-madrid/2025/paquete.zip")
+        self.assertEqual(r.ruta_paquete_p10("nac28", "2025"), "fuentes/por-territorio/nacionales/madrid/2025/paquete.zip")
+        self.assertEqual(r.ruta_paquete_p10("aut03", "2025"), "fuentes/por-territorio/autonomicas/principado-de-asturias/2025/paquete.zip")
+        self.assertEqual(r.ruta_paquete_p10("congreso350_valladolid", "2025"), "interno/competicion/valladolid/2025/paquete.zip")
 
     def test_nombres_en_espanol_sin_tildes(self):
-        self.assertEqual(r.ruta_paquete_p10("nac15"), "fuentes/por-territorio/nacionales/la-coruna/paquete.zip")
-        self.assertEqual(r.ruta_paquete_p10("nac38"), "fuentes/por-territorio/nacionales/santa-cruz-de-tenerife/paquete.zip")
-        self.assertEqual(r.ruta_paquete_p10("nac48"), "fuentes/por-territorio/nacionales/vizcaya/paquete.zip")
-        self.assertEqual(r.ruta_paquete_p10("aut08"), "fuentes/por-territorio/autonomicas/castilla-la-mancha/paquete.zip")
+        self.assertEqual(r.ruta_paquete_p10("nac15", "2025"), "fuentes/por-territorio/nacionales/la-coruna/2025/paquete.zip")
+        self.assertEqual(r.ruta_paquete_p10("nac38", "2025"), "fuentes/por-territorio/nacionales/santa-cruz-de-tenerife/2025/paquete.zip")
+        self.assertEqual(r.ruta_paquete_p10("nac48", "2025"), "fuentes/por-territorio/nacionales/vizcaya/2025/paquete.zip")
+        self.assertEqual(r.ruta_paquete_p10("aut08", "2025"), "fuentes/por-territorio/autonomicas/castilla-la-mancha/2025/paquete.zip")
 
     def test_toponimos_solo_en_espanol(self):
         """Topónimos de la tabla maestra en español, nunca en otras lenguas (regla del propietario, CLAUDE.md)."""

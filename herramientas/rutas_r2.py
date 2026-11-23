@@ -9,7 +9,9 @@ FECHA: 2026-11-23
 ESTADO: candidato
 CAMBIOS: 1.1.0 (T-443, D-198): en `interno/` la vigente es «publicado + último»: `ruta_estado(…, hueco=)` con `publicado/` (el run de
   orchestracion/publicaciones_visor.json) y `ultimo/` (el más reciente); la doble vuelta de trabajo va a `interno/doble-vuelta/…`
-  (`ruta_doble_vuelta`, `ruta_informe_doble_vuelta_interno`); `mapas/` solo lo escribe la publicación (P40). 1.0.0: fichero nuevo (T-443, paso 1 del §c de docs/ESTUDIOS/T435_ESTRUCTURA_R2/DISENO.md).
+  (`ruta_doble_vuelta`, `ruta_informe_doble_vuelta_interno`); `mapas/` solo lo escribe la publicación (P40). Paquete P10 inmutable por
+  edición del contrato (Planificador, dentro de D-198): `ruta_paquete_p10(tid, edicion)` → `fuentes/por-territorio/<ámbito>/<territorio>/<edición>/paquete.zip`.
+  1.0.0: fichero nuevo (T-443, paso 1 del §c de docs/ESTUDIOS/T435_ESTRUCTURA_R2/DISENO.md).
 MOTIVO: cada herramienta componía su clave a su manera (`<territorio>/<run>/…`, `nacNN/…`, `arc-e/paquetes-p10/<sha>.zip`); D-188 fija
   un árbol en español sin códigos, runs, sha ni versiones en la ruta: `fuentes/`, `mapas/` e `interno/`. El run, la huella y el sha256
   van en `manifiesto.json` de la carpeta.
@@ -19,7 +21,7 @@ QUÉ HACE: funciones puras (sin red): `ruta_fuente`, `ruta_paquete_p10`, `ruta_m
   de lectura de la transición (nueva primero, vieja de respaldo). Nombres de territorio: `nombre_es` de la tabla maestra
   (configuracion/notacion_territorial.csv, vía ddd_core.territorio_ids), con su ámbito (`nacionales`/`autonomicas`); los
   `congreso350_*` (competición, T-428) van a `interno/competicion/<provincia>/`.
-USO: python herramientas/rutas_r2.py validar <ruta>…  ·  python herramientas/rutas_r2.py paquete-p10 <territorio>
+USO: python herramientas/rutas_r2.py validar <ruta>…  ·  python herramientas/rutas_r2.py paquete-p10 <territorio> <edición>
 """
 from __future__ import annotations
 
@@ -120,10 +122,12 @@ def carpeta_territorio(raiz: str, tid: str) -> str:
     return f"{raiz}/{amb}/{nombre}"
 
 
-def ruta_paquete_p10(tid: str) -> str:
-    """Paquete P10 de la fuente del territorio: `fuentes/por-territorio/<ámbito>/<territorio>/paquete.zip` (D-190); su package_sha256 va
-    en el manifiesto de la carpeta. Los `congreso350_*` van a `interno/competicion/<provincia>/paquete.zip` (no son producto, T-428)."""
-    return _ok(f"{carpeta_territorio('fuentes/por-territorio', tid)}/paquete.zip")
+def ruta_paquete_p10(tid: str, edicion: str) -> str:
+    """Paquete P10 de la fuente del territorio, inmutable por edición del contrato (año): `fuentes/por-territorio/<ámbito>/<territorio>/<edición>/paquete.zip`
+    (D-190, D-198); su package_sha256 va en el manifiesto de la carpeta. Los `congreso350_*` van a `interno/competicion/<provincia>/<edición>/paquete.zip`."""
+    if not re.fullmatch(r"\d{4}", str(edicion or "")):
+        raise RutaInvalida(f"edición del contrato mal formada: {edicion!r} (AAAA)")
+    return _ok(f"{carpeta_territorio('fuentes/por-territorio', tid)}/{edicion}/paquete.zip")
 
 
 def carpeta_mapa(tid: str, eleccion: str | None = None) -> str:
@@ -280,8 +284,8 @@ def main(argv: list[str] | None = None) -> int:
             print(f"{'OK ' if not pr else 'MAL'} {r}" + ("" if not pr else "  · " + "; ".join(pr)))
             mal += bool(pr)
         return 1 if mal else 0
-    if len(a) == 2 and a[0] == "paquete-p10":
-        print(ruta_paquete_p10(a[1]))
+    if len(a) == 3 and a[0] == "paquete-p10":
+        print(ruta_paquete_p10(a[1], a[2]))
         return 0
     print(__doc__.splitlines()[-1].strip(), file=sys.stderr)
     return 2
