@@ -3,7 +3,7 @@
   let controller;
 
   /* Vídeo de presentación (T-423): se pinta solo si video.json trae una ruta de vídeo; sin ruta, el bloque queda oculto.
-     El reproductor se ve desplegado desde el principio, con su póster (o el primer fotograma) y los controles a la vista;
+     El reproductor se ve desplegado desde el principio, con su póster (sin póster, el recuadro y los controles) a la vista;
      nunca se reproduce solo ni suena hasta que la persona pulsa play. */
   function initVideo(root) {
     const sec = root.querySelector('[data-video]');
@@ -17,7 +17,7 @@
       cuerpo.textContent = '';
       const v = document.createElement('video');
       v.controls = true;
-      v.preload = 'metadata';
+      v.preload = 'none';  // T-442 (D-192): nada del vídeo se descarga hasta que la persona pulsa play
       v.playsInline = true;
       v.setAttribute('playsinline', '');
       v.className = 'video-reproductor';

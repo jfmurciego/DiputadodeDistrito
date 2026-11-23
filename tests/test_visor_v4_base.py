@@ -127,12 +127,24 @@ class PortadaV4(unittest.TestCase):
 
     def test_webp_coinciden_con_manifiesto(self):
         man = json.loads(_txt("assets-manifest.json"))
-        self.assertEqual(len(man["assets"]), 3)
+        self.assertEqual(len(man["assets"]), 5)  # 3 originales de la autora + 2 copias reducidas para pantallas pequeñas (T-442)
         for a in man["assets"]:
             h = hashlib.sha256((V4 / a["file"]).read_bytes()).hexdigest()
             self.assertEqual(h, a["sha256"], a["file"])
         h = hashlib.sha256((V4 / "assets/congreso.webp").read_bytes()).hexdigest()
         self.assertEqual(h, SHA["congreso.webp"])
+
+    def test_copias_reducidas_para_movil(self):
+        # T-442 (D-192): cada copia reducida declara su original con el sha256 de la autora y pesa menos; la portada la sirve solo en pantallas pequeñas
+        man = {a["file"]: a for a in json.loads(_txt("assets-manifest.json"))["assets"]}
+        portada = _txt("index.html")
+        for copia, original, ancho in (("assets/congreso-760.webp", "assets/congreso.webp", 600), ("assets/mapa_espana-320.webp", "assets/mapa_espana.webp", 1000)):
+            e = man[copia]
+            self.assertEqual((e["source_type"], e["derived_from"], e["derived_from_sha256"]), ("derived", original, man[original]["sha256"]))
+            self.assertLess((V4 / copia).stat().st_size, (V4 / original).stat().st_size)
+            self.assertIn(f'<source media="(max-width:{ancho}px)" srcset="{copia}"', portada)
+            self.assertIn(f'<img src="{original}"', portada)  # el original sigue para el resto de pantallas
+        self.assertEqual(hashlib.sha256((V4 / "assets/congreso.webp").read_bytes()).hexdigest(), SHA["congreso.webp"])
 
     def test_video_configurable_y_vacio(self):
         cfg = json.loads(_txt("video.json"))
