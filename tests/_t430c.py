@@ -5,8 +5,9 @@ import copy
 BLOQUE_CAMBIOS = """# T-430 3b (D-194, P6): PR que solo toca la web (y toca visor/v4/): pruebas de la web en vez de la batería completa.
 web=false
 if [[ "$EVENTO" == "pull_request" && "$files" != "todo" && -n "$files" ]]; then
-  ajeno="$(grep -vE "$RUTAS_WEB" <<<"$files" || true)"
-  if [[ -z "$ajeno" ]] && grep -qE '^visor/v4/' <<<"$files"; then web=true; fi
+  ajeno="$(grep -vE "$RUTAS_WEB" <<<"$files")"; rc=$?  # 0: hay ajenos; 1: ninguno; >1: error de grep -> batería completa
+  if (( rc > 1 )); then echo "::notice::No se pudo clasificar la PR como solo web (grep rc=$rc): batería completa."
+  elif [[ -z "$ajeno" ]] && grep -qE '^visor/v4/' <<<"$files"; then web=true; fi
 fi
 echo "web=$web" >> "$GITHUB_OUTPUT"
 echo "web=$web"

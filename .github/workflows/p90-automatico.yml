@@ -123,8 +123,9 @@ jobs:
           # T-430 3b (D-194, P6): PR que solo toca la web (y toca visor/v4/): pruebas de la web en vez de la batería completa.
           web=false
           if [[ "$EVENTO" == "pull_request" && "$files" != "todo" && -n "$files" ]]; then
-            ajeno="$(grep -vE "$RUTAS_WEB" <<<"$files" || true)"
-            if [[ -z "$ajeno" ]] && grep -qE '^visor/v4/' <<<"$files"; then web=true; fi
+            ajeno="$(grep -vE "$RUTAS_WEB" <<<"$files")"; rc=$?  # 0: hay ajenos; 1: ninguno; >1: error de grep -> batería completa
+            if (( rc > 1 )); then echo "::notice::No se pudo clasificar la PR como solo web (grep rc=$rc): batería completa."
+            elif [[ -z "$ajeno" ]] && grep -qE '^visor/v4/' <<<"$files"; then web=true; fi
           fi
           echo "web=$web" >> "$GITHUB_OUTPUT"
           echo "web=$web"
@@ -430,12 +431,18 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11.13'
       - name: Pruebas de la web
         shell: bash
         run: |
           set -euo pipefail
-          python3 -m venv /tmp/venv-web && /tmp/venv-web/bin/pip install --disable-pip-version-check -q "$(grep -E '^PyYAML==' requirements.lock)"
-          /tmp/venv-web/bin/python -m unittest tests.test_visor_v4_base tests.test_visor_v4_mapa tests.test_t428_v4_raiz \
+          python -m pip install --disable-pip-version-check -q "$(grep -E '^PyYAML==' requirements.lock)"
+          # Todos los test_visor_v4* (un test nuevo de la web entra solo) y los demás tests de la batería que leen visor/v4/ o recorren visor/
+          # (grep de «visor/v4» y «visor/» en tests/, 23-11; lista en el registro). Más tests que lean la web: añadirlos aquí.
+          python -m unittest discover -s tests -t . -p 'test_visor_v4*.py'
+          python -m unittest tests.test_t428_v4_raiz tests.test_t429_textos_v4 tests.test_t419_publicar_doble_vuelta tests.test_visor_analitica \
             tests.test_visor_sin_terceros tests.test_t220_renombrado tests.test_t430_pruebas_web
 
   catalogo:

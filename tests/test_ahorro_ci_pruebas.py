@@ -149,6 +149,25 @@ class ClasificacionRobot(unittest.TestCase):
             with self.subTest(nombre):
                 self.assertEqual(self.clasificar(evento, "persona", ficheros)["web"], "false")
 
+    def test_job_web_python_fijado_y_tests_que_leen_la_web(self):
+        j = yaml.safe_load(WF.read_text(encoding="utf-8"))["jobs"]["web"]
+        self.assertEqual(j["steps"][1]["with"]["python-version"], "3.11.13")
+        run = j["steps"][-1]["run"]
+        self.assertIn("discover -s tests -t . -p 'test_visor_v4*.py'", run)
+        for t in ("test_t428_v4_raiz", "test_t429_textos_v4", "test_t419_publicar_doble_vuelta", "test_visor_analitica",
+                  "test_visor_sin_terceros", "test_t220_renombrado", "test_t430_pruebas_web"):
+            self.assertIn("tests." + t, run)
+        # control: ningún test fuera de la lista lee visor/v4 (si aparece uno nuevo, hay que añadirlo al job)
+        lectores = sorted(p.stem for p in (Path(__file__).parent).glob("test_*.py") if "visor/v4" in p.read_text(encoding="utf-8"))
+        fuera = [t for t in lectores if not t.startswith("test_visor_v4") and "tests." + t not in run
+                 and t not in ("test_ahorro_ci_pruebas", "test_t372_p40_equivalencia", "test_t377_p20_equivalencia")]
+        self.assertEqual(fuera, [], "tests que leen visor/v4 fuera del job web")
+
+    def test_grep_con_error_no_activa_el_atajo(self):
+        paso = paso_cambios()
+        self.assertIn('ajeno="$(grep -vE "$RUTAS_WEB" <<<"$files")"; rc=$?', paso["run"])
+        self.assertIn("if (( rc > 1 )); then", paso["run"])
+
     def test_pruebas_exige_web_en_verde_si_hay_atajo(self):
         run = yaml.safe_load(WF.read_text(encoding="utf-8"))["jobs"]["pruebas"]["steps"][0]["run"]
         casos = {  # (suite, es_web, web, robot) -> rc
