@@ -28,14 +28,28 @@ def art(i, nombre, expira, expired=False):
 class R2Falso:
     def __init__(self):
         self.objs = {}
+        self.runs = {}
+        self.condiciones = []
         self.subidas = 0
 
     def sha(self, k):
         return self.objs.get(k)
 
-    def subir(self, k, ruta, h):
+    def subir(self, k, ruta, h, run=None, condicion=None):
+        if condicion == "*" and k in self.objs:
+            raise RuntimeError("R2_ESCRITURA_CONCURRENTE")
+        if condicion not in (None, "*") and condicion != self.etag(k):
+            raise RuntimeError("R2_ESCRITURA_CONCURRENTE")
         self.subidas += 1
         self.objs[k] = h
+        self.runs[k] = run
+        self.condiciones.append(condicion)
+
+    def etag(self, k):
+        return f'"{self.objs[k][:8]}-{self.runs.get(k)}"' if k in self.objs else None
+
+    def cab(self, k):
+        return {"sha256": self.objs[k], "run": self.runs.get(k), "bytes": 3, "etag": self.etag(k)} if k in self.objs else None
 
 
 class Archivista(unittest.TestCase):
@@ -83,12 +97,17 @@ class Archivista(unittest.TestCase):
         self.assertEqual(e["caducidad_original"], "2026-11-20T00:00:00Z")
         self.assertEqual(len(e["sha256"]), 64)
         self.assertEqual(e["tamano_bytes"], 4)
-        self.assertEqual(set(self.r2.objs.values()), {x['sha256'] for x in self.man['artefactos'].values()})
+        # T-443: la auditoría va al árbol nuevo (sin run en la ruta) con el manifiesto de su carpeta; el estado completo, a la clave vieja
+        self.assertIn("interno/estados/autonomicas/cantabria/ultimo/audit.zip", self.man["artefactos"])
+        self.assertEqual(self.man["artefactos"]["interno/estados/autonomicas/cantabria/ultimo/audit.zip"]["run_id"], "41037133327")
+        self.assertEqual(res["manifiestos"], ["interno/estados/autonomicas/cantabria/ultimo/manifiesto.json"])
+        objs = {k: v for k, v in self.r2.objs.items() if not k.endswith("/manifiesto.json")}
+        self.assertEqual(set(objs.values()), {x['sha256'] for x in self.man['artefactos'].values()})
 
     def test_idempotente(self):
         self.correr()
         res = self.correr()
-        self.assertEqual(self.r2.subidas, 2)
+        self.assertEqual(self.r2.subidas, 3)  # 2 objetos + manifiesto.json (T-443); el segundo pase no resube nada
         self.assertEqual(len(res["ya_archivados"]), 2)
         self.assertEqual(res["archivados"], [])
 
@@ -96,7 +115,7 @@ class Archivista(unittest.TestCase):
         self.correr()
         self.man["artefactos"].clear()  # manifiesto perdido, R2 conserva los objetos
         res = self.correr()
-        self.assertEqual(self.r2.subidas, 2)
+        self.assertEqual(self.r2.subidas, 3)  # el manifiesto reconstruido es idéntico: no se resube
         self.assertEqual(len(res["sin_cambios_r2"]), 2)
 
     def test_caduca_antes_y_maximo(self):
@@ -225,7 +244,7 @@ class PaqueteMinimo(unittest.TestCase):
         res = arc.archivar(viv, {"ddd-state-41037133327-M06": "cantabria"}, {}, man,
                            lambda a, p: p.write_bytes((self.d / "e.zip").read_bytes()), r2.sha, r2.subir, "bkt",
                            empaquetar=arc.empaquetar_minimo())
-        k = "cantabria/41037133327/ddd-minimo-41037133327-M06.zip"
+        k = "interno/estados/autonomicas/cantabria/ultimo/minimo-m06.zip"  # T-443: árbol nuevo, sin run en la ruta
         self.assertEqual(res["archivados"], [k])
         e = man["artefactos"][k]
         self.assertEqual(e["artefacto"], "ddd-minimo-41037133327-M06")
@@ -233,6 +252,109 @@ class PaqueteMinimo(unittest.TestCase):
         self.assertEqual(e["sha256_estado_original"], arc.sha256_fichero(self.d / "e.zip"))
         self.assertLess(e["tamano_bytes"], e["tamano_estado_original"])
         self.assertEqual(res["perdidos"], [])
+        self.assertEqual(e["run_id"], "41037133327")
+
+    def test_t443_un_run_anterior_no_pisa_al_ultimo(self):
+        r2 = R2Falso()
+        man = {"artefactos": {}}
+        bajar = lambda a, p: p.write_bytes(a["name"].encode())  # noqa: E731
+        nuevo = {**art(9, "ddd-audit-41037133399", "2026-11-25T00:00:00Z")}
+        viejo = {**art(8, "ddd-audit-41037133327", "2026-11-20T00:00:00Z")}
+        refs = {"ddd-audit-41037133399": "cantabria", "ddd-audit-41037133327": "cantabria"}
+        arc.archivar([nuevo], refs, {}, man, bajar, r2.sha, r2.subir, "bkt")
+        res = arc.archivar([viejo], refs, {}, man, bajar, r2.sha, r2.subir, "bkt")
+        k = "interno/estados/autonomicas/cantabria/ultimo/audit.zip"
+        self.assertEqual(res["superados"], [k])
+        self.assertEqual(man["artefactos"][k]["run_id"], "41037133399")
+        m = arc.manifiesto_carpeta(man["artefactos"], "interno/estados/autonomicas/cantabria/ultimo")
+        self.assertEqual(m["ficheros"]["audit.zip"]["run"], "41037133399")
+
+    def test_t443_publicado_y_ultimo(self):
+        """D-198: el run publicado va a publicado/ y a ultimo/; uno más reciente sin publicar solo a ultimo/, sin tocar publicado/."""
+        r2 = R2Falso()
+        man = {"artefactos": {}}
+        bajar = lambda a, p: p.write_bytes(a["name"].encode())  # noqa: E731
+        refs = {"ddd-audit-41037133327": "cantabria", "ddd-audit-41037133399": "cantabria"}
+        pub = {("aut06", "m06"): "41037133327", ("aut06", "m08"): "41037133327"}
+        arc.archivar([art(8, "ddd-audit-41037133327", "2026-11-20T00:00:00Z")], refs, {}, man, bajar, r2.sha, r2.subir, "bkt",
+                     publicado=pub, r2_cab=r2.cab)
+        base = "interno/estados/autonomicas/cantabria"
+        self.assertEqual((r2.runs[f"{base}/publicado/audit.zip"], r2.runs[f"{base}/ultimo/audit.zip"]), ("41037133327", "41037133327"))
+        arc.archivar([art(9, "ddd-audit-41037133399", "2026-11-25T00:00:00Z")], refs, {}, man, bajar, r2.sha, r2.subir, "bkt",
+                     publicado=pub, r2_cab=r2.cab)
+        self.assertEqual((r2.runs[f"{base}/publicado/audit.zip"], r2.runs[f"{base}/ultimo/audit.zip"]), ("41037133327", "41037133399"))
+        # restaurar y P75 encuentran los dos runs por run_id
+        self.assertEqual(sorted(e["run_id"] for e in man["artefactos"].values()), ["41037133327", "41037133399"])
+        self.assertEqual(arc.manifiesto_carpeta(man["artefactos"], f"{base}/publicado", r2.cab)["ficheros"]["audit.zip"]["run"], "41037133327")
+
+    def test_t443_la_guarda_es_la_de_r2_no_la_del_indice(self):
+        """Índice perdido o atrasado (fallo de push): R2 ya tiene un run mayor en ultimo/ → no se pisa."""
+        r2 = R2Falso()
+        k = "interno/estados/autonomicas/cantabria/ultimo/audit.zip"
+        r2.objs[k], r2.runs[k] = "f" * 64, "41037133399"
+        man = {"artefactos": {}}
+        res = arc.archivar([art(8, "ddd-audit-41037133327", "2026-11-20T00:00:00Z")], {"ddd-audit-41037133327": "cantabria"}, {}, man,
+                           lambda a, p: p.write_bytes(b"x"), r2.sha, r2.subir, "bkt", r2_cab=r2.cab)
+        self.assertEqual((res["superados"], r2.subidas, r2.runs[k]), ([k], 0, "41037133399"))
+
+    def test_t443_el_manifiesto_dice_lo_que_hay_en_r2(self):
+        r2 = R2Falso()
+        base = "interno/estados/autonomicas/cantabria/ultimo"
+        r2.objs[f"{base}/audit.zip"], r2.runs[f"{base}/audit.zip"] = "a" * 64, "7"
+        ent = {f"{base}/audit.zip": {"sha256": "b" * 64, "run_id": "6"}, f"{base}/minimo-m08.zip": {"sha256": "c" * 64, "run_id": "6"}}
+        m = arc.manifiesto_carpeta(ent, base, r2.cab)
+        self.assertEqual(sorted(m["ficheros"]), ["audit.zip"])  # el que no está en R2 sale
+        self.assertEqual((m["ficheros"]["audit.zip"]["sha256"], m["ficheros"]["audit.zip"]["run"]), ("a" * 64, "7"))
+
+    def test_t443_publicado_por_tipo(self):
+        """Revisión de 57f1f11 (3): el run publicado se resuelve por territorio Y tipo (canonical_m06 / canonical_m08)."""
+        pub = {("aut06", "m06"): "100", ("aut06", "m08"): "200"}
+        self.assertTrue(arc.es_del_publicado("ddd-minimo-100-M06", "cantabria", "100", pub))
+        self.assertFalse(arc.es_del_publicado("ddd-minimo-200-M06", "cantabria", "200", pub))
+        self.assertTrue(arc.es_del_publicado("ddd-minimo-200-M08", "cantabria", "200", pub))
+        self.assertTrue(arc.es_del_publicado("ddd-audit-100", "cantabria", "100", pub))
+        self.assertFalse(arc.es_del_publicado("ddd-audit-300", "cantabria", "300", pub))
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "orchestracion").mkdir()
+            (root / arc.VISOR).write_text(json.dumps({"products": [
+                {"kind": "canonical_m06", "territory_id": "aut06", "run_id": "100"},
+                {"kind": "canonical_m08", "territory_id": "aut06", "run_id": "200"},
+                {"kind": "canonical_m08", "territory_id": "aut06", "run_id": "150"}]}))
+            self.assertEqual(arc.publicados(root), pub)
+
+    def test_t443_escritura_condicional_y_resubida_por_run(self):
+        r2 = R2Falso()
+        man = {"artefactos": {}}
+        bajar = lambda a, p: p.write_bytes(b"mismo contenido")  # noqa: E731
+        refs = {"ddd-audit-41037133327": "cantabria", "ddd-audit-41037133399": "cantabria"}
+        arc.archivar([art(8, "ddd-audit-41037133327", "2026-11-20T00:00:00Z")], refs, {}, man, bajar, r2.sha, r2.subir, "bkt", r2_cab=r2.cab)
+        k = "interno/estados/autonomicas/cantabria/ultimo/audit.zip"
+        self.assertEqual(r2.condiciones[0], "*")  # no existía: If-None-Match
+        etag = r2.etag(k)
+        res = arc.archivar([art(9, "ddd-audit-41037133399", "2026-11-25T00:00:00Z")], refs, {}, man, bajar, r2.sha, r2.subir, "bkt", r2_cab=r2.cab)
+        self.assertEqual((res["archivados"][0], r2.runs[k]), (k, "41037133399"))  # mismo sha256, otro run: se resube
+        self.assertIn(etag, r2.condiciones)  # If-Match con lo leído (el manifiesto sube sin condición)
+
+    def test_t443_escritura_concurrente_no_pisa(self):
+        r2 = R2Falso()
+        k = "interno/estados/autonomicas/cantabria/ultimo/audit.zip"
+        cab_vieja = {"sha256": None, "run": None, "bytes": None, "etag": None}
+
+        def cab(x):  # lee «no existe»; entre la lectura y la escritura otro proceso la crea
+            if x == k:
+                r2.objs[k], r2.runs[k] = "e" * 64, "41037133327"
+                return None
+            return r2.cab(x)
+        res = arc.archivar([art(8, "ddd-audit-41037133327", "2026-11-20T00:00:00Z")], {"ddd-audit-41037133327": "cantabria"}, {},
+                           {"artefactos": {}}, lambda a, p: p.write_bytes(b"x"), r2.sha, r2.subir, "bkt", r2_cab=cab)
+        self.assertTrue(any("R2_ESCRITURA_CONCURRENTE" in e for e in res["errores"]), res)
+        self.assertEqual(r2.objs[k], "e" * 64)
+        self.assertIsNone(cab_vieja["etag"])
+
+    def test_t443_territorio_sin_resolver_conserva_la_clave_vieja(self):
+        a = {"name": "ddd-audit-1234567890", "territorio": "sin_territorio", "run": "1234567890"}
+        self.assertEqual(arc.clave(a), "sin_territorio/1234567890/ddd-audit-1234567890.zip")
 
 
 class Reintentos(unittest.TestCase):

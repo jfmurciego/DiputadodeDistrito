@@ -92,6 +92,9 @@ class Huellas(Base):
                     ahora = _t430d.deshacer_3c(_t430d.deshacer_medicion(ahora))  # y T-450 §4 (1.5.2)
                 if n == "p10-fuentes":  # T-449 (P10 1.0.3), posterior a la 2a: se deshace solo el espejo
                     ahora = sin_t449(ahora)
+                if n == "p70-archivo":  # T-443 (p70 1.1.7), posterior a la 2a: se deshace solo eso
+                    from tests import _t443
+                    ahora = _t443.deshacer(ahora)
                 self.assertEqual(deshacer(n, ahora), antes)
 
     def test_control_negativo_equivalencia(self):

@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.603
+Versión: 1.0.607
 Fecha: 2026-11-23
-Alcance: T-448 — Diagnóstico de la sección 0804703001 de Barcelona (2011-11), solo documento
+Alcance: T-443 — Árbol nuevo de R2 (3/5): los escritores escriben en `fuentes/` e `interno/` (D-198)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-23_t448-doc-barcelona-0804703001.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.602_registro_20261123.md
+Cambios/motivo: entrada docs/registro/2026-11-23_t443-r2-escritores.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.606_registro_20261123.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,10 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.602_registro_20261123.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.607 · [2026-11-23 — T-443 — Árbol nuevo de R2 (3/5): los escritores escriben en `fuentes/` e `interno/` (D-198)](registro/2026-11-23_t443-r2-escritores.md)
+- 1.0.606 · [2026-11-23 — T-441 — Cifras reales de la medición de la web en el diseño de carga ligera (§1.3)](registro/2026-11-23_t441-cifras-medicion.md)
+- 1.0.605 · [2026-11-23 — T-451 — Vista previa al compartir (imagen, iconos y etiquetas de la V4)](registro/2026-11-23_t451-vista-previa.md)
+- 1.0.604 · [2026-11-23 — T-448 — Histórico 2011-11: sucesora sin fila que contiene la sección del Censo (D-200); Barcelona pasa a LISTA](registro/2026-11-23_t448-d200-cardona.md)
 - 1.0.603 · [2026-11-23 — T-448 — Diagnóstico de la sección 0804703001 de Barcelona (2011-11), solo documento](registro/2026-11-23_t448-doc-barcelona-0804703001.md)
 - 1.0.602 · [2026-11-23 — T-450 — Diagnóstico del bloqueo 403 de Cloudflare a la medición de la web (solo documento)](registro/2026-11-23_t450-bloqueo-cdn.md)
 - 1.0.601 · [2026-11-23 — T-430 — Medición de la web con la cabecera secreta del CDN (T-450 §4)](registro/2026-11-23_t430-medir-cabecera-cdn.md)

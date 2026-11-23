@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
+<!-- T-451: fuente de assets/compartir-1200x630.jpg (vista previa al compartir). No se publica (NO_PUBLICAR.txt). Mismos textos, ilustraciones y
+     estilos que la portada; para regenerar la imagen: python3 herramientas/generar_vista_previa_v4.py -->
+<title>Tarjeta para compartir</title><link rel="stylesheet" href="styles.css">
+<style>
+html,body{margin:0;width:1200px;height:630px;overflow:hidden;background:var(--coal)}
+.tarjeta{position:relative;width:1200px;height:630px;overflow:hidden;background:radial-gradient(ellipse at 76% 42%,#24282a,#11181b 48%,#0b0d0e 80%)}
+.tarjeta .foto{position:absolute;top:0;left:0;width:560px;height:546px}
+.tarjeta .foto img{width:100%;height:100%;object-fit:cover;object-position:40% top;display:block}
+.tarjeta .foto:after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,#0b0d0e 0,transparent 14%),linear-gradient(90deg,transparent 88%,#11181b 100%)}
+.tarjeta .mapa{position:absolute;top:34px;right:30px;width:158px;margin:0}
+.tarjeta .mapa img{width:100%;height:auto;display:block;mix-blend-mode:lighten}
+.tarjeta .texto{position:absolute;left:560px;top:150px;right:40px}
+.tarjeta h1{margin:0;font:700 66px/.96 var(--serif);letter-spacing:-.055em;color:var(--white)}
+.tarjeta h1 strong{display:block;font:inherit;font-size:1.25em;line-height:1;color:var(--orange)}
+.tarjeta .rule{width:250px;height:3px;margin:18px 0 16px;background:linear-gradient(90deg,var(--orange),#d8652220)}
+.tarjeta .statement{font:700 25px/1.2 var(--serif);text-transform:uppercase;margin:0 0 14px;color:var(--white)}
+.tarjeta .substatement{font:400 28px/1.15 var(--serif);letter-spacing:.06em;margin:0 0 6px;color:var(--white)}
+.tarjeta .abstencion{font:700 26px/1.2 var(--serif);color:var(--orange);margin:0}
+.tarjeta .pie{position:absolute;left:0;right:0;bottom:0;height:84px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;
+  background:linear-gradient(110deg,#65151e,#411117);border-top:1px solid #996443}
+.tarjeta .marca{display:flex;align-items:center;gap:14px;color:var(--white)}
+.tarjeta .marca img{width:62px;height:49px;object-fit:contain}
+.tarjeta .marca span{font:700 25px/.98 var(--serif);letter-spacing:-.025em}
+.tarjeta .dominio{font:400 26px/1 var(--serif);color:#f6dfd0;letter-spacing:.02em}
+</style></head><body>
+<div class="tarjeta">
+  <div class="foto"><img src="assets/congreso.webp" alt=""></div>
+  <figure class="mapa"><img src="assets/mapa_espana.webp" alt=""></figure>
+  <div class="texto">
+    <h1>DIPUTADO DE <strong>DISTRITO</strong></h1><div class="rule"></div>
+    <p class="statement">Contra el sistema de partidos</p><p class="substatement">TU REPRESENTANTE</p><p class="abstencion">ABSTENCIÓN CONSCIENTE</p>
+  </div>
+  <div class="pie"><div class="marca"><img src="assets/logotipo_espana.webp" alt=""><span>DIPUTADO<br>DE DISTRITO</span></div>
+    <div class="dominio">diputadodedistrito.es</div></div>
+</div>
+</body></html>

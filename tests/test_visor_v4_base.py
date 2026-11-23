@@ -127,7 +127,10 @@ class PortadaV4(unittest.TestCase):
 
     def test_webp_coinciden_con_manifiesto(self):
         man = json.loads(_txt("assets-manifest.json"))
-        self.assertEqual(len(man["assets"]), 5)  # 3 originales de la autora + 2 copias reducidas para pantallas pequeñas (T-442)
+        self.assertEqual(len(man["assets"]), 9)  # 3 originales de la autora + 2 copias reducidas (T-442) + vista previa e iconos (T-451)
+        for a in man["assets"]:
+            if a["source_type"] == "derived":  # toda copia declara su original con el sha256 del manifiesto
+                self.assertEqual(a["derived_from_sha256"], next(o["sha256"] for o in man["assets"] if o["file"] == a["derived_from"]), a["file"])
         for a in man["assets"]:
             h = hashlib.sha256((V4 / a["file"]).read_bytes()).hexdigest()
             self.assertEqual(h, a["sha256"], a["file"])

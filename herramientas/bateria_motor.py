@@ -3,10 +3,17 @@
 """Batería del motor (T-132): entradas reproducibles desde fuente, M04-M06 en local y matriz territorio × regla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.4
+VERSIÓN: 1.5.0
 NOMBRE DE VERSIÓN: Batería del motor
-FECHA: 2026-11-22
+FECHA: 2026-11-23
 ESTADO: candidato
+CAMBIOS 1.5.0 (T-443, D-188/D-190/D-198): `archivar-p10` escribe en el árbol nuevo, inmutable por edición del contrato:
+  `fuentes/por-territorio/<ámbito>/<territorio>/<edición>/paquete.zip` (si ya existe con otro sha256 en esa edición, BATERIA_PAQUETE_P10_EDICION_CAMBIADA:
+  hay que abrir edición nueva; nunca se pisa)
+  (`interno/competicion/<provincia>/` para la variante de 350) y el `manifiesto.json` de la carpeta (package_sha256 como huella, run de origen,
+  sha256 y bytes del zip). ARCHIVO_PAQUETES_P10.json anota la clave nueva y la vieja en `clave_anterior`. La lectura prueba la nueva primero y cae a la
+  vieja (por package_sha256, exacta) también si la nueva guarda el paquete de OTRO contrato (la ruta nueva se sustituye al cambiar el contrato);
+  zip inseguro o paquete que la 00 rechaza siguen fallando cerrado.
 CAMBIOS 1.4.4 (T-443, D-188/D-190): `paquete_p10_desde_r2` lee con doble ruta durante la transición del árbol de R2: primero
   `fuentes/por-territorio/<ámbito>/<territorio>/paquete.zip` (herramientas/rutas_r2.py) y, si no está, `arc-e/paquetes-p10/<package_sha256>.zip`.
   La validación (sha256 del bundle = package_sha256 del contrato) no cambia. `archivar-p10` sigue escribiendo la ruta vieja (cambia en la PR de escritores).
@@ -69,7 +76,7 @@ MOTIVO: responder en minutos y sin lanzar nada si el motor vigente produce distr
   (52 circunscripciones del Congreso + 19 comunidades) y qué cambia entre versiones del motor (decisión del
   propietario: opción B, batería primero).
 CAMBIOS 1.2.6 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/bateria_motor_v1.4.3_20261122.py
+ANTERIOR: legacy/herramientas/bateria_motor_v1.4.4_20261123.py
 QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como
@@ -467,12 +474,18 @@ def clave_paquete(ident: dict) -> str:
     return f"arc-e/paquetes-p10/{ident['package_sha256']}.zip"
 
 
+def rutas_r2_manifiesto(clave: str) -> str:
+    from herramientas import rutas_r2
+    return rutas_r2.ruta_manifiesto(clave)
+
+
 def claves_paquete_lectura(t: str, ident: dict) -> list[str]:
-    """Claves donde buscar el paquete P10 de ``t``, en orden (T-443): la del árbol nuevo y, de respaldo, la vieja por package_sha256."""
+    """Claves donde buscar el paquete P10 de ``t``, en orden (T-443): la de la edición del contrato en el árbol nuevo y, de respaldo, la vieja
+    por package_sha256."""
     from herramientas import rutas_r2
     try:
-        nueva = rutas_r2.ruta_paquete_p10(t)
-    except (rutas_r2.RutaInvalida, KeyError):
+        nueva = rutas_r2.ruta_paquete_p10(t, _anios_fuentes(t)[0])
+    except (rutas_r2.RutaInvalida, KeyError, OSError, TypeError, AttributeError):
         nueva = None
     return rutas_r2.candidatas(nueva, clave_paquete(ident))
 
@@ -515,24 +528,35 @@ def paquete_p10_desde_r2(t: str, out: Path) -> Path | None:
     shutil.rmtree(work, ignore_errors=True)
     work.mkdir(parents=True)
     z = work / "paquete.zip"
-    for clave in claves_paquete_lectura(t, ident):
+    claves = claves_paquete_lectura(t, ident)
+    pendiente: PaqueteP10Corrupto | None = None
+    for i, clave in enumerate(claves):
         try:
             _r2_cp(f"s3://{bucket}/{clave}", str(z))
-            break
         except (subprocess.CalledProcessError, KeyError, OSError):
             z.unlink(missing_ok=True)
-    else:
-        shutil.rmtree(work, ignore_errors=True)
-        return None
-    carpeta = work / "pkg"
-    with zipfile.ZipFile(z) as zf:
-        raiz = carpeta.resolve()
-        for m in zf.infolist():
-            if raiz not in (carpeta / m.filename).resolve().parents and (carpeta / m.filename).resolve() != raiz:
-                raise PaqueteP10Corrupto(f"ruta insegura en el paquete: {m.filename}")
-        zf.extractall(carpeta)
-    validar_paquete_p10(t, carpeta)
-    return carpeta
+            continue
+        carpeta = work / f"pkg{i}"
+        with zipfile.ZipFile(z) as zf:
+            raiz = carpeta.resolve()
+            for m in zf.infolist():
+                if raiz not in (carpeta / m.filename).resolve().parents and (carpeta / m.filename).resolve() != raiz:
+                    raise PaqueteP10Corrupto(f"ruta insegura en el paquete: {m.filename}")
+            zf.extractall(carpeta)
+        try:
+            validar_paquete_p10(t, carpeta)
+        except PaqueteP10Corrupto as exc:
+            if i + 1 < len(claves) and "no es el del contrato" in str(exc):  # T-443: la ruta nueva guarda el paquete de otro contrato
+                shutil.rmtree(carpeta, ignore_errors=True)
+                z.unlink(missing_ok=True)
+                pendiente = exc
+                continue
+            raise
+        return carpeta
+    shutil.rmtree(work, ignore_errors=True)
+    if pendiente is not None:  # sin respaldo válido: el paquete de otro contrato es un fallo cerrado, no «falta»
+        raise pendiente
+    return None
 
 
 def entradas(args) -> int:
@@ -576,7 +600,8 @@ def entradas(args) -> int:
 
 def archivar_p10(args) -> int:
     """Archiva en R2 (ARC-E) el paquete P10 de la fuente de ``territorio`` (carpeta ``--paquete`` = artefacto ddd-source-package-* ya
-    descomprimido): comprueba que es el del contrato y lo sube en ``arc-e/paquetes-p10/<package_sha256>.zip`` con su sha256."""
+    descomprimido): comprueba que es el del contrato y lo sube en ``fuentes/por-territorio/<ámbito>/<territorio>/paquete.zip`` con su sha256
+    y el ``manifiesto.json`` de la carpeta (T-443)."""
     from herramientas.archivar_artefactos_r2 import r2_cliente
     t, carpeta = args.territorio, Path(args.paquete)
     bucket, cuenta = os.environ.get("R2_BUCKET", ""), os.environ.get("R2_ACCOUNT_ID", "")
@@ -598,13 +623,28 @@ def archivar_p10(args) -> int:
             info.compress_type = zipfile.ZIP_DEFLATED
             zf.writestr(info, f.read_bytes())
     h = sha256(z)
-    clave = clave_paquete(ident)
+    claves = claves_paquete_lectura(t, ident)  # [nueva, vieja] (o solo la vieja si el territorio no tiene ruta nueva)
+    clave = claves[0]
     sha_remoto, subir = r2_cliente(bucket, cuenta)
-    if sha_remoto(clave) != h:
+    remoto = sha_remoto(clave)
+    if remoto is not None and remoto != h and clave != clave_paquete(ident):
+        print(f"::error::BATERIA_PAQUETE_P10_EDICION_CAMBIADA {t}: {clave} ya tiene otro paquete en esta edición (sha256 {remoto}); "
+              "el paquete es inmutable por edición del contrato: abre una edición nueva")
+        return 1
+    if remoto != h:
         subir(clave, z, h)
+    if clave != clave_paquete(ident) and sha_remoto(rutas_r2_manifiesto(clave)) is None:  # el manifiesto de la edición tampoco se reescribe
+        from herramientas import rutas_r2
+        man = rutas_r2.manifiesto({"paquete.zip": {"sha256": h, "bytes": z.stat().st_size}}, run=args.run, huella=ident["package_sha256"],
+                                  extra={"carpeta": clave.rsplit("/", 1)[0], "territorio": t})
+        mz = out / f"{t}-manifiesto.json"
+        mz.write_text(json.dumps(man, indent=2, ensure_ascii=False, sort_keys=True) + "\n", encoding="utf-8")
+        subir(rutas_r2.ruta_manifiesto(clave), mz, sha256(mz))
     registro = {t: {"url": f"r2://{bucket}/{clave}", "clave": clave, "sha256_zip": h, "bytes": z.stat().st_size,
                     "package_sha256": ident["package_sha256"], "origen_run": args.run,
                     "archivado_en": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}}
+    if len(claves) > 1:
+        registro[t]["clave_anterior"] = claves[1]
     (out / "ARCHIVO_PAQUETES_P10.json").write_text(json.dumps(registro, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(json.dumps(registro[t]))
     return 0
