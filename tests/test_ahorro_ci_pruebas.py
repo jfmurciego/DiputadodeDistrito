@@ -1,5 +1,6 @@
 """Ahorro de CI (T-149, D-49): robots solo con guardián, cancelación en main, nocturna; los cambios de código siguen con la batería completa."""
 import os
+import re
 import subprocess
 import tempfile
 import unittest
@@ -10,6 +11,8 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 WF = ROOT / ".github" / "workflows" / "p90-automatico.yml"
 ZEROS = "0" * 40
+# Un test lee la web si cita «visor/v4», la compone por partes (ROOT / "visor" / "v4") o recorre visor/ (rglob, glob, walk).
+LEE_LA_WEB = re.compile(r"""visor/v4|["']visor["']\s*/\s*["']v4["']|["']visor["'][^\n]*\b(rglob|walk|glob)\b|\b(rglob|walk)\b[^\n]*["']visor["']""")
 
 
 def cargar():
@@ -158,10 +161,18 @@ class ClasificacionRobot(unittest.TestCase):
                   "test_visor_sin_terceros", "test_t220_renombrado", "test_t430_pruebas_web"):
             self.assertIn("tests." + t, run)
         # control: ningún test fuera de la lista lee visor/v4 (si aparece uno nuevo, hay que añadirlo al job)
-        lectores = sorted(p.stem for p in (Path(__file__).parent).glob("test_*.py") if "visor/v4" in p.read_text(encoding="utf-8"))
+        lectores = sorted(p.stem for p in (Path(__file__).parent).glob("test_*.py") if LEE_LA_WEB.search(p.read_text(encoding="utf-8")))
         fuera = [t for t in lectores if not t.startswith("test_visor_v4") and "tests." + t not in run
                  and t not in ("test_ahorro_ci_pruebas", "test_t372_p40_equivalencia", "test_t377_p20_equivalencia")]
         self.assertEqual(fuera, [], "tests que leen visor/v4 fuera del job web")
+
+    def test_detector_de_lectores_de_la_web(self):
+        # revisor de #987: además del literal, la ruta por partes y los recorridos de visor/ (control negativo incluido)
+        for t in ('ROOT / "visor/v4" / "index.html"', "ROOT / 'visor' / 'v4' / 'app.js'", 'for p in (ROOT / "visor").rglob("*.js"):',
+                  'os.walk(ROOT / "visor")', 'sorted((RAIZ / "visor").glob("**/*.html"))'):
+            self.assertRegex(t, LEE_LA_WEB)
+        for t in ('ROOT / "visor_v3.md"', 'ROOT / "docs" / "v4"', '"visores"', "ROOT.rglob('*.py')"):
+            self.assertNotRegex(t, LEE_LA_WEB)
 
     def test_grep_con_error_no_activa_el_atajo(self):
         paso = paso_cambios()
