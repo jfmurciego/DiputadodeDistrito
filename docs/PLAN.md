@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.75
-Fecha: 2026-11-22
+Versión: 1.0.76
+Fecha: 2026-11-23
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-192 a D-196 (web ligera, web desde R2, migración de workflows, Deslinde público con licencia); T-440 a T-447
-Anterior: legacy/docs/PLAN_v1.0.74_20261121.md
+Cambios/motivo: D-197 a D-202 (histórico 2011-11, R2 con promoción, Cloudflare, Barcelona y Las Palmas, espejo de 1mun00); T-448 a T-452; T-281 presentada
+Anterior: legacy/docs/PLAN_v1.0.75_20261122.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -335,6 +335,12 @@ Fase 4 — producto (en el privado):
 - D-194 (22-11, propietario). «Sí a todo» a #973: tres buckets, regla de Cloudflare, pruebas públicas `noindex` con datos reales, borrado al cerrar la PR, atajo de CI, publicación al fusionar, retirar Pages a las 2 semanas, `nueva.diputadodedistrito.es`.
 - D-195 (22-11, propietario). «Sí a todo» a las 7 preguntas de #975 (T-444, cierre de la migración de workflows); #888 se decide antes de R1.
 - D-196 (22-11, propietario). El código de Deslinde está en el repositorio público (`paquetes/deslinde/`, también en el historial) y la definición formal también es pública; las versiones antiguas siguen bajo Apache-2.0. El repositorio SIGUE PÚBLICO: Deslinde se protege con la licencia propietaria y el registro de la propiedad intelectual (T-281). Sustituye al plan de pasar el repositorio a privado (22-11, 23:42) y deja sin efecto la parte de repositorio privado de D-91 a D-95. T-445 y T-446 se cancelan. El asset `ddd-deslinde-v1.0.0.tar.gz` de `mapas-v1.0.0` lo borró el propietario (comprobado el 22-11: no queda en ninguna Release).
+- D-197 (23-11, propietario; histórico 2011-11, T-448). Ceuta (51) queda EXENTA del tope del 1 % de población estimada (D-161): elige un diputado, es un único distrito y el reparto interno no cambia el mapa; pasa de BLOQUEADA_RELLENO a LISTA, con la exención y su motivo en el contrato (#982). Barcelona (08): diagnóstico de la sección 0804703001 con opciones medidas y preguntas (#985). Espejo de `1mun00.csv` del INE con la misma huella (sha256 ad95479c…8267, 105.319.154 B); lo sube el Operador con la frase del propietario (concretado en D-202).
+- D-198 (23-11, propietario; T-443, #988). R2 con candidato y promoción: `mapas/` solo lo escribe la publicación (P40 promueve lo fijado tras verificar el sha256); `interno/` guarda por territorio `publicado/` y `ultimo/`, con head-object antes de subir para no pisar un run mayor; P75 escribe en `interno/doble-vuelta/<ámbito>/<territorio>/`; `fuentes/` es inmutable (una clave existente con otro sha256 falla). Matiza D-188 en `interno/` (vigente = publicado + último). Paquetes P10 (criterio del Planificador dentro de D-198): uno inmutable por edición del contrato en `fuentes/por-territorio/<ámbito>/<territorio>/<edición>/paquete.zip` (edición = año del contrato; un cambio dentro de la misma edición falla); sha256 en el manifiesto; se conservan las ediciones citadas por algún contrato de `configuracion/` y el resto se borra con D-178/D-190; `arc-e/paquetes-p10/` no se borra hasta tener la copia por edición de cada paquete citado, comprobada por sha256.
+- D-199 (23-11, propietario; T-450, #984). Cloudflare: mirar primero Security → Events; Bot Fight Mode desactivado (hecho: medir-web da 200 en todo); la medición pasa con la cabecera secreta `MEDICION_CDN` (#991); `datos.` y `media.` sin retos (solo GET, HEAD y OPTIONS); pasan los bots verificados; sin límite de peticiones por ahora. Los cambios en Cloudflare los hace el propietario (§3 y §4 de #984). El aviso «Dangling A Record» es una falsa alarma: el dominio está verificado en GitHub Pages.
+- D-200 (23-11, propietario; T-448, #985). La sección 0804703001 recibe la población del Censo por secciones como «reasignada». Regla general (contenida al 100 %, centroide dentro, mismo municipio) con test; sin tarea aparte para el aviso de los códigos de Cardona.
+- D-201 (23-11, propietario; T-448, #992). Opción (b): Las Palmas (35016) y Cardona (08047) usan el dato del Censo sin cuadre con `1mun00`, declarado en el contrato con su diferencia (951 y 67). El reparto por islas de Las Palmas sigue en 6/1/1. Sustituye a la opción (c) dada antes el mismo día.
+- D-202 (23-11, propietario). El espejo de `1mun00` va en R2, `fuentes/ine/2011/` (estructura de D-188), con la misma huella, su entrada en el índice de fuentes y la lectura de la CI desde ahí. Lo sube el Operador con la frase del propietario.
 - D-182 (19-11, propietario; T-421, #930, #933). Bloques de las autonómicas: Junts y Contigo-Zurekin, DO, 100x100, Aliança Catalana, UxGC, Andalucistas y Alhora en Nacionalistas; SALF en Patriotas; Drago Verdes Canarias en Izquierdas; resto sin bloque. Faltan datos por sección de Asturias, Castilla-La Mancha, Extremadura y Murcia.
 - D-179 (19-11, propietario). PRIORIDAD: la V4 en producción. La doble vuelta se calcula desde los paquetes `ddd-minimo-<run>-M08` ya archivados en R2 de los 71 publicados (sin regenerar) con una opción nueva de solo lectura en P70 (T-418). La primera V4 lleva los 52 territorios del Congreso (`nac`); los 19 `aut` (elecciones autonómicas) van en una segunda tanda cuando la tabla de bloques cubra sus partidos. El Coordinador lleva el camino crítico; al propietario solo se le piden firmas (fusión de código, frase de lanzamiento, permiso de publicar). La limpieza de R2, la 2a y la PR 3 de P00 no lo bloquean.
 - D-177 (19-11, Planificador, criterio técnico). Doble vuelta: tabla de alias id de fuente → partido homologado derivada de `datos/homologacion_siglas/` (#914; 100 % de votos 2011-2023; «LA IZQUIERDA PLURAL» 2011 declarada, sin efecto de bloque); la regeneración no empieza sin #911, #914 y el `--alias` en P30. En campaña, P30 archiva en R2 en el mismo job y solo se salta el registro en main (opción A de T-379); el modo de inicio de P20 es una opción de la campaña (por defecto «Generar desde fuente territorial acreditada»); la campaña no publica salvo opción expresa del propietario (por defecto «No publicar») y siempre con la aprobación de `produccion`.
@@ -479,14 +485,20 @@ Fase 4 — producto (en el privado):
 | T-428 | V4 en la raíz del dominio (#947) | HECHA |
 | T-429 | Textos de la V4 de la auditoría externa (#949) | REVISIÓN (no prioritaria) |
 | T-430 | Web desde R2 en este repositorio (D-186, D-193, D-194; #951, #957, #973, #974, #976) | EN CURSO (T-430b) |
-| T-440 | Medir la web a petición desde P90 (#970) | REVISIÓN (luego «medir-web» por el Operador) |
-| T-441 | Diseño de la carga ligera para el móvil (D-192, #971) | REVISIÓN |
-| T-442 | Portada ligera en `visor/v4/` (#972) | REVISIÓN (luego P40) |
-| T-443 | Aplicar la estructura de R2 (D-188, D-190), 5 PR (#977…) | EN CURSO (adelantada por el propietario) |
-| T-444 | Cierre de la migración de workflows (D-195, #975) | REVISIÓN |
+| T-440 | Medir la web a petición desde P90 (#970, #983, #991) | HECHA (medir-web en 200 tras D-199) |
+| T-441 | Diseño de la carga ligera para el móvil (D-192, #971, #994) | HECHA |
+| T-442 | Portada ligera en `visor/v4/` (#972) | HECHA (falta P40 «Solo el sitio», con T-451) |
+| T-443 | Aplicar la estructura de R2 (D-188, D-190, D-198), 5 PR: #977, #978, #988 HECHAS; #997 y #998 en revisión | EN CURSO |
+| T-444 | Cierre de la migración de workflows (D-195, #975) | HECHA (diseño fusionado) |
 | T-445 | Repositorio público de publicación | CANCELADA (D-196) |
 | T-446 | Comprobar que no queda código público | CANCELADA (D-196) |
-| T-447 | Actualización del plan 1.0.75 | REVISIÓN (esta PR) |
+| T-447 | Actualización del plan 1.0.75 | HECHA (#981) |
+| T-448 | Histórico 2011-11: Ceuta exenta, Barcelona y Las Palmas, espejo de 1mun00 (D-197, D-200 a D-202; #982, #985, #992) | EN CURSO (falta el espejo de 1mun00 en R2: frase al Operador) |
+| T-449 | Autonómicas de Castilla-La Mancha 2023 por municipio (D-183; #986) | EN CURSO (el espejo aut08 falló con `ESPEJO_ES_HTML`, run 45158272014; corrección en #999; relanzar con la frase del propietario) |
+| T-450 | Bloqueo 403 de Cloudflare (D-199; #984, #991) | HECHA |
+| T-451 | Vista previa al compartir: imagen, iconos y `twitter:*` (#993) | HECHA (falta P40 «Solo el sitio») |
+| T-452 | Actualización del plan 1.0.76 | REVISIÓN (esta PR) |
+| T-281 | Registro de la propiedad intelectual de Deslinde 1.0 (D-196; #995) | HECHA (presentado por el propietario el 23-11 como «Programa de ordenador», con copia identificativa, memoria y declaración de IA; #995 pendiente de fusión) |
 | T-379c | P00 3c (manifiesto por territorio, P40 desde campaña), relevo de T-379 | REVISIÓN (3c completa en #956, borrador; no se fusiona antes del 29-11) |
 | T-432 | Inventario completo de R2 (#952, P74 44751091049) | HECHA |
 | T-434 | P50 sin código de Deslinde, «Retomar» el depósito, prueba sin Release (#960) | HECHA (Zenodo real publicado: run 45066466320, DOI 10.5281/zenodo.24448721) |
