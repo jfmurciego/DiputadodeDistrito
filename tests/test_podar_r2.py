@@ -177,7 +177,7 @@ class ArbolNuevo(unittest.TestCase):
     def test_falta_una_copia_por_edicion_y_no_se_borra_ningun_paquete(self):
         r2, mans = self.r2_con_copia()
         citados = CITADOS + [{"territorio": "aut01", "edicion": "2025", "package_sha256": "c" * 64,
-                              "clave": "fuentes/por-territorio/autonomicas/andalucia/2025/paquete.zip"}]
+                              "clave": "fuentes/por-territorio/autonomicas/andalucia/2025/paquete.zip"}]  # t220: no es id (ruta nueva de R2 con el nombre en español)
         inf, borradas = self.podar([[P10_B, "", "", "P10", 5, "zb", "m", "", "", ""]], r2, mans, citados)
         self.assertEqual(({d["error"] for d in inf["desajustes"]}, borradas), ({"ARC_E_P10_SIN_COPIA_POR_EDICION"}, []))
 
@@ -267,7 +267,7 @@ class ArbolNuevo(unittest.TestCase):
 
     def test_entrada_minima_vale_en_la_ruta_por_edicion(self):
         ks = pr.claves_paquete_p10("aut01")
-        self.assertEqual(ks[0], "fuentes/por-territorio/autonomicas/andalucia/2025/paquete.zip")
+        self.assertEqual(ks[0], "fuentes/por-territorio/autonomicas/andalucia/2025/paquete.zip")  # t220: no es id (ruta nueva de R2)
         self.assertTrue(ks[1].startswith("arc-e/paquetes-p10/"))
 
 
