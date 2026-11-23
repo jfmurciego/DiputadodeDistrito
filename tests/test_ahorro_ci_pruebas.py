@@ -58,8 +58,8 @@ class EstructuraAhorro(unittest.TestCase):
     def test_suite_solo_se_salta_con_robot_y_pruebas_lo_exige_si_no(self):
         d = cargar()
         self.assertEqual(d["jobs"]["suite"]["needs"], "cambios")
-        self.assertEqual(d["jobs"]["suite"]["if"], "${{ needs.cambios.outputs.robot != 'true' }}")
-        self.assertEqual(d["jobs"]["pruebas"]["needs"], ["guardian", "suite", "cambios", "contratos", "docs", "productos"])
+        self.assertEqual(d["jobs"]["suite"]["if"], "${{ needs.cambios.outputs.robot != 'true' && needs.cambios.outputs.web != 'true' }}")  # T-430 3b
+        self.assertEqual(d["jobs"]["pruebas"]["needs"], ["guardian", "suite", "cambios", "contratos", "docs", "productos", "web"])
         run = next(s for s in d["jobs"]["pruebas"]["steps"] if s["name"].startswith("Agregar"))["run"]
         self.assertIn('"$SUITE" == "skipped" && "$ROBOT" == "true"', run)
         subprocess.run(["bash", "-n"], input=run, text=True, check=True)
@@ -132,6 +132,33 @@ class ClasificacionRobot(unittest.TestCase):
             r = subprocess.run(["bash", "-c", paso["run"]], cwd=repo, env=env, capture_output=True, text=True)
             self.assertEqual(r.returncode, 0, r.stderr)
             return dict(l.split("=", 1) for l in out.read_text().splitlines() if "=" in l)
+
+    def test_pr_solo_de_la_web_usa_el_atajo_y_lo_demas_no(self):
+        # T-430 3b (D-194, P6): solo PR, solo ficheros de la web y al menos uno de visor/v4/
+        for ficheros in (["visor/v4/index.html"], ["visor/v4/mapa/explorar.js", "tests/test_visor_v4_mapa.py", "docs/registro/2026-11-23_x.md"]):
+            self.assertEqual(self.clasificar("pull_request", "persona", ficheros)["web"], "true", ficheros)
+        for nombre, (evento, ficheros) in {
+            "push a main": ("push", ["visor/v4/index.html"]),
+            "web + código": ("pull_request", ["visor/v4/index.html", "herramientas/x.py"]),
+            "web + otro test": ("pull_request", ["visor/v4/index.html", "tests/test_otro.py"]),
+            "web + workflow": ("pull_request", ["visor/v4/index.html", ".github/workflows/p90-automatico.yml"]),
+            "solo registro": ("pull_request", ["docs/registro/2026-11-23_x.md"]),
+            "solo tests de la V4": ("pull_request", ["tests/test_visor_v4_base.py"]),
+            "visor v3": ("pull_request", ["visor/v3/v3.js"]),
+        }.items():
+            with self.subTest(nombre):
+                self.assertEqual(self.clasificar(evento, "persona", ficheros)["web"], "false")
+
+    def test_pruebas_exige_web_en_verde_si_hay_atajo(self):
+        run = yaml.safe_load(WF.read_text(encoding="utf-8"))["jobs"]["pruebas"]["steps"][0]["run"]
+        casos = {  # (suite, es_web, web, robot) -> rc
+            ("skipped", "true", "success", "false"): 0, ("skipped", "true", "failure", "false"): 1, ("skipped", "true", "skipped", "false"): 1,
+            ("skipped", "false", "skipped", "false"): 1, ("success", "false", "skipped", "false"): 0, ("skipped", "false", "skipped", "true"): 0}
+        for (suite, es_web, web, robot), rc in casos.items():
+            env = {**os.environ, "GUARDIAN": "success", "CAMBIOS": "success", "SUITE": suite, "ROBOT": robot, "ES_WEB": es_web, "WEB": web,
+                   "CONTRATOS": "skipped", "DOCS": "skipped", "PRODUCTOS": "skipped"}
+            r = subprocess.run(["bash", "-eo", "pipefail", "-c", run], env=env, capture_output=True, text=True)
+            self.assertEqual(r.returncode, rc, (suite, es_web, web, robot, r.stdout))
 
     def test_robot_con_rutas_de_datos_o_registro_solo_guardian(self):
         for ficheros in (["orchestracion/archivo_r2.json"], ["docs/registro/x.md", "docs/REGISTRO_DE_CAMBIOS.md", "legacy/docs/a.md"],
