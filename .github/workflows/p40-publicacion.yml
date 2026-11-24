@@ -3,7 +3,7 @@
 # VERSIÓN: 1.7.0
 # CAMBIOS 1.7.0: T-454: paso «Esperar a que el artefacto github-pages sea visible (T-454)» entre `upload-pages-artifact` y `deploy-pages`. `deploy-pages` fallaba en 1 s con
 #   «No artifacts named "github-pages" were found» (runs 45362250945 y 45382628274): carrera con la visibilidad del artefacto recién subido. El paso consulta
-#   `actions/runs/<run>/artifacts` con espera creciente y tope (~90 s), solo cuenta el artefacto creado en este intento (`run_started_at` del intento), margen de 10 s tras verlo y, si no aparece, solo avisa (::warning::) y deja que `deploy-pages` decida; no cambia ningún
+#   `actions/runs/<run>/artifacts` con espera creciente y tope (~90 s), artefacto con nombre único por intento (`github-pages-<intento>` en `upload-pages-artifact` y `artifact_name` de `deploy-pages`: al repetir el job `deploy-pages` veía dos «github-pages», run 45382628274 intento 2), margen de 10 s tras verlo y, si no aparece, solo avisa (::warning::) y deja que `deploy-pages` decida; no cambia ningún
 #   otro paso, orden ni condición (registro, R2 y promover, idénticos). Sin entradas ni secretos nuevos.
 # ANTERIOR (1.6.0): legacy/workflows/p40-publicacion_v1.6.0_20261124.yml
 # CAMBIOS 1.6.0: T-443 (D-198: `mapas/` solo lo escribe la publicación): paso «Promover la doble vuelta a mapas/ (T-443)» al final, DESPUÉS del
@@ -702,33 +702,37 @@ jobs:
 
       - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
-        with: {path: /tmp/site-candidate}
+        with:
+          path: /tmp/site-candidate
+          name: github-pages-${{ github.run_attempt }}  # T-454: un nombre por intento (al repetir el job el del intento anterior seguía ahí y deploy-pages veía dos)
       - name: Esperar a que el artefacto github-pages sea visible (T-454)
         shell: bash
         run: |
           set -euo pipefail
           # Carrera conocida: `deploy-pages` arranca en el mismo segundo en que `upload-pages-artifact` termina y a veces aún no ve el artefacto.
-          # Espera creciente con tope (~90 s); solo cuenta el artefacto creado en ESTE intento (al repetir el job existe el del anterior); tras verlo en la
-          # lista, un margen corto porque la búsqueda interna de `deploy-pages` puede ir por detrás. Si no aparece solo avisa y `deploy-pages` decide.
-          inicio=""
-          inicio="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/attempts/${GITHUB_RUN_ATTEMPT:-1}" --jq .run_started_at 2>/dev/null)" || inicio=""
+          # Espera creciente con tope (~90 s) por el artefacto de ESTE intento (`github-pages-<intento>`: nombre único, al repetir el job el del intento
+          # anterior no cuenta ni choca); tras verlo en la lista, un margen corto porque la búsqueda interna de `deploy-pages` puede ir por detrás.
+          # Si no aparece solo avisa y `deploy-pages` decide.
+          nombre="github-pages-${GITHUB_RUN_ATTEMPT:-1}"
           visible=false
           for espera in 0 3 6 12 24 45; do
             sleep $(( espera * ${DDD_REINTENTO_BASE:-1} ))
             n=0
             n="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts?per_page=100" 2>/dev/null \
-              | jq --arg ini "$inicio" '[.artifacts[] | select(.name == "github-pages" and .expired == false and .created_at >= $ini)] | length' 2>/dev/null)" || n=0
+              | jq --arg nombre "$nombre" '[.artifacts[] | select(.name == $nombre and .expired == false)] | length' 2>/dev/null)" || n=0
             if [[ "$n" =~ ^[0-9]+$ ]] && (( n > 0 )); then visible=true; break; fi
-            echo "El artefacto github-pages de este intento aún no es visible (espera $espera s)."
+            echo "El artefacto $nombre aún no es visible (espera $espera s)."
           done
           if [[ "$visible" == true ]]; then
-            echo "Artefacto github-pages visible; margen de 10 s para la búsqueda de deploy-pages."
+            echo "Artefacto $nombre visible; margen de 10 s para la búsqueda de deploy-pages."
             sleep $(( 10 * ${DDD_REINTENTO_BASE:-1} ))
           else
-            echo "::warning::T-454: el artefacto github-pages de este intento no apareció en la lista del run; sigue deploy-pages."
+            echo "::warning::T-454: el artefacto $nombre no apareció en la lista del run; sigue deploy-pages."
           fi
       - id: deployment
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}
 
       - name: Persistir registro sólo después del despliegue
         shell: bash

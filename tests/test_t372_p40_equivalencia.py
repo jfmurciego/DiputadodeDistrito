@@ -194,7 +194,7 @@ class Equivalencia(Congelado):
     def test_salidas_del_publicador_y_artefactos_intactos(self):
         a = [s for s in self.rec["jobs"]["publicar"]["steps"] if s.get("uses", "").startswith(("actions/upload-artifact", "actions/deploy-pages",
                                                                                               "actions/upload-pages-artifact", "actions/configure-pages"))]
-        b = [s for s in self.p["jobs"]["publicar"]["steps"] if s.get("uses", "").startswith(("actions/upload-artifact", "actions/deploy-pages",
+        b = [s for s in _t454.deshacer_p40_pasos(self.p["jobs"]["publicar"]["steps"]) if s.get("uses", "").startswith(("actions/upload-artifact", "actions/deploy-pages",
                                                                                             "actions/upload-pages-artifact", "actions/configure-pages"))]
         self.assertTrue(a)
         self.assertEqual(json.loads(normalizar(json.dumps(a))), b)
