@@ -356,7 +356,7 @@ class MultiterritoryPublicationTests(unittest.TestCase):
         self.assertLess(configure, upload)
         self.assertLess(upload, deploy)
         self.assertLess(deploy, persist)
-        self.assertIn("with: {path: /tmp/site-candidate}", text)
+        self.assertIn("path: /tmp/site-candidate", text)  # T-454: `with:` multilínea (nombre de artefacto por intento)
         self.assertEqual(text.count("--site /tmp/site-candidate"), 1)
         self.assertNotIn("--site site ", text)
 

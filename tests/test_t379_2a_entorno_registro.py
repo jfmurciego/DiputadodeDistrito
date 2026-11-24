@@ -97,7 +97,8 @@ class Huellas(Base):
                     ahora = _t443.deshacer(ahora)
                 if n == "p40-publicacion":  # T-443 (P40 1.6.0), posterior a la 2a: se deshace solo el paso de promover
                     from tests import _t443
-                    ahora = _t443.deshacer_p40(ahora)
+                    from tests import _t454
+                    ahora = _t443.deshacer_p40(_t454.deshacer_p40(ahora))
                 self.assertEqual(deshacer(n, ahora), antes)
 
     def test_control_negativo_equivalencia(self):
