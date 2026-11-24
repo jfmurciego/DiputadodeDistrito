@@ -1,0 +1,62 @@
+<!doctype html>
+<!-- PROYECTO: Diputado de Distrito · CLASE: maqueta de diseño T-458 (no se publica) · VERSIÓN: 1.0.0 · FECHA: 2026-11-24 · ESTADO: propuesta
+     ANTERIOR: ninguna (fichero nuevo). Datos de EJEMPLO, solo para ilustrar el diseño. -->
+<html lang="es"><head><meta charset="utf-8"><title>T-458 maqueta</title>
+<style>
+body{margin:0;background:#0b0d0e;color:#f5f1e8;font:13px system-ui,sans-serif}
+.lam{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:18px;width:1100px}
+h2{font:700 18px Georgia,serif;margin:0 0 8px}.tag{font-size:11px;color:#ffbf87;letter-spacing:1px;text-transform:uppercase}
+.map{background:#eef3f7;border-radius:10px;padding:12px;display:grid;grid-template-columns:repeat(8,1fr);gap:2px}
+.map i{display:block;height:44px;border-radius:3px}
+.ley{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;font-size:12px}.ley b{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:5px;vertical-align:-2px;border:1px solid #f5f1e8}
+.panel{background:#111516;border:1px solid #76573f;border-radius:12px;overflow:hidden}
+.hero{background:linear-gradient(110deg,#65151e,#411117);padding:14px 16px}.hero h1{font:700 24px Georgia,serif;margin:4px 0}
+.hero small{font-size:10px;letter-spacing:2px;text-transform:uppercase}.hero p{margin:0;font-size:11px;color:#ede9e7}
+.sec{padding:10px 16px;border-top:1px solid #3a2f27}.sec h3{font:700 15px Georgia,serif;margin:0 0 6px}
+dl{margin:0}dl div{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #2a2420}dt{color:#cbbfb1}dd{margin:0;font-weight:700}
+.row{display:grid;grid-template-columns:70px 1fr 60px;gap:8px;align-items:center;font-size:12px;padding:3px 0}.tr{height:9px;background:#2a2420;border-radius:9px}.tr b{display:block;height:100%;border-radius:9px}
+.mal{outline:3px solid #ff5a4f;outline-offset:-3px}.nota{font-size:11px;color:#cbbfb1}.foto{height:120px;background:linear-gradient(160deg,#4a6378,#c98f62);border-radius:8px}
+.cards{display:flex;gap:8px;padding:10px 16px}.cards div{flex:1;background:#1e1617;border-radius:10px;padding:8px}.cards strong{font:700 26px Georgia,serif;color:#ffbf87;display:block}
+a{color:#ffbf87}
+</style></head><body>
+<!-- LÁMINA 1: colores -->
+<section class="lam" id="colores">
+ <div><span class="tag">Antes · tema oscuro del sistema</span><h2>Vista mayoritaria hoy</h2><div class="map" id="m0"></div><div class="ley" id="l0"></div>
+  <p class="nota">Tokens oscuros (#ff8a80, #4fd1c5, #7fb2ff) + aclarado del 55 % + opacidad 0,84-0,88 sobre fondo #eef3f7.</p></div>
+ <div><span class="tag">Después · propuesta</span><h2>Tonos firmes</h2><div class="map" id="m1"></div><div class="ley" id="l1"></div>
+  <p class="nota">Mismos valores en tema claro y oscuro; opacidad 1; «ajustado» (&lt; 5 puntos) con mezcla del 30 %.</p></div>
+</section>
+<!-- LÁMINA 2: ficha de sección -->
+<section class="lam" id="ficha">
+ <div><span class="tag">Antes · clic en una sección</span>
+  <div class="panel"><div class="hero"><small>Sección censal INE</small><h1>Sección 2807901001</h1><p>Madrid › Distrito 4</p></div>
+  <div class="sec"><dl><div><dt>Población</dt><dd>1.512</dd></div><div><dt>Distrito DDD</dt><dd>4</dd></div><div class="mal"><dt>Ganador del distrito 2023</dt><dd>PSOE</dd></div></dl></div>
+  <div class="sec mal"><h3>Doble vuelta · distrito 4 · Tres bloques</h3><p>Gana Izquierdas en el distrito 4 …</p><p class="nota">Igual para todas las secciones del distrito.</p></div></div></div>
+ <div><span class="tag">Después · datos de EJEMPLO</span>
+  <div class="panel"><div class="hero"><small>Sección censal</small><h1>Sección 2807901001</h1><p>Madrid › Madrid (municipio)</p></div>
+  <div class="sec"><h3>Esta sección · generales 23-07-2023</h3><dl><div><dt>Censo (CER)</dt><dd>1.104</dd></div><div><dt>Votantes</dt><dd>782 · 70,8 %</dd></div><div><dt>Blancos · nulos</dt><dd>9 · 6</dd></div><div><dt>Más votado en la sección</dt><dd>PP</dd></div></dl>
+   <div style="margin-top:8px"><div class="row"><b>PP</b><div class="tr"><b style="width:100%;background:#1d6fb8"></b></div><span>301</span></div><div class="row"><b>PSOE</b><div class="tr"><b style="width:80%;background:#d32b2b"></b></div><span>241</span></div><div class="row"><b>VOX</b><div class="tr"><b style="width:35%;background:#5fa335"></b></div><span>106</span></div><div class="row"><b>SUMAR</b><div class="tr"><b style="width:33%;background:#cf2a7b"></b></div><span>99</span></div></div>
+   <p class="nota">Fuente: Ministerio del Interior, resultados por mesa (huella sha256 en el catálogo).</p></div>
+  <div class="sec"><p>Pertenece al <a href="#">distrito 4</a> (abre la ficha del distrito).</p></div></div></div>
+</section>
+<!-- LÁMINA 3: panel derecho -->
+<section class="lam" id="panel">
+ <div><span class="tag">Antes</span><div class="panel"><div class="hero"><small>Provincia</small><h1>Madrid</h1></div>
+  <div class="sec"><h3>Conoce el territorio</h3><div class="foto"></div><p class="nota mal">Madrid · Imagen ilustrativa: panorámica … · Foto: autor · CC BY-SA 2.5 · Compartir igual · Modificada: … · Ficha en Wikimedia Commons</p><p class="nota mal">Créditos y licencias de las fotografías …</p></div>
+  <div class="cards mal"><div><small>Propuesta DDD</small><strong>407</strong></div><div><small>Congreso actual</small><strong>350</strong></div></div>
+  <div class="sec"><h3>Resultados y territorio</h3><p class="nota">…</p></div></div></div>
+ <div><span class="tag">Después</span><div class="panel"><div class="hero"><small>Provincia</small><h1>Madrid</h1></div>
+  <div class="sec"><div class="foto"></div></div>
+  <div class="sec"><h3>Resultados y territorio</h3><p class="nota">… datos de la provincia …</p></div>
+  <div class="sec"><h3>De dónde sale este mapa</h3><p class="nota">…</p></div>
+  <div class="sec"><p class="nota">Foto: autor · <a href="#">CC BY-SA 2.5</a> · modificada · <a href="#">créditos</a></p></div></div></div>
+</section>
+<script>
+const A=["izq","pat","izq-c","pat","nac","pat-c","izq","pat","pat","izq","sin","pat","izq-c","pat","izq","nac-c","izq","pat","pat-c","izq","pat","nac","izq","pat"];
+const P0={izq:"#ff8a80",nac:"#4fd1c5",pat:"#7fb2ff",sin:"#a8b0bb"},P1={izq:"#c1121f",nac:"#00796b",pat:"#0d47a1",sin:"#4a5059"};
+const mix=(h,t)=>{const n=parseInt(h.slice(1),16);return"#"+[n>>16,(n>>8)&255,n&255].map(c=>Math.round(c+(255-c)*t).toString(16).padStart(2,"0")).join("")};
+const N={izq:"Izquierdas",nac:"Nacionalistas",pat:"Patriotas",sin:"Sin bloque"};
+function pinta(id,lid,P,t,op){document.getElementById(id).innerHTML=A.map(k=>{const[b,c]=k.split("-");return`<i style="background:${c?mix(P[b],t):P[b]};opacity:${op}"></i>`}).join("");
+ document.getElementById(lid).innerHTML=Object.keys(N).map(k=>`<span><b style="background:${P[k]}"></b>${N[k]} ${P[k]}</span><span><b style="background:${mix(P[k],t)}"></b>ajustado ${mix(P[k],t)}</span>`).join("");}
+pinta("m0","l0",P0,.55,.86);pinta("m1","l1",P1,.30,1);
+</script></body></html>
