@@ -1,10 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.5.2
+# VERSIÓN: 1.5.3
 # NOMBRE DE VERSIÓN: P90 Automático — CI, IA de cierre de campaña, métricas y medición de la web en un solo workflow
-# FECHA: 2026-11-23
+# FECHA: 2026-11-24
 # ESTADO: candidato
-# ANTERIOR: legacy/workflows/p90-automatico_v1.5.1_20261123.yml
+# ANTERIOR: legacy/workflows/p90-automatico_v1.5.2_20261124.yml
+# CAMBIOS 1.5.3: T-457 (orden del propietario, 24-11): el pie del comentario del forense deja de nombrar el modelo: «_Forense automático (solo lectura; …)» (antes «(Sonnet, solo lectura; …)»). El resto, idéntico.
+# ANTERIOR (1.5.2): legacy/workflows/p90-automatico_v1.5.1_20261123.yml
 # CAMBIOS 1.5.2: T-450 §4 / D-199: el paso de `medir_web` recibe el secreto del repositorio `MEDICION_CDN` (lo crea el propietario; el
 #   mismo valor que la regla del CDN) y `herramientas/medir_web.py` 1.2.0 lo envía como cabecera `X-DDD-Medicion` solo a
 #   diputadodedistrito.es, desde un fichero temporal (nunca en la línea de órdenes ni en la tabla). Sin el secreto, mide como hasta ahora. El resto, idéntico.
@@ -889,7 +891,7 @@ jobs:
               | "\n**\(.territorio | limpio(60))** · `\(.causa_id | limpio(60))`\n"
                 + ([.lineas[:5][] | "- \(limpio(300))"] | join("\n"))] | join("\n"))
           + "\n\nSiguiente: \(.siguiente // "decide el planificador" | limpio(300))\n\n"
-          + "_Forense automático (Sonnet, solo lectura; `.claude/agents/forense.md`). No relanza nada: la siguiente acción la decide el planificador y la ejecuta el operador con permiso del propietario._"
+          + "_Forense automático (solo lectura; `.claude/agents/forense.md`). No relanza nada: la siguiente acción la decide el planificador y la ejecuta el operador con permiso del propietario._"
           JQ
           jq -r --arg marca "$marca" --arg run "[$RUN_ID]($RUN_URL)" -f cuerpo.jq diagnostico.json | head -c 60000 > cuerpo.md
           cat cuerpo.md >> "$GITHUB_STEP_SUMMARY"

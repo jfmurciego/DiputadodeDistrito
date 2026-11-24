@@ -50,3 +50,24 @@ def deshacer_medicion(p90):
     paso = p["jobs"]["medir_web"]["steps"][-1]
     assert paso.pop("env") == {"MEDICION_CDN": "${{ secrets.MEDICION_CDN }}"}, "falta MEDICION_CDN en medir_web"
     return p
+
+
+def deshacer_nombre_ia(p90):
+    """T-457 (P90 1.5.3): devuelve «Sonnet, » al pie del forense (posterior a la 2a; la 1.4.0 congelada lo lleva)."""
+    n = 0
+
+    def rec(x):
+        nonlocal n
+        if isinstance(x, str):
+            if "Forense automático (solo lectura;" in x:
+                n += 1
+                return x.replace("Forense automático (solo lectura;", "Forense automático (Sonnet, solo lectura;")
+            return x
+        if isinstance(x, list):
+            return [rec(i) for i in x]
+        if isinstance(x, dict):
+            return {k: rec(v) for k, v in x.items()}
+        return x
+    r = rec(copy.deepcopy(p90))
+    assert n == 1, "falta el pie del forense"
+    return r
