@@ -1,7 +1,9 @@
 # T-458 · Diseño al detalle del mapa de la V4 (Explorar)
 
-VERSIÓN: 1.0.0 · FECHA: 2026-11-24 · ESTADO: propuesta para aprobación del propietario
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.1.0 · FECHA: 2026-11-24 · ESTADO: propuesta para aprobación del propietario
+CAMBIOS 1.1.0: puntos (5) navegación por distrito, (6) color propio de cada sección y (7) interacción con secciones; preguntas 12-17.
+MOTIVO: nuevos comentarios del propietario (vía Coordinador), prioridad alta junto al (4).
+ANTERIOR: 1.0.0 en el commit b90579e de esta misma PR (documento sin publicar; sin copia en `legacy/`)
 
 Objeto: `visor/v4/mapa/` (`index.html` 1.3.0, `explorar.js`, `explorar.css`, `dv.js`). Solo diseño: no se toca código
 de producto hasta que el propietario apruebe este detalle. Las maquetas usan datos de EJEMPLO (`maqueta.html`); la
@@ -51,6 +53,55 @@ propio publicado» (nunca se rellena con el distrito).
    cada sección en 1:1/recodificada, contenida o partida. Las partidas no tienen escrutinio propio en la geometría 2025.
 3. Para autonómicas: el mismo producto desde las entradas por sección de T-426 (no Asturias).
 
+## (5)(6)(7) Navegación distrito ↔ sección (prioridad alta, con el 4)
+
+### Diagnóstico (código de hoy, `explorar.js`)
+- **No hay resaltado en ningún nivel.** `S.selected` se guarda pero ninguna capa lo pinta: no hay capa de selección ni
+  `feature-state`, y las fuentes GeoJSON se crean sin `promoteId`.
+- **El distrito se pierde al clicarlo.** El clic en `dist-fill` hace `focus()` (encuadre hasta zoom 12); al acabar el
+  zoom, el manejador `zoomend` pasa solo a «Sección censal» (zoom ≥ 7,2) y `prepareArea` **oculta** `dist-fill` y
+  `dist-line` (`showLayer("dist-…", showD && !showS)`). El distrito clicado desaparece del mapa justo después de elegirlo.
+- **Con secciones visibles no se puede elegir distrito** (sus capas están ocultas y no hay límite de distrito encima).
+- **El clic en una sección «no hace nada» visible:** cambia la ficha, pero la ficha es la misma para todas las secciones
+  del distrito (punto 4) y no hay resaltado, así que parece muerto.
+- **Todas las secciones de un distrito tienen el mismo color:** `sec-fill` usa la expresión del distrito.
+
+![Navegación: antes y después](navegacion.png)
+
+### Patrón propuesto
+1. **Capas, de abajo arriba:** relleno de sección (color propio) → líneas de sección (blanco 0,5 px) → **límite de
+   distrito siempre visible** al bajar a secciones (negro `#111`, 2,5 px) → **resaltado de la selección** (trazo
+   `#ffd400` de 3 px sobre halo `#111` de 6 px) → paso del ratón (trazo blanco de 2 px).
+2. **Identificador estable** (`promoteId`: `s` para la sección, id del distrito) y `feature-state` `{sel, hover}`: el
+   resaltado no regenera fuentes ni recolorea.
+3. **Clic:** elige lo que se ve encima en el nivel activo (sección si se ven secciones; distrito si no). Se resalta,
+   se abre su ficha (solo sus datos, punto 4) y el panel sube a la cabecera. Otro clic **sustituye** la selección
+   (se apaga la anterior). Clic fuera de un territorio o `Esc`: sube al nivel padre (sección → distrito → provincia).
+4. **Paso distrito ↔ sección, sin saltos automáticos:** se retira el cambio de nivel por `zoomend`. El usuario baja con
+   un botón «Ver sus secciones» en la ficha del distrito (encuadra el distrito y muestra sus secciones) y sube con el
+   enlace «Pertenece al distrito N» o con la ruta (España › Madrid › Distrito 4 › Sección …, cada tramo clicable: es
+   navegación, no dato).
+5. **Teclado y accesibilidad:** la selección se anuncia en `sr-status` (ya existe); la tabla y el buscador eligen igual
+   que el clic y aplican el mismo resaltado.
+
+### Color propio de cada sección (6)
+- Capa «Doble vuelta»/«Partido más votado» en nivel sección: bloque (o partido) **más votado en la sección** en primera
+  vuelta, firme si la ventaja sobre el segundo es ≥ 5 puntos y ajustado si es menor (misma paleta que el punto 1).
+- Medidas alternativas, mismo producto: participación (votantes/censo), margen del primero sobre el segundo.
+- Sin dato propio (sección partida, sin producto): gris «sin dato» `#a8bac7`, nunca el color del distrito.
+
+### Datos por sección necesarios para colorear
+| Campo | Para | Fuente |
+|---|---|---|
+| CUSEC (seccionado de la geometría que se pinta) | unir con la geometría | INE + tablas de equivalencia 2023↔2025 |
+| votos por candidatura | más votado, barras de la ficha | ZIP de Interior por mesa, sumado por CUSEC |
+| bloque de cada candidatura | color por bloque | alias y bloques de P75 (los mismos de la doble vuelta) |
+| censo (CER), votantes, blancos, nulos | participación, ficha | mismo ZIP |
+| clase de equivalencia (1:1, contenida, partida) | decidir «sin dato» | tablas de `configuracion/` |
+
+Hoy no existe ninguno de estos datos por sección en la web (ver el inventario del punto 4): el color propio depende del
+producto «resultados por sección» (pregunta 5).
+
 ## (1) Colores de la vista mayoritaria
 
 ### Causa del azul difuso
@@ -94,7 +145,7 @@ rellenan en `explorar.js`. Las cifras siguen donde son dato del nivel (la provin
 ## Ficheros que tocaría la implementación
 `visor/v4/mapa/index.html`, `explorar.js`, `explorar.css`, `visor/v4/tokens-bloques.css` (o un token propio del mapa),
 `visor/v2/galeria/galeria.js` (pie de foto) y, para (4), una herramienta nueva de resultados por sección y su paso en P40
-(compartidos: turno del planificador). Cada fichero sube VERSIÓN con copia en `legacy/`.
+(compartidos: turno del planificador). Para (5)-(7), solo `explorar.js` y `explorar.css`. Cada fichero sube VERSIÓN con copia en `legacy/`.
 
 ## Preguntas (con recomendación)
 
@@ -121,3 +172,13 @@ rellenan en `explorar.js`. Las cifras siguen donde son dato del nivel (la provin
 10. **407/350.** ¿Se quita el bloque entero, también en el ámbito autonómico (allí muestra escaños del parlamento)?
     Recomendación: sí, entero; esas cifras van en la ficha del nivel que corresponda.
 11. **Migaja de la sección.** «Provincia › municipio» en lugar de «Provincia › Distrito N». Recomendación: sí.
+12. **Orden de trabajo.** Recomendación: primera PR solo de interacción y conceptos (5, 7, 4 sin datos nuevos, 3, 2 y
+    paleta 1); segunda, el producto por sección y el color propio (6). La primera no depende de datos.
+13. **Salto automático a secciones al acercar** (casilla «Detalle de secciones al acercar»). ¿Se retira? Recomendación:
+    sí; se baja con «Ver sus secciones» y la casilla desaparece.
+14. **Clic fuera o `Esc`.** ¿Sube al nivel padre o deja la selección? Recomendación: sube al padre.
+15. **Color del resaltado.** Amarillo `#ffd400` con halo `#111`. Recomendación: sí (no coincide con ningún bloque).
+16. **Color propio de la sección.** ¿Por bloque más votado (capa doble vuelta) y por partido (capa «Partido más
+    votado»)? Recomendación: sí, con la misma regla firme/ajustado.
+17. **Medidas por sección** (participación, margen). ¿Se ofrecen como capas? Recomendación: solo participación al
+    principio; el margen ya se ve con firme/ajustado.

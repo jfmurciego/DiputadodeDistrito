@@ -51,6 +51,25 @@ a{color:#ffbf87}
   <div class="sec"><h3>De dónde sale este mapa</h3><p class="nota">…</p></div>
   <div class="sec"><p class="nota">Foto: autor · <a href="#">CC BY-SA 2.5</a> · modificada · <a href="#">créditos</a></p></div></div></div>
 </section>
+<!-- LÁMINA 4: navegación distrito ↔ sección -->
+<section class="lam" id="navegacion">
+ <div><span class="tag">Antes · nivel sección</span><h2>Todas del color del distrito</h2><svg id="s0" width="520" height="300" style="background:#eef3f7;border-radius:10px"></svg>
+  <p class="nota">Sin resaltado de la selección; los límites de distrito desaparecen al bajar a secciones; el clic no cambia nada visible.</p></div>
+ <div><span class="tag">Después · datos de EJEMPLO</span><h2>Cada sección, su color</h2><svg id="s1" width="520" height="300" style="background:#eef3f7;border-radius:10px"></svg>
+  <p class="nota">Color por el bloque más votado de la sección (ajustado si &lt; 5 puntos); límite de distrito grueso encima; sección elegida con trazo amarillo y halo oscuro; otro clic la cambia.</p></div>
+</section>
+<script>
+(function(){const P={izq:"#c1121f",nac:"#00796b",pat:"#0d47a1",sin:"#4a5059"};
+const mix=(h,t)=>{const n=parseInt(h.slice(1),16);return"#"+[n>>16,(n>>8)&255,n&255].map(c=>Math.round(c+(255-c)*t).toString(16).padStart(2,"0")).join("")};
+const W=10,H=6,cw=48,ch=46,ox=20,oy=10;let r=7;const rnd=()=>{r=(r*9301+49297)%233280;return r/233280};
+const dist=(i,j)=>i<5?(j<3?0:1):(j<3?2:3);const dc=[["izq",0],["pat",0],["pat",1],["izq",1]];
+function cell(i,j,f,s,w){return`<rect x="${ox+i*cw}" y="${oy+j*ch}" width="${cw}" height="${ch}" fill="${f}" stroke="${s}" stroke-width="${w}"/>`}
+let a="",b="";for(let i=0;i<W;i++)for(let j=0;j<H;j++){const d=dc[dist(i,j)];a+=cell(i,j,d[1]?mix(P[d[0]],.55):P[d[0]],"#fff",.6);
+ const k=rnd()<.55?d[0]:["izq","pat","nac"][Math.floor(rnd()*3)],aj=rnd()<.3;b+=cell(i,j,aj?mix(P[k],.3):P[k],"#fff",.6);}
+const lin=`<path d="M${ox+5*cw} ${oy}V${oy+H*ch}M${ox} ${oy+3*ch}H${ox+W*cw}" stroke="#111" stroke-width="3" fill="none"/><rect x="${ox}" y="${oy}" width="${W*cw}" height="${H*ch}" fill="none" stroke="#111" stroke-width="3"/>`;
+const sel=`<rect x="${ox+6*cw}" y="${oy+1*ch}" width="${cw}" height="${ch}" fill="none" stroke="#111" stroke-width="6"/><rect x="${ox+6*cw}" y="${oy+1*ch}" width="${cw}" height="${ch}" fill="none" stroke="#ffd400" stroke-width="3"/>`;
+document.getElementById("s0").innerHTML=a;document.getElementById("s1").innerHTML=b+lin+sel;})();
+</script>
 <script>
 const A=["izq","pat","izq-c","pat","nac","pat-c","izq","pat","pat","izq","sin","pat","izq-c","pat","izq","nac-c","izq","pat","pat-c","izq","pat","nac","izq","pat"];
 const P0={izq:"#ff8a80",nac:"#4fd1c5",pat:"#7fb2ff",sin:"#a8b0bb"},P1={izq:"#c1121f",nac:"#00796b",pat:"#0d47a1",sin:"#4a5059"};
