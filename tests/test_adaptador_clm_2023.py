@@ -53,6 +53,11 @@ class AdaptadorClm2023(unittest.TestCase):
         self.assertEqual(sum(suma.values()), 1070325)
         self.assertEqual((suma["PSOE"], suma["PP"], suma["VOX"]), (489302, 365705, 139278))
 
+    def test_literales_por_provincia(self):
+        # Observatorio 08-202305.json: `probintzia[p][2]` (votos a candidaturas sin CERA) y `cera[p][4]`
+        self.assertEqual(self.m["votos_por_provincia"], {"02": 204971, "13": 264611, "16": 110909, "19": 128150, "45": 361684})
+        self.assertEqual(self.m["cera_por_provincia"], {"02": 457, "13": 505, "16": 222, "19": 435, "45": 939})
+
     def test_cera_fuera_de_distritos(self):
         aus = self.m["votos_ausentes_no_repartidos"]
         self.assertEqual(sum(aus.values()), 457 + 505 + 222 + 435 + 939)

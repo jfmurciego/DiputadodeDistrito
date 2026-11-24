@@ -120,7 +120,8 @@ def construir(salida: Path, raiz: Path = ROOT) -> dict:
                       "nota": "copia archivada del fichero oficial de la Junta; fuente NO oficial (decisión del propietario, 24-11)"},
            "cuadre_contra": {"url": OBSERVATORIO_URL, "fichero": OBSERVATORIO, "sha256": OBSERVATORIO_SHA256,
                              "nota": "Observatorio Electoral de las Naciones, marcado «provisional»; fuente NO oficial (no hay totales oficiales en fichero)"},
-           "municipios": len(votos), "votos_ausentes_no_repartidos": {s: v for s, v in sorted(ausentes.items()) if v},
+           "municipios": len(votos), "votos_por_provincia": {p: sum(prov[p].values()) for p in PROVINCIAS},
+           "cera_por_provincia": {p: sum(cera[p].values()) for p in PROVINCIAS}, "votos_ausentes_no_repartidos": {s: v for s, v in sorted(ausentes.items()) if v},
            "escanos_dhondt": {p: dict(sorted(e.items())) for p, e in escanos.items()}, "escanos_total": total_escanos,
            "cuadra": not fallos, "fallos": fallos}
     man["fuentes"] = {"fuente": man["fuente"], "cuadre_observatorio": {**man["cuadre_contra"], "cuadra": not fallos,

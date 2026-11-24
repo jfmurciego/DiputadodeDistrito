@@ -75,6 +75,7 @@
       "copias_archivadas_destino": "fuentes-archivadas",
       "url": "https://web.archive.org/web/20261023040608id_/https://datosabiertos.castillalamancha.es/sites/datosabiertos.castillalamancha.es/files/Resultados_CLM_2023.xlsx",
       "tipo": "copia_archivada",
+      "oficial": false,
       "url_original": "https://datosabiertos.castillalamancha.es/sites/datosabiertos.castillalamancha.es/files/Resultados_CLM_2023.xlsx",
       "captura": "20261023040608",
       "sha256_esperado": "7591997d17c65586bd5d8ac68776e9946e233997f86cbe1c22e08018c16347ca",

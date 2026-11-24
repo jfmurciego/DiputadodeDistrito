@@ -6,9 +6,12 @@
 - Cambio:
   - `herramientas/espejo_fuente_oficial.py` 1.3.0:
     - el modo URL directa admite `tipo: copia_archivada` (con `oficial: false`, `url_original` y `captura`);
-    - `copias_archivadas_destino` admite `fuentes-archivadas`: con la principal copia, todo el conjunto va a
-      `fuentes-archivadas/<organismo>/<año>/`, y nunca una copia a `fuentes/` (D-198).
+    - `copias_archivadas_destino` admite `fuentes-archivadas`: con la principal copia, las copias y su manifiesto van a
+      `fuentes-archivadas/<organismo>/<año>/`. Un original del conjunto (p. ej. el PDF) no va ahí y queda «no_subido». Nunca una copia
+      va a `fuentes/` (D-198).
+    - Una entrada `copia_archivada` no puede declararse oficial (aut08 lleva `oficial: false` explícito).
   - `configuracion/espejos_fuentes_oficiales.json` 1.3.0: aut08 en modo URL directa (URL de la Wayback, huella y bytes fijados).
+  El espejo no usa `rutas_r2`: la clave va codificada en la herramienta, así que la subida no depende de T-443.
   - `herramientas/calendario_autonomicas.py` 1.1.0: `SUSTITUCIONES` (aut08 2023: URL de la Wayback y proveedor «copia archivada del fichero
     oficial, fuente no oficial»). `fuente_sha256` sigue siendo la del Observatorio, porque es la fuente del calendario. CSV regenerado: solo
     cambia esa fila.

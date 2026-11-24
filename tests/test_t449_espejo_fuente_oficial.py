@@ -697,6 +697,38 @@ class Aut08Directo(unittest.TestCase):
                 res = ef.subir_espejo("aut08", sal, aws=r2)
         return m, res, r2
 
+    def test_entrada_real_declara_no_oficial(self):
+        self.assertIs(ef.declaracion("aut08")["oficial"], False)
+
+    def test_copia_declarada_oficial_se_rechaza(self):
+        e = ef.declaracion("aut08")
+        with tempfile.TemporaryDirectory() as td, self.assertRaises(ef.ErrorEspejo) as c, \
+                mock.patch.object(ef, "declaracion", lambda t, r=None: {**e, "oficial": True}):
+            ef.espejar("aut08", Path(td) / "s", get=lambda *a, **k: b"")
+        self.assertEqual(c.exception.codigo, "ESPEJO_DECLARACION")
+
+    def test_original_en_conjunto_archivado_no_va_a_fuentes_archivadas(self):
+        e = ef.declaracion("aut08")
+        falso, pdf = b"PK\x03\x04" + b"x" * 10, b"%PDF-1.4 oficial"
+        decl = {**e, "sha256_esperado": ef.sha256(falso), "bytes_esperados": len(falso)}
+
+        def get(url, hosts, tope, intentos=4):
+            return falso if url == e["url"] else pdf  # el PDF de verificación responde: es un original
+
+        r2 = R2Falso()
+        with tempfile.TemporaryDirectory() as td, mock.patch.object(ef, "volcar_xlsx", _volcado_falso), \
+                mock.patch.object(ef, "declaracion", lambda t, r=None: decl), \
+                mock.patch.dict(os.environ, {"R2_BUCKET": "b", "R2_ACCOUNT_ID": "a"}):
+            m = ef.espejar("aut08", Path(td) / "s", get=get)
+            self.assertEqual([(p["tipo"], p["oficial"]) for p in m["piezas"]], [("copia_archivada", False), ("original", True)])
+            res = ef.subir_espejo("aut08", Path(td) / "s", aws=r2)
+        self.assertEqual(sorted(r2.escrituras), ["fuentes-archivadas/junta-castilla-la-mancha/2023/autonomicas-por-municipio.xlsx",
+                                                 "fuentes-archivadas/junta-castilla-la-mancha/2023/manifiesto.json"])
+        remoto = json.loads(r2.objetos["fuentes-archivadas/junta-castilla-la-mancha/2023/manifiesto.json"][0])
+        self.assertTrue(all(p["oficial"] is False for p in remoto["piezas"]))
+        self.assertEqual({p["clave"].rsplit("/", 1)[1]: p["r2"] for p in res["piezas"]},
+                         {"autonomicas-por-municipio.xlsx": "subido", "resultados-oficiales.pdf": "no_subido"})
+
     def test_huella_distinta_no_escribe(self):
         with tempfile.TemporaryDirectory() as td, self.assertRaises(ef.ErrorEspejo) as c:
             def get(url, hosts, tope, intentos=4):

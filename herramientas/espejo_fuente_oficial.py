@@ -375,6 +375,8 @@ def copia_archivada(original: str, extension: str, get, hosts: list[str], tope: 
 def _directa(e: dict, get, hosts: list[str], tope: int) -> tuple[dict, bytes]:
     """D-202: URL directa con huella esperada; falla cerrado antes de escribir nada si sha256 o bytes no son los declarados."""
     ext = e.get("extension") or ""
+    if e.get("tipo") == "copia_archivada" and e.get("oficial", False) is not False:
+        raise ErrorEspejo("ESPEJO_DECLARACION", "una copia archivada no puede declararse oficial")
     if ext not in FORMATOS or not e.get("sha256_esperado") or not e.get("bytes_esperados"):
         raise ErrorEspejo("ESPEJO_DECLARACION", "la URL directa exige extension, sha256_esperado y bytes_esperados")
     datos = get(e["url"], hosts, tope)
@@ -500,7 +502,8 @@ def subir_espejo(territorio: str, salida: Path, aws=_aws, ruta_decl: Path = DECL
     """Subir lo medido por `espejar`: piezas primero y manifiesto el último, todo condicional.
 
     Se evalúa cada pieza, no solo la principal. Nunca va una copia a `fuentes/` (D-198):
-    - principal copia y `copias_archivadas_destino` = fuentes-archivadas (24-11): TODO el conjunto, con su manifiesto, a esa raíz;
+    - principal copia y `copias_archivadas_destino` = fuentes-archivadas (24-11): las copias, con su manifiesto, a esa raíz; un original del
+      conjunto no se sube ahí (iría a fuentes/ en su propio espejo) y queda «no_subido»;
     - principal copia con `no_subir`: no se sube nada;
     - principal original y alguna copia (p. ej. el PDF de verificación sacado de la Wayback): se suben solo los originales, y el
       `manifiesto.json` de R2 lleva solo las piezas subidas, así R2 describe exactamente lo que guarda y no mezcla copias con oficiales.
@@ -516,8 +519,10 @@ def subir_espejo(territorio: str, salida: Path, aws=_aws, ruta_decl: Path = DECL
     copias = [p for p, t in zip(m["piezas"], tipos) if t == "copia_archivada"]
     motivo = "copia archivada: solo se mide (decisión del propietario, 23-11)"
     archivada = tipos[0] == "copia_archivada" and destino_copias(e) == "fuentes-archivadas"
+    if archivada:  # a fuentes-archivadas/ solo van copias; un original del conjunto (p. ej. el PDF) se ignora («no_subido»)
+        originales, copias = copias, originales
     if archivada:
-        originales, copias = list(m["piezas"]), []  # el conjunto entero va a fuentes-archivadas/
+        motivo = "original en un conjunto archivado: no va a fuentes-archivadas/ (se espeja aparte)"
     for p in copias:
         print(f"::warning::ESPEJO_COPIA_NO_SUBIDA {p['clave']}: {motivo}")
     no_subidas = [{"clave": p["clave"], "sha256": p["sha256"], "bytes": p["bytes"], "r2": "no_subido"} for p in copias]
