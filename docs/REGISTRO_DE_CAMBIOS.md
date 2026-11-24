@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.621
+Versión: 1.0.622
 Fecha: 2026-11-24
-Alcance: T-454 — P40: esperar al artefacto github-pages antes de deploy-pages
+Alcance: Coordinador — Lecciones y costes (T-449, T-453, T-454)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-24_t454-p40-esperar-artefacto-pages.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.620_registro_20261124.md
+Cambios/motivo: entrada docs/registro/2026-11-24_coordinador-lecciones.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.621_registro_20261124.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.620_registro_20261124.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.622 · [2026-11-24 — Coordinador — Lecciones y costes (T-449, T-453, T-454)](registro/2026-11-24_coordinador-lecciones.md)
 - 1.0.621 · [2026-11-24 — T-454 — P40: esperar al artefacto github-pages antes de deploy-pages](registro/2026-11-24_t454-p40-esperar-artefacto-pages.md)
 - 1.0.620 · [2026-11-24 — T-453 — Fijar el P75 de los aut con aut08 (16 aut)](registro/2026-11-24_t453-fijar-aut-16.md)
 - 1.0.619 · [2026-11-24 — T-453 — P75 imprime `votos_total` y los % de cobertura por territorio](registro/2026-11-24_t453-p75-cifras-en-log.md)
