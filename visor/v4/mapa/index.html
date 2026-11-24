@@ -1,5 +1,6 @@
 <!doctype html>
-<!-- PROYECTO: Diputado de Distrito · CLASE: visor V4 · Explorar · VERSIÓN: 1.2.0 · FECHA: 2026-11-20 · ESTADO: candidato
+<!-- PROYECTO: Diputado de Distrito · CLASE: visor V4 · Explorar · VERSIÓN: 1.3.0 · FECHA: 2026-11-24 · ESTADO: candidato
+     CAMBIOS 1.3.0: T-456, fuera el aviso «Simulación sin valor oficial» (dv-aviso) y el rótulo del mapa (map-tag, oculto). ANTERIOR: legacy/visor/v4/mapa/index_v1.2.0_20261120.html
      CAMBIOS 1.2.0: T-429, regla «Mayoría simple en el distrito» y etiquetas para compartir. ANTERIOR: legacy/visor/v4/mapa/index_v1.1.0_20261120.html
      CAMBIOS 1.1.0: T-428 (D-184), Explorar se sirve en /mapa/ de la raíz: rutas del sitio con ../ (antes ../../ desde /v4/mapa/) marca e «Inicio» → ../ (la raíz).
      ANTERIOR: legacy/visor/v4/mapa/index_v1.0.0_20261119.html
@@ -53,9 +54,8 @@
     <main class="map-shell" id="contenido" tabindex="-1" aria-label="Mapa y leyenda">
       <div id="map" role="application" aria-roledescription="mapa" aria-label="Mapa interactivo de territorios y resultados electorales de España" aria-describedby="map-help"></div>
       <p id="map-help" class="sr-only">Con el foco en el mapa, las flechas lo desplazan y más o menos lo acercan o alejan. Para elegir un territorio con teclado, usa el buscador o la tabla «Resultados en tabla» de la columna derecha.</p>
-      <div class="map-tag"><span class="status-dot" aria-hidden="true"></span><span id="map-caption">Resultados oficiales 2023 · vista provincial</span></div>
+      <div class="map-tag" hidden><span class="status-dot" aria-hidden="true"></span><span id="map-caption"></span></div>
       <div class="map-actions" role="group" aria-label="Encuadre del mapa"><button class="icon-button" id="help" aria-label="Ayuda: cómo explorar el visor" aria-haspopup="dialog" title="Ayuda"><span aria-hidden="true">?</span></button><button id="reset-map" title="Volver a España" aria-label="Volver a España"><span aria-hidden="true">⌖</span></button><button id="peninsula" title="Península" aria-label="Ir a la Península"><span aria-hidden="true">P</span></button><button id="canarias" title="Canarias" aria-label="Ir a Canarias"><span aria-hidden="true">C</span></button></div>
-      <p id="dv-aviso" class="dv-aviso"><strong>Simulación sin valor oficial.</strong><span> Escenarios de doble vuelta calculados con los votos reales de las generales de 2023; no sustituyen a los resultados oficiales.</span></p>
       <div id="map-notice" class="map-notice" role="status"></div>
       <div id="legend" class="legend" role="group" aria-label="Leyenda del mapa"></div>
       <div class="attribution">Cartografía de investigación · geometrías y resultados según producto publicado</div>

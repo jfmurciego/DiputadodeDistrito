@@ -1,7 +1,9 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: prueba de interacción del Explorar de la V4 en el ámbito «Autonómico» (T-427)
- * VERSIÓN: 1.0.0 · FECHA: 2026-11-20 · ESTADO: candidato · ANTERIOR: ninguna (fichero nuevo)
- * CAMBIOS: navegador simulado (mismo arnés que test_visor_v4_explorar.js) con un índice 1.1 sintético: Andalucía con doble vuelta (run 500),
+ * VERSIÓN: 1.1.0 · FECHA: 2026-11-24 · ESTADO: candidato · ANTERIOR: legacy/tests/test_visor_v4_explorar_aut_v1.0.0_20261120.js
+ * CAMBIOS: 1.1.0 (T-456): Andalucía (aut01), Castilla y León (aut07) y Castilla-La Mancha (aut08) con el M08 publicado solo bajo autNN y otro más viejo bajo la clave legacy:
+ *   gana el más reciente y la doble vuelta se pinta; ningún cartel «sin valor oficial» ni «no disponible».
+ *   1.0.0: navegador simulado (mismo arnés que test_visor_v4_explorar.js) con un índice 1.1 sintético: Andalucía con doble vuelta (run 500),
  *   Asturias declarada sin doble vuelta con su motivo y Canarias con el mapa publicado de OTRA ejecución. Esperados literales: id público =
  *   district_id interno + 1; ningún color sin dato ni con otro mapa; la elección es la autonómica vigente del índice. */
 "use strict";
@@ -16,7 +18,7 @@ const index = JSON.parse(fs.readFileSync(path.join(ROOT, "datos_abiertos/INDEX.j
 // Ids del visor (claves de región) desde la tabla maestra, nunca escritos a mano (T-220): AUT01, AUT03 y AUT05.
 const TABLA = fs.readFileSync(path.join(ROOT, "configuracion/notacion_territorial.csv"), "utf8").split("\n").filter(l => /^AUT\d{2},/.test(l));
 const leg = c => { const l = TABLA.find(x => x.startsWith(c.toUpperCase() + ",")); assert.ok(l, c); return l.trim().split(",").at(-1); };
-const AND = leg("aut01"), AST = leg("aut03"), CAN = leg("aut05");
+const AND = leg("aut01"), AST = leg("aut03"), CAN = leg("aut05"), CYL = leg("aut07"), CLM = leg("aut08");
 const sq = (x, y) => ({ type: "Polygon", coordinates: [[[x, y], [x + .01, y], [x + .01, y + .01], [x, y + .01], [x, y]]] });
 const sha = b => crypto.createHash("sha256").update(b).digest("hex");
 const CAB_R = "district_id,escenario,vuelta_decisiva,candidatura_ganadora,bloque_ganador,votos_1v,cuota_1v,finalista_a,finalista_b,votos_a_2v,votos_b_2v,cuota_ganador_2v,votos_abstencion,empate\n";
@@ -28,22 +30,24 @@ for (const [i, b, o] of [[1, "Izquierdas", "Patriotas"], [2, "Patriotas", "Izqui
   for (const e of ["dv_A", "dv_B", "dv_base", "primero"]) d += `${i},${e},${b === "Izquierdas" ? "PSOE" : "PP"},${b === "Izquierdas" ? "PSOE" : "PP"},${b},${b === "Izquierdas" ? 60 : 70},${b === "Izquierdas" ? 60 : 70}\n${i},${e},X,X,${o},40,40\n`;
 }
 const bin = { "datos/aut01/resultados_doble_vuelta.csv": Buffer.from(r), "datos/aut01/detalle.csv": Buffer.from(d),
-  "datos/aut05/resultados_doble_vuelta.csv": Buffer.from(r), "datos/aut05/detalle.csv": Buffer.from(d) };
+  "datos/aut05/resultados_doble_vuelta.csv": Buffer.from(r), "datos/aut05/detalle.csv": Buffer.from(d),
+  "datos/aut07/resultados_doble_vuelta.csv": Buffer.from(r), "datos/aut07/detalle.csv": Buffer.from(d),
+  "datos/aut08/resultados_doble_vuelta.csv": Buffer.from(r), "datos/aut08/detalle.csv": Buffer.from(d) };
 const ent = (id, clave, ele, run) => ({ id, ambito: "AUT", nombre: clave, etiqueta: clave, clave_visor: clave, eleccion: ele, distritos: 2, run_m08: run,
   aproximado_en_distrito: false, nivel: "seccion",
   resultados: { ruta: id + "/resultados_doble_vuelta.csv", sha256: sha(bin["datos/" + id + "/resultados_doble_vuelta.csv"]) },
   detalle: { ruta: id + "/detalle.csv", sha256: sha(bin["datos/" + id + "/detalle.csv"]) } });
 bin["datos/INDEX.json"] = Buffer.from(JSON.stringify({ schema: "ddd.v4-doble-vuelta/1.1", eleccion: "2023-07", territorios: [
-  ent("aut01", AND, "2026-05", "500"), ent("aut05", CAN, "2023-05", "999")],
+  ent("aut01", AND, "2026-05", "500"), ent("aut05", CAN, "2023-05", "999"), ent("aut07", CYL, "2026-03", "800"), ent("aut08", CLM, "2023-05", "810")],
   sin_doble_vuelta: [{ id: "aut03", clave_visor: AST, estado: "SIN_VOTOS_AUTONOMICOS", motivo: "sin votos por distrito de su autonómica" }] }));
-const prod = (t, run) => ({ territory_id: t, kind: "canonical_m08", viewer_path: "data/" + t + ".geojson", publication_status: "PUBLICABLE", run_id: run, label: "M08" });
+const prod = (t, run, file = t) => ({ territory_id: t, kind: "canonical_m08", viewer_path: "data/" + file + ".geojson", publication_status: "PUBLICABLE", run_id: run, label: "M08" });
 const capa = n => ({ type: "FeatureCollection", features: [0, 1].map(i => ({ type: "Feature", geometry: sq(n + i * .02, 37), properties: { district_id: i, winner_party: "PP" } })) });
 const fixtures = {
   "../v2/datos/provincias.json": provincias, "../v2/datos/comunidades.json": comunidades, "../datos/INDEX.json": index,
   "../v2/datos/secciones/INDEX.json": { provincias: {} }, "../v2/datos/territorial.json": { provincias: {} },
-  "calendario.json": { [AND]: [["202206", "jun. 2022"], ["202605", "may. 2026"]], [CAN]: [["202305", "may. 2023"]], [AST]: [["202305", "may. 2023"]] },
-  "../data/viewer-results.json": { results: [prod(AND, "500"), prod(CAN, "700"), prod(AST, "600")] },
-  ["../data/" + AND + ".geojson"]: capa(-5), ["../data/" + CAN + ".geojson"]: capa(-15), ["../data/" + AST + ".geojson"]: capa(-6)
+  "calendario.json": { [CYL]: [["202603", "mar. 2026"]], [CLM]: [["202305", "may. 2023"]], [AND]: [["202206", "jun. 2022"], ["202605", "may. 2026"]], [CAN]: [["202305", "may. 2023"]], [AST]: [["202305", "may. 2023"]] },
+  "../data/viewer-results.json": { results: [prod("aut01", "500"), prod(AND, "100"), prod(CAN, "700"), prod(AST, "600"), prod("aut07", "800"), prod(CYL, "300"), prod("aut08", "810"), prod(CLM, "310")] },
+  ["../data/aut01.geojson"]: capa(-5), ["../data/" + AND + ".geojson"]: capa(-25), ["../data/aut07.geojson"]: capa(-4), ["../data/" + CYL + ".geojson"]: capa(-24), ["../data/aut08.geojson"]: capa(-3), ["../data/" + CLM + ".geojson"]: capa(-23), ["../data/" + CAN + ".geojson"]: capa(-15), ["../data/" + AST + ".geojson"]: capa(-6)
 };
 
 const el = {}, group = {};
@@ -98,7 +102,6 @@ const flush = async () => { for (let i = 0; i < 60; i++) await new Promise(r => 
   eq(feats.map(f => [f.properties.district_id, f.properties.dvDistrito, f.properties.dv_tres, f.properties.dv_primero]), [[0, 1, "izq", "izq"], [1, 2, "pat", "pat"]]);
   eq(map.getLayer("dist-fill").paint["fill-color"].slice(0, 2), ["match", ["coalesce", ["get", "dv_tres"], "nodato"]]);
   assert.match(element("map-caption").textContent, /Doble vuelta · Tres bloques · autonómicas · Andalucía · simulación/);
-  assert.equal(element("dv-aviso").hidden, false);
   // 3. Ficha del distrito público 2 con la elección autonómica.
   map.hit = [{ layer: { id: "dist-fill" }, geometry: feats[1].geometry, properties: feats[1].properties }];
   map.handlers.click({ point: {} }); await flush();
@@ -106,7 +109,7 @@ const flush = async () => { for (let i = 0; i < 60; i++) await new Promise(r => 
   assert.match(element("dv-heading").textContent, /distrito 2/);
   assert.match(element("dv-content").innerHTML, /Elecciones autonómicas de 05\/2026/);
   assert.match(element("dv-content").innerHTML, /Gana PP en primera vuelta con el 60,0 %/);
-  assert.match(element("dv-content").innerHTML, /Simulación sin valor oficial/);
+  assert.doesNotMatch(element("dv-content").innerHTML, /sin valor oficial/);
   // 4. Otra elección de Andalucía: sin doble vuelta (solo la vigente) y la capa vuelve a «Partido más votado».
   element("elections").children.find(b => b.textContent === "jun. 2022").onclick(); await flush();
   assert.equal(t.S.layer, "ganador");
@@ -118,12 +121,18 @@ const flush = async () => { for (let i = 0; i < 60; i++) await new Promise(r => 
   assert.equal(t.DVD.fallos.get(AST), "sin votos por distrito de su autonómica");
   assert.ok(map.getSource("distritos").data.features.every(f => f.properties.dv_tres === "nodato"));
   assert.notEqual(map.getLayer("dist-fill").paint["fill-color"][0], "match");
-  assert.match(element("legend").innerHTML, /no disponible en Principado de Asturias: sin votos por distrito de su autonómica/);
+  assert.doesNotMatch(element("legend").innerHTML, /no disponible|sin valor oficial/);
   // 6. Canarias: el mapa publicado es de otra ejecución que la del índice: fallo cerrado con la causa.
   await region(CAN);
   assert.match(t.DVD.fallos.get(CAN), /no es el de la doble vuelta \(999\)/);
   assert.ok(map.getSource("distritos").data.features.every(f => f.properties.dv_tres === undefined));
   assert.equal(t.DVD.datos.has(CAN), false);
+  // 6b. Castilla y León y Castilla-La Mancha: el M08 de la ejecución del índice está solo bajo autNN (el legacy es más viejo): se pinta.
+  for (const [reg, run] of [[CYL, "800"], [CLM, "810"]]) {
+    await region(reg);
+    assert.equal(t.DVD.fallos.has(reg), false, reg); assert.equal(t.DVD.datos.has(reg), true, reg);
+    eq(map.getSource("distritos").data.features.map(f => [f.properties.run_id, f.properties.dv_tres]), [[run, "izq"], [run, "pat"]], reg);
+  }
   // 7. Lector del índice 1.1: un aut sin motivo, un aut incompleto o un aut en un índice 1.0 se rechazan.
   const idx = JSON.parse(bin["datos/INDEX.json"].toString());
   assert.throws(() => sandbox.DV.leerIndice({ ...idx, sin_doble_vuelta: [{ id: "aut03", motivo: "" }] }), /sin motivo/);
