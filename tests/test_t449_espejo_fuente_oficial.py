@@ -3,11 +3,11 @@
 """T-449 (D-183, D-188): espejo de solo lectura de una fuente oficial desde el runner.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.2
-FECHA: 2026-11-23
-CAMBIOS: 1.0.2: `descubrir` (solo lectura) y su paso en P10 1.0.5 (run 45170670366, portal de la Junta movido). 1.0.1: candidatas en orden (`downloadURL` antes que `accessURL`) y salto de la portada a la siguiente (run 45158272014). 1.0.0: fichero nuevo.
+VERSIÓN: 1.0.3
+FECHA: 2026-11-24
+CAMBIOS: 1.0.3: aut08 en modo URL directa con la copia archivada (propietario 24-11), raíz fuentes-archivadas; el modo catálogo se prueba con `_decl_catalogo`. 1.0.2: `descubrir` (solo lectura) y su paso en P10 1.0.5 (run 45170670366, portal de la Junta movido). 1.0.1: candidatas en orden (`downloadURL` antes que `accessURL`) y salto de la portada a la siguiente (run 45158272014). 1.0.0: fichero nuevo.
 MOTIVO: fija la elección de la distribución del año, el rechazo de la portada HTML, la clave de D-188 y que nunca sobrescribe.
-ANTERIOR: legacy/tests/test_t449_espejo_fuente_oficial_v1.0.1_20261123b.py
+ANTERIOR: legacy/tests/test_t449_espejo_fuente_oficial_v1.0.2_20261124.py
 """
 from __future__ import annotations
 
@@ -41,6 +41,21 @@ try:
     import openpyxl
 except ImportError:  # la CI no instala openpyxl: el volcado real se prueba solo donde está
     openpyxl = None
+
+
+API_URL_AUT08 = "https://datos.gob.es/apidata/catalog/dataset/a08002880-resultandos-de-elecciones-autonomicas-en-castilla-la-mancha.json"
+
+
+def _decl_catalogo() -> dict:
+    """La declaración real con aut08 en el modo catálogo (datos.gob.es) de la 1.0–1.2, para probar ese modo; desde la 1.3 aut08 va en
+    modo URL directa con la copia archivada (clase `Aut08Directo`)."""
+    d = json.loads(ef.DECLARACION.read_text(encoding="utf-8"))
+    e = d["espejos"]["aut08"]
+    for k in ("url", "tipo", "url_original", "captura", "sha256_esperado", "bytes_esperados", "extension", "titulo"):
+        e.pop(k, None)
+    e["api_url"] = API_URL_AUT08
+    e["copias_archivadas_destino"] = "no_subir"
+    return d
 
 
 def _volcado_falso(datos, destino):
@@ -93,7 +108,7 @@ class Candidatas(unittest.TestCase):
                           "https://ejemplo.invalid/files/Resultados_CLM_2023.csv"])
 
     def _espejar(self, respuestas):
-        decl = json.loads(ef.DECLARACION.read_text(encoding="utf-8"))
+        decl = _decl_catalogo()
         decl["espejos"]["aut08"]["hosts_permitidos"].append("ejemplo.invalid")
         decl["espejos"]["aut08"]["copias_archivadas"] = False  # aquí solo el catálogo; la Wayback tiene su clase
         decl["espejos"]["aut08"].pop("verificacion")
@@ -166,7 +181,8 @@ class Clave(unittest.TestCase):
     def test_declaracion_aut08(self):
         e = ef.declaracion("aut08")
         self.assertEqual((e["organismo"], e["anyo"], e["fecha"]), ("junta-castilla-la-mancha", 2023, "2023-05-28"))
-        self.assertIn("datos.gob.es/apidata/catalog/dataset/", e["api_url"])
+        self.assertNotIn("api_url", e)  # 1.3.0: modo URL directa con la copia archivada
+        self.assertIn("datos.gob.es/es/catalogo/", e["dataset_url"])
 
 
 class R2Falso:
@@ -224,7 +240,7 @@ class Espejar(unittest.TestCase):
         raise AssertionError(url)
 
     def _decl(self, td):
-        d = json.loads(ef.DECLARACION.read_text(encoding="utf-8"))
+        d = _decl_catalogo()
         d["espejos"]["aut08"]["hosts_permitidos"].append("ejemplo.invalid")
         d["espejos"]["aut08"]["copias_archivadas"] = False
         r = Path(td) / "decl.json"
@@ -245,7 +261,7 @@ class Espejar(unittest.TestCase):
     def test_host_no_declarado_no_se_descarga(self):
         with tempfile.TemporaryDirectory() as td:
             with self.assertRaises(ef.ErrorEspejo) as c:
-                d = json.loads(ef.DECLARACION.read_text(encoding="utf-8"))
+                d = _decl_catalogo()
                 d["espejos"]["aut08"]["copias_archivadas"] = False
                 r = Path(td) / "real.json"
                 r.write_text(json.dumps(d), encoding="utf-8")
@@ -391,7 +407,7 @@ class Descubrir(unittest.TestCase):
         return peticion, pedidas
 
     def _decl(self, td, paginas):
-        d = json.loads(ef.DECLARACION.read_text(encoding="utf-8"))
+        d = _decl_catalogo()
         d["espejos"]["aut08"]["descubrir"] = {"paginas": paginas, "sufijos_host": self.SUF, "max_paginas": 40, "max_candidatas": 10}
         ruta = Path(td) / "d.json"
         ruta.write_text(json.dumps(d), encoding="utf-8")
@@ -475,7 +491,7 @@ class CopiaArchivada(unittest.TestCase):
         return get, pedidas
 
     def _decl(self, td):
-        d = json.loads(ef.DECLARACION.read_text(encoding="utf-8"))
+        d = _decl_catalogo()
         d["espejos"]["aut08"].pop("verificacion")
         r = Path(td) / "d.json"
         r.write_text(json.dumps(d), encoding="utf-8")
@@ -507,18 +523,30 @@ class CopiaArchivada(unittest.TestCase):
         return sal, r
 
     def test_no_subir_por_defecto_no_toca_r2(self):
-        self.assertEqual(ef.declaracion("aut08")["copias_archivadas_destino"], "no_subir")
         with tempfile.TemporaryDirectory() as td, mock.patch.dict(os.environ, {}, clear=False):
             sal, r = self._espejar_copia(td, "no_subir")
             res = ef.subir_espejo("aut08", sal, aws=mock.Mock(side_effect=AssertionError("R2")), ruta_decl=r)
         self.assertIs(res["subido"], False)
         self.assertEqual({p["r2"] for p in res["piezas"]}, {"no_subido"})
 
-    def test_otro_destino_no_se_admite(self):
-        for destino in ("fuentes-archivadas", "fuentes"):  # propietario 23-11: la copia solo se mide
+    def test_fuentes_no_se_admite_para_copias(self):
+        for destino in ("fuentes", "otra"):  # D-198: una copia nunca va a fuentes/
             with tempfile.TemporaryDirectory() as td, self.assertRaises(ef.ErrorEspejo) as c:
                 self._espejar_copia(td, destino)
             self.assertEqual(c.exception.codigo, "ESPEJO_DECLARACION")
+
+    def test_fuentes_archivadas_lleva_el_conjunto_a_su_raiz(self):
+        r2 = R2Falso()
+        with tempfile.TemporaryDirectory() as td, mock.patch.dict(os.environ, {"R2_BUCKET": "b", "R2_ACCOUNT_ID": "a"}):
+            sal, r = self._espejar_copia(td, "fuentes-archivadas")
+            res = ef.subir_espejo("aut08", sal, aws=r2, ruta_decl=r)
+        self.assertEqual(sorted(r2.escrituras), ["fuentes-archivadas/junta-castilla-la-mancha/2023/autonomicas-por-municipio.xlsx",
+                                                 "fuentes-archivadas/junta-castilla-la-mancha/2023/manifiesto.json"])
+        self.assertFalse([k for k in r2.objetos if k.startswith("fuentes/")])
+        remoto = json.loads(r2.objetos["fuentes-archivadas/junta-castilla-la-mancha/2023/manifiesto.json"][0])
+        self.assertEqual((remoto["raiz"], remoto["piezas"][0]["tipo"], remoto["piezas"][0]["oficial"]),
+                         ("fuentes-archivadas", "copia_archivada", False))
+        self.assertIs(res["subido"], True)
 
     def test_manifiesto_que_dice_oficial_una_copia_se_rechaza(self):
         with tempfile.TemporaryDirectory() as td, mock.patch.dict(os.environ, {"R2_BUCKET": "b", "R2_ACCOUNT_ID": "a"}):
@@ -553,7 +581,7 @@ class CopiaArchivada(unittest.TestCase):
             raise ef.ErrorEspejo("ESPEJO_DESCARGA", url)
 
         r = Path(td) / "mixto.json"
-        r.write_text(ef.DECLARACION.read_text(encoding="utf-8"), encoding="utf-8")
+        r.write_text(json.dumps(_decl_catalogo()), encoding="utf-8")
         sal = Path(td) / "s-mixto"
         with mock.patch.object(ef, "volcar_xlsx", _volcado_falso):
             m = ef.espejar("aut08", sal, get=get, ruta_decl=r)
@@ -628,7 +656,7 @@ class CopiaArchivada(unittest.TestCase):
         def peticion(url, tope):
             return r[url]
 
-        d = json.loads(ef.DECLARACION.read_text(encoding="utf-8"))
+        d = _decl_catalogo()
         d["espejos"]["aut08"]["descubrir"]["paginas"] = ["https://web.archive.org/cdx/search/cdx?url=x"]
         with tempfile.TemporaryDirectory() as td:
             ruta = Path(td) / "d.json"
@@ -637,6 +665,88 @@ class CopiaArchivada(unittest.TestCase):
         self.assertEqual(res["ficheros_de_datos"], [arch])
         c = res["candidatas"][0]
         self.assertEqual((c["copia_archivada"], c["oficial"], c["sha256"]), (True, True, ef.sha256(self.XLSX)))
+
+
+class Aut08Directo(unittest.TestCase):
+    """1.3.0 (propietario 24-11): aut08 = copia de la Wayback del xlsx oficial, huella fijada, NO oficial, en fuentes-archivadas/."""
+
+    def test_declaracion_real(self):
+        e = ef.declaracion("aut08")
+        self.assertEqual(e["url"], "https://web.archive.org/web/20261023040608id_/https://datosabiertos.castillalamancha.es/sites/"
+                                   "datosabiertos.castillalamancha.es/files/Resultados_CLM_2023.xlsx")
+        # sha256 y bytes medidos en el run 45283716584 (ESPEJO_MANIFIESTO del log), literales
+        self.assertEqual((e["sha256_esperado"], e["bytes_esperados"]),
+                         ("7591997d17c65586bd5d8ac68776e9946e233997f86cbe1c22e08018c16347ca", 322602))
+        self.assertEqual((e["tipo"], e["captura"], e["copias_archivadas_destino"]), ("copia_archivada", "20261023040608", "fuentes-archivadas"))
+
+    def _correr(self, datos):
+        e = ef.declaracion("aut08")
+
+        def get(url, hosts, tope, intentos=4):
+            ef.comprobar_url(url, hosts)
+            if url == e["url"]:
+                return datos
+            raise ef.ErrorEspejo("ESPEJO_DESCARGA", url)  # el PDF de verificación no existe (run 45283716584)
+
+        with tempfile.TemporaryDirectory() as td, mock.patch.object(ef, "volcar_xlsx", _volcado_falso), \
+                mock.patch.object(ef, "_get", get):
+            sal = Path(td) / "s"
+            m = ef.espejar("aut08", sal, get=get)
+            r2 = R2Falso()
+            with mock.patch.dict(os.environ, {"R2_BUCKET": "b", "R2_ACCOUNT_ID": "a"}):
+                res = ef.subir_espejo("aut08", sal, aws=r2)
+        return m, res, r2
+
+    def test_entrada_real_declara_no_oficial(self):
+        self.assertIs(ef.declaracion("aut08")["oficial"], False)
+
+    def test_copia_declarada_oficial_se_rechaza(self):
+        e = ef.declaracion("aut08")
+        with tempfile.TemporaryDirectory() as td, self.assertRaises(ef.ErrorEspejo) as c, \
+                mock.patch.object(ef, "declaracion", lambda t, r=None: {**e, "oficial": True}):
+            ef.espejar("aut08", Path(td) / "s", get=lambda *a, **k: b"")
+        self.assertEqual(c.exception.codigo, "ESPEJO_DECLARACION")
+
+    def test_original_en_conjunto_archivado_no_va_a_fuentes_archivadas(self):
+        e = ef.declaracion("aut08")
+        falso, pdf = b"PK\x03\x04" + b"x" * 10, b"%PDF-1.4 oficial"
+        decl = {**e, "sha256_esperado": ef.sha256(falso), "bytes_esperados": len(falso)}
+
+        def get(url, hosts, tope, intentos=4):
+            return falso if url == e["url"] else pdf  # el PDF de verificación responde: es un original
+
+        r2 = R2Falso()
+        with tempfile.TemporaryDirectory() as td, mock.patch.object(ef, "volcar_xlsx", _volcado_falso), \
+                mock.patch.object(ef, "declaracion", lambda t, r=None: decl), \
+                mock.patch.dict(os.environ, {"R2_BUCKET": "b", "R2_ACCOUNT_ID": "a"}):
+            m = ef.espejar("aut08", Path(td) / "s", get=get)
+            self.assertEqual([(p["tipo"], p["oficial"]) for p in m["piezas"]], [("copia_archivada", False), ("original", True)])
+            res = ef.subir_espejo("aut08", Path(td) / "s", aws=r2)
+        self.assertEqual(sorted(r2.escrituras), ["fuentes-archivadas/junta-castilla-la-mancha/2023/autonomicas-por-municipio.xlsx",
+                                                 "fuentes-archivadas/junta-castilla-la-mancha/2023/manifiesto.json"])
+        remoto = json.loads(r2.objetos["fuentes-archivadas/junta-castilla-la-mancha/2023/manifiesto.json"][0])
+        self.assertTrue(all(p["oficial"] is False for p in remoto["piezas"]))
+        self.assertEqual({p["clave"].rsplit("/", 1)[1]: p["r2"] for p in res["piezas"]},
+                         {"autonomicas-por-municipio.xlsx": "subido", "resultados-oficiales.pdf": "no_subido"})
+
+    def test_huella_distinta_no_escribe(self):
+        with tempfile.TemporaryDirectory() as td, self.assertRaises(ef.ErrorEspejo) as c:
+            def get(url, hosts, tope, intentos=4):
+                return b"PK\x03\x04otra cosa"
+            ef.espejar("aut08", Path(td) / "s", get=get)
+        self.assertEqual(c.exception.codigo, "ESPEJO_HUELLA_INESPERADA")
+
+    def test_flujo_con_bytes_de_la_huella_declarada(self):
+        e = ef.declaracion("aut08")
+        falso = b"PK\x03\x04" + b"x" * 10
+        with mock.patch.dict(e, {}), mock.patch.object(ef, "declaracion", lambda t, r=None: {**e, "sha256_esperado": ef.sha256(falso),
+                                                                                          "bytes_esperados": len(falso)}):
+            m, res, r2 = self._correr(falso)
+        p = m["piezas"][0]
+        self.assertEqual((p["tipo"], p["oficial"], p["url_original"], p["captura"]),
+                         ("copia_archivada", False, e["url_original"], "20261023040608"))
+        self.assertEqual(sorted(r2.escrituras), ["fuentes-archivadas/junta-castilla-la-mancha/2023/autonomicas-por-municipio.xlsx",
+                                                 "fuentes-archivadas/junta-castilla-la-mancha/2023/manifiesto.json"])
 
 
 class JobP10(unittest.TestCase):

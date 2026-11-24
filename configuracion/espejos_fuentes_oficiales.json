@@ -1,6 +1,6 @@
 {
   "schema": "ddd-espejos-fuentes-oficiales/1.0",
-  "nota": "PROYECTO: Diputado de Distrito · T-449 (D-183, D-188) · VERSIÓN 1.2.0 · 2026-11-23 · ANTERIOR: legacy/espejos_fuentes_oficiales_v1.1.0_20261123.json · CAMBIOS 1.2.0: T-449: `descubrir` en aut08 (páginas oficiales que sondea en solo lectura `espejo_fuente_oficial.py descubrir` cuando las distribuciones de datos.gob.es dan 404; sufijos castillalamancha.es y datos.gob.es; semillas de elecciones2023.castillalamancha.es y de las fichas del portal nuevo, halladas por el Planificador, y su host en `hosts_permitidos`; copias archivadas (propietario 23-11, «probar todos los sitios»): `copias_archivadas` y web.archive.org en `hosts_permitidos` (copia íntegra del fichero oficial, verificada con el digest de la captura y declarada en el manifiesto con oficial=false y tipo copia_archivada); `copias_archivadas_destino` = no_subir, único valor (decisión del propietario 23-11: la copia solo se mide, no se sube a R2); en `descubrir`, prefijos CDX de la Wayback y medios (Público, elDiario.es, El Español, RTVE, CMM, El País) como fuente NO oficial, que solo se sondean y nunca se suben solos; la URL buena entra después por PR con su huella). CAMBIOS 1.1.0: T-448 (D-202): entrada `ine-censo2011-1mun00` en modo URL directa (url + sha256_esperado + bytes_esperados + extension; host www.ine.es). Fuentes oficiales que solo se alcanzan desde un runner de Actions y se espejan, en solo lectura, en R2 bajo fuentes/<organismo>/<año>/ con manifiesto.json (sha256, bytes, URL de origen, run). Lo usa herramientas/espejo_fuente_oficial.py desde «P10 Fuentes», tipo «Espejo de fuente oficial». La huella medida se copia después, en una PR, al índice y al calendario. Solo se descarga por https de los hosts exactos de `hosts_permitidos` (también en cada redirección) y hasta `max_bytes`; un host nuevo se añade por PR.",
+  "nota": "PROYECTO: Diputado de Distrito · T-449 (D-183, D-188) · VERSIÓN 1.3.0 · 2026-11-24 · ANTERIOR: legacy/espejos_fuentes_oficiales_v1.2.0_20261124.json · CAMBIOS 1.3.0: T-449 (decisión del propietario 24-11): aut08 pasa al modo URL directa con la copia de la Wayback del xlsx oficial de 2023 (captura 20261023040608, medida en el run 45283716584: sha256 7591997d…47ca, 322.602 B), declarada `tipo: copia_archivada` (fuente NO oficial), y `copias_archivadas_destino` = fuentes-archivadas (R2 fuentes-archivadas/junta-castilla-la-mancha/2023/, nunca fuentes/, D-198). El catálogo de datos.gob.es queda como referencia (`dataset_url`). CAMBIOS 1.2.0: T-449: `descubrir` en aut08 (páginas oficiales que sondea en solo lectura `espejo_fuente_oficial.py descubrir` cuando las distribuciones de datos.gob.es dan 404; sufijos castillalamancha.es y datos.gob.es; semillas de elecciones2023.castillalamancha.es y de las fichas del portal nuevo, halladas por el Planificador, y su host en `hosts_permitidos`; copias archivadas (propietario 23-11, «probar todos los sitios»): `copias_archivadas` y web.archive.org en `hosts_permitidos` (copia íntegra del fichero oficial, verificada con el digest de la captura y declarada en el manifiesto con oficial=false y tipo copia_archivada); `copias_archivadas_destino` = no_subir, único valor (decisión del propietario 23-11: la copia solo se mide, no se sube a R2); en `descubrir`, prefijos CDX de la Wayback y medios (Público, elDiario.es, El Español, RTVE, CMM, El País) como fuente NO oficial, que solo se sondean y nunca se suben solos; la URL buena entra después por PR con su huella). CAMBIOS 1.1.0: T-448 (D-202): entrada `ine-censo2011-1mun00` en modo URL directa (url + sha256_esperado + bytes_esperados + extension; host www.ine.es). Fuentes oficiales que solo se alcanzan desde un runner de Actions y se espejan, en solo lectura, en R2 bajo fuentes/<organismo>/<año>/ con manifiesto.json (sha256, bytes, URL de origen, run). Lo usa herramientas/espejo_fuente_oficial.py desde «P10 Fuentes», tipo «Espejo de fuente oficial». La huella medida se copia después, en una PR, al índice y al calendario. Solo se descarga por https de los hosts exactos de `hosts_permitidos` (también en cada redirección) y hasta `max_bytes`; un host nuevo se añade por PR.",
   "espejos": {
     "aut08": {
       "eleccion": "Elecciones a las Cortes de Castilla-La Mancha",
@@ -11,7 +11,6 @@
       "catalogo": "datos.gob.es",
       "dataset": "a08002880-resultandos-de-elecciones-autonomicas-en-castilla-la-mancha",
       "dataset_url": "https://datos.gob.es/es/catalogo/a08002880-resultandos-de-elecciones-autonomicas-en-castilla-la-mancha",
-      "api_url": "https://datos.gob.es/apidata/catalog/dataset/a08002880-resultandos-de-elecciones-autonomicas-en-castilla-la-mancha.json",
       "verificacion": {
         "fichero": "resultados-oficiales",
         "url": "https://elecciones.castillalamancha.es/sites/default/files/2023-06/Resultados%20electorales%202023.pdf"
@@ -73,7 +72,16 @@
         ]
       },
       "copias_archivadas": true,
-      "copias_archivadas_destino": "no_subir"
+      "copias_archivadas_destino": "fuentes-archivadas",
+      "url": "https://web.archive.org/web/20261023040608id_/https://datosabiertos.castillalamancha.es/sites/datosabiertos.castillalamancha.es/files/Resultados_CLM_2023.xlsx",
+      "tipo": "copia_archivada",
+      "oficial": false,
+      "url_original": "https://datosabiertos.castillalamancha.es/sites/datosabiertos.castillalamancha.es/files/Resultados_CLM_2023.xlsx",
+      "captura": "20261023040608",
+      "sha256_esperado": "7591997d17c65586bd5d8ac68776e9946e233997f86cbe1c22e08018c16347ca",
+      "bytes_esperados": 322602,
+      "extension": "xlsx",
+      "titulo": "Resultados de las elecciones a las Cortes de Castilla-La Mancha 2023 por municipio (copia archivada del fichero oficial; fuente no oficial)"
     },
     "ine-censo2011-1mun00": {
       "descripcion": "INE, Censos de Población y Viviendas 2011, población por municipios (1mun00), total municipal a 1-nov-2011 (D-185)",

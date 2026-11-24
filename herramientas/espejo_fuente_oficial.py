@@ -3,11 +3,16 @@
 """Espejo de solo lectura en R2 de una fuente oficial que solo se alcanza desde un runner de Actions.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0
+VERSIÓN: 1.3.0
 NOMBRE DE VERSIÓN: Espejo de fuente oficial (D-183, D-188)
-FECHA: 2026-11-23
+FECHA: 2026-11-24
 ESTADO: candidato
-CAMBIOS: 1.2.0 (T-449, run 45170670366: las 2 distribuciones de datos.gob.es dan 301 a /system/404; el portal de la Junta cambió de
+CAMBIOS: 1.3.0 (T-449, decisión del propietario 24-11: la copia de la Wayback del xlsx de 2023 es la fuente de aut08, NO oficial, y va a R2 fuera
+  de fuentes/): el modo URL directa admite una entrada `tipo: copia_archivada` (con `url_original` y `captura`): la pieza sale con
+  `oficial: false` y `tipo: copia_archivada`. `copias_archivadas_destino` admite `fuentes-archivadas` (además de `no_subir`): con la pieza
+  principal copia, TODO el conjunto (piezas y manifiesto) va a `fuentes-archivadas/<organismo>/<año>/`; nunca a `fuentes/` (D-198). Con la
+  principal original, las copias siguen sin subirse.
+  1.2.0 (T-449, run 45170670366: las 2 distribuciones de datos.gob.es dan 301 a /system/404; el portal de la Junta cambió de
   plataforma): `descubrir --territorio aut08 --salida DIR`, SOLO LECTURA y sin secretos. Sondea las páginas declaradas en `descubrir.paginas`
   (portal nuevo, API CKAN si la hay, catálogo del publicador en datos.gob.es, web de elecciones), sin seguir a ciegas las redirecciones
   (anota cada salto; solo sigue hasta 5 dentro de los sufijos de `descubrir.sufijos_host`). Extrae los enlaces a ficheros de datos que citan el año o
@@ -33,7 +38,7 @@ CAMBIOS: 1.2.0 (T-449, run 45170670366: las 2 distribuciones de datos.gob.es dan
 MOTIVO: las autonómicas de Castilla-La Mancha 2023 por municipio solo están en el catálogo de datos.gob.es; la sesión cloud no llega
   (proxy 403) y la URL del portal autonómico devuelve la portada en obras. El runner las baja una vez, mide sha256 y bytes y las deja en
   R2 bajo `fuentes/<organismo>/<año>/` (árbol de D-188) con `manifiesto.json`; la huella pasa después, por PR, al calendario.
-ANTERIOR: legacy/herramientas/espejo_fuente_oficial_v1.1.0_20261123.py
+ANTERIOR: legacy/herramientas/espejo_fuente_oficial_v1.2.0_20261124.py
 QUÉ HACE: `espejar --territorio aut08 --salida DIR` (SIN secretos): lee la declaración (`configuracion/espejos_fuentes_oficiales.json`), pide a la
   API de datos.gob.es las distribuciones del conjunto, elige la del año (falla si hay 0 o más de una), la baja solo por https de los hosts
   exactos declarados (también en cada redirección, como mucho 5) y hasta `max_bytes`, rechaza HTML (portada en obras), mide sha256/bytes,
@@ -87,8 +92,9 @@ def declaracion(territorio: str, ruta: Path = DECLARACION) -> dict:
     return e
 
 
-RAICES = ("fuentes",)
-DESTINOS_COPIA = ("no_subir",)  # decisión del propietario (23-11): la copia archivada SOLO se mide; subirla sería una PR aparte
+RAICES = ("fuentes", "fuentes-archivadas")
+# no_subir: solo se mide (23-11); fuentes-archivadas: raíz aparte para copias (24-11). Nunca `fuentes` para una copia (D-198).
+DESTINOS_COPIA = ("no_subir", "fuentes-archivadas")
 
 
 def destino_copias(e: dict) -> str:
@@ -100,6 +106,8 @@ def destino_copias(e: dict) -> str:
 
 def raiz_conjunto(e: dict, tipo_principal: str) -> str:
     """Raíz de R2 de todo el conjunto (piezas y manifiesto): la de la pieza principal."""
+    if tipo_principal == "copia_archivada" and destino_copias(e) == "fuentes-archivadas":
+        return "fuentes-archivadas"
     destino_copias(e)
     return "fuentes"
 
@@ -367,6 +375,8 @@ def copia_archivada(original: str, extension: str, get, hosts: list[str], tope: 
 def _directa(e: dict, get, hosts: list[str], tope: int) -> tuple[dict, bytes]:
     """D-202: URL directa con huella esperada; falla cerrado antes de escribir nada si sha256 o bytes no son los declarados."""
     ext = e.get("extension") or ""
+    if e.get("tipo") == "copia_archivada" and e.get("oficial", False) is not False:
+        raise ErrorEspejo("ESPEJO_DECLARACION", "una copia archivada no puede declararse oficial")
     if ext not in FORMATOS or not e.get("sha256_esperado") or not e.get("bytes_esperados"):
         raise ErrorEspejo("ESPEJO_DECLARACION", "la URL directa exige extension, sha256_esperado y bytes_esperados")
     datos = get(e["url"], hosts, tope)
@@ -375,7 +385,14 @@ def _directa(e: dict, get, hosts: list[str], tope: int) -> tuple[dict, bytes]:
         raise ErrorEspejo("ESPEJO_HUELLA_INESPERADA", f"{e['url']}: sha256 {sha256(datos)} · {len(datos)} B ≠ "
                                                       f"{e['sha256_esperado']} · {e['bytes_esperados']} B")
     print(f"ESPEJO_ELEGIDA {e['url']}")
-    return {"url": e["url"], "titulo": e.get("titulo", ""), "formato": ext, "extension": ext}, datos
+    dist = {"url": e["url"], "titulo": e.get("titulo", ""), "formato": ext, "extension": ext}
+    if e.get("tipo") == "copia_archivada":  # 1.3.0: copia declarada (URL de la Wayback con su huella fijada)
+        if not e.get("url_original") or not e.get("captura"):
+            raise ErrorEspejo("ESPEJO_DECLARACION", "una copia archivada exige url_original y captura")
+        dist.update({"origen": "copia archivada (Wayback Machine)", "url_original": e["url_original"], "captura": e["captura"]})
+    elif e.get("tipo") not in (None, "original"):
+        raise ErrorEspejo("ESPEJO_DECLARACION", f"tipo {e.get('tipo')!r}")
+    return dist, datos
 
 
 def espejar(territorio: str, salida: Path, get=_get, ruta_decl: Path = DECLARACION) -> dict:
@@ -484,8 +501,10 @@ def _tipo_coherente(p: dict) -> str:
 def subir_espejo(territorio: str, salida: Path, aws=_aws, ruta_decl: Path = DECLARACION) -> dict:
     """Subir lo medido por `espejar`: piezas primero y manifiesto el último, todo condicional.
 
-    Las copias archivadas NUNCA se suben (decisión del propietario, 23-11: solo se miden) y se evalúa cada pieza, no solo la principal:
-    - principal copia: no se sube nada;
+    Se evalúa cada pieza, no solo la principal. Nunca va una copia a `fuentes/` (D-198):
+    - principal copia y `copias_archivadas_destino` = fuentes-archivadas (24-11): las copias, con su manifiesto, a esa raíz; un original del
+      conjunto no se sube ahí (iría a fuentes/ en su propio espejo) y queda «no_subido»;
+    - principal copia con `no_subir`: no se sube nada;
     - principal original y alguna copia (p. ej. el PDF de verificación sacado de la Wayback): se suben solo los originales, y el
       `manifiesto.json` de R2 lleva solo las piezas subidas, así R2 describe exactamente lo que guarda y no mezcla copias con oficiales.
       Las copias quedan en el manifiesto local, el artefacto y `subida.json` como «no_subido»."""
@@ -499,10 +518,15 @@ def subir_espejo(territorio: str, salida: Path, aws=_aws, ruta_decl: Path = DECL
     originales = [p for p, t in zip(m["piezas"], tipos) if t == "original"]
     copias = [p for p, t in zip(m["piezas"], tipos) if t == "copia_archivada"]
     motivo = "copia archivada: solo se mide (decisión del propietario, 23-11)"
+    archivada = tipos[0] == "copia_archivada" and destino_copias(e) == "fuentes-archivadas"
+    if archivada:  # a fuentes-archivadas/ solo van copias; un original del conjunto (p. ej. el PDF) se ignora («no_subido»)
+        originales, copias = copias, originales
+    if archivada:
+        motivo = "original en un conjunto archivado: no va a fuentes-archivadas/ (se espeja aparte)"
     for p in copias:
         print(f"::warning::ESPEJO_COPIA_NO_SUBIDA {p['clave']}: {motivo}")
     no_subidas = [{"clave": p["clave"], "sha256": p["sha256"], "bytes": p["bytes"], "r2": "no_subido"} for p in copias]
-    if tipos[0] == "copia_archivada":
+    if tipos[0] == "copia_archivada" and not archivada:
         resultado = {"territorio": territorio, "estado": {}, "subido": False, "motivo": motivo,
                      "piezas": no_subidas + [{"clave": p["clave"], "sha256": p["sha256"], "bytes": p["bytes"], "r2": "no_subido"}
                                              for p in originales]}
@@ -510,7 +534,7 @@ def subir_espejo(territorio: str, salida: Path, aws=_aws, ruta_decl: Path = DECL
         return resultado
     if not os.environ.get("R2_BUCKET") or not os.environ.get("R2_ACCOUNT_ID"):
         raise ErrorEspejo("ESPEJO_R2", "faltan R2_BUCKET o R2_ACCOUNT_ID")
-    raiz = raiz_conjunto(e, "original")
+    raiz = raiz_conjunto(e, tipos[0] if archivada else "original")
     if m.get("raiz", "fuentes") != raiz:
         raise ErrorEspejo("ESPEJO_MANIFIESTO", f"raíz {m.get('raiz')!r} ≠ {raiz!r}")
     prefijo = clave_r2(e["organismo"], e["anyo"], "x", raiz)[:-1]

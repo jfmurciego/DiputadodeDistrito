@@ -1,0 +1,82 @@
+{
+ "aproximado_en_distrito": true,
+ "composicion_ruta": "datos/composicion/runs/aut08_43745006294.csv",
+ "composicion_sha256": "3969e98a76170999d138b2b8037cdb700b073abc4a18c8e3e0ed96bc3570bb21",
+ "cuadre": {
+  "distritos": 33,
+  "fuera_de_distritos": {
+   "votos_ausentes_no_repartidos": {
+    "+CU-EV": 21,
+    "AQUI AHORA": 5,
+    "CS": 71,
+    "ESPAÑA VACIADA": 14,
+    "FE DE LAS JONS": 3,
+    "P.C.P.E.": 10,
+    "PACMA": 82,
+    "PAIS CON GESTORES": 17,
+    "PCAS-TC-RC": 10,
+    "PP": 607,
+    "PSOE": 986,
+    "UNIDAS PODEMOS CLM": 403,
+    "VOX": 329
+   }
+  },
+  "ok": true,
+  "votos_entrada": 1070325,
+  "votos_salida": 1070325
+ },
+ "eleccion": "202305",
+ "entrada_sha256": "f904833608627e567d3313868be37882eac69e4fe9a934766c7473c808c7abc3",
+ "fuentes": {
+  "composicion": "3969e98a76170999d138b2b8037cdb700b073abc4a18c8e3e0ed96bc3570bb21",
+  "cuadre_observatorio": {
+   "cuadra": true,
+   "escanos_dhondt": {
+    "02": {
+     "PP": 3,
+     "PSOE": 3,
+     "VOX": 1
+    },
+    "13": {
+     "PP": 2,
+     "PSOE": 4,
+     "VOX": 1
+    },
+    "16": {
+     "PP": 2,
+     "PSOE": 3
+    },
+    "19": {
+     "PP": 2,
+     "PSOE": 2,
+     "VOX": 1
+    },
+    "45": {
+     "PP": 3,
+     "PSOE": 5,
+     "VOX": 1
+    }
+   },
+   "fichero": "fuentes/observatorio_autonomicas/hauteskundea_08-202305.json",
+   "nota": "Observatorio Electoral de las Naciones, marcado «provisional»; fuente NO oficial (no hay totales oficiales en fichero)",
+   "sha256": "0443c79e983f2f8cacd0d992899ff47ecfad0a7317503fc94efe85bb10a63e95",
+   "url": "https://nazioenbehatokia.eus/data/autonomikoak/hauteskundea/08-202305.json"
+  },
+  "fuente": {
+   "bytes": 322602,
+   "captura": "20261023040608",
+   "nota": "copia archivada del fichero oficial de la Junta; fuente NO oficial (decisión del propietario, 24-11)",
+   "oficial": false,
+   "run_medida": "45283716584",
+   "sha256": "7591997d17c65586bd5d8ac68776e9946e233997f86cbe1c22e08018c16347ca",
+   "tipo": "copia_archivada",
+   "url": "https://web.archive.org/web/20261023040608id_/https://datosabiertos.castillalamancha.es/sites/datosabiertos.castillalamancha.es/files/Resultados_CLM_2023.xlsx",
+   "volcado": "fuentes/castilla_la_mancha_autonomicas_2023/municipios_resultados.csv",
+   "volcado_sha256": "6d44efc55d936c02e2d95379ce54516a3a844e28cf45c837ba149daebaa11967"
+  }
+ },
+ "nivel": "municipio",
+ "run_m08": "43745006294",
+ "schema": "ddd.doble-vuelta-votos-aut/1.0",
+ "territorio": "aut08"
+}
