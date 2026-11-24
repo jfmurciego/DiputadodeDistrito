@@ -1,184 +1,173 @@
 # T-458 · Diseño al detalle del mapa de la V4 (Explorar)
 
-VERSIÓN: 1.1.0 · FECHA: 2026-11-24 · ESTADO: propuesta para aprobación del propietario
-CAMBIOS 1.1.0: puntos (5) navegación por distrito, (6) color propio de cada sección y (7) interacción con secciones; preguntas 12-17.
-MOTIVO: nuevos comentarios del propietario (vía Coordinador), prioridad alta junto al (4).
-ANTERIOR: 1.0.0 en el commit b90579e de esta misma PR (documento sin publicar; sin copia en `legacy/`)
+VERSIÓN: 1.2.0 · FECHA: 2026-11-24 · ESTADO: propuesta para aprobación del propietario
+CAMBIOS 1.2.0: rehecho a partir de la referencia del propietario (el Observatorio, nazioenbehatokia.eus): comparación
+  pantalla a pantalla, paleta y tonos de allí, panel con los datos arriba y sin foto, datos por sección del Observatorio
+  con cuadre contra nuestro ZIP oficial; preguntas rehechas (incluye 5-7).
+CAMBIOS 1.1.0: puntos (5) navegación por distrito, (6) color propio de cada sección y (7) interacción con secciones.
+MOTIVO: comentarios del propietario vía Coordinador (24-11).
+ANTERIOR: 1.1.0 en el commit a0bb74c y 1.0.0 en b90579e de esta misma PR (documento sin fusionar; sin copia en `legacy/`)
 
-Objeto: `visor/v4/mapa/` (`index.html` 1.3.0, `explorar.js`, `explorar.css`, `dv.js`). Solo diseño: no se toca código
-de producto hasta que el propietario apruebe este detalle. Las maquetas usan datos de EJEMPLO (`maqueta.html`); la
-captura `antes_visor_actual.png` es el visor real servido en local (provincia de Madrid, tema oscuro del sistema).
+Objeto: `visor/v4/mapa/` (`index.html` 1.3.0, `explorar.js`, `explorar.css`, `dv.js`). Solo diseño; nada de código de
+producto hasta que el propietario apruebe. Capturas: `antes_visor_actual.png` (nuestro visor servido en local),
+`referencia/*.png` (el Observatorio, 24-11-2026, Huesca, solo para comparar) y láminas de `maqueta.html`.
 
-## (4) Error de concepto: la ficha de una sección muestra datos del distrito
+## 0. La referencia: qué hace el Observatorio
 
-### Diagnóstico (código de hoy)
-- `explorar.js` `renderDetail`, rama `kind==="seccion"`: la ficha lista «Distrito DDD» y **«Ganador del distrito 2023»**
-  (`obj.winnerOfDistrict`), igual para todas las secciones del distrito.
-- El bloque «Doble vuelta» se abre también al clicar una sección (`dvDist = obj.parentDistrict ?? obj.d`) y pinta la
-  ficha **del distrito** con el título «Doble vuelta · distrito N».
-- El color de la sección en la capa electoral es el del distrito (`sec-fill` usa la expresión del distrito; la leyenda lo
-  dice: «el color electoral … es heredado del distrito DDD»).
-- La migaja dice «Madrid › Distrito 4»: mezcla el nivel distrito en la cabecera de la sección.
-
-![Ficha de sección: antes y después](ficha.png)
-
-### Regla propuesta
-Cada nivel solo muestra sus propios datos: España → España; comunidad → comunidad; provincia → provincia;
-distrito → distrito (incluida la doble vuelta); sección → sección. La única relación entre niveles es un **enlace** de
-navegación («Pertenece al distrito 4», abre la ficha del distrito), nunca un dato del otro nivel en la ficha.
-
-### Ficha de sección (después)
-Cabecera «Sección censal · CUSEC · provincia › municipio». Bloque «Esta sección · <elección>»:
-censo (CER), votantes y participación, blancos, nulos, votos por candidatura (barras) y más votado en la sección.
-Población (padrón) en el bloque territorial. Fuente con huella. Sin dato propio → «Esta sección no tiene escrutinio
-propio publicado» (nunca se rellena con el distrito).
-
-### Qué datos por sección existen hoy
-
-| Dato | Dónde está | Fuente | ¿Llega a la web? |
-|---|---|---|---|
-| Geometría, CUSEC, municipio, distrito, población (`s`, `m`, `d`, `p`) | `v2/datos/secciones/<prov>.geojson`, generado por P40 (`herramientas/generar_secciones_visor.py`) | INE, seccionado 2025 (partes con sha256 en `inputs/partes`) | Sí |
-| Composición sección → distrito con población | `datos/composicion/*.csv`; M06 en R2 (`interno/estados/…/minimo-m06.zip`) | M06 del run vigente | Indirecto (propiedad `d`) |
-| Votos por mesa del Congreso 23-07-2023 (censo, votantes, blancos, nulos, votos por candidatura, CUSEC) | Release `fuente-infoelectoral-02202307` (ZIP nacional por mesa); lo convierte `herramientas/fuente_infoelectoral_mesas.py` | Ministerio del Interior (Infoelectoral), huella en el contrato | **No**: solo se agrega a distrito |
-| Votos por partido y distrito | `datos/resultados/nac*.csv`, `*_partidos.csv`; M07 dentro del M08 de R2 | Agregación del ZIP anterior | Sí, como distrito |
-| Doble vuelta | `interno/doble-vuelta/…/doble-vuelta.zip` en R2 (P75) | M07 por distrito | Sí, **solo por distrito** (la doble vuelta es por definición del distrito) |
-| Autonómicas por sección | Entradas de T-426 (`secciones.csv` de Murcia; nivel `seccion` en los MANIFEST de `datos/resultados/doble_vuelta_autonomicas/`) y paquetes P10 en `fuentes/por-territorio/…` de R2 | Fuente de cada comunidad | **No**: solo `*_partidos.csv` por distrito. Asturias (aut03) solo publica por municipio: sin dato por sección |
-
-### Qué falta
-1. Un producto «resultados por sección» (por provincia: CUSEC → censo, votantes, blancos, nulos, votos por candidatura),
-   generado desde el ZIP de Interior con la misma huella, con su sha256 en el índice `actual.json` (T-430) y servido
-   como hoy los CSV de doble vuelta. No existe en git, en R2 ni en la web.
-2. Casar el seccionado de la elección (2023) con la geometría que pinta el visor (INE 2025): las tablas
-   `configuracion/equivalencia_seccionado_ine_2026_a_2023.csv` y `equivalencia_secciones_congreso_2023.csv` clasifican
-   cada sección en 1:1/recodificada, contenida o partida. Las partidas no tienen escrutinio propio en la geometría 2025.
-3. Para autonómicas: el mismo producto desde las entradas por sección de T-426 (no Asturias).
-
-## (5)(6)(7) Navegación distrito ↔ sección (prioridad alta, con el 4)
-
-### Diagnóstico (código de hoy, `explorar.js`)
-- **No hay resaltado en ningún nivel.** `S.selected` se guarda pero ninguna capa lo pinta: no hay capa de selección ni
-  `feature-state`, y las fuentes GeoJSON se crean sin `promoteId`.
-- **El distrito se pierde al clicarlo.** El clic en `dist-fill` hace `focus()` (encuadre hasta zoom 12); al acabar el
-  zoom, el manejador `zoomend` pasa solo a «Sección censal» (zoom ≥ 7,2) y `prepareArea` **oculta** `dist-fill` y
-  `dist-line` (`showLayer("dist-…", showD && !showS)`). El distrito clicado desaparece del mapa justo después de elegirlo.
-- **Con secciones visibles no se puede elegir distrito** (sus capas están ocultas y no hay límite de distrito encima).
-- **El clic en una sección «no hace nada» visible:** cambia la ficha, pero la ficha es la misma para todas las secciones
-  del distrito (punto 4) y no hay resaltado, así que parece muerto.
-- **Todas las secciones de un distrito tienen el mismo color:** `sec-fill` usa la expresión del distrito.
-
-![Navegación: antes y después](navegacion.png)
-
-### Patrón propuesto
-1. **Capas, de abajo arriba:** relleno de sección (color propio) → líneas de sección (blanco 0,5 px) → **límite de
-   distrito siempre visible** al bajar a secciones (negro `#111`, 2,5 px) → **resaltado de la selección** (trazo
-   `#ffd400` de 3 px sobre halo `#111` de 6 px) → paso del ratón (trazo blanco de 2 px).
-2. **Identificador estable** (`promoteId`: `s` para la sección, id del distrito) y `feature-state` `{sel, hover}`: el
-   resaltado no regenera fuentes ni recolorea.
-3. **Clic:** elige lo que se ve encima en el nivel activo (sección si se ven secciones; distrito si no). Se resalta,
-   se abre su ficha (solo sus datos, punto 4) y el panel sube a la cabecera. Otro clic **sustituye** la selección
-   (se apaga la anterior). Clic fuera de un territorio o `Esc`: sube al nivel padre (sección → distrito → provincia).
-4. **Paso distrito ↔ sección, sin saltos automáticos:** se retira el cambio de nivel por `zoomend`. El usuario baja con
-   un botón «Ver sus secciones» en la ficha del distrito (encuadra el distrito y muestra sus secciones) y sube con el
-   enlace «Pertenece al distrito N» o con la ruta (España › Madrid › Distrito 4 › Sección …, cada tramo clicable: es
-   navegación, no dato).
-5. **Teclado y accesibilidad:** la selección se anuncia en `sr-status` (ya existe); la tabla y el buscador eligen igual
-   que el clic y aplican el mismo resaltado.
-
-### Color propio de cada sección (6)
-- Capa «Doble vuelta»/«Partido más votado» en nivel sección: bloque (o partido) **más votado en la sección** en primera
-  vuelta, firme si la ventaja sobre el segundo es ≥ 5 puntos y ajustado si es menor (misma paleta que el punto 1).
-- Medidas alternativas, mismo producto: participación (votantes/censo), margen del primero sobre el segundo.
-- Sin dato propio (sección partida, sin producto): gris «sin dato» `#a8bac7`, nunca el color del distrito.
-
-### Datos por sección necesarios para colorear
-| Campo | Para | Fuente |
+| Pantalla | Observatorio | DDD hoy |
 |---|---|---|
-| CUSEC (seccionado de la geometría que se pinta) | unir con la geometría | INE + tablas de equivalencia 2023↔2025 |
-| votos por candidatura | más votado, barras de la ficha | ZIP de Interior por mesa, sumado por CUSEC |
-| bloque de cada candidatura | color por bloque | alias y bloques de P75 (los mismos de la doble vuelta) |
-| censo (CER), votantes, blancos, nulos | participación, ficha | mismo ZIP |
-| clase de equivalencia (1:1, contenida, partida) | decidir «sin dato» | tablas de `configuracion/` |
+| Fondo y bordes | Fondo oscuro `#0C131A`; bordes oscuros finos (0,3 px sección, 0,6 px resto) | Fondo claro `#eef3f7`; bordes blancos |
+| Relleno | Color propio del partido o del bloque, opacidad 0,88; 1 al pasar el ratón | Pasteles del tema oscuro aclarados un 55 %, opacidad 0,82-0,88 |
+| Niveles | Selector «Automático (según el zoom)» y niveles fijos; el clic funciona en todos | Salto a secciones al acercar que oculta los distritos |
+| Clic | Resalta (trazo `#F2B544` de 2,5 px, `feature-state` `sel`) y abre la ficha de ESE territorio | Sin resaltado; la ficha de sección da datos del distrito |
+| Otro clic | Cambia la selección y la ficha (secciones 07-004 → 04-001 en las capturas) | Parece muerto |
+| Paso del ratón | Etiqueta: nombre, participación, margen, más votado y % | No hay |
+| Panel derecho | Arriba: nombre, nivel y elección, ruta clicable, 4 cifras (participación, votantes, censo, margen 1.º-2.º), titular «X supera a Y por N puntos», barras por candidatura | Arriba: foto con pie y licencia; 407/350; los datos, abajo |
+| Leyenda | «Primera fuerza por nivel: sección» con el número de territorios por partido | Lista de bloques |
+| Ruta | En la cabecera y en la ficha: Estado › Aragón › Huesca › Huesca › 07-004 | «Huesca › Distrito 4» en la ficha de sección |
 
-Hoy no existe ninguno de estos datos por sección en la web (ver el inventario del punto 4): el color propio depende del
-producto «resultados por sección» (pregunta 5).
+![Observatorio: clic en una sección](referencia/ref_clic_seccion.png)
+![Observatorio: otro clic cambia la selección](referencia/ref_otra_seccion.png)
+![Observatorio: clic en un municipio](referencia/ref_clic_municipio.png)
+![DDD hoy (provincia de Huesca no publicada en local; Madrid)](antes_visor_actual.png)
 
-## (1) Colores de la vista mayoritaria
+Capturas «antes» del clic en distrito y en sección de nuestro visor: el entorno no alcanza diputadodedistrito.es y el
+local no tiene los productos de distritos ni secciones (viven en R2 y se montan en P40). El comportamiento de antes sale del
+código (§1) y se ilustra en las láminas; si hace falta la captura real, se monta el sitio con P40 en modo prueba
+(pregunta 18).
 
-### Causa del azul difuso
-1. `bloques()` lee los tokens CSS `--izq/--nac/--pat/--sin`; con el sistema en tema oscuro `tokens-bloques.css` da
-   los pasteles `#ff8a80`, `#4fd1c5`, `#7fb2ff`, `#a8b0bb`, pensados para texto sobre fondo oscuro, no para rellenar un
-   mapa de fondo claro (`#eef3f7`).
-2. `aclarar()` mezcla un 55 % hacia blanco los distritos con ventaja < 5 puntos.
-3. `fill-opacity` 0,84-0,88 deja ver el fondo azulado.
+## 1. Diagnóstico del código de hoy (`explorar.js`)
+- **No hay resaltado en ningún nivel:** `S.selected` no lo pinta ninguna capa; fuentes sin `promoteId` ni `feature-state`.
+- **El distrito se pierde al clicarlo:** `focus()` encuadra hasta zoom 12; `zoomend` (≥ 7,2) pasa solo a «Sección
+  censal» y `prepareArea` oculta `dist-fill` y `dist-line`.
+- **Con secciones visibles no se puede elegir distrito** (capas ocultas, sin límite de distrito encima).
+- **Ficha de sección con datos del distrito:** «Ganador del distrito 2023» y la doble vuelta del distrito
+  (`dvDist = obj.parentDistrict ?? obj.d`); ruta «Huesca › Distrito 4».
+- **Secciones del color de su distrito** (`sec-fill` usa la expresión del distrito).
+- **Colores difusos:** `bloques()` lee los tokens de `tokens-bloques.css`, que en tema oscuro dan pasteles para texto
+  (`#ff8a80`, `#4fd1c5`, `#7fb2ff`); `aclarar()` los mezcla un 55 % con blanco; fondo claro y bordes blancos.
 
-### Paleta propuesta (los mismos valores en tema claro y oscuro; opacidad 1; borde blanco 0,8 px)
+## 2. Propuesta
 
-| Bloque | Firme (≥ 5 puntos) | Ajustado (< 5 puntos, mezcla 30 %) |
-|---|---|---|
-| Izquierdas | `#c1121f` | `#d45962` |
-| Nacionalistas | `#00796b` | `#4da197` |
-| Patriotas | `#0d47a1` | `#567ebd` |
-| Sin bloque | `#4a5059` | `#80858b` |
-| Sin dato | `#a8bac7` (sin cambio) | — |
+### 2.1 Regla de niveles (4, c)
+Clicar un territorio muestra los datos de ESE nivel y nada más: España, comunidad, provincia, distrito (incluida la doble
+vuelta) o sección. Entre niveles solo hay navegación (ruta clicable), nunca datos de otro nivel.
+
+### 2.2 Mapa (1, a)
+- Fondo del mapa `#0b0d0e` (el `--coal` de la web), «sin dato» `#2a3946`, bordes `#0b0d0e` (0,3 px sección, 0,6 px
+  distrito); a nivel sección, el límite de distrito encima en crema `#f5f1e8` 1,5 px.
+- Relleno con opacidad 0,88; 1 en el territorio bajo el ratón y en el elegido.
+- Selección: trazo `#f2b544` 2,5 px.
+- Bloques, 4 escalones por ventaja sobre el segundo (≤ 2, ≤ 5, ≤ 10, > 10 puntos; a más ventaja, más intenso):
+
+| Bloque | ≤ 2 | ≤ 5 | ≤ 10 | > 10 |
+|---|---|---|---|---|
+| Izquierdas | `#f2707a` | `#e0303d` | `#c1121f` | `#8e0d17` |
+| Nacionalistas | `#4fc1a8` | `#1e9c82` | `#00796b` | `#00544a` |
+| Patriotas | `#6f95e8` | `#3f6fdb` | `#1d4fc0` | `#12368a` |
+| Sin bloque | `#8a8f94` | | | |
+
+- Capa «Partido más votado»: el color propio del partido, sin aclarar (la `PALETA` de hoy).
+- Mismos valores en tema claro y oscuro (el mapa siempre es oscuro, como la web).
 
 ![Colores: antes y después](colores.png)
 
-Pendiente: la referencia «mapa actual» que ha de dar el propietario; si es otra, se ajustan los valores a ella.
+### 2.3 Panel derecho (b, 2, 3)
+Arriba del todo, los datos de lo clicado: cabecera (nombre, nivel y elección, ruta clicable), 4 cifras, titular y barras;
+después «De dónde sale este mapa». Fuera la foto, «Conoce el territorio», su pie y créditos, y el bloque 407/350.
+La licencia no obliga a nada si no hay foto; si el propietario la conservara, una línea al final (autor, licencia,
+modificada, enlace a créditos), que es lo que exigen CC BY y CC BY-SA.
 
-## (2) Panel derecho
+![Panel: antes y después](panel.png)
 
-- Se queda la imagen, sin pie debajo.
-- Fuera: «Conoce el territorio», la descripción («Imagen ilustrativa: …») y el bloque «Créditos y licencias …».
-- Al final del scroll, una línea: «Foto: autor · licencia (enlace) · modificada · créditos (enlace a la ficha)».
-  Es imprescindible: las fotos son CC BY / CC BY-SA, que exigen autor, licencia e indicación de cambios; la licencia 4.0
-  admite darlos con un enlace a una página que los contenga (`v2/galeria/creditos.html`), las 2.x/3.0 piden el crédito
-  «razonable al medio». Por eso se deja autor y licencia en la línea y el resto en la ficha.
+### 2.4 Ficha por nivel
+| Nivel | 4 cifras | Titular | Barras |
+|---|---|---|---|
+| Sección | participación, votantes, censo, margen 1.º-2.º | «X supera a Y por N puntos en esta sección» | votos por candidatura |
+| Distrito | participación, votantes, censo, margen | ganador de la doble vuelta con la regla elegida | 1.ª y 2.ª vuelta (lo de hoy) |
+| Provincia | participación, votantes, censo, distritos DDD | ganador / bloque y margen | votos y escaños 2023 |
+| Comunidad / España | idem | idem | idem |
 
-![Panel derecho: antes y después](panel.png)
+![Ficha de sección: antes y después (datos reales de la sección 2212504001)](ficha.png)
 
-## (3) Quitar «407 propuesta / 350»
+### 2.5 Navegación e interacción (5, 6, 7)
+1. Capas de abajo arriba: relleno → bordes → límite de distrito (a nivel sección) → selección → paso del ratón.
+2. `promoteId` (`s` en sección, id en distrito) y `feature-state` `{sel, hover}`.
+3. Clic: elige lo visible del nivel activo; resalta; abre su ficha. Otro clic sustituye la selección. Clic fuera o `Esc`:
+   sube al nivel padre.
+4. Nivel «Automático (según el zoom)» por defecto, como la referencia, y niveles fijos en el selector. Al cambiar de nivel
+   por zoom no se pierde la selección: un distrito elegido sigue resaltado a nivel sección. El clic en un distrito encuadra
+   sin pasar el umbral de secciones.
+5. Etiqueta al pasar el ratón: nombre, participación, margen, más votado y %.
+6. Leyenda «Primera fuerza por nivel» con el número de territorios por bloque o partido.
+7. Teclado: `sr-status` anuncia la selección; tabla y buscador eligen igual que el clic.
 
-Se retira el bloque `model-cards` (`#ddd-count`, `#current-count` y sus rótulos) de `index.html` y las líneas que lo
-rellenan en `explorar.js`. Las cifras siguen donde son dato del nivel (la provincia: «Escaños proporcionales 2023»,
-«Distritos propuestos DDD»).
+![Navegación: antes y después](navegacion.png)
 
-## Ficheros que tocaría la implementación
-`visor/v4/mapa/index.html`, `explorar.js`, `explorar.css`, `visor/v4/tokens-bloques.css` (o un token propio del mapa),
-`visor/v2/galeria/galeria.js` (pie de foto) y, para (4), una herramienta nueva de resultados por sección y su paso en P40
-(compartidos: turno del planificador). Para (5)-(7), solo `explorar.js` y `explorar.css`. Cada fichero sube VERSIÓN con copia en `legacy/`.
+## 3. Datos por sección
 
-## Preguntas (con recomendación)
+### 3.1 Qué tenemos
+| Dato | Dónde | Fuente | En la web |
+|---|---|---|---|
+| Geometría, CUSEC, municipio, distrito, población | `v2/datos/secciones/<prov>.geojson` (P40) | INE, seccionado 2025 (sha256 `55c9da7e…bcc4`) | Sí |
+| Votos por mesa: censo, blancos, nulos, votos a candidaturas y por candidatura | Release `fuente-infoelectoral-02202307` | Interior, `02202307_MESA.zip`, sha256 `e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8` (contrato `configuracion/contratos_infoelectoral.yaml`) | No: solo sumado a distrito |
+| Autonómicas por sección | Entradas de T-426 y paquetes P10 de R2 | Cada comunidad (Asturias, solo municipio) | No |
 
-1. **Referencia de color.** ¿Cuál es el «mapa actual»? Recomendación: aprobar la paleta de la tabla y ajustarla a esa
-   referencia cuando llegue, sin cambiar la estructura (firme/ajustado).
-2. **Ajustado.** ¿Mezcla del 30 % hacia blanco, o el color firme con rayado? Recomendación: mezcla del 30 % (legible,
-   sin imágenes de trama en MapLibre).
-3. **Tema oscuro.** ¿El mapa usa siempre los mismos colores, ignore o no el tema del sistema? Recomendación: sí; los
-   pasteles quedan solo para texto y muestras sobre fondo oscuro.
-4. **Ficha de sección sin producto por sección.** Mientras no exista (4.1), ¿la sección muestra solo geometría,
-   población y el enlace a su distrito? Recomendación: sí, y quitar ya «Ganador del distrito» y la doble vuelta de la
-   ficha de sección (arreglo inmediato, sin datos nuevos).
-5. **Producto de resultados por sección.** ¿Se encarga (herramienta nueva desde el ZIP de Interior + paso en P40)?
-   Recomendación: sí, empezando por las generales de 2023 del Congreso.
-6. **Secciones partidas** entre el seccionado 2023 y el de 2025. Recomendación: sin dato propio y aviso «sección nueva
-   de 2025; sin escrutinio propio»; sin repartir votos (como M07 7.4.0 con las contenidas 1:1).
-7. **Color de las secciones** en la capa electoral. ¿Por su propio más votado (cuando exista el producto) o neutro?
-   Recomendación: neutro hasta que exista; después, su propio más votado; nunca el color del distrito.
-8. **Doble vuelta en la sección.** La doble vuelta se decide en el distrito. ¿La ficha de sección muestra solo la
-   primera vuelta (votos por candidatura y bloque) o también una segunda vuelta con los finalistas del distrito?
-   Recomendación: solo la primera vuelta; la segunda, en la ficha del distrito.
-9. **Pie de foto.** ¿Línea mínima al final (autor, licencia, modificada, enlace a créditos)? Recomendación: sí; quitar
-   título «Conoce el territorio» y descripción.
-10. **407/350.** ¿Se quita el bloque entero, también en el ámbito autonómico (allí muestra escaños del parlamento)?
-    Recomendación: sí, entero; esas cifras van en la ficha del nivel que corresponda.
-11. **Migaja de la sección.** «Provincia › municipio» en lugar de «Provincia › Distrito N». Recomendación: sí.
-12. **Orden de trabajo.** Recomendación: primera PR solo de interacción y conceptos (5, 7, 4 sin datos nuevos, 3, 2 y
-    paleta 1); segunda, el producto por sección y el color propio (6). La primera no depende de datos.
-13. **Salto automático a secciones al acercar** (casilla «Detalle de secciones al acercar»). ¿Se retira? Recomendación:
-    sí; se baja con «Ver sus secciones» y la casilla desaparece.
-14. **Clic fuera o `Esc`.** ¿Sube al nivel padre o deja la selección? Recomendación: sube al padre.
-15. **Color del resaltado.** Amarillo `#ffd400` con halo `#111`. Recomendación: sí (no coincide con ningún bloque).
-16. **Color propio de la sección.** ¿Por bloque más votado (capa doble vuelta) y por partido (capa «Partido más
-    votado»)? Recomendación: sí, con la misma regla firme/ajustado.
-17. **Medidas por sección** (participación, margen). ¿Se ofrecen como capas? Recomendación: solo participación al
-    principio; el margen ya se ve con firme/ajustado.
+### 3.2 Qué sirve el Observatorio
+- Por elección y provincia: `data/<AAAAMM>/sekzioa/<cpro>.json` (autonómicas: `data/autonomikoak/sekzioa/<elección>/<cpro>.json`);
+  geometría en `geo/sekzioak/<año>/<cpro>.json` (2023 se dibuja con el seccionado 2024).
+- Formato: `s` (siglas), `k` (color), `f` (familia), `b` (bloque), `r` = {CUSEC: [censo, votantes, votos a candidaturas,
+  [[índice de candidatura, votos]…]]}.
+- Sus fuentes declaradas: el mismo ZIP de Interior (mismo sha256, prefijo `e78fc231326a`) y el mismo seccionado 2025
+  (`55c9da7e34d3`). No declara licencia para sus ficheros derivados.
+
+### 3.3 Cuadre (hecho en local, 24-11-2026)
+`data/202307/sekzioa/22.json` (Huesca, sha256 `f9364cfd94e5fa213c286134f0c94e4835ecdb4f43daf4a7e9f47b0ed162a0a3`)
+contra nuestro ZIP con `herramientas/fuente_infoelectoral_mesas.convert` y el fichero 09:
+- 286 secciones en ambos; votos por candidatura idénticos en las 286.
+- Votantes = blancos + nulos + candidaturas y votos a candidaturas: idénticos en las 286.
+- Censo: igual en 284; difiere en 2 (`2204801010`: 1713 frente a 1712; `2217201001`: 477 frente a 475). Sin averiguar
+  qué columna de censo usa.
+
+Conclusión: **nos vale como cuadre, no como fuente.** La fuente es nuestro ZIP oficial (ya en el repositorio, con
+contrato y huella); el Observatorio sirve para contrastar un producto nuestro, provincia a provincia.
+
+### 3.4 Qué falta
+Un producto «resultados por sección» (por provincia: CUSEC → censo, votantes, blancos, nulos, votos por candidatura y
+bloque), generado del ZIP con huella y servido como hoy los CSV de doble vuelta (índice `actual.json`, T-430), con el
+Observatorio como cuadre. Geometría: decidir si se dibuja 2023 con el seccionado de la elección (como la referencia) o con
+el de 2025 y las tablas de equivalencia de `configuracion/` (las secciones partidas, sin dato).
+
+## 4. Ficheros que tocaría la implementación
+`visor/v4/mapa/index.html`, `explorar.js`, `explorar.css`; `visor/v4/tokens-bloques.css` (o tokens propios del mapa);
+el pie de foto de `visor/v2/galeria/galeria.js` deja de usarse en Explorar. Para §3: una herramienta nueva y su paso en
+P40 (compartidos: turno del planificador). Cada fichero sube VERSIÓN con copia en `legacy/`.
+
+## 5. Preguntas (con recomendación)
+
+1. **Paleta.** ¿Se aprueban fondo oscuro, bordes oscuros, opacidad 0,88 y los 4 escalones por bloque de §2.2?
+   Recomendación: sí.
+2. **Escalones.** ¿4 por ventaja (≤ 2, ≤ 5, ≤ 10, > 10) o 2 (firme/ajustado a 5 puntos)? Recomendación: 4, como la referencia.
+3. **Panel.** ¿Datos arriba (cabecera, 4 cifras, titular, barras) y fuera foto, pie, créditos y 407/350? Recomendación: sí.
+4. **Foto.** ¿Fuera del todo o una línea al final? Recomendación: fuera del todo en Explorar (la galería sigue en su página).
+5. **Regla de niveles.** ¿Cada clic, los datos de su nivel; entre niveles solo la ruta? Recomendación: sí.
+6. **Ficha de sección mientras no haya producto por sección.** ¿Solo población, ruta y «sin escrutinio propio publicado»?
+   Recomendación: sí, y quitar ya «Ganador del distrito» y la doble vuelta de la ficha de sección.
+7. **Producto de resultados por sección** (§3.4) desde nuestro ZIP, con el Observatorio como cuadre. Recomendación: sí,
+   Congreso 2023 primero.
+8. **Geometría de 2023.** ¿Seccionado de la elección (2023, sin partidas) o 2025 con equivalencias? Recomendación: el de
+   la elección, como la referencia; el de 2025 solo para los distritos DDD.
+9. **Color propio de la sección** (6): bloque o partido más votado en la sección, con los escalones de §2.2; sin dato, gris.
+   Recomendación: sí; nunca el color del distrito.
+10. **Doble vuelta en la sección.** ¿Solo primera vuelta (votos y bloque) y la segunda en el distrito? Recomendación: sí.
+11. **Nivel automático por zoom** con selección persistente (§2.5.4), como la referencia. Recomendación: sí; sustituye a la
+    casilla «Detalle de secciones al acercar».
+12. **Resaltado** `#f2b544` 2,5 px y opacidad 1. Recomendación: sí.
+13. **Clic fuera o `Esc`** sube al nivel padre. Recomendación: sí.
+14. **Etiqueta al pasar el ratón** (nombre, participación, margen, más votado). Recomendación: sí.
+15. **Leyenda «Primera fuerza por nivel»** con recuentos. Recomendación: sí.
+16. **Capas de medida** (participación; margen ya va en los escalones). Recomendación: participación cuando exista §3.4.
+17. **Orden de trabajo.** Recomendación: PR 1 = mapa, panel e interacción sin datos nuevos (§2 salvo el color propio de
+    la sección); PR 2 = producto por sección y su color.
+18. **Capturas reales «antes»** del clic en distrito y sección: montar el sitio con datos (P40 en prueba o en local con R2).
+    Recomendación: no; el diagnóstico del código basta y la PR 1 traerá capturas reales del después.
