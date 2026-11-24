@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.620
+Versión: 1.0.621
 Fecha: 2026-11-24
-Alcance: T-453 — Fijar el P75 de los aut con aut08 (16 aut)
+Alcance: T-454 — P40: esperar al artefacto github-pages antes de deploy-pages
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-24_t453-fijar-aut-16.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.619_registro_20261124.md
+Cambios/motivo: entrada docs/registro/2026-11-24_t454-p40-esperar-artefacto-pages.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.620_registro_20261124.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.619_registro_20261124.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.621 · [2026-11-24 — T-454 — P40: esperar al artefacto github-pages antes de deploy-pages](registro/2026-11-24_t454-p40-esperar-artefacto-pages.md)
 - 1.0.620 · [2026-11-24 — T-453 — Fijar el P75 de los aut con aut08 (16 aut)](registro/2026-11-24_t453-fijar-aut-16.md)
 - 1.0.619 · [2026-11-24 — T-453 — P75 imprime `votos_total` y los % de cobertura por territorio](registro/2026-11-24_t453-p75-cifras-en-log.md)
 - 1.0.618 · [2026-11-24 — T-449 — Autonómicas de Castilla-La Mancha 2023: copia archivada como fuente no oficial y doble vuelta por municipio](registro/2026-11-24_t449d-aut08-copia-archivada.md)
