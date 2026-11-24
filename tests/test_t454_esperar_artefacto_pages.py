@@ -31,28 +31,45 @@ class Espera(unittest.TestCase):
         self.assertNotIn("env", self.paso)
         self.assertNotIn("exit 1", self.paso["run"])
 
-    def _ejecutar(self, gh_script):
+    def _ejecutar(self, artefactos, intento="2026-11-24T10:00:00Z", antes=0):
+        """`artefactos`: función de la cuenta de consulta -> lista de (created_at) del artefacto github-pages; `antes`: consultas sin él."""
+        guion = (
+            "#!/usr/bin/env bash\n"
+            'if [[ "$*" == *attempts* ]]; then echo "$INTENTO"; exit 0; fi\n'
+            'if [[ -n "$FALLA" ]]; then echo boom >&2; exit 1; fi\n'
+            'echo x >> "$CUENTA"; c=$(wc -l < "$CUENTA")\n'
+            'if (( c > ANTES )); then echo "{\\"artifacts\\":[{\\"name\\":\\"github-pages\\",\\"expired\\":false,\\"created_at\\":\\"$CREADO\\"}]}"; else echo \'{"artifacts":[]}\'; fi\n'
+        )
         with tempfile.TemporaryDirectory() as d:
             gh = Path(d) / "gh"
-            gh.write_text("#!/usr/bin/env bash\n" + gh_script, encoding="utf-8")
+            gh.write_text(guion, encoding="utf-8")
             gh.chmod(gh.stat().st_mode | stat.S_IEXEC)
-            env = {**os.environ, "PATH": f"{d}:{os.environ['PATH']}", "GITHUB_REPOSITORY": "o/r", "GITHUB_RUN_ID": "1",
-                   "DDD_REINTENTO_BASE": "0", "CUENTA": str(Path(d) / "cuenta")}
+            env = {**os.environ, "PATH": f"{d}:{os.environ['PATH']}", "GITHUB_REPOSITORY": "o/r", "GITHUB_RUN_ID": "1", "GITHUB_RUN_ATTEMPT": "2",
+                   "DDD_REINTENTO_BASE": "0", "CUENTA": str(Path(d) / "cuenta"), "INTENTO": intento, "ANTES": str(antes), **artefactos}
             return subprocess.run(["bash", "-eo", "pipefail", "-c", self.paso["run"]], env=env, capture_output=True, text=True)
 
-    def test_visible_a_la_tercera_consulta(self):
-        r = self._ejecutar('echo x >> "$CUENTA"; if (( $(wc -l < "$CUENTA") >= 3 )); then echo 1; else echo 0; fi\n')
+    def test_visible_a_la_tercera_consulta_con_margen(self):
+        r = self._ejecutar({"CREADO": "2026-11-24T10:05:00Z"}, antes=2)
         self.assertEqual(r.returncode, 0, r.stderr)
-        self.assertIn("Artefacto github-pages visible.", r.stdout)
+        self.assertIn("Artefacto github-pages visible; margen de 10 s", r.stdout)
         self.assertEqual(r.stdout.count("aún no es visible"), 2)
 
+    def test_margen_tras_visible_en_el_texto(self):
+        self.assertRegex(self.paso["run"], r"sleep \$\(\( 10 \* \$\{DDD_REINTENTO_BASE:-1\} \)\)")
+
+    def test_artefacto_del_intento_anterior_no_cuenta(self):
+        r = self._ejecutar({"CREADO": "2026-11-24T09:00:00Z"})  # creado ANTES de run_started_at de este intento
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("::warning::T-454", r.stdout)
+        self.assertNotIn("margen de 10 s", r.stdout)
+
     def test_nunca_visible_avisa_y_sale_0(self):
-        r = self._ejecutar("echo 0\n")
+        r = self._ejecutar({"CREADO": "2026-11-24T10:05:00Z"}, antes=99)
         self.assertEqual(r.returncode, 0, r.stderr)
         self.assertIn("::warning::T-454", r.stdout)
 
     def test_consulta_que_falla_degrada(self):
-        r = self._ejecutar("echo boom >&2; exit 1\n")
+        r = self._ejecutar({"CREADO": "2026-11-24T10:05:00Z", "FALLA": "1"})
         self.assertEqual(r.returncode, 0, r.stderr)
         self.assertIn("::warning::T-454", r.stdout)
 
