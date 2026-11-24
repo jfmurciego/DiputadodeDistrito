@@ -1,7 +1,7 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: prueba de interacción del Explorar de la V4 (T-423)
- * VERSIÓN: 1.0.0 · FECHA: 2026-11-19 · ESTADO: candidato · ANTERIOR: ninguna (fichero nuevo)
- * CAMBIOS: el Explorar de la V4 (visor/v4/mapa/explorar.js, copia de la V3 + capa «Doble vuelta») con un navegador simulado,
+ * VERSIÓN: 1.1.0 · FECHA: 2026-11-24 · ESTADO: candidato · ANTERIOR: legacy/tests/test_visor_v4_explorar_v1.0.0_20261119.js
+ * CAMBIOS: 1.1.0 (T-456): sin aviso ni leyenda «sin valor oficial». 1.0.0: el Explorar de la V4 (visor/v4/mapa/explorar.js, copia de la V3 + capa «Doble vuelta») con un navegador simulado,
  *   la cartografía real de provincias y comunidades, el índice real de los 52 nac (datos_abiertos/INDEX.json) y CSV de doble vuelta
  *   sintéticos con su sha256. Esperados: literales (bloques y reglas escritos a mano), no recalculados con el código del visor. */
 "use strict";
@@ -120,8 +120,7 @@ const flush = async () => { for (let i = 0; i < 60; i++) await new Promise(r => 
   const fill = () => map.getLayer("dist-fill").paint["fill-color"];
   eq(fill().slice(0, 2), ["match", ["coalesce", ["get", "dv_tres"], "nodato"]]);
   assert.equal(fill()[fill().indexOf("izq") + 1], "#b3261e"); assert.equal(fill()[fill().indexOf("pat") + 1], "#1f5fa8");
-  assert.equal(element("dv-aviso").hidden, false);
-  assert.match(element("legend").innerHTML, /Simulación sin valor oficial/);
+  assert.doesNotMatch(element("legend").innerHTML, /sin valor oficial/);
   assert.match(element("map-caption").textContent, /Doble vuelta · Tres bloques/);
   t.setRegla("dos"); await flush();
   eq(fill()[1], ["coalesce", ["get", "dv_dos"], "nodato"]);
@@ -138,7 +137,7 @@ const flush = async () => { for (let i = 0; i < 60; i++) await new Promise(r => 
   assert.match(ficha, /1\.ª vuelta/); assert.match(ficha, /2\.ª vuelta<\/h3><p>Izquierdas \(bloque\) 40 · Patriotas \(bloque\) 30 · abstención 15/);
   assert.match(ficha, /Nacionalistas \(bloque\)<\/td><td>→ abstención \(su bloque no tiene finalista\)/);
   for (const r of ["Tres bloques → Izquierdas (bloque)", "Dos bloques → Patriotas (bloque)", "Sin coaliciones → PSOE", "Mayoría simple en el distrito → PP"]) assert.ok(ficha.includes(r), r);
-  assert.match(ficha, /Simulación sin valor oficial/);
+  assert.doesNotMatch(ficha, /sin valor oficial/);
   // 5. Sección censal: hereda el bloque de su distrito (no un recuento propio).
   element("level").value = "seccion"; element("level").onchange({ target: element("level") }); await flush();
   const sec = map.getSource("secciones").data.features[0];
@@ -148,9 +147,8 @@ const flush = async () => { for (let i = 0; i < 60; i++) await new Promise(r => 
   eq(map.getLayer("sec-fill").paint["fill-color"][1], ["coalesce", ["get", "dv_tres"], "nodato"]);
   // 6. Salir a otra capa de la V3 devuelve la paleta de partidos; volver a la doble vuelta la recupera.
   element("layer").value = "ganador"; element("layer").onchange({ target: element("layer") }); await flush();
-  assert.equal(element("dv-aviso").hidden, true); assert.equal(element("dv-mode").hidden, true);
+  assert.equal(element("dv-mode").hidden, true);
   element("layer").value = "doblevuelta"; element("layer").onchange({ target: element("layer") }); await flush();
-  assert.equal(element("dv-aviso").hidden, false);
   // 7. Otra elección: sin colores de doble vuelta (solo hay 2023) y la capa vuelve a «Partido más votado».
   element("elections").children.find(b => b.textContent === "nov. 2011").onclick(); await flush();
   assert.equal(t.S.layer, "ganador"); assert.equal(map.getLayer("dist-fill").paint["fill-color"], "#a8bac7");
