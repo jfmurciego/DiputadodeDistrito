@@ -1,6 +1,6 @@
 # Estado operativo (mantiene el Coordinador)
 
-Fecha: 2026-11-23 (tarde) · Actualizar en cada PR de lecciones o de estado. Verde = cumple el criterio del propietario; amarillo = en marcha o a medias; rojo = bloqueado o fallando. Notación D-47: fases P00-P60 y archivo ARC; en lo que se cuenta al propietario, sin códigos antiguos, sin ids de tarea ni de PR.
+Fecha: 2026-11-24 (tarde) · Actualizar en cada PR de lecciones o de estado. Verde = cumple el criterio del propietario; amarillo = en marcha o a medias; rojo = bloqueado o fallando. Notación D-47: fases P00-P60 y archivo ARC; en lo que se cuenta al propietario, sin códigos antiguos, sin ids de tarea ni de PR.
 
 ## Tablero por tema (prioridad 1: el motor)
 | Tema | Estado | Situación | Siguiente |
@@ -87,3 +87,10 @@ r4 terminada (70/71; falta aut12 Galicia). Fusionadas desde el relevo: #818, #82
 - Decisión del propietario (23-11): una copia de la Wayback solo se mide; no se sube a R2.
 - Libro de costes (chats cerrados, USD): Coordinador 21-23/11 75,77 · T-448 19,45 · T-430 (relevo) 15,95 · T-443 (relevo) 10,83 · T-281 3,64. Suma: 125,64.
 - Pendientes del propietario: frase al Operador para relanzar el espejo de Castilla-La Mancha; #995; buckets y llaves de la web en R2 (REDISENO_R2 §7).
+
+## 24-11
+- Fusionadas con orden del propietario: #995 (registro de la propiedad intelectual de Deslinde, sin binarios), #1005 (Castilla-La Mancha 2023 desde la copia archivada, D-203), #1006 (P75 imprime cifras), #1007 (pin de las 16 autonomías), #1008 (P40 1.7.0: artefacto con nombre por intento). `main` en verde.
+- Runs: espejo de Castilla-La Mancha a `fuentes-archivadas/` CONFIRMADO; P75 de las autonomías CONFIRMADA (16/19 OK, 0 % sin casar); P40 CONFIRMADA a la primera con 68 territorios (52 nacionales y 16 autonómicas, Castilla-La Mancha incluida).
+- Chats vivos: Planificador y Operador. Sin implementadores.
+- Libro de costes (chats cerrados, USD): T-449 38,68 · T-454 2,57 · T-453 1,62. Suma: 42,87.
+- Pendientes del propietario: buckets y llaves de la web en R2 (REDISENO_R2 §7); borradores de P00 Campaña (#913, #938, #956) y #842 desde el 29-11.
