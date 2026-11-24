@@ -199,7 +199,7 @@ class PermisosYEntradaNoConfiable(unittest.TestCase):
                                 "-f", str(d / "f.jq"), str(d / "d.json")], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stderr)
         cuerpo = r.stdout
-        pie = "_Forense automático (Sonnet, solo lectura; `.claude/agents/forense.md`)"
+        pie = "_Forense automático (solo lectura; `.claude/agents/forense.md`)"
         for propio in ("<!-- m -->", f"**IA de cierre** · run {run_md}", pie):
             self.assertIn(propio, cuerpo)
             cuerpo = cuerpo.replace(propio, "")
