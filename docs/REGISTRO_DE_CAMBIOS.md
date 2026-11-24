@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.623
+Versión: 1.0.624
 Fecha: 2026-11-24
-Alcance: T-455 — Plan 1.0.77
+Alcance: T-456 — Visor V4: doble vuelta autonómica por los dos ids y fuera cuatro carteles
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-24_planificador-plan-1-0-77.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.622_registro_20261124.md
+Cambios/motivo: entrada docs/registro/2026-11-24_t456-visor-dv-carteles.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.623_registro_20261124.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.622_registro_20261124.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.624 · [2026-11-24 — T-456 — Visor V4: doble vuelta autonómica por los dos ids y fuera cuatro carteles](registro/2026-11-24_t456-visor-dv-carteles.md)
 - 1.0.623 · [2026-11-24 — T-455 — Plan 1.0.77](registro/2026-11-24_planificador-plan-1-0-77.md)
 - 1.0.622 · [2026-11-24 — Coordinador — Lecciones y costes (T-449, T-453, T-454)](registro/2026-11-24_coordinador-lecciones.md)
 - 1.0.621 · [2026-11-24 — T-454 — P40: esperar al artefacto github-pages antes de deploy-pages](registro/2026-11-24_t454-p40-esperar-artefacto-pages.md)
