@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.618
+Versión: 1.0.619
 Fecha: 2026-11-24
-Alcance: T-449 — Autonómicas de Castilla-La Mancha 2023: copia archivada como fuente no oficial y doble vuelta por municipio
+Alcance: T-453 — P75 imprime `votos_total` y los % de cobertura por territorio
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-24_t449d-aut08-copia-archivada.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.617_registro_20261124.md
+Cambios/motivo: entrada docs/registro/2026-11-24_t453-p75-cifras-en-log.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.618_registro_20261124.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.617_registro_20261124.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.619 · [2026-11-24 — T-453 — P75 imprime `votos_total` y los % de cobertura por territorio](registro/2026-11-24_t453-p75-cifras-en-log.md)
 - 1.0.618 · [2026-11-24 — T-449 — Autonómicas de Castilla-La Mancha 2023: copia archivada como fuente no oficial y doble vuelta por municipio](registro/2026-11-24_t449d-aut08-copia-archivada.md)
 - 1.0.617 · [2026-11-23 — Coordinador — Lecciones y costes de la tarde (T-281, T-443, T-448, T-449)](registro/2026-11-23_coordinador-lecciones-tarde.md)
 - 1.0.616 · [2026-11-23 — T-281 — Paquete para el Registro de la Propiedad Intelectual de Deslinde 1.0](registro/2026-11-23_t281-registro-pi-deslinde.md)
