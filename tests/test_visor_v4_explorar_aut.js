@@ -1,7 +1,7 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: prueba de interacción del Explorar de la V4 en el ámbito «Autonómico» (T-427)
  * VERSIÓN: 1.1.0 · FECHA: 2026-11-24 · ESTADO: candidato · ANTERIOR: legacy/tests/test_visor_v4_explorar_aut_v1.0.0_20261120.js
- * CAMBIOS: 1.1.0 (T-456): Andalucía (aut01), Castilla y León (aut07) y Castilla-La Mancha (aut08) con el M08 publicado solo bajo autNN y otro más viejo bajo la clave legacy:
+ * CAMBIOS: 1.1.0 (T-456): el mapa y la doble vuelta salen del mismo run (el del índice); Andalucía (aut01), Castilla y León (aut07) y Castilla-La Mancha (aut08) con el M08 publicado solo bajo autNN y otro más viejo bajo la clave legacy:
  *   gana el más reciente y la doble vuelta se pinta; ningún cartel «sin valor oficial» ni «no disponible».
  *   1.0.0: navegador simulado (mismo arnés que test_visor_v4_explorar.js) con un índice 1.1 sintético: Andalucía con doble vuelta (run 500),
  *   Asturias declarada sin doble vuelta con su motivo y Canarias con el mapa publicado de OTRA ejecución. Esperados literales: id público =
@@ -132,7 +132,13 @@ const flush = async () => { for (let i = 0; i < 60; i++) await new Promise(r => 
     await region(reg);
     assert.equal(t.DVD.fallos.has(reg), false, reg); assert.equal(t.DVD.datos.has(reg), true, reg);
     eq(map.getSource("distritos").data.features.map(f => [f.properties.run_id, f.properties.dv_tres]), [[run, "izq"], [run, "pat"]], reg);
+    // El mapa dibujado y la doble vuelta son del MISMO run: el del índice (literal arriba), no el legacy más viejo.
+    assert.equal(t.DVD.indice.territorios.find(x => x.clave_visor === reg).run_m08, run, reg);
   }
+  // 6c. Andalucía (aut01): mismo criterio con el M08 solo bajo aut01 (500) frente al legacy más viejo (100).
+  await region(AND);
+  eq(map.getSource("distritos").data.features.map(f => f.properties.run_id), ["500", "500"]);
+  assert.equal(t.DVD.indice.territorios.find(x => x.clave_visor === AND).run_m08, "500");
   // 7. Lector del índice 1.1: un aut sin motivo, un aut incompleto o un aut en un índice 1.0 se rechazan.
   const idx = JSON.parse(bin["datos/INDEX.json"].toString());
   assert.throws(() => sandbox.DV.leerIndice({ ...idx, sin_doble_vuelta: [{ id: "aut03", motivo: "" }] }), /sin motivo/);
