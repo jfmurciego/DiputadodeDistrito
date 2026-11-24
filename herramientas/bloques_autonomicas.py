@@ -3,12 +3,15 @@
 """Tabla APROBADA de bloques y alias de la doble vuelta para las elecciones autonómicas vigentes (T-421, D-167, D-168, D-170).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0 · FECHA: 2026-11-20 · ESTADO: candidato
+VERSIÓN: 1.3.0 · FECHA: 2026-11-24 · ESTADO: candidato
+CAMBIOS: 1.3.0 (T-449, D-183, propietario 24-11): aut08 (Castilla-La Mancha) entra con sus votos por distrito de
+  datos/resultados/doble_vuelta_autonomicas/aut08/202305/aut08_partidos.csv (copia archivada del fichero oficial, fuente no oficial);
+  «UNIDAS PODEMOS CLM» entra en el criterio ya aprobado de coaliciones con Podemos/IU/Sumar (CPS, como «UNIDAS SÍ PODEMOS»).
 CAMBIOS: 1.2.0 (T-426): aut03 (Asturias) y aut14 (Murcia) entran con sus votos por distrito de datos/resultados/doble_vuelta_autonomicas/<aut>/<AAAAMM>/<aut>_partidos.csv (distrito, partido, votos; formato T-427); VIGENTES admite una ruta propia.
 CAMBIOS: 1.1.0 (T-421, lista cerrada del propietario 19-11): ALIANÇA.CAT, UXGC, ANDALUCISTAS y ALHORA → Nacionalistas; SALF → Patriotas; DVC → Izquierdas; el resto de menores, sin bloque; la tabla pasa a configuracion/bloques_partidos_autonomicas_2026-11-19.csv (aprobada, sin PROPUESTA).
 CAMBIOS: 1.0.1 (T-421, Planificador y revisor): CONTIGO-ZUREKIN, DO y 100x100 → Nacionalistas (propietario, 19-11); JUNTS+ → Nacionalistas (no es el JXC de D-170); la tabla va por partido tras el alias (como en el nacional) y el alias lleva una fila por sigla; una regla sin socio aprobado conserva la sigla como id.
 CAMBIOS: 1.0.0 (T-421): fichero nuevo.
-ANTERIOR: legacy/herramientas/bloques_autonomicas_v1.1.0_20261119.py
+ANTERIOR: legacy/herramientas/bloques_autonomicas_v1.2.0_20261124.py
 MOTIVO: la segunda tanda de la V4 (D-179) lleva los territorios `aut`; sus partidos deben tener bloque con las mismas reglas que las generales.
 QUÉ HACE: lee los votos por partido de la elección vigente de cada comunidad (datos/resultados/historico/autonomicas/<c>/<AAAAMM>/<c>_partidos.csv,
   sha256 en la tabla) y escribe configuracion/bloques_partidos_autonomicas_2026-11-19.csv y configuracion/alias_partidos_autonomicas.csv.
@@ -36,8 +39,8 @@ SAL_BLOQUES = "configuracion/bloques_partidos_autonomicas_2026-11-19.csv"
 SAL_ALIAS = "configuracion/alias_partidos_autonomicas.csv"
 HIST = "datos/resultados/historico/autonomicas"
 
-# territorio → (carpeta de resultados, elección AAAAMM[, ruta propia del CSV]). Extremadura (aut11, D-183) y Castilla-La Mancha (aut08,
-# a la espera del fichero oficial) no tienen votos por partido de su elección vigente en el repositorio; Ceuta y Melilla (aut18, aut19) no tienen autonómicas.
+# territorio → (carpeta de resultados, elección AAAAMM[, ruta propia del CSV]). Extremadura (aut11, D-183) no tiene votos por partido de su
+# elección vigente en el repositorio; Ceuta y Melilla (aut18, aut19) no tienen autonómicas.
 DV = "datos/resultados/doble_vuelta_autonomicas/{0}/{1}/{0}_partidos.csv"  # T-426/T-427: votos por distrito (distrito, partido, votos)
 VIGENTES = {
     "aut01": ("andalucia", "202605"), "aut03": ("asturias", "202305", DV.format("aut03", "202305")),
@@ -45,7 +48,7 @@ VIGENTES = {
     "aut05": ("canarias", "202305"), "aut06": ("cantabria", "202305"), "aut07": ("castilla_y_leon", "202603"),
     "aut09": ("cataluna", "202405"), "aut10": ("comunidad_valenciana", "202305"), "aut12": ("galicia", "202402"),
     "aut13": ("madrid", "202305"), "aut15": ("comunidad_foral_de_navarra", "202305"), "aut16": ("pais_vasco", "202404"),
-    "aut17": ("la_rioja", "202305"),
+    "aut17": ("la_rioja", "202305"), "aut08": ("castilla_la_mancha", "202305", DV.format("aut08", "202305")),
 }
 IZQ, NAC, PAT = "Izquierdas", "Nacionalistas", "Patriotas"
 # sigla de la fuente → (partido aprobado al que se suma o None, bloque, motivo). Variantes federadas y coaliciones; criterio: mismo partido, mismo bloque (D-168).
@@ -62,7 +65,7 @@ REGLAS = {
     "FE DE LAS JONS": ("FE de las JONS", PAT, "grafía de FE de las JONS → Patriotas (D-168)"),
     "CUP - DT": ("CUP", NAC, "CUP con DT → Nacionalistas (izquierda nacionalista, D-167)"),
     "PODEMOS-IU": (None, IZQ, CPS), "PODEMOS-I.U.": (None, IZQ, CPS), "IU-SUMAR": (None, IZQ, CPS), "UNIDES PODEM-EUPV": (None, IZQ, CPS),
-    "UNIDAS SÍ PODEMOS": (None, IZQ, CPS), "EUIB-PODEMOS": (None, IZQ, CPS), "PODEMOS-AV": (None, IZQ, CPS),
+    "UNIDAS SÍ PODEMOS": (None, IZQ, CPS), "UNIDAS PODEMOS CLM": (None, IZQ, CPS), "EUIB-PODEMOS": (None, IZQ, CPS), "PODEMOS-AV": (None, IZQ, CPS),
     "PODEMOS-AHAL DUGU - ALIANZA VERDE": (None, IZQ, CPS), "POR ANDALUCÍA": (None, IZQ, CPS), "COMUNS SUMAR": (None, IZQ, CPS),
     "SUMAR": (None, IZQ, CPS), "PODEMOS-IU-VERDES-AV": (None, IZQ, CPS), "IU-MÁS PAÍS-IAS": (None, IZQ, CPS),
     "PODEMOS ASTURIES": (None, IZQ, "variante regional de Podemos (Podemos–Sumar) → Izquierdas (Planificador, D-168/D-182: marca de partido ya aprobado)"),

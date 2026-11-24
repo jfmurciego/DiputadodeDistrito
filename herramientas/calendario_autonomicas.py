@@ -3,11 +3,15 @@
 """Calendario de elecciones autonómicas por comunidad (T-121, paso 1).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato
+VERSIÓN: 1.1.0 · FECHA: 2026-11-24 · ESTADO: candidato
+CAMBIOS 1.1.0 (T-449, decisión del propietario 24-11): `SUSTITUCIONES` fija, para una elección concreta, el proveedor y la URL de
+  resultados cuando la que da el Observatorio ya no sirve: aut08 2023 (el xlsx de datosabiertos.castillalamancha.es da 301 a /system/404)
+  → copia archivada en la Wayback del fichero oficial, declarada fuente NO oficial; su huella está en configuracion/espejos_fuentes_oficiales.json.
+  `fuente_sha256` sigue siendo la del calendario (el Observatorio).
 CAMBIOS: 1.0.0: fichero nuevo.
 MOTIVO: orden del propietario (09-11): histórico autonómico desde 2011; cada comunidad tiene legislaturas de duración propia.
 CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/calendario_autonomicas_v1.0.0_20261112.py
+ANTERIOR: legacy/herramientas/calendario_autonomicas_v1.0.1_20261124.py
 QUÉ HACE: lee dos instantáneas con sha256 del Observatorio Electoral de las Naciones (fuentes/observatorio_autonomicas/):
   index.json (calendario por comunidad, código INE 01-17, mes AAAAMM) e iturriak.html (proveedor, URL, granularidad,
   completitud y verificación oficial de cada elección). Escribe configuracion/calendario_autonomicas.csv.
@@ -47,6 +51,15 @@ COMUNIDADES = {
     "15": ("aut15", "Nafarroa Garaia"), "16": ("aut16", "EAE"), "17": ("aut17", "La Rioja"),
 }
 SIN_PARLAMENTO = ("aut18", "aut19")
+# (territorio, AAAAMM) → campos que sustituyen a los de la tabla de fuentes del Observatorio. Cada una con su decisión y su huella fuera.
+SUSTITUCIONES = {
+    ("aut08", "202305"): {  # T-449, propietario 24-11; sha256 7591997d… en configuracion/espejos_fuentes_oficiales.json (run 45283716584)
+        "proveedor_resultados": "Junta de Comunidades de Castilla-La Mancha: copia archivada del fichero oficial (fuente no oficial · "
+                                "Wayback Machine · captura 20261023040608)",
+        "url_resultados": "https://web.archive.org/web/20261023040608id_/https://datosabiertos.castillalamancha.es/sites/"
+                          "datosabiertos.castillalamancha.es/files/Resultados_CLM_2023.xlsx",
+    },
+}
 MESES = {m: i + 1 for i, m in enumerate("enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre".split())}
 CAMPOS = ["comunidad", "cod_ine", "mes", "fecha", "precision", "en_alcance", "vigente", "fin_legislatura_mes",
           "duracion_meses", "adelanto_meses", "disolucion_anticipada", "proveedor_resultados", "url_resultados",
@@ -135,6 +148,7 @@ def construir(raiz: Path = ROOT) -> list[dict]:
                 "completitud": f["completitud"], "url_verificacion": f["verificacion"],
                 "fuente_calendario": "Observatorio Electoral de las Naciones (data/autonomikoak/index.json + iturriak.html)",
                 "fuente_url": f"{URL_INDEX} ; {URL_ITURRIAK}", "fuente_sha256": f"{sha(idx_p)} ; {sha(it_p)}"})
+            filas[-1].update(SUSTITUCIONES.get((tid, aaaamm), {}))
     filas.sort(key=lambda r: (r["comunidad"], r["mes"]))
     return filas
 
