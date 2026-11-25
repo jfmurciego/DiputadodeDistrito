@@ -10,7 +10,7 @@ assert.deepStrictEqual(DV.REGLAS.map(r => r.texto), ["Tres bloques", "Dos bloque
 // 3. Ejemplo T-409 §7 en «Tres bloques»: izq 45 – pat 40, nac 15 abstención, 52,9 %
 let f = DV.ficha("EJ1", "tres", datos);
 assert.strictEqual(f.titular, "Decide la segunda vuelta · gana Izquierdas (bloque) con el 52,9 %");
-assert.deepStrictEqual(f.primera.map(c => [c.nombre, c.votos]), [["Izquierdas (bloque)", 45], ["Patriotas (bloque)", 40], ["Nacionalistas (bloque)", 15]]);
+assert.deepStrictEqual(f.primera.map(c => [c.nombre, c.votos]), [["Izquierdas (bloque)", 45], ["Derecha nacional (bloque)", 40], ["Nacionalistas (bloque)", 15]]);
 assert.deepStrictEqual(f.transferencias, [{ de: "Nacionalistas (bloque)", votos: 15, a: null, motivo: "su bloque no tiene finalista" }]);
 assert.strictEqual(f.segunda.abstencion, 15);
 // 4. «Sin coaliciones»: PSOE 30 + Sumar 15 = 45; PP 28 + VOX 12 = 40
@@ -19,7 +19,7 @@ assert.deepStrictEqual(f.transferencias.map(t => [t.de, t.a, t.votos]), [["ERC",
 assert.deepStrictEqual([f.segunda.a.votos, f.segunda.b.votos], [45, 40]);
 // 5. Mayoría en primera vuelta: sin segunda vuelta
 f = DV.ficha("EJ2", "tres", datos); assert.strictEqual(f.vuelta, 1); assert.strictEqual(f.segunda, null);
-assert.strictEqual(f.titular, "Gana Patriotas (bloque) en primera vuelta con el 52,0 %");
+assert.strictEqual(f.titular, "Gana Derecha nacional (bloque) en primera vuelta con el 52,0 %");
 // 6. Empate marcado y aviso
 f = DV.ficha("EJ4", "base", datos); assert.strictEqual(f.empate, true); assert.ok(f.avisoEmpate.includes("orden alfabético"));
 // 7. «Más votado» no sale de este módulo; distrito inexistente: null
@@ -38,7 +38,7 @@ for (const id of Object.keys(datos.porDistrito)) for (const [r, e] of [["tres", 
 // 11. «Más votado» dentro de los CSV (T-409 #927): escenario válido, primera vuelta, sin segunda vuelta
 const cabR = "district_id,escenario,vuelta_decisiva,candidatura_ganadora,bloque_ganador,votos_1v,cuota_1v,finalista_a,finalista_b,votos_a_2v,votos_b_2v,cuota_ganador_2v,votos_abstencion,empate\n";
 const cabD = "district_id,escenario,candidatura,partido,bloque,votos_1v,votos_candidatura\n";
-const dp = DV.cargar(cabR + "1,primero,1,PSOE,Izquierdas,40,0.4,,,,,,,false\n", cabD + "1,primero,PSOE,PSOE,Izquierdas,40,40\n1,primero,PP,PP,Patriotas,35,35\n1,primero,VOX,VOX,Patriotas,25,25\n");
+const dp = DV.cargar(cabR + "1,primero,1,PSOE,Izquierdas,40,0.4,,,,,,,false\n", cabD + "1,primero,PSOE,PSOE,Izquierdas,40,40\n1,primero,PP,PP,Derecha nacional,35,35\n1,primero,VOX,VOX,Derecha nacional,25,25\n");
 f = DV.ficha("1", "primero", dp);
 assert.strictEqual(f.titular, "Gana PSOE con el 40,0 % de los votos, sin segunda vuelta");
 assert.strictEqual(f.segunda, null); assert.strictEqual(f.nota1, "Gana la candidatura más votada: no hay segunda vuelta");
