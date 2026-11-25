@@ -1,0 +1,72 @@
+<!doctype html>
+<!-- PROYECTO: Diputado de Distrito · CLASE: maqueta de diseño T-458 (no se publica) · VERSIÓN: 1.0.0 · FECHA: 2026-11-24 · ESTADO: propuesta
+     ANTERIOR: ninguna (fichero nuevo). Datos de EJEMPLO, solo para ilustrar el diseño. -->
+<html lang="es"><head><meta charset="utf-8"><title>T-458 maqueta</title>
+<style>
+body{margin:0;background:#0b0d0e;color:#f5f1e8;font:13px system-ui,sans-serif}
+.lam{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:18px;width:1100px}
+h2{font:700 18px Georgia,serif;margin:0 0 8px}.tag{font-size:11px;color:#ffbf87;letter-spacing:1px;text-transform:uppercase}
+.map{border-radius:10px;padding:12px;display:grid;grid-template-columns:repeat(8,1fr);gap:1px}
+.map i{display:block;height:44px}
+.ley{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;font-size:12px}.ley b{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:4px;vertical-align:-2px}
+.panel{background:#111516;border:1px solid #76573f;border-radius:12px;overflow:hidden}
+.hero{background:linear-gradient(110deg,#65151e,#411117);padding:14px 16px}.hero h1{font:700 24px Georgia,serif;margin:4px 0}
+.hero small{font-size:10px;letter-spacing:2px;text-transform:uppercase}.hero p{margin:0;font-size:11px;color:#ede9e7}
+.sec{padding:10px 16px;border-top:1px solid #3a2f27}.sec h3{font:700 15px Georgia,serif;margin:0 0 6px}
+dl{margin:0}dl div{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #2a2420}dt{color:#cbbfb1}dd{margin:0;font-weight:700}
+.kpi{display:grid;grid-template-columns:1fr 1fr;border:1px solid #3a2f27;margin:10px 16px}.kpi div{padding:8px 10px;border:1px solid #3a2f27}.kpi strong{display:block;font:700 19px Georgia,serif}.kpi span{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#cbbfb1}
+.titular{margin:0 16px 8px;border-left:3px solid #f2b544;background:#2b2116;padding:7px 10px}
+.row{display:grid;grid-template-columns:70px 1fr 40px 48px;gap:8px;align-items:center;font-size:12px;padding:3px 0}.tr{height:9px;background:#2a2420;border-radius:9px}.tr b{display:block;height:100%;border-radius:9px}
+.mal{outline:3px solid #ff5a4f;outline-offset:-3px}.nota{font-size:11px;color:#cbbfb1}.foto{height:120px;background:linear-gradient(160deg,#4a6378,#c98f62);border-radius:8px}
+.cards{display:flex;gap:8px;padding:10px 16px}.cards div{flex:1;background:#1e1617;border-radius:10px;padding:8px}.cards strong{font:700 26px Georgia,serif;color:#ffbf87;display:block}
+a{color:#ffbf87}
+</style></head><body>
+<!-- LÁMINA 1: colores -->
+<section class="lam" id="colores">
+ <div><span class="tag">Antes · tema oscuro del sistema</span><h2>Vista mayoritaria hoy</h2><div class="map" id="m0" style="background:#eef3f7"></div><div class="ley" id="l0"></div>
+  <p class="nota">Tokens de tema oscuro (#ff8a80, #4fd1c5, #7fb2ff) + aclarado del 55 % + opacidad 0,84-0,88 sobre fondo claro #eef3f7 y bordes blancos.</p></div>
+ <div><span class="tag">Después · como «Partido más votado»</span><h2>Tonos firmes, mismo mapa</h2><div class="map" id="m1" style="background:#eef3f7"></div><div class="ley" id="l1"></div>
+  <p class="nota">Mismo fondo y mismos bordes; bloques con los tonos firmes de la capa de partidos (#d32b2b, #0f7a52, #1d6fb8, #5b6470), opacidad 0,88 como esa capa y sin aclarado.</p></div>
+</section>
+<!-- LÁMINA 3: panel derecho -->
+<section class="lam" id="panel">
+ <div><span class="tag">Antes</span><div class="panel"><div class="hero"><small>Provincia</small><h1>Huesca</h1></div>
+  <div class="sec mal"><h3>Conoce el territorio</h3><div class="foto"></div><p class="nota">Huesca · Imagen ilustrativa … · Foto: autor · CC BY-SA · Modificada … · Ficha en Wikimedia Commons</p><p class="nota">Créditos y licencias de las fotografías …</p></div>
+  <div class="cards mal"><div><small>Propuesta DDD</small><strong>407</strong></div><div><small>Congreso actual</small><strong>350</strong></div></div>
+  <div class="sec"><h3>Resultados y territorio</h3><p class="nota">Los datos, abajo del todo.</p></div></div></div>
+ <div><span class="tag">Después</span><div class="panel"><div class="hero"><small>Provincia · Congreso jul 2023</small><h1>Huesca</h1><p>España › Huesca</p></div>
+  <div class="kpi"><div><strong>3</strong><span>Escaños 2023</span></div><div><strong>N</strong><span>Distritos DDD</span></div><div><strong>Izq. N · Pat. N</strong><span>Doble vuelta (regla)</span></div><div><strong>…</strong><span>Población</span></div></div>
+  <div class="sec"><h3>Escaños 2023 por partido</h3><p class="nota">Barras (lo que hoy está abajo).</p></div>
+  <div class="sec"><h3>De dónde sale este mapa</h3><p class="nota">…</p></div>
+  <div class="sec"><p class="nota">Sin foto, sin pie, sin créditos.</p></div></div></div>
+</section>
+<!-- LÁMINA 4: clic en un distrito -->
+<section class="lam" id="distrito">
+ <div><span class="tag">Antes · clic en un distrito</span><h2>Salta a secciones</h2><svg id="d0" width="520" height="300" style="background:#eef3f7;border-radius:10px"></svg>
+  <p class="nota">El mapa se acerca hasta zoom 12; al pasar de 7,2 cambia solo a «Sección censal» y oculta los distritos; el distrito clicado desaparece.</p></div>
+ <div><span class="tag">Después · datos de EJEMPLO</span><h2>Pop-up del distrito, sin bajar</h2><div style="position:relative"><svg id="d1" width="520" height="300" style="background:#eef3f7;border-radius:10px"></svg>
+  <div style="position:absolute;left:250px;top:14px;width:240px;max-height:272px;overflow:hidden;background:#111516;border:1px solid #76573f;border-radius:10px;box-shadow:0 6px 22px #0006">
+   <div style="height:96px;background:linear-gradient(160deg,#4a6378,#c98f62)"></div>
+   <div style="padding:8px 12px"><small style="letter-spacing:1px;text-transform:uppercase;color:#ffbf87;font-size:10px">Distrito 2 · Huesca</small><h3 style="font:700 17px Georgia,serif;margin:2px 0 6px">Jaca</h3>
+   <dl><div><dt>Población</dt><dd>…</dd></div><div><dt>Votos</dt><dd>…</dd></div><div><dt>Bloque ganador</dt><dd style="color:#ff8a80">Izquierdas · 52,9 %</dd></div></dl>
+   <p class="nota" style="margin:8px 0 0;font-size:10px">(al final del scroll, solo si la licencia lo exige) Foto: autor · CC BY-SA 4.0</p></div></div></div>
+  <p class="nota">Imagen del distrito sin pie; nombre por la regla de §3.2; población, votos y bloque ganador con su %. El mapa no baja a secciones; el distrito elegido, con borde grueso; otro clic cambia la ventana. Nombre y datos de EJEMPLO.</p></div>
+</section>
+<script>
+const S={izq:["#d32b2b"],pat:["#1d6fb8"],nac:["#0f7a52"],sin:["#5b6470"]};
+const P0={izq:"#ff8a80",nac:"#4fd1c5",pat:"#7fb2ff",sin:"#a8b0bb"};
+const mix=(h,t)=>{const n=parseInt(h.slice(1),16);return"#"+[n>>16,(n>>8)&255,n&255].map(c=>Math.round(c+(255-c)*t).toString(16).padStart(2,"0")).join("")};
+const N={izq:"Izquierdas",nac:"Nacionalistas",pat:"Derecha nacional",sin:"Sin bloque"};
+let r=11;const rnd=()=>{r=(r*9301+49297)%233280;return r/233280};
+const A=Array.from({length:24},()=>{const k=["izq","pat","izq","pat","nac","sin"][Math.floor(rnd()*6)];return[k,Math.floor(rnd()*4)]});
+document.getElementById("m0").innerHTML=A.map(([k,s])=>`<i style="background:${s<1?mix(P0[k],.55):P0[k]};opacity:.86;outline:1px solid #fff"></i>`).join("");
+document.getElementById("l0").innerHTML=Object.keys(N).map(k=>`<span><b style="background:${P0[k]}"></b><b style="background:${mix(P0[k],.55)}"></b>${N[k]}</span>`).join("");
+document.getElementById("m1").innerHTML=A.map(([k,s])=>`<i style="background:${S[k][0]};opacity:.88;outline:1px solid #fff"></i>`).join("");
+document.getElementById("l1").innerHTML=Object.keys(N).map(k=>`<span>${S[k].map(c=>`<b style="background:${c}"></b>`).join("")}${N[k]}</span>`).join("");
+(function(){const W=10,H=6,cw=48,ch=46,ox=20,oy=10;const blk=[["#d32b2b","#1d6fb8"],["#1d6fb8","#d32b2b"]];
+let a="",b="";for(let i=0;i<W;i++)for(let j=0;j<H;j++){const c=i<5?(j<3?"#ff8a80":"#c5dcff"):(j<3?"#7fb2ff":"#ffcac6");a+=`<rect x="${ox+i*cw}" y="${oy+j*ch}" width="${cw}" height="${ch}" fill="${c}" fill-opacity=".86" stroke="#fff" stroke-width=".6"/>`;}
+const D=[[0,0,5,3,"#d32b2b"],[5,0,5,3,"#1d6fb8"],[0,3,5,3,"#1d6fb8"],[5,3,5,3,"#d32b2b"]];
+for(const[x,y,w,h,c]of D)b+=`<rect x="${ox+x*cw}" y="${oy+y*ch}" width="${w*cw}" height="${h*ch}" fill="${c}" fill-opacity=".88" stroke="#fff" stroke-width="1"/>`;
+b+=`<rect x="${ox}" y="${oy+3*ch}" width="${5*cw}" height="${3*ch}" fill="none" stroke="#111" stroke-width="5"/><rect x="${ox}" y="${oy+3*ch}" width="${5*cw}" height="${3*ch}" fill="none" stroke="#fff" stroke-width="2"/>`;
+document.getElementById("d0").innerHTML=a;document.getElementById("d1").innerHTML=b;})();
+</script></body></html>
