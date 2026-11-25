@@ -63,5 +63,37 @@ class DerechaNacional(unittest.TestCase):
         self.assertEqual({(f["comunidad"], f["siglas"]): f["bloque_propuesto"] for f in bloques}, nuevo)
 
 
+class AmbitoDeLaTabla(unittest.TestCase):
+    """La tabla de bloques es explícita por ámbito: nacional (sin `comunidad`) y autonómica (con `comunidad`); no se cruzan."""
+
+    def test_p75_nac_usa_la_nacional_y_p75_aut_la_autonomica(self):
+        nac = p75.bloques_vigente(ROOT)
+        self.assertNotIn("autonomicas", nac.name)
+        self.assertNotIn("comunidad", filas(nac.name)[0])
+        self.assertIn("autonomicas", p75.BLOQUES_AUT.name)
+        self.assertIn("comunidad", filas(p75.BLOQUES_AUT.name)[0])
+        self.assertTrue((ROOT / p75.BLOQUES_AUT).is_file())
+
+    def test_ninguna_tabla_nueva_se_cruza_con_el_otro_ambito(self):
+        # una tabla nacional no casa filas por comunidad y la autonómica no tiene filas 2023-07 (generales)
+        with self.assertRaises(ValueError):
+            dv.cargar_tabla(CONF / "bloques_partidos_autonomicas_2026-11-25.csv", "2023-07")
+        with self.assertRaises(ValueError):
+            dv.cargar_tabla(CONF / "bloques_partidos_2026-11-25.csv", "2023-07", comunidad="aut01")
+
+    def test_p30_elige_la_nacional_por_nombre(self):
+        wf = (ROOT / ".github/workflows/p30-resultados-electorales.yml").read_text(encoding="utf-8")
+        self.assertIn("ls configuracion/bloques_partidos_2*.csv", wf)
+        self.assertNotIn("ls configuracion/bloques_partidos_*.csv", wf)
+
+    def test_la_vigente_nacional_cambia_con_una_fecha_nueva_pero_nunca_a_la_autonomica(self):
+        import shutil, tempfile
+        with tempfile.TemporaryDirectory() as d:
+            (Path(d) / "configuracion").mkdir()
+            for n in ("bloques_partidos_2026-11-25.csv", "bloques_partidos_autonomicas_2027-01-01.csv"):
+                shutil.copy(CONF / n.replace("2027-01-01", "2026-11-25"), Path(d) / "configuracion" / n)
+            self.assertEqual(p75.bloques_vigente(Path(d)).name, "bloques_partidos_2026-11-25.csv")
+
+
 if __name__ == "__main__":
     unittest.main()
