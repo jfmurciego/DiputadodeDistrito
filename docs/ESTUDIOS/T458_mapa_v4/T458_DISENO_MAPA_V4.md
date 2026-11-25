@@ -1,6 +1,7 @@
 # T-458 · Diseño al detalle del mapa de la V4 (Explorar)
 
-VERSIÓN: 1.4.0 · FECHA: 2026-11-25 · ESTADO: propuesta para aprobación del propietario
+VERSIÓN: 1.4.1 · FECHA: 2026-11-25 · ESTADO: APROBADO por el propietario (25-11), todo como se recomienda
+CAMBIOS 1.4.1: anotada la aprobación de las 5 preguntas de la 1.4.0; sin cambios de diseño.
 CAMBIOS 1.4.0: el propietario aprueba las preguntas 1-4 de la 1.3.0 tal como se recomendaban; añade (A) imagen del distrito, (B) nombre del
   distrito, (C) datos del distrito y (D) bloques (plan de cambio, sin implementar aquí).
 CAMBIOS 1.3.0: corrección de rumbo del propietario (25-11): nuestro mapa, sin copiar otra web; colores firmes como la capa de
@@ -167,6 +168,10 @@ D-167, D-182). El cambio real es **solo el nombre** «Patriotas» → «Derecha 
 Recomendación: **(b)**, para que dato y web digan lo mismo; el coste es un P75 completo y un P40.
 
 ## 7. Preguntas
+
+**Aprobadas por el propietario (25-11), todas como se recomienda:** regla de nombre con capitales de partido judicial de fuente
+oficial; número en los municipios repartidos («Madrid N»); imágenes de Commons servidas desde R2; sin imagen si no hay licencia
+válida; bloques por el camino (b), en origen. La implementación la abre el Planificador en tareas aparte.
 
 1. **Regla de nombre** de §3.2 (capital de partido judicial; si no, el más poblado; «Madrid 1…N»). Recomendación: sí, e incorporar
    antes las capitales de partido de fuente oficial con huella.
