@@ -1,13 +1,15 @@
 <!--
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: Auditoría integral — veredicto, evolución, benchmark, web y dirección
-FECHA: 2026-11-24
+FECHA: 2026-11-25
 ESTADO: informe de opinión independiente (solo lectura; no cambia código, plan ni decisiones)
-CAMBIOS: fichero nuevo
+CAMBIOS: 1.0.1 (25-11) — corrección de un dato: la serie de mapas sí tiene un depósito posterior al de Huesca
+  (DOI 10.5281/zenodo.24448721, según `docs/PLAN.md` 1.0.77, T-434); lo pendiente es citarlo. Sin más cambios.
+  1.0.0 — fichero nuevo.
 MOTIVO: encargo del propietario del 24-11-2026: veredicto en un fichero, evolución del proyecto, comparación con
   proyectos existentes, valoración de la web y auditoría de la dirección
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: 1.0.0 en el commit 99aa2877 de esta misma rama (documento sin fusionar; sin copia en `legacy/`)
 -->
 
 # Auditoría integral y veredicto — Diputado de Distrito
@@ -91,7 +93,7 @@ Distingue, como pide la propia norma del proyecto, entre decidido, construido, p
 | Histórico 2011-2023 por época | Sí | En curso | Parcial | Parcial | No |
 | Web V4 | Sí | Sí | Parcial (sin lector de pantalla ni móvil real) | Sí, oficial desde el 20-11 | Consta una «auditoría externa» de textos (20-11), sin autor identificado en el repositorio |
 | Noche electoral del 29-11 | Sí | Sí | **No consta ensayo en seco tras la migración de workflows** | — | — |
-| Depósito con DOI | Sí | Sí | Sí | Solo el mapa de Huesca | No |
+| Depósito con DOI | Sí | Sí | Sí | Serie de mapas depositada (DOI 10.5281/zenodo.24448721, según el plan); `README.md` y `CITATION.cff` siguen citando solo Huesca | No |
 | Artículo o informe técnico | Descartado (sin JOSS ni OSF) | Borrador con pendientes | — | No | No |
 
 Evidencia: `README.md` (bloque de estado), `docs/ESTADO.md`, `docs/PLAN.md` (D-73, D-86, D-94, D-138, D-141, D-146,
