@@ -4,8 +4,8 @@
 (function (root) {
   "use strict";
   var REGLAS = [
-    { id: "tres", esc: "dv_A", texto: "Tres bloques", ayuda: "Izquierdas, Nacionalistas y Patriotas se presentan cada uno como una sola candidatura." },
-    { id: "dos", esc: "dv_B", texto: "Dos bloques", ayuda: "Solo Izquierdas y Patriotas se presentan juntos; los nacionalistas, partido a partido." },
+    { id: "tres", esc: "dv_A", texto: "Tres bloques", ayuda: "Izquierdas, Nacionalistas y Derecha nacional se presentan cada uno como una sola candidatura." },
+    { id: "dos", esc: "dv_B", texto: "Dos bloques", ayuda: "Solo Izquierdas y Derecha nacional se presentan juntos; los nacionalistas, partido a partido." },
     { id: "base", esc: "dv_base", texto: "Sin coaliciones", ayuda: "Cada partido se presenta por separado." },
     { id: "primero", esc: "primero", texto: "Mayoría simple en el distrito", ayuda: "Gana el partido con más votos en el distrito, sin segunda vuelta. No es el sistema actual: hoy los escaños se reparten de forma proporcional por listas provinciales." }
   ];
@@ -51,7 +51,9 @@
     return out;
   }
 
-  function nombreCandidatura(k) { return k.indexOf("bloque:") === 0 ? k.slice(7) + " (bloque)" : k; }
+  /* T-460: «Patriotas» pasa a «Derecha nacional»; mientras convivan datos viejos y nuevos, el visor muestra siempre el nombre nuevo. */
+  function nombreBloque(b) { return b === "Patriotas" ? "Derecha nacional" : b; }
+  function nombreCandidatura(k) { return k.indexOf("bloque:") === 0 ? nombreBloque(k.slice(7)) + " (bloque)" : k; }
   function num(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
   function pct(x) { return (Math.round(x * 1000) / 10).toFixed(1).replace(".", ",") + " %"; }
 
@@ -154,8 +156,8 @@
   }
 
   /* Color por bloque: clase CSS de cada candidatura ganadora. */
-  function claseBloque(b) { return { Izquierdas: "izq", Nacionalistas: "nac", Patriotas: "pat" }[b] || "sin"; }
+  function claseBloque(b) { return { Izquierdas: "izq", Nacionalistas: "nac", "Derecha nacional": "pat", Patriotas: "pat" }[b] || "sin"; }
 
-  var API = { entrada: entrada, motivoSin: motivoSin, leerIndice: leerIndice, comparacion: comparacion, REGLAS: REGLAS, parseCSV: parseCSV, cargar: cargar, ficha: ficha, leerEnlace: leerEnlace, claseBloque: claseBloque, transferencias: transferencias, candidaturas: candidaturas };
+  var API = { entrada: entrada, motivoSin: motivoSin, leerIndice: leerIndice, comparacion: comparacion, REGLAS: REGLAS, parseCSV: parseCSV, cargar: cargar, ficha: ficha, leerEnlace: leerEnlace, claseBloque: claseBloque, nombreBloque: nombreBloque, transferencias: transferencias, candidaturas: candidaturas };
   if (typeof module !== "undefined" && module.exports) module.exports = API; else root.DV = API;
 })(typeof window !== "undefined" ? window : this);

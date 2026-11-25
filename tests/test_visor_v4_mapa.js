@@ -55,4 +55,8 @@ assert.throws(() => DV.leerIndice({ ...idx, schema: "otro" }), /esquema desconoc
 assert.throws(() => DV.leerIndice({ ...idx, territorios: [{ ...idx.territorios[0], id: "aut01" }] }), /id de territorio/);
 for (const ruta of ["../secreto.csv", "/etc/passwd", "https://x.es/a.csv", "nac01/../../a.csv"]) assert.throws(() => DV.leerIndice({ ...idx, territorios: [{ ...idx.territorios[0], detalle: fich(ruta) }] }), /ruta no válida/, ruta);
 assert.throws(() => DV.leerIndice({ ...idx, territorios: [{ ...idx.territorios[0], geometria: { ruta: "nac01/distritos.geojson", sha256: "xyz" } }] }), /sha256 no válido/);
+// T-460: el dato nuevo («Derecha nacional») y el viejo («Patriotas») dan el mismo color y el mismo nombre en pantalla (literales a mano).
+assert.strictEqual(DV.claseBloque("Derecha nacional"), "pat"); assert.strictEqual(DV.claseBloque("Patriotas"), "pat");
+assert.strictEqual(DV.claseBloque("Izquierdas"), "izq"); assert.strictEqual(DV.claseBloque("Nacionalistas"), "nac");
+assert.strictEqual(DV.nombreBloque("Patriotas"), "Derecha nacional"); assert.strictEqual(DV.nombreBloque("Derecha nacional"), "Derecha nacional");
 console.log("OK visor v4 mapa");

@@ -226,7 +226,7 @@ class PortadaV4(unittest.TestCase):
     def test_doble_vuelta_en_comprender(self):
         h = _txt("comprender.html")
         self.assertIn('id="doble-vuelta"', h)
-        for t in ("Izquierdas", "Nacionalistas", "Patriotas", "Simulación sin valor oficial", "mapa/?regla=tres"):
+        for t in ("Izquierdas", "Nacionalistas", "Derecha nacional", "Simulación sin valor oficial", "mapa/?regla=tres"):
             self.assertIn(t, h)
         self.assertIn("tokens-bloques.css", h)
         # texto definitivo del propietario (19-11), con las correcciones ortográficas evidentes
