@@ -248,7 +248,8 @@
   function helpText(t){$("election-note").textContent=t;}
   function bbox(geometry){let box=[180,90,-180,-90];function walk(coords){if(typeof coords[0]==="number"){box[0]=Math.min(box[0],coords[0]);box[1]=Math.min(box[1],coords[1]);box[2]=Math.max(box[2],coords[0]);box[3]=Math.max(box[3],coords[1]);}else coords.forEach(walk);}walk(geometry.coordinates||[]);return [[box[0],box[1]],[box[2],box[3]]];}
   let popup=null;
-  function closePopup(){if(popup){popup.remove();popup=null;}if(map?.getLayer("dist-sel"))map.setFilter("dist-sel",["==",["get","distrito"],-1]);}
+  function clearSel(){if(map?.getLayer("dist-sel"))map.setFilter("dist-sel",["==",["get","distrito"],-1]);}
+  function closePopup(){if(popup){popup.remove();popup=null;}clearSel();}
   // Clic en un distrito (T-459): resalta y abre la ventana; el mapa no se acerca ni cambia de nivel.
   function selectDistrict(f,lngLat){
     const p=f.properties;
@@ -256,7 +257,7 @@
     if(popup){popup.remove();popup=null;}
     if(typeof maplibregl.Popup!=="function"||!lngLat)return;
     popup=new maplibregl.Popup({closeButton:true,maxWidth:"280px"}).setLngLat(lngLat).setHTML(distritoPopup(p)).addTo(map);
-    popup.on?.("close",()=>{popup=null;});
+    popup.on?.("close",()=>{popup=null;clearSel();}); // cierre con la X: también quita el resaltado
   }
   function focus(g){if(map&&g&&g.coordinates){map.fitBounds(bbox(g),{padding:65,maxZoom:12,duration:dur(420)});}}
   function updateSegments(id,val){document.querySelectorAll("#"+id+" button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.value===val)));}

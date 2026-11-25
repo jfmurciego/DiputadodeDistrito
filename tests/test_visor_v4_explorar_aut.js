@@ -57,9 +57,9 @@ for (const [id, opts] of [["scope", ["nacional", "autonomico"]], ["system", ["pr
   group["#" + id + " button"] = opts.map(value => ({ dataset: { value }, setAttribute(k, v) { this[k] = v; } }));
 group["[data-panel]"] = ["territorio", "resultados", "comparar", "evolucion"].map(panel => ({ dataset: { panel }, setAttribute(k, v) { this[k] = v; } }));
 const doc = { getElementById: element, querySelectorAll: q => group[q] || [], createElement: tag => ({ tag, textContent: "", setAttribute(k, v) { this[k] = v; } }),
-  body: { dataset: {} }, documentElement: {} };
-let map; const popups = [];
-class Popup { constructor(o) { this.o = o; popups.push(this); } setLngLat(l) { this.l = l; return this; } setHTML(h) { this.html = h; return this; } addTo() { return this; } on() {} remove() { this.removed = true; } }
+  body: { dataset: {} }, documentElement: {}, addEventListener(ev, fn) { (this.h ??= {})[ev] = fn; } };
+let map, popup2; const popups = [];
+class Popup { constructor(o) { this.o = o; popups.push(this); } setLngLat(l) { this.l = l; return this; } setHTML(h) { this.html = h; return this; } addTo() { return this; } on(ev, fn) { (this.h ??= {})[ev] = fn; } remove() { this.removed = true; } }
 class FakeMap {
   constructor() { this.sources = new Map(); this.layers = new Map(); this.handlers = {}; this.hit = []; map = this; queueMicrotask(() => this.handlers.load?.()); }
   addControl() {} on(ev, ...a) { this.handlers[ev] = a.at(-1); }
@@ -102,7 +102,19 @@ const flush = async () => { for (let i = 0; i < 60; i++) await new Promise(r => 
   assert.equal(element("dv-aviso").hidden, false);
   // 3. Ficha del distrito público 2 con la elección autonómica.
   map.hit = [{ layer: { id: "dist-fill" }, geometry: feats[1].geometry, properties: feats[1].properties }];
-  map.handlers.click({ point: {} }); await flush();
+  map.handlers.click({ point: {}, lngLat: { lng: 0, lat: 0 } }); await flush();
+  // T-459: ventana y resaltado también en el ámbito autonómico (sin identity: coalesce a "" y número público del distrito).
+  const filtro = () => JSON.stringify(map.getLayer("dist-sel").filter);
+  assert.equal(filtro(), JSON.stringify(["all", ["==", ["get", "distrito"], feats[1].properties.distrito], ["==", ["coalesce", ["get", "identity"], ""], ""]]));
+  assert.match(popups.at(-1).html, /<dt>Población<\/dt>[\s\S]*<dt>Votos<\/dt>[\s\S]*<dt>Bloque ganador<\/dt>/);
+  popup2 = popups.at(-1);
+  doc.h.keydown({ key: "Escape" });
+  assert.equal(popup2.removed, true, "Esc cierra la ventana"); assert.equal(map.getLayer("dist-sel").filter[0], "==", "Esc quita el resaltado");
+  map.handlers.click({ point: {}, lngLat: { lng: 0, lat: 0 } }); await flush();
+  assert.equal(map.getLayer("dist-sel").filter[0], "all");
+  popups.at(-1).h.close(); // la X de la ventana
+  assert.equal(map.getLayer("dist-sel").filter[0], "==", "la X quita el resaltado");
+  map.handlers.click({ point: {}, lngLat: { lng: 0, lat: 0 } }); await flush();
   assert.equal(element("dv-mode").hidden, false);
   assert.match(element("dv-heading").textContent, /distrito 2/);
   assert.match(element("dv-content").innerHTML, /Elecciones autonómicas de 05\/2026/);
