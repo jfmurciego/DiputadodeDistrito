@@ -87,7 +87,10 @@ class Huellas(Base):
         for n, (v, _) in HUELLAS.items():
             with self.subTest(workflow=n):
                 antes = cargar((FIX / f"{n}_{v}.yml").read_text(encoding="utf-8"))
-                ahora = cargar((WF / f"{n}.yml").read_text(encoding="utf-8"))
+                texto = (WF / f"{n}.yml").read_text(encoding="utf-8")
+                if n == "p30-resultados-electorales":  # T-460 (P30 1.0.5), posterior a la 2a: se deshace solo la tabla de bloques nacional
+                    texto = texto.replace("bloques_partidos_2*.csv", "bloques_partidos_*.csv")
+                ahora = cargar(texto)
                 if n == "p90-automatico":  # T-430 3c (P90 1.5.0), posterior a la 2a: se deshace solo eso
                     ahora = _t430d.deshacer_3c(_t430d.deshacer_medicion(ahora))  # y T-450 §4 (1.5.2)
                 if n == "p10-fuentes":  # T-449 (P10 1.0.3), posterior a la 2a: se deshace solo el espejo
