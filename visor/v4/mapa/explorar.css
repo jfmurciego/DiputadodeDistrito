@@ -1,8 +1,9 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: visor V4 · Explorar
- * VERSIÓN: 1.1.0
+ * VERSIÓN: 1.2.0
  * FECHA: 2026-11-25
  * ESTADO: candidato
+ * CAMBIOS 1.2.0: T-500, estilos de la leyenda, los rótulos, los recuadros de Ceuta y Melilla y la tabla de la ventana de la situación actual (puntos). ANTERIOR: legacy/visor/v4/mapa/explorar_v1.1.0_20261125.css
  * CAMBIOS 1.1.0: T-459, fuera la galería (foto, créditos) del panel; estilos de la ventana del distrito y del trazo de selección. ANTERIOR: legacy/visor/v4/mapa/explorar_v1.0.0_20261119.css
  * CAMBIOS: copia de v3.css 1.2.0 de la V3 (disposición, paneles, leyenda, calendario, accesibilidad, galería) + tema de la V4
  *   (cabecera, paleta oscura, tipografía y pie de ../styles.css) + estilos de la capa «Doble vuelta» (reglas, aviso fijo, ficha).
@@ -63,3 +64,12 @@ dialog{background:var(--panel);color:var(--cream)}dialog button{background:#6515
 .insights .context{border-bottom:1px solid var(--line)}
 /* Muestras de bloque con los mismos colores fijos del mapa en los dos temas (T-459); los tokens de la portada no cambian. */
 .sw.izq{background:#d32b2b}.sw.nac{background:#0f7a52}.sw.pat{background:#1d6fb8}.sw.sin{background:#5b6470}
+/* Situación actual · puntos (T-500) */
+.legend:empty{display:none}.v5-leyenda h3{font:700 15px var(--serif);margin:0 0 4px}.v5-leyenda .v5-sub{margin:0 0 6px;color:var(--muted)}.v5-leyenda h4{margin:12px 0 6px;font-size:12px;font-weight:700}.v5-leyenda small{display:block;color:var(--muted);line-height:1.45;margin-top:8px}
+.v5-tab{width:100%;border-collapse:collapse;font-size:12px}.v5-tab th{font-size:10px;color:var(--muted);text-align:right;padding:3px 4px;text-transform:uppercase}.v5-tab td{padding:3px 4px;text-align:right;font-variant-numeric:tabular-nums;border-bottom:1px solid #3a2f27}.v5-tab th:first-child,.v5-tab td:first-child{text-align:left;white-space:nowrap}
+.v5-tab .total td{font-weight:700;border-bottom:0}.dv-popup .v5-tab th{color:#444}.dv-popup .v5-tab td{border-bottom:1px solid #ddd}
+i.dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;border:1px solid #fff;vertical-align:-1px}
+ul.v5-esc{display:flex;gap:3px;list-style:none;margin:0;padding:0}.v5-esc li{flex:1;font-size:10px;text-align:center}.v5-esc li span{display:block;height:12px;border-radius:3px;margin-bottom:2px}
+.v5-lbl{font:600 11px var(--sans,sans-serif);color:#1c2630;text-shadow:-1px -1px 0 #fff,1px -1px 0 #fff,-1px 1px 0 #fff,1px 1px 0 #fff,0 0 3px #fff;pointer-events:none;white-space:nowrap}.v5-can{font-weight:600;font-size:10px;color:#3a4652;margin:4px 0 0 6px}
+.v5-rec{display:flex;gap:8px;pointer-events:none}.v5-rb{width:92px;background:#ffffffa0;border:1px dashed #5b6470;color:#3a4652;font:600 10px var(--sans,sans-serif);padding:2px 0 0}.v5-rb b{display:block;padding:0 5px}
+.dv-popup .small-note{color:#444;margin:6px 0 0}
