@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
 import bloques_autonomicas as ba  # noqa: E402
 import doble_vuelta as dv  # noqa: E402
+import doble_vuelta_cobertura as cob  # noqa: E402
 import p75_doble_vuelta_r2 as p75  # noqa: E402
 
 CONF = ROOT / "configuracion"
@@ -46,6 +47,12 @@ class DerechaNacional(unittest.TestCase):
     def test_tabla_vieja_con_patriotas_falla_en_voz_alta(self):
         with self.assertRaisesRegex(ValueError, "Bloque desconocido «Patriotas»"):
             dv.cargar_tabla(CONF / PAREJAS[0][0], "2023-07")
+
+    def test_cobertura_tambien_rechaza_la_tabla_vieja(self):
+        votos = ROOT / "visor/v4/mapa/ejemplo/votos.csv"
+        with self.assertRaisesRegex(ValueError, "Bloque desconocido «Patriotas»"):
+            cob.cobertura(votos, CONF / PAREJAS[0][0], "2023-07")
+        self.assertEqual(cob.cobertura(votos, CONF / PAREJAS[0][1], "2023-07")["eleccion"], "2023-07")
 
     def test_tabla_nacional_vigente_no_es_la_autonomica(self):
         self.assertEqual(p75.bloques_vigente(ROOT).name, "bloques_partidos_2026-11-25.csv")

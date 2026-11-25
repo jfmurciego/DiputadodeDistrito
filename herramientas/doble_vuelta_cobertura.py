@@ -3,9 +3,10 @@
 """Cobertura de la tabla de bloques sobre los votos por partido de P31 (T-409, D-171).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-19 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/doble_vuelta_cobertura_v1.0.0_20261119.py
-CAMBIOS: 1.1.0 (T-409): `--alias` (configuracion/alias_partidos_generales.csv): la cobertura se mide tras pasar cada id a su partido homologado, como
+VERSIÓN: 1.2.0 · FECHA: 2026-11-25 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/doble_vuelta_cobertura_v1.1.0_20261119.py
+CAMBIOS: 1.2.0 (T-460): un bloque fuera de BLOQUES (p. ej. una tabla vieja con «Patriotas») falla con ValueError, como en doble_vuelta.py, y no se cuenta en silencio como bloque.
+  1.1.0 (T-409): `--alias` (configuracion/alias_partidos_generales.csv): la cobertura se mide tras pasar cada id a su partido homologado, como
   hace `doble_vuelta.py --alias`; el JSON lleva el sha256 del alias. Sin `--alias` nada cambia. 1.0.0: fichero nuevo.
 MOTIVO: los ids de partido de `<run>_m07_resultados_partido.csv` son los del diccionario de cada contrato («PP-EU», «SUMAR», «C's»), no
   las siglas homologadas de `configuracion/bloques_partidos_*.csv`; sin casar no es lo mismo que sin bloque, y un partido sin casar
@@ -25,7 +26,7 @@ import re
 from collections import defaultdict
 from pathlib import Path
 
-from doble_vuelta import aplicar_alias, cargar_alias, sha256
+from doble_vuelta import BLOQUES, aplicar_alias, cargar_alias, sha256
 
 MAX_LISTA = 25
 
@@ -44,7 +45,10 @@ def cobertura(votos_csv, bloques_csv, eleccion: str, alias_csv=None) -> dict:
     with open(bloques_csv, encoding="utf-8", newline="") as f:
         for fila in csv.DictReader(f):
             if fila["eleccion"] == eleccion:
-                tabla[fila["siglas"]] = fila["bloque_propuesto"].strip()
+                b = fila["bloque_propuesto"].strip()
+                if b and b not in BLOQUES:
+                    raise ValueError(f"Bloque desconocido «{b}» para {fila['siglas']}")
+                tabla[fila["siglas"]] = b
     if not tabla:
         raise ValueError(f"Sin filas de la elección {eleccion} en {bloques_csv}")
     por_partido: dict[str, int] = defaultdict(int)
