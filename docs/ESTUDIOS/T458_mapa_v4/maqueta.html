@@ -45,18 +45,18 @@ a{color:#ffbf87}
  <div><span class="tag">Antes · clic en un distrito</span><h2>Salta a secciones</h2><svg id="d0" width="520" height="300" style="background:#eef3f7;border-radius:10px"></svg>
   <p class="nota">El mapa se acerca hasta zoom 12; al pasar de 7,2 cambia solo a «Sección censal» y oculta los distritos; el distrito clicado desaparece.</p></div>
  <div><span class="tag">Después · datos de EJEMPLO</span><h2>Pop-up del distrito, sin bajar</h2><div style="position:relative"><svg id="d1" width="520" height="300" style="background:#eef3f7;border-radius:10px"></svg>
-  <div style="position:absolute;left:250px;top:40px;width:230px;background:#111516;border:1px solid #76573f;border-radius:10px;padding:10px 12px;box-shadow:0 6px 22px #0006">
-   <small style="letter-spacing:1px;text-transform:uppercase;color:#ffbf87;font-size:10px">Distrito · Huesca</small><h3 style="font:700 17px Georgia,serif;margin:2px 0 6px">Distrito 2</h3>
-   <p style="margin:0 0 6px"><b style="color:#ff8a80">Izquierdas</b> gana en 2.ª vuelta (Tres bloques)</p>
-   <dl><div><dt>1.ª vuelta, más votado</dt><dd>…</dd></div><div><dt>2.ª vuelta</dt><dd>… % – … %</dd></div><div><dt>Población · desviación</dt><dd>… · … %</dd></div></dl>
-   <p class="nota" style="margin:6px 0 0">Ficha completa en el panel →</p></div></div>
-  <p class="nota">El mapa encuadra la provincia (no el distrito) y se queda en distritos; el distrito elegido, con borde grueso; otro clic cambia el pop-up.</p></div>
+  <div style="position:absolute;left:250px;top:14px;width:240px;max-height:272px;overflow:hidden;background:#111516;border:1px solid #76573f;border-radius:10px;box-shadow:0 6px 22px #0006">
+   <div style="height:96px;background:linear-gradient(160deg,#4a6378,#c98f62)"></div>
+   <div style="padding:8px 12px"><small style="letter-spacing:1px;text-transform:uppercase;color:#ffbf87;font-size:10px">Distrito 2 · Huesca</small><h3 style="font:700 17px Georgia,serif;margin:2px 0 6px">Jaca</h3>
+   <dl><div><dt>Población</dt><dd>…</dd></div><div><dt>Votos</dt><dd>…</dd></div><div><dt>Bloque ganador</dt><dd style="color:#ff8a80">Izquierdas · 52,9 %</dd></div></dl>
+   <p class="nota" style="margin:8px 0 0;font-size:10px">(al final del scroll, solo si la licencia lo exige) Foto: autor · CC BY-SA 4.0</p></div></div></div>
+  <p class="nota">Imagen del distrito sin pie; nombre por la regla de §3.2; población, votos y bloque ganador con su %. El mapa no baja a secciones; el distrito elegido, con borde grueso; otro clic cambia la ventana. Nombre y datos de EJEMPLO.</p></div>
 </section>
 <script>
 const S={izq:["#d32b2b"],pat:["#1d6fb8"],nac:["#0f7a52"],sin:["#5b6470"]};
 const P0={izq:"#ff8a80",nac:"#4fd1c5",pat:"#7fb2ff",sin:"#a8b0bb"};
 const mix=(h,t)=>{const n=parseInt(h.slice(1),16);return"#"+[n>>16,(n>>8)&255,n&255].map(c=>Math.round(c+(255-c)*t).toString(16).padStart(2,"0")).join("")};
-const N={izq:"Izquierdas",nac:"Nacionalistas",pat:"Patriotas",sin:"Sin bloque"};
+const N={izq:"Izquierdas",nac:"Nacionalistas",pat:"Derecha nacional",sin:"Sin bloque"};
 let r=11;const rnd=()=>{r=(r*9301+49297)%233280;return r/233280};
 const A=Array.from({length:24},()=>{const k=["izq","pat","izq","pat","nac","sin"][Math.floor(rnd()*6)];return[k,Math.floor(rnd()*4)]});
 document.getElementById("m0").innerHTML=A.map(([k,s])=>`<i style="background:${s<1?mix(P0[k],.55):P0[k]};opacity:.86;outline:1px solid #fff"></i>`).join("");
