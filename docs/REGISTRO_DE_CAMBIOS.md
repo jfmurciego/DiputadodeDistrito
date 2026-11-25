@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.627
+Versión: 1.0.628
 Fecha: 2026-11-25
-Alcance: T-459 — Visor Explorar: panel con los datos arriba, colores fijos por bloque y ventana del distrito
+Alcance: T-499 — Diseño al detalle de la V5: situación actual con un punto por diputado
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-25_t459-visor-mapa-v4.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.626_registro_20261125.md
+Cambios/motivo: entrada docs/registro/2026-11-25_t499-diseno-v5.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.627_registro_20261125.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.626_registro_20261125.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.628 · [2026-11-25 — T-499 — Diseño al detalle de la V5: situación actual con un punto por diputado](registro/2026-11-25_t499-diseno-v5.md)
 - 1.0.627 · [2026-11-25 — T-459 — Visor Explorar: panel con los datos arriba, colores fijos por bloque y ventana del distrito](registro/2026-11-25_t459-visor-mapa-v4.md)
 - 1.0.626 · [2026-11-24 — T-458 — Diseño al detalle del mapa de la V4 (solo documentación)](registro/2026-11-24_t458-diseno-mapa-v4.md)
 - 1.0.625 · [2026-11-24 — T-457 — Sin nombres de IA ni de modelo en commits ni en los textos de los robots](registro/2026-11-24_t457-sin-nombres-ia.md)
