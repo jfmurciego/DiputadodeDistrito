@@ -4,8 +4,10 @@
 
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.3.0 · FECHA: 2026-11-25 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/p75_doble_vuelta_r2_v1.2.0_20261123.py
+ANTERIOR: legacy/herramientas/p75_doble_vuelta_r2_v1.2.1_20261124.py
 CAMBIOS: 1.3.0 (T-460, propietario 25-11): BLOQUES_AUT pasa a la tabla autonómica 2026-11-25 y `bloques_vigente` excluye las `bloques_partidos_autonomicas_*` (por orden alfabético la autonómica ganaba a la nacional).
+  1.2.1 (T-453): cada fila del informe lleva `votos_total` y el log imprime una línea `P75_CIFRAS territorio=… votos_total=… sin_casar_pct=… sin_bloque_pct=…`
+  por territorio con cifras (el informe de R2 no se lee desde la nube). Nada más cambia.
   1.2.0 (T-443, D-188/D-198): escribe en el árbol nuevo de R2, en `interno/` (`mapas/` solo lo escribe la publicación, P40). El ZIP va a
   `interno/doble-vuelta/nacionales/congreso-2023/<provincia>/doble-vuelta.zip` o `interno/doble-vuelta/autonomicas/<comunidad>-<año>/doble-vuelta.zip`
   (herramientas/rutas_r2) con metadatos `sha256` y `run` (el del M08) y su `manifiesto.json`; nunca pisa un run de M08 mayor (`SUPERADO`, guarda por
@@ -374,6 +376,7 @@ def procesar_aut(root: Path, aut: str, run: str, trabajo: Path, cp=fuente_r2._cp
     finally:
         os.chdir(cwd)
     fila["sin_casar_pct"], fila["sin_bloque_pct"] = c["pct_sin_casar"], c["pct_sin_bloque"]
+    fila["votos_total"] = c["votos_total"]
     if c["pct_sin_casar"] > UMBRAL_SIN_CASAR:
         fila["estado"] = "COBERTURA_BAJA"
         return fila
@@ -394,7 +397,7 @@ def _zip_determinista(destino: Path, ficheros: list[Path]) -> None:
 
 def procesar(root: Path, territorio: str, run: str, eleccion: str, trabajo: Path, cp=fuente_r2._cp) -> dict:
     """Un territorio. Devuelve su fila del informe; deja el ZIP en `trabajo/<territorio>/` si estado == OK."""
-    fila = {"territorio": territorio, "run": run, "estado": "ERROR", "trae_m07": None, "sin_casar_pct": None, "sin_bloque_pct": None,
+    fila = {"territorio": territorio, "run": run, "estado": "ERROR", "trae_m07": None, "sin_casar_pct": None, "sin_bloque_pct": None, "votos_total": None,
             "sha256_paquete_entrada": None, "sha256_salida": None, "carpeta_r2": None}
     man = json.loads((root / ARCHIVO).read_text(encoding="utf-8"))
     hallado = rr.buscar(run, "M08", man)
@@ -437,6 +440,7 @@ def procesar(root: Path, territorio: str, run: str, eleccion: str, trabajo: Path
     finally:
         os.chdir(cwd)
     fila["sin_casar_pct"], fila["sin_bloque_pct"] = c["pct_sin_casar"], c["pct_sin_bloque"]
+    fila["votos_total"] = c["votos_total"]
     if c["pct_sin_casar"] > UMBRAL_SIN_CASAR:
         fila["estado"] = "COBERTURA_BAJA"  # elección distinta de la pedida o alias incompleto
         return fila
@@ -491,6 +495,8 @@ def lineas_para_log(inf: dict, sha_informe: str, clave_informe: str) -> list[str
     """Lo que hay que fijar en el repo para publicar: clave y sha256 del INFORME y, por territorio, el sha256 y la clave de su ZIP."""
     out = [f"INFORME_CLAVE={clave_informe}", f"INFORME_SHA256={sha_informe}"]
     out += [f"P75_ZIP territorio={f['territorio']} run={f['run']} sha256={f.get('sha256_salida')} clave={f.get('clave_r2')}" for f in inf["territorios"]]
+    out += [f"P75_CIFRAS territorio={f['territorio']} votos_total={f['votos_total']} sin_casar_pct={f.get('sin_casar_pct')} sin_bloque_pct={f.get('sin_bloque_pct')}"
+            for f in inf["territorios"] if f.get("votos_total") is not None]
     return out
 
 

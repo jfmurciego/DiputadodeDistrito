@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.618
-Fecha: 2026-11-24
-Alcance: T-449 — Autonómicas de Castilla-La Mancha 2023: copia archivada como fuente no oficial y doble vuelta por municipio
+Versión: 1.0.628
+Fecha: 2026-11-25
+Alcance: T-499 — Diseño al detalle de la V5: situación actual con un punto por diputado
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-24_t449d-aut08-copia-archivada.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.617_registro_20261124.md
+Cambios/motivo: entrada docs/registro/2026-11-25_t499-diseno-v5.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.627_registro_20261125.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,16 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.617_registro_20261124.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.628 · [2026-11-25 — T-499 — Diseño al detalle de la V5: situación actual con un punto por diputado](registro/2026-11-25_t499-diseno-v5.md)
+- 1.0.627 · [2026-11-25 — T-459 — Visor Explorar: panel con los datos arriba, colores fijos por bloque y ventana del distrito](registro/2026-11-25_t459-visor-mapa-v4.md)
+- 1.0.626 · [2026-11-24 — T-458 — Diseño al detalle del mapa de la V4 (solo documentación)](registro/2026-11-24_t458-diseno-mapa-v4.md)
+- 1.0.625 · [2026-11-24 — T-457 — Sin nombres de IA ni de modelo en commits ni en los textos de los robots](registro/2026-11-24_t457-sin-nombres-ia.md)
+- 1.0.624 · [2026-11-24 — T-456 — Visor V4: doble vuelta autonómica por los dos ids y fuera cuatro carteles](registro/2026-11-24_t456-visor-dv-carteles.md)
+- 1.0.623 · [2026-11-24 — T-455 — Plan 1.0.77](registro/2026-11-24_planificador-plan-1-0-77.md)
+- 1.0.622 · [2026-11-24 — Coordinador — Lecciones y costes (T-449, T-453, T-454)](registro/2026-11-24_coordinador-lecciones.md)
+- 1.0.621 · [2026-11-24 — T-454 — P40: esperar al artefacto github-pages antes de deploy-pages](registro/2026-11-24_t454-p40-esperar-artefacto-pages.md)
+- 1.0.620 · [2026-11-24 — T-453 — Fijar el P75 de los aut con aut08 (16 aut)](registro/2026-11-24_t453-fijar-aut-16.md)
+- 1.0.619 · [2026-11-24 — T-453 — P75 imprime `votos_total` y los % de cobertura por territorio](registro/2026-11-24_t453-p75-cifras-en-log.md)
 - 1.0.618 · [2026-11-24 — T-449 — Autonómicas de Castilla-La Mancha 2023: copia archivada como fuente no oficial y doble vuelta por municipio](registro/2026-11-24_t449d-aut08-copia-archivada.md)
 - 1.0.617 · [2026-11-23 — Coordinador — Lecciones y costes de la tarde (T-281, T-443, T-448, T-449)](registro/2026-11-23_coordinador-lecciones-tarde.md)
 - 1.0.616 · [2026-11-23 — T-281 — Paquete para el Registro de la Propiedad Intelectual de Deslinde 1.0](registro/2026-11-23_t281-registro-pi-deslinde.md)

@@ -264,6 +264,13 @@ class P75(unittest.TestCase):
                          ["INFORME_CLAVE=doble_vuelta/2023-07/9-1/INFORME.json", "INFORME_SHA256=" + "cd" * 32,
                           "P75_ZIP territorio=nac01 run=1001 sha256=" + "ab" * 32 + " clave=c/1001/z.zip"])
 
+    def test_log_imprime_las_cifras_por_territorio_con_votos_total(self):
+        inf = {"territorios": [{"territorio": "aut08", "run": "7", "sha256_salida": "ab" * 32, "clave_r2": "k", "votos_total": 1070325,
+                                "sin_casar_pct": 0.0, "sin_bloque_pct": 2.6}, {"territorio": "aut09", "run": "8", "estado": "NO_APLICA"}]}
+        lineas = p75.lineas_para_log(inf, "cd" * 32, "k")
+        self.assertIn("P75_CIFRAS territorio=aut08 votos_total=1070325 sin_casar_pct=0.0 sin_bloque_pct=2.6", lineas)
+        self.assertEqual(sum(l.startswith("P75_CIFRAS") for l in lineas), 1)
+
     def test_resumen_del_workflow_imprime_el_sha_del_informe(self):
         import yaml
         wf = yaml.safe_load((ROOT / ".github/workflows/p70-archivo.yml").read_text(encoding="utf-8"))

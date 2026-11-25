@@ -1,9 +1,16 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: visor V4 · Explorar (V3 completa + doble vuelta)
- * VERSIÓN: 1.3.0
- * FECHA: 2026-11-22
+ * VERSIÓN: 1.5.0
+ * FECHA: 2026-11-25
  * ESTADO: candidato
- * CAMBIOS: 1.3.0 (T-430, D-186/D-188/D-194, paso 1 de REDISENO_R2 §9): origen de los datos configurable en `mapa/datos.json`. Con
+ * ANTERIOR: legacy/visor/v4/mapa/explorar_v1.4.0_20261124.js
+ * CAMBIOS: 1.5.0 (T-459, diseño T-458 1.4.1 §1.3.0/1.4.0): colores fijos por bloque (#d32b2b, #1d6fb8, #0f7a52, #5b6470) en los dos temas, sin aclarado (la ventaja ajustada
+ *   solo en el texto); panel con cifras de lo seleccionado arriba y sin foto/«407 / 350»; clic en distrito = resaltado + ventana (población, votos, bloque ganador y %) sin zoom;
+ *   fuera nivel sección/municipio, zoom a secciones y búsqueda por CUSEC.
+ *   1.4.0 (T-456): el producto autonómico se busca con la clave del visor y con el id autNN del índice (toma el más reciente; antes un M08 publicado
+ *   solo bajo autNN no casaba con el run del índice y la doble vuelta caía); fuera los carteles «Doble vuelta no disponible», «Simulación sin valor oficial»,
+ *   el rótulo del mapa (map-tag) y el «fuente no oficial / copia archivada» de la fila Resultados de Procedencia (el dato sigue en el calendario).
+ *   1.3.0 (T-430, D-186/D-188/D-194, paso 1 de REDISENO_R2 §9): origen de los datos configurable en `mapa/datos.json`. Con
  *   `actual` vacío o sin el fichero, todo igual que en 1.2.1 (rutas relativas del sitio). Con `actual` = dirección de `web/actual/actual.json`
  *   (datos.diputadodedistrito.es), cada dato se pide en `web/actual/<ruta de hoy en el sitio>` y se comprueba su sha256 contra el índice;
  *   si no casa, se recarga el índice una vez sin caché (ventana de 60 s de «solo la vigente») y, si sigue sin casar, no se pinta y se dice.
@@ -20,7 +27,7 @@
  *   coloreado por bloque (claro si la ventaja es < 5 puntos), ficha por distrito con primera y segunda vuelta y aviso fijo
  *   «Simulación sin valor oficial». Lee lo que deja P40 en mapa/datos/ (antes v4/mapa/datos/) (herramientas/publicar_doble_vuelta.py) y verifica sha256.
  * MOTIVO: T-423, la V4 es la portada de la autora + la V3 completa enriquecida con la doble vuelta (decisión del propietario, 19-11).
- * ANTERIOR: legacy/visor/v4/mapa/explorar_v1.2.1_20261122.js (1.2.1: legacy/visor/v4/mapa/explorar_v1.2.0_20261120.js; 1.2.0: legacy/visor/v4/mapa/explorar_v1.1.0_20261120.js; 1.1.0: legacy/visor/v4/mapa/explorar_v1.0.0_20261120.js) */
+ * ANTERIOR (1.3.0): legacy/visor/v4/mapa/explorar_v1.2.1_20261122.js (1.2.1: legacy/visor/v4/mapa/explorar_v1.2.0_20261120.js; 1.2.0: legacy/visor/v4/mapa/explorar_v1.1.0_20261120.js; 1.1.0: legacy/visor/v4/mapa/explorar_v1.0.0_20261120.js) */
 "use strict";
 (function () {
   const BASE={provincias:"../v2/datos/provincias.json",comunidades:"../v2/datos/comunidades.json",
@@ -85,7 +92,7 @@
   // ---- Doble vuelta (T-423, D-172): solo lee los CSV publicados y verificados; nunca decide ganadores.
   const REGLAS=window.DV?DV.REGLAS:[];
   const DVD={indice:null,error:"",datos:new Map(),fallos:new Map(),pend:new Map()};
-  const BLOQUE0={izq:"#b3261e",nac:"#0b6e69",pat:"#1f5fa8",sin:"#5b6470"};
+  const BLOQUE0={izq:"#d32b2b",nac:"#0f7a52",pat:"#1d6fb8",sin:"#5b6470"}; // fijos en los dos temas (T-459, diseño T-458 §1)
   function dvActiva(){return S.layer==="doblevuelta";}
   // Elección de la doble vuelta: generales de 2023 en el Congreso; en «Autonómico», la autonómica vigente del índice (T-427).
   function dvEleccionOk(){
@@ -94,15 +101,11 @@
     return !t||String(t.eleccion).replace("-","")===S.election;
   }
   function regla(){return REGLAS.find(r=>r.id===S.regla)||REGLAS[0];}
-  function bloques(){
-    const out={...BLOQUE0};
-    try{const cs=getComputedStyle(document.documentElement);for(const k of Object.keys(out)){const v=String(cs.getPropertyValue("--"+k)||"").trim();if(/^#[0-9a-f]{6}$/i.test(v))out[k]=v;}}catch(e){/* sin estilos: tokens por defecto */}
-    return out;
-  }
-  function aclarar(h){const n=parseInt(h.slice(1),16),m=c=>Math.round(c+(255-c)*.55);return "#"+[n>>16,(n>>8)&255,n&255].map(m).map(x=>x.toString(16).padStart(2,"0")).join("");}
+  function bloques(){return {...BLOQUE0};}
+  function dvAjustada(f){if(!f||String(f.vuelta_decisiva)!=="2")return false;const a=Number(f.votos_a_2v),b=Number(f.votos_b_2v);return Math.abs(a-b)/((a+b)||1)<.05;}
   function dvExpression(){
     const c=bloques(),e=["match",["coalesce",["get","dv_"+regla().id],"nodato"]];
-    for(const k of ["izq","nac","pat","sin"])e.push(k,c[k],k+"-claro",aclarar(c[k]));
+    for(const k of ["izq","nac","pat","sin"])e.push(k,c[k],k+"-claro",c[k]);
     e.push("#a8bac7");return e;
   }
   function dvClase(f){
@@ -172,12 +175,45 @@
     await Promise.all(Array.from({length:Math.min(6,keys.length)},w));
     return {type:"FeatureCollection",features:fc.features.map(f=>({...f,properties:{...f.properties,...dvProps(keyOf(f),distOf(f))}}))};
   }
+  let shownDistricts={features:[]};
+  const NOMBRE_BLOQUE={izq:"Izquierdas",nac:"Nacionalistas",pat:"Patriotas",sin:"Sin bloque"};
+  const pc1=x=>(Math.round(x*1000)/10).toFixed(1).replace(".",",")+" %";
+  // Cifras de un distrito con la regla elegida: votos (suma de votos_1v de su detalle), bloque ganador y su % en la vuelta que decide.
+  function dvCifras(p){
+    if(!dvActiva()||!DVD.indice)return null;
+    const aut=S.scope==="autonomico",key=aut?S.region:(p.identity||provinceKey(p.province)),d=aut?p.dvDistrito:p.distrito;
+    const x=DVD.datos.get(key),r=REGLAS.find(q=>q.id===S.regla)||REGLAS[0],fila=x?.porDistrito?.[d]?.[r.esc],det=x?.detalle?.[d]?.[r.esc];
+    if(!fila||!det)return null;
+    const cuota=String(fila.vuelta_decisiva)==="2"?+fila.cuota_ganador_2v:+fila.cuota_1v;
+    return {votos:det.reduce((t,q)=>t+(+q.votos_1v||0),0),bloque:fila.bloque_ganador,cuota,ajustada:dvAjustada(fila)};
+  }
+  function distritoCifras(p){
+    const c=dvCifras(p),r=[["Población",fmt(p.population)]];
+    if(c){r.push(["Votos",fmt(c.votos)],["Bloque ganador",c.bloque+" · "+pc1(c.cuota)]);if(c.ajustada)r.push(["Ventaja","Ajustada (menos de 5 puntos)"]);}
+    else r.push(["Partido ganador del distrito",S.scope==="nacional"&&validElection()&&S.view==="electoral"?(p.ganador||"Sin datos electorales"):"No disponible para la elección/vista"]);
+    return r;
+  }
+  function distritoPopup(p){
+    const prov=provinceByCode(p.province)?.properties.nombre||"";
+    return "<div class='dv-popup'><strong>Distrito "+esc(p.distrito)+(prov?" · "+esc(prov):"")+"</strong><dl>"+
+      distritoCifras(p).map(([a,b])=>"<div><dt>"+esc(a)+"</dt><dd>"+esc(b)+"</dd></div>").join("")+"</dl></div>";
+  }
+  // Cifras de España o de una provincia: escaños 2023, distritos DDD, bloques ganadores con la regla y población.
+  function territorioCifras(kind,pr){
+    const feats=(shownDistricts.features||[]).filter(f=>kind!=="provincia"||f.properties.province===pr.cod); // los ya decorados con el bloque de cada regla
+    const cont={},pop=feats.reduce((t,f)=>t+(Number(f.properties.population)||0),0);
+    if(dvActiva())for(const f of feats){const k=String(f.properties["dv_"+regla().id]||"").replace("-claro","");if(k)cont[k]=(cont[k]||0)+1;}
+    const bl=Object.keys(NOMBRE_BLOQUE).filter(k=>cont[k]).map(k=>NOMBRE_BLOQUE[k]+" "+cont[k]).join(" · ");
+    return [["Escaños 2023",kind==="provincia"?fmt(pr.escanos):"350"],["Distritos DDD",kind==="provincia"?fmt(pr.k407):"407"],
+      ["Bloques ganadores · "+regla().texto,bl||"—"],["Población",pop?fmt(pop):"—"]];
+  }
   function provinceKey(cod){return getProvinceEntry(provinceByCode(cod))?.key||"";}
   function dvFicha(key,d){
     const x=DVD.datos.get(key),f=x?DV.ficha(String(d),regla().id,x):null;
-    if(!f)return "<p class='small-note'>"+esc(DVD.indice?(DVD.fallos.get(key)?"Doble vuelta no disponible para este territorio: "+DVD.fallos.get(key)+".":"Sin datos de doble vuelta para este distrito."):DVD.error)+"</p>";
+    if(!f)return "";
     const sw=b=>"<span class='sw "+DV.claseBloque(b)+"' aria-hidden='true'></span>";
-    let h="<p class='dv-titular'>"+esc(f.titular)+"</p><h3>1.ª vuelta</h3><p class='small-note'>"+esc(f.nota1)+"</p>"+
+    const aj=f.segunda&&Math.abs(f.segunda.a.votos-f.segunda.b.votos)/((f.segunda.a.votos+f.segunda.b.votos)||1)<.05;
+    let h="<p class='dv-titular'>"+esc(f.titular)+"</p>"+(aj?"<p class='dv-empate'>Ventaja ajustada: menos de 5 puntos sobre el otro finalista.</p>":"")+"<h3>1.ª vuelta</h3><p class='small-note'>"+esc(f.nota1)+"</p>"+
       "<table class='comparison-table'><thead><tr><th>Candidatura</th><th>Votos</th><th>%</th></tr></thead><tbody>"+
       f.primera.map(c=>"<tr><td>"+sw(c.bloque)+esc(c.nombre)+(c.partidos.length>1?" <span class='small-note'>("+c.partidos.map(p=>esc(p.partido)+" "+fmt(p.votos)).join(" + ")+")</span>":"")+"</td><td>"+esc(c.texto)+"</td><td>"+esc(c.pct)+"</td></tr>").join("")+"</tbody></table>";
     if(f.segunda){
@@ -188,7 +224,7 @@
     if(f.avisoEmpate)h+="<p class='dv-empate'>"+esc(f.avisoEmpate)+"</p>";
     h+="<h3>Con otra regla</h3><p class='dv-comp'>"+DV.comparacion(String(d),x).map(c=>"<button type='button' class='chip' data-regla='"+esc(c.id)+"' aria-pressed='"+(c.id===regla().id)+"'>"+sw(c.bloque)+esc(c.texto)+" → "+esc(c.ganador)+"</button>").join(" ")+"</p>";
     h+="<p class='small-note dv-hipotesis'>El trasvase de votos entre partidos del mismo bloque es una hipótesis de simulación, no un comportamiento observado.</p>";
-    return h+"<p class='dv-aviso-ficha'><strong>Simulación sin valor oficial.</strong></p>";
+    return h;
   }
   function setRegla(id){
     if(!REGLAS.some(r=>r.id===id))return;
@@ -215,6 +251,18 @@
   function legend(t){$("legend").innerHTML=t;}
   function helpText(t){$("election-note").textContent=t;}
   function bbox(geometry){let box=[180,90,-180,-90];function walk(coords){if(typeof coords[0]==="number"){box[0]=Math.min(box[0],coords[0]);box[1]=Math.min(box[1],coords[1]);box[2]=Math.max(box[2],coords[0]);box[3]=Math.max(box[3],coords[1]);}else coords.forEach(walk);}walk(geometry.coordinates||[]);return [[box[0],box[1]],[box[2],box[3]]];}
+  let popup=null;
+  function clearSel(){if(map?.getLayer("dist-sel"))map.setFilter("dist-sel",["==",["get","distrito"],-1]);}
+  function closePopup(){if(popup){popup.remove();popup=null;}clearSel();}
+  // Clic en un distrito (T-459): resalta y abre la ventana; el mapa no se acerca ni cambia de nivel.
+  function selectDistrict(f,lngLat){
+    const p=f.properties;
+    if(map.getLayer("dist-sel"))map.setFilter("dist-sel",["all",["==",["get","distrito"],p.distrito],["==",["coalesce",["get","identity"],""],p.identity??""]]);
+    if(popup){popup.remove();popup=null;}
+    if(typeof maplibregl.Popup!=="function"||!lngLat)return;
+    popup=new maplibregl.Popup({closeButton:true,maxWidth:"280px"}).setLngLat(lngLat).setHTML(distritoPopup(p)).addTo(map);
+    popup.on?.("close",()=>{popup=null;clearSel();}); // cierre con la X: también quita el resaltado
+  }
   function focus(g){if(map&&g&&g.coordinates){map.fitBounds(bbox(g),{padding:65,maxZoom:12,duration:dur(420)});}}
   function updateSegments(id,val){document.querySelectorAll("#"+id+" button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.value===val)));}
   function paletteExpression(){const e=["match",["get","party"]];Object.entries(PALETA).forEach(([k,c])=>{e.push(k,c);});e.push(PALETA.OTROS);return e;}
@@ -286,23 +334,23 @@
       paint:{"text-color":"#283746","text-halo-color":"#ffffff","text-halo-width":1.6}});
     map.addLayer({id:"dist-fill",type:"fill",source:"distritos",paint:{"fill-color":paletteExpression(),"fill-opacity":.88}});
     map.addLayer({id:"dist-line",type:"line",source:"distritos",paint:{"line-color":"#fff","line-width":.8}});
+    map.addLayer({id:"dist-sel",type:"line",source:"distritos",filter:["==",["get","distrito"],-1],paint:{"line-color":"#111","line-width":3.2}});
     map.addLayer({id:"sec-fill",type:"fill",source:"secciones",paint:{"fill-color":paletteExpression(),"fill-opacity":.82}});
     map.addLayer({id:"sec-line",type:"line",source:"secciones",paint:{"line-color":"#fff","line-width":.45}});
     map.on("click",e=>{
-      const visible=["sec-fill","dist-fill","prov-fill","ccaa-fill"].filter(id=>map.getLayoutProperty(id,"visibility")!=="none");
+      const visible=["dist-fill","prov-fill","ccaa-fill"].filter(id=>map.getLayoutProperty(id,"visibility")!=="none");
       const hits=map.queryRenderedFeatures(e.point,{layers:visible});
-      if(!hits.length)return;
+      if(!hits.length){closePopup();return;}
       const f=hits[0],p=f.properties;
-      if(f.layer.id==="sec-fill"){S.unit={kind:"seccion",properties:p};S.selected=p.s;renderDetail();return;}
       if(f.layer.id==="dist-fill"){
         if(p.province)S.province=p.province;
         S.unit={kind:"distrito",properties:p};S.selected=p.distrito||p.id;
-        S.level="distrito";$("level").value="distrito";focus(f.geometry);renderDetail();return;}
+        S.level="distrito";$("level").value="distrito";selectDistrict(f,e.lngLat);renderDetail();return;}
       if(f.layer.id==="prov-fill"){openProvince(p.cod,true);return;}
       if(f.layer.id==="ccaa-fill"){S.region=regionId(p.nombre);$("election-region").value=S.region;
         S.unit={kind:"comunidad",properties:p};S.selected=p.cod;syncElection();focus(f.geometry);refresh();return;}
     });
-    map.on("zoomend",()=>{if($("auto-sections").checked&&map.getZoom()>=7.2&&S.province&&S.level!=="seccion"){S.level="seccion";$("level").value="seccion";prepareArea();}});
+    if(typeof document.addEventListener==="function")document.addEventListener("keydown",e=>{if(e.key==="Escape")closePopup();});
     document.body.dataset.ready="1";
     refresh();
   }
@@ -375,8 +423,10 @@
     if(D.regionCache.has(cacheKey))return D.regionCache.get(cacheKey);
     const items=D.products?.results||[];
     const kind=view==="electoral"?"canonical_m08":"canonical_m06";
-    let product=newest(items.filter(x=>x.territory_id===region),kind);
-    if(!product&&kind==="canonical_m08")product=newest(items.filter(x=>x.territory_id===region),"canonical_m06");
+    const aid=window.DV&&DVD.indice?(DV.entrada(DVD.indice,region)||{}).id||((DVD.indice.sin_doble_vuelta||[]).find(x=>x.clave_visor===region)||{}).id:null;
+    const mine=items.filter(x=>x.territory_id===region||(aid&&x.territory_id===aid));
+    let product=newest(mine,kind);
+    if(!product&&kind==="canonical_m08")product=newest(mine,"canonical_m06");
     if(!product)return {collection:empty(),product:null};
     const raw=await getJson("../"+product.viewer_path);
     if(raw.type!=="FeatureCollection"||!Array.isArray(raw.features))
@@ -422,13 +472,13 @@
       const t=DV.entrada(DVD.indice,region);
       if(t&&product&&String(product.run_id)!==String(t.run_m08)){DVD.fallos.set(region,"el mapa publicado (ejecución "+product.run_id+") no es el de la doble vuelta ("+t.run_m08+")");}
       else districts=await dvDecorate(districts,()=>region,f=>f.properties.dvDistrito);
-      if(!DVD.datos.has(region))faults.push("Doble vuelta no disponible en "+regionName(region)+": "+(DVD.fallos.get(region)||"sin datos")+".");
     }
     if(dvActiva()&&DVD.indice&&scope==="nacional"){
       if(districts.features.length)districts=await dvDecorate(districts,f=>f.properties.identity,f=>f.properties.distrito);
       if(sections.features.length)sections=await dvDecorate(sections,f=>provinceKey(f.properties.province),f=>f.properties.parentDistrict);
     }
     if(revision!==renderRevision)return;
+    shownDistricts=districts;
     installSource("distritos",districts);
     installSource("secciones",sections);
     document.body.dataset.distritos=String(districts.features.length);document.body.dataset.secciones=String(sections.features.length);
@@ -492,11 +542,8 @@
     if(dvActiva()){
       const c=bloques();
       legend("<h3>Doble vuelta · "+esc(regla().texto)+"</h3>"+(dv?"<ul>"+[["izq","Izquierdas"],["nac","Nacionalistas"],["pat","Patriotas"],["sin","Sin bloque"]].map(([k,n])=>"<li><i style='background:"+c[k]+"'></i>"+n+"</li>").join("")+
-        "<li><i style='background:#a8bac7'></i>Sin dato</li></ul><small>Color pleno: ventaja de 5 puntos o más sobre el otro finalista; claro: ventaja menor. Los empates se indican en la ficha.</small>":
-        "<small>"+esc(DVD.error||(S.scope==="autonomico"?(S.region?"Doble vuelta no disponible en "+regionName(S.region)+(DVD.fallos.get(S.region)?": "+DVD.fallos.get(S.region):"")+".":"Elige una comunidad."):"Doble vuelta solo para las generales de 2023 en el Congreso."))+"</small>")+"<small><b>Simulación sin valor oficial.</b></small>");
+        "<li><i style='background:#a8bac7'></i>Sin dato</li></ul><small>La ventaja ajustada (menos de 5 puntos sobre el otro finalista) y los empates se indican en el texto de la ficha.</small>":""));
     }
-    $("dv-aviso").hidden=!dvActiva();
-    if(dvActiva()&&DVD.error)note(DVD.error);
     if(showS)legend($("legend").innerHTML+"<small><b>Importante:</b> la geometría es de la sección censal INE; el color electoral, cuando exista, es heredado del distrito DDD, no de un escrutinio propio de la sección.</small>");
     const caption=S.scope==="nacional"?
       (S.view==="territorial"?"Geometrías territoriales DDD / INE":
@@ -581,7 +628,7 @@
     rows.push(["Padrón"+(ft.population_year?" "+ft.population_year:""),pad?link((pad.proveedor||"Fuente oficial"),pad.url):"No consta"]);
     const sec=fo.secciones_censales;
     rows.push(["Seccionado"+(ft.section_year?" "+ft.section_year:""),sec?link((sec.proveedor||"Fuente oficial"),sec.url):"No consta"]);
-    rows.push(["Resultados "+(elDate?elDate.slice(0,4):""),res?link(res.proveedor||"Fuente oficial",res.url):"No consta en el catálogo"]);
+    rows.push(["Resultados "+(elDate?elDate.slice(0,4):""),res?link(String(res.proveedor||"Fuente oficial").replace(/:\s*copia archivada.*$/i,""),res.url):"No consta en el catálogo"]);
     rows.push(["Huella sha256",prod.sha256?String(prod.sha256).slice(0,12)+"…":"No consta"]);
     rows.push(["Motor Deslinde (versión actual)",cat.motor?.nombre?cat.motor.nombre+(cat.motor.version?" "+cat.motor.version:"")+" (no necesariamente la de este mapa)":"No consta"]);
     rows.push(["Elección",elDate?elDate+(prod.eleccion_declarada===false?" (por defecto)":""):"No consta"]);
@@ -597,41 +644,24 @@
       "España › "+(selectedProvince()?.properties.nombre||"") +" › distrito "+obj.d+" › CUSEC "+obj.s:
       kind==="distrito"?"España › "+(selectedProvince()?.properties.nombre||"") +" › "+name:
       kind==="provincia"?"España › "+name:"Selección territorial actual";
-    $("ddd-count").textContent=S.scope==="nacional"?"407":(SEATS[S.region]??"—");
-    $("current-count").textContent=S.scope==="nacional"?"350":(SEATS[S.region]??"—");
-    $("ddd-label").textContent=S.scope==="nacional"?"Propuesta DDD":"DDD mayoritario";
-    $("current-label").textContent=S.scope==="nacional"?"Congreso actual":"Parlamento autonómico";
-    $("ddd-unit").textContent=S.scope==="nacional"?"distritos nacionales":
-      (S.region?"distritos previstos":"elige una comunidad");
-    $("current-unit").textContent=S.scope==="nacional"?"escaños":
-      (S.region?"escaños actuales":"elige un parlamento");
     const records=[];
     if(kind==="provincia"){
-      const pr=selectedProvince()?.properties||obj,ent=getProvinceEntry(selectedProvince());
-      records.push(["Escaños proporcionales 2023",fmt(pr.escanos)],["Distritos propuestos DDD",fmt(pr.k407)]);
-      if(validElection())records.push(["Ganador provincial, 2023",pr.ganador||"—"],["Porcentaje del ganador",pct(pr.pct)]);
-      else records.push(["Resultados de "+S.election,"Sin capa electoral certificada para esta fecha"]);
-      if(ent)records.push(["Producto territorial",ent.data.run_id||"—"]);
+      const pr=selectedProvince()?.properties||obj;
+      records.push(...(S.scope==="nacional"?territorioCifras("provincia",pr):[["Escaños proporcionales 2023",fmt(pr.escanos)],["Distritos propuestos DDD",fmt(pr.k407)]]));
+      if(!validElection())records.push(["Resultados de "+S.election,"Sin capa electoral certificada para esta fecha"]);
     }else if(kind==="distrito"){
-      records.push(["Población",fmt(obj.population)],
-        ["Partido ganador del distrito",S.scope==="nacional"&&validElection()&&S.view==="electoral"?
-          (obj.ganador||"Sin datos electorales"):"No disponible para la elección/vista"],
-        ["Secciones",fmt(obj.sections)],["Identificador",obj.distrito],["Ejecución",obj.run_id||"—"]);
-    }else if(kind==="seccion"){
-      records.push(["CUSEC",obj.s],["Municipio",obj.m||"—"],["Población de sección",fmt(obj.p)],
-        ["Distrito DDD",fmt(obj.d)],["Ganador del distrito 2023",S.scope==="nacional"&&validElection()&&S.system==="mayoritario"?(obj.winnerOfDistrict||"—"):"No disponible como resultado de sección"]);
+      records.push(...distritoCifras(obj));
     }else if(kind==="comunidad"){
       records.push(["Territorio",obj.nombre],["Modelo consultado",S.system==="mayoritario"?"Distritos uninominales":"Proporcional"]);
-    }else records.push(["Ámbito",S.scope==="nacional"?"Congreso":"Parlamentos autonómicos"],["Sistema",S.system==="mayoritario"?"Mayoritario DDD":"Proporcional actual"],["Vista",S.view]);
+    }else if(S.scope==="nacional")records.push(...territorioCifras("pais"));
+    else records.push(["Ámbito","Parlamentos autonómicos"],["Escaños actuales",SEATS[S.region]??"—"],["Sistema",S.system==="mayoritario"?"Mayoritario DDD":"Proporcional actual"],["Vista",S.view]);
     $("context").innerHTML="<dl>"+records.map(([a,b])=>"<div><dt>"+esc(a)+"</dt><dd>"+esc(b)+"</dd></div>").join("")+"</dl>";
-    const source=kind==="seccion"?"INE · seccionado 2025 / composición DDD (no resultado de mesa)":
-      kind==="distrito"?"Producto certificado P26 publicado; resultado P32 solo para elección acreditada · "+(obj.run_id||"sin identidad de producto"):
+    const source=kind==="distrito"?"Producto certificado P26 publicado; resultado P32 solo para elección acreditada · "+(obj.run_id||"sin identidad de producto"):
       kind==="provincia"?(validElection()?"Resultados oficiales generales 2023 / catálogo DDD":"Cartografía DDD · capa electoral histórica no disponible"):
         "Productos del registro durable de DDD";
     $("source-label").textContent=source;
-    if(window.DDDGaleria)window.DDDGaleria.render(kind,obj,selectedProvince()?.properties||null);
     let content="";
-    if(S.panel==="territorio")content="<p class='small-note'>Selecciona cualquier territorio en el mapa. El zoom abre distritos y, donde existen, secciones censales con su geometría real.</p>";
+    if(S.panel==="territorio")content="<p class='small-note'>Selecciona cualquier territorio en el mapa. Al pulsar un distrito se abre su ventana con población, votos y bloque ganador.</p>";
     if(S.panel==="resultados"){
       const data=kind==="provincia"&&validElection()&&S.scope==="nacional"?selectedProvince()?.properties.esc:null;
       const winner=kind==="distrito"&&S.scope==="nacional"&&S.view==="electoral"&&validElection()&&obj.ganador?obj.ganador:null;
@@ -650,11 +680,13 @@
     const dvBox=$("dv-mode"),dvDist=aut?(kind==="distrito"?obj.dvDistrito:null):kind==="distrito"?obj.distrito:kind==="seccion"?(obj.parentDistrict??obj.d):null;
     const dvKey=aut?S.region:kind==="distrito"?(obj.identity||provinceKey(obj.province)):kind==="seccion"?provinceKey(obj.province):"";
     dvBox.hidden=!(dvActiva()&&dvDist!=null&&(S.scope==="nacional"||(aut&&!!S.region)));
+    const dvHtml=dvBox.hidden?"":dvFicha(dvKey,dvDist);
+    if(!dvHtml)dvBox.hidden=true;
     if(!dvBox.hidden){
       $("dv-heading").textContent="Doble vuelta · distrito "+dvDist+" · "+regla().texto;
       const te=aut&&DVD.indice?DV.entrada(DVD.indice,dvKey):null;
       $("dv-content").innerHTML=(te?"<p class='small-note'>Elecciones autonómicas de "+esc(te.eleccion.split("-").reverse().join("/"))+
-        (te.nivel==="municipio"?" · votos por municipio repartidos a sus secciones según la población":te.aproximado_en_distrito?" · algunas secciones nuevas se asignan al distrito más cercano":"")+"</p>":"")+dvFicha(dvKey,dvDist);
+        (te.nivel==="municipio"?" · votos por municipio repartidos a sus secciones según la población":te.aproximado_en_distrito?" · algunas secciones nuevas se asignan al distrito más cercano":"")+"</p>":"")+dvHtml;
       $("dv-content").querySelectorAll?.(".chip").forEach(b=>{b.onclick=()=>setRegla(b.dataset.regla);});
     }else $("dv-content").innerHTML="";
     renderTable();
@@ -680,7 +712,7 @@
   function syncLevels(){
     const auto=S.scope==="autonomico";
     for(const option of $("level").options||[]){
-      const unavailable=auto&&["provincia","municipio","seccion"].includes(option.value);
+      const unavailable=auto&&option.value==="provincia";
       option.disabled=unavailable;
       if(unavailable)option.title="Capa autonómica a este nivel todavía no publicada";
       else option.removeAttribute?.("title");
@@ -689,8 +721,8 @@
       S.level="comunidad";$("level").value=S.level;
     }
     $("tools-note").textContent=auto?
-      "Ámbito autonómico: distritos certificados (P26) publicados; las capas autonómicas de municipios y secciones censales aún no están materializadas. No se sustituyen por secciones del Congreso.":
-      "Las secciones censales disponibles conservan la geometría INE; su color electoral se hereda del ganador de su distrito DDD.";
+      "Ámbito autonómico: distritos certificados (P26) publicados; la capa autonómica provincial aún no está publicada.":
+      "El color de cada distrito es el del bloque que gana con la regla elegida; la ventaja ajustada se indica solo en el texto.";
   }
   function refresh(){
     if(!bootstrap)return;renderTimeline();
@@ -708,14 +740,6 @@
     const c=D.communities.features.find(x=>normal(x.properties.nombre).includes(norm));
     if(c){S.scope="autonomico";S.region=regionId(c.properties.nombre);updateSegments("scope",S.scope);
       S.unit={kind:"comunidad",properties:c.properties};syncElection();refresh();focus(c.geometry);return;}
-    if(/^\d{10}$/.test(q)&&D.sectionsIndex?.provincias?.[q.slice(0,2)]){
-      S.scope="nacional";S.level="seccion";S.province=q.slice(0,2);
-      updateSegments("scope",S.scope);$("level").value="seccion";
-      prepareArea().then(()=>{let f=D.sectionCache.get(S.province)?.features.find(x=>x.properties.s===q);
-        if(f){focus(f.geometry);S.unit={kind:"seccion",properties:f.properties};renderDetail();}
-        else note("La sección "+q+" no está en el producto INE publicado.");});
-      return;
-    }
     note("No se encontró ese territorio en los productos disponibles.");
   }
   function controls(){
@@ -748,7 +772,7 @@
       if(community)focus(community.geometry);
     };
     $("search").addEventListener("keydown",e=>{if(e.key==="Enter")search(e.target.value);});
-    ["boundaries","labels","auto-sections"].forEach(id=>$(id).onchange=()=>paint());
+    ["boundaries","labels"].forEach(id=>$(id).onchange=()=>paint());
     document.querySelectorAll("[data-panel]").forEach(b=>b.onclick=()=>{
       S.panel=b.dataset.panel;document.querySelectorAll("[data-panel]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));renderDetail();
     });
