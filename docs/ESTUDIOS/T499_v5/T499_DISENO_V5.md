@@ -1,9 +1,10 @@
 # T-499 · Diseño al detalle de la V5: situación actual, un punto por diputado
 
-VERSIÓN: 1.0.0 · FECHA: 2026-11-25 · ESTADO: PROPUESTA (pendiente de aprobación del propietario)
-CAMBIOS: 1.0.0: fichero nuevo.
+VERSIÓN: 1.0.1 · FECHA: 2026-11-25 · ESTADO: APROBADO por el propietario (25-11), todo como se recomienda
+CAMBIOS 1.0.1: anotada la aprobación de las 7 preguntas de §6; sin cambios de diseño.
+CAMBIOS 1.0.0: fichero nuevo.
 MOTIVO: encargo del propietario (25-11): vista de situación actual del Congreso 2023 por provincia con un punto por diputado.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: 1.0.0 en el commit 15b126a de esta misma PR (documento sin fusionar; sin copia en `legacy/`)
 
 Solo diseño; ningún cambio de código de producto. Parte del diseño aprobado de la V4 (`../T458_mapa_v4/T458_DISENO_MAPA_V4.md`) y de
 su implementación (PR #1014, T-459): misma paleta de partidos, opacidad 0,88, borde blanco 0,8-1 px, fondo `#eef3f7`, sin aclarados
@@ -115,6 +116,8 @@ Pares cercanos: PNV/EH Bildu (comparten Vizcaya y Guipúzcoa) y BNG sobre provin
   `limpiar_pruebas` borra la carpeta de la rama.
 
 ## 6. Preguntas
+
+**Aprobadas por el propietario (25-11), todas como se recomienda.** La implementación la asigna el Planificador.
 
 1. **Madrid, Barcelona y Valencia:** ¿racimo compacto con placa (Madrid desborda, Barcelona al mar con línea guía, Valencia dentro)?
    Recomendación: sí; al acercar, dentro y sin placa cuando quepan.
