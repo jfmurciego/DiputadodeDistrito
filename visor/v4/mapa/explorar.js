@@ -1,11 +1,15 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: visor V4 · Explorar (V3 completa + doble vuelta)
- * VERSIÓN: 1.4.0
+ * VERSIÓN: 1.5.0
  * FECHA: 2026-11-25
  * ESTADO: candidato
- * CAMBIOS: 1.4.0 (T-459, diseño T-458 1.4.1 §1.3.0/1.4.0): colores fijos por bloque (#d32b2b, #1d6fb8, #0f7a52, #5b6470) en los dos temas, sin aclarado (la ventaja ajustada
+ * ANTERIOR: legacy/visor/v4/mapa/explorar_v1.4.0_20261124.js
+ * CAMBIOS: 1.5.0 (T-459, diseño T-458 1.4.1 §1.3.0/1.4.0): colores fijos por bloque (#d32b2b, #1d6fb8, #0f7a52, #5b6470) en los dos temas, sin aclarado (la ventaja ajustada
  *   solo en el texto); panel con cifras de lo seleccionado arriba y sin foto/«407 / 350»; clic en distrito = resaltado + ventana (población, votos, bloque ganador y %) sin zoom;
- *   fuera nivel sección/municipio, zoom a secciones y búsqueda por CUSEC. ANTERIOR: legacy/visor/v4/mapa/explorar_v1.3.0_20261122.js
+ *   fuera nivel sección/municipio, zoom a secciones y búsqueda por CUSEC.
+ *   1.4.0 (T-456): el producto autonómico se busca con la clave del visor y con el id autNN del índice (toma el más reciente; antes un M08 publicado
+ *   solo bajo autNN no casaba con el run del índice y la doble vuelta caía); fuera los carteles «Doble vuelta no disponible», «Simulación sin valor oficial»,
+ *   el rótulo del mapa (map-tag) y el «fuente no oficial / copia archivada» de la fila Resultados de Procedencia (el dato sigue en el calendario).
  *   1.3.0 (T-430, D-186/D-188/D-194, paso 1 de REDISENO_R2 §9): origen de los datos configurable en `mapa/datos.json`. Con
  *   `actual` vacío o sin el fichero, todo igual que en 1.2.1 (rutas relativas del sitio). Con `actual` = dirección de `web/actual/actual.json`
  *   (datos.diputadodedistrito.es), cada dato se pide en `web/actual/<ruta de hoy en el sitio>` y se comprueba su sha256 contra el índice;
@@ -206,7 +210,7 @@
   function provinceKey(cod){return getProvinceEntry(provinceByCode(cod))?.key||"";}
   function dvFicha(key,d){
     const x=DVD.datos.get(key),f=x?DV.ficha(String(d),regla().id,x):null;
-    if(!f)return "<p class='small-note'>"+esc(DVD.indice?(DVD.fallos.get(key)?"Doble vuelta no disponible para este territorio: "+DVD.fallos.get(key)+".":"Sin datos de doble vuelta para este distrito."):DVD.error)+"</p>";
+    if(!f)return "";
     const sw=b=>"<span class='sw "+DV.claseBloque(b)+"' aria-hidden='true'></span>";
     const aj=f.segunda&&Math.abs(f.segunda.a.votos-f.segunda.b.votos)/((f.segunda.a.votos+f.segunda.b.votos)||1)<.05;
     let h="<p class='dv-titular'>"+esc(f.titular)+"</p>"+(aj?"<p class='dv-empate'>Ventaja ajustada: menos de 5 puntos sobre el otro finalista.</p>":"")+"<h3>1.ª vuelta</h3><p class='small-note'>"+esc(f.nota1)+"</p>"+
@@ -220,7 +224,7 @@
     if(f.avisoEmpate)h+="<p class='dv-empate'>"+esc(f.avisoEmpate)+"</p>";
     h+="<h3>Con otra regla</h3><p class='dv-comp'>"+DV.comparacion(String(d),x).map(c=>"<button type='button' class='chip' data-regla='"+esc(c.id)+"' aria-pressed='"+(c.id===regla().id)+"'>"+sw(c.bloque)+esc(c.texto)+" → "+esc(c.ganador)+"</button>").join(" ")+"</p>";
     h+="<p class='small-note dv-hipotesis'>El trasvase de votos entre partidos del mismo bloque es una hipótesis de simulación, no un comportamiento observado.</p>";
-    return h+"<p class='dv-aviso-ficha'><strong>Simulación sin valor oficial.</strong></p>";
+    return h;
   }
   function setRegla(id){
     if(!REGLAS.some(r=>r.id===id))return;
@@ -419,8 +423,10 @@
     if(D.regionCache.has(cacheKey))return D.regionCache.get(cacheKey);
     const items=D.products?.results||[];
     const kind=view==="electoral"?"canonical_m08":"canonical_m06";
-    let product=newest(items.filter(x=>x.territory_id===region),kind);
-    if(!product&&kind==="canonical_m08")product=newest(items.filter(x=>x.territory_id===region),"canonical_m06");
+    const aid=window.DV&&DVD.indice?(DV.entrada(DVD.indice,region)||{}).id||((DVD.indice.sin_doble_vuelta||[]).find(x=>x.clave_visor===region)||{}).id:null;
+    const mine=items.filter(x=>x.territory_id===region||(aid&&x.territory_id===aid));
+    let product=newest(mine,kind);
+    if(!product&&kind==="canonical_m08")product=newest(mine,"canonical_m06");
     if(!product)return {collection:empty(),product:null};
     const raw=await getJson("../"+product.viewer_path);
     if(raw.type!=="FeatureCollection"||!Array.isArray(raw.features))
@@ -466,7 +472,6 @@
       const t=DV.entrada(DVD.indice,region);
       if(t&&product&&String(product.run_id)!==String(t.run_m08)){DVD.fallos.set(region,"el mapa publicado (ejecución "+product.run_id+") no es el de la doble vuelta ("+t.run_m08+")");}
       else districts=await dvDecorate(districts,()=>region,f=>f.properties.dvDistrito);
-      if(!DVD.datos.has(region))faults.push("Doble vuelta no disponible en "+regionName(region)+": "+(DVD.fallos.get(region)||"sin datos")+".");
     }
     if(dvActiva()&&DVD.indice&&scope==="nacional"){
       if(districts.features.length)districts=await dvDecorate(districts,f=>f.properties.identity,f=>f.properties.distrito);
@@ -537,11 +542,8 @@
     if(dvActiva()){
       const c=bloques();
       legend("<h3>Doble vuelta · "+esc(regla().texto)+"</h3>"+(dv?"<ul>"+[["izq","Izquierdas"],["nac","Nacionalistas"],["pat","Patriotas"],["sin","Sin bloque"]].map(([k,n])=>"<li><i style='background:"+c[k]+"'></i>"+n+"</li>").join("")+
-        "<li><i style='background:#a8bac7'></i>Sin dato</li></ul><small>La ventaja ajustada (menos de 5 puntos sobre el otro finalista) y los empates se indican en el texto de la ficha.</small>":
-        "<small>"+esc(DVD.error||(S.scope==="autonomico"?(S.region?"Doble vuelta no disponible en "+regionName(S.region)+(DVD.fallos.get(S.region)?": "+DVD.fallos.get(S.region):"")+".":"Elige una comunidad."):"Doble vuelta solo para las generales de 2023 en el Congreso."))+"</small>")+"<small><b>Simulación sin valor oficial.</b></small>");
+        "<li><i style='background:#a8bac7'></i>Sin dato</li></ul><small>La ventaja ajustada (menos de 5 puntos sobre el otro finalista) y los empates se indican en el texto de la ficha.</small>":""));
     }
-    $("dv-aviso").hidden=!dvActiva();
-    if(dvActiva()&&DVD.error)note(DVD.error);
     if(showS)legend($("legend").innerHTML+"<small><b>Importante:</b> la geometría es de la sección censal INE; el color electoral, cuando exista, es heredado del distrito DDD, no de un escrutinio propio de la sección.</small>");
     const caption=S.scope==="nacional"?
       (S.view==="territorial"?"Geometrías territoriales DDD / INE":
@@ -626,7 +628,7 @@
     rows.push(["Padrón"+(ft.population_year?" "+ft.population_year:""),pad?link((pad.proveedor||"Fuente oficial"),pad.url):"No consta"]);
     const sec=fo.secciones_censales;
     rows.push(["Seccionado"+(ft.section_year?" "+ft.section_year:""),sec?link((sec.proveedor||"Fuente oficial"),sec.url):"No consta"]);
-    rows.push(["Resultados "+(elDate?elDate.slice(0,4):""),res?link(res.proveedor||"Fuente oficial",res.url):"No consta en el catálogo"]);
+    rows.push(["Resultados "+(elDate?elDate.slice(0,4):""),res?link(String(res.proveedor||"Fuente oficial").replace(/:\s*copia archivada.*$/i,""),res.url):"No consta en el catálogo"]);
     rows.push(["Huella sha256",prod.sha256?String(prod.sha256).slice(0,12)+"…":"No consta"]);
     rows.push(["Motor Deslinde (versión actual)",cat.motor?.nombre?cat.motor.nombre+(cat.motor.version?" "+cat.motor.version:"")+" (no necesariamente la de este mapa)":"No consta"]);
     rows.push(["Elección",elDate?elDate+(prod.eleccion_declarada===false?" (por defecto)":""):"No consta"]);
@@ -678,11 +680,13 @@
     const dvBox=$("dv-mode"),dvDist=aut?(kind==="distrito"?obj.dvDistrito:null):kind==="distrito"?obj.distrito:kind==="seccion"?(obj.parentDistrict??obj.d):null;
     const dvKey=aut?S.region:kind==="distrito"?(obj.identity||provinceKey(obj.province)):kind==="seccion"?provinceKey(obj.province):"";
     dvBox.hidden=!(dvActiva()&&dvDist!=null&&(S.scope==="nacional"||(aut&&!!S.region)));
+    const dvHtml=dvBox.hidden?"":dvFicha(dvKey,dvDist);
+    if(!dvHtml)dvBox.hidden=true;
     if(!dvBox.hidden){
       $("dv-heading").textContent="Doble vuelta · distrito "+dvDist+" · "+regla().texto;
       const te=aut&&DVD.indice?DV.entrada(DVD.indice,dvKey):null;
       $("dv-content").innerHTML=(te?"<p class='small-note'>Elecciones autonómicas de "+esc(te.eleccion.split("-").reverse().join("/"))+
-        (te.nivel==="municipio"?" · votos por municipio repartidos a sus secciones según la población":te.aproximado_en_distrito?" · algunas secciones nuevas se asignan al distrito más cercano":"")+"</p>":"")+dvFicha(dvKey,dvDist);
+        (te.nivel==="municipio"?" · votos por municipio repartidos a sus secciones según la población":te.aproximado_en_distrito?" · algunas secciones nuevas se asignan al distrito más cercano":"")+"</p>":"")+dvHtml;
       $("dv-content").querySelectorAll?.(".chip").forEach(b=>{b.onclick=()=>setRegla(b.dataset.regla);});
     }else $("dv-content").innerHTML="";
     renderTable();

@@ -1,10 +1,11 @@
 """V4 · Explorar (T-423): la V3 completa dentro de la V4 con la capa «Doble vuelta».
 
-VERSIÓN: 2.0.0 · FECHA: 2026-11-19 · ESTADO: candidato
-CAMBIOS: 2.0.0 (T-423): el mapa simple de T-413 (SVG, un territorio cada vez) se retira; se prueba que la V4 contiene todas las capas,
+VERSIÓN: 2.1.0 · FECHA: 2026-11-24 · ESTADO: candidato
+CAMBIOS: 2.1.0 (T-456): el aviso «Simulación sin valor oficial» ya no está en el HTML (se comprueba que no vuelve).
+  2.0.0 (T-423): el mapa simple de T-413 (SVG, un territorio cada vez) se retira; se prueba que la V4 contiene todas las capas,
   niveles, controles y paneles de la V3 (incluida la sección censal), que la capa de doble vuelta cubre los 52 nac (prueba JS), que la V3
   publicada no cambia (sha256 literales de main) y que los datos de ejemplo siguen saliendo igual de la herramienta.
-ANTERIOR: legacy/visor/v4/mapa_simple_t413_20261119/ (código retirado); 1.0.0 en el historial de git.
+ANTERIOR: legacy/tests/test_visor_v4_mapa_v2.0.0_20261119.py; 1.0.0 en el historial de git.
 """
 import json
 import hashlib, re, shutil, subprocess, sys, tempfile, unittest
@@ -119,7 +120,7 @@ class CapaDobleVuelta(unittest.TestCase):
         self.assertEqual(re.findall(r">([^<]+)</button>", reglas), ["Tres bloques", "Dos bloques", "Sin coaliciones", "Mayoría simple en el distrito"])
         self.assertEqual(re.findall(r'data-value="(\w+)"', reglas), ["tres", "dos", "base", "primero"])
         self.assertIn('<option value="doblevuelta" selected>', h)
-        self.assertIn("Simulación sin valor oficial.", h)
+        self.assertNotIn("Simulación sin valor oficial.", h)
         self.assertIn('dv:"datos/"', js)  # lo que deja herramientas/publicar_doble_vuelta.py en v4/mapa/datos/ (P40)
         self.assertIn("crypto", js)
         self.assertIn("subtle.digest", js)  # verifica el sha256 antes de mostrar nada

@@ -1,0 +1,137 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.1.2
+# CAMBIOS 1.1.2: T-397b (D-159), solo el nombre visible: «_P90 Automático — Revisor de PR» (antes «P90 Automático — Revisor de PR»; sin botón, al final de la lista de Actions). Disparadores, jobs, permisos e `if` intactos; nadie lo busca por nombre.
+# ANTERIOR: legacy/workflows/revisor-pr_v1.1.1_20261117.yml
+# CAMBIOS 1.1.1: T-397 (D-155), solo el nombre visible: «P90 Automático — Revisor de PR» (antes «Revisor de PR»). El check `veredicto` (ruleset
+#   proteger-main) es el del job, no cambia; jobs, disparadores y permisos intactos.
+# CAMBIOS 1.1.0: T-293, ahorro de cuota; autorizado por el propietario (solo disparadores; fallo cerrado y permisos intactos).
+#   El revisor solo corre con la etiqueta `revisar-ia` en la PR (a demanda = ponerla; al ponerla, evento `labeled`).
+#   Ya no en cada push, ni en borrador, ni en PR de robots (autor Bot). El workflow sigue disparándose en los mismos
+#   eventos (+ labeled) pero el `if` de `comprobar` los salta: revisar y veredicto quedan «skipped» (cero minutos) y el
+#   check `veredicto`, exigido por el ruleset proteger-main, cuenta como cumplido en cada HEAD (quitar synchronize lo
+#   dejaría pendiente). La concurrencia ya no cancela (cola `queue: max`, exigida por test_operational_concurrency): un push o una etiqueta ajena no matan una revisión en curso.
+# CAMBIOS 1.0.2: T-149, solo el nombre visible («Revisor de PR», sin «_Interno — »). Jobs y check `veredicto` intactos.
+# CAMBIOS 1.0.1: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
+# NOMBRE DE VERSIÓN: Revisor independiente en cada PR
+# FECHA: 2026-11-17
+# ESTADO: candidato
+# QUÉ HACE: en cada PR (no borrador, de este repositorio) ejecuta el subagente revisor (.claude/agents/revisor.md,
+#   Sonnet, solo lectura) con anthropics/claude-code-action y deja su veredicto JSON, ligado al SHA del HEAD, en un
+#   comentario fijo de la PR y en el resumen del job. El job «veredicto» falla si el revisor da FAIL (no es un check
+#   obligatorio: el ruleset solo exige `pruebas`). Sin el secreto CLAUDE_CODE_OAUTH_TOKEN se salta limpiamente.
+# CAMBIOS: versión inicial (T-48).
+# MOTIVO: §12 del framework de agentes: revisión independiente sistemática; calibración en evals/oro (T-39).
+# ANTERIOR: ninguna (fichero nuevo)
+name: _P90 Automático — Revisor de PR
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, labeled]
+permissions:
+  contents: read
+concurrency:
+  group: ddd-revisor-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+  queue: max
+jobs:
+  comprobar:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    if: >-
+      contains(github.event.pull_request.labels.*.name, 'revisar-ia') &&
+      (github.event.action != 'labeled' || github.event.label.name == 'revisar-ia') &&
+      github.event.pull_request.draft == false &&
+      github.event.pull_request.user.type != 'Bot'
+    outputs:
+      listo: ${{ steps.c.outputs.listo }}
+    steps:
+      - id: c
+        shell: bash
+        env:
+          TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          DRAFT: ${{ github.event.pull_request.draft }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${TOKEN:-}" ]]; then echo "::notice::Sin CLAUDE_CODE_OAUTH_TOKEN: revisor omitido."; echo "listo=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+          if [[ "$DRAFT" == "true" || "$HEAD_REPO" != "$GITHUB_REPOSITORY" ]]; then echo "::notice::PR en borrador o de un fork: revisor omitido."; echo "listo=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+          echo "listo=true" >> "$GITHUB_OUTPUT"
+
+  revisar:
+    needs: comprobar
+    if: needs.comprobar.outputs.listo == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      veredicto: ${{ steps.revisor.outputs.structured_output }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+      - id: revisor
+        uses: anthropics/claude-code-action@c84e279f859e2591391e95bd309286eb111c345f # v1
+        env:
+          GH_TOKEN: ${{ github.token }}
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ github.token }}
+          prompt: |
+            Actúa como el subagente definido en .claude/agents/revisor.md (léelo primero) y revisa la PR
+            #${{ github.event.pull_request.number }} de ${{ github.repository }}.
+            HEAD: ${{ github.event.pull_request.head.sha }} · base: ${{ github.event.pull_request.base.sha }}.
+            Diff: `gh pr diff ${{ github.event.pull_request.number }}` o `git diff <base>...<HEAD>`.
+            Solo lectura: no edites, no hagas commit ni push, no comentes en GitHub. La CI corre en paralelo:
+            no esperes a ella ni bloquees por ella (ci = "no_aplica"); juzga el diff con CLAUDE.md y .claude/rules/.
+            Devuelve el JSON de la definición; "caso" = "PR-${{ github.event.pull_request.number }}" y "sha" = el HEAD.
+          claude_args: |
+            --model sonnet
+            --max-turns 30
+            --allowedTools Read,Grep,Glob,Bash(git diff:*),Bash(git show:*),Bash(git log:*),Bash(gh pr diff:*),Bash(gh pr view:*)
+            --json-schema '{"type":"object","properties":{"caso":{"type":"string"},"sha":{"type":"string"},"veredicto":{"type":"string","enum":["PASS","PASS_WITH_EXCEPTIONS","FAIL","BLOCKED"]},"defectos":{"type":"array","items":{"type":"object","properties":{"gravedad":{"type":"string"},"clase":{"type":"string"},"fichero":{"type":"string"},"linea":{"type":"integer"},"detalle":{"type":"string"}},"required":["gravedad","clase","fichero","detalle"]}},"ci":{"type":"string"},"siguiente":{"type":"string"}},"required":["caso","sha","veredicto","defectos","siguiente"]}'
+
+  veredicto:
+    needs: revisar
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Publicar el veredicto en la PR
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VEREDICTO: ${{ needs.revisar.outputs.veredicto }}
+          PR: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          printf '%s' "$VEREDICTO" | jq -e . > veredicto.json || { echo "::error::El revisor no devolvió JSON."; exit 1; }
+          v="$(jq -r .veredicto veredicto.json)"; sha="$(jq -r .sha veredicto.json)"
+          [[ "$HEAD_SHA" == "$sha"* ]] || echo "::warning::El veredicto es de $sha y el HEAD es $HEAD_SHA: no vale para este HEAD."
+          marca="<!-- ddd-revisor -->"
+          {
+            echo "$marca"
+            echo "**Revisor (Sonnet, solo lectura)** · \`$v\` · HEAD \`${HEAD_SHA:0:10}\`"
+            echo
+            jq -r '.defectos[] | "- **\(.gravedad)** `\(.clase)` \(.fichero):\(.linea // 0) — \(.detalle)"' veredicto.json
+            echo
+            echo "Siguiente: $(jq -r .siguiente veredicto.json)"
+            echo
+            echo "<details><summary>JSON</summary>"
+            echo
+            echo '```json'
+            jq . veredicto.json
+            echo '```'
+            echo "</details>"
+          } > cuerpo.md
+          cat cuerpo.md >> "$GITHUB_STEP_SUMMARY"
+          id="$(gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" --paginate -q ".[] | select(.body | startswith(\"$marca\")) | .id" | head -1)"
+          if [[ -n "$id" ]]; then
+            gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$id" -F body=@cuerpo.md >/dev/null
+          else
+            gh api -X POST "repos/$GITHUB_REPOSITORY/issues/$PR/comments" -F body=@cuerpo.md >/dev/null
+          fi
+          if [[ "$v" == "FAIL" ]]; then echo "::error::Revisor: FAIL en ${HEAD_SHA:0:10}."; exit 1; fi

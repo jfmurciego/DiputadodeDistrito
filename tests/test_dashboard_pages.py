@@ -82,7 +82,7 @@ class DashboardPages(unittest.TestCase):
     def test_produccion_automatica_preserva_dashboard_promovido(self):
         reusable=REUSABLE.read_text(encoding="utf-8")
         self.assertIn("cp -R publicado/dashboard/. /tmp/site-candidate/dashboard/",reusable)
-        self.assertIn("with: {path: /tmp/site-candidate}",reusable)
+        self.assertIn("path: /tmp/site-candidate",reusable)  # T-454: `with:` multilínea (nombre de artefacto por intento)
         self.assertNotIn("cp dashboard/index.html",reusable)
 
     def test_promocion_dashboard_serializa_solo_la_escritura_compartida(self):
