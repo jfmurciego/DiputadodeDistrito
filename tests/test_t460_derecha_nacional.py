@@ -43,6 +43,10 @@ class DerechaNacional(unittest.TestCase):
         self.assertEqual(dv.ESCENARIOS["dv_B"], frozenset({"Izquierdas", "Derecha nacional"}))
         self.assertEqual(ba.PAT, "Derecha nacional")
 
+    def test_tabla_vieja_con_patriotas_falla_en_voz_alta(self):
+        with self.assertRaisesRegex(ValueError, "Bloque desconocido «Patriotas»"):
+            dv.cargar_tabla(CONF / PAREJAS[0][0], "2023-07")
+
     def test_tabla_nacional_vigente_no_es_la_autonomica(self):
         self.assertEqual(p75.bloques_vigente(ROOT).name, "bloques_partidos_2026-11-25.csv")
 
