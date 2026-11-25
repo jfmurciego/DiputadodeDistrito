@@ -66,7 +66,7 @@ Object.assign(fixtures, {
 
 const el = {}, group = {};
 function element(id) {
-  if (id === "level" && !el[id]) el[id] = { id, value: "provincia", options: ["comunidad", "provincia", "distrito", "municipio", "seccion"].map(value => ({ value, disabled: false, removeAttribute(k) { delete this[k]; } })) };
+  if (id === "level" && !el[id]) el[id] = { id, value: "provincia", options: ["comunidad", "provincia", "distrito"].map(value => ({ value, disabled: false, removeAttribute(k) { delete this[k]; } })) };
   return el[id] || (el[id] = { id, value: "", hidden: false, checked: true, innerHTML: "", textContent: "", dataset: {}, style: {},
     setAttribute(k, v) { this[k] = v; }, addEventListener(k, fn) { this[k] = fn; }, replaceChildren(...c) { this.children = c; },
     appendChild(c) { (this.children ??= []).push(c); return c; }, querySelectorAll() { return []; } });
@@ -76,16 +76,17 @@ for (const [id, opts] of [["scope", ["nacional", "autonomico"]], ["system", ["pr
 group["[data-panel]"] = ["territorio", "resultados", "comparar", "evolucion"].map(panel => ({ dataset: { panel }, setAttribute(k, v) { this[k] = v; } }));
 const doc = { getElementById: element, querySelectorAll: q => group[q] || [], createElement: tag => ({ tag, textContent: "", setAttribute(k, v) { this[k] = v; } }),
   body: { dataset: {} }, documentElement: {} };
-let map;
+let map; const popups = [];
+class Popup { constructor(o) { this.o = o; popups.push(this); } setLngLat(l) { this.l = l; return this; } setHTML(h) { this.html = h; return this; } addTo() { return this; } on() {} remove() { this.removed = true; } }
 class FakeMap {
-  constructor() { this.sources = new Map(); this.layers = new Map(); this.handlers = {}; this.hit = []; map = this; queueMicrotask(() => this.handlers.load?.()); }
+  constructor() { this.sources = new Map(); this.layers = new Map(); this.handlers = {}; this.hit = []; this.fitted = 0; map = this; queueMicrotask(() => this.handlers.load?.()); }
   addControl() {} on(ev, ...a) { this.handlers[ev] = a.at(-1); }
   addSource(id, s) { this.sources.set(id, { data: s.data, setData(n) { this.data = n; } }); } getSource(id) { return this.sources.get(id); }
   addLayer(l) { this.layers.set(l.id, { ...l, layout: { visibility: "visible", ...l.layout }, paint: { ...l.paint } }); } getLayer(id) { return this.layers.get(id); }
   getLayoutProperty(id, k) { return this.layers.get(id).layout[k]; } setLayoutProperty(id, k, v) { this.layers.get(id).layout[k] = v; }
-  setPaintProperty(id, k, v) { this.layers.get(id).paint[k] = v; } fitBounds() {} getZoom() { return 5; } queryRenderedFeatures() { return this.hit; }
+  setPaintProperty(id, k, v) { this.layers.get(id).paint[k] = v; } fitBounds() { this.fitted++; } getZoom() { return 5; } setFilter(id, f) { this.layers.get(id).filter = f; } queryRenderedFeatures() { return this.hit; }
 }
-const libre = { Map: FakeMap, NavigationControl: class {} };
+const libre = { Map: FakeMap, NavigationControl: class {}, Popup };
 const ab = b => b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength);
 const sandbox = { document: doc, maplibregl: libre, console, location: { search: "" }, history: { replaceState() {} }, TextDecoder, crypto: crypto.webcrypto,
   getComputedStyle: () => ({ getPropertyValue: () => "" }),
@@ -119,7 +120,10 @@ const flush = async () => { for (let i = 0; i < 60; i++) await new Promise(r => 
   // 3. Coloreado por bloque con la regla elegida; aviso fijo visible.
   const fill = () => map.getLayer("dist-fill").paint["fill-color"];
   eq(fill().slice(0, 2), ["match", ["coalesce", ["get", "dv_tres"], "nodato"]]);
-  assert.equal(fill()[fill().indexOf("izq") + 1], "#b3261e"); assert.equal(fill()[fill().indexOf("pat") + 1], "#1f5fa8");
+  assert.equal(fill()[fill().indexOf("izq") + 1], "#d32b2b"); assert.equal(fill()[fill().indexOf("pat") + 1], "#1d6fb8");
+  // T-459: sin aclarado; la variante «-claro» (ventaja < 5 puntos) lleva el mismo color pleno que su bloque.
+  assert.equal(fill()[fill().indexOf("izq-claro") + 1], "#d32b2b"); assert.equal(fill()[fill().indexOf("pat-claro") + 1], "#1d6fb8");
+  assert.equal(fill()[fill().indexOf("nac") + 1], "#0f7a52"); assert.equal(fill()[fill().indexOf("sin") + 1], "#5b6470");
   assert.equal(element("dv-aviso").hidden, false);
   assert.match(element("legend").innerHTML, /Simulación sin valor oficial/);
   assert.match(element("map-caption").textContent, /Doble vuelta · Tres bloques/);
@@ -129,9 +133,13 @@ const flush = async () => { for (let i = 0; i < 60; i++) await new Promise(r => 
   t.setRegla("tres"); await flush();
   // 4. Ficha de un distrito: primera y segunda vuelta, comparación entre reglas y aviso.
   t.openProvince("28", true); await flush();
+  // T-459: cifras de la provincia, con el bloque ganador (Tres bloques: Izquierdas en todos sus distritos) y la población sumada.
+  const nd = index.territorios[clave28].distritos.length;
+  assert.match(element("context").innerHTML, new RegExp("<dt>Bloques ganadores · Tres bloques</dt><dd>Izquierdas " + nd + "</dd>"));
+  assert.match(element("context").innerHTML, /<dt>Distritos DDD<\/dt>/);
   const dist = map.getSource("distritos").data.features.find(f => f.properties.distrito === d1);
   map.hit = [{ layer: { id: "dist-fill" }, geometry: dist.geometry, properties: dist.properties }];
-  map.handlers.click({ point: {} }); await flush();
+  const fit0 = map.fitted; map.handlers.click({ point: {}, lngLat: { lng: 0, lat: 0 } }); await flush();
   assert.equal(element("dv-mode").hidden, false);
   const ficha = element("dv-content").innerHTML;
   assert.match(ficha, /Decide la segunda vuelta · gana Izquierdas \(bloque\) con el 57,1 %/);
@@ -139,13 +147,23 @@ const flush = async () => { for (let i = 0; i < 60; i++) await new Promise(r => 
   assert.match(ficha, /Nacionalistas \(bloque\)<\/td><td>→ abstención \(su bloque no tiene finalista\)/);
   for (const r of ["Tres bloques → Izquierdas (bloque)", "Dos bloques → Patriotas (bloque)", "Sin coaliciones → PSOE", "Mayoría simple en el distrito → PP"]) assert.ok(ficha.includes(r), r);
   assert.match(ficha, /Simulación sin valor oficial/);
-  // 5. Sección censal: hereda el bloque de su distrito (no un recuento propio).
-  element("level").value = "seccion"; element("level").onchange({ target: element("level") }); await flush();
-  const sec = map.getSource("secciones").data.features[0];
-  assert.equal(sec.properties.s, "2807912003");
-  eq([sec.properties.dv_tres, sec.properties.dv_base], ["izq", "izq-claro"]);
-  assert.equal(map.getLayer("sec-fill").layout.visibility, "visible");
-  eq(map.getLayer("sec-fill").paint["fill-color"][1], ["coalesce", ["get", "dv_tres"], "nodato"]);
+  // 5. T-459: el clic resalta y abre la ventana con población, votos y bloque ganador con su %, en ese orden; sin zoom ni nivel de sección.
+  assert.equal(map.fitted, fit0, "el clic en un distrito no acerca el mapa");
+  assert.equal(map.getLayer("dist-sel").filter[0], "all");
+  const pop = popups.at(-1).html, orden = ["Población", "Votos", "Bloque ganador"].map(w => pop.indexOf(w));
+  assert.ok(orden[0] > 0 && orden[0] < orden[1] && orden[1] < orden[2], "orden población, votos, bloque: " + orden);
+  assert.match(pop, new RegExp("<dt>Población</dt><dd>" + Number(index.territorios[clave28].distritos[0].poblacion).toLocaleString("es-ES")));
+  assert.match(pop, /<dt>Votos<\/dt><dd>85<\/dd>/); // 40 + 30 + 15 de votos_1v del detalle
+  assert.match(pop, /<dt>Bloque ganador<\/dt><dd>Izquierdas · 57,1 %<\/dd>/);
+  assert.doesNotMatch(pop, /Ventaja/);
+  assert.match(element("context").innerHTML, /<dt>Votos<\/dt><dd>85<\/dd>/);
+  t.setRegla("base"); await flush();
+  assert.match(popups.at(-1)?.html ?? "", /Población/); // la ventana anterior sigue siendo la del distrito
+  t.renderDetail(); assert.match(element("dv-content").innerHTML, /Ventaja ajustada: menos de 5 puntos/);
+  t.setRegla("tres"); await flush();
+  map.hit = []; map.handlers.click({ point: {} }); await flush();
+  assert.equal(popups.at(-1).removed, true, "clic fuera cierra la ventana");
+  assert.equal(element("level").options.some(o => o.value === "seccion" || o.value === "municipio"), false);
   // 6. Salir a otra capa de la V3 devuelve la paleta de partidos; volver a la doble vuelta la recupera.
   element("layer").value = "ganador"; element("layer").onchange({ target: element("layer") }); await flush();
   assert.equal(element("dv-aviso").hidden, true); assert.equal(element("dv-mode").hidden, true);
@@ -160,5 +178,5 @@ const flush = async () => { for (let i = 0; i < 60; i++) await new Promise(r => 
   element("layer").value = "doblevuelta"; element("layer").onchange({ target: element("layer") }); await flush();
   assert.match(t.DVD.fallos.get(clave28), /no coincide/);
   assert.ok(map.getSource("distritos").data.features.every(f => f.properties.dv_tres === "nodato"));
-  console.log("OK visor v4 explorar (52 nac, cuatro reglas, ficha, sección y fallo cerrado)");
+  console.log("OK visor v4 explorar (52 nac, cuatro reglas, ficha, ventana del distrito y fallo cerrado)");
 })().catch(e => { console.error(e); process.exitCode = 1; });

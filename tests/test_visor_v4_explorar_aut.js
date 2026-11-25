@@ -58,16 +58,17 @@ for (const [id, opts] of [["scope", ["nacional", "autonomico"]], ["system", ["pr
 group["[data-panel]"] = ["territorio", "resultados", "comparar", "evolucion"].map(panel => ({ dataset: { panel }, setAttribute(k, v) { this[k] = v; } }));
 const doc = { getElementById: element, querySelectorAll: q => group[q] || [], createElement: tag => ({ tag, textContent: "", setAttribute(k, v) { this[k] = v; } }),
   body: { dataset: {} }, documentElement: {} };
-let map;
+let map; const popups = [];
+class Popup { constructor(o) { this.o = o; popups.push(this); } setLngLat(l) { this.l = l; return this; } setHTML(h) { this.html = h; return this; } addTo() { return this; } on() {} remove() { this.removed = true; } }
 class FakeMap {
   constructor() { this.sources = new Map(); this.layers = new Map(); this.handlers = {}; this.hit = []; map = this; queueMicrotask(() => this.handlers.load?.()); }
   addControl() {} on(ev, ...a) { this.handlers[ev] = a.at(-1); }
   addSource(id, s) { this.sources.set(id, { data: s.data, setData(n) { this.data = n; } }); } getSource(id) { return this.sources.get(id); }
   addLayer(l) { this.layers.set(l.id, { ...l, layout: { visibility: "visible", ...l.layout }, paint: { ...l.paint } }); } getLayer(id) { return this.layers.get(id); }
   getLayoutProperty(id, k) { return this.layers.get(id).layout[k]; } setLayoutProperty(id, k, v) { this.layers.get(id).layout[k] = v; }
-  setPaintProperty(id, k, v) { this.layers.get(id).paint[k] = v; } fitBounds() {} getZoom() { return 5; } queryRenderedFeatures() { return this.hit; }
+  setPaintProperty(id, k, v) { this.layers.get(id).paint[k] = v; } fitBounds() {} getZoom() { return 5; } setFilter(id, f) { this.layers.get(id).filter = f; } queryRenderedFeatures() { return this.hit; }
 }
-const libre = { Map: FakeMap, NavigationControl: class {} };
+const libre = { Map: FakeMap, NavigationControl: class {}, Popup };
 const ab = b => b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength);
 const sandbox = { document: doc, maplibregl: libre, console, location: { search: "" }, history: { replaceState() {} }, TextDecoder, crypto: crypto.webcrypto,
   getComputedStyle: () => ({ getPropertyValue: () => "" }),
