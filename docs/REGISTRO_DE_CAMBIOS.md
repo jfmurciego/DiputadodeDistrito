@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.626
+Versión: 1.0.627
 Fecha: 2026-11-25
-Alcance: T-458 — Diseño al detalle del mapa de la V4 (solo documentación)
+Alcance: T-459 — Visor Explorar: panel con los datos arriba, colores fijos por bloque y ventana del distrito
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-24_t458-diseno-mapa-v4.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.625_registro_20261125.md
+Cambios/motivo: entrada docs/registro/2026-11-25_t459-visor-mapa-v4.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.626_registro_20261125.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.625_registro_20261125.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.627 · [2026-11-25 — T-459 — Visor Explorar: panel con los datos arriba, colores fijos por bloque y ventana del distrito](registro/2026-11-25_t459-visor-mapa-v4.md)
 - 1.0.626 · [2026-11-24 — T-458 — Diseño al detalle del mapa de la V4 (solo documentación)](registro/2026-11-24_t458-diseno-mapa-v4.md)
 - 1.0.625 · [2026-11-24 — T-457 — Sin nombres de IA ni de modelo en commits ni en los textos de los robots](registro/2026-11-24_t457-sin-nombres-ia.md)
 - 1.0.624 · [2026-11-24 — T-456 — Visor V4: doble vuelta autonómica por los dos ids y fuera cuatro carteles](registro/2026-11-24_t456-visor-dv-carteles.md)
