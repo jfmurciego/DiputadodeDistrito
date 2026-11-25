@@ -1,8 +1,9 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: visor V4 · Explorar
- * VERSIÓN: 1.0.0
- * FECHA: 2026-11-19
+ * VERSIÓN: 1.1.0
+ * FECHA: 2026-11-25
  * ESTADO: candidato
+ * CAMBIOS 1.1.0: T-459, fuera la galería (foto, créditos) del panel; estilos de la ventana del distrito y del trazo de selección. ANTERIOR: legacy/visor/v4/mapa/explorar_v1.0.0_20261119.css
  * CAMBIOS: copia de v3.css 1.2.0 de la V3 (disposición, paneles, leyenda, calendario, accesibilidad, galería) + tema de la V4
  *   (cabecera, paleta oscura, tipografía y pie de ../styles.css) + estilos de la capa «Doble vuelta» (reglas, aviso fijo, ficha).
  * MOTIVO: T-423, la V3 completa dentro del diseño de la V4.
@@ -25,20 +26,6 @@
 @media(max-width:480px){.legend{max-width:calc(100% - 28px)}.legend ul{grid-template-columns:repeat(2,minmax(0,1fr))}.legend li{white-space:normal}.site-nav{flex-wrap:wrap;row-gap:4px}.model-cards{flex-wrap:wrap}.model-cards>div{flex:1 1 130px}.map-tag{max-width:calc(100% - 140px)}.timeline-controls select{max-width:100%}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
-/* Galería territorial (T-325): ilustra el territorio, nunca un dato de distrito. */
-.territory-gallery{margin:0;padding:13px 15px 5px;border-bottom:1px solid var(--line)}
-.gallery-heading{font:700 17px Georgia,serif;margin:0 0 9px;color:var(--ink)}
-.gallery-figure{margin:0 0 10px;background:var(--panel);border:1px solid var(--line);border-radius:11px;overflow:hidden}
-.gallery-figure img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;background:#edf0f2}
-.gallery-figure figcaption{display:flex;flex-direction:column;gap:3px;padding:9px 11px;line-height:1.4}
-.gallery-figure figcaption strong{font-size:13px}
-.gallery-figure figcaption span{font-size:12px;color:var(--muted)}
-.gallery-credit{font-size:11px;color:var(--muted);overflow-wrap:anywhere}
-.gallery-credit a{color:var(--wine2);text-decoration:underline;display:inline-block;min-height:24px}
-.gallery-credit a:focus-visible{outline:3px solid var(--wine);outline-offset:2px}
-.gallery-unavailable{font-size:12px;color:var(--muted);background:#f6f5f4;padding:14px 12px;border-radius:9px;margin:0 0 10px}
-.gallery-creditos{font-size:11px;color:var(--muted);margin:0 0 10px}.gallery-creditos a{color:var(--wine2);text-decoration:underline;display:inline-block;min-height:24px}.gallery-creditos a:focus-visible{outline:3px solid var(--wine);outline-offset:2px}
-
 /* ---- Tema V4 (T-423): paleta de ../styles.css sobre la disposición de la V3 ---- */
 body{font-size:13px;background:var(--coal);color:var(--cream);font-family:var(--sans)}
 .site-header .icon-button{background:transparent;color:var(--orange);border-color:#8c7455;margin-left:8px}
@@ -52,7 +39,6 @@ body{font-size:13px;background:var(--coal);color:var(--cream);font-family:var(--
 .control input,.control select,.timeline select,.years button,.map-actions button{background:#1b1f20;color:var(--cream);border-color:#8c7455}
 .tools-note,.hint,.small-note,.source-label,.context dt,.model-cards span,.timeline-title small,.election-note,.timeline-controls>label{color:var(--muted)}
 .insights-hero{background:linear-gradient(110deg,#65151e,#411117)}
-.model-cards>div{background:#1e1617}.model-cards>div+div{background:#1b1f20}.model-cards small,.model-cards strong{color:#ffbf87}.model-cards>div+div strong{color:#cbbfb1}
 .map-shell{background:#1a2023;border-color:var(--line)}
 .map-tag,.legend{background:#111516ee;color:var(--cream);border-color:var(--line)}.legend small{color:var(--muted)}.legend i{border-color:#f5f1e8}
 .attribution{background:#111516e0;color:var(--muted)}
@@ -60,7 +46,6 @@ body{font-size:13px;background:var(--coal);color:var(--cream);font-family:var(--
 .comparison-table .total{background:#1e1617}.comparison-table strong,.table-scroll button,.timeline-title>span{color:#ffbf87}
 .track{background:#2a2f31}.map-notice{background:#2b2116;border-color:#9d7547;color:#ffd9b0}
 dialog{background:var(--panel);color:var(--cream)}dialog button{background:#65151e}
-.gallery-figure{background:var(--panel)}.gallery-unavailable{background:#1b1f20}
 .site-nav,.top{display:none}
 /* ---- Capa «Doble vuelta» (D-172) ---- */
 .segment-4{flex-wrap:wrap}.segment-4 button{flex:1 1 45%}
@@ -73,3 +58,8 @@ dialog{background:var(--panel);color:var(--cream)}dialog button{background:#6515
 .dv-como a{color:#ffbf87}
 #dv-aviso:not([hidden])~.map-notice{top:128px}
 @media(max-width:720px){.dv-aviso{top:52px;right:14px;font-size:11px;padding:5px 9px}.dv-aviso span{display:none}.legend{max-height:30%;max-width:62%;padding:7px 9px;font-size:10px}.legend h3{font-size:12px;margin-bottom:4px}.legend ul{grid-template-columns:1fr 1fr;gap:3px 6px}.legend small{display:none}.legend small:last-of-type{display:none}}
+/* Ventana del distrito (T-459) */
+.dv-popup{color:#14161a;font-size:13px;min-width:200px}.dv-popup strong{font:700 14px var(--serif)}.dv-popup dl{margin:6px 0 0}.dv-popup dl div{display:flex;justify-content:space-between;gap:12px;padding:3px 0;border-top:1px solid #ddd}.dv-popup dt{color:#444}.dv-popup dd{margin:0;font-weight:700}
+.insights .context{border-bottom:1px solid var(--line)}
+/* Muestras de bloque con los mismos colores fijos del mapa en los dos temas (T-459); los tokens de la portada no cambian. */
+.sw.izq{background:#d32b2b}.sw.nac{background:#0f7a52}.sw.pat{background:#1d6fb8}.sw.sin{background:#5b6470}
