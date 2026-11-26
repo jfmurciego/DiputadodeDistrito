@@ -69,6 +69,14 @@ function anguloCosta() {  // grados: pendiente (en Mercator, y hacia el norte) e
   assert.equal(JSON.stringify(provincias.features.find(f => f.properties.cod === "35").geometry), antes, "no modifica el original");
   assert.notEqual(JSON.stringify(R.features.find(f => f.properties.cod === "35").geometry), antes);
   assert.equal(JSON.stringify(R.features.find(f => f.properties.cod === "28").geometry), JSON.stringify(provincias.features.find(f => f.properties.cod === "28").geometry), "el resto, igual");
+  // Sin desplazamiento explícito se calcula para cualquier giro (variantes a/b/c): el marco queda bajo la península y alineado a su izquierda.
+  for (const g of [-10.65, 0, 10.65]) {
+    const bg = g * Math.PI / 180, rotg = q => { const m = merc(q[0], q[1]); return [m[0] * Math.cos(bg) + m[1] * Math.sin(bg), -m[0] * Math.sin(bg) + m[1] * Math.cos(bg)]; };
+    const Rg = PT.recolocarCanarias(provincias, g), pen = Rg.features.filter(f => !["35", "38", "51", "52"].includes(f.properties.cod)).flatMap(f => (f.geometry.type === "MultiPolygon" ? f.geometry.coordinates : [f.geometry.coordinates]).flat(2)).map(rotg);
+    const can = Rg.features.filter(f => ["35", "38"].includes(f.properties.cod)).flatMap(f => (f.geometry.type === "MultiPolygon" ? f.geometry.coordinates : [f.geometry.coordinates]).flat(2)).map(rotg);
+    assert.ok(Math.min(...can.map(p => p[1])) > Math.max(...pen.map(p => p[1])), "Canarias bajo la península con giro " + g);
+    assert.ok(Math.abs(Math.min(...can.map(p => p[0])) - 0.001 - Math.min(...pen.map(p => p[0]))) < 1e-7, "alineada a la izquierda con giro " + g);
+  }
   const mc = PT.disponer(R, datos, familia, ["n"], G).marcoCanarias, ys = mc.slice(0, 4).map(q => Math.round(rot({lng: q[0], lat: q[1]})[1] * 1e6));
   assert.equal(ys[0], ys[1], "el marco de Canarias es horizontal en la pantalla"); assert.equal(ys[2], ys[3]);
 }

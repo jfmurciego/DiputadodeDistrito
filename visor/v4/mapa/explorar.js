@@ -49,10 +49,8 @@
    * dx = rad(1,747 + 7,688) = 0,16467 y dy = ln tan(π/4 + 42,495°/2) − ln tan(π/4 + 43,79°/2) = −0,03098; atan2(dy, dx) = −10,654°: Gerona queda 10,65° más baja.
    * Un bearing positivo de MapLibre gira el mapa en sentido antihorario (el este sube), así que +10,65 los iguala. El usuario no puede girar el mapa. */
   const GIRO_NAC=10.65,MARGEN_NAC={top:56,right:4,bottom:6,left:4};  // arriba, sitio para los botones ? ⌖ P C y el zoom
-  /* Canarias se recoloca (en memoria; el fichero de provincias no cambia) bajo la península, en la esquina inferior izquierda: DESPL_CANARIAS = [dx, dy] en unidades del mundo (0-1) del
-   * marco de la pantalla; dx = 0,0047 ≈ 0,12 del ancho de la península (la acerca desde el oeste hasta su borde izquierdo) y dy = 0,0006 ≈ 0,015 (la baja un poco bajo la costa).
-   * Ceuta y Melilla, en dos recuadros fijos en fila a la derecha del marco de Canarias, y Baleares en su sitio. */
-  const DESPL_CANARIAS=[0.0047,0.0006];
+  /* Canarias se recoloca en memoria (el fichero de provincias no cambia) bajo la península, en la esquina inferior izquierda, con su marco horizontal en la pantalla; la posición se calcula
+   * con la península girada, así que vale para cualquier GIRO_NAC. Ceuta y Melilla, en dos recuadros fijos en fila a la derecha del marco de Canarias, y Baleares en su sitio. */
   const SIN_ENCUADRE=["51","52"];  // Ceuta y Melilla (recuadros) no cuentan para el tamaño; Canarias recolocada sí: la península y sus recuadros llenan el marco
   const ENCUADRE_NAC=[[-9.8,35.4],[4.5,44.2]];  // respaldo si el mapa no tiene tamaño
   const geoMerc=(lng,lat)=>[(lng+180)/360,.5-Math.log(Math.tan(Math.PI/4+lat*Math.PI/360))/(2*Math.PI)];
@@ -948,7 +946,7 @@
       if(pr.type!=="FeatureCollection"||cc.type!=="FeatureCollection")throw Error("Fuentes base cartográficas inválidas");
       if(window.DV)await loadDVIndex();else DVD.error="No se pudo cargar el lector de la doble vuelta.";
       updateSegments("regla",S.regla);$("regla-ayuda").textContent=regla()?.ayuda||"";
-      D.prov=window.PUNTOS?window.PUNTOS.recolocarCanarias(pr,GIRO_NAC,DESPL_CANARIAS):pr;D.communities=window.PUNTOS?window.PUNTOS.recolocarCanarias(cc,GIRO_NAC,DESPL_CANARIAS,f=>f.properties.nombre==="Canarias"):cc;D.index=idx;D.sectionsIndex=sec;D.territorial=terr;D.products=products;
+      D.prov=window.PUNTOS?window.PUNTOS.recolocarCanarias(pr,GIRO_NAC):pr;D.communities=window.PUNTOS?window.PUNTOS.recolocarCanarias(cc,GIRO_NAC,null,f=>f.properties.nombre==="Canarias",pr):cc;D.index=idx;D.sectionsIndex=sec;D.territorial=terr;D.products=products;
       D.calendar=calendar;D.provenance=prov;
       D.puntos=puntos&&puntos.provincias&&Object.keys(puntos.provincias).length===52?puntos:null;
       if(!(PT&&D.puntos)){ // sin los datos de la situación actual: la capa de siempre, y se dice

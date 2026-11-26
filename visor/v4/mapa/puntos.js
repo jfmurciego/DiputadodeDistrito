@@ -119,10 +119,19 @@
     return out;
   }
 
-  // Copia de la colección con Canarias desplazada `desp` = [dx, dy] en unidades del mundo (0-1) medidas en el marco de la pantalla (mapa girado `giro` grados): no modifica `prov`.
-  function recolocarCanarias(prov, giro, desp, esCanarias) {
-    esCanarias = esCanarias || (f => ["35", "38"].includes(f.properties.cod));  // por defecto, las provincias de Canarias; para comunidades, f => f.properties.nombre === "Canarias"
-    const b = giro * Math.PI / 180, cb = Math.cos(b), sb = Math.sin(b), dx = desp[0] * cb - sb * desp[1], dy = desp[0] * sb + cb * desp[1];
+  // Copia de la colección con Canarias desplazada `desp` = [dx, dy] en unidades del mundo (0-1) medidas en el marco de la pantalla (mapa girado `giro` grados); no modifica `prov`.
+  // Sin `desp`, se calcula para cualquier giro: el marco de Canarias (con su margen) queda con su borde izquierdo en el de la península y su borde superior justo bajo ella.
+  // `esCanarias` por defecto son las provincias de Canarias; para comunidades, f => f.properties.nombre === "Canarias". `ref` (la colección de provincias) da la península.
+  function recolocarCanarias(prov, giro, desp, esCanarias, ref) {
+    esCanarias = esCanarias || (f => ["35", "38"].includes(f.properties.cod));
+    const b = giro * Math.PI / 180, cb = Math.cos(b), sb = Math.sin(b), pad = .001, hueco = .0006;
+    if (!desp) {
+      const caja = (fc, si) => fc.features.filter(f => si(f)).flatMap(f => poligonos(f.geometry).flatMap(p => p.flat())).map(([lng, lat]) => { const m = merc(lng, lat); return [m[0] * cb + sb * m[1], -m[0] * sb + cb * m[1]]; })
+        .reduce((a, p) => [Math.min(a[0], p[0]), Math.max(a[1], p[1]), Math.min(a[2], p[1])], [1e9, -1e9, 1e9]);
+      const base = ref || prov, pen = caja(base, f => !["35", "38", "51", "52"].includes(f.properties.cod)), can = caja(base, f => ["35", "38"].includes(f.properties.cod));
+      desp = [pen[0] - (can[0] - pad), pen[1] + hueco - (can[2] - pad)];
+    }
+    const dx = desp[0] * cb - sb * desp[1], dy = desp[0] * sb + cb * desp[1];
     const mover = ring => ring.map(([lng, lat]) => { const m = merc(lng, lat); return inv(m[0] + dx, m[1] + dy); });
     return {...prov, features: prov.features.map(f => !esCanarias(f) ? f : {...f, geometry: {...f.geometry,
       coordinates: f.geometry.type === "MultiPolygon" ? f.geometry.coordinates.map(poly => poly.map(mover)) : f.geometry.coordinates.map(mover)}})};
