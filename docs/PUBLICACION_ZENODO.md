@@ -1,7 +1,7 @@
-# VERSIÓN: 2.0.0
-# FECHA: 2026-11-16
-# CAMBIOS: T-388 (D-146): flujo por la API de Zenodo, solo mapas, CC BY 4.0; se retira la integración GitHub–Zenodo. Antes: plan A/B de D-74 (1.2.0)
-# ANTERIOR: legacy/docs/PUBLICACION_ZENODO_v1.2.0.md
+# VERSIÓN: 2.0.1
+# FECHA: 2026-11-26
+# CAMBIOS: 2.0.1 (T-463): DOI de concepto vigente de la serie. 2.0.0 · T-388 (D-146): flujo por la API de Zenodo, solo mapas, CC BY 4.0; se retira la integración GitHub–Zenodo. Antes: plan A/B de D-74 (1.2.0)
+# ANTERIOR: legacy/docs/PUBLICACION_ZENODO_v2.0.0.md
 # Guía: publicar los mapas de Deslinde con DOI en Zenodo
 
 ## Qué es
@@ -59,5 +59,5 @@ crear los dos secretos en el entorno `publicacion`.
 
 ## Cómo citarlo
 DOI de concepto (serie de mapas) o DOI de la versión concreta; `CITATION.cff` ya los lleva. Registro inicial: Mapa Congreso
-Huesca 1.0.0, https://zenodo.org/records/24093968 (DOI de versión 10.5281/zenodo.24093968; DOI de concepto 10.5281/zenodo.24093967).
+Huesca 1.0.0, https://zenodo.org/records/24093968 (DOI de versión 10.5281/zenodo.24093968; DOI de concepto de la serie vigente 10.5281/zenodo.24448721).
 Versión del proyecto: 4.9.0. Los mapas no tienen valor oficial.

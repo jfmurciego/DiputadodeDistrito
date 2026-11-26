@@ -1,5 +1,7 @@
 <!doctype html>
-<!-- PROYECTO: Diputado de Distrito · CLASE: visor V4 · Explorar · VERSIÓN: 1.3.0 · FECHA: 2026-11-24 · ESTADO: candidato
+<!-- PROYECTO: Diputado de Distrito · CLASE: visor V4 · Explorar · VERSIÓN: 1.5.0 · FECHA: 2026-11-25 · ESTADO: candidato
+     CAMBIOS 1.5.0: T-500 (diseño T-499 1.0.1): capa «Situación actual · puntos» activa por defecto (sistema «Actual proporcional»), puntos.js y una frase en la ayuda. MOTIVO: encargo del propietario (25-11). ANTERIOR: legacy/visor/v4/mapa/index_v1.4.0_20261125.html
+     CAMBIOS 1.4.0: T-459 (diseño T-458 1.4.1, §1.3.0/1.4.0): panel derecho sin foto, créditos ni «407 / 350»; fuera el nivel de sección y municipio del selector y la casilla de secciones. MOTIVO: orden del propietario (25-11). ANTERIOR: legacy/visor/v4/mapa/index_v1.3.0_20261124.html
      CAMBIOS 1.3.0: T-456, fuera el aviso «Simulación sin valor oficial» (dv-aviso) y el rótulo del mapa (map-tag, oculto). ANTERIOR: legacy/visor/v4/mapa/index_v1.2.0_20261120.html
      CAMBIOS 1.2.0: T-429, regla «Mayoría simple en el distrito» y etiquetas para compartir. ANTERIOR: legacy/visor/v4/mapa/index_v1.1.0_20261120.html
      CAMBIOS 1.1.0: T-428 (D-184), Explorar se sirve en /mapa/ de la raíz: rutas del sitio con ../ (antes ../../ desde /v4/mapa/) marca e «Inicio» → ../ (la raíz).
@@ -38,17 +40,16 @@
     <aside class="tools" aria-label="Herramientas del mapa">
       <h2>☷ Herramientas</h2>
       <fieldset><legend>Ámbito</legend><div class="segment" id="scope"><button data-value="nacional" aria-pressed="true">Nacional</button><button data-value="autonomico" aria-pressed="false">Autonómico</button></div></fieldset>
-      <fieldset><legend>Sistema electoral</legend><div class="segment" id="system"><button data-value="proporcional" aria-pressed="false">Actual proporcional</button><button data-value="mayoritario" aria-pressed="true">Mayoritario DDD</button></div></fieldset>
+      <fieldset><legend>Sistema electoral</legend><div class="segment" id="system"><button data-value="proporcional" aria-pressed="true">Actual proporcional</button><button data-value="mayoritario" aria-pressed="false">Mayoritario DDD</button></div></fieldset>
       <fieldset><legend>Vista</legend><div class="segment" id="view"><button data-value="territorial" aria-pressed="false">Territorial</button><button data-value="electoral" aria-pressed="true">Electoral</button></div></fieldset>
-      <label class="control">Capa <select id="layer"><option value="doblevuelta" selected>Doble vuelta (simulación)</option><option value="ganador">Partido más votado</option><option value="unidades">Límites electorales</option><option value="poblacion">Población</option><option value="desviacion">Desviación de población</option></select></label>
+      <label class="control">Capa <select id="layer"><option value="puntos" selected>Situación actual · puntos</option><option value="doblevuelta">Doble vuelta (simulación)</option><option value="ganador">Partido más votado</option><option value="unidades">Límites electorales</option><option value="poblacion">Población</option><option value="desviacion">Desviación de población</option></select></label>
       <fieldset id="dv-reglas"><legend>Doble vuelta · regla</legend><div class="segment segment-4" id="regla"><button data-value="tres" aria-pressed="true">Tres bloques</button><button data-value="dos" aria-pressed="false">Dos bloques</button><button data-value="base" aria-pressed="false">Sin coaliciones</button><button data-value="primero" aria-pressed="false">Mayoría simple en el distrito</button></div><p class="tools-note" id="regla-ayuda"></p></fieldset>
-      <label class="control">Nivel territorial <select id="level"><option value="comunidad">Comunidad autónoma</option><option value="provincia" selected>Provincia</option><option value="distrito">Distrito electoral</option><option value="municipio">Municipio (secciones)</option><option value="seccion">Sección censal</option></select></label>
-      <label class="control">Buscar territorio <input id="search" type="search" placeholder="Provincia, comunidad o CUSEC" autocomplete="off" list="places"><datalist id="places"></datalist></label>
+      <label class="control">Nivel territorial <select id="level"><option value="comunidad">Comunidad autónoma</option><option value="provincia" selected>Provincia</option><option value="distrito">Distrito electoral</option></select></label>
+      <label class="control">Buscar territorio <input id="search" type="search" placeholder="Provincia o comunidad" autocomplete="off" list="places"><datalist id="places"></datalist></label>
       <fieldset class="preferences"><legend>Opciones de mapa</legend>
         <label><span>Mostrar límites</span><input id="boundaries" type="checkbox" checked></label>
         <label><span>Etiquetas de territorio</span><input id="labels" type="checkbox"></label>
-        <label><span>Detalle de secciones al acercar</span><input id="auto-sections" type="checkbox" checked></label>
-      </fieldset>
+              </fieldset>
       <p class="tools-note" id="tools-note">Las opciones sin datos verificables se indican expresamente. Nunca se generan resultados electorales de ejemplo.</p>
     </aside>
     <main class="map-shell" id="contenido" tabindex="-1" aria-label="Mapa y leyenda">
@@ -62,10 +63,9 @@
     </main>
     <aside class="insights" aria-label="Información de la selección">
       <div class="insights-hero"><span class="overline" id="selection-type">España</span><h1 id="selection-name">Diputado de Distrito</h1><p id="selection-path">Selecciona una provincia o comunidad en el mapa</p></div>
-      <section id="territory-gallery" class="territory-gallery" aria-labelledby="gallery-title" hidden><h2 class="gallery-heading" id="gallery-title">Conoce el territorio</h2><div class="gallery-content" aria-live="polite"></div><p class="gallery-creditos"><a href="../v2/galeria/creditos.html">Créditos y licencias de las fotografías</a>. Cada foto conserva su licencia Creative Commons.</p></section>
-      <div class="model-cards"><div><small id="ddd-label">Propuesta DDD</small><strong id="ddd-count">407</strong><span id="ddd-unit">distritos nacionales</span></div><div><small id="current-label">Congreso actual</small><strong id="current-count">350</strong><span id="current-unit">escaños</span></div></div>
       <div id="context" class="context"><p class="hint">El mapa y las fichas mostrarán únicamente datos disponibles en el registro de publicación.</p></div>
       <div class="source-label" id="source-label"></div>
+      <section class="detail-mode v5-leyenda" id="v5-mode" aria-labelledby="v5-heading" hidden><h2 id="v5-heading">Leyenda</h2><div id="v5-content"></div></section>
       <section class="detail-mode dv-mode" id="dv-mode" aria-labelledby="dv-heading" hidden><h2 id="dv-heading">Doble vuelta</h2><div id="dv-content"></div></section>
       <section class="detail-mode" id="detail-mode"><h2 id="detail-heading">Resultados y territorio</h2><div id="detail-content"></div></section>
       <section class="detail-mode" id="table-mode" aria-labelledby="table-heading"><h2 id="table-heading">Resultados en tabla</h2><details id="results-details"><summary>Ver tabla alternativa al mapa</summary><div id="results-table" class="table-scroll" tabindex="0" role="region" aria-label="Tabla de resultados por territorio"></div></details></section>
@@ -80,10 +80,10 @@
     <p id="padron-note" class="election-note" hidden>Los distritos de las generales de 2026 están trazados con el padrón y el seccionado de 2023; se actualizarán con el padrón de 2025.</p>
   </footer>
 </div>
-<dialog id="help-dialog" aria-labelledby="help-title"><h2 id="help-title">Cómo explorar DDD</h2><p>La capa «Doble vuelta» colorea cada distrito por el bloque que gana con la regla elegida: «Tres bloques», «Dos bloques», «Sin coaliciones» o «Mayoría simple en el distrito» (gana el partido con más votos; no es el sistema actual, que reparte los escaños de forma proporcional por listas provinciales). Es una simulación sin valor oficial.</p><p>Selecciona ámbito, sistema electoral y vista. Pulsa una provincia para entrar en sus distritos y continúa acercándote para consultar secciones censales cuando estén publicadas.</p><p>Las secciones se colorean por su distrito o por una variable territorial. No se atribuyen resultados electorales a una sección si no existen resultados propios publicados para esa sección.</p><p>Las elecciones antiguas o las capas sin producto publicado indican su ausencia, sin reutilizar silenciosamente datos de otro año.</p><p>Teclado: Tab recorre los controles; con el foco en el mapa, las flechas lo mueven y + / − lo acercan o alejan. La tabla «Resultados en tabla» permite elegir territorios sin usar el mapa.</p><form method="dialog"><button autofocus>Cerrar</button></form></dialog>
+<dialog id="help-dialog" aria-labelledby="help-title"><h2 id="help-title">Cómo explorar DDD</h2><p>La capa «Situación actual · puntos» muestra los 350 diputados del Congreso de 2023 (un punto por diputado) sobre cada provincia, coloreada por su partido más votado; pulsa una provincia para ver sus votos y escaños. El porcentaje es sobre votos a candidaturas.</p><p>La capa «Doble vuelta» colorea cada distrito por el bloque que gana con la regla elegida: «Tres bloques», «Dos bloques», «Sin coaliciones» o «Mayoría simple en el distrito» (gana el partido con más votos; no es el sistema actual, que reparte los escaños de forma proporcional por listas provinciales). Es una simulación sin valor oficial.</p><p>Selecciona ámbito, sistema electoral y vista. Pulsa una provincia para entrar en sus distritos. Pulsa un distrito para ver su ventana con población, votos y bloque ganador.</p><p>Las elecciones antiguas o las capas sin producto publicado indican su ausencia, sin reutilizar silenciosamente datos de otro año.</p><p>Teclado: Tab recorre los controles; con el foco en el mapa, las flechas lo mueven y + / − lo acercan o alejan. La tabla «Resultados en tabla» permite elegir territorios sin usar el mapa.</p><form method="dialog"><button autofocus>Cerrar</button></form></dialog>
 <script defer src="../v2/vendor/maplibre-gl/5.7.0/maplibre-gl.js" integrity="sha384-Blts4zGbI8Hh/NvhcxTYsF2uLBbYIwHXEhPMxN3XpadJCDgstyLfJA3opgmkfBOc"></script>
-<script defer src="../v2/galeria/galeria.js"></script>
 <script defer src="dv.js"></script>
+<script defer src="puntos.js"></script>
 <script defer src="../app.js"></script>
 <script defer src="explorar.js"></script>
 <footer class="footer v4-footer"><div class="wrap footer-inner"><div><strong>© 2026 Jesús Francisco Murciego Vidal. Todos los derechos reservados.</strong><p>El autor se reserva el ejercicio de las acciones legales que correspondan frente al plagio, la reproducción no autorizada y la falsa atribución de autoría.</p></div></div></footer>

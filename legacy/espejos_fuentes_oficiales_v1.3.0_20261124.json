@@ -1,0 +1,103 @@
+{
+  "schema": "ddd-espejos-fuentes-oficiales/1.0",
+  "nota": "PROYECTO: Diputado de Distrito · T-449 (D-183, D-188) · VERSIÓN 1.3.0 · 2026-11-24 · ANTERIOR: legacy/espejos_fuentes_oficiales_v1.2.0_20261124.json · CAMBIOS 1.3.0: T-449 (decisión del propietario 24-11): aut08 pasa al modo URL directa con la copia de la Wayback del xlsx oficial de 2023 (captura 20261023040608, medida en el run 45283716584: sha256 7591997d…47ca, 322.602 B), declarada `tipo: copia_archivada` (fuente NO oficial), y `copias_archivadas_destino` = fuentes-archivadas (R2 fuentes-archivadas/junta-castilla-la-mancha/2023/, nunca fuentes/, D-198). El catálogo de datos.gob.es queda como referencia (`dataset_url`). CAMBIOS 1.2.0: T-449: `descubrir` en aut08 (páginas oficiales que sondea en solo lectura `espejo_fuente_oficial.py descubrir` cuando las distribuciones de datos.gob.es dan 404; sufijos castillalamancha.es y datos.gob.es; semillas de elecciones2023.castillalamancha.es y de las fichas del portal nuevo, halladas por el Planificador, y su host en `hosts_permitidos`; copias archivadas (propietario 23-11, «probar todos los sitios»): `copias_archivadas` y web.archive.org en `hosts_permitidos` (copia íntegra del fichero oficial, verificada con el digest de la captura y declarada en el manifiesto con oficial=false y tipo copia_archivada); `copias_archivadas_destino` = no_subir, único valor (decisión del propietario 23-11: la copia solo se mide, no se sube a R2); en `descubrir`, prefijos CDX de la Wayback y medios (Público, elDiario.es, El Español, RTVE, CMM, El País) como fuente NO oficial, que solo se sondean y nunca se suben solos; la URL buena entra después por PR con su huella). CAMBIOS 1.1.0: T-448 (D-202): entrada `ine-censo2011-1mun00` en modo URL directa (url + sha256_esperado + bytes_esperados + extension; host www.ine.es). Fuentes oficiales que solo se alcanzan desde un runner de Actions y se espejan, en solo lectura, en R2 bajo fuentes/<organismo>/<año>/ con manifiesto.json (sha256, bytes, URL de origen, run). Lo usa herramientas/espejo_fuente_oficial.py desde «P10 Fuentes», tipo «Espejo de fuente oficial». La huella medida se copia después, en una PR, al índice y al calendario. Solo se descarga por https de los hosts exactos de `hosts_permitidos` (también en cada redirección) y hasta `max_bytes`; un host nuevo se añade por PR.",
+  "espejos": {
+    "aut08": {
+      "eleccion": "Elecciones a las Cortes de Castilla-La Mancha",
+      "anyo": 2023,
+      "fecha": "2023-05-28",
+      "organismo": "junta-castilla-la-mancha",
+      "fichero": "autonomicas-por-municipio",
+      "catalogo": "datos.gob.es",
+      "dataset": "a08002880-resultandos-de-elecciones-autonomicas-en-castilla-la-mancha",
+      "dataset_url": "https://datos.gob.es/es/catalogo/a08002880-resultandos-de-elecciones-autonomicas-en-castilla-la-mancha",
+      "verificacion": {
+        "fichero": "resultados-oficiales",
+        "url": "https://elecciones.castillalamancha.es/sites/default/files/2023-06/Resultados%20electorales%202023.pdf"
+      },
+      "hosts_permitidos": [
+        "datos.gob.es",
+        "datosabiertos.castillalamancha.es",
+        "www.castillalamancha.es",
+        "elecciones.castillalamancha.es",
+        "elecciones2023.castillalamancha.es",
+        "web.archive.org"
+      ],
+      "max_bytes": 209715200,
+      "descubrir": {
+        "paginas": [
+          "https://web.archive.org/cdx/search/cdx?url=datosabiertos.castillalamancha.es%2Fsites%2Fdatosabiertos.castillalamancha.es%2Ffiles%2F&matchType=prefix&output=json&fl=timestamp%2Coriginal%2Cstatuscode%2Cmimetype%2Clength%2Cdigest&filter=statuscode%3A200&collapse=urlkey&limit=500",
+          "https://web.archive.org/cdx/search/cdx?url=elecciones2023.castillalamancha.es%2Fsites%2F&matchType=prefix&output=json&fl=timestamp%2Coriginal%2Cstatuscode%2Cmimetype%2Clength%2Cdigest&filter=statuscode%3A200&collapse=urlkey&limit=500",
+          "https://web.archive.org/cdx/search/cdx?url=elecciones.castillalamancha.es%2Fsites%2Fdefault%2Ffiles%2F2023-&matchType=prefix&output=json&fl=timestamp%2Coriginal%2Cstatuscode%2Cmimetype%2Clength%2Cdigest&filter=statuscode%3A200&collapse=urlkey&limit=500",
+          "https://elecciones2023.castillalamancha.es/resultados/descargar-los-resultados-de-las-elecciones-autonomicas-anteriores-por-municipio",
+          "https://elecciones2023.castillalamancha.es/resultados/resultados-por-municipio",
+          "https://elecciones2023.castillalamancha.es/sitemap",
+          "https://elecciones2023.castillalamancha.es/sitemap.xml",
+          "https://elecciones2023.castillalamancha.es/",
+          "https://datosabiertos.castillalamancha.es/dataset/elecciones-auton%C3%B3micas-resultados-de-elecciones-las-cortes-de-castilla-la-mancha-hist%C3%B3rico",
+          "https://datosabiertos.castillalamancha.es/dataset/elecciones-auton%C3%B3micas-resultados-de-elecciones-las-cortes-de-castilla-la-mancha-hist%C3%B3rico-22",
+          "https://datosabiertos.castillalamancha.es/",
+          "https://datosabiertos.castillalamancha.es/api/3/action/package_search?q=elecciones&rows=100",
+          "https://datosabiertos.castillalamancha.es/api/3/action/package_search?q=auton%C3%B3micas&rows=100",
+          "https://datosabiertos.castillalamancha.es/dataset?q=elecciones",
+          "https://datosabiertos.castillalamancha.es/sitemap.xml",
+          "https://datos.gob.es/es/catalogo/a08002880-resultandos-de-elecciones-autonomicas-en-castilla-la-mancha",
+          "https://datos.gob.es/apidata/catalog/dataset/publisher/A08002880.json?_pageSize=200",
+          "https://elecciones.castillalamancha.es/",
+          "https://elecciones.castillalamancha.es/resultados",
+          "https://www.castillalamancha.es/",
+          "https://www.rtve.es/noticias/elecciones/autonomicas-municipales/castilla-la-mancha/",
+          "https://www.cmmedia.es/elecciones/",
+          "https://www.eldiario.es/castilla-la-mancha/",
+          "https://www.publico.es/elecciones/autonomicas/castilla-la-mancha/",
+          "https://www.elespanol.com/elecciones/autonomicas/castilla-la-mancha/",
+          "https://resultados.elpais.com/elecciones/2023/autonomicas/08/index.html"
+        ],
+        "sufijos_host": [
+          "castillalamancha.es",
+          "datos.gob.es",
+          "web.archive.org",
+          "rtve.es",
+          "cmmedia.es",
+          "eldiario.es",
+          "publico.es",
+          "elespanol.com",
+          "elpais.com"
+        ],
+        "max_paginas": 40,
+        "max_candidatas": 10,
+        "sufijos_oficiales": [
+          "castillalamancha.es",
+          "datos.gob.es"
+        ]
+      },
+      "copias_archivadas": true,
+      "copias_archivadas_destino": "fuentes-archivadas",
+      "url": "https://web.archive.org/web/20261023040608id_/https://datosabiertos.castillalamancha.es/sites/datosabiertos.castillalamancha.es/files/Resultados_CLM_2023.xlsx",
+      "tipo": "copia_archivada",
+      "oficial": false,
+      "url_original": "https://datosabiertos.castillalamancha.es/sites/datosabiertos.castillalamancha.es/files/Resultados_CLM_2023.xlsx",
+      "captura": "20261023040608",
+      "sha256_esperado": "7591997d17c65586bd5d8ac68776e9946e233997f86cbe1c22e08018c16347ca",
+      "bytes_esperados": 322602,
+      "extension": "xlsx",
+      "titulo": "Resultados de las elecciones a las Cortes de Castilla-La Mancha 2023 por municipio (copia archivada del fichero oficial; fuente no oficial)"
+    },
+    "ine-censo2011-1mun00": {
+      "descripcion": "INE, Censos de Población y Viviendas 2011, población por municipios (1mun00), total municipal a 1-nov-2011 (D-185)",
+      "decision": "D-202 (propietario, 23-11)",
+      "anyo": 2011,
+      "organismo": "ine",
+      "fichero": "1mun00",
+      "extension": "csv",
+      "url": "https://www.ine.es/jaxi/files/_px/es/csv_bdsc/t20/e244/avance/p02/l0/1mun00.csv_bdsc?nocab=1",
+      "sha256_esperado": "ad95479c07ce4ae37ed03732025d7039b1338f43ead181bb2c450fcac64f8267",
+      "bytes_esperados": 105319154,
+      "declaracion": "configuracion/historico_epoca/total_municipal_censo_2011.json",
+      "hosts_permitidos": [
+        "www.ine.es"
+      ],
+      "max_bytes": 110000000
+    }
+  }
+}

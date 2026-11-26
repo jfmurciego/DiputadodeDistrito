@@ -1,11 +1,12 @@
 """V4 · Explorar (T-423): la V3 completa dentro de la V4 con la capa «Doble vuelta».
 
-VERSIÓN: 2.1.0 · FECHA: 2026-11-24 · ESTADO: candidato
-CAMBIOS: 2.1.0 (T-456): el aviso «Simulación sin valor oficial» ya no está en el HTML (se comprueba que no vuelve).
+VERSIÓN: 2.2.0 · FECHA: 2026-11-25 · ESTADO: candidato
+CAMBIOS: 2.2.0 (T-500): la V4 añade la capa «Situación actual · puntos» (por defecto, con el sistema «Actual proporcional» activo) y carga puntos.js; el resto, igual.
+  2.1.0 (T-456): el aviso «Simulación sin valor oficial» ya no está en el HTML (se comprueba que no vuelve).
   2.0.0 (T-423): el mapa simple de T-413 (SVG, un territorio cada vez) se retira; se prueba que la V4 contiene todas las capas,
   niveles, controles y paneles de la V3 (incluida la sección censal), que la capa de doble vuelta cubre los 52 nac (prueba JS), que la V3
   publicada no cambia (sha256 literales de main) y que los datos de ejemplo siguen saliendo igual de la herramienta.
-ANTERIOR: legacy/tests/test_visor_v4_mapa_v2.0.0_20261119.py; 1.0.0 en el historial de git.
+ANTERIOR: legacy/tests/test_visor_v4_mapa_v2.1.0_20261124.py (2.1.0; 2.0.0: legacy/tests/test_visor_v4_mapa_v2.0.0_20261119.py); 1.0.0 en el historial de git.
 """
 import json
 import hashlib, re, shutil, subprocess, sys, tempfile, unittest
@@ -52,9 +53,10 @@ class V4ContieneV3(unittest.TestCase):
     def test_capas_y_niveles_de_la_v3_incluida_la_seccion(self):
         self.assertEqual(_opciones(self.h3, "layer"), CAPAS_V3)  # guardia: la lista literal es la de la V3
         self.assertEqual(_opciones(self.h3, "level"), NIVELES_V3)
-        self.assertEqual(_opciones(self.h4, "layer"), ["doblevuelta"] + CAPAS_V3)
-        self.assertEqual(_opciones(self.h4, "level"), NIVELES_V3)
-        self.assertIn('<option value="seccion">Sección censal</option>', self.h4)
+        self.assertEqual(_opciones(self.h4, "layer"), ["puntos", "doblevuelta"] + CAPAS_V3)
+        # T-459 (diseño T-458 1.4.1): la V4 retira el nivel de municipio (secciones) y de sección censal.
+        self.assertEqual(_opciones(self.h4, "level"), ["comunidad", "provincia", "distrito"])
+        self.assertNotIn('value="seccion"', self.h4)
         for capa in CAPAS_MAPLIBRE_V3:
             self.assertIn('map.addLayer({id:"%s"' % capa, self.j3)
             self.assertIn('map.addLayer({id:"%s"' % capa, self.j4)
@@ -62,7 +64,11 @@ class V4ContieneV3(unittest.TestCase):
     def test_todos_los_controles_y_paneles_de_la_v3(self):
         ids_v3 = set(re.findall(r'\bid="([^"]+)"', self.h3))
         self.assertGreater(len(ids_v3), 40)
-        self.assertEqual(ids_v3 - set(re.findall(r'\bid="([^"]+)"', self.h4)), set())
+        # T-459: fuera del panel la foto y créditos (galería), «407 / 350» y la casilla de secciones al acercar.
+        retirados = {"territory-gallery", "gallery-title", "ddd-label", "ddd-count", "ddd-unit", "current-label", "current-count", "current-unit", "auto-sections"}
+        self.assertEqual(ids_v3 - set(re.findall(r'\bid="([^"]+)"', self.h4)) - retirados, set())
+        for r in retirados:
+            self.assertNotIn('id="%s"' % r, self.h4)
         for marca in ('data-panel="territorio"', 'data-panel="resultados"', 'data-panel="comparar"', 'data-panel="evolucion"',
                       'data-value="nacional"', 'data-value="autonomico"', 'data-value="proporcional"', 'data-value="mayoritario"',
                       'data-value="territorial"', 'data-value="electoral"'):
@@ -105,6 +111,11 @@ class CapaDobleVuelta(unittest.TestCase):
         self.assertEqual(json.loads((RAIZ / "visor/v4/mapa/datos.json").read_text(encoding="utf-8")), {"actual": ""})
 
     @unittest.skipUnless(shutil.which("node"), "sin node")
+    def test_situacion_actual_puntos_t500(self):
+        r = subprocess.run(["node", str(RAIZ / "tests/test_visor_v4_puntos.js")], capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+
+    @unittest.skipUnless(shutil.which("node"), "sin node")
     def test_lector_dv(self):
         r = subprocess.run(["node", str(RAIZ / "tests/test_visor_v4_mapa.js")], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
@@ -114,7 +125,10 @@ class CapaDobleVuelta(unittest.TestCase):
         reglas = re.search(r'<div class="segment segment-4" id="regla">(.*?)</div>', h, re.S).group(1)
         self.assertEqual(re.findall(r">([^<]+)</button>", reglas), ["Tres bloques", "Dos bloques", "Sin coaliciones", "Mayoría simple en el distrito"])
         self.assertEqual(re.findall(r'data-value="(\w+)"', reglas), ["tres", "dos", "base", "primero"])
-        self.assertIn('<option value="doblevuelta" selected>', h)
+        self.assertIn('<option value="puntos" selected>', h)  # T-500: la situación actual es la capa por defecto
+        self.assertIn('<option value="doblevuelta">', h)
+        self.assertIn('data-value="proporcional" aria-pressed="true"', h)
+        self.assertIn('<script defer src="puntos.js"></script>', h)
         self.assertNotIn("Simulación sin valor oficial.", h)
         self.assertIn('dv:"datos/"', js)  # lo que deja herramientas/publicar_doble_vuelta.py en v4/mapa/datos/ (P40)
         self.assertIn("crypto", js)
@@ -138,7 +152,7 @@ class CapaDobleVuelta(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             sal, det = Path(d) / "r.csv", Path(d) / "d.csv"
             subprocess.run([sys.executable, str(RAIZ / "herramientas/doble_vuelta.py"), "--votos", str(MAPA / "ejemplo/votos.csv"),
-                            "--bloques", str(RAIZ / "configuracion/bloques_partidos_2026-11-17.csv"), "--eleccion", "2023-07",
+                            "--bloques", str(RAIZ / "configuracion/bloques_partidos_2026-11-25.csv"), "--eleccion", "2023-07",
                             "--salida", str(sal), "--detalle", str(det)], check=True, capture_output=True)
             self.assertEqual(sal.read_bytes(), (MAPA / "ejemplo/resultados_doble_vuelta.csv").read_bytes())
             self.assertEqual(det.read_bytes(), (MAPA / "ejemplo/detalle.csv").read_bytes())

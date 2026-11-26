@@ -117,7 +117,7 @@ def construir(root: Path = ROOT) -> dict:
         if (e, i) not in tabla:
             sin[(e, u)] += v
             pend.append({"eleccion": e, "id_fuente": i, "votos": v, "universo": u,
-                         "motivo": f"CONFLICTO: {conf[(e, i)]}" if (e, i) in conf else "SIN_FUENTE_DE_HOMOLOGACION"})
+                         "motivo": f"CONFLICTO: {conf[(e, i)]}" if (e, i) in conf else "SIN_CAPITAL_DE_HOMOLOGACION"})
     pend.sort(key=lambda p: (p["eleccion"], p["universo"], -p["votos"], p["id_fuente"]))
     resumen = {
         "schema": "ddd.alias-partidos-generales/1.0",

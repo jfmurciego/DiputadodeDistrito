@@ -23,7 +23,7 @@ import alias_partidos_generales as ap  # noqa: E402
 import doble_vuelta as dv  # noqa: E402
 
 ALIAS = ROOT / "configuracion/alias_partidos_generales.csv"
-BLOQUES = ROOT / "configuracion/bloques_partidos_2026-11-17.csv"
+BLOQUES = ROOT / "configuracion/bloques_partidos_2026-11-25.csv"
 
 
 def tabla():
@@ -95,7 +95,7 @@ class AliasEnDobleVuelta(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             d = Path(d)
             (d / "v.csv").write_text("district_id,party,votes,bloc\n1,PP-EU,60,\n1,SUMAR,40,\n", encoding="utf-8")
-            (d / "b.csv").write_text("eleccion,siglas,denominacion,bloque_propuesto,motivo\n2023-07,PP,PP,Patriotas,x\n"
+            (d / "b.csv").write_text("eleccion,siglas,denominacion,bloque_propuesto,motivo\n2023-07,PP,PP,Derecha nacional,x\n"
                                      "2023-07,Podemos–Sumar,x,Izquierdas,x\n", encoding="utf-8")
             (d / "a.csv").write_text("eleccion,id_fuente,partido_homologado,origen,fuente\n202307,PP-EU,PP,HOMOLOGACION,x\n"
                                      "202307,SUMAR,Podemos–Sumar,HOMOLOGACION,x\n", encoding="utf-8")
@@ -107,13 +107,13 @@ class AliasEnDobleVuelta(unittest.TestCase):
             self.assertEqual(m["sin_casar"]["n_partidos"], 0)
             self.assertEqual(m["alias"]["sha256"], dv.sha256(d / "a.csv"))
             base = next(f for f in filas if f["escenario"] == "dv_base")
-            self.assertEqual((base["candidatura_ganadora"], base["bloque_ganador"]), ("PP", "Patriotas"))  # 60 % en primera vuelta
+            self.assertEqual((base["candidatura_ganadora"], base["bloque_ganador"]), ("PP", "Derecha nacional"))  # 60 % en primera vuelta
 
     def test_sin_alias_los_ids_no_casan(self):
         with tempfile.TemporaryDirectory() as d:
             d = Path(d)
             (d / "v.csv").write_text("district_id,party,votes,bloc\n1,PP-EU,60,\n", encoding="utf-8")
-            (d / "b.csv").write_text("eleccion,siglas,denominacion,bloque_propuesto,motivo\n2023-07,PP,PP,Patriotas,x\n", encoding="utf-8")
+            (d / "b.csv").write_text("eleccion,siglas,denominacion,bloque_propuesto,motivo\n2023-07,PP,PP,Derecha nacional,x\n", encoding="utf-8")
             err = io.StringIO()
             with contextlib.redirect_stderr(err):
                 dv.generar(d / "v.csv", d / "b.csv", "2023-07", d / "s.csv")

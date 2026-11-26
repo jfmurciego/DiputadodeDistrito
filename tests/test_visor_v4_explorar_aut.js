@@ -1,7 +1,7 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: prueba de interacción del Explorar de la V4 en el ámbito «Autonómico» (T-427)
- * VERSIÓN: 1.1.0 · FECHA: 2026-11-24 · ESTADO: candidato · ANTERIOR: legacy/tests/test_visor_v4_explorar_aut_v1.0.0_20261120.js
- * CAMBIOS: 1.1.0 (T-456): el mapa y la doble vuelta salen del mismo run (el del índice); Andalucía (aut01), Castilla y León (aut07) y Castilla-La Mancha (aut08) con el M08 publicado solo bajo autNN y otro más viejo bajo la clave legacy:
+ * VERSIÓN: 1.2.0 · FECHA: 2026-11-26 · ESTADO: candidato · ANTERIOR: legacy/tests/test_visor_v4_explorar_aut_v1.1.0_20261124.js
+ * CAMBIOS: 1.2.0 (T-501): `flush` espera a que no haya fetch ni sha256 pendientes (10 vueltas seguidas, tope 15 s) en vez de 60 vueltas fijas: arregla el fallo intermitente de «Castilla-La Mancha» (línea 146). 1.1.0 (T-456): el mapa y la doble vuelta salen del mismo run (el del índice); Andalucía (aut01), Castilla y León (aut07) y Castilla-La Mancha (aut08) con el M08 publicado solo bajo autNN y otro más viejo bajo la clave legacy:
  *   gana el más reciente y la doble vuelta se pinta; ningún cartel «sin valor oficial» ni «no disponible».
  *   1.0.0: navegador simulado (mismo arnés que test_visor_v4_explorar.js) con un índice 1.1 sintético: Andalucía con doble vuelta (run 500),
  *   Asturias declarada sin doble vuelta con su motivo y Canarias con el mapa publicado de OTRA ejecución. Esperados literales: id público =
@@ -61,31 +61,36 @@ for (const [id, opts] of [["scope", ["nacional", "autonomico"]], ["system", ["pr
   group["#" + id + " button"] = opts.map(value => ({ dataset: { value }, setAttribute(k, v) { this[k] = v; } }));
 group["[data-panel]"] = ["territorio", "resultados", "comparar", "evolucion"].map(panel => ({ dataset: { panel }, setAttribute(k, v) { this[k] = v; } }));
 const doc = { getElementById: element, querySelectorAll: q => group[q] || [], createElement: tag => ({ tag, textContent: "", setAttribute(k, v) { this[k] = v; } }),
-  body: { dataset: {} }, documentElement: {} };
-let map;
+  body: { dataset: {} }, documentElement: {}, addEventListener(ev, fn) { (this.h ??= {})[ev] = fn; } };
+let map, popup2; const popups = [];
+class Popup { constructor(o) { this.o = o; popups.push(this); } setLngLat(l) { this.l = l; return this; } setHTML(h) { this.html = h; return this; } addTo() { return this; } on(ev, fn) { (this.h ??= {})[ev] = fn; } remove() { this.removed = true; } }
 class FakeMap {
   constructor() { this.sources = new Map(); this.layers = new Map(); this.handlers = {}; this.hit = []; map = this; queueMicrotask(() => this.handlers.load?.()); }
   addControl() {} on(ev, ...a) { this.handlers[ev] = a.at(-1); }
   addSource(id, s) { this.sources.set(id, { data: s.data, setData(n) { this.data = n; } }); } getSource(id) { return this.sources.get(id); }
   addLayer(l) { this.layers.set(l.id, { ...l, layout: { visibility: "visible", ...l.layout }, paint: { ...l.paint } }); } getLayer(id) { return this.layers.get(id); }
   getLayoutProperty(id, k) { return this.layers.get(id).layout[k]; } setLayoutProperty(id, k, v) { this.layers.get(id).layout[k] = v; }
-  setPaintProperty(id, k, v) { this.layers.get(id).paint[k] = v; } fitBounds() {} getZoom() { return 5; } queryRenderedFeatures() { return this.hit; }
+  setPaintProperty(id, k, v) { this.layers.get(id).paint[k] = v; } fitBounds() {} getZoom() { return 5; } setFilter(id, f) { this.layers.get(id).filter = f; } queryRenderedFeatures() { return this.hit; }
 }
-const libre = { Map: FakeMap, NavigationControl: class {} };
+const libre = { Map: FakeMap, NavigationControl: class {}, Popup };
 const ab = b => b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength);
-const sandbox = { document: doc, maplibregl: libre, console, location: { search: "" }, history: { replaceState() {} }, TextDecoder, crypto: crypto.webcrypto,
+// Trabajo asíncrono pendiente (fetch y sha256): `flush` espera a que no quede ninguno durante 10 vueltas seguidas del bucle de eventos, y falla si no se estabiliza en 15 s
+// (T-501: antes eran 60 vueltas fijas y a veces no bastaban con la carga de la verificación de huellas).
+let pendiente = 0;
+const contar = p => { pendiente++; return Promise.resolve(p).finally(() => { pendiente--; }); };
+const sandbox = { document: doc, maplibregl: libre, console, location: { search: "" }, history: { replaceState() {} }, TextDecoder, crypto: { subtle: { digest: (a, b) => contar(crypto.webcrypto.subtle.digest(a, b)) } },
   getComputedStyle: () => ({ getPropertyValue: () => "" }),
-  fetch: async key => {
+  fetch: key => contar((async () => {
     if (Object.hasOwn(bin, key)) return { ok: true, status: 200, arrayBuffer: async () => ab(bin[key]) };
     const ok = Object.hasOwn(fixtures, key); return { ok, status: ok ? 200 : 404, json: async () => fixtures[key] };
-  } };
+  })()) };
 sandbox.window = sandbox; sandbox.globalThis = sandbox;
 vm.runInNewContext(dvSource, sandbox, { filename: "dv.js" });
 const marker = "  init();\n})();";
 assert.ok(source.includes(marker), "cambió el arranque del Explorar");
 vm.runInNewContext(source.replace(marker, "  globalThis.__T__={S,D,DVD,setRegla,renderDetail,openProvince};\n  init();\n})();"), sandbox, { filename: "explorar.js", timeout: 10000 });
 const eq = (a, b, m) => assert.deepEqual(JSON.parse(JSON.stringify(a)), b, m); // objetos del contexto vm: otro prototipo de Array
-const flush = async () => { for (let i = 0; i < 60; i++) await new Promise(r => setImmediate(r)); };
+const flush = async () => { const t0 = Date.now(); for (let quietas = 0; quietas < 10;) { if (Date.now() - t0 > 15000) throw new Error("el Explorar no se estabiliza: trabajo pendiente"); await new Promise(r => setImmediate(r)); quietas = pendiente === 0 ? quietas + 1 : 0; } };
 
 (async () => {
   await flush();
@@ -104,7 +109,19 @@ const flush = async () => { for (let i = 0; i < 60; i++) await new Promise(r => 
   assert.match(element("map-caption").textContent, /Doble vuelta · Tres bloques · autonómicas · Andalucía · simulación/);
   // 3. Ficha del distrito público 2 con la elección autonómica.
   map.hit = [{ layer: { id: "dist-fill" }, geometry: feats[1].geometry, properties: feats[1].properties }];
-  map.handlers.click({ point: {} }); await flush();
+  map.handlers.click({ point: {}, lngLat: { lng: 0, lat: 0 } }); await flush();
+  // T-459: ventana y resaltado también en el ámbito autonómico (sin identity: coalesce a "" y número público del distrito).
+  const filtro = () => JSON.stringify(map.getLayer("dist-sel").filter);
+  assert.equal(filtro(), JSON.stringify(["all", ["==", ["get", "distrito"], feats[1].properties.distrito], ["==", ["coalesce", ["get", "identity"], ""], ""]]));
+  assert.match(popups.at(-1).html, /<dt>Población<\/dt>[\s\S]*<dt>Votos<\/dt>[\s\S]*<dt>Bloque ganador<\/dt>/);
+  popup2 = popups.at(-1);
+  doc.h.keydown({ key: "Escape" });
+  assert.equal(popup2.removed, true, "Esc cierra la ventana"); assert.equal(map.getLayer("dist-sel").filter[0], "==", "Esc quita el resaltado");
+  map.handlers.click({ point: {}, lngLat: { lng: 0, lat: 0 } }); await flush();
+  assert.equal(map.getLayer("dist-sel").filter[0], "all");
+  popups.at(-1).h.close(); // la X de la ventana
+  assert.equal(map.getLayer("dist-sel").filter[0], "==", "la X quita el resaltado");
+  map.handlers.click({ point: {}, lngLat: { lng: 0, lat: 0 } }); await flush();
   assert.equal(element("dv-mode").hidden, false);
   assert.match(element("dv-heading").textContent, /distrito 2/);
   assert.match(element("dv-content").innerHTML, /Elecciones autonómicas de 05\/2026/);

@@ -1,0 +1,92 @@
+{
+ "territorio": "nac09",
+ "version": "1.0.0",
+ "k": 3,
+ "atomos": 372,
+ "aristas": 988,
+ "epsilon": 0.15,
+ "huella_reglas": "107763f190b42b801ef0d3373c30adca57cadd0ea805210c4d10ec3fb8e32b62",
+ "ganador_deslinde": {
+  "fuera": 0,
+  "exceso_8": 0.0,
+  "partidas": 2,
+  "frontera_km": 315.804,
+  "desvio_max": 0.07844530878361362,
+  "huella": "01d0f33224c402ad2f426bb2c75666160f5375a53183ea38008cfbfa1dadf5cc"
+ },
+ "semillas": [
+  {
+   "semilla": 10,
+   "intentos_semilla": 1,
+   "motivos_semillas_rechazadas": [],
+   "estado": "OK",
+   "pasos": 100000,
+   "estados_distintos": 58875,
+   "autobucles": 41125,
+   "paso_mejor": 32740,
+   "mejor": {
+    "fuera": 0,
+    "exceso_8": 0.0,
+    "partidas": 4,
+    "frontera_km": 279.933,
+    "desvio_max": 0.0555614629095895,
+    "huella": "935fcc9d213e129ea47a1343576f7f58b5d086b12257c14a31ebb9a5da390085"
+   },
+   "cortes": {
+    "100": {
+     "clave_d8": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 6,
+      "frontera_km": 211.487,
+      "desvio_max": 0.05289196071298654,
+      "huella": "1560ed2d84f12f83c27855c62e4cc67b881a2642ccf55576cc4c65721f743c49"
+     },
+     "cpu_s": 1.28
+    },
+    "1000": {
+     "clave_d8": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 5,
+      "frontera_km": 218.307,
+      "desvio_max": 0.07375269328706942,
+      "huella": "1a7793302ef7732491a2552fda730cc91bf864ee7a30f0b4f310fe2b3be20f17"
+     },
+     "cpu_s": 10.96
+    },
+    "10000": {
+     "clave_d8": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 5,
+      "frontera_km": 218.307,
+      "desvio_max": 0.07375269328706942,
+      "huella": "1a7793302ef7732491a2552fda730cc91bf864ee7a30f0b4f310fe2b3be20f17"
+     },
+     "cpu_s": 106.8
+    },
+    "100000": {
+     "clave_d8": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 4,
+      "frontera_km": 279.933,
+      "desvio_max": 0.0555614629095895,
+      "huella": "935fcc9d213e129ea47a1343576f7f58b5d086b12257c14a31ebb9a5da390085"
+     },
+     "cpu_s": 1080.72
+    }
+   },
+   "hueco_frente_a_deslinde": {
+    "termino": "partidas",
+    "ganador": 4.0,
+    "optimo": 2.0,
+    "diferencia": 2.0
+   },
+   "cpu_s": 1080.72
+  }
+ ],
+ "cpu_carga_s": 0.13,
+ "cpu_total_s": 1080.86
+}

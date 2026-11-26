@@ -33,15 +33,15 @@ def resultados(ids=(0, 1), extra=""):
     f = ""
     for i in ids:
         f += (f"{i},dv_base,2,Podemos–Sumar,Izquierdas,30,0.300000,PP,Podemos–Sumar,45,50,0.526316,5,false\n"
-              f"{i},dv_A,2,bloque:Izquierdas,Izquierdas,50,0.500000,bloque:Izquierdas,bloque:Patriotas,50,45,0.526316,5,false\n"
-              f"{i},dv_B,2,bloque:Izquierdas,Izquierdas,50,0.500000,bloque:Izquierdas,bloque:Patriotas,50,45,0.526316,5,false\n")
+              f"{i},dv_A,2,bloque:Izquierdas,Izquierdas,50,0.500000,bloque:Izquierdas,bloque:Derecha nacional,50,45,0.526316,5,false\n"
+              f"{i},dv_B,2,bloque:Izquierdas,Izquierdas,50,0.500000,bloque:Izquierdas,bloque:Derecha nacional,50,45,0.526316,5,false\n")
     return ENC + f + extra
 
 
 def detalle(ids=(0, 1)):
     f = ""
     for i in ids:
-        for p, b, v in (("PP", "Patriotas", 30), ("Podemos–Sumar", "Izquierdas", 28), ("PSOE", "Izquierdas", 22), ("VOX", "Patriotas", 15), ("XX", "", 5)):
+        for p, b, v in (("PP", "Derecha nacional", 30), ("Podemos–Sumar", "Izquierdas", 28), ("PSOE", "Izquierdas", 22), ("VOX", "Derecha nacional", 15), ("XX", "", 5)):
             f += f"{i},dv_base,{p},{p},{b},{v},{v}\n"
     return ENC_D + f
 
@@ -145,7 +145,7 @@ class Publicar(unittest.TestCase):
         self.assertEqual(sorted({r["district_id"] for r in res}), ["1", "2"])  # interno 0..1 → público 1..2
         self.assertEqual([r["escenario"] for r in res[:4]], ["dv_base", "dv_A", "dv_B", "primero"])
         p = res[3]  # primero del distrito 1: PP 30 de 100
-        self.assertEqual((p["candidatura_ganadora"], p["bloque_ganador"], p["vuelta_decisiva"], p["cuota_1v"], p["empate"]), ("PP", "Patriotas", "1", "0.300000", "false"))
+        self.assertEqual((p["candidatura_ganadora"], p["bloque_ganador"], p["vuelta_decisiva"], p["cuota_1v"], p["empate"]), ("PP", "Derecha nacional", "1", "0.300000", "false"))
         det = list(csv.DictReader(io.StringIO(s["nac01/detalle.csv"].decode())))
         self.assertEqual(len([d for d in det if d["escenario"] == "primero"]), 10)  # 5 partidos × 2 distritos
         self.assertEqual(e["resultados"]["sha256"], sha(s["nac01/resultados_doble_vuelta.csv"]))
@@ -294,7 +294,7 @@ class Publicar(unittest.TestCase):
 
     def test_t422_filas_sin_distrito_vacio_nan_con_linea_y_valor(self):
         for malo in ("", "nan", "NaN", "None"):
-            r = resultados((0, 1), extra=f"{malo},dv_base,2,PP,Patriotas,1,0.1,PP,PSOE,1,1,0.5,0,false\n")
+            r = resultados((0, 1), extra=f"{malo},dv_base,2,PP,Derecha nacional,1,0.1,PP,PSOE,1,1,0.5,0,false\n")
             z = zip_de(r, detalle((0, 1)))
             _, err, s = self.correr(zips={"1001": z, "1002": z})
             self.assertIn("ID_FUERA_DE_RANGO", err, malo)
@@ -302,7 +302,7 @@ class Publicar(unittest.TestCase):
             self.assertIn("línea 8", err)  # cabecera + 6 filas buenas + la mala
             self.assertIn(repr(malo), err)
             self.assertEqual(s, {})
-        d = detalle((0, 1)) + ",dv_base,PP,PP,Patriotas,3,3\n"  # el detalle, con id vacío
+        d = detalle((0, 1)) + ",dv_base,PP,PP,Derecha nacional,3,3\n"  # el detalle, con id vacío
         z = zip_de(resultados((0, 1)), d)
         _, err, _ = self.correr(zips={"1001": z, "1002": z})
         self.assertIn("nac01/detalle.csv", err)
@@ -345,8 +345,8 @@ class Publicar(unittest.TestCase):
         self.assertIn("PRIMERO_INCOHERENTE", err)
 
     def test_empate_en_primero(self):
-        det = ENC_D + "".join(f"0,dv_base,{p},{p},{b},30,30\n" for p, b in (("AAA", "Patriotas"), ("BBB", "Izquierdas")))
-        res = ENC + "0,dv_base,2,AAA,Patriotas,30,0.500000,AAA,BBB,30,30,0.5,0,true\n0,dv_A,2,x,,1,1,,,,,,0,false\n0,dv_B,2,x,,1,1,,,,,,0,false\n"
+        det = ENC_D + "".join(f"0,dv_base,{p},{p},{b},30,30\n" for p, b in (("AAA", "Derecha nacional"), ("BBB", "Izquierdas")))
+        res = ENC + "0,dv_base,2,AAA,Derecha nacional,30,0.500000,AAA,BBB,30,30,0.5,0,true\n0,dv_A,2,x,,1,1,,,,,,0,false\n0,dv_B,2,x,,1,1,,,,,,0,false\n"
         _, err, s = self.correr(zips={"1001": zip_de(res, det), "1002": zip_de(res, det)}, geo=lambda t: geojson_sitio(ids=(1,)))
         self.assertEqual(err, "")
         p = [r for r in csv.DictReader(io.StringIO(s["nac01/resultados_doble_vuelta.csv"].decode())) if r["escenario"] == "primero"][0]
@@ -453,11 +453,11 @@ class Fijado(unittest.TestCase):
         self.assertRegex(self.pin["informe_sha256"], r"^[0-9a-f]{64}$")
 
     def test_la_clave_es_la_del_run_fijado(self):
-        self.assertEqual(self.pin["informe_clave"], f"doble_vuelta/{self.pin['eleccion']}/{self.pin['run_p75']}/INFORME.json")
+        self.assertEqual(self.pin["informe_clave"], "interno/doble-vuelta/nacionales/congreso-2023/informe-doble-vuelta.json")  # árbol nuevo (T-443)
 
-    def test_valores_fijados(self):  # literales de la huella verificada en el log del job de P75 (run 44575597009, intento 1, 52/52 OK)
-        self.assertEqual((self.pin["eleccion"], self.pin["run_p75"]), ("2023-07", "44575597009-1"))
-        self.assertEqual(self.pin["informe_sha256"], "c127f66b074a37319b864a090c7585c6db4ccc923482e11342b147e69194711c")
+    def test_valores_fijados(self):  # literales de la entrega de la P75 nacional (run 45871996553, intento 1, 52/52 OK; T-460, tablas «Derecha nacional»)
+        self.assertEqual((self.pin["eleccion"], self.pin["run_p75"]), ("2023-07", "45871996553-1"))
+        self.assertEqual(self.pin["informe_sha256"], "650ba13c978a54437a1870baec424b06b865ac4b15c03624e9b70563edad60cc")
 
     def test_el_publicador_lo_acepta_como_fijado_valido(self):
         # control: con un informe cuyo sha256 NO es el fijado, el publicador falla cerrado (no publica con otra huella)

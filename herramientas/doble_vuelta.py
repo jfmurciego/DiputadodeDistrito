@@ -3,9 +3,10 @@
 """Doble vuelta con coaliciones por distrito (T-409, D-167): escenarios dv_base, dv_A y dv_B.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.0 · FECHA: 2026-11-19 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/doble_vuelta_v1.3.0_20261119.py
-CAMBIOS: 1.4.0 (T-421): `--comunidad`: tabla de bloques y alias de autonómicas llevan columna `comunidad` y se filtran por ella (la tabla va por partido tras el alias); `--comunidad` sin `--alias` falla; sin `--comunidad` nada cambia.
+VERSIÓN: 1.5.0 · FECHA: 2026-11-25 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/doble_vuelta_v1.4.0_20261119.py
+CAMBIOS: 1.5.0 (T-460, propietario 25-11): el bloque «Patriotas» pasa a llamarse «Derecha nacional» (BLOQUES, dv_B); ningún partido cambia de bloque. Las tablas con «Patriotas» ya no sirven: usar bloques_partidos_2026-11-25.csv.
+  1.4.0 (T-421): `--comunidad`: tabla de bloques y alias de autonómicas llevan columna `comunidad` y se filtran por ella (la tabla va por partido tras el alias); `--comunidad` sin `--alias` falla; sin `--comunidad` nada cambia.
   1.3.0 (T-409): `--alias` (configuracion/alias_partidos_generales.csv): el id de partido de P31 pasa a su partido homologado antes de buscar el bloque
   (los ids que dan el mismo partido suman sus votos); sin `--alias` nada cambia. El manifiesto lleva el sha256 del alias.
   1.2.0 (T-409, revisor de #904): los partidos con votos que NO están en la tabla de bloques de la elección («sin casar») se informan
@@ -15,12 +16,12 @@ CAMBIOS: 1.4.0 (T-421): `--comunidad`: tabla de bloques y alias de autonómicas 
   distrito de P31 (`district_id, party, votes`) y la tabla de bloques de `configuracion/`.
 MOTIVO: D-167 (propietario, 17-11): escenario adicional de doble vuelta con coaliciones por bloque; diseño en
   docs/ESTUDIOS/T409_DOBLE_VUELTA/DISENO.md.
-QUÉ HACE: por distrito y escenario (dv_base sin coaliciones; dv_A los tres bloques coaligados; dv_B solo Izquierdas y Patriotas):
+QUÉ HACE: por distrito y escenario (dv_base sin coaliciones; dv_A los tres bloques coaligados; dv_B solo Izquierdas y Derecha nacional):
   >50 % de los votos a candidaturas gana en primera vuelta; si no, segunda entre las dos más votadas y cada candidatura
   eliminada transfiere TODOS sus votos al finalista de su bloque (con dos finalistas del mismo bloque, al más votado en la
   primera vuelta); sin finalista de su bloque, o sin bloque, abstención. Empates: orden alfabético del id con `empate=true`.
   Sin tasas de trasvase inventadas ni votos reconstruidos. Salida CSV determinista y manifiesto con sha256 de entradas y salida.
-USO: python herramientas/doble_vuelta.py --votos P31.csv --bloques configuracion/bloques_partidos_2026-11-17.csv
+USO: python herramientas/doble_vuelta.py --votos P31.csv --bloques configuracion/bloques_partidos_2026-11-25.csv
   --eleccion 2023-07 --salida salida.csv [--manifiesto manifiesto.json] [--detalle detalle.csv]
 """
 from __future__ import annotations
@@ -33,11 +34,11 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-BLOQUES = ("Izquierdas", "Nacionalistas", "Patriotas")
+BLOQUES = ("Izquierdas", "Nacionalistas", "Derecha nacional")
 ESCENARIOS = {
     "dv_base": frozenset(),
     "dv_A": frozenset(BLOQUES),
-    "dv_B": frozenset({"Izquierdas", "Patriotas"}),
+    "dv_B": frozenset({"Izquierdas", "Derecha nacional"}),
 }
 COLUMNAS = [
     "district_id", "escenario", "vuelta_decisiva", "candidatura_ganadora", "bloque_ganador", "votos_1v", "cuota_1v",

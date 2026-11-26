@@ -1,9 +1,9 @@
 # Nombres y comunidades de interés — congreso_alava
 
-Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.1.0. Sin datos electorales.
+Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.2.0. Sin datos electorales.
 
 - Distritos: 3 (nombres únicos: 3)
-- Reglas: MUNICIPIO 2, PRINCIPAL_Y_ENTORNO 1
+- Reglas: CAPITAL_PARTIDO 1, MUNICIPIO 2
 - Municipios divididos entre distritos (suma por distrito): 3
 
 ## C13 partidos judiciales partidos
@@ -21,6 +21,6 @@ Fuente: Ley 38/1988, Anexo I (BOE-A-1988-29622), `configuracion/partidos_judicia
 
 | Id | Nombre | Regla | Población | Comarcas |
 |---|---|---|---|---|
-| 0 | Vitoria-Gasteiz 2 | MUNICIPIO | 127496 | n/d |
-| 1 | Vitoria-Gasteiz 1 | MUNICIPIO | 113457 | n/d |
-| 2 | Vitoria-Gasteiz y entorno | PRINCIPAL_Y_ENTORNO | 95355 | n/d |
+| 0 | Vitoria 3 | MUNICIPIO | 127496 | n/d |
+| 1 | Vitoria 1 | MUNICIPIO | 113457 | n/d |
+| 2 | Vitoria 2 | CAPITAL_PARTIDO | 95355 | n/d |

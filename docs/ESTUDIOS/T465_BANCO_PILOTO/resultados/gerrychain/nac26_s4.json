@@ -1,0 +1,94 @@
+{
+ "territorio": "nac26",
+ "version": "1.0.0",
+ "k": 3,
+ "atomos": 175,
+ "aristas": 459,
+ "epsilon": 0.15,
+ "huella_reglas": "1715d7ba5a045b16c341e05cdacf0a609950da1c2efcf14cc02ee1c27cc22863",
+ "ganador_deslinde": {
+  "fuera": 0,
+  "exceso_8": 0.0,
+  "partidas": 2,
+  "frontera_km": 88.925,
+  "desvio_max": 0.07357221315493884,
+  "huella": "690a89ed2dfb60ca80475306959bb5913951a5444de89eb893d274211c942185"
+ },
+ "semillas": [
+  {
+   "semilla": 4,
+   "intentos_semilla": 6,
+   "motivos_semillas_rechazadas": [
+    "R-MUN-MIXTOS",
+    "R-NUCLEO"
+   ],
+   "estado": "OK",
+   "pasos": 100000,
+   "estados_distintos": 47348,
+   "autobucles": 52652,
+   "paso_mejor": 1529,
+   "mejor": {
+    "fuera": 0,
+    "exceso_8": 0.0,
+    "partidas": 2,
+    "frontera_km": 88.925,
+    "desvio_max": 0.07357221315493884,
+    "huella": "690a89ed2dfb60ca80475306959bb5913951a5444de89eb893d274211c942185"
+   },
+   "cortes": {
+    "100": {
+     "clave_d8": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 3,
+      "frontera_km": 88.701,
+      "desvio_max": 0.03585369334930279,
+      "huella": "2f4feead9ffcd3f4db01fd44eba328b9ba16f5a2b241f521c3426219c920aa49"
+     },
+     "cpu_s": 0.51
+    },
+    "1000": {
+     "clave_d8": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 2,
+      "frontera_km": 129.611,
+      "desvio_max": 0.03624465530187848,
+      "huella": "4bc9c923f178fb3be10c2c294e609e7b4f9838d4e3367f1bd6f5a819ec902963"
+     },
+     "cpu_s": 4.15
+    },
+    "10000": {
+     "clave_d8": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 2,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "huella": "690a89ed2dfb60ca80475306959bb5913951a5444de89eb893d274211c942185"
+     },
+     "cpu_s": 39.66
+    },
+    "100000": {
+     "clave_d8": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 2,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "huella": "690a89ed2dfb60ca80475306959bb5913951a5444de89eb893d274211c942185"
+     },
+     "cpu_s": 404.08
+    }
+   },
+   "hueco_frente_a_deslinde": {
+    "termino": null,
+    "empate_hasta_huella": true,
+    "misma_particion": true
+   },
+   "cpu_s": 404.08
+  }
+ ],
+ "cpu_carga_s": 0.12,
+ "cpu_total_s": 404.2
+}

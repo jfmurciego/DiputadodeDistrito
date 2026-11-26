@@ -3,19 +3,20 @@
 """Tabla APROBADA de bloques y alias de la doble vuelta para las elecciones autonómicas vigentes (T-421, D-167, D-168, D-170).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.0 · FECHA: 2026-11-24 · ESTADO: candidato
-CAMBIOS: 1.3.0 (T-449, D-183, propietario 24-11): aut08 (Castilla-La Mancha) entra con sus votos por distrito de
+VERSIÓN: 1.4.0 · FECHA: 2026-11-25 · ESTADO: candidato
+CAMBIOS: 1.4.0 (T-460, propietario 25-11): PAT = «Derecha nacional» (antes «Patriotas»); lee la tabla nacional configuracion/bloques_partidos_2026-11-25.csv y escribe configuracion/bloques_partidos_autonomicas_2026-11-25.csv; ningún partido cambia de bloque.
+  1.3.0 (T-449, D-183, propietario 24-11): aut08 (Castilla-La Mancha) entra con sus votos por distrito de
   datos/resultados/doble_vuelta_autonomicas/aut08/202305/aut08_partidos.csv (copia archivada del fichero oficial, fuente no oficial);
   «UNIDAS PODEMOS CLM» entra en el criterio ya aprobado de coaliciones con Podemos/IU/Sumar (CPS, como «UNIDAS SÍ PODEMOS»).
 CAMBIOS: 1.2.0 (T-426): aut03 (Asturias) y aut14 (Murcia) entran con sus votos por distrito de datos/resultados/doble_vuelta_autonomicas/<aut>/<AAAAMM>/<aut>_partidos.csv (distrito, partido, votos; formato T-427); VIGENTES admite una ruta propia.
 CAMBIOS: 1.1.0 (T-421, lista cerrada del propietario 19-11): ALIANÇA.CAT, UXGC, ANDALUCISTAS y ALHORA → Nacionalistas; SALF → Patriotas; DVC → Izquierdas; el resto de menores, sin bloque; la tabla pasa a configuracion/bloques_partidos_autonomicas_2026-11-19.csv (aprobada, sin PROPUESTA).
 CAMBIOS: 1.0.1 (T-421, Planificador y revisor): CONTIGO-ZUREKIN, DO y 100x100 → Nacionalistas (propietario, 19-11); JUNTS+ → Nacionalistas (no es el JXC de D-170); la tabla va por partido tras el alias (como en el nacional) y el alias lleva una fila por sigla; una regla sin socio aprobado conserva la sigla como id.
 CAMBIOS: 1.0.0 (T-421): fichero nuevo.
-ANTERIOR: legacy/herramientas/bloques_autonomicas_v1.2.0_20261124.py
+ANTERIOR: legacy/herramientas/bloques_autonomicas_v1.3.0_20261124.py
 MOTIVO: la segunda tanda de la V4 (D-179) lleva los territorios `aut`; sus partidos deben tener bloque con las mismas reglas que las generales.
 QUÉ HACE: lee los votos por partido de la elección vigente de cada comunidad (datos/resultados/historico/autonomicas/<c>/<AAAAMM>/<c>_partidos.csv,
-  sha256 en la tabla) y escribe configuracion/bloques_partidos_autonomicas_2026-11-19.csv y configuracion/alias_partidos_autonomicas.csv.
-  Bloque: (1) sigla ya en la tabla aprobada (bloques_partidos_2026-11-17.csv) → su bloque; (2) variante federada o coalición de un partido
+  sha256 en la tabla) y escribe configuracion/bloques_partidos_autonomicas_2026-11-25.csv y configuracion/alias_partidos_autonomicas.csv.
+  Bloque: (1) sigla ya en la tabla aprobada (bloques_partidos_2026-11-25.csv) → su bloque; (2) variante federada o coalición de un partido
   aprobado (REGLAS) → el mismo bloque; (3) sin bloque decidido en D-168/D-170 → vacío con motivo; (4) resto → sin bloque (propietario, 19-11: «el resto de menores, sin bloque»).
   Alias: reglas de sigla de datos/homologacion_siglas, tabla de homologación autonómica y variantes propuestas.
 NO HACE: inventar votos, publicar ni tocar la tabla aprobada. Uso: python herramientas/bloques_autonomicas.py [--dudosos N]
@@ -33,9 +34,9 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
 import homologacion_siglas_autonomicas as ha  # noqa: E402
 
-APROBADA = "configuracion/bloques_partidos_2026-11-17.csv"
+APROBADA = "configuracion/bloques_partidos_2026-11-25.csv"
 HOMOLOG = "datos/homologacion_siglas/homologacion_siglas_autonomicas.csv"
-SAL_BLOQUES = "configuracion/bloques_partidos_autonomicas_2026-11-19.csv"
+SAL_BLOQUES = "configuracion/bloques_partidos_autonomicas_2026-11-25.csv"
 SAL_ALIAS = "configuracion/alias_partidos_autonomicas.csv"
 HIST = "datos/resultados/historico/autonomicas"
 
@@ -50,7 +51,7 @@ VIGENTES = {
     "aut13": ("madrid", "202305"), "aut15": ("comunidad_foral_de_navarra", "202305"), "aut16": ("pais_vasco", "202404"),
     "aut17": ("la_rioja", "202305"), "aut08": ("castilla_la_mancha", "202305", DV.format("aut08", "202305")),
 }
-IZQ, NAC, PAT = "Izquierdas", "Nacionalistas", "Patriotas"
+IZQ, NAC, PAT = "Izquierdas", "Nacionalistas", "Derecha nacional"
 # sigla de la fuente → (partido aprobado al que se suma o None, bloque, motivo). Variantes federadas y coaliciones; criterio: mismo partido, mismo bloque (D-168).
 PROP = "decisión del propietario (19-11) "
 PSOE = "variante federada del PSOE → Izquierdas (mismo partido, D-168)"
@@ -58,11 +59,11 @@ CPS = "coalición con Podemos/IU/Sumar → Izquierdas (criterio Podemos–Sumar 
 REGLAS = {
     "PSOE-A": ("PSOE", IZQ, PSOE), "PSIB-PSOE": ("PSOE", IZQ, PSOE), "PSC-PSOE": ("PSOE", IZQ, PSOE), "PSC": ("PSOE", IZQ, PSOE),
     "PSN-PSOE": ("PSOE", IZQ, PSOE), "PSE-EE/PSOE": ("PSOE", IZQ, PSOE),
-    "PPN": ("PP", PAT, "Partido Popular de Navarra = PP → Patriotas (D-168)"),
+    "PPN": ("PP", PAT, "Partido Popular de Navarra = PP → Derecha nacional (D-168)"),
     "CCA": ("CCa", NAC, "grafía de CCa → Nacionalistas"), "NC-BC": ("NC", NAC, "Nueva Canarias (con BC) → Nacionalistas"),
     "El Pi": ("EL PI", NAC, "grafía de EL PI → Nacionalistas"), "P.C.P.E": ("PCPE", IZQ, "grafía de PCPE → Izquierdas"),
     "PCTE / ELAK": ("PCTE", IZQ, "PCTE → Izquierdas"), "PCAS-TC": ("PCAS", IZQ, "PCAS con TC → Izquierdas"),
-    "FE DE LAS JONS": ("FE de las JONS", PAT, "grafía de FE de las JONS → Patriotas (D-168)"),
+    "FE DE LAS JONS": ("FE de las JONS", PAT, "grafía de FE de las JONS → Derecha nacional (D-168)"),
     "CUP - DT": ("CUP", NAC, "CUP con DT → Nacionalistas (izquierda nacionalista, D-167)"),
     "PODEMOS-IU": (None, IZQ, CPS), "PODEMOS-I.U.": (None, IZQ, CPS), "IU-SUMAR": (None, IZQ, CPS), "UNIDES PODEM-EUPV": (None, IZQ, CPS),
     "UNIDAS SÍ PODEMOS": (None, IZQ, CPS), "UNIDAS PODEMOS CLM": (None, IZQ, CPS), "EUIB-PODEMOS": (None, IZQ, CPS), "PODEMOS-AV": (None, IZQ, CPS),
@@ -74,7 +75,7 @@ REGLAS = {
     "PAR-ES.C.": (None, "", "sin bloque (D-168: PAR)"), "Cs": (None, "", "sin bloque (D-168: Cs)"), "PACMA": (None, "", "sin bloque (D-168: PACMA)"),
     "CONTIGO-ZUREKIN": (None, NAC, "decisión del propietario (19-11, vía Planificador): nacionalistas antes que izquierdistas → Nacionalistas"),
     "DO": (None, NAC, "decisión del propietario (19-11, vía Planificador): → Nacionalistas"), "100x100": (None, NAC, "decisión del propietario (19-11, vía Planificador): → Nacionalistas"),
-    "JUNTS+": (None, NAC, "Junts = CiU–Junts de la tabla aprobada → Nacionalistas (no es el JXC de 2016 de D-170)"), "SALF": (None, PAT, PROP + "→ Patriotas"),
+    "JUNTS+": (None, NAC, "Junts = CiU–Junts de la tabla aprobada → Nacionalistas (no es el JXC de 2016 de D-170)"), "SALF": (None, PAT, PROP + "→ Derecha nacional"),
     "ALIANÇA.CAT": (None, NAC, PROP + "→ Nacionalistas"), "UXGC": (None, NAC, PROP + "→ Nacionalistas"),
     "ANDALUCISTAS": (None, NAC, PROP + "→ Nacionalistas"), "ALHORA": (None, NAC, PROP + "→ Nacionalistas"), "DVC": (None, IZQ, PROP + "→ Izquierdas"),
 }

@@ -1,9 +1,9 @@
 # Diputado de Distrito — motor de distritos uninominales
 
-**README rev. 5.0.0-r1** (BORRADOR para el corte 5.0.0; revisión del documento: licencia propietaria, T-280)  
-**Anterior:** `legacy/docs/README_v5.0.0-r0.md`
+**README rev. 5.0.0-r2** (BORRADOR para el corte 5.0.0; revisión del documento: DOI de la serie de mapas, T-463)  
+**Anterior:** `legacy/docs/README_v5.0.0-r1.md`
 
-[![DOI de concepto](https://zenodo.org/badge/DOI/10.5281/zenodo.24093967.svg)](https://doi.org/10.5281/zenodo.24093967) Serie de versiones de mapa publicadas en Zenodo; no es la cita del proyecto entero. Cada depósito contiene el código fuente del repositorio en esa versión, no el paquete firmado `.tar.gz`.
+[![DOI de concepto](https://zenodo.org/badge/DOI/10.5281/zenodo.24448721.svg)](https://doi.org/10.5281/zenodo.24448721) Serie de versiones de mapa publicadas en Zenodo; no es la cita del proyecto entero. Cada depósito contiene el código fuente del repositorio en esa versión, no el paquete firmado `.tar.gz`.
 
 ## Qué es
 
@@ -18,7 +18,7 @@ El estado operativo por territorio no está en este documento: lo genera el sist
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-24T16:45:43.417070+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-26T20:17:08.032699+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -241,4 +241,4 @@ Las fuentes oficiales conservan sus propias condiciones de reutilización.
 
 Jesus Murciego (Independent researcher). *Diputado de Distrito: motor reproducible de distritos uninominales*. Software, versión 4.9.0 (la versión citada sigue a `CITATION.cff`; se actualiza en el corte 5.0.0). <https://github.com/jfmurciego/DiputadodeDistrito>.
 
-Metadatos en `CITATION.cff` y `.zenodo.json`. Serie de versiones de mapa en Zenodo: DOI de concepto (resuelve a la última; no es la cita del proyecto entero) [10.5281/zenodo.24093967](https://doi.org/10.5281/zenodo.24093967). Para citar un mapa concreto, usa su DOI de versión; el depósito vigente es [10.5281/zenodo.24093968](https://doi.org/10.5281/zenodo.24093968). El depósito contiene el código fuente de esa versión; el paquete firmado y su manifiesto están en la Release de GitHub.
+Metadatos en `CITATION.cff` y `.zenodo.json`. Serie de versiones de mapa en Zenodo: DOI de concepto (resuelve a la última; no es la cita del proyecto entero) [10.5281/zenodo.24448721](https://doi.org/10.5281/zenodo.24448721). Para citar un mapa concreto, usa su DOI de versión; el depósito de la primera versión (mapa de Huesca) es [10.5281/zenodo.24093968](https://doi.org/10.5281/zenodo.24093968). El depósito contiene el código fuente de esa versión; el paquete firmado y su manifiesto están en la Release de GitHub.

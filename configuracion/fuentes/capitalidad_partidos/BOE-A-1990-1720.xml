@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<documento fecha_actualizacion="20251217192601">
+  <metadatos>
+    <identificador>BOE-A-1990-1720</identificador>
+    <origen_legislativo codigo="2">Autonómico</origen_legislativo>
+    <departamento codigo="8110">Comunidad Autónoma de La Rioja</departamento>
+    <rango codigo="1300">Ley</rango>
+    <fecha_disposicion>19891227</fecha_disposicion>
+    <numero_oficial>6/1989</numero_oficial>
+    <titulo>Ley 6/1989, de 27 de diciembre, por el que se fija la capitalidad de los Partidos Judiciales de La Rioja.</titulo>
+    <diario codigo="BOE">Boletín Oficial del Estado</diario>
+    <fecha_publicacion>19900123</fecha_publicacion>
+    <diario_numero>20</diario_numero>
+    <seccion>1</seccion>
+    <subseccion/>
+    <pagina_inicial>2103</pagina_inicial>
+    <pagina_final>2104</pagina_final>
+    <suplemento_pagina_inicial/>
+    <suplemento_pagina_final/>
+    <url_pdf>https://www.boe.es/boe/dias/1990/01/23/pdfs/A02103-02104.pdf</url_pdf>
+    <url_epub/>
+    <url_pdf_catalan/>
+    <url_pdf_euskera/>
+    <url_pdf_gallego/>
+    <url_pdf_valenciano/>
+    <estatus_legislativo>L</estatus_legislativo>
+    <fecha_vigencia>19900114</fecha_vigencia>
+    <estatus_derogacion>N</estatus_derogacion>
+    <fecha_derogacion/>
+    <judicialmente_anulada>N</judicialmente_anulada>
+    <fecha_anulacion/>
+    <vigencia_agotada>N</vigencia_agotada>
+    <estado_consolidacion codigo="3">Finalizado</estado_consolidacion>
+    <letra_imagen>A</letra_imagen>
+    <suplemento_letra_imagen/>
+    <url_eli>https://www.boe.es/eli/es-ri/l/1989/12/27/6</url_eli>
+  </metadatos>
+  <metadata-eli>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:eli="http://data.europa.eu/eli/ontology#">
+      <eli:LegalResource rdf:about="https://www.boe.es/eli/es-ri/l/1989/12/27/6">
+        <eli:jurisdiction rdf:resource="http://www.elidata.es/mdr/authority/jurisdiction/1/es-ri"/>
+        <eli:type_document rdf:resource="http://www.elidata.es/mdr/authority/resource-type/1/l"/>
+        <eli:id_local rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BOE-A-1990-1720</eli:id_local>
+        <eli:date_document rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1989-12-27</eli:date_document>
+        <eli:number rdf:datatype="http://www.w3.org/2001/XMLSchema#string">6</eli:number>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/78"/>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/1320"/>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/2414"/>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/6244"/>
+        <eli:has_member>
+          <eli:LegalResource rdf:about="https://www.boe.es/eli/es-ri/l/1989/12/27/6/dof">
+            <eli:jurisdiction rdf:resource="http://www.elidata.es/mdr/authority/jurisdiction/1/es-ri"/>
+            <eli:type_document rdf:resource="http://www.elidata.es/mdr/authority/resource-type/1/l"/>
+            <eli:id_local rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BOE-A-1990-1720</eli:id_local>
+            <eli:date_document rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1989-12-27</eli:date_document>
+            <eli:number rdf:datatype="http://www.w3.org/2001/XMLSchema#string">6</eli:number>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/78"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/1320"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/2414"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/6244"/>
+            <eli:version rdf:resource="http://www.elidata.es/mdr/authority/version/dof"/>
+            <eli:is_member_of rdf:resource="https://www.boe.es/eli/es-ri/l/1989/12/27/6"/>
+            <eli:consolidated_by rdf:resource="https://www.boe.es/eli/es-ri/l/1989/12/27/6/con/19900113"/>
+            <eli:is_realized_by>
+              <eli:LegalExpression rdf:about="https://www.boe.es/eli/es-ri/l/1989/12/27/6/dof/spa">
+                <eli:language rdf:resource="http://www.elidata.es/mdr/authority/language/spa"/>
+                <eli:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ley 6/1989, de 27 de diciembre, por el que se fija la capitalidad de los Partidos Judiciales de La Rioja.</eli:title>
+                <eli:publisher_agent rdf:resource="https://www.boe.es"/>
+                <eli:date_publication rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1990-01-23</eli:date_publication>
+                <eli:realizes rdf:resource="https://www.boe.es/eli/es-ri/l/1989/12/27/6/dof"/>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-ri/l/1989/12/27/6/dof/spa/html">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/text/html"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-ri/l/1989/12/27/6/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-ri/l/1989/12/27/6/dof/spa/pdf">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/application/pdf"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-ri/l/1989/12/27/6/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-ri/l/1989/12/27/6/dof/spa/xml">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/application/xml"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-ri/l/1989/12/27/6/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+              </eli:LegalExpression>
+            </eli:is_realized_by>
+          </eli:LegalResource>
+        </eli:has_member>
+        <eli:has_member>
+          <eli:LegalResource rdf:about="https://www.boe.es/eli/es-ri/l/1989/12/27/6/con/19900113">
+            <eli:jurisdiction rdf:resource="http://www.elidata.es/mdr/authority/jurisdiction/1/es-ri"/>
+            <eli:type_document rdf:resource="http://www.elidata.es/mdr/authority/resource-type/1/l"/>
+            <eli:id_local rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BOE-A-1990-1720</eli:id_local>
+            <eli:date_document rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1989-12-27</eli:date_document>
+            <eli:number rdf:datatype="http://www.w3.org/2001/XMLSchema#string">6</eli:number>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/78"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/1320"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/2414"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/6244"/>
+            <eli:version rdf:resource="http://www.elidata.es/mdr/authority/version/con"/>
+            <eli:version_date rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1990-01-13</eli:version_date>
+            <eli:is_member_of rdf:resource="https://www.boe.es/eli/es-ri/l/1989/12/27/6"/>
+            <eli:consolidates rdf:resource="https://www.boe.es/eli/es-ri/l/1989/12/27/6/dof"/>
+            <eli:is_realized_by>
+              <eli:LegalExpression rdf:about="https://www.boe.es/eli/es-ri/l/1989/12/27/6/con/19900113/spa">
+                <eli:language rdf:resource="http://www.elidata.es/mdr/authority/language/spa"/>
+                <eli:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ley 6/1989, de 27 de diciembre, por el que se fija la capitalidad de los Partidos Judiciales de La Rioja.</eli:title>
+                <eli:publisher_agent rdf:resource="https://www.boe.es"/>
+                <eli:realizes rdf:resource="https://www.boe.es/eli/es-ri/l/1989/12/27/6/con/19900113"/>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-ri/l/1989/12/27/6/con/19900113/spa/html">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/text/html"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-ri/l/1989/12/27/6/con/19900113/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+              </eli:LegalExpression>
+            </eli:is_realized_by>
+          </eli:LegalResource>
+        </eli:has_member>
+      </eli:LegalResource>
+    </rdf:RDF>
+  </metadata-eli>
+  <analisis>
+    <materias>
+      <materia codigo="78" orden="1">Administración de Justicia</materia>
+      <materia codigo="1320" orden="2">Comunidades Autónomas</materia>
+      <materia codigo="2414" orden="3">Demarcación judicial</materia>
+      <materia codigo="6244" orden="4">La Rioja</materia>
+    </materias>
+    <notas>
+      <nota codigo="14" orden="400">Publicada en el BOR núm. 6, de 13 de enero de 1990.</nota>
+    </notas>
+    <referencias>
+      <anteriores>
+        <anterior referencia="BOE-A-1988-29622" orden="3060">
+          <palabra codigo="440">DE CONFORMIDAD con</palabra>
+          <texto>el art. 4.4 de la Ley 38/1988, de 28 de diciembre</texto>
+        </anterior>
+        <anterior referencia="BOE-A-1985-12666" orden="3060">
+          <palabra codigo="440">DE CONFORMIDAD con</palabra>
+          <texto>el art. 35.6 de la Ley Orgánica 6/1985, de 1 de julio</texto>
+        </anterior>
+        <anterior referencia="BOE-A-1982-15030" orden="3060">
+          <palabra codigo="440">DE CONFORMIDAD con</palabra>
+          <texto>el Estatuto aprobado por Ley Orgánica 3/1982, de 9 de junio</texto>
+        </anterior>
+      </anteriores>
+      <posteriores/>
+    </referencias>
+    <alertas>
+      <alerta codigo="121" orden="1">Organización de la Administración</alerta>
+    </alertas>
+  </analisis>
+  <texto>
+    <p class="centro_redonda">EL PRESIDENTE DE LA COMUNIDAD AUTÓNOMA DE LA RIOJA</p>
+    <p class="parrafo_2">Sepan todos los ciudadanos que la Diputación General de La Rioja ha aprobado y yo, en nombre de su Majestad el Rey y de acuerdo con lo que establece la Constitución y el Estatuto de Autonomía, promulgo la siguiente Ley:</p>
+    <p class="centro_redonda">PREÁMBULO</p>
+    <p class="parrafo_2">La Ley Orgánica 6/1985, de 1 de julio, del Poder Judicial, establece en su artículo 35.6 que las Comunidades Autónomas determinarán, por Ley, la capitalidad de los Partidos Judiciales. Este precepto se reitera en el articulo 4.4 de la Ley 3811988, de 28 de diciembre, de Demarcación y Planta Judicial precisando que la Capitalidad corresponde a un solo municipio que dará nombre al Partido Judicial correspondiente.</p>
+    <p class="parrafo">La presente Ley da cumplimiento a las previsiones contenidas en las citadas Leyes, determinando la capitalidad de los Partidos Judiciales a que se refiere en anexo I de la Ley 38/1988, comprendidos en el ámbito territorial de la Comunidad Autónoma de La Rioja.</p>
+    <p class="articulo">Artículo único. </p>
+    <p class="parrafo">La Capitalidad de los Partidos Judiciales de la Rioja establecidos en el Anexo I de la Ley 38/88, de 28 de diciembre, de Demarcación y Planta Judicial, corresponderá a los siguientes Municipios:</p>
+    <p class="parrafo_2">Partido Judicial 1, cuyo ámbito territorial está integrado por el de los municipios de: Abalos, Anguciana, Bañares, Baños de Rioja, Briñas, Briones, Casalarreina, Castañares de Rioja, Cellórigo, Cidamón, Cihuri, Cirueña, Corporales, Cuzcurrita del Río Tirón, Ezcaray, Foncea, Fonzaleche, Galbárruli, Gimileo, Grañón, Haro, Herramélluri, Hervías, Leiva, Manzanares de Rioja, Ochánduri, Ojacastro, Ollauri, Pazuengos, Rodezno, Sajazarra, San Asensio, San Millán de Yécora, San Torcuato, San Vicente de la Sonsierra, Santo Domingo de la Calzada, Santurde, Santurdejo, Tirgo, Tormantos, Terviana, Valgañón, Villalba de Rioja, Villalobar de Rioja, Villar de Torre, Villarejo, Villarta-Quintana, Zarratón y Zorraquín, Capitalidad Haro.</p>
+    <p class="parrafo">Partido Judicial 2, cuyo ámbito territorial está integrado por el de los municipios de: Aguilar del Río Alhama, Alcanadre, Aldeanueva de Ebro, Alfaro, Arnedillo, Arnedo, Ausejo, Autol, Bergasa, Bergasillas Bajera, Calahorra, Cervera del Río Alhama, Corera, Cornago, Enciso, Galilea, Grávalos, Herce, Igea, Munilla, Muro de Aguas, Navajún, Ocón, Pradejón, Préjano, Quel, El Redal, Rincón de Soto, Santa Eulalia Bajera, Tudelilla, Valdemadera, El Villar de Arnedo, Villaroya y Zarzosa. Capitalidad Calahorra.</p>
+    <p class="parrafo">Partido Judicial 3, cuyo ámbito territorial está integrado por el de los municipios de: Agoncillo, Ajamil, Albelda de Iregua, Alberite, Alesanco, Alesón, Almarza de Cameros, Anguiano, Arenzana de Abajo, Arenzana de Arriba, Arrúbal, Azofra, Baños de Río Tobía, Badarán, Berceo, Bezares, Babadilla, Brieva de Cameros, Cañas, Cabezón de Cameros, Camprovín, Canales de la Sierra, Canillas de Río Tuerto, Cárdenas, Castroviejo, Cenicero, Clavijo, Cordovín, Daroca de Rioja, Entrena, Estollo, Fuenmayor, Gallinero de Cameros, Hormilla, Hormilleja, Hornillos de Cameros, Hornos de Moncalvillo, Huércanos, Jalón de Cameros, Laguna de Cameros, Lagunilla del Jubera, Lardero, Ledesma de la Cogolla, Leza de Río Leza, Logroño, Lumbreras, Manjarrés, Mansilla, Matute, Medrano, Murillo de Río Leza, Muro en Cameros, Nájera, Nalda, Navarrete, Nestares, Nieva de Cameros, Ortigosa, Pedroso, Pinillos, Pradillo, Rabanera, El Rasillo, Ribafrecha, Robres del Castillo, San Millán de la Cogolla, San Román de Cameros, Santa Coloma, Santa Engracia del Jubera, Sojuela, Sorzano, Sotés, Soto en Cameros, Terroba, Tobía, Torre en Cameros, Torrecilla en Cameros, Torrecilla sobre Alesanco, Torremontalbo, Tricio, Uruñuela, Ventosa, Ventrosa, Viguera, Villamediana de Iregua, Villanueva de Cameros, Villavelayo, Villaverde de Rioja, Villoslada de Cameros, Viniegra de Abajo y Viniegra de Arriba. Capitalidad Logroño.</p>
+    <p class="articulo">Disposición final.</p>
+    <p class="parrafo">La presente Ley se publicará de acuerdo con lo dispuesto en el artículo 21 del Estatuto de Autonomía de La Rioja, en el «Boletín Oficial de La Rioja» y en el «Boletín Oficial del Estado» y entrará en vigor el día siguiente al de su última publicación.</p>
+    <p class="parrafo_2">Logroño, 27 de diciembre de 1989.</p>
+    <p class="firma_ministro">JOAQUIN EXPERT PEREZ-CABALLERO,</p>
+    <p class="firma_ministro">Presidente de la Comunidad Autónoma de La Rioja</p>
+    <p class="publicado">(Publicada en el «Boletín Oficial de La Rioja» número 6, de 13 de enero de 1990.)</p>
+    <p> </p>
+  </texto>
+</documento>

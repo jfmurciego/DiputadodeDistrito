@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<documento fecha_actualizacion="20260309102601">
+  <metadatos>
+    <identificador>BOE-A-1990-2732</identificador>
+    <origen_legislativo codigo="2">Autonómico</origen_legislativo>
+    <departamento codigo="8100">Comunidad Autónoma de la Región de Murcia</departamento>
+    <rango codigo="1300">Ley</rango>
+    <fecha_disposicion>19891204</fecha_disposicion>
+    <numero_oficial>5/1989</numero_oficial>
+    <titulo>Ley 5/1989, de 4 de diciembre, de determinación de la capitalidad de los Partidos Judiciales de la Región de Murcia.</titulo>
+    <diario codigo="BOE">Boletín Oficial del Estado</diario>
+    <fecha_publicacion>19900202</fecha_publicacion>
+    <diario_numero>29</diario_numero>
+    <seccion>1</seccion>
+    <subseccion/>
+    <pagina_inicial>3231</pagina_inicial>
+    <pagina_final>3232</pagina_final>
+    <suplemento_pagina_inicial/>
+    <suplemento_pagina_final/>
+    <url_pdf>https://www.boe.es/boe/dias/1990/02/02/pdfs/A03231-03232.pdf</url_pdf>
+    <url_epub/>
+    <url_pdf_catalan/>
+    <url_pdf_euskera/>
+    <url_pdf_gallego/>
+    <url_pdf_valenciano/>
+    <estatus_legislativo>L</estatus_legislativo>
+    <fecha_vigencia>19891225</fecha_vigencia>
+    <estatus_derogacion>N</estatus_derogacion>
+    <fecha_derogacion/>
+    <judicialmente_anulada>N</judicialmente_anulada>
+    <fecha_anulacion/>
+    <vigencia_agotada>N</vigencia_agotada>
+    <estado_consolidacion codigo="3">Finalizado</estado_consolidacion>
+    <letra_imagen>A</letra_imagen>
+    <suplemento_letra_imagen/>
+    <url_eli>https://www.boe.es/eli/es-mc/l/1989/12/04/5</url_eli>
+  </metadatos>
+  <metadata-eli>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:eli="http://data.europa.eu/eli/ontology#">
+      <eli:LegalResource rdf:about="https://www.boe.es/eli/es-mc/l/1989/12/04/5">
+        <eli:jurisdiction rdf:resource="http://www.elidata.es/mdr/authority/jurisdiction/1/es-mc"/>
+        <eli:type_document rdf:resource="http://www.elidata.es/mdr/authority/resource-type/1/l"/>
+        <eli:id_local rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BOE-A-1990-2732</eli:id_local>
+        <eli:date_document rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1989-12-04</eli:date_document>
+        <eli:number rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5</eli:number>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/78"/>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/1320"/>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/2414"/>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/5069"/>
+        <eli:has_member>
+          <eli:LegalResource rdf:about="https://www.boe.es/eli/es-mc/l/1989/12/04/5/dof">
+            <eli:jurisdiction rdf:resource="http://www.elidata.es/mdr/authority/jurisdiction/1/es-mc"/>
+            <eli:type_document rdf:resource="http://www.elidata.es/mdr/authority/resource-type/1/l"/>
+            <eli:id_local rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BOE-A-1990-2732</eli:id_local>
+            <eli:date_document rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1989-12-04</eli:date_document>
+            <eli:number rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5</eli:number>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/78"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/1320"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/2414"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/5069"/>
+            <eli:version rdf:resource="http://www.elidata.es/mdr/authority/version/dof"/>
+            <eli:is_member_of rdf:resource="https://www.boe.es/eli/es-mc/l/1989/12/04/5"/>
+            <eli:consolidated_by rdf:resource="https://www.boe.es/eli/es-mc/l/1989/12/04/5/con/19891205"/>
+            <eli:is_realized_by>
+              <eli:LegalExpression rdf:about="https://www.boe.es/eli/es-mc/l/1989/12/04/5/dof/spa">
+                <eli:language rdf:resource="http://www.elidata.es/mdr/authority/language/spa"/>
+                <eli:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ley 5/1989, de 4 de diciembre, de determinación de la capitalidad de los Partidos Judiciales de la Región de Murcia.</eli:title>
+                <eli:publisher_agent rdf:resource="https://www.boe.es"/>
+                <eli:date_publication rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1990-02-02</eli:date_publication>
+                <eli:realizes rdf:resource="https://www.boe.es/eli/es-mc/l/1989/12/04/5/dof"/>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-mc/l/1989/12/04/5/dof/spa/html">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/text/html"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-mc/l/1989/12/04/5/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-mc/l/1989/12/04/5/dof/spa/pdf">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/application/pdf"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-mc/l/1989/12/04/5/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-mc/l/1989/12/04/5/dof/spa/xml">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/application/xml"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-mc/l/1989/12/04/5/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+              </eli:LegalExpression>
+            </eli:is_realized_by>
+          </eli:LegalResource>
+        </eli:has_member>
+        <eli:has_member>
+          <eli:LegalResource rdf:about="https://www.boe.es/eli/es-mc/l/1989/12/04/5/con/19891205">
+            <eli:jurisdiction rdf:resource="http://www.elidata.es/mdr/authority/jurisdiction/1/es-mc"/>
+            <eli:type_document rdf:resource="http://www.elidata.es/mdr/authority/resource-type/1/l"/>
+            <eli:id_local rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BOE-A-1990-2732</eli:id_local>
+            <eli:date_document rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1989-12-04</eli:date_document>
+            <eli:number rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5</eli:number>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/78"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/1320"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/2414"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/5069"/>
+            <eli:version rdf:resource="http://www.elidata.es/mdr/authority/version/con"/>
+            <eli:version_date rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1989-12-05</eli:version_date>
+            <eli:is_member_of rdf:resource="https://www.boe.es/eli/es-mc/l/1989/12/04/5"/>
+            <eli:consolidates rdf:resource="https://www.boe.es/eli/es-mc/l/1989/12/04/5/dof"/>
+            <eli:is_realized_by>
+              <eli:LegalExpression rdf:about="https://www.boe.es/eli/es-mc/l/1989/12/04/5/con/19891205/spa">
+                <eli:language rdf:resource="http://www.elidata.es/mdr/authority/language/spa"/>
+                <eli:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ley 5/1989, de 4 de diciembre, de determinación de la capitalidad de los Partidos Judiciales de la Región de Murcia.</eli:title>
+                <eli:publisher_agent rdf:resource="https://www.boe.es"/>
+                <eli:realizes rdf:resource="https://www.boe.es/eli/es-mc/l/1989/12/04/5/con/19891205"/>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-mc/l/1989/12/04/5/con/19891205/spa/html">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/text/html"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-mc/l/1989/12/04/5/con/19891205/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+              </eli:LegalExpression>
+            </eli:is_realized_by>
+          </eli:LegalResource>
+        </eli:has_member>
+        <eli:is_another_publication_of rdf:resource="https://www.borm.es/eli/es-mc/l/1989/12/04/5"/>
+      </eli:LegalResource>
+    </rdf:RDF>
+  </metadata-eli>
+  <analisis>
+    <materias>
+      <materia codigo="78" orden="1">Administración de Justicia</materia>
+      <materia codigo="1320" orden="2">Comunidades Autónomas</materia>
+      <materia codigo="2414" orden="3">Demarcación judicial</materia>
+      <materia codigo="5069" orden="4">Murcia</materia>
+    </materias>
+    <notas>
+      <nota codigo="14" orden="400">Publicada en el  BOMU núm. 279, de 5 de diciembre de 1989.</nota>
+    </notas>
+    <referencias>
+      <anteriores>
+        <anterior referencia="BOE-A-1988-29622" orden="3060">
+          <palabra codigo="440">DE CONFORMIDAD con</palabra>
+          <texto>el art. 4.4 de la Ley 38/1988, de 28 de diciembre</texto>
+        </anterior>
+        <anterior referencia="BOE-A-1985-12666" orden="3060">
+          <palabra codigo="440">DE CONFORMIDAD con</palabra>
+          <texto>la Ley Orgánica 6/1985, de 1 de julio</texto>
+        </anterior>
+        <anterior referencia="BOE-A-1982-15031" orden="3060">
+          <palabra codigo="440">DE CONFORMIDAD con</palabra>
+          <texto>el art. 39.2 del Estatuto aprobado por Ley Orgánica 4/1982, de 9 de junio</texto>
+        </anterior>
+      </anteriores>
+      <posteriores/>
+    </referencias>
+    <alertas>
+      <alerta codigo="121" orden="1">Organización de la Administración</alerta>
+    </alertas>
+  </analisis>
+  <texto>
+    <p class="capitulo">EL PRESIDENTE DE LA COMUNIDAD AUTÓNOMA DE LA REGIÓN DE MURCIA</p>
+    <p class="parrafo_2">Sea notorio a todos los ciudadanos de la Región de Murcia que la Asamblea Regional ha aprobado la Ley 5/1989, de 4 de diciembre, de determinación de la capitalidad de Partidos Judiciales de la Región de Murcia.</p>
+    <p class="parrafo">Por consiguiente, al amparo de lo dispuesto en el artículo 30.2 del Estatuto de Autonomía, en nombre del Rey, promulgo y ordeno la publicación de la siguiente Ley:</p>
+    <p class="capitulo">EXPOSICIÓN DE MOTIVOS</p>
+    <p class="parrafo_2">El artículo 152.1 de la Constitución, prevé que los Estatutos de las Comunidades Autónomas puedan establecer los supuestos y las formas de participación de aquéllas en la organización de las demarcaciones judiciales del respectivo territorio, con sujeción a lo previsto en la Ley Orgánica del Poder Judicial.</p>
+    <p class="parrafo">Recogida dicha previsión en el Estatuto de Autonomía de la Región de Murcia, el artículo 39.2 de dicho Estatuto atribuye a la Comunidad Autónoma, en relación con la Administración de Justicia, la fijación de la capitalidad de los órganos jurisdiccionales, de acuerdo con lo que disponga la Ley Orgánica del Poder Judicial. Establecido en esta última Ley, que corresponde a las Comunidades Autónomas la determinación, por Ley regional, de la capitalidad de los Partidos Judiciales, se impone ahora dar cumplimiento a la mencionada prevención legal.</p>
+    <p class="parrafo">Cumplimiento tanto más oportuno cuanto que la aprobación y publicación de la Ley 38/1988, de 28 de diciembre, de Demarcación y de Planta Judicial, hace necesario ejecutar lo previsto en el artículo 4.4 de esta última disposición, conforme a la demarcación territorial operada por la expresada Ley 38/1988, que establece 11 Partidos Judiciales en la Región, precisando su ámbito territorial con referencia a los municipios integrados en cada uno de ellos. Ello supone, obviamente, una modificación importante frente a los siete Partidos Judiciales hasta ahora existentes.</p>
+    <p class="parrafo">El examen comparativo entre una y otra demarcación resulta obligado, puesto que permite justificar las determinaciones de capitalidad que en este proyecto se contienen.</p>
+    <p class="parrafo">Prosiguen en ambas, con igual territorio, los Partidos Judiciales de Caravaca de la Cruz, Cieza y Lorca, cuyos respectivos municipios ostentaban la capitalidad de dichos Partidos Judiciales y no existe razón alguna que aconseje su modificación.</p>
+    <p class="parrafo">Reducen sus anteriores territorios los Partidos Judiciales de Cartagena, Mula, Murcia y Yecla, sin que tampoco exista razón que motive la variación de la capitalidad que dichos municipios ostentaban.</p>
+    <p class="parrafo">Se instalan como nuevos Partidos Judiciales los nuevos territorios que se indican por reducción de los anteriores, y comprensivos de los siguientes municipios:</p>
+    <p class="parrafo_2">a) Como Partido Judicial número 8, el integrado por los municipios de Alguazas, Archena, Ceutí, Lorquí, Molina de Segura y Las Torres de Cotillas. La capitalidad debe corresponder al de Molina de Segura, por contar con Juzgado de Distrito y ser el cuarto núcleo poblacional de la Región.</p>
+    <p class="parrafo">b) Como Partido Judicial número 9, el integrado por Aledo, Alhama de Murcia, Librilla, Mazarrón y Totana. Este último municipio debe ostentar la capitalidad del partido judicial –que ya ostentó en otro tiempo–, por contar, además, con Juzgado de Distrito y ser el núcleo poblacional más importante de dicho territorio.</p>
+    <p class="parrafo">c) Como Partido Judicial número 10, el constituido sólo por el municipio de Jumilla, por lo que su capitalidad no admite reparos, y</p>
+    <p class="parrafo">d) Como Partido Judicial número 11, el constituido por los municipios de Los Alcázares, San Javier, San Pedro del Pinatar y Torre Pacheco. La capitalidad debe ostentarla el municipio de San Javier, por contar con Juzgado de Distrito y ser el centro geográfico del territorio.</p>
+    <p class="parrafo_2">En los anteriores términos se bosqueja y justifica la determinación de las capitalidades de los Partidos Judiciales comprendidos en la Región de Murcia por la nueva división establecida en la Ley 38/1988, de Demarcación y de Planta Judicial, habiendo servido como pauta para dicha fijación los propios criterios que, con carácter provisional, se consignaron en la disposición transitoria primera del citado texto legal.</p>
+    <p class="articulo">Artículo único.</p>
+    <p class="parrafo_2">Las capitalidades de los Partidos Judiciales de esta Región serán las siguientes:</p>
+    <p class="parrafo_2">Partido Judicial número 1. Capitalidad: Caravaca de la Cruz.</p>
+    <p class="parrafo">Partido Judicial número 2. Capitalidad: Cartagena.</p>
+    <p class="parrafo">Partido Judicial número 3. Capitalidad: Cieza.</p>
+    <p class="parrafo">Partido Judicial número 4. Capitalidad: Lorca.</p>
+    <p class="parrafo">Partido Judicial número 5. Capitalidad: Mula.</p>
+    <p class="parrafo">Partido Judicial número 6. Capitalidad: Murcia.</p>
+    <p class="parrafo">Partido Judicial número 7. Capitalidad: Yecla.</p>
+    <p class="parrafo">Partido Judicial número 8. Capitalidad: Molina de segura.</p>
+    <p class="parrafo">Partido Judicial número 9. Capitalidad: Totana.</p>
+    <p class="parrafo">Partido Judicial número 10. Capitalidad: Jumilla.</p>
+    <p class="parrafo">Partido Judicial número 11. Capitalidad: San Javier.</p>
+    <p class="parrafo_2">Por tanto, ordeno a todos los ciudadanos a los que sea de aplicación esta Ley, que la cumplan, y a los Tribunales y autoridades que corresponda que la hagan cumplir.</p>
+    <p class="parrafo_2">Murcia, 4 de diciembre de 1989.</p>
+    <p class="firma_ministro">CARLOS COLLADO MENA,</p>
+    <p class="firma_ministro">Presidente</p>
+    <p class="publicado">(Publicada en el «Boletín Oficial de la Región de Murcia» número 279, de 5 de diciembre de 1989)</p>
+  </texto>
+</documento>

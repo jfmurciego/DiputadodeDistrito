@@ -1,0 +1,91 @@
+{
+ "territorio": "nac26",
+ "version": "1.0.0",
+ "k": 3,
+ "atomos": 175,
+ "aristas": 459,
+ "epsilon": 0.15,
+ "huella_reglas": "1715d7ba5a045b16c341e05cdacf0a609950da1c2efcf14cc02ee1c27cc22863",
+ "ganador_deslinde": {
+  "fuera": 0,
+  "exceso_8": 0.0,
+  "partidas": 2,
+  "frontera_km": 88.925,
+  "desvio_max": 0.07357221315493884,
+  "huella": "690a89ed2dfb60ca80475306959bb5913951a5444de89eb893d274211c942185"
+ },
+ "semillas": [
+  {
+   "semilla": 10,
+   "intentos_semilla": 1,
+   "motivos_semillas_rechazadas": [],
+   "estado": "OK",
+   "pasos": 100000,
+   "estados_distintos": 47939,
+   "autobucles": 52061,
+   "paso_mejor": 4974,
+   "mejor": {
+    "fuera": 0,
+    "exceso_8": 0.0,
+    "partidas": 2,
+    "frontera_km": 88.925,
+    "desvio_max": 0.07357221315493884,
+    "huella": "690a89ed2dfb60ca80475306959bb5913951a5444de89eb893d274211c942185"
+   },
+   "cortes": {
+    "100": {
+     "clave_d8": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 3,
+      "frontera_km": 95.066,
+      "desvio_max": 0.03621672944812307,
+      "huella": "4b8a223c802714acf88a8d33b91dc750f70ee5afbdab80f49484b0a86e24cc9a"
+     },
+     "cpu_s": 0.38
+    },
+    "1000": {
+     "clave_d8": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 2,
+      "frontera_km": 90.092,
+      "desvio_max": 0.07683953804432143,
+      "huella": "d5c4934aaa75aa23422149aa2ad90b61e88a53bc2e7602de93385e13a01f2a6a"
+     },
+     "cpu_s": 3.86
+    },
+    "10000": {
+     "clave_d8": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 2,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "huella": "690a89ed2dfb60ca80475306959bb5913951a5444de89eb893d274211c942185"
+     },
+     "cpu_s": 38.82
+    },
+    "100000": {
+     "clave_d8": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 2,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "huella": "690a89ed2dfb60ca80475306959bb5913951a5444de89eb893d274211c942185"
+     },
+     "cpu_s": 396.47
+    }
+   },
+   "hueco_frente_a_deslinde": {
+    "termino": null,
+    "empate_hasta_huella": true,
+    "misma_particion": true
+   },
+   "cpu_s": 396.47
+  }
+ ],
+ "cpu_carga_s": 0.1,
+ "cpu_total_s": 396.57
+}

@@ -1,0 +1,92 @@
+<!doctype html>
+<!-- PROYECTO: Diputado de Distrito · CLASE: visor V4 · Explorar · VERSIÓN: 1.3.0 · FECHA: 2026-11-24 · ESTADO: candidato
+     CAMBIOS 1.3.0: T-456, fuera el aviso «Simulación sin valor oficial» (dv-aviso) y el rótulo del mapa (map-tag, oculto). ANTERIOR: legacy/visor/v4/mapa/index_v1.2.0_20261120.html
+     CAMBIOS 1.2.0: T-429, regla «Mayoría simple en el distrito» y etiquetas para compartir. ANTERIOR: legacy/visor/v4/mapa/index_v1.1.0_20261120.html
+     CAMBIOS 1.1.0: T-428 (D-184), Explorar se sirve en /mapa/ de la raíz: rutas del sitio con ../ (antes ../../ desde /v4/mapa/) marca e «Inicio» → ../ (la raíz).
+     ANTERIOR: legacy/visor/v4/mapa/index_v1.0.0_20261119.html
+     CAMBIOS: T-423, la V3 completa (index.html 1.1.0 de la V3, todos sus controles, capas y niveles) dentro de la cabecera, menú y pie de la V4,
+     con la capa electoral «Doble vuelta» (D-172). MOTIVO: la V4 es la portada de la autora + la V3 enriquecida con la doble vuelta.
+     ANTERIOR (1.0.0): ninguna (fichero nuevo; sustituye al mapa simple de T-413, guardado en legacy/visor/v4/mapa_simple_t413_20261119/) -->
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Diputado de Distrito: explora los distritos, sistemas electorales y resultados publicados de España."><link rel="canonical" href="https://diputadodedistrito.es/mapa/"><meta property="og:type" content="website"><meta property="og:locale" content="es_ES"><meta property="og:site_name" content="Diputado de Distrito"><meta property="og:title" content="Explorar · Diputado de Distrito"><meta property="og:description" content="Diputado de Distrito: explora los distritos, sistemas electorales y resultados publicados de España."><meta property="og:url" content="https://diputadodedistrito.es/mapa/"><meta property="og:image" content="https://diputadodedistrito.es/assets/compartir-1200x630.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Diputado de Distrito: contra el sistema de partidos, tu representante"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Explorar · Diputado de Distrito"><meta name="twitter:description" content="Diputado de Distrito: explora los distritos, sistemas electorales y resultados publicados de España."><meta name="twitter:image" content="https://diputadodedistrito.es/assets/compartir-1200x630.jpg"><meta name="twitter:image:alt" content="Diputado de Distrito: contra el sistema de partidos, tu representante"><link rel="icon" href="../assets/favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icono-32.png"><link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<title>Diputado de Distrito | Explorar</title>
+<link rel="stylesheet" href="../v2/vendor/maplibre-gl/5.7.0/maplibre-gl.css" integrity="sha384-gNYNsUmuZqDYiT3gbirWTV5K7rt71RoveS/yXAaU09d4ZUmeDVTD3XoqB6uJAIFR">
+<link rel="stylesheet" href="../tokens-bloques.css">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="explorar.css">
+<meta name="theme-color" content="#0b0d0e"><noscript><style>.menu-toggle{display:none}</style></noscript>
+</head>
+<body>
+<a class="skip skip-link" href="#contenido">Saltar al mapa y a los resultados</a>
+<div id="sr-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+<header class="site-header v4-header"><div class="wrap header-inner">
+<a class="brand" href="../" aria-label="Diputado de Distrito, inicio"><img src="../assets/logotipo_espana.webp" alt="" width="59" height="47"><span>DIPUTADO<br>DE DISTRITO</span></a>
+<button class="menu-toggle" type="button" data-menu aria-expanded="false" aria-controls="main-nav">Menú</button>
+<nav class="main-nav" id="main-nav" data-nav aria-label="Navegación principal">
+<a href="../">Inicio</a><a href="../comprender.html">Comprender</a><a href="../mapa/" aria-current="page">Explorar</a><a href="../docs/metodo.html">Metodología</a>
+</nav></div></header>
+<div class="app">
+  <nav class="modes" aria-label="Modalidad de análisis">
+    <button data-panel="territorio" aria-pressed="true"><span aria-hidden="true">⌖</span> <span>Territorio</span></button>
+    <button data-panel="resultados" aria-pressed="false"><span aria-hidden="true">▥</span> <span>Resultados</span></button>
+    <button data-panel="comparar" aria-pressed="false"><span aria-hidden="true">⚖</span> <span>Comparar</span></button>
+    <button data-panel="evolucion" aria-pressed="false"><span aria-hidden="true">⌁</span> <span>Evolución</span></button>
+  </nav>
+  <div class="workspace">
+    <aside class="tools" aria-label="Herramientas del mapa">
+      <h2>☷ Herramientas</h2>
+      <fieldset><legend>Ámbito</legend><div class="segment" id="scope"><button data-value="nacional" aria-pressed="true">Nacional</button><button data-value="autonomico" aria-pressed="false">Autonómico</button></div></fieldset>
+      <fieldset><legend>Sistema electoral</legend><div class="segment" id="system"><button data-value="proporcional" aria-pressed="false">Actual proporcional</button><button data-value="mayoritario" aria-pressed="true">Mayoritario DDD</button></div></fieldset>
+      <fieldset><legend>Vista</legend><div class="segment" id="view"><button data-value="territorial" aria-pressed="false">Territorial</button><button data-value="electoral" aria-pressed="true">Electoral</button></div></fieldset>
+      <label class="control">Capa <select id="layer"><option value="doblevuelta" selected>Doble vuelta (simulación)</option><option value="ganador">Partido más votado</option><option value="unidades">Límites electorales</option><option value="poblacion">Población</option><option value="desviacion">Desviación de población</option></select></label>
+      <fieldset id="dv-reglas"><legend>Doble vuelta · regla</legend><div class="segment segment-4" id="regla"><button data-value="tres" aria-pressed="true">Tres bloques</button><button data-value="dos" aria-pressed="false">Dos bloques</button><button data-value="base" aria-pressed="false">Sin coaliciones</button><button data-value="primero" aria-pressed="false">Mayoría simple en el distrito</button></div><p class="tools-note" id="regla-ayuda"></p></fieldset>
+      <label class="control">Nivel territorial <select id="level"><option value="comunidad">Comunidad autónoma</option><option value="provincia" selected>Provincia</option><option value="distrito">Distrito electoral</option><option value="municipio">Municipio (secciones)</option><option value="seccion">Sección censal</option></select></label>
+      <label class="control">Buscar territorio <input id="search" type="search" placeholder="Provincia, comunidad o CUSEC" autocomplete="off" list="places"><datalist id="places"></datalist></label>
+      <fieldset class="preferences"><legend>Opciones de mapa</legend>
+        <label><span>Mostrar límites</span><input id="boundaries" type="checkbox" checked></label>
+        <label><span>Etiquetas de territorio</span><input id="labels" type="checkbox"></label>
+        <label><span>Detalle de secciones al acercar</span><input id="auto-sections" type="checkbox" checked></label>
+      </fieldset>
+      <p class="tools-note" id="tools-note">Las opciones sin datos verificables se indican expresamente. Nunca se generan resultados electorales de ejemplo.</p>
+    </aside>
+    <main class="map-shell" id="contenido" tabindex="-1" aria-label="Mapa y leyenda">
+      <div id="map" role="application" aria-roledescription="mapa" aria-label="Mapa interactivo de territorios y resultados electorales de España" aria-describedby="map-help"></div>
+      <p id="map-help" class="sr-only">Con el foco en el mapa, las flechas lo desplazan y más o menos lo acercan o alejan. Para elegir un territorio con teclado, usa el buscador o la tabla «Resultados en tabla» de la columna derecha.</p>
+      <div class="map-tag" hidden><span class="status-dot" aria-hidden="true"></span><span id="map-caption"></span></div>
+      <div class="map-actions" role="group" aria-label="Encuadre del mapa"><button class="icon-button" id="help" aria-label="Ayuda: cómo explorar el visor" aria-haspopup="dialog" title="Ayuda"><span aria-hidden="true">?</span></button><button id="reset-map" title="Volver a España" aria-label="Volver a España"><span aria-hidden="true">⌖</span></button><button id="peninsula" title="Península" aria-label="Ir a la Península"><span aria-hidden="true">P</span></button><button id="canarias" title="Canarias" aria-label="Ir a Canarias"><span aria-hidden="true">C</span></button></div>
+      <div id="map-notice" class="map-notice" role="status"></div>
+      <div id="legend" class="legend" role="group" aria-label="Leyenda del mapa"></div>
+      <div class="attribution">Cartografía de investigación · geometrías y resultados según producto publicado</div>
+    </main>
+    <aside class="insights" aria-label="Información de la selección">
+      <div class="insights-hero"><span class="overline" id="selection-type">España</span><h1 id="selection-name">Diputado de Distrito</h1><p id="selection-path">Selecciona una provincia o comunidad en el mapa</p></div>
+      <section id="territory-gallery" class="territory-gallery" aria-labelledby="gallery-title" hidden><h2 class="gallery-heading" id="gallery-title">Conoce el territorio</h2><div class="gallery-content" aria-live="polite"></div><p class="gallery-creditos"><a href="../v2/galeria/creditos.html">Créditos y licencias de las fotografías</a>. Cada foto conserva su licencia Creative Commons.</p></section>
+      <div class="model-cards"><div><small id="ddd-label">Propuesta DDD</small><strong id="ddd-count">407</strong><span id="ddd-unit">distritos nacionales</span></div><div><small id="current-label">Congreso actual</small><strong id="current-count">350</strong><span id="current-unit">escaños</span></div></div>
+      <div id="context" class="context"><p class="hint">El mapa y las fichas mostrarán únicamente datos disponibles en el registro de publicación.</p></div>
+      <div class="source-label" id="source-label"></div>
+      <section class="detail-mode dv-mode" id="dv-mode" aria-labelledby="dv-heading" hidden><h2 id="dv-heading">Doble vuelta</h2><div id="dv-content"></div></section>
+      <section class="detail-mode" id="detail-mode"><h2 id="detail-heading">Resultados y territorio</h2><div id="detail-content"></div></section>
+      <section class="detail-mode" id="table-mode" aria-labelledby="table-heading"><h2 id="table-heading">Resultados en tabla</h2><details id="results-details"><summary>Ver tabla alternativa al mapa</summary><div id="results-table" class="table-scroll" tabindex="0" role="region" aria-label="Tabla de resultados por territorio"></div></details></section>
+      <section class="detail-mode" id="provenance" aria-labelledby="prov-heading"><h2 id="prov-heading">De dónde sale este mapa</h2><div id="prov-content" tabindex="0"><p class="small-note">Selecciona un territorio.</p></div></section>
+    </aside>
+  </div>
+  <footer class="timeline">
+    <div class="timeline-title"><span aria-hidden="true">▣</span><div><b>Navegador electoral</b><small id="timeline-subtitle">Elecciones generales</small></div></div>
+    <div class="timeline-controls"><label id="election-region-label" for="election-region" hidden>Parlamento</label><select id="election-region" aria-label="Comunidad para el calendario autonómico"><option value="">Todas las comunidades</option></select><div class="years" id="elections" role="group" aria-label="Elecciones disponibles"></div></div>
+    <p id="election-note" class="election-note">Solo se dibujan resultados certificados para la elección seleccionada.</p>
+    <p class="election-note dv-como"><a href="../comprender.html#doble-vuelta">Cómo funciona la doble vuelta</a></p>
+    <p id="padron-note" class="election-note" hidden>Los distritos de las generales de 2026 están trazados con el padrón y el seccionado de 2023; se actualizarán con el padrón de 2025.</p>
+  </footer>
+</div>
+<dialog id="help-dialog" aria-labelledby="help-title"><h2 id="help-title">Cómo explorar DDD</h2><p>La capa «Doble vuelta» colorea cada distrito por el bloque que gana con la regla elegida: «Tres bloques», «Dos bloques», «Sin coaliciones» o «Mayoría simple en el distrito» (gana el partido con más votos; no es el sistema actual, que reparte los escaños de forma proporcional por listas provinciales). Es una simulación sin valor oficial.</p><p>Selecciona ámbito, sistema electoral y vista. Pulsa una provincia para entrar en sus distritos y continúa acercándote para consultar secciones censales cuando estén publicadas.</p><p>Las secciones se colorean por su distrito o por una variable territorial. No se atribuyen resultados electorales a una sección si no existen resultados propios publicados para esa sección.</p><p>Las elecciones antiguas o las capas sin producto publicado indican su ausencia, sin reutilizar silenciosamente datos de otro año.</p><p>Teclado: Tab recorre los controles; con el foco en el mapa, las flechas lo mueven y + / − lo acercan o alejan. La tabla «Resultados en tabla» permite elegir territorios sin usar el mapa.</p><form method="dialog"><button autofocus>Cerrar</button></form></dialog>
+<script defer src="../v2/vendor/maplibre-gl/5.7.0/maplibre-gl.js" integrity="sha384-Blts4zGbI8Hh/NvhcxTYsF2uLBbYIwHXEhPMxN3XpadJCDgstyLfJA3opgmkfBOc"></script>
+<script defer src="../v2/galeria/galeria.js"></script>
+<script defer src="dv.js"></script>
+<script defer src="../app.js"></script>
+<script defer src="explorar.js"></script>
+<footer class="footer v4-footer"><div class="wrap footer-inner"><div><strong>© 2026 Jesús Francisco Murciego Vidal. Todos los derechos reservados.</strong><p>El autor se reserva el ejercicio de las acciones legales que correspondan frente al plagio, la reproducción no autorizada y la falsa atribución de autoría.</p></div></div></footer>
+<p class="aviso-analitica" style="font-size:12px;margin:8px 16px;opacity:.85"><strong>Medición de visitas.</strong> Este sitio cuenta cuántas veces se carga cada página, por día. No usa cookies ni guarda nada en tu dispositivo, no registra tu dirección IP ni datos de tu navegador, no te identifica ni te sigue y no comparte datos con terceros. Solo se conserva un número por página y día. La infraestructura (alojamiento y red de entrega) trata tu IP de forma transitoria para entregarte la página, como cualquier servicio web. Además, el sitio lo sirve Cloudflare: tu navegador puede enviarle informes de errores de red (cabeceras NEL/Report-To, hacia a.nel.cloudflare.com) y estos incluyen tu dirección IP.</p>
+<script>navigator.sendBeacon&&navigator.sendBeacon("https://contador.diputadodedistrito.es/v",location.pathname.replace(/index\.html$/,""))</script>
+</body></html>
