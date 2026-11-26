@@ -1,10 +1,16 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: visor V4 · Explorar (V3 completa + doble vuelta)
- * VERSIÓN: 1.5.1
- * FECHA: 2026-11-25
+ * VERSIÓN: 1.6.0
+ * FECHA: 2026-11-26
  * ESTADO: candidato
- * ANTERIOR: legacy/visor/v4/mapa/explorar_v1.5.0_20261125.js
- * CAMBIOS: 1.5.1 (T-460): «Patriotas» → «Derecha nacional» en la leyenda y el panel; el visor acepta los dos nombres del dato (DV.nombreBloque, DV.claseBloque) mientras convivan.
+ * ANTERIOR: legacy/visor/v4/mapa/explorar_v1.5.1_20261125.js
+ * CAMBIOS: 1.6.0 (T-500, diseño T-499 1.0.1): capa «Situación actual · puntos», activa por defecto en Congreso · 2023 · Provincia: un punto por diputado en un racimo
+ *   ordenado por partido (placa en Madrid, Barcelona, Vizcaya y Tenerife; línea guía en Barcelona), provincia con el relleno de «Partido más votado» (el mismo que la capa proporcional, sin aclarar; sustituye las 4 clases de intensidad del diseño por orden del propietario, 26-11),
+ *   recuadros de Canarias, Ceuta y Melilla, leyenda en el panel derecho con % sobre votos a candidaturas y ventana con la tabla de la provincia. Datos de mapa/puntos_v5_2023.json
+ *   (herramientas/datos_puntos_v5.py, BOE-A-2023-18907) y disposición en mapa/puntos.js. Sin datos, vuelve a la doble vuelta.
+ *   Retoque 1.6.0 (26-11): encuadre nacional más cerca, ajustado al tamaño del marco, sin giro (GIRO_NAC=0, elección del propietario); común a todas las capas.
+ *   Retoque 1.6.0: el zoom pasa a arriba a la izquierda (los botones ? ⌖ P C lo tapaban) y el rótulo de Canarias al borde derecho de su marco (a la izquierda quedaba cortado).
+ *   1.5.1 (T-460): «Patriotas» → «Derecha nacional» en la leyenda y el panel; el visor acepta los dos nombres del dato (DV.nombreBloque, DV.claseBloque) mientras convivan.
  *   1.5.0 (T-459, diseño T-458 1.4.1 §1.3.0/1.4.0): colores fijos por bloque (#d32b2b, #1d6fb8, #0f7a52, #5b6470) en los dos temas, sin aclarado (la ventaja ajustada
  *   solo en el texto); panel con cifras de lo seleccionado arriba y sin foto/«407 / 350»; clic en distrito = resaltado + ventana (población, votos, bloque ganador y %) sin zoom;
  *   fuera nivel sección/municipio, zoom a secciones y búsqueda por CUSEC.
@@ -33,10 +39,37 @@
 (function () {
   const BASE={provincias:"../v2/datos/provincias.json",comunidades:"../v2/datos/comunidades.json",
     indices:"../datos/INDEX.json",secciones:"../v2/datos/secciones/",territorial:"../v2/datos/territorial.json",
-    productos:"../data/viewer-results.json",calendario:"calendario.json",procedencia:"../datos/catalogo_procedencia.json",dv:"datos/"};
+    productos:"../data/viewer-results.json",calendario:"calendario.json",procedencia:"../datos/catalogo_procedencia.json",dv:"datos/",puntos:"puntos_v5_2023.json"};
   const PALETA={PP:"#1d6fb8",PSOE:"#d32b2b",VOX:"#5fa335",SUMAR:"#cf2a7b",PODEMOS:"#8750b5",
     "EAJ-PNV":"#2c5e36","EH BILDU":"#0f7a52",ERC:"#f0ac00",JUNTS:"#18a99b",BNG:"#7cb2d8",CC:"#e8c400",
     UPN:"#3a55a2",OTROS:"#9aa3ad"};
+  /* Encuadre nacional (T-500, orden del propietario 26-11), común a todas las capas (arranque, cambio de ámbito, «Volver a España» y botón P): la cámara se calcula con el tamaño del marco
+   * y la península llena el ancho. GIRO_NAC: grados que se gira el mapa; el propietario eligió 0 (sin giro, variante b de docs/ESTUDIOS/T500_v5/giro_variante_*). Otros valores siguen funcionando
+   * (cámara, racimos, placas y recolocación de Canarias se calculan con él): +10,65 deja Galicia y Cataluña a la misma altura (Estaca de Bares frente al punto más al norte de Gerona;
+   * un bearing positivo de MapLibre gira el mapa en sentido antihorario). El usuario no puede girar el mapa. */
+  const GIRO_NAC=0,MARGEN_NAC={top:56,right:4,bottom:6,left:4};  // arriba, sitio para los botones ? ⌖ P C y el zoom
+  /* Canarias se recoloca en memoria (el fichero de provincias no cambia) bajo la península, en la esquina inferior izquierda, con su marco horizontal en la pantalla; la posición se calcula
+   * con la península girada, así que vale para cualquier GIRO_NAC. Ceuta y Melilla, en dos recuadros fijos en fila a la derecha del marco de Canarias, y Baleares en su sitio. */
+  const SIN_ENCUADRE=["51","52"];  // Ceuta y Melilla (recuadros) no cuentan para el tamaño; Canarias recolocada sí: la península y sus recuadros llenan el marco
+  const ENCUADRE_NAC=[[-9.8,35.4],[4.5,44.2]];  // respaldo si el mapa no tiene tamaño
+  const geoMerc=(lng,lat)=>[(lng+180)/360,.5-Math.log(Math.tan(Math.PI/4+lat*Math.PI/360))/(2*Math.PI)];
+  const mercGeo=(x,y)=>[x*360-180,(2*Math.atan(Math.exp((.5-y)*2*Math.PI))-Math.PI/2)*180/Math.PI];
+  // Cámara que ajusta la península girada GIRO_NAC al marco con el margen mínimo: se rota cada vértice y se toma el rectángulo que los contiene.
+  function camaraNacional(prov,excluir){
+    const el=document.getElementById("map"),W=el&&el.clientWidth,H=el&&el.clientHeight;
+    if(!(W>0&&H>0)||!prov)return null;
+    const b=GIRO_NAC*Math.PI/180,c=Math.cos(b),s=Math.sin(b),m=MARGEN_NAC;
+    let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
+    for(const f of prov.features){
+      if(excluir.includes(f.properties.cod))continue;
+      const g=f.geometry;
+      for(const poly of g.type==="MultiPolygon"?g.coordinates:[g.coordinates])for(const ring of poly)for(const q of ring){
+        const [mx,my]=geoMerc(q[0],q[1]),x=mx*c+my*s,y=-mx*s+my*c;
+        if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y;}
+    }
+    const k=Math.min((W-m.left-m.right)/(x1-x0),(H-m.top-m.bottom)/(y1-y0)),cx=(x0+x1)/2,cy=(y0+y1)/2;
+    return {center:mercGeo(cx*c-cy*s,cx*s+cy*c),zoom:Math.log2(k/512),bearing:GIRO_NAC,padding:m};
+  }
   const NATIONAL=[["201111","nov. 2011"],["201512","dic. 2015"],["201606","jun. 2016"],
     ["201904","abr. 2019"],["201911","nov. 2019"],["202307","jul. 2023"]];
   const REGION={
@@ -83,8 +116,8 @@
   function color(n){return PALETA[family(n)]||PALETA.OTROS;}
   function randomNeutral(n){const pal=["#91aabb","#a5bcc8","#b5c8d0","#9baac2","#c2d0da","#afbeca","#8eabb7"];let h=0;for(const ch of String(n))h=(h*31+ch.charCodeAt(0))>>>0;return pal[h%pal.length];}
   const REGLA0=(window.DV&&typeof location!=="undefined")?DV.leerEnlace(location.search).regla:"tres";
-  const S={regla:REGLA0,scope:"nacional",system:"mayoritario",view:"electoral",layer:"doblevuelta",level:"provincia",election:"202307",region:"",panel:"territorio",province:null,unit:null,selected:null};
-  const D={prov:null,communities:null,index:null,sectionsIndex:null,territorial:null,products:null,provenance:null,calendar:{},
+  const S={regla:REGLA0,scope:"nacional",system:"proporcional",view:"electoral",layer:"puntos",level:"provincia",election:"202307",region:"",panel:"territorio",province:null,unit:null,selected:null};
+  const D={puntos:null,v5:null,prov:null,communities:null,index:null,sectionsIndex:null,territorial:null,products:null,provenance:null,calendar:{},
     districtCache:new Map(),sectionCache:new Map(),regionCache:new Map(),allDistricts:new Map(),allSections:new Map()};
   let districtBulkPromise=null, renderRevision=0;
   D.districtFailures=new Map();
@@ -95,6 +128,52 @@
   const DVD={indice:null,error:"",datos:new Map(),fallos:new Map(),pend:new Map()};
   const BLOQUE0={izq:"#d32b2b",nac:"#0f7a52",pat:"#1d6fb8",sin:"#5b6470"}; // fijos en los dos temas (T-459, diseño T-458 §1)
   function dvActiva(){return S.layer==="doblevuelta";}
+  // ---- Situación actual · puntos (T-500): solo pinta lo que dice mapa/puntos_v5_2023.json (BOE-A-2023-18907); la disposición es de puntos.js.
+  const PT=window.PUNTOS||null;
+  function puntosActiva(){return S.layer==="puntos";}
+  function puntosDisp(){return !!(PT&&D.puntos);}
+  const NOM5={VOX:"Vox",SUMAR:"Sumar","EAJ-PNV":"PNV",CCa:"CC"},nom5=p=>NOM5[p]||p;
+  const pc1v=x=>x.toLocaleString("es-ES",{minimumFractionDigits:1,maximumFractionDigits:1})+" %";
+  function toPuntos(){
+    closePopup();
+    S.scope="nacional";S.region="";S.province=null;S.unit={kind:"pais",properties:{}};S.system="proporcional";S.view="electoral";S.election="202307";S.level="provincia";
+    updateSegments("scope","nacional");updateSegments("system","proporcional");updateSegments("view","electoral");$("level").value="provincia";
+  }
+  function puntosCifras(cod){
+    if(cod){const d=D.puntos.provincias[cod],g=PT.ganador(d);
+      return [["Escaños 2023",fmt(d.escanos)],["Votos a candidaturas",fmt(d.votos_candidaturas)],["Más votado",nom5(g.p)+" · "+pc1v(g.pct)]];}
+    const T=PT.totales(D.puntos);
+    return [["Escaños 2023",fmt(T.escanos)],["Votos a candidaturas",fmt(T.estatal)],["Más escaños",nom5(T.lista[0].p)+" · "+T.lista[0].escanos]];
+  }
+  function puntosLeyenda(){
+    const T=PT.totales(D.puntos),pc=v=>pc1v(100*v/T.estatal),sw=p=>"<i class='dot' style='background:"+(PALETA[family(p)]||PALETA.OTROS)+"'></i>";
+    return "<h3>Congreso 2023 · situación actual</h3><p class='v5-sub'>Un punto por diputado ("+T.escanos+").</p>"+
+      "<table class='v5-tab'><thead><tr><th>Partido</th><th>% voto</th><th>Escaños</th></tr></thead><tbody>"+
+      T.lista.map(x=>"<tr><td>"+sw(x.p)+esc(x.p==="PSOE"?"PSOE (con PSC)":nom5(x.p))+"</td><td>"+pc(x.votos)+"</td><td>"+x.escanos+"</td></tr>").join("")+
+      "<tr><td><i class='dot' style='background:"+PALETA.OTROS+"'></i>Resto (sin escaño)</td><td>"+pc(T.resto)+"</td><td>0</td></tr>"+
+      "<tr class='total'><td>Total</td><td>100 %</td><td>"+T.escanos+"</td></tr></tbody></table>"+
+      "<p class='v5-sub'>Cada provincia se colorea con su partido más votado.</p>"+
+      "<small>% sobre votos a candidaturas (sin votos en blanco ni nulos). Fuente: BOE-A-2023-18907, Junta Electoral Central; sin estimaciones ni encuestas.</small>";
+  }
+  function puntosPopupHtml(cod){
+    const d=D.puntos.provincias[cod],resto=d.votos_candidaturas-d.partidos.reduce((s,x)=>s+x.votos,0),pc=v=>pc1v(100*v/d.votos_candidaturas);
+    const filas=[...d.partidos].sort((a,b)=>b.votos-a.votos);
+    return "<div class='dv-popup'><strong>"+esc(d.nombre)+" · "+d.escanos+" escaños</strong><table class='v5-tab'><thead><tr><th>Partido</th><th>Votos</th><th>%</th><th>Esc.</th></tr></thead><tbody>"+
+      filas.map(x=>"<tr><td>"+esc(nom5(x.p))+"</td><td>"+fmt(x.votos)+"</td><td>"+pc(x.votos)+"</td><td>"+x.escanos+"</td></tr>").join("")+
+      "<tr><td>Resto</td><td>"+fmt(resto)+"</td><td>"+pc(resto)+"</td><td>0</td></tr></tbody></table><p class='small-note'>% sobre votos a candidaturas.</p></div>";
+  }
+  // Clic en una provincia: resalta, abre la tabla y no acerca el mapa.
+  function puntosSelect(cod,lngLat){
+    const f=provinceByCode(cod);if(!f||!D.puntos?.provincias?.[cod])return;
+    S.unit={kind:"provincia",properties:f.properties};S.selected=cod;
+    if(popup){popup.remove();popup=null;}
+    if(map.getLayer("prov-sel"))map.setFilter("prov-sel",["==",["get","cod"],cod]);
+    if(typeof maplibregl.Popup==="function"&&lngLat){
+      popup=new maplibregl.Popup({closeButton:true,maxWidth:"300px"}).setLngLat(lngLat).setHTML(puntosPopupHtml(cod)).addTo(map);
+      popup.on?.("close",()=>{popup=null;clearSel();});
+    }
+    renderDetail();
+  }
   // Elección de la doble vuelta: generales de 2023 en el Congreso; en «Autonómico», la autonómica vigente del índice (T-427).
   function dvEleccionOk(){
     if(S.scope!=="autonomico")return S.election==="202307";
@@ -253,7 +332,7 @@
   function helpText(t){$("election-note").textContent=t;}
   function bbox(geometry){let box=[180,90,-180,-90];function walk(coords){if(typeof coords[0]==="number"){box[0]=Math.min(box[0],coords[0]);box[1]=Math.min(box[1],coords[1]);box[2]=Math.max(box[2],coords[0]);box[3]=Math.max(box[3],coords[1]);}else coords.forEach(walk);}walk(geometry.coordinates||[]);return [[box[0],box[1]],[box[2],box[3]]];}
   let popup=null;
-  function clearSel(){if(map?.getLayer("dist-sel"))map.setFilter("dist-sel",["==",["get","distrito"],-1]);}
+  function clearSel(){if(map?.getLayer("dist-sel"))map.setFilter("dist-sel",["==",["get","distrito"],-1]);if(map?.getLayer("prov-sel"))map.setFilter("prov-sel",["==",["get","cod"],""]);}
   function closePopup(){if(popup){popup.remove();popup=null;}clearSel();}
   // Clic en un distrito (T-459): resalta y abre la ventana; el mapa no se acerca ni cambia de nivel.
   function selectDistrict(f,lngLat){
@@ -264,7 +343,13 @@
     popup=new maplibregl.Popup({closeButton:true,maxWidth:"280px"}).setLngLat(lngLat).setHTML(distritoPopup(p)).addTo(map);
     popup.on?.("close",()=>{popup=null;clearSel();}); // cierre con la X: también quita el resaltado
   }
-  function focus(g){if(map&&g&&g.coordinates){map.fitBounds(bbox(g),{padding:65,maxZoom:12,duration:dur(420)});}}
+  // Vuelve a la vista de España con el mismo giro (o a la de la sola península); sin tamaño de mapa, al encuadre de respaldo.
+  function encuadrar(d,extra){
+    const c=camaraNacional(D.prov,SIN_ENCUADRE.concat(extra||[]));
+    if(c&&typeof map.easeTo==="function")map.easeTo({...c,duration:dur(d)});
+    else map.fitBounds(ENCUADRE_NAC,{padding:30,bearing:GIRO_NAC,duration:dur(d)});
+  }
+  function focus(g){if(map&&g&&g.coordinates){map.fitBounds(bbox(g),{padding:65,maxZoom:12,bearing:GIRO_NAC,duration:dur(420)});}}
   function updateSegments(id,val){document.querySelectorAll("#"+id+" button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.value===val)));}
   function paletteExpression(){const e=["match",["get","party"]];Object.entries(PALETA).forEach(([k,c])=>{e.push(k,c);});e.push(PALETA.OTROS);return e;}
   function paintWith(layer,fill){if(map?.getLayer(layer))map.setPaintProperty(layer,"fill-color",fill);}
@@ -338,6 +423,8 @@
     map.addLayer({id:"dist-sel",type:"line",source:"distritos",filter:["==",["get","distrito"],-1],paint:{"line-color":"#111","line-width":3.2}});
     map.addLayer({id:"sec-fill",type:"fill",source:"secciones",paint:{"fill-color":paletteExpression(),"fill-opacity":.82}});
     map.addLayer({id:"sec-line",type:"line",source:"secciones",paint:{"line-color":"#fff","line-width":.45}});
+    map.addLayer({id:"prov-sel",type:"line",source:"prov",filter:["==",["get","cod"],""],paint:{"line-color":"#111","line-width":2.6}});
+    installPuntos();
     map.on("click",e=>{
       const visible=["dist-fill","prov-fill","ccaa-fill"].filter(id=>map.getLayoutProperty(id,"visibility")!=="none");
       const hits=map.queryRenderedFeatures(e.point,{layers:visible});
@@ -347,13 +434,67 @@
         if(p.province)S.province=p.province;
         S.unit={kind:"distrito",properties:p};S.selected=p.distrito||p.id;
         S.level="distrito";$("level").value="distrito";selectDistrict(f,e.lngLat);renderDetail();return;}
-      if(f.layer.id==="prov-fill"){openProvince(p.cod,true);return;}
+      if(f.layer.id==="prov-fill"){if(puntosActiva())puntosSelect(p.cod,e.lngLat);else openProvince(p.cod,true);return;}
       if(f.layer.id==="ccaa-fill"){S.region=regionId(p.nombre);$("election-region").value=S.region;
         S.unit={kind:"comunidad",properties:p};S.selected=p.cod;syncElection();focus(f.geometry);refresh();return;}
     });
     if(typeof document.addEventListener==="function")document.addEventListener("keydown",e=>{if(e.key==="Escape")closePopup();});
     document.body.dataset.ready="1";
     refresh();
+    if(D.puntosError)note(D.puntosError);
+  }
+  // Capas de la situación actual: puntos (racimo nacional y, al acercar, el de cerca), placas, líneas guía, marco de Canarias y rótulos.
+  const V5CAPAS=["v5-placa-fill","v5-placa-line","v5-guia","v5-guia-pt","v5-marco","v5-n","v5-c"];
+  const fc5=features=>({type:"FeatureCollection",features});
+  function v5Datos(L,ini){
+    if(ini)D.v5={puntos:[],placas:[],guias:[],cerca:false};
+    D.v5.puntos.push(...L.puntos.map(q=>({type:"Feature",properties:{lay:q.lay,c:PALETA[q.p]||PALETA.OTROS,n:q.nombre,partido:q.partido},geometry:{type:"Point",coordinates:[q.lng,q.lat]}})));
+    D.v5.placas.push(...L.placas.map(q=>({type:"Feature",properties:{lay:q.lay},geometry:{type:"Polygon",coordinates:[q.anillo]}})));
+    D.v5.guias.push(...L.guias.flatMap(q=>[{type:"Feature",properties:{lay:q.lay},geometry:{type:"LineString",coordinates:[q.desde,q.hasta]}},{type:"Feature",properties:{lay:q.lay},geometry:{type:"Point",coordinates:q.desde}}]));
+    installSource("v5pts",fc5(D.v5.puntos));installSource("v5placas",fc5(D.v5.placas));installSource("v5guias",fc5(D.v5.guias));
+    document.body.dataset.puntos=String(D.v5.puntos.filter(q=>q.properties.lay==="n").length);
+  }
+  function installPuntos(){
+    if(!puntosDisp())return;
+    const L=PT.disponer(D.prov,D.puntos,family,["n"],GIRO_NAC);
+    v5Datos(L,true);
+    installSource("v5marco",fc5(L.marcoCanarias?[{type:"Feature",properties:{},geometry:{type:"LineString",coordinates:L.marcoCanarias}}]:[]));
+    const z=PT.ZC,filtro=l=>["==",["get","lay"],l],oculto={layout:{visibility:"none"}};
+    map.addLayer({id:"v5-placa-fill",type:"fill",source:"v5placas",filter:filtro("n"),maxzoom:z,...oculto,paint:{"fill-color":"#ffffff","fill-opacity":1}});
+    map.addLayer({id:"v5-placa-line",type:"line",source:"v5placas",filter:filtro("n"),maxzoom:z,...oculto,paint:{"line-color":"#3a4652","line-width":.8}});
+    map.addLayer({id:"v5-guia",type:"line",source:"v5guias",filter:["all",filtro("n"),["==",["geometry-type"],"LineString"]],maxzoom:z,...oculto,paint:{"line-color":"#3a4652","line-width":1}});
+    map.addLayer({id:"v5-guia-pt",type:"circle",source:"v5guias",filter:["all",filtro("n"),["==",["geometry-type"],"Point"]],maxzoom:z,...oculto,paint:{"circle-radius":2,"circle-color":"#3a4652"}});
+    map.addLayer({id:"v5-marco",type:"line",source:"v5marco",maxzoom:z,...oculto,paint:{"line-color":"#5b6470","line-width":1,"line-dasharray":[4,3]}});
+    const borde={"circle-color":["get","c"],"circle-opacity":.98,"circle-stroke-color":"#ffffff","circle-stroke-width":1.1};
+    map.addLayer({id:"v5-n",type:"circle",source:"v5pts",filter:filtro("n"),maxzoom:z,...oculto,
+      paint:{...borde,"circle-radius":["interpolate",["linear"],["zoom"],3.5,1.4,4.5,2.8,5.3,4.1,z,5.6]}});
+    map.addLayer({id:"v5-c",type:"circle",source:"v5pts",filter:filtro("c"),minzoom:z,...oculto,
+      paint:{...borde,"circle-radius":["interpolate",["linear"],["zoom"],z,5.6,8,9,10,12,13,16]}});
+    D.v5.marcas=[];
+    if(typeof maplibregl.Marker==="function"&&typeof document.createElement==="function"){
+      const marca=(html,cls,lng,lat,anchor,offset)=>{const el=document.createElement("div");el.className=cls;el.innerHTML=html;
+        D.v5.marcas.push(new maplibregl.Marker({element:el,anchor,offset:offset||[0,0]}).setLngLat([lng,lat]).addTo(map));};
+      for(const q of L.etiquetas)marca(esc(q.texto),"v5-lbl",q.lng,q.lat,"bottom");
+      if(L.marcoCanarias){
+        const sd=L.marcoCanarias[1],si=L.marcoCanarias[0];  // esquinas superior derecha e izquierda del marco (horizontal en la pantalla)
+        marca("Canarias","v5-lbl v5-can",si[0],si[1],"top-left",[6,3]);
+        ["51","52"].forEach((c,i)=>{const f=provinceByCode(c),d=D.puntos.provincias[c];if(!f||!d)return;
+          const g=PT.ganador(d),col=PALETA[family(g.p)]||PALETA.OTROS;
+          marca("<div class='v5-rb'><b>"+esc(d.nombre)+" · "+Math.round(g.pct)+" %</b><svg viewBox='0 0 92 74' width='92' height='74' role='img' aria-label='"+esc(d.nombre+", ampliada ×8")+"'><path d='"+PT.recuadro(f)+
+            "' fill='"+col+"' fill-opacity='.88' stroke='#fff'/><circle cx='46' cy='40' r='4.1' fill='"+col+"' stroke='#fff' stroke-width='1.1'/></svg></div>","v5-rec",sd[0],sd[1],"top-left",[8+i*100,0]);});
+      }
+    }
+    map.on("zoom",v5Zoom);
+  }
+  // Al acercar se pasa al racimo de cerca (se calcula la primera vez que hace falta); placas, rótulos y recuadros solo en la vista nacional.
+  function v5Zoom(){
+    if(!puntosDisp()||!D.v5||!map)return;
+    if(!D.v5.cerca&&map.getZoom()>=PT.ZC-.5){D.v5.cerca=true;v5Datos(PT.disponer(D.prov,D.puntos,family,["c"],GIRO_NAC),false);}
+    v5Marcas();
+  }
+  function v5Marcas(){
+    const on=puntosActiva()&&S.scope==="nacional"&&(map.getZoom()<PT.ZC);
+    for(const m of D.v5?.marcas||[])if(m.getElement)m.getElement().style.display=on?"":"none";
   }
   function regionId(name){return REGION[name]||REGION_ALIAS[name]||
     Object.entries({...REGION,...REGION_ALIAS}).find(([k,v])=>normal(k)===normal(name))?.[1]||"";}
@@ -487,7 +628,7 @@
       " · "+(product.certification_status||"sin certificación")+
       " · ejecución "+product.run_id;
     paint();renderDetail();
-    if(faults.length)note(faults.join(" "));
+    if(faults.length)note([D.puntosError,...faults].filter(Boolean).join(" "));
   }
 
   function paint(){
@@ -497,6 +638,9 @@
     const showS=isN&&S.province&&(S.level==="seccion"||S.level==="municipio")&&D.sectionsIndex?.provincias?.[S.province];
     const showD=(isN&&S.system==="mayoritario"&&(!!S.province||D.allDistricts.size>0))
      ||(!isN&&S.system==="mayoritario"&&!!S.region);
+    const pt=puntosActiva()&&isN&&puntosDisp();
+    for(const id of V5CAPAS)showLayer(id,pt);showLayer("prov-sel",pt);
+    if(D.v5)v5Marcas();
     showLayer("ccaa-fill",showC);showLayer("ccaa-line",true);
     showLayer("prov-fill",isN&&!showC&&!showD&&!showS);showLayer("prov-line",isN&&!showC&&!showS);
     showLayer("dist-fill",!!showD&&!showS);showLayer("dist-line",!!showD&&!showS);
@@ -514,7 +658,7 @@
       if(S.layer==="unidades")return ["coalesce",["get","neutralColor"],neutral];return base;}
     const dvAut=dvActiva()&&!isN&&isElect&&S.system==="mayoritario"&&!!S.region&&DVD.datos.has(S.region)&&dvEleccionOk();
     const dv=dvActiva()&&(permitColors||dvAut)&&DVD.indice?dvExpression():null;
-    paintWith("prov-fill",dvActiva()?neutral:thematic(permitColors?party:neutral));
+    paintWith("prov-fill",!pt&&dvActiva()?neutral:thematic(permitColors?party:neutral));  // la situación actual usa el relleno de «Partido más votado», sin aclarar (T-500)
     paintWith("dist-fill",dv||thematic(permitColors?party:S.view==="territorial"?["coalesce",["get","neutralColor"],neutral]:neutral));
     const secPop=["interpolate",["linear"],["to-number",["get","p"],0],0,"#eff6f9",500,"#bbd6df",2000,"#497e9b",5000,"#193f61"];
     const secTerr=["coalesce",["get","territorialColor"],neutral];
@@ -545,16 +689,19 @@
       legend("<h3>Doble vuelta · "+esc(regla().texto)+"</h3>"+(dv?"<ul>"+[["izq","Izquierdas"],["nac","Nacionalistas"],["pat","Derecha nacional"],["sin","Sin bloque"]].map(([k,n])=>"<li><i style='background:"+c[k]+"'></i>"+n+"</li>").join("")+
         "<li><i style='background:#a8bac7'></i>Sin dato</li></ul><small>La ventaja ajustada (menos de 5 puntos sobre el otro finalista) y los empates se indican en el texto de la ficha.</small>":""));
     }
+    $("v5-mode").hidden=!pt;$("v5-content").innerHTML=pt?puntosLeyenda():"";
+    if(pt)legend("");  // la leyenda de la situación actual va en el panel derecho (T-499 §3), no tapa el mapa
     if(showS)legend($("legend").innerHTML+"<small><b>Importante:</b> la geometría es de la sección censal INE; el color electoral, cuando exista, es heredado del distrito DDD, no de un escrutinio propio de la sección.</small>");
     const caption=S.scope==="nacional"?
       (S.view==="territorial"?"Geometrías territoriales DDD / INE":
-       good?(dvActiva()?"Doble vuelta · "+regla().texto+" · generales de 2023 · simulación":S.system==="mayoritario"?"Ganador por distrito DDD · generales de 2023":"Partido más votado por provincia · generales de 2023"):"Sin capa electoral certificada para la fecha elegida"):
+       good?(pt?"Situación actual · generales de 2023 · un punto por diputado":dvActiva()?"Doble vuelta · "+regla().texto+" · generales de 2023 · simulación":S.system==="mayoritario"?"Ganador por distrito DDD · generales de 2023":"Partido más votado por provincia · generales de 2023"):"Sin capa electoral certificada para la fecha elegida"):
       (S.system==="mayoritario"?(dvAut?"Doble vuelta · "+regla().texto+" · autonómicas · "+regionName(S.region)+" · simulación":"Distritos autonómicos publicados · "+regionName(S.region)):"Comunidades autónomas · cartografía");
     $("map-caption").textContent=caption;
   }
   function findDistrict(d){return D.districtCache.get(S.province)?.features.find(x=>Number(x.properties.distrito)===Number(d));}
   function openProvince(cod,move){
     const f=provinceByCode(cod);if(!f)return;
+    if(puntosActiva()){const b=bbox(f.geometry);puntosSelect(cod,{lng:(b[0][0]+b[1][0])/2,lat:(b[0][1]+b[1][1])/2});if(move)focus(f.geometry);return;}
     S.province=cod;S.unit={kind:"provincia",properties:f.properties};S.selected=cod;
     if(S.scope==="nacional"&&S.system==="mayoritario"&&S.level==="provincia"){S.level="distrito";$("level").value="distrito";}
     if(move)focus(f.geometry);
@@ -571,7 +718,7 @@
     if(!rows.some(x=>x[0]===S.election)){S.election=auto?rows[rows.length-1][0]:"202307";}
     rows.forEach(([id,label])=>{
       const b=document.createElement("button");b.type="button";b.textContent=label;b.setAttribute("aria-pressed",String(S.election===id));
-      b.onclick=()=>{S.election=id;if(dvActiva()&&!dvEleccionOk()){S.layer="ganador";$("layer").value="ganador";}renderTimeline();note("");refresh();};
+      b.onclick=()=>{S.election=id;if(dvActiva()&&!dvEleccionOk()||puntosActiva()&&id!=="202307"){S.layer="ganador";$("layer").value="ganador";}renderTimeline();note("");refresh();};
       container.appendChild(b);
     });
     const pn=$("padron-note");if(pn)pn.hidden=!(S.scope==="nacional"&&String(S.election).startsWith("2026"));
@@ -648,13 +795,13 @@
     const records=[];
     if(kind==="provincia"){
       const pr=selectedProvince()?.properties||obj;
-      records.push(...(S.scope==="nacional"?territorioCifras("provincia",pr):[["Escaños proporcionales 2023",fmt(pr.escanos)],["Distritos propuestos DDD",fmt(pr.k407)]]));
+      records.push(...(puntosActiva()&&puntosDisp()&&D.puntos.provincias[pr.cod]?puntosCifras(pr.cod):S.scope==="nacional"?territorioCifras("provincia",pr):[["Escaños proporcionales 2023",fmt(pr.escanos)],["Distritos propuestos DDD",fmt(pr.k407)]]));
       if(!validElection())records.push(["Resultados de "+S.election,"Sin capa electoral certificada para esta fecha"]);
     }else if(kind==="distrito"){
       records.push(...distritoCifras(obj));
     }else if(kind==="comunidad"){
       records.push(["Territorio",obj.nombre],["Modelo consultado",S.system==="mayoritario"?"Distritos uninominales":"Proporcional"]);
-    }else if(S.scope==="nacional")records.push(...territorioCifras("pais"));
+    }else if(S.scope==="nacional")records.push(...(puntosActiva()&&puntosDisp()?puntosCifras(null):territorioCifras("pais")));
     else records.push(["Ámbito","Parlamentos autonómicos"],["Escaños actuales",SEATS[S.region]??"—"],["Sistema",S.system==="mayoritario"?"Mayoritario DDD":"Proporcional actual"],["Vista",S.view]);
     $("context").innerHTML="<dl>"+records.map(([a,b])=>"<div><dt>"+esc(a)+"</dt><dd>"+esc(b)+"</dd></div>").join("")+"</dl>";
     const source=kind==="distrito"?"Producto certificado P26 publicado; resultado P32 solo para elección acreditada · "+(obj.run_id||"sin identidad de producto"):
@@ -664,7 +811,7 @@
     let content="";
     if(S.panel==="territorio")content="<p class='small-note'>Selecciona cualquier territorio en el mapa. Al pulsar un distrito se abre su ventana con población, votos y bloque ganador.</p>";
     if(S.panel==="resultados"){
-      const data=kind==="provincia"&&validElection()&&S.scope==="nacional"?selectedProvince()?.properties.esc:null;
+      const data=kind==="provincia"&&validElection()&&S.scope==="nacional"?(selectedProvince()?.properties||obj).esc:null;
       const winner=kind==="distrito"&&S.scope==="nacional"&&S.view==="electoral"&&validElection()&&obj.ganador?obj.ganador:null;
       if(data){const entries=Object.entries(data).sort((a,b)=>b[1]-a[1]);const max=Math.max(1,...entries.map(x=>x[1]));
         content=entries.map(([p,n])=>"<div class='party-row'><b>"+esc(p)+"</b><div class='track'><b style='width:"+(n/max*100)+"%;background:"+color(p)+"'></b></div><strong>"+fmt(n)+"</strong></div>").join("")+
@@ -721,7 +868,7 @@
     if(auto&&!["comunidad","distrito"].includes(S.level)){
       S.level="comunidad";$("level").value=S.level;
     }
-    $("tools-note").textContent=auto?
+    $("tools-note").textContent=puntosActiva()?"Situación actual: los 350 escaños oficiales del Congreso de 2023, un punto por diputado, sobre la provincia coloreada por su partido más votado.":auto?
       "Ámbito autonómico: distritos certificados (P26) publicados; la capa autonómica provincial aún no está publicada.":
       "El color de cada distrito es el del bloque que gana con la regla elegida; la ventaja ajustada se indica solo en el texto.";
   }
@@ -739,7 +886,7 @@
     const p=provinceFeatures().find(x=>normal(x.properties.nombre).includes(norm)||normal(x.properties.cod)===norm);
     if(p){S.scope="nacional";updateSegments("scope",S.scope);openProvince(p.properties.cod,true);return;}
     const c=D.communities.features.find(x=>normal(x.properties.nombre).includes(norm));
-    if(c){S.scope="autonomico";S.region=regionId(c.properties.nombre);updateSegments("scope",S.scope);
+    if(c){if(puntosActiva()){S.layer="ganador";$("layer").value="ganador";}S.scope="autonomico";S.region=regionId(c.properties.nombre);updateSegments("scope",S.scope);
       S.unit={kind:"comunidad",properties:c.properties};syncElection();refresh();focus(c.geometry);return;}
     note("No se encontró ese territorio en los productos disponibles.");
   }
@@ -748,6 +895,7 @@
       S[id==="scope"?"scope":id==="system"?"system":"view"]=b.dataset.value;
       updateSegments(id,b.dataset.value);
       if(dvActiva()&&(S.system!=="mayoritario"||S.view!=="electoral")){S.layer="ganador";$("layer").value="ganador";}
+      if(puntosActiva()&&(S.scope!=="nacional"||S.system!=="proporcional"||S.view!=="electoral")){S.layer="ganador";$("layer").value="ganador";}
       if(id==="view"&&b.dataset.value==="territorial"&&S.layer==="ganador"){
         S.layer="desviacion";$("layer").value=S.layer;
       }else if(id==="view"&&b.dataset.value==="electoral"&&S.layer==="desviacion"){
@@ -755,11 +903,11 @@
       }
       if(id==="scope"){S.province=null;S.unit={kind:"pais",properties:{}};S.region="";
         S.level=S.scope==="autonomico"?"comunidad":"provincia";$("level").value=S.level;
-        map.fitBounds([[-9.8,35.3],[4.5,44.2]],{padding:30,duration:dur(350)});}
+        encuadrar(350);}
       refresh();
     }));
     document.querySelectorAll("#regla button").forEach(b=>b.onclick=()=>setRegla(b.dataset.value));
-    $("layer").onchange=e=>{S.layer=e.target.value;if(dvActiva()){toDV();note("");refresh();return;}if(S.layer==="desviacion"&&S.view!=="territorial"){
+    $("layer").onchange=e=>{S.layer=e.target.value;if(dvActiva()){toDV();note("");refresh();return;}if(puntosActiva()){toPuntos();note("");refresh();return;}if(S.layer==="desviacion"&&S.view!=="territorial"){
       S.view="territorial";updateSegments("view","territorial");}
       if(S.layer==="ganador"&&S.view!=="electoral"){S.view="electoral";updateSegments("view","electoral");}
       note("");refresh();};
@@ -778,9 +926,9 @@
       S.panel=b.dataset.panel;document.querySelectorAll("[data-panel]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));renderDetail();
     });
     $("reset-map").onclick=()=>{S.province=null;S.unit={kind:"pais",properties:{}};S.level=S.scope==="nacional"?"provincia":"comunidad";$("level").value=S.level;
-      map.fitBounds([[-9.8,35.3],[4.5,44.2]],{padding:30,duration:dur(450)});refresh();};
-    $("peninsula").onclick=()=>map.fitBounds([[-9.8,35.6],[4.5,43.95]],{padding:25,duration:dur(350)});
-    $("canarias").onclick=()=>map.fitBounds([[-18.5,27.4],[-13.3,29.5]],{padding:25,duration:dur(350)});
+      encuadrar(450);refresh();};
+    $("peninsula").onclick=()=>encuadrar(350,["07","35","38"]);
+    $("canarias").onclick=()=>map.fitBounds([[-18.5,27.4],[-13.3,29.5]],{padding:25,bearing:0,duration:dur(350)});
     $("help").onclick=()=>$("help-dialog").showModal();
   }
   async function init(){
@@ -788,23 +936,29 @@
     controls();
     try{
       await cargarActual();
-      const [pr,cc,idx,sec,terr,products,calendar,prov]=await Promise.all([
+      const [pr,cc,idx,sec,terr,products,calendar,prov,puntos]=await Promise.all([
         getJson(BASE.provincias),getJson(BASE.comunidades),
         getJson(BASE.indices).catch(()=>null),getJson(BASE.secciones+"INDEX.json").catch(()=>null),
         getJson(BASE.territorial).catch(()=>null),getJson(BASE.productos).catch(()=>null),
-        getLocal(BASE.calendario).catch(()=>({})),getJson(BASE.procedencia).catch(()=>null)
+        getLocal(BASE.calendario).catch(()=>({})),getJson(BASE.procedencia).catch(()=>null),getLocal(BASE.puntos).catch(()=>null)
       ]);
       if(pr.type!=="FeatureCollection"||cc.type!=="FeatureCollection")throw Error("Fuentes base cartográficas inválidas");
       if(window.DV)await loadDVIndex();else DVD.error="No se pudo cargar el lector de la doble vuelta.";
       updateSegments("regla",S.regla);$("regla-ayuda").textContent=regla()?.ayuda||"";
-      D.prov=pr;D.communities=cc;D.index=idx;D.sectionsIndex=sec;D.territorial=terr;D.products=products;
+      D.prov=window.PUNTOS?window.PUNTOS.recolocarCanarias(pr,GIRO_NAC):pr;D.communities=window.PUNTOS?window.PUNTOS.recolocarCanarias(cc,GIRO_NAC,null,f=>f.properties.nombre==="Canarias",pr):cc;D.index=idx;D.sectionsIndex=sec;D.territorial=terr;D.products=products;
       D.calendar=calendar;D.provenance=prov;
+      D.puntos=puntos&&puntos.provincias&&Object.keys(puntos.provincias).length===52?puntos:null;
+      if(!(PT&&D.puntos)){ // sin los datos de la situación actual: la capa de siempre, y se dice
+        D.puntos=null;D.puntosError="Los datos de la situación actual no están disponibles; se muestra la doble vuelta.";
+        S.layer="doblevuelta";S.system="mayoritario";$("layer").value="doblevuelta";updateSegments("system","mayoritario");}
       $("places").innerHTML=pr.features.map(f=>"<option value='"+esc(f.properties.nombre)+"'></option>").join("")+
         cc.features.map(f=>"<option value='"+esc(f.properties.nombre)+"'></option>").join("");
       $("election-region").innerHTML='<option value="">Selecciona parlamento</option>'+
         Object.entries(REGION).map(([name,id])=>"<option value='"+esc(id)+"'>"+esc(name)+"</option>").join("");
-      map=new maplibregl.Map({container:"map",style:styleInit(),bounds:[[-9.8,35.4],[4.5,44.2]],
-        fitBoundsOptions:{padding:30},dragRotate:false,pitchWithRotate:false,renderWorldCopies:false,attributionControl:false,locale:LOCALE_ES});
+      const cam=camaraNacional(D.prov,SIN_ENCUADRE);
+      map=new maplibregl.Map({container:"map",style:styleInit(),...(cam?{center:cam.center,zoom:cam.zoom}:{bounds:ENCUADRE_NAC,fitBoundsOptions:{padding:30,bearing:GIRO_NAC}}),bearing:GIRO_NAC,
+        dragRotate:false,pitchWithRotate:false,renderWorldCopies:false,attributionControl:false,locale:LOCALE_ES});
+      map.touchZoomRotate?.disableRotation?.();map.keyboard?.disableRotation?.();  // el giro es fijo: ni ratón, ni táctil, ni teclado
       map.addControl(new maplibregl.NavigationControl({showCompass:false}),"top-right");
       map.on("load",()=>{bootstrap=true;install();});
       map.on("error",e=>{if(e?.error)console.error("MapLibre:",e.error);});
