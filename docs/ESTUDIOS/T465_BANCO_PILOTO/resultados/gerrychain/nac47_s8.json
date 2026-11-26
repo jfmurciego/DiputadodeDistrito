@@ -1,0 +1,94 @@
+{
+ "territorio": "nac47",
+ "version": "1.0.0",
+ "k": 4,
+ "atomos": 226,
+ "aristas": 587,
+ "epsilon": 0.15,
+ "huella_reglas": "b76c219494b9365641e020a344e9fc1d952fd6a0779505e90731e6d5c94a910b",
+ "ganador_deslinde": {
+  "fuera": 0,
+  "exceso_8": 0.06004676473578309,
+  "partidas": 2,
+  "frontera_km": 270.488,
+  "desvio_max": 0.1400467647357831,
+  "huella": "df898ce775e2b22810e40e43c6aff57af67af52542f36b53a89ba6ce60ec30bb"
+ },
+ "semillas": [
+  {
+   "semilla": 8,
+   "intentos_semilla": 10,
+   "motivos_semillas_rechazadas": [
+    "ReselectException"
+   ],
+   "estado": "OK",
+   "pasos": 100000,
+   "estados_distintos": 46156,
+   "autobucles": 53844,
+   "paso_mejor": 32146,
+   "mejor": {
+    "fuera": 0,
+    "exceso_8": 0.06004676473578309,
+    "partidas": 3,
+    "frontera_km": 311.018,
+    "desvio_max": 0.1400467647357831,
+    "huella": "95b58ab9f33e01df84e50a6796fd38ef5e3f052caff3d872a44fa7a2165edb62"
+   },
+   "cortes": {
+    "100": {
+     "clave_d8": {
+      "fuera": 0,
+      "exceso_8": 0.060687430107052506,
+      "partidas": 4,
+      "frontera_km": 214.595,
+      "desvio_max": 0.1406874301070525,
+      "huella": "3c2c22ae7e7ed2001efbbdc65a5841ebb0704769e38f74698949862326861700"
+     },
+     "cpu_s": 138.16
+    },
+    "1000": {
+     "clave_d8": {
+      "fuera": 0,
+      "exceso_8": 0.06004676473578309,
+      "partidas": 7,
+      "frontera_km": 275.197,
+      "desvio_max": 0.1400467647357831,
+      "huella": "1856edfa185541d3bb748e023a70328f8bb874e3760466ba5ae02ce780a2f186"
+     },
+     "cpu_s": 144.28
+    },
+    "10000": {
+     "clave_d8": {
+      "fuera": 0,
+      "exceso_8": 0.06004676473578309,
+      "partidas": 4,
+      "frontera_km": 266.371,
+      "desvio_max": 0.1400467647357831,
+      "huella": "4febf3c3b00759cb780a514f89796c06d048ca70c44e13af7247149da2d63010"
+     },
+     "cpu_s": 211.77
+    },
+    "100000": {
+     "clave_d8": {
+      "fuera": 0,
+      "exceso_8": 0.06004676473578309,
+      "partidas": 3,
+      "frontera_km": 311.018,
+      "desvio_max": 0.1400467647357831,
+      "huella": "95b58ab9f33e01df84e50a6796fd38ef5e3f052caff3d872a44fa7a2165edb62"
+     },
+     "cpu_s": 856.42
+    }
+   },
+   "hueco_frente_a_deslinde": {
+    "termino": "partidas",
+    "ganador": 3.0,
+    "optimo": 2.0,
+    "diferencia": 1.0
+   },
+   "cpu_s": 856.42
+  }
+ ],
+ "cpu_carga_s": 0.11,
+ "cpu_total_s": 856.53
+}
