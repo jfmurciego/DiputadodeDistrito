@@ -4,9 +4,11 @@
 PROYECTO: Diputado de Distrito
 COMPONENTE: tests de T-503 (Deslinde 1.2): el exacto se aplica por tamaño (átomos × K ≤ 2.000) y huella_resultado
   no lleva las cotas de las etapas de CP-SAT que no cierran
-VERSIÓN: 1.0.0
+VERSIÓN: 1.1.0
 FECHA: 2026-11-26
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: ninguna (fichero nuevo; 1.0.0 en #1035)
+CAMBIOS: 1.1.0 — (T-507, revisión de #1035) con TAMANO_MAX = 0, `aplicable` e `info` iguales a los de la 1.0.0 archivada
+  (legacy/ddd_motor2/exacto_v1.0.0_20261114.py) en varios casos; se salta si la copia no está (la imagen de CI excluye legacy/).
 MOTIVO: T-502 (#1029): con K=16 (Sevilla) el exacto no se aplicaba por K_MAX=4; y la cota de una etapa abierta cambia
   entre ejecuciones, así que la huella no se repetía. Sintéticos.
 """
@@ -64,6 +66,51 @@ class AplicaPorTamano(unittest.TestCase):
         self.assertEqual(i4["estado"], "OPTIMO")  # 12 × 4 = 48 > 0: con K ≤ 4 aplica aunque no quepa
         self.assertEqual((i6["estado"], i6["motivo"]), ("NO_APLICA", "K=6 fuera de 2..4"))
         self.assertEqual((i1["estado"], i1["motivo"]), ("NO_APLICA", "K=1 fuera de 2..4"))
+
+
+LEGACY_100 = ROOT / "legacy" / "ddd_motor2" / "exacto_v1.0.0_20261114.py"
+
+
+def _exacto_100():
+    """La 1.0.0 archivada, cargada como submódulo de deslinde (usa imports relativos)."""
+    import importlib.util
+    import deslinde  # noqa: F401
+    spec = importlib.util.spec_from_file_location("deslinde._exacto_v100", LEGACY_100)
+    mod = importlib.util.module_from_spec(spec)
+    mod.__package__ = "deslinde"
+    spec.loader.exec_module(mod)
+    return mod
+
+
+@unittest.skipUnless(LEGACY_100.is_file(), "sin legacy/ (imagen de CI)")
+class TopeCeroEsLa100(unittest.TestCase):
+    """Con TAMANO_MAX = 0 la 1.1.0 decide y devuelve lo mismo que la 1.0.0 (salvo las claves nuevas de info)."""
+    NUEVAS = {"version_fichero", "tamano_max", "tamano", "k_max"}
+
+    def casos(self):
+        p = linea(12)
+        nat = _Natural({u.id: None for u in p.unidades}, {u.id: None for u in p.unidades}, {})
+        exento = contrato(6)
+        exento["validation"]["population_floor_exempt_municipalities"] = ["30001"]
+        for k in (1, 2, 3, 4, 5, 6, 12):
+            for funcion in ("D8", "A"):
+                yield f"K={k} {funcion}", p, contrato(k), nat, funcion
+        yield "K=6 exento", p, exento, nat, "D8"
+
+    def test_aplicable_e_info_iguales(self):
+        from unittest import mock
+        import deslinde.exacto as nuevo
+        viejo = _exacto_100()
+        for nombre, p, cfg, nat, funcion in self.casos():
+            with self.subTest(nombre):
+                r = Reglas.desde_contrato(cfg, Criterio())
+                with mock.patch("deslinde.exacto.TAMANO_MAX", 0):
+                    self.assertEqual(nuevo.aplicable(p, r, funcion), viejo.aplicable(p, r, funcion))
+                    pn, inn = nuevo.resolver(p, r, nat, None, funcion=funcion)
+                pv, iv = viejo.resolver(p, r, nat, None, funcion=funcion)
+                self.assertEqual(pn, pv)
+                self.assertEqual({k: v for k, v in inn.items() if k not in self.NUEVAS},
+                                 {k: v for k, v in iv.items() if k not in self.NUEVAS})
 
 
 class HuellaSinCotasAbiertas(unittest.TestCase):
