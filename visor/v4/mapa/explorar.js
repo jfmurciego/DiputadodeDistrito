@@ -8,6 +8,7 @@
  *   ordenado por partido (placa en Madrid, Barcelona, Vizcaya y Tenerife; línea guía en Barcelona), provincia con el relleno de «Partido más votado» (el mismo que la capa proporcional, sin aclarar; sustituye las 4 clases de intensidad del diseño por orden del propietario, 26-11),
  *   recuadros de Canarias, Ceuta y Melilla, leyenda en el panel derecho con % sobre votos a candidaturas y ventana con la tabla de la provincia. Datos de mapa/puntos_v5_2023.json
  *   (herramientas/datos_puntos_v5.py, BOE-A-2023-18907) y disposición en mapa/puntos.js. Sin datos, vuelve a la doble vuelta.
+ *   Retoque 1.6.0 (26-11): encuadre nacional más cerca (ENCUADRE_NAC/MARGEN_NAC), común a todas las capas.
  *   Retoque 1.6.0: el zoom pasa a arriba a la izquierda (los botones ? ⌖ P C lo tapaban) y el rótulo de Canarias al borde derecho de su marco (a la izquierda quedaba cortado).
  *   1.5.0 (T-459, diseño T-458 1.4.1 §1.3.0/1.4.0): colores fijos por bloque (#d32b2b, #1d6fb8, #0f7a52, #5b6470) en los dos temas, sin aclarado (la ventaja ajustada
  *   solo en el texto); panel con cifras de lo seleccionado arriba y sin foto/«407 / 350»; clic en distrito = resaltado + ventana (población, votos, bloque ganador y %) sin zoom;
@@ -41,6 +42,9 @@
   const PALETA={PP:"#1d6fb8",PSOE:"#d32b2b",VOX:"#5fa335",SUMAR:"#cf2a7b",PODEMOS:"#8750b5",
     "EAJ-PNV":"#2c5e36","EH BILDU":"#0f7a52",ERC:"#f0ac00",JUNTS:"#18a99b",BNG:"#7cb2d8",CC:"#e8c400",
     UPN:"#3a55a2",OTROS:"#9aa3ad"};
+  // Encuadre nacional (T-500, orden del propietario): la península llena el mapa; el oeste llega a los recuadros de Canarias (islas a la vista, solo el borde del marco sale del encuadre)
+  // y la parte baja a los de Ceuta y Melilla; margen mínimo sobre Galicia y el Cantábrico. Vale para todas las capas (inicial, cambio de ámbito y «Volver a España»).
+  const ENCUADRE_NAC=[[-11.7,33.7],[4.6,43.95]],MARGEN_NAC={top:10,right:12,bottom:36,left:8};
   const NATIONAL=[["201111","nov. 2011"],["201512","dic. 2015"],["201606","jun. 2016"],
     ["201904","abr. 2019"],["201911","nov. 2019"],["202307","jul. 2023"]];
   const REGION={
@@ -866,7 +870,7 @@
       }
       if(id==="scope"){S.province=null;S.unit={kind:"pais",properties:{}};S.region="";
         S.level=S.scope==="autonomico"?"comunidad":"provincia";$("level").value=S.level;
-        map.fitBounds([[-9.8,35.3],[4.5,44.2]],{padding:30,duration:dur(350)});}
+        map.fitBounds(ENCUADRE_NAC,{padding:MARGEN_NAC,duration:dur(350)});}
       refresh();
     }));
     document.querySelectorAll("#regla button").forEach(b=>b.onclick=()=>setRegla(b.dataset.value));
@@ -889,7 +893,7 @@
       S.panel=b.dataset.panel;document.querySelectorAll("[data-panel]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));renderDetail();
     });
     $("reset-map").onclick=()=>{S.province=null;S.unit={kind:"pais",properties:{}};S.level=S.scope==="nacional"?"provincia":"comunidad";$("level").value=S.level;
-      map.fitBounds([[-9.8,35.3],[4.5,44.2]],{padding:30,duration:dur(450)});refresh();};
+      map.fitBounds(ENCUADRE_NAC,{padding:MARGEN_NAC,duration:dur(450)});refresh();};
     $("peninsula").onclick=()=>map.fitBounds([[-9.8,35.6],[4.5,43.95]],{padding:25,duration:dur(350)});
     $("canarias").onclick=()=>map.fitBounds([[-18.5,27.4],[-13.3,29.5]],{padding:25,duration:dur(350)});
     $("help").onclick=()=>$("help-dialog").showModal();
@@ -918,8 +922,8 @@
         cc.features.map(f=>"<option value='"+esc(f.properties.nombre)+"'></option>").join("");
       $("election-region").innerHTML='<option value="">Selecciona parlamento</option>'+
         Object.entries(REGION).map(([name,id])=>"<option value='"+esc(id)+"'>"+esc(name)+"</option>").join("");
-      map=new maplibregl.Map({container:"map",style:styleInit(),bounds:[[-9.8,35.4],[4.5,44.2]],
-        fitBoundsOptions:{padding:30},dragRotate:false,pitchWithRotate:false,renderWorldCopies:false,attributionControl:false,locale:LOCALE_ES});
+      map=new maplibregl.Map({container:"map",style:styleInit(),bounds:ENCUADRE_NAC,
+        fitBoundsOptions:{padding:MARGEN_NAC},dragRotate:false,pitchWithRotate:false,renderWorldCopies:false,attributionControl:false,locale:LOCALE_ES});
       map.addControl(new maplibregl.NavigationControl({showCompass:false}),"top-left");
       map.on("load",()=>{bootstrap=true;install();});
       map.on("error",e=>{if(e?.error)console.error("MapLibre:",e.error);});

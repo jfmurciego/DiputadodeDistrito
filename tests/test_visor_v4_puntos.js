@@ -68,7 +68,7 @@ const doc = {getElementById: element, querySelectorAll: q => group[q] || [], cre
 let map; const popups = [];
 class Popup { constructor(o) { this.o = o; popups.push(this); } setLngLat(l) { this.l = l; return this; } setHTML(h) { this.html = h; return this; } addTo() { return this; } on() {} remove() { this.removed = true; } }
 class FakeMap {
-  constructor() { this.sources = new Map(); this.layers = new Map(); this.handlers = {}; this.hit = []; this.fitted = 0; map = this; queueMicrotask(() => this.handlers.load?.()); }
+  constructor(o) { this.o = o; this.sources = new Map(); this.layers = new Map(); this.handlers = {}; this.hit = []; this.fitted = 0; map = this; queueMicrotask(() => this.handlers.load?.()); }
   addControl() {} on(ev, ...a) { this.handlers[ev] = a.at(-1); }
   addSource(id, s) { this.sources.set(id, {data: s.data, setData(n) { this.data = n; }}); } getSource(id) { return this.sources.get(id); }
   addLayer(l) { this.layers.set(l.id, {...l, layout: {visibility: "visible", ...l.layout}, paint: {...l.paint}}); } getLayer(id) { return this.layers.get(id); }
@@ -98,6 +98,7 @@ const flush = async () => { for (let i = 0; i < 40; i++) await new Promise(r => 
   assert.equal(doc.body.dataset.ready, "1");
   // 1. Por defecto: capa de puntos, Congreso, actual proporcional, electoral, 2023; 348 puntos en el mapa; Ceuta y Melilla, en recuadro.
   eq([t.S.layer, t.S.scope, t.S.system, t.S.view, t.S.election, t.S.level], ["puntos", "nacional", "proporcional", "electoral", "202307", "provincia"]);
+  eq([map.o.bounds, map.o.fitBoundsOptions.padding], [[[-11.7, 33.7], [4.6, 43.95]], {top: 10, right: 12, bottom: 36, left: 8}], "encuadre nacional más cerca, común a todas las capas");
   assert.equal(doc.body.dataset.puntos, "348");
   assert.equal(map.getLayer("v5-n").layout.visibility, "visible"); assert.equal(map.getLayer("prov-fill").layout.visibility, "visible"); assert.equal(map.getLayer("dist-fill").layout.visibility, "none");
   assert.equal(map.getSource("distritos").data.features.length, 0, "no se cargan distritos para esta capa");
