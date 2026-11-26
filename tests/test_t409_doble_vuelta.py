@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
 import doble_vuelta as dv  # noqa: E402
 
-BL = {"A": "Izquierdas", "B": "Izquierdas", "C": "Patriotas", "D": "Patriotas", "E": "Nacionalistas"}
+BL = {"A": "Izquierdas", "B": "Izquierdas", "C": "Derecha nacional", "D": "Derecha nacional", "E": "Nacionalistas"}
 V = {"A": 30, "B": 15, "C": 28, "D": 12, "E": 15}
 
 
@@ -53,8 +53,8 @@ class Resolver(unittest.TestCase):
 
     def test_dv_B_nacionalistas_por_partido_transfieren_al_finalista_nacionalista(self):
         # I 45, N1 25, N2 20, P 10 (dv_B: I y P coaligados; los nacionalistas, por partido): finalistas I y N1;
-        # N2 va a N1 (45 − 45) y P eliminado (Patriotas sin finalista) se abstiene.
-        bl = {"A": "Izquierdas", "N1": "Nacionalistas", "N2": "Nacionalistas", "C": "Patriotas"}
+        # N2 va a N1 (45 − 45) y P eliminado (Derecha nacional sin finalista) se abstiene.
+        bl = {"A": "Izquierdas", "N1": "Nacionalistas", "N2": "Nacionalistas", "C": "Derecha nacional"}
         r = dv.resolver({"A": 45, "N1": 25, "N2": 20, "C": 10}, bl, "dv_B")
         self.assertEqual((r["finalista_a"], r["finalista_b"]), ("bloque:Izquierdas", "N1"))
         self.assertEqual((r["votos_a_2v"], r["votos_b_2v"], r["votos_abstencion"]), (45, 45, 10))
@@ -65,14 +65,14 @@ class Resolver(unittest.TestCase):
         self.assertEqual((r["finalista_b"], r["candidatura_ganadora"], r["empate"]), ("Y", "X", "true"))
 
     def test_dos_finalistas_del_mismo_bloque(self):
-        bl = {"A": "Izquierdas", "B": "Izquierdas", "D": "Izquierdas", "C": "Patriotas", "E": "Patriotas"}
+        bl = {"A": "Izquierdas", "B": "Izquierdas", "D": "Izquierdas", "C": "Derecha nacional", "E": "Derecha nacional"}
         r = dv.resolver({"A": 30, "B": 25, "C": 20, "D": 10, "E": 15}, bl, "dv_base")
         self.assertEqual((r["finalista_a"], r["finalista_b"]), ("A", "B"))
         self.assertEqual((r["votos_a_2v"], r["votos_b_2v"], r["votos_abstencion"]), (40, 25, 35))
         self.assertEqual(r["candidatura_ganadora"], "A")
 
     def test_sin_bloque_se_abstiene(self):
-        r = dv.resolver({"A": 40, "C": 30, "Z": 30}, {"A": "Izquierdas", "C": "Patriotas"}, "dv_base")
+        r = dv.resolver({"A": 40, "C": 30, "Z": 30}, {"A": "Izquierdas", "C": "Derecha nacional"}, "dv_base")
         self.assertEqual((r["votos_a_2v"], r["votos_b_2v"], r["votos_abstencion"]), (40, 30, 30))
 
     def test_distrito_sin_votos(self):
@@ -83,17 +83,17 @@ class Resolver(unittest.TestCase):
 class Detalle(unittest.TestCase):
     def test_dv_A_lleva_bloque_y_votos_por_partido(self):
         d = dv.detalle(V, BL, "dv_A")
-        # Izquierdas 30+15=45, Patriotas 28+12=40, Nacionalistas 15 (valores a mano, DISENO §7)
+        # Izquierdas 30+15=45, Derecha nacional 28+12=40, Nacionalistas 15 (valores a mano, DISENO §7)
         self.assertEqual([(f["partido"], f["candidatura"], f["bloque"], f["votos_1v"], f["votos_candidatura"]) for f in d], [
             ("A", "bloque:Izquierdas", "Izquierdas", 30, 45), ("B", "bloque:Izquierdas", "Izquierdas", 15, 45),
-            ("C", "bloque:Patriotas", "Patriotas", 28, 40), ("D", "bloque:Patriotas", "Patriotas", 12, 40),
+            ("C", "bloque:Derecha nacional", "Derecha nacional", 28, 40), ("D", "bloque:Derecha nacional", "Derecha nacional", 12, 40),
             ("E", "bloque:Nacionalistas", "Nacionalistas", 15, 15)])
 
     def test_dv_base_y_dv_B(self):
         base = dv.detalle(V, BL, "dv_base")
         self.assertEqual([f["candidatura"] for f in base], ["A", "C", "B", "E", "D"])
         b = {f["partido"]: f["candidatura"] for f in dv.detalle(V, BL, "dv_B")}
-        self.assertEqual((b["A"], b["C"], b["E"]), ("bloque:Izquierdas", "bloque:Patriotas", "E"))
+        self.assertEqual((b["A"], b["C"], b["E"]), ("bloque:Izquierdas", "bloque:Derecha nacional", "E"))
 
     def test_sin_bloque_y_votos_cero(self):
         d = dv.detalle({"A": 10, "Z": 5, "Q": 0}, {"A": "Izquierdas"}, "dv_A")
@@ -115,7 +115,7 @@ class Detalle(unittest.TestCase):
 
 class SinCasar(unittest.TestCase):
     def test_sin_casar_no_es_sin_bloque(self):
-        tabla = {"PP": "Patriotas", "Cs": ""}  # Cs casa sin bloque; PSE-EE no está
+        tabla = {"PP": "Derecha nacional", "Cs": ""}  # Cs casa sin bloque; PSE-EE no está
         votos = {"1": {"PP": 50, "Cs": 20, "PSE-EE (PSOE)": 30}, "2": {"PSE-EE (PSOE)": 5, "X": 0}}
         self.assertEqual(dv.sin_casar(votos, tabla), {"PSE-EE (PSOE)": 35})
 
@@ -125,7 +125,7 @@ class SinCasar(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             d = Path(d)
             (d / "v.csv").write_text("district_id,party,votes,bloc\n1,PP,60,\n1,SUMAR,40,\n", encoding="utf-8")
-            (d / "b.csv").write_text("eleccion,siglas,denominacion,bloque_propuesto,motivo\n2023-07,PP,PP,Patriotas,x\n", encoding="utf-8")
+            (d / "b.csv").write_text("eleccion,siglas,denominacion,bloque_propuesto,motivo\n2023-07,PP,PP,Derecha nacional,x\n", encoding="utf-8")
             err = io.StringIO()
             with contextlib.redirect_stderr(err):
                 dv.generar(d / "v.csv", d / "b.csv", "2023-07", d / "s.csv", d / "m.json")
@@ -139,7 +139,7 @@ class SinCasar(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             d = Path(d)
             (d / "v.csv").write_text("district_id,party,votes,bloc\n1,PP,60,\n", encoding="utf-8")
-            (d / "b.csv").write_text("eleccion,siglas,denominacion,bloque_propuesto,motivo\n2023-07,PP,PP,Patriotas,x\n", encoding="utf-8")
+            (d / "b.csv").write_text("eleccion,siglas,denominacion,bloque_propuesto,motivo\n2023-07,PP,PP,Derecha nacional,x\n", encoding="utf-8")
             err = io.StringIO()
             with contextlib.redirect_stderr(err):
                 dv.generar(d / "v.csv", d / "b.csv", "2023-07", d / "s.csv", d / "m.json")
@@ -148,7 +148,7 @@ class SinCasar(unittest.TestCase):
 
 class Tabla(unittest.TestCase):
     def test_tabla_versionada_un_partido_un_bloque(self):
-        p = ROOT / "configuracion/bloques_partidos_2026-11-17.csv"
+        p = ROOT / "configuracion/bloques_partidos_2026-11-25.csv"
         por = {}
         for f in csv.DictReader(open(p, encoding="utf-8")):
             por.setdefault(f["siglas"], set()).add(f["bloque_propuesto"])

@@ -1,6 +1,6 @@
 # Nombres y comunidades de interés — congreso_ceuta
 
-Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.1.0. Sin datos electorales.
+Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.2.0. Sin datos electorales.
 
 - Distritos: 1 (nombres únicos: 1)
 - Reglas: MUNICIPIO 1

@@ -1,7 +1,7 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
-congreso_cordoba,0,Córdoba 1,MUNICIPIO,POSICION_N_S_O_E,14021,Córdoba,1,1,129146,,0,1,EVALUADO,
-congreso_cordoba,1,Córdoba 2,MUNICIPIO,POSICION_N_S_O_E,14021,Córdoba,1,1,131387,,0,1,EVALUADO,
-congreso_cordoba,2,Córdoba y entorno,PRINCIPAL_Y_ENTORNO,,14021,Córdoba,10,1,127101,,0,3,EVALUADO,
-congreso_cordoba,3,Palma del Río y entorno,PRINCIPAL_Y_ENTORNO,,14049,Palma del Río,34,0,128864,,0,5,EVALUADO,
-congreso_cordoba,4,Montilla y entorno,PRINCIPAL_Y_ENTORNO,,14042,Montilla,20,0,129081,,0,7,EVALUADO,
-congreso_cordoba,5,Lucena y entorno,PRINCIPAL_Y_ENTORNO,,14038,Lucena,13,0,129423,,0,4,EVALUADO,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas,estado_capital
+congreso_cordoba,0,Córdoba 1,MUNICIPIO,POSICION_N_S_O_E,14021,Córdoba,1,1,129146,,0,1,EVALUADO,,COMPLETO
+congreso_cordoba,1,Córdoba 2,MUNICIPIO,POSICION_N_S_O_E,14021,Córdoba,1,1,131387,,0,1,EVALUADO,,COMPLETO
+congreso_cordoba,2,Córdoba 3,CAPITAL_PARTIDO,POSICION_N_S_O_E,14021,Córdoba,13,1,134958,,0,4,EVALUADO,,COMPLETO
+congreso_cordoba,3,Montilla,CAPITAL_PARTIDO,,14042,Montilla,17,0,124182,,0,2,EVALUADO,,COMPLETO
+congreso_cordoba,4,Pozoblanco,CAPITAL_PARTIDO,,14054,Pozoblanco,36,0,121489,,0,4,EVALUADO,,COMPLETO
+congreso_cordoba,5,Lucena,CAPITAL_PARTIDO,,14038,Lucena,11,0,133840,,0,4,EVALUADO,,COMPLETO

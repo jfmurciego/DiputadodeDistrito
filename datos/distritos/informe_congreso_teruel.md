@@ -1,9 +1,9 @@
 # Nombres y comunidades de interés — congreso_teruel
 
-Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.1.0. Sin datos electorales.
+Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.2.0. Sin datos electorales.
 
 - Distritos: 1 (nombres únicos: 1)
-- Reglas: PRINCIPAL_Y_ENTORNO 1
+- Reglas: MAS_POBLADO 1
 - Municipios divididos entre distritos (suma por distrito): 0
 
 ## C13 partidos judiciales partidos
@@ -25,4 +25,4 @@ Un municipio dividido cuenta en todos sus distritos; no se asigna población por
 
 | Id | Nombre | Regla | Población | Comarcas |
 |---|---|---|---|---|
-| 0 | Teruel y entorno | PRINCIPAL_Y_ENTORNO | 135046 | 10 |
+| 0 | Teruel | MAS_POBLADO | 135046 | 10 |

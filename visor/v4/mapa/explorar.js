@@ -1,15 +1,16 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: visor V4 · Explorar (V3 completa + doble vuelta)
  * VERSIÓN: 1.6.0
- * FECHA: 2026-11-25
+ * FECHA: 2026-11-26
  * ESTADO: candidato
- * ANTERIOR: legacy/visor/v4/mapa/explorar_v1.5.0_20261125.js
+ * ANTERIOR: legacy/visor/v4/mapa/explorar_v1.5.1_20261125.js
  * CAMBIOS: 1.6.0 (T-500, diseño T-499 1.0.1): capa «Situación actual · puntos», activa por defecto en Congreso · 2023 · Provincia: un punto por diputado en un racimo
  *   ordenado por partido (placa en Madrid, Barcelona, Vizcaya y Tenerife; línea guía en Barcelona), provincia con el relleno de «Partido más votado» (el mismo que la capa proporcional, sin aclarar; sustituye las 4 clases de intensidad del diseño por orden del propietario, 26-11),
  *   recuadros de Canarias, Ceuta y Melilla, leyenda en el panel derecho con % sobre votos a candidaturas y ventana con la tabla de la provincia. Datos de mapa/puntos_v5_2023.json
  *   (herramientas/datos_puntos_v5.py, BOE-A-2023-18907) y disposición en mapa/puntos.js. Sin datos, vuelve a la doble vuelta.
  *   Retoque 1.6.0 (26-11): encuadre nacional más cerca (ENCUADRE_NAC/MARGEN_NAC), común a todas las capas.
  *   Retoque 1.6.0: el zoom pasa a arriba a la izquierda (los botones ? ⌖ P C lo tapaban) y el rótulo de Canarias al borde derecho de su marco (a la izquierda quedaba cortado).
+ *   1.5.1 (T-460): «Patriotas» → «Derecha nacional» en la leyenda y el panel; el visor acepta los dos nombres del dato (DV.nombreBloque, DV.claseBloque) mientras convivan.
  *   1.5.0 (T-459, diseño T-458 1.4.1 §1.3.0/1.4.0): colores fijos por bloque (#d32b2b, #1d6fb8, #0f7a52, #5b6470) en los dos temas, sin aclarado (la ventaja ajustada
  *   solo en el texto); panel con cifras de lo seleccionado arriba y sin foto/«407 / 350»; clic en distrito = resaltado + ventana (población, votos, bloque ganador y %) sin zoom;
  *   fuera nivel sección/municipio, zoom a secciones y búsqueda por CUSEC.
@@ -231,7 +232,7 @@
     return {type:"FeatureCollection",features:fc.features.map(f=>({...f,properties:{...f.properties,...dvProps(keyOf(f),distOf(f))}}))};
   }
   let shownDistricts={features:[]};
-  const NOMBRE_BLOQUE={izq:"Izquierdas",nac:"Nacionalistas",pat:"Patriotas",sin:"Sin bloque"};
+  const NOMBRE_BLOQUE={izq:"Izquierdas",nac:"Nacionalistas",pat:"Derecha nacional",sin:"Sin bloque"};
   const pc1=x=>(Math.round(x*1000)/10).toFixed(1).replace(".",",")+" %";
   // Cifras de un distrito con la regla elegida: votos (suma de votos_1v de su detalle), bloque ganador y su % en la vuelta que decide.
   function dvCifras(p){
@@ -244,7 +245,7 @@
   }
   function distritoCifras(p){
     const c=dvCifras(p),r=[["Población",fmt(p.population)]];
-    if(c){r.push(["Votos",fmt(c.votos)],["Bloque ganador",c.bloque+" · "+pc1(c.cuota)]);if(c.ajustada)r.push(["Ventaja","Ajustada (menos de 5 puntos)"]);}
+    if(c){r.push(["Votos",fmt(c.votos)],["Bloque ganador",DV.nombreBloque(c.bloque)+" · "+pc1(c.cuota)]);if(c.ajustada)r.push(["Ventaja","Ajustada (menos de 5 puntos)"]);}
     else r.push(["Partido ganador del distrito",S.scope==="nacional"&&validElection()&&S.view==="electoral"?(p.ganador||"Sin datos electorales"):"No disponible para la elección/vista"]);
     return r;
   }
@@ -653,7 +654,7 @@
     }
     if(dvActiva()){
       const c=bloques();
-      legend("<h3>Doble vuelta · "+esc(regla().texto)+"</h3>"+(dv?"<ul>"+[["izq","Izquierdas"],["nac","Nacionalistas"],["pat","Patriotas"],["sin","Sin bloque"]].map(([k,n])=>"<li><i style='background:"+c[k]+"'></i>"+n+"</li>").join("")+
+      legend("<h3>Doble vuelta · "+esc(regla().texto)+"</h3>"+(dv?"<ul>"+[["izq","Izquierdas"],["nac","Nacionalistas"],["pat","Derecha nacional"],["sin","Sin bloque"]].map(([k,n])=>"<li><i style='background:"+c[k]+"'></i>"+n+"</li>").join("")+
         "<li><i style='background:#a8bac7'></i>Sin dato</li></ul><small>La ventaja ajustada (menos de 5 puntos sobre el otro finalista) y los empates se indican en el texto de la ficha.</small>":""));
     }
     $("v5-mode").hidden=!pt;$("v5-content").innerHTML=pt?puntosLeyenda():"";

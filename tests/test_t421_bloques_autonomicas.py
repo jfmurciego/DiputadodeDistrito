@@ -24,13 +24,13 @@ class BloquesAutonomicas(unittest.TestCase):
         self.assertEqual(self.cob["aut01"]["total"], 4120892)
 
     def test_mismo_partido_mismo_bloque(self):
-        self.assertEqual(self.fila("aut01", "PP")["bloque_propuesto"], "Patriotas")
+        self.assertEqual(self.fila("aut01", "PP")["bloque_propuesto"], "Derecha nacional")
         self.assertEqual(self.fila("aut01", "PSOE")["bloque_propuesto"], "Izquierdas")
         self.assertEqual(self.fila("aut09", "CUP")["bloque_propuesto"], "Nacionalistas")
 
     def test_lista_cerrada_del_propietario(self):
         for aut, sigla, bloque in (("aut09", "ALIANÇA.CAT", "Nacionalistas"), ("aut09", "ALHORA", "Nacionalistas"), ("aut05", "UXGC", "Nacionalistas"),
-                                   ("aut01", "ANDALUCISTAS", "Nacionalistas"), ("aut01", "SALF", "Patriotas"), ("aut07", "SALF", "Patriotas"),
+                                   ("aut01", "ANDALUCISTAS", "Nacionalistas"), ("aut01", "SALF", "Derecha nacional"), ("aut07", "SALF", "Derecha nacional"),
                                    ("aut05", "DVC", "Izquierdas"), ("aut09", "JUNTS+", "Nacionalistas")):
             self.assertEqual(self.fila(aut, sigla)["bloque_propuesto"], bloque, (aut, sigla))
         self.assertEqual(self.top, [])  # sin dudosos: el resto de menores, sin bloque

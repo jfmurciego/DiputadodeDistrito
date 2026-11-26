@@ -1,6 +1,6 @@
 {
   "schema": "ddd-espejos-fuentes-oficiales/1.0",
-  "nota": "PROYECTO: Diputado de Distrito · T-449 (D-183, D-188) · VERSIÓN 1.3.0 · 2026-11-24 · ANTERIOR: legacy/espejos_fuentes_oficiales_v1.2.0_20261124.json · CAMBIOS 1.3.0: T-449 (decisión del propietario 24-11): aut08 pasa al modo URL directa con la copia de la Wayback del xlsx oficial de 2023 (captura 20261023040608, medida en el run 45283716584: sha256 7591997d…47ca, 322.602 B), declarada `tipo: copia_archivada` (fuente NO oficial), y `copias_archivadas_destino` = fuentes-archivadas (R2 fuentes-archivadas/junta-castilla-la-mancha/2023/, nunca fuentes/, D-198). El catálogo de datos.gob.es queda como referencia (`dataset_url`). CAMBIOS 1.2.0: T-449: `descubrir` en aut08 (páginas oficiales que sondea en solo lectura `espejo_fuente_oficial.py descubrir` cuando las distribuciones de datos.gob.es dan 404; sufijos castillalamancha.es y datos.gob.es; semillas de elecciones2023.castillalamancha.es y de las fichas del portal nuevo, halladas por el Planificador, y su host en `hosts_permitidos`; copias archivadas (propietario 23-11, «probar todos los sitios»): `copias_archivadas` y web.archive.org en `hosts_permitidos` (copia íntegra del fichero oficial, verificada con el digest de la captura y declarada en el manifiesto con oficial=false y tipo copia_archivada); `copias_archivadas_destino` = no_subir, único valor (decisión del propietario 23-11: la copia solo se mide, no se sube a R2); en `descubrir`, prefijos CDX de la Wayback y medios (Público, elDiario.es, El Español, RTVE, CMM, El País) como fuente NO oficial, que solo se sondean y nunca se suben solos; la URL buena entra después por PR con su huella). CAMBIOS 1.1.0: T-448 (D-202): entrada `ine-censo2011-1mun00` en modo URL directa (url + sha256_esperado + bytes_esperados + extension; host www.ine.es). Fuentes oficiales que solo se alcanzan desde un runner de Actions y se espejan, en solo lectura, en R2 bajo fuentes/<organismo>/<año>/ con manifiesto.json (sha256, bytes, URL de origen, run). Lo usa herramientas/espejo_fuente_oficial.py desde «P10 Fuentes», tipo «Espejo de fuente oficial». La huella medida se copia después, en una PR, al índice y al calendario. Solo se descarga por https de los hosts exactos de `hosts_permitidos` (también en cada redirección) y hasta `max_bytes`; un host nuevo se añade por PR.",
+  "nota": "PROYECTO: Diputado de Distrito · T-461b · VERSIÓN 1.4.0 · 2026-11-26 · ANTERIOR: legacy/espejos_fuentes_oficiales_v1.3.0_20261124.json · CAMBIOS 1.4.0: T-461b: entrada `capitalidad-partidos-judiciales` solo para `descubrir` (solo lectura): sondea los diarios oficiales de Aragón (BOA), Baleares (BOIB), Canarias (BOC), Cataluña (DOGC) y Galicia (DOG), que no están en el BOE consolidado, para localizar las leyes autonómicas de capitalidad de los partidos judiciales (Ley 38/1988 art. 4.4); los hosts se declaran aquí (por PR). No tiene url ni sha256_esperado: no se espeja ni se sube nada; la URL buena entra después por PR con su huella. FICHA: PROYECTO: Diputado de Distrito · T-449 (D-183, D-188) · VERSIÓN 1.3.0 · 2026-11-24 · ANTERIOR: legacy/espejos_fuentes_oficiales_v1.2.0_20261124.json · CAMBIOS 1.3.0: T-449 (decisión del propietario 24-11): aut08 pasa al modo URL directa con la copia de la Wayback del xlsx oficial de 2023 (captura 20261023040608, medida en el run 45283716584: sha256 7591997d…47ca, 322.602 B), declarada `tipo: copia_archivada` (fuente NO oficial), y `copias_archivadas_destino` = fuentes-archivadas (R2 fuentes-archivadas/junta-castilla-la-mancha/2023/, nunca fuentes/, D-198). El catálogo de datos.gob.es queda como referencia (`dataset_url`). CAMBIOS 1.2.0: T-449: `descubrir` en aut08 (páginas oficiales que sondea en solo lectura `espejo_fuente_oficial.py descubrir` cuando las distribuciones de datos.gob.es dan 404; sufijos castillalamancha.es y datos.gob.es; semillas de elecciones2023.castillalamancha.es y de las fichas del portal nuevo, halladas por el Planificador, y su host en `hosts_permitidos`; copias archivadas (propietario 23-11, «probar todos los sitios»): `copias_archivadas` y web.archive.org en `hosts_permitidos` (copia íntegra del fichero oficial, verificada con el digest de la captura y declarada en el manifiesto con oficial=false y tipo copia_archivada); `copias_archivadas_destino` = no_subir, único valor (decisión del propietario 23-11: la copia solo se mide, no se sube a R2); en `descubrir`, prefijos CDX de la Wayback y medios (Público, elDiario.es, El Español, RTVE, CMM, El País) como fuente NO oficial, que solo se sondean y nunca se suben solos; la URL buena entra después por PR con su huella). CAMBIOS 1.1.0: T-448 (D-202): entrada `ine-censo2011-1mun00` en modo URL directa (url + sha256_esperado + bytes_esperados + extension; host www.ine.es). Fuentes oficiales que solo se alcanzan desde un runner de Actions y se espejan, en solo lectura, en R2 bajo fuentes/<organismo>/<año>/ con manifiesto.json (sha256, bytes, URL de origen, run). Lo usa herramientas/espejo_fuente_oficial.py desde «P10 Fuentes», tipo «Espejo de fuente oficial». La huella medida se copia después, en una PR, al índice y al calendario. Solo se descarga por https de los hosts exactos de `hosts_permitidos` (también en cada redirección) y hasta `max_bytes`; un host nuevo se añade por PR.",
   "espejos": {
     "aut08": {
       "eleccion": "Elecciones a las Cortes de Castilla-La Mancha",
@@ -98,6 +98,46 @@
         "www.ine.es"
       ],
       "max_bytes": 110000000
+    },
+    "capitalidad-partidos-judiciales": {
+      "eleccion": "Leyes autonómicas de capitalidad de los partidos judiciales (Ley 38/1988, art. 4.4)",
+      "anyo": 1989,
+      "fecha": "1989-12-31",
+      "organismo": "diarios-oficiales-autonomicos",
+      "fichero": "capitalidad-partidos-judiciales",
+      "hosts_permitidos": [
+        "dogc.gencat.cat",
+        "www.xunta.gal",
+        "www.boa.aragon.es",
+        "www.caib.es",
+        "www.gobiernodecanarias.org"
+      ],
+      "max_bytes": 52428800,
+      "descubrir": {
+        "paginas": [
+          "https://dogc.gencat.cat/",
+          "https://www.xunta.gal/diario-oficial-galicia",
+          "https://www.boa.aragon.es/",
+          "https://www.caib.es/eboibfront/",
+          "https://www.gobiernodecanarias.org/boc/"
+        ],
+        "sufijos_host": [
+          "gencat.cat",
+          "xunta.gal",
+          "boa.aragon.es",
+          "caib.es",
+          "gobiernodecanarias.org"
+        ],
+        "max_paginas": 10,
+        "max_candidatas": 5,
+        "sufijos_oficiales": [
+          "gencat.cat",
+          "xunta.gal",
+          "boa.aragon.es",
+          "caib.es",
+          "gobiernodecanarias.org"
+        ]
+      }
     }
   }
 }

@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<documento fecha_actualizacion="20251217185601">
+  <metadatos>
+    <identificador>BOE-A-1989-13850</identificador>
+    <origen_legislativo codigo="2">Autonómico</origen_legislativo>
+    <departamento codigo="9531">Comunidad de Castilla y León</departamento>
+    <rango codigo="1300">Ley</rango>
+    <fecha_disposicion>19890413</fecha_disposicion>
+    <numero_oficial>3/1989</numero_oficial>
+    <titulo>Ley 3/1989, de 13 de abril, por la que se determina la capitalidad de los partidos judiciales en la Comunidad de Castilla y León.</titulo>
+    <diario codigo="BOE">Boletín Oficial del Estado</diario>
+    <fecha_publicacion>19890617</fecha_publicacion>
+    <diario_numero>144</diario_numero>
+    <seccion>1</seccion>
+    <subseccion/>
+    <pagina_inicial>18650</pagina_inicial>
+    <pagina_final>18650</pagina_final>
+    <suplemento_pagina_inicial/>
+    <suplemento_pagina_final/>
+    <url_pdf>https://www.boe.es/boe/dias/1989/06/17/pdfs/A18650-18650.pdf</url_pdf>
+    <url_epub/>
+    <url_pdf_catalan/>
+    <url_pdf_euskera/>
+    <url_pdf_gallego/>
+    <url_pdf_valenciano/>
+    <estatus_legislativo>L</estatus_legislativo>
+    <fecha_vigencia>19890511</fecha_vigencia>
+    <estatus_derogacion>N</estatus_derogacion>
+    <fecha_derogacion/>
+    <judicialmente_anulada>N</judicialmente_anulada>
+    <fecha_anulacion/>
+    <vigencia_agotada>N</vigencia_agotada>
+    <estado_consolidacion codigo="3">Finalizado</estado_consolidacion>
+    <letra_imagen>A</letra_imagen>
+    <suplemento_letra_imagen/>
+    <url_eli>https://www.boe.es/eli/es-cl/l/1989/04/13/3</url_eli>
+  </metadatos>
+  <metadata-eli>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:eli="http://data.europa.eu/eli/ontology#">
+      <eli:LegalResource rdf:about="https://www.boe.es/eli/es-cl/l/1989/04/13/3">
+        <eli:jurisdiction rdf:resource="http://www.elidata.es/mdr/authority/jurisdiction/1/es-cl"/>
+        <eli:type_document rdf:resource="http://www.elidata.es/mdr/authority/resource-type/1/l"/>
+        <eli:id_local rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BOE-A-1989-13850</eli:id_local>
+        <eli:date_document rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1989-04-13</eli:date_document>
+        <eli:number rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3</eli:number>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/78"/>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/657"/>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/1320"/>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/2414"/>
+        <eli:has_member>
+          <eli:LegalResource rdf:about="https://www.boe.es/eli/es-cl/l/1989/04/13/3/dof">
+            <eli:jurisdiction rdf:resource="http://www.elidata.es/mdr/authority/jurisdiction/1/es-cl"/>
+            <eli:type_document rdf:resource="http://www.elidata.es/mdr/authority/resource-type/1/l"/>
+            <eli:id_local rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BOE-A-1989-13850</eli:id_local>
+            <eli:date_document rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1989-04-13</eli:date_document>
+            <eli:number rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3</eli:number>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/78"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/657"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/1320"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/2414"/>
+            <eli:version rdf:resource="http://www.elidata.es/mdr/authority/version/dof"/>
+            <eli:is_member_of rdf:resource="https://www.boe.es/eli/es-cl/l/1989/04/13/3"/>
+            <eli:consolidated_by rdf:resource="https://www.boe.es/eli/es-cl/l/1989/04/13/3/con/19890510"/>
+            <eli:is_realized_by>
+              <eli:LegalExpression rdf:about="https://www.boe.es/eli/es-cl/l/1989/04/13/3/dof/spa">
+                <eli:language rdf:resource="http://www.elidata.es/mdr/authority/language/spa"/>
+                <eli:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ley 3/1989, de 13 de abril, por la que se determina la capitalidad de los partidos judiciales en la Comunidad de Castilla y León.</eli:title>
+                <eli:publisher_agent rdf:resource="https://www.boe.es"/>
+                <eli:date_publication rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1989-06-17</eli:date_publication>
+                <eli:realizes rdf:resource="https://www.boe.es/eli/es-cl/l/1989/04/13/3/dof"/>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-cl/l/1989/04/13/3/dof/spa/html">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/text/html"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-cl/l/1989/04/13/3/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-cl/l/1989/04/13/3/dof/spa/pdf">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/application/pdf"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-cl/l/1989/04/13/3/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-cl/l/1989/04/13/3/dof/spa/xml">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/application/xml"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-cl/l/1989/04/13/3/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+              </eli:LegalExpression>
+            </eli:is_realized_by>
+          </eli:LegalResource>
+        </eli:has_member>
+        <eli:has_member>
+          <eli:LegalResource rdf:about="https://www.boe.es/eli/es-cl/l/1989/04/13/3/con/19890510">
+            <eli:jurisdiction rdf:resource="http://www.elidata.es/mdr/authority/jurisdiction/1/es-cl"/>
+            <eli:type_document rdf:resource="http://www.elidata.es/mdr/authority/resource-type/1/l"/>
+            <eli:id_local rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BOE-A-1989-13850</eli:id_local>
+            <eli:date_document rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1989-04-13</eli:date_document>
+            <eli:number rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3</eli:number>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/78"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/657"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/1320"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/2414"/>
+            <eli:version rdf:resource="http://www.elidata.es/mdr/authority/version/con"/>
+            <eli:version_date rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1989-05-10</eli:version_date>
+            <eli:is_member_of rdf:resource="https://www.boe.es/eli/es-cl/l/1989/04/13/3"/>
+            <eli:consolidates rdf:resource="https://www.boe.es/eli/es-cl/l/1989/04/13/3/dof"/>
+            <eli:is_realized_by>
+              <eli:LegalExpression rdf:about="https://www.boe.es/eli/es-cl/l/1989/04/13/3/con/19890510/spa">
+                <eli:language rdf:resource="http://www.elidata.es/mdr/authority/language/spa"/>
+                <eli:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ley 3/1989, de 13 de abril, por la que se determina la capitalidad de los partidos judiciales en la Comunidad de Castilla y León.</eli:title>
+                <eli:publisher_agent rdf:resource="https://www.boe.es"/>
+                <eli:realizes rdf:resource="https://www.boe.es/eli/es-cl/l/1989/04/13/3/con/19890510"/>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-cl/l/1989/04/13/3/con/19890510/spa/html">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/text/html"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-cl/l/1989/04/13/3/con/19890510/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+              </eli:LegalExpression>
+            </eli:is_realized_by>
+          </eli:LegalResource>
+        </eli:has_member>
+      </eli:LegalResource>
+    </rdf:RDF>
+  </metadata-eli>
+  <analisis>
+    <materias>
+      <materia codigo="78" orden="1">Administración de Justicia</materia>
+      <materia codigo="657" orden="2">Castilla y León</materia>
+      <materia codigo="1320" orden="3">Comunidades Autónomas</materia>
+      <materia codigo="2414" orden="4">Demarcación judicial</materia>
+    </materias>
+    <notas>
+      <nota codigo="14" orden="400">Publicada en el BOCYL núm. 89, de 10 de mayo de 1989.</nota>
+    </notas>
+    <referencias>
+      <anteriores>
+        <anterior referencia="BOE-A-1988-29622" orden="3060">
+          <palabra codigo="440">DE CONFORMIDAD con</palabra>
+          <texto>Ley 38/1988, de 28 de diciembre</texto>
+        </anterior>
+        <anterior referencia="BOE-A-1985-12666" orden="3060">
+          <palabra codigo="440">DE CONFORMIDAD con</palabra>
+          <texto>art. 35, apartados 5 y 6, de la Ley Orgánica 6/1985, de 1 de julio</texto>
+        </anterior>
+        <anterior referencia="BOE-A-1983-6483" orden="3060">
+          <palabra codigo="440">DE CONFORMIDAD con</palabra>
+          <texto>art. 14.3 del Estatuto aprobado por Ley Orgánica 4/1983, de 25 de febrero</texto>
+        </anterior>
+      </anteriores>
+      <posteriores/>
+    </referencias>
+    <alertas>
+      <alerta codigo="121" orden="1">Organización de la Administración</alerta>
+    </alertas>
+  </analisis>
+  <texto>
+    <p class="parrafo">Sea notorio a todos los ciudadanos que las Cortes de Castilla y León han aprobado, y yo en nombre del Rey y de acuerdo con lo que se establece en el artículo 14.3 del Estatuto de Autonomía, promulgo y ordeno la publicación de la siguiente Ley.</p>
+    <p class="centro_redonda">EXPOSICIÓN DE MOTIVOS</p>
+    <p class="parrafo_2">La Ley 38/1988, de 28 de diciembre, de Demarcación y Planta Judicial, desarrolla determinadas previsiones contenidas en la Ley Orgánica del Poder Judicial, estableciendo la necesidad de su desarrollo normativo en determinados aspectos por parte de las Asambleas Legislativas de las Comunidades Autónomas en el ámbito de sus respectivos territorios.</p>
+    <p class="parrafo">Las Cortes de Castilla y León pretenden con esta Ley determinar la capitalidad de los partidos judiciales en aquellos Municipios que por su localización geográfica, número de habitantes y medios de comunicación se encuentren más cercanos al ciudadano, lográndose así la mayor inmediación posible en el ámbito de la justicia en cumplimiento de los mandatos constitucionales en materia de derechos y libertades individuales.</p>
+    <p class="parrafo">Al propio tiempo se trata de respetar, en lo posible, la situación actual de los órganos de la Administración de Justicia, de forma que con la nueva demarcación se origine el mínimo aumento de gasto público, con una mayor eficacia en la prestación de un servicio primordial para todos los ciudadanos.</p>
+    <p class="parrafo">Por último, la presente Ley no supone obstáculo a las posibles revisiones del proceso de demarcación judicial que, adecuándose al procedimiento establecido en el artículo 35.5 de la citada Ley Orgánica del Poder Judicial, se pudieran realizar.</p>
+    <p class="articulo">Artículo 1.</p>
+    <p class="parrafo">De acuerdo con lo dispuesto en el artículo 35, número 6, de la Ley Orgánica del Poder Judicial, se determina la capitalidad de los partidos judiciales en la Comunidad Autónoma de Castilla y León, conforme a la delimitación dada a éstos por la Ley de Demarcación y de Planta, en Municipios que figuran en el anexo de esta Ley.</p>
+    <p class="articulo">Disposición final.</p>
+    <p class="parrafo">La presente Ley entrará en vigor el día siguiente a su publicación en el «Boletín Oficial de Castilla y León».</p>
+    <p class="parrafo_2">Por tanto, mando a todos los ciudadanos a los que sea de aplicación esta Ley la cumplan y a los Tribunales y Autoridades que corresponda que la hagan cumplir.</p>
+    <p class="parrafo_2">Valladolid, 13 de abril de 1989.El Presidente de la Junta de Castilla y León, José María Aznar López</p>
+    <p class="publicado">(Publicada en el «Boletín Oficial de Castilla y León» número 89, de 10 de mayo de 1989.)</p>
+    <p class="anexo">ANEXO</p>
+    <table class="tabla">
+      <colgroup>
+        <col/>
+        <col/>
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="cabeza_tabla">Partido judicial número</th>
+          <th class="cabeza_tabla">Capitalidad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="cuerpo_tabla_centro" colspan="2">
+            <em>Provincia de Ávila</em>
+          </td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">1</td>
+          <td>Arévalo.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">2</td>
+          <td>Arenas de San Pedro.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">3</td>
+          <td>Ávila.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">4</td>
+          <td>Piedrahíta.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro" colspan="2">
+            <em>Provincia de Burgos</em>
+          </td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">1</td>
+          <td>Burgos.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">2</td>
+          <td>Aranda de Duero.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">3</td>
+          <td>Villarcayo de Merindad de Castilla la Vieja.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">4</td>
+          <td>Miranda de Ebro.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">5</td>
+          <td>Lerma.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">6</td>
+          <td>Briviesca.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">7</td>
+          <td>Salas de los Infantes.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro" colspan="2">
+            <em>Provincia de León</em>
+          </td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">1</td>
+          <td>Sahagún.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">2</td>
+          <td>León.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">3</td>
+          <td>La Bañeza.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">4</td>
+          <td>Ponferrada.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">5</td>
+          <td>Astorga.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">6</td>
+          <td>Cistierna.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">7</td>
+          <td>Villablino.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro" colspan="2">
+            <em>Provincia de Palencia</em>
+          </td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">1</td>
+          <td>Palencia.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">2</td>
+          <td>Carrión de los Condes.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">3</td>
+          <td>Cervera de Pisuerga.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro" colspan="2">
+            <em>Provincia de Salamanca</em>
+          </td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">1</td>
+          <td>Salamanca.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">2</td>
+          <td>Ciudad Rodrigo.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">3</td>
+          <td>Vitigudino.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">4</td>
+          <td>Béjar.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">5</td>
+          <td>Peñaranda de Bracamonte.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro" colspan="2">
+            <em>Provincia de Segovia</em>
+          </td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">1</td>
+          <td>Segovia.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">2</td>
+          <td>Cuéllar.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">3</td>
+          <td>Sepúlveda.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">4</td>
+          <td>Santa María la Real de Nieva.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro" colspan="2">
+            <em>Provincia de Soria</em>
+          </td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">1</td>
+          <td>Almazán.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">2</td>
+          <td>Burgo de Osma-Ciudad de Osma.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">3</td>
+          <td>Soria.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro" colspan="2">
+            <em>Provincia de Valladolid</em>
+          </td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">1</td>
+          <td>Valladolid.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">2</td>
+          <td>Medina del Campo.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">3</td>
+          <td>Medina de Rioseco.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro" colspan="2">
+            <em>Provincia de Zamora</em>
+          </td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">1</td>
+          <td>Toro.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">2</td>
+          <td>Zamora.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">3</td>
+          <td>Benavente.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">4</td>
+          <td>Puebla de Sanabria.</td>
+        </tr>
+        <tr>
+          <td class="cuerpo_tabla_centro">5</td>
+          <td>Villalpando.</td>
+        </tr>
+      </tbody>
+    </table>
+  </texto>
+</documento>

@@ -29,19 +29,30 @@ class Reglas(unittest.TestCase):
         # norte primero (cy mayor); a igual latitud, oeste (cx menor) primero
         self.assertEqual(nombres, {2: "A 1", 1: "A 2", 0: "A 3"})
 
-    def test_varios_municipios_y_comarca(self):
+    def test_varios_municipios_capital_de_partido_y_mas_poblado(self):
+        # T-461 (diseño T458 §3.2): capital de partido en el distrito; si no hay, el más poblado.
         ds = [distrito(0, ["A", "B"], 0, 0), distrito(1, ["C", "D"], 1, 1)]
         pob = {"A": 5, "B": 9, "C": 1, "D": 2}
-        comarca = {"C": "Alto", "D": "Alto", "A": "X", "B": "Y"}
-        filas, _ = g.nombrar("t", ds, pob, {}, comarca)
-        self.assertEqual([f["nombre_distrito"] for f in filas], ["B y entorno", "Alto"])
+        filas, _ = g.nombrar("t", ds, pob, {}, {}, capitales={"A", "C"}, cobertura=True)
+        self.assertEqual([f["nombre_distrito"] for f in filas], ["A", "C"])  # capital aunque el otro sea más poblado
+        self.assertEqual([f["regla"] for f in filas], ["CAPITAL_PARTIDO"] * 2)
+        filas, _ = g.nombrar("t", ds, pob, {}, {})
+        self.assertEqual([f["nombre_distrito"] for f in filas], ["B", "D"])
+        self.assertEqual({f["regla"] for f in filas}, {"MAS_POBLADO"})
+        self.assertEqual({f["estado_capital"] for f in filas}, {"SIN_CAPITAL"})
+
+    def test_varias_capitales_gana_la_mas_poblada_y_sin_y_entorno(self):
+        ds = [distrito(0, ["A", "B", "C"], 0, 0)]
+        filas, _ = g.nombrar("t", ds, {"A": 3, "B": 7, "C": 99}, {}, {}, capitales={"A", "B"}, cobertura=True)
+        self.assertEqual(filas[0]["nombre_distrito"], "B")
+        self.assertNotIn("entorno", filas[0]["nombre_distrito"])
 
     def test_colision_numerada_y_unica(self):
         ds = [distrito(0, ["A", "B"], 0, 0), distrito(1, ["A", "C"], 0, 5)]
         filas, _ = g.nombrar("t", ds, {"A": 9, "B": 1, "C": 1}, {}, {})
         nombres = [f["nombre_distrito"] for f in filas]
         self.assertEqual(len(set(nombres)), 2)
-        self.assertEqual(nombres, ["A y entorno 2", "A y entorno 1"])
+        self.assertEqual(nombres, ["A 2", "A 1"])
 
     def test_comarca_partida(self):
         ds = [distrito(0, ["A"], 0, 0), distrito(1, ["B"], 0, 0), distrito(2, ["C"], 0, 0)]
@@ -84,7 +95,11 @@ class Datos49Provincias(unittest.TestCase):
             nombres = [r["nombre_distrito"] for r in filas]
             self.assertEqual(len(nombres), len(set(nombres)), t)
             self.assertEqual(len(filas), esperados[t], t)
+            for r in filas:
+                self.assertIn(r["regla"], {"MUNICIPIO", "CAPITAL_PARTIDO", "MAS_POBLADO"}, t)
+                self.assertIn(r["estado_capital"], {"COMPLETO", "SIN_CAPITAL"}, t)
             for n in nombres:
+                self.assertNotIn("entorno", n, t)
                 self.assertNotIn("/", n, t)
                 self.assertFalse(g.pendientes_toponimia("", n), (t, n))
 

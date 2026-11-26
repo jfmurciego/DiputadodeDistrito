@@ -3,9 +3,9 @@ title: Cómo se hace este mapa
 hide:
   - navigation
 ---
-<!-- VERSIÓN: 2.0.0 · FECHA: 2026-11-19 · T-423: reescrita para el público general (decisión del propietario): capítulos en español llano,
+<!-- VERSIÓN: 2.0.1 · FECHA: 2026-11-26 · T-463: solo afirmaciones ciertas hoy (sin «miles de mapas alternativos», sin «repetirlo»). 2.0.0 · 2026-11-19 · T-423: reescrita para el público general (decisión del propietario): capítulos en español llano,
      sin jerga ni códigos internos. Ejemplo de Huesca: cifras de datos_abiertos/INDEX.json (nac22) y visor/v2/datos/provincias.json.
-     ANTERIOR: legacy/documentacion_publica/docs/metodo_pre_t423_20261119.md -->
+     ANTERIOR: legacy/documentacion_publica/docs/metodo_pre_t463_20261126.md -->
 
 # Cómo se hace este mapa
 
@@ -28,7 +28,7 @@ Solo usamos datos oficiales y públicos:
 - **Los votos**: los resultados oficiales del Ministerio del Interior, mesa a mesa.
 - **Los escaños de hoy**: los publicados en el Boletín Oficial del Estado (BOE).
 
-¿Por qué solo datos oficiales? Porque así cualquiera puede repetir el trabajo y llegar al mismo resultado. Nada se estima a ojo ni se copia de memoria.
+¿Por qué solo datos oficiales? Porque así cualquiera puede comprobar de dónde sale cada cifra. Nada se estima a ojo ni se copia de memoria.
 
 ## 3. Cuánta gente vive en cada trozo del mapa
 
@@ -58,7 +58,7 @@ En Huesca el resultado son dos distritos: uno de 106.342 habitantes con 74 munic
 
 El primer dibujo casi nunca es el mejor. El ordenador lo va retocando, pasando secciones de un distrito a su vecino, para que las poblaciones se parezcan más sin romper ninguna de las reglas.
 
-Para saber si un mapa es razonable, además, se generan por ordenador **miles de mapas alternativos** que cumplen las mismas reglas. Comparar con todos ellos permite ver si el mapa elegido es normal o si favorece a alguien de forma sospechosa.
+Cada mapa compite con una docena de candidatos generados con las mismas reglas, y se publica el mejor según un criterio fijo y público.
 
 Al final, cada distrito se comprueba uno por uno: que tenga una sola pieza, que su población esté dentro de lo permitido y que respete los municipios. Si algo falla, el mapa no se publica.
 
@@ -79,7 +79,7 @@ Todo está publicado:
 
 - Los distritos de cada provincia y sus resultados se pueden descargar.
 - Cada fichero lleva una **huella digital**: un código que demuestra que el fichero no ha cambiado desde que se publicó. Si alguien lo modifica, aunque sea una coma, la huella deja de coincidir.
-- El programa que dibuja los distritos es público, para que cualquiera pueda revisarlo o repetirlo.
+- El código del programa que dibuja los distritos se puede leer en GitHub, para que cualquiera pueda revisarlo. Su uso, copia o modificación requiere permiso escrito del autor, según su licencia.
 
 ## 9. Límites: lo que este mapa no dice
 
