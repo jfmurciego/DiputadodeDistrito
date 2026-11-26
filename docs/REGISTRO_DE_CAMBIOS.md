@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.635
+Versión: 1.0.636
 Fecha: 2026-11-26
-Alcance: T-462 — Imagen de cada distrito: herramienta, hoja de contactos y paso de P10
+Alcance: T-460 — Pin de los dos informes de la doble vuelta tras renombrar «Derecha nacional»
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-26_t462-imagenes-distritos.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.634_registro_20261126.md
+Cambios/motivo: entrada docs/registro/2026-11-26_t460-pin-informes.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.635_registro_20261126.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.634_registro_20261126.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.636 · [2026-11-26 — T-460 — Pin de los dos informes de la doble vuelta tras renombrar «Derecha nacional»](registro/2026-11-26_t460-pin-informes.md)
 - 1.0.635 · [2026-11-26 — T-462 — Imagen de cada distrito: herramienta, hoja de contactos y paso de P10](registro/2026-11-26_t462-imagenes-distritos.md)
 - 1.0.634 · [2026-11-25 — T-460 — El bloque «Patriotas» pasa a «Derecha nacional» (en origen)](registro/2026-11-25_t460-derecha-nacional.md)
 - 1.0.633 · [2026-11-26 — T-461 — Nombres de distrito por capital de partido judicial](registro/2026-11-26_t461-nombres-distrito.md)
