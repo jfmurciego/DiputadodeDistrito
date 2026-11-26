@@ -453,11 +453,11 @@ class Fijado(unittest.TestCase):
         self.assertRegex(self.pin["informe_sha256"], r"^[0-9a-f]{64}$")
 
     def test_la_clave_es_la_del_run_fijado(self):
-        self.assertEqual(self.pin["informe_clave"], f"doble_vuelta/{self.pin['eleccion']}/{self.pin['run_p75']}/INFORME.json")
+        self.assertEqual(self.pin["informe_clave"], "interno/doble-vuelta/nacionales/congreso-2023/informe-doble-vuelta.json")  # árbol nuevo (T-443)
 
-    def test_valores_fijados(self):  # literales de la huella verificada en el log del job de P75 (run 44575597009, intento 1, 52/52 OK)
-        self.assertEqual((self.pin["eleccion"], self.pin["run_p75"]), ("2023-07", "44575597009-1"))
-        self.assertEqual(self.pin["informe_sha256"], "c127f66b074a37319b864a090c7585c6db4ccc923482e11342b147e69194711c")
+    def test_valores_fijados(self):  # literales de la entrega de la P75 nacional (run 45871996553, intento 1, 52/52 OK; T-460, tablas «Derecha nacional»)
+        self.assertEqual((self.pin["eleccion"], self.pin["run_p75"]), ("2023-07", "45871996553-1"))
+        self.assertEqual(self.pin["informe_sha256"], "650ba13c978a54437a1870baec424b06b865ac4b15c03624e9b70563edad60cc")
 
     def test_el_publicador_lo_acepta_como_fijado_valido(self):
         # control: con un informe cuyo sha256 NO es el fijado, el publicador falla cerrado (no publica con otra huella)
