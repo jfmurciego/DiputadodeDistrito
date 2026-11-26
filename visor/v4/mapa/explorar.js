@@ -8,7 +8,7 @@
  *   ordenado por partido (placa en Madrid, Barcelona, Vizcaya y Tenerife; línea guía en Barcelona), provincia con el relleno de «Partido más votado» (el mismo que la capa proporcional, sin aclarar; sustituye las 4 clases de intensidad del diseño por orden del propietario, 26-11),
  *   recuadros de Canarias, Ceuta y Melilla, leyenda en el panel derecho con % sobre votos a candidaturas y ventana con la tabla de la provincia. Datos de mapa/puntos_v5_2023.json
  *   (herramientas/datos_puntos_v5.py, BOE-A-2023-18907) y disposición en mapa/puntos.js. Sin datos, vuelve a la doble vuelta.
- *   Retoque 1.6.0 (26-11): encuadre nacional más cerca y mapa girado GIRO_NAC (10,65°, costa norte horizontal), ajustado al tamaño del marco; común a todas las capas.
+ *   Retoque 1.6.0 (26-11): encuadre nacional más cerca, ajustado al tamaño del marco, sin giro (GIRO_NAC=0, elección del propietario); común a todas las capas.
  *   Retoque 1.6.0: el zoom pasa a arriba a la izquierda (los botones ? ⌖ P C lo tapaban) y el rótulo de Canarias al borde derecho de su marco (a la izquierda quedaba cortado).
  *   1.5.1 (T-460): «Patriotas» → «Derecha nacional» en la leyenda y el panel; el visor acepta los dos nombres del dato (DV.nombreBloque, DV.claseBloque) mientras convivan.
  *   1.5.0 (T-459, diseño T-458 1.4.1 §1.3.0/1.4.0): colores fijos por bloque (#d32b2b, #1d6fb8, #0f7a52, #5b6470) en los dos temas, sin aclarado (la ventaja ajustada
@@ -43,12 +43,11 @@
   const PALETA={PP:"#1d6fb8",PSOE:"#d32b2b",VOX:"#5fa335",SUMAR:"#cf2a7b",PODEMOS:"#8750b5",
     "EAJ-PNV":"#2c5e36","EH BILDU":"#0f7a52",ERC:"#f0ac00",JUNTS:"#18a99b",BNG:"#7cb2d8",CC:"#e8c400",
     UPN:"#3a55a2",OTROS:"#9aa3ad"};
-  /* Encuadre nacional (T-500, orden del propietario 26-11), común a todas las capas (arranque, cambio de ámbito, «Volver a España» y botón P).
-   * GIRO_NAC: grados que se gira el mapa para que la costa norte quede horizontal, con Galicia y Cataluña a la misma altura. Cálculo (lo repite el test):
-   * punto más al norte de Galicia (La Coruña, Estaca de Bares: -7,688 / 43,79) frente al más al norte de Gerona (1,747 / 42,495); en Mercator (y hacia el norte)
-   * dx = rad(1,747 + 7,688) = 0,16467 y dy = ln tan(π/4 + 42,495°/2) − ln tan(π/4 + 43,79°/2) = −0,03098; atan2(dy, dx) = −10,654°: Gerona queda 10,65° más baja.
-   * Un bearing positivo de MapLibre gira el mapa en sentido antihorario (el este sube), así que +10,65 los iguala. El usuario no puede girar el mapa. */
-  const GIRO_NAC=10.65,MARGEN_NAC={top:56,right:4,bottom:6,left:4};  // arriba, sitio para los botones ? ⌖ P C y el zoom
+  /* Encuadre nacional (T-500, orden del propietario 26-11), común a todas las capas (arranque, cambio de ámbito, «Volver a España» y botón P): la cámara se calcula con el tamaño del marco
+   * y la península llena el ancho. GIRO_NAC: grados que se gira el mapa; el propietario eligió 0 (sin giro, variante b de docs/ESTUDIOS/T500_v5/giro_variante_*). Otros valores siguen funcionando
+   * (cámara, racimos, placas y recolocación de Canarias se calculan con él): +10,65 deja Galicia y Cataluña a la misma altura (Estaca de Bares frente al punto más al norte de Gerona;
+   * un bearing positivo de MapLibre gira el mapa en sentido antihorario). El usuario no puede girar el mapa. */
+  const GIRO_NAC=0,MARGEN_NAC={top:56,right:4,bottom:6,left:4};  // arriba, sitio para los botones ? ⌖ P C y el zoom
   /* Canarias se recoloca en memoria (el fichero de provincias no cambia) bajo la península, en la esquina inferior izquierda, con su marco horizontal en la pantalla; la posición se calcula
    * con la península girada, así que vale para cualquier GIRO_NAC. Ceuta y Melilla, en dos recuadros fijos en fila a la derecha del marco de Canarias, y Baleares en su sitio. */
   const SIN_ENCUADRE=["51","52"];  // Ceuta y Melilla (recuadros) no cuentan para el tamaño; Canarias recolocada sí: la península y sus recuadros llenan el marco

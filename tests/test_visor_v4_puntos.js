@@ -126,9 +126,10 @@ const flush = async () => { for (let i = 0; i < 40; i++) await new Promise(r => 
   assert.equal(doc.body.dataset.ready, "1");
   // 1. Por defecto: capa de puntos, Congreso, actual proporcional, electoral, 2023; 348 puntos en el mapa; Ceuta y Melilla, en recuadro.
   eq([t.S.layer, t.S.scope, t.S.system, t.S.view, t.S.election, t.S.level], ["puntos", "nacional", "proporcional", "electoral", "202307", "provincia"]);
-  // Giro fijo (T-500): el valor sale de las geometrías (Estaca de Bares frente al punto más al norte de Gerona), no del código; sin rotación del usuario.
+  // Giro (T-500): constante GIRO_NAC; sin rotación del usuario.
   const giro = Number(/GIRO_NAC=([\d.]+)/.exec(explorarSrc)[1]);
-  assert.equal(giro, Math.round(-anguloCosta() * 100) / 100, "constante calculada con las geometrías");
+  assert.equal(giro, 0, "el propietario eligió la variante b: sin giro");
+  assert.equal(Math.round(-anguloCosta() * 100) / 100, 10.65, "referencia: con +10,65 Galicia y Cataluña quedarían a la misma altura (Estaca de Bares frente a Gerona)");
   assert.equal(map.o.bearing, giro); assert.equal(map.o.dragRotate, false); eq(map.o.fitBoundsOptions.bearing, giro);
   element("reset-map").onclick(); assert.equal(map.fits.at(-1)[1].bearing, giro, "«Volver a España» restaura el mismo giro"); map.fitted = 0;
   assert.equal(doc.body.dataset.puntos, "348");
