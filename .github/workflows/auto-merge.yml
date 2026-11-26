@@ -1,6 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.3.3
+# VERSIÓN: 1.3.4
+# ANTERIOR: legacy/workflows/auto-merge_v1.3.3_20261126.yml
+# CAMBIOS 1.3.4: T-505 (D-211): la fusión pasa de `gh pr merge --squash` a REST (`PUT pulls/<n>/merge`, merge_method=squash, sha=HEAD
+#   evaluado) con commit_title «<título de la PR> (#n)» y commit_message vacío. Con `gh pr merge` sin cuerpo GitHub añadía «Co-authored-by:
+#   … <noreply@anthropic.com>» por cada autor de commit distinto del que fusiona (#1018, #1019, #1026, #1028). Misma garantía de HEAD
+#   (sha); decisión, disparador, permisos y concurrencia intactos. Lo vigila `comprobar_guardian_main.py coautores` (guardián de la PR).
 # CAMBIOS 1.3.3: T-379 PR 2a (D-147, opción a; D-162, opción A), puesta al día sobre main el 23-11: todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara un entorno limitado a main (`registro`, sin revisores; P40 `publicar` sigue en `github-pages` y P70 `podar` en `produccion`): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
 # ANTERIOR (1.3.2): legacy/workflows/auto-merge_v1.3.2_20261123.yml
 # ANTERIOR: legacy/workflows/auto-merge_v1.3.1_20261117.yml
@@ -15,7 +20,7 @@
 #   comprueba de nuevo `pruebas` de la suite disparadora, así que un segundo intento solo puede decidir NO/ESPERAR.
 # CAMBIOS 1.2.1: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE DE VERSIÓN: Fusión automática solo con `pruebas` en success sobre el HEAD exacto
-# FECHA: 2026-11-17
+# FECHA: 2026-11-26
 # ESTADO: candidato
 # QUÉ HACE: cuando «P90 Automático» termina en una PR, consulta explícitamente el check-run `pruebas` del SHA
 #   exacto y fusiona (squash, ligado a ese SHA) solo si está en success y la PR es del propio repositorio, va a main, no
@@ -93,6 +98,9 @@ jobs:
             echo "::warning::Sin app de registro: no se fusiona (github.token es de solo lectura aquí)."; exit 0
           fi
           for pr in "${fusionar[@]}"; do
-            gh pr merge "$pr" --squash --match-head-commit "$SHA"
+            titulo="$(jq -r .title ".ddd-am/pr-$pr.json")"
+            # Título y cuerpo explícitos: con commit_message vacío GitHub no añade coautores al squash (T-505).
+            gh api -X PUT "repos/$GITHUB_REPOSITORY/pulls/$pr/merge" -f merge_method=squash -f sha="$SHA" \
+              -f commit_title="$titulo (#$pr)" -f commit_message=""
             echo "::notice::#$pr fusionada (squash) con \`pruebas\` en success sobre ${SHA:0:10}."
           done

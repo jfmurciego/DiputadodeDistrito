@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.78
+Versión: 1.0.79
 Fecha: 2026-11-26
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-205 a D-214 (mapa V4 y V5, bloques, sin firmas de IA, auditoría); T-456 a T-500; paquete de 2 días (26-11)
-Anterior: legacy/docs/PLAN_v1.0.77_20261124.md
+Cambios/motivo: D-215 (motor de Deslinde: exacto por tamaño y huella sin cotas abiertas); D-216 (criterios de aceptación y una línea de objeción); T-501 a T-505; cierres del 26-11
+Anterior: legacy/docs/PLAN_v1.0.78_20261126.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -353,6 +353,8 @@ Fase 4 — producto (en el privado):
 - D-212 (25-11, propietario; T-499, #1016). V5 de la vista «Congreso · 2023 · Provincia»: una bolita por diputado con los escaños oficiales de 2023 (BOE-A-2023-18907), racimo compacto por partido con placa en Madrid, Barcelona y Valencia, % sobre votos a candidaturas, intensidad en 4 clases, paleta V4. Se prueba en pruebas.diputadodedistrito.es y pasa a producción con P40 cuando el propietario la apruebe (T-500); no espera a la migración a Cloudflare.
 - D-213 (25-11, propietario, en el chat de la auditoría). La desigualdad de población entre distritos se acepta; no se abren tareas para corregirla. El resto de ámbitos, «a nivel top mundial». Todo dentro del plan semanal, sin gasto adicional: lo que se pueda se hace y lo que no, espera. Objeción pendiente (no decisión): no esperar a marzo; la propuesta de orden por dependencias sin fechas está sin confirmar.
 - D-214 (26-11, propietario). «Sí al paquete de 2 días»: de la auditoría (`docs/AUDITORIAS/PLAN_MEJORA_2026-11-25.md` 2.0.0, en la rama `claude/dreamy-maxwell-mezgob`, commit 86df85b6, aún sin PR) se aprueban A (T-463), B solo el piloto (T-465+T-466: Burgos, Valladolid, La Rioja, Sevilla y Madrid; GerryChain puro y exacto frente a Deslinde, con decisión de seguir o no), F solo la licencia (T-473), G (T-476), H solo los indicadores (T-478), I solo el diseño de T-482 y K solo T-491. Hasta 6 sesiones a la vez, dentro del paquete aprobado (amplía para estos dos días la regla del 14-11 de dos a cinco chats). El resto de la auditoría sigue como propuesta. Un solo escritor del plan (el Planificador); el chat de la auditoría confirma los fragmentos que salen de su informe. Orden de escritores en `explorar.js`: T-459 → T-500 → T-486 → T-485 → T-482 → T-483 → T-484.
+- D-215 (26-11, propietario). Aprueba T-503 tras el diagnóstico de T-502 (#1029): el exacto de Deslinde se aplica por tamaño (átomos×K ≤ 2.000) y no por K_MAX; las cotas abiertas de CP-SAT salen de huella_resultado, que debe ser reproducible. Es cambio de motor: cambian huellas, se recoge en la regeneración del 29-11 (P30 de las afectadas y republicación, con frases). El banco completo, después.
+- D-216 (26-11, propietario; análisis de dirección, sesión «Análisis de dirección del proyecto»). Sí a dos propuestas. (2) El propietario aprueba **criterios de aceptación, no detalles**: cada tarea le llega con qué pasa hoy, por qué, qué recibe, qué pasa si no, y un criterio de aceptación verificable (test o comprobación con resultado esperado). Aprobado eso, el implementador no vuelve a pedir el detalle; sustituye a «diseño al detalle antes que implementación» (16-11) salvo para cambios de motor, de CI o de publicación, que siguen con diseño aprobado. Las reglas de fusión y de lanzamiento no cambian. (7) **Una línea de objeción por tarea**: el implementador puede escribir una línea «esto lo haría de otro modo porque…» al empezar o en su cierre; no detiene la tarea salvo que el Planificador o el propietario lo decidan. Matiza D-18 (sigue sin propuestas de contenido por iniciativa propia). La propuesta 1 (dos o tres frentes) se rechaza: siguen todos los frentes abiertos. Las 3 a 6 siguen como propuesta.
 - D-182 (19-11, propietario; T-421, #930, #933). Bloques de las autonómicas: Junts y Contigo-Zurekin, DO, 100x100, Aliança Catalana, UxGC, Andalucistas y Alhora en Nacionalistas; SALF en Patriotas; Drago Verdes Canarias en Izquierdas; resto sin bloque. Faltan datos por sección de Asturias, Castilla-La Mancha, Extremadura y Murcia.
 - D-179 (19-11, propietario). PRIORIDAD: la V4 en producción. La doble vuelta se calcula desde los paquetes `ddd-minimo-<run>-M08` ya archivados en R2 de los 71 publicados (sin regenerar) con una opción nueva de solo lectura en P70 (T-418). La primera V4 lleva los 52 territorios del Congreso (`nac`); los 19 `aut` (elecciones autonómicas) van en una segunda tanda cuando la tabla de bloques cubra sus partidos. El Coordinador lleva el camino crítico; al propietario solo se le piden firmas (fusión de código, frase de lanzamiento, permiso de publicar). La limpieza de R2, la 2a y la PR 3 de P00 no lo bloquean.
 - D-177 (19-11, Planificador, criterio técnico). Doble vuelta: tabla de alias id de fuente → partido homologado derivada de `datos/homologacion_siglas/` (#914; 100 % de votos 2011-2023; «LA IZQUIERDA PLURAL» 2011 declarada, sin efecto de bloque); la regeneración no empieza sin #911, #914 y el `--alias` en P30. En campaña, P30 archiva en R2 en el mismo job y solo se salta el registro en main (opción A de T-379); el modo de inicio de P20 es una opción de la campaña (por defecto «Generar desde fuente territorial acreditada»); la campaña no publica salvo opción expresa del propietario (por defecto «No publicar») y siempre con la aprobación de `produccion`.
@@ -516,20 +518,25 @@ Fase 4 — producto (en el privado):
 | T-456 | Visor V4: doble vuelta por los dos ids y fuera cuatro carteles (D-205; #1011) | HECHA (P40 45440595789) |
 | T-457 | Sin nombres de IA en commits y robots (D-211; #1012) | HECHA |
 | T-458 | Diseño del mapa V4 1.4.0 (D-205 a D-210; #1013) | HECHA |
-| T-459 | Visor: panel con cifras, colores fijos, ventana del distrito, sin sección (#1014) | REVISIÓN |
-| T-460 | Bloques: «Derecha nacional» en origen y tabla por ámbito (D-210; #1015) | REVISIÓN (luego P75 nac y aut, pin y P40) |
-| T-461 | Nombres de distrito (D-208) | EN CURSO |
-| T-462 | Imágenes de distrito desde Wikimedia (D-207) | EN CURSO |
-| T-463 | Textos públicos veraces y DOI de la serie (D-214) | EN CURSO (publicación «solo el sitio» con frase) |
-| T-464 | Actualización del plan 1.0.78 | REVISIÓN (esta PR) |
-| T-465 | Banco de comparación: piloto de 5 territorios, diseño y ejecución (T-466) (D-214) | EN CURSO |
+| T-459 | Visor: panel con cifras, colores fijos, ventana del distrito, sin sección (#1014) | HECHA |
+| T-460 | Bloques: «Derecha nacional» en origen y tabla por ámbito (D-210; #1015, pin #1024) | HECHA (P75 nac 45871996553, aut 45872763812; P40 45889763424) |
+| T-461 | Nombres de distrito (D-208; #1021; descubrimiento T-461b #1022) | EN CURSO (parte 2: sustituir SIN_CAPITAL tras el run del Operador) |
+| T-462 | Imágenes de distrito desde Wikimedia (D-207; #1023) | EN CURSO (parte 2 tras el run del Operador) |
+| T-463 | Textos públicos veraces y DOI de la serie (D-214; #1020) | HECHA |
+| T-464 | Actualización del plan 1.0.78 | HECHA (#1018) |
+| T-465 | Banco de comparación: piloto, diseño y ejecución (T-466) (D-214; #1025) | HECHA (4 territorios; Madrid al banco completo, tras T-503 y la regeneración del 29-11) |
 | T-473 | Página de opciones de licencia, solo la licencia; marcas y voces quedan fuera (D-214) | PENDIENTE (tanda 2) |
 | T-476 | Datos abiertos 2: votos por partido y distrito (D-214) | PENDIENTE (tanda 2) |
 | T-478 | Indicadores por elección y sistema, 2011-2023: desproporcionalidad, número efectivo de partidos, prima al ganador, votos sin representación y desigualdad; sistema real, mayoría simple y doble vuelta por regla (D-214; no es la ficha por mapa, T-470) | PENDIENTE (tanda 2) |
 | T-482 | Diseño de «busca tu distrito» por calle (D-214) | PENDIENTE (tanda 2) |
 | T-491 | A la primera: medir y reducir los fallos repetidos (D-214) | PENDIENTE (tanda 2) |
 | T-499 | Diseño de la V5 con bolitas (D-212; #1016) | HECHA |
-| T-500 | Implementación de la V5 (D-212) | PENDIENTE (tras #1014) |
+| T-500 | Implementación de la V5, variante b (D-212; #1017) | HECHA (P40 45889763424) |
+| T-501 | Test inestable del Explorar (Castilla-La Mancha): esperar a la condición, no a vueltas fijas (#1026) | HECHA (T-501b en la rama t-501b-flush-puntos, pendiente) |
+| T-502 | Diagnóstico de Deslinde en Sevilla: el exacto no aplica con K=16 (#1029) | HECHA |
+| T-503 | Motor de Deslinde: exacto por tamaño (átomos×K ≤ 2.000) y sin cotas abiertas de CP-SAT en huella_resultado (D-215) | EN CURSO (antes del 29-11; lista de provincias con huella nueva para P30 y republicación) |
+| T-504 | Actualización del plan 1.0.79 | REVISIÓN (esta PR) |
+| T-505 | auto-merge sin «Co-authored-by»: squash con commit_message vacío, test y guarda (D-211) | EN CURSO (no-automerge; fusiona el propietario) |
 | T-281 | Registro de la propiedad intelectual de Deslinde 1.0 (D-196; #995) | HECHA (presentado el 23-11 como «Programa de ordenador», con copia identificativa, memoria y declaración de IA) |
 | T-379c | P00 3c (manifiesto por territorio, P40 desde campaña), relevo de T-379 | REVISIÓN (3c completa en #956, borrador; no se fusiona antes del 29-11) |
 | T-432 | Inventario completo de R2 (#952, P74 44751091049) | HECHA |

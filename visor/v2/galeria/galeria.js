@@ -1,13 +1,14 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: visor V3, galería fotográfica territorial (T-325)
- * VERSIÓN: 1.0.0
- * FECHA: 2026-11-15
+ * VERSIÓN: 1.1.0
+ * FECHA: 2026-11-26
  * ESTADO: candidato
- * CAMBIOS: pie con autor, licencia (compartir igual en BY-SA), cambios («Modificada: …») y ficha de origen; una fotografía por provincia y comunidad desde un catálogo estático (catalogo.json) con autor, licencia libre,
+ * CAMBIOS: 1.1.0 (T-506): cuarto argumento opcional `opciones` ({sinCreditos, soloProvincia}): Explorar (V4) muestra la foto sin pie de créditos (van a la página de créditos, enlazada desde su pie) y solo para provincia y distrito; sin él, igual que 1.0.0 (la V3 no cambia).
+ * 1.0.0: pie con autor, licencia (compartir igual en BY-SA), cambios («Modificada: …») y ficha de origen; una fotografía por provincia y comunidad desde un catálogo estático (catalogo.json) con autor, licencia libre,
  * ficha de origen y sha256. Las imágenes se sirven desde el propio sitio; el visitante no llama a ningún tercero.
  * Todo texto del catálogo entra en la página con textContent (nunca innerHTML).
  * MOTIVO: rehacer la PR #792 sin XSS, sin llamadas a Wikipedia/Commons al visitar y con licencia comprobada.
- * ANTERIOR: ninguna (fichero nuevo)
+ * ANTERIOR: legacy/visor/v2/galeria/galeria_v1.0.0_20261115.js (1.0.0: ninguna, fichero nuevo)
  * Una foto de la capital o de un lugar representativo ilustra el territorio; NO es un distrito ni una sección. */
 "use strict";
 (function () {
@@ -47,7 +48,8 @@
   }
 
   // Clave del catálogo para la selección: provincia, comunidad; distrito y sección usan su provincia.
-  function clave(kind, props, provincia) {
+  function clave(kind, props, provincia, op) {
+    if (op && op.soloProvincia && kind === "comunidad") return null;
     if (kind === "provincia" && props && props.cod) return { k: "provincia:" + props.cod, nombre: props.nombre, ref: false };
     if (kind === "comunidad" && props && props.cod) return { k: "comunidad:" + props.cod, nombre: props.nombre, ref: false };
     if ((kind === "distrito" || kind === "seccion") && provincia && provincia.cod)
@@ -55,7 +57,7 @@
     return null;
   }
 
-  function figura(img, nombre, ref) {
+  function figura(img, nombre, ref, op) {
     const fig = el("figure", "gallery-figure");
     const foto = el("img");
     foto.src = BASE + img.archivo;
@@ -66,6 +68,7 @@
     const cap = el("figcaption");
     cap.append(el("strong", null, nombre));
     cap.append(el("span", null, (ref ? "Referencia provincial · " : "") + "Imagen ilustrativa: " + img.descripcion));
+    if (op && op.sinCreditos) { fig.append(cap); return { fig, foto }; }
     const cred = el("small", "gallery-credit");
     cred.append(document.createTextNode("Foto: " + img.autor + " · "));
     cred.append(enlace(img.licencia_url, LICENCIA_OK, img.licencia));
@@ -79,12 +82,12 @@
     return { fig, foto };
   }
 
-  function render(kind, props, provincia) {
+  function render(kind, props, provincia, op) {
     const raiz = document.getElementById("territory-gallery");
     if (!raiz) return;
     const mio = ++ticket;
     const cab = raiz.querySelector(".gallery-heading"), cont = raiz.querySelector(".gallery-content");
-    const sel = clave(kind, props, provincia);
+    const sel = clave(kind, props, provincia, op);
     if (!sel) { raiz.hidden = true; cont.replaceChildren(); return; }
     raiz.hidden = false;
     cab.textContent = sel.ref ? "Imagen de la provincia" : "Conoce el territorio";
@@ -93,7 +96,7 @@
       const id = c.territorios && c.territorios[sel.k];
       const img = id && (c.imagenes || []).find(x => x.id === id);
       if (!img || !IMG_OK.test(img.archivo)) return aviso(cont, "Sin fotografía acreditada para " + sel.nombre + ".");
-      const f = figura(img, sel.nombre, sel.ref);
+      const f = figura(img, sel.nombre, sel.ref, op);
       f.foto.addEventListener("error", () => { if (mio === ticket) aviso(cont, "Fotografía no disponible para " + sel.nombre + "."); }, { once: true });
       cont.replaceChildren(f.fig);
     }).catch(() => { if (mio === ticket) aviso(cont, "Galería no disponible."); });

@@ -13,9 +13,9 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
   ella, caducada o tras el primer fallo no transitorio: parar e informar. Solo cuenta esa frase (no `send_message`); no aprueba `produccion` ni fusiona `no-automerge`.
 - Sin vigilantes ni revisiones programadas salvo que se pidan. PR sin pie de firma ni enlace de sesión (23-11; el pie que añade la nube, no reeditar). Commits y squash sin Co-Authored-By, Claude-Session ni nombres de IA o de modelo (24-11).
 - Objetivo (08-11): un motor repetible (se ejecutará miles de veces, con el Gestor), no conservar resultados antiguos: relanza y regenera si hace falta.
-- Respuestas cortas, en español. D-18: sin estudios, difusión, estado operativo ni propuestas de contenido por iniciativa propia: solo criterio técnico y opciones.
+- Respuestas cortas, en español. D-18: sin estudios, difusión, estado operativo ni propuestas de contenido por iniciativa propia: solo criterio técnico y opciones (D-216: cada implementador puede dejar una línea de objeción por tarea, que no la detiene).
 - No fusionar ninguna PR hasta ver la CI en verde en la PR y en `main` («main en verde»: `.claude/rules/workflows.md`; robots solo con guardián + nocturna).
-- Diseño al detalle antes que implementación (16-11): ningún encargo se implementa sin que el propietario apruebe el detalle; un plan pedido no incluye acciones. Workflows: uno por familia, opciones dentro, sin parámetros técnicos visibles (D-129, D-130).
+- Criterios antes que implementación (D-216, 26-11): ninguna tarea se implementa sin que el propietario apruebe qué pasa hoy, por qué, qué recibe, qué pasa si no y un criterio de aceptación verificable; el detalle solo se le pide en cambios de motor, CI o publicación. Un plan pedido no incluye acciones. Workflows: uno por familia, opciones dentro, sin parámetros técnicos visibles (D-129, D-130).
 
 ## Mapa
 - Plan y cola de tareas: `docs/PLAN.md` (solo lo edita el planificador). Arquitectura de agentes y fases P00-P60:

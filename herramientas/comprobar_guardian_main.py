@@ -2,11 +2,14 @@
 """Guardián de main: comprobaciones mecánicas que antes rompieron main.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-07 · ESTADO: candidato
+VERSIÓN: 1.2.0 · FECHA: 2026-11-26 · ESTADO: candidato
+CAMBIOS 1.2.0 (T-505): comprobación `coautores`: ningún commit de la PR (base..head), y por tanto ningún cuerpo de squash que GitHub
+  prevea a partir de ellos, lleva líneas «Co-authored-by:» ni «Claude-Session:» (orden del propietario, 24-11). Solo en PR; `todo` no la incluye.
 CAMBIOS 1.1.0 (T-46): `registro` comprueba también las entradas por fichero de docs/registro/ (nombre, título con
   la fecha del nombre, sin número ni cabecera, con cuerpo) y que el índice del registro solo apunte a entradas
   existentes, con números únicos y no mayores que la Versión de la cabecera.
-ANTERIOR: legacy/herramientas/comprobar_guardian_main_v1.0.0_20261107.py
+ANTERIOR: legacy/herramientas/comprobar_guardian_main_v1.1.0_20261126.py
+ANTERIOR (1.1.0): legacy/herramientas/comprobar_guardian_main_v1.0.0_20261107.py
 QUÉ HACE: dos comprobaciones deterministas, sin modelo y solo con la biblioteca estándar:
   - marcas: ningún fichero versionado (git ls-files) contiene marcas de conflicto de Git
     (líneas que empiezan por «<<<<<<<», «|||||||» o «>>>>>>>», o «=======» dentro de un bloque abierto).
@@ -16,6 +19,7 @@ QUÉ HACE: dos comprobaciones deterministas, sin modelo y solo con la biblioteca
 MOTIVO: marcas de conflicto en el registro rompieron main (hotfix #422); el plan de agentes (paso 1,
   docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §12) pide estas dos comprobaciones en CI.
 Uso: python herramientas/comprobar_guardian_main.py {marcas,registro,todo} [--raiz RUTA]
+     python herramientas/comprobar_guardian_main.py coautores --base SHA --head SHA [--raiz RUTA]
 Salida: 0 si pasa; 1 con una línea «::error» por fallo.
 """
 from __future__ import annotations
@@ -153,13 +157,47 @@ def comprobar_fragmentos(raiz: Path) -> list[str]:
     return errores
 
 
+_PROHIBIDAS = re.compile(r"(?mi)^[ \t]*(co-authored-by|claude-session)[ \t]*:")
+
+
+def prohibidas_en_mensaje(mensaje: str) -> list[str]:
+    """Marcas «Co-authored-by»/«Claude-Session» (al inicio de línea) de un mensaje de commit."""
+    return sorted({m.group(1).lower() for m in _PROHIBIDAS.finditer(mensaje)})
+
+
+def comprobar_coautores(raiz: Path, base: str, head: str) -> list[str]:
+    """Commits de base..head (sin merges) y cuerpo previsto del squash sin «Co-authored-by» ni «Claude-Session»."""
+    salida = subprocess.run(
+        ["git", "-C", str(raiz), "log", "--no-merges", "--format=%H%x00%B%x01", f"{base}..{head}"],
+        capture_output=True, check=True,
+    ).stdout.decode("utf-8", "replace")
+    errores: list[str] = []
+    for bloque in salida.split("\x01"):
+        if not bloque.strip():
+            continue
+        sha, _, mensaje = bloque.strip().partition("\0")
+        marcas = prohibidas_en_mensaje(mensaje)
+        if marcas:
+            errores.append(
+                f"::error::el commit {sha[:10]} lleva {', '.join(marcas)}: GitHub lo copia al cuerpo del squash; "
+                f"reescribe el mensaje sin esas líneas (orden del propietario, 24-11)"
+            )
+    return errores
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("comprobacion", choices=["marcas", "registro", "todo"])
+    parser.add_argument("comprobacion", choices=["marcas", "registro", "todo", "coautores"])
+    parser.add_argument("--base")
+    parser.add_argument("--head")
     parser.add_argument("--raiz", type=Path, default=ROOT)
     args = parser.parse_args(argv)
     raiz = args.raiz.resolve()
     errores: list[str] = []
+    if args.comprobacion == "coautores":
+        if not (args.base and args.head):
+            parser.error("coautores exige --base y --head")
+        errores += comprobar_coautores(raiz, args.base, args.head)
     if args.comprobacion in ("marcas", "todo"):
         errores += comprobar_marcas(ficheros_versionados(raiz), raiz)
     if args.comprobacion in ("registro", "todo"):
