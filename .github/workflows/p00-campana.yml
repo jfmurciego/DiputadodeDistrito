@@ -1,0 +1,368 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: interfaz humana de campaña (P00 Campaña, diseño T-378 1.1.4)
+# VERSIÓN: 1.0.0 · FECHA: 2026-11-19 · ESTADO: candidato
+# ANTERIOR: ninguna (fichero nuevo)
+# CAMBIOS 1.0.0: T-379 PR 3: fichero nuevo. Convive con la 00 (`ejecucion-completa-proyecto.yml`), que también se llama
+#   «P00 Campaña» (§9: el disparo de P90 por nombre sirve para las dos); esta lleva «· campaña ·» en el run-name.
+# MOTIVO: D-129, D-130, D-140 y D-147: una campaña = una ejecución.
+# QUÉ HACE (§2-§6, §10):
+#   1. comprobar: rechaza una segunda campaña viva (D-147), reúne los hechos de campaña (CI de esta versión, R2, gasto
+#      semanal D-46), guarda el semáforo en R2 y abre el issue de la campaña. «Solo comprobar» termina aquí.
+#   2. cadena: matriz de territorios (verde y ámbar), 15 a la vez, fail-fast false → p00-cadena.yml con `contents: read`.
+#   3. cierre_main (ref main) / cierre_rama (otra ref): informe en el issue → plan del commit → objeto «cierre» en R2.
+#      Las rutas del commit y su escritura llegan con la PR 3b (G2); hasta entonces la lista es vacía y no hay commit.
+#   4. publicar: P40 solo si se pidió, no es ensayo, no hay parada y el cierre hizo commit en main.
+#   5. resultado: en rojo si hay ≥1 apartado, parada o cierre pendiente (dispara la IA de cierre de P90, §7).
+# NO HACE: lanzar ejecuciones por la API, grupo de concurrencia de workflow (la segunda campaña se rechaza, no se
+#   encola: §3), ni escribir en main fuera del cierre. En `pull_request` es la prueba de humo: comprobación previa
+#   sintética con almacén local, sin R2, sin issue y sin cadena.
+name: P00 Campaña
+run-name: "P00 Campaña · campaña · ${{ github.event_name == 'pull_request' && 'prueba de humo' || format('{0} · {1} · {2}', inputs.territorios, inputs.eleccion, inputs.modo) }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      territorios:
+        description: 'Territorios: todos, congreso, autonómicas o códigos separados por comas (nac22, aut11)'
+        required: true
+        type: string
+      eleccion:
+        description: 'Elección: vigente o 2026-11 (ensayo)'
+        required: true
+        type: choice
+        default: vigente
+        options:
+          - vigente
+          - '2026-11'
+      inicio:
+        description: 'Inicio'
+        required: true
+        type: choice
+        default: Generar desde fuente territorial acreditada
+        options:
+          - Generar desde fuente territorial acreditada
+          - Reutilizar progreso existente
+          - Ejecutar desde el principio
+      modo:
+        description: 'Modo'
+        required: true
+        type: choice
+        default: solo comprobar
+        options:
+          - solo comprobar
+          - comprobar y lanzar
+      publicar:
+        description: 'Publicar en el visor'
+        required: true
+        type: choice
+        default: 'no'
+        options:
+          - 'no'
+          - 'sí'
+  pull_request:
+    paths:
+      - '.github/workflows/p00-campana.yml'
+      - '.github/workflows/p00-cadena.yml'
+      - 'herramientas/campana_estado.py'
+
+permissions:
+  contents: read
+
+jobs:
+  comprobar:
+    name: Comprobación previa
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      actions: read
+      issues: write
+    outputs:
+      lanzar: ${{ steps.semaforo.outputs.lanzar }}
+      matriz: ${{ steps.semaforo.outputs.matriz }}
+      eleccion_p12: ${{ steps.semaforo.outputs.eleccion_p12 }}
+      ensayo: ${{ steps.semaforo.outputs.ensayo }}
+      publicar: ${{ steps.semaforo.outputs.publicar }}
+      issue: ${{ steps.issue.outputs.numero }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      HUMO: ${{ github.event_name == 'pull_request' }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Una campaña a la vez (D-147)
+        if: ${{ github.event_name != 'pull_request' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-p00
+          : > .ddd-p00/runs.jsonl
+          for estado in in_progress queued waiting requested pending; do
+            gh api "repos/$GITHUB_REPOSITORY/actions/workflows/p00-campana.yml/runs?status=$estado&per_page=100" \
+              --jq '.workflow_runs[] | {id, status, event}' >> .ddd-p00/runs.jsonl
+          done
+          jq -s '{workflow_runs: .}' .ddd-p00/runs.jsonl > .ddd-p00/runs.json
+          python3 herramientas/campana_estado.py concurrencia --runs .ddd-p00/runs.json --run-id "$GITHUB_RUN_ID"
+      - name: Hechos de campaña (CI de esta versión, R2, gasto semanal)
+        if: ${{ github.event_name != 'pull_request' }}
+        shell: bash
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-p00
+          # Degradan a aviso: solo bloquea la evidencia positiva (lección T-246).
+          if ! gh api "repos/$GITHUB_REPOSITORY/actions/workflows/p90-automatico.yml/runs?head_sha=$GITHUB_SHA&per_page=100" \
+              > .ddd-p00/p90.json; then
+            echo "::warning::No pude leer las ejecuciones de P90 de esta versión."; echo '{"workflow_runs": []}' > .ddd-p00/p90.json
+          fi
+          r2=desconocido
+          if [[ -n "${R2_BUCKET:-}" && -n "${R2_ACCOUNT_ID:-}" ]]; then
+            if aws s3api list-objects-v2 --bucket "$R2_BUCKET" --max-items 1 \
+                --endpoint-url "https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com" >/dev/null 2>&1; then r2=ok; else r2=fallo; fi
+          fi
+          python3 herramientas/campana_estado.py hechos --runs-p90 .ddd-p00/p90.json --sha "$GITHUB_SHA" --r2 "$r2" \
+            --metricas orchestracion/metricas_proceso.json > .ddd-p00/hechos.json
+          cat .ddd-p00/hechos.json
+      - name: Hechos sintéticos (prueba de humo)
+        if: ${{ github.event_name == 'pull_request' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-p00
+          echo '{"campana": {"ci_verde": true, "r2_responde": true, "gasto_semanal_min": 0}}' > .ddd-p00/hechos.json
+      - id: semaforo
+        name: Semáforo por territorio
+        shell: bash
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+          TERRITORIOS: ${{ github.event_name == 'pull_request' && 'nac22, aut11, xyz99' || inputs.territorios }}
+          ELECCION: ${{ github.event_name == 'pull_request' && '2026-11' || inputs.eleccion }}
+          MODO: ${{ github.event_name == 'pull_request' && 'solo comprobar' || inputs.modo }}
+          PUBLICAR: ${{ inputs.publicar == 'sí' }}
+        run: |
+          set -euo pipefail
+          almacen=r2
+          [[ "$HUMO" == true ]] && almacen="dir:$RUNNER_TEMP/almacen-p00"
+          args=(--territorios "$TERRITORIOS" --eleccion "$ELECCION" --hechos .ddd-p00/hechos.json \
+                --almacen "$almacen" --campana "$GITHUB_RUN_ID")
+          [[ "$PUBLICAR" == true ]] && args+=(--publicar)
+          rc=0
+          python3 herramientas/campana_estado.py comprobar "${args[@]}" > .ddd-p00/semaforo.json || rc=$?
+          cat .ddd-p00/semaforo.json
+          [[ "$rc" == 0 || "$rc" == 3 ]] || exit "$rc"
+          if [[ "$HUMO" == true ]]; then
+            # §2: nac22 verde, aut11 rojo «sin elección», xyz99 rojo «código inexistente»; lanzable con 1.
+            jq -e '.lanzable and .lanzados == ["nac22"]' .ddd-p00/semaforo.json >/dev/null \
+              || { echo "::error::Prueba de humo: el semáforo sintético no es el esperado."; exit 1; }
+          fi
+          {
+            echo "lanzar=$([[ "$rc" == 0 && "$MODO" == 'comprobar y lanzar' && "$HUMO" != true ]] && echo true || echo false)"
+            echo "matriz=$(jq -c .lanzados .ddd-p00/semaforo.json)"
+            echo "eleccion_p12=$(jq -r 'if .eleccion.ensayo then "ensayo 2026-11-29" else "" end' .ddd-p00/semaforo.json)"
+            echo "ensayo=$(jq -r .eleccion.ensayo .ddd-p00/semaforo.json)"
+            echo "publicar=$(jq -r .publicar .ddd-p00/semaforo.json)"
+          } >> "$GITHUB_OUTPUT"
+          {
+            echo "## Semáforo de la campaña $GITHUB_RUN_ID"
+            jq -r '.territorios[] | "- \(.etiqueta): \(.color)\(if (.causas|length) > 0 then " (" + (.causas|join(", ")) + ")" else "" end)"' .ddd-p00/semaforo.json
+            jq -r '"- Gasto de Actions de la semana (D-46): \(.gasto_semanal_min // "sin dato") min"' .ddd-p00/semaforo.json
+          } >> "$GITHUB_STEP_SUMMARY"
+          [[ "$rc" == 0 ]] || { echo "::error::CAMPANA_NO_LANZABLE: $(jq -r '.bloqueos | join(", ")' .ddd-p00/semaforo.json)"; exit 3; }
+      - id: issue
+        name: Issue de la campaña
+        if: ${{ !cancelled() && github.event_name != 'pull_request' && steps.semaforo.conclusion != 'skipped' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          {
+            echo "Campaña \`$GITHUB_RUN_ID\` · versión \`$GITHUB_SHA\` · [ejecución]($url)"
+            echo
+            if [[ -s .ddd-p00/semaforo.json ]]; then
+              jq -r '"Elección: \(.eleccion.eleccion) · lanzable: \(.lanzable) · gasto semanal (D-46): \(.gasto_semanal_min // "sin dato") min"' .ddd-p00/semaforo.json
+              echo
+              echo "| Territorio | Semáforo | Causas |"
+              echo "|---|---|---|"
+              jq -r '.territorios[] | "| \(.etiqueta) | \(.color) | \(.causas | join(", ")) |"' .ddd-p00/semaforo.json
+            else
+              echo "Sin semáforo: la comprobación previa no llegó a calcularlo."
+            fi
+          } > .ddd-p00/issue.md
+          numero="$(jq -n --arg t "P00 Campaña · $GITHUB_RUN_ID" --rawfile b .ddd-p00/issue.md '{title: $t, body: $b}' \
+            | gh api -X POST "repos/$GITHUB_REPOSITORY/issues" --input - --jq .number)"
+          echo "numero=$numero" >> "$GITHUB_OUTPUT"
+
+  cadena:
+    name: Cadena
+    needs: comprobar
+    if: ${{ needs.comprobar.outputs.lanzar == 'true' }}
+    permissions:
+      contents: read
+      actions: read
+    strategy:
+      fail-fast: false
+      max-parallel: 15
+      matrix:
+        territorio: ${{ fromJSON(needs.comprobar.outputs.matriz) }}
+    uses: ./.github/workflows/p00-cadena.yml
+    secrets: inherit
+    with:
+      campana: ${{ github.run_id }}
+      territorio: ${{ matrix.territorio }}
+      eleccion_p12: ${{ needs.comprobar.outputs.eleccion_p12 }}
+      inicio: ${{ inputs.inicio }}
+
+  cierre_main:
+    name: Cierre en main
+    needs: [comprobar, cadena]
+    if: ${{ !cancelled() && needs.comprobar.outputs.lanzar == 'true' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      issues: write
+    outputs:
+      commit: ${{ steps.plan.outputs.commit }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ISSUE: ${{ needs.comprobar.outputs.issue }}
+    steps: &cierre
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Informe en el issue (antes del commit, §6.2)
+        shell: bash
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-p00
+          python3 herramientas/campana_estado.py informe --almacen r2 --campana "$GITHUB_RUN_ID" > .ddd-p00/informe.md
+          cat .ddd-p00/informe.md >> "$GITHUB_STEP_SUMMARY"
+          # Si la API del issue falla, el cierre sigue y termina en rojo al final (§6.2).
+          if [[ -n "$ISSUE" ]] && jq -n --rawfile b .ddd-p00/informe.md '{body: $b}' \
+              | gh api -X POST "repos/$GITHUB_REPOSITORY/issues/$ISSUE/comments" --input - >/dev/null; then
+            echo ok > .ddd-p00/issue_ok
+          else
+            echo "::warning::No pude escribir el informe en el issue $ISSUE."
+          fi
+      - id: plan
+        name: Plan del commit de cierre
+        shell: bash
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          # PR 3b (G2): las rutas que compone el cierre. Hasta entonces, ninguna: no hay commit.
+          python3 herramientas/campana_estado.py plan-cierre --almacen r2 --campana "$GITHUB_RUN_ID" \
+            --ref "$GITHUB_REF" --run-id "$GITHUB_RUN_ID" > .ddd-p00/cierre.json
+          cat .ddd-p00/cierre.json
+          jq -e '.commit == false' .ddd-p00/cierre.json >/dev/null \
+            || { echo "::error::CIERRE_SIN_ESCRITOR: hay ficheros que commitear y el escritor del cierre llega con la PR 3b."; exit 1; }
+          {
+            echo "commit=false"
+            echo "huella=$(jq -r .huella .ddd-p00/cierre.json)"
+            echo "rama=$(jq -r .rama .ddd-p00/cierre.json)"
+          } >> "$GITHUB_OUTPUT"
+      - name: Objeto «cierre» en R2 (tras el commit, §6.5)
+        shell: bash
+        env:
+          HUELLA: ${{ steps.plan.outputs.huella }}
+          RAMA: ${{ steps.plan.outputs.rama }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          python3 herramientas/campana_estado.py registrar-cierre --almacen r2 --campana "$GITHUB_RUN_ID" \
+            --huella "$HUELLA" --rama "$RAMA"
+          [[ -f .ddd-p00/issue_ok ]] || { echo "::error::El informe no llegó al issue: cierre en rojo (§6.2)."; exit 1; }
+
+  cierre_rama:
+    name: Cierre en rama de validación
+    needs: [comprobar, cadena]
+    if: ${{ !cancelled() && needs.comprobar.outputs.lanzar == 'true' && github.ref != 'refs/heads/main' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    outputs:
+      commit: ${{ steps.plan.outputs.commit }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ISSUE: ${{ needs.comprobar.outputs.issue }}
+    steps: *cierre
+
+  publicar:
+    name: Publicación
+    needs: [comprobar, cierre_main]
+    if: ${{ !cancelled() && needs.comprobar.outputs.publicar == 'true' && needs.cierre_main.result == 'success' && needs.cierre_main.outputs.commit == 'true' }}
+    permissions:
+      contents: write
+      actions: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/p40-publicacion.yml
+    secrets: inherit
+    with:
+      pagina_publicar: Sitio completo
+
+  resultado:
+    name: resultado
+    needs: [comprobar, cadena, cierre_main, cierre_rama, publicar]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Resultado de la campaña
+        shell: bash
+        env:
+          COMPROBAR: ${{ needs.comprobar.result }}
+          LANZAR: ${{ needs.comprobar.outputs.lanzar }}
+          CIERRE_MAIN: ${{ needs.cierre_main.result }}
+          CIERRE_RAMA: ${{ needs.cierre_rama.result }}
+          PUBLICAR: ${{ needs.publicar.result }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          [[ "$COMPROBAR" == success ]] || { echo "::error::La comprobación previa no terminó en verde ($COMPROBAR)."; exit 1; }
+          if [[ "$LANZAR" != true ]]; then echo "Solo comprobar (o prueba de humo): sin cadena ni cierre."; exit 0; fi
+          [[ "$PUBLICAR" != failure ]] || { echo "::error::La publicación falló."; exit 1; }
+          [[ "$CIERRE_MAIN" == success || "$CIERRE_RAMA" == success ]] \
+            || echo "::error::El cierre no terminó en verde (main: $CIERRE_MAIN, rama: $CIERRE_RAMA)."
+          python3 herramientas/campana_estado.py resultado --almacen r2 --campana "$GITHUB_RUN_ID"
+          [[ "$CIERRE_MAIN" == success || "$CIERRE_RAMA" == success ]]
