@@ -53,6 +53,26 @@ assert.equal(T.escanos, 350); assert.equal(T.estatal, 24487414); assert.equal(T.
 const gan = {}; for (const d of Object.values(datos.provincias)) { const g = PT.ganador(d).p; gan[g] = (gan[g] || 0) + 1; }
 eq(gan, {PP: 40, PSOE: 10, "EAJ-PNV": 1, "EH Bildu": 1});
 
+function anguloCosta() {  // grados: pendiente (en Mercator, y hacia el norte) entre el punto más al norte de Galicia y el de Gerona
+  const norte = cods => provincias.features.filter(f => cods.includes(f.properties.cod)).flatMap(f => (f.geometry.type === "MultiPolygon" ? f.geometry.coordinates : [f.geometry.coordinates]).flat(2)).reduce((a, p) => p[1] > a[1] ? p : a);
+  const my = lat => Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360)), g = norte(["15", "27", "32", "36"]), r = norte(["17"]);
+  return Math.atan2(my(r[1]) - my(g[1]), (r[0] - g[0]) * Math.PI / 180) * 180 / Math.PI;
+}
+// Racimos con el mapa girado: las filas de puntos quedan horizontales en la pantalla y Canarias se recoloca sin tocar el original.
+{
+  const G = 10.65, b = G * Math.PI / 180, merc = (lng, lat) => [(lng + 180) / 360, .5 - Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360)) / (2 * Math.PI)];
+  const rot = q => { const m = merc(q.lng, q.lat); return [m[0] * Math.cos(b) + m[1] * Math.sin(b), -m[0] * Math.sin(b) + m[1] * Math.cos(b)]; };
+  const LG = PT.disponer(provincias, datos, familia, ["n"], G), filas = new Set(LG.puntos.filter(q => q.cod === "28").map(q => Math.round(rot(q)[1] * 1e6 / 40)));
+  assert.ok(filas.size <= 8, "Madrid: 37 puntos en pocas filas horizontales: " + filas.size);
+  assert.equal(LG.puntos.length, 348); eq(LG.placas.map(q => q.cod).sort(), ["08", "20", "28", "35", "38", "48"], "con el giro, también desbordan Guipúzcoa y Las Palmas");
+  const antes = JSON.stringify(provincias.features.find(f => f.properties.cod === "35").geometry), R = PT.recolocarCanarias(provincias, G, [.0047, .0006]);
+  assert.equal(JSON.stringify(provincias.features.find(f => f.properties.cod === "35").geometry), antes, "no modifica el original");
+  assert.notEqual(JSON.stringify(R.features.find(f => f.properties.cod === "35").geometry), antes);
+  assert.equal(JSON.stringify(R.features.find(f => f.properties.cod === "28").geometry), JSON.stringify(provincias.features.find(f => f.properties.cod === "28").geometry), "el resto, igual");
+  const mc = PT.disponer(R, datos, familia, ["n"], G).marcoCanarias, ys = mc.slice(0, 4).map(q => Math.round(rot({lng: q[0], lat: q[1]})[1] * 1e6));
+  assert.equal(ys[0], ys[1], "el marco de Canarias es horizontal en la pantalla"); assert.equal(ys[2], ys[3]);
+}
+
 // ---- B. Visor ----
 const el = {}, group = {};
 function element(id) {
@@ -68,12 +88,12 @@ const doc = {getElementById: element, querySelectorAll: q => group[q] || [], cre
 let map; const popups = [];
 class Popup { constructor(o) { this.o = o; popups.push(this); } setLngLat(l) { this.l = l; return this; } setHTML(h) { this.html = h; return this; } addTo() { return this; } on() {} remove() { this.removed = true; } }
 class FakeMap {
-  constructor(o) { this.o = o; this.sources = new Map(); this.layers = new Map(); this.handlers = {}; this.hit = []; this.fitted = 0; map = this; queueMicrotask(() => this.handlers.load?.()); }
+  constructor(o) { this.o = o; this.fits = []; this.sources = new Map(); this.layers = new Map(); this.handlers = {}; this.hit = []; this.fitted = 0; map = this; queueMicrotask(() => this.handlers.load?.()); }
   addControl() {} on(ev, ...a) { this.handlers[ev] = a.at(-1); }
   addSource(id, s) { this.sources.set(id, {data: s.data, setData(n) { this.data = n; }}); } getSource(id) { return this.sources.get(id); }
   addLayer(l) { this.layers.set(l.id, {...l, layout: {visibility: "visible", ...l.layout}, paint: {...l.paint}}); } getLayer(id) { return this.layers.get(id); }
   getLayoutProperty(id, k) { return this.layers.get(id).layout[k]; } setLayoutProperty(id, k, v) { this.layers.get(id).layout[k] = v; }
-  setPaintProperty(id, k, v) { this.layers.get(id).paint[k] = v; } fitBounds() { this.fitted++; } getZoom() { return this.zoom ?? 5; } setFilter(id, f) { this.layers.get(id).filter = f; } queryRenderedFeatures() { return this.hit; }
+  setPaintProperty(id, k, v) { this.layers.get(id).paint[k] = v; } fitBounds(b, o) { this.fitted++; this.fits.push([b, o]); } getZoom() { return this.zoom ?? 5; } setFilter(id, f) { this.layers.get(id).filter = f; } queryRenderedFeatures() { return this.hit; }
 }
 const fixtures = {"../v2/datos/provincias.json": provincias, "../v2/datos/comunidades.json": comunidades, "calendario.json": {}};
 const sandbox = {document: doc, maplibregl: {Map: FakeMap, NavigationControl: class {}, Popup}, console, location: {search: ""}, history: {replaceState() {}}, TextDecoder,
@@ -98,7 +118,11 @@ const flush = async () => { for (let i = 0; i < 40; i++) await new Promise(r => 
   assert.equal(doc.body.dataset.ready, "1");
   // 1. Por defecto: capa de puntos, Congreso, actual proporcional, electoral, 2023; 348 puntos en el mapa; Ceuta y Melilla, en recuadro.
   eq([t.S.layer, t.S.scope, t.S.system, t.S.view, t.S.election, t.S.level], ["puntos", "nacional", "proporcional", "electoral", "202307", "provincia"]);
-  eq([map.o.bounds, map.o.fitBoundsOptions.padding], [[[-11.7, 33.7], [4.6, 43.95]], {top: 10, right: 12, bottom: 36, left: 8}], "encuadre nacional más cerca, común a todas las capas");
+  // Giro fijo (T-500): el valor sale de las geometrías (Estaca de Bares frente al punto más al norte de Gerona), no del código; sin rotación del usuario.
+  const giro = Number(/GIRO_NAC=([\d.]+)/.exec(explorarSrc)[1]);
+  assert.equal(giro, Math.round(-anguloCosta() * 100) / 100, "constante calculada con las geometrías");
+  assert.equal(map.o.bearing, giro); assert.equal(map.o.dragRotate, false); eq(map.o.fitBoundsOptions.bearing, giro);
+  element("reset-map").onclick(); assert.equal(map.fits.at(-1)[1].bearing, giro, "«Volver a España» restaura el mismo giro"); map.fitted = 0;
   assert.equal(doc.body.dataset.puntos, "348");
   assert.equal(map.getLayer("v5-n").layout.visibility, "visible"); assert.equal(map.getLayer("prov-fill").layout.visibility, "visible"); assert.equal(map.getLayer("dist-fill").layout.visibility, "none");
   assert.equal(map.getSource("distritos").data.features.length, 0, "no se cargan distritos para esta capa");

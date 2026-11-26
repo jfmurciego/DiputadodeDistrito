@@ -1,8 +1,9 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: visor V4 · Explorar
- * VERSIÓN: 1.2.0
- * FECHA: 2026-11-25
+ * VERSIÓN: 1.3.0
+ * FECHA: 2026-11-26
  * ESTADO: candidato
+ * CAMBIOS 1.3.0: T-500 (26-11), botones junto al zoom, leyenda abajo a la derecha y recuadros de Canarias, Ceuta y Melilla en fila bajo la península. ANTERIOR: legacy/visor/v4/mapa/explorar_v1.2.0_20261125.css
  * CAMBIOS 1.2.0: T-500, estilos de la leyenda, los rótulos, los recuadros de Ceuta y Melilla y la tabla de la ventana de la situación actual (puntos). ANTERIOR: legacy/visor/v4/mapa/explorar_v1.1.0_20261125.css
  * CAMBIOS 1.1.0: T-459, fuera la galería (foto, créditos) del panel; estilos de la ventana del distrito y del trazo de selección. ANTERIOR: legacy/visor/v4/mapa/explorar_v1.0.0_20261119.css
  * CAMBIOS: copia de v3.css 1.2.0 de la V3 (disposición, paneles, leyenda, calendario, accesibilidad, galería) + tema de la V4
@@ -69,6 +70,8 @@ dialog{background:var(--panel);color:var(--cream)}dialog button{background:#6515
 .v5-tab{width:100%;border-collapse:collapse;font-size:12px}.v5-tab th{font-size:10px;color:var(--muted);text-align:right;padding:3px 4px;text-transform:uppercase}.v5-tab td{padding:3px 4px;text-align:right;font-variant-numeric:tabular-nums;border-bottom:1px solid #3a2f27}.v5-tab th:first-child,.v5-tab td:first-child{text-align:left;white-space:nowrap}
 .v5-tab .total td{font-weight:700;border-bottom:0}.dv-popup .v5-tab th{color:#444}.dv-popup .v5-tab td{border-bottom:1px solid #ddd}
 i.dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;border:1px solid #fff;vertical-align:-1px}
-.v5-lbl{font:600 11px var(--sans,sans-serif);color:#1c2630;text-shadow:-1px -1px 0 #fff,1px -1px 0 #fff,-1px 1px 0 #fff,1px 1px 0 #fff,0 0 3px #fff;pointer-events:none;white-space:nowrap}.v5-can{font-weight:600;font-size:10px;color:#3a4652;margin:4px 6px 0 0}
+.v5-lbl{font:600 11px var(--sans,sans-serif);color:#1c2630;text-shadow:-1px -1px 0 #fff,1px -1px 0 #fff,-1px 1px 0 #fff,1px 1px 0 #fff,0 0 3px #fff;pointer-events:none;white-space:nowrap}.v5-can{font-weight:600;font-size:10px;color:#3a4652;margin:0}
 .v5-rec{display:flex;gap:8px;pointer-events:none}.v5-rb{width:92px;background:#ffffffa0;border:1px dashed #5b6470;color:#3a4652;font:600 10px var(--sans,sans-serif);padding:2px 0 0}.v5-rb b{display:block;padding:0 5px}
 .dv-popup .small-note{color:#444;margin:6px 0 0}
+/* Giro y recuadros (T-500, 26-11): botones a la izquierda del zoom, leyenda abajo a la derecha (los recuadros de Canarias, Ceuta y Melilla ocupan la esquina inferior izquierda) */
+.map-actions{right:56px}.legend{left:auto;right:14px}.v5-rec .v5-rb{margin:0}

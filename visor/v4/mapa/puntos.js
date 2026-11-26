@@ -1,10 +1,12 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: visor V4 · Explorar · situación actual, un punto por diputado (T-500, diseño T-499 1.0.1)
- * VERSIÓN: 1.0.0
- * FECHA: 2026-11-25
+ * VERSIÓN: 1.1.0
+ * FECHA: 2026-11-26
  * ESTADO: candidato
- * ANTERIOR: ninguna (fichero nuevo; parte de docs/ESTUDIOS/T499_v5/generar_maqueta_v5.py)
- * CAMBIOS: 1.0.0: fichero nuevo (sin clases de intensidad: el color de la provincia es el de la capa «Partido más votado»).
+ * ANTERIOR: legacy/visor/v4/mapa/puntos_v1.0.0_20261125.js
+ * CAMBIOS: 1.1.0 (T-500, 26-11): `giro`: el mapa va girado y los racimos, placas, rótulos y el marco de Canarias se calculan en el marco de la pantalla (filas horizontales);
+ *   `recolocarCanarias` desplaza Canarias sin tocar el fichero de provincias.
+ *   1.0.0: fichero nuevo (sin clases de intensidad: el color de la provincia es el de la capa «Partido más votado»).
  * MOTIVO: T-500. Funciones puras (sin DOM ni MapLibre): racimo compacto ordenado por partido
  *   en una malla hexagonal (con placa y línea guía donde no cabe), y recuadros de Ceuta y Melilla. Los escaños y votos salen de
  *   puntos_v5_2023.json (herramientas/datos_puntos_v5.py, BOE-A-2023-18907); aquí no se calcula ningún dato electoral. */
@@ -82,16 +84,18 @@
   /* Disposición completa. `prov`: FeatureCollection de provincias (visor/v2/datos/provincias.json, propiedad `cod`);
    * `datos`: puntos_v5_2023.json; `familia`: nombre de partido → clave de paleta; `lays`: disposiciones a calcular (todas si se omite).
    * Devuelve {puntos, placas, guias, etiquetas, marcoCanarias} en lng/lat; cada elemento lleva `lay` ("n" nacional, "c" de cerca). */
-  function disponer(prov, datos, familia, lays) {
+  function disponer(prov, datos, familia, lays, giro) {
+    const b = (giro || 0) * Math.PI / 180, cb = Math.cos(b), sb = Math.sin(b);
+    const rota = (x, y) => [x * cb + sb * y, -x * sb + cb * y], desrota = (x, y) => [x * cb - sb * y, x * sb + cb * y];  // marco de la pantalla ↔ Mercator
     const out = {puntos: [], placas: [], guias: [], etiquetas: [], marcoCanarias: null};
     for (const [lay, cfg] of Object.entries(DISPOSICIONES)) {
       if (lays && !lays.includes(lay)) continue;
       const S = 512 * Math.pow(2, cfg.zr), R = cfg.r;
-      const aLngLat = p => inv(p[0] / S, p[1] / S);
+      const aLngLat = p => { const q = desrota(p[0], p[1]); return inv(q[0] / S, q[1] / S); };
       for (const f of prov.features) {
         const cod = f.properties.cod, d = datos.provincias[cod];
         if (!d || SIN_PLACA_NI_PUNTOS.includes(cod)) continue;
-        const polys = poligonos(f.geometry).map(poly => poly.map(ring => ring.map(([lng, lat]) => { const m = merc(lng, lat); return [m[0] * S, m[1] * S]; })));
+        const polys = poligonos(f.geometry).map(poly => poly.map(ring => ring.map(([lng, lat]) => { const m = merc(lng, lat); return rota(m[0] * S, m[1] * S); })));
         const k = racimo(cod, polys, d.escanos, cfg);
         const seq = d.partidos.flatMap(x => Array(x.escanos).fill(x.p));
         k.pts.forEach((p, i) => { const [lng, lat] = aLngLat(p); out.puntos.push({lay, cod, nombre: d.nombre, p: familia(seq[i]), partido: seq[i], lng, lat}); });
@@ -105,14 +109,23 @@
         }
       }
     }
-    // Marco de Canarias: la geometría del visor ya la trae desplazada; se enmarca con un pequeño margen.
+    // Marco de Canarias, horizontal en la pantalla: rectángulo del marco girado que contiene sus islas, con un pequeño margen (0,001 del mundo ≈ 0,35° de longitud).
     const can = prov.features.filter(f => ["35", "38"].includes(f.properties.cod));
     if (can.length) {
-      const c = can.flatMap(f => poligonos(f.geometry).flatMap(p => p.flat()));
-      const lo = Math.min(...c.map(p => p[0])) - .35, hi = Math.max(...c.map(p => p[0])) + .35, la = Math.min(...c.map(p => p[1])) - .35, lb = Math.max(...c.map(p => p[1])) + .35;
-      out.marcoCanarias = [[lo, lb], [hi, lb], [hi, la], [lo, la], [lo, lb]];
+      const c = can.flatMap(f => poligonos(f.geometry).flatMap(p => p.flat())).map(([lng, lat]) => { const m = merc(lng, lat); return rota(m[0], m[1]); }), pad = .001;
+      const lo = Math.min(...c.map(p => p[0])) - pad, hi = Math.max(...c.map(p => p[0])) + pad, la = Math.min(...c.map(p => p[1])) - pad, lb = Math.max(...c.map(p => p[1])) + pad;
+      out.marcoCanarias = [[lo, la], [hi, la], [hi, lb], [lo, lb], [lo, la]].map(([x, y]) => { const q = desrota(x, y); return inv(q[0], q[1]); });  // esquinas: sup. izq., sup. der., inf. der., inf. izq.
     }
     return out;
+  }
+
+  // Copia de la colección con Canarias desplazada `desp` = [dx, dy] en unidades del mundo (0-1) medidas en el marco de la pantalla (mapa girado `giro` grados): no modifica `prov`.
+  function recolocarCanarias(prov, giro, desp, esCanarias) {
+    esCanarias = esCanarias || (f => ["35", "38"].includes(f.properties.cod));  // por defecto, las provincias de Canarias; para comunidades, f => f.properties.nombre === "Canarias"
+    const b = giro * Math.PI / 180, cb = Math.cos(b), sb = Math.sin(b), dx = desp[0] * cb - sb * desp[1], dy = desp[0] * sb + cb * desp[1];
+    const mover = ring => ring.map(([lng, lat]) => { const m = merc(lng, lat); return inv(m[0] + dx, m[1] + dy); });
+    return {...prov, features: prov.features.map(f => !esCanarias(f) ? f : {...f, geometry: {...f.geometry,
+      coordinates: f.geometry.type === "MultiPolygon" ? f.geometry.coordinates.map(poly => poly.map(mover)) : f.geometry.coordinates.map(mover)}})};
   }
 
   // Recuadro de Ceuta o Melilla: su contorno ampliado ×8 (en píxeles de la disposición nacional) como camino SVG de 92 × 74.
@@ -131,6 +144,6 @@
     return {lista, resto, estatal: datos.votos_candidaturas_estatal, escanos: lista.reduce((s, x) => s + x.escanos, 0)};
   }
 
-  root.PUNTOS = {ZC, DISPOSICIONES, ganador, disponer, recuadro, totales};
+  root.PUNTOS = {ZC, DISPOSICIONES, ganador, disponer, recolocarCanarias, recuadro, totales};
   if (typeof module !== "undefined" && module.exports) module.exports = root.PUNTOS;
 })(typeof window !== "undefined" ? window : globalThis);
