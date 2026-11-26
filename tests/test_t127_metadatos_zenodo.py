@@ -32,7 +32,7 @@ class MetadatosZenodo(unittest.TestCase):
         self.assertNotIn("rellenar", t)
 
     def test_doi_concepto_y_version_coherentes(self):
-        concepto, version = "10.5281/zenodo.24093967", "10.5281/zenodo.24093968"
+        concepto, version = "10.5281/zenodo.24448721", "10.5281/zenodo.24093968"
         cff = (R / "CITATION.cff").read_text(encoding="utf-8")
         readme = (R / "README.md").read_text(encoding="utf-8")
         guia = (R / "docs/PUBLICACION_ZENODO.md").read_text(encoding="utf-8")
