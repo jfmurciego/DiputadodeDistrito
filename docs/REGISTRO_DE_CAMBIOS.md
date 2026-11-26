@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.646
+Versión: 1.0.647
 Fecha: 2026-11-26
-Alcance: T-506 — Fotos de provincia de vuelta en el panel de Explorar, sin créditos
+Alcance: T-505 — Squash sin «Co-authored-by» y guarda en el guardián
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-26_t506-fotos-provincia.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.645_registro_20261126.md
+Cambios/motivo: entrada docs/registro/2026-11-26_t505-squash-sin-coautor.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.646_registro_20261126.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.645_registro_20261126.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.647 · [2026-11-26 — T-505 — Squash sin «Co-authored-by» y guarda en el guardián](registro/2026-11-26_t505-squash-sin-coautor.md)
 - 1.0.646 · [2026-11-26 — T-506 — Fotos de provincia de vuelta en el panel de Explorar, sin créditos](registro/2026-11-26_t506-fotos-provincia.md)
 - 1.0.645 · [2026-11-26 — Coordinador — CLAUDE.md refleja D-216](registro/2026-11-26_coordinador-claude-md-d216.md)
 - 1.0.644 · [2026-11-26 — T-504 — Plan 1.0.79](registro/2026-11-26_planificador-plan-1-0-79.md)
