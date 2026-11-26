@@ -49,10 +49,13 @@ class DerechaNacional(unittest.TestCase):
             dv.cargar_tabla(CONF / PAREJAS[0][0], "2023-07")
 
     def test_cobertura_tambien_rechaza_la_tabla_vieja(self):
-        votos = ROOT / "visor/v4/mapa/ejemplo/votos.csv"
-        with self.assertRaisesRegex(ValueError, "Bloque desconocido «Patriotas»"):
-            cob.cobertura(votos, CONF / PAREJAS[0][0], "2023-07")
-        self.assertEqual(cob.cobertura(votos, CONF / PAREJAS[0][1], "2023-07")["eleccion"], "2023-07")
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            votos = Path(d) / "votos.csv"
+            votos.write_text("district_id,party,votes\nD1,PSOE,30\nD1,PP,20\n", encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "Bloque desconocido «Patriotas»"):
+                cob.cobertura(votos, CONF / PAREJAS[0][0], "2023-07")
+            self.assertEqual(cob.cobertura(votos, CONF / PAREJAS[0][1], "2023-07")["eleccion"], "2023-07")
 
     def test_tabla_nacional_vigente_no_es_la_autonomica(self):
         self.assertEqual(p75.bloques_vigente(ROOT).name, "bloques_partidos_2026-11-25.csv")
