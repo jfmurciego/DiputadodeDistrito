@@ -1,12 +1,13 @@
 """V4 · Explorar (T-423): la V3 completa dentro de la V4 con la capa «Doble vuelta».
 
-VERSIÓN: 2.2.0 · FECHA: 2026-11-25 · ESTADO: candidato
-CAMBIOS: 2.2.0 (T-500): la V4 añade la capa «Situación actual · puntos» (por defecto, con el sistema «Actual proporcional» activo) y carga puntos.js; el resto, igual.
+VERSIÓN: 2.3.0 · FECHA: 2026-11-26 · ESTADO: candidato
+CAMBIOS: 2.3.0 (T-506): vuelve la galería de fotos al panel (territory-gallery, gallery-title); ya no es id retirado.
+  2.2.0: 2.2.0 (T-500): la V4 añade la capa «Situación actual · puntos» (por defecto, con el sistema «Actual proporcional» activo) y carga puntos.js; el resto, igual.
   2.1.0 (T-456): el aviso «Simulación sin valor oficial» ya no está en el HTML (se comprueba que no vuelve).
   2.0.0 (T-423): el mapa simple de T-413 (SVG, un territorio cada vez) se retira; se prueba que la V4 contiene todas las capas,
   niveles, controles y paneles de la V3 (incluida la sección censal), que la capa de doble vuelta cubre los 52 nac (prueba JS), que la V3
   publicada no cambia (sha256 literales de main) y que los datos de ejemplo siguen saliendo igual de la herramienta.
-ANTERIOR: legacy/tests/test_visor_v4_mapa_v2.1.0_20261124.py (2.1.0; 2.0.0: legacy/tests/test_visor_v4_mapa_v2.0.0_20261119.py); 1.0.0 en el historial de git.
+ANTERIOR: legacy/tests/test_visor_v4_mapa_v2.2.0_20261125.py (2.2.0; 2.1.0: legacy/tests/test_visor_v4_mapa_v2.1.0_20261124.py; 2.0.0: legacy/tests/test_visor_v4_mapa_v2.0.0_20261119.py); 1.0.0 en el historial de git.
 """
 import json
 import hashlib, re, shutil, subprocess, sys, tempfile, unittest
@@ -64,8 +65,8 @@ class V4ContieneV3(unittest.TestCase):
     def test_todos_los_controles_y_paneles_de_la_v3(self):
         ids_v3 = set(re.findall(r'\bid="([^"]+)"', self.h3))
         self.assertGreater(len(ids_v3), 40)
-        # T-459: fuera del panel la foto y créditos (galería), «407 / 350» y la casilla de secciones al acercar.
-        retirados = {"territory-gallery", "gallery-title", "ddd-label", "ddd-count", "ddd-unit", "current-label", "current-count", "current-unit", "auto-sections"}
+        # T-459: fuera del panel «407 / 350» y la casilla de secciones al acercar.
+        retirados = {"ddd-label", "ddd-count", "ddd-unit", "current-label", "current-count", "current-unit", "auto-sections"}
         self.assertEqual(ids_v3 - set(re.findall(r'\bid="([^"]+)"', self.h4)) - retirados, set())
         for r in retirados:
             self.assertNotIn('id="%s"' % r, self.h4)

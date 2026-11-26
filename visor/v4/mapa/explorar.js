@@ -1,10 +1,10 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: visor V4 · Explorar (V3 completa + doble vuelta)
- * VERSIÓN: 1.6.0
+ * VERSIÓN: 1.7.0
  * FECHA: 2026-11-26
  * ESTADO: candidato
- * ANTERIOR: legacy/visor/v4/mapa/explorar_v1.5.1_20261125.js
- * CAMBIOS: 1.6.0 (T-500, diseño T-499 1.0.1): capa «Situación actual · puntos», activa por defecto en Congreso · 2023 · Provincia: un punto por diputado en un racimo
+ * ANTERIOR: legacy/visor/v4/mapa/explorar_v1.6.0_20261126.js
+ * CAMBIOS: 1.7.0 (T-506): vuelve la foto de la provincia al panel (DDDGaleria.render con sinCreditos y soloProvincia; los créditos, en la página enlazada desde el pie). 1.6.0 (anterior ANTERIOR: legacy/visor/v4/mapa/explorar_v1.5.1_20261125.js): 1.6.0 (T-500, diseño T-499 1.0.1): capa «Situación actual · puntos», activa por defecto en Congreso · 2023 · Provincia: un punto por diputado en un racimo
  *   ordenado por partido (placa en Madrid, Barcelona, Vizcaya y Tenerife; línea guía en Barcelona), provincia con el relleno de «Partido más votado» (el mismo que la capa proporcional, sin aclarar; sustituye las 4 clases de intensidad del diseño por orden del propietario, 26-11),
  *   recuadros de Canarias, Ceuta y Melilla, leyenda en el panel derecho con % sobre votos a candidaturas y ventana con la tabla de la provincia. Datos de mapa/puntos_v5_2023.json
  *   (herramientas/datos_puntos_v5.py, BOE-A-2023-18907) y disposición en mapa/puntos.js. Sin datos, vuelve a la doble vuelta.
@@ -808,6 +808,7 @@
       kind==="provincia"?(validElection()?"Resultados oficiales generales 2023 / catálogo DDD":"Cartografía DDD · capa electoral histórica no disponible"):
         "Productos del registro durable de DDD";
     $("source-label").textContent=source;
+    if(window.DDDGaleria)window.DDDGaleria.render(kind,obj,selectedProvince()?.properties||null,{sinCreditos:true,soloProvincia:true});
     let content="";
     if(S.panel==="territorio")content="<p class='small-note'>Selecciona cualquier territorio en el mapa. Al pulsar un distrito se abre su ventana con población, votos y bloque ganador.</p>";
     if(S.panel==="resultados"){

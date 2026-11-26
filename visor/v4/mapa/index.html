@@ -1,5 +1,6 @@
 <!doctype html>
-<!-- PROYECTO: Diputado de Distrito · CLASE: visor V4 · Explorar · VERSIÓN: 1.5.0 · FECHA: 2026-11-25 · ESTADO: candidato
+<!-- PROYECTO: Diputado de Distrito · CLASE: visor V4 · Explorar · VERSIÓN: 1.6.0 · FECHA: 2026-11-26 · ESTADO: candidato
+     CAMBIOS 1.6.0: T-506, vuelve la foto de la provincia al panel derecho (galería de T-325, sin texto de créditos); los créditos van a la página «Créditos de las imágenes», enlazada bajo el pie (el pie común de la V4 no lleva enlaces). MOTIVO: orden del propietario (26-11). ANTERIOR: legacy/visor/v4/mapa/index_v1.5.0_20261125.html
      CAMBIOS 1.5.0: T-500 (diseño T-499 1.0.1): capa «Situación actual · puntos» activa por defecto (sistema «Actual proporcional»), puntos.js y una frase en la ayuda. MOTIVO: encargo del propietario (25-11). ANTERIOR: legacy/visor/v4/mapa/index_v1.4.0_20261125.html
      CAMBIOS 1.4.0: T-459 (diseño T-458 1.4.1, §1.3.0/1.4.0): panel derecho sin foto, créditos ni «407 / 350»; fuera el nivel de sección y municipio del selector y la casilla de secciones. MOTIVO: orden del propietario (25-11). ANTERIOR: legacy/visor/v4/mapa/index_v1.3.0_20261124.html
      CAMBIOS 1.3.0: T-456, fuera el aviso «Simulación sin valor oficial» (dv-aviso) y el rótulo del mapa (map-tag, oculto). ANTERIOR: legacy/visor/v4/mapa/index_v1.2.0_20261120.html
@@ -64,6 +65,7 @@
     <aside class="insights" aria-label="Información de la selección">
       <div class="insights-hero"><span class="overline" id="selection-type">España</span><h1 id="selection-name">Diputado de Distrito</h1><p id="selection-path">Selecciona una provincia o comunidad en el mapa</p></div>
       <div id="context" class="context"><p class="hint">El mapa y las fichas mostrarán únicamente datos disponibles en el registro de publicación.</p></div>
+      <section id="territory-gallery" class="territory-gallery" aria-labelledby="gallery-title" hidden><h2 class="gallery-heading" id="gallery-title">Conoce el territorio</h2><div class="gallery-content" aria-live="polite"></div></section>
       <div class="source-label" id="source-label"></div>
       <section class="detail-mode v5-leyenda" id="v5-mode" aria-labelledby="v5-heading" hidden><h2 id="v5-heading">Leyenda</h2><div id="v5-content"></div></section>
       <section class="detail-mode dv-mode" id="dv-mode" aria-labelledby="dv-heading" hidden><h2 id="dv-heading">Doble vuelta</h2><div id="dv-content"></div></section>
@@ -82,11 +84,13 @@
 </div>
 <dialog id="help-dialog" aria-labelledby="help-title"><h2 id="help-title">Cómo explorar DDD</h2><p>La capa «Situación actual · puntos» muestra los 350 diputados del Congreso de 2023 (un punto por diputado) sobre cada provincia, coloreada por su partido más votado; pulsa una provincia para ver sus votos y escaños. El porcentaje es sobre votos a candidaturas.</p><p>La capa «Doble vuelta» colorea cada distrito por el bloque que gana con la regla elegida: «Tres bloques», «Dos bloques», «Sin coaliciones» o «Mayoría simple en el distrito» (gana el partido con más votos; no es el sistema actual, que reparte los escaños de forma proporcional por listas provinciales). Es una simulación sin valor oficial.</p><p>Selecciona ámbito, sistema electoral y vista. Pulsa una provincia para entrar en sus distritos. Pulsa un distrito para ver su ventana con población, votos y bloque ganador.</p><p>Las elecciones antiguas o las capas sin producto publicado indican su ausencia, sin reutilizar silenciosamente datos de otro año.</p><p>Teclado: Tab recorre los controles; con el foco en el mapa, las flechas lo mueven y + / − lo acercan o alejan. La tabla «Resultados en tabla» permite elegir territorios sin usar el mapa.</p><form method="dialog"><button autofocus>Cerrar</button></form></dialog>
 <script defer src="../v2/vendor/maplibre-gl/5.7.0/maplibre-gl.js" integrity="sha384-Blts4zGbI8Hh/NvhcxTYsF2uLBbYIwHXEhPMxN3XpadJCDgstyLfJA3opgmkfBOc"></script>
+<script defer src="../v2/galeria/galeria.js"></script>
 <script defer src="dv.js"></script>
 <script defer src="puntos.js"></script>
 <script defer src="../app.js"></script>
 <script defer src="explorar.js"></script>
 <footer class="footer v4-footer"><div class="wrap footer-inner"><div><strong>© 2026 Jesús Francisco Murciego Vidal. Todos los derechos reservados.</strong><p>El autor se reserva el ejercicio de las acciones legales que correspondan frente al plagio, la reproducción no autorizada y la falsa atribución de autoría.</p></div></div></footer>
+<p class="aviso-analitica" style="font-size:12px;margin:8px 16px"><a href="../v2/galeria/creditos.html">Créditos de las imágenes</a></p>
 <p class="aviso-analitica" style="font-size:12px;margin:8px 16px;opacity:.85"><strong>Medición de visitas.</strong> Este sitio cuenta cuántas veces se carga cada página, por día. No usa cookies ni guarda nada en tu dispositivo, no registra tu dirección IP ni datos de tu navegador, no te identifica ni te sigue y no comparte datos con terceros. Solo se conserva un número por página y día. La infraestructura (alojamiento y red de entrega) trata tu IP de forma transitoria para entregarte la página, como cualquier servicio web. Además, el sitio lo sirve Cloudflare: tu navegador puede enviarle informes de errores de red (cabeceras NEL/Report-To, hacia a.nel.cloudflare.com) y estos incluyen tu dirección IP.</p>
 <script>navigator.sendBeacon&&navigator.sendBeacon("https://contador.diputadodedistrito.es/v",location.pathname.replace(/index\.html$/,""))</script>
 </body></html>
