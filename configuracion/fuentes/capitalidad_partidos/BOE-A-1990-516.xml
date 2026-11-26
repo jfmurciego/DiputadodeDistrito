@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<documento fecha_actualizacion="20251217192601">
+  <metadatos>
+    <identificador>BOE-A-1990-516</identificador>
+    <origen_legislativo codigo="2">Autonómico</origen_legislativo>
+    <departamento codigo="8131">Comunidad de Madrid</departamento>
+    <rango codigo="1300">Ley</rango>
+    <fecha_disposicion>19891205</fecha_disposicion>
+    <numero_oficial>11/1989</numero_oficial>
+    <titulo>Ley 11/1989, de 5 de diciembre, de capitalidad de los partidos judiciales de la Comunidad de Madrid.</titulo>
+    <diario codigo="BOE">Boletín Oficial del Estado</diario>
+    <fecha_publicacion>19900110</fecha_publicacion>
+    <diario_numero>9</diario_numero>
+    <seccion>1</seccion>
+    <subseccion/>
+    <pagina_inicial>867</pagina_inicial>
+    <pagina_final>868</pagina_final>
+    <suplemento_pagina_inicial/>
+    <suplemento_pagina_final/>
+    <url_pdf>https://www.boe.es/boe/dias/1990/01/10/pdfs/A00867-00868.pdf</url_pdf>
+    <url_epub/>
+    <url_pdf_catalan/>
+    <url_pdf_euskera/>
+    <url_pdf_gallego/>
+    <url_pdf_valenciano/>
+    <estatus_legislativo>L</estatus_legislativo>
+    <fecha_vigencia>19891218</fecha_vigencia>
+    <estatus_derogacion>N</estatus_derogacion>
+    <fecha_derogacion/>
+    <judicialmente_anulada>N</judicialmente_anulada>
+    <fecha_anulacion/>
+    <vigencia_agotada>N</vigencia_agotada>
+    <estado_consolidacion codigo="3">Finalizado</estado_consolidacion>
+    <letra_imagen>A</letra_imagen>
+    <suplemento_letra_imagen/>
+    <url_eli>https://www.boe.es/eli/es-md/l/1989/12/05/11</url_eli>
+  </metadatos>
+  <metadata-eli>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:eli="http://data.europa.eu/eli/ontology#">
+      <eli:LegalResource rdf:about="https://www.boe.es/eli/es-md/l/1989/12/05/11">
+        <eli:jurisdiction rdf:resource="http://www.elidata.es/mdr/authority/jurisdiction/1/es-md"/>
+        <eli:type_document rdf:resource="http://www.elidata.es/mdr/authority/resource-type/1/l"/>
+        <eli:id_local rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BOE-A-1990-516</eli:id_local>
+        <eli:date_document rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1989-12-05</eli:date_document>
+        <eli:number rdf:datatype="http://www.w3.org/2001/XMLSchema#string">11</eli:number>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/78"/>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/1320"/>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/2414"/>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/4831"/>
+        <eli:has_member>
+          <eli:LegalResource rdf:about="https://www.boe.es/eli/es-md/l/1989/12/05/11/dof">
+            <eli:jurisdiction rdf:resource="http://www.elidata.es/mdr/authority/jurisdiction/1/es-md"/>
+            <eli:type_document rdf:resource="http://www.elidata.es/mdr/authority/resource-type/1/l"/>
+            <eli:id_local rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BOE-A-1990-516</eli:id_local>
+            <eli:date_document rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1989-12-05</eli:date_document>
+            <eli:number rdf:datatype="http://www.w3.org/2001/XMLSchema#string">11</eli:number>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/78"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/1320"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/2414"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/4831"/>
+            <eli:version rdf:resource="http://www.elidata.es/mdr/authority/version/dof"/>
+            <eli:is_member_of rdf:resource="https://www.boe.es/eli/es-md/l/1989/12/05/11"/>
+            <eli:consolidated_by rdf:resource="https://www.boe.es/eli/es-md/l/1989/12/05/11/con/19891218"/>
+            <eli:is_realized_by>
+              <eli:LegalExpression rdf:about="https://www.boe.es/eli/es-md/l/1989/12/05/11/dof/spa">
+                <eli:language rdf:resource="http://www.elidata.es/mdr/authority/language/spa"/>
+                <eli:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ley 11/1989, de 5 de diciembre, de capitalidad de los partidos judiciales de la Comunidad de Madrid.</eli:title>
+                <eli:publisher_agent rdf:resource="https://www.boe.es"/>
+                <eli:date_publication rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1990-01-10</eli:date_publication>
+                <eli:realizes rdf:resource="https://www.boe.es/eli/es-md/l/1989/12/05/11/dof"/>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-md/l/1989/12/05/11/dof/spa/html">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/text/html"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-md/l/1989/12/05/11/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-md/l/1989/12/05/11/dof/spa/pdf">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/application/pdf"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-md/l/1989/12/05/11/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-md/l/1989/12/05/11/dof/spa/xml">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/application/xml"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-md/l/1989/12/05/11/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+              </eli:LegalExpression>
+            </eli:is_realized_by>
+          </eli:LegalResource>
+        </eli:has_member>
+        <eli:has_member>
+          <eli:LegalResource rdf:about="https://www.boe.es/eli/es-md/l/1989/12/05/11/con/19891218">
+            <eli:jurisdiction rdf:resource="http://www.elidata.es/mdr/authority/jurisdiction/1/es-md"/>
+            <eli:type_document rdf:resource="http://www.elidata.es/mdr/authority/resource-type/1/l"/>
+            <eli:id_local rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BOE-A-1990-516</eli:id_local>
+            <eli:date_document rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1989-12-05</eli:date_document>
+            <eli:number rdf:datatype="http://www.w3.org/2001/XMLSchema#string">11</eli:number>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/78"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/1320"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/2414"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/4831"/>
+            <eli:version rdf:resource="http://www.elidata.es/mdr/authority/version/con"/>
+            <eli:version_date rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1989-12-18</eli:version_date>
+            <eli:is_member_of rdf:resource="https://www.boe.es/eli/es-md/l/1989/12/05/11"/>
+            <eli:consolidates rdf:resource="https://www.boe.es/eli/es-md/l/1989/12/05/11/dof"/>
+            <eli:is_realized_by>
+              <eli:LegalExpression rdf:about="https://www.boe.es/eli/es-md/l/1989/12/05/11/con/19891218/spa">
+                <eli:language rdf:resource="http://www.elidata.es/mdr/authority/language/spa"/>
+                <eli:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ley 11/1989, de 5 de diciembre, de capitalidad de los partidos judiciales de la Comunidad de Madrid.</eli:title>
+                <eli:publisher_agent rdf:resource="https://www.boe.es"/>
+                <eli:realizes rdf:resource="https://www.boe.es/eli/es-md/l/1989/12/05/11/con/19891218"/>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-md/l/1989/12/05/11/con/19891218/spa/html">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/text/html"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-md/l/1989/12/05/11/con/19891218/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+              </eli:LegalExpression>
+            </eli:is_realized_by>
+          </eli:LegalResource>
+        </eli:has_member>
+      </eli:LegalResource>
+    </rdf:RDF>
+  </metadata-eli>
+  <analisis>
+    <materias>
+      <materia codigo="78" orden="1">Administración de Justicia</materia>
+      <materia codigo="1320" orden="2">Comunidades Autónomas</materia>
+      <materia codigo="2414" orden="3">Demarcación judicial</materia>
+      <materia codigo="4831" orden="4">Madrid</materia>
+    </materias>
+    <notas>
+      <nota codigo="14" orden="400">Publicada en el BOCM núm. 300, de 18 de diciembre de 1989</nota>
+    </notas>
+    <referencias>
+      <anteriores>
+        <anterior referencia="BOE-A-1988-29622" orden="3060">
+          <palabra codigo="440">DE CONFORMIDAD con</palabra>
+          <texto>art. 4.4 de la Ley 38/1988, de 28 de diciembre</texto>
+        </anterior>
+        <anterior referencia="BOE-A-1985-12666" orden="3060">
+          <palabra codigo="440">DE CONFORMIDAD con</palabra>
+          <texto>art. 35.2 y 6 de la Ley Orgánica 6/1985, de 1 de julio</texto>
+        </anterior>
+        <anterior referencia="BOE-A-1983-6317" orden="3060">
+          <palabra codigo="440">DE CONFORMIDAD con</palabra>
+          <texto>art. 50 del Estatuto aprobado por Ley Orgánica 3/1983, de 25 de febrero</texto>
+        </anterior>
+      </anteriores>
+      <posteriores/>
+    </referencias>
+    <alertas>
+      <alerta codigo="121" orden="1">Organización de la Administración</alerta>
+    </alertas>
+  </analisis>
+  <texto>
+    <p class="parrafo">Aprobada por la Asamblea de Madrid la Ley 11/1989, de 5 de diciembre, publicada en el «Boletín Oficial de la Comunidad de Madrid» número 300, de fecha 18 de diciembre de 1989, se inserta a continuación el texto correspondiente.</p>
+    <p class="capitulo">EL PRESIDENTE DE LA COMUNIDAD DE MADRID</p>
+    <p class="parrafo_2">Hago saber: Que la Asamblea de Madrid ha aprobado la siguiente Ley, que yo, en nombre del Rey, promulgo.</p>
+    <p class="capitulo">EXPOSICIÓN DE MOTIVOS</p>
+    <p class="parrafo_2">Primero.–La Ley Orgánica del Poder Judicial 6/1985, de 1 de julio, en desarrollo del mandato establecido por la Constitución española, en su título VI, artículo 122, abre un proceso de reestructuración orgánica y funcional del Poder Judicial. Este proceso, finalizado por la Ley 38/1988, de 28 de diciembre, de Demarcación y de Planta Judicial, y por las normas reglamentarias que en desarrollo de esta última disposición legal en su momento se promulguen, necesariamente ha de afectar a las demarcaciones territoriales y a los órganos jurisdiccionales situados en el territorio de las Comunidades Autónomas.</p>
+    <p class="parrafo">Las atribuciones de estas últimas, y en especial de la Comunidad de Madrid, en esta materia, de acuerdo con lo dispuesto en los artículos 152 de la Constitución; 50 de la Ley Orgánica 3/1983, de 25 de febrero, por la que se aprueba el Estatuto de Autonomía; 35, números 2 y 6, de la Ley Orgánica del Poder Judicial, y 4.4 de la Ley de Planta, son las de participar en la organización de las demarcaciones Judiciales en su territorio y, una vez aprobadas éstas, determinar por ley la capitalidad de los partidos judiciales.</p>
+    <p class="parrafo">La Comunidad de Madrid participó en la determinación de los partidos judiciales de su territorio mediante la proposición no de ley aprobada por la Asamblea de Madrid con fecha 26 de septiembre de 1985 y remitida al Ministerio de Justicia el 30 de septiembre del mismo año.</p>
+    <p class="parrafo">Compete ahora a la Asamblea, a tenor de la disposición estatutaria antes citada y del artículo 4.4 de la Ley 38/1988, aprobar la norma legislativa que establezca los municipios que van a ser sede de la capitalidad de los distintos partidos Judiciales creados en la Comunidad de Madrid.</p>
+    <p class="parrafo_2">Segundo.–La presente Ley respeta, como criterios fundamentales a la hora de determinar la capitalidad de los partidos, los establecidos en la disposición transitoria primera de la Ley 38/1988, de 28 de diciembre. En su virtud, mantiene como capitales a los municipios que venían siéndolo de los antiguos partidos Judiciales. En los partidos de nueva creación se opta por situar la capitalidad en municipios en los que radicaban Juzgados de Distrito, donde los hubiere, y, en su defecto, en aquél con superior población de derecho. También se ha tenido en cuenta, como dato adicional en algún caso concreto, la infraestructura de comunicaciones de la que están dotados los municipios.</p>
+    <p class="articulo">Artículo único.</p>
+    <p class="parrafo_2">1. La capitalidad de los partidos judiciales integrados en el territorio de la Comunidad de Madrid que han sido establecidos por la Ley 38/1988, de 28 de diciembre, de Demarcación y de Planta Judicial, corresponderá a los municipios que a continuación se relacionan:</p>
+    <p class="parrafo_2">Partido Judicial número 1: Torrelaguna.</p>
+    <p class="parrafo">Partido Judicial número 2: Torrejón de Ardoz.</p>
+    <p class="parrafo">Partido Judicial número 3: Navalcarnero.</p>
+    <p class="parrafo">Partido Judicial número 4: Alcalá de Henares.</p>
+    <p class="parrafo">Partido Judicial número 5: Alcobendas.</p>
+    <p class="parrafo">Partido Judicial número 6: Móstoles.</p>
+    <p class="parrafo">Partido Judicial número 7: San Lorenzo de El Escorial.</p>
+    <p class="parrafo">Partido Judicial número 8: Aranjuez.</p>
+    <p class="parrafo">Partido Judicial número 9: Leganés.</p>
+    <p class="parrafo">Partido Judicial número 10: Getafe.</p>
+    <p class="parrafo">Partido Judicial número 11: Madrid.</p>
+    <p class="parrafo">Partido Judicial número 12: Majadahonda.</p>
+    <p class="parrafo">Partido Judicial número 13: Coslada.</p>
+    <p class="parrafo">Partido Judicial número 14: Arganda del Rey.</p>
+    <p class="parrafo">Partido Judicial número 15: Collado-Villalba.</p>
+    <p class="parrafo">Partido Judicial número 16: Parla.</p>
+    <p class="parrafo">Partido Judicial número 17: Alcorcón.</p>
+    <p class="parrafo">Partido Judicial número 18: Fuenlabrada.</p>
+    <p class="parrafo">Partido Judicial número 19: Colmenar Viejo.</p>
+    <p class="parrafo_2">2. A partir de la entrada en vigor de la presente Ley, y de conformidad con el artículo 4.5 de la Ley 38/1988, los partidos Judiciales se identificarán por el nombre del municipio al que le corresponde su capitalidad.</p>
+    <p class="capitulo">DISPOSICIÓN FINAL</p>
+    <p class="parrafo_2">La presente Ley entrará en vigor el día de su publicación en el «Boletín Oficial de la Comunidad de Madrid», debiendo también ser publicada en el «Boletín Oficial del Estado».</p>
+    <p class="parrafo_2">Por tanto, ordeno a todos los ciudadanos a los que sea de aplicación esta Ley, que la cumplan, y a los Tribunales y autoridades que corresponda, la guarden y la hagan guardar.</p>
+    <p class="parrafo_2">[ignorar]Madrid, 5 de diciembre de 1989.</p>
+    <p class="firma_ministro">JOAQUÍN LEGUINA,</p>
+    <p class="firma_ministro">Presidente</p>
+  </texto>
+</documento>

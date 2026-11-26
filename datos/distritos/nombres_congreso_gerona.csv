@@ -1,8 +1,8 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
-congreso_gerona,0,Palafrugell y entorno,PRINCIPAL_Y_ENTORNO,,17117,Palafrugell,38,0,114900,,0,4,EVALUADO,
-congreso_gerona,1,Gerona y entorno,PRINCIPAL_Y_ENTORNO,,17079,Gerona,10,0,114973,,0,2,EVALUADO,
-congreso_gerona,2,Salt y entorno,PRINCIPAL_Y_ENTORNO,,17155,Salt,31,0,115156,,0,4,EVALUADO,
-congreso_gerona,3,Figueras y entorno,PRINCIPAL_Y_ENTORNO,,17066,Figueras,30,0,114916,,0,1,EVALUADO,
-congreso_gerona,4,San Feliú de Guixols y entorno,PRINCIPAL_Y_ENTORNO,,17160,San Feliú de Guixols,17,0,115117,,0,4,EVALUADO,
-congreso_gerona,5,Olot y entorno,PRINCIPAL_Y_ENTORNO,,17114,Olot,83,0,114903,,0,6,EVALUADO,
-congreso_gerona,6,Blanes y entorno,PRINCIPAL_Y_ENTORNO,,17023,Blanes,12,0,118707,,0,2,EVALUADO,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas,estado_capital
+congreso_gerona,0,Palafrugell,MAS_POBLADO,,17117,Palafrugell,41,0,110507,,0,3,EVALUADO,,SIN_FUENTE
+congreso_gerona,1,Gerona,MAS_POBLADO,,17079,Gerona,6,0,112074,,0,1,EVALUADO,,SIN_FUENTE
+congreso_gerona,2,Salt,MAS_POBLADO,,17155,Salt,38,0,107846,,0,2,EVALUADO,,SIN_FUENTE
+congreso_gerona,3,Figueras,MAS_POBLADO,,17066,Figueras,49,0,118906,,0,1,EVALUADO,,SIN_FUENTE
+congreso_gerona,4,San Feliú de Guixols,MAS_POBLADO,,17160,San Feliú de Guixols,15,0,116571,,0,3,EVALUADO,,SIN_FUENTE
+congreso_gerona,5,Olot,MAS_POBLADO,,17114,Olot,61,0,122823,,0,4,EVALUADO,,SIN_FUENTE
+congreso_gerona,6,Blanes,MAS_POBLADO,,17023,Blanes,11,0,119945,,0,2,EVALUADO,,SIN_FUENTE

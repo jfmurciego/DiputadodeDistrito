@@ -1,6 +1,6 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
-congreso_jaen,0,Jaén y entorno,PRINCIPAL_Y_ENTORNO,,23050,Jaén,4,0,124199,,0,2,EVALUADO,
-congreso_jaen,1,Linares y entorno,PRINCIPAL_Y_ENTORNO,,23055,Linares,20,0,124016,,0,4,EVALUADO,
-congreso_jaen,2,Martos y entorno,PRINCIPAL_Y_ENTORNO,,23060,Martos,25,0,124169,,0,5,EVALUADO,
-congreso_jaen,3,Úbeda y entorno,PRINCIPAL_Y_ENTORNO,,23092,Úbeda,23,0,124240,,0,5,EVALUADO,
-congreso_jaen,4,Andújar y entorno,PRINCIPAL_Y_ENTORNO,,23005,Andújar,25,0,124013,,0,6,EVALUADO,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas,estado_capital
+congreso_jaen,0,Jaén,CAPITAL_PARTIDO,,23050,Jaén,2,0,123143,,0,1,EVALUADO,,COMPLETO
+congreso_jaen,1,Linares,CAPITAL_PARTIDO,,23055,Linares,12,0,114674,,0,3,EVALUADO,,COMPLETO
+congreso_jaen,2,Martos,CAPITAL_PARTIDO,,23060,Martos,21,0,127329,,0,3,EVALUADO,,COMPLETO
+congreso_jaen,3,Úbeda,CAPITAL_PARTIDO,,23092,Úbeda,27,0,128762,,0,4,EVALUADO,,COMPLETO
+congreso_jaen,4,Andújar,CAPITAL_PARTIDO,,23005,Andújar,35,0,126729,,0,3,EVALUADO,,COMPLETO

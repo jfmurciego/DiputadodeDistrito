@@ -1,22 +1,25 @@
 #!/usr/bin/env python3
 """Nombres de distrito (C12) y comarcas partidas (C13) de los distritos nacionales.
 
-VERSIÓN: 1.1.2
-NOMBRE DE VERSIÓN: Nombres, comarcas y partidos judiciales
-FECHA: 2026-11-12
+VERSIÓN: 1.2.0
+NOMBRE DE VERSIÓN: Nombres por capital de partido judicial
+FECHA: 2026-11-26
 ESTADO: activo T-64
 CAMBIOS 1.1.1 (T-201): `descargar` toma el M06 de la elección por defecto (2023-07-23), no el run_id mayor entre elecciones.
 CAMBIOS: C13 usa también los partidos judiciales (configuracion/partidos_judiciales.csv, Ley 38/1988) en toda España; los nombres de distrito no cambian.
 MOTIVO: un nombre legible y estable por distrito nacional y la medida de comarcas partidas.
 CAMBIOS 1.1.2 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/generar_nombres_comunidades_nacional_v1.1.1_20261112.py
+CAMBIOS 1.2.0 (T-461, diseño T458 §3.2 v1.4.1): regla de nombre nueva (abajo); sin «y entorno» ni nombre de comarca; columna estado_capital.
+ANTERIOR: legacy/herramientas/generar_nombres_comunidades_nacional_v1.1.2_20261112.py
 
 Reglas de nombre (toponimia solo en español, tabla datos/distritos/toponimos_es.csv):
-  1. distrito de un único municipio: «<municipio>»; si ese municipio está repartido entre k>1 distritos
-     de un solo municipio, «<municipio> <n>», n por posición (norte a sur y, a igual latitud, oeste a este).
-  2. distrito de varios municipios: «<comarca>» si todos sus municipios están en una misma comarca de la
-     fuente del repo; si no, «<municipio principal> y entorno» (principal = el más poblado, INE 2025).
-  3. colisión de un mismo nombre: « <n>» por posición; último recurso, «(<district_id>)».
+  1. distrito de un único municipio: «<municipio>».
+  2. varios municipios: la capital de partido judicial que caiga en el distrito (configuracion/capitales_partidos_judiciales.csv;
+     si hay varias, la más poblada); si no hay ninguna, el municipio más poblado (INE 2025).
+  3. si el municipio del nombre se reparte entre k>1 distritos (o dos distritos dan el mismo nombre): «<nombre> <n>»,
+     n por posición (norte a sur y, a igual latitud, oeste a este). Último recurso, «(<district_id>)».
+  estado_capital = COMPLETO si la provincia tiene las capitales de su comunidad; SIN_FUENTE si no (Aragón, Baleares, Canarias,
+  Cataluña, Galicia, Ceuta, Melilla: la regla 1 no se puede aplicar y el nombre es provisional).
 Sin votos, partidos ni resultados. Uso:
   python herramientas/generar_nombres_comunidades_nacional.py --m06-dir <dir con los M06 NAC .zip> [--descargar]
   python herramientas/generar_nombres_comunidades_nacional.py --reconstruir-municipios 65034.csv.zip
@@ -38,11 +41,12 @@ if str(Path(__file__).resolve().parents[1]) not in sys.path:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from ddd_core import territorio_ids  # noqa: E402  (T-220)
 
-VERSION = "1.1.1"
+VERSION = "1.2.0"
 RAIZ = Path(__file__).resolve().parents[1]
 SALIDA = "datos/distritos"
 POBLACION = "datos/distritos/municipios_ine_2025.csv"  # código, nombre INE y población 2025 por municipio
 PARTIDOS = "configuracion/partidos_judiciales.csv"
+CAPITALES = "configuracion/capitales_partidos_judiciales.csv"
 TOPONIMOS = "datos/distritos/toponimos_es.csv"
 REGISTRO = "orchestracion/publicaciones_visor.json"
 REPO = "jfmurciego/DiputadodeDistrito"
@@ -196,7 +200,15 @@ def _posicion(d):
     return (-round(d["cy"], 3), round(d["cx"], 3), d["district_id"])
 
 
-def nombrar(territorio, distritos, pob_mun, tabla, comarca_de):
+def cargar_capitales(ruta=None):
+    """→ (códigos INE de capital de partido, provincias cubiertas)."""
+    ruta = Path(ruta or RAIZ / CAPITALES)
+    with ruta.open(encoding="utf-8", newline="") as f:
+        filas = list(csv.DictReader(l for l in f if not l.startswith("#")))
+    return {r["codigo_ine"] for r in filas}, {r["provincia"] for r in filas}
+
+
+def nombrar(territorio, distritos, pob_mun, tabla, comarca_de, capitales=frozenset(), cobertura=False):
     """Asigna nombre a cada distrito. Devuelve lista de filas (dict) ordenadas por district_id."""
     en_distritos = defaultdict(set)
     for d in distritos:
@@ -210,13 +222,14 @@ def nombrar(territorio, distritos, pob_mun, tabla, comarca_de):
     for d in distritos:
         d["principal"] = max(d["codigos"], key=lambda c: (pob_mun.get(c, 0), c))
         comarcas = sorted({comarca_de[c] for c in d["codigos"] if c in comarca_de})
-        completos = all(c in comarca_de for c in d["codigos"])
+        cap = [c for c in d["codigos"] if c in capitales]
         if len(d["codigos"]) == 1:
             d["regla"], d["base"] = "MUNICIPIO", nom[d["principal"]]
-        elif completos and len(comarcas) == 1:
-            d["regla"], d["base"] = "COMARCA", comarcas[0]
+        elif cap:
+            d["principal"] = max(cap, key=lambda c: (pob_mun.get(c, 0), c))
+            d["regla"], d["base"] = "CAPITAL_PARTIDO", nom[d["principal"]]
         else:
-            d["regla"], d["base"] = "PRINCIPAL_Y_ENTORNO", f"{nom[d['principal']]} y entorno"
+            d["regla"], d["base"] = "MAS_POBLADO", nom[d["principal"]]
         d["comarcas"] = comarcas
     grupos = defaultdict(list)
     for d in distritos:
@@ -248,6 +261,7 @@ def nombrar(territorio, distritos, pob_mun, tabla, comarca_de):
             "poblacion_distrito": d["poblacion"],
             "comarcas": " | ".join(d["comarcas"]),
             "n_comarcas": len(d["comarcas"]),
+            "estado_capital": "COMPLETO" if cobertura else "SIN_FUENTE",
         }
     return [filas[k] for k in sorted(filas)], en_distritos
 
@@ -284,16 +298,16 @@ def partidos_partidos(distritos, partido_de, pob_mun, en_distritos):
 
 CAMPOS = ["territorio", "district_id", "nombre_distrito", "regla", "regla_numeracion", "municipio_principal_codigo",
           "municipio_principal", "n_municipios", "municipios_divididos", "poblacion_distrito", "comarcas",
-          "n_comarcas", "n_partidos", "estado_c13", "fuente_comarcas"]
+          "n_comarcas", "n_partidos", "estado_c13", "fuente_comarcas", "estado_capital"]
 
 
-def procesar_territorio(territorio, ruta_m06, pob_mun, nombre_ine, tabla, comarca_de, cubiertas, salida, partido_de=None):
+def procesar_territorio(territorio, ruta_m06, pob_mun, nombre_ine, tabla, comarca_de, cubiertas, salida, partido_de=None, capitales=frozenset(), provincias_capital=frozenset()):
     distritos = leer_m06(ruta_m06, nombre_ine)
     prov = distritos[0]["provincia"]
     partido_de = partido_de or {}
     evaluable = prov in cubiertas
     cd = comarca_de if evaluable else {}
-    filas, en_dist = nombrar(territorio, distritos, pob_mun, tabla, cd)
+    filas, en_dist = nombrar(territorio, distritos, pob_mun, tabla, cd, capitales, prov in provincias_capital)
     con_partidos = any(c in partido_de for d in distritos for c in d["codigos"])
     for f, d in zip(filas, sorted(distritos, key=lambda d: d["district_id"])):
         f["estado_c13"] = "EVALUADO" if (evaluable or con_partidos) else "NOT_EVALUABLE"
@@ -400,22 +414,25 @@ def main(argv=None):
     tabla = cargar_toponimos(RAIZ / TOPONIMOS)
     comarca_de, cubiertas = cargar_comarcas(FUENTES_COMARCAS)
     partido_de = cargar_partidos()
+    capitales, provincias_capital = cargar_capitales()
     salida = RAIZ / a.salida
     resumen, todos_pend = {}, {}
     for z in sorted(z for z in Path(a.m06_dir).glob("*.zip") if territorio_ids.es_nacional(z.stem)):
-        t = z.stem
-        filas, metrica, pend, _, m_part = procesar_territorio(t, z, pob, nombre_ine, tabla, comarca_de, cubiertas, salida, partido_de)
+        t = territorio_ids.id_legacy(z.stem)  # los ficheros de datos derivados conservan el id viejo (D-61)
+        filas, metrica, pend, _, m_part = procesar_territorio(t, z, pob, nombre_ine, tabla, comarca_de, cubiertas, salida, partido_de,
+                                                              capitales, provincias_capital)
         resumen[t] = {"distritos": len(filas), "sha256_m06": sha256(z),
                       "comarcas_partidas": None if metrica is None else metrica["comarcas_partidas"],
                       "partidos_partidos": None if m_part is None else m_part["comarcas_partidas"]}
         if pend:
             todos_pend[t] = pend
     manifiesto = {
-        "schema": "ddd.nombres-comunidades/1.1", "version": VERSION,
+        "schema": "ddd.nombres-comunidades/1.2", "version": VERSION,
         "entradas": {"poblacion": {"path": POBLACION, "sha256": sha256(RAIZ / POBLACION)},
                      "toponimos": {"path": TOPONIMOS, "sha256": sha256(RAIZ / TOPONIMOS)},
                      "comarcas": [{"path": p, "sha256": sha256(RAIZ / p)} for p, _ in FUENTES_COMARCAS],
-                     "partidos_judiciales": {"path": PARTIDOS, "sha256": sha256(RAIZ / PARTIDOS)}},
+                     "partidos_judiciales": {"path": PARTIDOS, "sha256": sha256(RAIZ / PARTIDOS)},
+                     "capitales_partidos": {"path": CAPITALES, "sha256": sha256(RAIZ / CAPITALES)}},
         "territorios": resumen,
     }
     (salida / "MANIFEST.json").write_text(json.dumps(manifiesto, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
