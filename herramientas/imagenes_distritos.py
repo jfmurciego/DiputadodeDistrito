@@ -3,14 +3,14 @@
 """Imagen de cada distrito del Congreso: P18 de Wikidata del municipio que da nombre al distrito, con licencia comprobada en Commons.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0
+VERSIÓN: 1.1.1
 NOMBRE DE VERSIÓN: Imágenes de distritos (T-462, diseño T-458 §3.1; T-508 reanudable)
 FECHA: 2026-11-26
 ESTADO: candidato
-CAMBIOS: 1.1.0: T-508 (run 45894568650 cancelado a los 45 min sin una línea de log, 7 imágenes): línea `IMAGENES_PROGRESO n/total` con tiempo cada N municipios; plazo total por petición (`PLAZO_PETICION`, también con cuerpo que gotea), 3 intentos, espera máxima 20 s; reanudable (ficha `img/<INE>.json` junto al WebP, el siguiente run la reutiliza si el sha256 coincide); `--presupuesto-min` (por defecto 20): al agotarlo escribe catálogo parcial y sale con 4. 1.0.1: el id de territorio del catálogo y de la hoja sale del resolutor (`ddd_core.territorio_ids`), no del prefijo (test_t220). 1.0.0: fichero nuevo.
+CAMBIOS: 1.1.1: T-508 (revisión de #1036): la reanudación solo reutiliza fichas con la misma versión de la herramienta, territorio y huella de configuración (anchura, calidad, licencias, hosts), y dice en el log cuántas descarta y por qué; `elegir-previo` escoge el artefacto previo (nombre `imagenes-distritos-*`, rama main, no caducado, con digest) sobre todas las páginas del listado; `subir` se niega si el catálogo no tiene `completo=true`. 1.1.0: T-508 (run 45894568650 cancelado a los 45 min sin una línea de log, 7 imágenes): línea `IMAGENES_PROGRESO n/total` con tiempo cada N municipios; plazo total por petición (`PLAZO_PETICION`, también con cuerpo que gotea), 3 intentos, espera máxima 20 s; reanudable (ficha `img/<INE>.json` junto al WebP, el siguiente run la reutiliza si el sha256 coincide); `--presupuesto-min` (por defecto 20): al agotarlo escribe catálogo parcial y sale con 4. 1.0.1: el id de territorio del catálogo y de la hoja sale del resolutor (`ddd_core.territorio_ids`), no del prefijo (test_t220). 1.0.0: fichero nuevo.
 MOTIVO: la ventana emergente del mapa V4 lleva una imagen por distrito (T-458 §3.1, aprobado 25-11). 407 distritos, 295 municipios.
   Wikidata y Commons no se alcanzan desde la nube: la descarga la hace un runner (P10, tipo «Imágenes de distritos»).
-ANTERIOR: legacy/herramientas/imagenes_distritos_v1.0.1_20261126.py
+ANTERIOR: legacy/herramientas/imagenes_distritos_v1.1.0_20261126.py
 QUÉ HACE:
   `municipios`: lista (sin red) los municipios de `datos/distritos/nombres_congreso_*.csv` (`municipio_principal_codigo`) y los distritos de cada uno.
   `descargar --salida DIR` (solo lectura, sin secretos): por código INE busca el elemento de Wikidata (P772) y su imagen P18 (rango no
@@ -55,6 +55,8 @@ PREFIJO_R2 = "interno/imagenes-distritos"
 ANCHO = 800
 CALIDAD_WEBP = 80
 TOPE_BYTES_DESCARGA = 30_000_000
+VERSION = "1.1.1"
+TERRITORIO = "congreso"
 PLAZO_PETICION = 45.0  # s de reloj por intento, incluido leer el cuerpo (el timeout de socket no corta un cuerpo que gotea)
 INTENTOS = 3
 ESPERA_MAX = 20.0
@@ -68,6 +70,12 @@ HOSTS = {
 USER_AGENT = "imagenes-distritos/1.0 (cliente de solo lectura)"
 LICENCIAS = ("CC0 / dominio público", "CC BY", "CC BY-SA")  # orden de preferencia (0 = sin atribución)
 MIMES = {"image/jpeg", "image/png", "image/webp", "image/tiff", "image/svg+xml", "image/gif"}
+
+
+def huella_config() -> str:
+    """Huella de todo lo que decide qué imagen se guarda: una ficha de otra versión, fuente o criterio no se reutiliza."""
+    return hashlib.sha256(json.dumps({"version": VERSION, "territorio": TERRITORIO, "ancho": ANCHO, "calidad": CALIDAD_WEBP,
+                                      "licencias": LICENCIAS, "hosts": sorted(HOSTS), "mimes": sorted(MIMES)}, sort_keys=True).encode()).hexdigest()
 
 
 class ErrorImagenes(RuntimeError):
@@ -292,16 +300,20 @@ def sha256(b: bytes) -> str:
 
 
 # ── Descarga ────────────────────────────────────────────────────────────────────────────────────
-def _previa(salida: Path, c: str) -> dict | None:
-    """Ficha de un municipio ya bajado (WebP + `img/<INE>.json` con el mismo sha256), para reanudar."""
+def _previa(salida: Path, c: str) -> tuple[dict | None, str]:
+    """(ficha, "") de un municipio ya bajado, o (None, motivo): WebP + `img/<INE>.json` con el mismo sha256, misma huella de configuración y territorio."""
     w, j = salida / "img" / f"{c}.webp", salida / "img" / f"{c}.json"
+    if not j.is_file():
+        return None, "sin ficha"
     try:
         reg = json.loads(j.read_text(encoding="utf-8"))
-        if w.is_file() and sha256(w.read_bytes()) == reg["sha256"] and reg["municipio_codigo"] == c:
-            return reg
-    except (OSError, ValueError, KeyError):
-        pass
-    return None
+        if reg.get("huella") != huella_config() or reg.get("territorio_catalogo") != TERRITORIO:
+            return None, "otra versión, territorio o configuración"
+        if reg["municipio_codigo"] != c or not w.is_file() or sha256(w.read_bytes()) != reg["sha256"]:
+            return None, "el WebP no coincide con su ficha"
+        return reg, ""
+    except (OSError, ValueError, KeyError, AttributeError):
+        return None, "ficha ilegible"
 
 
 def descargar(salida: Path, abrir=_abrir, directorio: Path = DIR_NOMBRES, limite: int | None = None, pausa: float = 0.3,
@@ -311,8 +323,16 @@ def descargar(salida: Path, abrir=_abrir, directorio: Path = DIR_NOMBRES, limite
     codigos = sorted(municipios)[:limite]
     total = len(codigos)
     (salida / "img").mkdir(parents=True, exist_ok=True)
-    previas = {c: r for c in codigos if (r := _previa(salida, c))}
+    previas, descartadas = {}, {}
+    for c in codigos:
+        r, motivo = _previa(salida, c)
+        if r:
+            previas[c] = r
+        elif motivo != "sin ficha":
+            descartadas[motivo] = descartadas.get(motivo, 0) + 1
     print(f"IMAGENES_INICIO {total} municipios, {len(previas)} ya bajados (se saltan)", flush=True)
+    for motivo, n in sorted(descartadas.items()):
+        print(f"IMAGENES_REANUDAR_DESCARTA {n} fichas previas: {motivo}; se bajan de nuevo", flush=True)
     pendientes_red = [c for c in codigos if c not in previas]
     wd = wikidata(pendientes_red, abrir) if pendientes_red else {}
     pedidos = sorted({wd[c]["fichero"] for c in pendientes_red if c in wd and wd[c]["fichero"]})
@@ -346,7 +366,8 @@ def descargar(salida: Path, abrir=_abrir, directorio: Path = DIR_NOMBRES, limite
                         sin.append(base | {"qid": w["qid"], "titulo_commons": w["fichero"], "motivo": f"ERROR_DESCARGA: {e}"[:200]})
                     else:
                         reg = base | {"qid": w["qid"], "archivo": f"img/{c}.webp", "ancho": ancho, "alto": alto, "bytes": len(webp),
-                                      "sha256": sha256(webp), **f, "cambios": cambios}
+                                      "sha256": sha256(webp), **f, "cambios": cambios,
+                                      "territorio_catalogo": TERRITORIO, "herramienta": VERSION, "huella": huella_config()}
                         (salida / "img" / f"{c}.webp").write_bytes(webp)
                         (salida / "img" / f"{c}.json").write_text(json.dumps(reg, ensure_ascii=False, sort_keys=True), encoding="utf-8")
                         imagenes.append(reg)
@@ -357,7 +378,7 @@ def descargar(salida: Path, abrir=_abrir, directorio: Path = DIR_NOMBRES, limite
         print(f"IMAGENES_PRESUPUESTO agotado a los {reloj() - t0:.0f}s: faltan {len(pendiente)} de {total}; relanzar continúa", flush=True)
     hechos_c = set(codigos) - set(pendiente)
     cat = {
-        "version": "1.1.0", "estado": "candidato", "tarea": "T-462", "anterior": "1.0.0",
+        "version": VERSION, "estado": "candidato", "tarea": "T-462", "anterior": "1.1.0",
         "generado": _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "nota": "Imagen principal (P18 de Wikidata) del municipio que da nombre al distrito; WebP de 800 px de ancho. Solo CC0 / dominio público, CC BY y CC BY-SA.",
         "licencias_permitidas": list(LICENCIAS),
@@ -371,6 +392,23 @@ def descargar(salida: Path, abrir=_abrir, directorio: Path = DIR_NOMBRES, limite
     (salida / "catalogo.json").write_text(json.dumps(cat, ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
     hoja(salida)
     return cat
+
+
+def elegir_previo(lineas, rama: str = "main") -> dict | None:
+    """Artefacto previo a reanudar de un listado de la API (un objeto JSON por línea, todas las páginas): nombre `imagenes-distritos-<run>`,
+    de la rama indicada, no caducado y con digest sha256; el más reciente. None si no hay ninguno."""
+    mejor = None
+    for l in lineas:
+        l = l.strip()
+        if not l:
+            continue
+        a = json.loads(l)
+        wr = a.get("workflow_run") or {}
+        if (re.fullmatch(r"imagenes-distritos-\d+", a.get("name") or "") and not a.get("expired") and wr.get("head_branch") == rama
+                and re.fullmatch(r"sha256:[0-9a-f]{64}", a.get("digest") or "")):
+            if mejor is None or a["created_at"] > mejor["created_at"]:
+                mejor = a
+    return mejor
 
 
 # ── Hoja de contactos ───────────────────────────────────────────────────────────────────────────
@@ -453,6 +491,8 @@ def poner(fichero: Path, clave: str, huella: str, run: int, aws=_aws) -> str:
 def subir(salida: Path, aws=_aws, run: int | None = None) -> dict:
     run = int(run if run is not None else os.environ.get("GITHUB_RUN_ID") or 0)
     cat = json.loads((salida / "catalogo.json").read_text(encoding="utf-8"))
+    if cat.get("completo") is not True:
+        raise ErrorImagenes("IMG_INCOMPLETO", f"el catálogo no está completo ({len(cat.get('pendientes') or [])} municipios pendientes o sin marca); no se sube")
     piezas = []
     for i in cat["imagenes"]:
         f = salida / i["archivo"]
@@ -478,6 +518,7 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("municipios")
+    sub.add_parser("elegir-previo")
     for c in ("descargar", "hoja", "subir"):
         p = sub.add_parser(c)
         p.add_argument("--salida", required=True, type=Path)
@@ -485,7 +526,11 @@ def main(argv=None) -> int:
             p.add_argument("--presupuesto-min", type=float, default=20.0, help="minutos antes de parar limpiamente (0 = sin tope)")
     a = ap.parse_args(argv)
     try:
-        if a.cmd == "municipios":
+        if a.cmd == "elegir-previo":  # stdin: un artefacto JSON por línea; stdout: «id digest» o nada
+            m = elegir_previo(sys.stdin)
+            if m:
+                print(m["id"], m["digest"])
+        elif a.cmd == "municipios":
             d, m = leer_distritos()
             print(f"{len(d)} distritos, {len(m)} municipios")
         elif a.cmd == "descargar":

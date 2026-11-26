@@ -2,9 +2,9 @@
 """T-462: imagen de cada distrito (P18 de Wikidata del municipio, licencia comprobada en Commons, WebP 800 px, R2).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-26 · ESTADO: candidato
-ANTERIOR: legacy/tests/test_t462_imagenes_distritos_v1.0.0_20261126.py
-CAMBIOS: 1.1.0: T-508: progreso, reanudación, presupuesto, plazo por petición y paso de reanudar del workflow. 1.0.0: fichero nuevo.
+VERSIÓN: 1.2.0 · FECHA: 2026-11-26 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_t462_imagenes_distritos_v1.1.0_20261126.py
+CAMBIOS: 1.2.0: T-508 (revisión de #1036): rechazo de fichas de otra versión, territorio o configuración, elección del artefacto previo con más de 100 artefactos (nombre, rama, caducidad, digest), `subir` se niega con catálogo incompleto y el paso de reanudar verifica el digest. 1.1.0: T-508: progreso, reanudación, presupuesto, plazo por petición y paso de reanudar del workflow. 1.0.0: fichero nuevo.
 MOTIVO: sin red; la red se simula con respuestas sintéticas con la forma de las de Wikidata y Commons. Cifras de los distritos: T-458 §3.1.
 """
 from __future__ import annotations
@@ -335,6 +335,91 @@ class Reanudable(unittest.TestCase):  # T-508
         self.assertLessEqual(im.ESPERA_MAX, 30)
 
 
+@SIN_PIL
+class ReanudarValida(unittest.TestCase):  # T-508, revisión de #1036
+    def setUp(self):
+        self.t = tempfile.TemporaryDirectory()
+        self.d, self.s = Path(self.t.name) / "datos", Path(self.t.name) / "salida"
+        self.d.mkdir()
+        _csv(self.d)
+        im.descargar(self.s, abrir=_red_falsa(), directorio=self.d, pausa=0)
+
+    def tearDown(self):
+        self.t.cleanup()
+
+    def _reanudar(self):
+        import contextlib
+
+        b = io.StringIO()
+        with contextlib.redirect_stdout(b):
+            c = im.descargar(self.s, abrir=_red_falsa(), directorio=self.d, pausa=0)
+        return c, b.getvalue()
+
+    def _tocar(self, clave, valor):
+        j = self.s / "img" / "22125.json"
+        r = json.loads(j.read_text(encoding="utf-8"))
+        r[clave] = valor
+        j.write_text(json.dumps(r), encoding="utf-8")
+
+    def test_ficha_valida_se_reutiliza(self):
+        c, _ = self._reanudar()
+        self.assertEqual(c["totales"]["reanudados"], 2)
+
+    def test_ficha_de_otra_version_o_configuracion_se_descarta_y_se_dice(self):
+        self._tocar("huella", "0" * 64)
+        c, log = self._reanudar()
+        self.assertEqual(c["totales"]["reanudados"], 1)
+        self.assertIn("IMAGENES_REANUDAR_DESCARTA 1 fichas previas: otra versión, territorio o configuración", log)
+        self.assertEqual(c["totales"]["con_imagen"], 2)  # se bajó de nuevo
+
+    def test_ficha_de_otro_territorio_se_descarta(self):
+        self._tocar("territorio_catalogo", "aut08")
+        c, _ = self._reanudar()
+        self.assertEqual(c["totales"]["reanudados"], 1)
+
+    def test_huella_cambia_con_el_criterio(self):
+        h = im.huella_config()
+        with mock.patch.object(im, "ANCHO", 400):
+            self.assertNotEqual(im.huella_config(), h)
+        with mock.patch.object(im, "VERSION", "9.9.9"):
+            self.assertNotEqual(im.huella_config(), h)
+
+    def test_subir_se_niega_con_catalogo_incompleto(self):
+        c = json.loads((self.s / "catalogo.json").read_text(encoding="utf-8"))
+        for marca in (False, None):
+            c["completo"] = marca
+            if marca is None:
+                del c["completo"]
+            (self.s / "catalogo.json").write_text(json.dumps(c), encoding="utf-8")
+            with self.assertRaises(im.ErrorImagenes) as e:
+                im.subir(self.s, aws=mock.Mock(), run=1)
+            self.assertEqual(e.exception.codigo, "IMG_INCOMPLETO")
+
+
+class ElegirPrevio(unittest.TestCase):  # T-508
+    @staticmethod
+    def _a(i, nombre=None, rama="main", exp=False, digest=True, dia=1):
+        return json.dumps({"id": i, "name": nombre or f"imagenes-distritos-{i}", "expired": exp, "created_at": f"2026-11-{dia:02d}T00:00:00Z",
+                           "digest": ("sha256:" + "a" * 64) if digest else None, "workflow_run": {"head_branch": rama}})
+
+    def test_mas_de_100_artefactos_aparece_el_de_imagenes(self):
+        lineas = [self._a(1000 + i, nombre=f"otra-cosa-{i}", dia=20) for i in range(150)] + [self._a(7, dia=3)]
+        self.assertEqual(im.elegir_previo(lineas)["id"], 7)  # estaba tras 150 artefactos de otros
+
+    def test_gana_el_mas_reciente(self):
+        self.assertEqual(im.elegir_previo([self._a(1, dia=2), self._a(2, dia=9), self._a(3, dia=5)])["id"], 2)
+
+    def test_rechaza_otra_rama_caducado_sin_digest_y_nombre_ajeno(self):
+        malos = [self._a(1, rama="t508"), self._a(2, exp=True), self._a(3, digest=False), self._a(4, nombre="imagenes-distritos-x"),
+                 self._a(5, nombre="imagenes-distritos-1-extra")]
+        self.assertIsNone(im.elegir_previo(malos))
+
+    def test_cli_elegir_previo(self):
+        r = subprocess.run([sys.executable, str(ROOT / "herramientas" / "imagenes_distritos.py"), "elegir-previo"],
+                           input="\n".join([self._a(5, dia=4), self._a(6, rama="x", dia=9)]), capture_output=True, text=True)
+        self.assertEqual((r.returncode, r.stdout.strip()), (0, "5 sha256:" + "a" * 64))
+
+
 class Workflow(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -369,6 +454,11 @@ class Workflow(unittest.TestCase):
         rec = self.j["steps"][nombres.index("Recuperar lo ya bajado (reanudar)")]
         self.assertLess(nombres.index("Recuperar lo ya bajado (reanudar)"), nombres.index("Bajar y preparar (sin secretos)"))
         self.assertNotIn("secrets.", json.dumps(rec))
+        self.assertIn("--paginate", rec["run"])
+        self.assertIn("elegir-previo", rec["run"])
+        self.assertIn("sha256sum", rec["run"])  # digest del zip verificado antes de extraer
+        self.assertIn("'img/*'", rec["run"])  # solo img/: catálogo y hoja no vienen del artefacto previo
+        self.assertIn("se empieza de cero", rec["run"])
         self.assertEqual(self.j["permissions"], {"contents": "read", "actions": "read"})
         bajar = next(s for s in self.j["steps"] if s.get("name") == "Bajar y preparar (sin secretos)")
         self.assertIn("python -u", bajar["run"])

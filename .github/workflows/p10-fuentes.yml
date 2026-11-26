@@ -1,6 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de preparación de fuentes
-# VERSIÓN: 1.0.7
+# VERSIÓN: 1.0.8
+# CAMBIOS 1.0.8: T-508 (revisión de #1036): el paso de reanudar lista todas las páginas de artefactos y elige con la herramienta (`elegir-previo`: nombre, rama main, no caducado, digest), verifica el sha256 del zip, extrae solo `img/` y deja que la herramienta descarte las fichas de otra versión, territorio o configuración; si algo falla, empieza de cero y lo dice en el log. Resto idéntico a la 1.0.7.
+# ANTERIOR (1.0.7): legacy/workflows/p10-fuentes_v1.0.7_20261126.yml
 # CAMBIOS 1.0.7: T-508 (run 45894568650, cancelado a los 45 min sin log): `p14_imagenes` pasa a `timeout-minutes: 30`, con `actions: read`; un paso «Recuperar lo ya bajado (reanudar)» restaura el artefacto
 #   `imagenes-distritos-*` más reciente (REST, sin acciones nuevas) y la herramienta salta lo ya bajado; la descarga lleva `python -u` y `--presupuesto-min 20` (parcial: sale con 4, el artefacto se conserva y no sube a R2). Resto idéntico a la 1.0.6.
 # ANTERIOR (1.0.6): legacy/workflows/p10-fuentes_v1.0.6_20261126.yml
@@ -1319,15 +1321,23 @@ jobs:
         run: |
           set -euo pipefail
           salida="$RUNNER_TEMP/imagenes"
-          mkdir -p "$salida"
-          id=$(gh api "repos/${{ github.repository }}/actions/artifacts?per_page=100" \
-            --jq '[.artifacts[] | select((.name|startswith("imagenes-distritos-")) and (.expired|not))] | sort_by(.created_at) | last | .id // empty')
-          if [ -n "$id" ]; then
-            gh api "repos/${{ github.repository }}/actions/artifacts/$id/zip" > "$RUNNER_TEMP/previo.zip"
-            unzip -q -o "$RUNNER_TEMP/previo.zip" -d "$salida"
-            echo "IMAGENES_REANUDAR artefacto $id: $(ls "$salida/img" 2>/dev/null | grep -c '\.json$' || true) municipios previos"
+          mkdir -p "$salida/img"
+          # Todas las páginas del listado; el artefacto se elige por nombre, rama main, no caducado y con digest.
+          gh api --paginate "repos/${{ github.repository }}/actions/artifacts?per_page=100" --jq '.artifacts[]' > "$RUNNER_TEMP/artefactos.jsonl"
+          elegido=$(python herramientas/imagenes_distritos.py elegir-previo < "$RUNNER_TEMP/artefactos.jsonl")
+          if [ -z "$elegido" ]; then
+            echo "IMAGENES_REANUDAR sin artefacto previo válido: se empieza de cero"
           else
-            echo "IMAGENES_REANUDAR sin artefacto previo"
+            id=${elegido%% *}; digest=${elegido##* }
+            gh api "repos/${{ github.repository }}/actions/artifacts/$id/zip" > "$RUNNER_TEMP/previo.zip"
+            real="sha256:$(sha256sum "$RUNNER_TEMP/previo.zip" | cut -d' ' -f1)"
+            if [ "$real" != "$digest" ]; then
+              echo "IMAGENES_REANUDAR digest del artefacto $id no coincide ($real != $digest): se empieza de cero"
+            else
+              # Solo img/: el catálogo y la hoja se regeneran; la herramienta descarta las fichas de otra versión, territorio o configuración.
+              unzip -q -o "$RUNNER_TEMP/previo.zip" 'img/*' -d "$salida" || true
+              echo "IMAGENES_REANUDAR artefacto $id (digest verificado): $(ls "$salida/img" | grep -c '\.json$' || true) fichas previas"
+            fi
           fi
       - name: Bajar y preparar (sin secretos)
         run: |
