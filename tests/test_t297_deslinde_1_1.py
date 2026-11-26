@@ -91,8 +91,8 @@ class Exacto(unittest.TestCase):
         nat = _Natural({}, {}, {})
         p = rejilla()
         from unittest import mock
-        # T-503: ya no hay tope de K sino de tamaño (átomos × K); la rejilla tiene 6 átomos × K=2 = 12
-        for cfg, funcion, motivo, tope in ((contrato(), "A", "función A", 2000), (contrato(), "D8", "tamaño 12", 11)):
+        # T-503: con K > 4 aplica si cabe (átomos × K ≤ TAMANO_MAX); si no, el motivo literal de la 1.0.0 (6 × 5 = 30)
+        for cfg, funcion, motivo, tope in ((contrato(), "A", "función A", 2000), (contrato(5), "D8", "K=5", 29)):
             with mock.patch("deslinde.exacto.TAMANO_MAX", tope):
                 plan, info = resolver(p, Reglas.desde_contrato(cfg, Criterio()), nat, None, funcion=funcion)
             self.assertIsNone(plan)

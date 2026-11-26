@@ -4,9 +4,10 @@ VERSIÓN: 1.2.0
 NOMBRE DE VERSIÓN: Definición formal de Deslinde 1.2 · exacto por tamaño
 FECHA: 2026-11-26
 ESTADO: candidato (documento; describe el código de main ee8e776 más T-265 y T-257)
-CAMBIOS: 1.2.0 (T-503, Deslinde 1.2) — el exacto (§5, `exacto.py` 1.1.0) se aplica por tamaño, átomos × K ≤ 2.000, y no
-  por K ≤ 4; en `huella_resultado` las etapas que no cierran (no OPTIMAL) entran sin su cota (competicion.py 1.6.0).
-  Cambia el ganador de Sevilla (8 → 6 demarcaciones partidas, T-502) y la huella de los territorios con K ≥ 5.
+CAMBIOS: 1.2.0 (T-503, Deslinde 1.2) — el exacto (§5, `exacto.py` 1.1.0) se aplica con 2 ≤ K ≤ 4, como antes, o si
+  átomos × K ≤ 2.000 (con TAMANO_MAX = 0, la 1.1); en `huella_resultado` las etapas que no cierran (no OPTIMAL) entran sin su cota (competicion.py 1.6.0).
+  Cambia el ganador de Sevilla (8 → 6 demarcaciones partidas, T-502) y la huella de los territorios donde el exacto
+  pasa a aplicar (K ≥ 5, una circunscripción, sin exenciones y que quepan); en los demás, nada.
   1.1.0 (T-297, Deslinde 1.1) — (H2) el término 6 de D8 (frontera cortada) usa por fin la longitud real: M02 7.4.0
   escribe `shared_border_m` en cada arista geométrica y M03 7.6.0 la conserva (antes valía 0 en todos los planes: T-296).
   También el recargo de frontera corta del ponderado deja de ser uniforme. (H1) candidato nuevo «exacto» (§5):
@@ -25,7 +26,7 @@ MOTIVO: D-84 (nombre y composición de Deslinde 1.0) y D-86 (2): definición for
 ANTERIOR: legacy/docs/ARQUITECTURA/DESLINDE_1_0_v1.1.0_20261114.md
 -->
 
-# Deslinde 1.1 — delimitación reproducible de distritos uninominales
+# Deslinde 1.2 — delimitación reproducible de distritos uninominales
 
 **Qué es (D-84, `docs/PLAN.md:121`).** Deslinde 1.0 = trazado canónico + 10 cadenas ReCom + elección D8 + mapa vigente
 como candidato. En el código, las «10 cadenas ReCom» son 10 cadenas ReCom **ponderado** de GerryChain (§5). Hoy está implementado como «motor 2» en `ddd_motor2/` (motor nuevo de D-48); el código **no se
@@ -173,7 +174,7 @@ pines de `requirements-ensemble.lock` (`bateria-motor.yml:101-205`; T-181).
 | 0 | **canónico** | P30: el M06 del propio run (`CanonicoDelRun`); batería: M04 + M05 canónico 7.4.4 + M06 (`generadores.Canonico`) |
 | 1 | **vigente** | `datos/composicion/<t>.csv` sobre las filas del canónico (con piezas finas). Solo compite si es representable, tiene **exactamente** las secciones de la entrada (si no, `VIGENTE_OTRO_SECCIONADO`, 1.2.1) y es válido. Si incumple el núcleo, **vigente reparado** (D-66): `reparar` solo sabe arreglar R-NUCLEO y R-MUN-MIXTOS (con otra infracción no se repara y no compite): reparación mínima y determinista, máx. 20 pasos, sin crear infracciones nuevas, y se juzga de nuevo (`generadores.py:194-269, 329-347`). No compite con la función A |
 | 2..N+1 | **ponderado** ×N (N=10, D-67) | Cadena ReCom ponderado de GerryChain (`naturalidad_competicion.cadena`, l. 300-350): 300 pasos, `epsilon = t`, árbol de expansión ponderado con recargos 0,5 (partido judicial) / 0,3 (comarca agraria) / 0,2 (área de movilidad) / 0,3 (frontera corta) (`generadores.py:356-357`), el núcleo como restricción en cada paso y `rng = semilla_i`; devuelve el mejor estado por D8. Si el vigente compite, la mitad final de las semillas parte de él y el resto del canónico (`competicion.py:329-331`) |
-| último | **exacto** (1.1; solo D8, si aplica y aporta plan) | `exacto.resolver` 1.1.0, modelo 1.0.0 (OR-Tools CP-SAT 9.14.6206): modelo entero de las reglas del núcleo (asignación, suelo/techo, R-NUCLEO, contigüidad por árbol, R012 con máx. de mixtos) sobre las unidades del canónico, con los términos 3-7 de la clave D8 resueltos por etapas lexicográficas (cada óptimo se fija). Aplica con K ≥ 2 y átomos × K ≤ 2.000 (T-503; antes 2 ≤ K ≤ 4), una circunscripción y sin exenciones de suelo ni techo. Determinista: 4 hilos fijos con `interleave_search`, `random_seed=0` y tope de 60 unidades de tiempo determinista por etapa. Pista: el mejor candidato ya juzgado. Si una etapa no prueba el óptimo, aporta su mejor plan válido; si no hay ninguno, no compite. La decisión (`estado`, etapas con valor y cota) va a COMPETICION.json («exacto») y a `huella_resultado`, salvo la cota de las etapas que no cierran (no es reproducible en CP-SAT) |
+| último | **exacto** (1.1; solo D8, si aplica y aporta plan) | `exacto.resolver` 1.1.0, modelo 1.0.0 (OR-Tools CP-SAT 9.14.6206): modelo entero de las reglas del núcleo (asignación, suelo/techo, R-NUCLEO, contigüidad por árbol, R012 con máx. de mixtos) sobre las unidades del canónico, con los términos 3-7 de la clave D8 resueltos por etapas lexicográficas (cada óptimo se fija). Aplica con 2 ≤ K ≤ 4 o, desde T-503, con K ≥ 5 si átomos × K ≤ 2.000; además, una circunscripción y sin exenciones de suelo ni techo. Determinista: 4 hilos fijos con `interleave_search`, `random_seed=0` y tope de 60 unidades de tiempo determinista por etapa. Pista: el mejor candidato ya juzgado. Si una etapa no prueba el óptimo, aporta su mejor plan válido; si no hay ninguno, no compite. La decisión (`estado`, etapas con valor y cota) va a COMPETICION.json («exacto») y a `huella_resultado`, salvo la cota de las etapas que no cierran (no es reproducible en CP-SAT) |
 | penúltimo | **exhaustivo** (si aplica) | Enumeración exacta de todos los planes válidos sobre las unidades del canónico si termina dentro de `presupuesto_nodos=200 000` (`Criterio.metodo="presupuesto"`, `modelo.py:177-178`; `exhaustivo.py:41-70`) |
 
 Diferencia con el ReCom de producción (`ddd_core/m05_gerrychain_strategy.py`, generador `GerryChain`, que solo compite

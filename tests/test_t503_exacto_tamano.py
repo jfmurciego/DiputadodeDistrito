@@ -50,7 +50,20 @@ class AplicaPorTamano(unittest.TestCase):
             plan, info = resolver(p, Reglas.desde_contrato(contrato(6), Criterio()), _Natural({}, {}, {}), None)
         self.assertIsNone(plan)
         self.assertEqual(info["estado"], "NO_APLICA")
-        self.assertEqual(info["motivo"], "tamaño 72 (átomos × K) > 71")
+        self.assertEqual(info["motivo"], "K=6 fuera de 2..4")  # literal de la 1.0.0: la huella no cambia
+
+    def test_k_hasta_4_aplica_siempre_y_tope_0_es_la_1_0_0(self):
+        from unittest import mock
+        from deslinde.exacto import resolver
+        p = linea(12)
+        nat = _Natural({u.id: None for u in p.unidades}, {u.id: None for u in p.unidades}, {})
+        with mock.patch("deslinde.exacto.TAMANO_MAX", 0):
+            _, i4 = resolver(p, Reglas.desde_contrato(contrato(4), Criterio()), nat, None)
+            _, i6 = resolver(p, Reglas.desde_contrato(contrato(6), Criterio()), nat, None)
+            _, i1 = resolver(p, Reglas.desde_contrato(contrato(1), Criterio()), nat, None)
+        self.assertEqual(i4["estado"], "OPTIMO")  # 12 × 4 = 48 > 0: con K ≤ 4 aplica aunque no quepa
+        self.assertEqual((i6["estado"], i6["motivo"]), ("NO_APLICA", "K=6 fuera de 2..4"))
+        self.assertEqual((i1["estado"], i1["motivo"]), ("NO_APLICA", "K=1 fuera de 2..4"))
 
 
 class HuellaSinCotasAbiertas(unittest.TestCase):

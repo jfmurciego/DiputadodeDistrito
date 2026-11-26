@@ -80,8 +80,9 @@ territorios con K ≤ 4 del piloto no pasa nada, porque todas las etapas cierran
 ## Test de regresión
 
 `tests/test_t502_sevilla_exacto.py` hace la competición real de Sevilla y exige que el ganador parta 6 demarcaciones
-(el literal del óptimo demostrado en #1025). Está **desactivado**: se salta salvo con `DDD_T502_ACTIVO=1`, y además
-necesita las entradas de la batería (`DDD_BATERIA_OUT`), que no están en git. En la CI no corre.
+(el literal del óptimo demostrado en #1025). Desde T-503 (#1035) está **activado** (sin `DDD_T502_ACTIVO`), pero
+necesita las entradas de la batería (`DDD_BATERIA_OUT`), que no están en git: **en la CI siempre sale saltado**. La
+protección real es la medición en local de T-507.
 
 Comprobado en local:
 - sin activar, se salta;
