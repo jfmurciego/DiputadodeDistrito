@@ -17,7 +17,10 @@ Rama `claude/dreamy-maxwell-mezgob`, **sin PR** (el propietario no la ha pedido)
   (T-464 reservada para la actualización del plan). El propietario tiene además el PDF (25 páginas).
 - `docs/registro/2026-11-24_claude-dreamy-maxwell-mezgob.md`: entrada de registro de la rama.
 
-## 3. Estado de aprobaciones: NINGUNA
+**Cierre (26-11, 20:20 UTC):** el propietario ordenó, vía Planificador, abrir la PR de esta rama (solo documentación, `no-automerge`).
+La fusiona el Coordinador con la orden del propietario y después archiva este chat. El contenido aprobado está en el plan 1.0.78 (D-213 y D-214).
+
+## 3. Estado de aprobaciones al entregar el informe (25-11): ninguna
 El propietario rechazó la primera tabla por falta de porqués y dijo que nada queda autorizado hasta leer un informe
 detallado. Se le entregó el 2.0.0 a las 13:35 UTC del 25-11. **No ha contestado ningún bloque.** T-463 a T-498 son propuesta.
 
