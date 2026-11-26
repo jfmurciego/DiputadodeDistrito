@@ -1,6 +1,6 @@
 {
-  "schema": "ddd.nombres-comunidades/1.1",
-  "version": "1.1.0",
+  "schema": "ddd.nombres-comunidades/1.2",
+  "version": "1.2.0",
   "entradas": {
     "poblacion": {
       "path": "datos/distritos/municipios_ine_2025.csv",
@@ -8,7 +8,7 @@
     },
     "toponimos": {
       "path": "datos/distritos/toponimos_es.csv",
-      "sha256": "b4716a5e11e91f9831fc86c6ceef4a47727c609c175d2ecc900b0cd464305fd5"
+      "sha256": "2a172ca86333f2f65aa2408f9f6779fec307319b2bc73eda34d9e37d62f9422b"
     },
     "comarcas": [
       {
@@ -19,320 +19,324 @@
     "partidos_judiciales": {
       "path": "configuracion/partidos_judiciales.csv",
       "sha256": "ae00cf824944b592ffa04a79e513c8120866794de25e4763c89f384e09f68a89"
+    },
+    "capitales_partidos": {
+      "path": "configuracion/capitales_partidos_judiciales.csv",
+      "sha256": "a23bf07218b3b26325031365ec5b8e42758acc55bda172ed1666d09a5b680ae8"
     }
   },
   "territorios": {
     "congreso_alava": {
       "distritos": 3,
-      "sha256_m06": "44bd4d794d2ef99f0bf924bb0b43df29956e758c59310c434190babe1a50ed41",
+      "sha256_m06": "913e0fb71e3b88b56b0557c9cc0cf2ae11e48eb5bcb8772b46483e4f0696e574",
       "comarcas_partidas": null,
       "partidos_partidos": 1
     },
     "congreso_albacete": {
       "distritos": 3,
-      "sha256_m06": "e9506b80a511cc8c4d0e56be2bc842420edd4ee38610ae301a16a2f119b15f06",
+      "sha256_m06": "9fa86529e863652bf558bbf955f5f5ad935eb4d30b90129b523d40dfd64a1de6",
       "comarcas_partidas": null,
-      "partidos_partidos": 7
+      "partidos_partidos": 1
     },
     "congreso_alicante": {
       "distritos": 17,
-      "sha256_m06": "36416fd503d223fed8be1ebbe58731df80f3288e35514cb745eb6c6a06e1d443",
-      "comarcas_partidas": null,
-      "partidos_partidos": 10
-    },
-    "congreso_almeria": {
-      "distritos": 6,
-      "sha256_m06": "869fba8930ef436c53658fedf8d86a0da1068c941feac94652ef4e5155cffcde",
-      "comarcas_partidas": null,
-      "partidos_partidos": 5
-    },
-    "congreso_asturias": {
-      "distritos": 8,
-      "sha256_m06": "26d9f1eef6f4fa0c46124d0bd90c02275f6d5fa352d7ebf35e2162987f48d5ab",
+      "sha256_m06": "fd114026d435f65a13c9a9995be19274084d7c4288117f7122237e088e7963c9",
       "comarcas_partidas": null,
       "partidos_partidos": 7
     },
+    "congreso_almeria": {
+      "distritos": 6,
+      "sha256_m06": "a61048a9d846ea868ddd595544fac7ee16b8c24dfeda493878af065710c7b5a1",
+      "comarcas_partidas": null,
+      "partidos_partidos": 2
+    },
     "congreso_avila": {
       "distritos": 1,
-      "sha256_m06": "1dbc9e4be04d22053d7d09cad006f9fbc57ca10874b499ebc5e18ecff1fdde86",
+      "sha256_m06": "1b22e8e58a9e120e52969ad2e2dc6beecc3326e69799a694fd8fa70d8fb1dc52",
       "comarcas_partidas": null,
       "partidos_partidos": 0
     },
     "congreso_badajoz": {
       "distritos": 6,
-      "sha256_m06": "a5aa31223a5ffc5c3a256160fb3d10986f09928fe0e8f696d735b76d26839c2f",
+      "sha256_m06": "56ff9ff5f116ffc543f666068956e467d0066c6b78b2582b2f4377c59e9b9fb7",
       "comarcas_partidas": null,
-      "partidos_partidos": 13
+      "partidos_partidos": 3
     },
     "congreso_baleares": {
       "distritos": 10,
-      "sha256_m06": "dd5afe1a4ac150521efa0a18abe88d0b1850ece441f8c0d06e927d0a20849d72",
+      "sha256_m06": "e60eca1dba1247e9d38f76c20bb8928158326e81c9f3ffa9b85942ec583e3684",
       "comarcas_partidas": null,
       "partidos_partidos": 4
     },
     "congreso_barcelona": {
       "distritos": 50,
-      "sha256_m06": "617d479b38ed621f54892153dc14878701a98c9143feb0862631ded8a1a9780f",
+      "sha256_m06": "853c41d9b1c425310e4bd9d46740492867ee5f5132465760f9acd48a4d56c8d7",
       "comarcas_partidas": null,
-      "partidos_partidos": 21
+      "partidos_partidos": 19
     },
     "congreso_burgos": {
       "distritos": 3,
-      "sha256_m06": "b0251dbc3a45083701ea28895ed68acf4e29a9a12514b6c13a925997b2bd1d63",
+      "sha256_m06": "a0b0e422daafec94d67c4fdb055ed8d86c23d72cb89350191dcc109345784ce8",
       "comarcas_partidas": null,
-      "partidos_partidos": 5
+      "partidos_partidos": 1
     },
     "congreso_caceres": {
       "distritos": 3,
-      "sha256_m06": "74292d05558e5f07f44cf42cca4377d68f17eb193876cdad535444f9fabd1ea4",
+      "sha256_m06": "c3cb1f280db15569c6108d8137b9c3f4f00aa55df4b7752f7199fb56f41a2a15",
       "comarcas_partidas": null,
-      "partidos_partidos": 6
+      "partidos_partidos": 2
     },
     "congreso_cadiz": {
       "distritos": 11,
-      "sha256_m06": "b394db0e089c1360ed02408c5ab5bb8aa8168ef32798982ad4f78e92cafa0587",
+      "sha256_m06": "7b76164112a1c054c9f52a9838fbbed8f48bbcb92952f08dded63e3bfc17f2c2",
       "comarcas_partidas": null,
-      "partidos_partidos": 5
-    },
-    "congreso_cantabria": {
-      "distritos": 5,
-      "sha256_m06": "5ca88b82e1e9addae247e6e078ad8c2f56b0e17220fa749aee11a2c136a9d87b",
-      "comarcas_partidas": null,
-      "partidos_partidos": 4
+      "partidos_partidos": 3
     },
     "congreso_castellon": {
       "distritos": 5,
-      "sha256_m06": "ba5921830ce016ec27a31b6ad4fb4fcc87c53761b702fb38ae926a07ac6f88f6",
+      "sha256_m06": "aaee5c3eb9509bb90edf2911ab31ea5ba412c01d335ba2552b77c8e797166265",
       "comarcas_partidas": null,
-      "partidos_partidos": 4
-    },
-    "congreso_ceuta": {
-      "distritos": 1,
-      "sha256_m06": "35a0976bb4aef886cd19778051f9d84d576e6f7e9c42d778ce0d8b9b2c5c4865",
-      "comarcas_partidas": null,
-      "partidos_partidos": 0
+      "partidos_partidos": 2
     },
     "congreso_ciudad_real": {
       "distritos": 4,
-      "sha256_m06": "0167a300e1a4df4f4c202e189bca38941b04d711fab72fc16e37294c8885f2d3",
+      "sha256_m06": "0211d2f693178110e0c6bbdc92bc0b7a00ad21c3c142bd7473373b64339daf96",
       "comarcas_partidas": null,
-      "partidos_partidos": 9
+      "partidos_partidos": 1
     },
     "congreso_cordoba": {
       "distritos": 6,
-      "sha256_m06": "10a97db73caea16a250f2e485d5d0d1bb83008a0252a99803dea6953ba7ac8c2",
+      "sha256_m06": "35717ae018f426bf8bb97878aa3e4a6ca472671da8bde84596d632f6d3246ece",
       "comarcas_partidas": null,
-      "partidos_partidos": 6
+      "partidos_partidos": 2
+    },
+    "congreso_la_coruna": {
+      "distritos": 9,
+      "sha256_m06": "4a3b450fecf77fa3aabe22fdcfbf1e74d8aa873072fcb9bd5c12157ff876c3e5",
+      "comarcas_partidas": null,
+      "partidos_partidos": 5
     },
     "congreso_cuenca": {
       "distritos": 2,
-      "sha256_m06": "4746490207d3abd662af430dfa3a104456cd065c165b4645271170a006c004e0",
+      "sha256_m06": "445b6575de0caed8697e0d6d9183f91cd7eb9631d2e11655a876848b649d2e2f",
       "comarcas_partidas": null,
-      "partidos_partidos": 4
+      "partidos_partidos": 2
     },
     "congreso_gerona": {
       "distritos": 7,
-      "sha256_m06": "cd4875419859e9ab2e079b4352e41271bcc501a9ad98b4c7f941d32d0022e2c7",
+      "sha256_m06": "6cac58b77606671f809771246dc6c098ff3ac83af96c219fde5a18230fffbdaf",
       "comarcas_partidas": null,
-      "partidos_partidos": 7
+      "partidos_partidos": 3
     },
     "congreso_granada": {
       "distritos": 8,
-      "sha256_m06": "6eeb3324efed451f190cc4f2c7aeb1325c19783364a9f965a778d165ad52c1c6",
+      "sha256_m06": "9963142ff28f900d9740bd4e24096b4cabd6be9fc8aae45d03465b4a54c290a2",
       "comarcas_partidas": null,
-      "partidos_partidos": 6
+      "partidos_partidos": 3
     },
     "congreso_guadalajara": {
       "distritos": 2,
-      "sha256_m06": "92cb51d9b623af9db3f703d87b1c488e59302c38c735a7033590fed2db871e21",
+      "sha256_m06": "ab77f58e2e226b769f9b79a1533e6a08ef22629111154b7a35843bdda2489668",
       "comarcas_partidas": null,
       "partidos_partidos": 1
     },
     "congreso_guipuzcoa": {
       "distritos": 6,
-      "sha256_m06": "f6d52eb83af59f0d3e39c6154e6825a0b1ad6615bc6c9ad19fb5c881401159c2",
+      "sha256_m06": "e9bf158cd6bb2d09b38a22c6cdb7133f17fe4de6d3710a16ff5860848057842c",
       "comarcas_partidas": null,
-      "partidos_partidos": 4
+      "partidos_partidos": 2
     },
     "congreso_huelva": {
       "distritos": 4,
-      "sha256_m06": "c74b2145c223cf9a05e0e4d259e193950d07100e89c1c793537109340742db4e",
+      "sha256_m06": "8b26f8da62bd4c11ebfac6c33f9cabd4122bbdb5dcf578e2d3e8860cbd5142c8",
       "comarcas_partidas": null,
-      "partidos_partidos": 5
+      "partidos_partidos": 2
     },
     "congreso_huesca": {
       "distritos": 2,
-      "sha256_m06": "86fd9b5590389e2f32c854f12299a8b2a6b1b6826f161f0b9528fb819c651ea1",
-      "comarcas_partidas": 4,
-      "partidos_partidos": 4
+      "sha256_m06": "784259cef639937f7ae606e32cf6c9b5daf9f2ca1b847b6ec23660b587760ff6",
+      "comarcas_partidas": 2,
+      "partidos_partidos": 1
     },
     "congreso_jaen": {
       "distritos": 5,
-      "sha256_m06": "b13230763d2b9859ad314b379cf6250c615a757c0ef01f242270aa26eaee8a23",
+      "sha256_m06": "df431f8a5b7b8b0009511a05220630ac1f054752ca344806c29641af1305445f",
       "comarcas_partidas": null,
-      "partidos_partidos": 8
-    },
-    "congreso_la_coruna": {
-      "distritos": 9,
-      "sha256_m06": "4ad7c2aebcae10814e7c88492178abeb4f9633a0d48999714990d795940767cc",
-      "comarcas_partidas": null,
-      "partidos_partidos": 12
-    },
-    "congreso_la_rioja": {
-      "distritos": 3,
-      "sha256_m06": "79869857e151caa01d5c8e5b5d4818d61c2e84c36daf49bd2186c05ddc34c07a",
-      "comarcas_partidas": null,
-      "partidos_partidos": 3
-    },
-    "congreso_las_palmas": {
-      "distritos": 10,
-      "sha256_m06": "e1085a9d926a560620e68ed7999f033bd5323396a407b85751742c9658a83d87",
-      "comarcas_partidas": null,
-      "partidos_partidos": 6
+      "partidos_partidos": 2
     },
     "congreso_leon": {
       "distritos": 4,
-      "sha256_m06": "64e44b77dcd81fee3f82ee7698112ee038c54837652c805485c720c9b4fc1025",
+      "sha256_m06": "3c69b0a94d6061077148dd0798b0499a762ec997a0f99378094fe1057d670e5d",
       "comarcas_partidas": null,
-      "partidos_partidos": 5
+      "partidos_partidos": 1
     },
     "congreso_lerida": {
       "distritos": 4,
-      "sha256_m06": "cc6ac03c68b83abe4c832a7d29f034522f690fa7480cce2752a74bc94d975af1",
+      "sha256_m06": "b359f162425669ac6c4192df0fee6ef811d5b35bdb1e03da65dbf17f0f9c1bb6",
       "comarcas_partidas": null,
-      "partidos_partidos": 6
+      "partidos_partidos": 2
+    },
+    "congreso_la_rioja": {
+      "distritos": 3,
+      "sha256_m06": "7217a5e334565fc9bf0a1704fdf3ad8bef748b1b13bb037b08463b5394841c01",
+      "comarcas_partidas": null,
+      "partidos_partidos": 1
     },
     "congreso_lugo": {
       "distritos": 3,
-      "sha256_m06": "fda0dda4b68a1a490af8f0f35489e3cb62eb2f77ddbcd7318e3c97c4a17abbd2",
+      "sha256_m06": "b2662b2d75958d3bf2d02b1bdc80f888cf23e831fa198ac80c3198c974d1eaf3",
       "comarcas_partidas": null,
-      "partidos_partidos": 7
+      "partidos_partidos": 1
     },
     "congreso_madrid": {
       "distritos": 59,
-      "sha256_m06": "c0be80d0d15d89d9929c0400a278a9abcfe31131726fd870790984ab7c06b029",
+      "sha256_m06": "9e19cadb3d359bce7ce461f248fb56761cc44b5f17e0abb3f2c461c6481699c3",
       "comarcas_partidas": null,
-      "partidos_partidos": 19
+      "partidos_partidos": 18
     },
     "congreso_malaga": {
       "distritos": 15,
-      "sha256_m06": "360b9e270552c0f38a052c7fc9dea507148128832d9d0a4f7f72aed0cdfc8a7d",
-      "comarcas_partidas": null,
-      "partidos_partidos": 9
-    },
-    "congreso_melilla": {
-      "distritos": 1,
-      "sha256_m06": "3788e954c96a750f6281f5bedd47436322858279fc3dc51d39b5c7d25ec0bb75",
-      "comarcas_partidas": null,
-      "partidos_partidos": 0
-    },
-    "congreso_murcia": {
-      "distritos": 13,
-      "sha256_m06": "8056c77be56654e0593941673245cb2cdbe2cd21a2d74d172faaeaafa825c4e4",
-      "comarcas_partidas": null,
-      "partidos_partidos": 7
-    },
-    "congreso_navarra": {
-      "distritos": 6,
-      "sha256_m06": "bdba8f82d8788453fce9274c84ccd82037c1088456979c44070aa857e84ef032",
+      "sha256_m06": "c539baf990f8e84f6446a68022984077d1b6eae99c4f32a6d54481d3d6762a23",
       "comarcas_partidas": null,
       "partidos_partidos": 5
     },
+    "congreso_murcia": {
+      "distritos": 13,
+      "sha256_m06": "72da3f5df485cf9b55f95e61576376a732eaa37891a7304332619ff42246941f",
+      "comarcas_partidas": null,
+      "partidos_partidos": 5
+    },
+    "congreso_navarra": {
+      "distritos": 6,
+      "sha256_m06": "de41049e0cd3730c992821aca6f7884834bd9e2f7912641783fc620002ae0ecd",
+      "comarcas_partidas": null,
+      "partidos_partidos": 2
+    },
     "congreso_orense": {
       "distritos": 3,
-      "sha256_m06": "ae08e0c7068202deaaf3a04c0f7f4909a87ce039bb55d69633d074afd2740edb",
+      "sha256_m06": "2c569f24895b098d3a04cbc539f144b389780178709f7f54d5b8c1e42948d1c9",
       "comarcas_partidas": null,
-      "partidos_partidos": 4
+      "partidos_partidos": 2
+    },
+    "congreso_asturias": {
+      "distritos": 8,
+      "sha256_m06": "c82571ec563c469aa9abffa81f783c6445c5b52c4248d755e990662dca2aad79",
+      "comarcas_partidas": null,
+      "partidos_partidos": 2
     },
     "congreso_palencia": {
       "distritos": 1,
-      "sha256_m06": "76e597dca654a53f5dfea12557bc8237e120e55e9d6dcf348f8d1408e904c547",
+      "sha256_m06": "d3fad72e66311ca21176489ea6c4667a047897e3a1ce368ebfa6f2b9cd221564",
       "comarcas_partidas": null,
       "partidos_partidos": 0
     },
-    "congreso_pontevedra": {
-      "distritos": 8,
-      "sha256_m06": "e9ae99095a8da16629135ee476915bca1d405541f79656d055638e166c6ac294",
-      "comarcas_partidas": null,
-      "partidos_partidos": 8
-    },
-    "congreso_salamanca": {
-      "distritos": 3,
-      "sha256_m06": "4daccc0e0011ab510156a94cd1330e02c9cc97fe6d17d8bb4b655b9325dc4da0",
-      "comarcas_partidas": null,
-      "partidos_partidos": 4
-    },
-    "congreso_santa_cruz_de_tenerife": {
-      "distritos": 9,
-      "sha256_m06": "0baddb9d493e671e3b576f6df54cd4acedad88860730d04b947b5823e9157a0b",
+    "congreso_las_palmas": {
+      "distritos": 10,
+      "sha256_m06": "51afc8c2cea1189f71efd8fa9ab3107f046ee6f148fd7d0b30602c2db667fada",
       "comarcas_partidas": null,
       "partidos_partidos": 6
     },
+    "congreso_pontevedra": {
+      "distritos": 8,
+      "sha256_m06": "73c015a067acbbe892c463637bd00767f0cf997a24e8fd2f77599dd5d3262df3",
+      "comarcas_partidas": null,
+      "partidos_partidos": 4
+    },
+    "congreso_salamanca": {
+      "distritos": 3,
+      "sha256_m06": "426484a78e929c6bce5000592a5953bbd92bf777cc1df7bfa4b727874592b1f7",
+      "comarcas_partidas": null,
+      "partidos_partidos": 1
+    },
+    "congreso_santa_cruz_de_tenerife": {
+      "distritos": 9,
+      "sha256_m06": "31418512fdf533e272ab621e374cf3274cc9b18446b7d2a1b2764b8094ea6965",
+      "comarcas_partidas": null,
+      "partidos_partidos": 4
+    },
+    "congreso_cantabria": {
+      "distritos": 5,
+      "sha256_m06": "a144a4e865eff51a8bc1f6dbb582a1b8d7c5e26c8746a1fc74a278299185684f",
+      "comarcas_partidas": null,
+      "partidos_partidos": 2
+    },
     "congreso_segovia": {
       "distritos": 1,
-      "sha256_m06": "00d8ba468186219a10ae0821821862ae55426789f7a1d7e35fa896a9e5bf5638",
+      "sha256_m06": "c7e56dff966aadc19edcce9a79b677e17d3b74d7b48a0e6acd38281ada056032",
       "comarcas_partidas": null,
       "partidos_partidos": 0
     },
     "congreso_sevilla": {
       "distritos": 16,
-      "sha256_m06": "b8804062414795e12545ff69a42dcc0d09e9a98f713d2c7f5c7e630ba1902994",
+      "sha256_m06": "639b9f3660521cc1876157244bc9ad7afe736821d1e6c8d0befefc16d0d1bdb1",
       "comarcas_partidas": null,
-      "partidos_partidos": 9
+      "partidos_partidos": 4
     },
     "congreso_soria": {
       "distritos": 1,
-      "sha256_m06": "79155d841e6b6b713e9cbe9b387f3b4e927c7cb4a70ce935a01a8b90048935a1",
+      "sha256_m06": "0c0f2917424fb1c431c36eefdb55e8d7a4e94bdd25235b5c4bfca6389f938a38",
       "comarcas_partidas": null,
       "partidos_partidos": 0
     },
     "congreso_tarragona": {
       "distritos": 7,
-      "sha256_m06": "c097a2c9f1865a9225551549056159bc66f3811722f154d9a63cce7d4d597729",
+      "sha256_m06": "fdfa4bd218c46bfd010816af62ae7094e5e093e0c883fb5d7f3bd7c678089e18",
       "comarcas_partidas": null,
-      "partidos_partidos": 7
+      "partidos_partidos": 4
     },
     "congreso_teruel": {
       "distritos": 1,
-      "sha256_m06": "f458afbf4549817ddc093bda229aebe8d14806ca83006d4f833e02388651c3cb",
+      "sha256_m06": "89ce75bb54df628787c8252d87bca64acd9d11718048435adc6c23503f9345a6",
       "comarcas_partidas": 0,
       "partidos_partidos": 0
     },
     "congreso_toledo": {
       "distritos": 6,
-      "sha256_m06": "438ab1ce7a80fdc8d9e2362aec6bd1a3947dd678c4fb7a7ddca588061a97d375",
+      "sha256_m06": "b894dd5263bffdada7c868f23e8cac4d8034c012dea63e3930f2a983d8cc70b4",
       "comarcas_partidas": null,
-      "partidos_partidos": 7
+      "partidos_partidos": 4
     },
     "congreso_valencia": {
       "distritos": 23,
-      "sha256_m06": "9a8287c017326c0a21588a670aa42255d06cb21ad4752abf7c867f6eb055c0e6",
+      "sha256_m06": "2a37a1a7a8316915efe4def1c62a248625707f52e21c948c9e91ab9bdde914d2",
       "comarcas_partidas": null,
       "partidos_partidos": 16
     },
     "congreso_valladolid": {
       "distritos": 4,
-      "sha256_m06": "5c1183841e5307b49327fef4bb463049f8d22873352bbdba2917b4e858e2b9a1",
+      "sha256_m06": "005c9d4f321dd676628516ad2e126b708c47f1b30f16a81313ee58c686ce8347",
       "comarcas_partidas": null,
-      "partidos_partidos": 2
+      "partidos_partidos": 1
     },
     "congreso_vizcaya": {
       "distritos": 10,
-      "sha256_m06": "55a5bcab96db8190d4aac251b0d58e12703b80c915616d29cfe508a30370371c",
+      "sha256_m06": "8811c2703efe32a6c0f8e6a324cef816356d235409aa9555a005c7d90a026956",
       "comarcas_partidas": null,
-      "partidos_partidos": 6
+      "partidos_partidos": 4
     },
     "congreso_zamora": {
       "distritos": 1,
-      "sha256_m06": "c6662aa8a98b3dc64c53e5f428201ba050ee936ea6c4ac767f8868b7ac5fccd2",
+      "sha256_m06": "745998d3e213887c7cc2ffafc25b967c5db358bf443c36084e3b5cf4cfe4e982",
       "comarcas_partidas": null,
       "partidos_partidos": 0
     },
     "congreso_zaragoza": {
       "distritos": 8,
-      "sha256_m06": "70a152960ebead39af5fc94fb739db0aeb169d336def2860c0656b5f9c07dd7c",
+      "sha256_m06": "6056969f094bf0bf50a783660b1d56a20b98f8a492da52a29c2497dd6a865f93",
       "comarcas_partidas": 6,
       "partidos_partidos": 4
+    },
+    "congreso_ceuta": {
+      "distritos": 1,
+      "sha256_m06": "3ff59017b9e094d334c57432136690b3a5c3ba609d2a31b1d192b5f658364689",
+      "comarcas_partidas": null,
+      "partidos_partidos": 0
+    },
+    "congreso_melilla": {
+      "distritos": 1,
+      "sha256_m06": "4af88ea41c371916d481224bd731dd3e0223492e6c4d62c7d0b18ef00548a1b7",
+      "comarcas_partidas": null,
+      "partidos_partidos": 0
     }
   }
 }

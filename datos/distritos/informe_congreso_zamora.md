@@ -1,9 +1,9 @@
 # Nombres y comunidades de interés — congreso_zamora
 
-Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.1.0. Sin datos electorales.
+Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.2.0. Sin datos electorales.
 
 - Distritos: 1 (nombres únicos: 1)
-- Reglas: PRINCIPAL_Y_ENTORNO 1
+- Reglas: CAPITAL_PARTIDO 1
 - Municipios divididos entre distritos (suma por distrito): 0
 
 ## C13 partidos judiciales partidos
@@ -17,4 +17,4 @@ Fuente: Ley 38/1988, Anexo I (BOE-A-1988-29622), `configuracion/partidos_judicia
 
 | Id | Nombre | Regla | Población | Comarcas |
 |---|---|---|---|---|
-| 0 | Zamora y entorno | PRINCIPAL_Y_ENTORNO | 166927 | n/d |
+| 0 | Zamora | CAPITAL_PARTIDO | 166927 | n/d |

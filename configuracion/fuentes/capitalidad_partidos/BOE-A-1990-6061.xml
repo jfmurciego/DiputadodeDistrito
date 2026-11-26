@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<documento fecha_actualizacion="20251217192601">
+  <metadatos>
+    <identificador>BOE-A-1990-6061</identificador>
+    <origen_legislativo codigo="2">Autonómico</origen_legislativo>
+    <departamento codigo="8080">Comunidad Autónoma de Extremadura</departamento>
+    <rango codigo="1300">Ley</rango>
+    <fecha_disposicion>19891227</fecha_disposicion>
+    <numero_oficial>3/1989</numero_oficial>
+    <titulo>Ley 3/1989, de 27 de diciembre, de Capitalidad de los Partidos Judiciales de Extremadura.</titulo>
+    <diario codigo="BOE">Boletín Oficial del Estado</diario>
+    <fecha_publicacion>19900310</fecha_publicacion>
+    <diario_numero>60</diario_numero>
+    <seccion>1</seccion>
+    <subseccion/>
+    <pagina_inicial>6903</pagina_inicial>
+    <pagina_final>6904</pagina_final>
+    <suplemento_pagina_inicial/>
+    <suplemento_pagina_final/>
+    <url_pdf>https://www.boe.es/boe/dias/1990/03/10/pdfs/A06903-06904.pdf</url_pdf>
+    <url_epub/>
+    <url_pdf_catalan/>
+    <url_pdf_euskera/>
+    <url_pdf_gallego/>
+    <url_pdf_valenciano/>
+    <estatus_legislativo>L</estatus_legislativo>
+    <fecha_vigencia>19900103</fecha_vigencia>
+    <estatus_derogacion>N</estatus_derogacion>
+    <fecha_derogacion/>
+    <judicialmente_anulada>N</judicialmente_anulada>
+    <fecha_anulacion/>
+    <vigencia_agotada>N</vigencia_agotada>
+    <estado_consolidacion codigo="3">Finalizado</estado_consolidacion>
+    <letra_imagen>A</letra_imagen>
+    <suplemento_letra_imagen/>
+    <url_eli>https://www.boe.es/eli/es-ex/l/1989/12/27/3</url_eli>
+  </metadatos>
+  <metadata-eli>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:eli="http://data.europa.eu/eli/ontology#">
+      <eli:LegalResource rdf:about="https://www.boe.es/eli/es-ex/l/1989/12/27/3">
+        <eli:jurisdiction rdf:resource="http://www.elidata.es/mdr/authority/jurisdiction/1/es-ex"/>
+        <eli:type_document rdf:resource="http://www.elidata.es/mdr/authority/resource-type/1/l"/>
+        <eli:id_local rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BOE-A-1990-6061</eli:id_local>
+        <eli:date_document rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1989-12-27</eli:date_document>
+        <eli:number rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3</eli:number>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/78"/>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/1320"/>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/2414"/>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/3529"/>
+        <eli:has_member>
+          <eli:LegalResource rdf:about="https://www.boe.es/eli/es-ex/l/1989/12/27/3/dof">
+            <eli:jurisdiction rdf:resource="http://www.elidata.es/mdr/authority/jurisdiction/1/es-ex"/>
+            <eli:type_document rdf:resource="http://www.elidata.es/mdr/authority/resource-type/1/l"/>
+            <eli:id_local rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BOE-A-1990-6061</eli:id_local>
+            <eli:date_document rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1989-12-27</eli:date_document>
+            <eli:number rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3</eli:number>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/78"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/1320"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/2414"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/3529"/>
+            <eli:version rdf:resource="http://www.elidata.es/mdr/authority/version/dof"/>
+            <eli:is_member_of rdf:resource="https://www.boe.es/eli/es-ex/l/1989/12/27/3"/>
+            <eli:consolidated_by rdf:resource="https://www.boe.es/eli/es-ex/l/1989/12/27/3/con/19900102"/>
+            <eli:is_realized_by>
+              <eli:LegalExpression rdf:about="https://www.boe.es/eli/es-ex/l/1989/12/27/3/dof/spa">
+                <eli:language rdf:resource="http://www.elidata.es/mdr/authority/language/spa"/>
+                <eli:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ley 3/1989, de 27 de diciembre, de Capitalidad de los Partidos Judiciales de Extremadura.</eli:title>
+                <eli:publisher_agent rdf:resource="https://www.boe.es"/>
+                <eli:date_publication rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1990-03-10</eli:date_publication>
+                <eli:realizes rdf:resource="https://www.boe.es/eli/es-ex/l/1989/12/27/3/dof"/>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-ex/l/1989/12/27/3/dof/spa/html">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/text/html"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-ex/l/1989/12/27/3/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-ex/l/1989/12/27/3/dof/spa/pdf">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/application/pdf"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-ex/l/1989/12/27/3/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-ex/l/1989/12/27/3/dof/spa/xml">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/application/xml"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-ex/l/1989/12/27/3/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+              </eli:LegalExpression>
+            </eli:is_realized_by>
+          </eli:LegalResource>
+        </eli:has_member>
+        <eli:has_member>
+          <eli:LegalResource rdf:about="https://www.boe.es/eli/es-ex/l/1989/12/27/3/con/19900102">
+            <eli:jurisdiction rdf:resource="http://www.elidata.es/mdr/authority/jurisdiction/1/es-ex"/>
+            <eli:type_document rdf:resource="http://www.elidata.es/mdr/authority/resource-type/1/l"/>
+            <eli:id_local rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BOE-A-1990-6061</eli:id_local>
+            <eli:date_document rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1989-12-27</eli:date_document>
+            <eli:number rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3</eli:number>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/78"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/1320"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/2414"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/3529"/>
+            <eli:version rdf:resource="http://www.elidata.es/mdr/authority/version/con"/>
+            <eli:version_date rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1990-01-02</eli:version_date>
+            <eli:is_member_of rdf:resource="https://www.boe.es/eli/es-ex/l/1989/12/27/3"/>
+            <eli:consolidates rdf:resource="https://www.boe.es/eli/es-ex/l/1989/12/27/3/dof"/>
+            <eli:is_realized_by>
+              <eli:LegalExpression rdf:about="https://www.boe.es/eli/es-ex/l/1989/12/27/3/con/19900102/spa">
+                <eli:language rdf:resource="http://www.elidata.es/mdr/authority/language/spa"/>
+                <eli:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ley 3/1989, de 27 de diciembre, de Capitalidad de los Partidos Judiciales de Extremadura.</eli:title>
+                <eli:publisher_agent rdf:resource="https://www.boe.es"/>
+                <eli:realizes rdf:resource="https://www.boe.es/eli/es-ex/l/1989/12/27/3/con/19900102"/>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-ex/l/1989/12/27/3/con/19900102/spa/html">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/text/html"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-ex/l/1989/12/27/3/con/19900102/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+              </eli:LegalExpression>
+            </eli:is_realized_by>
+          </eli:LegalResource>
+        </eli:has_member>
+        <eli:is_another_publication_of rdf:resource="https://doe.juntaex.es/eli/es-ex/l/1989/12/27/3"/>
+      </eli:LegalResource>
+    </rdf:RDF>
+  </metadata-eli>
+  <analisis>
+    <materias>
+      <materia codigo="78" orden="1">Administración de Justicia</materia>
+      <materia codigo="1320" orden="2">Comunidades Autónomas</materia>
+      <materia codigo="2414" orden="3">Demarcación judicial</materia>
+      <materia codigo="3529" orden="4">Extremadura</materia>
+    </materias>
+    <notas>
+      <nota codigo="14" orden="400">Publicada en el DOE núm. 1, de 2 de enero de 1990.</nota>
+    </notas>
+    <referencias>
+      <anteriores>
+        <anterior referencia="BOE-A-1988-29622" orden="3060">
+          <palabra codigo="440">DE CONFORMIDAD con</palabra>
+          <texto>el art. 4.4 de la Ley 38/1988, de 28 de diciembre</texto>
+        </anterior>
+        <anterior referencia="BOE-A-1985-12666" orden="3060">
+          <palabra codigo="440">DE CONFORMIDAD con</palabra>
+          <texto>la Ley Orgánica 6/1985, de 1 de julio</texto>
+        </anterior>
+        <anterior referencia="BOE-A-1983-6190" orden="3060">
+          <palabra codigo="440">DE CONFORMIDAD con</palabra>
+          <texto>el art. 44, del Estatuto aprobado por Ley Orgánica 1/1983, de 25 de febrero</texto>
+        </anterior>
+      </anteriores>
+      <posteriores/>
+    </referencias>
+    <alertas>
+      <alerta codigo="121" orden="1">Organización de la Administración</alerta>
+    </alertas>
+  </analisis>
+  <texto>
+    <p class="parrafo">Sea notorio a todos los ciudadanos que la Asamblea de Extremadura ha aprobado y yo, en nombre del Rey, de conformidad con lo establecido en el artículo 52.1 del Estatuto de Autonomía, vengo en promulgar la siguiente</p>
+    <p class="centro_negrita">LEY DE CAPITALIDAD DE LOS PARTIDOS JUDICIALES DE EXTREMADURA</p>
+    <p class="centro_redonda">PREÁMBULO</p>
+    <p class="parrafo_2">El artículo 44 del Estatuto de Autonomía dispone que la Comunidad Autónoma fijará las demarcaciones territoriales de los órganos jurisdiccionales en Extremadura y su localización de acuerdo con lo que establezca al respecto la Ley Orgánica del Poder Judicial.</p>
+    <p class="parrafo">El artículo 35.6 de la Ley Orgánica del Poder Judicial atribuye a las Comunidades Autónomas la determinación de la capitalidad de los partidos judiciales mediante norma de rango legal. Por su parte, la ley de Demarcación y Planta Judicial, al establecer el número y demarcación de los partidos judiciales, reitera en su artículo 4.4 dicha atribución competencial.</p>
+    <p class="parrafo">Criterios históricos, de población y superficie de los distintos partidos judiciales, comunicaciones y servicios de los municipios de la región justifican que la capitalidad de los partidos judiciales permanezca en aquellos municipios que lo ostentaban antes de la entrada en vigor de la Ley de Demarcación y Planta Judicial. Para los partidos creados por la Ley, la capitalidad se establece en el municipio que, con anterioridad a la nueva distribución, era cabeza de Juzgado de Distrito, lo que permite el aprovechamiento de las instalaciones para el funcionamiento de los Juzgados de Primera Instancia e Instrucción.</p>
+    <p class="parrafo">Con la presente Ley se da cumplimiento a los mandatos establecidos al respecto en el Estatuto de Autonomía y en la Ley Orgánica del Poder Judicial.</p>
+    <p class="articulo">Artículo 1.º</p>
+    <p class="parrafo_2">La capital de cada uno de los partidos judiciales de Extremadura se establece en los municipios que a continuación se relacionan:</p>
+    <table class="tabla">
+      <tr>
+        <td>
+          <p class="cabeza_tabla">Partido judicial</p>
+          <p class="cabeza_tabla">número</p>
+        </td>
+        <td>
+          <p class="cabeza_tabla">Capital</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">   </p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_centro">
+            <em>Provincia de Badajoz</em>
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">1</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Villanueva de la Serena.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">2</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Almendralejo.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">3</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Llerena.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">4</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Mérida.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">5</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Badajoz.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">6</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Olivenza.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">7</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Zafra.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">8</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Jerez de los Caballeros.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">9</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Herrera del Duque.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">10</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Castuera.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">11</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Don Benito.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">12</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Fregenal de la Sierra.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">13</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Montijo.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">14</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Villafranca de los Barros.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">   </p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_centro">
+            <em>Provincia de Cáceres</em>
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">1</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Cáceres.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">2</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Coria.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">3</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Navalmoral de la Mata.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">4</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Plasencia.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">5</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Trujillo.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">6</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Valencia de Alcántara.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="cuerpo_tabla_centro">7</p>
+        </td>
+        <td>
+          <p class="cuerpo_tabla_izq">Logrosán.</p>
+        </td>
+      </tr>
+    </table>
+    <p class="articulo">Artículo 2.º</p>
+    <p class="parrafo_2">Los partidos judiciales se identifican por el nombre del municipio que ostenta su capitalidad.</p>
+    <p class="capitulo">DISPOSICIÓN FINAL</p>
+    <p class="parrafo_2">La presente Ley entrará en vigor el día siguiente de su publicación en el «Diario Oficial de Extremadura».</p>
+    <p class="capitulo">DISPOSICIÓN DEROGATORIA</p>
+    <p class="parrafo_2">Quedan derogadas todas aquellas disposiciones de igual o inferior rango que se opongan a lo dispuesto en la presente Ley.</p>
+    <p class="parrafo_2">Por tanto, ordeno a todos los ciudadanos a los que les sea de aplicación esta Ley que cooperen en su cumplimiento y a los Tribunales y Autoridad que corresponda la hagan cumplir.</p>
+    <p class="parrafo_2">Mérida, 27 de diciembre de 1989.</p>
+    <p class="firma_ministro">JUAN CARLOS RODRÍGUEZ IBARRA,</p>
+    <p class="firma_ministro">Presidente de la Junta de Extremadura,</p>
+    <p class="publicado">(Publicada en el «Diario Oficial de Evtrcmadura» número 1, de 2 de enero de 1990.)</p>
+  </texto>
+</documento>

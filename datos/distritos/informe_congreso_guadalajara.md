@@ -1,9 +1,9 @@
 # Nombres y comunidades de interés — congreso_guadalajara
 
-Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.1.0. Sin datos electorales.
+Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.2.0. Sin datos electorales.
 
 - Distritos: 2 (nombres únicos: 2)
-- Reglas: PRINCIPAL_Y_ENTORNO 2
+- Reglas: CAPITAL_PARTIDO 2
 - Municipios divididos entre distritos (suma por distrito): 0
 
 ## C13 partidos judiciales partidos
@@ -21,5 +21,5 @@ Fuente: Ley 38/1988, Anexo I (BOE-A-1988-29622), `configuracion/partidos_judicia
 
 | Id | Nombre | Regla | Población | Comarcas |
 |---|---|---|---|---|
-| 0 | Guadalajara y entorno | PRINCIPAL_Y_ENTORNO | 137547 | n/d |
-| 1 | Azuqueca de Henares y entorno | PRINCIPAL_Y_ENTORNO | 137535 | n/d |
+| 0 | Guadalajara | CAPITAL_PARTIDO | 136152 | n/d |
+| 1 | Sigüenza | CAPITAL_PARTIDO | 138930 | n/d |
