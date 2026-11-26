@@ -36,20 +36,30 @@ ENTRADA_T448 = ('if [[ "$TIPO" == "Espejo de fuente oficial" ]]; then\n'
                 'el')  # texto del `run:` ya cargado (sin la sangría del YAML)
 
 
+# T-462 (P10 1.0.6): dos opciones «Imágenes de distritos», su caso y su rama en la entrada, su trozo del grupo y el job `p14_imagenes`.
+OPCIONES_T462 = ("Imágenes de distritos (hoja de contactos)", "Imágenes de distritos y subir a R2")
+CASO_T462 = '|"Imágenes de distritos (hoja de contactos)"|"Imágenes de distritos y subir a R2"'
+ENTRADA_T462 = ('if [[ "$TIPO" == "Imágenes de distritos"* ]]; then\n'
+                '  [[ "$TERRITORIO" == "congreso" ]] || { echo "::error::Imágenes de distritos: «territorio» debe ser «congreso» (hoy solo el Congreso)."; exit 2; }\n'
+                'el')
+GRUPO_T462 = "startsWith(inputs.tipo, 'Imágenes de distritos') && 'ddd-imagenes-distritos' || "
 GRUPO_T449 = "${{ inputs.tipo == 'Espejo de fuente oficial' && format('ddd-espejo-fuente-{0}', inputs.territorio) || "
 
 
 def sin_t449(d):
     (d.get("jobs") or {}).pop("p13_espejo", None)
+    (d.get("jobs") or {}).pop("p14_imagenes", None)
     c = d.get("concurrency")
+    if isinstance(c, dict):
+        c["group"] = str(c.get("group", "")).replace(GRUPO_T462, "")
     if isinstance(c, dict) and str(c.get("group", "")).startswith(GRUPO_T449):
         c["group"] = "${{ " + c["group"][len(GRUPO_T449):]
     tipo = (((_on(d) or {}).get("workflow_dispatch") or {}).get("inputs") or {}).get("tipo") or {}
     if OPCION_T449 in (tipo.get("options") or []):
-        tipo["options"] = [o for o in tipo["options"] if o != OPCION_T449]
+        tipo["options"] = [o for o in tipo["options"] if o != OPCION_T449 and o not in OPCIONES_T462]
     for paso in ((d.get("jobs") or {}).get("entrada") or {}).get("steps") or []:
         if isinstance(paso.get("run"), str):
-            paso["run"] = paso["run"].replace(CASO_T449, ") ;;").replace(ENTRADA_T448, "")
+            paso["run"] = paso["run"].replace(CASO_T462, "").replace(ENTRADA_T462, "").replace(CASO_T449, ") ;;").replace(ENTRADA_T448, "")
     return d
 
 

@@ -3,11 +3,11 @@
 """T-449 (D-183, D-188): espejo de solo lectura de una fuente oficial desde el runner.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.3
-FECHA: 2026-11-24
-CAMBIOS: 1.0.3: aut08 en modo URL directa con la copia archivada (propietario 24-11), raíz fuentes-archivadas; el modo catálogo se prueba con `_decl_catalogo`. 1.0.2: `descubrir` (solo lectura) y su paso en P10 1.0.5 (run 45170670366, portal de la Junta movido). 1.0.1: candidatas en orden (`downloadURL` antes que `accessURL`) y salto de la portada a la siguiente (run 45158272014). 1.0.0: fichero nuevo.
+VERSIÓN: 1.0.4
+FECHA: 2026-11-26
+CAMBIOS: 1.0.4: T-462: las opciones de `tipo` de P10 incluyen las dos «Imágenes de distritos». 1.0.3: aut08 en modo URL directa con la copia archivada (propietario 24-11), raíz fuentes-archivadas; el modo catálogo se prueba con `_decl_catalogo`. 1.0.2: `descubrir` (solo lectura) y su paso en P10 1.0.5 (run 45170670366, portal de la Junta movido). 1.0.1: candidatas en orden (`downloadURL` antes que `accessURL`) y salto de la portada a la siguiente (run 45158272014). 1.0.0: fichero nuevo.
 MOTIVO: fija la elección de la distribución del año, el rechazo de la portada HTML, la clave de D-188 y que nunca sobrescribe.
-ANTERIOR: legacy/tests/test_t449_espejo_fuente_oficial_v1.0.2_20261124.py
+ANTERIOR: legacy/tests/test_t449_espejo_fuente_oficial_v1.0.3_20261126.py
 """
 from __future__ import annotations
 
@@ -761,7 +761,7 @@ class JobP10(unittest.TestCase):
 
     def test_opcion_y_condicion(self):
         tipo = (self.w.get("on") or self.w[True])["workflow_dispatch"]["inputs"]["tipo"]
-        self.assertEqual(tipo["options"], ["P11 territoriales", "P12 electorales", "Espejo de fuente oficial"])
+        self.assertEqual(tipo["options"], ["P11 territoriales", "P12 electorales", "Espejo de fuente oficial", "Imágenes de distritos (hoja de contactos)", "Imágenes de distritos y subir a R2"])
         self.assertEqual(self.j["if"], "${{ inputs.tipo == 'Espejo de fuente oficial' && github.ref == 'refs/heads/main' && !inputs.campana }}")
         g = self.w["concurrency"]["group"]
         self.assertTrue(g.startswith("${{ inputs.tipo == 'Espejo de fuente oficial' && format('ddd-espejo-fuente-{0}', inputs.territorio) || "), g)

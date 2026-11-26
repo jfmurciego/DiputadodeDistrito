@@ -1,7 +1,13 @@
 # VISTA DERIVADA de .github/workflows/p10-fuentes.yml (tipo P12); no editar: python tests/generar_vistas_p10.py
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de preparación de fuentes
-# VERSIÓN: 1.0.5
+# VERSIÓN: 1.0.6
+# CAMBIOS 1.0.6: T-462 (diseño T-458 §3.1): dos opciones de `tipo`, «Imágenes de distritos (hoja de contactos)» y «Imágenes de distritos y subir a R2» (solo botón; `territorio` = congreso) y job aislado `p14_imagenes`: desde el runner (Wikidata y Commons
+#   no se alcanzan desde la nube) baja la imagen P18 del municipio que da nombre a cada distrito, comprueba la licencia (CC0 / dominio público, CC BY, CC BY-SA), la pasa a WebP de 800 px y
+#   deja `hoja_contactos.html` + `catalogo.json` en el artefacto para que el propietario apruebe ANTES de publicar (herramientas/imagenes_distritos.py). Con el tipo «Imágenes de distritos y subir a R2», sube en
+#   otro paso (con secretos) a R2 bajo `interno/imagenes-distritos/` (prefijo nuevo; nunca `fuentes/` ni `mapas/`, D-198; nunca pisa un run mayor). Sin registro en main ni app de registro.
+#   Solo desde main; grupo de concurrencia propio `ddd-imagenes-distritos`. Resto idéntico a la 1.0.5.
+# ANTERIOR (1.0.5): legacy/workflows/p10-fuentes_v1.0.5_20261126.yml
 # CAMBIOS 1.0.5: T-449 (run 45170670366, portal de la Junta movido): en `p13_espejo`, si falla «Bajar y medir», el paso «Buscar la fuente en los portales
 #   (solo lectura)» ejecuta `espejo_fuente_oficial.py descubrir` (sin secretos, no sube nada) y deja en el log `ESPEJO_DESCUBRIR` y en el resumen los ficheros
 #   candidatos con su sha256; solo corre si la entrada declara `descubrir`. El job sigue en rojo. Resto idéntico a la 1.0.4.
@@ -23,7 +29,7 @@
 #   entrada oculta `campana` (workflow_call; vacía = como antes). Con campaña, los jobs (en P30, los pasos) que registran en main se saltan.
 #   Con campaña, P10 fuerza `persist_state=false` (P11 y P12): sin registro, `p11_resultado`/`p12_resultado` terminan en verde (PERSISTENCE_NOT_REQUIRED).
 # ANTERIOR (1.0.0): legacy/workflows/p10-fuentes_v1.0.0_20261117b.yml
-# FECHA: 2026-11-23
+# FECHA: 2026-11-26
 # ESTADO: candidato
 # CAMBIOS: T-375 (D-136 y D-151, migración paso 6): fichero nuevo; sustituye a preparacion-fuentes.yml 1.4.14 («P10 Fuentes — P11 Territoriales») y preparacion-resultados-electorales.yml 1.0.17 («P10 Fuentes — P12 Electorales»),
 #   borrados (copias en legacy/workflows/). Los cinco jobs de P11 y los cuatro de P12 pasan con los MISMOS pasos, comandos, permisos, salidas y registro, con ids `p11_*` y `p12_*`; solo corre el del `tipo` elegido.
@@ -84,6 +90,8 @@ on:
           - P11 territoriales
           - P12 electorales
           - Espejo de fuente oficial
+          - Imágenes de distritos (hoja de contactos)
+          - Imágenes de distritos y subir a R2
       territorio:
         description: Un código de territorio (p. ej. aut13 o nac28)
         required: true
@@ -103,7 +111,7 @@ on:
         type: boolean
 
 concurrency:
-  group: ${{ inputs.tipo == 'Espejo de fuente oficial' && format('ddd-espejo-fuente-{0}', inputs.territorio) || contains(inputs.tipo, 'electorales') && format('ddd-electoral-prod-{0}', inputs.territory_id || inputs.territorio) || format('ddd-territorial-prod-{0}-{1}', inputs.territory_id || inputs.territorio, inputs.data_edition || '2025') }}
+  group: ${{ inputs.tipo == 'Espejo de fuente oficial' && format('ddd-espejo-fuente-{0}', inputs.territorio) || startsWith(inputs.tipo, 'Imágenes de distritos') && 'ddd-imagenes-distritos' || contains(inputs.tipo, 'electorales') && format('ddd-electoral-prod-{0}', inputs.territory_id || inputs.territorio) || format('ddd-territorial-prod-{0}-{1}', inputs.territory_id || inputs.territorio, inputs.data_edition || '2025') }}
   cancel-in-progress: false
   queue: max
 permissions:
