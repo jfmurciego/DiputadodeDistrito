@@ -35,9 +35,9 @@ COMP = "seccion,distrito,poblacion\n0100101001,0,10\n0100101002,1,10\n"
 # distrito 0: PP 60, PSOE-A 40 → PP en 1.ª; distrito 1: PP 30, PSOE-A 28, AA 22 (Izquierdas en aut01), VOX 15, XX 5 (sin bloque)
 VOTOS = "distrito,partido,votos,porcentaje\n0,PP,60,0\n0,PSOE-A,40,0\n1,PP,30,0\n1,PSOE-A,28,0\n1,AA,22,0\n1,VOX,15,0\n1,XX,5,0\n"
 BLOQUES = ("comunidad,eleccion,siglas,denominacion,bloque_propuesto,motivo,votos,fuente_sha256\n"
-           "aut01,2026-05,PP,PP,Patriotas,x,0,x\naut01,2026-05,PSOE,PSOE,Izquierdas,x,0,x\naut01,2026-05,AA,AA,Izquierdas,x,0,x\n"
-           "aut01,2026-05,VOX,VOX,Patriotas,x,0,x\naut01,2026-05,XX,XX,,x,0,x\n"
-           "aut02,2026-02,AA,AA,Patriotas,x,0,x\n")  # AA es de otro bloque en OTRA comunidad: no debe usarse
+           "aut01,2026-05,PP,PP,Derecha nacional,x,0,x\naut01,2026-05,PSOE,PSOE,Izquierdas,x,0,x\naut01,2026-05,AA,AA,Izquierdas,x,0,x\n"
+           "aut01,2026-05,VOX,VOX,Derecha nacional,x,0,x\naut01,2026-05,XX,XX,,x,0,x\n"
+           "aut02,2026-02,AA,AA,Derecha nacional,x,0,x\n")  # AA es de otro bloque en OTRA comunidad: no debe usarse
 ALIAS = ("comunidad,eleccion,id_fuente,partido_homologado,origen,fuente\n"
          "aut01,202605,PP,PP,I,\naut01,202605,PSOE-A,PSOE,P,\naut01,202605,AA,AA,I,\naut01,202605,VOX,VOX,I,\naut01,202605,XX,XX,I,\n"
          "aut02,202602,AA,AA,I,\n")
@@ -63,7 +63,7 @@ def montar(td: Path, paq: bytes, votos=True, run_manifiesto=RUN, comp_extra="") 
     (td / "orchestracion/publicaciones_visor.json").write_text(json.dumps({"products": prods}), encoding="utf-8")
     arts = {f"{leg}/{RUN}/ddd-minimo-{RUN}-M08.zip": {"run_id": RUN, "artefacto": f"ddd-minimo-{RUN}-M08", "sha256": sha(paq)}}
     (td / "orchestracion/archivo_r2.json").write_text(json.dumps({"schema": "ddd.archivo-r2/1.0", "artefactos": arts}), encoding="utf-8")
-    (td / "configuracion/bloques_partidos_autonomicas_2026-11-19.csv").write_text(BLOQUES, encoding="utf-8")
+    (td / "configuracion/bloques_partidos_autonomicas_2026-11-25.csv").write_text(BLOQUES, encoding="utf-8")
     (td / "configuracion/alias_partidos_autonomicas.csv").write_text(ALIAS, encoding="utf-8")
     (td / "configuracion/calendario_autonomicas.csv").write_text(CAL, encoding="utf-8")
     comp = (COMP + comp_extra).encode()
@@ -101,14 +101,14 @@ class P75Aut(unittest.TestCase):
     def test_aut_ok_con_la_tabla_de_su_comunidad(self):
         inf, f, zips = self.correr()
         self.assertEqual(inf["eleccion"], "autonomicas")
-        self.assertEqual(inf["entradas"]["bloques"]["ruta"], "configuracion/bloques_partidos_autonomicas_2026-11-19.csv")
+        self.assertEqual(inf["entradas"]["bloques"]["ruta"], "configuracion/bloques_partidos_autonomicas_2026-11-25.csv")
         a = f["aut01"]
         self.assertEqual((a["estado"], a["eleccion"], a["sin_casar_pct"], a["sin_bloque_pct"]), ("OK", "2026-05", 0.0, 2.5))  # XX: 5 de 200
         z = zipfile.ZipFile(io.BytesIO(zips["aut01"]))
         filas = {(r["district_id"], r["escenario"]): r for r in csv.DictReader(io.StringIO(z.read("doble_vuelta.csv").decode()))}
         self.assertEqual(filas[("0", "dv_base")]["candidatura_ganadora"], "PP")
-        # distrito 1, dv_A: Izquierdas (PSOE 28 + AA 22 = 50) frente a Patriotas (PP 30 + VOX 15 = 45); XX se abstiene. Si se usara la fila de
-        # aut02 (AA en Patriotas), ganaría Patriotas: prueba que la tabla va filtrada por comunidad.
+        # distrito 1, dv_A: Izquierdas (PSOE 28 + AA 22 = 50) frente a Derecha nacional (PP 30 + VOX 15 = 45); XX se abstiene. Si se usara la fila de
+        # aut02 (AA en Derecha nacional), ganaría Derecha nacional: prueba que la tabla va filtrada por comunidad.
         d = filas[("1", "dv_A")]
         self.assertEqual((d["candidatura_ganadora"], d["votos_a_2v"], d["votos_b_2v"], d["votos_abstencion"]), ("bloque:Izquierdas", "50", "45", "5"))
         self.assertEqual(json.loads(z.read("manifiesto.json"))["comunidad"], "aut01")

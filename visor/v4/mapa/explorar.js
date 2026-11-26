@@ -1,10 +1,11 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: visor V4 · Explorar (V3 completa + doble vuelta)
- * VERSIÓN: 1.5.0
+ * VERSIÓN: 1.5.1
  * FECHA: 2026-11-25
  * ESTADO: candidato
- * ANTERIOR: legacy/visor/v4/mapa/explorar_v1.4.0_20261124.js
- * CAMBIOS: 1.5.0 (T-459, diseño T-458 1.4.1 §1.3.0/1.4.0): colores fijos por bloque (#d32b2b, #1d6fb8, #0f7a52, #5b6470) en los dos temas, sin aclarado (la ventaja ajustada
+ * ANTERIOR: legacy/visor/v4/mapa/explorar_v1.5.0_20261125.js
+ * CAMBIOS: 1.5.1 (T-460): «Patriotas» → «Derecha nacional» en la leyenda y el panel; el visor acepta los dos nombres del dato (DV.nombreBloque, DV.claseBloque) mientras convivan.
+ *   1.5.0 (T-459, diseño T-458 1.4.1 §1.3.0/1.4.0): colores fijos por bloque (#d32b2b, #1d6fb8, #0f7a52, #5b6470) en los dos temas, sin aclarado (la ventaja ajustada
  *   solo en el texto); panel con cifras de lo seleccionado arriba y sin foto/«407 / 350»; clic en distrito = resaltado + ventana (población, votos, bloque ganador y %) sin zoom;
  *   fuera nivel sección/municipio, zoom a secciones y búsqueda por CUSEC.
  *   1.4.0 (T-456): el producto autonómico se busca con la clave del visor y con el id autNN del índice (toma el más reciente; antes un M08 publicado
@@ -176,7 +177,7 @@
     return {type:"FeatureCollection",features:fc.features.map(f=>({...f,properties:{...f.properties,...dvProps(keyOf(f),distOf(f))}}))};
   }
   let shownDistricts={features:[]};
-  const NOMBRE_BLOQUE={izq:"Izquierdas",nac:"Nacionalistas",pat:"Patriotas",sin:"Sin bloque"};
+  const NOMBRE_BLOQUE={izq:"Izquierdas",nac:"Nacionalistas",pat:"Derecha nacional",sin:"Sin bloque"};
   const pc1=x=>(Math.round(x*1000)/10).toFixed(1).replace(".",",")+" %";
   // Cifras de un distrito con la regla elegida: votos (suma de votos_1v de su detalle), bloque ganador y su % en la vuelta que decide.
   function dvCifras(p){
@@ -189,7 +190,7 @@
   }
   function distritoCifras(p){
     const c=dvCifras(p),r=[["Población",fmt(p.population)]];
-    if(c){r.push(["Votos",fmt(c.votos)],["Bloque ganador",c.bloque+" · "+pc1(c.cuota)]);if(c.ajustada)r.push(["Ventaja","Ajustada (menos de 5 puntos)"]);}
+    if(c){r.push(["Votos",fmt(c.votos)],["Bloque ganador",DV.nombreBloque(c.bloque)+" · "+pc1(c.cuota)]);if(c.ajustada)r.push(["Ventaja","Ajustada (menos de 5 puntos)"]);}
     else r.push(["Partido ganador del distrito",S.scope==="nacional"&&validElection()&&S.view==="electoral"?(p.ganador||"Sin datos electorales"):"No disponible para la elección/vista"]);
     return r;
   }
@@ -541,7 +542,7 @@
     }
     if(dvActiva()){
       const c=bloques();
-      legend("<h3>Doble vuelta · "+esc(regla().texto)+"</h3>"+(dv?"<ul>"+[["izq","Izquierdas"],["nac","Nacionalistas"],["pat","Patriotas"],["sin","Sin bloque"]].map(([k,n])=>"<li><i style='background:"+c[k]+"'></i>"+n+"</li>").join("")+
+      legend("<h3>Doble vuelta · "+esc(regla().texto)+"</h3>"+(dv?"<ul>"+[["izq","Izquierdas"],["nac","Nacionalistas"],["pat","Derecha nacional"],["sin","Sin bloque"]].map(([k,n])=>"<li><i style='background:"+c[k]+"'></i>"+n+"</li>").join("")+
         "<li><i style='background:#a8bac7'></i>Sin dato</li></ul><small>La ventaja ajustada (menos de 5 puntos sobre el otro finalista) y los empates se indican en el texto de la ficha.</small>":""));
     }
     if(showS)legend($("legend").innerHTML+"<small><b>Importante:</b> la geometría es de la sección censal INE; el color electoral, cuando exista, es heredado del distrito DDD, no de un escrutinio propio de la sección.</small>");

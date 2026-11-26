@@ -3,9 +3,10 @@
 """P75 Doble vuelta desde R2: calcula dv_base, dv_A y dv_B de cada territorio a partir del ddd-minimo-<run>-M08 archivado (T-418).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.1 · FECHA: 2026-11-24 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/p75_doble_vuelta_r2_v1.2.0_20261124.py
-CAMBIOS: 1.2.1 (T-453): cada fila del informe lleva `votos_total` y el log imprime una línea `P75_CIFRAS territorio=… votos_total=… sin_casar_pct=… sin_bloque_pct=…`
+VERSIÓN: 1.3.0 · FECHA: 2026-11-25 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/p75_doble_vuelta_r2_v1.2.1_20261124.py
+CAMBIOS: 1.3.0 (T-460, propietario 25-11): BLOQUES_AUT pasa a la tabla autonómica 2026-11-25 y `bloques_vigente` excluye las `bloques_partidos_autonomicas_*` (por orden alfabético la autonómica ganaba a la nacional).
+  1.2.1 (T-453): cada fila del informe lleva `votos_total` y el log imprime una línea `P75_CIFRAS territorio=… votos_total=… sin_casar_pct=… sin_bloque_pct=…`
   por territorio con cifras (el informe de R2 no se lee desde la nube). Nada más cambia.
   1.2.0 (T-443, D-188/D-198): escribe en el árbol nuevo de R2, en `interno/` (`mapas/` solo lo escribe la publicación, P40). El ZIP va a
   `interno/doble-vuelta/nacionales/congreso-2023/<provincia>/doble-vuelta.zip` o `interno/doble-vuelta/autonomicas/<comunidad>-<año>/doble-vuelta.zip`
@@ -67,7 +68,7 @@ ARCHIVO = Path("orchestracion/archivo_r2.json")
 ALIAS = Path("configuracion/alias_partidos_generales.csv")
 ELECCION_DEFECTO = "2023-07"
 CSV_M07 = "_m07_resultados_partido.csv"
-BLOQUES_AUT = Path("configuracion/bloques_partidos_autonomicas_2026-11-19.csv")
+BLOQUES_AUT = Path("configuracion/bloques_partidos_autonomicas_2026-11-25.csv")
 ALIAS_AUT = Path("configuracion/alias_partidos_autonomicas.csv")
 VOTOS_AUT = Path("datos/resultados/doble_vuelta_autonomicas")
 COMPOSICION_RUNS = Path("datos/composicion/MANIFEST_RUNS.json")
@@ -180,9 +181,9 @@ def run_p75_de_entorno(env=None) -> str:
 
 
 def bloques_vigente(root: Path) -> Path:
-    c = sorted((root / "configuracion").glob("bloques_partidos_*.csv"))
+    c = sorted((root / "configuracion").glob("bloques_partidos_2*.csv"))
     if not c:
-        raise FileNotFoundError("Sin configuracion/bloques_partidos_*.csv")
+        raise FileNotFoundError("Sin configuracion/bloques_partidos_2*.csv")
     return c[-1]
 
 

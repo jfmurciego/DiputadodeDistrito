@@ -108,7 +108,7 @@ const flush = async () => { for (let i = 0; i < 60; i++) await new Promise(r => 
   assert.equal(doc.body.dataset.ready, "1", "el mapa debe arrancar");
   // 1. Por defecto: capa «Doble vuelta», regla «Tres bloques», Congreso, mayoritario, electoral, 2023.
   eq([t.S.layer, t.S.regla, t.S.scope, t.S.system, t.S.view, t.S.election], ["doblevuelta", "tres", "nacional", "mayoritario", "electoral", "202307"]);
-  assert.equal(element("regla-ayuda").textContent, "Izquierdas, Nacionalistas y Patriotas se presentan cada uno como una sola candidatura.");
+  assert.equal(element("regla-ayuda").textContent, "Izquierdas, Nacionalistas y Derecha nacional se presentan cada uno como una sola candidatura.");
   // 2. Vista nacional: los distritos de los 52 nac llevan su bloque en las cuatro reglas.
   const feats = map.getSource("distritos").data.features;
   const total = NAC.reduce((s, k) => s + index.territorios[k].distritos.length, 0);
@@ -142,9 +142,9 @@ const flush = async () => { for (let i = 0; i < 60; i++) await new Promise(r => 
   assert.equal(element("dv-mode").hidden, false);
   const ficha = element("dv-content").innerHTML;
   assert.match(ficha, /Decide la segunda vuelta · gana Izquierdas \(bloque\) con el 57,1 %/);
-  assert.match(ficha, /1\.ª vuelta/); assert.match(ficha, /2\.ª vuelta<\/h3><p>Izquierdas \(bloque\) 40 · Patriotas \(bloque\) 30 · abstención 15/);
+  assert.match(ficha, /1\.ª vuelta/); assert.match(ficha, /2\.ª vuelta<\/h3><p>Izquierdas \(bloque\) 40 · Derecha nacional \(bloque\) 30 · abstención 15/);
   assert.match(ficha, /Nacionalistas \(bloque\)<\/td><td>→ abstención \(su bloque no tiene finalista\)/);
-  for (const r of ["Tres bloques → Izquierdas (bloque)", "Dos bloques → Patriotas (bloque)", "Sin coaliciones → PSOE", "Mayoría simple en el distrito → PP"]) assert.ok(ficha.includes(r), r);
+  for (const r of ["Tres bloques → Izquierdas (bloque)", "Dos bloques → Derecha nacional (bloque)", "Sin coaliciones → PSOE", "Mayoría simple en el distrito → PP"]) assert.ok(ficha.includes(r), r);
   assert.doesNotMatch(ficha, /sin valor oficial/);
   // 5. T-459: el clic resalta y abre la ventana con población, votos y bloque ganador con su %, en ese orden; sin zoom ni nivel de sección.
   assert.equal(map.fitted, fit0, "el clic en un distrito no acerca el mapa");
