@@ -8,6 +8,7 @@
  *   ordenado por partido (placa en Madrid, Barcelona, Vizcaya y Tenerife; línea guía en Barcelona), provincia en el color del más votado con 4 clases de intensidad,
  *   recuadros de Canarias, Ceuta y Melilla, leyenda en el panel derecho con % sobre votos a candidaturas y ventana con la tabla de la provincia. Datos de mapa/puntos_v5_2023.json
  *   (herramientas/datos_puntos_v5.py, BOE-A-2023-18907) y disposición en mapa/puntos.js. Sin datos, vuelve a la doble vuelta.
+ *   Retoque 1.6.0: el zoom pasa a arriba a la izquierda (los botones ? ⌖ P C lo tapaban) y el rótulo de Canarias al borde derecho de su marco (a la izquierda quedaba cortado).
  *   1.5.0 (T-459, diseño T-458 1.4.1 §1.3.0/1.4.0): colores fijos por bloque (#d32b2b, #1d6fb8, #0f7a52, #5b6470) en los dos temas, sin aclarado (la ventaja ajustada
  *   solo en el texto); panel con cifras de lo seleccionado arriba y sin foto/«407 / 350»; clic en distrito = resaltado + ventana (población, votos, bloque ganador y %) sin zoom;
  *   fuera nivel sección/municipio, zoom a secciones y búsqueda por CUSEC.
@@ -444,7 +445,7 @@
       const marca=(html,cls,lng,lat,anchor)=>{const el=document.createElement("div");el.className=cls;el.innerHTML=html;
         D.v5.marcas.push(new maplibregl.Marker({element:el,anchor}).setLngLat([lng,lat]).addTo(map));};
       for(const q of L.etiquetas)marca(esc(q.texto),"v5-lbl",q.lng,q.lat,"bottom");
-      if(L.marcoCanarias)marca("Canarias","v5-lbl v5-can",L.marcoCanarias[0][0],L.marcoCanarias[0][1],"top-left");
+      if(L.marcoCanarias)marca("Canarias","v5-lbl v5-can",L.marcoCanarias[1][0],L.marcoCanarias[1][1],"top-right");
       const rec=["51","52"].map(c=>{const f=provinceByCode(c),d=D.puntos.provincias[c];if(!f||!d)return "";
         const g=PT.ganador(d),col=PALETA[family(g.p)]||PALETA.OTROS;
         return "<div class='v5-rb'><b>"+esc(d.nombre)+" · "+Math.round(g.pct)+" %</b><svg viewBox='0 0 92 74' width='92' height='74' role='img' aria-label='"+esc(d.nombre+", ampliada ×8")+"'><path d='"+PT.recuadro(f)+
@@ -924,7 +925,7 @@
         Object.entries(REGION).map(([name,id])=>"<option value='"+esc(id)+"'>"+esc(name)+"</option>").join("");
       map=new maplibregl.Map({container:"map",style:styleInit(),bounds:[[-9.8,35.4],[4.5,44.2]],
         fitBoundsOptions:{padding:30},dragRotate:false,pitchWithRotate:false,renderWorldCopies:false,attributionControl:false,locale:LOCALE_ES});
-      map.addControl(new maplibregl.NavigationControl({showCompass:false}),"top-right");
+      map.addControl(new maplibregl.NavigationControl({showCompass:false}),"top-left");
       map.on("load",()=>{bootstrap=true;install();});
       map.on("error",e=>{if(e?.error)console.error("MapLibre:",e.error);});
     }catch(e){note("No es posible inicializar el visor: "+e.message);console.error(e);}
