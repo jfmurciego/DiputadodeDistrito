@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.644
+Versión: 1.0.645
 Fecha: 2026-11-26
-Alcance: T-504 — Plan 1.0.79
+Alcance: Coordinador — CLAUDE.md refleja D-216
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-26_planificador-plan-1-0-79.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.643_registro_20261126.md
+Cambios/motivo: entrada docs/registro/2026-11-26_coordinador-claude-md-d216.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.644_registro_20261126.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.643_registro_20261126.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.645 · [2026-11-26 — Coordinador — CLAUDE.md refleja D-216](registro/2026-11-26_coordinador-claude-md-d216.md)
 - 1.0.644 · [2026-11-26 — T-504 — Plan 1.0.79](registro/2026-11-26_planificador-plan-1-0-79.md)
 - 1.0.643 · [2026-11-26 — Coordinador — Lecciones y costes (auditoría, T-465/466/502)](registro/2026-11-26_coordinador-lecciones-26b.md)
 - 1.0.642 · [2026-11-26 — T-502 — Diagnóstico de Deslinde en Sevilla](registro/2026-11-26_claude-t502-sevilla-diagnostico.md)
