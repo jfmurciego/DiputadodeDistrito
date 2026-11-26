@@ -1,6 +1,7 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: prueba de la capa «Situación actual · puntos» del Explorar de la V4 (T-500, diseño T-499 1.0.1)
- * VERSIÓN: 1.0.0 · FECHA: 2026-11-25 · ESTADO: candidato · ANTERIOR: ninguna (fichero nuevo)
+ * VERSIÓN: 1.1.0 · FECHA: 2026-11-26 · ESTADO: candidato · ANTERIOR: legacy/tests/test_visor_v4_puntos_v1.0.0_20261125.js
+ * CAMBIOS: 1.1.0 (T-501): `flush` y el arranque esperan a que no haya fetch pendientes (10 vueltas seguidas, tope 15 s) en vez de un número fijo de vueltas. 1.0.0: fichero nuevo.
  * FUNCIÓN: (A) la disposición de puntos.js con la geometría real de provincias y el JSON real de escaños: 350 puntos (348 + Ceuta y Melilla en recuadro),
  *   cada provincia con sus escaños, agrupados por partido, placa solo en Madrid, Barcelona, Vizcaya y Tenerife, línea guía solo en Barcelona, nada
  *   que desborde en la disposición de cerca. (B) el visor con un navegador simulado:
@@ -103,10 +104,14 @@ class FakeMap {
   getLayoutProperty(id, k) { return this.layers.get(id).layout[k]; } setLayoutProperty(id, k, v) { this.layers.get(id).layout[k] = v; }
   setPaintProperty(id, k, v) { this.layers.get(id).paint[k] = v; } fitBounds(b, o) { this.fitted++; this.fits.push([b, o]); } getZoom() { return this.zoom ?? 5; } setFilter(id, f) { this.layers.get(id).filter = f; } queryRenderedFeatures() { return this.hit; }
 }
+// Trabajo asíncrono pendiente: `flush` espera a que no quede ninguno durante 10 vueltas seguidas del bucle de eventos y falla si no se estabiliza en 15 s (T-501).
+let pendiente = 0;
+const contar = p => { pendiente++; return Promise.resolve(p).finally(() => { pendiente--; }); };
+const flush = async () => { const t0 = Date.now(); for (let quietas = 0; quietas < 10;) { if (Date.now() - t0 > 15000) throw new Error("el Explorar no se estabiliza: trabajo pendiente"); await new Promise(r => setImmediate(r)); quietas = pendiente === 0 ? quietas + 1 : 0; } };
 const fixtures = {"../v2/datos/provincias.json": provincias, "../v2/datos/comunidades.json": comunidades, "calendario.json": {}};
 const sandbox = {document: doc, maplibregl: {Map: FakeMap, NavigationControl: class {}, Popup}, console, location: {search: ""}, history: {replaceState() {}}, TextDecoder,
   getComputedStyle: () => ({getPropertyValue: () => ""}),
-  fetch: async key => { const ok = Object.hasOwn(fixtures, key); return {ok, status: ok ? 200 : 404, json: async () => fixtures[key]}; }};
+  fetch: key => contar((async () => { const ok = Object.hasOwn(fixtures, key); return {ok, status: ok ? 200 : 404, json: async () => fixtures[key]}; })())};
 sandbox.window = sandbox; sandbox.globalThis = sandbox;
 async function arrancar(conDatos) {
   for (const k of Object.keys(el)) delete el[k];
@@ -116,10 +121,9 @@ async function arrancar(conDatos) {
   vm.runInNewContext(dvSrc, ctx, {filename: "dv.js"}); vm.runInNewContext(puntosSrc, ctx, {filename: "puntos.js"});
   const marker = "  init();\n})();"; assert.ok(explorarSrc.includes(marker), "cambió el arranque del Explorar");
   vm.runInNewContext(explorarSrc.replace(marker, "  ctxT.__T__={S,D,renderDetail};\n  init();\n})();").replace("(function () {", "(function () {const ctxT=globalThis;"), ctx, {filename: "explorar.js", timeout: 20000});
-  for (let i = 0; i < 60; i++) await new Promise(r => setImmediate(r));
+  await flush();
   return ctx.__T__;
 }
-const flush = async () => { for (let i = 0; i < 40; i++) await new Promise(r => setImmediate(r)); };
 
 (async () => {
   let t = await arrancar(true);
