@@ -4,8 +4,8 @@
  * FECHA: 2026-11-25
  * ESTADO: candidato
  * ANTERIOR: ninguna (fichero nuevo; parte de docs/ESTUDIOS/T499_v5/generar_maqueta_v5.py)
- * CAMBIOS: 1.0.0: fichero nuevo.
- * MOTIVO: T-500. Funciones puras (sin DOM ni MapLibre): intensidad de la provincia en 4 clases, racimo compacto ordenado por partido
+ * CAMBIOS: 1.0.0: fichero nuevo (sin clases de intensidad: el color de la provincia es el de la capa «Partido más votado»).
+ * MOTIVO: T-500. Funciones puras (sin DOM ni MapLibre): racimo compacto ordenado por partido
  *   en una malla hexagonal (con placa y línea guía donde no cabe), y recuadros de Ceuta y Melilla. Los escaños y votos salen de
  *   puntos_v5_2023.json (herramientas/datos_puntos_v5.py, BOE-A-2023-18907); aquí no se calcula ningún dato electoral. */
 "use strict";
@@ -14,15 +14,8 @@
   // al acercar el racimo quepa dentro de la provincia y desaparezca la placa. `ZC` es el zoom en que se pasa de una a otra.
   const ZC = 6.6;
   const DISPOSICIONES = {n: {zr: 5.3, sp: 11, r: 4.1, desp: {"08": [52, 22]}}, c: {zr: ZC, sp: 14, r: 5.6, desp: {}}};
-  // % del partido más votado → mezcla con blanco (0 = color pleno).
-  const CLASES = [{min: 45, mezcla: 0, texto: "≥ 45 %"}, {min: 35, mezcla: .2, texto: "35–45 %"}, {min: 30, mezcla: .4, texto: "30–35 %"}, {min: 0, mezcla: .55, texto: "< 30 %"}];
   const SIN_PLACA_NI_PUNTOS = ["51", "52"]; // Ceuta y Melilla: recuadro propio
 
-  function mezcla(hex, t) {
-    const v = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));
-    return "#" + v.map(c => Math.round(c + (255 - c) * t).toString(16).padStart(2, "0")).join("");
-  }
-  function clase(pct) {return CLASES.find(c => pct >= c.min);}
   // Más votado de la provincia (por votos, no por escaños) y su % sobre votos a candidaturas.
   function ganador(prov) {
     const g = prov.partidos.reduce((a, b) => b.votos > a.votos ? b : a);
@@ -138,6 +131,6 @@
     return {lista, resto, estatal: datos.votos_candidaturas_estatal, escanos: lista.reduce((s, x) => s + x.escanos, 0)};
   }
 
-  root.PUNTOS = {ZC, DISPOSICIONES, CLASES, mezcla, clase, ganador, disponer, recuadro, totales};
+  root.PUNTOS = {ZC, DISPOSICIONES, ganador, disponer, recuadro, totales};
   if (typeof module !== "undefined" && module.exports) module.exports = root.PUNTOS;
 })(typeof window !== "undefined" ? window : globalThis);

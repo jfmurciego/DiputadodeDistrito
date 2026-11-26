@@ -5,7 +5,7 @@
  * ESTADO: candidato
  * ANTERIOR: legacy/visor/v4/mapa/explorar_v1.5.0_20261125.js
  * CAMBIOS: 1.6.0 (T-500, diseño T-499 1.0.1): capa «Situación actual · puntos», activa por defecto en Congreso · 2023 · Provincia: un punto por diputado en un racimo
- *   ordenado por partido (placa en Madrid, Barcelona, Vizcaya y Tenerife; línea guía en Barcelona), provincia en el color del más votado con 4 clases de intensidad,
+ *   ordenado por partido (placa en Madrid, Barcelona, Vizcaya y Tenerife; línea guía en Barcelona), provincia con el relleno de «Partido más votado» (el mismo que la capa proporcional, sin aclarar; sustituye las 4 clases de intensidad del diseño por orden del propietario, 26-11),
  *   recuadros de Canarias, Ceuta y Melilla, leyenda en el panel derecho con % sobre votos a candidaturas y ventana con la tabla de la provincia. Datos de mapa/puntos_v5_2023.json
  *   (herramientas/datos_puntos_v5.py, BOE-A-2023-18907) y disposición en mapa/puntos.js. Sin datos, vuelve a la doble vuelta.
  *   Retoque 1.6.0: el zoom pasa a arriba a la izquierda (los botones ? ⌖ P C lo tapaban) y el rótulo de Canarias al borde derecho de su marco (a la izquierda quedaba cortado).
@@ -110,10 +110,6 @@
     S.scope="nacional";S.region="";S.province=null;S.unit={kind:"pais",properties:{}};S.system="proporcional";S.view="electoral";S.election="202307";S.level="provincia";
     updateSegments("scope","nacional");updateSegments("system","proporcional");updateSegments("view","electoral");$("level").value="provincia";
   }
-  function colorProvincia(cod){
-    const d=D.puntos?.provincias?.[cod];if(!d||!PT)return null;
-    const g=PT.ganador(d);return PT.mezcla(PALETA[family(g.p)]||PALETA.OTROS,PT.clase(g.pct).mezcla);
-  }
   function puntosCifras(cod){
     if(cod){const d=D.puntos.provincias[cod],g=PT.ganador(d);
       return [["Escaños 2023",fmt(d.escanos)],["Votos a candidaturas",fmt(d.votos_candidaturas)],["Más votado",nom5(g.p)+" · "+pc1v(g.pct)]];}
@@ -127,8 +123,7 @@
       T.lista.map(x=>"<tr><td>"+sw(x.p)+esc(x.p==="PSOE"?"PSOE (con PSC)":nom5(x.p))+"</td><td>"+pc(x.votos)+"</td><td>"+x.escanos+"</td></tr>").join("")+
       "<tr><td><i class='dot' style='background:"+PALETA.OTROS+"'></i>Resto (sin escaño)</td><td>"+pc(T.resto)+"</td><td>0</td></tr>"+
       "<tr class='total'><td>Total</td><td>100 %</td><td>"+T.escanos+"</td></tr></tbody></table>"+
-      "<h4>Intensidad: % de voto del partido más votado en la provincia</h4><ul class='v5-esc'>"+
-      PT.CLASES.map(k=>"<li><span style='background:"+PT.mezcla(PALETA.PP,k.mezcla)+"'></span>"+esc(k.texto)+"</li>").join("")+"</ul>"+
+      "<p class='v5-sub'>Cada provincia se colorea con su partido más votado.</p>"+
       "<small>% sobre votos a candidaturas (sin votos en blanco ni nulos). Fuente: BOE-A-2023-18907, Junta Electoral Central; sin estimaciones ni encuestas.</small>";
   }
   function puntosPopupHtml(cod){
@@ -372,7 +367,7 @@
       const devs=D.territorial?.provincias?.[p.cod]?.distritos||[];
       const deviation=devs.length?Math.max(...devs.map(d=>Math.abs(Number(d.dev)))):null;
       return {...x,properties:{...p,party:family(S.system==="mayoritario"?winner:p.ganador),
-        population:pop||null,...(deviation===null?{}:{deviation}),dominant:winner,...(colorProvincia(p.cod)?{v5color:colorProvincia(p.cod)}:{})}};
+        population:pop||null,...(deviation===null?{}:{deviation}),dominant:winner}};
     });
   }
   function styleInit(){return{version:8,sources:{},layers:[{id:"water",type:"background",paint:{"background-color":"#eef3f7"}}]};}
@@ -430,7 +425,7 @@
     v5Datos(L,true);
     installSource("v5marco",fc5(L.marcoCanarias?[{type:"Feature",properties:{},geometry:{type:"LineString",coordinates:L.marcoCanarias}}]:[]));
     const z=PT.ZC,filtro=l=>["==",["get","lay"],l],oculto={layout:{visibility:"none"}};
-    map.addLayer({id:"v5-placa-fill",type:"fill",source:"v5placas",filter:filtro("n"),maxzoom:z,...oculto,paint:{"fill-color":"#ffffff","fill-opacity":.85}});
+    map.addLayer({id:"v5-placa-fill",type:"fill",source:"v5placas",filter:filtro("n"),maxzoom:z,...oculto,paint:{"fill-color":"#ffffff","fill-opacity":1}});
     map.addLayer({id:"v5-placa-line",type:"line",source:"v5placas",filter:filtro("n"),maxzoom:z,...oculto,paint:{"line-color":"#3a4652","line-width":.8}});
     map.addLayer({id:"v5-guia",type:"line",source:"v5guias",filter:["all",filtro("n"),["==",["geometry-type"],"LineString"]],maxzoom:z,...oculto,paint:{"line-color":"#3a4652","line-width":1}});
     map.addLayer({id:"v5-guia-pt",type:"circle",source:"v5guias",filter:["all",filtro("n"),["==",["geometry-type"],"Point"]],maxzoom:z,...oculto,paint:{"circle-radius":2,"circle-color":"#3a4652"}});
@@ -449,7 +444,7 @@
       const rec=["51","52"].map(c=>{const f=provinceByCode(c),d=D.puntos.provincias[c];if(!f||!d)return "";
         const g=PT.ganador(d),col=PALETA[family(g.p)]||PALETA.OTROS;
         return "<div class='v5-rb'><b>"+esc(d.nombre)+" · "+Math.round(g.pct)+" %</b><svg viewBox='0 0 92 74' width='92' height='74' role='img' aria-label='"+esc(d.nombre+", ampliada ×8")+"'><path d='"+PT.recuadro(f)+
-          "' fill='"+colorProvincia(c)+"' fill-opacity='.88' stroke='#fff'/><circle cx='46' cy='40' r='4.1' fill='"+col+"' stroke='#fff' stroke-width='1.1'/></svg></div>";}).join("");
+          "' fill='"+col+"' fill-opacity='.88' stroke='#fff'/><circle cx='46' cy='40' r='4.1' fill='"+col+"' stroke='#fff' stroke-width='1.1'/></svg></div>";}).join("");
       marca(rec,"v5-rec",-7.3,36.25,"top-left");
     }
     map.on("zoom",v5Zoom);
@@ -626,7 +621,7 @@
       if(S.layer==="unidades")return ["coalesce",["get","neutralColor"],neutral];return base;}
     const dvAut=dvActiva()&&!isN&&isElect&&S.system==="mayoritario"&&!!S.region&&DVD.datos.has(S.region)&&dvEleccionOk();
     const dv=dvActiva()&&(permitColors||dvAut)&&DVD.indice?dvExpression():null;
-    paintWith("prov-fill",pt?["coalesce",["get","v5color"],neutral]:dvActiva()?neutral:thematic(permitColors?party:neutral));
+    paintWith("prov-fill",!pt&&dvActiva()?neutral:thematic(permitColors?party:neutral));  // la situación actual usa el relleno de «Partido más votado», sin aclarar (T-500)
     paintWith("dist-fill",dv||thematic(permitColors?party:S.view==="territorial"?["coalesce",["get","neutralColor"],neutral]:neutral));
     const secPop=["interpolate",["linear"],["to-number",["get","p"],0],0,"#eff6f9",500,"#bbd6df",2000,"#497e9b",5000,"#193f61"];
     const secTerr=["coalesce",["get","territorialColor"],neutral];

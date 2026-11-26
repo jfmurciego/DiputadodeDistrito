@@ -3,7 +3,7 @@
  * VERSIÓN: 1.0.0 · FECHA: 2026-11-25 · ESTADO: candidato · ANTERIOR: ninguna (fichero nuevo)
  * FUNCIÓN: (A) la disposición de puntos.js con la geometría real de provincias y el JSON real de escaños: 350 puntos (348 + Ceuta y Melilla en recuadro),
  *   cada provincia con sus escaños, agrupados por partido, placa solo en Madrid, Barcelona, Vizcaya y Tenerife, línea guía solo en Barcelona, nada
- *   que desborde en la disposición de cerca; intensidad en 4 clases con los colores de la tabla del diseño. (B) el visor con un navegador simulado:
+ *   que desborde en la disposición de cerca. (B) el visor con un navegador simulado:
  *   capa por defecto, colores, leyenda, ventana de la provincia, salidas a otras capas y vuelta a la doble vuelta si faltan los datos.
  *   Esperados: literales del BOE-A-2023-18907 (escaños y votos) y de la tabla del diseño, no recalculados con el código. */
 "use strict";
@@ -44,9 +44,6 @@ function ptoDentro(x, y, g) {
   const polys = g.type === "MultiPolygon" ? g.coordinates : [g.coordinates];
   return polys.some(poly => { let r = false; for (const ring of poly) for (let i = 0; i < ring.length; i++) { const [x1, y1] = ring[i], [x2, y2] = ring[i ? i - 1 : ring.length - 1]; if ((y1 > y) !== (y2 > y) && x < (x2 - x1) * (y - y1) / (y2 - y1) + x1) r = !r; } return r; });
 }
-// Intensidad: 4 clases con los límites y colores de la tabla del diseño (PP).
-eq([45, 44.99, 35, 34.99, 30, 29.99].map(x => PT.clase(x).mezcla), [0, .2, .2, .4, .4, .55]);
-eq([0, .2, .4, .55].map(t => PT.mezcla("#1d6fb8", t)), ["#1d6fb8", "#4a8cc6", "#77a9d4", "#99bedf"]);
 eq(PT.ganador(datos.provincias["28"]).p, "PP"); assert.equal(Math.round(PT.ganador(datos.provincias["28"]).pct * 100), 4087);
 // Totales estatales literales: PP 137, PSOE 121 (con PSC), Vox 33, Sumar 31, ERC 7, Junts 7, EH Bildu 6, PNV 5, BNG 1, CC 1, UPN 1; 24 487 414 votos a candidaturas.
 const T = PT.totales(datos);
@@ -104,13 +101,15 @@ const flush = async () => { for (let i = 0; i < 40; i++) await new Promise(r => 
   assert.equal(doc.body.dataset.puntos, "348");
   assert.equal(map.getLayer("v5-n").layout.visibility, "visible"); assert.equal(map.getLayer("prov-fill").layout.visibility, "visible"); assert.equal(map.getLayer("dist-fill").layout.visibility, "none");
   assert.equal(map.getSource("distritos").data.features.length, 0, "no se cargan distritos para esta capa");
-  // 2. Color de provincia: más votado con la intensidad de su clase (Madrid PP 40,87 % → clase 35–45; Vizcaya PNV 27,08 % → < 30; Barcelona PSOE 35,99 %).
-  const col = cod => map.getSource("prov").data.features.find(f => f.properties.cod === cod).properties.v5color;
-  eq([col("28"), col("48"), col("08"), col("20")], ["#4a8cc6", "#a0b7a5", "#dc5555", "#6faf97"]);
-  eq(map.getLayer("prov-fill").paint["fill-color"].slice(0, 2), ["coalesce", ["get", "v5color"]]);
+  // 2. Relleno de provincia: el mismo que la capa proporcional «Partido más votado» (sin aclarar) y con su misma opacidad y trazo.
+  const relleno = JSON.stringify(map.getLayer("prov-fill").paint["fill-color"]), opac = map.getLayer("prov-fill").paint["fill-opacity"];
+  assert.equal(relleno.slice(0, 24), '["match",["get","party"]'); assert.ok(relleno.includes('"#1d6fb8"') && relleno.includes('"#d32b2b"'), "paleta de partidos plena");
+  assert.ok(map.getSource("prov").data.features.every(f => f.properties.v5color === undefined), "sin color propio ni aclarado");
+  assert.equal(opac, .88); eq([map.getLayer("prov-line").paint["line-color"], map.getLayer("prov-line").paint["line-width"]], ["#fff", 1]);
+  assert.equal(map.getLayer("v5-placa-fill").paint["fill-opacity"], 1, "la placa no es translúcida");
   // 3. Leyenda: % sobre votos a candidaturas, escaños, resto y total; fuente y escala.
   const ley = element("v5-content").innerHTML;
-  for (const s of ["33,3 %", "31,9 %", "12,5 %", "PSOE (con PSC)", "Resto (sin escaño)", "2,5 %", "<td>350</td>", "% sobre votos a candidaturas", "BOE-A-2023-18907", "≥ 45 %", "35–45 %", "30–35 %", "&lt; 30 %"]) assert.ok(ley.includes(s), s);
+  for (const s of ["33,3 %", "31,9 %", "12,5 %", "PSOE (con PSC)", "Resto (sin escaño)", "2,5 %", "<td>350</td>", "% sobre votos a candidaturas", "BOE-A-2023-18907", "partido más votado"]) assert.ok(ley.includes(s), s);
   assert.equal(element("v5-mode").hidden, false); assert.equal(element("legend").innerHTML, "", "el mapa queda libre");
   // 4. Clic en Madrid: resalta, abre la ventana con la tabla (votos, %, escaños) y no acerca el mapa.
   const f28 = provincias.features.find(f => f.properties.cod === "28");
@@ -130,6 +129,7 @@ const flush = async () => { for (let i = 0; i < 40; i++) await new Promise(r => 
   assert.equal(map.getLayer("v5-c").minzoom, 6.6); assert.equal(map.getLayer("v5-n").maxzoom, 6.6); map.zoom = 5;
   // 6. Otra capa: los puntos se ocultan. Doble vuelta: sistema mayoritario. Volver a «puntos»: Congreso, proporcional, electoral.
   element("layer").value = "ganador"; element("layer").onchange({target: element("layer")}); await flush();
+  assert.equal(JSON.stringify(map.getLayer("prov-fill").paint["fill-color"]), relleno, "es el mismo relleno que «Partido más votado»");
   assert.equal(map.getLayer("v5-n").layout.visibility, "none"); assert.equal(element("v5-mode").hidden, true);
   element("layer").value = "doblevuelta"; element("layer").onchange({target: element("layer")}); await flush();
   eq([t.S.layer, t.S.system], ["doblevuelta", "mayoritario"]);
@@ -146,5 +146,5 @@ const flush = async () => { for (let i = 0; i < 40; i++) await new Promise(r => 
   t = await arrancar(false);
   eq([t.S.layer, t.S.system], ["doblevuelta", "mayoritario"]); assert.equal(element("layer").value, "doblevuelta");
   assert.equal(map.getLayer("v5-n"), undefined); assert.match(element("map-notice").textContent, /situación actual no están disponibles/);
-  console.log("OK visor v4 puntos (350 diputados por provincia, placas, intensidad, leyenda, ventana y salidas)");
+  console.log("OK visor v4 puntos (350 diputados por provincia, placas, relleno de la capa proporcional, leyenda, ventana y salidas)");
 })().catch(e => { console.error(e); process.exitCode = 1; });
