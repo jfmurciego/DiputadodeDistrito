@@ -90,8 +90,11 @@ class Exacto(unittest.TestCase):
         from deslinde.exacto import resolver
         nat = _Natural({}, {}, {})
         p = rejilla()
-        for cfg, funcion, motivo in ((contrato(), "A", "función A"), (contrato(5), "D8", "K=5")):
-            plan, info = resolver(p, Reglas.desde_contrato(cfg, Criterio()), nat, None, funcion=funcion)
+        from unittest import mock
+        # T-503: con K > 4 aplica si cabe (átomos × K ≤ TAMANO_MAX); si no, el motivo literal de la 1.0.0 (6 × 5 = 30)
+        for cfg, funcion, motivo, tope in ((contrato(), "A", "función A", 2000), (contrato(5), "D8", "K=5", 29)):
+            with mock.patch("deslinde.exacto.TAMANO_MAX", tope):
+                plan, info = resolver(p, Reglas.desde_contrato(cfg, Criterio()), nat, None, funcion=funcion)
             self.assertIsNone(plan)
             self.assertEqual(info["estado"], "NO_APLICA")
             self.assertIn(motivo, info["motivo"])

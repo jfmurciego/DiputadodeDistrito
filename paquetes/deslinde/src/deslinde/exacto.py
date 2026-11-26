@@ -3,16 +3,23 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: Deslinde — candidato «exacto»: óptimo D8 con un resolutor exacto abierto (OR-Tools CP-SAT)
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Exacto D8 · CP-SAT lexicográfico determinista
-FECHA: 2026-11-14
-ESTADO: candidato (Deslinde 1.1)
-CAMBIOS: fichero nuevo.
-MOTIVO: T-297 (H1, D-73): el estudio T-296 demostró el óptimo D8 en 8 provincias con K ≤ 4 en segundos y halló planes
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Exacto D8 · aplicabilidad por tamaño
+FECHA: 2026-11-26
+ESTADO: candidato (Deslinde 1.2)
+CAMBIOS: 1.1.0 — (T-503) amplía la aplicabilidad por tamaño: aplica si 2 ≤ K ≤ K_MAX (4), como antes, O si K ≥ 2 y
+  átomos × K ≤ TAMANO_MAX (2.000). Lo que ya no aplicaba conserva su motivo literal (p. ej. «K=1 fuera de 2..4»; con
+  K ≥ 5 y tamaño mayor, «K=… fuera de 2..4»), así que solo cambia la huella donde el exacto pasa a aplicar; con
+  TAMANO_MAX = 0, exactamente la 1.0.0. info lleva "tamano" (si aplica) y "tamano_max"; "version" es la del MODELO CP-SAT (1.0.0, sin cambios: misma
+  instancia aplicable, mismo plan y mismas etapas), y "version_fichero" la de este fichero (no entra en la huella).
+  1.0.0 — fichero nuevo.
+MOTIVO: 1.1.0 — T-502 (#1029): en Sevilla (K=16, 111 átomos, tamaño 1.776) el exacto no se aplicaba y Deslinde
+  quedaba en 8 demarcaciones partidas frente al óptimo demostrado de 6.
+  1.0.0 — T-297 (H1, D-73): el estudio T-296 demostró el óptimo D8 en 8 provincias con K ≤ 4 en segundos y halló planes
   mejores que el ganador en Burgos y Valladolid. El resolutor entra como un competidor más; la aceptación no cambia.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/ddd_motor2/exacto_v1.0.0_20261114.py
 QUÉ HACE:
-  resolver(problema, reglas, natural, pista) -> (plan | None, info). Se aplica solo con D8, 2 ≤ K ≤ K_MAX (4), una
+  resolver(problema, reglas, natural, pista) -> (plan | None, info). Se aplica solo con D8, 2 ≤ K ≤ K_MAX (4) o K ≥ 2 y átomos × K ≤ TAMANO_MAX (2.000), una
   circunscripción y sin exenciones de suelo ni techo (si no, info["aplicable"] = False con el motivo y no hay plan).
   Átomos: unidades que el núcleo obliga a ir juntas (clave R012 indivisible y núcleo cerrado), por componentes conexas.
   Modelo (el del estudio T-296 y herramientas/certificador_exacto 1.4.0): asignación, población en [suelo, techo]
@@ -41,8 +48,10 @@ from typing import Mapping
 from .reglas import Problema, Reglas
 from .reglas.evaluar import valido
 
-VERSION = "1.0.0"
-K_MAX = 4
+VERSION = "1.1.0"
+K_MAX = 4  # siempre aplica con 2 ≤ K ≤ K_MAX (1.0.0); por encima, solo por tamaño
+MODELO = "1.0.0"  # versión del modelo CP-SAT (entra en la huella); sube solo si cambia el plan de una instancia aplicable
+TAMANO_MAX = 2000  # átomos × K (T-503; T-502: Sevilla 1.776, Burgos 1.116, Valladolid 904). Se recalibra con T-468
 TOPE_D8 = Fraction(2, 25)  # 8 %, como naturalidad_clave.TOPES["D8"]
 TIEMPO_DETERMINISTA = 60.0  # por etapa, unidades deterministas de CP-SAT
 HILOS = 4  # fijo (no el nº de CPU): con interleave_search, mismo número de hilos ⇒ misma búsqueda
@@ -50,18 +59,29 @@ ETAPAS = ("fuera", "exceso_8", "partidas", "frontera_mm", "desvio")
 
 
 def aplicable(problema: Problema, reglas: Reglas, funcion: str) -> str | None:
-    """None si se aplica; si no, el motivo."""
+    """None si se aplica; si no, el motivo (el literal de la 1.0.0 en todo lo que ya no aplicaba: entra en la huella)."""
     if funcion != "D8":
         return f"función {funcion} (solo D8)"
-    if not 2 <= reglas.k <= K_MAX:
-        return f"K={reglas.k} fuera de 2..{K_MAX}"
+    fuera_k = None if 2 <= reglas.k <= K_MAX else f"K={reglas.k} fuera de 2..{K_MAX}"
+    if reglas.k < 2:
+        return fuera_k
+    otro = None
     if len(dict(reglas.cuotas)) > 1:
-        return "varias circunscripciones"
-    if reglas.exentos_municipio or reglas.exentas_particion or reglas.exentas_techo:
-        return "exenciones de suelo o techo"
-    if reglas.provincia_unica and len({u.provincia for u in problema.unidades}) > 1:
-        return "varias provincias"
+        otro = "varias circunscripciones"
+    elif reglas.exentos_municipio or reglas.exentas_particion or reglas.exentas_techo:
+        otro = "exenciones de suelo o techo"
+    elif reglas.provincia_unica and len({u.provincia for u in problema.unidades}) > 1:
+        otro = "varias provincias"
+    if otro is not None:
+        return fuera_k or otro
+    if fuera_k is not None and tamano(problema, reglas) > TAMANO_MAX:
+        return fuera_k
     return None
+
+
+def tamano(problema: Problema, reglas: Reglas) -> int:
+    """Átomos × K: el número de variables de asignación del modelo."""
+    return len(atomos(problema, reglas)[0]) * reglas.k
 
 
 def _componentes(nodos, adj) -> list[list]:
@@ -342,18 +362,21 @@ class _Modelo:
 
 def resolver(problema: Problema, reglas: Reglas, natural, pista: Mapping[str, str] | None = None, *,
              funcion: str = "D8", tiempo_det: float = TIEMPO_DETERMINISTA) -> tuple[dict | None, dict]:
-    info: dict = {"version": VERSION, "k_max": K_MAX, "tiempo_determinista": tiempo_det}
+    info: dict = {"version": MODELO, "version_fichero": VERSION, "tamano_max": TAMANO_MAX,
+                  "tiempo_determinista": tiempo_det}
     motivo = aplicable(problema, reglas, funcion)
     if motivo is not None:
         return None, {**info, "aplicable": False, "motivo": motivo, "estado": "NO_APLICA"}
     try:
         import ortools  # noqa: PLC0415
     except ImportError as exc:  # nunca se salta en silencio: sin él, la competición falla (T-297, Planificador)
-        raise RuntimeError("EXACTO_SIN_ORTOOLS: el candidato exacto aplica (D8, K ≤ 4) y ortools no está instalado; "
+        raise RuntimeError(f"EXACTO_SIN_ORTOOLS: el candidato exacto aplica (D8, K ≤ {K_MAX} o átomos × K ≤ {TAMANO_MAX}) y ortools "
+                           "no está instalado; "
                            "instala requirements-exacto.lock (--no-deps --require-hashes)") from exc
     info.update({"aplicable": True, "ortools": ortools.__version__})
     mod = _Modelo(problema, reglas, natural)
     info["atomos"] = mod.n
+    info["tamano"] = mod.n * mod.K
     plan, etapas = mod.resolver(pista, tiempo_det)
     info["etapas"] = etapas
     if plan is None:

@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "deslinde"
-version = "1.1.0"
+version = "1.2.0"
 description = "Deslinde: delimitación reproducible de distritos uninominales desde secciones censales"
 readme = "README.md"
 authors = [{name = "Jesus Murciego"}]
