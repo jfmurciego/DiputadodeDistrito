@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.631
+Versión: 1.0.632
 Fecha: 2026-11-26
-Alcance: T-463 — Textos públicos veraces y DOI de la serie
+Alcance: T-461b — Descubrir las leyes de capitalidad de Aragón, Baleares, Canarias, Cataluña y Galicia
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-26_t463-textos-veraces.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.630_registro_20261126.md
+Cambios/motivo: entrada docs/registro/2026-11-26_t461b-espejos-capitalidad.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.631_registro_20261126.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.630_registro_20261126.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.632 · [2026-11-26 — T-461b — Descubrir las leyes de capitalidad de Aragón, Baleares, Canarias, Cataluña y Galicia](registro/2026-11-26_t461b-espejos-capitalidad.md)
 - 1.0.631 · [2026-11-26 — T-463 — Textos públicos veraces y DOI de la serie](registro/2026-11-26_t463-textos-veraces.md)
 - 1.0.630 · [2026-11-26 — T-464 — Plan 1.0.78](registro/2026-11-26_planificador-plan-1-0-78.md)
 - 1.0.629 · [2026-11-26 — Coordinador — Lecciones del 24 al 26-11 y traspaso (D-160)](registro/2026-11-26_coordinador-traspaso.md)
