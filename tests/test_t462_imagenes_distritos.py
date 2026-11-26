@@ -2,9 +2,9 @@
 """T-462: imagen de cada distrito (P18 de Wikidata del municipio, licencia comprobada en Commons, WebP 800 px, R2).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-26 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
-CAMBIOS: 1.0.0: fichero nuevo.
+VERSIÓN: 1.1.0 · FECHA: 2026-11-26 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_t462_imagenes_distritos_v1.0.0_20261126.py
+CAMBIOS: 1.1.0: T-508: progreso, reanudación, presupuesto, plazo por petición y paso de reanudar del workflow. 1.0.0: fichero nuevo.
 MOTIVO: sin red; la red se simula con respuestas sintéticas con la forma de las de Wikidata y Commons. Cifras de los distritos: T-458 §3.1.
 """
 from __future__ import annotations
@@ -13,9 +13,11 @@ import importlib.util
 import io
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -273,6 +275,66 @@ class Subida(unittest.TestCase):
             im.descargar(self.s, abrir=_red_falsa(), directorio=self.d, pausa=0)
 
 
+@SIN_PIL
+class Reanudable(unittest.TestCase):  # T-508
+    def setUp(self):
+        self.t = tempfile.TemporaryDirectory()
+        self.d, self.s = Path(self.t.name) / "datos", Path(self.t.name) / "salida"
+        self.d.mkdir()
+        _csv(self.d)
+
+    def tearDown(self):
+        self.t.cleanup()
+
+    def test_progreso_con_recuento_y_tiempo(self):
+        import contextlib
+
+        b = io.StringIO()
+        with contextlib.redirect_stdout(b):
+            im.descargar(self.s, abrir=_red_falsa(), directorio=self.d, pausa=0, cada=2)
+        lineas = [x for x in b.getvalue().splitlines() if x.startswith("IMAGENES_PROGRESO")]
+        self.assertEqual([x.split()[1] for x in lineas], ["2/4", "4/4"])
+        self.assertRegex(lineas[0], r"\d+s$")
+
+    def test_presupuesto_agotado_deja_parcial_y_el_siguiente_run_continua(self):
+        reloj = iter([0, 0, 0, 99, 99, 99, 99, 99, 99, 99, 99])  # t0, y luego pasado el presupuesto
+        c1 = im.descargar(self.s, abrir=_red_falsa(), directorio=self.d, pausa=0, presupuesto_s=10, reloj=lambda: next(reloj))
+        self.assertFalse(c1["completo"])
+        self.assertTrue(c1["pendientes"])
+        self.assertEqual(len(c1["imagenes"]) + len(c1["sin_imagen"]) + len(c1["pendientes"]), 4)
+        hechos = {i["municipio_codigo"] for i in c1["imagenes"]}
+        pedidas: list[str] = []
+        base = _red_falsa()
+
+        def espia(url, *a, **k):
+            pedidas.append(url)
+            return base(url, *a, **k)
+        c2 = im.descargar(self.s, abrir=espia, directorio=self.d, pausa=0)
+        self.assertTrue(c2["completo"])
+        self.assertEqual(c2["totales"]["reanudados"], len(hechos))
+        self.assertEqual((c2["totales"]["con_imagen"], c2["totales"]["sin_imagen"]), (2, 2))
+        self.assertEqual(len([u for u in pedidas if "upload.wikimedia.org" in u]), 2 - len(hechos))  # lo ya bajado no se pide
+
+    def test_webp_corrupto_se_vuelve_a_bajar(self):
+        im.descargar(self.s, abrir=_red_falsa(), directorio=self.d, pausa=0)
+        (self.s / "img" / "22125.webp").write_bytes(b"roto")
+        c = im.descargar(self.s, abrir=_red_falsa(), directorio=self.d, pausa=0)
+        self.assertEqual(c["totales"]["reanudados"], 1)
+        self.assertEqual(im.sha256((self.s / "img" / "22125.webp").read_bytes()), next(i["sha256"] for i in c["imagenes"] if i["municipio_codigo"] == "22125"))
+
+    def test_cuerpo_que_gotea_vence_por_plazo_total(self):
+        class Gota:
+            def read(self, n):
+                return b"x"
+        with self.assertRaises(TimeoutError):
+            im._leer(Gota(), 10**9, time.monotonic() - 1)
+
+    def test_user_agent_generico_y_reintentos_acotados(self):
+        self.assertNotRegex(im.USER_AGENT, r"@|jfmurciego|DiputadodeDistrito|http")
+        self.assertLessEqual(im.INTENTOS, 3)
+        self.assertLessEqual(im.ESPERA_MAX, 30)
+
+
 class Workflow(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -300,6 +362,19 @@ class Workflow(unittest.TestCase):
         texto = json.dumps(self.j)
         for prohibido in ("git push", "DDD_REGISTRO_APP", "contents: write", "fuentes/", "mapas/"):
             self.assertNotIn(prohibido, texto)
+
+    def test_t508_plazo_reanudar_y_presupuesto(self):
+        self.assertLessEqual(self.j["timeout-minutes"], 30)
+        nombres = [s.get("name") for s in self.j["steps"]]
+        rec = self.j["steps"][nombres.index("Recuperar lo ya bajado (reanudar)")]
+        self.assertLess(nombres.index("Recuperar lo ya bajado (reanudar)"), nombres.index("Bajar y preparar (sin secretos)"))
+        self.assertNotIn("secrets.", json.dumps(rec))
+        self.assertEqual(self.j["permissions"], {"contents": "read", "actions": "read"})
+        bajar = next(s for s in self.j["steps"] if s.get("name") == "Bajar y preparar (sin secretos)")
+        self.assertIn("python -u", bajar["run"])
+        m = re.search(r"--presupuesto-min (\d+)", bajar["run"])
+        self.assertTrue(m and int(m.group(1)) < self.j["timeout-minutes"] - 5)
+        self.assertEqual(self.j["steps"][-1]["if"], "${{ always() }}")  # el artefacto parcial se conserva
 
     def test_entrada(self):
         paso = next(s for s in self.w["jobs"]["entrada"]["steps"] if s.get("name") == "Comprobar tipo, territorio y elección")

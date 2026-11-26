@@ -1,7 +1,10 @@
 # VISTA DERIVADA de .github/workflows/p10-fuentes.yml (tipo P12); no editar: python tests/generar_vistas_p10.py
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de preparación de fuentes
-# VERSIÓN: 1.0.6
+# VERSIÓN: 1.0.7
+# CAMBIOS 1.0.7: T-508 (run 45894568650, cancelado a los 45 min sin log): `p14_imagenes` pasa a `timeout-minutes: 30`, con `actions: read`; un paso «Recuperar lo ya bajado (reanudar)» restaura el artefacto
+#   `imagenes-distritos-*` más reciente (REST, sin acciones nuevas) y la herramienta salta lo ya bajado; la descarga lleva `python -u` y `--presupuesto-min 20` (parcial: sale con 4, el artefacto se conserva y no sube a R2). Resto idéntico a la 1.0.6.
+# ANTERIOR (1.0.6): legacy/workflows/p10-fuentes_v1.0.6_20261126.yml
 # CAMBIOS 1.0.6: T-462 (diseño T-458 §3.1): dos opciones de `tipo`, «Imágenes de distritos (hoja de contactos)» y «Imágenes de distritos y subir a R2» (solo botón; `territorio` = congreso) y job aislado `p14_imagenes`: desde el runner (Wikidata y Commons
 #   no se alcanzan desde la nube) baja la imagen P18 del municipio que da nombre a cada distrito, comprueba la licencia (CC0 / dominio público, CC BY, CC BY-SA), la pasa a WebP de 800 px y
 #   deja `hoja_contactos.html` + `catalogo.json` en el artefacto para que el propietario apruebe ANTES de publicar (herramientas/imagenes_distritos.py). Con el tipo «Imágenes de distritos y subir a R2», sube en

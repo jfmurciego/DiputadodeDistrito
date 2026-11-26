@@ -3,14 +3,14 @@
 """Imagen de cada distrito del Congreso: P18 de Wikidata del municipio que da nombre al distrito, con licencia comprobada en Commons.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.1
-NOMBRE DE VERSIÓN: Imágenes de distritos (T-462, diseño T-458 §3.1)
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Imágenes de distritos (T-462, diseño T-458 §3.1; T-508 reanudable)
 FECHA: 2026-11-26
 ESTADO: candidato
-CAMBIOS: 1.0.1: el id de territorio del catálogo y de la hoja sale del resolutor (`ddd_core.territorio_ids`), no del prefijo (test_t220). 1.0.0: fichero nuevo.
+CAMBIOS: 1.1.0: T-508 (run 45894568650 cancelado a los 45 min sin una línea de log, 7 imágenes): línea `IMAGENES_PROGRESO n/total` con tiempo cada N municipios; plazo total por petición (`PLAZO_PETICION`, también con cuerpo que gotea), 3 intentos, espera máxima 20 s; reanudable (ficha `img/<INE>.json` junto al WebP, el siguiente run la reutiliza si el sha256 coincide); `--presupuesto-min` (por defecto 20): al agotarlo escribe catálogo parcial y sale con 4. 1.0.1: el id de territorio del catálogo y de la hoja sale del resolutor (`ddd_core.territorio_ids`), no del prefijo (test_t220). 1.0.0: fichero nuevo.
 MOTIVO: la ventana emergente del mapa V4 lleva una imagen por distrito (T-458 §3.1, aprobado 25-11). 407 distritos, 295 municipios.
   Wikidata y Commons no se alcanzan desde la nube: la descarga la hace un runner (P10, tipo «Imágenes de distritos»).
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/herramientas/imagenes_distritos_v1.0.1_20261126.py
 QUÉ HACE:
   `municipios`: lista (sin red) los municipios de `datos/distritos/nombres_congreso_*.csv` (`municipio_principal_codigo`) y los distritos de cada uno.
   `descargar --salida DIR` (solo lectura, sin secretos): por código INE busca el elemento de Wikidata (P772) y su imagen P18 (rango no
@@ -18,7 +18,7 @@ QUÉ HACE:
     (con atribución); sin P18 o con otra licencia, el municipio queda SIN imagen (no se rellena con otra). Baja la miniatura de 800 px,
     la pasa a WebP y escribe `DIR/img/<código INE>.webp`, `DIR/catalogo.json` (autor como texto, licencia, origen, sha1 de Commons,
     sha256 del WebP, cambios) y `DIR/hoja_contactos.html` (todas las imágenes con su licencia; el propietario descarta antes de publicar).
-    Sale con 3 si alguna descarga falló por red (la hoja se escribe igualmente).
+    Sale con 3 si alguna descarga falló por red y con 4 si se agotó el presupuesto (la hoja y el catálogo parcial se escriben igualmente; relanzar continúa).
   `hoja --salida DIR`: regenera la hoja desde el catálogo.
   `subir --salida DIR` (con secretos de R2, otro paso): sube a `interno/imagenes-distritos/` (prefijo propio; nunca `fuentes/` ni `mapas/`, D-198):
     comprueba cada WebP contra el catálogo, `head-object` antes de subir y nunca pisa un run mayor (metadatos `sha256` y `run`); el
@@ -55,6 +55,10 @@ PREFIJO_R2 = "interno/imagenes-distritos"
 ANCHO = 800
 CALIDAD_WEBP = 80
 TOPE_BYTES_DESCARGA = 30_000_000
+PLAZO_PETICION = 45.0  # s de reloj por intento, incluido leer el cuerpo (el timeout de socket no corta un cuerpo que gotea)
+INTENTOS = 3
+ESPERA_MAX = 20.0
+CADA_N = 10  # una línea de progreso cada N municipios
 HOSTS = {
     "query.wikidata.org": "sparql",
     "commons.wikimedia.org": "api",
@@ -90,7 +94,22 @@ def leer_distritos(directorio: Path = DIR_NOMBRES) -> tuple[list[dict], dict[str
 
 
 # ── Red ─────────────────────────────────────────────────────────────────────────────────────────
-def _abrir(url: str, datos: bytes | None = None, tope: int = TOPE_BYTES_DESCARGA, intentos: int = 5) -> bytes:
+def _leer(r, tope: int, limite: float) -> bytes:
+    """Lee el cuerpo por trozos con un plazo de reloj total (un servidor que gotea no bloquea el paso)."""
+    partes, n = [], 0
+    while True:
+        if time.monotonic() > limite:
+            raise TimeoutError("plazo de la petición agotado")
+        t = r.read(65536)
+        if not t:
+            return b"".join(partes)
+        partes.append(t)
+        n += len(t)
+        if n > tope:
+            return b"".join(partes)
+
+
+def _abrir(url: str, datos: bytes | None = None, tope: int = TOPE_BYTES_DESCARGA, intentos: int = INTENTOS) -> bytes:
     p = urllib.parse.urlsplit(url)
     if p.scheme != "https" or p.hostname not in HOSTS:
         raise ErrorImagenes("IMG_HOST", f"host no permitido: {url}")
@@ -100,22 +119,26 @@ def _abrir(url: str, datos: bytes | None = None, tope: int = TOPE_BYTES_DESCARGA
             "User-Agent": USER_AGENT, "Accept": "application/json, image/*;q=0.9, */*;q=0.1",
             **({"Content-Type": "application/x-www-form-urlencoded"} if datos is not None else {})})
         try:
-            with urllib.request.urlopen(req, timeout=60) as r:
+            limite = time.monotonic() + PLAZO_PETICION
+            with urllib.request.urlopen(req, timeout=20) as r:
                 if urllib.parse.urlsplit(r.geturl()).hostname not in HOSTS:
                     raise ErrorImagenes("IMG_REDIRECCION", f"redirección fuera de los hosts permitidos: {r.geturl()}")
-                cuerpo = r.read(tope + 1)
+                cuerpo = _leer(r, tope, limite)
             if len(cuerpo) > tope:
                 raise ErrorImagenes("IMG_TOPE", f"{url}: más de {tope} bytes")
             return cuerpo
         except urllib.error.HTTPError as e:
             if e.code in (429, 500, 502, 503, 504) and n < intentos - 1:
-                time.sleep(min(float(e.headers.get("Retry-After") or espera), 60))
+                pausa = min(float(e.headers.get("Retry-After") or espera), ESPERA_MAX)
+                print(f"IMAGENES_REINTENTO {e.code} intento {n + 1}/{intentos} en {pausa:.0f}s: {urllib.parse.urlsplit(url).hostname}", flush=True)
+                time.sleep(pausa)
                 espera *= 2
                 continue
             raise ErrorImagenes("IMG_HTTP", f"{e.code} en {url}") from e
-        except (urllib.error.URLError, TimeoutError, ConnectionError) as e:
+        except (urllib.error.URLError, TimeoutError, ConnectionError, OSError) as e:
             if n < intentos - 1:
-                time.sleep(espera)
+                print(f"IMAGENES_REINTENTO red intento {n + 1}/{intentos} en {min(espera, ESPERA_MAX):.0f}s: {urllib.parse.urlsplit(url).hostname}", flush=True)
+                time.sleep(min(espera, ESPERA_MAX))
                 espera *= 2
                 continue
             raise ErrorImagenes("IMG_RED", f"{url}: {e}") from e
@@ -269,45 +292,79 @@ def sha256(b: bytes) -> str:
 
 
 # ── Descarga ────────────────────────────────────────────────────────────────────────────────────
-def descargar(salida: Path, abrir=_abrir, directorio: Path = DIR_NOMBRES, limite: int | None = None, pausa: float = 0.3) -> dict:
+def _previa(salida: Path, c: str) -> dict | None:
+    """Ficha de un municipio ya bajado (WebP + `img/<INE>.json` con el mismo sha256), para reanudar."""
+    w, j = salida / "img" / f"{c}.webp", salida / "img" / f"{c}.json"
+    try:
+        reg = json.loads(j.read_text(encoding="utf-8"))
+        if w.is_file() and sha256(w.read_bytes()) == reg["sha256"] and reg["municipio_codigo"] == c:
+            return reg
+    except (OSError, ValueError, KeyError):
+        pass
+    return None
+
+
+def descargar(salida: Path, abrir=_abrir, directorio: Path = DIR_NOMBRES, limite: int | None = None, pausa: float = 0.3,
+              presupuesto_s: float | None = None, cada: int = CADA_N, reloj=time.monotonic) -> dict:
+    t0 = reloj()
     distritos, municipios = leer_distritos(directorio)
     codigos = sorted(municipios)[:limite]
+    total = len(codigos)
     (salida / "img").mkdir(parents=True, exist_ok=True)
-    wd = wikidata(codigos, abrir)
-    pedidos = sorted({wd[c]["fichero"] for c in codigos if c in wd and wd[c]["fichero"]})
-    info = commons(pedidos, abrir)
-    imagenes, sin, errores = [], [], 0
+    previas = {c: r for c in codigos if (r := _previa(salida, c))}
+    print(f"IMAGENES_INICIO {total} municipios, {len(previas)} ya bajados (se saltan)", flush=True)
+    pendientes_red = [c for c in codigos if c not in previas]
+    wd = wikidata(pendientes_red, abrir) if pendientes_red else {}
+    pedidos = sorted({wd[c]["fichero"] for c in pendientes_red if c in wd and wd[c]["fichero"]})
+    info = commons(pedidos, abrir) if pedidos else {}
+    imagenes, sin, errores, pendiente = [], [], 0, []
+    hechos = 0
     for c in codigos:
-        w = wd.get(c)
-        base = {"municipio_codigo": c, "municipio": municipios[c]}
-        if not w:
-            sin.append(base | {"motivo": "sin elemento de Wikidata con ese código INE (P772)"})
-            continue
-        if not w["fichero"]:
-            sin.append(base | {"qid": w["qid"], "motivo": "sin imagen P18 en Wikidata"})
-            continue
-        i = info.get(w["fichero"])
-        f = ficha(i) if i else "el fichero no existe en Commons"
-        if isinstance(f, str):
-            sin.append(base | {"qid": w["qid"], "titulo_commons": w["fichero"], "motivo": f})
-            continue
-        try:
-            time.sleep(pausa)
-            webp, ancho, alto, cambios = a_webp(abrir(f.pop("url_imagen")))
-        except (ErrorImagenes, OSError, ValueError) as e:
-            errores += 1
-            sin.append(base | {"qid": w["qid"], "titulo_commons": w["fichero"], "motivo": f"ERROR_DESCARGA: {e}"[:200]})
-            continue
-        (salida / "img" / f"{c}.webp").write_bytes(webp)
-        imagenes.append(base | {"qid": w["qid"], "archivo": f"img/{c}.webp", "ancho": ancho, "alto": alto, "bytes": len(webp),
-                                "sha256": sha256(webp), **f, "cambios": cambios})
+        if c in previas:
+            imagenes.append(previas[c])
+        else:
+            if presupuesto_s is not None and reloj() - t0 > presupuesto_s:
+                pendiente.append(c)
+                continue
+            w = wd.get(c)
+            base = {"municipio_codigo": c, "municipio": municipios[c]}
+            if not w:
+                sin.append(base | {"motivo": "sin elemento de Wikidata con ese código INE (P772)"})
+            elif not w["fichero"]:
+                sin.append(base | {"qid": w["qid"], "motivo": "sin imagen P18 en Wikidata"})
+            else:
+                i = info.get(w["fichero"])
+                f = ficha(i) if i else "el fichero no existe en Commons"
+                if isinstance(f, str):
+                    sin.append(base | {"qid": w["qid"], "titulo_commons": w["fichero"], "motivo": f})
+                else:
+                    try:
+                        time.sleep(pausa)
+                        webp, ancho, alto, cambios = a_webp(abrir(f.pop("url_imagen")))
+                    except (ErrorImagenes, OSError, ValueError) as e:
+                        errores += 1
+                        sin.append(base | {"qid": w["qid"], "titulo_commons": w["fichero"], "motivo": f"ERROR_DESCARGA: {e}"[:200]})
+                    else:
+                        reg = base | {"qid": w["qid"], "archivo": f"img/{c}.webp", "ancho": ancho, "alto": alto, "bytes": len(webp),
+                                      "sha256": sha256(webp), **f, "cambios": cambios}
+                        (salida / "img" / f"{c}.webp").write_bytes(webp)
+                        (salida / "img" / f"{c}.json").write_text(json.dumps(reg, ensure_ascii=False, sort_keys=True), encoding="utf-8")
+                        imagenes.append(reg)
+        hechos += 1
+        if hechos % cada == 0 or hechos == total:
+            print(f"IMAGENES_PROGRESO {hechos}/{total} · con imagen {len(imagenes)} · sin {len(sin)} · {reloj() - t0:.0f}s", flush=True)
+    if pendiente:
+        print(f"IMAGENES_PRESUPUESTO agotado a los {reloj() - t0:.0f}s: faltan {len(pendiente)} de {total}; relanzar continúa", flush=True)
+    hechos_c = set(codigos) - set(pendiente)
     cat = {
-        "version": "1.0.0", "estado": "candidato", "tarea": "T-462", "anterior": "ninguna (fichero nuevo)",
+        "version": "1.1.0", "estado": "candidato", "tarea": "T-462", "anterior": "1.0.0",
         "generado": _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "nota": "Imagen principal (P18 de Wikidata) del municipio que da nombre al distrito; WebP de 800 px de ancho. Solo CC0 / dominio público, CC BY y CC BY-SA.",
         "licencias_permitidas": list(LICENCIAS),
-        "totales": {"distritos": len(distritos), "municipios": len(codigos), "con_imagen": len(imagenes), "sin_imagen": len(sin),
-                    "errores_descarga": errores, "bytes": sum(x["bytes"] for x in imagenes)},
+        "completo": not pendiente,
+        "pendientes": pendiente,
+        "totales": {"distritos": len(distritos), "municipios": total, "con_imagen": len(imagenes), "sin_imagen": len(sin),
+                    "errores_descarga": errores, "pendientes": len(pendiente), "reanudados": len(previas), "bytes": sum(x["bytes"] for x in imagenes)},
         "imagenes": imagenes, "sin_imagen": sin,
         "distritos": [d for d in distritos if d["municipio_codigo"] in set(codigos)],
     }
@@ -424,16 +481,21 @@ def main(argv=None) -> int:
     for c in ("descargar", "hoja", "subir"):
         p = sub.add_parser(c)
         p.add_argument("--salida", required=True, type=Path)
+        if c == "descargar":
+            p.add_argument("--presupuesto-min", type=float, default=20.0, help="minutos antes de parar limpiamente (0 = sin tope)")
     a = ap.parse_args(argv)
     try:
         if a.cmd == "municipios":
             d, m = leer_distritos()
             print(f"{len(d)} distritos, {len(m)} municipios")
         elif a.cmd == "descargar":
-            cat = descargar(a.salida)
+            cat = descargar(a.salida, presupuesto_s=(a.presupuesto_min * 60) or None)
             print("IMAGENES_TOTALES " + json.dumps(cat["totales"], sort_keys=True))
             for s in cat["sin_imagen"]:
                 print(f"IMAGENES_SIN {s['municipio_codigo']} {s['municipio']}: {s['motivo']}")
+            if not cat["completo"]:
+                print(f"::warning::Faltan {len(cat['pendientes'])} municipios: relanzar continúa donde quedó", file=sys.stderr)
+                return 4
             if cat["totales"]["errores_descarga"]:
                 print("::error::Hay descargas fallidas por red; relanzar", file=sys.stderr)
                 return 3
