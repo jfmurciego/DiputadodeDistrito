@@ -4,6 +4,7 @@ import hashlib
 import unittest
 from pathlib import Path
 
+from ddd_core import territorio_ids
 from herramientas import generar_capitales_partidos_judiciales as g
 
 RAIZ = Path(__file__).resolve().parents[1]
@@ -72,16 +73,16 @@ class Capitales(unittest.TestCase):
 class NombresDeDistrito(unittest.TestCase):
     def test_ficheros_por_distrito_con_regla_de_capital(self):
         # Ejemplos con valor esperado literal: Albacete 2 (capital de partido con 40 municipios), Cuenca, Madrid 1…N.
-        def leer(t):
-            with (RAIZ / "datos/distritos" / f"nombres_{t}.csv").open(encoding="utf-8", newline="") as f:
+        def leer(t):  # los ficheros de datos conservan el id viejo (D-61): se resuelve desde el nuevo
+            with (RAIZ / "datos/distritos" / f"nombres_{territorio_ids.id_legacy(t)}.csv").open(encoding="utf-8", newline="") as f:
                 return list(csv.DictReader(f))
-        self.assertEqual(sorted(r["nombre_distrito"] for r in leer("congreso_cuenca")), ["Cuenca", "Tarancón"])
-        self.assertEqual({r["nombre_distrito"] for r in leer("congreso_albacete")} & {"Albacete 1", "Albacete 2"}, {"Albacete 1", "Albacete 2"})
-        madrid = [r["nombre_distrito"] for r in leer("congreso_madrid") if r["nombre_distrito"].startswith("Madrid ")]
+        self.assertEqual(sorted(r["nombre_distrito"] for r in leer("nac16")), ["Cuenca", "Tarancón"])
+        self.assertEqual({r["nombre_distrito"] for r in leer("nac02")} & {"Albacete 1", "Albacete 2"}, {"Albacete 1", "Albacete 2"})
+        madrid = [r["nombre_distrito"] for r in leer("nac28") if r["nombre_distrito"].startswith("Madrid ")]
         self.assertEqual(sorted(int(n.split()[1]) for n in madrid), list(range(1, len(madrid) + 1)))
-        self.assertTrue(all(r["estado_capital"] == "COMPLETO" for r in leer("congreso_madrid")))
-        self.assertTrue(all(r["estado_capital"] == "SIN_CAPITAL" for r in leer("congreso_barcelona")))  # Barcelona: sin ley en el BOE
-        self.assertIn("Vitoria", " ".join(r["nombre_distrito"] for r in leer("congreso_alava")))
+        self.assertTrue(all(r["estado_capital"] == "COMPLETO" for r in leer("nac28")))
+        self.assertTrue(all(r["estado_capital"] == "SIN_CAPITAL" for r in leer("nac08")))  # Barcelona: sin ley en el BOE
+        self.assertIn("Vitoria", " ".join(r["nombre_distrito"] for r in leer("nac01")))
 
 
 if __name__ == "__main__":
