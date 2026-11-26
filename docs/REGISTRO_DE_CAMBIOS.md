@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.639
+Versión: 1.0.640
 Fecha: 2026-11-26
-Alcance: T-501 — Test inestable del Explorar: `flush` espera a la condición
+Alcance: Coordinador — Lecciones y costes (T-460 a T-463, T-500, T-501)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-26_t-501-test-estable.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.638_registro_20261126.md
+Cambios/motivo: entrada docs/registro/2026-11-26_coordinador-lecciones-26.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.639_registro_20261126.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.638_registro_20261126.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.640 · [2026-11-26 — Coordinador — Lecciones y costes (T-460 a T-463, T-500, T-501)](registro/2026-11-26_coordinador-lecciones-26.md)
 - 1.0.639 · [2026-11-26 — T-501 — Test inestable del Explorar: `flush` espera a la condición](registro/2026-11-26_t-501-test-estable.md)
 - 1.0.638 · [2026-11-25 — T-500 — Visor V5: situación actual del Congreso 2023, un punto por diputado](registro/2026-11-25_t-500-mapa-v5.md)
 - 1.0.637 · [2026-11-26 — T-465/T-466 — Piloto del banco: Deslinde frente a GerryChain puro y el óptimo exacto](registro/2026-11-26_claude-t465-banco-piloto.md)
