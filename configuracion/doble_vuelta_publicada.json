@@ -1,12 +1,12 @@
 {
   "schema": "ddd.doble-vuelta-publicada/1.0",
   "eleccion": "2023-07",
-  "run_p75": "44575597009-1",
-  "informe_clave": "doble_vuelta/2023-07/44575597009-1/INFORME.json",
-  "informe_sha256": "c127f66b074a37319b864a090c7585c6db4ccc923482e11342b147e69194711c",
+  "run_p75": "45871996553-1",
+  "informe_clave": "interno/doble-vuelta/nacionales/congreso-2023/informe-doble-vuelta.json",
+  "informe_sha256": "650ba13c978a54437a1870baec424b06b865ac4b15c03624e9b70563edad60cc",
   "autonomicas": {
-    "run_p75": "45382110179-1",
+    "run_p75": "45872763812-1",
     "informe_clave": "interno/doble-vuelta/autonomicas/informe-doble-vuelta.json",
-    "informe_sha256": "d684a089137fc94cef64395577e653764e1dc449685d9a98628cce41eaf62b44"
+    "informe_sha256": "2a77a8f1bf5a72068cd9e433fe092212c0be46720c7f2e5b9195e3cc9ebbffb9"
   }
 }
