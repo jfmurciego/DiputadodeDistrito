@@ -33,10 +33,10 @@ eq(nombresPlaca("c"), [], "al acercar el racimo cabe dentro y no hay placa");
 eq(L.guias.map(g => [g.lay, g.cod]), [["n", "08"]], "línea guía solo en Barcelona, a zoom nacional");
 eq(L.etiquetas.map(e => e.texto).sort(), ["Alicante 12", "Barcelona 32", "Madrid 37", "Sevilla 12", "Valencia 16"], "rótulo en las de 12 o más escaños");
 // Agrupados por partido: en cada provincia, los puntos (por filas) llevan los partidos en el orden de escaños del BOE, y cada partido tantos como escaños.
-const madrid = por("n", "28");
-eq(Object.fromEntries([...new Set(madrid.map(q => q.partido))].map(p => [p, madrid.filter(q => q.partido === p).length])).PP, 16, "Madrid: 16 del PP");
-let cambios = 0; for (let i = 1; i < madrid.length; i++) if (madrid[i].partido !== madrid[i - 1].partido) cambios++;
-assert.equal(cambios, new Set(madrid.map(q => q.partido)).size - 1, "cada partido forma un bloque contiguo");
+const p28 = por("n", "28");
+eq(Object.fromEntries([...new Set(p28.map(q => q.partido))].map(p => [p, p28.filter(q => q.partido === p).length])).PP, 16, "Madrid: 16 del PP");
+let cambios = 0; for (let i = 1; i < p28.length; i++) if (p28[i].partido !== p28[i - 1].partido) cambios++;
+assert.equal(cambios, new Set(p28.map(q => q.partido)).size - 1, "cada partido forma un bloque contiguo");
 // Dentro de su provincia: Valencia entera en la disposición nacional.
 const val = por("n", "46"), f46 = provincias.features.find(f => f.properties.cod === "46");
 assert.ok(val.every(q => ptoDentro(q.lng, q.lat, f46.geometry)), "los 16 de Valencia caen dentro de su provincia");
