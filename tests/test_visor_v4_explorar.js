@@ -1,7 +1,7 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: prueba de interacción del Explorar de la V4 (T-423)
- * VERSIÓN: 1.1.0 · FECHA: 2026-11-24 · ESTADO: candidato · ANTERIOR: legacy/tests/test_visor_v4_explorar_v1.0.0_20261119.js
- * CAMBIOS: 1.1.0 (T-456): sin aviso ni leyenda «sin valor oficial». 1.0.0: el Explorar de la V4 (visor/v4/mapa/explorar.js, copia de la V3 + capa «Doble vuelta») con un navegador simulado,
+ * VERSIÓN: 1.2.0 · FECHA: 2026-11-26 · ESTADO: candidato · ANTERIOR: legacy/tests/test_visor_v4_explorar_v1.1.0_20261124.js
+ * CAMBIOS: 1.2.0 (T-501): `flush` espera a que no haya fetch ni sha256 pendientes (10 vueltas seguidas, tope 15 s) en vez de 60 vueltas fijas, que a veces no bastaban. 1.1.0 (T-456): sin aviso ni leyenda «sin valor oficial». 1.0.0: el Explorar de la V4 (visor/v4/mapa/explorar.js, copia de la V3 + capa «Doble vuelta») con un navegador simulado,
  *   la cartografía real de provincias y comunidades, el índice real de los 52 nac (datos_abiertos/INDEX.json) y CSV de doble vuelta
  *   sintéticos con su sha256. Esperados: literales (bloques y reglas escritos a mano), no recalculados con el código del visor. */
 "use strict";
@@ -88,19 +88,23 @@ class FakeMap {
 }
 const libre = { Map: FakeMap, NavigationControl: class {}, Popup };
 const ab = b => b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength);
-const sandbox = { document: doc, maplibregl: libre, console, location: { search: "" }, history: { replaceState() {} }, TextDecoder, crypto: crypto.webcrypto,
+// Trabajo asíncrono pendiente (fetch y sha256): `flush` espera a que no quede ninguno durante 10 vueltas seguidas del bucle de eventos, y falla si no se estabiliza en 15 s
+// (T-501: antes eran 60 vueltas fijas y a veces no bastaban con la carga de la verificación de huellas).
+let pendiente = 0;
+const contar = p => { pendiente++; return Promise.resolve(p).finally(() => { pendiente--; }); };
+const sandbox = { document: doc, maplibregl: libre, console, location: { search: "" }, history: { replaceState() {} }, TextDecoder, crypto: { subtle: { digest: (a, b) => contar(crypto.webcrypto.subtle.digest(a, b)) } },
   getComputedStyle: () => ({ getPropertyValue: () => "" }),
-  fetch: async key => {
+  fetch: key => contar((async () => {
     if (Object.hasOwn(bin, key)) return { ok: true, status: 200, arrayBuffer: async () => ab(bin[key]) };
     const ok = Object.hasOwn(fixtures, key); return { ok, status: ok ? 200 : 404, json: async () => fixtures[key] };
-  } };
+  })()) };
 sandbox.window = sandbox; sandbox.globalThis = sandbox;
 vm.runInNewContext(dvSource, sandbox, { filename: "dv.js" });
 const marker = "  init();\n})();";
 assert.ok(source.includes(marker), "cambió el arranque del Explorar");
 vm.runInNewContext(source.replace(marker, "  globalThis.__T__={S,D,DVD,setRegla,renderDetail,openProvince};\n  init();\n})();"), sandbox, { filename: "explorar.js", timeout: 10000 });
 const eq = (a, b, m) => assert.deepEqual(JSON.parse(JSON.stringify(a)), b, m); // objetos del contexto vm: otro prototipo de Array
-const flush = async () => { for (let i = 0; i < 60; i++) await new Promise(r => setImmediate(r)); };
+const flush = async () => { const t0 = Date.now(); for (let quietas = 0; quietas < 10;) { if (Date.now() - t0 > 15000) throw new Error("el Explorar no se estabiliza: trabajo pendiente"); await new Promise(r => setImmediate(r)); quietas = pendiente === 0 ? quietas + 1 : 0; } };
 
 (async () => {
   await flush();

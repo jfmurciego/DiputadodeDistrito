@@ -1,7 +1,7 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: prueba del origen de datos del Explorar de la V4 (T-430, D-186/D-188/D-194)
- * VERSIÓN: 1.0.0 · FECHA: 2026-11-22 · ESTADO: candidato · ANTERIOR: ninguna (fichero nuevo)
- * CAMBIOS: reutiliza los datos y el navegador simulado de test_visor_v4_explorar.js (todo lo anterior a su `const sandbox`) y sirve
+ * VERSIÓN: 1.1.0 · FECHA: 2026-11-26 · ESTADO: candidato · ANTERIOR: legacy/tests/test_visor_v4_explorar_actual_v1.0.0_20261122.js
+ * CAMBIOS: 1.1.0 (T-501): `flush` espera a que no haya fetch ni sha256 pendientes (el montaje viene de test_visor_v4_explorar.js 1.2.0). 1.0.0: reutiliza los datos y el navegador simulado de test_visor_v4_explorar.js (todo lo anterior a su `const sandbox`) y sirve
  *   los MISMOS datos desde un origen remoto `https://datos.example/web/actual/` con su `actual.json`. Esperados literales: (1) con
  *   `mapa/datos.json` apuntando al índice, ningún dato por ruta relativa y el calendario en local; (2) huella mal y el índice no cambia:
  *   recarga el índice una vez y rechaza; (3) huella mal la primera vez y bien después: acepta; (4) dato fuera del índice: rechaza. */
@@ -33,14 +33,14 @@ function servir(key) {
   }
   return { ok: false, status: 404 };
 }
-const sandbox = { document: doc, maplibregl: libre, console, location: { search: "" }, history: { replaceState() {} }, TextDecoder, crypto: crypto.webcrypto,
-  getComputedStyle: () => ({ getPropertyValue: () => "" }), fetch: async key => { pedidos.push(key); return servir(key); } };
+const sandbox = { document: doc, maplibregl: libre, console, location: { search: "" }, history: { replaceState() {} }, TextDecoder, crypto: { subtle: { digest: (a, b) => contar(crypto.webcrypto.subtle.digest(a, b)) } },
+  getComputedStyle: () => ({ getPropertyValue: () => "" }), fetch: key => contar((async () => { pedidos.push(key); return servir(key); })()) };
 sandbox.window = sandbox; sandbox.globalThis = sandbox;
 vm.runInNewContext(dvSource, sandbox, { filename: "dv.js" });
 const marker = "  init();\n})();";
 assert.ok(source.includes(marker), "cambió el arranque del Explorar");
 vm.runInNewContext(source.replace(marker, "  globalThis.__T__={DVD};globalThis.__get__=getJson;\n  init();\n})();"), sandbox, { filename: "explorar.js", timeout: 10000 });
-const flush = async () => { for (let i = 0; i < 60; i++) await new Promise(r => setImmediate(r)); };
+const flush = async () => { const t0 = Date.now(); for (let quietas = 0; quietas < 10;) { if (Date.now() - t0 > 15000) throw new Error("el Explorar no se estabiliza: trabajo pendiente"); await new Promise(r => setImmediate(r)); quietas = pendiente === 0 ? quietas + 1 : 0; } };
 (async () => {
   await flush();
   assert.equal(doc.body.dataset.ready, "1", "el mapa arranca con los datos remotos");
