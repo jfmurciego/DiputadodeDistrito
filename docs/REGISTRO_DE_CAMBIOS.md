@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.642
+Versión: 1.0.643
 Fecha: 2026-11-26
-Alcance: T-502 — Diagnóstico de Deslinde en Sevilla
+Alcance: Coordinador — Lecciones y costes (auditoría, T-465/466/502)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-26_claude-t502-sevilla-diagnostico.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.641_registro_20261126.md
+Cambios/motivo: entrada docs/registro/2026-11-26_coordinador-lecciones-26b.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.642_registro_20261126.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.641_registro_20261126.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.643 · [2026-11-26 — Coordinador — Lecciones y costes (auditoría, T-465/466/502)](registro/2026-11-26_coordinador-lecciones-26b.md)
 - 1.0.642 · [2026-11-26 — T-502 — Diagnóstico de Deslinde en Sevilla](registro/2026-11-26_claude-t502-sevilla-diagnostico.md)
 - 1.0.641 · [2026-11-24 — Auditoría — Auditoría integral del proyecto: veredicto, benchmark, web y dirección](registro/2026-11-24_claude-dreamy-maxwell-mezgob.md)
 - 1.0.640 · [2026-11-26 — Coordinador — Lecciones y costes (T-460 a T-463, T-500, T-501)](registro/2026-11-26_coordinador-lecciones-26.md)
