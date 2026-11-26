@@ -3,11 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — orquestador de la competición «canónico + GerryChain»
-VERSIÓN: 1.5.0
-NOMBRE DE VERSIÓN: Competición · candidato exacto (CP-SAT)
-FECHA: 2026-11-14
+VERSIÓN: 1.6.0
+NOMBRE DE VERSIÓN: Competición · huella sin cotas abiertas del exacto
+FECHA: 2026-11-26
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: 1.5.0 — (T-297, Deslinde 1.1, H1) candidato «exacto» con D8: tras juzgar los demás, exacto.resolver
+CAMBIOS: 1.6.0 — (T-503) en huella_resultado, las etapas del exacto que no terminan OPTIMAL entran sin su cota
+  (nombre, estado y valor): la cota de CP-SAT de una etapa abierta cambia entre ejecuciones con la misma entrada
+  (T-502, Sevilla). Las etapas cerradas (OPTIMAL, CONSTANTE) no cambian; la cota sigue en COMPETICION.json.
+  1.5.0 — (T-297, Deslinde 1.1, H1) candidato «exacto» con D8: tras juzgar los demás, exacto.resolver
   (CP-SAT determinista, K ≤ 4) busca el óptimo D8 sobre las unidades del canónico con la pista del mejor candidato; si
   aporta un plan válido, compite como uno más (si no prueba el óptimo, su mejor solución válida; si no, nada). Con D8, la
   decisión (estado y etapas, o NO_APLICA con su motivo) entra en huella_resultado; un ErrorContrato/ErrorDatos al
@@ -49,7 +52,8 @@ CAMBIOS: 1.5.0 — (T-297, Deslinde 1.1, H1) candidato «exacto» con D8: tras j
   1.1.0 — competir_publico (semillas públicas de semilla.py); Resultado.valido y Resultado.huella()
   (reproducibilidad bit a bit); sin referencia de núcleos y con unidades cerradas, ERROR_DATOS (indicador explícito:
   unidades con nucleo_cerrado, no el texto del aviso); pruebas de desempate por huella y de canónico fallido.
-MOTIVO: 1.5.0 — T-296 halló planes válidos mejores en D8 que el ganador (Burgos, Valladolid) que las cadenas no ven.
+MOTIVO: 1.6.0 — T-502 (#1029): con el exacto en Sevilla, huella_resultado no se repetía entre dos ejecuciones.
+  1.5.0 — T-296 halló planes válidos mejores en D8 que el ganador (Burgos, Valladolid) que las cadenas no ven.
   1.4.3 — T-259 / D-66: la excepción explícita del contrato queda validada y anotada. 1.4.2 — T-265 / D-90: la semilla sale del código oficial y queda registrada en la huella.
   1.4.1 — T-261 (D-89): no gastar el 60-87 % de la competición en un exhaustivo que no acaba.
   1.4.0 — T-217 (opción c de T-211): en las autonómicas el canónico M05 queda peor que el mapa publicado
@@ -59,7 +63,7 @@ MOTIVO: 1.5.0 — T-296 halló planes válidos mejores en D8 que el ganador (Bur
   1.3.0 — T-205: D8 en la competición del motor nuevo (decisión tras T-179). 1.2.0 — T-175: enumeración exacta para territorios pequeños en el competidor del motor nuevo.
   T-163 / D-48: la primera versión del motor nuevo es una competición entre el canónico y N cadenas de
   GerryChain bajo el núcleo único de reglas; gana el mejor plan válido, así que nunca es peor que el canónico.
-ANTERIOR: legacy/ddd_motor2/competicion_v1.4.3_20261114.py
+ANTERIOR: legacy/ddd_motor2/competicion_v1.5.0_20261114.py
 QUÉ HACE: competir(entrada, canonico, cadena, semillas) ejecuta el generador canónico (una vez) y la cadena con cada
   semilla, a través de adaptadores (protocolo Generador: devuelven una composición M06). Cada candidato se juzga con el
   núcleo (adaptadores.problema_y_plan + reglas.evaluar, Criterio D-44 por defecto) y se ordena con la función de
@@ -91,7 +95,7 @@ from .adaptadores import problema_y_plan
 from .calidad import metricas
 from .reglas import Criterio, ErrorContrato, ErrorDatos, Reglas, evaluar
 
-VERSION = "1.5.0"
+VERSION = "1.6.0"
 FUNCIONES = ("A", "C", "D5", "D8")
 ORDEN_A = ["evaluable", "violaciones_duras", "fuera_tolerancia", "desvio_max", "ecm", "huella_plan", "orden"]
 ORDEN_NATURAL = ["evaluable", "violaciones_duras", "fuera_tolerancia", "exceso_tope", "demarcaciones_partidas",
@@ -203,7 +207,8 @@ class Resultado:
         if self.funcion != "A":
             forma["funcion"] = self.funcion
         if self.exacto:  # T-297: con D8, siempre (también NO_APLICA, con su motivo); con A, C y D5 no hay bloque
-            forma["exacto"] = [self.exacto.get(k) for k in ("version", "estado", "etapas", "ortools")] + (
+            forma["exacto"] = [self.exacto.get(k) for k in ("version", "estado")] + [
+                _etapas_huella(self.exacto.get("etapas")), self.exacto.get("ortools")] + (
                 [] if self.exacto.get("aplicable") else [self.exacto.get("motivo")])
         sp = self.semilla_publica or {}
         if sp.get("codigo"):  # T-265: la semilla y su derivación (código oficial y tabla maestra) entran en la huella
@@ -222,6 +227,13 @@ class Resultado:
             "tiempo_total_s": round(self.tiempo_total_s, 3),
             "candidatos": [c.a_dict() for c in sorted(self.candidatos, key=Candidato.clave)],
         }
+
+
+def _etapas_huella(etapas):
+    """T-503: la cota de una etapa que no cierra (FEASIBLE, UNKNOWN...) no es reproducible en CP-SAT; fuera de la huella."""
+    if etapas is None:
+        return None
+    return [list(e) if len(e) < 4 or e[1] in ("OPTIMAL", "CONSTANTE") else list(e[:3]) for e in etapas]
 
 
 def sha256_fichero(ruta: Path) -> str:

@@ -90,8 +90,11 @@ class Exacto(unittest.TestCase):
         from deslinde.exacto import resolver
         nat = _Natural({}, {}, {})
         p = rejilla()
-        for cfg, funcion, motivo in ((contrato(), "A", "función A"), (contrato(5), "D8", "K=5")):
-            plan, info = resolver(p, Reglas.desde_contrato(cfg, Criterio()), nat, None, funcion=funcion)
+        from unittest import mock
+        # T-503: ya no hay tope de K sino de tamaño (átomos × K); la rejilla tiene 6 átomos × K=2 = 12
+        for cfg, funcion, motivo, tope in ((contrato(), "A", "función A", 2000), (contrato(), "D8", "tamaño 12", 11)):
+            with mock.patch("deslinde.exacto.TAMANO_MAX", tope):
+                plan, info = resolver(p, Reglas.desde_contrato(cfg, Criterio()), nat, None, funcion=funcion)
             self.assertIsNone(plan)
             self.assertEqual(info["estado"], "NO_APLICA")
             self.assertIn(motivo, info["motivo"])
