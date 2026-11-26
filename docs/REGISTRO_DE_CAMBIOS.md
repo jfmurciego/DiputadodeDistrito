@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.637
+Versión: 1.0.638
 Fecha: 2026-11-26
-Alcance: T-465/T-466 — Piloto del banco: Deslinde frente a GerryChain puro y el óptimo exacto
+Alcance: T-500 — Visor V5: situación actual del Congreso 2023, un punto por diputado
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-26_claude-t465-banco-piloto.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.636_registro_20261126.md
+Cambios/motivo: entrada docs/registro/2026-11-25_t-500-mapa-v5.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.637_registro_20261126.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.636_registro_20261126.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.638 · [2026-11-25 — T-500 — Visor V5: situación actual del Congreso 2023, un punto por diputado](registro/2026-11-25_t-500-mapa-v5.md)
 - 1.0.637 · [2026-11-26 — T-465/T-466 — Piloto del banco: Deslinde frente a GerryChain puro y el óptimo exacto](registro/2026-11-26_claude-t465-banco-piloto.md)
 - 1.0.636 · [2026-11-26 — T-460 — Pin de los dos informes de la doble vuelta tras renombrar «Derecha nacional»](registro/2026-11-26_t460-pin-informes.md)
 - 1.0.635 · [2026-11-26 — T-462 — Imagen de cada distrito: herramienta, hoja de contactos y paso de P10](registro/2026-11-26_t462-imagenes-distritos.md)
