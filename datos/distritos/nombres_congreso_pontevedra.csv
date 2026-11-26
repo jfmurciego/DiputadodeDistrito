@@ -1,9 +1,9 @@
 territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas,estado_capital
-congreso_pontevedra,0,Vigo 2,MUNICIPIO,POSICION_N_S_O_E,36057,Vigo,1,1,118335,,0,1,EVALUADO,,SIN_FUENTE
-congreso_pontevedra,1,Vigo 1,MUNICIPIO,POSICION_N_S_O_E,36057,Vigo,1,1,118376,,0,1,EVALUADO,,SIN_FUENTE
-congreso_pontevedra,2,Pontevedra,MAS_POBLADO,,36038,Pontevedra,7,0,124688,,0,2,EVALUADO,,SIN_FUENTE
-congreso_pontevedra,3,Puenteareas,MAS_POBLADO,,36042,Puenteareas,16,0,127571,,0,4,EVALUADO,,SIN_FUENTE
-congreso_pontevedra,4,Redondela,MAS_POBLADO,,36045,Redondela,16,0,119993,,0,5,EVALUADO,,SIN_FUENTE
-congreso_pontevedra,5,Vigo 3,MAS_POBLADO,POSICION_N_S_O_E,36057,Vigo,5,1,126947,,0,2,EVALUADO,,SIN_FUENTE
-congreso_pontevedra,6,Villagarcía de Arosa,MAS_POBLADO,,36060,Villagarcía de Arosa,12,0,122603,,0,3,EVALUADO,,SIN_FUENTE
-congreso_pontevedra,7,Cangas,MAS_POBLADO,,36008,Cangas,5,0,88197,,0,2,EVALUADO,,SIN_FUENTE
+congreso_pontevedra,0,Vigo 2,MUNICIPIO,POSICION_N_S_O_E,36057,Vigo,1,1,118335,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_pontevedra,1,Vigo 1,MUNICIPIO,POSICION_N_S_O_E,36057,Vigo,1,1,118376,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_pontevedra,2,Pontevedra,MAS_POBLADO,,36038,Pontevedra,7,0,124688,,0,2,EVALUADO,,SIN_CAPITAL
+congreso_pontevedra,3,Puenteareas,MAS_POBLADO,,36042,Puenteareas,16,0,127571,,0,4,EVALUADO,,SIN_CAPITAL
+congreso_pontevedra,4,Redondela,MAS_POBLADO,,36045,Redondela,16,0,119993,,0,5,EVALUADO,,SIN_CAPITAL
+congreso_pontevedra,5,Vigo 3,MAS_POBLADO,POSICION_N_S_O_E,36057,Vigo,5,1,126947,,0,2,EVALUADO,,SIN_CAPITAL
+congreso_pontevedra,6,Villagarcía de Arosa,MAS_POBLADO,,36060,Villagarcía de Arosa,12,0,122603,,0,3,EVALUADO,,SIN_CAPITAL
+congreso_pontevedra,7,Cangas,MAS_POBLADO,,36008,Cangas,5,0,88197,,0,2,EVALUADO,,SIN_CAPITAL

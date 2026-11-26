@@ -1,51 +1,51 @@
 territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas,estado_capital
-congreso_barcelona,0,Badalona 1,MUNICIPIO,POSICION_N_S_O_E,08015,Badalona,1,1,129493,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,1,Barcelona 11,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,118913,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,2,Barcelona 10,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,118081,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,3,Barcelona 9,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,118618,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,4,Barcelona 5,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,118306,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,5,Barcelona 1,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,117949,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,6,Barcelona 14,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,119017,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,7,Barcelona 8,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,118563,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,8,Barcelona 7,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,117453,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,9,Barcelona 2,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,117828,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,10,Barcelona 4,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,118524,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,11,Barcelona 12,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,118097,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,12,Barcelona 13,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,118685,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,13,Barcelona 3,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,117775,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,14,Hospitalet de Llobregat 3,MUNICIPIO,POSICION_N_S_O_E,08101,Hospitalet de Llobregat,1,1,115941,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,15,Hospitalet de Llobregat 2,MUNICIPIO,POSICION_N_S_O_E,08101,Hospitalet de Llobregat,1,1,115995,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,16,Sabadell 1,MUNICIPIO,POSICION_N_S_O_E,08187,Sabadell,1,1,109029,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,17,Tarrasa 2,MUNICIPIO,POSICION_N_S_O_E,08279,Tarrasa,1,1,112709,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,18,Villafranca del Penedés,MAS_POBLADO,,08305,Villafranca del Penedés,26,0,109891,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,19,Manresa,MAS_POBLADO,,08113,Manresa,13,0,116582,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,20,Vich,MAS_POBLADO,,08298,Vich,29,0,117889,,0,3,EVALUADO,,SIN_FUENTE
-congreso_barcelona,21,Castelldefels,MAS_POBLADO,,08056,Castelldefels,2,0,115825,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,22,Premiá de Mar,MAS_POBLADO,,08172,Premiá de Mar,8,0,122915,,0,2,EVALUADO,,SIN_FUENTE
-congreso_barcelona,23,Martorell,MAS_POBLADO,,08114,Martorell,6,0,102758,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,24,Igualada,MAS_POBLADO,,08102,Igualada,30,0,111469,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,25,San Feliú de Llobregat,MAS_POBLADO,,08211,San Feliú de Llobregat,5,0,116979,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,26,Arenys de Mar,MAS_POBLADO,,08006,Arenys de Mar,16,0,119543,,0,3,EVALUADO,,SIN_FUENTE
-congreso_barcelona,27,Villanueva y Geltrú,MAS_POBLADO,,08307,Villanueva y Geltrú,6,0,129607,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,28,Pineda de Mar,MAS_POBLADO,,08163,Pineda de Mar,7,0,101481,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,29,Barcelona 6,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,118147,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,30,Tarrasa 1,MAS_POBLADO,POSICION_N_S_O_E,08279,Tarrasa,3,1,122528,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,31,Badalona 2,MAS_POBLADO,POSICION_N_S_O_E,08015,Badalona,2,1,132714,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,32,Cardedeu,MAS_POBLADO,,08046,Cardedeu,14,0,117412,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,33,Granollers,MAS_POBLADO,,08096,Granollers,3,0,100195,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,34,San Baudilio de Llobregat,MAS_POBLADO,,08200,San Baudilio de Llobregat,2,0,118219,,0,2,EVALUADO,,SIN_FUENTE
-congreso_barcelona,35,Sabadell 2,MAS_POBLADO,POSICION_N_S_O_E,08187,Sabadell,2,1,117419,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,36,Hospitalet de Llobregat 1,MAS_POBLADO,POSICION_N_S_O_E,08101,Hospitalet de Llobregat,3,1,112127,,0,2,EVALUADO,,SIN_FUENTE
-congreso_barcelona,37,Manlleu,MAS_POBLADO,,08112,Manlleu,61,0,112454,,0,2,EVALUADO,,SIN_FUENTE
-congreso_barcelona,38,Rubí,MAS_POBLADO,,08184,Rubí,2,0,100222,,0,2,EVALUADO,,SIN_FUENTE
-congreso_barcelona,39,Montcada i Reixac,MAS_POBLADO,,08125,Montcada i Reixac,4,0,109153,,0,3,EVALUADO,,SIN_FUENTE
-congreso_barcelona,40,Cornellá de Llobregat,MUNICIPIO,,08073,Cornellá de Llobregat,1,0,90076,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,41,Viladecans,MAS_POBLADO,,08301,Viladecans,2,0,132024,,0,2,EVALUADO,,SIN_FUENTE
-congreso_barcelona,42,Sitges,MAS_POBLADO,,08270,Sitges,9,0,102116,,0,4,EVALUADO,,SIN_FUENTE
-congreso_barcelona,43,San Cugat del Vallés,MAS_POBLADO,,08205,San Cugat del Vallés,2,0,110390,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,44,Cerdañola del Vallés,MAS_POBLADO,,08266,Cerdañola del Vallés,3,0,109996,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,45,Santa Coloma de Gramenet,MUNICIPIO,,08245,Santa Coloma de Gramenet,1,0,119195,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,46,Mataró,MUNICIPIO,,08121,Mataró,1,0,129613,,0,1,EVALUADO,,SIN_FUENTE
-congreso_barcelona,47,Esparraguera,MAS_POBLADO,,08076,Esparraguera,25,0,118786,,0,4,EVALUADO,,SIN_FUENTE
-congreso_barcelona,48,Mollet del Vallés,MAS_POBLADO,,08124,Mollet del Vallés,13,0,132207,,0,3,EVALUADO,,SIN_FUENTE
-congreso_barcelona,49,Castellar del Vallés,MAS_POBLADO,,08051,Castellar del Vallés,9,0,106448,,0,3,EVALUADO,,SIN_FUENTE
+congreso_barcelona,0,Badalona 1,MUNICIPIO,POSICION_N_S_O_E,08015,Badalona,1,1,129493,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,1,Barcelona 11,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,118913,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,2,Barcelona 10,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,118081,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,3,Barcelona 9,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,118618,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,4,Barcelona 5,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,118306,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,5,Barcelona 1,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,117949,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,6,Barcelona 14,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,119017,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,7,Barcelona 8,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,118563,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,8,Barcelona 7,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,117453,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,9,Barcelona 2,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,117828,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,10,Barcelona 4,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,118524,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,11,Barcelona 12,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,118097,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,12,Barcelona 13,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,118685,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,13,Barcelona 3,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,117775,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,14,Hospitalet de Llobregat 3,MUNICIPIO,POSICION_N_S_O_E,08101,Hospitalet de Llobregat,1,1,115941,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,15,Hospitalet de Llobregat 2,MUNICIPIO,POSICION_N_S_O_E,08101,Hospitalet de Llobregat,1,1,115995,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,16,Sabadell 1,MUNICIPIO,POSICION_N_S_O_E,08187,Sabadell,1,1,109029,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,17,Tarrasa 2,MUNICIPIO,POSICION_N_S_O_E,08279,Tarrasa,1,1,112709,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,18,Villafranca del Penedés,MAS_POBLADO,,08305,Villafranca del Penedés,26,0,109891,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,19,Manresa,MAS_POBLADO,,08113,Manresa,13,0,116582,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,20,Vich,MAS_POBLADO,,08298,Vich,29,0,117889,,0,3,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,21,Castelldefels,MAS_POBLADO,,08056,Castelldefels,2,0,115825,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,22,Premiá de Mar,MAS_POBLADO,,08172,Premiá de Mar,8,0,122915,,0,2,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,23,Martorell,MAS_POBLADO,,08114,Martorell,6,0,102758,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,24,Igualada,MAS_POBLADO,,08102,Igualada,30,0,111469,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,25,San Feliú de Llobregat,MAS_POBLADO,,08211,San Feliú de Llobregat,5,0,116979,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,26,Arenys de Mar,MAS_POBLADO,,08006,Arenys de Mar,16,0,119543,,0,3,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,27,Villanueva y Geltrú,MAS_POBLADO,,08307,Villanueva y Geltrú,6,0,129607,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,28,Pineda de Mar,MAS_POBLADO,,08163,Pineda de Mar,7,0,101481,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,29,Barcelona 6,MUNICIPIO,POSICION_N_S_O_E,08019,Barcelona,1,1,118147,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,30,Tarrasa 1,MAS_POBLADO,POSICION_N_S_O_E,08279,Tarrasa,3,1,122528,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,31,Badalona 2,MAS_POBLADO,POSICION_N_S_O_E,08015,Badalona,2,1,132714,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,32,Cardedeu,MAS_POBLADO,,08046,Cardedeu,14,0,117412,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,33,Granollers,MAS_POBLADO,,08096,Granollers,3,0,100195,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,34,San Baudilio de Llobregat,MAS_POBLADO,,08200,San Baudilio de Llobregat,2,0,118219,,0,2,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,35,Sabadell 2,MAS_POBLADO,POSICION_N_S_O_E,08187,Sabadell,2,1,117419,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,36,Hospitalet de Llobregat 1,MAS_POBLADO,POSICION_N_S_O_E,08101,Hospitalet de Llobregat,3,1,112127,,0,2,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,37,Manlleu,MAS_POBLADO,,08112,Manlleu,61,0,112454,,0,2,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,38,Rubí,MAS_POBLADO,,08184,Rubí,2,0,100222,,0,2,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,39,Montcada i Reixac,MAS_POBLADO,,08125,Montcada i Reixac,4,0,109153,,0,3,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,40,Cornellá de Llobregat,MUNICIPIO,,08073,Cornellá de Llobregat,1,0,90076,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,41,Viladecans,MAS_POBLADO,,08301,Viladecans,2,0,132024,,0,2,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,42,Sitges,MAS_POBLADO,,08270,Sitges,9,0,102116,,0,4,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,43,San Cugat del Vallés,MAS_POBLADO,,08205,San Cugat del Vallés,2,0,110390,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,44,Cerdañola del Vallés,MAS_POBLADO,,08266,Cerdañola del Vallés,3,0,109996,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,45,Santa Coloma de Gramenet,MUNICIPIO,,08245,Santa Coloma de Gramenet,1,0,119195,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,46,Mataró,MUNICIPIO,,08121,Mataró,1,0,129613,,0,1,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,47,Esparraguera,MAS_POBLADO,,08076,Esparraguera,25,0,118786,,0,4,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,48,Mollet del Vallés,MAS_POBLADO,,08124,Mollet del Vallés,13,0,132207,,0,3,EVALUADO,,SIN_CAPITAL
+congreso_barcelona,49,Castellar del Vallés,MAS_POBLADO,,08051,Castellar del Vallés,9,0,106448,,0,3,EVALUADO,,SIN_CAPITAL

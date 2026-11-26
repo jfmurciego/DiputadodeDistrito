@@ -18,7 +18,7 @@ Reglas de nombre (toponimia solo en español, tabla datos/distritos/toponimos_es
      si hay varias, la más poblada); si no hay ninguna, el municipio más poblado (INE 2025).
   3. si el municipio del nombre se reparte entre k>1 distritos (o dos distritos dan el mismo nombre): «<nombre> <n>»,
      n por posición (norte a sur y, a igual latitud, oeste a este). Último recurso, «(<district_id>)».
-  estado_capital = COMPLETO si la provincia tiene las capitales de su comunidad; SIN_FUENTE si no (Aragón, Baleares, Canarias,
+  estado_capital = COMPLETO si la provincia tiene las capitales de su comunidad; SIN_CAPITAL si no (Aragón, Baleares, Canarias,
   Cataluña, Galicia, Ceuta, Melilla: la regla 1 no se puede aplicar y el nombre es provisional).
 Sin votos, partidos ni resultados. Uso:
   python herramientas/generar_nombres_comunidades_nacional.py --m06-dir <dir con los M06 NAC .zip> [--descargar]
@@ -261,7 +261,7 @@ def nombrar(territorio, distritos, pob_mun, tabla, comarca_de, capitales=frozens
             "poblacion_distrito": d["poblacion"],
             "comarcas": " | ".join(d["comarcas"]),
             "n_comarcas": len(d["comarcas"]),
-            "estado_capital": "COMPLETO" if cobertura else "SIN_FUENTE",
+            "estado_capital": "COMPLETO" if cobertura else "SIN_CAPITAL",
         }
     return [filas[k] for k in sorted(filas)], en_distritos
 

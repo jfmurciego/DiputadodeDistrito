@@ -80,7 +80,7 @@ class NombresDeDistrito(unittest.TestCase):
         madrid = [r["nombre_distrito"] for r in leer("congreso_madrid") if r["nombre_distrito"].startswith("Madrid ")]
         self.assertEqual(sorted(int(n.split()[1]) for n in madrid), list(range(1, len(madrid) + 1)))
         self.assertTrue(all(r["estado_capital"] == "COMPLETO" for r in leer("congreso_madrid")))
-        self.assertTrue(all(r["estado_capital"] == "SIN_FUENTE" for r in leer("congreso_barcelona")))  # Barcelona: sin ley en el BOE
+        self.assertTrue(all(r["estado_capital"] == "SIN_CAPITAL" for r in leer("congreso_barcelona")))  # Barcelona: sin ley en el BOE
         self.assertIn("Vitoria", " ".join(r["nombre_distrito"] for r in leer("congreso_alava")))
 
 

@@ -39,7 +39,7 @@ class Reglas(unittest.TestCase):
         filas, _ = g.nombrar("t", ds, pob, {}, {})
         self.assertEqual([f["nombre_distrito"] for f in filas], ["B", "D"])
         self.assertEqual({f["regla"] for f in filas}, {"MAS_POBLADO"})
-        self.assertEqual({f["estado_capital"] for f in filas}, {"SIN_FUENTE"})
+        self.assertEqual({f["estado_capital"] for f in filas}, {"SIN_CAPITAL"})
 
     def test_varias_capitales_gana_la_mas_poblada_y_sin_y_entorno(self):
         ds = [distrito(0, ["A", "B", "C"], 0, 0)]
@@ -97,7 +97,7 @@ class Datos49Provincias(unittest.TestCase):
             self.assertEqual(len(filas), esperados[t], t)
             for r in filas:
                 self.assertIn(r["regla"], {"MUNICIPIO", "CAPITAL_PARTIDO", "MAS_POBLADO"}, t)
-                self.assertIn(r["estado_capital"], {"COMPLETO", "SIN_FUENTE"}, t)
+                self.assertIn(r["estado_capital"], {"COMPLETO", "SIN_CAPITAL"}, t)
             for n in nombres:
                 self.assertNotIn("entorno", n, t)
                 self.assertNotIn("/", n, t)

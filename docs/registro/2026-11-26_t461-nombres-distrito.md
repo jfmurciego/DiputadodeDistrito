@@ -11,11 +11,11 @@ cada partido judicial (`partidos_judiciales.csv` no la trae; la fijan las leyes 
   «Laja» por Loja) citados en el código.
 - `herramientas/generar_nombres_comunidades_nacional.py` 1.1.2 → 1.2.0 (copia en `legacy/`): un municipio → su nombre; varios → capital de partido del distrito
   (la más poblada), si no, el municipio más poblado; municipio repartido o nombre repetido → «Madrid 1…N» (numeración existente). Sin «y entorno» ni comarca.
-  Nueva columna `estado_capital` (`COMPLETO`/`SIN_FUENTE`). Regenerados los 52 `datos/distritos/nombres_congreso_*.csv` e informes.
+  Nueva columna `estado_capital` (`COMPLETO`/`SIN_CAPITAL`). Regenerados los 52 `datos/distritos/nombres_congreso_*.csv` e informes.
 - `toponimos_es.csv`: +23 nombres en español (Vitoria, Guernica, Estella, Jávea, Moncada, Denia, Liria, Vergara, Tarrasa…).
 
 **Límite.** Aragón, Baleares, Canarias, Cataluña, Galicia, Ceuta y Melilla no tienen ley de capitalidad en el BOE consolidado y la nube solo llega a `boe.es`
-e `ine.es`: sus distritos salen con la regla 2 y `estado_capital=SIN_FUENTE` (nombre provisional) hasta tener fuente. No se toca `explorar.js`.
+e `ine.es`: sus distritos salen con la regla 2 y `estado_capital=SIN_CAPITAL` (nombre provisional) hasta tener fuente. No se toca `explorar.js`.
 
 **Pruebas.** `tests.test_capitales_partidos_judiciales` (valores literales de las leyes, cobertura, huellas, regenerable), `tests.test_nombres_comunidades_nacional`,
 `GovernanceHeaders`, guardián. Sin efectos en huellas M05 ni checkpoints (no toca motor ni política).
