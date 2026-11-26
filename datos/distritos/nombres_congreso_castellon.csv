@@ -1,6 +1,6 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
-congreso_castellon,0,Castellón de la Plana,MUNICIPIO,,12040,Castellón de la Plana,1,1,120823,,0,1,EVALUADO,
-congreso_castellon,1,Castellón de la Plana y entorno,PRINCIPAL_Y_ENTORNO,,12040,Castellón de la Plana,4,1,122287,,0,2,EVALUADO,
-congreso_castellon,2,Villarreal y entorno,PRINCIPAL_Y_ENTORNO,,12135,Villarreal,42,0,120292,,0,4,EVALUADO,
-congreso_castellon,3,Vall de Uxó y entorno,PRINCIPAL_Y_ENTORNO,,12126,Vall de Uxó,74,0,120246,,0,3,EVALUADO,
-congreso_castellon,4,Vinaroz y entorno,PRINCIPAL_Y_ENTORNO,,12138,Vinaroz,15,0,120438,,0,2,EVALUADO,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas,estado_capital
+congreso_castellon,0,Castellón de la Plana 2,MUNICIPIO,POSICION_N_S_O_E,12040,Castellón de la Plana,1,1,120823,,0,1,EVALUADO,,COMPLETO
+congreso_castellon,1,Castellón de la Plana 1,CAPITAL_PARTIDO,POSICION_N_S_O_E,12040,Castellón de la Plana,7,1,128541,,0,1,EVALUADO,,COMPLETO
+congreso_castellon,2,Villarreal,CAPITAL_PARTIDO,,12135,Villarreal,6,0,116814,,0,2,EVALUADO,,COMPLETO
+congreso_castellon,3,Segorbe,CAPITAL_PARTIDO,,12104,Segorbe,67,0,122101,,0,3,EVALUADO,,COMPLETO
+congreso_castellon,4,Vinaroz,CAPITAL_PARTIDO,,12138,Vinaroz,55,0,115807,,0,2,EVALUADO,,COMPLETO

@@ -1,7 +1,7 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
-congreso_badajoz,0,Badajoz,MUNICIPIO,,06015,Badajoz,1,1,111238,,0,1,EVALUADO,
-congreso_badajoz,1,Mérida y entorno,PRINCIPAL_Y_ENTORNO,,06083,Mérida,18,0,111845,,0,3,EVALUADO,
-congreso_badajoz,2,Almendralejo y entorno,PRINCIPAL_Y_ENTORNO,,06011,Almendralejo,31,0,110215,,0,7,EVALUADO,
-congreso_badajoz,3,Zafra y entorno,PRINCIPAL_Y_ENTORNO,,06158,Zafra,52,0,110096,,0,7,EVALUADO,
-congreso_badajoz,4,Badajoz y entorno,PRINCIPAL_Y_ENTORNO,,06015,Badajoz,24,1,112572,,0,6,EVALUADO,
-congreso_badajoz,5,Don Benito y entorno,PRINCIPAL_Y_ENTORNO,,06044,Don Benito,40,0,110083,,0,6,EVALUADO,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas,estado_capital
+congreso_badajoz,0,Badajoz 1,MUNICIPIO,POSICION_N_S_O_E,06015,Badajoz,1,1,111238,,0,1,EVALUADO,,COMPLETO
+congreso_badajoz,1,Mérida,CAPITAL_PARTIDO,,06083,Mérida,24,0,116700,,0,2,EVALUADO,,COMPLETO
+congreso_badajoz,2,Almendralejo,CAPITAL_PARTIDO,,06011,Almendralejo,30,0,109411,,0,4,EVALUADO,,COMPLETO
+congreso_badajoz,3,Villafranca de los Barros,CAPITAL_PARTIDO,,06149,Villafranca de los Barros,53,0,110561,,0,4,EVALUADO,,COMPLETO
+congreso_badajoz,4,Badajoz 2,CAPITAL_PARTIDO,POSICION_N_S_O_E,06015,Badajoz,22,1,102235,,0,3,EVALUADO,,COMPLETO
+congreso_badajoz,5,Don Benito,CAPITAL_PARTIDO,,06044,Don Benito,36,0,115904,,0,3,EVALUADO,,COMPLETO

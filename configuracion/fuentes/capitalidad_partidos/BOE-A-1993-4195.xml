@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<documento fecha_actualizacion="20251217215601">
+  <metadatos>
+    <identificador>BOE-A-1993-4195</identificador>
+    <origen_legislativo codigo="2">Autonómico</origen_legislativo>
+    <departamento codigo="8040">Comunidad Autónoma de Cantabria</departamento>
+    <rango codigo="1300">Ley</rango>
+    <fecha_disposicion>19921216</fecha_disposicion>
+    <numero_oficial>8/1992</numero_oficial>
+    <titulo>Ley 8/1992, de 16 de diciembre, para la determinación de la capitalidad de los partidos judiciales de la Comunidad Autónoma de Cantabria.</titulo>
+    <diario codigo="BOE">Boletín Oficial del Estado</diario>
+    <fecha_publicacion>19930215</fecha_publicacion>
+    <diario_numero>39</diario_numero>
+    <seccion>1</seccion>
+    <subseccion/>
+    <pagina_inicial>4625</pagina_inicial>
+    <pagina_final>4626</pagina_final>
+    <suplemento_pagina_inicial/>
+    <suplemento_pagina_final/>
+    <url_pdf>https://www.boe.es/boe/dias/1993/02/15/pdfs/A04625-04626.pdf</url_pdf>
+    <url_epub/>
+    <url_pdf_catalan/>
+    <url_pdf_euskera/>
+    <url_pdf_gallego/>
+    <url_pdf_valenciano/>
+    <estatus_legislativo>L</estatus_legislativo>
+    <fecha_vigencia>19921229</fecha_vigencia>
+    <estatus_derogacion>N</estatus_derogacion>
+    <fecha_derogacion/>
+    <judicialmente_anulada>N</judicialmente_anulada>
+    <fecha_anulacion/>
+    <vigencia_agotada>N</vigencia_agotada>
+    <estado_consolidacion codigo="3">Finalizado</estado_consolidacion>
+    <letra_imagen>A</letra_imagen>
+    <suplemento_letra_imagen/>
+    <url_eli>https://www.boe.es/eli/es-cb/l/1992/12/16/8</url_eli>
+  </metadatos>
+  <metadata-eli>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:eli="http://data.europa.eu/eli/ontology#">
+      <eli:LegalResource rdf:about="https://www.boe.es/eli/es-cb/l/1992/12/16/8">
+        <eli:jurisdiction rdf:resource="http://www.elidata.es/mdr/authority/jurisdiction/1/es-cb"/>
+        <eli:type_document rdf:resource="http://www.elidata.es/mdr/authority/resource-type/1/l"/>
+        <eli:id_local rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BOE-A-1993-4195</eli:id_local>
+        <eli:date_document rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1992-12-16</eli:date_document>
+        <eli:number rdf:datatype="http://www.w3.org/2001/XMLSchema#string">8</eli:number>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/78"/>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/603"/>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/2414"/>
+        <eli:has_member>
+          <eli:LegalResource rdf:about="https://www.boe.es/eli/es-cb/l/1992/12/16/8/dof">
+            <eli:jurisdiction rdf:resource="http://www.elidata.es/mdr/authority/jurisdiction/1/es-cb"/>
+            <eli:type_document rdf:resource="http://www.elidata.es/mdr/authority/resource-type/1/l"/>
+            <eli:id_local rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BOE-A-1993-4195</eli:id_local>
+            <eli:date_document rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1992-12-16</eli:date_document>
+            <eli:number rdf:datatype="http://www.w3.org/2001/XMLSchema#string">8</eli:number>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/78"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/603"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/2414"/>
+            <eli:version rdf:resource="http://www.elidata.es/mdr/authority/version/dof"/>
+            <eli:is_member_of rdf:resource="https://www.boe.es/eli/es-cb/l/1992/12/16/8"/>
+            <eli:consolidated_by rdf:resource="https://www.boe.es/eli/es-cb/l/1992/12/16/8/con/19921228"/>
+            <eli:is_realized_by>
+              <eli:LegalExpression rdf:about="https://www.boe.es/eli/es-cb/l/1992/12/16/8/dof/spa">
+                <eli:language rdf:resource="http://www.elidata.es/mdr/authority/language/spa"/>
+                <eli:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ley 8/1992, de 16 de diciembre, para la determinación de la capitalidad de los partidos judiciales de la Comunidad Autónoma de Cantabria.</eli:title>
+                <eli:publisher_agent rdf:resource="https://www.boe.es"/>
+                <eli:date_publication rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1993-02-15</eli:date_publication>
+                <eli:realizes rdf:resource="https://www.boe.es/eli/es-cb/l/1992/12/16/8/dof"/>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-cb/l/1992/12/16/8/dof/spa/html">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/text/html"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-cb/l/1992/12/16/8/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-cb/l/1992/12/16/8/dof/spa/pdf">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/application/pdf"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-cb/l/1992/12/16/8/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-cb/l/1992/12/16/8/dof/spa/xml">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/application/xml"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-cb/l/1992/12/16/8/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+              </eli:LegalExpression>
+            </eli:is_realized_by>
+          </eli:LegalResource>
+        </eli:has_member>
+        <eli:has_member>
+          <eli:LegalResource rdf:about="https://www.boe.es/eli/es-cb/l/1992/12/16/8/con/19921228">
+            <eli:jurisdiction rdf:resource="http://www.elidata.es/mdr/authority/jurisdiction/1/es-cb"/>
+            <eli:type_document rdf:resource="http://www.elidata.es/mdr/authority/resource-type/1/l"/>
+            <eli:id_local rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BOE-A-1993-4195</eli:id_local>
+            <eli:date_document rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1992-12-16</eli:date_document>
+            <eli:number rdf:datatype="http://www.w3.org/2001/XMLSchema#string">8</eli:number>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/78"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/603"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/2414"/>
+            <eli:version rdf:resource="http://www.elidata.es/mdr/authority/version/con"/>
+            <eli:version_date rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1992-12-28</eli:version_date>
+            <eli:is_member_of rdf:resource="https://www.boe.es/eli/es-cb/l/1992/12/16/8"/>
+            <eli:consolidates rdf:resource="https://www.boe.es/eli/es-cb/l/1992/12/16/8/dof"/>
+            <eli:is_realized_by>
+              <eli:LegalExpression rdf:about="https://www.boe.es/eli/es-cb/l/1992/12/16/8/con/19921228/spa">
+                <eli:language rdf:resource="http://www.elidata.es/mdr/authority/language/spa"/>
+                <eli:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ley 8/1992, de 16 de diciembre, para la determinación de la capitalidad de los partidos judiciales de la Comunidad Autónoma de Cantabria.</eli:title>
+                <eli:publisher_agent rdf:resource="https://www.boe.es"/>
+                <eli:realizes rdf:resource="https://www.boe.es/eli/es-cb/l/1992/12/16/8/con/19921228"/>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-cb/l/1992/12/16/8/con/19921228/spa/html">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/text/html"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-cb/l/1992/12/16/8/con/19921228/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+              </eli:LegalExpression>
+            </eli:is_realized_by>
+          </eli:LegalResource>
+        </eli:has_member>
+      </eli:LegalResource>
+    </rdf:RDF>
+  </metadata-eli>
+  <analisis>
+    <materias>
+      <materia codigo="78" orden="1">Administración de Justicia</materia>
+      <materia codigo="603" orden="2">Cantabria</materia>
+      <materia codigo="2414" orden="3">Demarcación judicial</materia>
+    </materias>
+    <notas>
+      <nota codigo="14" orden="400">Publicada en el BOCT núm. 259, de 28 de diciembre de 1992.</nota>
+    </notas>
+    <referencias>
+      <anteriores>
+        <anterior referencia="BOE-A-1988-29622" orden="3060">
+          <palabra codigo="440">DE CONFORMIDAD con</palabra>
+          <texto>el art. 4.4 de la Ley 38/1988, de 28 de diciembre</texto>
+        </anterior>
+        <anterior referencia="BOE-A-1985-12666" orden="3060">
+          <palabra codigo="440">DE CONFORMIDAD con</palabra>
+          <texto>el art. 35.6 de la Ley Orgánica 6/1985, de 1 de julio</texto>
+        </anterior>
+        <anterior referencia="BOE-A-1982-635" orden="3060">
+          <palabra codigo="440">DE CONFORMIDAD con</palabra>
+          <texto>el art. 43 del Estatuto aprobado por Ley Orgánica 8/1981, de 30 de diciembre</texto>
+        </anterior>
+        <anterior referencia="BOE-A-1992-6576" orden="5020">
+          <palabra codigo="330">CITA</palabra>
+          <texto>Ley 3/1992, de 20 de marzo</texto>
+        </anterior>
+      </anteriores>
+      <posteriores/>
+    </referencias>
+    <alertas>
+      <alerta codigo="121" orden="1">Organización de la Administración</alerta>
+    </alertas>
+  </analisis>
+  <texto>
+    <p class="centro_redonda">EL PRESIDENTE DE LA DIPUTACIÓN REGIONAL DE CANTABRIA</p>
+    <p class="parrafo_2">Conózcase que la Asamblea Regional de Cantabria ha aprobado y yo, en nombre de Su Majestad el Rey de acuerdo con lo dispuesto en el artículo 15.2 del Estatuto de Autonomía para Cantabria, promulgo la siguiente Ley para la determinación de la capitalidad de los partidos judiciales de la Comunidad Autónoma de Cantabria.</p>
+    <p class="centro_redonda">Exposición de motivos</p>
+    <p class="parrafo_2">El Estatuto de Autonomía para Cantabria determina en su artículo 43, que corresponde a la Asamblea Regional de Cantabria fijar la delimitación de las demarcaciones territoriales de los órganos jurisdiccionales y la localización de su sede de acuerdo con la Ley Orgánica del Poder Judicial. La Ley Orgánica 6/1985, de 1 de julio, del Poder Judicial establece en su artículo 35.6 que las Comunidades Autónomas determinarán por ley la capitalidad de los partidos judiciales, precepto que textualmente recoge la Ley 38/1988, de 28 de diciembre, de Demarcación y Planta Judicial en su artículo 4.4, añadiendo en el mismo apartado que la capitalidad corresponde a un solo municipio y en el apartado 5 que los partidos judiciales se identifican por el nombre del municipio al que corresponde su capitalidad.</p>
+    <p class="parrafo">Sin renunciar a la propuesta aprobada por la Asamblea Regional de Cantabria el 7 de octubre de 1985, que incluía la necesidad también de partidos judiciales para los municipios de las comarcas de Liébana, Cabezón de la Sal y Castro Urdiales (este último creado por la Ley 3/1992, de 20 de marzo, sobre medidas de corrección de la Ley de Demarcación y Planta Judicial), la presente Ley da cumplimiento a las previsiones contenidas en las leyes citadas determinando la capitalidad de los partidos judiciales a que se refiere la normativa estatal.</p>
+    <p class="parrafo">Para ello se sigue el criterio de asumir las capitalidades vigentes en la actualidad que en general conjugan el respeto a la tradición histórica con criterios de población y ubicación geográfica.</p>
+    <p class="articulo">Artículo 1.º</p>
+    <p class="parrafo_2">Se establece en el municipio de Torrelavega la capitalidad del partido judicial cuyo ámbito territorial está integrado por el de los municipios de Alfoz de Lloredo, Anievas, Arenas de Iguña, Bárcena de Pie de Concha, Cabezón de la Sal, Cabuérniga, Cartes, Cieza, Los Corrales de Buelna, Mazcuerras, Miengo, Molledo, Polanco, Reocín, Ruente, San Felices de Buelna, Santillana del Mar, Suances, Los Tojos y Torrelavega.</p>
+    <p class="articulo">Art. 2.º</p>
+    <p class="parrafo_2">Se establece en el municipio de Laredo la capitalidad del partido judicial cuyo ámbito territorial está integrado por el de los municipios de Ampuero, Arredondo, Colindres, Laredo, Liendo, Limpias, Ramales de la Victoria, Rasines, Ruesga, Soba y Voto.</p>
+    <p class="articulo">Art. 3.º</p>
+    <p class="parrafo_2">Se establece en el municipio de Santander la capitalidad del partido judicial cuyo ámbito territorial está integrado por el de los municipios de Astillero, Camargo, Piélagos, Santa Cruz de Bezana, Santander y Villaescusa.</p>
+    <p class="articulo">Art. 4.º</p>
+    <p class="parrafo_2">Se establece en el municipio de San Viccente de la Barquera la capitalidad del partido judicial cuyo ámbito territorial está integrado por el de los municipios de Cabezón de Liébana, Camaleño, Cillorigo-Castro, Comillas, Herrerías, Lamasón, Peñarrubia, Pesaguero, Polaciones, Potes, Rionansa, Ruiloba, San Vicente de la Barquera, Treviso, Tudanca, Udías, Val de San Vicente, Valdáliga y Vega de Liébana.</p>
+    <p class="articulo">Art. 5.º</p>
+    <p class="parrafo_2">Se establece en el municipio de Reinosa la capitalidad del partido judicial cuyo ámbito territorial está integrado por el de los municipios de Campóo de Yuso, Enmedio, Hermandad de Campoó de Suso, Pesquera, Reinosa, Las Rozas de Valdearroyo, San Miguel de Agüayo, Santiurde de Reinosa, Valdeolea, Valdeprado del Río y Valderredible.</p>
+    <p class="articulo">Art. 6.º</p>
+    <p class="parrafo_2">Se establece en el municipio de Santoña la capitalidad del partido judicial cuyo ámbito territorial está integrado por el de los municipios de Argoños, Arnuero, Bárcena de Cicero, Bareyo, Escalante, Hazas de Cesto, Meruelo, Noja, Ribamontán al Mar, Ribamontán al Monte, Santoña y Solórzano.</p>
+    <p class="articulo">Art. 7.º</p>
+    <p class="parrafo_2">Se establecce en el municipio de Medio Cudeyo la capitalidad del partido judicial cuyo ámbito territorial está integrado por el de los municipios de Castañeda, Corvera de Toranzo, Entrambasaguas, Liérganes, Luena, Marina de Cudeyo, Medio Cudeyo, Miera, Penagos, Puente Viesgo, Riotuerto, San Pedro del Romeral, San Roque de Riomiera, Santa María de Cayón, Santiurde de Toranzao, Saro, Selaya, Vega de Pas, Villacarriedo y Villafufre.</p>
+    <p class="articulo">Art. 8.º</p>
+    <p class="parrafo_2">Se establece en el municipio de Castro Urdiales la capitalidad del partido judicial cuyo ámbito territorial está integrado por el de los municipios de Castro Urdiales, Guriezo y Villaverde de Trucíos.</p>
+    <p class="capitulo">DISPOSICIÓN FINAL</p>
+    <p class="parrafo_2">Esta Ley entrará en vigor al día siguiente de su publicación en el «Boletín Oficial de Cantabria».</p>
+    <p class="parrafo_2">Santander a 16 de diciembre de 1992.</p>
+    <p class="firma_ministro">JUAN HORMAECHEA CAZÓN,</p>
+    <p class="firma_ministro">Presidente del Consejo de Gobierno</p>
+    <p class="publicado">(Publicada en el «Boletín Oficial de Cantabria» número 259, de 28 de diciembre de 1992)</p>
+  </texto>
+</documento>

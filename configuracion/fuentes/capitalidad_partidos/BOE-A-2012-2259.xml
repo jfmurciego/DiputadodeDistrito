@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<documento fecha_actualizacion="20251219145601">
+  <metadatos>
+    <identificador>BOE-A-2012-2259</identificador>
+    <origen_legislativo codigo="2">Autonómico</origen_legislativo>
+    <departamento codigo="8140">Comunidad Autónoma del País Vasco</departamento>
+    <rango codigo="1300">Ley</rango>
+    <fecha_disposicion>19921016</fecha_disposicion>
+    <numero_oficial>5/1992</numero_oficial>
+    <titulo>Ley 5/1992, de 16 de octubre, por la que se complementa la Ley 1/1990, de 6 de abril, de determinación de la capitalidad de los Partidos Judiciales de la Comunidad Autónoma del País Vasco.</titulo>
+    <diario codigo="BOE">Boletín Oficial del Estado</diario>
+    <fecha_publicacion>20120215</fecha_publicacion>
+    <diario_numero>39</diario_numero>
+    <seccion>1</seccion>
+    <subseccion/>
+    <pagina_inicial>13580</pagina_inicial>
+    <pagina_final>13581</pagina_final>
+    <suplemento_pagina_inicial/>
+    <suplemento_pagina_final/>
+    <url_pdf>https://www.boe.es/boe/dias/2012/02/15/pdfs/BOE-A-2012-2259.pdf</url_pdf>
+    <url_epub>
+      <url_epub>https://www.boe.es/diario_boe/epub.php?id=BOE-A-2012-2259</url_epub>
+    </url_epub>
+    <url_pdf_catalan/>
+    <url_pdf_euskera/>
+    <url_pdf_gallego/>
+    <url_pdf_valenciano/>
+    <estatus_legislativo>L</estatus_legislativo>
+    <fecha_vigencia>19921103</fecha_vigencia>
+    <estatus_derogacion>N</estatus_derogacion>
+    <fecha_derogacion/>
+    <judicialmente_anulada>N</judicialmente_anulada>
+    <fecha_anulacion/>
+    <vigencia_agotada>N</vigencia_agotada>
+    <estado_consolidacion codigo="3">Finalizado</estado_consolidacion>
+    <letra_imagen>A</letra_imagen>
+    <suplemento_letra_imagen/>
+    <url_eli>https://www.boe.es/eli/es-pv/l/1992/10/16/5</url_eli>
+  </metadatos>
+  <metadata-eli>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:eli="http://data.europa.eu/eli/ontology#">
+      <eli:LegalResource rdf:about="https://www.boe.es/eli/es-pv/l/1992/10/16/5">
+        <eli:jurisdiction rdf:resource="http://www.elidata.es/mdr/authority/jurisdiction/1/es-pv"/>
+        <eli:type_document rdf:resource="http://www.elidata.es/mdr/authority/resource-type/1/l"/>
+        <eli:id_local rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BOE-A-2012-2259</eli:id_local>
+        <eli:date_document rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1992-10-16</eli:date_document>
+        <eli:number rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5</eli:number>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/78"/>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/2414"/>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/4717"/>
+        <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/5345"/>
+        <eli:has_member>
+          <eli:LegalResource rdf:about="https://www.boe.es/eli/es-pv/l/1992/10/16/5/dof">
+            <eli:jurisdiction rdf:resource="http://www.elidata.es/mdr/authority/jurisdiction/1/es-pv"/>
+            <eli:type_document rdf:resource="http://www.elidata.es/mdr/authority/resource-type/1/l"/>
+            <eli:id_local rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BOE-A-2012-2259</eli:id_local>
+            <eli:date_document rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1992-10-16</eli:date_document>
+            <eli:number rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5</eli:number>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/78"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/2414"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/4717"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/5345"/>
+            <eli:version rdf:resource="http://www.elidata.es/mdr/authority/version/dof"/>
+            <eli:is_member_of rdf:resource="https://www.boe.es/eli/es-pv/l/1992/10/16/5"/>
+            <eli:consolidated_by rdf:resource="https://www.boe.es/eli/es-pv/l/1992/10/16/5/con/19921102"/>
+            <eli:is_realized_by>
+              <eli:LegalExpression rdf:about="https://www.boe.es/eli/es-pv/l/1992/10/16/5/dof/spa">
+                <eli:language rdf:resource="http://www.elidata.es/mdr/authority/language/spa"/>
+                <eli:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ley 5/1992, de 16 de octubre, por la que se complementa la Ley 1/1990, de 6 de abril, de determinación de la capitalidad de los Partidos Judiciales de la Comunidad Autónoma del País Vasco.</eli:title>
+                <eli:publisher_agent rdf:resource="https://www.boe.es"/>
+                <eli:date_publication rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2012-02-15</eli:date_publication>
+                <eli:realizes rdf:resource="https://www.boe.es/eli/es-pv/l/1992/10/16/5/dof"/>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-pv/l/1992/10/16/5/dof/spa/epub">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/application/epub+zip"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-pv/l/1992/10/16/5/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-pv/l/1992/10/16/5/dof/spa/html">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/text/html"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-pv/l/1992/10/16/5/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-pv/l/1992/10/16/5/dof/spa/pdf">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/application/pdf"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-pv/l/1992/10/16/5/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-pv/l/1992/10/16/5/dof/spa/xml">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/application/xml"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-pv/l/1992/10/16/5/dof/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+              </eli:LegalExpression>
+            </eli:is_realized_by>
+          </eli:LegalResource>
+        </eli:has_member>
+        <eli:has_member>
+          <eli:LegalResource rdf:about="https://www.boe.es/eli/es-pv/l/1992/10/16/5/con/19921102">
+            <eli:jurisdiction rdf:resource="http://www.elidata.es/mdr/authority/jurisdiction/1/es-pv"/>
+            <eli:type_document rdf:resource="http://www.elidata.es/mdr/authority/resource-type/1/l"/>
+            <eli:id_local rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BOE-A-2012-2259</eli:id_local>
+            <eli:date_document rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1992-10-16</eli:date_document>
+            <eli:number rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5</eli:number>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/78"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/2414"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/4717"/>
+            <eli:is_about rdf:resource="https://www.boe.es/legislacion/eli/materias/5345"/>
+            <eli:version rdf:resource="http://www.elidata.es/mdr/authority/version/con"/>
+            <eli:version_date rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1992-11-02</eli:version_date>
+            <eli:is_member_of rdf:resource="https://www.boe.es/eli/es-pv/l/1992/10/16/5"/>
+            <eli:consolidates rdf:resource="https://www.boe.es/eli/es-pv/l/1992/10/16/5/dof"/>
+            <eli:is_realized_by>
+              <eli:LegalExpression rdf:about="https://www.boe.es/eli/es-pv/l/1992/10/16/5/con/19921102/spa">
+                <eli:language rdf:resource="http://www.elidata.es/mdr/authority/language/spa"/>
+                <eli:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ley 5/1992, de 16 de octubre, por la que se complementa la Ley 1/1990, de 6 de abril, de determinación de la capitalidad de los Partidos Judiciales de la Comunidad Autónoma del País Vasco.</eli:title>
+                <eli:publisher_agent rdf:resource="https://www.boe.es"/>
+                <eli:realizes rdf:resource="https://www.boe.es/eli/es-pv/l/1992/10/16/5/con/19921102"/>
+                <eli:is_embodied_by>
+                  <eli:Format rdf:about="https://www.boe.es/eli/es-pv/l/1992/10/16/5/con/19921102/spa/html">
+                    <eli:format rdf:resource="http://www.iana.org/assignments/media-types/text/html"/>
+                    <eli:embodies rdf:resource="https://www.boe.es/eli/es-pv/l/1992/10/16/5/con/19921102/spa"/>
+                  </eli:Format>
+                </eli:is_embodied_by>
+              </eli:LegalExpression>
+            </eli:is_realized_by>
+          </eli:LegalResource>
+        </eli:has_member>
+      </eli:LegalResource>
+    </rdf:RDF>
+  </metadata-eli>
+  <analisis>
+    <materias>
+      <materia codigo="78" orden="">Administración de Justicia</materia>
+      <materia codigo="2414" orden="">Demarcación judicial</materia>
+      <materia codigo="4717" orden="">Juzgados de lo Penal</materia>
+      <materia codigo="5345" orden="">País Vasco</materia>
+    </materias>
+    <notas>
+      <nota codigo="14" orden="400">Publicada en el BOPV núm. 213, de 2 de noviembre de 1992.</nota>
+    </notas>
+    <referencias>
+      <anteriores>
+        <anterior referencia="BOE-A-2012-2855" orden="2015">
+          <palabra codigo="270">MODIFICA</palabra>
+          <texto>el art. 3 de la Ley 1/1990, de 6 de abril</texto>
+        </anterior>
+        <anterior referencia="BOE-A-1979-30177" orden="3060">
+          <palabra codigo="440">DE CONFORMIDAD con</palabra>
+          <texto>el art. 34.1 del Estatuto aprobado por Ley Orgánica 3/1979, de 18 de diciembre</texto>
+        </anterior>
+      </anteriores>
+      <posteriores/>
+    </referencias>
+    <alertas/>
+  </analisis>
+  <texto>
+    <p class="parrafo">Se hace saber a todos los ciudadanos de Euskadi, que el Parlamento Vasco ha aprobado la siguiente Ley 5/1992, de 16 de octubre, por la que se complementa la Ley 1/1990, de 6 de abril, de determinación de la capitalidad de los Partidos Judiciales de la Comunidad Autónoma del País Vasco.</p>
+    <p class="centro_redonda">EXPOSICIÓN DE MOTIVOS</p>
+    <p class="parrafo_2">El Parlamento Vasco, dando cumplimiento a lo dispuesto en el artículo 34.1, párrafo segundo, del Estatuto de Autonomía, y en desarrollo de la Ley Orgánica 6/1985, de 1 de julio, del Poder Judicial, y la Ley 38/1988, de 28 de diciembre, de Demarcación y Planta Judicial, determinó, mediante la Ley 1/1990, de 6 de abril, la capitalidad de los Partidos Judiciales de la Comunidad Autónoma del País Vasco.</p>
+    <p class="parrafo">Posteriormente, el artículo 2.3 a) de la Ley 3/1992, de 20 de marzo, sobre medidas de corrección de la Ley 38/1988, de 28 de diciembre, de Demarcación y Planta, ha modificado parcialmente el Anexo VII de la misma, creando, dentro del Territorio Histórico de Bizkaia, dos nuevos Juzgados de lo Penal para constituirse en población distinta de la capital de dicho Territorio y con ámbito jurisdiccional comprendido por la circunscripción territorial de los Partidos Judiciales de Barakaldo y Balmaseda.</p>
+    <p class="parrafo">Con esta modificación se toma en consideración la necesidad general de acercar la Justicia al ciudadano, ante el aumento progresivo de la litigiosidad, que es consecuencia de una mayor conciencia de sus derechos democráticos, así como razones concretas derivadas de las cargas de trabajo que soporta dicha circunscripción territorial, en función de su densidad demográfica y sus especiales características sociales.</p>
+    <p class="parrafo">Por otra parte, hay que tener en cuenta que con posterioridad a la citada Ley 1/1990, de 6 de abril, se ha producido la creación de dos nuevos municipios: Alonsotegi, por segregación del municipio de Barakaldo, y Ajangiz, por segregación del municipio de Gernika-Lumo, todo ello de acuerdo con las respectivas aprobaciones emanadas por las Juntas Generales de Bizkaia con fecha 20 de noviembre de 1990.</p>
+    <p class="parrafo">Incluidos tales municipios en la Ley de Medidas de Corrección de la de Demarcación y Planta Judicial, se considera conveniente su incorporación al texto de la ley del Parlamento Vasco por la que se determinan las capitalidades de los Partidos Judiciales.</p>
+    <p class="parrafo">Procede, por tanto, fijar la sede de los referidos Juzgados de lo Penal y relacionar los municipios en su respectivo Partido Judicial, completando de este modo la meritada Ley 1/1990, de 6 de abril.</p>
+    <p class="parrafo">Finalmente reseñar que, en cumplimiento de lo dispuesto en el artículo 108 de la Ley Orgánica del Poder Judicial, el proyecto de ley ha sido informado por el Consejo General del Poder Judicial.</p>
+    <p class="articulo">Artículo 1.</p>
+    <p class="parrafo">Se fija en el municipio de Barakaldo la sede de los Juzgados de lo Penal con jurisdicción en los Partidos Judiciales de Barakaldo y Balmaseda.</p>
+    <p class="articulo">Artículo 2.</p>
+    <p class="parrafo">1. El artículo 3 de la Ley 1/1990, de 6 de abril, por la que se determina la capitalidad de los Partidos Judiciales de la Comunidad Autónoma del País Vasco, en su apartado referido al Territorio Histórico de Bizkaia, quedará modificado con arreglo a lo dispuesto en el presente artículo.</p>
+    <p class="parrafo">2. Se incorporan los siguientes municipios a los Partidos Judiciales que se expresan:</p>
+    <p class="parrafo_2">– Partido Judicial n.º 2, se incluye «Alonsotegi» entre «Abanto y Ciérvana-Abanto Zierbena» y «Barakaldo»</p>
+    <p class="parrafo">– Partido Judicial n.º 3, se incluye «Ajangiz» en primer lugar antes de «Amoroto».</p>
+    <p class="articulo">Disposición final.</p>
+    <p class="parrafo">La presente ley entrará en vigor al día siguiente de su publicación en el Boletín Oficial del País Vasco.</p>
+    <p class="parrafo_2">Por consiguiente, ordeno a todos los ciudadanos de Euskadi, particulares y autoridades, que la guarden y hagan guardarla.</p>
+    <p class="parrafo_2">Palacio de Ajuria-Enea, 27 de octubre de 1992.–El Lehendakari, José Antonio Ardanza Garro.</p>
+    <p class="publicado"><em>[Publicada en el «Boletín Oficial del País Vasco» número 213, de 2 de noviembre de 1992</em>. Esta ley se publica en su redacción original aprobada por el Parlamento Vasco, de conformidad con lo previsto en el artículo 27.5 del Estatuto de Autonomía del País Vasco y el artículo 6.1.b) del Real Decreto 181/2008, de 8 de febrero, de ordenación del diario oficial «Boletín Oficial del Estado», sin perjuicio de su vigencia actual]</p>
+  </texto>
+</documento>

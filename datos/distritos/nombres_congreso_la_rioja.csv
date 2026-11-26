@@ -1,4 +1,4 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
-congreso_la_rioja,0,Logroño,MUNICIPIO,,26089,Logroño,1,1,107262,,0,1,EVALUADO,
-congreso_la_rioja,1,Logroño y entorno,PRINCIPAL_Y_ENTORNO,,26089,Logroño,76,1,107496,,0,3,EVALUADO,
-congreso_la_rioja,2,Calahorra y entorno,PRINCIPAL_Y_ENTORNO,,26036,Calahorra,98,0,107524,,0,3,EVALUADO,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas,estado_capital
+congreso_la_rioja,0,Logroño 1,MUNICIPIO,POSICION_N_S_O_E,26089,Logroño,1,1,107262,,0,1,EVALUADO,,COMPLETO
+congreso_la_rioja,1,Logroño 2,CAPITAL_PARTIDO,POSICION_N_S_O_E,26089,Logroño,99,1,99689,,0,2,EVALUADO,,COMPLETO
+congreso_la_rioja,2,Calahorra,CAPITAL_PARTIDO,,26036,Calahorra,75,0,115331,,0,2,EVALUADO,,COMPLETO

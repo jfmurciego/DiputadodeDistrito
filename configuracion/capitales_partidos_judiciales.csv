@@ -1,0 +1,289 @@
+# fuente: leyes autonómicas de capitalidad de partidos judiciales (Ley 38/1988 art. 4.4), texto BOE en configuracion/fuentes/capitalidad_partidos; no cubre Aragón, Baleares, Canarias, Cataluña, Galicia, Ceuta ni Melilla
+id_partido,provincia,partido_judicial,capital_ley,codigo_ine,nombre_ine,nueva_creacion,fuente,boe,sha256_boe
+01-01,01,1,Amurrio,01002,Amurrio,,Ley 1/1990 País Vasco,BOE-A-2012-2855,22e1957248687ed7a81199f498d45ddaf1e40ca098896e7c3177ee4bf88b5bf7
+01-02,01,2,Vitoria-Gasteiz,01059,Vitoria-Gasteiz,,Ley 1/1990 País Vasco,BOE-A-2012-2855,22e1957248687ed7a81199f498d45ddaf1e40ca098896e7c3177ee4bf88b5bf7
+02-01,02,1,Albacete,02003,Albacete,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+02-02,02,2,Alcaraz,02008,Alcaraz,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+02-03,02,3,Almansa,02009,Almansa,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+02-04,02,4,Hellín,02037,Hellín,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+02-05,02,5,La Roda,02069,"Roda, La",,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+02-06,02,6,Villarrobledo,02081,Villarrobledo,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+02-07,02,7,Casas Ibáñez,02024,Casas-Ibáñez,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+03-01,03,1,Denia,03063,Dénia,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+03-02,03,2,Alcoy,03009,Alcoi/Alcoy,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+03-03,03,3,Alicante,03014,Alacant/Alicante,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+03-04,03,4,Orihuela,03099,Orihuela,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+03-05,03,5,La Vila Joiosa,03139,"Vila Joiosa, la/Villajoyosa",,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+03-06,03,6,Elda,03066,Elda,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+03-07,03,7,Villena,03140,Villena,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+03-08,03,8,Elx,03065,Elx/Elche,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+03-09,03,9,Benidorm,03031,Benidorm,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+03-10,03,10,San Vicente del Raspeig,03122,Sant Vicent del Raspeig/San Vicente del Raspeig,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+03-11,03,11,Novelda,03093,Novelda,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+03-12,03,12,Ibi,03079,Ibi,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+04-01,04,1,Almería,04013,Almería,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+04-02,04,2,Berja,04029,Berja,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+04-03,04,3,Huércal-Overa,04053,Huércal-Overa,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+04-04,04,4,Vera,04100,Vera,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+04-05,04,5,Roquetas de Mar,04079,Roquetas de Mar,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+04-06,04,6,Vélez-Rubio,04099,Vélez-Rubio,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+04-07,04,7,El Ejido,04902,"Ejido, El",,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+04-08,04,8,Purchena,04076,Purchena,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+05-01,05,1,Arévalo,05016,Arévalo,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+05-02,05,2,Arenas de San Pedro,05014,Arenas de San Pedro,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+05-03,05,3,Ávila,05019,Ávila,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+05-04,05,4,Piedrahíta,05186,Piedrahíta,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+06-01,06,1,Villanueva de la Serena,06153,Villanueva de la Serena,,Ley 3/1989 Extremadura,BOE-A-1990-6061,9cd6c2eafb359130097e02720f8d74934569448c2517df7b7a65f32390a1d57f
+06-02,06,2,Almendralejo,06011,Almendralejo,,Ley 3/1989 Extremadura,BOE-A-1990-6061,9cd6c2eafb359130097e02720f8d74934569448c2517df7b7a65f32390a1d57f
+06-03,06,3,Llerena,06074,Llerena,,Ley 3/1989 Extremadura,BOE-A-1990-6061,9cd6c2eafb359130097e02720f8d74934569448c2517df7b7a65f32390a1d57f
+06-04,06,4,Mérida,06083,Mérida,,Ley 3/1989 Extremadura,BOE-A-1990-6061,9cd6c2eafb359130097e02720f8d74934569448c2517df7b7a65f32390a1d57f
+06-05,06,5,Badajoz,06015,Badajoz,,Ley 3/1989 Extremadura,BOE-A-1990-6061,9cd6c2eafb359130097e02720f8d74934569448c2517df7b7a65f32390a1d57f
+06-06,06,6,Olivenza,06095,Olivenza,,Ley 3/1989 Extremadura,BOE-A-1990-6061,9cd6c2eafb359130097e02720f8d74934569448c2517df7b7a65f32390a1d57f
+06-07,06,7,Zafra,06158,Zafra,,Ley 3/1989 Extremadura,BOE-A-1990-6061,9cd6c2eafb359130097e02720f8d74934569448c2517df7b7a65f32390a1d57f
+06-08,06,8,Jerez de los Caballeros,06070,Jerez de los Caballeros,,Ley 3/1989 Extremadura,BOE-A-1990-6061,9cd6c2eafb359130097e02720f8d74934569448c2517df7b7a65f32390a1d57f
+06-09,06,9,Herrera del Duque,06063,Herrera del Duque,,Ley 3/1989 Extremadura,BOE-A-1990-6061,9cd6c2eafb359130097e02720f8d74934569448c2517df7b7a65f32390a1d57f
+06-10,06,10,Castuera,06036,Castuera,,Ley 3/1989 Extremadura,BOE-A-1990-6061,9cd6c2eafb359130097e02720f8d74934569448c2517df7b7a65f32390a1d57f
+06-11,06,11,Don Benito,06044,Don Benito,,Ley 3/1989 Extremadura,BOE-A-1990-6061,9cd6c2eafb359130097e02720f8d74934569448c2517df7b7a65f32390a1d57f
+06-12,06,12,Fregenal de la Sierra,06050,Fregenal de la Sierra,,Ley 3/1989 Extremadura,BOE-A-1990-6061,9cd6c2eafb359130097e02720f8d74934569448c2517df7b7a65f32390a1d57f
+06-13,06,13,Montijo,06088,Montijo,,Ley 3/1989 Extremadura,BOE-A-1990-6061,9cd6c2eafb359130097e02720f8d74934569448c2517df7b7a65f32390a1d57f
+06-14,06,14,Villafranca de los Barros,06149,Villafranca de los Barros,,Ley 3/1989 Extremadura,BOE-A-1990-6061,9cd6c2eafb359130097e02720f8d74934569448c2517df7b7a65f32390a1d57f
+09-01,09,1,Burgos,09059,Burgos,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+09-02,09,2,Aranda de Duero,09018,Aranda de Duero,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+09-03,09,3,Villarcayo de Merindad de Castilla la Vieja,09903,Villarcayo de Merindad de Castilla la Vieja,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+09-04,09,4,Miranda de Ebro,09219,Miranda de Ebro,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+09-05,09,5,Lerma,09194,Lerma,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+09-06,09,6,Briviesca,09056,Briviesca,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+09-07,09,7,Salas de los Infantes,09330,Salas de los Infantes,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+10-01,10,1,Cáceres,10037,Cáceres,,Ley 3/1989 Extremadura,BOE-A-1990-6061,9cd6c2eafb359130097e02720f8d74934569448c2517df7b7a65f32390a1d57f
+10-02,10,2,Coria,10067,Coria,,Ley 3/1989 Extremadura,BOE-A-1990-6061,9cd6c2eafb359130097e02720f8d74934569448c2517df7b7a65f32390a1d57f
+10-03,10,3,Navalmoral de la Mata,10131,Navalmoral de la Mata,,Ley 3/1989 Extremadura,BOE-A-1990-6061,9cd6c2eafb359130097e02720f8d74934569448c2517df7b7a65f32390a1d57f
+10-04,10,4,Plasencia,10148,Plasencia,,Ley 3/1989 Extremadura,BOE-A-1990-6061,9cd6c2eafb359130097e02720f8d74934569448c2517df7b7a65f32390a1d57f
+10-05,10,5,Trujillo,10195,Trujillo,,Ley 3/1989 Extremadura,BOE-A-1990-6061,9cd6c2eafb359130097e02720f8d74934569448c2517df7b7a65f32390a1d57f
+10-06,10,6,Valencia de Alcántara,10203,Valencia de Alcántara,,Ley 3/1989 Extremadura,BOE-A-1990-6061,9cd6c2eafb359130097e02720f8d74934569448c2517df7b7a65f32390a1d57f
+10-07,10,7,Logrosán,10109,Logrosán,,Ley 3/1989 Extremadura,BOE-A-1990-6061,9cd6c2eafb359130097e02720f8d74934569448c2517df7b7a65f32390a1d57f
+11-01,11,1,Chiclana de la Frontera,11015,Chiclana de la Frontera,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+11-02,11,2,Arcos de la Frontera,11006,Arcos de la Frontera,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+11-03,11,3,Algeciras,11004,Algeciras,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+11-04,11,4,Cádiz,11012,Cádiz,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+11-05,11,5,San Roque,11033,San Roque,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+11-06,11,6,Sanlúcar de Barrameda,11032,Sanlúcar de Barrameda,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+11-07,11,7,Jerez de la Frontera,11020,Jerez de la Frontera,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+11-08,11,8,La Línea de la Concepción,11022,"Línea de la Concepción, La",,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+11-09,11,9,San Fernando,11031,San Fernando,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+11-10,11,10,El Puerto de Santa María,11027,"Puerto de Santa María, El",,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+11-11,11,11,Rota,11030,Rota,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+11-13,11,13,Puerto Real,11028,Puerto Real,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+11-14,11,14,Barbate de Franco,11007,Barbate,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+12-01,12,1,Castelló de la Plana,12040,Castelló de la Plana,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+12-02,12,2,Segorbe,12104,Segorbe,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+12-03,12,3,Vinaròs,12138,Vinaròs,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+12-04,12,4,Nules,12082,Nules,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+12-05,12,5,Vila-Real,12135,Vila-real,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+13-01,13,1,Alcázar de San Juan,13005,Alcázar de San Juan,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+13-02,13,2,Ciudad Real,13034,Ciudad Real,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+13-03,13,3,Daimiel,13039,Daimiel,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+13-04,13,4,Manzanares,13053,Manzanares,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+13-05,13,5,Valdepeñas,13087,Valdepeñas,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+13-06,13,6,Villanueva de los Infantes,13093,Villanueva de los Infantes,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+13-07,13,7,Puertollano,13071,Puertollano,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+13-08,13,8,Tomelloso,13082,Tomelloso,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+13-09,13,9,Almagro,13013,Almagro,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+13-10,13,10,Almadén,13011,Almadén,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+14-01,14,1,Montoro,14043,Montoro,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+14-02,14,2,Aguilar,14002,Aguilar de la Frontera,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+14-03,14,3,Pozoblanco,14054,Pozoblanco,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+14-04,14,4,Baena,14007,Baena,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+14-05,14,5,Posadas,14053,Posadas,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+14-06,14,6,Peñarroya-Pueblonuevo,14052,Peñarroya-Pueblonuevo,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+14-07,14,7,Lucena,14038,Lucena,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+14-08,14,8,Córdoba,14021,Córdoba,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+14-09,14,9,Priego de Córdoba,14055,Priego de Córdoba,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+14-10,14,10,Cabra,14013,Cabra,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+14-11,14,11,Montilla,14042,Montilla,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+14-12,14,12,Puente Genil,14056,Puente Genil,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+16-01,16,1,Cuenca,16078,Cuenca,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+16-02,16,2,Tarancón,16203,Tarancón,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+16-03,16,3,Motilla del Palancar,16134,Motilla del Palancar,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+16-04,16,4,San Clemente,16190,San Clemente,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+18-01,18,1,Laja,18122,Loja,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+18-02,18,2,Guadix,18089,Guadix,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+18-03,18,3,Granada,18087,Granada,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+18-04,18,4,Motril,18140,Motril,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+18-05,18,5,Órgiva,18147,Órgiva,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+18-06,18,6,Baza,18023,Baza,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+18-07,18,7,Santa Fe,18175,Santa Fe,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+18-08,18,8,Huéscar,18098,Huéscar,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+19-01,19,1,Guadalajara,19130,Guadalajara,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+19-02,19,2,Molina de Aragón,19190,Molina de Aragón,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+19-03,19,3,Sigüenza,19257,Sigüenza,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+20-01,20,1,Tolosa,20071,Tolosa,,Ley 1/1990 País Vasco,BOE-A-2012-2855,22e1957248687ed7a81199f498d45ddaf1e40ca098896e7c3177ee4bf88b5bf7
+20-02,20,2,Azpeitia,20018,Azpeitia,,Ley 1/1990 País Vasco,BOE-A-2012-2855,22e1957248687ed7a81199f498d45ddaf1e40ca098896e7c3177ee4bf88b5bf7
+20-03,20,3,Bergara,20074,Bergara,,Ley 1/1990 País Vasco,BOE-A-2012-2855,22e1957248687ed7a81199f498d45ddaf1e40ca098896e7c3177ee4bf88b5bf7
+20-04,20,4,Eibar,20030,Eibar,,Ley 1/1990 País Vasco,BOE-A-2012-2855,22e1957248687ed7a81199f498d45ddaf1e40ca098896e7c3177ee4bf88b5bf7
+20-05,20,5,Donostia-San Sebastián,20069,Donostia/San Sebastián,,Ley 1/1990 País Vasco,BOE-A-2012-2855,22e1957248687ed7a81199f498d45ddaf1e40ca098896e7c3177ee4bf88b5bf7
+20-06,20,6,Irún,20045,Irun,,Ley 1/1990 País Vasco,BOE-A-2012-2855,22e1957248687ed7a81199f498d45ddaf1e40ca098896e7c3177ee4bf88b5bf7
+21-01,21,1,Aracena,21007,Aracena,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+21-02,21,2,Huelva,21041,Huelva,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+21-03,21,3,La Palma del Condado,21054,"Palma del Condado, La",,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+21-04,21,4,Valverde del Camino,21072,Valverde del Camino,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+21-05,21,5,Ayamonte,21010,Ayamonte,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+21-06,21,6,Moguer,21050,Moguer,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+23-01,23,1,Jaén,23050,Jaén,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+23-02,23,2,Alcalá la Real,23002,Alcalá la Real,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+23-03,23,3,La Carolina,23024,"Carolina, La",,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+23-04,23,4,Andújar,23005,Andújar,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+23-05,23,5,Baeza,23009,Baeza,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+23-06,23,6,Linares,23055,Linares,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+23-07,23,7,Villacarrillo,23095,Villacarrillo,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+23-08,23,8,Cazorla,23028,Cazorla,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+23-09,23,9,Martos,23060,Martos,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+23-10,23,10,Úbeda,23092,Úbeda,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+24-01,24,1,Sahagún,24139,Sahagún,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+24-02,24,2,León,24089,León,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+24-03,24,3,La Bañeza,24010,"Bañeza, La",,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+24-04,24,4,Ponferrada,24115,Ponferrada,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+24-05,24,5,Astorga,24008,Astorga,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+24-06,24,6,Cistierna,24056,Cistierna,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+24-07,24,7,Villablino,24202,Villablino,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+26-01,26,1,Haro,26071,Haro,,Ley 6/1989 La Rioja,BOE-A-1990-1720,1233fd05310780753b2befa21be69383f6a6d73cce90668c02d7b9d18e0f8850
+26-02,26,2,Calahorra,26036,Calahorra,,Ley 6/1989 La Rioja,BOE-A-1990-1720,1233fd05310780753b2befa21be69383f6a6d73cce90668c02d7b9d18e0f8850
+26-03,26,3,Logroño,26089,Logroño,,Ley 6/1989 La Rioja,BOE-A-1990-1720,1233fd05310780753b2befa21be69383f6a6d73cce90668c02d7b9d18e0f8850
+28-01,28,1,Torrelaguna,28151,Torrelaguna,,Ley 11/1989 Madrid,BOE-A-1990-516,575e139110b9cc77e8850d52b2468a995888c832abcf79eef9d07d5211fc95ad
+28-02,28,2,Torrejón de Ardoz,28148,Torrejón de Ardoz,,Ley 11/1989 Madrid,BOE-A-1990-516,575e139110b9cc77e8850d52b2468a995888c832abcf79eef9d07d5211fc95ad
+28-03,28,3,Navalcarnero,28096,Navalcarnero,,Ley 11/1989 Madrid,BOE-A-1990-516,575e139110b9cc77e8850d52b2468a995888c832abcf79eef9d07d5211fc95ad
+28-04,28,4,Alcalá de Henares,28005,Alcalá de Henares,,Ley 11/1989 Madrid,BOE-A-1990-516,575e139110b9cc77e8850d52b2468a995888c832abcf79eef9d07d5211fc95ad
+28-05,28,5,Alcobendas,28006,Alcobendas,,Ley 11/1989 Madrid,BOE-A-1990-516,575e139110b9cc77e8850d52b2468a995888c832abcf79eef9d07d5211fc95ad
+28-06,28,6,Móstoles,28092,Móstoles,,Ley 11/1989 Madrid,BOE-A-1990-516,575e139110b9cc77e8850d52b2468a995888c832abcf79eef9d07d5211fc95ad
+28-07,28,7,San Lorenzo de El Escorial,28131,San Lorenzo de El Escorial,,Ley 11/1989 Madrid,BOE-A-1990-516,575e139110b9cc77e8850d52b2468a995888c832abcf79eef9d07d5211fc95ad
+28-08,28,8,Aranjuez,28013,Aranjuez,,Ley 11/1989 Madrid,BOE-A-1990-516,575e139110b9cc77e8850d52b2468a995888c832abcf79eef9d07d5211fc95ad
+28-09,28,9,Leganés,28074,Leganés,,Ley 11/1989 Madrid,BOE-A-1990-516,575e139110b9cc77e8850d52b2468a995888c832abcf79eef9d07d5211fc95ad
+28-10,28,10,Getafe,28065,Getafe,,Ley 11/1989 Madrid,BOE-A-1990-516,575e139110b9cc77e8850d52b2468a995888c832abcf79eef9d07d5211fc95ad
+28-11,28,11,Madrid,28079,Madrid,,Ley 11/1989 Madrid,BOE-A-1990-516,575e139110b9cc77e8850d52b2468a995888c832abcf79eef9d07d5211fc95ad
+28-12,28,12,Majadahonda,28080,Majadahonda,,Ley 11/1989 Madrid,BOE-A-1990-516,575e139110b9cc77e8850d52b2468a995888c832abcf79eef9d07d5211fc95ad
+28-13,28,13,Coslada,28049,Coslada,,Ley 11/1989 Madrid,BOE-A-1990-516,575e139110b9cc77e8850d52b2468a995888c832abcf79eef9d07d5211fc95ad
+28-14,28,14,Arganda del Rey,28014,Arganda del Rey,,Ley 11/1989 Madrid,BOE-A-1990-516,575e139110b9cc77e8850d52b2468a995888c832abcf79eef9d07d5211fc95ad
+28-15,28,15,Collado-Villalba,28047,Collado Villalba,,Ley 11/1989 Madrid,BOE-A-1990-516,575e139110b9cc77e8850d52b2468a995888c832abcf79eef9d07d5211fc95ad
+28-16,28,16,Parla,28106,Parla,,Ley 11/1989 Madrid,BOE-A-1990-516,575e139110b9cc77e8850d52b2468a995888c832abcf79eef9d07d5211fc95ad
+28-17,28,17,Alcorcón,28007,Alcorcón,,Ley 11/1989 Madrid,BOE-A-1990-516,575e139110b9cc77e8850d52b2468a995888c832abcf79eef9d07d5211fc95ad
+28-18,28,18,Fuenlabrada,28058,Fuenlabrada,,Ley 11/1989 Madrid,BOE-A-1990-516,575e139110b9cc77e8850d52b2468a995888c832abcf79eef9d07d5211fc95ad
+28-19,28,19,Colmenar Viejo,28045,Colmenar Viejo,,Ley 11/1989 Madrid,BOE-A-1990-516,575e139110b9cc77e8850d52b2468a995888c832abcf79eef9d07d5211fc95ad
+29-01,29,1,Antequera,29015,Antequera,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+29-02,29,2,Vélez-Málaga,29094,Vélez-Málaga,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+29-03,29,3,Málaga,29067,Málaga,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+29-04,29,4,Ronda,29084,Ronda,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+29-05,29,5,Fuengirola,29054,Fuengirola,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+29-06,29,6,Marbella,29069,Marbella,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+29-07,29,7,Estepona,29051,Estepona,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+29-09,29,9,Torrox,29091,Torrox,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+29-10,29,10,Coín,29042,Coín,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+29-11,29,11,Archidona,29017,Archidona,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+30-01,30,1,Caravaca de la Cruz,30015,Caravaca de la Cruz,,Ley 5/1989 Murcia,BOE-A-1990-2732,1fc63411733ecafe37202d1cf949e969396ae4b314086752d8aa3e61c3c7f3a1
+30-02,30,2,Cartagena,30016,Cartagena,,Ley 5/1989 Murcia,BOE-A-1990-2732,1fc63411733ecafe37202d1cf949e969396ae4b314086752d8aa3e61c3c7f3a1
+30-03,30,3,Cieza,30019,Cieza,,Ley 5/1989 Murcia,BOE-A-1990-2732,1fc63411733ecafe37202d1cf949e969396ae4b314086752d8aa3e61c3c7f3a1
+30-04,30,4,Lorca,30024,Lorca,,Ley 5/1989 Murcia,BOE-A-1990-2732,1fc63411733ecafe37202d1cf949e969396ae4b314086752d8aa3e61c3c7f3a1
+30-05,30,5,Mula,30029,Mula,,Ley 5/1989 Murcia,BOE-A-1990-2732,1fc63411733ecafe37202d1cf949e969396ae4b314086752d8aa3e61c3c7f3a1
+30-06,30,6,Murcia,30030,Murcia,,Ley 5/1989 Murcia,BOE-A-1990-2732,1fc63411733ecafe37202d1cf949e969396ae4b314086752d8aa3e61c3c7f3a1
+30-07,30,7,Yecla,30043,Yecla,,Ley 5/1989 Murcia,BOE-A-1990-2732,1fc63411733ecafe37202d1cf949e969396ae4b314086752d8aa3e61c3c7f3a1
+30-08,30,8,Molina de segura,30027,Molina de Segura,,Ley 5/1989 Murcia,BOE-A-1990-2732,1fc63411733ecafe37202d1cf949e969396ae4b314086752d8aa3e61c3c7f3a1
+30-09,30,9,Totana,30039,Totana,,Ley 5/1989 Murcia,BOE-A-1990-2732,1fc63411733ecafe37202d1cf949e969396ae4b314086752d8aa3e61c3c7f3a1
+30-10,30,10,Jumilla,30022,Jumilla,,Ley 5/1989 Murcia,BOE-A-1990-2732,1fc63411733ecafe37202d1cf949e969396ae4b314086752d8aa3e61c3c7f3a1
+30-11,30,11,San Javier,30035,San Javier,,Ley 5/1989 Murcia,BOE-A-1990-2732,1fc63411733ecafe37202d1cf949e969396ae4b314086752d8aa3e61c3c7f3a1
+31-01,31,1,Estella,31097,Estella-Lizarra,,Ley Foral 4/1989 Navarra,BOE-A-1989-23274,18a2743eea4bf7ab070839c3b5219d99fd008334a108b17375c84204e1a9c6aa
+31-02,31,2,Aoiz,31019,Aoiz/Agoitz,,Ley Foral 4/1989 Navarra,BOE-A-1989-23274,18a2743eea4bf7ab070839c3b5219d99fd008334a108b17375c84204e1a9c6aa
+31-03,31,3,Tudela,31232,Tudela,,Ley Foral 4/1989 Navarra,BOE-A-1989-23274,18a2743eea4bf7ab070839c3b5219d99fd008334a108b17375c84204e1a9c6aa
+31-04,31,4,Pamplona,31201,Pamplona/Iruña,,Ley Foral 4/1989 Navarra,BOE-A-1989-23274,18a2743eea4bf7ab070839c3b5219d99fd008334a108b17375c84204e1a9c6aa
+31-05,31,5,Tafalla,31227,Tafalla,,Ley Foral 4/1989 Navarra,BOE-A-1989-23274,18a2743eea4bf7ab070839c3b5219d99fd008334a108b17375c84204e1a9c6aa
+33-01,33,1,Cangas del Narcea,33011,Cangas del Narcea,,Ley 1/1989 Asturias,BOE-A-1989-11182,0666dff7332e4070255e2a94910f41b5e9734db9de6b744cf6bdaaa21ea8db0f
+33-02,33,2,Pola de Lena,33033,Lena,,Ley 1/1989 Asturias,BOE-A-1989-11182,0666dff7332e4070255e2a94910f41b5e9734db9de6b744cf6bdaaa21ea8db0f
+33-03,33,3,Cangas de Onís,33012,Cangas de Onís,,Ley 1/1989 Asturias,BOE-A-1989-11182,0666dff7332e4070255e2a94910f41b5e9734db9de6b744cf6bdaaa21ea8db0f
+33-04,33,4,Avilés,33004,Avilés,,Ley 1/1989 Asturias,BOE-A-1989-11182,0666dff7332e4070255e2a94910f41b5e9734db9de6b744cf6bdaaa21ea8db0f
+33-05,33,5,Grado,33026,Grado,,Ley 1/1989 Asturias,BOE-A-1989-11182,0666dff7332e4070255e2a94910f41b5e9734db9de6b744cf6bdaaa21ea8db0f
+33-06,33,6,Pola de Siero,33066,Siero,,Ley 1/1989 Asturias,BOE-A-1989-11182,0666dff7332e4070255e2a94910f41b5e9734db9de6b744cf6bdaaa21ea8db0f
+33-07,33,7,Castropol,33017,Castropol,,Ley 1/1989 Asturias,BOE-A-1989-11182,0666dff7332e4070255e2a94910f41b5e9734db9de6b744cf6bdaaa21ea8db0f
+33-08,33,8,Gijón,33024,Gijón,,Ley 1/1989 Asturias,BOE-A-1989-11182,0666dff7332e4070255e2a94910f41b5e9734db9de6b744cf6bdaaa21ea8db0f
+33-09,33,9,Pola de Laviana,33032,Laviana,,Ley 1/1989 Asturias,BOE-A-1989-11182,0666dff7332e4070255e2a94910f41b5e9734db9de6b744cf6bdaaa21ea8db0f
+33-10,33,10,Oviedo,33044,Oviedo,,Ley 1/1989 Asturias,BOE-A-1989-11182,0666dff7332e4070255e2a94910f41b5e9734db9de6b744cf6bdaaa21ea8db0f
+33-11,33,11,Llanes,33036,Llanes,,Ley 1/1989 Asturias,BOE-A-1989-11182,0666dff7332e4070255e2a94910f41b5e9734db9de6b744cf6bdaaa21ea8db0f
+33-12,33,12,Mieres,33037,Mieres,,Ley 1/1989 Asturias,BOE-A-1989-11182,0666dff7332e4070255e2a94910f41b5e9734db9de6b744cf6bdaaa21ea8db0f
+33-13,33,13,Langreo,33031,Langreo,,Ley 1/1989 Asturias,BOE-A-1989-11182,0666dff7332e4070255e2a94910f41b5e9734db9de6b744cf6bdaaa21ea8db0f
+33-14,33,14,Tineo,33073,Tineo,,Ley 1/1989 Asturias,BOE-A-1989-11182,0666dff7332e4070255e2a94910f41b5e9734db9de6b744cf6bdaaa21ea8db0f
+33-15,33,15,Luarca,33034,Valdés,,Ley 1/1989 Asturias,BOE-A-1989-11182,0666dff7332e4070255e2a94910f41b5e9734db9de6b744cf6bdaaa21ea8db0f
+33-16,33,16,Pravia,33051,Pravia,,Ley 1/1989 Asturias,BOE-A-1989-11182,0666dff7332e4070255e2a94910f41b5e9734db9de6b744cf6bdaaa21ea8db0f
+33-17,33,17,Villaviciosa,33076,Villaviciosa,,Ley 1/1989 Asturias,BOE-A-1989-11182,0666dff7332e4070255e2a94910f41b5e9734db9de6b744cf6bdaaa21ea8db0f
+33-18,33,18,Infiesto,33049,Piloña,,Ley 1/1989 Asturias,BOE-A-1989-11182,0666dff7332e4070255e2a94910f41b5e9734db9de6b744cf6bdaaa21ea8db0f
+34-01,34,1,Palencia,34120,Palencia,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+34-02,34,2,Carrión de los Condes,34047,Carrión de los Condes,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+34-03,34,3,Cervera de Pisuerga,34056,Cervera de Pisuerga,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+37-01,37,1,Salamanca,37274,Salamanca,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+37-02,37,2,Ciudad Rodrigo,37107,Ciudad Rodrigo,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+37-03,37,3,Vitigudino,37376,Vitigudino,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+37-04,37,4,Béjar,37046,Béjar,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+37-05,37,5,Peñaranda de Bracamonte,37246,Peñaranda de Bracamonte,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+39-01,39,1,Torrelavega,39087,Torrelavega,,Ley 8/1992 Cantabria,BOE-A-1993-4195,b9be7f89e70a02ba86a100f5ad593a401cb5e94a51f0427ed7240f7526a9b286
+39-02,39,2,Laredo,39035,Laredo,,Ley 8/1992 Cantabria,BOE-A-1993-4195,b9be7f89e70a02ba86a100f5ad593a401cb5e94a51f0427ed7240f7526a9b286
+39-03,39,3,Santander,39075,Santander,,Ley 8/1992 Cantabria,BOE-A-1993-4195,b9be7f89e70a02ba86a100f5ad593a401cb5e94a51f0427ed7240f7526a9b286
+39-04,39,4,San Viccente de la Barquera,39080,San Vicente de la Barquera,,Ley 8/1992 Cantabria,BOE-A-1993-4195,b9be7f89e70a02ba86a100f5ad593a401cb5e94a51f0427ed7240f7526a9b286
+39-05,39,5,Reinosa,39059,Reinosa,,Ley 8/1992 Cantabria,BOE-A-1993-4195,b9be7f89e70a02ba86a100f5ad593a401cb5e94a51f0427ed7240f7526a9b286
+39-06,39,6,Santoña,39079,Santoña,,Ley 8/1992 Cantabria,BOE-A-1993-4195,b9be7f89e70a02ba86a100f5ad593a401cb5e94a51f0427ed7240f7526a9b286
+39-07,39,7,Medio Cudeyo,39042,Medio Cudeyo,,Ley 8/1992 Cantabria,BOE-A-1993-4195,b9be7f89e70a02ba86a100f5ad593a401cb5e94a51f0427ed7240f7526a9b286
+39-08,39,8,Castro Urdiales,39020,Castro-Urdiales,"creado tras la Ley 38/1988: Castro Urdiales, Ley 3/1992 (citada en el preámbulo de la Ley 8/1992 de Cantabria)",Ley 8/1992 Cantabria,BOE-A-1993-4195,b9be7f89e70a02ba86a100f5ad593a401cb5e94a51f0427ed7240f7526a9b286
+40-01,40,1,Segovia,40194,Segovia,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+40-02,40,2,Cuéllar,40063,Cuéllar,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+40-03,40,3,Sepúlveda,40195,Sepúlveda,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+40-04,40,4,Santa María la Real de Nieva,40185,Santa María la Real de Nieva,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+41-01,41,1,Osuna,41068,Osuna,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+41-02,41,2,Cazalla de la Sierra,41032,Cazalla de la Sierra,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+41-03,41,3,Sanlúcar la Mayor,41087,Sanlúcar la Mayor,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+41-04,41,4,Carmona,41024,Carmona,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+41-05,41,5,Lora del Río,41055,Lora del Río,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+41-06,41,6,Sevilla,41091,Sevilla,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+41-07,41,7,Morón de la Frontera,41065,Morón de la Frontera,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+41-08,41,8,Lebrija,41053,Lebrija,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+41-09,41,9,Utrera,41095,Utrera,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+41-10,41,10,Écija,41039,Écija,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+41-11,41,11,Alcalá de Guadaira,41004,Alcalá de Guadaíra,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+41-12,41,12,Dos Hermanas,41038,Dos Hermanas,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+41-13,41,13,Marchena,41060,Marchena,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+41-14,41,14,Coria del Río,41034,Coria del Río,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+41-15,41,15,Estepa,41041,Estepa,,Ley 3/1989 Andalucía,BOE-A-1990-409,3b8f6cb32a87f8bc24973db913a819ecadfb081acacaa6ae8e9f8d295b85409a
+42-01,42,1,Almazán,42020,Almazán,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+42-02,42,2,Burgo de Osma-Ciudad de Osma,42043,Burgo de Osma-Ciudad de Osma,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+42-03,42,3,Soria,42173,Soria,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+45-01,45,1,Ocaña,45121,Ocaña,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+45-02,45,2,Orgaz,45124,Orgaz,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+45-03,45,3,Illescas,45081,Illescas,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+45-04,45,4,Talavera de la Reina,45165,Talavera de la Reina,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+45-05,45,5,Toledo,45168,Toledo,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+45-06,45,6,Torrijos,45173,Torrijos,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+45-07,45,7,Quintanar de la Orden,45142,Quintanar de la Orden,,Ley 3/1989 Castilla-La Mancha,BOE-A-1989-13994,b470c3398a4803de1e24f9cc0473229dd66c63fb627f4cb5edb807bc2ec70f6b
+46-01,46,1,Lliria,46147,Llíria,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+46-02,46,2,Gandía,46131,Gandia,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+46-03,46,3,Ontinyent,46184,Ontinyent,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+46-04,46,4,Torrent,46244,Torrent,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+46-05,46,5,Sueca,46235,Sueca,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+46-06,46,6,Valencia,46250,València,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+46-07,46,7,Sagunt,46220,Sagunt/Sagunto,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+46-08,46,8,Alzira,46017,Alzira,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+46-09,46,9,Carlet,46085,Carlet,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+46-10,46,10,Xàtiva,46145,Xàtiva,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+46-11,46,11,Requena,46213,Requena,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+46-12,46,12,Catarroja,46094,Catarroja,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+46-13,46,13,Moncada,46171,Montcada/Moncada,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+46-14,46,14,Paterna,46190,Paterna,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+46-15,46,15,Quart de Poblet,46102,Quart de Poblet,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+46-16,46,16,Mislata,46169,Mislata,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+46-17,46,17,Massamagrell,46164,Massamagrell,,Ley 9/1989 Comunidad Valenciana,BOE-A-1990-3265,0753d5127665da97aadb6bfda544e4e7edf84ab39ac0602c7c8df014bba515f8
+47-01,47,1,Valladolid,47186,Valladolid,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+47-02,47,2,Medina del Campo,47085,Medina del Campo,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+47-03,47,3,Medina de Rioseco,47086,Medina de Rioseco,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+48-01,48,1,Durango,48027,Durango,,Ley 1/1990 País Vasco,BOE-A-2012-2855,22e1957248687ed7a81199f498d45ddaf1e40ca098896e7c3177ee4bf88b5bf7
+48-02,48,2,Barakaldo,48013,Barakaldo,,Ley 1/1990 País Vasco,BOE-A-2012-2855,22e1957248687ed7a81199f498d45ddaf1e40ca098896e7c3177ee4bf88b5bf7
+48-03,48,3,Gernika-Lumo,48046,Gernika-Lumo,,Ley 1/1990 País Vasco,BOE-A-2012-2855,22e1957248687ed7a81199f498d45ddaf1e40ca098896e7c3177ee4bf88b5bf7
+48-04,48,4,Bilbao,48020,Bilbao,,Ley 1/1990 País Vasco,BOE-A-2012-2855,22e1957248687ed7a81199f498d45ddaf1e40ca098896e7c3177ee4bf88b5bf7
+48-05,48,5,Balmaseda,48090,Balmaseda,,Ley 1/1990 País Vasco,BOE-A-2012-2855,22e1957248687ed7a81199f498d45ddaf1e40ca098896e7c3177ee4bf88b5bf7
+48-06,48,6,Getxo,48044,Getxo,,Ley 1/1990 País Vasco,BOE-A-2012-2855,22e1957248687ed7a81199f498d45ddaf1e40ca098896e7c3177ee4bf88b5bf7
+49-01,49,1,Toro,49219,Toro,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+49-02,49,2,Zamora,49275,Zamora,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+49-03,49,3,Benavente,49021,Benavente,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+49-04,49,4,Puebla de Sanabria,49166,Puebla de Sanabria,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14
+49-05,49,5,Villalpando,49250,Villalpando,,Ley 3/1989 Castilla y León,BOE-A-1989-13850,2b01ed71516c758bc4f52155b447cfd17eecb4470e50f4ef8cbb546604c30b14

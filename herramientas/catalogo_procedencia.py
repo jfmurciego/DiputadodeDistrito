@@ -249,10 +249,10 @@ def generar(raiz: Path = ROOT) -> dict:
             if p["producto"] in ("M06", "M08") and p["vigente"] and not p["copias_r2"]:
                 inco("AVISO", tid, p["producto"], "SIN_COPIA_R2", f"run {p['run_id']}: solo copia git")
         if any(p["publicacion"] in PUBLICADO for p in t["productos"]) and not t["fuente_territorial"]:
-            inco("AVISO", tid, "fuente", "SIN_FUENTE_TERRITORIAL", "sin preparation_evidence en catalogo_preparacion")
+            inco("AVISO", tid, "fuente", "SIN_CAPITAL_TERRITORIAL", "sin preparation_evidence en catalogo_preparacion")
         if any(p["producto"] == "M08" and p["publicacion"] in PUBLICADO for p in t["productos"]) \
                 and not t["fuente_electoral"]:
-            inco("AVISO", tid, "fuente", "SIN_FUENTE_ELECTORAL", "M08 publicado sin recibo electoral en catálogo")
+            inco("AVISO", tid, "fuente", "SIN_CAPITAL_ELECTORAL", "M08 publicado sin recibo electoral en catálogo")
     for clave, a in sorted(r2.items()):
         if a.get("territorio") not in territorios:
             inco("AVISO", a.get("territorio"), "r2", "R2_SIN_PRODUCTO", clave)
