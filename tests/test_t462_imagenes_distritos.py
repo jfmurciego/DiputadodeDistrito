@@ -43,7 +43,7 @@ class Municipios(unittest.TestCase):
     def test_codigo_ine_mal_formado_falla(self):
         with tempfile.TemporaryDirectory() as t:
             (Path(t) / "nombres_congreso_x.csv").write_text(
-                "territorio,district_id,municipio_principal_codigo,municipio_principal\ncongreso_x,0,2215,Huesca\n", encoding="utf-8")
+                "territorio,district_id,municipio_principal_codigo,municipio_principal\nnac22,0,2215,Huesca\n", encoding="utf-8")
             with self.assertRaises(im.ErrorImagenes) as c:
                 im.leer_distritos(Path(t))
             self.assertEqual(c.exception.codigo, "IMG_CODIGO_INE")
@@ -156,8 +156,8 @@ def _red_falsa():
 def _csv(d: Path):
     (d / "nombres_congreso_x.csv").write_text(
         "territorio,district_id,municipio_principal_codigo,municipio_principal\n"
-        "congreso_huesca,0,22125,Huesca\ncongreso_huesca,1,22125,Huesca\ncongreso_alava,0,01059,Vitoria\n"
-        "congreso_albacete,0,02003,Albacete\ncongreso_albacete,1,02081,Almansa\n", encoding="utf-8")
+        "nac22,0,22125,Huesca\nnac22,1,22125,Huesca\nnac01,0,01059,Vitoria\n"
+        "nac02,0,02003,Albacete\nnac02,1,02081,Almansa\n", encoding="utf-8")
 
 
 class Descarga(unittest.TestCase):

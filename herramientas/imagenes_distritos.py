@@ -3,11 +3,11 @@
 """Imagen de cada distrito del Congreso: P18 de Wikidata del municipio que da nombre al distrito, con licencia comprobada en Commons.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: Imágenes de distritos (T-462, diseño T-458 §3.1)
 FECHA: 2026-11-26
 ESTADO: candidato
-CAMBIOS: 1.0.0: fichero nuevo.
+CAMBIOS: 1.0.1: el id de territorio del catálogo y de la hoja sale del resolutor (`ddd_core.territorio_ids`), no del prefijo (test_t220). 1.0.0: fichero nuevo.
 MOTIVO: la ventana emergente del mapa V4 lleva una imagen por distrito (T-458 §3.1, aprobado 25-11). 407 distritos, 295 municipios.
   Wikidata y Commons no se alcanzan desde la nube: la descarga la hace un runner (P10, tipo «Imágenes de distritos»).
 ANTERIOR: ninguna (fichero nuevo)
@@ -47,6 +47,9 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from ddd_core import territorio_ids as ti  # noqa: E402
 DIR_NOMBRES = ROOT / "datos" / "distritos"
 PREFIJO_R2 = "interno/imagenes-distritos"
 ANCHO = 800
@@ -79,7 +82,7 @@ def leer_distritos(directorio: Path = DIR_NOMBRES) -> tuple[list[dict], dict[str
                 cod = (r.get("municipio_principal_codigo") or "").strip()
                 if not re.fullmatch(r"\d{5}", cod):
                     raise ErrorImagenes("IMG_CODIGO_INE", f"{f.name}: código «{cod}» no es de 5 cifras")
-                distritos.append({"territorio": r["territorio"], "district_id": int(r["district_id"]), "municipio_codigo": cod})
+                distritos.append({"territorio": ti.resolver_id(r["territorio"]), "district_id": int(r["district_id"]), "municipio_codigo": cod})
                 municipios.setdefault(cod, r["municipio_principal"])
     if not distritos:
         raise ErrorImagenes("IMG_SIN_DISTRITOS", f"sin nombres_congreso_*.csv en {directorio}")
@@ -319,7 +322,7 @@ def hoja(salida: Path) -> Path:
     e = html.escape
     uso: dict[str, list[str]] = {}
     for d in cat["distritos"]:
-        uso.setdefault(d["municipio_codigo"], []).append(f"{d['territorio'].removeprefix('congreso_')} {d['district_id']}")
+        uso.setdefault(d["municipio_codigo"], []).append(f"{ti.etiqueta(d['territorio'])} {d['district_id']}")
     t = cat["totales"]
     out = [
         "<!doctype html><html lang='es'><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>",
