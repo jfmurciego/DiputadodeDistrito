@@ -76,7 +76,8 @@ def diferencias(viejo, job_viejo, nuevo, job_nuevo, *, cambios=False, conc_cambi
         if a.get(clave) != b.get(clave):
             d.append(f"{clave} difiere")
     if "steps" in a:
-        pasos_nuevos = b["steps"]
+        # T-505: el paso añadido al guardián de las PR (comprobación `coautores`) es el único cambio permitido
+        pasos_nuevos = [p for p in b["steps"] if "(T-505)" not in p.get("name", "")]
         if cambios:  # `cambios` solo cambia la ruta que se dispara a sí misma
             pasos_nuevos = yaml.safe_load(yaml.safe_dump(pasos_nuevos).replace("p90-automatico", "pruebas-plataforma"))
         if a["steps"] != pasos_nuevos:
@@ -153,7 +154,12 @@ class Disparadores(Fixtures):
         f, v = am["jobs"]["fusionar"], self.viejos["merge"]["jobs"]["fusionar"]
         self.assertIn("github.event.workflow_run.path == '.github/workflows/p90-automatico.yml'", f["if"])
         self.assertEqual(am["permissions"], self.viejos["merge"]["permissions"])  # ningún job gana permisos
-        self.assertEqual(f["steps"], v["steps"])  # el cuerpo de la fusión no cambia (ref: main, decidir_auto_merge.py, --match-head-commit)
+        # el cuerpo de la fusión no cambia salvo la orden final (T-505: `gh pr merge` → REST con título y cuerpo explícitos)
+        self.assertEqual(f["steps"][0], v["steps"][0])
+        self.assertEqual(f["steps"][1]["env"], v["steps"][1]["env"])
+        nuevo_run = f["steps"][1]["run"]
+        viejo_run = v["steps"][1]["run"]
+        self.assertEqual(nuevo_run[:nuevo_run.index('  titulo="$(jq')], viejo_run[:viejo_run.index('  gh pr merge')])
         self.assertEqual(f["steps"][0]["with"]["ref"], "main")
         # concurrencia: sin cancelar y en cola (otro run del mismo SHA no cancela la fusión buena)
         self.assertEqual(am["concurrency"]["group"], self.viejos["merge"]["concurrency"]["group"])

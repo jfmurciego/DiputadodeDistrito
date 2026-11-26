@@ -1,10 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.5.3
+# VERSIÓN: 1.5.4
 # NOMBRE DE VERSIÓN: P90 Automático — CI, IA de cierre de campaña, métricas y medición de la web en un solo workflow
-# FECHA: 2026-11-24
+# FECHA: 2026-11-26
 # ESTADO: candidato
-# ANTERIOR: legacy/workflows/p90-automatico_v1.5.2_20261124.yml
+# ANTERIOR: legacy/workflows/p90-automatico_v1.5.3_20261126.yml
+# CAMBIOS 1.5.4: T-505 (D-211): el job `guardian` de las PR añade el paso «sin Co-authored-by ni Claude-Session» (`comprobar_guardian_main.py coautores`, base..head). El resto, idéntico.
+# ANTERIOR (1.5.3): legacy/workflows/p90-automatico_v1.5.2_20261124.yml
 # CAMBIOS 1.5.3: T-457 (orden del propietario, 24-11): el pie del comentario del forense deja de nombrar el modelo: «_Forense automático (solo lectura; …)» (antes «(Sonnet, solo lectura; …)»). El resto, idéntico.
 # ANTERIOR (1.5.2): legacy/workflows/p90-automatico_v1.5.1_20261123.yml
 # CAMBIOS 1.5.2: T-450 §4 / D-199: el paso de `medir_web` recibe el secreto del repositorio `MEDICION_CDN` (lo crea el propietario; el
@@ -187,6 +189,14 @@ jobs:
         run: python herramientas/comprobar_guardian_main.py marcas
       - name: Guardián de main — numeración consecutiva del registro de cambios
         run: python herramientas/comprobar_guardian_main.py registro
+      - name: Guardián de la PR — commits sin Co-authored-by ni Claude-Session (T-505)
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          git fetch --no-tags --depth=1000 origin "$BASE_SHA" "$HEAD_SHA"
+          python herramientas/comprobar_guardian_main.py coautores --base "$BASE_SHA" --head "$HEAD_SHA"
       - name: Auditar cabeceras y legacy en checkout
         run: python -m unittest tests.test_r015_invariantes.GovernanceHeaders -v
       - name: Probar SHA inmutable frente a avance de main
