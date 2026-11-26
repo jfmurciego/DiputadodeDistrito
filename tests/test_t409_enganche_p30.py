@@ -115,7 +115,7 @@ class Cobertura(unittest.TestCase):
             d = Path(d)
             (d / "v.csv").write_text("district_id,party,votes,bloc\n1,PP,50,\n1,PSE-EE (PSOE),30,\n2,Cs,20,\n", encoding="utf-8")
             (d / "b.csv").write_text("eleccion,siglas,denominacion,bloque_propuesto,motivo\n"
-                                     "2023-07,PP,PP,Patriotas,x\n2023-07,PSOE,PSOE,Izquierdas,x\n2023-07,Cs,Cs,,x\n"
+                                     "2023-07,PP,PP,Derecha nacional,x\n2023-07,PSOE,PSOE,Izquierdas,x\n2023-07,Cs,Cs,,x\n"
                                      "2019-11,PSE-EE (PSOE),x,Izquierdas,x\n", encoding="utf-8")
             c = cob.cobertura(d / "v.csv", d / "b.csv", "congreso_2023-07-23")
             # 100 votos: PSE-EE (PSOE) no casa (30 %), Cs casa sin bloque (20 %), PP casa con bloque
@@ -127,7 +127,7 @@ class Cobertura(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             d = Path(d)
             (d / "v.csv").write_text("district_id,party,votes,bloc\n1,PP,60,\n1,SUMAR,40,\n", encoding="utf-8")
-            (d / "b.csv").write_text("eleccion,siglas,denominacion,bloque_propuesto,motivo\n2023-07,PP,PP,Patriotas,x\n", encoding="utf-8")
+            (d / "b.csv").write_text("eleccion,siglas,denominacion,bloque_propuesto,motivo\n2023-07,PP,PP,Derecha nacional,x\n", encoding="utf-8")
             sys.argv = ["x", "--votos", str(d / "v.csv"), "--bloques", str(d / "b.csv"), "--eleccion", "2023-07", "--salida", str(d / "c.json")]
             out = io.StringIO()
             with contextlib.redirect_stdout(out):
@@ -139,7 +139,7 @@ class Cobertura(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             d = Path(d)
             (d / "v.csv").write_text("district_id,party,votes,bloc\n1,PP-EU,60,\n1,SUMAR,40,\n", encoding="utf-8")
-            (d / "b.csv").write_text("eleccion,siglas,denominacion,bloque_propuesto,motivo\n2023-07,PP,PP,Patriotas,x\n"
+            (d / "b.csv").write_text("eleccion,siglas,denominacion,bloque_propuesto,motivo\n2023-07,PP,PP,Derecha nacional,x\n"
                                      "2023-07,Podemos–Sumar,x,Izquierdas,x\n", encoding="utf-8")
             (d / "a.csv").write_text("eleccion,id_fuente,partido_homologado,origen,fuente\n202307,PP-EU,PP,H,x\n202307,SUMAR,Podemos–Sumar,H,x\n", encoding="utf-8")
             sin = cob.cobertura(d / "v.csv", d / "b.csv", "2023-07")
@@ -151,7 +151,7 @@ class Cobertura(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             d = Path(d)
             (d / "v.csv").write_text("district_id,party,votes,bloc\n1,PP,60,\n", encoding="utf-8")
-            (d / "b.csv").write_text("eleccion,siglas,denominacion,bloque_propuesto,motivo\n2023-07,PP,PP,Patriotas,x\n", encoding="utf-8")
+            (d / "b.csv").write_text("eleccion,siglas,denominacion,bloque_propuesto,motivo\n2023-07,PP,PP,Derecha nacional,x\n", encoding="utf-8")
             sys.argv = ["x", "--votos", str(d / "v.csv"), "--bloques", str(d / "b.csv"), "--eleccion", "2023-07", "--salida", str(d / "c.json")]
             out = io.StringIO()
             with contextlib.redirect_stdout(out):

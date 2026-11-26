@@ -1,0 +1,15 @@
+## 2026-11-25 — T-460 — El bloque «Patriotas» pasa a «Derecha nacional» (en origen)
+
+**Causa:** decisión del propietario (25-11), camino (b) del §6 de `docs/ESTUDIOS/T458_mapa_v4/T458_DISENO_MAPA_V4.md` (PR #1013): dato y web deben decir lo mismo. Actualiza D-167/D-182 (el Planificador numera la D nueva).
+
+**Cambio:**
+- Tablas nuevas fechadas `configuracion/bloques_partidos_2026-11-25.csv` y `bloques_partidos_autonomicas_2026-11-25.csv` (las aprobadas 11-17 y 11-19 no se tocan). Solo cambia el nombre del bloque; ningún partido cambia de bloque. «Izquierdas» y «Nacionalistas» igual.
+- `herramientas/doble_vuelta.py` 1.5.0 (`BLOQUES`, `dv_B`), `bloques_autonomicas.py` 1.4.0 (`PAT`, lee/escribe las tablas nuevas), `p75_doble_vuelta_r2.py` 1.3.0 (`BLOQUES_AUT` nuevo).
+- Corrección de un fallo latente: `bloques_vigente` (P75) y P30 1.0.5 elegían `bloques_partidos_*.csv` por orden alfabético y `autonomicas` ganaba a la fecha nacional; ahora `bloques_partidos_2*.csv`.
+- Tests: `test_t409_*`, `test_t418_p75`, `test_t419_*`, `test_t421_*`, `test_t427_p75_aut` con el nombre nuevo; test nuevo `test_t460_derecha_nacional` (misma asignación con el nombre nuevo, generador reproduce la tabla, tabla nacional vigente).
+
+**Visor (tras #1014):** `dv.js` (`nombreBloque`, `claseBloque` aceptan «Derecha nacional» y «Patriotas»; ayudas de regla), `explorar.js` 1.5.1 (leyenda, panel) y `comprender.html` 2.2.1 muestran siempre «Derecha nacional»; los datos viejos siguen pintándose hasta la nueva P75. Tests `test_visor_v4_*` con ambos nombres.
+
+**Riesgos / efectos:** hasta relanzar P75 los ZIP publicados siguen diciendo «Patriotas» y el visor los muestra ya con el nombre nuevo (acepta los dos). Orden: P75 nacional (52) y autonómicas (16) → PR del pin de los dos informes → P40. Sin cambio en M04/M05/huellas.
+
+**Qué tabla usó cada run publicado (revisión del Coordinador):** `bloques_vigente` (P75 nac) y P30 elegían `sorted(glob("bloques_partidos_*.csv"))[-1]`; desde que existe `bloques_partidos_autonomicas_*` (#933, 19-11 20:50Z) esa ganaba a la nacional por orden alfabético. No hay datos mal publicados: el P75 nac 44575597009 (el pin) corrió sobre `main@ff1633c` (19-11 17:17Z), cuando solo existía `bloques_partidos_2026-11-17.csv` (sha256 `e50be2c8…`); el 44556621000 informó 0,0 % sin casar; no consta ningún P75 nac posterior. El glob nuevo (`bloques_partidos_2*.csv`) evita el riesgo hacia adelante.

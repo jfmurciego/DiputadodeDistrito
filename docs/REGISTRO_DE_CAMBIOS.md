@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.632
+Versión: 1.0.634
 Fecha: 2026-11-26
-Alcance: T-461b — Descubrir las leyes de capitalidad de Aragón, Baleares, Canarias, Cataluña y Galicia
+Alcance: T-460 — El bloque «Patriotas» pasa a «Derecha nacional» (en origen)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-26_t461b-espejos-capitalidad.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.631_registro_20261126.md
+Cambios/motivo: entrada docs/registro/2026-11-25_t460-derecha-nacional.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.633_registro_20261126.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.631_registro_20261126.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.634 · [2026-11-25 — T-460 — El bloque «Patriotas» pasa a «Derecha nacional» (en origen)](registro/2026-11-25_t460-derecha-nacional.md)
+- 1.0.633 · [2026-11-26 — T-461 — Nombres de distrito por capital de partido judicial](registro/2026-11-26_t461-nombres-distrito.md)
 - 1.0.632 · [2026-11-26 — T-461b — Descubrir las leyes de capitalidad de Aragón, Baleares, Canarias, Cataluña y Galicia](registro/2026-11-26_t461b-espejos-capitalidad.md)
 - 1.0.631 · [2026-11-26 — T-463 — Textos públicos veraces y DOI de la serie](registro/2026-11-26_t463-textos-veraces.md)
 - 1.0.630 · [2026-11-26 — T-464 — Plan 1.0.78](registro/2026-11-26_planificador-plan-1-0-78.md)

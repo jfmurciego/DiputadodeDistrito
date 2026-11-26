@@ -143,7 +143,7 @@ class CapaDobleVuelta(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             sal, det = Path(d) / "r.csv", Path(d) / "d.csv"
             subprocess.run([sys.executable, str(RAIZ / "herramientas/doble_vuelta.py"), "--votos", str(MAPA / "ejemplo/votos.csv"),
-                            "--bloques", str(RAIZ / "configuracion/bloques_partidos_2026-11-17.csv"), "--eleccion", "2023-07",
+                            "--bloques", str(RAIZ / "configuracion/bloques_partidos_2026-11-25.csv"), "--eleccion", "2023-07",
                             "--salida", str(sal), "--detalle", str(det)], check=True, capture_output=True)
             self.assertEqual(sal.read_bytes(), (MAPA / "ejemplo/resultados_doble_vuelta.csv").read_bytes())
             self.assertEqual(det.read_bytes(), (MAPA / "ejemplo/detalle.csv").read_bytes())

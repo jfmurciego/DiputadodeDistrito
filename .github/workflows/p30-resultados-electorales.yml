@@ -1,6 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 1.0.4
+# VERSIÓN: 1.0.5
+# CAMBIOS 1.0.5: T-460 (propietario 25-11): la tabla de bloques nacional se elige entre `bloques_partidos_2*.csv` (la autonómica `bloques_partidos_autonomicas_*` ganaba por orden alfabético); la vigente pasa a ser bloques_partidos_2026-11-25.csv («Derecha nacional»).
+# ANTERIOR (1.0.4): legacy/workflows/p30-resultados-electorales_v1.0.4_20261125.yml
 # CAMBIOS 1.0.4: T-379 PR 2a (D-147, opción a; D-162, opción A), puesta al día sobre main el 23-11: todo job que usa la app de registro (DDD_REGISTRO_APP_*) declara un entorno limitado a main (`registro`, sin revisores; P40 `publicar` sigue en `github-pages` y P70 `podar` en `produccion`): desde una rama o una PR esos jobs no reciben los secretos. Resto idéntico.
 # ANTERIOR (1.0.3): legacy/workflows/p30-resultados-electorales_v1.0.3_20261123.yml
 # CAMBIOS 1.0.3: T-409 (revisión de #911): el directorio `doble_vuelta/` existe solo si `doble_vuelta_cobertura.py` y `doble_vuelta.py` terminan bien (trap que lo borra si no);
@@ -489,7 +491,7 @@ jobs:
           print((cfg.get("_runtime") or {}).get("electoral_package_election_id") or "")
           PY
           )"
-          bloques="$(ls configuracion/bloques_partidos_*.csv | sort | tail -n1)"
+          bloques="$(ls configuracion/bloques_partidos_2*.csv | sort | tail -n1)"
           alias=configuracion/alias_partidos_generales.csv  # id de fuente → partido homologado (T-409, #914)
           # `doble_vuelta/` solo queda si ambas herramientas terminan bien: el paso de archivo lo añade al paquete de R2 si existe.
           rm -rf doble_vuelta

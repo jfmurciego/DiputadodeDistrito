@@ -32,7 +32,7 @@ LEG = territorio_ids.id_legacy("nac01")  # id legacy del registro del visor y ca
 VOTOS = ("district_id,party,votes,bloc\n"
          "0,PP-EU,60,\n0,SUMAR,40,\n"
          "1,PP-EU,30,\n1,SUMAR,28,\n1,PSE-EE (PSOE),22,\n1,VOX,15,\n1,XX,5,\n")
-BLOQUES = ("eleccion,siglas,denominacion,bloque_propuesto,motivo\n2023-07,PP,PP,Patriotas,x\n2023-07,VOX,VOX,Patriotas,x\n"
+BLOQUES = ("eleccion,siglas,denominacion,bloque_propuesto,motivo\n2023-07,PP,PP,Derecha nacional,x\n2023-07,VOX,VOX,Derecha nacional,x\n"
            "2023-07,Podemos–Sumar,x,Izquierdas,x\n2023-07,PSOE,PSOE,Izquierdas,x\n2023-07,XX,XX,,x\n")
 ALIAS = ("eleccion,id_fuente,partido_homologado,origen,fuente\n202307,PP-EU,PP,H,x\n202307,SUMAR,Podemos–Sumar,H,x\n"
          "202307,PSE-EE (PSOE),PSOE,H,x\n202307,VOX,VOX,H,x\n202307,XX,XX,H,x\n")
@@ -57,7 +57,7 @@ def montar(td: Path, paquetes: dict, territorios=(("nac01", RUN), (LEG, RUN), ("
     arts = {f"{LEG}/{r}/ddd-minimo-{r}-M08.zip": {"run_id": r, "artefacto": f"ddd-minimo-{r}-M08", "sha256": hashlib.sha256(b).hexdigest()}
             for r, b in paquetes.items()}
     (td / "orchestracion/archivo_r2.json").write_text(json.dumps({"schema": "ddd.archivo-r2/1.0", "artefactos": arts}), encoding="utf-8")
-    (td / "configuracion/bloques_partidos_2026-11-17.csv").write_text(BLOQUES, encoding="utf-8")
+    (td / "configuracion/bloques_partidos_2026-11-25.csv").write_text(BLOQUES, encoding="utf-8")
     (td / "configuracion/alias_partidos_generales.csv").write_text(ALIAS, encoding="utf-8")
     return td
 
@@ -93,7 +93,7 @@ class P75(unittest.TestCase):
         self.assertEqual(filas[("0", "dv_base")]["vuelta_decisiva"], "1")
         b = filas[("1", "dv_base")]  # PP 30 y SUMAR 28 finalistas; PSOE→SUMAR (50); VOX→PP (45); XX sin bloque: abstención
         self.assertEqual((b["candidatura_ganadora"], b["votos_a_2v"], b["votos_b_2v"], b["votos_abstencion"]), ("Podemos–Sumar", "45", "50", "5"))
-        a = filas[("1", "dv_A")]  # Izquierdas 50 y Patriotas 45 (50 % no gana en primera)
+        a = filas[("1", "dv_A")]  # Izquierdas 50 y Derecha nacional 45 (50 % no gana en primera)
         self.assertEqual((a["candidatura_ganadora"], a["vuelta_decisiva"], a["votos_abstencion"]), ("bloque:Izquierdas", "2", "5"))
         man = json.loads(z.read("manifiesto.json"))
         self.assertEqual(man["alias"]["ruta"], "alias_partidos_generales.csv")  # rutas relativas y estables

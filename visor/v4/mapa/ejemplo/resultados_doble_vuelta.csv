@@ -1,13 +1,13 @@
 district_id,escenario,vuelta_decisiva,candidatura_ganadora,bloque_ganador,votos_1v,cuota_1v,finalista_a,finalista_b,votos_a_2v,votos_b_2v,cuota_ganador_2v,votos_abstencion,empate
 EJ1,dv_base,2,PSOE,Izquierdas,30,0.300000,PSOE,PP,45,40,0.529412,15,false
-EJ1,dv_A,2,bloque:Izquierdas,Izquierdas,45,0.450000,bloque:Izquierdas,bloque:Patriotas,45,40,0.529412,15,false
-EJ1,dv_B,2,bloque:Izquierdas,Izquierdas,45,0.450000,bloque:Izquierdas,bloque:Patriotas,45,40,0.529412,15,false
-EJ2,dv_base,1,PP,Patriotas,52,0.520000,,,,,,0,false
-EJ2,dv_A,1,bloque:Patriotas,Patriotas,52,0.520000,,,,,,0,false
-EJ2,dv_B,1,bloque:Patriotas,Patriotas,52,0.520000,,,,,,0,false
+EJ1,dv_A,2,bloque:Izquierdas,Izquierdas,45,0.450000,bloque:Izquierdas,bloque:Derecha nacional,45,40,0.529412,15,false
+EJ1,dv_B,2,bloque:Izquierdas,Izquierdas,45,0.450000,bloque:Izquierdas,bloque:Derecha nacional,45,40,0.529412,15,false
+EJ2,dv_base,1,PP,Derecha nacional,52,0.520000,,,,,,0,false
+EJ2,dv_A,1,bloque:Derecha nacional,Derecha nacional,52,0.520000,,,,,,0,false
+EJ2,dv_B,1,bloque:Derecha nacional,Derecha nacional,52,0.520000,,,,,,0,false
 EJ3,dv_base,2,ERC,Nacionalistas,27,0.270000,ERC,PSOE,50,26,0.657895,24,false
 EJ3,dv_A,2,bloque:Nacionalistas,Nacionalistas,50,0.500000,bloque:Nacionalistas,bloque:Izquierdas,50,26,0.657895,24,false
 EJ3,dv_B,2,ERC,Nacionalistas,27,0.270000,ERC,bloque:Izquierdas,50,26,0.657895,24,false
 EJ4,dv_base,2,PSOE,Izquierdas,40,0.400000,PSOE,ERC,40,20,0.666667,40,true
-EJ4,dv_A,2,bloque:Izquierdas,Izquierdas,40,0.400000,bloque:Izquierdas,bloque:Patriotas,40,40,0.500000,20,true
-EJ4,dv_B,2,bloque:Izquierdas,Izquierdas,40,0.400000,bloque:Izquierdas,bloque:Patriotas,40,40,0.500000,20,true
+EJ4,dv_A,2,bloque:Derecha nacional,Derecha nacional,40,0.400000,bloque:Derecha nacional,bloque:Izquierdas,40,40,0.500000,20,true
+EJ4,dv_B,2,bloque:Derecha nacional,Derecha nacional,40,0.400000,bloque:Derecha nacional,bloque:Izquierdas,40,40,0.500000,20,true
