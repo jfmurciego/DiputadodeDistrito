@@ -17,7 +17,7 @@
  },
  "motor": {
   "nombre": "Deslinde",
-  "version": "1.1.0"
+  "version": "1.2.0"
  },
  "fuentes_oficiales": {
   "poblacion_por_sexo_y_edad": {
