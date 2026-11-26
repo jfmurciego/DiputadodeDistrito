@@ -9,6 +9,7 @@ MOTIVO: sin red; la red se simula con respuestas sintéticas con la forma de las
 """
 from __future__ import annotations
 
+import importlib.util
 import io
 import json
 import os
@@ -23,6 +24,9 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
 sys.path.insert(0, str(ROOT))
 import imagenes_distritos as im  # noqa: E402
+
+HAY_PIL = importlib.util.find_spec("PIL") is not None  # la imagen de CI no lo trae; el paso de P10 lo instala
+SIN_PIL = unittest.skipUnless(HAY_PIL, "requiere Pillow")
 import rutas_r2  # noqa: E402
 
 
@@ -105,6 +109,7 @@ class Licencias(unittest.TestCase):
         self.assertIn("tipo no admitido", im.ficha(info))
 
 
+@SIN_PIL
 class Webp(unittest.TestCase):
     def test_reescala_a_800(self):
         b, w, h, cambios = im.a_webp(_png(1600, 900))
@@ -160,6 +165,7 @@ def _csv(d: Path):
         "nac02,0,02003,Albacete\nnac02,1,02081,Almansa\n", encoding="utf-8")
 
 
+@SIN_PIL
 class Descarga(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -215,6 +221,7 @@ class _Aws:
         return subprocess.CompletedProcess(args, 0, "", "")
 
 
+@SIN_PIL
 class Subida(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
