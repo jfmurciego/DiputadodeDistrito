@@ -1,7 +1,9 @@
 # VISTA DERIVADA de .github/workflows/p10-fuentes.yml (tipo P11); no editar: python tests/generar_vistas_p10.py
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de preparación de fuentes
-# VERSIÓN: 1.0.7
+# VERSIÓN: 1.0.8
+# CAMBIOS 1.0.8: T-508 (revisión de #1036): el paso de reanudar lista todas las páginas de artefactos y elige con la herramienta (`elegir-previo`: nombre, rama main, no caducado, digest), verifica el sha256 del zip, extrae solo `img/` y deja que la herramienta descarte las fichas de otra versión, territorio o configuración; si algo falla, empieza de cero y lo dice en el log. Resto idéntico a la 1.0.7.
+# ANTERIOR (1.0.7): legacy/workflows/p10-fuentes_v1.0.7_20261126.yml
 # CAMBIOS 1.0.7: T-508 (run 45894568650, cancelado a los 45 min sin log): `p14_imagenes` pasa a `timeout-minutes: 30`, con `actions: read`; un paso «Recuperar lo ya bajado (reanudar)» restaura el artefacto
 #   `imagenes-distritos-*` más reciente (REST, sin acciones nuevas) y la herramienta salta lo ya bajado; la descarga lleva `python -u` y `--presupuesto-min 20` (parcial: sale con 4, el artefacto se conserva y no sube a R2). Resto idéntico a la 1.0.6.
 # ANTERIOR (1.0.6): legacy/workflows/p10-fuentes_v1.0.6_20261126.yml
