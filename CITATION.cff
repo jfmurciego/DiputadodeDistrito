@@ -11,8 +11,8 @@ authors:
     orcid: "https://orcid.org/0009-0002-4434-959X"
 identifiers:
   - type: doi
-    value: "10.5281/zenodo.24093967"
-    description: "DOI de CONCEPTO en Zenodo: la serie de MAPAS de Deslinde (solo mapas, CC BY 4.0; resuelve a la última versión). Si Zenodo no admitió seguir la serie, el concepto nuevo se anota aquí al depositar. No es la cita del motor."
+    value: "10.5281/zenodo.24448721"
+    description: "DOI de la SERIE de mapas de Deslinde en Zenodo (solo mapas, CC BY 4.0; resuelve a la última versión). No es la cita del motor."
   - type: doi
     value: "10.5281/zenodo.24093968"
     description: "DOI de VERSIÓN en Zenodo: mapa Congreso Huesca 1.0.0 (mapa-congreso_huesca-v1.0.0, 9-11-2026), primera versión de la serie."
