@@ -1,12 +1,15 @@
 """Pruebas del guardián de main (marcas de conflicto y numeración del registro)."""
 from __future__ import annotations
 
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
 
 from herramientas.comprobar_guardian_main import (
+    comprobar_coautores,
     comprobar_marcas,
+    prohibidas_en_mensaje,
     comprobar_registro,
     marcas_en_texto,
     siguiente,
@@ -77,6 +80,41 @@ class Registro(unittest.TestCase):
         for f in (raiz / "legacy/docs").iterdir():
             f.unlink()
         self.assertIn("falta la copia legacy", comprobar_registro(raiz)[0])
+
+class Coautores(unittest.TestCase):
+    """T-505: ningún commit de la PR lleva «Co-authored-by» ni «Claude-Session»."""
+
+    def _repo(self, d: Path, mensajes: list[str]) -> tuple[str, str]:
+        def git(*a):
+            return subprocess.run(["git", "-C", str(d), "-c", "user.email=a@b.c", "-c", "user.name=t", *a],
+                                  capture_output=True, text=True, check=True).stdout.strip()
+        git("init", "-q", "-b", "main")
+        (d / "f").write_text("0")
+        git("add", "f")
+        git("commit", "-q", "-m", "base")
+        base = git("rev-parse", "HEAD")
+        for i, m in enumerate(mensajes, 1):
+            (d / "f").write_text(str(i))
+            git("commit", "-q", "-am", m)
+        return base, git("rev-parse", "HEAD")
+
+    def test_mensaje_limpio_pasa_y_marcas_se_detectan(self):
+        self.assertEqual(prohibidas_en_mensaje("T-505: arreglo\n\ncuerpo normal"), [])
+        self.assertEqual(prohibidas_en_mensaje("x\n\nCo-authored-by: A <a@b.c>"), ["co-authored-by"])
+        self.assertEqual(prohibidas_en_mensaje("x\n\nclaude-session: https://e"), ["claude-session"])
+        self.assertEqual(prohibidas_en_mensaje("explica el Co-authored-by en prosa"), [])  # no es una línea de pie
+
+    def test_pr_limpia_pasa(self):
+        with tempfile.TemporaryDirectory() as t:
+            base, head = self._repo(Path(t), ["uno", "dos\n\ncuerpo"])
+            self.assertEqual(comprobar_coautores(Path(t), base, head), [])
+
+    def test_un_commit_con_coautor_o_sesion_falla(self):
+        with tempfile.TemporaryDirectory() as t:
+            base, head = self._repo(Path(t), ["uno", "dos\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nClaude-Session: https://x"])
+            errores = comprobar_coautores(Path(t), base, head)
+            self.assertEqual(len(errores), 1)
+            self.assertIn("claude-session, co-authored-by", errores[0])
 
 
 if __name__ == "__main__":
