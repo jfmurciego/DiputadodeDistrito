@@ -1,0 +1,2598 @@
+{
+ "nac09": {
+  "k": 3,
+  "unidades": 372,
+  "atomos": 372,
+  "deslinde": {
+   "ganador": "vigente",
+   "fuera": 0,
+   "exceso_8": 0.0,
+   "partidas": 2,
+   "frontera_km": 315.804,
+   "desvio_max": 0.07844530878361362,
+   "hueco_optimo": null
+  },
+  "exacto": {
+   "estado": "OPTIMO_D8",
+   "fuera": 0,
+   "exceso_8": 0.0,
+   "partidas": 2,
+   "frontera_km": 315.804,
+   "desvio_max": 0.07844530878361362,
+   "valido_nucleo": true,
+   "t_s": 29.3,
+   "memoria_mb": 367.2
+  },
+  "gerrychain_puro": {
+   "cortes": {
+    "1000": {
+     "mejor": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 4,
+      "frontera_km": 330.95,
+      "desvio_max": 0.037714413632929454
+     },
+     "vs_deslinde": "peor",
+     "semillas_que_igualan_optimo": 0,
+     "semillas_mejor_que_deslinde": 0,
+     "n": 10
+    },
+    "10000": {
+     "mejor": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 4,
+      "frontera_km": 275.936,
+      "desvio_max": 0.046679911576237514
+     },
+     "vs_deslinde": "peor",
+     "semillas_que_igualan_optimo": 0,
+     "semillas_mejor_que_deslinde": 0,
+     "n": 10
+    },
+    "100000": {
+     "mejor": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 4,
+      "frontera_km": 267.683,
+      "desvio_max": 0.04487505946218205
+     },
+     "vs_deslinde": "peor",
+     "semillas_que_igualan_optimo": 0,
+     "semillas_mejor_que_deslinde": 0,
+     "n": 10
+    }
+   },
+   "cpu_total_s": 10746.9,
+   "semillas": [
+    {
+     "semilla": 1,
+     "estado": "OK",
+     "intentos_semilla": 2,
+     "paso_mejor": 93031,
+     "autobucles": 41060,
+     "cpu_s": 1092.2,
+     "100": {
+      "partidas": 6,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 228.434,
+      "desvio_max": 0.07512102302935333,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 6,
+       "referencia": 2
+      }
+     },
+     "1000": {
+      "partidas": 5,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 253.931,
+      "desvio_max": 0.05240507037524135,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "10000": {
+      "partidas": 5,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 214.204,
+      "desvio_max": 0.07993955844083163,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "100000": {
+      "partidas": 4,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 291.49,
+      "desvio_max": 0.0791504603072446,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     }
+    },
+    {
+     "semilla": 2,
+     "estado": "OK",
+     "intentos_semilla": 10,
+     "paso_mejor": 491,
+     "autobucles": 40874,
+     "cpu_s": 1106.5,
+     "100": {
+      "partidas": 6,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 326.692,
+      "desvio_max": 0.05504099392786188,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 6,
+       "referencia": 2
+      }
+     },
+     "1000": {
+      "partidas": 4,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 330.95,
+      "desvio_max": 0.037714413632929454,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     },
+     "10000": {
+      "partidas": 4,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 330.95,
+      "desvio_max": 0.037714413632929454,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     },
+     "100000": {
+      "partidas": 4,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 330.95,
+      "desvio_max": 0.037714413632929454,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     }
+    },
+    {
+     "semilla": 3,
+     "estado": "OK",
+     "intentos_semilla": 20,
+     "paso_mejor": 1656,
+     "autobucles": 41128,
+     "cpu_s": 1096.09,
+     "100": {
+      "partidas": 5,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 283.045,
+      "desvio_max": 0.06414920110809526,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "1000": {
+      "partidas": 5,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 233.739,
+      "desvio_max": 0.03397039482888883,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "10000": {
+      "partidas": 4,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 394.173,
+      "desvio_max": 0.019447631306489074,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     },
+     "100000": {
+      "partidas": 4,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 394.173,
+      "desvio_max": 0.019447631306489074,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     }
+    },
+    {
+     "semilla": 4,
+     "estado": "OK",
+     "intentos_semilla": 17,
+     "paso_mejor": 37141,
+     "autobucles": 40831,
+     "cpu_s": 1082.59,
+     "100": {
+      "partidas": 6,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 224.0,
+      "desvio_max": 0.0646948540728097,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 6,
+       "referencia": 2
+      }
+     },
+     "1000": {
+      "partidas": 5,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 237.932,
+      "desvio_max": 0.06216806111313205,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "10000": {
+      "partidas": 5,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 217.432,
+      "desvio_max": 0.07961216666200296,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "100000": {
+      "partidas": 4,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 301.706,
+      "desvio_max": 0.04238184514648683,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     }
+    },
+    {
+     "semilla": 5,
+     "estado": "OK",
+     "intentos_semilla": 5,
+     "paso_mejor": 48107,
+     "autobucles": 41101,
+     "cpu_s": 1058.92,
+     "100": {
+      "partidas": 5,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 244.233,
+      "desvio_max": 0.06267174077286845,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "1000": {
+      "partidas": 5,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 244.233,
+      "desvio_max": 0.06267174077286845,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "10000": {
+      "partidas": 5,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 216.431,
+      "desvio_max": 0.057567786887539524,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "100000": {
+      "partidas": 5,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 205.58,
+      "desvio_max": 0.028589417130704873,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     }
+    },
+    {
+     "semilla": 6,
+     "estado": "OK",
+     "intentos_semilla": 13,
+     "paso_mejor": 66688,
+     "autobucles": 41293,
+     "cpu_s": 1051.95,
+     "100": {
+      "partidas": 5,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 253.29,
+      "desvio_max": 0.05405881859137589,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "1000": {
+      "partidas": 5,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 231.988,
+      "desvio_max": 0.06529926966449338,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "10000": {
+      "partidas": 4,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 318.739,
+      "desvio_max": 0.07646416878865042,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     },
+     "100000": {
+      "partidas": 4,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 267.683,
+      "desvio_max": 0.04487505946218205,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     }
+    },
+    {
+     "semilla": 7,
+     "estado": "OK",
+     "intentos_semilla": 7,
+     "paso_mejor": 15379,
+     "autobucles": 41120,
+     "cpu_s": 1048.29,
+     "100": {
+      "partidas": 6,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 229.467,
+      "desvio_max": 0.0762039342977866,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 6,
+       "referencia": 2
+      }
+     },
+     "1000": {
+      "partidas": 5,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 248.254,
+      "desvio_max": 0.06802753448806559,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "10000": {
+      "partidas": 4,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 332.381,
+      "desvio_max": 0.009911296415479755,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     },
+     "100000": {
+      "partidas": 4,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 290.142,
+      "desvio_max": 0.07330777625430226,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     }
+    },
+    {
+     "semilla": 8,
+     "estado": "OK",
+     "intentos_semilla": 9,
+     "paso_mejor": 75073,
+     "autobucles": 41064,
+     "cpu_s": 1048.56,
+     "100": {
+      "partidas": 6,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 249.838,
+      "desvio_max": 0.07423118896381901,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 6,
+       "referencia": 2
+      }
+     },
+     "1000": {
+      "partidas": 5,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 214.95,
+      "desvio_max": 0.07645577412765481,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "10000": {
+      "partidas": 5,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 210.484,
+      "desvio_max": 0.066801913982707,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "100000": {
+      "partidas": 4,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 281.804,
+      "desvio_max": 0.011699359207544002,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     }
+    },
+    {
+     "semilla": 9,
+     "estado": "OK",
+     "intentos_semilla": 2,
+     "paso_mejor": 2237,
+     "autobucles": 41109,
+     "cpu_s": 1081.05,
+     "100": {
+      "partidas": 6,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 241.844,
+      "desvio_max": 0.02353583121134958,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 6,
+       "referencia": 2
+      }
+     },
+     "1000": {
+      "partidas": 5,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 240.702,
+      "desvio_max": 0.07265299269664494,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "10000": {
+      "partidas": 4,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 275.936,
+      "desvio_max": 0.046679911576237514,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     },
+     "100000": {
+      "partidas": 4,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 275.936,
+      "desvio_max": 0.046679911576237514,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     }
+    },
+    {
+     "semilla": 10,
+     "estado": "OK",
+     "intentos_semilla": 1,
+     "paso_mejor": 32740,
+     "autobucles": 41125,
+     "cpu_s": 1080.72,
+     "100": {
+      "partidas": 6,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 211.487,
+      "desvio_max": 0.05289196071298654,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 6,
+       "referencia": 2
+      }
+     },
+     "1000": {
+      "partidas": 5,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 218.307,
+      "desvio_max": 0.07375269328706942,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "10000": {
+      "partidas": 5,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 218.307,
+      "desvio_max": 0.07375269328706942,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "100000": {
+      "partidas": 4,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 279.933,
+      "desvio_max": 0.0555614629095895,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     }
+    }
+   ]
+  }
+ },
+ "nac26": {
+  "k": 3,
+  "unidades": 175,
+  "atomos": 175,
+  "deslinde": {
+   "ganador": "vigente",
+   "fuera": 0,
+   "exceso_8": 0.0,
+   "partidas": 2,
+   "frontera_km": 88.925,
+   "desvio_max": 0.07357221315493884,
+   "hueco_optimo": null
+  },
+  "exacto": {
+   "estado": "OPTIMO_D8",
+   "fuera": 0,
+   "exceso_8": 0.0,
+   "partidas": 2,
+   "frontera_km": 88.925,
+   "desvio_max": 0.07357221315493884,
+   "valido_nucleo": true,
+   "t_s": 3.2,
+   "memoria_mb": 165.4
+  },
+  "gerrychain_puro": {
+   "cortes": {
+    "1000": {
+     "mejor": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 2,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884
+     },
+     "vs_deslinde": "igual",
+     "semillas_que_igualan_optimo": 3,
+     "semillas_mejor_que_deslinde": 0,
+     "n": 10
+    },
+    "10000": {
+     "mejor": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 2,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884
+     },
+     "vs_deslinde": "igual",
+     "semillas_que_igualan_optimo": 10,
+     "semillas_mejor_que_deslinde": 0,
+     "n": 10
+    },
+    "100000": {
+     "mejor": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 2,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884
+     },
+     "vs_deslinde": "igual",
+     "semillas_que_igualan_optimo": 10,
+     "semillas_mejor_que_deslinde": 0,
+     "n": 10
+    }
+   },
+   "cpu_total_s": 3994.7,
+   "semillas": [
+    {
+     "semilla": 1,
+     "estado": "OK",
+     "intentos_semilla": 2,
+     "paso_mejor": 353,
+     "autobucles": 52555,
+     "cpu_s": 407.93,
+     "100": {
+      "partidas": 3,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 89.551,
+      "desvio_max": 0.05273021763548694,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 3,
+       "referencia": 2
+      }
+     },
+     "1000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     },
+     "10000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     },
+     "100000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     }
+    },
+    {
+     "semilla": 2,
+     "estado": "OK",
+     "intentos_semilla": 2,
+     "paso_mejor": 3364,
+     "autobucles": 52507,
+     "cpu_s": 400.6,
+     "100": {
+      "partidas": 3,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 96.36,
+      "desvio_max": 0.04736845371444884,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 3,
+       "referencia": 2
+      }
+     },
+     "1000": {
+      "partidas": 3,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 85.486,
+      "desvio_max": 0.05613717179364656,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 3,
+       "referencia": 2
+      }
+     },
+     "10000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     },
+     "100000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     }
+    },
+    {
+     "semilla": 3,
+     "estado": "OK",
+     "intentos_semilla": 2,
+     "paso_mejor": 3176,
+     "autobucles": 52571,
+     "cpu_s": 402.15,
+     "100": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.969,
+      "desvio_max": 0.052702291781731525,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "frontera_km",
+       "metodo": 88.969,
+       "referencia": 88.925
+      }
+     },
+     "1000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.969,
+      "desvio_max": 0.052702291781731525,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "frontera_km",
+       "metodo": 88.969,
+       "referencia": 88.925
+      }
+     },
+     "10000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     },
+     "100000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     }
+    },
+    {
+     "semilla": 4,
+     "estado": "OK",
+     "intentos_semilla": 6,
+     "paso_mejor": 1529,
+     "autobucles": 52652,
+     "cpu_s": 404.08,
+     "100": {
+      "partidas": 3,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.701,
+      "desvio_max": 0.03585369334930279,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 3,
+       "referencia": 2
+      }
+     },
+     "1000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 129.611,
+      "desvio_max": 0.03624465530187848,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "frontera_km",
+       "metodo": 129.611,
+       "referencia": 88.925
+      }
+     },
+     "10000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     },
+     "100000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     }
+    },
+    {
+     "semilla": 5,
+     "estado": "OK",
+     "intentos_semilla": 2,
+     "paso_mejor": 2175,
+     "autobucles": 52420,
+     "cpu_s": 397.41,
+     "100": {
+      "partidas": 3,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 95.4,
+      "desvio_max": 0.07444722323927493,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 3,
+       "referencia": 2
+      }
+     },
+     "1000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 94.686,
+      "desvio_max": 0.056751540576265504,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "frontera_km",
+       "metodo": 94.686,
+       "referencia": 88.925
+      }
+     },
+     "10000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     },
+     "100000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     }
+    },
+    {
+     "semilla": 6,
+     "estado": "OK",
+     "intentos_semilla": 2,
+     "paso_mejor": 2002,
+     "autobucles": 52503,
+     "cpu_s": 395.88,
+     "100": {
+      "partidas": 3,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 97.535,
+      "desvio_max": 0.018539664020950596,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 3,
+       "referencia": 2
+      }
+     },
+     "1000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.969,
+      "desvio_max": 0.052702291781731525,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "frontera_km",
+       "metodo": 88.969,
+       "referencia": 88.925
+      }
+     },
+     "10000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     },
+     "100000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     }
+    },
+    {
+     "semilla": 7,
+     "estado": "OK",
+     "intentos_semilla": 3,
+     "paso_mejor": 539,
+     "autobucles": 52530,
+     "cpu_s": 409.8,
+     "100": {
+      "partidas": 3,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 95.702,
+      "desvio_max": 0.056695688868754694,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 3,
+       "referencia": 2
+      }
+     },
+     "1000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     },
+     "10000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     },
+     "100000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     }
+    },
+    {
+     "semilla": 8,
+     "estado": "OK",
+     "intentos_semilla": 1,
+     "paso_mejor": 393,
+     "autobucles": 52487,
+     "cpu_s": 390.82,
+     "100": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.969,
+      "desvio_max": 0.052702291781731525,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "frontera_km",
+       "metodo": 88.969,
+       "referencia": 88.925
+      }
+     },
+     "1000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     },
+     "10000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     },
+     "100000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     }
+    },
+    {
+     "semilla": 9,
+     "estado": "OK",
+     "intentos_semilla": 2,
+     "paso_mejor": 1964,
+     "autobucles": 52401,
+     "cpu_s": 389.55,
+     "100": {
+      "partidas": 3,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 98.364,
+      "desvio_max": 0.017348160927386575,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 3,
+       "referencia": 2
+      }
+     },
+     "1000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 94.686,
+      "desvio_max": 0.056751540576265504,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "frontera_km",
+       "metodo": 94.686,
+       "referencia": 88.925
+      }
+     },
+     "10000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     },
+     "100000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     }
+    },
+    {
+     "semilla": 10,
+     "estado": "OK",
+     "intentos_semilla": 1,
+     "paso_mejor": 4974,
+     "autobucles": 52061,
+     "cpu_s": 396.47,
+     "100": {
+      "partidas": 3,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 95.066,
+      "desvio_max": 0.03621672944812307,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 3,
+       "referencia": 2
+      }
+     },
+     "1000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 90.092,
+      "desvio_max": 0.07683953804432143,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "frontera_km",
+       "metodo": 90.092,
+       "referencia": 88.925
+      }
+     },
+     "10000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     },
+     "100000": {
+      "partidas": 2,
+      "exceso_8": 0.0,
+      "fuera": 0,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "vs_deslinde": "igual",
+      "hueco_optimo": null
+     }
+    }
+   ]
+  }
+ },
+ "nac41": {
+  "k": 16,
+  "unidades": 111,
+  "atomos": 111,
+  "deslinde": {
+   "ganador": "ponderado-s1767573395",
+   "fuera": 0,
+   "exceso_8": 0.05497132276612053,
+   "partidas": 8,
+   "frontera_km": 763.763,
+   "desvio_max": 0.13497132276612053,
+   "hueco_optimo": {
+    "termino": "partidas",
+    "metodo": 8,
+    "referencia": 6
+   }
+  },
+  "exacto": {
+   "estado": "OPTIMO_D8",
+   "fuera": 0,
+   "exceso_8": 0.05497132276612053,
+   "partidas": 6,
+   "frontera_km": 785.968,
+   "desvio_max": 0.13497132276612053,
+   "valido_nucleo": true,
+   "t_s": 60.2,
+   "memoria_mb": 289.5
+  },
+  "gerrychain_puro": {
+   "cortes": {
+    "1000": {
+     "mejor": {
+      "fuera": 0,
+      "exceso_8": 0.05497132276612053,
+      "partidas": 10,
+      "frontera_km": 739.407,
+      "desvio_max": 0.13497132276612053
+     },
+     "vs_deslinde": "peor",
+     "semillas_que_igualan_optimo": 0,
+     "semillas_mejor_que_deslinde": 0,
+     "n": 10
+    },
+    "10000": {
+     "mejor": {
+      "fuera": 0,
+      "exceso_8": 0.05497132276612053,
+      "partidas": 10,
+      "frontera_km": 739.407,
+      "desvio_max": 0.13497132276612053
+     },
+     "vs_deslinde": "peor",
+     "semillas_que_igualan_optimo": 0,
+     "semillas_mejor_que_deslinde": 0,
+     "n": 10
+    },
+    "100000": {
+     "mejor": {
+      "fuera": 0,
+      "exceso_8": 0.05497132276612053,
+      "partidas": 8,
+      "frontera_km": 861.38,
+      "desvio_max": 0.13497132276612053
+     },
+     "vs_deslinde": "peor",
+     "semillas_que_igualan_optimo": 0,
+     "semillas_mejor_que_deslinde": 0,
+     "n": 10
+    }
+   },
+   "cpu_total_s": 1557.9,
+   "semillas": [
+    {
+     "semilla": 1,
+     "estado": "OK",
+     "intentos_semilla": 1,
+     "paso_mejor": 79802,
+     "autobucles": 44834,
+     "cpu_s": 149.24,
+     "100": {
+      "partidas": 12,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 825.574,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 12,
+       "referencia": 6
+      }
+     },
+     "1000": {
+      "partidas": 10,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 739.407,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 10,
+       "referencia": 6
+      }
+     },
+     "10000": {
+      "partidas": 10,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 739.407,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 10,
+       "referencia": 6
+      }
+     },
+     "100000": {
+      "partidas": 9,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 817.297,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 9,
+       "referencia": 6
+      }
+     }
+    },
+    {
+     "semilla": 2,
+     "estado": "OK",
+     "intentos_semilla": 5,
+     "paso_mejor": 40740,
+     "autobucles": 44996,
+     "cpu_s": 158.31,
+     "100": {
+      "partidas": 13,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 814.465,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 13,
+       "referencia": 6
+      }
+     },
+     "1000": {
+      "partidas": 12,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 869.436,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 12,
+       "referencia": 6
+      }
+     },
+     "10000": {
+      "partidas": 10,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 800.27,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 10,
+       "referencia": 6
+      }
+     },
+     "100000": {
+      "partidas": 9,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 772.901,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 9,
+       "referencia": 6
+      }
+     }
+    },
+    {
+     "semilla": 3,
+     "estado": "OK",
+     "intentos_semilla": 3,
+     "paso_mejor": 59043,
+     "autobucles": 44304,
+     "cpu_s": 158.33,
+     "100": {
+      "partidas": 16,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 902.108,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 16,
+       "referencia": 6
+      }
+     },
+     "1000": {
+      "partidas": 11,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 828.154,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 11,
+       "referencia": 6
+      }
+     },
+     "10000": {
+      "partidas": 10,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 833.47,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 10,
+       "referencia": 6
+      }
+     },
+     "100000": {
+      "partidas": 9,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 768.667,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 9,
+       "referencia": 6
+      }
+     }
+    },
+    {
+     "semilla": 4,
+     "estado": "OK",
+     "intentos_semilla": 7,
+     "paso_mejor": 39046,
+     "autobucles": 44976,
+     "cpu_s": 161.02,
+     "100": {
+      "partidas": 14,
+      "exceso_8": 0.060679210000643066,
+      "fuera": 0,
+      "frontera_km": 843.51,
+      "desvio_max": 0.14067921000064307,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "exceso_8",
+       "metodo": 0.060679210000643066,
+       "referencia": 0.05497132276612053
+      }
+     },
+     "1000": {
+      "partidas": 11,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 847.988,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 11,
+       "referencia": 6
+      }
+     },
+     "10000": {
+      "partidas": 10,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 860.005,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 10,
+       "referencia": 6
+      }
+     },
+     "100000": {
+      "partidas": 10,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 756.404,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 10,
+       "referencia": 6
+      }
+     }
+    },
+    {
+     "semilla": 5,
+     "estado": "OK",
+     "intentos_semilla": 3,
+     "paso_mejor": 61485,
+     "autobucles": 44967,
+     "cpu_s": 151.45,
+     "100": {
+      "partidas": 13,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 754.53,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 13,
+       "referencia": 6
+      }
+     },
+     "1000": {
+      "partidas": 12,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 742.879,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 12,
+       "referencia": 6
+      }
+     },
+     "10000": {
+      "partidas": 11,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 789.938,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 11,
+       "referencia": 6
+      }
+     },
+     "100000": {
+      "partidas": 9,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 830.947,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 9,
+       "referencia": 6
+      }
+     }
+    },
+    {
+     "semilla": 6,
+     "estado": "OK",
+     "intentos_semilla": 1,
+     "paso_mejor": 49453,
+     "autobucles": 44740,
+     "cpu_s": 148.07,
+     "100": {
+      "partidas": 14,
+      "exceso_8": 0.060679210000643066,
+      "fuera": 0,
+      "frontera_km": 924.441,
+      "desvio_max": 0.14067921000064307,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "exceso_8",
+       "metodo": 0.060679210000643066,
+       "referencia": 0.05497132276612053
+      }
+     },
+     "1000": {
+      "partidas": 11,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 831.725,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 11,
+       "referencia": 6
+      }
+     },
+     "10000": {
+      "partidas": 10,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 873.985,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 10,
+       "referencia": 6
+      }
+     },
+     "100000": {
+      "partidas": 10,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 742.548,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 10,
+       "referencia": 6
+      }
+     }
+    },
+    {
+     "semilla": 7,
+     "estado": "OK",
+     "intentos_semilla": 1,
+     "paso_mejor": 52486,
+     "autobucles": 44853,
+     "cpu_s": 150.07,
+     "100": {
+      "partidas": 11,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 857.803,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 11,
+       "referencia": 6
+      }
+     },
+     "1000": {
+      "partidas": 11,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 807.762,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 11,
+       "referencia": 6
+      }
+     },
+     "10000": {
+      "partidas": 11,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 719.873,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 11,
+       "referencia": 6
+      }
+     },
+     "100000": {
+      "partidas": 9,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 796.764,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 9,
+       "referencia": 6
+      }
+     }
+    },
+    {
+     "semilla": 8,
+     "estado": "OK",
+     "intentos_semilla": 13,
+     "paso_mejor": 90254,
+     "autobucles": 44585,
+     "cpu_s": 171.67,
+     "100": {
+      "partidas": 11,
+      "exceso_8": 0.060801696851169276,
+      "fuera": 0,
+      "frontera_km": 869.87,
+      "desvio_max": 0.14080169685116928,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "exceso_8",
+       "metodo": 0.060801696851169276,
+       "referencia": 0.05497132276612053
+      }
+     },
+     "1000": {
+      "partidas": 10,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 823.106,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 10,
+       "referencia": 6
+      }
+     },
+     "10000": {
+      "partidas": 10,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 804.898,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 10,
+       "referencia": 6
+      }
+     },
+     "100000": {
+      "partidas": 8,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 861.38,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 8,
+       "referencia": 6
+      }
+     }
+    },
+    {
+     "semilla": 9,
+     "estado": "OK",
+     "intentos_semilla": 4,
+     "paso_mejor": 87984,
+     "autobucles": 45116,
+     "cpu_s": 156.49,
+     "100": {
+      "partidas": 11,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 787.593,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 11,
+       "referencia": 6
+      }
+     },
+     "1000": {
+      "partidas": 11,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 787.593,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 11,
+       "referencia": 6
+      }
+     },
+     "10000": {
+      "partidas": 10,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 749.079,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 10,
+       "referencia": 6
+      }
+     },
+     "100000": {
+      "partidas": 10,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 728.973,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 10,
+       "referencia": 6
+      }
+     }
+    },
+    {
+     "semilla": 10,
+     "estado": "OK",
+     "intentos_semilla": 3,
+     "paso_mejor": 42629,
+     "autobucles": 44912,
+     "cpu_s": 153.25,
+     "100": {
+      "partidas": 12,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 840.2,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 12,
+       "referencia": 6
+      }
+     },
+     "1000": {
+      "partidas": 12,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 816.945,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 12,
+       "referencia": 6
+      }
+     },
+     "10000": {
+      "partidas": 11,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 749.261,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 11,
+       "referencia": 6
+      }
+     },
+     "100000": {
+      "partidas": 10,
+      "exceso_8": 0.05497132276612053,
+      "fuera": 0,
+      "frontera_km": 742.076,
+      "desvio_max": 0.13497132276612053,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 10,
+       "referencia": 6
+      }
+     }
+    }
+   ]
+  }
+ },
+ "nac47": {
+  "k": 4,
+  "unidades": 226,
+  "atomos": 226,
+  "deslinde": {
+   "ganador": "vigente",
+   "fuera": 0,
+   "exceso_8": 0.06004676473578309,
+   "partidas": 2,
+   "frontera_km": 270.488,
+   "desvio_max": 0.1400467647357831,
+   "hueco_optimo": null
+  },
+  "exacto": {
+   "estado": "OPTIMO_D8",
+   "fuera": 0,
+   "exceso_8": 0.06004676473578309,
+   "partidas": 2,
+   "frontera_km": 270.488,
+   "desvio_max": 0.1400467647357831,
+   "valido_nucleo": true,
+   "t_s": 7.9,
+   "memoria_mb": 209.0
+  },
+  "gerrychain_puro": {
+   "cortes": {
+    "1000": {
+     "mejor": {
+      "fuera": 0,
+      "exceso_8": 0.06004676473578309,
+      "partidas": 4,
+      "frontera_km": 233.921,
+      "desvio_max": 0.1400467647357831
+     },
+     "vs_deslinde": "peor",
+     "semillas_que_igualan_optimo": 0,
+     "semillas_mejor_que_deslinde": 0,
+     "n": 10
+    },
+    "10000": {
+     "mejor": {
+      "fuera": 0,
+      "exceso_8": 0.06004676473578309,
+      "partidas": 3,
+      "frontera_km": 310.717,
+      "desvio_max": 0.1400467647357831
+     },
+     "vs_deslinde": "peor",
+     "semillas_que_igualan_optimo": 0,
+     "semillas_mejor_que_deslinde": 0,
+     "n": 10
+    },
+    "100000": {
+     "mejor": {
+      "fuera": 0,
+      "exceso_8": 0.06004676473578309,
+      "partidas": 2,
+      "frontera_km": 307.941,
+      "desvio_max": 0.1400467647357831
+     },
+     "vs_deslinde": "peor",
+     "semillas_que_igualan_optimo": 0,
+     "semillas_mejor_que_deslinde": 0,
+     "n": 10
+    }
+   },
+   "cpu_total_s": 8460.3,
+   "semillas": [
+    {
+     "semilla": 1,
+     "estado": "OK",
+     "intentos_semilla": 12,
+     "paso_mejor": 93169,
+     "autobucles": 53949,
+     "cpu_s": 905.33,
+     "100": {
+      "partidas": 7,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 314.751,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 7,
+       "referencia": 2
+      }
+     },
+     "1000": {
+      "partidas": 6,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 256.368,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 6,
+       "referencia": 2
+      }
+     },
+     "10000": {
+      "partidas": 4,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 233.921,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     },
+     "100000": {
+      "partidas": 2,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 326.768,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "frontera_km",
+       "metodo": 326.768,
+       "referencia": 270.488
+      }
+     }
+    },
+    {
+     "semilla": 2,
+     "estado": "OK",
+     "intentos_semilla": 18,
+     "paso_mejor": 96871,
+     "autobucles": 53867,
+     "cpu_s": 991.37,
+     "100": {
+      "partidas": 4,
+      "exceso_8": 0.06107106206589645,
+      "fuera": 0,
+      "frontera_km": 309.794,
+      "desvio_max": 0.14107106206589645,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "exceso_8",
+       "metodo": 0.06107106206589645,
+       "referencia": 0.06004676473578309
+      }
+     },
+     "1000": {
+      "partidas": 5,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 287.742,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "10000": {
+      "partidas": 4,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 274.486,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     },
+     "100000": {
+      "partidas": 3,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 278.307,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 3,
+       "referencia": 2
+      }
+     }
+    },
+    {
+     "semilla": 3,
+     "estado": "OK",
+     "intentos_semilla": 3,
+     "paso_mejor": 12519,
+     "autobucles": 53468,
+     "cpu_s": 751.8,
+     "100": {
+      "partidas": 5,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 234.004,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "1000": {
+      "partidas": 5,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 234.004,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "10000": {
+      "partidas": 4,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 233.921,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     },
+     "100000": {
+      "partidas": 3,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 336.924,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 3,
+       "referencia": 2
+      }
+     }
+    },
+    {
+     "semilla": 4,
+     "estado": "OK",
+     "intentos_semilla": 9,
+     "paso_mejor": 22225,
+     "autobucles": 53504,
+     "cpu_s": 842.38,
+     "100": {
+      "partidas": 6,
+      "exceso_8": 0.06021939911726286,
+      "fuera": 0,
+      "frontera_km": 354.973,
+      "desvio_max": 0.14021939911726286,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "exceso_8",
+       "metodo": 0.06021939911726286,
+       "referencia": 0.06004676473578309
+      }
+     },
+     "1000": {
+      "partidas": 5,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 234.004,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "10000": {
+      "partidas": 4,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 251.725,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     },
+     "100000": {
+      "partidas": 3,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 262.883,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 3,
+       "referencia": 2
+      }
+     }
+    },
+    {
+     "semilla": 5,
+     "estado": "OK",
+     "intentos_semilla": 1,
+     "paso_mejor": 88748,
+     "autobucles": 53812,
+     "cpu_s": 694.64,
+     "100": {
+      "partidas": 5,
+      "exceso_8": 0.06204548724136012,
+      "fuera": 0,
+      "frontera_km": 423.429,
+      "desvio_max": 0.14204548724136012,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "exceso_8",
+       "metodo": 0.06204548724136012,
+       "referencia": 0.06004676473578309
+      }
+     },
+     "1000": {
+      "partidas": 4,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 233.921,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     },
+     "10000": {
+      "partidas": 4,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 233.921,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     },
+     "100000": {
+      "partidas": 3,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 287.798,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 3,
+       "referencia": 2
+      }
+     }
+    },
+    {
+     "semilla": 6,
+     "estado": "OK",
+     "intentos_semilla": 1,
+     "paso_mejor": 41937,
+     "autobucles": 53831,
+     "cpu_s": 705.05,
+     "100": {
+      "partidas": 4,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 233.921,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     },
+     "1000": {
+      "partidas": 4,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 233.921,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     },
+     "10000": {
+      "partidas": 4,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 233.921,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     },
+     "100000": {
+      "partidas": 3,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 288.312,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 3,
+       "referencia": 2
+      }
+     }
+    },
+    {
+     "semilla": 7,
+     "estado": "OK",
+     "intentos_semilla": 2,
+     "paso_mejor": 27463,
+     "autobucles": 53876,
+     "cpu_s": 722.55,
+     "100": {
+      "partidas": 6,
+      "exceso_8": 0.061201496931903396,
+      "fuera": 0,
+      "frontera_km": 271.984,
+      "desvio_max": 0.1412014969319034,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "exceso_8",
+       "metodo": 0.061201496931903396,
+       "referencia": 0.06004676473578309
+      }
+     },
+     "1000": {
+      "partidas": 6,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 261.921,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 6,
+       "referencia": 2
+      }
+     },
+     "10000": {
+      "partidas": 3,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 310.717,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 3,
+       "referencia": 2
+      }
+     },
+     "100000": {
+      "partidas": 2,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 307.941,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "frontera_km",
+       "metodo": 307.941,
+       "referencia": 270.488
+      }
+     }
+    },
+    {
+     "semilla": 8,
+     "estado": "OK",
+     "intentos_semilla": 10,
+     "paso_mejor": 32146,
+     "autobucles": 53844,
+     "cpu_s": 856.42,
+     "100": {
+      "partidas": 4,
+      "exceso_8": 0.060687430107052506,
+      "fuera": 0,
+      "frontera_km": 214.595,
+      "desvio_max": 0.1406874301070525,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "exceso_8",
+       "metodo": 0.060687430107052506,
+       "referencia": 0.06004676473578309
+      }
+     },
+     "1000": {
+      "partidas": 7,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 275.197,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 7,
+       "referencia": 2
+      }
+     },
+     "10000": {
+      "partidas": 4,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 266.371,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     },
+     "100000": {
+      "partidas": 3,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 311.018,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 3,
+       "referencia": 2
+      }
+     }
+    },
+    {
+     "semilla": 9,
+     "estado": "OK",
+     "intentos_semilla": 31,
+     "paso_mejor": 74951,
+     "autobucles": 53694,
+     "cpu_s": 1255.57,
+     "100": {
+      "partidas": 5,
+      "exceso_8": 0.06152374777733234,
+      "fuera": 0,
+      "frontera_km": 309.338,
+      "desvio_max": 0.14152374777733234,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "exceso_8",
+       "metodo": 0.06152374777733234,
+       "referencia": 0.06004676473578309
+      }
+     },
+     "1000": {
+      "partidas": 7,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 251.092,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 7,
+       "referencia": 2
+      }
+     },
+     "10000": {
+      "partidas": 4,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 266.744,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     },
+     "100000": {
+      "partidas": 3,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 278.611,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 3,
+       "referencia": 2
+      }
+     }
+    },
+    {
+     "semilla": 10,
+     "estado": "OK",
+     "intentos_semilla": 3,
+     "paso_mejor": 21298,
+     "autobucles": 53333,
+     "cpu_s": 735.21,
+     "100": {
+      "partidas": 6,
+      "exceso_8": 0.062260321138312744,
+      "fuera": 0,
+      "frontera_km": 305.999,
+      "desvio_max": 0.14226032113831275,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "exceso_8",
+       "metodo": 0.062260321138312744,
+       "referencia": 0.06004676473578309
+      }
+     },
+     "1000": {
+      "partidas": 5,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 243.166,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 5,
+       "referencia": 2
+      }
+     },
+     "10000": {
+      "partidas": 4,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 233.921,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 4,
+       "referencia": 2
+      }
+     },
+     "100000": {
+      "partidas": 3,
+      "exceso_8": 0.06004676473578309,
+      "fuera": 0,
+      "frontera_km": 267.123,
+      "desvio_max": 0.1400467647357831,
+      "vs_deslinde": "peor",
+      "hueco_optimo": {
+       "termino": "partidas",
+       "metodo": 3,
+       "referencia": 2
+      }
+     }
+    }
+   ]
+  }
+ }
+}

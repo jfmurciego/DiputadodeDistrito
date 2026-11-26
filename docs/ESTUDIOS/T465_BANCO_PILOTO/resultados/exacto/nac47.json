@@ -1,0 +1,118 @@
+{
+ "territorio": "nac47",
+ "version": "1.0.0",
+ "k": 4,
+ "huella_reglas": "b76c219494b9365641e020a344e9fc1d952fd6a0779505e90731e6d5c94a910b",
+ "ganador_competicion": "vigente",
+ "ganador": {
+  "clave_d8": {
+   "fuera": 0,
+   "exceso_8": 0.06004676473578309,
+   "partidas": 2,
+   "frontera_km": 270.488,
+   "desvio_max": 0.1400467647357831,
+   "huella": "df898ce775e2b22810e40e43c6aff57af67af52542f36b53a89ba6ce60ec30bb"
+  },
+  "igual_a_competicion": true
+ },
+ "canonico": {
+  "clave_d8": {
+   "fuera": 0,
+   "exceso_8": 0.06015801800384783,
+   "partidas": 4,
+   "frontera_km": 376.874,
+   "desvio_max": 0.14015801800384783,
+   "huella": "6a067707629c9457bf1bd3e8e5af40a584bef80f0f64263335d65f7251a03933"
+  }
+ },
+ "espacios": {
+  "canonico": {
+   "unidades": 226,
+   "atomos": 226,
+   "aristas_atomos": 587,
+   "variables": 5208,
+   "restricciones": 7312,
+   "modelo_acepta": {
+    "canonico": {
+     "estado": "FACTIBLE",
+     "terminos": {
+      "fuera": 0,
+      "exceso_8": 1826725,
+      "partidas": 4,
+      "frontera_mm": 376873838,
+      "desvio": 73069
+     },
+     "coincide_con_clave_oficial": true
+    },
+    "ganador": {
+     "estado": "FACTIBLE",
+     "terminos": {
+      "fuera": 0,
+      "exceso_8": 1825275,
+      "partidas": 2,
+      "frontera_mm": 270487666,
+      "desvio": 73011
+     },
+     "coincide_con_clave_oficial": true
+    }
+   },
+   "etapas": [
+    {
+     "etapa": "fuera",
+     "estado": "OPTIMAL",
+     "t_s": 0.31,
+     "valor": 0,
+     "cota": 0
+    },
+    {
+     "etapa": "exceso_8",
+     "estado": "OPTIMAL",
+     "t_s": 0.99,
+     "valor": 1825275,
+     "cota": 1825275
+    },
+    {
+     "etapa": "partidas",
+     "estado": "OPTIMAL",
+     "t_s": 0.36,
+     "valor": 2,
+     "cota": 2
+    },
+    {
+     "etapa": "frontera_mm",
+     "estado": "OPTIMAL",
+     "t_s": 3.92,
+     "valor": 270487666,
+     "cota": 270487666
+    },
+    {
+     "etapa": "desvio",
+     "estado": "OPTIMAL",
+     "t_s": 0.75,
+     "valor": 73011,
+     "cota": 73011
+    }
+   ],
+   "exacto": true,
+   "mejor_modelo": {
+    "valido_nucleo": true,
+    "clave_d8": {
+     "fuera": 0,
+     "exceso_8": 0.06004676473578309,
+     "partidas": 2,
+     "frontera_km": 270.488,
+     "desvio_max": 0.1400467647357831,
+     "huella": "df898ce775e2b22810e40e43c6aff57af67af52542f36b53a89ba6ce60ec30bb"
+    }
+   },
+   "hueco_ganador_menos_mejor": {
+    "termino": null,
+    "empate_hasta_huella": true,
+    "misma_particion": true
+   },
+   "estado": "OPTIMO_D8"
+  }
+ },
+ "t_total_s": 7.9,
+ "memoria_max_mb": 209.0
+}

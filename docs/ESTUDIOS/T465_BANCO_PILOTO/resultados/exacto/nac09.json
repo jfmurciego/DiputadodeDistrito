@@ -1,0 +1,118 @@
+{
+ "territorio": "nac09",
+ "version": "1.0.0",
+ "k": 3,
+ "huella_reglas": "107763f190b42b801ef0d3373c30adca57cadd0ea805210c4d10ec3fb8e32b62",
+ "ganador_competicion": "vigente",
+ "ganador": {
+  "clave_d8": {
+   "fuera": 0,
+   "exceso_8": 0.0,
+   "partidas": 2,
+   "frontera_km": 315.804,
+   "desvio_max": 0.07844530878361362,
+   "huella": "01d0f33224c402ad2f426bb2c75666160f5375a53183ea38008cfbfa1dadf5cc"
+  },
+  "igual_a_competicion": true
+ },
+ "canonico": {
+  "clave_d8": {
+   "fuera": 0,
+   "exceso_8": 0.0,
+   "partidas": 11,
+   "frontera_km": 935.887,
+   "desvio_max": 8.95430506198058e-05,
+   "huella": "7c884cd9ae78269bb49380018800874774d6156fb326e9cc939875d355a36bfa"
+  }
+ },
+ "espacios": {
+  "canonico": {
+   "unidades": 372,
+   "atomos": 372,
+   "aristas_atomos": 988,
+   "variables": 7503,
+   "restricciones": 10986,
+   "modelo_acepta": {
+    "canonico": {
+     "estado": "FACTIBLE",
+     "terminos": {
+      "fuera": 0,
+      "exceso_8": 714740,
+      "partidas": 11,
+      "frontera_mm": 935887233,
+      "desvio": 32
+     },
+     "coincide_con_clave_oficial": true
+    },
+    "ganador": {
+     "estado": "FACTIBLE",
+     "terminos": {
+      "fuera": 0,
+      "exceso_8": 714740,
+      "partidas": 2,
+      "frontera_mm": 315804166,
+      "desvio": 28034
+     },
+     "coincide_con_clave_oficial": true
+    }
+   },
+   "etapas": [
+    {
+     "etapa": "fuera",
+     "estado": "OPTIMAL",
+     "t_s": 0.43,
+     "valor": 0,
+     "cota": 0
+    },
+    {
+     "etapa": "exceso_8",
+     "estado": "OPTIMAL",
+     "t_s": 2.29,
+     "valor": 714740,
+     "cota": 714740
+    },
+    {
+     "etapa": "partidas",
+     "estado": "OPTIMAL",
+     "t_s": 2.96,
+     "valor": 2,
+     "cota": 2
+    },
+    {
+     "etapa": "frontera_mm",
+     "estado": "OPTIMAL",
+     "t_s": 11.76,
+     "valor": 315804166,
+     "cota": 315804166
+    },
+    {
+     "etapa": "desvio",
+     "estado": "OPTIMAL",
+     "t_s": 8.79,
+     "valor": 28034,
+     "cota": 28034
+    }
+   ],
+   "exacto": true,
+   "mejor_modelo": {
+    "valido_nucleo": true,
+    "clave_d8": {
+     "fuera": 0,
+     "exceso_8": 0.0,
+     "partidas": 2,
+     "frontera_km": 315.804,
+     "desvio_max": 0.07844530878361362,
+     "huella": "01d0f33224c402ad2f426bb2c75666160f5375a53183ea38008cfbfa1dadf5cc"
+    }
+   },
+   "hueco_ganador_menos_mejor": {
+    "termino": null,
+    "empate_hasta_huella": true,
+    "misma_particion": true
+   },
+   "estado": "OPTIMO_D8"
+  }
+ },
+ "t_total_s": 29.3,
+ "memoria_max_mb": 367.2
+}

@@ -1,0 +1,94 @@
+{
+ "territorio": "nac26",
+ "version": "1.0.0",
+ "k": 3,
+ "atomos": 175,
+ "aristas": 459,
+ "epsilon": 0.15,
+ "huella_reglas": "1715d7ba5a045b16c341e05cdacf0a609950da1c2efcf14cc02ee1c27cc22863",
+ "ganador_deslinde": {
+  "fuera": 0,
+  "exceso_8": 0.0,
+  "partidas": 2,
+  "frontera_km": 88.925,
+  "desvio_max": 0.07357221315493884,
+  "huella": "690a89ed2dfb60ca80475306959bb5913951a5444de89eb893d274211c942185"
+ },
+ "semillas": [
+  {
+   "semilla": 3,
+   "intentos_semilla": 2,
+   "motivos_semillas_rechazadas": [
+    "R-MUN-MIXTOS",
+    "R-NUCLEO"
+   ],
+   "estado": "OK",
+   "pasos": 100000,
+   "estados_distintos": 47429,
+   "autobucles": 52571,
+   "paso_mejor": 3176,
+   "mejor": {
+    "fuera": 0,
+    "exceso_8": 0.0,
+    "partidas": 2,
+    "frontera_km": 88.925,
+    "desvio_max": 0.07357221315493884,
+    "huella": "690a89ed2dfb60ca80475306959bb5913951a5444de89eb893d274211c942185"
+   },
+   "cortes": {
+    "100": {
+     "clave_d8": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 2,
+      "frontera_km": 88.969,
+      "desvio_max": 0.052702291781731525,
+      "huella": "99cb29d9519213373a3ec27000371807192a86e7e607c92a613587c8cd1b415b"
+     },
+     "cpu_s": 0.87
+    },
+    "1000": {
+     "clave_d8": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 2,
+      "frontera_km": 88.969,
+      "desvio_max": 0.052702291781731525,
+      "huella": "99cb29d9519213373a3ec27000371807192a86e7e607c92a613587c8cd1b415b"
+     },
+     "cpu_s": 4.58
+    },
+    "10000": {
+     "clave_d8": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 2,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "huella": "690a89ed2dfb60ca80475306959bb5913951a5444de89eb893d274211c942185"
+     },
+     "cpu_s": 42.84
+    },
+    "100000": {
+     "clave_d8": {
+      "fuera": 0,
+      "exceso_8": 0.0,
+      "partidas": 2,
+      "frontera_km": 88.925,
+      "desvio_max": 0.07357221315493884,
+      "huella": "690a89ed2dfb60ca80475306959bb5913951a5444de89eb893d274211c942185"
+     },
+     "cpu_s": 402.15
+    }
+   },
+   "hueco_frente_a_deslinde": {
+    "termino": null,
+    "empate_hasta_huella": true,
+    "misma_particion": true
+   },
+   "cpu_s": 402.15
+  }
+ ],
+ "cpu_carga_s": 0.22,
+ "cpu_total_s": 402.37
+}
