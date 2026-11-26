@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.77
-Fecha: 2026-11-24
+Versión: 1.0.78
+Fecha: 2026-11-26
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-203 y D-204 (Castilla-La Mancha desde la copia archivada; doble vuelta aut de 16); T-453 a T-455; T-281, T-443, T-448, T-449 y T-452 hechas
-Anterior: legacy/docs/PLAN_v1.0.76_20261123.md
+Cambios/motivo: D-205 a D-214 (mapa V4 y V5, bloques, sin firmas de IA, auditoría); T-456 a T-500; paquete de 2 días (26-11)
+Anterior: legacy/docs/PLAN_v1.0.77_20261124.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -343,6 +343,16 @@ Fase 4 — producto (en el privado):
 - D-202 (23-11, propietario). El espejo de `1mun00` va en R2, `fuentes/ine/2011/` (estructura de D-188), con la misma huella, su entrada en el índice de fuentes y la lectura de la CI desde ahí. Lo sube el Operador con la frase del propietario.
 - D-203 (23 y 24-11, propietario; T-449). El portal de datos abiertos de la Junta de Castilla-La Mancha cambió de plataforma y el fichero oficial de 2023 desapareció. Las autonómicas de 2023 por municipio salen de la copia de la Wayback del fichero oficial (`Resultados_CLM_2023.xlsx`, captura 20261023040608, 322.602 B, sha256 7591997d…47ca), declarada «copia archivada del fichero oficial (fuente no oficial)». Cuadre exacto contra el Observatorio (nazioenbehatokia.eus, sha256 fijado), por provincia y en los 33 escaños, porque el PDF oficial ya no existe. La copia va en R2 en `fuentes-archivadas/` (`fuentes/` queda solo para originales oficiales, D-198); la doble vuelta, a nivel municipio sobre el M08 43745006294, con el CERA fuera de distritos (#1002, #1005).
 - D-204 (24-11, propietario). Castilla-La Mancha se publica con una P75 «aut» completa de 16 territorios y un informe único que se fija en el pin, sin cambiar el publicador (P75 45382110179, 0 % sin casar; #1006, #1007; P40 45411223365: 68 territorios).
+- D-205 (24 y 25-11, propietario; T-456, T-458). Fuera de la web los carteles «Doble vuelta no disponible…», «Resultados oficiales 2023 · vista provincial», «Simulación sin valor oficial» y el de copia archivada de Castilla-La Mancha (#1011). El mapa sigue siendo el nuestro (no el del Observatorio), nítido y con colores firmes; sin nivel de sección ni votos por sección; al clicar un distrito, ventana con su información; panel derecho con los datos arriba, sin foto ni licencias. Mapa y doble vuelta salen siempre del mismo run.
+- D-206 (25-11, propietario). Diseño T-458 1.4.0 (#1013) «todo como recomienda»: colores fijos de bloque, la ventaja solo en el texto, panel con cifras. Implementación en T-459 a T-462.
+- D-207 (25-11, propietario). En la ventana del distrito, imagen DEL DISTRITO (Wikimedia Commons, P18 del municipio, CC0/DP preferidas, en R2; sin imagen si no hay licencia válida), sin pie; la atribución, solo si es imprescindible, al final del scroll.
+- D-208 (25-11, propietario). Nombre del distrito: capital de partido judicial (fuente oficial con sha256) y, si no la hay, el municipio más poblado; si se repite, «Madrid N».
+- D-209 (25-11, propietario). Datos del distrito, en este orden: población, votos y bloque ganador con su %.
+- D-210 (25-11, propietario; actualiza D-167/D-182). «Patriotas» pasa a «Derecha nacional»; Izquierda sigue igual; los nacionalistas, de izquierda o de derecha, ya forman un bloque propio. En origen (tablas fechadas nuevas, herramientas y tests, T-460), después P75 nac y aut, pin y P40, con frases. La tabla de bloques se elige explícitamente por ámbito (nac/aut): bloques_vigente() no puede cruzarlas.
+- D-211 (24-11, propietario). Commits, mensajes de squash, PR y textos de los robots, sin Co-Authored-By, Claude-Session ni nombres de IA o de modelo (T-457, #1012).
+- D-212 (25-11, propietario; T-499, #1016). V5 de la vista «Congreso · 2023 · Provincia»: una bolita por diputado con los escaños oficiales de 2023 (BOE-A-2023-18907), racimo compacto por partido con placa en Madrid, Barcelona y Valencia, % sobre votos a candidaturas, intensidad en 4 clases, paleta V4. Se prueba en pruebas.diputadodedistrito.es y pasa a producción con P40 cuando el propietario la apruebe (T-500); no espera a la migración a Cloudflare.
+- D-213 (25-11, propietario, en el chat de la auditoría). La desigualdad de población entre distritos se acepta; no se abren tareas para corregirla. El resto de ámbitos, «a nivel top mundial». Todo dentro del plan semanal, sin gasto adicional: lo que se pueda se hace y lo que no, espera. Objeción pendiente (no decisión): no esperar a marzo; la propuesta de orden por dependencias sin fechas está sin confirmar.
+- D-214 (26-11, propietario). «Sí al paquete de 2 días»: de la auditoría (`docs/AUDITORIAS/PLAN_MEJORA_2026-11-25.md` 2.0.0) se aprueban A (T-463), B solo el piloto (T-465+T-466: Burgos, Valladolid, La Rioja, Sevilla y Madrid; GerryChain puro y exacto frente a Deslinde, con decisión de seguir o no), F solo la licencia (T-473), G (T-476), H solo los indicadores (T-478), I solo el diseño de T-482 y K solo T-491. Hasta 6 sesiones a la vez. El resto de la auditoría sigue como propuesta. Un solo escritor del plan (el Planificador); el chat de la auditoría confirma los fragmentos que salen de su informe. Orden de escritores en `explorar.js`: T-459 → T-500 → T-486 → T-485 → T-482 → T-483 → T-484.
 - D-182 (19-11, propietario; T-421, #930, #933). Bloques de las autonómicas: Junts y Contigo-Zurekin, DO, 100x100, Aliança Catalana, UxGC, Andalucistas y Alhora en Nacionalistas; SALF en Patriotas; Drago Verdes Canarias en Izquierdas; resto sin bloque. Faltan datos por sección de Asturias, Castilla-La Mancha, Extremadura y Murcia.
 - D-179 (19-11, propietario). PRIORIDAD: la V4 en producción. La doble vuelta se calcula desde los paquetes `ddd-minimo-<run>-M08` ya archivados en R2 de los 71 publicados (sin regenerar) con una opción nueva de solo lectura en P70 (T-418). La primera V4 lleva los 52 territorios del Congreso (`nac`); los 19 `aut` (elecciones autonómicas) van en una segunda tanda cuando la tabla de bloques cubra sus partidos. El Coordinador lleva el camino crítico; al propietario solo se le piden firmas (fusión de código, frase de lanzamiento, permiso de publicar). La limpieza de R2, la 2a y la PR 3 de P00 no lo bloquean.
 - D-177 (19-11, Planificador, criterio técnico). Doble vuelta: tabla de alias id de fuente → partido homologado derivada de `datos/homologacion_siglas/` (#914; 100 % de votos 2011-2023; «LA IZQUIERDA PLURAL» 2011 declarada, sin efecto de bloque); la regeneración no empieza sin #911, #914 y el `--alias` en P30. En campaña, P30 archiva en R2 en el mismo job y solo se salta el registro en main (opción A de T-379); el modo de inicio de P20 es una opción de la campaña (por defecto «Generar desde fuente territorial acreditada»); la campaña no publica salvo opción expresa del propietario (por defecto «No publicar») y siempre con la aprobación de `produccion`.
@@ -502,7 +512,24 @@ Fase 4 — producto (en el privado):
 | T-452 | Actualización del plan 1.0.76 | HECHA (#1000) |
 | T-453 | Clave fija del informe de P75 y pin «autonomicas» con aut08 (D-204; #1006, #1007) | HECHA |
 | T-454 | P40: reintento de deploy-pages ante la carrera del artefacto (#1008) | HECHA (validada en real) |
-| T-455 | Actualización del plan 1.0.77 | REVISIÓN (esta PR) |
+| T-455 | Actualización del plan 1.0.77 | HECHA (#1010) |
+| T-456 | Visor V4: doble vuelta por los dos ids y fuera cuatro carteles (D-205; #1011) | HECHA (P40 45440595789) |
+| T-457 | Sin nombres de IA en commits y robots (D-211; #1012) | HECHA |
+| T-458 | Diseño del mapa V4 1.4.0 (D-205 a D-210; #1013) | HECHA |
+| T-459 | Visor: panel con cifras, colores fijos, ventana del distrito, sin sección (#1014) | REVISIÓN |
+| T-460 | Bloques: «Derecha nacional» en origen y tabla por ámbito (D-210; #1015) | REVISIÓN (luego P75 nac y aut, pin y P40) |
+| T-461 | Nombres de distrito (D-208) | EN CURSO |
+| T-462 | Imágenes de distrito desde Wikimedia (D-207) | EN CURSO |
+| T-463 | Textos públicos veraces y DOI de la serie (D-214) | EN CURSO (publicación «solo el sitio» con frase) |
+| T-464 | Actualización del plan 1.0.78 | REVISIÓN (esta PR) |
+| T-465 | Banco de comparación: piloto de 5 territorios, diseño y ejecución (T-466) (D-214) | EN CURSO |
+| T-473 | Página de opciones de licencia (D-214) | PENDIENTE (tanda 2) |
+| T-476 | Datos abiertos 2: votos por partido y distrito (D-214) | PENDIENTE (tanda 2) |
+| T-478 | Indicadores por mapa (D-214) | PENDIENTE (tanda 2) |
+| T-482 | Diseño de «busca tu distrito» por calle (D-214) | PENDIENTE (tanda 2) |
+| T-491 | A la primera: medir y reducir los fallos repetidos (D-214) | PENDIENTE (tanda 2) |
+| T-499 | Diseño de la V5 con bolitas (D-212; #1016) | HECHA |
+| T-500 | Implementación de la V5 (D-212) | PENDIENTE (tras #1014) |
 | T-281 | Registro de la propiedad intelectual de Deslinde 1.0 (D-196; #995) | HECHA (presentado el 23-11 como «Programa de ordenador», con copia identificativa, memoria y declaración de IA) |
 | T-379c | P00 3c (manifiesto por territorio, P40 desde campaña), relevo de T-379 | REVISIÓN (3c completa en #956, borrador; no se fusiona antes del 29-11) |
 | T-432 | Inventario completo de R2 (#952, P74 44751091049) | HECHA |
