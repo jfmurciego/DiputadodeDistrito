@@ -27,6 +27,13 @@ Lo que sí dijo en este chat el 25-11 (lo registra el Planificador):
 3. No quiere olas hasta marzo: orden por dependencias, sin fechas.
 4. Meta: el resto de ámbitos, a nivel de los mejores.
 
+**Actualización del 26-11 (17:06 UTC), según mensaje del Planificador; este chat no lo ha visto directamente:** el propietario
+dijo en el chat del Planificador «Sí al paquete de 2 días». Según él, eso aprueba: A (T-463), B solo el piloto (T-465 y T-466,
+5 territorios), F solo la licencia (T-473), G (T-476), H solo los indicadores (T-478), I solo el diseño de T-482 y K (T-491).
+El resto sigue como propuesta. La fuente de verdad es el plan 1.0.78 (T-464), que escribe el Planificador. Avisos de contenido
+enviados ese día: regla de «seguir o no» del piloto escrita antes de ejecutar; T-482 con la equivalencia de secciones 2026→2023;
+T-478 sin el tablero antiguo y rehaciendo el 10,7 % → 1,9 % desde ficheros con fuente; T-476 detrás de T-460; T-463 detrás de T-473.
+
 ## 4. Acuerdo con el Planificador vivo (25-11, 22:57 a 23:00 UTC; pendiente de lo que apruebe el propietario)
 - Un solo escritor del plan: el Planificador. Pasa a este chat solo el fragmento que salga del informe, para confirmarlo.
 - Números: T-463 a T-498, este plan; T-459 a T-462 y T-499/T-500, del Planificador; decisiones nuevas desde D-211, las numera él.
