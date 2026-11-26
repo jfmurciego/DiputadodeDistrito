@@ -102,6 +102,8 @@ class Huellas(Base):
                     from tests import _t443
                     from tests import _t454
                     ahora = _t443.deshacer_p40(_t454.deshacer_p40(ahora))
+                from tests import _t505
+                ahora = _t505.deshacer(n, ahora)  # T-505 (auto-merge 1.3.4, P90 1.5.4), posterior a la 2a
                 self.assertEqual(deshacer(n, ahora), antes)
 
     def test_control_negativo_equivalencia(self):
