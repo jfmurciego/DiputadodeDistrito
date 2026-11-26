@@ -195,6 +195,7 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
+          # Profundidad 1000: una rama con más commits propios daría un falso positivo (falla en seguro, no deja pasar nada).
           git fetch --no-tags --depth=1000 origin "$BASE_SHA" "$HEAD_SHA"
           python herramientas/comprobar_guardian_main.py coautores --base "$BASE_SHA" --head "$HEAD_SHA"
       - name: Auditar cabeceras y legacy en checkout

@@ -81,11 +81,6 @@ class Registro(unittest.TestCase):
             f.unlink()
         self.assertIn("falta la copia legacy", comprobar_registro(raiz)[0])
 
-
-if __name__ == "__main__":
-    unittest.main()
-
-
 class Coautores(unittest.TestCase):
     """T-505: ningún commit de la PR lleva «Co-authored-by» ni «Claude-Session»."""
 
@@ -120,3 +115,7 @@ class Coautores(unittest.TestCase):
             errores = comprobar_coautores(Path(t), base, head)
             self.assertEqual(len(errores), 1)
             self.assertIn("claude-session, co-authored-by", errores[0])
+
+
+if __name__ == "__main__":
+    unittest.main()
