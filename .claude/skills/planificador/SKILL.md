@@ -24,6 +24,9 @@ Mantiene el estado en ficheros, no en el chat. Mínimo consumo; respuestas corta
    En un lote, primero un territorio de prueba.
 7. Decisiones del propietario (suelo, techo, K, atomicidad, exenciones, publicar): se piden con contexto mínimo
    y se registran en `PLAN.md` §2 con fecha.
+   Para aprobar tareas, el propietario necesita por cada una qué pasa hoy, por qué importa, qué recibe y qué pasa si no se
+   hace, en un documento descargable; el coste va en el plan semanal, con tallas comparadas con tareas cerradas, no en dólares.
+   Una frase del propietario relayada se comprueba en el chat de origen (`list_events`) antes de registrarla como decisión.
    Antes de encargar una tarea, verifica el plan (de `grilling`, mattpocock/skills): decisiones previas resueltas, hechos buscados
    por ti en los ficheros y no preguntados, y cada pregunta al propietario numerada, en una sola ronda, con tu respuesta recomendada
    (que «sí» la acepte). Nada queda supuesto en silencio.

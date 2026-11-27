@@ -129,12 +129,23 @@ class Workflow(unittest.TestCase):
             self.assertNotIn(prohibido, self.script)
         self.assertEqual(self.d["permissions"], {"contents": "read", "checks": "read", "pull-requests": "read"})
 
+    def test_squash_sin_coautores_titulo_de_la_pr_y_cuerpo_vacio(self):
+        """T-505: `gh pr merge` sin cuerpo dejaba que GitHub añadiera «Co-authored-by» (#1018, #1019, #1026, #1028)."""
+        s = self.script
+        self.assertIn("merge_method=squash", s)
+        self.assertIn('sha="$SHA"', s)  # sigue ligada al HEAD evaluado
+        self.assertIn('commit_title="$titulo (#$pr)"', s)
+        self.assertIn('commit_message=""', s)
+        self.assertIn("jq -r .title", s)
+        self.assertNotIn("Co-authored-by", s)
+
     def test_decide_por_el_check_run_del_sha_antes_de_fusionar(self):
         s = self.script
         self.assertIn("commits/$SHA/check-runs?check_name=pruebas", s)
         self.assertIn("herramientas/decidir_auto_merge.py", s)
-        self.assertLess(s.index("decidir_auto_merge.py"), s.index("gh pr merge"))
-        self.assertIn('gh pr merge "$pr" --squash --match-head-commit "$SHA"', s)
+        self.assertLess(s.index("decidir_auto_merge.py"), s.index("/merge"))
+        self.assertNotIn("gh pr merge", s)  # T-505: REST con título y cuerpo explícitos
+        self.assertIn('-X PUT "repos/$GITHUB_REPOSITORY/pulls/$pr/merge"', s)
         self.assertEqual(self.job["steps"][0]["with"]["ref"], "main")  # código de main, nunca el de la PR
         subprocess.run(["bash", "-n"], input=s, text=True, check=True)
 

@@ -1,6 +1,6 @@
 # Estado operativo (mantiene el Coordinador)
 
-Fecha: 2026-11-24 (tarde) · Actualizar en cada PR de lecciones o de estado. Verde = cumple el criterio del propietario; amarillo = en marcha o a medias; rojo = bloqueado o fallando. Notación D-47: fases P00-P60 y archivo ARC; en lo que se cuenta al propietario, sin códigos antiguos, sin ids de tarea ni de PR.
+Fecha: 2026-11-26 (noche) · Actualizar en cada PR de lecciones o de estado. Verde = cumple el criterio del propietario; amarillo = en marcha o a medias; rojo = bloqueado o fallando. Notación D-47: fases P00-P60 y archivo ARC; en lo que se cuenta al propietario, sin códigos antiguos, sin ids de tarea ni de PR.
 
 ## Tablero por tema (prioridad 1: el motor)
 | Tema | Estado | Situación | Siguiente |
@@ -94,3 +94,13 @@ r4 terminada (70/71; falta aut12 Galicia). Fusionadas desde el relevo: #818, #82
 - Chats vivos: Planificador y Operador. Sin implementadores.
 - Libro de costes (chats cerrados, USD): T-449 38,68 · T-454 2,57 · T-453 1,62. Suma: 42,87.
 - Pendientes del propietario: buckets y llaves de la web en R2 (REDISENO_R2 §7); borradores de P00 Campaña (#913, #938, #956) y #842 desde el 29-11.
+
+## 26-11 (relevo del Coordinador, 17:08 UTC)
+- Fusionadas con orden del propietario: #1015 («Derecha nacional»), #1017 (mapa V5: un punto por diputado sobre los colores del mapa actual, ampliación máxima y sin giro), #1020 (textos y DOI de la serie), #1021 y #1022 (nombres de distrito por capital de partido judicial; 5 comunidades sin ley en el BOE, con nombre provisional), #1023 (imágenes de distritos, P10), #1024 (pin de los informes de doble vuelta), #1025 (piloto del banco). Por auto-merge: #1018 (plan 1.0.78), #1019 (traspaso), #1026 (test del visor estable). `main` en verde.
+- Runs: P75 nacional CONFIRMADA (52/52) y autonómica CONFIRMADA (16/19; Extremadura por D-183, Ceuta y Melilla no eligen parlamento). P40 45873075949 RECHAZADA en parte (pin viejo); P40 45889763424 CONFIRMADA con #1024 y la V5: 68 territorios, doble vuelta promovida.
+- Chats vivos: Planificador, Operador (linaje 7 de 8: al 70 % deja traspaso y avisa al propietario). Sin implementadores.
+- Pendientes de abrir tras un run: T-461 parte 2 (leyes de capitalidad de Aragón, Baleares, Canarias, Cataluña y Galicia, tras P10 descubrir), T-462 parte 2 (revisar la hoja de contactos y subir a R2), T-501b (flush de test_visor_v4_puntos.js: rama t-501b-flush-puntos@e6e462c, faltan 200 ejecuciones, registro y PR).
+- Libro de costes (chats cerrados, USD): Coordinador 23-26/11 74,32 · T-500 13,36 · T-460 5,65 · T-461 3,64 · T-462 3,02 · T-463 0,87. Suma: 100,86.
+- Pendientes del propietario: frase para P10 «Imágenes de distritos (hoja de contactos)», congreso; frase para P10 descubrir de `capitalidad-partidos-judiciales`; buckets y llaves de R2 (REDISENO_R2 §7); borradores #842, #913, #938, #956 desde el 29-11.
+- Noche: fusionadas #1027 (auditoría y plan de mejora) y #1029 (diagnóstico de Sevilla: el exacto no aplica con K>4; propuesta de arreglo pendiente de decisión del Planificador, cambia huellas). Por auto-merge #1028 (lecciones).
+- Libro de costes (chats cerrados, USD): auditoría 76,74 · T-465/466/502 10,61. Suma: 87,35.

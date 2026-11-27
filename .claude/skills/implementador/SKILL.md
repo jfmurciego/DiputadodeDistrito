@@ -16,12 +16,14 @@ description: Rol de implementador de DDD. Úsala cuando el chat tenga asignada u
    un test que falla antes y pasa después del arreglo. Tests (de mattpocock/skills `tdd`): por rebanadas verticales (un test → su código → repetir, no todos los tests primero); sobre la interfaz pública, sin simular colaboradores internos; el valor esperado, de una fuente independiente (literal, dato oficial con sha256), nunca recalculado como lo hace el código (tautológico). Suite: los módulos afectados con `unittest`, y la completa
    en segundo plano si tocas el núcleo.
 6. Antes de empujar: sin marcas de conflicto (`python herramientas/comprobar_guardian_main.py todo`) y
-   `python -m unittest tests.test_r015_invariantes.GovernanceHeaders`.
+   `python -m unittest tests.test_r015_invariantes.GovernanceHeaders` y `tests.test_t220_renombrado` (tumbó 4 PR el 26-11).
 7. Registro: añade tu entrada en `docs/registro/AAAA-MM-DD_<rama>.md`, sin número (lo pone el job de `main`;
    formato en `docs/registro/README.md`); no edites `docs/REGISTRO_DE_CAMBIOS.md`. Una PR por causa, con causa,
    cambio, pruebas y riesgos.
 8. Al abrir PR: una línea de cierre al Coordinador «T-xx · estado · qué · PR #n@sha7 · efectos: <efecto>=<estado> · siguiente · bloqueo · ref de autorización» (estado `REVISIÓN`; efecto de fusión `PREPARADO`/`ESPERA_APROBACIÓN`); las dudas, también a él
    (`send_message` del MCP `claude-code-remote`). Si hace falta una 00, pídela al Coordinador; no la lances.
+   El sha7 se copia de `git rev-parse --short=7 HEAD` tras el push, nunca de memoria. En cambios visuales ambiguos (p. ej. el
+   sentido de un giro), saca variantes con captura antes de iterar.
 
 PR que no debe fusionarse sola: créala en borrador, pon `no-automerge` y pásala a lista con
 `POST pulls/<n>/ccr/ready_for_review`.
