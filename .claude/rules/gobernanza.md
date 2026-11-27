@@ -21,3 +21,4 @@ paths:
 - `herramientas/`, `modulos/`, `ddd_core/`, catálogo y política son compartidos: avisa a la otra sesión antes de tocarlos.
 - No cambiar suelo, techo, K ni atomicidad sin decisión del propietario.
 - Textos públicos (T-463, 26-11): `test_visor_v4_base::test_metodologia_en_lenguaje_llano` veta jerga («repositorio») en metodo.md. Cambiar un DOI exige el mismo valor en CITATION.cff, README y docs/PUBLICACION_ZENODO.md (cabecera versionada y legacy; `test_t127_metadatos_zenodo`). Suites largas (T-460): comparar por nombre de test contra un worktree de origin/main, no por recuento.
+- Al subir la versión de un test, comprobar que existe la copia en legacy/ de la anterior (faltaba `test_visor_v4_mapa` 2.2.0, T-506).
