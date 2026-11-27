@@ -1,6 +1,6 @@
 # Estado operativo (mantiene el Coordinador)
 
-Fecha: 2026-11-26 (noche) · Actualizar en cada PR de lecciones o de estado. Verde = cumple el criterio del propietario; amarillo = en marcha o a medias; rojo = bloqueado o fallando. Notación D-47: fases P00-P60 y archivo ARC; en lo que se cuenta al propietario, sin códigos antiguos, sin ids de tarea ni de PR.
+Fecha: 2026-11-28 (madrugada) · Actualizar en cada PR de lecciones o de estado. Verde = cumple el criterio del propietario; amarillo = en marcha o a medias; rojo = bloqueado o fallando. Notación D-47: fases P00-P60 y archivo ARC; en lo que se cuenta al propietario, sin códigos antiguos, sin ids de tarea ni de PR.
 
 ## Tablero por tema (prioridad 1: el motor)
 | Tema | Estado | Situación | Siguiente |
@@ -104,3 +104,9 @@ r4 terminada (70/71; falta aut12 Galicia). Fusionadas desde el relevo: #818, #82
 - Pendientes del propietario: frase para P10 «Imágenes de distritos (hoja de contactos)», congreso; frase para P10 descubrir de `capitalidad-partidos-judiciales`; buckets y llaves de R2 (REDISENO_R2 §7); borradores #842, #913, #938, #956 desde el 29-11.
 - Noche: fusionadas #1027 (auditoría y plan de mejora) y #1029 (diagnóstico de Sevilla: el exacto no aplica con K>4; propuesta de arreglo pendiente de decisión del Planificador, cambia huellas). Por auto-merge #1028 (lecciones).
 - Libro de costes (chats cerrados, USD): auditoría 76,74 · T-465/466/502 10,61. Suma: 87,35.
+
+## 27/28-11 (relevo del Coordinador)
+- Fusionadas con orden del propietario: #1030 a #1035 (lecciones, plan 1.0.79, fusión sin coautores, CLAUDE.md D-216, fotos de provincia, Deslinde 1.2). `main` en verde.
+- Runs: P40 45900288067 CONFIRMADA en Pages (fotos de provincia), pero R2 sin subir (entorno github-pages; T-510). P10 imágenes 45894568650 RECHAZADA por tiempo (arreglo en #1036).
+- Chats vivos e ids: `docs/TRASPASO_COORDINADOR_2026-11-28.md` §4.
+- Libro de costes (chats cerrados, USD): T-505 1,13 · T-506 1,09. Suma: 2,22.
