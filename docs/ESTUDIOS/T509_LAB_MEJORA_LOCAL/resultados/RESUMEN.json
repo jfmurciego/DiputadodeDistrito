@@ -118,5 +118,45 @@
   "sin_cerrar": 9,
   "mejoras_pares": 45,
   "mejoras_trios": 2
+ },
+ {
+  "territorio": "aut17",
+  "k": 33,
+  "atomos": 205,
+  "tamano": 6765,
+  "ganador": "ponderado-s1667786157",
+  "d8_antes": [
+   1,
+   0.03661526240993912,
+   7,
+   563.048,
+   0.4177583606903271
+  ],
+  "d8_despues": [
+   1,
+   0.03661526240993912,
+   6,
+   523.61,
+   0.4177583606903271
+  ],
+  "mejora": true,
+  "termino_que_mejora": "partidas",
+  "tiempo_s": [
+   899.9,
+   900.0
+  ],
+  "tiempo_competicion_s": 35.1,
+  "reglas_duras_ok": true,
+  "repeticiones": 2,
+  "se_repite": true,
+  "tope_total_alcanzado": [
+   true,
+   true
+  ],
+  "optimo_local_demostrado": false,
+  "subproblemas": 283,
+  "sin_cerrar": 7,
+  "mejoras_pares": 8,
+  "mejoras_trios": 5
  }
 ]

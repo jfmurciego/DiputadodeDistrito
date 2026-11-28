@@ -1,0 +1,253 @@
+{
+ "territorio": "aut17",
+ "repeticion": 1,
+ "k": 33,
+ "atomos": 205,
+ "tamano": 6765,
+ "unidades": 315,
+ "ganador": "ponderado-s1667786157",
+ "tiempo_competicion_s": 35.1,
+ "exacto_motor": "K=33 fuera de 2..4",
+ "d8_antes": [
+  1,
+  0.03661526240993912,
+  7,
+  563.048,
+  0.4177583606903271
+ ],
+ "d8_despues": [
+  1,
+  0.03661526240993912,
+  6,
+  523.61,
+  0.4177583606903271
+ ],
+ "mejora": true,
+ "termino_que_mejora": "partidas",
+ "reglas_duras_antes_ok": true,
+ "reglas_duras_despues_ok": true,
+ "violaciones_despues": [],
+ "huella_plan_antes": "0c7831ba1c2d926500d18389c94fa8e710ef6bd9f483a7faae76623706ebcacc",
+ "huella_plan_despues": "5da67818a1848ed69c7373ada2de910793f5cc9ad0ff13f6a225c284e6317fe7",
+ "mejoras": [
+  {
+   "grupo": [
+    "1",
+    "10"
+   ],
+   "clave": [
+    1,
+    0.03661526240993912,
+    7,
+    559.249,
+    0.4177583606903271
+   ],
+   "cerrado": true,
+   "t_s": 7.9
+  },
+  {
+   "grupo": [
+    "1",
+    "4"
+   ],
+   "clave": [
+    1,
+    0.03661526240993912,
+    7,
+    548.884,
+    0.4177583606903271
+   ],
+   "cerrado": true,
+   "t_s": 22.2
+  },
+  {
+   "grupo": [
+    "14",
+    "3"
+   ],
+   "clave": [
+    1,
+    0.03661526240993912,
+    7,
+    548.203,
+    0.4177583606903271
+   ],
+   "cerrado": true,
+   "t_s": 39.5
+  },
+  {
+   "grupo": [
+    "14",
+    "7"
+   ],
+   "clave": [
+    1,
+    0.03661526240993912,
+    6,
+    540.823,
+    0.4177583606903271
+   ],
+   "cerrado": true,
+   "t_s": 59.0
+  },
+  {
+   "grupo": [
+    "14",
+    "6"
+   ],
+   "clave": [
+    1,
+    0.03661526240993912,
+    6,
+    539.841,
+    0.4177583606903271
+   ],
+   "cerrado": true,
+   "t_s": 78.5
+  },
+  {
+   "grupo": [
+    "3",
+    "6"
+   ],
+   "clave": [
+    1,
+    0.03661526240993912,
+    6,
+    537.485,
+    0.4177583606903271
+   ],
+   "cerrado": true,
+   "t_s": 110.8
+  },
+  {
+   "grupo": [
+    "0",
+    "3",
+    "9"
+   ],
+   "clave": [
+    1,
+    0.03661526240993912,
+    6,
+    532.964,
+    0.4177583606903271
+   ],
+   "cerrado": true,
+   "t_s": 183.8
+  },
+  {
+   "grupo": [
+    "3",
+    "6"
+   ],
+   "clave": [
+    1,
+    0.03661526240993912,
+    6,
+    530.248,
+    0.4177583606903271
+   ],
+   "cerrado": true,
+   "t_s": 195.1
+  },
+  {
+   "grupo": [
+    "0",
+    "3",
+    "6"
+   ],
+   "clave": [
+    1,
+    0.03661526240993912,
+    6,
+    528.517,
+    0.4177583606903271
+   ],
+   "cerrado": false,
+   "t_s": 258.0
+  },
+  {
+   "grupo": [
+    "3",
+    "9"
+   ],
+   "clave": [
+    1,
+    0.03661526240993912,
+    6,
+    527.538,
+    0.4177583606903271
+   ],
+   "cerrado": true,
+   "t_s": 278.4
+  },
+  {
+   "grupo": [
+    "14",
+    "3",
+    "9"
+   ],
+   "clave": [
+    1,
+    0.03661526240993912,
+    6,
+    526.829,
+    0.4177583606903271
+   ],
+   "cerrado": false,
+   "t_s": 718.0
+  },
+  {
+   "grupo": [
+    "0",
+    "14",
+    "9"
+   ],
+   "clave": [
+    1,
+    0.03661526240993912,
+    6,
+    524.369,
+    0.4177583606903271
+   ],
+   "cerrado": true,
+   "t_s": 797.8
+  },
+  {
+   "grupo": [
+    "0",
+    "14",
+    "7"
+   ],
+   "clave": [
+    1,
+    0.03661526240993912,
+    6,
+    523.61,
+    0.4177583606903271
+   ],
+   "cerrado": true,
+   "t_s": 865.8
+  }
+ ],
+ "mejoras_pares": 8,
+ "mejoras_trios": 5,
+ "resueltos": 283,
+ "cerrados": 276,
+ "sin_cerrar": 7,
+ "sin_solucion": 0,
+ "no_mejora_clave_oficial": 92,
+ "invalidos": 0,
+ "tope_total_alcanzado": true,
+ "tiempo_s": 899.9,
+ "optimo_local_demostrado": false,
+ "parametros": {
+  "tdet_por_etapa": 12.0,
+  "tope_subproblema_s": 60.0,
+  "tope_total_s": 900.0,
+  "hilos": 4,
+  "cadenas": 10
+ },
+ "ortools": "9.14.6206"
+}
