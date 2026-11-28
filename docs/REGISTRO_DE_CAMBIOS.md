@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.653
+Versión: 1.0.654
 Fecha: 2026-11-28
-Alcance: T-512 — Libro de costes por guion (`libro_costes.py` y `libro.jsonl`)
+Alcance: T-511 — Presupuesto de la ventana de 5 horas (D-217)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-28_implementador-t-512-libro-costes.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.652_registro_20261128.md
+Cambios/motivo: entrada docs/registro/2026-11-28_implementador-t511-presupuesto-ventana.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.653_registro_20261128.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.652_registro_20261128.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.654 · [2026-11-28 — T-511 — Presupuesto de la ventana de 5 horas (D-217)](registro/2026-11-28_implementador-t511-presupuesto-ventana.md)
 - 1.0.653 · [2026-11-28 — T-512 — Libro de costes por guion (`libro_costes.py` y `libro.jsonl`)](registro/2026-11-28_implementador-t-512-libro-costes.md)
 - 1.0.652 · [2026-11-28 — T-555 — Plan 1.0.80 y traspaso del Planificador](registro/2026-11-28_planificador-plan-1-0-80.md)
 - 1.0.651 · [2026-11-26 — T-508 — Imágenes de distritos: progreso, reanudación y plazo (arreglo de T-462)](registro/2026-11-26_t508-imagenes-reanudable.md)
