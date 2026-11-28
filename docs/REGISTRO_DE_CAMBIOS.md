@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.651
+Versión: 1.0.652
 Fecha: 2026-11-28
-Alcance: T-508 — Imágenes de distritos: progreso, reanudación y plazo (arreglo de T-462)
+Alcance: T-555 — Plan 1.0.80 y traspaso del Planificador
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-26_t508-imagenes-reanudable.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.650_registro_20261128.md
+Cambios/motivo: entrada docs/registro/2026-11-28_planificador-plan-1-0-80.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.651_registro_20261128.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.650_registro_20261128.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.652 · [2026-11-28 — T-555 — Plan 1.0.80 y traspaso del Planificador](registro/2026-11-28_planificador-plan-1-0-80.md)
 - 1.0.651 · [2026-11-26 — T-508 — Imágenes de distritos: progreso, reanudación y plazo (arreglo de T-462)](registro/2026-11-26_t508-imagenes-reanudable.md)
 - 1.0.650 · [2026-11-26 — T-507 — El exacto con K ≥ 5: medición en local](registro/2026-11-26_claude-t507-medir-exacto-k5.md)
 - 1.0.649 · [2026-11-28 — Coordinador — Traspaso (D-160) y lecciones del 26-27/11](registro/2026-11-28_coordinador-traspaso.md)
