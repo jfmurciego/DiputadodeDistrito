@@ -101,7 +101,8 @@ class Huellas(Base):
                 if n == "p40-publicacion":  # T-443 (P40 1.6.0), posterior a la 2a: se deshace solo el paso de promover
                     from tests import _t443
                     from tests import _t454
-                    ahora = _t443.deshacer_p40(_t454.deshacer_p40(ahora))
+                    from tests import _t510  # T-510 (P40 1.8.0): subir_r2 vuelve a publicar
+                    ahora = _t443.deshacer_p40(_t454.deshacer_p40(_t510.deshacer_p40(ahora)))
                 from tests import _t505
                 ahora = _t505.deshacer(n, ahora)  # T-505 (auto-merge 1.3.4, P90 1.5.4), posterior a la 2a
                 self.assertEqual(deshacer(n, ahora), antes)

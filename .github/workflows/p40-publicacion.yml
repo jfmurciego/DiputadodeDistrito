@@ -1,6 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 1.7.0
+# VERSIÓN: 1.8.0
+# CAMBIOS 1.8.0: T-510 («solución B»): las dos subidas a R2 de la web («Datos de la web en R2 (T-430)» y «Web en R2 (T-430)») salen del job de Pages
+#   (`publicar`, entorno github-pages) a un job propio, `subir_r2`, con `environment: publicacion`, donde están R2_WEB_*, R2_SITIO_*, R2_WEB_BUCKET y
+#   R2_SITIO_BUCKET (en github-pages no llegaban: run 45900288067, «sin R2_WEB_BUCKET: no se sube nada», 0 objetos). `subir_r2` recibe el artefacto
+#   `github-pages-<intento>` que ya subió `publicar` (lo mismo que sirve Pages, sin reconstruir nada) y solo corre desde main si el registro se persistió
+#   tras el despliegue (salidas `registro_persistido` y `artefacto_pages` de `publicar`, paso con `id: persistir`). Concurrencia propia `ddd-r2-web-prod`
+#   (en orden, sin cancelar). Un fallo de la subida no toca Pages: pasos con `continue-on-error`, ::error:: R2_SUBIDA_FALLIDA y una línea en el resumen del
+#   run. El job de Pages (entorno, concurrencia ddd-pages-prod, deploy-pages, registro y promover) no cambia de comportamiento.
+# ANTERIOR (1.7.0): legacy/workflows/p40-publicacion_v1.7.0_20261127.yml
 # CAMBIOS 1.7.0: T-454: paso «Esperar a que el artefacto github-pages sea visible (T-454)» entre `upload-pages-artifact` y `deploy-pages`. `deploy-pages` fallaba en 1 s con
 #   «No artifacts named "github-pages" were found» (runs 45362250945 y 45382628274): carrera con la visibilidad del artefacto recién subido. El paso consulta
 #   `actions/runs/<run>/artifacts` con espera creciente y tope (~90 s), artefacto con nombre único por intento (`github-pages-<intento>` en `upload-pages-artifact` y `artifact_name` de `deploy-pages`: al repetir el job `deploy-pages` veía dos «github-pages», run 45382628274 intento 2), margen de 10 s tras verlo y, si no aparece, solo avisa (::warning::) y deja que `deploy-pages` decida; no cambia ningún
@@ -215,6 +223,9 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    outputs:  # T-510: lo que necesita `subir_r2` (job aparte, entorno publicacion)
+      registro_persistido: ${{ steps.persistir.outcome }}
+      artefacto_pages: github-pages-${{ github.run_attempt }}
     runs-on: ubuntu-24.04
     env:
       GH_TOKEN: ${{ github.token }}
@@ -735,6 +746,7 @@ jobs:
           artifact_name: github-pages-${{ github.run_attempt }}
 
       - name: Persistir registro sólo después del despliegue
+        id: persistir
         shell: bash
         run: |
           set -euo pipefail
@@ -761,40 +773,6 @@ jobs:
             }
             sleep $((attempt * 2))
           done
-
-      - name: Datos de la web en R2 (T-430)
-        id: datos_web
-        if: ${{ github.ref == 'refs/heads/main' }}
-        continue-on-error: true
-        shell: bash
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.R2_WEB_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_WEB_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: auto
-          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
-          R2_WEB_BUCKET: ${{ vars.R2_WEB_BUCKET }}
-          R2_BUCKET: ${{ vars.R2_BUCKET }}  # solo para rechazar que el bucket web sea el de trabajo
-        run: |
-          set -euo pipefail
-          # Fase 1 (D-186): en paralelo a Pages, después de desplegarla. Sin la variable R2_WEB_BUCKET no hace nada; un fallo avisa y no para P40.
-          python3 herramientas/publicar_datos_web.py --sitio /tmp/site-candidate
-
-      - name: Web en R2 (T-430)
-        if: ${{ github.ref == 'refs/heads/main' && steps.datos_web.outcome == 'success' }}
-        continue-on-error: true
-        shell: bash
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.R2_SITIO_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SITIO_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: auto
-          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
-          R2_SITIO_BUCKET: ${{ vars.R2_SITIO_BUCKET }}
-          R2_BUCKET: ${{ vars.R2_BUCKET }}  # para rechazar que el bucket del sitio sea el de trabajo
-          R2_WEB_BUCKET: ${{ vars.R2_WEB_BUCKET }}  # o el de datos
-        run: |
-          set -euo pipefail
-          # Paso 2 (D-193/D-194): la web, sin los datos, al bucket del sitio, en paralelo a Pages. Sin la variable R2_SITIO_BUCKET no hace nada.
-          python3 herramientas/publicar_sitio_r2.py --sitio /tmp/site-candidate
 
       - name: Promover la doble vuelta a mapas/ (T-443)
         if: ${{ github.ref == 'refs/heads/main' && steps.deployment.outcome == 'success' && inputs.simular != true }}
@@ -844,3 +822,120 @@ jobs:
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 30
+
+  subir_r2:
+    name: Subir datos y sitio a R2
+    # T-510: los secretos y variables de los buckets de la web (R2_WEB_*, R2_SITIO_*) están en el entorno `publicacion`; un job solo admite un
+    # entorno y el de Pages es github-pages. Recibe por artefacto el sitio que ya desplegó `publicar` (no reconstruye nada); un fallo no toca Pages.
+    needs: [preparar, publicar]
+    if: ${{ !cancelled() && github.ref == 'refs/heads/main' && needs.publicar.outputs.registro_persistido == 'success' }}
+    environment: publicacion
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      actions: read
+    concurrency:
+      group: ddd-r2-web-prod
+      cancel-in-progress: false
+      queue: max
+    env:
+      PYTHONPATH: ${{ github.workspace }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ needs.preparar.outputs.source_ref || github.sha }}
+          persist-credentials: false
+
+      - name: Recibir el sitio desplegado en Pages (T-510)
+        id: recibir
+        continue-on-error: true
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ${{ needs.publicar.outputs.artefacto_pages }}
+          path: ${{ runner.temp }}/pages
+
+      - name: Desempaquetar el sitio (T-510)
+        id: sitio
+        if: ${{ steps.recibir.outcome == 'success' }}
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          # El artefacto de upload-pages-artifact es un único artifact.tar con el sitio tal cual lo sirve Pages.
+          rm -rf /tmp/site-candidate
+          mkdir -p /tmp/site-candidate
+          tar -xf "$RUNNER_TEMP/pages/artifact.tar" -C /tmp/site-candidate
+          test -s /tmp/site-candidate/index.html
+          echo "Sitio recibido: $(find /tmp/site-candidate -type f | wc -l) ficheros."
+
+      - name: Datos de la web en R2 (T-430)
+        id: datos_web
+        if: ${{ steps.sitio.outcome == 'success' }}
+        continue-on-error: true
+        shell: bash
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_WEB_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_WEB_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_WEB_BUCKET: ${{ vars.R2_WEB_BUCKET }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}  # solo para rechazar que el bucket web sea el de trabajo
+        run: |
+          set -euo pipefail
+          # Fase 1 (D-186): en paralelo a Pages, después de desplegarla. Sin la variable R2_WEB_BUCKET no hace nada; un fallo avisa y no para P40.
+          python3 herramientas/publicar_datos_web.py --sitio /tmp/site-candidate
+
+      - name: Web en R2 (T-430)
+        id: web_r2
+        if: ${{ steps.datos_web.outcome == 'success' }}
+        continue-on-error: true
+        shell: bash
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_SITIO_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SITIO_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_SITIO_BUCKET: ${{ vars.R2_SITIO_BUCKET }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}  # para rechazar que el bucket del sitio sea el de trabajo
+          R2_WEB_BUCKET: ${{ vars.R2_WEB_BUCKET }}  # o el de datos
+        run: |
+          set -euo pipefail
+          # Paso 2 (D-193/D-194): la web, sin los datos, al bucket del sitio, en paralelo a Pages. Sin la variable R2_SITIO_BUCKET no hace nada.
+          python3 herramientas/publicar_sitio_r2.py --sitio /tmp/site-candidate
+
+      - name: Resumen de la subida a R2 (T-510)
+        if: ${{ always() }}
+        shell: bash
+        env:
+          RECIBIR: ${{ steps.recibir.outcome }}
+          SITIO: ${{ steps.sitio.outcome }}
+          DATOS: ${{ steps.datos_web.outcome }}
+          WEB: ${{ steps.web_r2.outcome }}
+          HAY_BUCKET_DATOS: ${{ vars.R2_WEB_BUCKET != '' }}
+          HAY_BUCKET_SITIO: ${{ vars.R2_SITIO_BUCKET != '' }}
+        run: |
+          set -euo pipefail
+          # Pages ya está desplegada (este job solo corre si `publicar` persistió el registro tras el despliegue): nada de aquí la deshace.
+          {
+            echo "### P40: subida a R2 (entorno publicacion)"
+            echo "| Paso | Resultado |"
+            echo "|---|---|"
+            echo "| Recibir el sitio de Pages | ${RECIBIR:-sin ejecutar} |"
+            echo "| Desempaquetar | ${SITIO:-sin ejecutar} |"
+            echo "| Datos de la web | ${DATOS:-sin ejecutar} |"
+            echo "| Web | ${WEB:-sin ejecutar} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+          if [[ "$RECIBIR" == success && "$SITIO" == success && "$DATOS" == success && "$WEB" == success ]]; then
+            if [[ "$HAY_BUCKET_DATOS" != true || "$HAY_BUCKET_SITIO" != true ]]; then
+              msg="R2_SIN_BUCKET: falta R2_WEB_BUCKET o R2_SITIO_BUCKET en el entorno publicacion; esa parte no se subió. Pages está publicada y no se ve afectada."
+              echo "::warning::$msg"
+              echo "- **Aviso:** $msg" >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "Subida a R2 completa (datos y sitio)."
+              echo "- Subida a R2 completa (datos y sitio)." >> "$GITHUB_STEP_SUMMARY"
+            fi
+          else
+            msg="R2_SUBIDA_FALLIDA: la subida a R2 no terminó (recibir=${RECIBIR:-?}, desempaquetar=${SITIO:-?}, datos=${DATOS:-?}, web=${WEB:-?}). Pages está publicada y NO se ve afectada; R2 conserva su índice anterior."
+            echo "::error::$msg"
+            echo "- **Error:** $msg" >> "$GITHUB_STEP_SUMMARY"
+          fi
