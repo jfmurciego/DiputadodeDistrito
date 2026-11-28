@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.79
-Fecha: 2026-11-26
+Versión: 1.0.80
+Fecha: 2026-11-28
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-215 (motor de Deslinde: exacto por tamaño y huella sin cotas abiertas); D-216 (criterios de aceptación y una línea de objeción); T-501 a T-505; cierres del 26-11
-Anterior: legacy/docs/PLAN_v1.0.78_20261126.md
+Cambios/motivo: D-217 («sí a todo» tras la investigación profunda T-509: siete bloques, T-511 a T-554; tope de 6 sesiones por ventana de 5 horas); T-506 a T-555; cierres del 26 al 28-11
+Anterior: legacy/docs/PLAN_v1.0.79_20261126.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -355,6 +355,7 @@ Fase 4 — producto (en el privado):
 - D-214 (26-11, propietario). «Sí al paquete de 2 días»: de la auditoría (`docs/AUDITORIAS/PLAN_MEJORA_2026-11-25.md` 2.0.0, en la rama `claude/dreamy-maxwell-mezgob`, commit 86df85b6, aún sin PR) se aprueban A (T-463), B solo el piloto (T-465+T-466: Burgos, Valladolid, La Rioja, Sevilla y Madrid; GerryChain puro y exacto frente a Deslinde, con decisión de seguir o no), F solo la licencia (T-473), G (T-476), H solo los indicadores (T-478), I solo el diseño de T-482 y K solo T-491. Hasta 6 sesiones a la vez, dentro del paquete aprobado (amplía para estos dos días la regla del 14-11 de dos a cinco chats). El resto de la auditoría sigue como propuesta. Un solo escritor del plan (el Planificador); el chat de la auditoría confirma los fragmentos que salen de su informe. Orden de escritores en `explorar.js`: T-459 → T-500 → T-486 → T-485 → T-482 → T-483 → T-484.
 - D-215 (26-11, propietario). Aprueba T-503 tras el diagnóstico de T-502 (#1029): el exacto de Deslinde se aplica por tamaño (átomos×K ≤ 2.000) y no por K_MAX; las cotas abiertas de CP-SAT salen de huella_resultado, que debe ser reproducible. Es cambio de motor: cambian huellas, se recoge en la regeneración del 29-11 (P30 de las afectadas y republicación, con frases). El banco completo, después.
 - D-216 (26-11, propietario; análisis de dirección, sesión «Análisis de dirección del proyecto»). Sí a dos propuestas. (2) El propietario aprueba **criterios de aceptación, no detalles**: cada tarea le llega con qué pasa hoy, por qué, qué recibe, qué pasa si no, y un criterio de aceptación verificable (test o comprobación con resultado esperado). Aprobado eso, el implementador no vuelve a pedir el detalle; sustituye a «diseño al detalle antes que implementación» (16-11) salvo para cambios de motor, de CI o de publicación, que siguen con diseño aprobado. Las reglas de fusión y de lanzamiento no cambian. (7) **Una línea de objeción por tarea**: el implementador puede escribir una línea «esto lo haría de otro modo porque…» al empezar o en su cierre; no detiene la tarea salvo que el Planificador o el propietario lo decidan. Matiza D-18 (sigue sin propuestas de contenido por iniciativa propia). La propuesta 1 (dos o tres frentes) se rechaza: siguen todos los frentes abiertos. Las 3 a 6 siguen como propuesta.
+- D-217 (28-11, propietario, «sí a todo»). Tras la investigación profunda T-509 (rama `investigacion/2026-11-28`, commit c0853ba5c, `docs/AUDITORIAS/INVESTIGACION_2026-11-28/INFORME.md`; ocho ámbitos, 84 hallazgos: 16 confirmados, 64 corregidos por un escéptico independiente, 0 refutados y 4 sin verificar; la seguridad se entregó en privado): (1) aprobados los siete bloques del informe (T-511 a T-554; el criterio de aceptación de cada tarea está en su apartado 4 y el orden por ventanas en el 5). Lo que exige revisar una decisión vigente (apartado 6 del informe: D-92, D-127, D-143, D-146, D-160, D-188, D-49, la copia en `legacy/` y «sin vigilantes») NO queda aprobado con este sí: necesita el sí expreso del propietario, decisión por decisión; los cambios de motor, CI y publicación siguen exigiendo diseño aprobado (D-216). (2) Medir el 28-11 si se repiten los mapas que el exacto gana bajo tope de tiempo, antes de la regeneración del 29-11 (T-519). (3) Terminar y verificar el laboratorio de mejora local exacta (rama `investigacion/2026-11-28-L1-mejora-local`). (4) Archivar las 26 sesiones de investigación paradas el 27-11. (5) Relevo del Planificador: la sucesora la abre el propietario (linaje 7 de 8); traspaso en `docs/TRASPASO_PLANIFICADOR_2026-11-28.md`. Regla de presupuesto mientras T-511 y T-512 no la fijen con guion: como mucho 6 sesiones por ventana de 5 horas, cada una con modelo, esfuerzo y tope de llamadas explícitos; el tope real es la ventana de 5 horas, no el semanal (dos flotas la agotaron el 27 y el 28-11).
 - D-182 (19-11, propietario; T-421, #930, #933). Bloques de las autonómicas: Junts y Contigo-Zurekin, DO, 100x100, Aliança Catalana, UxGC, Andalucistas y Alhora en Nacionalistas; SALF en Patriotas; Drago Verdes Canarias en Izquierdas; resto sin bloque. Faltan datos por sección de Asturias, Castilla-La Mancha, Extremadura y Murcia.
 - D-179 (19-11, propietario). PRIORIDAD: la V4 en producción. La doble vuelta se calcula desde los paquetes `ddd-minimo-<run>-M08` ya archivados en R2 de los 71 publicados (sin regenerar) con una opción nueva de solo lectura en P70 (T-418). La primera V4 lleva los 52 territorios del Congreso (`nac`); los 19 `aut` (elecciones autonómicas) van en una segunda tanda cuando la tabla de bloques cubra sus partidos. El Coordinador lleva el camino crítico; al propietario solo se le piden firmas (fusión de código, frase de lanzamiento, permiso de publicar). La limpieza de R2, la 2a y la PR 3 de P00 no lo bloquean.
 - D-177 (19-11, Planificador, criterio técnico). Doble vuelta: tabla de alias id de fuente → partido homologado derivada de `datos/homologacion_siglas/` (#914; 100 % de votos 2011-2023; «LA IZQUIERDA PLURAL» 2011 declarada, sin efecto de bloque); la regeneración no empieza sin #911, #914 y el `--alias` en P30. En campaña, P30 archiva en R2 en el mismo job y solo se salta el registro en main (opción A de T-379); el modo de inicio de P20 es una opción de la campaña (por defecto «Generar desde fuente territorial acreditada»); la campaña no publica salvo opción expresa del propietario (por defecto «No publicar») y siempre con la aprobación de `produccion`.
@@ -525,18 +526,68 @@ Fase 4 — producto (en el privado):
 | T-463 | Textos públicos veraces y DOI de la serie (D-214; #1020) | HECHA |
 | T-464 | Actualización del plan 1.0.78 | HECHA (#1018) |
 | T-465 | Banco de comparación: piloto, diseño y ejecución (T-466) (D-214; #1025) | HECHA (4 territorios; Madrid al banco completo, tras T-503 y la regeneración del 29-11) |
-| T-473 | Página de opciones de licencia, solo la licencia; marcas y voces quedan fuera (D-214) | PENDIENTE (tanda 2) |
-| T-476 | Datos abiertos 2: votos por partido y distrito (D-214) | PENDIENTE (tanda 2) |
-| T-478 | Indicadores por elección y sistema, 2011-2023: desproporcionalidad, número efectivo de partidos, prima al ganador, votos sin representación y desigualdad; sistema real, mayoría simple y doble vuelta por regla (D-214; no es la ficha por mapa, T-470) | PENDIENTE (tanda 2) |
-| T-482 | Diseño de «busca tu distrito» por calle (D-214) | PENDIENTE (tanda 2) |
-| T-491 | A la primera: medir y reducir los fallos repetidos (D-214) | PENDIENTE (tanda 2) |
+| T-473 | Página de opciones de licencia, solo la licencia; marcas y voces quedan fuera (D-214) | EN ESPERA (sesión abierta el 27-11 y parada por el límite de 5 horas; se reanudan de una en una, con presupuesto) |
+| T-476 | Datos abiertos 2: votos por partido y distrito (D-214) | EN ESPERA (sesión abierta el 27-11 y parada por el límite de 5 horas; se reanudan de una en una, con presupuesto) |
+| T-478 | Indicadores por elección y sistema, 2011-2023: desproporcionalidad, número efectivo de partidos, prima al ganador, votos sin representación y desigualdad; sistema real, mayoría simple y doble vuelta por regla (D-214; no es la ficha por mapa, T-470) | EN ESPERA (sesión abierta el 27-11 y parada por el límite de 5 horas; se reanudan de una en una, con presupuesto) |
+| T-482 | Diseño de «busca tu distrito» por calle (D-214) | EN ESPERA (sesión abierta el 27-11 y parada por el límite de 5 horas; se reanudan de una en una, con presupuesto) |
+| T-491 | A la primera: medir y reducir los fallos repetidos (D-214) | EN ESPERA (sesión abierta el 27-11 y parada por el límite de 5 horas; se reanudan de una en una, con presupuesto) |
 | T-499 | Diseño de la V5 con bolitas (D-212; #1016) | HECHA |
 | T-500 | Implementación de la V5, variante b (D-212; #1017) | HECHA (P40 45889763424) |
 | T-501 | Test inestable del Explorar (Castilla-La Mancha): esperar a la condición, no a vueltas fijas (#1026) | HECHA (T-501b en la rama t-501b-flush-puntos, pendiente) |
 | T-502 | Diagnóstico de Deslinde en Sevilla: el exacto no aplica con K=16 (#1029) | HECHA |
-| T-503 | Motor de Deslinde: exacto por tamaño (átomos×K ≤ 2.000) y sin cotas abiertas de CP-SAT en huella_resultado (D-215) | EN CURSO (antes del 29-11; lista de provincias con huella nueva para P30 y republicación) |
-| T-504 | Actualización del plan 1.0.79 | REVISIÓN (esta PR) |
-| T-505 | auto-merge sin «Co-authored-by»: squash con commit_message vacío, test y guarda (D-211) | EN CURSO (no-automerge; fusiona el propietario) |
+| T-503 | Motor de Deslinde: exacto por tamaño (átomos×K ≤ 2.000) y sin cotas abiertas de CP-SAT en huella_resultado (D-215) | HECHA (#1035, Deslinde 1.2; medición en T-507) |
+| T-504 | Actualización del plan 1.0.79 | HECHA (#1031) |
+| T-505 | auto-merge sin «Co-authored-by»: squash con commit_message vacío, test y guarda (D-211) | HECHA (#1032) |
+| T-506 | Fotos de provincia de vuelta en el panel de Explorar, sin créditos (#1034) | HECHA (P40 45900288067) |
+| T-507 | El exacto con K ≥ 5: medición en local; TAMANO_MAX = 2.000 se mantiene (#1037) | REVISIÓN (no-automerge; espera la orden del propietario) |
+| T-508 | Imágenes de distritos: P10 con progreso, plazos y reanudación (#1036) | REVISIÓN (no-automerge; espera la orden del propietario; después, relanzar con su frase) |
+| T-509 | Investigación profunda, pasada 1: ocho ámbitos y 84 hallazgos verificados (rama `investigacion/2026-11-28`, commit c0853ba5c; seguridad entregada en privado) | HECHA (pasada 2 pendiente: ciencia y método, análisis electoral, calidad numérica de los mapas, producto y legal) |
+| T-510 | P40: la subida a R2 en un job propio con el entorno `publicacion` | EN ESPERA (sesión abierta el 27-11 y parada por el límite) |
+| T-511 | Presupuesto de ventana (D-217, bloque 1; criterio: informe de T-509, apartado 4) | EN CURSO (ventana 1, 28-11) |
+| T-512 | Libro de costes (D-217, bloque 1; criterio: informe de T-509, apartado 4) | EN CURSO (ventana 1, 28-11) |
+| T-513 | Coordinación efímera (D-217, bloque 1; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 4) |
+| T-514 | Plan en fichas y tablero generado (D-217, bloque 1; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 8) |
+| T-515 | Skills coherentes y reglas con límite (D-217, bloque 1; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 8) |
+| T-516 | Guion de lanzar (D-217, bloque 1; criterio: informe de T-509, apartado 4) | PENDIENTE (tras las dos primeras semanas) |
+| T-517 | Evaluaciones por rol (D-217, bloque 1; criterio: informe de T-509, apartado 4) | PENDIENTE (tras las dos primeras semanas) |
+| T-518 | Límites de rol por entorno (D-217, bloque 1; criterio: informe de T-509, apartado 4) | PENDIENTE (tras las dos primeras semanas) |
+| T-519 | Repetición y diagnóstico del exacto (D-217, bloque 2; criterio: informe de T-509, apartado 4) | EN CURSO (ventana 1, 28-11) |
+| T-520 | Una sola regla entera y etapas completas (D-217, bloque 2; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 5) |
+| T-521 | Motor repetible sin condiciones (D-217, bloque 2; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 6) |
+| T-522 | Laboratorio de búsqueda (D-217, bloque 2; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 5) |
+| T-523 | Cota y certificado (D-217, bloque 2; criterio: informe de T-509, apartado 4) | PENDIENTE (tras las dos primeras semanas) |
+| T-524 | Exacto por circunscripción (D-217, bloque 2; criterio: informe de T-509, apartado 4) | PENDIENTE (tras las dos primeras semanas) |
+| T-525 | Certificados guardados y menos lecturas (D-217, bloque 2; criterio: informe de T-509, apartado 4) | PENDIENTE (tras las dos primeras semanas) |
+| T-526 | Estudios de método (D-217, bloque 2; criterio: informe de T-509, apartado 4) | PENDIENTE (tras las dos primeras semanas) |
+| T-527 | Anclar los productos publicados (D-217, bloque 3; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 2) |
+| T-528 | Segunda copia, bloqueo y simulacro (D-217, bloque 3; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 2) |
+| T-529 | Mapa de almacenamiento y borrado condicionado (D-217, bloque 3; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 2) |
+| T-530 | Catálogo, índice e inventario veraces (D-217, bloque 3; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 3) |
+| T-531 | Datos abiertos reutilizables (D-217, bloque 3; criterio: informe de T-509, apartado 4) | PENDIENTE (tras las dos primeras semanas) |
+| T-532 | Versiones publicadas y fuentes con DOI (D-217, bloque 3; criterio: informe de T-509, apartado 4) | PENDIENTE (tras las dos primeras semanas) |
+| T-533 | Web en R2 de verdad (D-217, bloque 4; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 2) |
+| T-534 | Lista de corte a Cloudflare (D-217, bloque 4; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 4) |
+| T-535 | Publicar con comprobación y vuelta atrás (D-217, bloque 4; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 4) |
+| T-536 | Enlace por distrito (D-217, bloque 4; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 8) |
+| T-537 | Errores pasajeros y techo de peso (D-217, bloque 4; criterio: informe de T-509, apartado 4) | PENDIENTE (tras las dos primeras semanas) |
+| T-538 | Medida viva de la tubería (D-217, bloque 5; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 5) |
+| T-539 | Imagen construida una vez (D-217, bloque 5; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 7) |
+| T-540 | Un job para M01–M06 y líneas base de T-379 (D-217, bloque 5; criterio: informe de T-509, apartado 4) | PENDIENTE (tras las dos primeras semanas) |
+| T-541 | Reanudar por clave y huella única (D-217, bloque 5; criterio: informe de T-509, apartado 4) | PENDIENTE (tras las dos primeras semanas) |
+| T-542 | Estado fuera de main (D-217, bloque 5; criterio: informe de T-509, apartado 4) | PENDIENTE (tras las dos primeras semanas) |
+| T-543 | Diseño del ejecutor único (D-217, bloque 5; criterio: informe de T-509, apartado 4) | PENDIENTE (tras las dos primeras semanas) |
+| T-544 | Higiene inmediata del árbol (D-217, bloque 6; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 3) |
+| T-545 | Gobernanza ligera de `legacy/` (D-217, bloque 6; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 6) |
+| T-546 | Binarios y copias fuera del árbol (D-217, bloque 6; criterio: informe de T-509, apartado 4) | PENDIENTE (tras las dos primeras semanas) |
+| T-547 | CI por niveles y reparto al día (D-217, bloque 6; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 6) |
+| T-548 | Tests clasificados y código sin uso (D-217, bloque 6; criterio: informe de T-509, apartado 4) | PENDIENTE (tras las dos primeras semanas) |
+| T-549 | Workflows sin bloques repetidos (D-217, bloque 6; criterio: informe de T-509, apartado 4) | PENDIENTE (tras las dos primeras semanas) |
+| T-550 | Seguridad 1: gobierno de las fusiones (D-217, bloque 7; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 2) |
+| T-551 | Seguridad 2: ajustes del repositorio en GitHub (D-217, bloque 7; criterio: informe de T-509, apartado 4) | PENDIENTE (ajustes de GitHub: lo hace el propietario) |
+| T-552 | Seguridad 3: custodia de llaves (D-217, bloque 7; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 7) |
+| T-553 | Seguridad 4: permisos y análisis de workflows (D-217, bloque 7; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 7) |
+| T-554 | Seguridad 5: revisión y operaciones irreversibles (D-217, bloque 7; criterio: informe de T-509, apartado 4) | PENDIENTE (ventana 3) |
+| T-555 | Actualización del plan 1.0.80 | REVISIÓN (esta PR) |
 | T-281 | Registro de la propiedad intelectual de Deslinde 1.0 (D-196; #995) | HECHA (presentado el 23-11 como «Programa de ordenador», con copia identificativa, memoria y declaración de IA) |
 | T-379c | P00 3c (manifiesto por territorio, P40 desde campaña), relevo de T-379 | REVISIÓN (3c completa en #956, borrador; no se fusiona antes del 29-11) |
 | T-432 | Inventario completo de R2 (#952, P74 44751091049) | HECHA |
