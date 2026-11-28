@@ -1,0 +1,10 @@
+{
+  "sesiones": [
+    {
+      "rol": "implementador",
+      "cantidad": 26,
+      "modelo": "fable",
+      "esfuerzo": "max"
+    }
+  ]
+}
