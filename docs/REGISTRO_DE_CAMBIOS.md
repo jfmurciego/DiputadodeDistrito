@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.648
-Fecha: 2026-11-26
-Alcance: T-503 — Deslinde 1.2: exacto por tamaño y huella sin cotas abiertas
+Versión: 1.0.651
+Fecha: 2026-11-28
+Alcance: T-508 — Imágenes de distritos: progreso, reanudación y plazo (arreglo de T-462)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-26_claude-t503-exacto-tamano.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.647_registro_20261126.md
+Cambios/motivo: entrada docs/registro/2026-11-26_t508-imagenes-reanudable.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.650_registro_20261128.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,9 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.647_registro_20261126.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.651 · [2026-11-26 — T-508 — Imágenes de distritos: progreso, reanudación y plazo (arreglo de T-462)](registro/2026-11-26_t508-imagenes-reanudable.md)
+- 1.0.650 · [2026-11-26 — T-507 — El exacto con K ≥ 5: medición en local](registro/2026-11-26_claude-t507-medir-exacto-k5.md)
+- 1.0.649 · [2026-11-28 — Coordinador — Traspaso (D-160) y lecciones del 26-27/11](registro/2026-11-28_coordinador-traspaso.md)
 - 1.0.648 · [2026-11-26 — T-503 — Deslinde 1.2: exacto por tamaño y huella sin cotas abiertas](registro/2026-11-26_claude-t503-exacto-tamano.md)
 - 1.0.647 · [2026-11-26 — T-505 — Squash sin «Co-authored-by» y guarda en el guardián](registro/2026-11-26_t505-squash-sin-coautor.md)
 - 1.0.646 · [2026-11-26 — T-506 — Fotos de provincia de vuelta en el panel de Explorar, sin créditos](registro/2026-11-26_t506-fotos-provincia.md)
