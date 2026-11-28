@@ -1,0 +1,424 @@
+{
+ "ambito": "A1_motor",
+ "sesion": "session_01KQDtFtbjHrVwhhgHnNE6nU",
+ "veredicto": "El motor es correcto en lo que valida (núcleo exacto con fracciones, simetrías rotas, resolutor reproducible por diseño) pero su «óptimo demostrado» se refiere a una clave ligeramente distinta de la oficial, llega solo a tamaño 2.000 y, dentro de ese tamaño, en 5 de 17 casos no devuelve nada por una pista incompleta. El salto no está en subir el límite sino en mejora local exacta, descomposición y certificados reutilizables.",
+ "liga_hoy": "Segunda división seria: competición determinista con un exacto que demuestra el óptimo D8 en las provincias de K <= 4 y en 7 de 27 con K >= 5 (hasta 372 átomos con K=3 o 111 con K=16). Por encima, cadenas de 300 pasos sin cota.",
+ "liga_objetivo": "Primera: óptimo o cota publicada en todos los territorios, certificado verificable por terceros sobre la misma función que se publica, y repetición sin condiciones de entorno (Validi-Buchanan-Lykhovyd 2022: 1.511 unidades; Shahmizad-Buchanan 2025: mínimo exacto de divisiones en todos los estados).",
+ "hallazgos": [
+  {
+   "id": "A1-1",
+   "titulo": "El exacto olvida la solución que ya tiene: pista solo de x y 5 de 17 territorios SIN_SOLUCION",
+   "que_pasa_hoy": "exacto.resolver da a CP-SAT como pista solo las variables de asignación x; raíces, niveles y padres del árbol de contigüidad, mixtos y términos quedan sin pista y el resolutor debe reconstruirlos. En la medición T-507, 5 de los 17 territorios donde el exacto aplica con K >= 5 (nac06, nac17, nac18, nac31, nac45) terminan SIN_SOLUCION aunque la competición ya tenía un plan válido sobre las mismas unidades: +215 s de reloj sin ningún resultado. La misma pista parcial se repite entre etapas.",
+   "evidencia": [
+    {
+     "tipo": "LEIDO",
+     "ref": "paquetes/deslinde/src/deslinde/exacto.py:329-332 y 350-353",
+     "detalle": "AddHint solo sobre self.x, al empezar y tras cada etapa"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "PR #1037, docs/ESTUDIOS/T507_EXACTO_K5/INFORME.md (rama claude/t507-medir-exacto-k5)",
+     "detalle": "SIN_SOLUCION en nac06 (29->107 s), nac17 (44->87), nac18 (45->85), nac31 (99->117), nac45 (33->69)"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "/tmp/t509_A1_motor/exp.py (guion de esta sesión; ortools 9.14.6206, Python 3.13, 4 hilos, PYTHONHASHSEED=0) pista 15 14 7 8 {sin|x|completa}",
+     "detalle": "rejilla sintética de 210 átomos, K=7 (tamaño 1.470): sin pista UNKNOWN (ninguna solución en 8,5 unidades); pista de x: 7,3-7,7 s y 12.676 ramas para recuperar el plan; pista de todas las variables (factibilidad con x fija, 0,05 s): 1,4 s y 0 ramas"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "/tmp/t509_A1_motor/exp.py (guion de esta sesión; ortools 9.14.6206, Python 3.13, 4 hilos, PYTHONHASHSEED=0) etapas 15 14 7 5 {x|full}",
+     "detalle": "con el bucle de etapas del código actual, la etapa 'partidas' acaba UNKNOWN (pierde el plan que traía de la etapa anterior); con pista completa, FEASIBLE valor 25; total 27,4 s frente a 20,3 s de CPU"
+    }
+   ],
+   "por_que_importa": "Un candidato que cuesta de 18 a 78 s y no devuelve nada en el 29 % de los casos donde aplica; y en los demás gasta parte de cada etapa en reconstruir lo que ya sabía. Es la mejora de menor coste del motor.",
+   "propuesta": "En exacto.py: (1) antes de la etapa 1, resolver la factibilidad con x fijada a la pista (1 hilo) y dar como pista TODAS las variables; (2) entre etapas, pista con la solución completa (ResponseProto().solution). Sube MODELO a 1.1.0 (cambia la huella donde el plan cambie).",
+   "criterio_aceptacion": "Con las entradas de T-507, `PYTHONHASHSEED=0 python -m ddd_motor2.competir --out B nac06 nac17 nac18 nac31 nac45`: exacto.estado != SIN_SOLUCION en los 5 y la clave D8 del candidato exacto <= la del mejor previo; en los 17 aplicables ninguna clave del ganador empeora; dos ejecuciones dan la misma huella_resultado.",
+   "impacto": 4,
+   "esfuerzo": "S",
+   "riesgo": "Cambia la huella y quizá el ganador en esos 5 (hay que rehacer P30 y republicar con permiso). La reproducción es sintética: en los 5 reales la causa podría ser otra (ver 'no pude comprobar').",
+   "toca": [
+    "motor"
+   ],
+   "necesita": "decision_propietario",
+   "ya_previsto": null,
+   "decisiones_relacionadas": [
+    "D-215",
+    "D-216"
+   ],
+   "nivel_mundial": "Arranque en caliente completo (MIP start) es práctica estándar; Validi, Buchanan y Lykhovyd (Operations Research 70(2), 2022, https://pubsonline.informs.org/doi/10.1287/opre.2021.2141): ramificación y corte con la contigüidad añadida en callback y fijación de variables por Lagrange; óptimos hasta Indiana (1.511 secciones censales), código público.",
+   "confianza": "media"
+  },
+  {
+   "id": "A1-2",
+   "titulo": "El «óptimo demostrado» es de otra clave: frontera en mm en el modelo y en metros en la oficial",
+   "que_pasa_hoy": "El modelo CP-SAT minimiza la frontera en milímetros enteros (suma de redondeos por par). La clave oficial D8 la mide en km con 3 decimales (redondeo a 1 m de una suma en coma flotante) y después desempata por desvío máximo. Dos planes a menos de 1 m empatan en la oficial y gana el de menor desvío, pero el modelo se queda con el de menos milímetros. Además el término de exceso se calcula restando el float 0.08 a una fracción exacta.",
+   "evidencia": [
+    {
+     "tipo": "LEIDO",
+     "ref": "paquetes/deslinde/src/deslinde/exacto.py:298",
+     "detalle": "w[...] += int(round(metros * 1000))"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "paquetes/deslinde/src/deslinde/naturalidad_clave.py:66",
+     "detalle": "return round(sum(...) / 1000, 3)"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "paquetes/deslinde/src/deslinde/naturalidad_clave.py:48 y 83",
+     "detalle": "TOPES = {'D5': 0.05, 'D8': 0.08}; max(0.0, max(dentro) - TOPES[funcion]) es float, frente a TOPE_D8 = Fraction(2, 25) en exacto.py:55"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "/tmp/t509_A1_motor/exp.py (guion de esta sesión; ortools 9.14.6206, Python 3.13, 4 hilos, PYTHONHASHSEED=0) redondeo",
+     "detalle": "camino a-b-c-d (47, 3, 3, 47 hab.), K=2: el exacto devuelve estado OPTIMO con a|bcd, clave oficial (0, 0.0, 0, 1.0, 3/50); el plan ab|cd es válido y tiene clave oficial (0, 0.0, 0, 1.0, 0): estrictamente mejor"
+    }
+   ],
+   "por_que_importa": "El lema es «el motor que demuestra». Un certificado vale si se refiere exactamente a la función publicada. Hoy un tercero puede exhibir un plan mejor en la clave oficial que uno marcado OPTIMO.",
+   "propuesta": "Una sola definición entera: frontera = suma de mm enteros por par de unidades (o metros enteros) en naturalidad_clave.corte y en el modelo; exceso con Fraction(2, 25). La cifra en km queda solo para mostrar. Test de propiedad: en instancias pequeñas, el plan del exacto == mínimo de la clave oficial por enumeración.",
+   "criterio_aceptacion": "Test nuevo: en 200 instancias aleatorias de <= 12 unidades, la clave oficial (sin huella) del plan OPTIMO del exacto es igual al mínimo que da reglas.enumerar con esa clave; el caso a-b-c-d de arriba devuelve ab|cd.",
+   "impacto": 4,
+   "esfuerzo": "S",
+   "riesgo": "Cambia la clave D8 en el último decimal: puede cambiar algún ganador en empates a menos de 1 m y todas las huellas del motor (rehacer P30).",
+   "toca": [
+    "motor",
+    "ciencia"
+   ],
+   "necesita": "decision_propietario",
+   "ya_previsto": null,
+   "decisiones_relacionadas": [
+    "D-98",
+    "D-73"
+   ],
+   "nivel_mundial": "Shahmizad y Buchanan (Operations Research 73(2), 2025, https://pubsonline.informs.org/doi/10.1287/opre.2023.0094): mínimo exacto de condados partidos con programación entera y descomposición, código y resultados públicos. Sus objetivos son enteros y el certificado se refiere a la misma función que se publica.",
+   "confianza": "alta"
+  },
+  {
+   "id": "A1-3",
+   "titulo": "Escalar: mejora local exacta por grupos de 2-3 distritos y descomposición por circunscripción",
+   "que_pasa_hoy": "El exacto solo aplica con una circunscripción, sin exenciones y átomos x K <= 2.000. De los 27 territorios con K >= 5 de T-507 demuestra el óptimo en 7; 7 no caben (nac03, nac46, nac50, aut03, aut06, aut15, aut17) y Madrid queda en 10.502. Los 14 contratos con varias circunscripciones (11 autonómicas, nac07, nac35, nac38) dan NO_APLICA aunque, con provincia única y cuotas, el problema se parte en provincias pequeñas.",
+   "evidencia": [
+    {
+     "tipo": "LEIDO",
+     "ref": "paquetes/deslinde/src/deslinde/exacto.py:54 y 61-79",
+     "detalle": "TAMANO_MAX = 2000; 'varias circunscripciones' y 'exenciones' -> NO_APLICA"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "docs/ESTUDIOS/T502_SEVILLA/INFORME.md:66-68",
+     "detalle": "«2.000 es el mínimo que cubre lo medido hoy»: el límite no sale de una ley de escalado"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "python3 sobre territorios/*/config/*_2025.yaml (validation.province_districts y exenciones)",
+     "detalle": "120 contratos: K=1 10; K 2-4 35; K>=5 sin más 50; varias circunscripciones 14; con exenciones 11"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "/tmp/t509_A1_motor/exp.py (guion de esta sesión; ortools 9.14.6206, Python 3.13, 4 hilos, PYTHONHASHSEED=0) corte 15 14 7 10 actual",
+     "detalle": "término de frontera, 210 átomos, K=7: tras 10 unidades deterministas la cota es 4.369.300 frente a un valor de 293.526.700 (hueco 98,5 %); con cortes lineales c >= x_ik - x_jk, 98,4 % (no concluyente)"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "docs/ESTUDIOS/T502_SEVILLA/INFORME.md:53-58",
+     "detalle": "Sevilla, etapa de frontera: cota 345 M frente a valor 786 M a 60 unidades (hueco 56 %); a 300 unidades, entre 463 M y 718 M"
+    }
+   ],
+   "por_que_importa": "Con el modelo monolítico, subir TAMANO_MAX no lleva a las 8 provincias grandes ni a las autonómicas. La mejora local exacta usa el mismo modelo sobre trozos que sí caben y sirve para los 120 contratos.",
+   "propuesta": "Por orden: (a) descomposición exacta por circunscripción (un modelo por provincia; fuera y frontera suman, exceso y desvío son máximos que se coordinan etapa a etapa); (b) candidato nuevo «mejora local exacta»: partir del mejor plan, fijar todo salvo 2 o 3 distritos vecinos y resolver ese trozo con _Modelo (x fijadas fuera), en orden determinista de vecindarios, hasta que ninguno mejore; (c) contigüidad por cortes de separadores solo si (a) y (b) no bastan.",
+   "criterio_aceptacion": "Experimento (unos 60 min de CPU en local, entradas de T-507): la mejora local alcanza la clave del óptimo demostrado en >= 6 de los 7 territorios OPTIMO (nac04, nac14, nac23, nac33, nac39, aut18, aut19) partiendo del mejor candidato no exacto; mejora estrictamente al ganador en >= 3 de los 7 que no caben; <= 120 s por territorio; misma huella en dos ejecuciones.",
+   "impacto": 5,
+   "esfuerzo": "L",
+   "riesgo": "Un óptimo local de 3 distritos no es un óptimo demostrado: hay que nombrarlo distinto (p. ej. LOCAL_3) para no inflar el lema.",
+   "toca": [
+    "motor",
+    "ciencia"
+   ],
+   "necesita": "decision_propietario",
+   "ya_previsto": "T-468 (propuesta del plan de mejora, sin diseño)",
+   "decisiones_relacionadas": [
+    "D-73",
+    "D-86",
+    "D-215"
+   ],
+   "nivel_mundial": "Validi, Buchanan y Lykhovyd (Operations Research 70(2), 2022, https://pubsonline.informs.org/doi/10.1287/opre.2021.2141): ramificación y corte con la contigüidad añadida en callback y fijación de variables por Lagrange; óptimos hasta Indiana (1.511 secciones censales), código público. Shahmizad y Buchanan (Operations Research 73(2), 2025, https://pubsonline.informs.org/doi/10.1287/opre.2023.0094): mínimo exacto de condados partidos con programación entera y descomposición, código y resultados públicos.",
+   "confianza": "media"
+  },
+  {
+   "id": "A1-4",
+   "titulo": "4 de los 9 mapas que gana el exacto dependen de un tope de tiempo y entran en la huella",
+   "que_pasa_hoy": "Si una etapa no cierra en 60 unidades deterministas, el exacto devuelve el mejor plan hallado (MEJOR_VALIDO) y ese plan entra en huella_resultado y, si gana, se publica. En T-507 ganan así nac12, nac15, nac41 y nac43. T-502 midió que la cota de CP-SAT cambia entre dos ejecuciones idénticas (345 M y 355 M); T-503 sacó la cota de la huella, pero el plan sigue dentro y su repetición solo está probada con 2 ejecuciones en una máquina. Además, entre planes empatados en los cinco términos el exacto devuelve uno cualquiera, que depende de la pista (el mejor candidato previo) y de la versión de ortools.",
+   "evidencia": [
+    {
+     "tipo": "LEIDO",
+     "ref": "paquetes/deslinde/src/deslinde/exacto.py:56-57 y 340-358",
+     "detalle": "TIEMPO_DETERMINISTA = 60; mejor = a_plan(s) también con FEASIBLE; break en la primera etapa no OPTIMAL"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "paquetes/deslinde/src/deslinde/competicion.py:203-212 y 232-236",
+     "detalle": "la huella incluye huella_plan y composicion_sha256 de cada candidato, estado y valor de cada etapa y la versión de ortools; solo la cota abierta queda fuera"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "PR #1037, tabla de T-507",
+     "detalle": "MEJOR_VALIDO: nac12, nac15, nac20, nac41, nac43; gana el exacto en nac12, nac15, nac41, nac43"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "docs/ESTUDIOS/T502_SEVILLA/INFORME.md:47-58",
+     "detalle": "misma entrada, interleave_search y random_seed 0: cotas 345.072.575 y 355.377.584"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "/tmp/t509_A1_motor/exp.py (guion de esta sesión; ortools 9.14.6206, Python 3.13, 4 hilos, PYTHONHASHSEED=0) corte 15 14 7 10 actual (3 veces)",
+     "detalle": "en la rejilla sintética las 3 ejecuciones dan valor, cota (4.369.300) y conflictos (54) idénticos: aquí no se reproduce la variación"
+    }
+   ],
+   "por_que_importa": "La regla del proyecto es misma entrada, mismo mapa. Un mapa publicado que depende de 60 unidades de un resolutor y de su versión es el eslabón menos probado de la cadena.",
+   "propuesta": "(1) Prueba de repetición: los 5 territorios MEJOR_VALIDO, 5 veces en local y 1 en runner, comparando huella_plan. (2) Etapa final canónica cuando todo cierra: minimizar una función lineal fija de x, para que el plan OPTIMO dependa solo de la instancia. (3) Si (1) falla: un MEJOR_VALIDO solo compite tras pasar por una mejora local determinista (A1-3).",
+   "criterio_aceptacion": "Las 30 ejecuciones (5 territorios x 6) dan una sola huella_plan por territorio; y un test con dos pistas distintas sobre la misma instancia OPTIMO devuelve el mismo plan.",
+   "impacto": 4,
+   "esfuerzo": "M",
+   "riesgo": "Si la repetición falla en el runner, los 4 territorios publicados con el exacto tendrían que rehacerse con otra regla.",
+   "toca": [
+    "motor",
+    "ciencia"
+   ],
+   "necesita": "decision_propietario",
+   "ya_previsto": null,
+   "decisiones_relacionadas": [
+    "D-215"
+   ],
+   "nivel_mundial": "Los grupos que publican óptimos entregan instancia, solución y cota para que otro resolutor las compruebe. Shahmizad y Buchanan (Operations Research 73(2), 2025, https://pubsonline.informs.org/doi/10.1287/opre.2023.0094): mínimo exacto de condados partidos con programación entera y descomposición, código y resultados públicos.",
+   "confianza": "media"
+  },
+  {
+   "id": "A1-5",
+   "titulo": "Al primer tope el exacto se para: los términos siguientes de D8 quedan sin optimizar",
+   "que_pasa_hoy": "Las cinco etapas se resuelven en orden y, en cuanto una no demuestra el óptimo, el bucle termina. Si no cierra «partidas», la frontera y el desvío no se optimizan nunca aunque quede presupuesto. Dato compatible: en nac43 el exacto (MEJOR_VALIDO) baja de 7 a 6 demarcaciones pero la frontera pasa de 302,5 a 467,2 km (+54 %). Cada etapa crea un resolutor nuevo y repite el presolve.",
+   "evidencia": [
+    {
+     "tipo": "LEIDO",
+     "ref": "paquetes/deslinde/src/deslinde/exacto.py:357-359",
+     "detalle": "if est != 'OPTIMAL': break; solo tras OPTIMAL se fija t == valor"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "PR #1037, tabla de T-507",
+     "detalle": "nac43: 7 -> 6 partidas, 302,5 -> 467,2 km; nac41: 763,8 -> 786,0 km"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "/tmp/t509_A1_motor/exp.py (guion de esta sesión; ortools 9.14.6206, Python 3.13, 4 hilos, PYTHONHASHSEED=0) pista 15 14 7 8 completa",
+     "detalle": "con pista completa y 0 ramas, la etapa consume 3,5 unidades deterministas (presolve): un 6 % del tope de 60 en cada una de las 5 etapas"
+    }
+   ],
+   "por_que_importa": "La clave es lexicográfica: con el término abierto acotado (t <= valor), mejorar los siguientes siempre mejora la clave oficial. Hoy ese margen se tira.",
+   "propuesta": "Tras una etapa FEASIBLE, añadir t <= valor y seguir con las etapas restantes (estado MEJOR_VALIDO, etapas marcadas «sin prueba»). Medir si un solo objetivo ponderado para los términos acotados ahorra presolves.",
+   "criterio_aceptacion": "En nac12, nac15, nac20, nac41 y nac43 la clave D8 del candidato exacto es <= la actual término a término y en al menos uno baja la frontera o el desvío; tiempo por territorio <= 1,2 x el actual.",
+   "impacto": 3,
+   "esfuerzo": "S",
+   "riesgo": "Más tiempo en los territorios que no cierran (hasta 5 x 60 unidades).",
+   "toca": [
+    "motor"
+   ],
+   "necesita": "decision_propietario",
+   "ya_previsto": null,
+   "decisiones_relacionadas": [
+    "D-215"
+   ],
+   "nivel_mundial": "Optimización lexicográfica con tolerancia por nivel (Gurobi y CPLEX multiobjetivo jerárquico) sigue con los niveles inferiores aunque uno no cierre.",
+   "confianza": "media"
+  },
+  {
+   "id": "A1-6",
+   "titulo": "Ejecutar miles de veces: el exacto multiplica por 2,3 el tiempo y no se guarda ningún certificado",
+   "que_pasa_hoy": "En los 17 territorios con K >= 5 donde aplica, la competición pasa de 859 s a 1.956 s (suma de T-507); 215 s son de los 5 SIN_SOLUCION. Cada P30 borra la carpeta y recalcula todo, aunque el resultado del exacto es función pura de la instancia (átomos, grafo, reglas, tablas, versión del modelo). Las 10 cadenas corren en serie en un núcleo mientras CP-SAT usa 4 hilos.",
+   "evidencia": [
+    {
+     "tipo": "VERIFICADO",
+     "ref": "suma de las columnas «Reloj (s)» de la tabla de T-507 (PR #1037) para los 17 aplicables",
+     "detalle": "antes 859 s, después 1.956 s (+1.097 s; medido con dos competiciones a la vez, pesimista)"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "ddd_motor2/produccion.py:264",
+     "detalle": "shutil.rmtree(destino, ignore_errors=True) antes de competir: sin reutilización"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "paquetes/deslinde/src/deslinde/competicion.py:402-404 y paquetes/deslinde/src/deslinde/candidatos.py:301",
+     "detalle": "cadenas en un bucle secuencial; Ponderado(pasos=300)"
+    }
+   ],
+   "por_que_importa": "El objetivo del propietario (08-11) es un motor que se ejecuta miles de veces. Repetir 60-130 s de CP-SAT para una instancia ya resuelta es el mayor coste evitable.",
+   "propuesta": "(1) Instancia canónica exportable (JSON con átomos, aristas, pesos enteros, reglas) y su sha256; (2) almacén de certificados por esa huella (plan, etapas, versión del modelo): si existe, se verifica con evaluar + clave (milisegundos) y no se resuelve; (3) cadenas en procesos paralelos, cada una con su semilla.",
+   "criterio_aceptacion": "Segunda competición de nac41 con el certificado presente: mismo ganador y misma huella_resultado, tiempo total <= 40 s (hoy 113-149 s); con el certificado alterado en una unidad, la verificación lo rechaza y se resuelve de nuevo.",
+   "impacto": 4,
+   "esfuerzo": "M",
+   "riesgo": "Un almacén mal invalidado serviría un plan de otra versión del modelo: la clave debe incluir MODELO, ortools y la huella de reglas.",
+   "toca": [
+    "motor",
+    "ci",
+    "datos"
+   ],
+   "necesita": "decision_propietario",
+   "ya_previsto": null,
+   "decisiones_relacionadas": [
+    "D-86"
+   ],
+   "nivel_mundial": "Publicar instancia + solución + cota verificable por terceros es lo que hacen los repositorios de Validi, Buchanan y Lykhovyd (Operations Research 70(2), 2022, https://pubsonline.informs.org/doi/10.1287/opre.2021.2141): ramificación y corte con la contigüidad añadida en callback y fijación de variables por Lagrange; óptimos hasta Indiana (1.511 secciones censales), código público.",
+   "confianza": "alta"
+  },
+  {
+   "id": "A1-7",
+   "titulo": "El candidato «exhaustivo» optimiza la clave A aunque la competición elija con D8",
+   "que_pasa_hoy": "enumerar_exacto recorre todos los planes válidos y guarda el mejor según calidad.metricas (violaciones, fuera, desvío máximo, error cuadrático): la función A. La competición de producción elige con D8. Cuando la enumeración es completa, el candidato que aporta es el óptimo de A, no el de D8, y no se puede leer como certificado D8. Afecta sobre todo a los territorios pequeños donde el exacto no aplica (varias circunscripciones o exenciones).",
+   "evidencia": [
+    {
+     "tipo": "LEIDO",
+     "ref": "paquetes/deslinde/src/deslinde/exhaustivo.py:73-74",
+     "detalle": "enumerar(..., clave=lambda plan: metricas(problema, reglas, plan)['clave'])"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "paquetes/deslinde/src/deslinde/calidad.py (ORDEN)",
+     "detalle": "ORDEN = ('violaciones_duras', 'fuera_tolerancia', 'desvio_max', 'ecm', 'huella_plan')"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "ddd_motor2/produccion.py (FUNCION)",
+     "detalle": "FUNCION = 'D8'"
+    }
+   ],
+   "por_que_importa": "La enumeración completa es el único certificado que no depende de un resolutor externo. Con la clave correcta daría el óptimo D8 gratis donde cabe.",
+   "propuesta": "Pasar a enumerar_exacto la clave de la función de la competición (Natural.clave) y anotar en info con qué función se enumeró.",
+   "criterio_aceptacion": "Test: en un territorio de <= 40 unidades con D8, el candidato exhaustivo tiene clave D8 <= la de todos los demás candidatos, y coincide con el exacto donde ambos aplican.",
+   "impacto": 3,
+   "esfuerzo": "S",
+   "riesgo": "La clave D8 por plan es más cara que la A (0,10 ms medidos en 210 unidades); cambia la huella de los territorios enumerados.",
+   "toca": [
+    "motor"
+   ],
+   "necesita": "decision_propietario",
+   "ya_previsto": null,
+   "decisiones_relacionadas": [
+    "D-98"
+   ],
+   "nivel_mundial": "Enumeración completa como verdad de referencia: Fifield, Imai et al. (2020), «The essential role of empirical validation in legislative redistricting simulation».",
+   "confianza": "alta"
+  },
+  {
+   "id": "A1-8",
+   "titulo": "La reproducibilidad depende de PYTHONHASHSEED=0 y la CLI de la batería no lo exige",
+   "que_pasa_hoy": "Las cadenas cambian con la semilla de hash de Python. produccion.py y python -m deslinde se niegan a correr sin PYTHONHASHSEED=0; ddd_motor2.competir (la CLI con la que se midieron T-465, T-502 y T-507) y la función competir_publico no lo comprueban: sin la variable dan otro resultado sin avisar. Con python -I o -E la variable está pero se ignora.",
+   "evidencia": [
+    {
+     "tipo": "VERIFICADO",
+     "ref": "grep -n 'HASHSEED|return 6' ddd_motor2/competir.py",
+     "detalle": "solo las dos líneas del docstring (33-34): no hay guarda en main()"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "ddd_motor2/produccion.py (main, orden competir)",
+     "detalle": "sale con 6 si PYTHONHASHSEED != '0'"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": ".claude/rules/motor2.md",
+     "detalle": "«python -I/-E ignoran PYTHONHASHSEED y cambian las cadenas ReCom»"
+    }
+   ],
+   "por_que_importa": "Una regla de entorno que se puede olvidar acaba olvidándose. Un referente no pide una variable de entorno para repetir un mapa.",
+   "propuesta": "(1) Guarda común (deslinde.api) llamada desde competir_publico. (2) Quitar la causa: nodos y distritos como enteros en el grafo de la cadena y sorted() donde se itere un conjunto; probar con PYTHONHASHSEED 0, 1 y aleatorio.",
+   "criterio_aceptacion": "`PYTHONHASHSEED=1 python -m ddd_motor2.competir --out B nac26` sale con código 6 (paso 1) o, tras el paso 2, da la misma huella_resultado con PYTHONHASHSEED=0, 1 y sin fijar.",
+   "impacto": 3,
+   "esfuerzo": "S",
+   "riesgo": "El paso 2 cambia todas las cadenas (referencia bit a bit nueva).",
+   "toca": [
+    "motor"
+   ],
+   "necesita": "fusion",
+   "ya_previsto": null,
+   "decisiones_relacionadas": [
+    "D-90"
+   ],
+   "nivel_mundial": "redist (McCartan e Imai) y GerryChain documentan la repetición con solo la semilla del generador.",
+   "confianza": "media"
+  },
+  {
+   "id": "A1-9",
+   "titulo": "Unas 50 lecturas del mismo grafo M03 por competición y una cota 3 veces más lenta de lo necesario",
+   "que_pasa_hoy": "Cada candidato se juzga releyendo y parseando la composición y el JSON del grafo M03 (problema_y_plan) y otra vez el grafo para la clave (natural_desde_m06); cada cadena hace lo mismo al generar. Contado en el código para el Congreso con vigente, 10 cadenas, exhaustivo y exacto: unas 28 + 24 lecturas del mismo fichero. Aparte, cota_nodos llama hasta 20.000 veces a evaluar() completo, que reconstruye el Contexto y la huella de reglas en cada llamada.",
+   "evidencia": [
+    {
+     "tipo": "LEIDO",
+     "ref": "paquetes/deslinde/src/deslinde/adaptadores.py:296 y paquetes/deslinde/src/deslinde/naturalidad_clave.py:186",
+     "detalle": "json.loads(Path(grafo).read_text()) en cada llamada; llamadas desde juzgar, Ponderado.generar, Vigente.generar, _exhaustivo y _exacto"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "paquetes/deslinde/src/deslinde/reglas/cota.py:90",
+     "detalle": "if evaluar(problema, reglas, q).valido (sin Contexto reutilizado)"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "/tmp/t509_A1_motor/exp.py (guion de esta sesión; ortools 9.14.6206, Python 3.13, 4 hilos, PYTHONHASHSEED=0) evaluar 15 14 7",
+     "detalle": "210 unidades: evaluar 0,833 ms frente a valido(ctx) 0,266 ms (3,1x); 20.000 evaluaciones: 16,7 s frente a 5,3 s"
+    }
+   ],
+   "por_que_importa": "Es tiempo fijo por territorio que se paga en cada una de las miles de ejecuciones y crece con el tamaño del grafo (Madrid).",
+   "propuesta": "Cargar grafo, problema y Natural una vez por (composición base, grafo) y pasarlos a juzgar y a los generadores; en cota_nodos usar valido(..., ctx).",
+   "criterio_aceptacion": "cProfile de una competición de nac41: json.loads del grafo M03 se llama <= 2 veces; misma huella_resultado; cota_nodos da la misma cota y tarda <= 40 % del tiempo actual.",
+   "impacto": 2,
+   "esfuerzo": "M",
+   "riesgo": "Compartir objetos entre candidatos exige que nadie los modifique (Natural guarda una caché interna).",
+   "toca": [
+    "motor"
+   ],
+   "necesita": "fusion",
+   "ya_previsto": null,
+   "decisiones_relacionadas": [
+    "D-89"
+   ],
+   "nivel_mundial": "—",
+   "confianza": "media"
+  },
+  {
+   "id": "A1-10",
+   "titulo": "requirements-exacto.lock no basta solo y el test de Sevilla nunca corre en la CI",
+   "que_pasa_hoy": "El lock del exacto, instalado como manda el proyecto (--no-deps --require-hashes), no trae numpy ni pandas y ortools no importa sin ellos; funciona porque otro lock los instala antes. La única prueba de regresión del exacto con K >= 5 (Sevilla) necesita entradas que no están en git y en la CI siempre se salta.",
+   "evidencia": [
+    {
+     "tipo": "VERIFICADO",
+     "ref": "venv limpio + pip install --no-deps --require-hashes -r requirements-exacto.lock; import deslinde.exacto y resolver",
+     "detalle": "ModuleNotFoundError: No module named 'numpy' (ortools/sat/python/cp_model.py:65); tras instalar numpy y pandas de requirements.lock, funciona"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "docs/registro/2026-11-26_claude-t503-exacto-tamano.md:9-10",
+     "detalle": "«en la CI siempre sale saltado; la protección real es la medición de T-507»"
+    }
+   ],
+   "por_que_importa": "El motor que decide 9 mapas no tiene ninguna prueba automática con una instancia real de K >= 5.",
+   "propuesta": "Versionar 3 instancias canónicas pequeñas (JSON de átomos, < 100 kB cada una; p. ej. nac41, nac26, nac04) con su clave óptima y un test que las resuelva en la CI; declarar numpy en el lock del exacto o documentar el orden.",
+   "criterio_aceptacion": "El job «pruebas» ejecuta (no salta) un test que resuelve la instancia de nac41 y exige 6 demarcaciones partidas y 785.968.300 mm; un venv limpio con solo el lock del exacto importa ortools.sat.python.cp_model.",
+   "impacto": 3,
+   "esfuerzo": "S",
+   "riesgo": "+1 a 2 min de CI si se resuelve Sevilla entera; se puede usar un tope bajo y exigir solo el valor.",
+   "toca": [
+    "motor",
+    "ci"
+   ],
+   "necesita": "fusion",
+   "ya_previsto": null,
+   "decisiones_relacionadas": [
+    "D-215"
+   ],
+   "nivel_mundial": "Bancos de instancias públicos con óptimos conocidos (repositorios de Validi y Buchanan).",
+   "confianza": "alta"
+  }
+ ]
+}
