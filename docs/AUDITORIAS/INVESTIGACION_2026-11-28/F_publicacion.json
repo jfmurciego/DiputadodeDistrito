@@ -7,39 +7,95 @@
  "hallazgos": [
   {
    "id": "F-1",
-   "titulo": "P40 nunca ha subido la web ni sus datos a R2: 11 de 11 publicaciones con los dos pasos en 0 s y en verde",
+   "titulo": "P40 nunca ha subido la web ni sus datos a R2: 11 de 11 publicaciones, pasos en 0 s y en verde",
    "que_pasa_hoy": "Los pasos «Datos de la web en R2» y «Web en R2» (p40-publicacion.yml:765-797) leen vars.R2_WEB_BUCKET, vars.R2_SITIO_BUCKET y los secretos R2_WEB_* y R2_SITIO_*. El job `publicar` corre en el entorno github-pages (l. 215-216) y esas variables no están ni en ese entorno ni en el repositorio (según el dato del 26-11 están en el entorno `publicacion`; la API de entornos da 403 desde la nube y no lo pude leer): llegan vacías, la herramienta sale 0 con «no se sube nada» y el paso queda en verde. Los pasos que usan R2_BUCKET (l. 354-362, 597-604 y 799-807) sí funcionan: esa variable sí se ve. Por la misma razón, `publicar_web` de P90 (p90-automatico.yml:1066-1116, sin `environment`) no puede ver R2_SITIO_BUCKET y sale por «Sin R2_SITIO_BUCKET»: la publicación de la web sola al fusionar (D-194, pregunta 7) está inerte. `docs/PLAN.md:501` dice lo contrario: «P40 ya sube la web a R2; falta retirar Pages».",
    "evidencia": [
-    {"tipo": "VERIFICADO", "ref": "gh api repos/jfmurciego/DiputadodeDistrito/actions/jobs/140184639697/logs (run 45900288067, 26-11 21:45)", "detalle": "«R2_WEB_BUCKET:» y «R2_SITIO_BUCKET:» vacíos; «[datos_web] sin R2_WEB_BUCKET: no se sube nada (fase 1, opcional)»; «[sitio_r2] sin R2_SITIO_BUCKET: no se sube nada (ensayo opcional)»; en el mismo job «R2_BUCKET: ddd-research-archive»"},
-    {"tipo": "VERIFICADO", "ref": "gh api .../actions/runs/<run>/jobs para 45889763424, 45440595789, 45411223365, 45362250945, 45171126530, 45146728946, 45136435835, 45088015269, 44869459141, 45873075949, 45900288067", "detalle": "los dos pasos: conclusion=success y 0-1 s en los 11 runs"},
-    {"tipo": "LEIDO", "ref": ".github/workflows/p90-automatico.yml:1066-1098", "detalle": "`publicar_web` no declara entorno; un job sin entorno ve un subconjunto de lo que ve uno con entorno, y el de P40 ya ve R2_SITIO_BUCKET vacío"},
-    {"tipo": "LEIDO", "ref": "docs/PLAN.md:501", "detalle": "T-430 «EN CURSO (P40 ya sube la web a R2; falta retirar Pages, D-194)»"}
+    {
+     "tipo": "VERIFICADO",
+     "ref": "gh api repos/jfmurciego/DiputadodeDistrito/actions/jobs/140184639697/logs (run 45900288067, 26-11 21:45)",
+     "detalle": "«R2_WEB_BUCKET:» y «R2_SITIO_BUCKET:» vacíos; «[datos_web] sin R2_WEB_BUCKET: no se sube nada (fase 1, opcional)»; «[sitio_r2] sin R2_SITIO_BUCKET: no se sube nada (ensayo opcional)»; en el mismo job «R2_BUCKET: ddd-research-archive»"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "gh api .../actions/runs/<run>/jobs para 45889763424, 45440595789, 45411223365, 45362250945, 45171126530, 45146728946, 45136435835, 45088015269, 44869459141, 45873075949, 45900288067",
+     "detalle": "los dos pasos: conclusion=success y 0-1 s en los 11 runs"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": ".github/workflows/p90-automatico.yml:1066-1098",
+     "detalle": "`publicar_web` no declara entorno; un job sin entorno ve un subconjunto de lo que ve uno con entorno, y el de P40 ya ve R2_SITIO_BUCKET vacío"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "docs/PLAN.md:501",
+     "detalle": "T-430 «EN CURSO (P40 ya sube la web a R2; falta retirar Pages, D-194)»"
+    }
    ],
    "por_que_importa": "El corte a Cloudflare se apoya en un ensayo en paralelo que no ha existido: no hay ni un día de web en R2 comparada con Pages. Y el fallo es mudo: verde en la API, `continue-on-error` y salida 0. Cuando lleguen las variables, un fallo real seguirá saliendo con conclusion=success.",
    "propuesta": "Arreglo mínimo, sin código: el propietario añade al entorno github-pages las variables R2_WEB_BUCKET y R2_SITIO_BUCKET y los secretos R2_WEB_ACCESS_KEY_ID, R2_WEB_SECRET_ACCESS_KEY, R2_SITIO_ACCESS_KEY_ID y R2_SITIO_SECRET_ACCESS_KEY (el mismo patrón que D-162 con la app de registro; partir el job rompería la atomicidad, lección de T-379 2a). En una PR aparte: `publicar_web` declara `environment: publicacion` (una línea), y los dos pasos de P40 escriben en el resumen del job una línea fija «Web en R2: N subidos / NO SUBIDA: <motivo>» y dan ::warning en main cuando falta la variable.",
    "criterio_aceptacion": "Tras una P40 «Solo el sitio» desde main, el log del paso «Web en R2» imprime «[sitio_r2] N ficheros; M a subir» con N>0 y `_sitio/actual.json` del bucket lleva el `p40_run` de ese run; un test lee el YAML y falla si un paso que usa `vars.R2_*_BUCKET` puede terminar en verde sin escribir su línea en el resumen.",
-   "impacto": 5, "esfuerzo": "S", "riesgo": "Bajo. La primera subida real mueve unos 2.000 ficheros (≈295 MB con datos) fichero a fichero: puede tardar y destapar errores que hoy no se ven.",
-   "toca": ["publicacion", "ci", "proceso"], "necesita": "decision_propietario",
-   "ya_previsto": "T-430 (lo da por hecho)", "decisiones_relacionadas": ["D-162", "D-186", "D-193", "D-194"],
+   "impacto": 5,
+   "esfuerzo": "S",
+   "riesgo": "Bajo. La primera subida real mueve unos 2.000 ficheros (≈295 MB con datos) fichero a fichero: puede tardar y destapar errores que hoy no se ven.",
+   "toca": [
+    "publicacion",
+    "ci",
+    "proceso"
+   ],
+   "necesita": "decision_propietario",
+   "ya_previsto": "T-430 (lo da por hecho)",
+   "decisiones_relacionadas": [
+    "D-162",
+    "D-186",
+    "D-193",
+    "D-194"
+   ],
    "nivel_mundial": "Un despliegue que no despliega falla en rojo: en Netlify, Vercel y Cloudflare Pages cada despliegue tiene estado propio y URL propia (https://developers.cloudflare.com/pages/configuration/preview-deployments/, citado de memoria).",
    "confianza": "alta"
   },
   {
    "id": "F-2",
-   "titulo": "Bloqueante del corte: la web de producción en R2 saldría sin datos (mapa/datos.json vacío y nadie lo escribe)",
+   "titulo": "Bloqueante del corte: la web en R2 saldría sin datos (mapa/datos.json vacío, nadie lo escribe)",
    "que_pasa_hoy": "`visor/v4/mapa/datos.json` vale `{\"actual\": \"\"}`: con eso Explorar lee los datos con rutas relativas (explorar.js:204). `publicar_sitio_r2.py` sube el sitio SIN los árboles de datos (`es_dato`, l. 45) y no toca ese fichero; solo `pruebas_web_r2.py:74` escribe la dirección del índice, y solo para la vista de pruebas. En el bucket del sitio el mapa pediría `../v2/datos/provincias.json`, recibiría 404 y mostraría «No es posible inicializar el visor».",
    "evidencia": [
-    {"tipo": "VERIFICADO", "ref": "cat visor/v4/mapa/datos.json", "detalle": "{\"actual\": \"\"}"},
-    {"tipo": "VERIFICADO", "ref": "grep -c 'datos\\.json' .github/workflows/p40-publicacion.yml herramientas/publicar_sitio_r2.py herramientas/web_fusion_r2.py herramientas/preparar_portada_v4.py", "detalle": "0 en los cuatro; única escritura en herramientas/pruebas_web_r2.py:74"},
-    {"tipo": "LEIDO", "ref": "visor/v4/mapa/explorar.js:200-211 y 938-966", "detalle": "sin `actual`, ACT=null y getJson usa rutas relativas; el fallo de provincias o comunidades aborta init"},
-    {"tipo": "LEIDO", "ref": "docs/ESTUDIOS/T430_WEB_EDITABLE/REDISENO_R2.md:39-40", "detalle": "«Hasta ese cambio, la web en R2 no tendría datos: va antes del corte»"}
+    {
+     "tipo": "VERIFICADO",
+     "ref": "cat visor/v4/mapa/datos.json",
+     "detalle": "{\"actual\": \"\"}"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "grep -c 'datos\\.json' .github/workflows/p40-publicacion.yml herramientas/publicar_sitio_r2.py herramientas/web_fusion_r2.py herramientas/preparar_portada_v4.py",
+     "detalle": "0 en los cuatro; única escritura en herramientas/pruebas_web_r2.py:74"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "visor/v4/mapa/explorar.js:200-211 y 938-966",
+     "detalle": "sin `actual`, ACT=null y getJson usa rutas relativas; el fallo de provincias o comunidades aborta init"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "docs/ESTUDIOS/T430_WEB_EDITABLE/REDISENO_R2.md:39-40",
+     "detalle": "«Hasta ese cambio, la web en R2 no tendría datos: va antes del corte»"
+    }
    ],
    "por_que_importa": "Es el paso 1 del orden aprobado (§9) y está a medio hacer: el código lee el índice, pero producción no lo activa. Como F-1 tapa el ensayo, nadie lo ha visto.",
    "propuesta": "Que el montaje del sitio para R2 (y solo ese) escriba `mapa/datos.json` con la dirección del índice desde una variable (`DATOS_WEB_ACTUAL`, que ya usa `pruebas_web`), y que la validación del sitio de R2 falle si queda vacío. Pages sigue con rutas relativas hasta el corte.",
    "criterio_aceptacion": "Prueba con navegador (Playwright) sobre el árbol que sube `publicar_sitio_r2.py` (sin datos/, data/, mapa/datos/ ni v2/datos/) y un índice servido en local: `document.body.dataset.distritos` > 0 al elegir un territorio y `#map-notice` vacío. Sin la variable, la herramienta sale ≠ 0 en producción.",
-   "impacto": 4, "esfuerzo": "S", "riesgo": "Bajo; hay que comprobar CORS de datos. con el dominio de la web (diseñado en DISENO.md §4.2).",
-   "toca": ["publicacion", "web"], "necesita": "fusion",
-   "ya_previsto": "T-430 (paso 1 de §9, sin cerrar)", "decisiones_relacionadas": ["D-188", "D-193", "D-194"],
+   "impacto": 4,
+   "esfuerzo": "S",
+   "riesgo": "Bajo; hay que comprobar CORS de datos. con el dominio de la web (diseñado en DISENO.md §4.2).",
+   "toca": [
+    "publicacion",
+    "web"
+   ],
+   "necesita": "fusion",
+   "ya_previsto": "T-430 (paso 1 de §9, sin cerrar)",
+   "decisiones_relacionadas": [
+    "D-188",
+    "D-193",
+    "D-194"
+   ],
    "nivel_mundial": "Las vistas previas de Cloudflare Pages o Netlify son el mismo artefacto que producción: lo que se ensaya es lo que se corta.",
    "confianza": "alta"
   },
@@ -48,17 +104,44 @@
    "titulo": "No hay vuelta atrás de una publicación: ni botón, ni versión anterior guardada, ni en Pages ni en R2",
    "que_pasa_hoy": "Pages: el despliegue es atómico, pero el artefacto se guarda 1 día (valor por defecto de upload-pages-artifact; p40:704-707 no lo cambia) y repetir el job no restaura nada: reconstruye desde `origin/main` (l. 252-258). Volver atrás es revertir en main (PR, CI de 15-20 min, fusión), otra P40 (17 min medidos) y la frase del propietario; el registro es de solo adición. R2: «solo la vigente» (D-188): los ficheros se pisan uno a uno con el mismo nombre, recursos antes y páginas al final (publicar_sitio_r2.py:103-112), y los datos antes que su índice (publicar_datos_web.py:199-207). No queda versión anterior. Durante la subida, un visitante con el índice viejo recibe ficheros nuevos, la huella no casa, el visor reintenta una vez (explorar.js:213-220) y da error.",
    "evidencia": [
-    {"tipo": "LEIDO", "ref": ".github/workflows/p40-publicacion.yml:252-258, 704-707, 737-763", "detalle": "reset --hard origin/main al empezar; artefacto sin `retention-days`; registro por push tras desplegar, 3 intentos con 2 y 4 s"},
-    {"tipo": "LEIDO", "ref": "herramientas/publicar_sitio_r2.py:90-120; herramientas/publicar_datos_web.py:186-214", "detalle": "escritura en el sitio; índice al final; borrado de lo viejo; CACHE=\"public, max-age=60\" para todo"},
-    {"tipo": "VERIFICADO", "ref": "gh api .../actions/runs/45900288067/jobs", "detalle": "job «Desplegar»: 1.014 s; en 6 runs correctos, de 602 a 1.635 s"},
-    {"tipo": "LEIDO", "ref": "docs/AUDITORIAS/INVESTIGACION_2026-11-28/E_almacenamiento.json (E-3)", "detalle": "mismo defecto visto desde el almacén; aquí, el efecto en el visitante y en la vuelta atrás"}
+    {
+     "tipo": "LEIDO",
+     "ref": ".github/workflows/p40-publicacion.yml:252-258, 704-707, 737-763",
+     "detalle": "reset --hard origin/main al empezar; artefacto sin `retention-days`; registro por push tras desplegar, 3 intentos con 2 y 4 s"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "herramientas/publicar_sitio_r2.py:90-120; herramientas/publicar_datos_web.py:186-214",
+     "detalle": "escritura en el sitio; índice al final; borrado de lo viejo; CACHE=\"public, max-age=60\" para todo"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "gh api .../actions/runs/45900288067/jobs",
+     "detalle": "job «Desplegar»: 1.014 s; en 6 runs correctos, de 602 a 1.635 s"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "docs/AUDITORIAS/INVESTIGACION_2026-11-28/E_almacenamiento.json (E-3)",
+     "detalle": "mismo defecto visto desde el almacén; aquí, el efecto en el visitante y en la vuelta atrás"
+    }
    ],
    "por_que_importa": "Un error visible en la web (un mapa mal, un texto) dura como mínimo 40 minutos y depende de que el propietario esté. Un referente no puede tardar eso en retirar un dato electoral erróneo.",
    "propuesta": "Datos: claves por versión (`web/v/<version>/…`; `version()` ya existe en publicar_datos_web.py:56) y `actual.json` como único puntero que cambia; se conservan las 3 últimas. Web: nombres con huella para estilos y código (previsto y sin hacer: la cabecera de publicar_sitio_r2.py lo deja «aparte») y el HTML al final. Una orden `revertir` reescribe los punteros a la publicación anterior sin reconstruir. En Pages, mientras viva: `retention-days: 14` y un modo de P40 que redespliegue un artefacto anterior.",
    "criterio_aceptacion": "Test con R2 simulado: publicar A, publicar B, `revertir` → `actual.json` y el índice del sitio son byte a byte los de A en menos de 2 min y sin reconstruir; durante la subida de B, un cliente con el índice de A lee solo ficheros de A (200 y huella correcta).",
-   "impacto": 4, "esfuerzo": "M", "riesgo": "Medio: toca la ruta de lectura del visor y la guarda de borrado; más espacio en R2 (3 versiones de ≈295 MB).",
-   "toca": ["publicacion", "web", "datos"], "necesita": "decision_propietario",
-   "ya_previsto": null, "decisiones_relacionadas": ["D-188", "D-198"],
+   "impacto": 4,
+   "esfuerzo": "M",
+   "riesgo": "Medio: toca la ruta de lectura del visor y la guarda de borrado; más espacio en R2 (3 versiones de ≈295 MB).",
+   "toca": [
+    "publicacion",
+    "web",
+    "datos"
+   ],
+   "necesita": "decision_propietario",
+   "ya_previsto": null,
+   "decisiones_relacionadas": [
+    "D-188",
+    "D-198"
+   ],
    "nivel_mundial": "Despliegues atómicos e inmutables con vuelta atrás instantánea: Netlify (https://docs.netlify.com/site-deploys/manage-deploys/), Vercel Instant Rollback (https://vercel.com/docs/deployments/instant-rollback), Cloudflare Pages Rollbacks (https://developers.cloudflare.com/pages/configuration/rollbacks/). Citados de memoria.",
    "confianza": "alta"
   },
@@ -67,38 +150,104 @@
    "titulo": "4 de 18 publicaciones en rojo y ninguna comprobación de lo que queda público tras desplegar",
    "que_pasa_hoy": "De los 18 runs de P40 (16-11 a 26-11), 4 fallaron (22 %) y otros 2 necesitaron segundo intento. Causas: `deploy-pages` (2, arreglado en 1.7.0), «Doble vuelta» antes de desplegar (1) y «Promover la doble vuelta» DESPUÉS de desplegar (1, run 45873075949): web desplegada, `mapas/` sin promover y job en rojo. La huella del informe que falla ahí solo se comprueba tras desplegar. Antes de desplegar se valida con `test -s`, `grep` y `node --check` (l. 610-686): un error de ejecución del mapa pasa. Después de desplegar no se pide la URL pública: `evaluar_publicacion_visor.py` no hace ninguna petición.",
    "evidencia": [
-    {"tipo": "VERIFICADO", "ref": "gh api repos/jfmurciego/DiputadodeDistrito/actions/workflows/p40-publicacion.yml/runs?per_page=30", "detalle": "total=18; failure: 45873075949, 45386438657, 45382628274, 44615106125; run_attempt=2 en 45382628274 y 45362250945"},
-    {"tipo": "VERIFICADO", "ref": "gh api .../actions/runs/<run>/jobs (pasos con conclusion=failure)", "detalle": "45386438657 y 45382628274: deploy-pages; 44615106125: «Doble vuelta…»; 45873075949: paso 29 «Promover la doble vuelta a mapas/», con el paso 25 (deploy-pages) en success"},
-    {"tipo": "VERIFICADO", "ref": "grep -n 'urlopen\\|requests\\.\\|http' herramientas/evaluar_publicacion_visor.py", "detalle": "sin resultados"},
-    {"tipo": "VERIFICADO", "ref": "grep -rln -i 'playwright' .github/workflows", "detalle": "ningún workflow usa navegador; solo tests de la V2 y generar_vista_previa_v4.py"}
+    {
+     "tipo": "VERIFICADO",
+     "ref": "gh api repos/jfmurciego/DiputadodeDistrito/actions/workflows/p40-publicacion.yml/runs?per_page=30",
+     "detalle": "total=18; failure: 45873075949, 45386438657, 45382628274, 44615106125; run_attempt=2 en 45382628274 y 45362250945"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "gh api .../actions/runs/<run>/jobs (pasos con conclusion=failure)",
+     "detalle": "45386438657 y 45382628274: deploy-pages; 44615106125: «Doble vuelta…»; 45873075949: paso 29 «Promover la doble vuelta a mapas/», con el paso 25 (deploy-pages) en success"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "grep -n 'urlopen\\|requests\\.\\|http' herramientas/evaluar_publicacion_visor.py",
+     "detalle": "sin resultados"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "grep -rln -i 'playwright' .github/workflows",
+     "detalle": "ningún workflow usa navegador; solo tests de la V2 y generar_vista_previa_v4.py"
+    }
    ],
    "por_que_importa": "El fallo del 26-11 es la segunda vez del mismo orden roto (P75 → pin → P40) y la regla que lo evita está en prosa. Sin comprobación posterior, «publicado» significa «el job terminó», no «el público ve la versión nueva».",
    "propuesta": "(1) Adelantar la comprobación del informe fijado a antes de `deploy-pages` (solo lectura y huella). (2) Humo con navegador sobre `/tmp/site-candidate` servido en local: portada, Comprender y mapa cargan sin errores de consola y con distritos. (3) P40 escribe `version.json` (run y commit) en el sitio y, tras desplegar, lo pide a la URL pública con reintentos; si no coincide, rojo.",
    "criterio_aceptacion": "Repetir el caso del 26-11 en simulación (informe con huella distinta): el job falla ANTES de `deploy-pages`. Un `throw` metido en explorar.js en una rama de prueba hace fallar el humo. En una P40 real, el log imprime «version.json público = <run>».",
-   "impacto": 4, "esfuerzo": "M", "riesgo": "Bajo; el humo añade 1-2 min. Cloudflare puede retar la petición del runner (D-199): usar la cabecera MEDICION_CDN que ya existe.",
-   "toca": ["publicacion", "ci", "web"], "necesita": "fusion",
-   "ya_previsto": null, "decisiones_relacionadas": ["D-172", "D-198", "D-199"],
+   "impacto": 4,
+   "esfuerzo": "M",
+   "riesgo": "Bajo; el humo añade 1-2 min. Cloudflare puede retar la petición del runner (D-199): usar la cabecera MEDICION_CDN que ya existe.",
+   "toca": [
+    "publicacion",
+    "ci",
+    "web"
+   ],
+   "necesita": "fusion",
+   "ya_previsto": null,
+   "decisiones_relacionadas": [
+    "D-172",
+    "D-198",
+    "D-199"
+   ],
    "nivel_mundial": "Despliegue con comprobación de salud y marcha atrás automática si falla (práctica estándar de entrega continua; Google SRE Workbook, cap. 16, «Canarying Releases», https://sre.google/workbook/canarying-releases/, de memoria).",
    "confianza": "alta"
   },
   {
    "id": "F-5",
-   "titulo": "Al plan de corte a Cloudflare le faltan nueve piezas: carpetas, 404, www, github.io, vuelta atrás, caché, cabeceras, noindex y umbrales",
+   "titulo": "Al plan de corte a Cloudflare le faltan nueve piezas (carpetas, 404, vuelta atrás, caché…)",
    "que_pasa_hoy": "REDISENO_R2.md deja «por verificar» casi todo lo de Cloudflare y no fija: (1) el texto exacto de la regla de carpetas ni su prueba (rutas con barra, sin barra y con extensión); (2) qué se ve en un 404 (hoy no hay 404.html; R2 da un texto técnico); (3) `www.`: conecta los dos dominios al bucket (contenido doble) en vez de redirigir a uno; (4) las direcciones `jfmurciego.github.io/DiputadodeDistrito/` ya difundidas (CITATION.cff:20 y 8 ficheros vivos) mueren al retirar Pages y no se pueden redirigir desde fuera; (5) la vuelta atrás «de 1 minuto» choca con el paso 10 (quitar el dominio propio en Pages): hecho eso, volver exige reconfigurarlo y su certificado; además, desde que `publicar_web` publique solo en R2, Pages queda atrasada y volver a ella es volver a una web vieja; (6) caché: 60 s para todo, también para rutas con versión en el nombre (`v2/vendor/maplibre-gl/5.7.0/`, 939 KB), sin la marca de contenido que el propio diseño pedía (§1.2.4) y sin regla de caché de borde: Cloudflare no guarda HTML ni JSON por defecto, así que cada geometría iría a R2; (7) cabeceras de seguridad (F-10); (8) `nueva.diputadodedistrito.es` no lleva `noindex` (solo `pruebas.`); (9) no hay umbrales de «listo para cortar» ni de «retirar Pages».",
    "evidencia": [
-    {"tipo": "LEIDO", "ref": "docs/ESTUDIOS/T430_WEB_EDITABLE/REDISENO_R2.md:11-12, 42-52, 79-90, 124-143", "detalle": "«por verificar» en la regla, los límites y los registros; §3.4 «Pages sigue desplegado» frente a §7 paso 10 «quitar el dominio propio»"},
-    {"tipo": "VERIFICADO", "ref": "git ls-files | grep -i 'robots.txt\\|sitemap\\|404.html\\|_headers\\|CNAME'", "detalle": "sin resultados"},
-    {"tipo": "VERIFICADO", "ref": "grep -n 'CACHE' herramientas/publicar_sitio_r2.py herramientas/publicar_datos_web.py", "detalle": "CACHE = \"public, max-age=60\" en los dos; la cabecera de publicar_sitio_r2.py dice «Caché de 60 s en todo (la marca de caché larga… aparte)»"},
-    {"tipo": "VERIFICADO", "ref": "grep -n noindex herramientas/pruebas_web_r2.py herramientas/publicar_sitio_r2.py", "detalle": "solo en pruebas_web_r2.py (l. 34, 66-69)"},
-    {"tipo": "VERIFICADO", "ref": "grep -rl 'jfmurciego\\.github\\.io' (sin legacy, tests ni registro)", "detalle": "8 ficheros; CITATION.cff:20 `url: https://jfmurciego.github.io/DiputadodeDistrito/`"},
-    {"tipo": "EXTERNO", "ref": "https://developers.cloudflare.com/cache/concepts/default-cache-behavior/", "detalle": "Cloudflare guarda en el borde por extensión; HTML y JSON no entran por defecto (de memoria; no abierta desde la nube)"}
+    {
+     "tipo": "LEIDO",
+     "ref": "docs/ESTUDIOS/T430_WEB_EDITABLE/REDISENO_R2.md:11-12, 42-52, 79-90, 124-143",
+     "detalle": "«por verificar» en la regla, los límites y los registros; §3.4 «Pages sigue desplegado» frente a §7 paso 10 «quitar el dominio propio»"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "git ls-files | grep -i 'robots.txt\\|sitemap\\|404.html\\|_headers\\|CNAME'",
+     "detalle": "sin resultados"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "grep -n 'CACHE' herramientas/publicar_sitio_r2.py herramientas/publicar_datos_web.py",
+     "detalle": "CACHE = \"public, max-age=60\" en los dos; la cabecera de publicar_sitio_r2.py dice «Caché de 60 s en todo (la marca de caché larga… aparte)»"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "grep -n noindex herramientas/pruebas_web_r2.py herramientas/publicar_sitio_r2.py",
+     "detalle": "solo en pruebas_web_r2.py (l. 34, 66-69)"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "grep -rl 'jfmurciego\\.github\\.io' (sin legacy, tests ni registro)",
+     "detalle": "8 ficheros; CITATION.cff:20 `url: https://jfmurciego.github.io/DiputadodeDistrito/`"
+    },
+    {
+     "tipo": "EXTERNO",
+     "ref": "https://developers.cloudflare.com/cache/concepts/default-cache-behavior/",
+     "detalle": "Cloudflare guarda en el borde por extensión; HTML y JSON no entran por defecto (de memoria; no abierta desde la nube)"
+    }
    ],
    "por_que_importa": "El corte es de minutos, pero una regla mal escrita deja `/mapa/` en 404 para todo el mundo, y la vuelta atrás escrita no es la real. Es el cambio de mayor riesgo público del mes.",
    "propuesta": "Una lista de corte de una página con prueba por línea: reglas con su texto para pegar y un guion (`comprobar_corte.py`, solo GET) que recorre 20 direcciones en `nueva.` (carpetas con y sin barra, 404, `/v4/`, `/docs/`, datos con CORS, compresión de .geojson, cabeceras); `www` redirige al dominio principal; Pages NO se desactiva: queda con una página mínima que redirige a `diputadodedistrito.es` (así las direcciones github.io siguen vivas); el paso 10 pasa al final de las dos semanas; `noindex` por cabecera en `nueva.`; caché de un año con huella para estilos, código e imágenes, y regla de borde para `datos.`; umbrales escritos para cortar y para retirar.",
    "criterio_aceptacion": "`python herramientas/comprobar_corte.py --base https://nueva.diputadodedistrito.es` devuelve 0 con las 20 comprobaciones en verde, y se repite contra el dominio real tras el corte; un simulacro de vuelta atrás cronometrado en `nueva.` queda anotado en la lista con su tiempo real.",
-   "impacto": 4, "esfuerzo": "M", "riesgo": "Los cambios en Cloudflare los hace el propietario (D-199): cada regla debe llegarle como texto para pegar.",
-   "toca": ["publicacion", "web", "proceso", "seguridad"], "necesita": "decision_propietario",
-   "ya_previsto": "T-430 (el corte; estas piezas no constan)", "decisiones_relacionadas": ["D-193", "D-194", "D-199", "D-104"],
+   "impacto": 4,
+   "esfuerzo": "M",
+   "riesgo": "Los cambios en Cloudflare los hace el propietario (D-199): cada regla debe llegarle como texto para pegar.",
+   "toca": [
+    "publicacion",
+    "web",
+    "proceso",
+    "seguridad"
+   ],
+   "necesita": "decision_propietario",
+   "ya_previsto": "T-430 (el corte; estas piezas no constan)",
+   "decisiones_relacionadas": [
+    "D-193",
+    "D-194",
+    "D-199",
+    "D-104"
+   ],
    "nivel_mundial": "Las migraciones de dominio serias llevan lista de comprobación, simulacro de vuelta atrás y redirecciones permanentes de lo antiguo (GOV.UK, «Transition», https://www.gov.uk/guidance/transition-moving-your-website-to-govuk, de memoria).",
    "confianza": "media"
   },
@@ -107,51 +256,111 @@
    "titulo": "El mapa no tiene enlace por territorio ni por distrito: lo único que guarda la dirección es la regla",
    "que_pasa_hoy": "explorar.js solo lee `regla` de la dirección (l. 118) y solo escribe `?regla=` (l. 312), pisando cualquier otro parámetro. `DV.leerEnlace` ya devuelve `territorio` (dv.js:113), pero nadie lo usa. Ámbito, provincia, distrito, capa y nivel viven en memoria: no se puede enviar «mi distrito» ni volver con el botón Atrás. La tarjeta al compartir es la misma imagen para todo el sitio.",
    "evidencia": [
-    {"tipo": "VERIFICADO", "ref": "grep -n 'location\\.\\|history\\.' visor/v4/mapa/explorar.js", "detalle": "dos resultados: l. 118 (lee solo `.regla`) y l. 312 (`history.replaceState(null,\"\",\"?regla=\"+id)`)"},
-    {"tipo": "LEIDO", "ref": "visor/v4/mapa/dv.js:110-114", "detalle": "leerEnlace devuelve {territorio, regla}; `territorio` sin consumidor"},
-    {"tipo": "LEIDO", "ref": "visor/v4/index.html:6", "detalle": "og:image único: assets/compartir-1200x630.jpg"}
+    {
+     "tipo": "VERIFICADO",
+     "ref": "grep -n 'location\\.\\|history\\.' visor/v4/mapa/explorar.js",
+     "detalle": "dos resultados: l. 118 (lee solo `.regla`) y l. 312 (`history.replaceState(null,\"\",\"?regla=\"+id)`)"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "visor/v4/mapa/dv.js:110-114",
+     "detalle": "leerEnlace devuelve {territorio, regla}; `territorio` sin consumidor"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "visor/v4/index.html:6",
+     "detalle": "og:image único: assets/compartir-1200x630.jpg"
+    }
    ],
    "por_que_importa": "El producto es «tu diputado de distrito»: la unidad que la gente comparte es su distrito. Sin dirección propia no hay difusión, ni cita, ni entrada desde buscadores a un territorio.",
    "propuesta": "Estado en la dirección (`?t=nac28&d=7&capa=…&regla=…`), leído al abrir y escrito con replaceState sin pisar el resto; botón «Copiar enlace». Después, opción aparte: página estática ligera por territorio generada por P40 con su título, descripción e imagen.",
    "criterio_aceptacion": "Prueba Node del visor: abrir con `?t=nac28&d=7&regla=dos` deja S.province, la unidad y la regla esperadas; cambiar de distrito actualiza la dirección conservando `regla`; con un código inexistente, vista nacional y aviso, sin excepción.",
-   "impacto": 4, "esfuerzo": "M", "riesgo": "Bajo; los códigos deben ser los canónicos (nacNN/autNN) para que el enlace sobreviva a renombrados.",
-   "toca": ["web", "producto"], "necesita": "decision_propietario",
-   "ya_previsto": null, "decisiones_relacionadas": ["D-18", "D-184"],
+   "impacto": 4,
+   "esfuerzo": "M",
+   "riesgo": "Bajo; los códigos deben ser los canónicos (nacNN/autNN) para que el enlace sobreviva a renombrados.",
+   "toca": [
+    "web",
+    "producto"
+   ],
+   "necesita": "decision_propietario",
+   "ya_previsto": null,
+   "decisiones_relacionadas": [
+    "D-18",
+    "D-184"
+   ],
    "nivel_mundial": "Dave's Redistricting (https://davesredistricting.org) y Districtr (https://districtr.org) dan una dirección estable por mapa; el Atlas of Redistricting de FiveThirtyEight (2018, https://projects.fivethirtyeight.com/redistricting-maps/) tenía dirección por estado y por plan.",
    "confianza": "alta"
   },
   {
    "id": "F-7",
-   "titulo": "Un fallo de red pasajero queda fijo toda la sesión y se muestra como «provincia sin distrito certificado»",
+   "titulo": "Un fallo de red pasajero queda fijo y se muestra como «provincia sin distrito certificado»",
    "que_pasa_hoy": "En la carga nacional, una provincia que falla (corte, 5xx, huella que no casa durante una publicación) entra en `D.districtFailures` y se excluye de todo reintento (explorar.js:525-526); el aviso es «Provincias sin distrito certificado: …» (l. 601-602), que es falso: sí lo tiene. Igual con la doble vuelta (`DVD.fallos`, l. 237 y 242). Ningún `fetch` tiene tiempo límite (0 AbortController): una petición colgada deja el mapa cargando sin mensaje. `map.on(\"error\")` solo escribe en la consola (l. 965). No hay `window.onerror` ni `unhandledrejection`: el proyecto no se entera de los errores que ve el público.",
    "evidencia": [
-    {"tipo": "LEIDO", "ref": "visor/v4/mapa/explorar.js:525-532, 601-602, 236-242, 965", "detalle": "filtro `!D.districtFailures.has(cod)`; texto del aviso; `if(DVD.fallos.has(key))return …null`"},
-    {"tipo": "VERIFICADO", "ref": "grep -n 'districtFailures\\.\\(delete\\|clear\\)\\|AbortController\\|timeout\\|unhandledrejection\\|window\\.onerror\\|retry' visor/v4/mapa/explorar.js", "detalle": "sin resultados"}
+    {
+     "tipo": "LEIDO",
+     "ref": "visor/v4/mapa/explorar.js:525-532, 601-602, 236-242, 965",
+     "detalle": "filtro `!D.districtFailures.has(cod)`; texto del aviso; `if(DVD.fallos.has(key))return …null`"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "grep -n 'districtFailures\\.\\(delete\\|clear\\)\\|AbortController\\|timeout\\|unhandledrejection\\|window\\.onerror\\|retry' visor/v4/mapa/explorar.js",
+     "detalle": "sin resultados"
+    }
    ],
    "por_que_importa": "En un proyecto cuyo valor es la acreditación, decir «sin distrito certificado» cuando falló la red es un dato falso en pantalla. Con «solo la vigente» (F-3), cada publicación crea justo esa ventana.",
    "propuesta": "Distinguir «no publicado» (permanente) de «no se pudo cargar» (pasajero, con botón Reintentar y un reintento automático con espera); tiempo límite de 20 s por petición; avisar en pantalla de los errores de MapLibre que impiden pintar; un aviso de error sin datos personales al contador propio (ruta, tipo, versión).",
    "criterio_aceptacion": "Prueba Node: un `fetch` que falla una vez y luego responde → tras «Reintentar» la provincia se pinta y el aviso desaparece; el texto del fallo pasajero no contiene «certificado»; un `fetch` que no responde da aviso a los 20 s.",
-   "impacto": 3, "esfuerzo": "S", "riesgo": "Bajo.",
-   "toca": ["web"], "necesita": "fusion",
-   "ya_previsto": null, "decisiones_relacionadas": ["D-101", "D-188"],
+   "impacto": 3,
+   "esfuerzo": "S",
+   "riesgo": "Bajo.",
+   "toca": [
+    "web"
+   ],
+   "necesita": "fusion",
+   "ya_previsto": null,
+   "decisiones_relacionadas": [
+    "D-101",
+    "D-188"
+   ],
    "nivel_mundial": "Medición de errores y de experiencia real de usuario (web-vitals, https://web.dev/articles/vitals, 2024: LCP ≤ 2,5 s, INP ≤ 200 ms, CLS ≤ 0,1).",
    "confianza": "alta"
   },
   {
    "id": "F-8",
-   "titulo": "El tope de 100 KB aprobado (D-192) no está en ninguna prueba y el mapa pesa hoy más de 480 KB comprimidos al abrir",
+   "titulo": "El tope de 100 KB de D-192 no está en ninguna prueba; el mapa pesa más de 480 KB al abrir",
    "que_pasa_hoy": "D-192 fijó 100 KB comprimidos en la primera vista y REDISENO_R2 §4 mandó la prueba a `tests/test_visor_v4_*`: en los 12 ficheros no hay ningún tope. La vista rápida del móvil («Abrir el mapa interactivo») no existe en el mapa. Medido en el repo, al abrir `mapa/` (gzip -9): MapLibre 247,2 KB, su CSS 10,0, provincias 102,7, comunidades 46,5, los cinco JS propios 39,1, CSS propio 11,3, HTML 5,4, puntos 2,8: 465 KB, más el índice (20,6 KB según T-441) y cuatro ficheros sin medir. El código propio del mapa ha pasado de 81,0 KB (T-441, 22-11, cuatro ficheros) a 113,4 KB (cinco, con el nuevo puntos.js: +40 %) en seis días sin que nada lo mida.",
    "evidencia": [
-    {"tipo": "VERIFICADO", "ref": "stat -c%s y gzip -9c | wc -c sobre visor/v4/mapa/*, visor/v4/app.js, visor/v2/galeria/galeria.js, visor/v2/vendor/maplibre-gl/5.7.0/*, visor/v2/datos/{provincias,comunidades}.json", "detalle": "explorar.js 78.068/25.549; dv.js 11.801/4.203; puntos.js 11.593/4.585; app.js 5.930/2.262; galeria.js 5.962/2.527; maplibre-gl.js 939.369/247.230; provincias.json 358.121/102.686"},
-    {"tipo": "VERIFICADO", "ref": "grep -rn -i '100 \\?kb\\|TOPE\\|102400' tests/test_visor_v4*.py; grep -c 'Abrir el mapa interactivo' visor/v4/mapa/index.html visor/v4/mapa/explorar.js", "detalle": "sin resultados; 0 y 0"},
-    {"tipo": "LEIDO", "ref": "docs/ESTUDIOS/T441_CARGA_LIGERA/DISENO.md:36-48, 90-101", "detalle": "≈470 KB comprimidos al abrir; objetivo 60-90 KB con vista rápida y geometría simplificada"}
+    {
+     "tipo": "VERIFICADO",
+     "ref": "stat -c%s y gzip -9c | wc -c sobre visor/v4/mapa/*, visor/v4/app.js, visor/v2/galeria/galeria.js, visor/v2/vendor/maplibre-gl/5.7.0/*, visor/v2/datos/{provincias,comunidades}.json",
+     "detalle": "explorar.js 78.068/25.549; dv.js 11.801/4.203; puntos.js 11.593/4.585; app.js 5.930/2.262; galeria.js 5.962/2.527; maplibre-gl.js 939.369/247.230; provincias.json 358.121/102.686"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "grep -rn -i '100 \\?kb\\|TOPE\\|102400' tests/test_visor_v4*.py; grep -c 'Abrir el mapa interactivo' visor/v4/mapa/index.html visor/v4/mapa/explorar.js",
+     "detalle": "sin resultados; 0 y 0"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "docs/ESTUDIOS/T441_CARGA_LIGERA/DISENO.md:36-48, 90-101",
+     "detalle": "≈470 KB comprimidos al abrir; objetivo 60-90 KB con vista rápida y geometría simplificada"
+    }
    ],
    "por_que_importa": "T-441 consta como HECHA (era el diseño) y la parte del mapa no tiene tarea viva: el peso crece sin freno y el móvil, que es por donde llega el público, sigue con la carga completa.",
    "propuesta": "Una prueba en el job `web` que sume el peso comprimido de lo que `mapa/index.html` y la portada cargan al abrir y falle por encima de un techo que solo baja (hoy, el valor medido; meta, el de D-192 cuando exista la vista rápida). Tarea explícita para la vista rápida y la geometría en dos niveles; MapLibre, solo al pulsar. Más adelante, teselas vectoriales en un fichero único en R2 para el nivel de sección.",
    "criterio_aceptacion": "`python -m unittest tests.test_visor_v4_peso` falla si la suma comprimida de la primera vista de `mapa/` supera el techo guardado; añadir 30 KB a explorar.js en una rama lo pone en rojo.",
-   "impacto": 3, "esfuerzo": "S", "riesgo": "Bajo; el techo inicial no arregla nada, solo impide empeorar.",
-   "toca": ["web", "ci"], "necesita": "fusion",
-   "ya_previsto": "T-441 (diseño hecho; implantación del mapa sin tarea)", "decisiones_relacionadas": ["D-192"],
+   "impacto": 3,
+   "esfuerzo": "S",
+   "riesgo": "Bajo; el techo inicial no arregla nada, solo impide empeorar.",
+   "toca": [
+    "web",
+    "ci"
+   ],
+   "necesita": "fusion",
+   "ya_previsto": "T-441 (diseño hecho; implantación del mapa sin tarea)",
+   "decisiones_relacionadas": [
+    "D-192"
+   ],
    "nivel_mundial": "Presupuestos de rendimiento en la CI (Lighthouse CI, https://github.com/GoogleChrome/lighthouse-ci) y teselas en un solo fichero servidas por rangos (PMTiles, https://docs.protomaps.com/pmtiles/).",
    "confianza": "alta"
   },
@@ -160,15 +369,32 @@
    "titulo": "P40 tarda 17 min en publicar «Solo el sitio» y 7 de ellos son la misma comprobación hecha dos veces",
    "que_pasa_hoy": "En «Solo el sitio» no hay entradas nuevas: el registro candidato es el vigente. Aun así se materializa y comprueba dos veces («Preflight completo del registro vigente» y «…candidato»): 220 s + 219 s en el run 45900288067; 180 s + 193 s en el 45873075949. El resto: construir el sitio 176 s, doble vuelta 90 s, subir 295 MB a Pages 41 s, promover a `mapas/` 187 s. Total del job: 1.014 s. El camino corto aprobado (D-194, pregunta 7) no funciona (F-1).",
    "evidencia": [
-    {"tipo": "VERIFICADO", "ref": "gh api .../actions/runs/45900288067/jobs (pasos 6, 13, 14, 19, 23, 29)", "detalle": "21:47:16-21:50:56; 21:50:56-21:54:35; 21:54:35-21:57:31; 21:57:32-21:59:02; 21:59:21-22:00:02; 22:00:37-22:03:44"},
-    {"tipo": "VERIFICADO", "ref": "log del job 140184639697, línea 2789", "detalle": "«Artifact github-pages-1 … Final size is 294807655 bytes»; unos 2.000 ficheros: data 908, datos 620, mapa 267, v2 139"}
+    {
+     "tipo": "VERIFICADO",
+     "ref": "gh api .../actions/runs/45900288067/jobs (pasos 6, 13, 14, 19, 23, 29)",
+     "detalle": "21:47:16-21:50:56; 21:50:56-21:54:35; 21:54:35-21:57:31; 21:57:32-21:59:02; 21:59:21-22:00:02; 22:00:37-22:03:44"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "log del job 140184639697, línea 2789",
+     "detalle": "«Artifact github-pages-1 … Final size is 294807655 bytes»; unos 2.000 ficheros: data 908, datos 620, mapa 267, v2 139"
+    }
    ],
    "por_que_importa": "Cada corrección de texto cuesta 17 min de máquina más la espera de la frase. El artefacto de 295 MB crece con cada territorio y cada elección histórica; el límite de Pages es 1 GB.",
    "propuesta": "Si el registro candidato es byte a byte el vigente, reutilizar lo ya materializado (ahorra unos 3,5 min). Promover a `mapas/` solo si el fijado cambió desde la última promoción (hasta 3 min). Activar el camino corto con F-1.",
    "criterio_aceptacion": "Una P40 «Solo el sitio» sin cambios de datos termina el job `publicar` en ≤ 10 min y el log dice «candidato idéntico al vigente: se reutiliza la comprobación»; con una entrada nueva, las dos comprobaciones siguen corriendo.",
-   "impacto": 3, "esfuerzo": "S", "riesgo": "Bajo si la igualdad se decide por sha256 del registro.",
-   "toca": ["publicacion", "ci"], "necesita": "fusion",
-   "ya_previsto": null, "decisiones_relacionadas": ["D-194"],
+   "impacto": 3,
+   "esfuerzo": "S",
+   "riesgo": "Bajo si la igualdad se decide por sha256 del registro.",
+   "toca": [
+    "publicacion",
+    "ci"
+   ],
+   "necesita": "fusion",
+   "ya_previsto": null,
+   "decisiones_relacionadas": [
+    "D-194"
+   ],
    "nivel_mundial": "Un sitio estático de este tamaño se publica en menos de 2 min con subida incremental (Cloudflare Pages, Netlify).",
    "confianza": "alta"
   },
@@ -177,33 +403,73 @@
    "titulo": "Sin política de seguridad de contenido ni cabeceras; el corte a Cloudflare es el momento de ponerlas",
    "que_pasa_hoy": "Ninguna página de visor/v4 lleva Content-Security-Policy, Referrer-Policy ni similares, y ninguna herramienta las genera. GitHub Pages no permite cabeceras propias. Hay un script en línea (el aviso al contador, mapa/index.html:95) y muchas asignaciones a innerHTML, todas con `esc()` en lo leído. A favor: MapLibre va servido desde el sitio con `integrity` (l. 18 y 86) y no se carga nada de terceros: los únicos dominios son los propios (contador., media., datos.).",
    "evidencia": [
-    {"tipo": "VERIFICADO", "ref": "grep -rln 'Content-Security-Policy\\|X-Frame-Options\\|Referrer-Policy' herramientas/*.py visor/v4", "detalle": "sin resultados"},
-    {"tipo": "VERIFICADO", "ref": "grep -rhoE 'https?://…' visor/v4 | dominios", "detalle": "diputadodedistrito.es (16), linkedin.com (2, enlaces), orcid.org (2, enlaces), media.diputadodedistrito.es (1), doi.org (1), contador.diputadodedistrito.es (1)"},
-    {"tipo": "LEIDO", "ref": "visor/v4/mapa/index.html:18, 86, 95", "detalle": "SRI sha384 en maplibre; `<script>navigator.sendBeacon…</script>` en línea"}
+    {
+     "tipo": "VERIFICADO",
+     "ref": "grep -rln 'Content-Security-Policy\\|X-Frame-Options\\|Referrer-Policy' herramientas/*.py visor/v4",
+     "detalle": "sin resultados"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "grep -rhoE 'https?://…' visor/v4 | dominios",
+     "detalle": "diputadodedistrito.es (16), linkedin.com (2, enlaces), orcid.org (2, enlaces), media.diputadodedistrito.es (1), doi.org (1), contador.diputadodedistrito.es (1)"
+    },
+    {
+     "tipo": "LEIDO",
+     "ref": "visor/v4/mapa/index.html:18, 86, 95",
+     "detalle": "SRI sha384 en maplibre; `<script>navigator.sendBeacon…</script>` en línea"
+    }
    ],
    "por_que_importa": "Un sitio político es objetivo de manipulación; una política estricta limita el daño de cualquier inyección y es lo primero que mira una auditoría externa.",
    "propuesta": "Una regla de cabeceras de respuesta en Cloudflare (el propietario la pega): HSTS, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy` vacía y CSP con `default-src 'self'`, `connect-src` a datos. y contador., `media-src` a media., `worker-src blob:` (lo exige MapLibre). Mover el aviso en línea a un fichero. Primero en modo solo informe.",
    "criterio_aceptacion": "`curl -sI https://diputadodedistrito.es/mapa/` muestra las cinco cabeceras; la prueba «sin terceros» comprueba además que ningún HTML publicado tiene `<script>` en línea; nota A en MDN HTTP Observatory.",
-   "impacto": 3, "esfuerzo": "S", "riesgo": "Una CSP mal ajustada deja el mapa en blanco: por eso primero solo informe.",
-   "toca": ["seguridad", "web", "publicacion"], "necesita": "decision_propietario",
-   "ya_previsto": null, "decisiones_relacionadas": ["D-199", "D-101"],
+   "impacto": 3,
+   "esfuerzo": "S",
+   "riesgo": "Una CSP mal ajustada deja el mapa en blanco: por eso primero solo informe.",
+   "toca": [
+    "seguridad",
+    "web",
+    "publicacion"
+   ],
+   "necesita": "decision_propietario",
+   "ya_previsto": null,
+   "decisiones_relacionadas": [
+    "D-199",
+    "D-101"
+   ],
    "nivel_mundial": "OWASP Secure Headers Project (https://owasp.org/www-project-secure-headers/) y MDN HTTP Observatory (https://developer.mozilla.org/en-US/observatory).",
    "confianza": "media"
   },
   {
    "id": "F-11",
-   "titulo": "Para los buscadores faltan robots.txt, mapa del sitio, página 404 y datos estructurados; título y tarjeta sí están",
+   "titulo": "Faltan robots.txt, mapa del sitio, página 404 y datos estructurados; título y tarjeta sí están",
    "que_pasa_hoy": "Portada, Comprender y mapa llevan título, descripción, canónica, Open Graph y tarjeta de Twitter (T-451). No existen robots.txt, sitemap.xml ni 404.html en el repo ni los genera el publicador, y ninguna página lleva datos estructurados (`application/ld+json`), tampoco la de datos abiertos, que es candidata a Google Dataset Search.",
    "evidencia": [
-    {"tipo": "VERIFICADO", "ref": "git ls-files | grep -i 'robots.txt\\|sitemap\\|404.html'; grep -rln 'robots.txt\\|sitemap\\|404.html' herramientas/*.py visor/v4", "detalle": "sin resultados (solo medir_web.py por otra cadena)"},
-    {"tipo": "VERIFICADO", "ref": "sed -n '6p' visor/v4/index.html | tr '>' '\\n' | grep -i 'canonical\\|og:\\|twitter\\|ld+json'", "detalle": "canonical, 9 og:* y 5 twitter:*; ningún ld+json"}
+    {
+     "tipo": "VERIFICADO",
+     "ref": "git ls-files | grep -i 'robots.txt\\|sitemap\\|404.html'; grep -rln 'robots.txt\\|sitemap\\|404.html' herramientas/*.py visor/v4",
+     "detalle": "sin resultados (solo medir_web.py por otra cadena)"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "sed -n '6p' visor/v4/index.html | tr '>' '\\n' | grep -i 'canonical\\|og:\\|twitter\\|ld+json'",
+     "detalle": "canonical, 9 og:* y 5 twitter:*; ningún ld+json"
+    }
    ],
    "por_que_importa": "Con la web reestructurada varias veces (V1 a V4, `/v4/` a la raíz), sin mapa del sitio ni 404 propia se pierden visitas y enlaces; sin datos estructurados, los conjuntos de datos no aparecen donde los buscan los investigadores.",
    "propuesta": "P40 genera `robots.txt` (con la dirección del mapa del sitio), `sitemap.xml` (páginas y territorios publicados, del registro) y `404.html` con la cabecera del sitio; JSON-LD `Dataset` en datos abiertos (licencia, DOI, distribución) y `WebSite` en la portada.",
    "criterio_aceptacion": "La validación del sitio candidato exige `robots.txt`, `sitemap.xml` y `404.html`; el mapa del sitio lista tantas direcciones como páginas HTML públicas; el JSON-LD pasa un validador de schema.org en un test.",
-   "impacto": 2, "esfuerzo": "S", "riesgo": "Ninguno técnico; los textos, en lenguaje llano (T-463).",
-   "toca": ["web", "publicacion"], "necesita": "fusion",
-   "ya_previsto": null, "decisiones_relacionadas": ["D-18"],
+   "impacto": 2,
+   "esfuerzo": "S",
+   "riesgo": "Ninguno técnico; los textos, en lenguaje llano (T-463).",
+   "toca": [
+    "web",
+    "publicacion"
+   ],
+   "necesita": "fusion",
+   "ya_previsto": null,
+   "decisiones_relacionadas": [
+    "D-18"
+   ],
    "nivel_mundial": "Datos estructurados de conjuntos de datos (https://developers.google.com/search/docs/appearance/structured-data/dataset) y mapas del sitio (https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview).",
    "confianza": "alta"
   }
