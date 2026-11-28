@@ -101,7 +101,8 @@ class Huellas(Base):
                 if n == "p40-publicacion":  # T-443 (P40 1.6.0), posterior a la 2a: se deshace solo el paso de promover
                     from tests import _t443
                     from tests import _t454
-                    ahora = _t443.deshacer_p40(_t454.deshacer_p40(ahora))
+                    from tests import _t510  # T-510 (P40 1.8.0): subir_r2 vuelve a publicar
+                    ahora = _t443.deshacer_p40(_t454.deshacer_p40(_t510.deshacer_p40(ahora)))
                 from tests import _t505
                 ahora = _t505.deshacer(n, ahora)  # T-505 (auto-merge 1.3.4, P90 1.5.4), posterior a la 2a
                 self.assertEqual(deshacer(n, ahora), antes)
@@ -223,9 +224,12 @@ class SinPartir(Base):
 
     def test_p40_y_p70_sin_jobs_nuevos(self):
         antes = {n: yaml.safe_load((FIX / f"{n}_{HUELLAS[n][0]}.yml").read_text(encoding="utf-8")) for n in ("p40-publicacion", "p70-archivo")}
+        nuevos = {"p40-publicacion": {"subir_r2"}, "p70-archivo": set()}  # T-510 (P40 1.8.0): solo la subida a R2 de la web, sin app ni push
         for n, d in antes.items():
-            self.assertEqual(set(self.docs[f"{n}.yml"]["jobs"]), set(d["jobs"]), n)
+            self.assertEqual(set(self.docs[f"{n}.yml"]["jobs"]), set(d["jobs"]) | nuevos[n], n)
         j = self.docs["p40-publicacion.yml"]["jobs"]
+        self.assertNotIn(APP, yaml.safe_dump(j["subir_r2"]))  # no registra: el despliegue y el registro siguen juntos en `publicar`
+        self.assertNotIn("git push", yaml.safe_dump(j["subir_r2"]))
         self.assertEqual(j["publicar"]["concurrency"]["group"], "ddd-pages-prod")
         self.assertIn("git push origin HEAD:main", yaml.safe_dump(j["publicar"]))
         self.assertEqual(self.docs["p70-archivo.yml"]["jobs"]["podar"]["concurrency"]["group"], "archivar-artefactos-r2")
