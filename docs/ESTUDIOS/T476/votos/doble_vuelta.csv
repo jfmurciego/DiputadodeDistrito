@@ -1,0 +1,1657 @@
+territorio,eleccion,district_id,escenario,vuelta_decisiva,candidatura_ganadora,bloque_ganador,votos_1v,cuota_1v,finalista_a,finalista_b,votos_a_2v,votos_b_2v,cuota_ganador_2v,votos_abstencion,empate
+nac01,202307,1,dv_base,2,PSOE,Izquierdas,18146,0.284358,PSOE,PP,26812,16322,0.621598,20680,false
+nac01,202307,1,dv_A,2,bloque:Izquierdas,Izquierdas,26812,0.420159,bloque:Izquierdas,bloque:Nacionalistas,26812,19881,0.574219,17121,false
+nac01,202307,1,dv_B,2,bloque:Izquierdas,Izquierdas,26812,0.420159,bloque:Izquierdas,bloque:Derecha nacional,26812,16322,0.621598,20680,false
+nac01,202307,2,dv_base,2,PSOE,Izquierdas,16907,0.314613,PSOE,PP,24333,12057,0.668673,17349,false
+nac01,202307,2,dv_A,2,bloque:Izquierdas,Izquierdas,24333,0.452800,bloque:Izquierdas,bloque:Nacionalistas,24333,16622,0.594140,12784,false
+nac01,202307,2,dv_B,2,bloque:Izquierdas,Izquierdas,24333,0.452800,bloque:Izquierdas,bloque:Derecha nacional,24333,12057,0.668673,17349,false
+nac01,202307,3,dv_base,2,EH Bildu,Nacionalistas,13156,0.264437,EH Bildu,PSOE,24287,16885,0.589891,8579,false
+nac01,202307,3,dv_A,2,bloque:Nacionalistas,Nacionalistas,24287,0.488171,bloque:Nacionalistas,bloque:Izquierdas,24287,16885,0.589891,8579,false
+nac01,202307,3,dv_B,2,EH Bildu,Nacionalistas,16885,0.339390,bloque:Izquierdas,EH Bildu,16885,24287,0.589891,8579,false
+nac01,201111,1,dv_base,2,PSOE,Izquierdas,18345,0.301687,PP,PSOE,18345,19155,0.510800,23308,false
+nac01,201111,1,dv_A,2,bloque:Nacionalistas,Nacionalistas,20200,0.332193,bloque:Nacionalistas,bloque:Izquierdas,20200,19155,0.513277,21453,false
+nac01,201111,1,dv_B,2,bloque:Izquierdas,Izquierdas,19155,0.315008,bloque:Izquierdas,bloque:Derecha nacional,19155,18345,0.510800,23308,false
+nac01,201111,2,dv_base,2,PSOE,Izquierdas,16202,0.291387,PP,PSOE,16202,18834,0.537561,20567,false
+nac01,201111,2,dv_A,2,bloque:Izquierdas,Izquierdas,18834,0.338723,bloque:Izquierdas,bloque:Nacionalistas,18834,18064,0.510434,18705,false
+nac01,201111,2,dv_B,2,bloque:Izquierdas,Izquierdas,18834,0.338723,bloque:Izquierdas,bloque:Derecha nacional,18834,16202,0.537561,20567,false
+nac01,201111,3,dv_base,2,EAJ-PNV,Nacionalistas,13140,0.258921,EAJ-PNV,EH Bildu,13140,12862,0.505346,24747,false
+nac01,201111,3,dv_A,1,bloque:Nacionalistas,Nacionalistas,26002,0.512365,,,,,,0,false
+nac01,201111,3,dv_B,2,EAJ-PNV,Nacionalistas,13140,0.258921,EAJ-PNV,EH Bildu,13140,12862,0.505346,24747,false
+nac01,201512,1,dv_base,2,Podemos–Sumar,Izquierdas,18733,0.281602,Podemos–Sumar,PP,30843,13766,0.691408,21914,false
+nac01,201512,1,dv_A,2,bloque:Izquierdas,Izquierdas,30843,0.463644,bloque:Izquierdas,bloque:Nacionalistas,30843,15719,0.662407,19961,false
+nac01,201512,1,dv_B,2,bloque:Izquierdas,Izquierdas,30843,0.463644,bloque:Izquierdas,bloque:Derecha nacional,30843,13766,0.691408,21914,false
+nac01,201512,2,dv_base,2,Podemos–Sumar,Izquierdas,16508,0.278499,Podemos–Sumar,PP,28802,12156,0.703208,18317,false
+nac01,201512,2,dv_A,2,bloque:Izquierdas,Izquierdas,28802,0.485905,bloque:Izquierdas,bloque:Nacionalistas,28802,13493,0.680979,16980,false
+nac01,201512,2,dv_B,2,bloque:Izquierdas,Izquierdas,28802,0.485905,bloque:Izquierdas,bloque:Derecha nacional,28802,12156,0.703208,18317,false
+nac01,201512,3,dv_base,2,Podemos–Sumar,Izquierdas,13025,0.252178,Podemos–Sumar,EAJ-PNV,20884,20264,0.507534,10502,false
+nac01,201512,3,dv_A,2,bloque:Izquierdas,Izquierdas,20884,0.404337,bloque:Izquierdas,bloque:Nacionalistas,20884,20264,0.507534,10502,false
+nac01,201512,3,dv_B,2,bloque:Izquierdas,Izquierdas,20884,0.404337,bloque:Izquierdas,EAJ-PNV,20884,20264,0.507534,10502,false
+nac01,201606,1,dv_base,2,Podemos–Sumar,Izquierdas,19543,0.314510,Podemos–Sumar,PP,29414,14333,0.672366,18391,false
+nac01,201606,1,dv_A,2,bloque:Izquierdas,Izquierdas,29414,0.473366,bloque:Izquierdas,bloque:Derecha nacional,29414,14333,0.672366,18391,false
+nac01,201606,1,dv_B,2,bloque:Izquierdas,Izquierdas,29414,0.473366,bloque:Izquierdas,bloque:Derecha nacional,29414,14333,0.672366,18391,false
+nac01,201606,2,dv_base,2,Podemos–Sumar,Izquierdas,17309,0.314824,Podemos–Sumar,PP,27604,12161,0.694178,15215,false
+nac01,201606,2,dv_A,1,bloque:Izquierdas,Izquierdas,27604,0.502073,,,,,,0,false
+nac01,201606,2,dv_B,1,bloque:Izquierdas,Izquierdas,27604,0.502073,,,,,,0,false
+nac01,201606,3,dv_base,2,Podemos–Sumar,Izquierdas,14735,0.301533,Podemos–Sumar,EAJ-PNV,21109,17639,0.544777,10119,false
+nac01,201606,3,dv_A,2,bloque:Izquierdas,Izquierdas,21109,0.431968,bloque:Izquierdas,bloque:Nacionalistas,21109,17639,0.544777,10119,false
+nac01,201606,3,dv_B,2,bloque:Izquierdas,Izquierdas,21109,0.431968,bloque:Izquierdas,EAJ-PNV,21109,17639,0.544777,10119,false
+nac01,201904,1,dv_base,2,PSOE,Izquierdas,15150,0.229768,PSOE,EAJ-PNV,27470,21597,0.559847,16869,false
+nac01,201904,1,dv_A,2,bloque:Izquierdas,Izquierdas,27470,0.416616,bloque:Izquierdas,bloque:Nacionalistas,27470,21597,0.559847,16869,false
+nac01,201904,1,dv_B,2,bloque:Izquierdas,Izquierdas,27470,0.416616,bloque:Izquierdas,EAJ-PNV,27470,21597,0.559847,16869,false
+nac01,201904,2,dv_base,2,PSOE,Izquierdas,14718,0.256152,PSOE,EAJ-PNV,25446,18121,0.584066,13891,false
+nac01,201904,2,dv_A,2,bloque:Izquierdas,Izquierdas,25446,0.442863,bloque:Izquierdas,bloque:Nacionalistas,25446,18121,0.584066,13891,false
+nac01,201904,2,dv_B,2,bloque:Izquierdas,Izquierdas,25446,0.442863,bloque:Izquierdas,EAJ-PNV,25446,18121,0.584066,13891,false
+nac01,201904,3,dv_base,2,EAJ-PNV,Nacionalistas,15225,0.290892,EAJ-PNV,EH Bildu,15225,9948,0.604815,27166,false
+nac01,201904,3,dv_A,2,bloque:Nacionalistas,Nacionalistas,25173,0.480961,bloque:Nacionalistas,bloque:Izquierdas,25173,18262,0.579556,8904,false
+nac01,201904,3,dv_B,2,EAJ-PNV,Nacionalistas,18262,0.348918,bloque:Izquierdas,EAJ-PNV,18262,25173,0.579556,8904,false
+nac01,201911,1,dv_base,2,PSOE,Izquierdas,14468,0.224237,PSOE,EAJ-PNV,25558,23238,0.523772,15725,false
+nac01,201911,1,dv_A,2,bloque:Izquierdas,Izquierdas,25558,0.396119,bloque:Izquierdas,bloque:Nacionalistas,25558,23238,0.523772,15725,false
+nac01,201911,1,dv_B,2,bloque:Izquierdas,Izquierdas,25558,0.396119,bloque:Izquierdas,EAJ-PNV,25558,23238,0.523772,15725,false
+nac01,201911,2,dv_base,2,PSOE,Izquierdas,14107,0.254217,PSOE,EAJ-PNV,23799,19214,0.553298,12479,false
+nac01,201911,2,dv_A,2,bloque:Izquierdas,Izquierdas,23799,0.428873,bloque:Izquierdas,bloque:Nacionalistas,23799,19214,0.553298,12479,false
+nac01,201911,2,dv_B,2,bloque:Izquierdas,Izquierdas,23799,0.428873,bloque:Izquierdas,EAJ-PNV,23799,19214,0.553298,12479,false
+nac01,201911,3,dv_base,2,EAJ-PNV,Nacionalistas,14515,0.294888,EAJ-PNV,EH Bildu,14515,10531,0.579534,24176,false
+nac01,201911,3,dv_A,1,bloque:Nacionalistas,Nacionalistas,25046,0.508838,,,,,,0,false
+nac01,201911,3,dv_B,2,EAJ-PNV,Nacionalistas,16222,0.329568,bloque:Izquierdas,EAJ-PNV,16222,25046,0.606911,7954,false
+nac02,202307,1,dv_base,2,PP,Derecha nacional,30869,0.428927,PP,PSOE,43242,27908,0.607758,818,false
+nac02,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,43242,0.600850,,,,,,0,false
+nac02,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,43242,0.600850,,,,,,0,false
+nac02,202307,2,dv_base,2,PP,Derecha nacional,26321,0.393062,PP,PSOE,38395,27981,0.578447,588,false
+nac02,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,38395,0.573368,,,,,,0,false
+nac02,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,38395,0.573368,,,,,,0,false
+nac02,202307,3,dv_base,2,PP,Derecha nacional,30881,0.388094,PP,PSOE,43074,35788,0.546195,709,false
+nac02,202307,3,dv_A,1,bloque:Derecha nacional,Derecha nacional,43074,0.541328,,,,,,0,false
+nac02,202307,3,dv_B,1,bloque:Derecha nacional,Derecha nacional,43074,0.541328,,,,,,0,false
+nac03,202307,1,dv_base,2,PP,Derecha nacional,23962,0.423589,PP,PSOE,32659,23161,0.585077,749,false
+nac03,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,32659,0.577330,,,,,,0,false
+nac03,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,32659,0.577330,,,,,,0,false
+nac03,202307,2,dv_base,2,PP,Derecha nacional,20824,0.375620,PP,PSOE,29712,24821,0.544844,906,false
+nac03,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,29712,0.535940,,,,,,0,false
+nac03,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,29712,0.535940,,,,,,0,false
+nac03,202307,3,dv_base,2,PP,Derecha nacional,18890,0.382427,PSOE,PP,24061,24639,0.505934,695,false
+nac03,202307,3,dv_A,2,bloque:Derecha nacional,Derecha nacional,24639,0.498816,bloque:Derecha nacional,bloque:Izquierdas,24639,24061,0.505934,695,false
+nac03,202307,3,dv_B,2,bloque:Derecha nacional,Derecha nacional,24639,0.498816,bloque:Derecha nacional,bloque:Izquierdas,24639,24061,0.505934,695,false
+nac03,202307,4,dv_base,2,PP,Derecha nacional,22285,0.419041,PP,PSOE,30526,22047,0.580640,608,false
+nac03,202307,4,dv_A,1,bloque:Derecha nacional,Derecha nacional,30526,0.574002,,,,,,0,false
+nac03,202307,4,dv_B,1,bloque:Derecha nacional,Derecha nacional,30526,0.574002,,,,,,0,false
+nac03,202307,5,dv_base,2,PSOE,Izquierdas,20865,0.369875,PSOE,PP,31455,24126,0.565931,830,false
+nac03,202307,5,dv_A,1,bloque:Izquierdas,Izquierdas,31455,0.557604,,,,,,0,false
+nac03,202307,5,dv_B,1,bloque:Izquierdas,Izquierdas,31455,0.557604,,,,,,0,false
+nac03,202307,6,dv_base,2,PP,Derecha nacional,22250,0.443421,PP,PSOE,32489,17176,0.654163,513,false
+nac03,202307,6,dv_A,1,bloque:Derecha nacional,Derecha nacional,32489,0.647475,,,,,,0,false
+nac03,202307,6,dv_B,1,bloque:Derecha nacional,Derecha nacional,32489,0.647475,,,,,,0,false
+nac03,202307,7,dv_base,2,PSOE,Izquierdas,15681,0.348707,PSOE,PP,24899,19372,0.562422,698,false
+nac03,202307,7,dv_A,1,bloque:Izquierdas,Izquierdas,24899,0.553693,,,,,,0,false
+nac03,202307,7,dv_B,1,bloque:Izquierdas,Izquierdas,24899,0.553693,,,,,,0,false
+nac03,202307,8,dv_base,2,PP,Derecha nacional,26288,0.353006,PSOE,PP,36421,36948,0.503591,1100,false
+nac03,202307,8,dv_A,2,bloque:Derecha nacional,Derecha nacional,36948,0.496153,bloque:Derecha nacional,bloque:Izquierdas,36948,36421,0.503591,1100,false
+nac03,202307,8,dv_B,2,bloque:Derecha nacional,Derecha nacional,36948,0.496153,bloque:Derecha nacional,bloque:Izquierdas,36948,36421,0.503591,1100,false
+nac03,202307,9,dv_base,2,PP,Derecha nacional,21141,0.348361,PP,PSOE,31666,27999,0.530730,1022,false
+nac03,202307,9,dv_A,1,bloque:Derecha nacional,Derecha nacional,31666,0.521792,,,,,,0,false
+nac03,202307,9,dv_B,1,bloque:Derecha nacional,Derecha nacional,31666,0.521792,,,,,,0,false
+nac03,202307,10,dv_base,2,PP,Derecha nacional,14167,0.399183,PP,PSOE,19623,15430,0.559809,437,false
+nac03,202307,10,dv_A,1,bloque:Derecha nacional,Derecha nacional,19623,0.552916,,,,,,0,false
+nac03,202307,10,dv_B,1,bloque:Derecha nacional,Derecha nacional,19623,0.552916,,,,,,0,false
+nac03,202307,11,dv_base,2,PP,Derecha nacional,17527,0.373495,PP,PSOE,24896,21319,0.538700,712,false
+nac03,202307,11,dv_A,1,bloque:Derecha nacional,Derecha nacional,24896,0.530526,,,,,,0,false
+nac03,202307,11,dv_B,1,bloque:Derecha nacional,Derecha nacional,24896,0.530526,,,,,,0,false
+nac03,202307,12,dv_base,2,PP,Derecha nacional,20391,0.396596,PP,PSOE,29859,20856,0.588761,700,false
+nac03,202307,12,dv_A,1,bloque:Derecha nacional,Derecha nacional,29859,0.580745,,,,,,0,false
+nac03,202307,12,dv_B,1,bloque:Derecha nacional,Derecha nacional,29859,0.580745,,,,,,0,false
+nac03,202307,13,dv_base,2,PP,Derecha nacional,21009,0.342529,PP,PSOE,31275,29102,0.517995,958,false
+nac03,202307,13,dv_A,1,bloque:Derecha nacional,Derecha nacional,31275,0.509905,,,,,,0,false
+nac03,202307,13,dv_B,1,bloque:Derecha nacional,Derecha nacional,31275,0.509905,,,,,,0,false
+nac03,202307,14,dv_base,2,PP,Derecha nacional,11584,0.355556,PP,PSOE,16140,15989,0.502350,451,false
+nac03,202307,14,dv_A,2,bloque:Derecha nacional,Derecha nacional,16140,0.495396,bloque:Derecha nacional,bloque:Izquierdas,16140,15989,0.502350,451,false
+nac03,202307,14,dv_B,2,bloque:Derecha nacional,Derecha nacional,16140,0.495396,bloque:Derecha nacional,bloque:Izquierdas,16140,15989,0.502350,451,false
+nac03,202307,15,dv_base,2,PP,Derecha nacional,14744,0.390218,PP,PSOE,22080,15218,0.591989,486,false
+nac03,202307,15,dv_A,1,bloque:Derecha nacional,Derecha nacional,22080,0.584374,,,,,,0,false
+nac03,202307,15,dv_B,1,bloque:Derecha nacional,Derecha nacional,22080,0.584374,,,,,,0,false
+nac03,202307,16,dv_base,2,PP,Derecha nacional,25593,0.364391,PP,PSOE,36659,32492,0.530130,1084,false
+nac03,202307,16,dv_A,1,bloque:Derecha nacional,Derecha nacional,36659,0.521948,,,,,,0,false
+nac03,202307,16,dv_B,1,bloque:Derecha nacional,Derecha nacional,36659,0.521948,,,,,,0,false
+nac03,202307,17,dv_base,2,PP,Derecha nacional,20462,0.396804,PP,PSOE,32060,18951,0.628492,556,false
+nac03,202307,17,dv_A,1,bloque:Derecha nacional,Derecha nacional,32060,0.621715,,,,,,0,false
+nac03,202307,17,dv_B,1,bloque:Derecha nacional,Derecha nacional,32060,0.621715,,,,,,0,false
+nac04,202307,1,dv_base,2,PP,Derecha nacional,25771,0.422718,PP,PSOE,35865,24197,0.597133,903,false
+nac04,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,35865,0.588288,,,,,,0,false
+nac04,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,35865,0.588288,,,,,,0,false
+nac04,202307,2,dv_base,2,PP,Derecha nacional,18250,0.427090,PP,VOX,18250,12290,0.597577,12191,false
+nac04,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,30540,0.714704,,,,,,0,false
+nac04,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,30540,0.714704,,,,,,0,false
+nac04,202307,3,dv_base,2,PP,Derecha nacional,19158,0.415629,PP,PSOE,30057,15386,0.661422,651,false
+nac04,202307,3,dv_A,1,bloque:Derecha nacional,Derecha nacional,30057,0.652081,,,,,,0,false
+nac04,202307,3,dv_B,1,bloque:Derecha nacional,Derecha nacional,30057,0.652081,,,,,,0,false
+nac04,202307,4,dv_base,2,PP,Derecha nacional,21027,0.431722,PP,PSOE,30608,17650,0.634258,447,false
+nac04,202307,4,dv_A,1,bloque:Derecha nacional,Derecha nacional,30608,0.628437,,,,,,0,false
+nac04,202307,4,dv_B,1,bloque:Derecha nacional,Derecha nacional,30608,0.628437,,,,,,0,false
+nac04,202307,5,dv_base,2,PP,Derecha nacional,25152,0.405344,PP,PSOE,37162,24308,0.604555,581,false
+nac04,202307,5,dv_A,1,bloque:Derecha nacional,Derecha nacional,37162,0.598894,,,,,,0,false
+nac04,202307,5,dv_B,1,bloque:Derecha nacional,Derecha nacional,37162,0.598894,,,,,,0,false
+nac04,202307,6,dv_base,2,PP,Derecha nacional,21382,0.385539,PP,PSOE,34515,20147,0.631426,798,false
+nac04,202307,6,dv_A,1,bloque:Derecha nacional,Derecha nacional,34515,0.622340,,,,,,0,false
+nac04,202307,6,dv_B,1,bloque:Derecha nacional,Derecha nacional,34515,0.622340,,,,,,0,false
+nac05,202307,1,dv_base,2,PP,Derecha nacional,42105,0.436457,PP,PSOE,57167,31511,0.644658,7792,false
+nac05,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,57167,0.592588,,,,,,0,false
+nac05,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,57167,0.592588,,,,,,0,false
+nac05,201111,1,dv_base,1,PP,Derecha nacional,65462,0.627361,,,,,,0,false
+nac05,201111,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,65695,0.629594,,,,,,0,false
+nac05,201111,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,65695,0.629594,,,,,,0,false
+nac05,201512,1,dv_base,2,PP,Derecha nacional,46963,0.465630,PP,PSOE,47527,35871,0.569882,17461,false
+nac05,201512,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,47527,0.471222,bloque:Derecha nacional,bloque:Izquierdas,47527,35871,0.569882,17461,false
+nac05,201512,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,47527,0.471222,bloque:Derecha nacional,bloque:Izquierdas,47527,35871,0.569882,17461,false
+nac05,201606,1,dv_base,1,PP,Derecha nacional,50750,0.519671,,,,,,0,false
+nac05,201606,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,51004,0.522272,,,,,,0,false
+nac05,201606,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,51004,0.522272,,,,,,0,false
+nac05,201904,1,dv_base,2,PP,Derecha nacional,31904,0.316254,PP,PSOE,46584,33984,0.578195,20313,false
+nac05,201904,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,46584,0.461772,bloque:Derecha nacional,bloque:Izquierdas,46584,33984,0.578195,20313,false
+nac05,201904,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,46584,0.461772,bloque:Derecha nacional,bloque:Izquierdas,46584,33984,0.578195,20313,false
+nac05,201911,1,dv_base,2,PP,Derecha nacional,32385,0.351350,PP,PSOE,49700,30341,0.620932,12132,false
+nac05,201911,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,49700,0.539203,,,,,,0,false
+nac05,201911,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,49700,0.539203,,,,,,0,false
+nac06,202307,1,dv_base,2,PP,Derecha nacional,28838,0.467262,PP,PSOE,38574,21839,0.638505,1304,false
+nac06,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,38574,0.625014,,,,,,0,false
+nac06,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,38574,0.625014,,,,,,0,false
+nac06,202307,2,dv_base,2,PP,Derecha nacional,27247,0.409163,PSOE,PP,32311,33214,0.506890,1067,false
+nac06,202307,2,dv_A,2,bloque:Derecha nacional,Derecha nacional,33214,0.498769,bloque:Derecha nacional,bloque:Izquierdas,33214,32311,0.506890,1067,false
+nac06,202307,2,dv_B,2,bloque:Derecha nacional,Derecha nacional,33214,0.498769,bloque:Derecha nacional,bloque:Izquierdas,33214,32311,0.506890,1067,false
+nac06,202307,3,dv_base,2,PP,Derecha nacional,24517,0.389363,PP,PSOE,33364,28592,0.538511,1011,false
+nac06,202307,3,dv_A,1,bloque:Derecha nacional,Derecha nacional,33364,0.529865,,,,,,0,false
+nac06,202307,3,dv_B,1,bloque:Derecha nacional,Derecha nacional,33364,0.529865,,,,,,0,false
+nac06,202307,4,dv_base,2,PSOE,Izquierdas,29491,0.431679,PSOE,PP,33886,33331,0.504128,1100,false
+nac06,202307,4,dv_A,2,bloque:Izquierdas,Izquierdas,33886,0.496011,bloque:Izquierdas,bloque:Derecha nacional,33886,33331,0.504128,1100,false
+nac06,202307,4,dv_B,2,bloque:Izquierdas,Izquierdas,33886,0.496011,bloque:Izquierdas,bloque:Derecha nacional,33886,33331,0.504128,1100,false
+nac06,202307,5,dv_base,2,PSOE,Izquierdas,24747,0.431335,PSOE,PP,28969,27469,0.513289,935,false
+nac06,202307,5,dv_A,1,bloque:Izquierdas,Izquierdas,28969,0.504924,,,,,,0,false
+nac06,202307,5,dv_B,1,bloque:Izquierdas,Izquierdas,28969,0.504924,,,,,,0,false
+nac06,202307,6,dv_base,2,PP,Derecha nacional,29701,0.425053,PSOE,PP,33902,35042,0.508268,932,false
+nac06,202307,6,dv_A,1,bloque:Derecha nacional,Derecha nacional,35042,0.501488,,,,,,0,false
+nac06,202307,6,dv_B,1,bloque:Derecha nacional,Derecha nacional,35042,0.501488,,,,,,0,false
+nac07,202307,1,dv_base,2,PP,Derecha nacional,18643,0.392534,PP,PSOE,26566,20366,0.566053,562,false
+nac07,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,26566,0.559355,,,,,,0,false
+nac07,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,26566,0.559355,,,,,,0,false
+nac07,202307,2,dv_base,2,PSOE,Izquierdas,15538,0.325008,PP,PSOE,22911,24274,0.514443,623,false
+nac07,202307,2,dv_A,1,bloque:Izquierdas,Izquierdas,24274,0.507739,,,,,,0,false
+nac07,202307,2,dv_B,1,bloque:Izquierdas,Izquierdas,24274,0.507739,,,,,,0,false
+nac07,202307,3,dv_base,2,PP,Derecha nacional,12369,0.329532,PSOE,PP,18241,18723,0.506520,571,false
+nac07,202307,3,dv_A,2,bloque:Derecha nacional,Derecha nacional,18723,0.498814,bloque:Derecha nacional,bloque:Izquierdas,18723,18241,0.506520,571,false
+nac07,202307,3,dv_B,2,bloque:Derecha nacional,Derecha nacional,18723,0.498814,bloque:Derecha nacional,bloque:Izquierdas,18723,18241,0.506520,571,false
+nac07,202307,4,dv_base,2,PP,Derecha nacional,23432,0.348851,PP,PSOE,35193,31114,0.530758,862,false
+nac07,202307,4,dv_A,1,bloque:Derecha nacional,Derecha nacional,35193,0.523947,,,,,,0,false
+nac07,202307,4,dv_B,1,bloque:Derecha nacional,Derecha nacional,35193,0.523947,,,,,,0,false
+nac07,202307,5,dv_base,2,PSOE,Izquierdas,20440,0.347253,PP,PSOE,28591,29606,0.508720,665,false
+nac07,202307,5,dv_A,1,bloque:Izquierdas,Izquierdas,29606,0.502973,,,,,,0,false
+nac07,202307,5,dv_B,1,bloque:Izquierdas,Izquierdas,29606,0.502973,,,,,,0,false
+nac07,202307,6,dv_base,2,PP,Derecha nacional,24868,0.381002,PP,PSOE,35977,28539,0.557645,754,false
+nac07,202307,6,dv_A,1,bloque:Derecha nacional,Derecha nacional,35977,0.551203,,,,,,0,false
+nac07,202307,6,dv_B,1,bloque:Derecha nacional,Derecha nacional,35977,0.551203,,,,,,0,false
+nac07,202307,7,dv_base,2,PP,Derecha nacional,24733,0.362420,PP,PSOE,35962,31394,0.533909,888,false
+nac07,202307,7,dv_A,1,bloque:Derecha nacional,Derecha nacional,35962,0.526962,,,,,,0,false
+nac07,202307,7,dv_B,1,bloque:Derecha nacional,Derecha nacional,35962,0.526962,,,,,,0,false
+nac07,202307,8,dv_base,2,PSOE,Izquierdas,15784,0.349885,PP,PSOE,20208,24225,0.545203,679,false
+nac07,202307,8,dv_A,1,bloque:Izquierdas,Izquierdas,24225,0.536997,,,,,,0,false
+nac07,202307,8,dv_B,1,bloque:Izquierdas,Izquierdas,24225,0.536997,,,,,,0,false
+nac07,202307,9,dv_base,2,PP,Derecha nacional,12631,0.381290,PP,PSOE,16635,15892,0.511421,600,false
+nac07,202307,9,dv_A,1,bloque:Derecha nacional,Derecha nacional,16635,0.502158,,,,,,0,false
+nac07,202307,9,dv_B,1,bloque:Derecha nacional,Derecha nacional,16635,0.502158,,,,,,0,false
+nac07,202307,10,dv_base,2,PP,Derecha nacional,10676,0.416641,PP,PSOE,14052,11131,0.557995,441,false
+nac07,202307,10,dv_A,1,bloque:Derecha nacional,Derecha nacional,14052,0.548392,,,,,,0,false
+nac07,202307,10,dv_B,1,bloque:Derecha nacional,Derecha nacional,14052,0.548392,,,,,,0,false
+nac07,201111,1,dv_base,1,PP,Derecha nacional,20738,0.510574,,,,,,0,false
+nac07,201111,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,20738,0.510574,,,,,,0,false
+nac07,201111,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,20738,0.510574,,,,,,0,false
+nac07,201111,2,dv_base,2,PP,Derecha nacional,20401,0.476236,PP,PSOE,20401,15265,0.572001,7172,false
+nac07,201111,2,dv_A,2,bloque:Derecha nacional,Derecha nacional,20401,0.476236,bloque:Derecha nacional,bloque:Izquierdas,20401,15265,0.572001,7172,false
+nac07,201111,2,dv_B,2,bloque:Derecha nacional,Derecha nacional,20401,0.476236,bloque:Derecha nacional,bloque:Izquierdas,20401,15265,0.572001,7172,false
+nac07,201111,3,dv_base,2,PP,Derecha nacional,16796,0.494000,PP,PSOE,16796,12122,0.580815,5082,false
+nac07,201111,3,dv_A,2,bloque:Derecha nacional,Derecha nacional,16796,0.494000,bloque:Derecha nacional,bloque:Izquierdas,16796,12122,0.580815,5082,false
+nac07,201111,3,dv_B,2,bloque:Derecha nacional,Derecha nacional,16796,0.494000,bloque:Derecha nacional,bloque:Izquierdas,16796,12122,0.580815,5082,false
+nac07,201111,4,dv_base,1,PP,Derecha nacional,29753,0.505917,,,,,,0,false
+nac07,201111,4,dv_A,1,bloque:Derecha nacional,Derecha nacional,29753,0.505917,,,,,,0,false
+nac07,201111,4,dv_B,1,bloque:Derecha nacional,Derecha nacional,29753,0.505917,,,,,,0,false
+nac07,201111,5,dv_base,1,PP,Derecha nacional,25713,0.505912,,,,,,0,false
+nac07,201111,5,dv_A,1,bloque:Derecha nacional,Derecha nacional,25713,0.505912,,,,,,0,false
+nac07,201111,5,dv_B,1,bloque:Derecha nacional,Derecha nacional,25713,0.505912,,,,,,0,false
+nac07,201111,6,dv_base,1,PP,Derecha nacional,31642,0.548693,,,,,,0,false
+nac07,201111,6,dv_A,1,bloque:Derecha nacional,Derecha nacional,31642,0.548693,,,,,,0,false
+nac07,201111,6,dv_B,1,bloque:Derecha nacional,Derecha nacional,31642,0.548693,,,,,,0,false
+nac07,201111,7,dv_base,1,PP,Derecha nacional,29629,0.505235,,,,,,0,false
+nac07,201111,7,dv_A,1,bloque:Derecha nacional,Derecha nacional,29629,0.505235,,,,,,0,false
+nac07,201111,7,dv_B,1,bloque:Derecha nacional,Derecha nacional,29629,0.505235,,,,,,0,false
+nac07,201111,8,dv_base,2,PP,Derecha nacional,18391,0.486406,PP,PSOE,18391,14533,0.558589,4886,false
+nac07,201111,8,dv_A,2,bloque:Derecha nacional,Derecha nacional,18391,0.486406,bloque:Derecha nacional,bloque:Izquierdas,18391,14533,0.558589,4886,false
+nac07,201111,8,dv_B,2,bloque:Derecha nacional,Derecha nacional,18391,0.486406,bloque:Derecha nacional,bloque:Izquierdas,18391,14533,0.558589,4886,false
+nac07,201111,9,dv_base,2,PP,Derecha nacional,12728,0.458832,PP,PSOE,12728,12206,0.510468,2806,false
+nac07,201111,9,dv_A,2,bloque:Derecha nacional,Derecha nacional,12728,0.458832,bloque:Derecha nacional,bloque:Izquierdas,12728,12206,0.510468,2806,false
+nac07,201111,9,dv_B,2,bloque:Derecha nacional,Derecha nacional,12728,0.458832,bloque:Derecha nacional,bloque:Izquierdas,12728,12206,0.510468,2806,false
+nac07,201111,10,dv_base,1,PP,Derecha nacional,11286,0.543485,,,,,,0,false
+nac07,201111,10,dv_A,1,bloque:Derecha nacional,Derecha nacional,11286,0.543485,,,,,,0,false
+nac07,201111,10,dv_B,1,bloque:Derecha nacional,Derecha nacional,11286,0.543485,,,,,,0,false
+nac07,201512,1,dv_base,2,Podemos–Sumar,Izquierdas,13543,0.290959,PP,Podemos–Sumar,13543,19733,0.593010,13270,false
+nac07,201512,1,dv_A,2,bloque:Izquierdas,Izquierdas,19733,0.423946,bloque:Izquierdas,bloque:Derecha nacional,19733,13543,0.593010,13270,false
+nac07,201512,1,dv_B,2,bloque:Izquierdas,Izquierdas,19733,0.423946,bloque:Izquierdas,bloque:Derecha nacional,19733,13543,0.593010,13270,false
+nac07,201512,2,dv_base,2,Podemos–Sumar,Izquierdas,13191,0.272976,PP,Podemos–Sumar,13191,22285,0.628171,12847,false
+nac07,201512,2,dv_A,2,bloque:Izquierdas,Izquierdas,22285,0.461168,bloque:Izquierdas,bloque:Derecha nacional,22285,13191,0.628171,12847,false
+nac07,201512,2,dv_B,2,bloque:Izquierdas,Izquierdas,22285,0.461168,bloque:Izquierdas,bloque:Derecha nacional,22285,13191,0.628171,12847,false
+nac07,201512,3,dv_base,2,Podemos–Sumar,Izquierdas,10487,0.276665,PP,Podemos–Sumar,10487,17995,0.631803,9423,false
+nac07,201512,3,dv_A,2,bloque:Izquierdas,Izquierdas,17995,0.474739,bloque:Izquierdas,bloque:Derecha nacional,17995,10487,0.631803,9423,false
+nac07,201512,3,dv_B,2,bloque:Izquierdas,Izquierdas,17995,0.474739,bloque:Izquierdas,bloque:Derecha nacional,17995,10487,0.631803,9423,false
+nac07,201512,4,dv_base,2,Podemos–Sumar,Izquierdas,19181,0.291394,PP,Podemos–Sumar,19181,28729,0.599645,17915,false
+nac07,201512,4,dv_A,2,bloque:Izquierdas,Izquierdas,28729,0.436445,bloque:Izquierdas,bloque:Derecha nacional,28729,19181,0.599645,17915,false
+nac07,201512,4,dv_B,2,bloque:Izquierdas,Izquierdas,28729,0.436445,bloque:Izquierdas,bloque:Derecha nacional,28729,19181,0.599645,17915,false
+nac07,201512,5,dv_base,2,Podemos–Sumar,Izquierdas,16102,0.288396,PP,Podemos–Sumar,16102,23505,0.593456,16226,false
+nac07,201512,5,dv_A,2,bloque:Izquierdas,Izquierdas,23505,0.420988,bloque:Izquierdas,bloque:Derecha nacional,23505,16102,0.593456,16226,false
+nac07,201512,5,dv_B,2,bloque:Izquierdas,Izquierdas,23505,0.420988,bloque:Izquierdas,bloque:Derecha nacional,23505,16102,0.593456,16226,false
+nac07,201512,6,dv_base,2,Podemos–Sumar,Izquierdas,20413,0.330136,PP,Podemos–Sumar,20413,23240,0.532380,18179,false
+nac07,201512,6,dv_A,2,bloque:Izquierdas,Izquierdas,23240,0.375857,bloque:Izquierdas,bloque:Derecha nacional,23240,20413,0.532380,18179,false
+nac07,201512,6,dv_B,2,bloque:Izquierdas,Izquierdas,23240,0.375857,bloque:Izquierdas,bloque:Derecha nacional,23240,20413,0.532380,18179,false
+nac07,201512,7,dv_base,2,Podemos–Sumar,Izquierdas,18848,0.289031,PP,Podemos–Sumar,18848,27941,0.597170,18422,false
+nac07,201512,7,dv_A,2,bloque:Izquierdas,Izquierdas,27941,0.428471,bloque:Izquierdas,bloque:Derecha nacional,27941,18848,0.597170,18422,false
+nac07,201512,7,dv_B,2,bloque:Izquierdas,Izquierdas,27941,0.428471,bloque:Izquierdas,bloque:Derecha nacional,27941,18848,0.597170,18422,false
+nac07,201512,8,dv_base,2,Podemos–Sumar,Izquierdas,11916,0.284861,PP,Podemos–Sumar,11916,19972,0.626317,9943,false
+nac07,201512,8,dv_A,2,bloque:Izquierdas,Izquierdas,19972,0.477445,bloque:Izquierdas,bloque:Derecha nacional,19972,11916,0.626317,9943,false
+nac07,201512,8,dv_B,2,bloque:Izquierdas,Izquierdas,19972,0.477445,bloque:Izquierdas,bloque:Derecha nacional,19972,11916,0.626317,9943,false
+nac07,201512,9,dv_base,2,Podemos–Sumar,Izquierdas,8558,0.268301,PP,Podemos–Sumar,8558,16684,0.660962,6655,false
+nac07,201512,9,dv_A,1,bloque:Izquierdas,Izquierdas,16684,0.523059,,,,,,0,false
+nac07,201512,9,dv_B,1,bloque:Izquierdas,Izquierdas,16684,0.523059,,,,,,0,false
+nac07,201512,10,dv_base,2,Podemos–Sumar,Izquierdas,8280,0.342007,PP,Podemos–Sumar,8280,11365,0.578519,4565,false
+nac07,201512,10,dv_A,2,bloque:Izquierdas,Izquierdas,11365,0.469434,bloque:Izquierdas,bloque:Derecha nacional,11365,8280,0.578519,4565,false
+nac07,201512,10,dv_B,2,bloque:Izquierdas,Izquierdas,11365,0.469434,bloque:Izquierdas,bloque:Derecha nacional,11365,8280,0.578519,4565,false
+nac07,201606,1,dv_base,2,Podemos–Sumar,Izquierdas,15940,0.356783,PP,Podemos–Sumar,15940,19057,0.544532,9680,false
+nac07,201606,1,dv_A,2,bloque:Izquierdas,Izquierdas,19057,0.426551,bloque:Izquierdas,bloque:Derecha nacional,19057,15940,0.544532,9680,false
+nac07,201606,1,dv_B,2,bloque:Izquierdas,Izquierdas,19057,0.426551,bloque:Izquierdas,bloque:Derecha nacional,19057,15940,0.544532,9680,false
+nac07,201606,2,dv_base,2,Podemos–Sumar,Izquierdas,15210,0.326696,PP,Podemos–Sumar,15210,22420,0.595801,8927,false
+nac07,201606,2,dv_A,2,bloque:Izquierdas,Izquierdas,22420,0.481560,bloque:Izquierdas,bloque:Derecha nacional,22420,15210,0.595801,8927,false
+nac07,201606,2,dv_B,2,bloque:Izquierdas,Izquierdas,22420,0.481560,bloque:Izquierdas,bloque:Derecha nacional,22420,15210,0.595801,8927,false
+nac07,201606,3,dv_base,2,Podemos–Sumar,Izquierdas,12057,0.332185,PP,Podemos–Sumar,12057,17168,0.587442,7071,false
+nac07,201606,3,dv_A,2,bloque:Izquierdas,Izquierdas,17168,0.473000,bloque:Izquierdas,bloque:Derecha nacional,17168,12057,0.587442,7071,false
+nac07,201606,3,dv_B,2,bloque:Izquierdas,Izquierdas,17168,0.473000,bloque:Izquierdas,bloque:Derecha nacional,17168,12057,0.587442,7071,false
+nac07,201606,4,dv_base,2,Podemos–Sumar,Izquierdas,22097,0.352312,PP,Podemos–Sumar,22097,28742,0.565353,11881,false
+nac07,201606,4,dv_A,2,bloque:Izquierdas,Izquierdas,28742,0.458259,bloque:Izquierdas,bloque:Derecha nacional,28742,22097,0.565353,11881,false
+nac07,201606,4,dv_B,2,bloque:Izquierdas,Izquierdas,28742,0.458259,bloque:Izquierdas,bloque:Derecha nacional,28742,22097,0.565353,11881,false
+nac07,201606,5,dv_base,2,Podemos–Sumar,Izquierdas,19034,0.359573,PP,Podemos–Sumar,19034,24687,0.564649,9214,false
+nac07,201606,5,dv_A,2,bloque:Izquierdas,Izquierdas,24687,0.466364,bloque:Izquierdas,bloque:Derecha nacional,24687,19034,0.564649,9214,false
+nac07,201606,5,dv_B,2,bloque:Izquierdas,Izquierdas,24687,0.466364,bloque:Izquierdas,bloque:Derecha nacional,24687,19034,0.564649,9214,false
+nac07,201606,6,dv_base,2,Podemos–Sumar,Izquierdas,23723,0.403864,PP,Podemos–Sumar,23723,24381,0.506839,10636,false
+nac07,201606,6,dv_A,2,bloque:Izquierdas,Izquierdas,24381,0.415066,bloque:Izquierdas,bloque:Derecha nacional,24381,23723,0.506839,10636,false
+nac07,201606,6,dv_B,2,bloque:Izquierdas,Izquierdas,24381,0.415066,bloque:Izquierdas,bloque:Derecha nacional,24381,23723,0.506839,10636,false
+nac07,201606,7,dv_base,2,Podemos–Sumar,Izquierdas,22290,0.356218,PP,Podemos–Sumar,22290,28568,0.561721,11716,false
+nac07,201606,7,dv_A,2,bloque:Izquierdas,Izquierdas,28568,0.456547,bloque:Izquierdas,bloque:Derecha nacional,28568,22290,0.561721,11716,false
+nac07,201606,7,dv_B,2,bloque:Izquierdas,Izquierdas,28568,0.456547,bloque:Izquierdas,bloque:Derecha nacional,28568,22290,0.561721,11716,false
+nac07,201606,8,dv_base,2,Podemos–Sumar,Izquierdas,13120,0.325671,PP,Podemos–Sumar,13120,20026,0.604175,7140,false
+nac07,201606,8,dv_A,2,bloque:Izquierdas,Izquierdas,20026,0.497096,bloque:Izquierdas,bloque:Derecha nacional,20026,13120,0.604175,7140,false
+nac07,201606,8,dv_B,2,bloque:Izquierdas,Izquierdas,20026,0.497096,bloque:Izquierdas,bloque:Derecha nacional,20026,13120,0.604175,7140,false
+nac07,201606,9,dv_base,2,Podemos–Sumar,Izquierdas,10141,0.322756,PP,Podemos–Sumar,10141,15573,0.605623,5706,false
+nac07,201606,9,dv_A,2,bloque:Izquierdas,Izquierdas,15573,0.495640,bloque:Izquierdas,bloque:Derecha nacional,15573,10141,0.605623,5706,false
+nac07,201606,9,dv_B,2,bloque:Izquierdas,Izquierdas,15573,0.495640,bloque:Izquierdas,bloque:Derecha nacional,15573,10141,0.605623,5706,false
+nac07,201606,10,dv_base,2,Podemos–Sumar,Izquierdas,9249,0.390484,PP,Podemos–Sumar,9249,10471,0.530984,3966,false
+nac07,201606,10,dv_A,2,bloque:Izquierdas,Izquierdas,10471,0.442075,bloque:Izquierdas,bloque:Derecha nacional,10471,9249,0.530984,3966,false
+nac07,201606,10,dv_B,2,bloque:Izquierdas,Izquierdas,10471,0.442075,bloque:Izquierdas,bloque:Derecha nacional,10471,9249,0.530984,3966,false
+nac07,201904,1,dv_base,2,PSOE,Izquierdas,12730,0.257531,PSOE,Cs,21179,11010,0.657958,17242,false
+nac07,201904,1,dv_A,2,bloque:Izquierdas,Izquierdas,21179,0.428456,bloque:Izquierdas,bloque:Derecha nacional,21179,14182,0.598937,14070,false
+nac07,201904,1,dv_B,2,bloque:Izquierdas,Izquierdas,21179,0.428456,bloque:Izquierdas,bloque:Derecha nacional,21179,14182,0.598937,14070,false
+nac07,201904,2,dv_base,2,PSOE,Izquierdas,14280,0.275729,PSOE,Podemos–Sumar,14280,10305,0.580842,27205,false
+nac07,201904,2,dv_A,2,bloque:Izquierdas,Izquierdas,24585,0.474706,bloque:Izquierdas,bloque:Derecha nacional,24585,13801,0.640468,13404,false
+nac07,201904,2,dv_B,2,bloque:Izquierdas,Izquierdas,24585,0.474706,bloque:Izquierdas,bloque:Derecha nacional,24585,13801,0.640468,13404,false
+nac07,201904,3,dv_base,2,PSOE,Izquierdas,11831,0.293231,PSOE,Podemos–Sumar,11831,7580,0.609500,20936,false
+nac07,201904,3,dv_A,2,bloque:Izquierdas,Izquierdas,19411,0.481101,bloque:Izquierdas,bloque:Derecha nacional,19411,11043,0.637388,9893,false
+nac07,201904,3,dv_B,2,bloque:Izquierdas,Izquierdas,19411,0.481101,bloque:Izquierdas,bloque:Derecha nacional,19411,11043,0.637388,9893,false
+nac07,201904,4,dv_base,2,PSOE,Izquierdas,17967,0.258622,PSOE,Cs,30319,12354,0.710496,26799,false
+nac07,201904,4,dv_A,2,bloque:Izquierdas,Izquierdas,30319,0.436420,bloque:Izquierdas,bloque:Derecha nacional,30319,20176,0.600436,18977,false
+nac07,201904,4,dv_B,2,bloque:Izquierdas,Izquierdas,30319,0.436420,bloque:Izquierdas,bloque:Derecha nacional,30319,20176,0.600436,18977,false
+nac07,201904,5,dv_base,2,PSOE,Izquierdas,15620,0.260047,PSOE,Podemos–Sumar,15620,10556,0.596730,33890,false
+nac07,201904,5,dv_A,2,bloque:Izquierdas,Izquierdas,26176,0.435787,bloque:Izquierdas,bloque:Derecha nacional,26176,15869,0.622571,18021,false
+nac07,201904,5,dv_B,2,bloque:Izquierdas,Izquierdas,26176,0.435787,bloque:Izquierdas,bloque:Derecha nacional,26176,15869,0.622571,18021,false
+nac07,201904,6,dv_base,2,PSOE,Izquierdas,15732,0.238180,PSOE,PP,25244,21999,0.534344,18808,false
+nac07,201904,6,dv_A,2,bloque:Izquierdas,Izquierdas,25244,0.382190,bloque:Izquierdas,bloque:Derecha nacional,25244,21999,0.534344,18808,false
+nac07,201904,6,dv_B,2,bloque:Izquierdas,Izquierdas,25244,0.382190,bloque:Izquierdas,bloque:Derecha nacional,25244,21999,0.534344,18808,false
+nac07,201904,7,dv_base,2,PSOE,Izquierdas,18310,0.264848,PSOE,Cs,29897,13117,0.695053,26120,false
+nac07,201904,7,dv_A,2,bloque:Izquierdas,Izquierdas,29897,0.432450,bloque:Izquierdas,bloque:Derecha nacional,29897,19502,0.605215,19735,false
+nac07,201904,7,dv_B,2,bloque:Izquierdas,Izquierdas,29897,0.432450,bloque:Izquierdas,bloque:Derecha nacional,29897,19502,0.605215,19735,false
+nac07,201904,8,dv_base,2,PSOE,Izquierdas,12233,0.270648,PSOE,Podemos–Sumar,12233,9713,0.557414,23253,false
+nac07,201904,8,dv_A,2,bloque:Izquierdas,Izquierdas,21946,0.485542,bloque:Izquierdas,bloque:Derecha nacional,21946,11077,0.664567,12176,false
+nac07,201904,8,dv_B,2,bloque:Izquierdas,Izquierdas,21946,0.485542,bloque:Izquierdas,bloque:Derecha nacional,21946,11077,0.664567,12176,false
+nac07,201904,9,dv_base,2,PSOE,Izquierdas,10595,0.303956,PSOE,Podemos–Sumar,10595,7086,0.599231,17176,false
+nac07,201904,9,dv_A,1,bloque:Izquierdas,Izquierdas,17681,0.507244,,,,,,0,false
+nac07,201904,9,dv_B,1,bloque:Izquierdas,Izquierdas,17681,0.507244,,,,,,0,false
+nac07,201904,10,dv_base,2,PSOE,Izquierdas,7101,0.268906,PSOE,PP,12229,8851,0.580123,5327,false
+nac07,201904,10,dv_A,2,bloque:Izquierdas,Izquierdas,12229,0.463097,bloque:Izquierdas,bloque:Derecha nacional,12229,8851,0.580123,5327,false
+nac07,201904,10,dv_B,2,bloque:Izquierdas,Izquierdas,12229,0.463097,bloque:Izquierdas,bloque:Derecha nacional,12229,8851,0.580123,5327,false
+nac07,201911,1,dv_base,2,PSOE,Izquierdas,10827,0.247763,PSOE,PP,19282,18585,0.509203,5832,false
+nac07,201911,1,dv_A,2,bloque:Izquierdas,Izquierdas,19282,0.441246,bloque:Izquierdas,bloque:Derecha nacional,19282,18585,0.509203,5832,false
+nac07,201911,1,dv_B,2,bloque:Izquierdas,Izquierdas,19282,0.441246,bloque:Izquierdas,bloque:Derecha nacional,19282,18585,0.509203,5832,false
+nac07,201911,2,dv_base,2,PSOE,Izquierdas,12009,0.265568,PSOE,Podemos–Sumar,13314,9227,0.590657,22679,false
+nac07,201911,2,dv_A,2,bloque:Izquierdas,Izquierdas,22541,0.498474,bloque:Izquierdas,bloque:Derecha nacional,22541,16934,0.571020,5745,false
+nac07,201911,2,dv_B,2,bloque:Izquierdas,Izquierdas,22541,0.498474,bloque:Izquierdas,bloque:Derecha nacional,22541,16934,0.571020,5745,false
+nac07,201911,3,dv_base,2,PSOE,Izquierdas,9758,0.277098,PSOE,VOX,17085,13841,0.552448,4289,false
+nac07,201911,3,dv_A,2,bloque:Izquierdas,Izquierdas,17085,0.485163,bloque:Izquierdas,bloque:Derecha nacional,17085,13841,0.552448,4289,false
+nac07,201911,3,dv_B,2,bloque:Izquierdas,Izquierdas,17085,0.485163,bloque:Izquierdas,bloque:Derecha nacional,17085,13841,0.552448,4289,false
+nac07,201911,4,dv_base,2,PSOE,Izquierdas,15149,0.247238,PSOE,PP,27766,25156,0.524659,8351,false
+nac07,201911,4,dv_A,2,bloque:Izquierdas,Izquierdas,27766,0.453152,bloque:Izquierdas,bloque:Derecha nacional,27766,25156,0.524659,8351,false
+nac07,201911,4,dv_B,2,bloque:Izquierdas,Izquierdas,27766,0.453152,bloque:Izquierdas,bloque:Derecha nacional,27766,25156,0.524659,8351,false
+nac07,201911,5,dv_base,2,PSOE,Izquierdas,13228,0.257565,PSOE,PP,23765,19701,0.546749,7892,false
+nac07,201911,5,dv_A,2,bloque:Izquierdas,Izquierdas,23765,0.462732,bloque:Izquierdas,bloque:Derecha nacional,23765,19701,0.546749,7892,false
+nac07,201911,5,dv_B,2,bloque:Izquierdas,Izquierdas,23765,0.462732,bloque:Izquierdas,bloque:Derecha nacional,23765,19701,0.546749,7892,false
+nac07,201911,6,dv_base,2,PP,Derecha nacional,15155,0.259935,PP,PSOE,26874,23765,0.530698,7664,false
+nac07,201911,6,dv_A,2,bloque:Derecha nacional,Derecha nacional,26874,0.460937,bloque:Derecha nacional,bloque:Izquierdas,26874,23765,0.530698,7664,false
+nac07,201911,6,dv_B,2,bloque:Derecha nacional,Derecha nacional,26874,0.460937,bloque:Derecha nacional,bloque:Izquierdas,26874,23765,0.530698,7664,false
+nac07,201911,7,dv_base,2,PSOE,Izquierdas,15653,0.257888,PSOE,PP,27756,24478,0.531378,8463,false
+nac07,201911,7,dv_A,2,bloque:Izquierdas,Izquierdas,27756,0.457288,bloque:Izquierdas,bloque:Derecha nacional,27756,24478,0.531378,8463,false
+nac07,201911,7,dv_B,2,bloque:Izquierdas,Izquierdas,27756,0.457288,bloque:Izquierdas,bloque:Derecha nacional,27756,24478,0.531378,8463,false
+nac07,201911,8,dv_base,2,PSOE,Izquierdas,9902,0.255912,PSOE,PP,19585,13690,0.588580,5418,false
+nac07,201911,8,dv_A,1,bloque:Izquierdas,Izquierdas,19585,0.506164,,,,,,0,false
+nac07,201911,8,dv_B,1,bloque:Izquierdas,Izquierdas,19585,0.506164,,,,,,0,false
+nac07,201911,9,dv_base,2,PSOE,Izquierdas,9004,0.296106,PSOE,PP,15523,11206,0.580755,3679,false
+nac07,201911,9,dv_A,1,bloque:Izquierdas,Izquierdas,15523,0.510491,,,,,,0,false
+nac07,201911,9,dv_B,1,bloque:Izquierdas,Izquierdas,15523,0.510491,,,,,,0,false
+nac07,201911,10,dv_base,2,PSOE,Izquierdas,6935,0.297117,PP,PSOE,10347,10723,0.508923,2271,false
+nac07,201911,10,dv_A,2,bloque:Izquierdas,Izquierdas,10723,0.459406,bloque:Izquierdas,bloque:Derecha nacional,10723,10347,0.508923,2271,false
+nac07,201911,10,dv_B,2,bloque:Izquierdas,Izquierdas,10723,0.459406,bloque:Izquierdas,bloque:Derecha nacional,10723,10347,0.508923,2271,false
+nac08,202307,1,dv_base,2,PSOE,Izquierdas,24274,0.379530,PSOE,Podemos–Sumar,24330,10618,0.696177,29010,false
+nac08,202307,1,dv_A,1,bloque:Izquierdas,Izquierdas,34948,0.546421,,,,,,0,false
+nac08,202307,1,dv_B,1,bloque:Izquierdas,Izquierdas,34948,0.546421,,,,,,0,false
+nac08,202307,2,dv_base,2,PSOE,Izquierdas,15344,0.276399,PSOE,PP,22737,15287,0.597964,17490,false
+nac08,202307,2,dv_A,2,bloque:Izquierdas,Izquierdas,22737,0.409572,bloque:Izquierdas,bloque:Nacionalistas,22737,17086,0.570951,15691,false
+nac08,202307,2,dv_B,2,bloque:Izquierdas,Izquierdas,22737,0.409572,bloque:Izquierdas,bloque:Derecha nacional,22737,15287,0.597964,17490,false
+nac08,202307,3,dv_base,2,PSOE,Izquierdas,15441,0.327946,PSOE,Podemos–Sumar,15492,9328,0.624174,22264,false
+nac08,202307,3,dv_A,1,bloque:Izquierdas,Izquierdas,24820,0.527143,,,,,,0,false
+nac08,202307,3,dv_B,1,bloque:Izquierdas,Izquierdas,24820,0.527143,,,,,,0,false
+nac08,202307,4,dv_base,2,PSOE,Izquierdas,14217,0.278765,PSOE,Podemos–Sumar,14254,10096,0.585380,26650,false
+nac08,202307,4,dv_A,2,bloque:Izquierdas,Izquierdas,24350,0.477451,bloque:Izquierdas,bloque:Nacionalistas,24350,17552,0.581118,9098,false
+nac08,202307,4,dv_B,2,bloque:Izquierdas,Izquierdas,24350,0.477451,bloque:Izquierdas,bloque:Derecha nacional,24350,8630,0.738326,18020,false
+nac08,202307,5,dv_base,2,PSOE,Izquierdas,17797,0.318469,PSOE,Podemos–Sumar,17855,10387,0.632214,27641,false
+nac08,202307,5,dv_A,1,bloque:Izquierdas,Izquierdas,28242,0.505377,,,,,,0,false
+nac08,202307,5,dv_B,1,bloque:Izquierdas,Izquierdas,28242,0.505377,,,,,,0,false
+nac08,202307,6,dv_base,2,PSOE,Izquierdas,20214,0.437192,PSOE,Podemos–Sumar,20276,7392,0.732832,18568,false
+nac08,202307,6,dv_A,1,bloque:Izquierdas,Izquierdas,27668,0.598408,,,,,,0,false
+nac08,202307,6,dv_B,1,bloque:Izquierdas,Izquierdas,27668,0.598408,,,,,,0,false
+nac08,202307,7,dv_base,2,PSOE,Izquierdas,17405,0.365260,PSOE,Podemos–Sumar,17464,9590,0.645524,20597,false
+nac08,202307,7,dv_A,1,bloque:Izquierdas,Izquierdas,27054,0.567753,,,,,,0,false
+nac08,202307,7,dv_B,1,bloque:Izquierdas,Izquierdas,27054,0.567753,,,,,,0,false
+nac08,202307,8,dv_base,2,PP,Derecha nacional,16743,0.286921,PP,PSOE,21320,18674,0.533080,18360,false
+nac08,202307,8,dv_A,2,bloque:Derecha nacional,Derecha nacional,21320,0.365356,bloque:Derecha nacional,bloque:Izquierdas,21320,18674,0.533080,18360,false
+nac08,202307,8,dv_B,2,bloque:Derecha nacional,Derecha nacional,21320,0.365356,bloque:Derecha nacional,bloque:Izquierdas,21320,18674,0.533080,18360,false
+nac08,202307,9,dv_base,2,PSOE,Izquierdas,19773,0.395951,PSOE,Podemos–Sumar,19841,8590,0.697865,21507,false
+nac08,202307,9,dv_A,1,bloque:Izquierdas,Izquierdas,28431,0.569326,,,,,,0,false
+nac08,202307,9,dv_B,1,bloque:Izquierdas,Izquierdas,28431,0.569326,,,,,,0,false
+nac08,202307,10,dv_base,2,PSOE,Izquierdas,21929,0.400676,PSOE,Podemos–Sumar,21993,9695,0.694048,23042,false
+nac08,202307,10,dv_A,1,bloque:Izquierdas,Izquierdas,31688,0.578988,,,,,,0,false
+nac08,202307,10,dv_B,1,bloque:Izquierdas,Izquierdas,31688,0.578988,,,,,,0,false
+nac08,202307,11,dv_base,2,PSOE,Izquierdas,21882,0.377126,PSOE,Podemos–Sumar,21954,9841,0.690486,26228,false
+nac08,202307,11,dv_A,1,bloque:Izquierdas,Izquierdas,31795,0.547972,,,,,,0,false
+nac08,202307,11,dv_B,1,bloque:Izquierdas,Izquierdas,31795,0.547972,,,,,,0,false
+nac08,202307,12,dv_base,2,PSOE,Izquierdas,12216,0.343774,PSOE,Podemos–Sumar,12255,7563,0.618377,15717,false
+nac08,202307,12,dv_A,1,bloque:Izquierdas,Izquierdas,19818,0.557704,,,,,,0,false
+nac08,202307,12,dv_B,1,bloque:Izquierdas,Izquierdas,19818,0.557704,,,,,,0,false
+nac08,202307,13,dv_base,2,PSOE,Izquierdas,17704,0.325357,PSOE,Podemos–Sumar,17760,9949,0.640947,26705,false
+nac08,202307,13,dv_A,1,bloque:Izquierdas,Izquierdas,27709,0.509226,,,,,,0,false
+nac08,202307,13,dv_B,1,bloque:Izquierdas,Izquierdas,27709,0.509226,,,,,,0,false
+nac08,202307,14,dv_base,2,PSOE,Izquierdas,19173,0.380183,PSOE,Podemos–Sumar,19222,9259,0.674906,21950,false
+nac08,202307,14,dv_A,1,bloque:Izquierdas,Izquierdas,28481,0.564752,,,,,,0,false
+nac08,202307,14,dv_B,1,bloque:Izquierdas,Izquierdas,28481,0.564752,,,,,,0,false
+nac08,202307,15,dv_base,2,PSOE,Izquierdas,23516,0.437621,PSOE,Podemos–Sumar,23574,9003,0.723639,21159,false
+nac08,202307,15,dv_A,1,bloque:Izquierdas,Izquierdas,32577,0.606242,,,,,,0,false
+nac08,202307,15,dv_B,1,bloque:Izquierdas,Izquierdas,32577,0.606242,,,,,,0,false
+nac08,202307,16,dv_base,1,PSOE,Izquierdas,20203,0.507116,,,,,,0,false
+nac08,202307,16,dv_A,1,bloque:Izquierdas,Izquierdas,25763,0.646678,,,,,,0,false
+nac08,202307,16,dv_B,1,bloque:Izquierdas,Izquierdas,25763,0.646678,,,,,,0,false
+nac08,202307,17,dv_base,2,PSOE,Izquierdas,21793,0.426477,PSOE,Podemos–Sumar,21862,7926,0.733920,21312,false
+nac08,202307,17,dv_A,1,bloque:Izquierdas,Izquierdas,29788,0.582935,,,,,,0,false
+nac08,202307,17,dv_B,1,bloque:Izquierdas,Izquierdas,29788,0.582935,,,,,,0,false
+nac08,202307,18,dv_base,2,PSOE,Izquierdas,18187,0.368822,PSOE,Podemos–Sumar,18257,7863,0.698966,23191,false
+nac08,202307,18,dv_A,1,bloque:Izquierdas,Izquierdas,26120,0.529699,,,,,,0,false
+nac08,202307,18,dv_B,1,bloque:Izquierdas,Izquierdas,26120,0.529699,,,,,,0,false
+nac08,202307,19,dv_base,2,PSOE,Izquierdas,17159,0.329936,PSOE,ERC,23259,20675,0.529408,8073,false
+nac08,202307,19,dv_A,2,bloque:Izquierdas,Izquierdas,23259,0.447228,bloque:Izquierdas,bloque:Nacionalistas,23259,20675,0.529408,8073,false
+nac08,202307,19,dv_B,2,bloque:Izquierdas,Izquierdas,23259,0.447228,bloque:Izquierdas,ERC,23259,20675,0.529408,8073,false
+nac08,202307,20,dv_base,2,PSOE,Izquierdas,16225,0.323749,PSOE,ERC,21582,19702,0.522769,8832,false
+nac08,202307,20,dv_A,2,bloque:Izquierdas,Izquierdas,21582,0.430641,bloque:Izquierdas,bloque:Nacionalistas,21582,19702,0.522769,8832,false
+nac08,202307,20,dv_B,2,bloque:Izquierdas,Izquierdas,21582,0.430641,bloque:Izquierdas,ERC,21582,19702,0.522769,8832,false
+nac08,202307,21,dv_base,2,CiU–Junts,Nacionalistas,12782,0.257603,CiU–Junts,PSOE,26830,17141,0.610175,5648,false
+nac08,202307,21,dv_A,1,bloque:Nacionalistas,Nacionalistas,26830,0.540720,,,,,,0,false
+nac08,202307,21,dv_B,2,CiU–Junts,Nacionalistas,17141,0.345452,bloque:Izquierdas,CiU–Junts,17141,26830,0.610175,5648,false
+nac08,202307,22,dv_base,2,PSOE,Izquierdas,18847,0.371238,PSOE,PP,26574,15222,0.635802,8972,false
+nac08,202307,22,dv_A,1,bloque:Izquierdas,Izquierdas,26574,0.523440,,,,,,0,false
+nac08,202307,22,dv_B,1,bloque:Izquierdas,Izquierdas,26574,0.523440,,,,,,0,false
+nac08,202307,23,dv_base,2,PSOE,Izquierdas,18722,0.304008,PSOE,Podemos–Sumar,18769,9374,0.666915,33441,false
+nac08,202307,23,dv_A,2,bloque:Izquierdas,Izquierdas,28143,0.456986,bloque:Izquierdas,bloque:Nacionalistas,28143,20717,0.575993,12724,false
+nac08,202307,23,dv_B,2,bloque:Izquierdas,Izquierdas,28143,0.456986,bloque:Izquierdas,bloque:Derecha nacional,28143,11913,0.702591,21528,false
+nac08,202307,24,dv_base,2,PSOE,Izquierdas,19360,0.398043,PSOE,Podemos–Sumar,19408,7657,0.717088,21573,false
+nac08,202307,24,dv_A,1,bloque:Izquierdas,Izquierdas,27065,0.556458,,,,,,0,false
+nac08,202307,24,dv_B,1,bloque:Izquierdas,Izquierdas,27065,0.556458,,,,,,0,false
+nac08,202307,25,dv_base,2,PSOE,Izquierdas,17401,0.342068,PSOE,ERC,23388,16824,0.581617,10658,false
+nac08,202307,25,dv_A,2,bloque:Izquierdas,Izquierdas,23388,0.459760,bloque:Izquierdas,bloque:Nacionalistas,23388,16824,0.581617,10658,false
+nac08,202307,25,dv_B,2,bloque:Izquierdas,Izquierdas,23388,0.459760,bloque:Izquierdas,bloque:Derecha nacional,23388,9876,0.703102,17606,false
+nac08,202307,26,dv_base,2,PSOE,Izquierdas,23304,0.388083,PSOE,Podemos–Sumar,23366,9560,0.709652,27123,false
+nac08,202307,26,dv_A,1,bloque:Izquierdas,Izquierdas,32926,0.548319,,,,,,0,false
+nac08,202307,26,dv_B,1,bloque:Izquierdas,Izquierdas,32926,0.548319,,,,,,0,false
+nac08,202307,27,dv_base,2,PSOE,Izquierdas,16188,0.280089,PSOE,ERC,24053,22276,0.519178,11467,false
+nac08,202307,27,dv_A,2,bloque:Izquierdas,Izquierdas,24053,0.416171,bloque:Izquierdas,bloque:Nacionalistas,24053,22276,0.519178,11467,false
+nac08,202307,27,dv_B,2,bloque:Izquierdas,Izquierdas,24053,0.416171,bloque:Izquierdas,bloque:Derecha nacional,24053,10635,0.693410,23108,false
+nac08,202307,28,dv_base,2,PSOE,Izquierdas,22979,0.383424,PSOE,Podemos–Sumar,23048,9552,0.706994,27331,false
+nac08,202307,28,dv_A,1,bloque:Izquierdas,Izquierdas,32600,0.543959,,,,,,0,false
+nac08,202307,28,dv_B,1,bloque:Izquierdas,Izquierdas,32600,0.543959,,,,,,0,false
+nac08,202307,29,dv_base,2,PSOE,Izquierdas,15864,0.354756,PSOE,ERC,21588,12538,0.632597,10592,false
+nac08,202307,29,dv_A,2,bloque:Izquierdas,Izquierdas,21588,0.482759,bloque:Izquierdas,bloque:Nacionalistas,21588,12538,0.632597,10592,false
+nac08,202307,29,dv_B,2,bloque:Izquierdas,Izquierdas,21588,0.482759,bloque:Izquierdas,bloque:Derecha nacional,21588,9820,0.687341,13310,false
+nac08,202307,30,dv_base,2,PSOE,Izquierdas,15240,0.267542,PSOE,PP,22838,15447,0.596526,18678,false
+nac08,202307,30,dv_A,2,bloque:Izquierdas,Izquierdas,22838,0.400927,bloque:Izquierdas,bloque:Nacionalistas,22838,18148,0.557215,15977,false
+nac08,202307,30,dv_B,2,bloque:Izquierdas,Izquierdas,22838,0.400927,bloque:Izquierdas,bloque:Derecha nacional,22838,15447,0.596526,18678,false
+nac08,202307,31,dv_base,2,PSOE,Izquierdas,20796,0.361374,PSOE,Podemos–Sumar,20868,9289,0.691979,27390,false
+nac08,202307,31,dv_A,1,bloque:Izquierdas,Izquierdas,30157,0.524041,,,,,,0,false
+nac08,202307,31,dv_B,1,bloque:Izquierdas,Izquierdas,30157,0.524041,,,,,,0,false
+nac08,202307,32,dv_base,2,PSOE,Izquierdas,22327,0.460578,PSOE,PP,29139,13935,0.676487,5402,false
+nac08,202307,32,dv_A,1,bloque:Izquierdas,Izquierdas,29139,0.601102,,,,,,0,false
+nac08,202307,32,dv_B,1,bloque:Izquierdas,Izquierdas,29139,0.601102,,,,,,0,false
+nac08,202307,33,dv_base,2,PSOE,Izquierdas,17913,0.319237,PSOE,CiU–Junts,25854,19735,0.567110,10523,false
+nac08,202307,33,dv_A,2,bloque:Izquierdas,Izquierdas,25854,0.460757,bloque:Izquierdas,bloque:Nacionalistas,25854,19735,0.567110,10523,false
+nac08,202307,33,dv_B,2,bloque:Izquierdas,Izquierdas,25854,0.460757,bloque:Izquierdas,bloque:Derecha nacional,25854,9788,0.725380,20470,false
+nac08,202307,34,dv_base,2,PSOE,Izquierdas,17893,0.390830,PSOE,Podemos–Sumar,17943,6299,0.740162,21540,false
+nac08,202307,34,dv_A,1,bloque:Izquierdas,Izquierdas,24242,0.529509,,,,,,0,false
+nac08,202307,34,dv_B,1,bloque:Izquierdas,Izquierdas,24242,0.529509,,,,,,0,false
+nac08,202307,35,dv_base,2,PSOE,Izquierdas,25831,0.437502,PSOE,Podemos–Sumar,25911,10124,0.719051,23007,false
+nac08,202307,35,dv_A,1,bloque:Izquierdas,Izquierdas,36035,0.610328,,,,,,0,false
+nac08,202307,35,dv_B,1,bloque:Izquierdas,Izquierdas,36035,0.610328,,,,,,0,false
+nac08,202307,36,dv_base,2,PSOE,Izquierdas,19614,0.361289,PSOE,Podemos–Sumar,19684,8172,0.706634,26433,false
+nac08,202307,36,dv_A,1,bloque:Izquierdas,Izquierdas,27856,0.513106,,,,,,0,false
+nac08,202307,36,dv_B,1,bloque:Izquierdas,Izquierdas,27856,0.513106,,,,,,0,false
+nac08,202307,37,dv_base,2,PSOE,Izquierdas,18879,0.406621,PSOE,PP,25252,11643,0.684429,9534,false
+nac08,202307,37,dv_A,1,bloque:Izquierdas,Izquierdas,25252,0.543884,,,,,,0,false
+nac08,202307,37,dv_B,1,bloque:Izquierdas,Izquierdas,25252,0.543884,,,,,,0,false
+nac08,202307,38,dv_base,2,CiU–Junts,Nacionalistas,12890,0.260005,PSOE,CiU–Junts,17283,26659,0.606686,5634,false
+nac08,202307,38,dv_A,1,bloque:Nacionalistas,Nacionalistas,26659,0.537740,,,,,,0,false
+nac08,202307,38,dv_B,2,CiU–Junts,Nacionalistas,17283,0.348616,bloque:Izquierdas,CiU–Junts,17283,26659,0.606686,5634,false
+nac08,202307,39,dv_base,2,PSOE,Izquierdas,17423,0.375958,PSOE,Podemos–Sumar,17471,6988,0.714297,21884,false
+nac08,202307,39,dv_A,1,bloque:Izquierdas,Izquierdas,24459,0.527782,,,,,,0,false
+nac08,202307,39,dv_B,1,bloque:Izquierdas,Izquierdas,24459,0.527782,,,,,,0,false
+nac08,202307,40,dv_base,2,PSOE,Izquierdas,21917,0.419866,PSOE,Podemos–Sumar,21982,9201,0.704935,21017,false
+nac08,202307,40,dv_A,1,bloque:Izquierdas,Izquierdas,31183,0.597375,,,,,,0,false
+nac08,202307,40,dv_B,1,bloque:Izquierdas,Izquierdas,31183,0.597375,,,,,,0,false
+nac08,202307,41,dv_base,2,PSOE,Izquierdas,19238,0.463343,PSOE,Podemos–Sumar,19296,7464,0.721076,14760,false
+nac08,202307,41,dv_A,1,bloque:Izquierdas,Izquierdas,26760,0.644509,,,,,,0,false
+nac08,202307,41,dv_B,1,bloque:Izquierdas,Izquierdas,26760,0.644509,,,,,,0,false
+nac08,202307,42,dv_base,2,PSOE,Izquierdas,27878,0.428925,PSOE,Podemos–Sumar,27972,11941,0.700824,25082,false
+nac08,202307,42,dv_A,1,bloque:Izquierdas,Izquierdas,39913,0.614093,,,,,,0,false
+nac08,202307,42,dv_B,1,bloque:Izquierdas,Izquierdas,39913,0.614093,,,,,,0,false
+nac08,202307,43,dv_base,2,PSOE,Izquierdas,15497,0.322511,PSOE,ERC,22719,13560,0.626230,11772,false
+nac08,202307,43,dv_A,2,bloque:Izquierdas,Izquierdas,22719,0.472810,bloque:Izquierdas,bloque:Nacionalistas,22719,13560,0.626230,11772,false
+nac08,202307,43,dv_B,2,bloque:Izquierdas,Izquierdas,22719,0.472810,bloque:Izquierdas,bloque:Derecha nacional,22719,11011,0.673555,14321,false
+nac08,202307,44,dv_base,2,PSOE,Izquierdas,14306,0.267817,PSOE,PP,21678,13128,0.622824,18611,false
+nac08,202307,44,dv_A,2,bloque:Izquierdas,Izquierdas,21678,0.405826,bloque:Izquierdas,bloque:Nacionalistas,21678,17969,0.546775,13770,false
+nac08,202307,44,dv_B,2,bloque:Izquierdas,Izquierdas,21678,0.405826,bloque:Izquierdas,bloque:Derecha nacional,21678,13128,0.622824,18611,false
+nac08,202307,45,dv_base,2,PSOE,Izquierdas,22841,0.420730,PSOE,Podemos–Sumar,22898,9375,0.709509,22016,false
+nac08,202307,45,dv_A,1,bloque:Izquierdas,Izquierdas,32273,0.594467,,,,,,0,false
+nac08,202307,45,dv_B,1,bloque:Izquierdas,Izquierdas,32273,0.594467,,,,,,0,false
+nac08,202307,46,dv_base,2,PSOE,Izquierdas,23252,0.495704,PSOE,Podemos–Sumar,23308,7447,0.757861,16152,false
+nac08,202307,46,dv_A,1,bloque:Izquierdas,Izquierdas,30755,0.655659,,,,,,0,false
+nac08,202307,46,dv_B,1,bloque:Izquierdas,Izquierdas,30755,0.655659,,,,,,0,false
+nac08,202307,47,dv_base,2,PSOE,Izquierdas,20372,0.354099,PSOE,Podemos–Sumar,20431,8208,0.713398,28893,false
+nac08,202307,47,dv_A,2,bloque:Izquierdas,Izquierdas,28639,0.497793,bloque:Izquierdas,bloque:Derecha nacional,28639,14134,0.669558,14759,false
+nac08,202307,47,dv_B,2,bloque:Izquierdas,Izquierdas,28639,0.497793,bloque:Izquierdas,bloque:Derecha nacional,28639,14134,0.669558,14759,false
+nac08,202307,48,dv_base,2,PSOE,Izquierdas,18466,0.323250,PSOE,ERC,26056,19559,0.571216,11511,false
+nac08,202307,48,dv_A,2,bloque:Izquierdas,Izquierdas,26056,0.456115,bloque:Izquierdas,bloque:Nacionalistas,26056,19559,0.571216,11511,false
+nac08,202307,48,dv_B,2,bloque:Izquierdas,Izquierdas,26056,0.456115,bloque:Izquierdas,bloque:Derecha nacional,26056,10634,0.710166,20436,false
+nac08,202307,49,dv_base,2,PSOE,Izquierdas,24636,0.373607,PSOE,Podemos–Sumar,24692,10157,0.708543,31092,false
+nac08,202307,49,dv_A,1,bloque:Izquierdas,Izquierdas,34849,0.528488,,,,,,0,false
+nac08,202307,49,dv_B,1,bloque:Izquierdas,Izquierdas,34849,0.528488,,,,,,0,false
+nac08,202307,50,dv_base,2,PSOE,Izquierdas,16912,0.312797,PSOE,ERC,24308,17495,0.581489,12264,false
+nac08,202307,50,dv_A,2,bloque:Izquierdas,Izquierdas,24308,0.449590,bloque:Izquierdas,bloque:Nacionalistas,24308,17495,0.581489,12264,false
+nac08,202307,50,dv_B,2,bloque:Izquierdas,Izquierdas,24308,0.449590,bloque:Izquierdas,bloque:Derecha nacional,24308,11464,0.679526,18295,false
+nac09,202307,1,dv_base,2,PP,Derecha nacional,28241,0.425079,PP,PSOE,37004,27859,0.570495,1574,false
+nac09,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,37004,0.556979,,,,,,0,false
+nac09,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,37004,0.556979,,,,,,0,false
+nac09,202307,2,dv_base,2,PP,Derecha nacional,29849,0.417492,PP,PSOE,38857,30942,0.556699,1697,false
+nac09,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,38857,0.543485,,,,,,0,false
+nac09,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,38857,0.543485,,,,,,0,false
+nac09,202307,3,dv_base,2,PP,Derecha nacional,23549,0.388066,PP,PSOE,31356,27850,0.529608,1477,false
+nac09,202307,3,dv_A,1,bloque:Derecha nacional,Derecha nacional,31356,0.516718,,,,,,0,false
+nac09,202307,3,dv_B,1,bloque:Derecha nacional,Derecha nacional,31356,0.516718,,,,,,0,false
+nac10,202307,1,dv_base,2,PP,Derecha nacional,31922,0.405390,PP,PSOE,41706,35185,0.542404,1853,false
+nac10,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,41706,0.529640,,,,,,0,false
+nac10,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,41706,0.529640,,,,,,0,false
+nac10,202307,2,dv_base,2,PP,Derecha nacional,35017,0.418904,PSOE,PP,41006,41237,0.501404,1349,false
+nac10,202307,2,dv_A,2,bloque:Derecha nacional,Derecha nacional,41237,0.493313,bloque:Derecha nacional,bloque:Izquierdas,41237,41006,0.501404,1349,false
+nac10,202307,2,dv_B,2,bloque:Derecha nacional,Derecha nacional,41237,0.493313,bloque:Derecha nacional,bloque:Izquierdas,41237,41006,0.501404,1349,false
+nac10,202307,3,dv_base,2,PP,Derecha nacional,26963,0.383629,PSOE,PP,31052,38152,0.551298,1080,false
+nac10,202307,3,dv_A,1,bloque:Derecha nacional,Derecha nacional,38152,0.542826,,,,,,0,false
+nac10,202307,3,dv_B,1,bloque:Derecha nacional,Derecha nacional,38152,0.542826,,,,,,0,false
+nac11,202307,1,dv_base,2,PP,Derecha nacional,23200,0.400781,PP,PSOE,32125,24088,0.571487,1674,false
+nac11,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,32125,0.554961,,,,,,0,false
+nac11,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,32125,0.554961,,,,,,0,false
+nac11,202307,2,dv_base,2,PP,Derecha nacional,22682,0.364364,PSOE,PP,29777,31252,0.512084,1222,false
+nac11,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,31252,0.502032,,,,,,0,false
+nac11,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,31252,0.502032,,,,,,0,false
+nac11,202307,3,dv_base,2,PP,Derecha nacional,19215,0.360622,PP,PSOE,28497,23295,0.550220,1491,false
+nac11,202307,3,dv_A,1,bloque:Derecha nacional,Derecha nacional,28497,0.534823,,,,,,0,false
+nac11,202307,3,dv_B,1,bloque:Derecha nacional,Derecha nacional,28497,0.534823,,,,,,0,false
+nac11,202307,4,dv_base,2,PSOE,Izquierdas,24413,0.368254,PSOE,PP,35477,28230,0.556878,2587,false
+nac11,202307,4,dv_A,1,bloque:Izquierdas,Izquierdas,35477,0.535146,,,,,,0,false
+nac11,202307,4,dv_B,1,bloque:Izquierdas,Izquierdas,35477,0.535146,,,,,,0,false
+nac11,202307,5,dv_base,2,PP,Derecha nacional,19821,0.360506,PSOE,PP,26242,27221,0.509156,1518,false
+nac11,202307,5,dv_A,2,bloque:Derecha nacional,Derecha nacional,27221,0.495098,bloque:Derecha nacional,bloque:Izquierdas,27221,26242,0.509156,1518,false
+nac11,202307,5,dv_B,2,bloque:Derecha nacional,Derecha nacional,27221,0.495098,bloque:Derecha nacional,bloque:Izquierdas,27221,26242,0.509156,1518,false
+nac11,202307,6,dv_base,2,PP,Derecha nacional,19621,0.361537,PP,PSOE,31848,21110,0.601382,1313,false
+nac11,202307,6,dv_A,1,bloque:Derecha nacional,Derecha nacional,31848,0.586833,,,,,,0,false
+nac11,202307,6,dv_B,1,bloque:Derecha nacional,Derecha nacional,31848,0.586833,,,,,,0,false
+nac11,202307,7,dv_base,2,PP,Derecha nacional,15484,0.352398,PP,PSOE,23733,18907,0.556590,1299,false
+nac11,202307,7,dv_A,1,bloque:Derecha nacional,Derecha nacional,23733,0.540135,,,,,,0,false
+nac11,202307,7,dv_B,1,bloque:Derecha nacional,Derecha nacional,23733,0.540135,,,,,,0,false
+nac11,202307,8,dv_base,2,PP,Derecha nacional,17187,0.346052,PSOE,PP,22738,25446,0.528101,1482,false
+nac11,202307,8,dv_A,1,bloque:Derecha nacional,Derecha nacional,25446,0.512342,,,,,,0,false
+nac11,202307,8,dv_B,1,bloque:Derecha nacional,Derecha nacional,25446,0.512342,,,,,,0,false
+nac11,202307,9,dv_base,2,PSOE,Izquierdas,23505,0.338972,PSOE,PP,35563,31475,0.530490,2304,false
+nac11,202307,9,dv_A,1,bloque:Izquierdas,Izquierdas,35563,0.512864,,,,,,0,false
+nac11,202307,9,dv_B,1,bloque:Izquierdas,Izquierdas,35563,0.512864,,,,,,0,false
+nac11,202307,10,dv_base,2,PP,Derecha nacional,19914,0.374281,PSOE,PP,25952,26019,0.500645,1235,false
+nac11,202307,10,dv_A,2,bloque:Derecha nacional,Derecha nacional,26019,0.489024,bloque:Derecha nacional,bloque:Izquierdas,26019,25952,0.500645,1235,false
+nac11,202307,10,dv_B,2,bloque:Derecha nacional,Derecha nacional,26019,0.489024,bloque:Derecha nacional,bloque:Izquierdas,26019,25952,0.500645,1235,false
+nac11,202307,11,dv_base,2,PP,Derecha nacional,21495,0.346431,PP,PSOE,31367,28789,0.521428,1891,false
+nac11,202307,11,dv_A,1,bloque:Derecha nacional,Derecha nacional,31367,0.505536,,,,,,0,false
+nac11,202307,11,dv_B,1,bloque:Derecha nacional,Derecha nacional,31367,0.505536,,,,,,0,false
+nac12,202307,1,dv_base,2,PP,Derecha nacional,21146,0.354086,PP,PSOE,30360,28676,0.514262,684,false
+nac12,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,30360,0.508372,,,,,,0,false
+nac12,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,30360,0.508372,,,,,,0,false
+nac12,202307,2,dv_base,2,PP,Derecha nacional,22385,0.368253,PP,PSOE,32930,27204,0.547610,653,false
+nac12,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,32930,0.541728,,,,,,0,false
+nac12,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,32930,0.541728,,,,,,0,false
+nac12,202307,3,dv_base,2,PP,Derecha nacional,20626,0.349427,PP,PSOE,31240,27152,0.535005,636,false
+nac12,202307,3,dv_A,1,bloque:Derecha nacional,Derecha nacional,31240,0.529240,,,,,,0,false
+nac12,202307,3,dv_B,1,bloque:Derecha nacional,Derecha nacional,31240,0.529240,,,,,,0,false
+nac12,202307,4,dv_base,2,PP,Derecha nacional,24513,0.354973,PP,PSOE,34930,33514,0.510344,612,false
+nac12,202307,4,dv_A,1,bloque:Derecha nacional,Derecha nacional,34930,0.505821,,,,,,0,false
+nac12,202307,4,dv_B,1,bloque:Derecha nacional,Derecha nacional,34930,0.505821,,,,,,0,false
+nac12,202307,5,dv_base,2,PP,Derecha nacional,19531,0.353317,PSOE,PP,27267,27449,0.501663,563,false
+nac12,202307,5,dv_A,2,bloque:Derecha nacional,Derecha nacional,27449,0.496554,bloque:Derecha nacional,bloque:Izquierdas,27449,27267,0.501663,563,false
+nac12,202307,5,dv_B,2,bloque:Derecha nacional,Derecha nacional,27449,0.496554,bloque:Derecha nacional,bloque:Izquierdas,27449,27267,0.501663,563,false
+nac13,202307,1,dv_base,2,PP,Derecha nacional,31312,0.433324,PP,PSOE,43657,27933,0.609820,670,false
+nac13,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,43657,0.604166,,,,,,0,false
+nac13,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,43657,0.604166,,,,,,0,false
+nac13,202307,2,dv_base,2,PP,Derecha nacional,25349,0.408894,PP,PSOE,35887,25592,0.583728,515,false
+nac13,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,35887,0.578879,,,,,,0,false
+nac13,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,35887,0.578879,,,,,,0,false
+nac13,202307,3,dv_base,2,PP,Derecha nacional,30299,0.391748,PP,PSOE,41736,34970,0.544103,637,false
+nac13,202307,3,dv_A,1,bloque:Derecha nacional,Derecha nacional,41736,0.539622,,,,,,0,false
+nac13,202307,3,dv_B,1,bloque:Derecha nacional,Derecha nacional,41736,0.539622,,,,,,0,false
+nac13,202307,4,dv_base,2,PP,Derecha nacional,27461,0.403322,PP,PSOE,39068,28521,0.578023,498,false
+nac13,202307,4,dv_A,1,bloque:Derecha nacional,Derecha nacional,39068,0.573795,,,,,,0,false
+nac13,202307,4,dv_B,1,bloque:Derecha nacional,Derecha nacional,39068,0.573795,,,,,,0,false
+nac14,202307,1,dv_base,2,PP,Derecha nacional,33319,0.457981,PP,PSOE,44791,26976,0.624117,985,false
+nac14,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,44791,0.615667,,,,,,0,false
+nac14,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,44791,0.615667,,,,,,0,false
+nac14,202307,2,dv_base,2,PP,Derecha nacional,30697,0.407587,PP,PSOE,41906,32199,0.565495,1209,false
+nac14,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,41906,0.556417,,,,,,0,false
+nac14,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,41906,0.556417,,,,,,0,false
+nac14,202307,3,dv_base,2,PSOE,Izquierdas,25600,0.338988,PP,PSOE,36647,37922,0.508549,950,false
+nac14,202307,3,dv_A,1,bloque:Izquierdas,Izquierdas,37922,0.502152,,,,,,0,false
+nac14,202307,3,dv_B,1,bloque:Izquierdas,Izquierdas,37922,0.502152,,,,,,0,false
+nac14,202307,4,dv_base,2,PSOE,Izquierdas,27213,0.379789,PSOE,PP,40015,30869,0.564514,769,false
+nac14,202307,4,dv_A,1,bloque:Izquierdas,Izquierdas,40015,0.558455,,,,,,0,false
+nac14,202307,4,dv_B,1,bloque:Izquierdas,Izquierdas,40015,0.558455,,,,,,0,false
+nac14,202307,5,dv_base,2,PP,Derecha nacional,28005,0.383914,PP,PSOE,37148,35296,0.512782,502,false
+nac14,202307,5,dv_A,1,bloque:Derecha nacional,Derecha nacional,37148,0.509253,,,,,,0,false
+nac14,202307,5,dv_B,1,bloque:Derecha nacional,Derecha nacional,37148,0.509253,,,,,,0,false
+nac14,202307,6,dv_base,2,PP,Derecha nacional,28976,0.391742,PP,PSOE,40357,32782,0.551785,828,false
+nac14,202307,6,dv_A,1,bloque:Derecha nacional,Derecha nacional,40357,0.545608,,,,,,0,false
+nac14,202307,6,dv_B,1,bloque:Derecha nacional,Derecha nacional,40357,0.545608,,,,,,0,false
+nac15,202307,1,dv_base,2,PP,Derecha nacional,29278,0.405013,PP,PSOE,32745,32615,0.500994,6929,false
+nac15,202307,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,32745,0.452973,bloque:Derecha nacional,bloque:Izquierdas,32745,32615,0.500994,6929,false
+nac15,202307,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,32745,0.452973,bloque:Derecha nacional,bloque:Izquierdas,32745,32615,0.500994,6929,false
+nac15,202307,2,dv_base,2,PP,Derecha nacional,35854,0.473345,PP,PSOE,39449,27476,0.589451,8821,false
+nac15,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,39449,0.520806,,,,,,0,false
+nac15,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,39449,0.520806,,,,,,0,false
+nac15,202307,3,dv_base,2,PSOE,Izquierdas,28078,0.399187,PP,PSOE,31535,32094,0.504393,6709,false
+nac15,202307,3,dv_A,2,bloque:Izquierdas,Izquierdas,32094,0.456283,bloque:Izquierdas,bloque:Derecha nacional,32094,31535,0.504393,6709,false
+nac15,202307,3,dv_B,2,bloque:Izquierdas,Izquierdas,32094,0.456283,bloque:Izquierdas,bloque:Derecha nacional,32094,31535,0.504393,6709,false
+nac15,202307,4,dv_base,2,PP,Derecha nacional,33402,0.435319,PP,PSOE,36412,30128,0.547220,10190,false
+nac15,202307,4,dv_A,2,bloque:Derecha nacional,Derecha nacional,36412,0.474547,bloque:Derecha nacional,bloque:Izquierdas,36412,30128,0.547220,10190,false
+nac15,202307,4,dv_B,2,bloque:Derecha nacional,Derecha nacional,36412,0.474547,bloque:Derecha nacional,bloque:Izquierdas,36412,30128,0.547220,10190,false
+nac15,202307,5,dv_base,2,PSOE,Izquierdas,26159,0.392713,PP,PSOE,29932,30294,0.503005,6385,false
+nac15,202307,5,dv_A,2,bloque:Izquierdas,Izquierdas,30294,0.454790,bloque:Izquierdas,bloque:Derecha nacional,30294,29932,0.503005,6385,false
+nac15,202307,5,dv_B,2,bloque:Izquierdas,Izquierdas,30294,0.454790,bloque:Izquierdas,bloque:Derecha nacional,30294,29932,0.503005,6385,false
+nac15,202307,6,dv_base,2,PP,Derecha nacional,30952,0.405641,PP,PSOE,35323,34005,0.509506,6976,false
+nac15,202307,6,dv_A,2,bloque:Derecha nacional,Derecha nacional,35323,0.462925,bloque:Derecha nacional,bloque:Izquierdas,35323,34005,0.509506,6976,false
+nac15,202307,6,dv_B,2,bloque:Derecha nacional,Derecha nacional,35323,0.462925,bloque:Derecha nacional,bloque:Izquierdas,35323,34005,0.509506,6976,false
+nac15,202307,7,dv_base,2,PP,Derecha nacional,30849,0.450910,PP,PSOE,35165,25235,0.582202,8015,false
+nac15,202307,7,dv_A,1,bloque:Derecha nacional,Derecha nacional,35165,0.513995,,,,,,0,false
+nac15,202307,7,dv_B,1,bloque:Derecha nacional,Derecha nacional,35165,0.513995,,,,,,0,false
+nac15,202307,8,dv_base,1,PP,Derecha nacional,38616,0.509991,,,,,,0,false
+nac15,202307,8,dv_A,1,bloque:Derecha nacional,Derecha nacional,42285,0.558446,,,,,,0,false
+nac15,202307,8,dv_B,1,bloque:Derecha nacional,Derecha nacional,42285,0.558446,,,,,,0,false
+nac15,202307,9,dv_base,2,PP,Derecha nacional,34838,0.433810,PP,PSOE,38761,32204,0.546199,9342,false
+nac15,202307,9,dv_A,2,bloque:Derecha nacional,Derecha nacional,38761,0.482660,bloque:Derecha nacional,bloque:Izquierdas,38761,32204,0.546199,9342,false
+nac15,202307,9,dv_B,2,bloque:Derecha nacional,Derecha nacional,38761,0.482660,bloque:Derecha nacional,bloque:Izquierdas,38761,32204,0.546199,9342,false
+nac16,202307,1,dv_base,2,PP,Derecha nacional,22090,0.404438,PP,PSOE,29861,24230,0.552051,528,false
+nac16,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,29861,0.546715,,,,,,0,false
+nac16,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,29861,0.546715,,,,,,0,false
+nac16,202307,2,dv_base,2,PP,Derecha nacional,23069,0.398752,PP,PSOE,32958,24507,0.573532,388,false
+nac16,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,32958,0.569685,,,,,,0,false
+nac16,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,32958,0.569685,,,,,,0,false
+nac17,202307,1,dv_base,2,CiU–Junts,Nacionalistas,13016,0.291055,PSOE,CiU–Junts,18071,19305,0.516508,7344,false
+nac17,202307,1,dv_A,2,bloque:Nacionalistas,Nacionalistas,19305,0.431686,bloque:Nacionalistas,bloque:Izquierdas,19305,18071,0.516508,7344,false
+nac17,202307,1,dv_B,2,CiU–Junts,Nacionalistas,18071,0.404092,bloque:Izquierdas,CiU–Junts,18071,19305,0.516508,7344,false
+nac17,202307,2,dv_base,2,CiU–Junts,Nacionalistas,13157,0.289089,PSOE,CiU–Junts,18349,18869,0.506986,8294,false
+nac17,202307,2,dv_A,2,bloque:Nacionalistas,Nacionalistas,18869,0.414594,bloque:Nacionalistas,bloque:Izquierdas,18869,18349,0.506986,8294,false
+nac17,202307,2,dv_B,2,CiU–Junts,Nacionalistas,18349,0.403168,bloque:Izquierdas,CiU–Junts,18349,18869,0.506986,8294,false
+nac17,202307,3,dv_base,2,CiU–Junts,Nacionalistas,11346,0.263248,PSOE,CiU–Junts,15842,20823,0.567926,6435,false
+nac17,202307,3,dv_A,2,bloque:Nacionalistas,Nacionalistas,20823,0.483132,bloque:Nacionalistas,bloque:Izquierdas,20823,15842,0.567926,6435,false
+nac17,202307,3,dv_B,2,CiU–Junts,Nacionalistas,15842,0.367564,bloque:Izquierdas,CiU–Junts,15842,20823,0.567926,6435,false
+nac17,202307,4,dv_base,2,PSOE,Izquierdas,12148,0.294133,PSOE,CiU–Junts,16264,14695,0.525340,10342,false
+nac17,202307,4,dv_A,2,bloque:Izquierdas,Izquierdas,16264,0.393792,bloque:Izquierdas,bloque:Nacionalistas,16264,14695,0.525340,10342,false
+nac17,202307,4,dv_B,2,bloque:Izquierdas,Izquierdas,16264,0.393792,bloque:Izquierdas,bloque:Derecha nacional,16264,9823,0.623452,15214,false
+nac17,202307,5,dv_base,2,PSOE,Izquierdas,13768,0.295045,PSOE,CiU–Junts,19164,18760,0.505326,8740,false
+nac17,202307,5,dv_A,2,bloque:Izquierdas,Izquierdas,19164,0.410681,bloque:Izquierdas,bloque:Nacionalistas,19164,18760,0.505326,8740,false
+nac17,202307,5,dv_B,2,bloque:Izquierdas,Izquierdas,19164,0.410681,bloque:Izquierdas,CiU–Junts,19164,18760,0.505326,8740,false
+nac17,202307,6,dv_base,2,CiU–Junts,Nacionalistas,13263,0.259205,PSOE,CiU–Junts,18240,26132,0.588930,6796,false
+nac17,202307,6,dv_A,1,bloque:Nacionalistas,Nacionalistas,26132,0.510710,,,,,,0,false
+nac17,202307,6,dv_B,2,CiU–Junts,Nacionalistas,18240,0.356473,bloque:Izquierdas,CiU–Junts,18240,26132,0.588930,6796,false
+nac17,202307,7,dv_base,2,PSOE,Izquierdas,16011,0.353639,PSOE,Podemos–Sumar,16070,6208,0.721339,22997,false
+nac17,202307,7,dv_A,2,bloque:Izquierdas,Izquierdas,22278,0.492060,bloque:Izquierdas,bloque:Nacionalistas,22278,13042,0.630747,9955,false
+nac17,202307,7,dv_B,2,bloque:Izquierdas,Izquierdas,22278,0.492060,bloque:Izquierdas,bloque:Derecha nacional,22278,9231,0.707036,13766,false
+nac18,202307,1,dv_base,2,PP,Derecha nacional,30779,0.458341,PP,PSOE,39766,26504,0.600060,883,false
+nac18,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,39766,0.592170,,,,,,0,false
+nac18,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,39766,0.592170,,,,,,0,false
+nac18,202307,2,dv_base,2,PP,Derecha nacional,23168,0.378494,PP,PSOE,33239,27171,0.550223,801,false
+nac18,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,33239,0.543023,,,,,,0,false
+nac18,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,33239,0.543023,,,,,,0,false
+nac18,202307,3,dv_base,2,PP,Derecha nacional,20539,0.353877,PSOE,PP,26721,30642,0.534177,677,false
+nac18,202307,3,dv_A,1,bloque:Derecha nacional,Derecha nacional,30642,0.527946,,,,,,0,false
+nac18,202307,3,dv_B,1,bloque:Derecha nacional,Derecha nacional,30642,0.527946,,,,,,0,false
+nac18,202307,4,dv_base,2,PP,Derecha nacional,26198,0.426081,PP,PSOE,34816,25727,0.575062,943,false
+nac18,202307,4,dv_A,1,bloque:Derecha nacional,Derecha nacional,34816,0.566243,,,,,,0,false
+nac18,202307,4,dv_B,1,bloque:Derecha nacional,Derecha nacional,34816,0.566243,,,,,,0,false
+nac18,202307,5,dv_base,2,PP,Derecha nacional,21704,0.358388,PSOE,PP,27833,32011,0.534907,716,false
+nac18,202307,5,dv_A,1,bloque:Derecha nacional,Derecha nacional,32011,0.528583,,,,,,0,false
+nac18,202307,5,dv_B,1,bloque:Derecha nacional,Derecha nacional,32011,0.528583,,,,,,0,false
+nac18,202307,6,dv_base,2,PP,Derecha nacional,27164,0.403626,PSOE,PP,33151,33573,0.503162,576,false
+nac18,202307,6,dv_A,2,bloque:Derecha nacional,Derecha nacional,33573,0.498856,bloque:Derecha nacional,bloque:Izquierdas,33573,33151,0.503162,576,false
+nac18,202307,6,dv_B,2,bloque:Derecha nacional,Derecha nacional,33573,0.498856,bloque:Derecha nacional,bloque:Izquierdas,33573,33151,0.503162,576,false
+nac18,202307,7,dv_base,2,PP,Derecha nacional,20340,0.349960,PSOE,PP,28570,28761,0.501666,790,false
+nac18,202307,7,dv_A,2,bloque:Derecha nacional,Derecha nacional,28761,0.494847,bloque:Derecha nacional,bloque:Izquierdas,28761,28570,0.501666,790,false
+nac18,202307,7,dv_B,2,bloque:Derecha nacional,Derecha nacional,28761,0.494847,bloque:Derecha nacional,bloque:Izquierdas,28761,28570,0.501666,790,false
+nac18,202307,8,dv_base,2,PP,Derecha nacional,20726,0.343532,PP,PSOE,32248,27226,0.542220,858,false
+nac18,202307,8,dv_A,1,bloque:Derecha nacional,Derecha nacional,32248,0.534509,,,,,,0,false
+nac18,202307,8,dv_B,1,bloque:Derecha nacional,Derecha nacional,32248,0.534509,,,,,,0,false
+nac19,202307,1,dv_base,2,PP,Derecha nacional,25475,0.375261,PP,PSOE,38470,28641,0.573229,775,false
+nac19,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,38470,0.566685,,,,,,0,false
+nac19,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,38470,0.566685,,,,,,0,false
+nac19,202307,2,dv_base,2,PP,Derecha nacional,25521,0.358718,PP,PSOE,39655,30532,0.564991,958,false
+nac19,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,39655,0.557383,,,,,,0,false
+nac19,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,39655,0.557383,,,,,,0,false
+nac20,202307,1,dv_base,2,EAJ-PNV,Nacionalistas,16159,0.239510,EAJ-PNV,PSOE,30429,22642,0.573364,14396,false
+nac20,202307,1,dv_A,2,bloque:Nacionalistas,Nacionalistas,30429,0.451020,bloque:Nacionalistas,bloque:Izquierdas,30429,22642,0.573364,14396,false
+nac20,202307,1,dv_B,2,EAJ-PNV,Nacionalistas,22642,0.335601,bloque:Izquierdas,EAJ-PNV,22642,30429,0.573364,14396,false
+nac20,202307,2,dv_base,2,EH Bildu,Nacionalistas,24033,0.400677,EH Bildu,PSOE,36324,18853,0.658318,4804,false
+nac20,202307,2,dv_A,1,bloque:Nacionalistas,Nacionalistas,36324,0.605592,,,,,,0,false
+nac20,202307,2,dv_B,2,EH Bildu,Nacionalistas,24033,0.400677,EH Bildu,bloque:Izquierdas,36324,18853,0.658318,4804,false
+nac20,202307,3,dv_base,2,EH Bildu,Nacionalistas,26212,0.397899,EH Bildu,EAJ-PNV,26212,16945,0.607364,22719,false
+nac20,202307,3,dv_A,1,bloque:Nacionalistas,Nacionalistas,43157,0.655125,,,,,,0,false
+nac20,202307,3,dv_B,2,EH Bildu,Nacionalistas,26212,0.397899,EH Bildu,bloque:Izquierdas,43157,18883,0.695632,3836,false
+nac20,202307,4,dv_base,2,EH Bildu,Nacionalistas,15751,0.283220,PSOE,EH Bildu,22677,24854,0.522901,8083,false
+nac20,202307,4,dv_A,2,bloque:Nacionalistas,Nacionalistas,24854,0.446902,bloque:Nacionalistas,bloque:Izquierdas,24854,22677,0.522901,8083,false
+nac20,202307,4,dv_B,2,EH Bildu,Nacionalistas,22677,0.407757,bloque:Izquierdas,EH Bildu,22677,24854,0.522901,8083,false
+nac20,202307,5,dv_base,2,EH Bildu,Nacionalistas,23155,0.361899,EH Bildu,EAJ-PNV,23155,18834,0.551454,21993,false
+nac20,202307,5,dv_A,1,bloque:Nacionalistas,Nacionalistas,41989,0.656263,,,,,,0,false
+nac20,202307,5,dv_B,2,EH Bildu,Nacionalistas,23155,0.361899,EH Bildu,EAJ-PNV,23155,18834,0.551454,21993,false
+nac20,202307,6,dv_base,2,PSOE,Izquierdas,17714,0.308606,PSOE,EH Bildu,25713,24016,0.517062,7671,false
+nac20,202307,6,dv_A,2,bloque:Izquierdas,Izquierdas,25713,0.447962,bloque:Izquierdas,bloque:Nacionalistas,25713,24016,0.517062,7671,false
+nac20,202307,6,dv_B,2,bloque:Izquierdas,Izquierdas,25713,0.447962,bloque:Izquierdas,EH Bildu,25713,24016,0.517062,7671,false
+nac21,202307,1,dv_base,2,PP,Derecha nacional,25869,0.365934,PP,PSOE,35967,33001,0.521503,1725,false
+nac21,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,35967,0.508777,,,,,,0,false
+nac21,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,35967,0.508777,,,,,,0,false
+nac21,202307,2,dv_base,2,PP,Derecha nacional,24138,0.393133,PP,PSOE,34424,26255,0.567313,720,false
+nac21,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,34424,0.560661,,,,,,0,false
+nac21,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,34424,0.560661,,,,,,0,false
+nac21,202307,3,dv_base,2,PSOE,Izquierdas,30273,0.455624,PSOE,PP,38053,27550,0.580050,840,false
+nac21,202307,3,dv_A,1,bloque:Izquierdas,Izquierdas,38053,0.572716,,,,,,0,false
+nac21,202307,3,dv_B,1,bloque:Izquierdas,Izquierdas,38053,0.572716,,,,,,0,false
+nac21,202307,4,dv_base,2,PP,Derecha nacional,22638,0.410272,PP,PSOE,32937,21385,0.606329,856,false
+nac21,202307,4,dv_A,1,bloque:Derecha nacional,Derecha nacional,32937,0.596923,,,,,,0,false
+nac21,202307,4,dv_B,1,bloque:Derecha nacional,Derecha nacional,32937,0.596923,,,,,,0,false
+nac22,202307,1,dv_base,2,PP,Derecha nacional,21296,0.373640,PP,PSOE,28492,26796,0.515338,1708,false
+nac22,202307,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,28492,0.499895,bloque:Derecha nacional,bloque:Izquierdas,28492,26796,0.515338,1708,false
+nac22,202307,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,28492,0.499895,bloque:Derecha nacional,bloque:Izquierdas,28492,26796,0.515338,1708,false
+nac22,202307,2,dv_base,2,PP,Derecha nacional,24266,0.399513,PP,PSOE,32143,26856,0.544806,1740,false
+nac22,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,32143,0.529199,,,,,,0,false
+nac22,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,32143,0.529199,,,,,,0,false
+nac23,202307,1,dv_base,2,PP,Derecha nacional,29475,0.414936,PP,PSOE,39885,27411,0.592680,3739,false
+nac23,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,39885,0.561484,,,,,,0,false
+nac23,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,39885,0.561484,,,,,,0,false
+nac23,202307,2,dv_base,2,PP,Derecha nacional,24111,0.368805,PP,PSOE,34509,29510,0.539043,1357,false
+nac23,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,34509,0.527854,,,,,,0,false
+nac23,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,34509,0.527854,,,,,,0,false
+nac23,202307,3,dv_base,2,PP,Derecha nacional,29147,0.383629,PP,PSOE,40239,33747,0.543873,1991,false
+nac23,202307,3,dv_A,1,bloque:Derecha nacional,Derecha nacional,40239,0.529621,,,,,,0,false
+nac23,202307,3,dv_B,1,bloque:Derecha nacional,Derecha nacional,40239,0.529621,,,,,,0,false
+nac23,202307,4,dv_base,2,PP,Derecha nacional,29627,0.386045,PSOE,PP,36934,37924,0.506613,1887,false
+nac23,202307,4,dv_A,2,bloque:Derecha nacional,Derecha nacional,37924,0.494156,bloque:Derecha nacional,bloque:Izquierdas,37924,36934,0.506613,1887,false
+nac23,202307,4,dv_B,2,bloque:Derecha nacional,Derecha nacional,37924,0.494156,bloque:Derecha nacional,bloque:Izquierdas,37924,36934,0.506613,1887,false
+nac23,202307,5,dv_base,2,PP,Derecha nacional,29800,0.394321,PSOE,PP,34886,38846,0.526854,1841,false
+nac23,202307,5,dv_A,1,bloque:Derecha nacional,Derecha nacional,38846,0.514020,,,,,,0,false
+nac23,202307,5,dv_B,1,bloque:Derecha nacional,Derecha nacional,38846,0.514020,,,,,,0,false
+nac24,202307,1,dv_base,2,PP,Derecha nacional,27212,0.382546,PP,PSOE,36478,26205,0.581944,8451,false
+nac24,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,36478,0.512807,,,,,,0,false
+nac24,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,36478,0.512807,,,,,,0,false
+nac24,202307,2,dv_base,2,PSOE,Izquierdas,30987,0.441517,PSOE,PP,37430,31420,0.543646,1333,false
+nac24,202307,2,dv_A,1,bloque:Izquierdas,Izquierdas,37430,0.533320,,,,,,0,false
+nac24,202307,2,dv_B,1,bloque:Izquierdas,Izquierdas,37430,0.533320,,,,,,0,false
+nac24,202307,3,dv_base,2,PP,Derecha nacional,28281,0.429731,PP,PSOE,38140,20706,0.648132,6965,false
+nac24,202307,3,dv_A,1,bloque:Derecha nacional,Derecha nacional,38140,0.579538,,,,,,0,false
+nac24,202307,3,dv_B,1,bloque:Derecha nacional,Derecha nacional,38140,0.579538,,,,,,0,false
+nac24,202307,4,dv_base,2,PP,Derecha nacional,20676,0.330124,PSOE,PP,25348,29270,0.535904,8013,false
+nac24,202307,4,dv_A,2,bloque:Derecha nacional,Derecha nacional,29270,0.467340,bloque:Derecha nacional,bloque:Izquierdas,29270,25348,0.535904,8013,false
+nac24,202307,4,dv_B,2,bloque:Derecha nacional,Derecha nacional,29270,0.467340,bloque:Derecha nacional,bloque:Izquierdas,29270,25348,0.535904,8013,false
+nac25,202307,1,dv_base,2,PSOE,Izquierdas,14723,0.342316,PSOE,PP,18613,11877,0.610462,12520,false
+nac25,202307,1,dv_A,2,bloque:Izquierdas,Izquierdas,18613,0.432760,bloque:Izquierdas,bloque:Nacionalistas,18613,11967,0.608666,12430,false
+nac25,202307,1,dv_B,2,bloque:Izquierdas,Izquierdas,18613,0.432760,bloque:Izquierdas,bloque:Derecha nacional,18613,11877,0.610462,12520,false
+nac25,202307,2,dv_base,2,CiU–Junts,Nacionalistas,11847,0.266476,PSOE,CiU–Junts,15189,22082,0.592471,7187,false
+nac25,202307,2,dv_A,2,bloque:Nacionalistas,Nacionalistas,22082,0.496694,bloque:Nacionalistas,bloque:Izquierdas,22082,15189,0.592471,7187,false
+nac25,202307,2,dv_B,2,CiU–Junts,Nacionalistas,15189,0.341648,bloque:Izquierdas,CiU–Junts,15189,22082,0.592471,7187,false
+nac25,202307,3,dv_base,2,ERC,Nacionalistas,13586,0.285366,PSOE,ERC,17366,21618,0.554535,8625,false
+nac25,202307,3,dv_A,2,bloque:Nacionalistas,Nacionalistas,21618,0.454074,bloque:Nacionalistas,bloque:Izquierdas,21618,17366,0.554535,8625,false
+nac25,202307,3,dv_B,2,ERC,Nacionalistas,17366,0.364763,bloque:Izquierdas,ERC,17366,21618,0.554535,8625,false
+nac25,202307,4,dv_base,2,ERC,Nacionalistas,13694,0.299696,PSOE,ERC,17277,18632,0.518867,9784,false
+nac25,202307,4,dv_A,2,bloque:Nacionalistas,Nacionalistas,18632,0.407765,bloque:Nacionalistas,bloque:Izquierdas,18632,17277,0.518867,9784,false
+nac25,202307,4,dv_B,2,bloque:Izquierdas,Izquierdas,17277,0.378110,bloque:Izquierdas,bloque:Derecha nacional,17277,9236,0.651643,19180,false
+nac26,202307,1,dv_base,2,PP,Derecha nacional,27275,0.469086,PP,PSOE,32297,25031,0.563372,817,false
+nac26,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,32297,0.555456,,,,,,0,false
+nac26,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,32297,0.555456,,,,,,0,false
+nac26,202307,2,dv_base,2,PP,Derecha nacional,24595,0.444274,PP,PSOE,29840,24748,0.546640,772,false
+nac26,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,29840,0.539017,,,,,,0,false
+nac26,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,29840,0.539017,,,,,,0,false
+nac26,202307,3,dv_base,2,PP,Derecha nacional,27243,0.469028,PP,PSOE,33852,23616,0.589058,616,false
+nac26,202307,3,dv_A,1,bloque:Derecha nacional,Derecha nacional,33852,0.582811,,,,,,0,false
+nac26,202307,3,dv_B,1,bloque:Derecha nacional,Derecha nacional,33852,0.582811,,,,,,0,false
+nac27,202307,1,dv_base,2,PP,Derecha nacional,27966,0.477260,PP,PSOE,30585,22430,0.576912,5582,false
+nac27,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,30585,0.521955,,,,,,0,false
+nac27,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,30585,0.521955,,,,,,0,false
+nac27,202307,2,dv_base,2,PP,Derecha nacional,33069,0.497465,PP,PSOE,35923,23340,0.606162,7212,false
+nac27,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,35923,0.540399,,,,,,0,false
+nac27,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,35923,0.540399,,,,,,0,false
+nac27,202307,3,dv_base,1,PP,Derecha nacional,37071,0.540181,,,,,,0,false
+nac27,202307,3,dv_A,1,bloque:Derecha nacional,Derecha nacional,39925,0.581768,,,,,,0,false
+nac27,202307,3,dv_B,1,bloque:Derecha nacional,Derecha nacional,39925,0.581768,,,,,,0,false
+nac28,202307,1,dv_base,2,PP,Derecha nacional,21591,0.406595,PP,PSOE,29666,22797,0.565465,639,false
+nac28,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,29666,0.558661,,,,,,0,false
+nac28,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,29666,0.558661,,,,,,0,false
+nac28,202307,2,dv_base,2,PSOE,Izquierdas,22526,0.367034,PP,PSOE,29852,30717,0.507141,804,false
+nac28,202307,2,dv_A,1,bloque:Izquierdas,Izquierdas,30717,0.500497,,,,,,0,false
+nac28,202307,2,dv_B,1,bloque:Izquierdas,Izquierdas,30717,0.500497,,,,,,0,false
+nac28,202307,3,dv_base,2,PSOE,Izquierdas,23471,0.374123,PSOE,PP,33096,28652,0.535985,988,false
+nac28,202307,3,dv_A,1,bloque:Izquierdas,Izquierdas,33096,0.527544,,,,,,0,false
+nac28,202307,3,dv_B,1,bloque:Izquierdas,Izquierdas,33096,0.527544,,,,,,0,false
+nac28,202307,4,dv_base,2,PSOE,Izquierdas,21341,0.350611,PSOE,PP,33215,26860,0.552892,793,false
+nac28,202307,4,dv_A,1,bloque:Izquierdas,Izquierdas,33215,0.545689,,,,,,0,false
+nac28,202307,4,dv_B,1,bloque:Izquierdas,Izquierdas,33215,0.545689,,,,,,0,false
+nac28,202307,5,dv_base,2,PSOE,Izquierdas,23405,0.373607,PSOE,PP,34693,27070,0.561712,883,false
+nac28,202307,5,dv_A,1,bloque:Izquierdas,Izquierdas,34693,0.553794,,,,,,0,false
+nac28,202307,5,dv_B,1,bloque:Izquierdas,Izquierdas,34693,0.553794,,,,,,0,false
+nac28,202307,6,dv_base,2,Podemos–Sumar,Izquierdas,20536,0.332739,PP,Podemos–Sumar,26027,35121,0.574361,570,false
+nac28,202307,6,dv_A,1,bloque:Izquierdas,Izquierdas,35121,0.569056,,,,,,0,false
+nac28,202307,6,dv_B,1,bloque:Izquierdas,Izquierdas,35121,0.569056,,,,,,0,false
+nac28,202307,7,dv_base,2,PP,Derecha nacional,21560,0.383664,PP,PSOE,27902,27551,0.503165,742,false
+nac28,202307,7,dv_A,2,bloque:Derecha nacional,Derecha nacional,27902,0.496521,bloque:Derecha nacional,bloque:Izquierdas,27902,27551,0.503165,742,false
+nac28,202307,7,dv_B,2,bloque:Derecha nacional,Derecha nacional,27902,0.496521,bloque:Derecha nacional,bloque:Izquierdas,27902,27551,0.503165,742,false
+nac28,202307,8,dv_base,1,PP,Derecha nacional,35874,0.517677,,,,,,0,false
+nac28,202307,8,dv_A,1,bloque:Derecha nacional,Derecha nacional,46428,0.669976,,,,,,0,false
+nac28,202307,8,dv_B,1,bloque:Derecha nacional,Derecha nacional,46428,0.669976,,,,,,0,false
+nac28,202307,9,dv_base,1,PP,Derecha nacional,36839,0.536191,,,,,,0,false
+nac28,202307,9,dv_A,1,bloque:Derecha nacional,Derecha nacional,45994,0.669442,,,,,,0,false
+nac28,202307,9,dv_B,1,bloque:Derecha nacional,Derecha nacional,45994,0.669442,,,,,,0,false
+nac28,202307,10,dv_base,2,PSOE,Izquierdas,18315,0.366902,PSOE,PP,29488,19741,0.598997,689,false
+nac28,202307,10,dv_A,1,bloque:Izquierdas,Izquierdas,29488,0.590729,,,,,,0,false
+nac28,202307,10,dv_B,1,bloque:Izquierdas,Izquierdas,29488,0.590729,,,,,,0,false
+nac28,202307,11,dv_base,2,PP,Derecha nacional,34457,0.497186,PP,PSOE,44212,24481,0.643617,611,false
+nac28,202307,11,dv_A,1,bloque:Derecha nacional,Derecha nacional,44212,0.637943,,,,,,0,false
+nac28,202307,11,dv_B,1,bloque:Derecha nacional,Derecha nacional,44212,0.637943,,,,,,0,false
+nac28,202307,12,dv_base,2,PP,Derecha nacional,30462,0.470347,PP,PSOE,38237,25972,0.595508,556,false
+nac28,202307,12,dv_A,1,bloque:Derecha nacional,Derecha nacional,38237,0.590396,,,,,,0,false
+nac28,202307,12,dv_B,1,bloque:Derecha nacional,Derecha nacional,38237,0.590396,,,,,,0,false
+nac28,202307,13,dv_base,1,PP,Derecha nacional,31552,0.528669,,,,,,0,false
+nac28,202307,13,dv_A,1,bloque:Derecha nacional,Derecha nacional,40529,0.679082,,,,,,0,false
+nac28,202307,13,dv_B,1,bloque:Derecha nacional,Derecha nacional,40529,0.679082,,,,,,0,false
+nac28,202307,14,dv_base,2,PP,Derecha nacional,29103,0.491638,PP,PSOE,37636,20989,0.641979,571,false
+nac28,202307,14,dv_A,1,bloque:Derecha nacional,Derecha nacional,37636,0.635786,,,,,,0,false
+nac28,202307,14,dv_B,1,bloque:Derecha nacional,Derecha nacional,37636,0.635786,,,,,,0,false
+nac28,202307,15,dv_base,2,PP,Derecha nacional,30746,0.472536,PP,PSOE,39000,25360,0.605966,706,false
+nac28,202307,15,dv_A,1,bloque:Derecha nacional,Derecha nacional,39000,0.599391,,,,,,0,false
+nac28,202307,15,dv_B,1,bloque:Derecha nacional,Derecha nacional,39000,0.599391,,,,,,0,false
+nac28,202307,16,dv_base,2,PSOE,Izquierdas,19860,0.416903,PSOE,Podemos–Sumar,19952,11733,0.629699,15952,false
+nac28,202307,16,dv_A,1,bloque:Izquierdas,Izquierdas,31685,0.665134,,,,,,0,false
+nac28,202307,16,dv_B,1,bloque:Izquierdas,Izquierdas,31685,0.665134,,,,,,0,false
+nac28,202307,17,dv_base,2,PP,Derecha nacional,26015,0.420873,PP,PSOE,33231,27930,0.543336,651,false
+nac28,202307,17,dv_A,1,bloque:Derecha nacional,Derecha nacional,33231,0.537614,,,,,,0,false
+nac28,202307,17,dv_B,1,bloque:Derecha nacional,Derecha nacional,33231,0.537614,,,,,,0,false
+nac28,202307,18,dv_base,2,PSOE,Izquierdas,22143,0.370352,PP,PSOE,28032,31105,0.525982,652,false
+nac28,202307,18,dv_A,1,bloque:Izquierdas,Izquierdas,31105,0.520246,,,,,,0,false
+nac28,202307,18,dv_B,1,bloque:Izquierdas,Izquierdas,31105,0.520246,,,,,,0,false
+nac28,202307,19,dv_base,2,PP,Derecha nacional,31014,0.455318,PP,PSOE,39231,28135,0.582356,749,false
+nac28,202307,19,dv_A,1,bloque:Derecha nacional,Derecha nacional,39231,0.575952,,,,,,0,false
+nac28,202307,19,dv_B,1,bloque:Derecha nacional,Derecha nacional,39231,0.575952,,,,,,0,false
+nac28,202307,20,dv_base,1,PP,Derecha nacional,36719,0.516885,,,,,,0,false
+nac28,202307,20,dv_A,1,bloque:Derecha nacional,Derecha nacional,48289,0.679753,,,,,,0,false
+nac28,202307,20,dv_B,1,bloque:Derecha nacional,Derecha nacional,48289,0.679753,,,,,,0,false
+nac28,202307,21,dv_base,1,PP,Derecha nacional,34872,0.534224,,,,,,0,false
+nac28,202307,21,dv_A,1,bloque:Derecha nacional,Derecha nacional,44510,0.681874,,,,,,0,false
+nac28,202307,21,dv_B,1,bloque:Derecha nacional,Derecha nacional,44510,0.681874,,,,,,0,false
+nac28,202307,22,dv_base,1,PP,Derecha nacional,40098,0.601368,,,,,,0,false
+nac28,202307,22,dv_A,1,bloque:Derecha nacional,Derecha nacional,51050,0.765620,,,,,,0,false
+nac28,202307,22,dv_B,1,bloque:Derecha nacional,Derecha nacional,51050,0.765620,,,,,,0,false
+nac28,202307,23,dv_base,2,PSOE,Izquierdas,21994,0.359526,PP,PSOE,28442,31919,0.528802,814,false
+nac28,202307,23,dv_A,1,bloque:Izquierdas,Izquierdas,31919,0.521765,,,,,,0,false
+nac28,202307,23,dv_B,1,bloque:Izquierdas,Izquierdas,31919,0.521765,,,,,,0,false
+nac28,202307,24,dv_base,2,PSOE,Izquierdas,16227,0.351310,PSOE,PP,25100,20465,0.550861,625,false
+nac28,202307,24,dv_A,1,bloque:Izquierdas,Izquierdas,25100,0.543408,,,,,,0,false
+nac28,202307,24,dv_B,1,bloque:Izquierdas,Izquierdas,25100,0.543408,,,,,,0,false
+nac28,202307,25,dv_base,2,PSOE,Izquierdas,19540,0.342219,PSOE,PP,31659,24634,0.562397,805,false
+nac28,202307,25,dv_A,1,bloque:Izquierdas,Izquierdas,31659,0.554468,,,,,,0,false
+nac28,202307,25,dv_B,1,bloque:Izquierdas,Izquierdas,31659,0.554468,,,,,,0,false
+nac28,202307,26,dv_base,2,PP,Derecha nacional,22271,0.391097,PP,PSOE,29378,26838,0.522591,729,false
+nac28,202307,26,dv_A,1,bloque:Derecha nacional,Derecha nacional,29378,0.515901,,,,,,0,false
+nac28,202307,26,dv_B,1,bloque:Derecha nacional,Derecha nacional,29378,0.515901,,,,,,0,false
+nac28,202307,27,dv_base,2,PSOE,Izquierdas,22703,0.351396,PP,PSOE,30433,33306,0.522537,869,false
+nac28,202307,27,dv_A,1,bloque:Izquierdas,Izquierdas,33306,0.515509,,,,,,0,false
+nac28,202307,27,dv_B,1,bloque:Izquierdas,Izquierdas,33306,0.515509,,,,,,0,false
+nac28,202307,28,dv_base,2,PSOE,Izquierdas,21572,0.374020,PP,PSOE,27811,29255,0.512652,610,false
+nac28,202307,28,dv_A,1,bloque:Izquierdas,Izquierdas,29255,0.507230,,,,,,0,false
+nac28,202307,28,dv_B,1,bloque:Izquierdas,Izquierdas,29255,0.507230,,,,,,0,false
+nac28,202307,29,dv_base,2,PSOE,Izquierdas,21538,0.349541,PSOE,PP,33801,27074,0.555253,743,false
+nac28,202307,29,dv_A,1,bloque:Izquierdas,Izquierdas,33801,0.548557,,,,,,0,false
+nac28,202307,29,dv_B,1,bloque:Izquierdas,Izquierdas,33801,0.548557,,,,,,0,false
+nac28,202307,30,dv_base,1,PP,Derecha nacional,34641,0.519091,,,,,,0,false
+nac28,202307,30,dv_A,1,bloque:Derecha nacional,Derecha nacional,43864,0.657296,,,,,,0,false
+nac28,202307,30,dv_B,1,bloque:Derecha nacional,Derecha nacional,43864,0.657296,,,,,,0,false
+nac28,202307,31,dv_base,2,PSOE,Izquierdas,17445,0.387512,PSOE,PP,26372,17958,0.594902,688,false
+nac28,202307,31,dv_A,1,bloque:Izquierdas,Izquierdas,26372,0.585810,,,,,,0,false
+nac28,202307,31,dv_B,1,bloque:Izquierdas,Izquierdas,26372,0.585810,,,,,,0,false
+nac28,202307,32,dv_base,2,PSOE,Izquierdas,18719,0.402914,PSOE,PP,26760,19005,0.584726,694,false
+nac28,202307,32,dv_A,1,bloque:Izquierdas,Izquierdas,26760,0.575992,,,,,,0,false
+nac28,202307,32,dv_B,1,bloque:Izquierdas,Izquierdas,26760,0.575992,,,,,,0,false
+nac28,202307,33,dv_base,2,PSOE,Izquierdas,20942,0.356241,PP,PSOE,27661,30352,0.523193,773,false
+nac28,202307,33,dv_A,1,bloque:Izquierdas,Izquierdas,30352,0.516313,,,,,,0,false
+nac28,202307,33,dv_B,1,bloque:Izquierdas,Izquierdas,30352,0.516313,,,,,,0,false
+nac28,202307,34,dv_base,2,PSOE,Izquierdas,18948,0.356252,PP,PSOE,25907,26563,0.506251,717,false
+nac28,202307,34,dv_A,2,bloque:Izquierdas,Izquierdas,26563,0.499427,bloque:Izquierdas,bloque:Derecha nacional,26563,25907,0.506251,717,false
+nac28,202307,34,dv_B,2,bloque:Izquierdas,Izquierdas,26563,0.499427,bloque:Izquierdas,bloque:Derecha nacional,26563,25907,0.506251,717,false
+nac28,202307,35,dv_base,2,PP,Derecha nacional,21366,0.388572,PP,PSOE,29189,25030,0.538354,767,false
+nac28,202307,35,dv_A,1,bloque:Derecha nacional,Derecha nacional,29189,0.530844,,,,,,0,false
+nac28,202307,35,dv_B,1,bloque:Derecha nacional,Derecha nacional,29189,0.530844,,,,,,0,false
+nac28,202307,36,dv_base,2,PSOE,Izquierdas,21973,0.347405,PSOE,PP,33634,28687,0.539690,928,false
+nac28,202307,36,dv_A,1,bloque:Izquierdas,Izquierdas,33634,0.531771,,,,,,0,false
+nac28,202307,36,dv_B,1,bloque:Izquierdas,Izquierdas,33634,0.531771,,,,,,0,false
+nac28,202307,37,dv_base,2,PSOE,Izquierdas,16843,0.334472,PP,PSOE,24303,25364,0.510681,690,false
+nac28,202307,37,dv_A,1,bloque:Izquierdas,Izquierdas,25364,0.503684,,,,,,0,false
+nac28,202307,37,dv_B,1,bloque:Izquierdas,Izquierdas,25364,0.503684,,,,,,0,false
+nac28,202307,38,dv_base,2,PP,Derecha nacional,27237,0.454974,PP,PSOE,35859,23337,0.605767,669,false
+nac28,202307,38,dv_A,1,bloque:Derecha nacional,Derecha nacional,35859,0.598998,,,,,,0,false
+nac28,202307,38,dv_B,1,bloque:Derecha nacional,Derecha nacional,35859,0.598998,,,,,,0,false
+nac28,202307,39,dv_base,2,PP,Derecha nacional,21174,0.408016,PP,PSOE,31600,19641,0.616694,654,false
+nac28,202307,39,dv_A,1,bloque:Derecha nacional,Derecha nacional,31600,0.608922,,,,,,0,false
+nac28,202307,39,dv_B,1,bloque:Derecha nacional,Derecha nacional,31600,0.608922,,,,,,0,false
+nac28,202307,40,dv_base,2,PP,Derecha nacional,22804,0.403775,PP,PSOE,32785,22952,0.588209,740,false
+nac28,202307,40,dv_A,1,bloque:Derecha nacional,Derecha nacional,32785,0.580502,,,,,,0,false
+nac28,202307,40,dv_B,1,bloque:Derecha nacional,Derecha nacional,32785,0.580502,,,,,,0,false
+nac28,202307,41,dv_base,2,PP,Derecha nacional,26517,0.430771,PP,PSOE,35713,25106,0.587201,738,false
+nac28,202307,41,dv_A,1,bloque:Derecha nacional,Derecha nacional,35713,0.580161,,,,,,0,false
+nac28,202307,41,dv_B,1,bloque:Derecha nacional,Derecha nacional,35713,0.580161,,,,,,0,false
+nac28,202307,42,dv_base,2,PP,Derecha nacional,20674,0.356614,PP,PSOE,28988,28169,0.507164,816,false
+nac28,202307,42,dv_A,1,bloque:Derecha nacional,Derecha nacional,28988,0.500026,,,,,,0,false
+nac28,202307,42,dv_B,1,bloque:Derecha nacional,Derecha nacional,28988,0.500026,,,,,,0,false
+nac28,202307,43,dv_base,2,PP,Derecha nacional,21662,0.403833,PP,PSOE,32781,20165,0.619140,695,false
+nac28,202307,43,dv_A,1,bloque:Derecha nacional,Derecha nacional,32781,0.611118,,,,,,0,false
+nac28,202307,43,dv_B,1,bloque:Derecha nacional,Derecha nacional,32781,0.611118,,,,,,0,false
+nac28,202307,44,dv_base,1,PP,Derecha nacional,41002,0.534040,,,,,,0,false
+nac28,202307,44,dv_A,1,bloque:Derecha nacional,Derecha nacional,53280,0.693958,,,,,,0,false
+nac28,202307,44,dv_B,1,bloque:Derecha nacional,Derecha nacional,53280,0.693958,,,,,,0,false
+nac28,202307,45,dv_base,1,PP,Derecha nacional,38380,0.547754,,,,,,0,false
+nac28,202307,45,dv_A,1,bloque:Derecha nacional,Derecha nacional,50599,0.722141,,,,,,0,false
+nac28,202307,45,dv_B,1,bloque:Derecha nacional,Derecha nacional,50599,0.722141,,,,,,0,false
+nac28,202307,46,dv_base,2,PP,Derecha nacional,24843,0.427531,PP,PSOE,33349,24052,0.580983,707,false
+nac28,202307,46,dv_A,1,bloque:Derecha nacional,Derecha nacional,33349,0.573914,,,,,,0,false
+nac28,202307,46,dv_B,1,bloque:Derecha nacional,Derecha nacional,33349,0.573914,,,,,,0,false
+nac28,202307,47,dv_base,2,PP,Derecha nacional,25276,0.398141,PP,PSOE,35564,27137,0.567200,784,false
+nac28,202307,47,dv_A,1,bloque:Derecha nacional,Derecha nacional,35564,0.560195,,,,,,0,false
+nac28,202307,47,dv_B,1,bloque:Derecha nacional,Derecha nacional,35564,0.560195,,,,,,0,false
+nac28,202307,48,dv_base,2,PP,Derecha nacional,29761,0.407679,PP,PSOE,42259,29882,0.585783,860,false
+nac28,202307,48,dv_A,1,bloque:Derecha nacional,Derecha nacional,42259,0.578882,,,,,,0,false
+nac28,202307,48,dv_B,1,bloque:Derecha nacional,Derecha nacional,42259,0.578882,,,,,,0,false
+nac28,202307,49,dv_base,1,PP,Derecha nacional,34230,0.556079,,,,,,0,false
+nac28,202307,49,dv_A,1,bloque:Derecha nacional,Derecha nacional,44947,0.730181,,,,,,0,false
+nac28,202307,49,dv_B,1,bloque:Derecha nacional,Derecha nacional,44947,0.730181,,,,,,0,false
+nac28,202307,50,dv_base,2,PP,Derecha nacional,26598,0.373012,PP,PSOE,35274,35150,0.500880,882,false
+nac28,202307,50,dv_A,2,bloque:Derecha nacional,Derecha nacional,35274,0.494685,bloque:Derecha nacional,bloque:Izquierdas,35274,35150,0.500880,882,false
+nac28,202307,50,dv_B,2,bloque:Derecha nacional,Derecha nacional,35274,0.494685,bloque:Derecha nacional,bloque:Izquierdas,35274,35150,0.500880,882,false
+nac28,202307,51,dv_base,2,PP,Derecha nacional,22517,0.378819,PP,PSOE,34685,23958,0.591460,797,false
+nac28,202307,51,dv_A,1,bloque:Derecha nacional,Derecha nacional,34685,0.583530,,,,,,0,false
+nac28,202307,51,dv_B,1,bloque:Derecha nacional,Derecha nacional,34685,0.583530,,,,,,0,false
+nac28,202307,52,dv_base,2,PSOE,Izquierdas,19312,0.366619,PSOE,PP,27786,23960,0.536969,930,false
+nac28,202307,52,dv_A,1,bloque:Izquierdas,Izquierdas,27786,0.527489,,,,,,0,false
+nac28,202307,52,dv_B,1,bloque:Izquierdas,Izquierdas,27786,0.527489,,,,,,0,false
+nac28,202307,53,dv_base,1,PP,Derecha nacional,32568,0.559867,,,,,,0,false
+nac28,202307,53,dv_A,1,bloque:Derecha nacional,Derecha nacional,43311,0.744546,,,,,,0,false
+nac28,202307,53,dv_B,1,bloque:Derecha nacional,Derecha nacional,43311,0.744546,,,,,,0,false
+nac28,202307,54,dv_base,2,PP,Derecha nacional,20575,0.365869,PP,PSOE,28741,26751,0.517931,744,false
+nac28,202307,54,dv_A,1,bloque:Derecha nacional,Derecha nacional,28741,0.511078,,,,,,0,false
+nac28,202307,54,dv_B,1,bloque:Derecha nacional,Derecha nacional,28741,0.511078,,,,,,0,false
+nac28,202307,55,dv_base,2,PP,Derecha nacional,20376,0.369204,PP,PSOE,30905,23717,0.565798,567,false
+nac28,202307,55,dv_A,1,bloque:Derecha nacional,Derecha nacional,30905,0.559985,,,,,,0,false
+nac28,202307,55,dv_B,1,bloque:Derecha nacional,Derecha nacional,30905,0.559985,,,,,,0,false
+nac28,202307,56,dv_base,2,PSOE,Izquierdas,17735,0.324627,PP,PSOE,24220,29718,0.550966,694,false
+nac28,202307,56,dv_A,1,bloque:Izquierdas,Izquierdas,29718,0.543967,,,,,,0,false
+nac28,202307,56,dv_B,1,bloque:Izquierdas,Izquierdas,29718,0.543967,,,,,,0,false
+nac28,202307,57,dv_base,2,PSOE,Izquierdas,23700,0.355616,PSOE,PP,34424,31262,0.524069,959,false
+nac28,202307,57,dv_A,1,bloque:Izquierdas,Izquierdas,34424,0.516528,,,,,,0,false
+nac28,202307,57,dv_B,1,bloque:Izquierdas,Izquierdas,34424,0.516528,,,,,,0,false
+nac28,202307,58,dv_base,2,PP,Derecha nacional,21401,0.374183,PP,PSOE,31838,24599,0.564133,757,false
+nac28,202307,58,dv_A,1,bloque:Derecha nacional,Derecha nacional,31838,0.556667,,,,,,0,false
+nac28,202307,58,dv_B,1,bloque:Derecha nacional,Derecha nacional,31838,0.556667,,,,,,0,false
+nac28,202307,59,dv_base,2,PP,Derecha nacional,20769,0.408412,PP,PSOE,31700,18454,0.632053,699,false
+nac28,202307,59,dv_A,1,bloque:Derecha nacional,Derecha nacional,31700,0.623365,,,,,,0,false
+nac28,202307,59,dv_B,1,bloque:Derecha nacional,Derecha nacional,31700,0.623365,,,,,,0,false
+nac29,202307,1,dv_base,2,PP,Derecha nacional,22020,0.353610,PP,PSOE,32078,28931,0.525791,1263,false
+nac29,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,32078,0.515127,,,,,,0,false
+nac29,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,32078,0.515127,,,,,,0,false
+nac29,202307,2,dv_base,2,PP,Derecha nacional,26545,0.385941,PP,PSOE,36747,30810,0.543941,1223,false
+nac29,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,36747,0.534269,,,,,,0,false
+nac29,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,36747,0.534269,,,,,,0,false
+nac29,202307,3,dv_base,2,PP,Derecha nacional,22960,0.362362,PP,PSOE,32073,30025,0.516490,1264,false
+nac29,202307,3,dv_A,1,bloque:Derecha nacional,Derecha nacional,32073,0.506187,,,,,,0,false
+nac29,202307,3,dv_B,1,bloque:Derecha nacional,Derecha nacional,32073,0.506187,,,,,,0,false
+nac29,202307,4,dv_base,2,PP,Derecha nacional,27091,0.436396,PP,PSOE,36623,24395,0.600200,1061,false
+nac29,202307,4,dv_A,1,bloque:Derecha nacional,Derecha nacional,36623,0.589942,,,,,,0,false
+nac29,202307,4,dv_B,1,bloque:Derecha nacional,Derecha nacional,36623,0.589942,,,,,,0,false
+nac29,202307,5,dv_base,2,PP,Derecha nacional,17704,0.416300,PP,PSOE,25413,16433,0.607298,681,false
+nac29,202307,5,dv_A,1,bloque:Derecha nacional,Derecha nacional,25413,0.597573,,,,,,0,false
+nac29,202307,5,dv_B,1,bloque:Derecha nacional,Derecha nacional,25413,0.597573,,,,,,0,false
+nac29,202307,6,dv_base,2,PP,Derecha nacional,24231,0.394410,PP,PSOE,33930,26225,0.564043,1281,false
+nac29,202307,6,dv_A,1,bloque:Derecha nacional,Derecha nacional,33930,0.552282,,,,,,0,false
+nac29,202307,6,dv_B,1,bloque:Derecha nacional,Derecha nacional,33930,0.552282,,,,,,0,false
+nac29,202307,7,dv_base,2,PP,Derecha nacional,20740,0.409380,PP,PSOE,29858,19844,0.600740,960,false
+nac29,202307,7,dv_A,1,bloque:Derecha nacional,Derecha nacional,29858,0.589357,,,,,,0,false
+nac29,202307,7,dv_B,1,bloque:Derecha nacional,Derecha nacional,29858,0.589357,,,,,,0,false
+nac29,202307,8,dv_base,2,PP,Derecha nacional,16681,0.381489,PP,PSOE,26051,17061,0.604263,614,false
+nac29,202307,8,dv_A,1,bloque:Derecha nacional,Derecha nacional,26051,0.595778,,,,,,0,false
+nac29,202307,8,dv_B,1,bloque:Derecha nacional,Derecha nacional,26051,0.595778,,,,,,0,false
+nac29,202307,9,dv_base,2,PP,Derecha nacional,16686,0.407662,PP,PSOE,24510,15771,0.608475,650,false
+nac29,202307,9,dv_A,1,bloque:Derecha nacional,Derecha nacional,24510,0.598813,,,,,,0,false
+nac29,202307,9,dv_B,1,bloque:Derecha nacional,Derecha nacional,24510,0.598813,,,,,,0,false
+nac29,202307,10,dv_base,2,PP,Derecha nacional,17839,0.384155,PP,PSOE,27097,18673,0.592025,667,false
+nac29,202307,10,dv_A,1,bloque:Derecha nacional,Derecha nacional,27097,0.583522,,,,,,0,false
+nac29,202307,10,dv_B,1,bloque:Derecha nacional,Derecha nacional,27097,0.583522,,,,,,0,false
+nac29,202307,11,dv_base,2,PP,Derecha nacional,12509,0.435323,PP,PSOE,17567,10610,0.623452,558,false
+nac29,202307,11,dv_A,1,bloque:Derecha nacional,Derecha nacional,17567,0.611345,,,,,,0,false
+nac29,202307,11,dv_B,1,bloque:Derecha nacional,Derecha nacional,17567,0.611345,,,,,,0,false
+nac29,202307,12,dv_base,2,PP,Derecha nacional,12022,0.355533,PP,PSOE,19168,13835,0.580796,811,false
+nac29,202307,12,dv_A,1,bloque:Derecha nacional,Derecha nacional,19168,0.566866,,,,,,0,false
+nac29,202307,12,dv_B,1,bloque:Derecha nacional,Derecha nacional,19168,0.566866,,,,,,0,false
+nac29,202307,13,dv_base,2,PP,Derecha nacional,21927,0.409636,PP,PSOE,30578,22204,0.579326,746,false
+nac29,202307,13,dv_A,1,bloque:Derecha nacional,Derecha nacional,30578,0.571252,,,,,,0,false
+nac29,202307,13,dv_B,1,bloque:Derecha nacional,Derecha nacional,30578,0.571252,,,,,,0,false
+nac29,202307,14,dv_base,2,PSOE,Izquierdas,25595,0.384858,PSOE,PP,34760,31070,0.528027,675,false
+nac29,202307,14,dv_A,1,bloque:Izquierdas,Izquierdas,34760,0.522667,,,,,,0,false
+nac29,202307,14,dv_B,1,bloque:Izquierdas,Izquierdas,34760,0.522667,,,,,,0,false
+nac29,202307,15,dv_base,2,PP,Derecha nacional,18621,0.369018,PP,PSOE,26409,23547,0.528645,505,false
+nac29,202307,15,dv_A,1,bloque:Derecha nacional,Derecha nacional,26409,0.523355,,,,,,0,false
+nac29,202307,15,dv_B,1,bloque:Derecha nacional,Derecha nacional,26409,0.523355,,,,,,0,false
+nac30,202307,1,dv_base,2,PP,Derecha nacional,22198,0.407924,PP,PSOE,34328,19067,0.642907,1022,false
+nac30,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,34328,0.630832,,,,,,0,false
+nac30,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,34328,0.630832,,,,,,0,false
+nac30,202307,2,dv_base,2,PP,Derecha nacional,34496,0.464342,PP,PSOE,48900,24322,0.667832,1068,false
+nac30,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,48900,0.658231,,,,,,0,false
+nac30,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,48900,0.658231,,,,,,0,false
+nac30,202307,3,dv_base,2,PP,Derecha nacional,27855,0.409982,PP,VOX,27874,16122,0.633558,23946,false
+nac30,202307,3,dv_A,1,bloque:Derecha nacional,Derecha nacional,43996,0.647552,,,,,,0,false
+nac30,202307,3,dv_B,1,bloque:Derecha nacional,Derecha nacional,43996,0.647552,,,,,,0,false
+nac30,202307,4,dv_base,2,PP,Derecha nacional,28866,0.425263,PP,PSOE,42545,24321,0.636273,1012,false
+nac30,202307,4,dv_A,1,bloque:Derecha nacional,Derecha nacional,42545,0.626786,,,,,,0,false
+nac30,202307,4,dv_B,1,bloque:Derecha nacional,Derecha nacional,42545,0.626786,,,,,,0,false
+nac30,202307,5,dv_base,2,PP,Derecha nacional,23053,0.423449,PP,VOX,23074,13191,0.636261,18176,false
+nac30,202307,5,dv_A,1,bloque:Derecha nacional,Derecha nacional,36265,0.666134,,,,,,0,false
+nac30,202307,5,dv_B,1,bloque:Derecha nacional,Derecha nacional,36265,0.666134,,,,,,0,false
+nac30,202307,6,dv_base,2,PP,Derecha nacional,28482,0.425829,PP,PSOE,41458,24680,0.626841,748,false
+nac30,202307,6,dv_A,1,bloque:Derecha nacional,Derecha nacional,41458,0.619831,,,,,,0,false
+nac30,202307,6,dv_B,1,bloque:Derecha nacional,Derecha nacional,41458,0.619831,,,,,,0,false
+nac30,202307,7,dv_base,2,PP,Derecha nacional,6785,0.382491,PP,PSOE,10444,7122,0.594558,173,false
+nac30,202307,7,dv_A,1,bloque:Derecha nacional,Derecha nacional,10444,0.588759,,,,,,0,false
+nac30,202307,7,dv_B,1,bloque:Derecha nacional,Derecha nacional,10444,0.588759,,,,,,0,false
+nac30,202307,8,dv_base,2,PP,Derecha nacional,25194,0.391369,PP,PSOE,40844,22633,0.643446,897,false
+nac30,202307,8,dv_A,1,bloque:Derecha nacional,Derecha nacional,40844,0.634480,,,,,,0,false
+nac30,202307,8,dv_B,1,bloque:Derecha nacional,Derecha nacional,40844,0.634480,,,,,,0,false
+nac30,202307,9,dv_base,2,PP,Derecha nacional,21056,0.416011,PP,PSOE,32372,17737,0.646032,505,false
+nac30,202307,9,dv_A,1,bloque:Derecha nacional,Derecha nacional,32372,0.639586,,,,,,0,false
+nac30,202307,9,dv_B,1,bloque:Derecha nacional,Derecha nacional,32372,0.639586,,,,,,0,false
+nac30,202307,10,dv_base,2,PP,Derecha nacional,29024,0.404719,PP,PSOE,41951,29048,0.590867,715,false
+nac30,202307,10,dv_A,1,bloque:Derecha nacional,Derecha nacional,41951,0.584976,,,,,,0,false
+nac30,202307,10,dv_B,1,bloque:Derecha nacional,Derecha nacional,41951,0.584976,,,,,,0,false
+nac30,202307,11,dv_base,2,PP,Derecha nacional,18082,0.397861,PP,PSOE,29074,15773,0.648293,601,false
+nac30,202307,11,dv_A,1,bloque:Derecha nacional,Derecha nacional,29074,0.639720,,,,,,0,false
+nac30,202307,11,dv_B,1,bloque:Derecha nacional,Derecha nacional,29074,0.639720,,,,,,0,false
+nac30,202307,12,dv_base,2,PP,Derecha nacional,19522,0.424899,PP,VOX,19535,11726,0.624900,14684,false
+nac30,202307,12,dv_A,1,bloque:Derecha nacional,Derecha nacional,31261,0.680400,,,,,,0,false
+nac30,202307,12,dv_B,1,bloque:Derecha nacional,Derecha nacional,31261,0.680400,,,,,,0,false
+nac30,202307,13,dv_base,2,PP,Derecha nacional,22396,0.388597,PP,PSOE,36545,20080,0.645386,1008,false
+nac30,202307,13,dv_A,1,bloque:Derecha nacional,Derecha nacional,36545,0.634099,,,,,,0,false
+nac30,202307,13,dv_B,1,bloque:Derecha nacional,Derecha nacional,36545,0.634099,,,,,,0,false
+nac31,202307,1,dv_base,2,PP,Derecha nacional,12448,0.230301,PSOE,PP,19108,24689,0.563714,10254,false
+nac31,202307,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,24689,0.456772,bloque:Derecha nacional,bloque:Izquierdas,24689,19108,0.563714,10254,false
+nac31,202307,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,24689,0.456772,bloque:Derecha nacional,bloque:Izquierdas,24689,19108,0.563714,10254,false
+nac31,202307,2,dv_base,2,PP,Derecha nacional,20210,0.353359,PSOE,PP,25988,28475,0.522832,2731,false
+nac31,202307,2,dv_A,2,bloque:Derecha nacional,Derecha nacional,28475,0.497867,bloque:Derecha nacional,bloque:Izquierdas,28475,25988,0.522832,2731,false
+nac31,202307,2,dv_B,2,bloque:Derecha nacional,Derecha nacional,28475,0.497867,bloque:Derecha nacional,bloque:Izquierdas,28475,25988,0.522832,2731,false
+nac31,202307,3,dv_base,2,PSOE,Izquierdas,15773,0.276598,PSOE,EH Bildu,24691,13431,0.647684,18903,false
+nac31,202307,3,dv_A,2,bloque:Izquierdas,Izquierdas,24691,0.432986,bloque:Izquierdas,bloque:Derecha nacional,24691,18247,0.575038,14087,false
+nac31,202307,3,dv_B,2,bloque:Izquierdas,Izquierdas,24691,0.432986,bloque:Izquierdas,bloque:Derecha nacional,24691,18247,0.575038,14087,false
+nac31,202307,4,dv_base,2,EH Bildu,Nacionalistas,17985,0.333500,EH Bildu,PSOE,20866,20065,0.509785,12997,false
+nac31,202307,4,dv_A,2,bloque:Nacionalistas,Nacionalistas,20866,0.386923,bloque:Nacionalistas,bloque:Izquierdas,20866,20065,0.509785,12997,false
+nac31,202307,4,dv_B,2,EH Bildu,Nacionalistas,20065,0.372070,bloque:Izquierdas,EH Bildu,20065,20866,0.509785,12997,false
+nac31,202307,5,dv_base,2,PSOE,Izquierdas,14204,0.265381,PSOE,EH Bildu,22102,11320,0.661301,20101,false
+nac31,202307,5,dv_A,2,bloque:Izquierdas,Izquierdas,22102,0.412944,bloque:Izquierdas,bloque:Derecha nacional,22102,19389,0.532694,12032,false
+nac31,202307,5,dv_B,2,bloque:Izquierdas,Izquierdas,22102,0.412944,bloque:Izquierdas,bloque:Derecha nacional,22102,19389,0.532694,12032,false
+nac31,202307,6,dv_base,2,PSOE,Izquierdas,17196,0.284255,PSOE,PP,24823,24241,0.505931,11431,false
+nac31,202307,6,dv_A,2,bloque:Izquierdas,Izquierdas,24823,0.410331,bloque:Izquierdas,bloque:Derecha nacional,24823,24241,0.505931,11431,false
+nac31,202307,6,dv_B,2,bloque:Izquierdas,Izquierdas,24823,0.410331,bloque:Izquierdas,bloque:Derecha nacional,24823,24241,0.505931,11431,false
+nac32,202307,1,dv_base,2,PP,Derecha nacional,24889,0.430218,PP,PSOE,27587,24643,0.528183,5622,false
+nac32,202307,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,27587,0.476855,bloque:Derecha nacional,bloque:Izquierdas,27587,24643,0.528183,5622,false
+nac32,202307,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,27587,0.476855,bloque:Derecha nacional,bloque:Izquierdas,27587,24643,0.528183,5622,false
+nac32,202307,2,dv_base,1,PP,Derecha nacional,32843,0.556576,,,,,,0,false
+nac32,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,35687,0.604772,,,,,,0,false
+nac32,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,35687,0.604772,,,,,,0,false
+nac32,202307,3,dv_base,1,PP,Derecha nacional,32433,0.518107,,,,,,0,false
+nac32,202307,3,dv_A,1,bloque:Derecha nacional,Derecha nacional,35302,0.563939,,,,,,0,false
+nac32,202307,3,dv_B,1,bloque:Derecha nacional,Derecha nacional,35302,0.563939,,,,,,0,false
+nac33,202307,1,dv_base,2,PSOE,Izquierdas,28909,0.373005,PSOE,PP,42760,33498,0.560728,1245,false
+nac33,202307,1,dv_A,1,bloque:Izquierdas,Izquierdas,42760,0.551721,,,,,,0,false
+nac33,202307,1,dv_B,1,bloque:Izquierdas,Izquierdas,42760,0.551721,,,,,,0,false
+nac33,202307,2,dv_base,2,PP,Derecha nacional,24016,0.401109,PP,PSOE,32505,26452,0.551334,917,false
+nac33,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,32505,0.542890,,,,,,0,false
+nac33,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,32505,0.542890,,,,,,0,false
+nac33,202307,3,dv_base,2,PP,Derecha nacional,28064,0.434145,PP,PSOE,36601,27126,0.574341,915,false
+nac33,202307,3,dv_A,1,bloque:Derecha nacional,Derecha nacional,36601,0.566211,,,,,,0,false
+nac33,202307,3,dv_B,1,bloque:Derecha nacional,Derecha nacional,36601,0.566211,,,,,,0,false
+nac33,202307,4,dv_base,2,PP,Derecha nacional,28723,0.401294,PP,PSOE,37191,33608,0.525304,777,false
+nac33,202307,4,dv_A,1,bloque:Derecha nacional,Derecha nacional,37191,0.519602,,,,,,0,false
+nac33,202307,4,dv_B,1,bloque:Derecha nacional,Derecha nacional,37191,0.519602,,,,,,0,false
+nac33,202307,5,dv_base,2,PP,Derecha nacional,29680,0.374620,PP,PSOE,40387,37761,0.516801,1079,false
+nac33,202307,5,dv_A,1,bloque:Derecha nacional,Derecha nacional,40387,0.509763,,,,,,0,false
+nac33,202307,5,dv_B,1,bloque:Derecha nacional,Derecha nacional,40387,0.509763,,,,,,0,false
+nac33,202307,6,dv_base,2,PP,Derecha nacional,29398,0.387755,PP,PSOE,39541,35411,0.527551,864,false
+nac33,202307,6,dv_A,1,bloque:Derecha nacional,Derecha nacional,39541,0.521539,,,,,,0,false
+nac33,202307,6,dv_B,1,bloque:Derecha nacional,Derecha nacional,39541,0.521539,,,,,,0,false
+nac33,202307,7,dv_base,2,PSOE,Izquierdas,31539,0.421509,PSOE,PP,47266,26539,0.640417,1019,false
+nac33,202307,7,dv_A,1,bloque:Izquierdas,Izquierdas,47266,0.631696,,,,,,0,false
+nac33,202307,7,dv_B,1,bloque:Izquierdas,Izquierdas,47266,0.631696,,,,,,0,false
+nac33,202307,8,dv_base,2,PSOE,Izquierdas,27847,0.352838,PSOE,PP,41057,36733,0.527793,1133,false
+nac33,202307,8,dv_A,1,bloque:Izquierdas,Izquierdas,41057,0.520216,,,,,,0,false
+nac33,202307,8,dv_B,1,bloque:Izquierdas,Izquierdas,41057,0.520216,,,,,,0,false
+nac34,202307,1,dv_base,2,PP,Derecha nacional,40454,0.424148,PP,PSOE,52940,39219,0.574442,3218,false
+nac34,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,52940,0.555060,,,,,,0,false
+nac34,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,52940,0.555060,,,,,,0,false
+nac34,201111,1,dv_base,1,PP,Derecha nacional,58580,0.561041,,,,,,0,false
+nac34,201111,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,58812,0.563263,,,,,,0,false
+nac34,201111,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,58812,0.563263,,,,,,0,false
+nac34,201512,1,dv_base,2,PSOE,Izquierdas,42072,0.407280,PP,PSOE,42289,44402,0.512187,16609,false
+nac34,201512,1,dv_A,2,bloque:Izquierdas,Izquierdas,44402,0.429835,bloque:Izquierdas,bloque:Derecha nacional,44402,42289,0.512187,16609,false
+nac34,201512,1,dv_B,2,bloque:Izquierdas,Izquierdas,44402,0.429835,bloque:Izquierdas,bloque:Derecha nacional,44402,42289,0.512187,16609,false
+nac34,201606,1,dv_base,2,PP,Derecha nacional,45796,0.461049,PP,PSOE,45977,39714,0.536544,13639,false
+nac34,201606,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,45977,0.462871,bloque:Derecha nacional,bloque:Izquierdas,45977,39714,0.536544,13639,false
+nac34,201606,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,45977,0.462871,bloque:Derecha nacional,bloque:Izquierdas,45977,39714,0.536544,13639,false
+nac34,201904,1,dv_base,2,PP,Derecha nacional,33058,0.316208,PSOE,PP,42894,43696,0.504631,17955,false
+nac34,201904,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,43696,0.417964,bloque:Derecha nacional,bloque:Izquierdas,43696,42894,0.504631,17955,false
+nac34,201904,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,43696,0.417964,bloque:Derecha nacional,bloque:Izquierdas,43696,42894,0.504631,17955,false
+nac34,201911,1,dv_base,2,PP,Derecha nacional,34051,0.361357,PP,PSOE,47897,39423,0.548523,6911,false
+nac34,201911,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,47897,0.508293,,,,,,0,false
+nac34,201911,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,47897,0.508293,,,,,,0,false
+nac35,202307,1,dv_base,2,PP,Derecha nacional,21012,0.333444,PP,PSOE,28977,28345,0.505513,5693,false
+nac35,202307,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,28977,0.459843,bloque:Derecha nacional,bloque:Izquierdas,28977,28345,0.505513,5693,false
+nac35,202307,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,28977,0.459843,bloque:Derecha nacional,bloque:Izquierdas,28977,28345,0.505513,5693,false
+nac35,202307,2,dv_base,2,PSOE,Izquierdas,23837,0.381154,PSOE,PP,30672,25290,0.548086,6577,false
+nac35,202307,2,dv_A,2,bloque:Izquierdas,Izquierdas,30672,0.490446,bloque:Izquierdas,bloque:Derecha nacional,30672,25290,0.548086,6577,false
+nac35,202307,2,dv_B,2,bloque:Izquierdas,Izquierdas,30672,0.490446,bloque:Izquierdas,bloque:Derecha nacional,30672,25290,0.548086,6577,false
+nac35,202307,3,dv_base,2,PSOE,Izquierdas,23164,0.363962,PSOE,PP,29583,26480,0.527674,7581,false
+nac35,202307,3,dv_A,2,bloque:Izquierdas,Izquierdas,29583,0.464820,bloque:Izquierdas,bloque:Derecha nacional,29583,26480,0.527674,7581,false
+nac35,202307,3,dv_B,2,bloque:Izquierdas,Izquierdas,29583,0.464820,bloque:Izquierdas,bloque:Derecha nacional,29583,26480,0.527674,7581,false
+nac35,202307,4,dv_base,2,PSOE,Izquierdas,15661,0.320515,PSOE,PP,20307,18935,0.517481,9620,false
+nac35,202307,4,dv_A,2,bloque:Izquierdas,Izquierdas,20307,0.415599,bloque:Izquierdas,bloque:Derecha nacional,20307,18935,0.517481,9620,false
+nac35,202307,4,dv_B,2,bloque:Izquierdas,Izquierdas,20307,0.415599,bloque:Izquierdas,bloque:Derecha nacional,20307,18935,0.517481,9620,false
+nac35,202307,5,dv_base,2,PSOE,Izquierdas,17172,0.326290,PSOE,PP,22454,22179,0.503081,7995,false
+nac35,202307,5,dv_A,2,bloque:Izquierdas,Izquierdas,22454,0.426655,bloque:Izquierdas,bloque:Derecha nacional,22454,22179,0.503081,7995,false
+nac35,202307,5,dv_B,2,bloque:Izquierdas,Izquierdas,22454,0.426655,bloque:Izquierdas,bloque:Derecha nacional,22454,22179,0.503081,7995,false
+nac35,202307,6,dv_base,2,PP,Derecha nacional,14193,0.307674,PSOE,PP,18323,19505,0.515623,8302,false
+nac35,202307,6,dv_A,2,bloque:Derecha nacional,Derecha nacional,19505,0.422827,bloque:Derecha nacional,bloque:Izquierdas,19505,18323,0.515623,8302,false
+nac35,202307,6,dv_B,2,bloque:Derecha nacional,Derecha nacional,19505,0.422827,bloque:Derecha nacional,bloque:Izquierdas,19505,18323,0.515623,8302,false
+nac35,202307,7,dv_base,2,PSOE,Izquierdas,19483,0.322390,PSOE,PP,25386,24325,0.510672,10722,false
+nac35,202307,7,dv_A,2,bloque:Izquierdas,Izquierdas,25386,0.420069,bloque:Izquierdas,bloque:Derecha nacional,25386,24325,0.510672,10722,false
+nac35,202307,7,dv_B,2,bloque:Izquierdas,Izquierdas,25386,0.420069,bloque:Izquierdas,bloque:Derecha nacional,25386,24325,0.510672,10722,false
+nac35,202307,8,dv_base,2,PSOE,Izquierdas,8357,0.280870,PSOE,NC,10410,9549,0.521569,9795,false
+nac35,202307,8,dv_A,2,bloque:Izquierdas,Izquierdas,10410,0.349869,bloque:Izquierdas,bloque:Derecha nacional,10410,9639,0.519228,9705,false
+nac35,202307,8,dv_B,2,bloque:Izquierdas,Izquierdas,10410,0.349869,bloque:Izquierdas,bloque:Derecha nacional,10410,9639,0.519228,9705,false
+nac35,202307,9,dv_base,2,PP,Derecha nacional,11505,0.289587,PSOE,PP,15946,16424,0.507383,7359,false
+nac35,202307,9,dv_A,2,bloque:Derecha nacional,Derecha nacional,16424,0.413401,bloque:Derecha nacional,bloque:Izquierdas,16424,15946,0.507383,7359,false
+nac35,202307,9,dv_B,2,bloque:Derecha nacional,Derecha nacional,16424,0.413401,bloque:Derecha nacional,bloque:Izquierdas,16424,15946,0.507383,7359,false
+nac35,202307,10,dv_base,2,PSOE,Izquierdas,20874,0.366088,PSOE,PP,27420,21479,0.560748,8120,false
+nac35,202307,10,dv_A,2,bloque:Izquierdas,Izquierdas,27420,0.480892,bloque:Izquierdas,bloque:Derecha nacional,27420,21479,0.560748,8120,false
+nac35,202307,10,dv_B,2,bloque:Izquierdas,Izquierdas,27420,0.480892,bloque:Izquierdas,bloque:Derecha nacional,27420,21479,0.560748,8120,false
+nac36,202307,1,dv_base,2,PSOE,Izquierdas,27355,0.407821,PSOE,PP,38448,22019,0.635851,6609,false
+nac36,202307,1,dv_A,1,bloque:Izquierdas,Izquierdas,38448,0.573201,,,,,,0,false
+nac36,202307,1,dv_B,1,bloque:Izquierdas,Izquierdas,38448,0.573201,,,,,,0,false
+nac36,202307,2,dv_base,2,PSOE,Izquierdas,24654,0.364343,PP,PSOE,27990,33675,0.546096,6002,false
+nac36,202307,2,dv_A,2,bloque:Izquierdas,Izquierdas,33675,0.497658,bloque:Izquierdas,bloque:Derecha nacional,33675,27990,0.546096,6002,false
+nac36,202307,2,dv_B,2,bloque:Izquierdas,Izquierdas,33675,0.497658,bloque:Izquierdas,bloque:Derecha nacional,33675,27990,0.546096,6002,false
+nac36,202307,3,dv_base,2,PP,Derecha nacional,32005,0.427966,PP,PSOE,35872,31796,0.530118,7116,false
+nac36,202307,3,dv_A,2,bloque:Derecha nacional,Derecha nacional,35872,0.479675,bloque:Derecha nacional,bloque:Izquierdas,35872,31796,0.530118,7116,false
+nac36,202307,3,dv_B,2,bloque:Derecha nacional,Derecha nacional,35872,0.479675,bloque:Derecha nacional,bloque:Izquierdas,35872,31796,0.530118,7116,false
+nac36,202307,4,dv_base,2,PP,Derecha nacional,32344,0.431299,PP,PSOE,35991,30814,0.538747,8187,false
+nac36,202307,4,dv_A,2,bloque:Derecha nacional,Derecha nacional,35991,0.479931,bloque:Derecha nacional,bloque:Izquierdas,35991,30814,0.538747,8187,false
+nac36,202307,4,dv_B,2,bloque:Derecha nacional,Derecha nacional,35991,0.479931,bloque:Derecha nacional,bloque:Izquierdas,35991,30814,0.538747,8187,false
+nac36,202307,5,dv_base,2,PP,Derecha nacional,34562,0.472817,PP,PSOE,37978,27390,0.580988,7730,false
+nac36,202307,5,dv_A,1,bloque:Derecha nacional,Derecha nacional,37978,0.519549,,,,,,0,false
+nac36,202307,5,dv_B,1,bloque:Derecha nacional,Derecha nacional,37978,0.519549,,,,,,0,false
+nac36,202307,6,dv_base,2,PSOE,Izquierdas,27146,0.357589,PP,PSOE,30655,38076,0.553986,7183,false
+nac36,202307,6,dv_A,1,bloque:Izquierdas,Izquierdas,38076,0.501568,,,,,,0,false
+nac36,202307,6,dv_B,1,bloque:Izquierdas,Izquierdas,38076,0.501568,,,,,,0,false
+nac36,202307,7,dv_base,2,PP,Derecha nacional,33591,0.454338,PP,PSOE,37053,29432,0.557314,7449,false
+nac36,202307,7,dv_A,1,bloque:Derecha nacional,Derecha nacional,37053,0.501163,,,,,,0,false
+nac36,202307,7,dv_B,1,bloque:Derecha nacional,Derecha nacional,37053,0.501163,,,,,,0,false
+nac36,202307,8,dv_base,2,PSOE,Izquierdas,20151,0.385953,PP,PSOE,22455,22799,0.503801,6957,false
+nac36,202307,8,dv_A,2,bloque:Izquierdas,Izquierdas,22799,0.436670,bloque:Izquierdas,bloque:Derecha nacional,22799,22455,0.503801,6957,false
+nac36,202307,8,dv_B,2,bloque:Izquierdas,Izquierdas,22799,0.436670,bloque:Izquierdas,bloque:Derecha nacional,22799,22455,0.503801,6957,false
+nac37,202307,1,dv_base,2,PP,Derecha nacional,29890,0.483665,PP,PSOE,37718,23218,0.618977,863,false
+nac37,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,37718,0.610334,,,,,,0,false
+nac37,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,37718,0.610334,,,,,,0,false
+nac37,202307,2,dv_base,2,PP,Derecha nacional,28461,0.450247,PP,PSOE,38260,23966,0.614856,986,false
+nac37,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,38260,0.605265,,,,,,0,false
+nac37,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,38260,0.605265,,,,,,0,false
+nac37,202307,3,dv_base,2,PP,Derecha nacional,34104,0.487353,PP,PSOE,45423,23679,0.657333,876,false
+nac37,202307,3,dv_A,1,bloque:Derecha nacional,Derecha nacional,45423,0.649104,,,,,,0,false
+nac37,202307,3,dv_B,1,bloque:Derecha nacional,Derecha nacional,45423,0.649104,,,,,,0,false
+nac38,202307,1,dv_base,2,PSOE,Izquierdas,21318,0.356888,PSOE,PP,30195,18529,0.619715,11009,false
+nac38,202307,1,dv_A,1,bloque:Izquierdas,Izquierdas,30195,0.505499,,,,,,0,false
+nac38,202307,1,dv_B,1,bloque:Izquierdas,Izquierdas,30195,0.505499,,,,,,0,false
+nac38,202307,2,dv_base,2,PSOE,Izquierdas,22216,0.413798,PP,PSOE,22216,23396,0.512935,8076,false
+nac38,202307,2,dv_A,2,bloque:Izquierdas,Izquierdas,23396,0.435777,bloque:Izquierdas,bloque:Derecha nacional,23396,22216,0.512935,8076,false
+nac38,202307,2,dv_B,2,bloque:Izquierdas,Izquierdas,23396,0.435777,bloque:Izquierdas,bloque:Derecha nacional,23396,22216,0.512935,8076,false
+nac38,202307,3,dv_base,2,PSOE,Izquierdas,21023,0.354412,PSOE,PP,28151,20616,0.577255,10551,false
+nac38,202307,3,dv_A,2,bloque:Izquierdas,Izquierdas,28151,0.474578,bloque:Izquierdas,bloque:Derecha nacional,28151,20616,0.577255,10551,false
+nac38,202307,3,dv_B,2,bloque:Izquierdas,Izquierdas,28151,0.474578,bloque:Izquierdas,bloque:Derecha nacional,28151,20616,0.577255,10551,false
+nac38,202307,4,dv_base,2,PSOE,Izquierdas,22378,0.346221,PP,PSOE,22378,28584,0.560889,13673,false
+nac38,202307,4,dv_A,2,bloque:Izquierdas,Izquierdas,28584,0.442237,bloque:Izquierdas,bloque:Derecha nacional,28584,22378,0.560889,13673,false
+nac38,202307,4,dv_B,2,bloque:Izquierdas,Izquierdas,28584,0.442237,bloque:Izquierdas,bloque:Derecha nacional,28584,22378,0.560889,13673,false
+nac38,202307,5,dv_base,2,PSOE,Izquierdas,11187,0.396000,PP,PSOE,11187,11929,0.516049,5134,false
+nac38,202307,5,dv_A,2,bloque:Izquierdas,Izquierdas,11929,0.422265,bloque:Izquierdas,bloque:Derecha nacional,11929,11187,0.516049,5134,false
+nac38,202307,5,dv_B,2,bloque:Izquierdas,Izquierdas,11929,0.422265,bloque:Izquierdas,bloque:Derecha nacional,11929,11187,0.516049,5134,false
+nac38,202307,6,dv_base,2,PSOE,Izquierdas,18787,0.362068,PP,PSOE,18787,23646,0.557255,9455,false
+nac38,202307,6,dv_A,2,bloque:Izquierdas,Izquierdas,23646,0.455712,bloque:Izquierdas,bloque:Derecha nacional,23646,18787,0.557255,9455,false
+nac38,202307,6,dv_B,2,bloque:Izquierdas,Izquierdas,23646,0.455712,bloque:Izquierdas,bloque:Derecha nacional,23646,18787,0.557255,9455,false
+nac38,202307,7,dv_base,2,PSOE,Izquierdas,18127,0.385058,PP,PSOE,18127,20117,0.526017,8832,false
+nac38,202307,7,dv_A,2,bloque:Izquierdas,Izquierdas,20117,0.427330,bloque:Izquierdas,bloque:Derecha nacional,20117,18127,0.526017,8832,false
+nac38,202307,7,dv_B,2,bloque:Izquierdas,Izquierdas,20117,0.427330,bloque:Izquierdas,bloque:Derecha nacional,20117,18127,0.526017,8832,false
+nac38,202307,8,dv_base,2,PSOE,Izquierdas,22294,0.355612,PSOE,PP,28113,22268,0.558008,12311,false
+nac38,202307,8,dv_A,2,bloque:Izquierdas,Izquierdas,28113,0.448430,bloque:Izquierdas,bloque:Derecha nacional,28113,22268,0.558008,12311,false
+nac38,202307,8,dv_B,2,bloque:Izquierdas,Izquierdas,28113,0.448430,bloque:Izquierdas,bloque:Derecha nacional,28113,22268,0.558008,12311,false
+nac38,202307,9,dv_base,2,PSOE,Izquierdas,19114,0.332100,PP,PSOE,19114,23732,0.553891,14709,false
+nac38,202307,9,dv_A,2,bloque:Izquierdas,Izquierdas,23732,0.412336,bloque:Izquierdas,bloque:Derecha nacional,23732,19114,0.553891,14709,false
+nac38,202307,9,dv_B,2,bloque:Izquierdas,Izquierdas,23732,0.412336,bloque:Izquierdas,bloque:Derecha nacional,23732,19114,0.553891,14709,false
+nac39,202307,1,dv_base,2,PP,Derecha nacional,31501,0.469842,PP,PSOE,40618,25846,0.611128,582,false
+nac39,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,40618,0.605823,,,,,,0,false
+nac39,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,40618,0.605823,,,,,,0,false
+nac39,202307,2,dv_base,2,PP,Derecha nacional,28190,0.418541,PP,PSOE,37963,28696,0.569510,694,false
+nac39,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,37963,0.563642,,,,,,0,false
+nac39,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,37963,0.563642,,,,,,0,false
+nac39,202307,3,dv_base,2,PP,Derecha nacional,27802,0.391842,PP,PSOE,37656,32558,0.536303,738,false
+nac39,202307,3,dv_A,1,bloque:Derecha nacional,Derecha nacional,37656,0.530725,,,,,,0,false
+nac39,202307,3,dv_B,1,bloque:Derecha nacional,Derecha nacional,37656,0.530725,,,,,,0,false
+nac39,202307,4,dv_base,2,PP,Derecha nacional,24682,0.398155,PP,PSOE,32765,28551,0.534363,675,false
+nac39,202307,4,dv_A,1,bloque:Derecha nacional,Derecha nacional,32765,0.528544,,,,,,0,false
+nac39,202307,4,dv_B,1,bloque:Derecha nacional,Derecha nacional,32765,0.528544,,,,,,0,false
+nac39,202307,5,dv_base,2,PP,Derecha nacional,33819,0.444093,PP,PSOE,45760,29759,0.605940,634,false
+nac39,202307,5,dv_A,1,bloque:Derecha nacional,Derecha nacional,45760,0.600896,,,,,,0,false
+nac39,202307,5,dv_B,1,bloque:Derecha nacional,Derecha nacional,45760,0.600896,,,,,,0,false
+nac40,202307,1,dv_base,2,PP,Derecha nacional,39713,0.455456,PP,PSOE,52159,34063,0.604938,972,false
+nac40,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,52159,0.598195,,,,,,0,false
+nac40,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,52159,0.598195,,,,,,0,false
+nac40,201111,1,dv_base,1,PP,Derecha nacional,52098,0.573552,,,,,,0,false
+nac40,201111,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,52345,0.576271,,,,,,0,false
+nac40,201111,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,52345,0.576271,,,,,,0,false
+nac40,201512,1,dv_base,2,PSOE,Izquierdas,36131,0.398388,PP,PSOE,36354,36713,0.502457,17626,false
+nac40,201512,1,dv_A,2,bloque:Izquierdas,Izquierdas,36713,0.404805,bloque:Izquierdas,bloque:Derecha nacional,36713,36354,0.502457,17626,false
+nac40,201512,1,dv_B,2,bloque:Izquierdas,Izquierdas,36713,0.404805,bloque:Izquierdas,bloque:Derecha nacional,36713,36354,0.502457,17626,false
+nac40,201606,1,dv_base,2,PP,Derecha nacional,40095,0.457737,PP,PSOE,40499,32412,0.555458,14683,false
+nac40,201606,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,40499,0.462349,bloque:Derecha nacional,bloque:Izquierdas,40499,32412,0.555458,14683,false
+nac40,201606,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,40499,0.462349,bloque:Derecha nacional,bloque:Izquierdas,40499,32412,0.555458,14683,false
+nac40,201904,1,dv_base,2,PP,Derecha nacional,25979,0.284206,PSOE,PP,35128,36234,0.507749,20047,false
+nac40,201904,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,36234,0.396394,bloque:Derecha nacional,bloque:Izquierdas,36234,35128,0.507749,20047,false
+nac40,201904,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,36234,0.396394,bloque:Derecha nacional,bloque:Izquierdas,36234,35128,0.507749,20047,false
+nac40,201911,1,dv_base,2,PP,Derecha nacional,27992,0.334596,PP,PSOE,42517,33164,0.561792,7978,false
+nac40,201911,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,42517,0.508218,,,,,,0,false
+nac40,201911,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,42517,0.508218,,,,,,0,false
+nac41,202307,1,dv_base,2,PP,Derecha nacional,29424,0.468677,PP,PSOE,38242,23830,0.616091,709,false
+nac41,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,38242,0.609133,,,,,,0,false
+nac41,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,38242,0.609133,,,,,,0,false
+nac41,202307,2,dv_base,2,PSOE,Izquierdas,25231,0.401979,PSOE,PP,35637,26080,0.577426,1050,false
+nac41,202307,2,dv_A,1,bloque:Izquierdas,Izquierdas,35637,0.567767,,,,,,0,false
+nac41,202307,2,dv_B,1,bloque:Izquierdas,Izquierdas,35637,0.567767,,,,,,0,false
+nac41,202307,3,dv_base,2,PSOE,Izquierdas,25334,0.432638,PSOE,PP,34098,23338,0.593669,1121,false
+nac41,202307,3,dv_A,1,bloque:Izquierdas,Izquierdas,34098,0.582304,,,,,,0,false
+nac41,202307,3,dv_B,1,bloque:Izquierdas,Izquierdas,34098,0.582304,,,,,,0,false
+nac41,202307,4,dv_base,2,PSOE,Izquierdas,21343,0.360566,PSOE,PP,31785,26399,0.546284,1009,false
+nac41,202307,4,dv_A,1,bloque:Izquierdas,Izquierdas,31785,0.536972,,,,,,0,false
+nac41,202307,4,dv_B,1,bloque:Izquierdas,Izquierdas,31785,0.536972,,,,,,0,false
+nac41,202307,5,dv_base,2,PSOE,Izquierdas,22767,0.377995,PP,PSOE,29499,29904,0.503409,828,false
+nac41,202307,5,dv_A,2,bloque:Izquierdas,Izquierdas,29904,0.496489,bloque:Izquierdas,bloque:Derecha nacional,29904,29499,0.503409,828,false
+nac41,202307,5,dv_B,2,bloque:Izquierdas,Izquierdas,29904,0.496489,bloque:Izquierdas,bloque:Derecha nacional,29904,29499,0.503409,828,false
+nac41,202307,6,dv_base,2,PSOE,Izquierdas,31777,0.430449,PSOE,PP,45275,27755,0.619951,793,false
+nac41,202307,6,dv_A,1,bloque:Izquierdas,Izquierdas,45275,0.613291,,,,,,0,false
+nac41,202307,6,dv_B,1,bloque:Izquierdas,Izquierdas,45275,0.613291,,,,,,0,false
+nac41,202307,7,dv_base,2,PSOE,Izquierdas,23974,0.354488,PSOE,PP,33726,32928,0.505986,976,false
+nac41,202307,7,dv_A,2,bloque:Izquierdas,Izquierdas,33726,0.498684,bloque:Izquierdas,bloque:Derecha nacional,33726,32928,0.505986,976,false
+nac41,202307,7,dv_B,2,bloque:Izquierdas,Izquierdas,33726,0.498684,bloque:Izquierdas,bloque:Derecha nacional,33726,32928,0.505986,976,false
+nac41,202307,8,dv_base,2,PSOE,Izquierdas,24896,0.428849,PSOE,PP,33112,24000,0.579773,941,false
+nac41,202307,8,dv_A,1,bloque:Izquierdas,Izquierdas,33112,0.570375,,,,,,0,false
+nac41,202307,8,dv_B,1,bloque:Izquierdas,Izquierdas,33112,0.570375,,,,,,0,false
+nac41,202307,9,dv_base,2,PSOE,Izquierdas,26993,0.373378,PSOE,PP,37577,33443,0.529104,1274,false
+nac41,202307,9,dv_A,1,bloque:Izquierdas,Izquierdas,37577,0.519780,,,,,,0,false
+nac41,202307,9,dv_B,1,bloque:Izquierdas,Izquierdas,37577,0.519780,,,,,,0,false
+nac41,202307,10,dv_base,2,PP,Derecha nacional,25039,0.369345,PP,PSOE,35284,31478,0.528504,1031,false
+nac41,202307,10,dv_A,1,bloque:Derecha nacional,Derecha nacional,35284,0.520467,,,,,,0,false
+nac41,202307,10,dv_B,1,bloque:Derecha nacional,Derecha nacional,35284,0.520467,,,,,,0,false
+nac41,202307,11,dv_base,2,PSOE,Izquierdas,28841,0.397928,PSOE,PP,38277,33397,0.534043,804,false
+nac41,202307,11,dv_A,1,bloque:Izquierdas,Izquierdas,38277,0.528119,,,,,,0,false
+nac41,202307,11,dv_B,1,bloque:Izquierdas,Izquierdas,38277,0.528119,,,,,,0,false
+nac41,202307,12,dv_base,2,PSOE,Izquierdas,26358,0.407886,PSOE,PP,34999,28786,0.548703,836,false
+nac41,202307,12,dv_A,1,bloque:Izquierdas,Izquierdas,34999,0.541604,,,,,,0,false
+nac41,202307,12,dv_B,1,bloque:Izquierdas,Izquierdas,34999,0.541604,,,,,,0,false
+nac41,202307,13,dv_base,2,PSOE,Izquierdas,31043,0.430495,PSOE,PP,39634,31886,0.554167,590,false
+nac41,202307,13,dv_A,1,bloque:Izquierdas,Izquierdas,39634,0.549633,,,,,,0,false
+nac41,202307,13,dv_B,1,bloque:Izquierdas,Izquierdas,39634,0.549633,,,,,,0,false
+nac41,202307,14,dv_base,2,PSOE,Izquierdas,22605,0.363500,PSOE,PP,31068,30301,0.506249,818,false
+nac41,202307,14,dv_A,2,bloque:Izquierdas,Izquierdas,31068,0.499590,bloque:Izquierdas,bloque:Derecha nacional,31068,30301,0.506249,818,false
+nac41,202307,14,dv_B,2,bloque:Izquierdas,Izquierdas,31068,0.499590,bloque:Izquierdas,bloque:Derecha nacional,31068,30301,0.506249,818,false
+nac41,202307,15,dv_base,2,PP,Derecha nacional,33281,0.487241,PP,PSOE,42789,24651,0.634475,865,false
+nac41,202307,15,dv_A,1,bloque:Derecha nacional,Derecha nacional,42789,0.626440,,,,,,0,false
+nac41,202307,15,dv_B,1,bloque:Derecha nacional,Derecha nacional,42789,0.626440,,,,,,0,false
+nac41,202307,16,dv_base,2,PSOE,Izquierdas,21872,0.358504,PSOE,PP,30488,29372,0.509322,1149,false
+nac41,202307,16,dv_A,2,bloque:Izquierdas,Izquierdas,30488,0.499730,bloque:Izquierdas,bloque:Derecha nacional,30488,29372,0.509322,1149,false
+nac41,202307,16,dv_B,2,bloque:Izquierdas,Izquierdas,30488,0.499730,bloque:Izquierdas,bloque:Derecha nacional,30488,29372,0.509322,1149,false
+nac42,202307,1,dv_base,2,PP,Derecha nacional,18648,0.374285,PP,PSOE,23543,16497,0.587987,9783,false
+nac42,202307,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,23543,0.472533,bloque:Derecha nacional,bloque:Izquierdas,23543,16497,0.587987,9783,false
+nac42,202307,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,23543,0.472533,bloque:Derecha nacional,bloque:Izquierdas,23543,16497,0.587987,9783,false
+nac42,201111,1,dv_base,1,PP,Derecha nacional,28058,0.563617,,,,,,0,false
+nac42,201111,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,28239,0.567253,,,,,,0,false
+nac42,201111,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,28239,0.567253,,,,,,0,false
+nac42,201512,1,dv_base,2,PSOE,Izquierdas,19934,0.391738,PP,PSOE,20034,22434,0.528257,8418,false
+nac42,201512,1,dv_A,2,bloque:Izquierdas,Izquierdas,22434,0.440868,bloque:Izquierdas,bloque:Derecha nacional,22434,20034,0.528257,8418,false
+nac42,201512,1,dv_B,2,bloque:Izquierdas,Izquierdas,22434,0.440868,bloque:Izquierdas,bloque:Derecha nacional,22434,20034,0.528257,8418,false
+nac42,201606,1,dv_base,2,PP,Derecha nacional,22145,0.454928,PP,PSOE,22325,20264,0.524196,6089,false
+nac42,201606,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,22325,0.458626,bloque:Derecha nacional,bloque:Izquierdas,22325,20264,0.524196,6089,false
+nac42,201606,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,22325,0.458626,bloque:Derecha nacional,bloque:Izquierdas,22325,20264,0.524196,6089,false
+nac42,201904,1,dv_base,2,PP,Derecha nacional,16492,0.321783,PP,PSOE,21340,21003,0.503979,8909,false
+nac42,201904,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,21340,0.416374,bloque:Derecha nacional,bloque:Izquierdas,21340,21003,0.503979,8909,false
+nac42,201904,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,21340,0.416374,bloque:Derecha nacional,bloque:Izquierdas,21340,21003,0.503979,8909,false
+nac42,201911,1,dv_base,2,PP,Derecha nacional,16623,0.366598,PP,PSOE,22844,19490,0.539614,3010,false
+nac42,201911,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,22844,0.503793,,,,,,0,false
+nac42,201911,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,22844,0.503793,,,,,,0,false
+nac43,202307,1,dv_base,2,PSOE,Izquierdas,16502,0.305694,PSOE,ERC,22485,20070,0.528375,11427,false
+nac43,202307,1,dv_A,2,bloque:Izquierdas,Izquierdas,22485,0.416528,bloque:Izquierdas,bloque:Nacionalistas,22485,20070,0.528375,11427,false
+nac43,202307,1,dv_B,2,bloque:Izquierdas,Izquierdas,22485,0.416528,bloque:Izquierdas,bloque:Derecha nacional,22485,10576,0.680106,20921,false
+nac43,202307,2,dv_base,2,ERC,Nacionalistas,13591,0.279593,PSOE,ERC,18360,21218,0.536106,9032,false
+nac43,202307,2,dv_A,2,bloque:Nacionalistas,Nacionalistas,21218,0.436495,bloque:Nacionalistas,bloque:Izquierdas,21218,18360,0.536106,9032,false
+nac43,202307,2,dv_B,2,ERC,Nacionalistas,18360,0.377700,bloque:Izquierdas,ERC,18360,21218,0.536106,9032,false
+nac43,202307,3,dv_base,2,PSOE,Izquierdas,21161,0.368030,PSOE,PP,28817,15434,0.651217,13247,false
+nac43,202307,3,dv_A,1,bloque:Izquierdas,Izquierdas,28817,0.501183,,,,,,0,false
+nac43,202307,3,dv_B,1,bloque:Izquierdas,Izquierdas,28817,0.501183,,,,,,0,false
+nac43,202307,4,dv_base,2,PSOE,Izquierdas,20538,0.344846,PSOE,PP,28222,17730,0.614163,13605,false
+nac43,202307,4,dv_A,2,bloque:Izquierdas,Izquierdas,28222,0.473865,bloque:Izquierdas,bloque:Derecha nacional,28222,17730,0.614163,13605,false
+nac43,202307,4,dv_B,2,bloque:Izquierdas,Izquierdas,28222,0.473865,bloque:Izquierdas,bloque:Derecha nacional,28222,17730,0.614163,13605,false
+nac43,202307,5,dv_base,2,PSOE,Izquierdas,19557,0.349594,PSOE,ERC,25506,19240,0.570017,11196,false
+nac43,202307,5,dv_A,2,bloque:Izquierdas,Izquierdas,25506,0.455937,bloque:Izquierdas,bloque:Nacionalistas,25506,19240,0.570017,11196,false
+nac43,202307,5,dv_B,2,bloque:Izquierdas,Izquierdas,25506,0.455937,bloque:Izquierdas,ERC,25506,19240,0.570017,11196,false
+nac43,202307,6,dv_base,2,PSOE,Izquierdas,13293,0.321966,PSOE,PP,18026,13724,0.567748,9537,false
+nac43,202307,6,dv_A,2,bloque:Izquierdas,Izquierdas,18026,0.436602,bloque:Izquierdas,bloque:Derecha nacional,18026,13724,0.567748,9537,false
+nac43,202307,6,dv_B,2,bloque:Izquierdas,Izquierdas,18026,0.436602,bloque:Izquierdas,bloque:Derecha nacional,18026,13724,0.567748,9537,false
+nac43,202307,7,dv_base,2,PSOE,Izquierdas,15826,0.343931,PSOE,PP,20938,12037,0.634966,13040,false
+nac43,202307,7,dv_A,2,bloque:Izquierdas,Izquierdas,20938,0.455026,bloque:Izquierdas,bloque:Nacionalistas,20938,12244,0.631005,12833,false
+nac43,202307,7,dv_B,2,bloque:Izquierdas,Izquierdas,20938,0.455026,bloque:Izquierdas,bloque:Derecha nacional,20938,12037,0.634966,13040,false
+nac44,202307,1,dv_base,2,PP,Derecha nacional,26497,0.352945,PP,PSOE,36397,26185,0.581589,12492,false
+nac44,202307,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,36397,0.484815,bloque:Derecha nacional,bloque:Izquierdas,36397,26185,0.581589,12492,false
+nac44,202307,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,36397,0.484815,bloque:Derecha nacional,bloque:Izquierdas,36397,26185,0.581589,12492,false
+nac44,201111,1,dv_base,1,PP,Derecha nacional,39923,0.530637,,,,,,0,false
+nac44,201111,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,39923,0.530637,,,,,,0,false
+nac44,201111,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,39923,0.530637,,,,,,0,false
+nac44,201512,1,dv_base,2,PSOE,Izquierdas,28224,0.368777,PP,PSOE,28224,35636,0.558033,12674,false
+nac44,201512,1,dv_A,2,bloque:Izquierdas,Izquierdas,35636,0.465623,bloque:Izquierdas,bloque:Derecha nacional,35636,28224,0.558033,12674,false
+nac44,201512,1,dv_B,2,bloque:Izquierdas,Izquierdas,35636,0.465623,bloque:Izquierdas,bloque:Derecha nacional,35636,28224,0.558033,12674,false
+nac44,201606,1,dv_base,2,PSOE,Izquierdas,30837,0.417320,PP,PSOE,30997,32155,0.509168,10741,false
+nac44,201606,1,dv_A,2,bloque:Izquierdas,Izquierdas,32155,0.435156,bloque:Izquierdas,bloque:Derecha nacional,32155,30997,0.509168,10741,false
+nac44,201606,1,dv_B,2,bloque:Izquierdas,Izquierdas,32155,0.435156,bloque:Izquierdas,bloque:Derecha nacional,32155,30997,0.509168,10741,false
+nac44,201904,1,dv_base,2,PSOE,Izquierdas,25500,0.331233,PSOE,PP,33784,26839,0.557280,16362,false
+nac44,201904,1,dv_A,2,bloque:Izquierdas,Izquierdas,33784,0.438839,bloque:Izquierdas,bloque:Derecha nacional,33784,26839,0.557280,16362,false
+nac44,201904,1,dv_B,2,bloque:Izquierdas,Izquierdas,33784,0.438839,bloque:Izquierdas,bloque:Derecha nacional,33784,26839,0.557280,16362,false
+nac44,201911,1,dv_base,2,PSOE,Izquierdas,19701,0.268545,EXISTE,PSOE,19701,22847,0.536970,30814,false
+nac44,201911,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,26797,0.365271,bloque:Derecha nacional,bloque:Izquierdas,26797,22847,0.539783,23718,false
+nac44,201911,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,26797,0.365271,bloque:Derecha nacional,bloque:Izquierdas,26797,22847,0.539783,23718,false
+nac45,202307,1,dv_base,2,PP,Derecha nacional,27561,0.395038,PP,PSOE,40366,28681,0.584616,721,false
+nac45,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,40366,0.578575,,,,,,0,false
+nac45,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,40366,0.578575,,,,,,0,false
+nac45,202307,2,dv_base,2,PP,Derecha nacional,25630,0.388180,PP,PSOE,38007,27453,0.580614,566,false
+nac45,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,38007,0.575637,,,,,,0,false
+nac45,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,38007,0.575637,,,,,,0,false
+nac45,202307,3,dv_base,2,PP,Derecha nacional,18481,0.340915,PP,PSOE,31634,21849,0.591478,727,false
+nac45,202307,3,dv_A,1,bloque:Derecha nacional,Derecha nacional,31634,0.583545,,,,,,0,false
+nac45,202307,3,dv_B,1,bloque:Derecha nacional,Derecha nacional,31634,0.583545,,,,,,0,false
+nac45,202307,4,dv_base,2,PP,Derecha nacional,24946,0.391863,PP,PSOE,36385,26866,0.575248,409,false
+nac45,202307,4,dv_A,1,bloque:Derecha nacional,Derecha nacional,36385,0.571552,,,,,,0,false
+nac45,202307,4,dv_B,1,bloque:Derecha nacional,Derecha nacional,36385,0.571552,,,,,,0,false
+nac45,202307,5,dv_base,2,PP,Derecha nacional,26139,0.388696,PP,PSOE,38595,28189,0.577908,464,false
+nac45,202307,5,dv_A,1,bloque:Derecha nacional,Derecha nacional,38595,0.573920,,,,,,0,false
+nac45,202307,5,dv_B,1,bloque:Derecha nacional,Derecha nacional,38595,0.573920,,,,,,0,false
+nac45,202307,6,dv_base,2,PP,Derecha nacional,23559,0.378835,PP,PSOE,37504,24068,0.609108,616,false
+nac45,202307,6,dv_A,1,bloque:Derecha nacional,Derecha nacional,37504,0.603075,,,,,,0,false
+nac45,202307,6,dv_B,1,bloque:Derecha nacional,Derecha nacional,37504,0.603075,,,,,,0,false
+nac46,202307,1,dv_base,2,PP,Derecha nacional,23721,0.382850,PP,PSOE,32756,28368,0.535894,835,false
+nac46,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,32756,0.528672,,,,,,0,false
+nac46,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,32756,0.528672,,,,,,0,false
+nac46,202307,2,dv_base,2,PSOE,Izquierdas,20578,0.330740,PP,PSOE,28795,32519,0.530368,904,false
+nac46,202307,2,dv_A,1,bloque:Izquierdas,Izquierdas,32519,0.522662,,,,,,0,false
+nac46,202307,2,dv_B,1,bloque:Izquierdas,Izquierdas,32519,0.522662,,,,,,0,false
+nac46,202307,3,dv_base,2,PSOE,Izquierdas,22294,0.363248,PP,PSOE,30311,30340,0.500239,723,false
+nac46,202307,3,dv_A,2,bloque:Izquierdas,Izquierdas,30340,0.494346,bloque:Izquierdas,bloque:Derecha nacional,30340,30311,0.500239,723,false
+nac46,202307,3,dv_B,2,bloque:Izquierdas,Izquierdas,30340,0.494346,bloque:Izquierdas,bloque:Derecha nacional,30340,30311,0.500239,723,false
+nac46,202307,4,dv_base,2,PSOE,Izquierdas,20600,0.333296,PP,PSOE,29308,31587,0.518713,912,false
+nac46,202307,4,dv_A,1,bloque:Izquierdas,Izquierdas,31587,0.511059,,,,,,0,false
+nac46,202307,4,dv_B,1,bloque:Izquierdas,Izquierdas,31587,0.511059,,,,,,0,false
+nac46,202307,5,dv_base,2,PP,Derecha nacional,27470,0.431816,PP,PSOE,37176,25688,0.591372,751,false
+nac46,202307,5,dv_A,1,bloque:Derecha nacional,Derecha nacional,37176,0.584390,,,,,,0,false
+nac46,202307,5,dv_B,1,bloque:Derecha nacional,Derecha nacional,37176,0.584390,,,,,,0,false
+nac46,202307,6,dv_base,2,PP,Derecha nacional,24480,0.395835,PP,PSOE,33654,27440,0.550856,750,false
+nac46,202307,6,dv_A,1,bloque:Derecha nacional,Derecha nacional,33654,0.544176,,,,,,0,false
+nac46,202307,6,dv_B,1,bloque:Derecha nacional,Derecha nacional,33654,0.544176,,,,,,0,false
+nac46,202307,7,dv_base,2,PSOE,Izquierdas,19161,0.347504,PSOE,PP,27345,27066,0.502564,728,false
+nac46,202307,7,dv_A,2,bloque:Izquierdas,Izquierdas,27345,0.495928,bloque:Izquierdas,bloque:Derecha nacional,27345,27066,0.502564,728,false
+nac46,202307,7,dv_B,2,bloque:Izquierdas,Izquierdas,27345,0.495928,bloque:Izquierdas,bloque:Derecha nacional,27345,27066,0.502564,728,false
+nac46,202307,8,dv_base,2,PSOE,Izquierdas,22024,0.362965,PSOE,PP,33258,26622,0.555411,798,false
+nac46,202307,8,dv_A,1,bloque:Izquierdas,Izquierdas,33258,0.548106,,,,,,0,false
+nac46,202307,8,dv_B,1,bloque:Izquierdas,Izquierdas,33258,0.548106,,,,,,0,false
+nac46,202307,9,dv_base,2,PSOE,Izquierdas,21295,0.345043,PSOE,PP,30771,30273,0.504079,673,false
+nac46,202307,9,dv_A,2,bloque:Izquierdas,Izquierdas,30771,0.498582,bloque:Izquierdas,bloque:Derecha nacional,30771,30273,0.504079,673,false
+nac46,202307,9,dv_B,2,bloque:Izquierdas,Izquierdas,30771,0.498582,bloque:Izquierdas,bloque:Derecha nacional,30771,30273,0.504079,673,false
+nac46,202307,10,dv_base,2,PSOE,Izquierdas,20712,0.336802,PSOE,PP,30288,30220,0.500562,988,false
+nac46,202307,10,dv_A,2,bloque:Izquierdas,Izquierdas,30288,0.492520,bloque:Izquierdas,bloque:Derecha nacional,30288,30220,0.500562,988,false
+nac46,202307,10,dv_B,2,bloque:Izquierdas,Izquierdas,30288,0.492520,bloque:Izquierdas,bloque:Derecha nacional,30288,30220,0.500562,988,false
+nac46,202307,11,dv_base,2,PP,Derecha nacional,23068,0.345749,PP,PSOE,34061,31787,0.517267,871,false
+nac46,202307,11,dv_A,1,bloque:Derecha nacional,Derecha nacional,34061,0.510514,,,,,,0,false
+nac46,202307,11,dv_B,1,bloque:Derecha nacional,Derecha nacional,34061,0.510514,,,,,,0,false
+nac46,202307,12,dv_base,2,PSOE,Izquierdas,21942,0.326197,PP,PSOE,31284,35196,0.529422,786,false
+nac46,202307,12,dv_A,1,bloque:Izquierdas,Izquierdas,35196,0.523236,,,,,,0,false
+nac46,202307,12,dv_B,1,bloque:Izquierdas,Izquierdas,35196,0.523236,,,,,,0,false
+nac46,202307,13,dv_base,2,PSOE,Izquierdas,22369,0.338186,PP,PSOE,31917,33386,0.511248,841,false
+nac46,202307,13,dv_A,1,bloque:Izquierdas,Izquierdas,33386,0.504747,,,,,,0,false
+nac46,202307,13,dv_B,1,bloque:Izquierdas,Izquierdas,33386,0.504747,,,,,,0,false
+nac46,202307,14,dv_base,2,PSOE,Izquierdas,20781,0.336562,PSOE,PP,31350,29687,0.513623,708,false
+nac46,202307,14,dv_A,1,bloque:Izquierdas,Izquierdas,31350,0.507733,,,,,,0,false
+nac46,202307,14,dv_B,1,bloque:Izquierdas,Izquierdas,31350,0.507733,,,,,,0,false
+nac46,202307,15,dv_base,2,PP,Derecha nacional,21991,0.363518,PP,PSOE,33370,26310,0.559149,815,false
+nac46,202307,15,dv_A,1,bloque:Derecha nacional,Derecha nacional,33370,0.551616,,,,,,0,false
+nac46,202307,15,dv_B,1,bloque:Derecha nacional,Derecha nacional,33370,0.551616,,,,,,0,false
+nac46,202307,16,dv_base,2,PSOE,Izquierdas,19314,0.321231,PSOE,PP,30375,28793,0.513369,957,false
+nac46,202307,16,dv_A,1,bloque:Izquierdas,Izquierdas,30375,0.505198,,,,,,0,false
+nac46,202307,16,dv_B,1,bloque:Izquierdas,Izquierdas,30375,0.505198,,,,,,0,false
+nac46,202307,17,dv_base,2,PP,Derecha nacional,20536,0.336960,PSOE,PP,28699,31423,0.522654,823,false
+nac46,202307,17,dv_A,1,bloque:Derecha nacional,Derecha nacional,31423,0.515596,,,,,,0,false
+nac46,202307,17,dv_B,1,bloque:Derecha nacional,Derecha nacional,31423,0.515596,,,,,,0,false
+nac46,202307,18,dv_base,2,PSOE,Izquierdas,22276,0.355324,PSOE,PP,34614,27325,0.558840,753,false
+nac46,202307,18,dv_A,1,bloque:Izquierdas,Izquierdas,34614,0.552128,,,,,,0,false
+nac46,202307,18,dv_B,1,bloque:Izquierdas,Izquierdas,34614,0.552128,,,,,,0,false
+nac46,202307,19,dv_base,2,PSOE,Izquierdas,19711,0.334516,PSOE,PP,29399,28693,0.506077,832,false
+nac46,202307,19,dv_A,2,bloque:Izquierdas,Izquierdas,29399,0.498931,bloque:Izquierdas,bloque:Derecha nacional,29399,28693,0.506077,832,false
+nac46,202307,19,dv_B,2,bloque:Izquierdas,Izquierdas,29399,0.498931,bloque:Izquierdas,bloque:Derecha nacional,29399,28693,0.506077,832,false
+nac46,202307,20,dv_base,2,PSOE,Izquierdas,23110,0.371836,PSOE,PP,32791,28455,0.535398,905,false
+nac46,202307,20,dv_A,1,bloque:Izquierdas,Izquierdas,32791,0.527602,,,,,,0,false
+nac46,202307,20,dv_B,1,bloque:Izquierdas,Izquierdas,32791,0.527602,,,,,,0,false
+nac46,202307,21,dv_base,2,PSOE,Izquierdas,20727,0.334474,PP,PSOE,29913,31123,0.509912,933,false
+nac46,202307,21,dv_A,1,bloque:Izquierdas,Izquierdas,31123,0.502235,,,,,,0,false
+nac46,202307,21,dv_B,1,bloque:Izquierdas,Izquierdas,31123,0.502235,,,,,,0,false
+nac46,202307,22,dv_base,2,PSOE,Izquierdas,18168,0.341254,PSOE,PP,26494,25963,0.505061,782,false
+nac46,202307,22,dv_A,2,bloque:Izquierdas,Izquierdas,26494,0.497643,bloque:Izquierdas,bloque:Derecha nacional,26494,25963,0.505061,782,false
+nac46,202307,22,dv_B,2,bloque:Izquierdas,Izquierdas,26494,0.497643,bloque:Izquierdas,bloque:Derecha nacional,26494,25963,0.505061,782,false
+nac46,202307,23,dv_base,2,PP,Derecha nacional,22094,0.341188,PP,PSOE,32944,30825,0.516615,987,false
+nac46,202307,23,dv_A,1,bloque:Derecha nacional,Derecha nacional,32944,0.508741,,,,,,0,false
+nac46,202307,23,dv_B,1,bloque:Derecha nacional,Derecha nacional,32944,0.508741,,,,,,0,false
+nac47,202307,1,dv_base,2,PP,Derecha nacional,37864,0.422015,PP,PSOE,50193,38162,0.568083,1367,false
+nac47,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,50193,0.559428,,,,,,0,false
+nac47,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,50193,0.559428,,,,,,0,false
+nac47,202307,2,dv_base,2,PP,Derecha nacional,34714,0.391713,PP,PSOE,46460,40840,0.532188,1321,false
+nac47,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,46460,0.524255,,,,,,0,false
+nac47,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,46460,0.524255,,,,,,0,false
+nac47,202307,3,dv_base,2,PP,Derecha nacional,28698,0.426438,PP,PSOE,40498,26040,0.608645,759,false
+nac47,202307,3,dv_A,1,bloque:Derecha nacional,Derecha nacional,40498,0.601780,,,,,,0,false
+nac47,202307,3,dv_B,1,bloque:Derecha nacional,Derecha nacional,40498,0.601780,,,,,,0,false
+nac47,202307,4,dv_base,2,PP,Derecha nacional,27223,0.411846,PP,PSOE,39200,25835,0.602752,1065,false
+nac47,202307,4,dv_A,1,bloque:Derecha nacional,Derecha nacional,39200,0.593041,,,,,,0,false
+nac47,202307,4,dv_B,1,bloque:Derecha nacional,Derecha nacional,39200,0.593041,,,,,,0,false
+nac48,202307,1,dv_base,2,EAJ-PNV,Nacionalistas,15030,0.263976,PSOE,EAJ-PNV,21992,23235,0.513742,11710,false
+nac48,202307,1,dv_A,2,bloque:Nacionalistas,Nacionalistas,23235,0.408083,bloque:Nacionalistas,bloque:Izquierdas,23235,21992,0.513742,11710,false
+nac48,202307,1,dv_B,2,EAJ-PNV,Nacionalistas,21992,0.386251,bloque:Izquierdas,EAJ-PNV,21992,23235,0.513742,11710,false
+nac48,202307,2,dv_base,2,EAJ-PNV,Nacionalistas,15772,0.279586,PSOE,EAJ-PNV,23098,23909,0.508626,9405,false
+nac48,202307,2,dv_A,2,bloque:Nacionalistas,Nacionalistas,23909,0.423828,bloque:Nacionalistas,bloque:Izquierdas,23909,23098,0.508626,9405,false
+nac48,202307,2,dv_B,2,EAJ-PNV,Nacionalistas,23098,0.409452,bloque:Izquierdas,EAJ-PNV,23098,23909,0.508626,9405,false
+nac48,202307,3,dv_base,2,PSOE,Izquierdas,20926,0.341487,PSOE,EAJ-PNV,28647,24852,0.535468,7780,false
+nac48,202307,3,dv_A,2,bloque:Izquierdas,Izquierdas,28647,0.467485,bloque:Izquierdas,bloque:Nacionalistas,28647,24852,0.535468,7780,false
+nac48,202307,3,dv_B,2,bloque:Izquierdas,Izquierdas,28647,0.467485,bloque:Izquierdas,EAJ-PNV,28647,24852,0.535468,7780,false
+nac48,202307,4,dv_base,2,EAJ-PNV,Nacionalistas,25624,0.381287,EAJ-PNV,EH Bildu,25624,22522,0.532215,19058,false
+nac48,202307,4,dv_A,1,bloque:Nacionalistas,Nacionalistas,48146,0.716416,,,,,,0,false
+nac48,202307,4,dv_B,2,EAJ-PNV,Nacionalistas,25624,0.381287,EAJ-PNV,EH Bildu,25624,22522,0.532215,19058,false
+nac48,202307,5,dv_base,2,EAJ-PNV,Nacionalistas,16424,0.269963,EAJ-PNV,PSOE,25036,22431,0.527440,13371,false
+nac48,202307,5,dv_A,2,bloque:Nacionalistas,Nacionalistas,25036,0.411519,bloque:Nacionalistas,bloque:Izquierdas,25036,22431,0.527440,13371,false
+nac48,202307,5,dv_B,2,EAJ-PNV,Nacionalistas,22431,0.368700,bloque:Izquierdas,EAJ-PNV,22431,25036,0.527440,13371,false
+nac48,202307,6,dv_base,2,PSOE,Izquierdas,21872,0.385886,PSOE,EAJ-PNV,29277,19001,0.606425,8402,false
+nac48,202307,6,dv_A,1,bloque:Izquierdas,Izquierdas,29277,0.516531,,,,,,0,false
+nac48,202307,6,dv_B,1,bloque:Izquierdas,Izquierdas,29277,0.516531,,,,,,0,false
+nac48,202307,7,dv_base,2,EAJ-PNV,Nacionalistas,17447,0.283401,EAJ-PNV,PP,27325,15620,0.636279,18618,false
+nac48,202307,7,dv_A,2,bloque:Nacionalistas,Nacionalistas,27325,0.443854,bloque:Nacionalistas,bloque:Izquierdas,27325,18197,0.600259,16041,false
+nac48,202307,7,dv_B,2,EAJ-PNV,Nacionalistas,18197,0.295583,bloque:Izquierdas,EAJ-PNV,18197,27325,0.600259,16041,false
+nac48,202307,8,dv_base,2,EH Bildu,Nacionalistas,21497,0.336822,EH Bildu,EAJ-PNV,21497,18273,0.540533,24053,false
+nac48,202307,8,dv_A,1,bloque:Nacionalistas,Nacionalistas,39770,0.623130,,,,,,0,false
+nac48,202307,8,dv_B,2,EH Bildu,Nacionalistas,21497,0.336822,EH Bildu,EAJ-PNV,21497,18273,0.540533,24053,false
+nac48,202307,9,dv_base,2,EAJ-PNV,Nacionalistas,18024,0.307273,PSOE,EAJ-PNV,24792,27834,0.528902,6032,false
+nac48,202307,9,dv_A,2,bloque:Nacionalistas,Nacionalistas,27834,0.474513,bloque:Nacionalistas,bloque:Izquierdas,27834,24792,0.528902,6032,false
+nac48,202307,9,dv_B,2,EAJ-PNV,Nacionalistas,24792,0.422653,bloque:Izquierdas,EAJ-PNV,24792,27834,0.528902,6032,false
+nac48,202307,10,dv_base,2,EAJ-PNV,Nacionalistas,16147,0.271780,EAJ-PNV,PSOE,29821,22744,0.567317,6847,false
+nac48,202307,10,dv_A,1,bloque:Nacionalistas,Nacionalistas,29821,0.501936,,,,,,0,false
+nac48,202307,10,dv_B,2,EAJ-PNV,Nacionalistas,22744,0.382818,bloque:Izquierdas,EAJ-PNV,22744,29821,0.567317,6847,false
+nac49,202307,1,dv_base,2,PP,Derecha nacional,45550,0.452037,PP,PSOE,58998,38812,0.603190,2956,false
+nac49,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,58998,0.585495,,,,,,0,false
+nac49,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,58998,0.585495,,,,,,0,false
+nac49,201111,1,dv_base,1,PP,Derecha nacional,67872,0.588840,,,,,,0,false
+nac49,201111,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,67872,0.588840,,,,,,0,false
+nac49,201111,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,67872,0.588840,,,,,,0,false
+nac49,201512,1,dv_base,2,PP,Derecha nacional,47858,0.430482,PP,PSOE,47858,47160,0.503673,16155,false
+nac49,201512,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,47858,0.430482,bloque:Derecha nacional,bloque:Izquierdas,47858,47160,0.503673,16155,false
+nac49,201512,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,47858,0.430482,bloque:Derecha nacional,bloque:Izquierdas,47858,47160,0.503673,16155,false
+nac49,201606,1,dv_base,2,PP,Derecha nacional,52110,0.487574,PP,PSOE,52110,41158,0.558713,13608,false
+nac49,201606,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,52110,0.487574,bloque:Derecha nacional,bloque:Izquierdas,52110,41158,0.558713,13608,false
+nac49,201606,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,52110,0.487574,bloque:Derecha nacional,bloque:Izquierdas,52110,41158,0.558713,13608,false
+nac49,201904,1,dv_base,2,PP,Derecha nacional,34357,0.315877,PSOE,PP,43585,45323,0.509774,19859,false
+nac49,201904,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,45323,0.416698,bloque:Derecha nacional,bloque:Izquierdas,45323,43585,0.509774,19859,false
+nac49,201904,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,45323,0.416698,bloque:Derecha nacional,bloque:Izquierdas,45323,43585,0.509774,19859,false
+nac49,201911,1,dv_base,2,PP,Derecha nacional,33234,0.340338,PP,PSOE,50178,39417,0.560054,8055,false
+nac49,201911,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,50178,0.513856,,,,,,0,false
+nac49,201911,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,50178,0.513856,,,,,,0,false
+nac50,202307,1,dv_base,2,PP,Derecha nacional,20254,0.347589,PP,PSOE,28725,27352,0.512242,2193,false
+nac50,202307,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,28725,0.492964,bloque:Derecha nacional,bloque:Izquierdas,28725,27352,0.512242,2193,false
+nac50,202307,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,28725,0.492964,bloque:Derecha nacional,bloque:Izquierdas,28725,27352,0.512242,2193,false
+nac50,202307,2,dv_base,2,PP,Derecha nacional,23016,0.401339,PP,PSOE,30987,24523,0.558224,1838,false
+nac50,202307,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,30987,0.540333,,,,,,0,false
+nac50,202307,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,30987,0.540333,,,,,,0,false
+nac50,202307,3,dv_base,2,PSOE,Izquierdas,20529,0.347684,PP,PSOE,28424,28644,0.501928,1977,false
+nac50,202307,3,dv_A,2,bloque:Izquierdas,Izquierdas,28644,0.485122,bloque:Izquierdas,bloque:Derecha nacional,28644,28424,0.501928,1977,false
+nac50,202307,3,dv_B,2,bloque:Izquierdas,Izquierdas,28644,0.485122,bloque:Izquierdas,bloque:Derecha nacional,28644,28424,0.501928,1977,false
+nac50,202307,4,dv_base,2,PP,Derecha nacional,27512,0.411561,PP,PSOE,37608,27214,0.580173,2026,false
+nac50,202307,4,dv_A,1,bloque:Derecha nacional,Derecha nacional,37608,0.562590,,,,,,0,false
+nac50,202307,4,dv_B,1,bloque:Derecha nacional,Derecha nacional,37608,0.562590,,,,,,0,false
+nac50,202307,5,dv_base,2,PP,Derecha nacional,19789,0.349598,PP,PSOE,28174,26442,0.515856,1989,false
+nac50,202307,5,dv_A,2,bloque:Derecha nacional,Derecha nacional,28174,0.497730,bloque:Derecha nacional,bloque:Izquierdas,28174,26442,0.515856,1989,false
+nac50,202307,5,dv_B,2,bloque:Derecha nacional,Derecha nacional,28174,0.497730,bloque:Derecha nacional,bloque:Izquierdas,28174,26442,0.515856,1989,false
+nac50,202307,6,dv_base,2,PP,Derecha nacional,23382,0.326209,PP,PSOE,35715,33050,0.519378,2913,false
+nac50,202307,6,dv_A,2,bloque:Derecha nacional,Derecha nacional,35715,0.498270,bloque:Derecha nacional,bloque:Izquierdas,35715,33050,0.519378,2913,false
+nac50,202307,6,dv_B,2,bloque:Derecha nacional,Derecha nacional,35715,0.498270,bloque:Derecha nacional,bloque:Izquierdas,35715,33050,0.519378,2913,false
+nac50,202307,7,dv_base,2,PP,Derecha nacional,26363,0.375493,PP,PSOE,39083,28955,0.574429,2171,false
+nac50,202307,7,dv_A,1,bloque:Derecha nacional,Derecha nacional,39083,0.556667,,,,,,0,false
+nac50,202307,7,dv_B,1,bloque:Derecha nacional,Derecha nacional,39083,0.556667,,,,,,0,false
+nac50,202307,8,dv_base,2,PP,Derecha nacional,24730,0.353255,PP,PSOE,35998,32147,0.528256,1861,false
+nac50,202307,8,dv_A,1,bloque:Derecha nacional,Derecha nacional,35998,0.514213,,,,,,0,false
+nac50,202307,8,dv_B,1,bloque:Derecha nacional,Derecha nacional,35998,0.514213,,,,,,0,false
+nac50,201111,1,dv_base,2,PSOE,Izquierdas,23987,0.446062,PP,PSOE,23987,24844,0.508775,4944,false
+nac50,201111,1,dv_A,2,bloque:Izquierdas,Izquierdas,24844,0.461999,bloque:Izquierdas,bloque:Derecha nacional,24844,23987,0.508775,4944,false
+nac50,201111,1,dv_B,2,bloque:Izquierdas,Izquierdas,24844,0.461999,bloque:Izquierdas,bloque:Derecha nacional,24844,23987,0.508775,4944,false
+nac50,201111,2,dv_base,1,PP,Derecha nacional,30880,0.504377,,,,,,0,false
+nac50,201111,2,dv_A,1,bloque:Derecha nacional,Derecha nacional,30880,0.504377,,,,,,0,false
+nac50,201111,2,dv_B,1,bloque:Derecha nacional,Derecha nacional,30880,0.504377,,,,,,0,false
+nac50,201111,3,dv_base,2,PSOE,Izquierdas,28113,0.449686,PP,PSOE,28113,29104,0.508660,5300,false
+nac50,201111,3,dv_A,2,bloque:Izquierdas,Izquierdas,29104,0.465537,bloque:Izquierdas,bloque:Derecha nacional,29104,28113,0.508660,5300,false
+nac50,201111,3,dv_B,2,bloque:Izquierdas,Izquierdas,29104,0.465537,bloque:Izquierdas,bloque:Derecha nacional,29104,28113,0.508660,5300,false
+nac50,201111,4,dv_base,1,PP,Derecha nacional,33999,0.520475,,,,,,0,false
+nac50,201111,4,dv_A,1,bloque:Derecha nacional,Derecha nacional,33999,0.520475,,,,,,0,false
+nac50,201111,4,dv_B,1,bloque:Derecha nacional,Derecha nacional,33999,0.520475,,,,,,0,false
+nac50,201111,5,dv_base,2,PSOE,Izquierdas,25000,0.444121,PP,PSOE,25000,26031,0.510102,5260,false
+nac50,201111,5,dv_A,2,bloque:Izquierdas,Izquierdas,26031,0.462436,bloque:Izquierdas,bloque:Derecha nacional,26031,25000,0.510102,5260,false
+nac50,201111,5,dv_B,2,bloque:Izquierdas,Izquierdas,26031,0.462436,bloque:Izquierdas,bloque:Derecha nacional,26031,25000,0.510102,5260,false
+nac50,201111,6,dv_base,2,PSOE,Izquierdas,27202,0.442280,PP,PSOE,27202,28358,0.510403,5944,false
+nac50,201111,6,dv_A,2,bloque:Izquierdas,Izquierdas,28358,0.461076,bloque:Izquierdas,bloque:Derecha nacional,28358,27202,0.510403,5944,false
+nac50,201111,6,dv_B,2,bloque:Izquierdas,Izquierdas,28358,0.461076,bloque:Izquierdas,bloque:Derecha nacional,28358,27202,0.510403,5944,false
+nac50,201111,7,dv_base,1,PP,Derecha nacional,36157,0.525416,,,,,,0,false
+nac50,201111,7,dv_A,1,bloque:Derecha nacional,Derecha nacional,36157,0.525416,,,,,,0,false
+nac50,201111,7,dv_B,1,bloque:Derecha nacional,Derecha nacional,36157,0.525416,,,,,,0,false
+nac50,201111,8,dv_base,2,PP,Derecha nacional,35226,0.481914,PP,PSOE,35226,34189,0.507470,3681,false
+nac50,201111,8,dv_A,2,bloque:Derecha nacional,Derecha nacional,35226,0.481914,bloque:Derecha nacional,bloque:Izquierdas,35226,34189,0.507470,3681,false
+nac50,201111,8,dv_B,2,bloque:Derecha nacional,Derecha nacional,35226,0.481914,bloque:Derecha nacional,bloque:Izquierdas,35226,34189,0.507470,3681,false
+nac50,201512,1,dv_base,2,Podemos–Sumar,Izquierdas,16529,0.280248,PP,Podemos–Sumar,16756,29888,0.640768,12336,false
+nac50,201512,1,dv_A,1,bloque:Izquierdas,Izquierdas,29888,0.506748,,,,,,0,false
+nac50,201512,1,dv_B,1,bloque:Izquierdas,Izquierdas,29888,0.506748,,,,,,0,false
+nac50,201512,2,dv_base,2,PSOE,Izquierdas,21054,0.337328,PP,PSOE,21357,27867,0.566126,13190,false
+nac50,201512,2,dv_A,2,bloque:Izquierdas,Izquierdas,27867,0.446486,bloque:Izquierdas,bloque:Derecha nacional,27867,21357,0.566126,13190,false
+nac50,201512,2,dv_B,2,bloque:Izquierdas,Izquierdas,27867,0.446486,bloque:Izquierdas,bloque:Derecha nacional,27867,21357,0.566126,13190,false
+nac50,201512,3,dv_base,2,PSOE,Izquierdas,18750,0.289160,PP,PSOE,18981,33164,0.635996,12698,false
+nac50,201512,3,dv_A,1,bloque:Izquierdas,Izquierdas,33164,0.511451,,,,,,0,false
+nac50,201512,3,dv_B,1,bloque:Izquierdas,Izquierdas,33164,0.511451,,,,,,0,false
+nac50,201512,4,dv_base,2,PP,Derecha nacional,23874,0.345604,PP,Cs,24203,13487,0.642160,31389,false
+nac50,201512,4,dv_A,2,bloque:Izquierdas,Izquierdas,29566,0.428003,bloque:Izquierdas,bloque:Derecha nacional,29566,24203,0.549871,15310,false
+nac50,201512,4,dv_B,2,bloque:Izquierdas,Izquierdas,29566,0.428003,bloque:Izquierdas,bloque:Derecha nacional,29566,24203,0.549871,15310,false
+nac50,201512,5,dv_base,2,PSOE,Izquierdas,16415,0.274659,PP,PSOE,16629,30214,0.645006,12922,false
+nac50,201512,5,dv_A,1,bloque:Izquierdas,Izquierdas,30214,0.505547,,,,,,0,false
+nac50,201512,5,dv_B,1,bloque:Izquierdas,Izquierdas,30214,0.505547,,,,,,0,false
+nac50,201512,6,dv_base,2,Podemos–Sumar,Izquierdas,16871,0.242072,PP,Podemos–Sumar,17072,35856,0.677449,16766,false
+nac50,201512,6,dv_A,1,bloque:Izquierdas,Izquierdas,35856,0.514478,,,,,,0,false
+nac50,201512,6,dv_B,1,bloque:Izquierdas,Izquierdas,35856,0.514478,,,,,,0,false
+nac50,201512,7,dv_base,2,PSOE,Izquierdas,24147,0.343509,PP,PSOE,24338,32877,0.574622,13080,false
+nac50,201512,7,dv_A,2,bloque:Izquierdas,Izquierdas,32877,0.467700,bloque:Izquierdas,bloque:Derecha nacional,32877,24338,0.574622,13080,false
+nac50,201512,7,dv_B,2,bloque:Izquierdas,Izquierdas,32877,0.467700,bloque:Izquierdas,bloque:Derecha nacional,32877,24338,0.574622,13080,false
+nac50,201512,8,dv_base,2,PSOE,Izquierdas,23725,0.326566,PP,PSOE,23868,37145,0.608805,11637,false
+nac50,201512,8,dv_A,1,bloque:Izquierdas,Izquierdas,37145,0.511287,,,,,,0,false
+nac50,201512,8,dv_B,1,bloque:Izquierdas,Izquierdas,37145,0.511287,,,,,,0,false
+nac50,201606,1,dv_base,2,Podemos–Sumar,Izquierdas,18390,0.325637,PP,Podemos–Sumar,18571,26783,0.590532,11120,false
+nac50,201606,1,dv_A,2,bloque:Izquierdas,Izquierdas,26783,0.474254,bloque:Izquierdas,bloque:Derecha nacional,26783,18571,0.590532,11120,false
+nac50,201606,1,dv_B,2,bloque:Izquierdas,Izquierdas,26783,0.474254,bloque:Izquierdas,bloque:Derecha nacional,26783,18571,0.590532,11120,false
+nac50,201606,2,dv_base,2,PSOE,Izquierdas,23128,0.384947,PP,PSOE,23370,24927,0.516119,11784,false
+nac50,201606,2,dv_A,2,bloque:Izquierdas,Izquierdas,24927,0.414890,bloque:Izquierdas,bloque:Derecha nacional,24927,23370,0.516119,11784,false
+nac50,201606,2,dv_B,2,bloque:Izquierdas,Izquierdas,24927,0.414890,bloque:Izquierdas,bloque:Derecha nacional,24927,23370,0.516119,11784,false
+nac50,201606,3,dv_base,2,PSOE,Izquierdas,20720,0.335281,PP,PSOE,20920,29609,0.585980,11270,false
+nac50,201606,3,dv_A,2,bloque:Izquierdas,Izquierdas,29609,0.479118,bloque:Izquierdas,bloque:Derecha nacional,29609,20920,0.585980,11270,false
+nac50,201606,3,dv_B,2,bloque:Izquierdas,Izquierdas,29609,0.479118,bloque:Izquierdas,bloque:Derecha nacional,29609,20920,0.585980,11270,false
+nac50,201606,4,dv_base,2,PP,Derecha nacional,26415,0.397009,PP,PSOE,26674,26454,0.502070,13407,false
+nac50,201606,4,dv_A,2,bloque:Derecha nacional,Derecha nacional,26674,0.400902,bloque:Derecha nacional,bloque:Izquierdas,26674,26454,0.502070,13407,false
+nac50,201606,4,dv_B,2,bloque:Derecha nacional,Derecha nacional,26674,0.400902,bloque:Derecha nacional,bloque:Izquierdas,26674,26454,0.502070,13407,false
+nac50,201606,5,dv_base,2,PSOE,Izquierdas,18152,0.318188,PP,PSOE,18349,26907,0.594551,11792,false
+nac50,201606,5,dv_A,2,bloque:Izquierdas,Izquierdas,26907,0.471655,bloque:Izquierdas,bloque:Derecha nacional,26907,18349,0.594551,11792,false
+nac50,201606,5,dv_B,2,bloque:Izquierdas,Izquierdas,26907,0.471655,bloque:Izquierdas,bloque:Derecha nacional,26907,18349,0.594551,11792,false
+nac50,201606,6,dv_base,2,Podemos–Sumar,Izquierdas,19450,0.291644,PP,Podemos–Sumar,19645,31673,0.617191,15373,false
+nac50,201606,6,dv_A,2,bloque:Izquierdas,Izquierdas,31673,0.474922,bloque:Izquierdas,bloque:Derecha nacional,31673,19645,0.617191,15373,false
+nac50,201606,6,dv_B,2,bloque:Izquierdas,Izquierdas,31673,0.474922,bloque:Izquierdas,bloque:Derecha nacional,31673,19645,0.617191,15373,false
+nac50,201606,7,dv_base,2,PSOE,Izquierdas,26572,0.390151,PP,PSOE,26746,29392,0.523567,11969,false
+nac50,201606,7,dv_A,2,bloque:Izquierdas,Izquierdas,29392,0.431556,bloque:Izquierdas,bloque:Derecha nacional,29392,26746,0.523567,11969,false
+nac50,201606,7,dv_B,2,bloque:Izquierdas,Izquierdas,29392,0.431556,bloque:Izquierdas,bloque:Derecha nacional,29392,26746,0.523567,11969,false
+nac50,201606,8,dv_base,2,PSOE,Izquierdas,25760,0.368727,PP,PSOE,25910,33153,0.561316,10799,false
+nac50,201606,8,dv_A,2,bloque:Izquierdas,Izquierdas,33153,0.474550,bloque:Izquierdas,bloque:Derecha nacional,33153,25910,0.561316,10799,false
+nac50,201606,8,dv_B,2,bloque:Izquierdas,Izquierdas,33153,0.474550,bloque:Izquierdas,bloque:Derecha nacional,33153,25910,0.561316,10799,false
+nac50,201904,1,dv_base,2,PSOE,Izquierdas,19457,0.310914,PSOE,Cs,29931,13321,0.692014,19328,false
+nac50,201904,1,dv_A,2,bloque:Izquierdas,Izquierdas,29931,0.478284,bloque:Izquierdas,bloque:Derecha nacional,29931,17796,0.627129,14853,false
+nac50,201904,1,dv_B,2,bloque:Izquierdas,Izquierdas,29931,0.478284,bloque:Izquierdas,bloque:Derecha nacional,29931,17796,0.627129,14853,false
+nac50,201904,2,dv_base,2,PSOE,Izquierdas,18953,0.297769,PSOE,Cs,27657,13684,0.668997,22309,false
+nac50,201904,2,dv_A,2,bloque:Izquierdas,Izquierdas,27657,0.434517,bloque:Izquierdas,bloque:Derecha nacional,27657,20930,0.569226,15063,false
+nac50,201904,2,dv_B,2,bloque:Izquierdas,Izquierdas,27657,0.434517,bloque:Izquierdas,bloque:Derecha nacional,27657,20930,0.569226,15063,false
+nac50,201904,3,dv_base,2,PSOE,Izquierdas,22105,0.334008,PSOE,Cs,32345,13244,0.709491,20592,false
+nac50,201904,3,dv_A,2,bloque:Izquierdas,Izquierdas,32345,0.488735,bloque:Izquierdas,bloque:Derecha nacional,32345,19103,0.628693,14733,false
+nac50,201904,3,dv_B,2,bloque:Izquierdas,Izquierdas,32345,0.488735,bloque:Izquierdas,bloque:Derecha nacional,32345,19103,0.628693,14733,false
+nac50,201904,4,dv_base,2,PSOE,Izquierdas,19827,0.276315,PSOE,Cs,29658,15733,0.653389,26364,false
+nac50,201904,4,dv_A,2,bloque:Izquierdas,Izquierdas,29658,0.413323,bloque:Izquierdas,bloque:Derecha nacional,29658,24979,0.542819,17118,false
+nac50,201904,4,dv_B,2,bloque:Izquierdas,Izquierdas,29658,0.413323,bloque:Izquierdas,bloque:Derecha nacional,29658,24979,0.542819,17118,false
+nac50,201904,5,dv_base,2,PSOE,Izquierdas,19913,0.323710,PSOE,Cs,29222,13375,0.686011,18918,false
+nac50,201904,5,dv_A,2,bloque:Izquierdas,Izquierdas,29222,0.475039,bloque:Izquierdas,bloque:Derecha nacional,29222,17529,0.625056,14764,false
+nac50,201904,5,dv_B,2,bloque:Izquierdas,Izquierdas,29222,0.475039,bloque:Izquierdas,bloque:Derecha nacional,29222,17529,0.625056,14764,false
+nac50,201904,6,dv_base,2,PSOE,Izquierdas,23252,0.310200,PSOE,Cs,35408,17354,0.671089,22196,false
+nac50,201904,6,dv_A,2,bloque:Izquierdas,Izquierdas,35408,0.472371,bloque:Izquierdas,bloque:Derecha nacional,35408,20319,0.635383,19231,false
+nac50,201904,6,dv_B,2,bloque:Izquierdas,Izquierdas,35408,0.472371,bloque:Izquierdas,bloque:Derecha nacional,35408,20319,0.635383,19231,false
+nac50,201904,7,dv_base,2,PSOE,Izquierdas,22879,0.316078,PSOE,PP,31184,25327,0.551822,15873,false
+nac50,201904,7,dv_A,2,bloque:Izquierdas,Izquierdas,31184,0.430813,bloque:Izquierdas,bloque:Derecha nacional,31184,25327,0.551822,15873,false
+nac50,201904,7,dv_B,2,bloque:Izquierdas,Izquierdas,31184,0.430813,bloque:Izquierdas,bloque:Derecha nacional,31184,25327,0.551822,15873,false
+nac50,201904,8,dv_base,2,PSOE,Izquierdas,26420,0.356483,PSOE,PP,35528,23637,0.600490,14948,false
+nac50,201904,8,dv_A,2,bloque:Izquierdas,Izquierdas,35528,0.479376,bloque:Izquierdas,bloque:Derecha nacional,35528,23637,0.600490,14948,false
+nac50,201904,8,dv_B,2,bloque:Izquierdas,Izquierdas,35528,0.479376,bloque:Izquierdas,bloque:Derecha nacional,35528,23637,0.600490,14948,false
+nac50,201911,1,dv_base,2,PSOE,Izquierdas,17299,0.303470,PSOE,PP,27949,22509,0.553906,6546,false
+nac50,201911,1,dv_A,2,bloque:Izquierdas,Izquierdas,27949,0.490299,bloque:Izquierdas,bloque:Derecha nacional,27949,22509,0.553906,6546,false
+nac50,201911,1,dv_B,2,bloque:Izquierdas,Izquierdas,27949,0.490299,bloque:Izquierdas,bloque:Derecha nacional,27949,22509,0.553906,6546,false
+nac50,201911,2,dv_base,2,PSOE,Izquierdas,17406,0.295488,PSOE,PP,26481,25561,0.508839,6864,false
+nac50,201911,2,dv_A,2,bloque:Izquierdas,Izquierdas,26481,0.449547,bloque:Izquierdas,bloque:Derecha nacional,26481,25561,0.508839,6864,false
+nac50,201911,2,dv_B,2,bloque:Izquierdas,Izquierdas,26481,0.449547,bloque:Izquierdas,bloque:Derecha nacional,26481,25561,0.508839,6864,false
+nac50,201911,3,dv_base,2,PSOE,Izquierdas,20368,0.333492,PSOE,PP,30861,23787,0.564723,6427,false
+nac50,201911,3,dv_A,1,bloque:Izquierdas,Izquierdas,30861,0.505297,,,,,,0,false
+nac50,201911,3,dv_B,1,bloque:Izquierdas,Izquierdas,30861,0.505297,,,,,,0,false
+nac50,201911,4,dv_base,2,PP,Derecha nacional,18640,0.278487,PP,PSOE,30599,28759,0.515499,7575,false
+nac50,201911,4,dv_A,2,bloque:Derecha nacional,Derecha nacional,30599,0.457159,bloque:Derecha nacional,bloque:Izquierdas,30599,28759,0.515499,7575,false
+nac50,201911,4,dv_B,2,bloque:Derecha nacional,Derecha nacional,30599,0.457159,bloque:Derecha nacional,bloque:Izquierdas,30599,28759,0.515499,7575,false
+nac50,201911,5,dv_base,2,PSOE,Izquierdas,18067,0.317461,PSOE,PP,27935,22417,0.554794,6559,false
+nac50,201911,5,dv_A,2,bloque:Izquierdas,Izquierdas,27935,0.490854,bloque:Izquierdas,bloque:Derecha nacional,27935,22417,0.554794,6559,false
+nac50,201911,5,dv_B,2,bloque:Izquierdas,Izquierdas,27935,0.490854,bloque:Izquierdas,bloque:Derecha nacional,27935,22417,0.554794,6559,false
+nac50,201911,6,dv_base,2,PSOE,Izquierdas,21305,0.304005,PSOE,VOX,34225,27167,0.557483,8689,false
+nac50,201911,6,dv_A,2,bloque:Izquierdas,Izquierdas,34225,0.488363,bloque:Izquierdas,bloque:Derecha nacional,34225,27167,0.557483,8689,false
+nac50,201911,6,dv_B,2,bloque:Izquierdas,Izquierdas,34225,0.488363,bloque:Izquierdas,bloque:Derecha nacional,34225,27167,0.557483,8689,false
+nac50,201911,7,dv_base,2,PP,Derecha nacional,20728,0.310021,PSOE,PP,29187,30909,0.514327,6764,false
+nac50,201911,7,dv_A,2,bloque:Derecha nacional,Derecha nacional,30909,0.462294,bloque:Derecha nacional,bloque:Izquierdas,30909,29187,0.514327,6764,false
+nac50,201911,7,dv_B,2,bloque:Derecha nacional,Derecha nacional,30909,0.462294,bloque:Derecha nacional,bloque:Izquierdas,30909,29187,0.514327,6764,false
+nac50,201911,8,dv_base,2,PSOE,Izquierdas,23975,0.354649,PSOE,PP,33148,28450,0.538134,6004,false
+nac50,201911,8,dv_A,2,bloque:Izquierdas,Izquierdas,33148,0.490341,bloque:Izquierdas,bloque:Derecha nacional,33148,28450,0.538134,6004,false
+nac50,201911,8,dv_B,2,bloque:Izquierdas,Izquierdas,33148,0.490341,bloque:Izquierdas,bloque:Derecha nacional,33148,28450,0.538134,6004,false
+nac51,202307,1,dv_base,2,PP,Derecha nacional,12887,0.391643,PP,PSOE,20629,12111,0.630086,165,false
+nac51,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,20629,0.626926,,,,,,0,false
+nac51,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,20629,0.626926,,,,,,0,false
+nac51,201111,1,dv_base,1,PP,Derecha nacional,20944,0.670272,,,,,,0,false
+nac51,201111,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,20944,0.670272,,,,,,0,false
+nac51,201111,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,20944,0.670272,,,,,,0,false
+nac51,201512,1,dv_base,2,PP,Derecha nacional,14786,0.454744,PP,PSOE,14786,12657,0.538789,5072,false
+nac51,201512,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,14786,0.454744,bloque:Derecha nacional,bloque:Izquierdas,14786,12657,0.538789,5072,false
+nac51,201512,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,14786,0.454744,bloque:Derecha nacional,bloque:Izquierdas,14786,12657,0.538789,5072,false
+nac51,201606,1,dv_base,1,PP,Derecha nacional,15956,0.524506,,,,,,0,false
+nac51,201606,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,16095,0.529075,,,,,,0,false
+nac51,201606,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,16095,0.529075,,,,,,0,false
+nac51,201904,1,dv_base,2,VOX,Derecha nacional,13766,0.366487,PSOE,VOX,15588,17202,0.524611,4772,false
+nac51,201904,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,17202,0.457963,bloque:Derecha nacional,bloque:Izquierdas,17202,15588,0.524611,4772,false
+nac51,201904,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,17202,0.457963,bloque:Derecha nacional,bloque:Izquierdas,17202,15588,0.524611,4772,false
+nac51,201911,1,dv_base,2,VOX,Derecha nacional,11734,0.356202,VOX,PSOE,19141,11692,0.620796,2109,false
+nac51,201911,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,19141,0.581052,,,,,,0,false
+nac51,201911,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,19141,0.581052,,,,,,0,false
+nac52,202307,1,dv_base,2,PP,Derecha nacional,13371,0.496602,PP,PSOE,17716,7713,0.696685,1496,false
+nac52,202307,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,17716,0.657976,,,,,,0,false
+nac52,202307,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,17716,0.657976,,,,,,0,false
+nac52,201111,1,dv_base,1,PP,Derecha nacional,17791,0.680006,,,,,,0,false
+nac52,201111,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,17791,0.680006,,,,,,0,false
+nac52,201111,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,17791,0.680006,,,,,,0,false
+nac52,201512,1,dv_base,2,PP,Derecha nacional,12309,0.444032,PP,PSOE,12309,10458,0.540651,4954,false
+nac52,201512,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,12309,0.444032,bloque:Derecha nacional,bloque:Izquierdas,12309,10458,0.540651,4954,false
+nac52,201512,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,12309,0.444032,bloque:Derecha nacional,bloque:Izquierdas,12309,10458,0.540651,4954,false
+nac52,201606,1,dv_base,1,PP,Derecha nacional,13478,0.503945,,,,,,0,false
+nac52,201606,1,dv_A,1,bloque:Derecha nacional,Derecha nacional,13478,0.503945,,,,,,0,false
+nac52,201606,1,dv_B,1,bloque:Derecha nacional,Derecha nacional,13478,0.503945,,,,,,0,false
+nac52,201904,1,dv_base,2,PP,Derecha nacional,8085,0.241257,PP,PSOE,13889,8277,0.626590,11346,false
+nac52,201904,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,13889,0.414449,bloque:Derecha nacional,bloque:Izquierdas,13889,8277,0.626590,11346,false
+nac52,201904,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,13889,0.414449,bloque:Derecha nacional,bloque:Izquierdas,13889,8277,0.626590,11346,false
+nac52,201911,1,dv_base,2,PP,Derecha nacional,9105,0.297637,PP,CpM,14776,8927,0.623381,6888,false
+nac52,201911,1,dv_A,2,bloque:Derecha nacional,Derecha nacional,14776,0.483018,bloque:Derecha nacional,CpM,14776,8927,0.623381,6888,false
+nac52,201911,1,dv_B,2,bloque:Derecha nacional,Derecha nacional,14776,0.483018,bloque:Derecha nacional,CpM,14776,8927,0.623381,6888,false
