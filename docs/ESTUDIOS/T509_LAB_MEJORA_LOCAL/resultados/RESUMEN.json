@@ -78,5 +78,45 @@
   "sin_cerrar": 0,
   "mejoras_pares": 6,
   "mejoras_trios": 3
+ },
+ {
+  "territorio": "nac46",
+  "k": 23,
+  "atomos": 272,
+  "tamano": 6256,
+  "ganador": "ponderado-s1192842858",
+  "d8_antes": [
+   0,
+   0.010947858754061679,
+   26,
+   1088.44,
+   0.09094785875406168
+  ],
+  "d8_despues": [
+   0,
+   0.0,
+   19,
+   812.456,
+   0.07810967987922499
+  ],
+  "mejora": true,
+  "termino_que_mejora": "exceso_8",
+  "tiempo_s": [
+   899.5,
+   900.0
+  ],
+  "tiempo_competicion_s": 39.8,
+  "reglas_duras_ok": true,
+  "repeticiones": 2,
+  "se_repite": true,
+  "tope_total_alcanzado": [
+   true,
+   true
+  ],
+  "optimo_local_demostrado": false,
+  "subproblemas": 449,
+  "sin_cerrar": 9,
+  "mejoras_pares": 45,
+  "mejoras_trios": 2
  }
 ]

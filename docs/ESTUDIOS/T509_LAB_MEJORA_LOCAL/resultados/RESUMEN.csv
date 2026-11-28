@@ -1,3 +1,4 @@
 territorio,k,atomos,tamano,ganador,fuera_antes,exceso8_antes,partidas_antes,frontera_km_antes,desvio_antes,fuera_despues,exceso8_despues,partidas_despues,frontera_km_despues,desvio_despues,mejora,tiempo_s_r1,tiempo_s_r2,reglas_duras_ok,se_repite,tope_total_alcanzado,optimo_local_demostrado
 nac50,8,298,2384,canonico,0,0.03437104654546569,8,945.244,0.11437104654546569,0,0.03428119240528302,3,630.998,0.11428119240528302,True,639.3,629.4,True,True,False,False
 nac03,17,145,2465,ponderado-s678287566,0,0.06991653318112913,12,728.485,0.14991653318112913,0,0.06991653318112913,12,692.836,0.14991653318112913,True,299.4,298.9,True,True,False,False
+nac46,23,272,6256,ponderado-s1192842858,0,0.010947858754061679,26,1088.44,0.09094785875406168,0,0.0,19,812.456,0.07810967987922499,True,899.5,900.0,True,True,True,False
