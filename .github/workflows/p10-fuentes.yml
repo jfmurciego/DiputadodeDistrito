@@ -1,6 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de preparación de fuentes
-# VERSIÓN: 1.0.6
+# VERSIÓN: 1.0.8
+# CAMBIOS 1.0.8: T-508 (revisión de #1036): el paso de reanudar lista todas las páginas de artefactos y elige con la herramienta (`elegir-previo`: nombre, rama main, no caducado, digest), verifica el sha256 del zip, extrae solo `img/` y deja que la herramienta descarte las fichas de otra versión, territorio o configuración; si algo falla, empieza de cero y lo dice en el log. Resto idéntico a la 1.0.7.
+# ANTERIOR (1.0.7): legacy/workflows/p10-fuentes_v1.0.7_20261126.yml
+# CAMBIOS 1.0.7: T-508 (run 45894568650, cancelado a los 45 min sin log): `p14_imagenes` pasa a `timeout-minutes: 30`, con `actions: read`; un paso «Recuperar lo ya bajado (reanudar)» restaura el artefacto
+#   `imagenes-distritos-*` más reciente (REST, sin acciones nuevas) y la herramienta salta lo ya bajado; la descarga lleva `python -u` y `--presupuesto-min 20` (parcial: sale con 4, el artefacto se conserva y no sube a R2). Resto idéntico a la 1.0.6.
+# ANTERIOR (1.0.6): legacy/workflows/p10-fuentes_v1.0.6_20261126.yml
 # CAMBIOS 1.0.6: T-462 (diseño T-458 §3.1): dos opciones de `tipo`, «Imágenes de distritos (hoja de contactos)» y «Imágenes de distritos y subir a R2» (solo botón; `territorio` = congreso) y job aislado `p14_imagenes`: desde el runner (Wikidata y Commons
 #   no se alcanzan desde la nube) baja la imagen P18 del municipio que da nombre a cada distrito, comprueba la licencia (CC0 / dominio público, CC BY, CC BY-SA), la pasa a WebP de 800 px y
 #   deja `hoja_contactos.html` + `catalogo.json` en el artefacto para que el propietario apruebe ANTES de publicar (herramientas/imagenes_distritos.py). Con el tipo «Imágenes de distritos y subir a R2», sube en
@@ -1302,16 +1307,43 @@ jobs:
     # Solo desde main: un disparo desde otra rama ejecutaría su propio script con R2 de escritura.
     if: ${{ startsWith(inputs.tipo, 'Imágenes de distritos') && github.ref == 'refs/heads/main' && !inputs.campana }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      actions: read  # T-508: leer el artefacto del run anterior para reanudar
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with: {ref: '${{ github.sha }}', persist-credentials: false}
       - run: python -m pip install --disable-pip-version-check Pillow==11.3.0
+      - name: Recuperar lo ya bajado (reanudar)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          salida="$RUNNER_TEMP/imagenes"
+          mkdir -p "$salida/img"
+          # Todas las páginas del listado; el artefacto se elige por nombre, rama main, no caducado y con digest.
+          gh api --paginate "repos/${{ github.repository }}/actions/artifacts?per_page=100" --jq '.artifacts[]' > "$RUNNER_TEMP/artefactos.jsonl"
+          elegido=$(python herramientas/imagenes_distritos.py elegir-previo < "$RUNNER_TEMP/artefactos.jsonl")
+          if [ -z "$elegido" ]; then
+            echo "IMAGENES_REANUDAR sin artefacto previo válido: se empieza de cero"
+          else
+            id=${elegido%% *}; digest=${elegido##* }
+            gh api "repos/${{ github.repository }}/actions/artifacts/$id/zip" > "$RUNNER_TEMP/previo.zip"
+            real="sha256:$(sha256sum "$RUNNER_TEMP/previo.zip" | cut -d' ' -f1)"
+            if [ "$real" != "$digest" ]; then
+              echo "IMAGENES_REANUDAR digest del artefacto $id no coincide ($real != $digest): se empieza de cero"
+            else
+              # Solo img/: el catálogo y la hoja se regeneran; la herramienta descarta las fichas de otra versión, territorio o configuración.
+              unzip -q -o "$RUNNER_TEMP/previo.zip" 'img/*' -d "$salida" || true
+              echo "IMAGENES_REANUDAR artefacto $id (digest verificado): $(ls "$salida/img" | grep -c '\.json$' || true) fichas previas"
+            fi
+          fi
       - name: Bajar y preparar (sin secretos)
         run: |
           set -euo pipefail
           salida="$RUNNER_TEMP/imagenes"
-          python herramientas/imagenes_distritos.py descargar --salida "$salida"
+          python -u herramientas/imagenes_distritos.py descargar --salida "$salida" --presupuesto-min 20
           jq -r '.totales | "- Municipios: \(.municipios) · con imagen: \(.con_imagen) · sin imagen: \(.sin_imagen) · \(.bytes) bytes"' "$salida/catalogo.json" \
             | { echo "### Imágenes de distritos (hoja de contactos en el artefacto)"; cat; } >> "$GITHUB_STEP_SUMMARY"
       - name: Subir a R2 (solo si se pide)
