@@ -1,0 +1,191 @@
+{
+ "territorio": "nac03",
+ "repeticion": 2,
+ "k": 17,
+ "atomos": 145,
+ "tamano": 2465,
+ "unidades": 145,
+ "ganador": "ponderado-s678287566",
+ "tiempo_competicion_s": 99.9,
+ "exacto_motor": "K=17 fuera de 2..4",
+ "d8_antes": [
+  0,
+  0.06991653318112913,
+  12,
+  728.485,
+  0.14991653318112913
+ ],
+ "d8_despues": [
+  0,
+  0.06991653318112913,
+  12,
+  692.836,
+  0.14991653318112913
+ ],
+ "mejora": true,
+ "termino_que_mejora": "frontera_mm",
+ "reglas_duras_antes_ok": true,
+ "reglas_duras_despues_ok": true,
+ "violaciones_despues": [],
+ "huella_plan_antes": "b916ea4ac699302bd36a1ef22bf27ebc748bd24f362475145589f0f86ea4bb1f",
+ "huella_plan_despues": "d1ffc754578928c260e915145684f1a1a3157a0cddcbed484ea93a6c1a545ad5",
+ "mejoras": [
+  {
+   "grupo": [
+    "0",
+    "2"
+   ],
+   "clave": [
+    0,
+    0.06991653318112913,
+    12,
+    722.84,
+    0.14991653318112913
+   ],
+   "cerrado": true,
+   "t_s": 3.8
+  },
+  {
+   "grupo": [
+    "10",
+    "4"
+   ],
+   "clave": [
+    0,
+    0.06991653318112913,
+    12,
+    713.716,
+    0.14991653318112913
+   ],
+   "cerrado": true,
+   "t_s": 11.9
+  },
+  {
+   "grupo": [
+    "11",
+    "3"
+   ],
+   "clave": [
+    0,
+    0.06991653318112913,
+    12,
+    707.925,
+    0.14991653318112913
+   ],
+   "cerrado": true,
+   "t_s": 15.1
+  },
+  {
+   "grupo": [
+    "11",
+    "12"
+   ],
+   "clave": [
+    0,
+    0.06991653318112913,
+    12,
+    697.117,
+    0.14991653318112913
+   ],
+   "cerrado": true,
+   "t_s": 15.3
+  },
+  {
+   "grupo": [
+    "0",
+    "10",
+    "2"
+   ],
+   "clave": [
+    0,
+    0.06991653318112913,
+    12,
+    696.641,
+    0.14991653318112913
+   ],
+   "cerrado": false,
+   "t_s": 61.4
+  },
+  {
+   "grupo": [
+    "11",
+    "12",
+    "6"
+   ],
+   "clave": [
+    0,
+    0.06991653318112913,
+    12,
+    696.47,
+    0.14991653318112913
+   ],
+   "cerrado": true,
+   "t_s": 234.2
+  },
+  {
+   "grupo": [
+    "12",
+    "3"
+   ],
+   "clave": [
+    0,
+    0.06991653318112913,
+    12,
+    695.72,
+    0.14991653318112913
+   ],
+   "cerrado": true,
+   "t_s": 234.7
+  },
+  {
+   "grupo": [
+    "12",
+    "6"
+   ],
+   "clave": [
+    0,
+    0.06991653318112913,
+    12,
+    694.569,
+    0.14991653318112913
+   ],
+   "cerrado": true,
+   "t_s": 235.3
+  },
+  {
+   "grupo": [
+    "12",
+    "3",
+    "6"
+   ],
+   "clave": [
+    0,
+    0.06991653318112913,
+    12,
+    692.836,
+    0.14991653318112913
+   ],
+   "cerrado": true,
+   "t_s": 267.4
+  }
+ ],
+ "mejoras_pares": 6,
+ "mejoras_trios": 3,
+ "resueltos": 231,
+ "cerrados": 230,
+ "sin_cerrar": 1,
+ "sin_solucion": 0,
+ "no_mejora_clave_oficial": 123,
+ "invalidos": 0,
+ "tope_total_alcanzado": false,
+ "tiempo_s": 298.9,
+ "optimo_local_demostrado": false,
+ "parametros": {
+  "tdet_por_etapa": 12.0,
+  "tope_subproblema_s": 60.0,
+  "tope_total_s": 900.0,
+  "hilos": 4,
+  "cadenas": 10
+ },
+ "ortools": "9.14.6206"
+}
