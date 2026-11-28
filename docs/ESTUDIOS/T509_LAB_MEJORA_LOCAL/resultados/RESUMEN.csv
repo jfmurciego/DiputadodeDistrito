@@ -1,0 +1,2 @@
+territorio,k,atomos,tamano,ganador,fuera_antes,exceso8_antes,partidas_antes,frontera_km_antes,desvio_antes,fuera_despues,exceso8_despues,partidas_despues,frontera_km_despues,desvio_despues,mejora,tiempo_s_r1,tiempo_s_r2,reglas_duras_ok,se_repite,tope_total_alcanzado,optimo_local_demostrado
+nac50,8,298,2384,canonico,0,0.03437104654546569,8,945.244,0.11437104654546569,0,0.03428119240528302,3,630.998,0.11428119240528302,True,639.3,629.4,True,True,False,False

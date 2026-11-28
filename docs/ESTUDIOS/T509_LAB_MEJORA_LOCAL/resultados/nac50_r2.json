@@ -1,0 +1,175 @@
+{
+ "territorio": "nac50",
+ "repeticion": 2,
+ "k": 8,
+ "atomos": 298,
+ "tamano": 2384,
+ "unidades": 298,
+ "ganador": "canonico",
+ "tiempo_competicion_s": 24.4,
+ "exacto_motor": "K=8 fuera de 2..4",
+ "d8_antes": [
+  0,
+  0.03437104654546569,
+  8,
+  945.244,
+  0.11437104654546569
+ ],
+ "d8_despues": [
+  0,
+  0.03428119240528302,
+  3,
+  630.998,
+  0.11428119240528302
+ ],
+ "mejora": true,
+ "termino_que_mejora": "exceso_8",
+ "reglas_duras_antes_ok": true,
+ "reglas_duras_despues_ok": true,
+ "violaciones_despues": [],
+ "huella_plan_antes": "4ac7b0f5f7d524074dd07c1502e055e2e29b276b251de145b9751853911605f6",
+ "huella_plan_despues": "dcddc3c39668f048f1335ddb662f48e572cf94a768cf89b29f0f888f3c941ee2",
+ "mejoras": [
+  {
+   "grupo": [
+    "5",
+    "6"
+   ],
+   "clave": [
+    0,
+    0.03433837231267199,
+    8,
+    945.239,
+    0.114338372312672
+   ],
+   "cerrado": false,
+   "t_s": 22.9
+  },
+  {
+   "grupo": [
+    "6",
+    "7"
+   ],
+   "clave": [
+    0,
+    0.03433020375447356,
+    8,
+    839.328,
+    0.11433020375447356
+   ],
+   "cerrado": true,
+   "t_s": 85.7
+  },
+  {
+   "grupo": [
+    "5",
+    "6"
+   ],
+   "clave": [
+    0,
+    0.034313866638076715,
+    2,
+    627.708,
+    0.11431386663807672
+   ],
+   "cerrado": false,
+   "t_s": 120.1
+  },
+  {
+   "grupo": [
+    "5",
+    "7"
+   ],
+   "clave": [
+    0,
+    0.03428936096348144,
+    3,
+    743.552,
+    0.11428936096348144
+   ],
+   "cerrado": true,
+   "t_s": 171.2
+  },
+  {
+   "grupo": [
+    "0",
+    "5",
+    "6"
+   ],
+   "clave": [
+    0,
+    0.03428119240528302,
+    3,
+    756.528,
+    0.11428119240528302
+   ],
+   "cerrado": false,
+   "t_s": 249.7
+  },
+  {
+   "grupo": [
+    "0",
+    "7"
+   ],
+   "clave": [
+    0,
+    0.03428119240528302,
+    3,
+    755.201,
+    0.11428119240528302
+   ],
+   "cerrado": true,
+   "t_s": 301.4
+  },
+  {
+   "grupo": [
+    "0",
+    "5",
+    "6"
+   ],
+   "clave": [
+    0,
+    0.03428119240528302,
+    3,
+    716.53,
+    0.11428119240528302
+   ],
+   "cerrado": true,
+   "t_s": 429.6
+  },
+  {
+   "grupo": [
+    "0",
+    "7"
+   ],
+   "clave": [
+    0,
+    0.03428119240528302,
+    3,
+    630.998,
+    0.11428119240528302
+   ],
+   "cerrado": true,
+   "t_s": 476.0
+  }
+ ],
+ "mejoras_pares": 6,
+ "mejoras_trios": 2,
+ "resueltos": 123,
+ "cerrados": 113,
+ "sin_cerrar": 10,
+ "sin_solucion": 2,
+ "no_mejora_clave_oficial": 79,
+ "invalidos": 0,
+ "tope_total_alcanzado": false,
+ "tiempo_s": 629.4,
+ "optimo_local_demostrado": false,
+ "parametros": {
+  "tdet_por_etapa": 12.0,
+  "tope_subproblema_s": 60.0,
+  "tope_total_s": 900.0,
+  "hilos": 4,
+  "cadenas": 10
+ },
+ "ortools": "9.14.6206"
+}
