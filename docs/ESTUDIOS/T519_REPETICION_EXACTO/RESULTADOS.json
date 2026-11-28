@@ -220,6 +220,202 @@
   "nucleos": "4"
  },
  {
+  "territorio": "nac15",
+  "condicion": "a1",
+  "ganador": "exacto",
+  "clave_d8": [
+   0,
+   0.0,
+   6,
+   483.923,
+   0.07251993978026201
+  ],
+  "ganador_huella_plan": "5ce078e23e0807cfed374e5fddd76d23fbac5f2d314a4f1f723d4d98063ca1a9",
+  "exacto_estado": "MEJOR_VALIDO",
+  "exacto_etapas": [
+   [
+    "fuera",
+    "OPTIMAL",
+    0,
+    0
+   ],
+   [
+    "exceso_8",
+    "OPTIMAL",
+    249752,
+    249752
+   ],
+   [
+    "partidas",
+    "OPTIMAL",
+    6,
+    6
+   ],
+   [
+    "frontera_mm",
+    "FEASIBLE",
+    483922670,
+    248806089
+   ]
+  ],
+  "exacto_huella_plan": "5ce078e23e0807cfed374e5fddd76d23fbac5f2d314a4f1f723d4d98063ca1a9",
+  "exacto_composicion_sha256": "c39a0bbc8ec96bbba5b5f0d11ceae48dc43ad1d2d794dba6d1c8b5f3799e98b9",
+  "huella_resultado": "5422228aaf3a7042357d1e0a00ed205e9cda110ecadd566d956755c918238d6e",
+  "composicion_sha256": "c39a0bbc8ec96bbba5b5f0d11ceae48dc43ad1d2d794dba6d1c8b5f3799e98b9",
+  "ortools": "9.14.6206",
+  "tiempo_total_s": 127.61,
+  "reloj_s": 128,
+  "rc": 0,
+  "nucleos": "4"
+ },
+ {
+  "territorio": "nac15",
+  "condicion": "a2",
+  "ganador": "exacto",
+  "clave_d8": [
+   0,
+   0.0,
+   6,
+   483.923,
+   0.07251993978026201
+  ],
+  "ganador_huella_plan": "5ce078e23e0807cfed374e5fddd76d23fbac5f2d314a4f1f723d4d98063ca1a9",
+  "exacto_estado": "MEJOR_VALIDO",
+  "exacto_etapas": [
+   [
+    "fuera",
+    "OPTIMAL",
+    0,
+    0
+   ],
+   [
+    "exceso_8",
+    "OPTIMAL",
+    249752,
+    249752
+   ],
+   [
+    "partidas",
+    "OPTIMAL",
+    6,
+    6
+   ],
+   [
+    "frontera_mm",
+    "FEASIBLE",
+    483922670,
+    246960157
+   ]
+  ],
+  "exacto_huella_plan": "5ce078e23e0807cfed374e5fddd76d23fbac5f2d314a4f1f723d4d98063ca1a9",
+  "exacto_composicion_sha256": "c39a0bbc8ec96bbba5b5f0d11ceae48dc43ad1d2d794dba6d1c8b5f3799e98b9",
+  "huella_resultado": "5422228aaf3a7042357d1e0a00ed205e9cda110ecadd566d956755c918238d6e",
+  "composicion_sha256": "c39a0bbc8ec96bbba5b5f0d11ceae48dc43ad1d2d794dba6d1c8b5f3799e98b9",
+  "ortools": "9.14.6206",
+  "tiempo_total_s": 128.676,
+  "reloj_s": 129,
+  "rc": 0,
+  "nucleos": "4"
+ },
+ {
+  "territorio": "nac15",
+  "condicion": "b",
+  "ganador": "exacto",
+  "clave_d8": [
+   0,
+   0.0,
+   6,
+   483.923,
+   0.07251993978026201
+  ],
+  "ganador_huella_plan": "5ce078e23e0807cfed374e5fddd76d23fbac5f2d314a4f1f723d4d98063ca1a9",
+  "exacto_estado": "MEJOR_VALIDO",
+  "exacto_etapas": [
+   [
+    "fuera",
+    "OPTIMAL",
+    0,
+    0
+   ],
+   [
+    "exceso_8",
+    "OPTIMAL",
+    249752,
+    249752
+   ],
+   [
+    "partidas",
+    "OPTIMAL",
+    6,
+    6
+   ],
+   [
+    "frontera_mm",
+    "FEASIBLE",
+    483922670,
+    248526363
+   ]
+  ],
+  "exacto_huella_plan": "5ce078e23e0807cfed374e5fddd76d23fbac5f2d314a4f1f723d4d98063ca1a9",
+  "exacto_composicion_sha256": "c39a0bbc8ec96bbba5b5f0d11ceae48dc43ad1d2d794dba6d1c8b5f3799e98b9",
+  "huella_resultado": "5422228aaf3a7042357d1e0a00ed205e9cda110ecadd566d956755c918238d6e",
+  "composicion_sha256": "c39a0bbc8ec96bbba5b5f0d11ceae48dc43ad1d2d794dba6d1c8b5f3799e98b9",
+  "ortools": "9.14.6206",
+  "tiempo_total_s": 210.842,
+  "reloj_s": 211,
+  "rc": 0,
+  "nucleos": "4"
+ },
+ {
+  "territorio": "nac15",
+  "condicion": "c",
+  "ganador": "exacto",
+  "clave_d8": [
+   0,
+   0.0,
+   6,
+   483.923,
+   0.07251993978026201
+  ],
+  "ganador_huella_plan": "5ce078e23e0807cfed374e5fddd76d23fbac5f2d314a4f1f723d4d98063ca1a9",
+  "exacto_estado": "MEJOR_VALIDO",
+  "exacto_etapas": [
+   [
+    "fuera",
+    "OPTIMAL",
+    0,
+    0
+   ],
+   [
+    "exceso_8",
+    "OPTIMAL",
+    249752,
+    249752
+   ],
+   [
+    "partidas",
+    "OPTIMAL",
+    6,
+    6
+   ],
+   [
+    "frontera_mm",
+    "FEASIBLE",
+    483922670,
+    258710964
+   ]
+  ],
+  "exacto_huella_plan": "5ce078e23e0807cfed374e5fddd76d23fbac5f2d314a4f1f723d4d98063ca1a9",
+  "exacto_composicion_sha256": "c39a0bbc8ec96bbba5b5f0d11ceae48dc43ad1d2d794dba6d1c8b5f3799e98b9",
+  "huella_resultado": "5422228aaf3a7042357d1e0a00ed205e9cda110ecadd566d956755c918238d6e",
+  "composicion_sha256": "c39a0bbc8ec96bbba5b5f0d11ceae48dc43ad1d2d794dba6d1c8b5f3799e98b9",
+  "ortools": "9.14.6206",
+  "tiempo_total_s": 128.2,
+  "reloj_s": 129,
+  "rc": 0,
+  "nucleos": "4"
+ },
+ {
   "territorio": "nac20",
   "condicion": "a1",
   "ganador": "vigente",
