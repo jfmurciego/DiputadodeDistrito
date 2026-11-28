@@ -2,6 +2,8 @@
 
 Fecha: 2026-11-28. Código: `main` 548968c4 (Deslinde 1.2). Sesión cloud, 4 núcleos y 15 GB; Python 3.13.18, ortools
 9.14.6206. En local, con el motor real. No se ha lanzado nada, no se ha publicado nada y no se ha cambiado el motor.
+Durante la medición `main` avanzó a 86141b36 (#1036, #1037) sin cambios en el motor, los contratos de estos cinco
+territorios ni los ficheros `.lock`: la medición vale para ese `main`.
 
 ## Resultado
 
