@@ -3,7 +3,7 @@ title: Cómo se hace este mapa
 hide:
   - navigation
 ---
-<!-- VERSIÓN: 2.0.1 · FECHA: 2026-11-26 · T-463: solo afirmaciones ciertas hoy (sin «miles de mapas alternativos», sin «repetirlo»). 2.0.0 · 2026-11-19 · T-423: reescrita para el público general (decisión del propietario): capítulos en español llano,
+<!-- VERSIÓN: 2.0.2 · FECHA: 2026-11-28 · T-557 (D-218): la licencia del código es PolyForm Strict 1.0.0. ANTERIOR: legacy/documentacion_publica/docs/metodo_pre_t557_20261128.md. 2.0.1 · 2026-11-26 · T-463: solo afirmaciones ciertas hoy (sin «miles de mapas alternativos», sin «repetirlo»). 2.0.0 · 2026-11-19 · T-423: reescrita para el público general (decisión del propietario): capítulos en español llano,
      sin jerga ni códigos internos. Ejemplo de Huesca: cifras de datos_abiertos/INDEX.json (nac22) y visor/v2/datos/provincias.json.
      ANTERIOR: legacy/documentacion_publica/docs/metodo_pre_t463_20261126.md -->
 
@@ -79,7 +79,7 @@ Todo está publicado:
 
 - Los distritos de cada provincia y sus resultados se pueden descargar.
 - Cada fichero lleva una **huella digital**: un código que demuestra que el fichero no ha cambiado desde que se publicó. Si alguien lo modifica, aunque sea una coma, la huella deja de coincidir.
-- El código del programa que dibuja los distritos se puede leer en GitHub, para que cualquiera pueda revisarlo. Su uso, copia o modificación requiere permiso escrito del autor, según su licencia.
+- El código del programa que dibuja los distritos se puede leer en GitHub, para que cualquiera pueda revisarlo. Se puede ejecutar para investigar y comprobar los mapas, sin fines comerciales, según su licencia (PolyForm Strict 1.0.0); no se puede copiar ni modificar sin permiso escrito del autor.
 
 ## 9. Límites: lo que este mapa no dice
 

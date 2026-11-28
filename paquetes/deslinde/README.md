@@ -43,4 +43,4 @@ da la aceptación mínima.
 
 ## Licencia
 
-Paquete privado (D-94). La licencia la fija #744; hasta entonces, sin licencia de uso.
+[PolyForm Strict 1.0.0](../../LICENSE) (D-218): se puede leer y ejecutar sin fines comerciales; no se puede distribuir ni modificar.

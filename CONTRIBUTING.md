@@ -1,7 +1,7 @@
 # Cómo contribuir
 
 Gracias por el interés. Este proyecto se rige por el [Código de conducta](CODE_OF_CONDUCT.md) y desde el 14-11-2026 tiene una
-[licencia propietaria](LICENSE) (todos los derechos reservados; lo publicado antes conserva la Apache-2.0).
+licencia [PolyForm Strict 1.0.0](LICENSE) para el código (no permite distribuir ni modificar; lo publicado antes conserva la Apache-2.0). Los cambios externos requieren autorización escrita del titular.
 
 ## Instalación y pruebas
 - Entorno fijado: `docs/INSTALACION_LOCAL.md` (Mac, sin instalar dependencias en el sistema) y los `requirements*.lock`.
