@@ -1,0 +1,1901 @@
+eleccion,mapa,sistema,candidatura,votos,escanos
+201111,historico,real,PP,10709856,184
+201111,historico,real,PSOE,6973653,110
+201111,historico,real,CiU–Junts,1014277,16
+201111,historico,real,IU,1606117,10
+201111,historico,real,EH Bildu,333762,7
+201111,historico,real,UPyD,1139749,5
+201111,historico,real,EAJ-PNV,323591,5
+201111,historico,real,ERC,248973,3
+201111,historico,real,BNG,183123,2
+201111,historico,real,CCa,143591,2
+201111,historico,real,UPN y coaliciones,126118,2
+201111,historico,real,COMPROMÍS,125046,1
+201111,historico,real,FAC,98959,1
+201111,historico,real,CHA-IU,74715,1
+201111,historico,real,GBAI,42365,1
+201111,historico,real,EQUO,184414,0
+201111,historico,real,PACMA,101209,0
+201111,historico,real,ESCAÑOS EN BLANCO,97537,0
+201111,historico,real,PA,76845,0
+201111,historico,real,PxC,59920,0
+201111,historico,real,PRC,43903,0
+201111,historico,real,MÉS,31370,0
+201111,historico,real,PUM+J,26916,0
+201111,historico,real,PIRATA,25224,0
+201111,historico,real,PCPE,24503,0
+201111,historico,real,ANTICAPITALISTAS,22206,0
+201111,historico,real,UCE,15744,0
+201111,historico,real,PH,10039,0
+201111,historico,real,ESPAÑA 2000,9259,0
+201111,historico,real,ERPV,7423,0
+201111,historico,real,SAIn,6801,0
+201111,historico,real,RPS,5371,0
+201111,historico,real,HARTOS.ORG,3799,0
+201111,historico,real,ANC,3172,0
+201111,historico,real,FE de las JONS,2895,0
+201111,historico,real,C.D.L.,2838,0
+201111,historico,real,UxV,2205,0
+201111,historico,real,P-LIB,2053,0
+201111,historico,real,PCAL,2048,0
+201111,historico,real,PREPAL,2005,0
+201111,historico,real,POSI,1993,0
+201111,historico,real,DN,1857,0
+201111,historico,real,PRAO,1772,0
+201111,historico,real,Caballas,1712,0
+201111,historico,real,PCPC,1536,0
+201111,historico,real,C 21,1413,0
+201111,historico,real,UNIDAD DEL PUEBLO,1130,0
+201111,historico,real,CEx,1078,0
+201111,historico,real,ANDECHA,1073,0
+201111,historico,real,CCD,1060,0
+201111,historico,real,ACIMA,948,0
+201111,historico,real,PFyV,824,0
+201111,historico,real,+MAS+,788,0
+201111,historico,real,U.C.I.T.,783,0
+201111,historico,real,DeC,770,0
+201111,historico,real,CYD,717,0
+201111,historico,real,U.R.C.L.,702,0
+201111,historico,real,P.R.D.E.,673,0
+201111,historico,real,INTERNET,603,0
+201111,historico,real,PRE-R,417,0
+201111,historico,real,BASTA YA,374,0
+201111,historico,real,PCAS,348,0
+201111,historico,real,PDYC,296,0
+201111,historico,real,LV-GV,289,0
+201111,historico,real,H.D.,203,0
+201111,historico,real,SXT,165,0
+201111,historico,mayoria_simple,PP,10709856,296
+201111,historico,mayoria_simple,PSOE,6973653,50
+201111,historico,mayoria_simple,CiU–Junts,1014277,41
+201111,historico,mayoria_simple,EAJ-PNV,323591,9
+201111,historico,mayoria_simple,EH Bildu,333762,6
+201111,historico,mayoria_simple,UPN y coaliciones,126118,5
+201111,historico,mayoria_simple,IU,1606117,0
+201111,historico,mayoria_simple,UPyD,1139749,0
+201111,historico,mayoria_simple,ERC,248973,0
+201111,historico,mayoria_simple,EQUO,184414,0
+201111,historico,mayoria_simple,BNG,183123,0
+201111,historico,mayoria_simple,CCa,143591,0
+201111,historico,mayoria_simple,COMPROMÍS,125046,0
+201111,historico,mayoria_simple,PACMA,101209,0
+201111,historico,mayoria_simple,FAC,98959,0
+201111,historico,mayoria_simple,ESCAÑOS EN BLANCO,97537,0
+201111,historico,mayoria_simple,PA,76845,0
+201111,historico,mayoria_simple,CHA-IU,74715,0
+201111,historico,mayoria_simple,PxC,59920,0
+201111,historico,mayoria_simple,PRC,43903,0
+201111,historico,mayoria_simple,GBAI,42365,0
+201111,historico,mayoria_simple,MÉS,31370,0
+201111,historico,mayoria_simple,PUM+J,26916,0
+201111,historico,mayoria_simple,PIRATA,25224,0
+201111,historico,mayoria_simple,PCPE,24503,0
+201111,historico,mayoria_simple,ANTICAPITALISTAS,22206,0
+201111,historico,mayoria_simple,UCE,15744,0
+201111,historico,mayoria_simple,PH,10039,0
+201111,historico,mayoria_simple,ESPAÑA 2000,9259,0
+201111,historico,mayoria_simple,ERPV,7423,0
+201111,historico,mayoria_simple,SAIn,6801,0
+201111,historico,mayoria_simple,RPS,5371,0
+201111,historico,mayoria_simple,HARTOS.ORG,3799,0
+201111,historico,mayoria_simple,ANC,3172,0
+201111,historico,mayoria_simple,FE de las JONS,2895,0
+201111,historico,mayoria_simple,C.D.L.,2838,0
+201111,historico,mayoria_simple,UxV,2205,0
+201111,historico,mayoria_simple,P-LIB,2053,0
+201111,historico,mayoria_simple,PCAL,2048,0
+201111,historico,mayoria_simple,PREPAL,2005,0
+201111,historico,mayoria_simple,POSI,1993,0
+201111,historico,mayoria_simple,DN,1857,0
+201111,historico,mayoria_simple,PRAO,1772,0
+201111,historico,mayoria_simple,Caballas,1712,0
+201111,historico,mayoria_simple,PCPC,1536,0
+201111,historico,mayoria_simple,C 21,1413,0
+201111,historico,mayoria_simple,UNIDAD DEL PUEBLO,1130,0
+201111,historico,mayoria_simple,CEx,1078,0
+201111,historico,mayoria_simple,ANDECHA,1073,0
+201111,historico,mayoria_simple,CCD,1060,0
+201111,historico,mayoria_simple,ACIMA,948,0
+201111,historico,mayoria_simple,PFyV,824,0
+201111,historico,mayoria_simple,+MAS+,788,0
+201111,historico,mayoria_simple,U.C.I.T.,783,0
+201111,historico,mayoria_simple,DeC,770,0
+201111,historico,mayoria_simple,CYD,717,0
+201111,historico,mayoria_simple,U.R.C.L.,702,0
+201111,historico,mayoria_simple,P.R.D.E.,673,0
+201111,historico,mayoria_simple,INTERNET,603,0
+201111,historico,mayoria_simple,PRE-R,417,0
+201111,historico,mayoria_simple,BASTA YA,374,0
+201111,historico,mayoria_simple,PCAS,348,0
+201111,historico,mayoria_simple,PDYC,296,0
+201111,historico,mayoria_simple,LV-GV,289,0
+201111,historico,mayoria_simple,H.D.,203,0
+201111,historico,mayoria_simple,SXT,165,0
+201111,historico,dv_base,PP,10709856,260
+201111,historico,dv_base,PSOE,6973653,89
+201111,historico,dv_base,CiU–Junts,1014277,36
+201111,historico,dv_base,EAJ-PNV,323591,10
+201111,historico,dv_base,EH Bildu,333762,7
+201111,historico,dv_base,UPN y coaliciones,126118,5
+201111,historico,dv_base,IU,1606117,0
+201111,historico,dv_base,UPyD,1139749,0
+201111,historico,dv_base,ERC,248973,0
+201111,historico,dv_base,EQUO,184414,0
+201111,historico,dv_base,BNG,183123,0
+201111,historico,dv_base,CCa,143591,0
+201111,historico,dv_base,COMPROMÍS,125046,0
+201111,historico,dv_base,PACMA,101209,0
+201111,historico,dv_base,FAC,98959,0
+201111,historico,dv_base,ESCAÑOS EN BLANCO,97537,0
+201111,historico,dv_base,PA,76845,0
+201111,historico,dv_base,CHA-IU,74715,0
+201111,historico,dv_base,PxC,59920,0
+201111,historico,dv_base,PRC,43903,0
+201111,historico,dv_base,GBAI,42365,0
+201111,historico,dv_base,MÉS,31370,0
+201111,historico,dv_base,PUM+J,26916,0
+201111,historico,dv_base,PIRATA,25224,0
+201111,historico,dv_base,PCPE,24503,0
+201111,historico,dv_base,ANTICAPITALISTAS,22206,0
+201111,historico,dv_base,UCE,15744,0
+201111,historico,dv_base,PH,10039,0
+201111,historico,dv_base,ESPAÑA 2000,9259,0
+201111,historico,dv_base,ERPV,7423,0
+201111,historico,dv_base,SAIn,6801,0
+201111,historico,dv_base,RPS,5371,0
+201111,historico,dv_base,HARTOS.ORG,3799,0
+201111,historico,dv_base,ANC,3172,0
+201111,historico,dv_base,FE de las JONS,2895,0
+201111,historico,dv_base,C.D.L.,2838,0
+201111,historico,dv_base,UxV,2205,0
+201111,historico,dv_base,P-LIB,2053,0
+201111,historico,dv_base,PCAL,2048,0
+201111,historico,dv_base,PREPAL,2005,0
+201111,historico,dv_base,POSI,1993,0
+201111,historico,dv_base,DN,1857,0
+201111,historico,dv_base,PRAO,1772,0
+201111,historico,dv_base,Caballas,1712,0
+201111,historico,dv_base,PCPC,1536,0
+201111,historico,dv_base,C 21,1413,0
+201111,historico,dv_base,UNIDAD DEL PUEBLO,1130,0
+201111,historico,dv_base,CEx,1078,0
+201111,historico,dv_base,ANDECHA,1073,0
+201111,historico,dv_base,CCD,1060,0
+201111,historico,dv_base,ACIMA,948,0
+201111,historico,dv_base,PFyV,824,0
+201111,historico,dv_base,+MAS+,788,0
+201111,historico,dv_base,U.C.I.T.,783,0
+201111,historico,dv_base,DeC,770,0
+201111,historico,dv_base,CYD,717,0
+201111,historico,dv_base,U.R.C.L.,702,0
+201111,historico,dv_base,P.R.D.E.,673,0
+201111,historico,dv_base,INTERNET,603,0
+201111,historico,dv_base,PRE-R,417,0
+201111,historico,dv_base,BASTA YA,374,0
+201111,historico,dv_base,PCAS,348,0
+201111,historico,dv_base,PDYC,296,0
+201111,historico,dv_base,LV-GV,289,0
+201111,historico,dv_base,H.D.,203,0
+201111,historico,dv_base,SXT,165,0
+201111,historico,dv_A,bloque:Derecha nacional,11008864,264
+201111,historico,dv_A,bloque:Izquierdas,8889829,88
+201111,historico,dv_A,bloque:Nacionalistas,2575342,55
+201111,historico,dv_A,UPyD,1139749,0
+201111,historico,dv_A,PACMA,101209,0
+201111,historico,dv_A,ESCAÑOS EN BLANCO,97537,0
+201111,historico,dv_A,PUM+J,26916,0
+201111,historico,dv_A,PIRATA,25224,0
+201111,historico,dv_A,UCE,15744,0
+201111,historico,dv_A,PH,10039,0
+201111,historico,dv_A,SAIn,6801,0
+201111,historico,dv_A,RPS,5371,0
+201111,historico,dv_A,HARTOS.ORG,3799,0
+201111,historico,dv_A,ANC,3172,0
+201111,historico,dv_A,C.D.L.,2838,0
+201111,historico,dv_A,UxV,2205,0
+201111,historico,dv_A,P-LIB,2053,0
+201111,historico,dv_A,PREPAL,2005,0
+201111,historico,dv_A,POSI,1993,0
+201111,historico,dv_A,PRAO,1772,0
+201111,historico,dv_A,Caballas,1712,0
+201111,historico,dv_A,C 21,1413,0
+201111,historico,dv_A,UNIDAD DEL PUEBLO,1130,0
+201111,historico,dv_A,CEx,1078,0
+201111,historico,dv_A,CCD,1060,0
+201111,historico,dv_A,ACIMA,948,0
+201111,historico,dv_A,PFyV,824,0
+201111,historico,dv_A,+MAS+,788,0
+201111,historico,dv_A,U.C.I.T.,783,0
+201111,historico,dv_A,DeC,770,0
+201111,historico,dv_A,CYD,717,0
+201111,historico,dv_A,U.R.C.L.,702,0
+201111,historico,dv_A,P.R.D.E.,673,0
+201111,historico,dv_A,INTERNET,603,0
+201111,historico,dv_A,PRE-R,417,0
+201111,historico,dv_A,BASTA YA,374,0
+201111,historico,dv_A,PDYC,296,0
+201111,historico,dv_A,H.D.,203,0
+201111,historico,dv_A,SXT,165,0
+201111,historico,dv_B,bloque:Derecha nacional,11008864,265
+201111,historico,dv_B,bloque:Izquierdas,8889829,90
+201111,historico,dv_B,CiU–Junts,1014277,36
+201111,historico,dv_B,EAJ-PNV,323591,10
+201111,historico,dv_B,EH Bildu,333762,6
+201111,historico,dv_B,UPyD,1139749,0
+201111,historico,dv_B,ERC,248973,0
+201111,historico,dv_B,BNG,183123,0
+201111,historico,dv_B,CCa,143591,0
+201111,historico,dv_B,COMPROMÍS,125046,0
+201111,historico,dv_B,PACMA,101209,0
+201111,historico,dv_B,ESCAÑOS EN BLANCO,97537,0
+201111,historico,dv_B,PA,76845,0
+201111,historico,dv_B,PRC,43903,0
+201111,historico,dv_B,GBAI,42365,0
+201111,historico,dv_B,MÉS,31370,0
+201111,historico,dv_B,PUM+J,26916,0
+201111,historico,dv_B,PIRATA,25224,0
+201111,historico,dv_B,UCE,15744,0
+201111,historico,dv_B,PH,10039,0
+201111,historico,dv_B,ERPV,7423,0
+201111,historico,dv_B,SAIn,6801,0
+201111,historico,dv_B,RPS,5371,0
+201111,historico,dv_B,HARTOS.ORG,3799,0
+201111,historico,dv_B,ANC,3172,0
+201111,historico,dv_B,C.D.L.,2838,0
+201111,historico,dv_B,UxV,2205,0
+201111,historico,dv_B,P-LIB,2053,0
+201111,historico,dv_B,PREPAL,2005,0
+201111,historico,dv_B,POSI,1993,0
+201111,historico,dv_B,PRAO,1772,0
+201111,historico,dv_B,Caballas,1712,0
+201111,historico,dv_B,C 21,1413,0
+201111,historico,dv_B,UNIDAD DEL PUEBLO,1130,0
+201111,historico,dv_B,CEx,1078,0
+201111,historico,dv_B,ANDECHA,1073,0
+201111,historico,dv_B,CCD,1060,0
+201111,historico,dv_B,ACIMA,948,0
+201111,historico,dv_B,PFyV,824,0
+201111,historico,dv_B,+MAS+,788,0
+201111,historico,dv_B,U.C.I.T.,783,0
+201111,historico,dv_B,DeC,770,0
+201111,historico,dv_B,CYD,717,0
+201111,historico,dv_B,U.R.C.L.,702,0
+201111,historico,dv_B,P.R.D.E.,673,0
+201111,historico,dv_B,INTERNET,603,0
+201111,historico,dv_B,PRE-R,417,0
+201111,historico,dv_B,BASTA YA,374,0
+201111,historico,dv_B,PDYC,296,0
+201111,historico,dv_B,H.D.,203,0
+201111,historico,dv_B,SXT,165,0
+201512,historico,real,PP,7114123,121
+201512,historico,real,PSOE,5530428,90
+201512,historico,real,Podemos–Sumar,5188803,69
+201512,historico,real,Cs,3500063,40
+201512,historico,real,ERC,599375,9
+201512,historico,real,CiU–Junts,565742,8
+201512,historico,real,EAJ-PNV,301590,6
+201512,historico,real,IU,923377,2
+201512,historico,real,EH Bildu,218453,2
+201512,historico,real,UPN y coaliciones,101901,2
+201512,historico,real,CCa,81750,1
+201512,historico,real,PACMA,219004,0
+201512,historico,real,UPyD,154132,0
+201512,historico,real,BNG,70465,0
+201512,historico,real,unio.cat,65063,0
+201512,historico,real,VOX,57691,0
+201512,historico,real,RECORTES CERO,48242,0
+201512,historico,real,MÉS,33839,0
+201512,historico,real,GBAI,30554,0
+201512,historico,real,PCPE,22183,0
+201512,historico,real,EL PI,12902,0
+201512,historico,real,CCD,10805,0
+201512,historico,real,ESCAÑOS EN BLANCO,10035,0
+201512,historico,real,PCPC,8784,0
+201512,historico,real,FE de las JONS,7464,0
+201512,historico,real,X LA IZQUIE,7269,0
+201512,historico,real,SOMVAL,6084,0
+201512,historico,real,PUM+J,4525,0
+201512,historico,real,SAIn,4369,0
+201512,historico,real,CENTRO MODERADO,3254,0
+201512,historico,real,PT,2957,0
+201512,historico,real,CANARIAS DE,2874,0
+201512,historico,real,P-LIB,2831,0
+201512,historico,real,PH,2826,0
+201512,historico,real,ARAPV,2487,0
+201512,historico,real,EU-eX,1995,0
+201512,historico,real,PCOE,1906,0
+201512,historico,real,DN,1685,0
+201512,historico,real,IFem,1594,0
+201512,historico,real,PREPAL,1369,0
+201512,historico,real,EN POSITIU,1276,0
+201512,historico,real,CILUS,1188,0
+201512,historico,real,CRA,1027,0
+201512,historico,real,Ln,1022,0
+201512,historico,real,AVANT,1001,0
+201512,historico,real,mlgXSÍ,924,0
+201512,historico,real,PFyV,708,0
+201512,historico,real,AJU,702,0
+201512,historico,real,INDEPENDIENTES,673,0
+201512,historico,real,FDEE,454,0
+201512,historico,real,"JS,PC",406,0
+201512,historico,real,SOLUCIONA,406,0
+201512,historico,real,+MAS+,309,0
+201512,historico,real,PLD,204,0
+201512,historico,real,OE,110,0
+201512,historico,mayoria_simple,PP,7114123,234
+201512,historico,mayoria_simple,Podemos–Sumar,5188803,87
+201512,historico,mayoria_simple,PSOE,5530428,51
+201512,historico,mayoria_simple,CiU–Junts,565742,15
+201512,historico,mayoria_simple,EAJ-PNV,301590,9
+201512,historico,mayoria_simple,ERC,599375,6
+201512,historico,mayoria_simple,UPN y coaliciones,101901,4
+201512,historico,mayoria_simple,EH Bildu,218453,1
+201512,historico,mayoria_simple,Cs,3500063,0
+201512,historico,mayoria_simple,IU,923377,0
+201512,historico,mayoria_simple,PACMA,219004,0
+201512,historico,mayoria_simple,UPyD,154132,0
+201512,historico,mayoria_simple,CCa,81750,0
+201512,historico,mayoria_simple,BNG,70465,0
+201512,historico,mayoria_simple,unio.cat,65063,0
+201512,historico,mayoria_simple,VOX,57691,0
+201512,historico,mayoria_simple,RECORTES CERO,48242,0
+201512,historico,mayoria_simple,MÉS,33839,0
+201512,historico,mayoria_simple,GBAI,30554,0
+201512,historico,mayoria_simple,PCPE,22183,0
+201512,historico,mayoria_simple,EL PI,12902,0
+201512,historico,mayoria_simple,CCD,10805,0
+201512,historico,mayoria_simple,ESCAÑOS EN BLANCO,10035,0
+201512,historico,mayoria_simple,PCPC,8784,0
+201512,historico,mayoria_simple,FE de las JONS,7464,0
+201512,historico,mayoria_simple,X LA IZQUIE,7269,0
+201512,historico,mayoria_simple,SOMVAL,6084,0
+201512,historico,mayoria_simple,PUM+J,4525,0
+201512,historico,mayoria_simple,SAIn,4369,0
+201512,historico,mayoria_simple,CENTRO MODERADO,3254,0
+201512,historico,mayoria_simple,PT,2957,0
+201512,historico,mayoria_simple,CANARIAS DE,2874,0
+201512,historico,mayoria_simple,P-LIB,2831,0
+201512,historico,mayoria_simple,PH,2826,0
+201512,historico,mayoria_simple,ARAPV,2487,0
+201512,historico,mayoria_simple,EU-eX,1995,0
+201512,historico,mayoria_simple,PCOE,1906,0
+201512,historico,mayoria_simple,DN,1685,0
+201512,historico,mayoria_simple,IFem,1594,0
+201512,historico,mayoria_simple,PREPAL,1369,0
+201512,historico,mayoria_simple,EN POSITIU,1276,0
+201512,historico,mayoria_simple,CILUS,1188,0
+201512,historico,mayoria_simple,CRA,1027,0
+201512,historico,mayoria_simple,Ln,1022,0
+201512,historico,mayoria_simple,AVANT,1001,0
+201512,historico,mayoria_simple,mlgXSÍ,924,0
+201512,historico,mayoria_simple,PFyV,708,0
+201512,historico,mayoria_simple,AJU,702,0
+201512,historico,mayoria_simple,INDEPENDIENTES,673,0
+201512,historico,mayoria_simple,FDEE,454,0
+201512,historico,mayoria_simple,"JS,PC",406,0
+201512,historico,mayoria_simple,SOLUCIONA,406,0
+201512,historico,mayoria_simple,+MAS+,309,0
+201512,historico,mayoria_simple,PLD,204,0
+201512,historico,mayoria_simple,OE,110,0
+201512,historico,dv_base,Podemos–Sumar,5188803,164
+201512,historico,dv_base,PSOE,5530428,156
+201512,historico,dv_base,PP,7114123,53
+201512,historico,dv_base,CiU–Junts,565742,18
+201512,historico,dv_base,ERC,599375,8
+201512,historico,dv_base,EAJ-PNV,301590,6
+201512,historico,dv_base,EH Bildu,218453,1
+201512,historico,dv_base,UPN y coaliciones,101901,1
+201512,historico,dv_base,Cs,3500063,0
+201512,historico,dv_base,IU,923377,0
+201512,historico,dv_base,PACMA,219004,0
+201512,historico,dv_base,UPyD,154132,0
+201512,historico,dv_base,CCa,81750,0
+201512,historico,dv_base,BNG,70465,0
+201512,historico,dv_base,unio.cat,65063,0
+201512,historico,dv_base,VOX,57691,0
+201512,historico,dv_base,RECORTES CERO,48242,0
+201512,historico,dv_base,MÉS,33839,0
+201512,historico,dv_base,GBAI,30554,0
+201512,historico,dv_base,PCPE,22183,0
+201512,historico,dv_base,EL PI,12902,0
+201512,historico,dv_base,CCD,10805,0
+201512,historico,dv_base,ESCAÑOS EN BLANCO,10035,0
+201512,historico,dv_base,PCPC,8784,0
+201512,historico,dv_base,FE de las JONS,7464,0
+201512,historico,dv_base,X LA IZQUIE,7269,0
+201512,historico,dv_base,SOMVAL,6084,0
+201512,historico,dv_base,PUM+J,4525,0
+201512,historico,dv_base,SAIn,4369,0
+201512,historico,dv_base,CENTRO MODERADO,3254,0
+201512,historico,dv_base,PT,2957,0
+201512,historico,dv_base,CANARIAS DE,2874,0
+201512,historico,dv_base,P-LIB,2831,0
+201512,historico,dv_base,PH,2826,0
+201512,historico,dv_base,ARAPV,2487,0
+201512,historico,dv_base,EU-eX,1995,0
+201512,historico,dv_base,PCOE,1906,0
+201512,historico,dv_base,DN,1685,0
+201512,historico,dv_base,IFem,1594,0
+201512,historico,dv_base,PREPAL,1369,0
+201512,historico,dv_base,EN POSITIU,1276,0
+201512,historico,dv_base,CILUS,1188,0
+201512,historico,dv_base,CRA,1027,0
+201512,historico,dv_base,Ln,1022,0
+201512,historico,dv_base,AVANT,1001,0
+201512,historico,dv_base,mlgXSÍ,924,0
+201512,historico,dv_base,PFyV,708,0
+201512,historico,dv_base,AJU,702,0
+201512,historico,dv_base,INDEPENDIENTES,673,0
+201512,historico,dv_base,FDEE,454,0
+201512,historico,dv_base,"JS,PC",406,0
+201512,historico,dv_base,SOLUCIONA,406,0
+201512,historico,dv_base,+MAS+,309,0
+201512,historico,dv_base,PLD,204,0
+201512,historico,dv_base,OE,110,0
+201512,historico,dv_A,bloque:Izquierdas,11675481,332
+201512,historico,dv_A,bloque:Derecha nacional,7282864,42
+201512,historico,dv_A,bloque:Nacionalistas,1979733,33
+201512,historico,dv_A,Cs,3500063,0
+201512,historico,dv_A,PACMA,219004,0
+201512,historico,dv_A,UPyD,154132,0
+201512,historico,dv_A,RECORTES CERO,48242,0
+201512,historico,dv_A,CCD,10805,0
+201512,historico,dv_A,ESCAÑOS EN BLANCO,10035,0
+201512,historico,dv_A,X LA IZQUIE,7269,0
+201512,historico,dv_A,SOMVAL,6084,0
+201512,historico,dv_A,PUM+J,4525,0
+201512,historico,dv_A,SAIn,4369,0
+201512,historico,dv_A,CENTRO MODERADO,3254,0
+201512,historico,dv_A,PT,2957,0
+201512,historico,dv_A,CANARIAS DE,2874,0
+201512,historico,dv_A,P-LIB,2831,0
+201512,historico,dv_A,PH,2826,0
+201512,historico,dv_A,ARAPV,2487,0
+201512,historico,dv_A,EU-eX,1995,0
+201512,historico,dv_A,IFem,1594,0
+201512,historico,dv_A,PREPAL,1369,0
+201512,historico,dv_A,EN POSITIU,1276,0
+201512,historico,dv_A,CILUS,1188,0
+201512,historico,dv_A,CRA,1027,0
+201512,historico,dv_A,Ln,1022,0
+201512,historico,dv_A,AVANT,1001,0
+201512,historico,dv_A,mlgXSÍ,924,0
+201512,historico,dv_A,PFyV,708,0
+201512,historico,dv_A,AJU,702,0
+201512,historico,dv_A,INDEPENDIENTES,673,0
+201512,historico,dv_A,FDEE,454,0
+201512,historico,dv_A,"JS,PC",406,0
+201512,historico,dv_A,SOLUCIONA,406,0
+201512,historico,dv_A,+MAS+,309,0
+201512,historico,dv_A,PLD,204,0
+201512,historico,dv_A,OE,110,0
+201512,historico,dv_B,bloque:Izquierdas,11675481,333
+201512,historico,dv_B,bloque:Derecha nacional,7282864,42
+201512,historico,dv_B,CiU–Junts,565742,18
+201512,historico,dv_B,ERC,599375,7
+201512,historico,dv_B,EAJ-PNV,301590,6
+201512,historico,dv_B,EH Bildu,218453,1
+201512,historico,dv_B,Cs,3500063,0
+201512,historico,dv_B,PACMA,219004,0
+201512,historico,dv_B,UPyD,154132,0
+201512,historico,dv_B,CCa,81750,0
+201512,historico,dv_B,BNG,70465,0
+201512,historico,dv_B,unio.cat,65063,0
+201512,historico,dv_B,RECORTES CERO,48242,0
+201512,historico,dv_B,MÉS,33839,0
+201512,historico,dv_B,GBAI,30554,0
+201512,historico,dv_B,EL PI,12902,0
+201512,historico,dv_B,CCD,10805,0
+201512,historico,dv_B,ESCAÑOS EN BLANCO,10035,0
+201512,historico,dv_B,X LA IZQUIE,7269,0
+201512,historico,dv_B,SOMVAL,6084,0
+201512,historico,dv_B,PUM+J,4525,0
+201512,historico,dv_B,SAIn,4369,0
+201512,historico,dv_B,CENTRO MODERADO,3254,0
+201512,historico,dv_B,PT,2957,0
+201512,historico,dv_B,CANARIAS DE,2874,0
+201512,historico,dv_B,P-LIB,2831,0
+201512,historico,dv_B,PH,2826,0
+201512,historico,dv_B,ARAPV,2487,0
+201512,historico,dv_B,EU-eX,1995,0
+201512,historico,dv_B,IFem,1594,0
+201512,historico,dv_B,PREPAL,1369,0
+201512,historico,dv_B,EN POSITIU,1276,0
+201512,historico,dv_B,CILUS,1188,0
+201512,historico,dv_B,CRA,1027,0
+201512,historico,dv_B,Ln,1022,0
+201512,historico,dv_B,AVANT,1001,0
+201512,historico,dv_B,mlgXSÍ,924,0
+201512,historico,dv_B,PFyV,708,0
+201512,historico,dv_B,AJU,702,0
+201512,historico,dv_B,INDEPENDIENTES,673,0
+201512,historico,dv_B,FDEE,454,0
+201512,historico,dv_B,"JS,PC",406,0
+201512,historico,dv_B,SOLUCIONA,406,0
+201512,historico,dv_B,+MAS+,309,0
+201512,historico,dv_B,PLD,204,0
+201512,historico,dv_B,OE,110,0
+201606,historico,real,PP,7800328,135
+201606,historico,real,PSOE,5424130,85
+201606,historico,real,Podemos–Sumar,5051345,71
+201606,historico,real,Cs,3123436,32
+201606,historico,real,ERC,629269,9
+201606,historico,real,CiU–Junts,481663,8
+201606,historico,real,EAJ-PNV,286187,5
+201606,historico,real,EH Bildu,184074,2
+201606,historico,real,UPN y coaliciones,106433,2
+201606,historico,real,CCa,78080,1
+201606,historico,real,PACMA,284772,0
+201606,historico,real,RECORTES CERO,51289,0
+201606,historico,real,UPyD,49510,0
+201606,historico,real,VOX,46714,0
+201606,historico,real,BNG,44902,0
+201606,historico,real,PCPE,20524,0
+201606,historico,real,GBAI,14289,0
+201606,historico,real,ESCAÑOS EN BLANCO,11606,0
+201606,historico,real,FE de las JONS,9859,0
+201606,historico,real,SI,7413,0
+201606,historico,real,SOMVAL,6612,0
+201606,historico,real,CCD,6264,0
+201606,historico,real,PCPC,5853,0
+201606,historico,real,SAIn,3064,0
+201606,historico,real,CENTRO MODERADO,2986,0
+201606,historico,real,PH,2986,0
+201606,historico,real,P-LIB,2962,0
+201606,historico,real,CCD-CI,2668,0
+201606,historico,real,UPL,2264,0
+201606,historico,real,PCOE,1811,0
+201606,historico,real,AND,1697,0
+201606,historico,real,JXC,1184,0
+201606,historico,real,PFyV,838,0
+201606,historico,real,CILUS,829,0
+201606,historico,real,PxC,722,0
+201606,historico,real,MAS,718,0
+201606,historico,real,UNIDAD DEL PUEBLO,684,0
+201606,historico,real,IZAR,680,0
+201606,historico,real,PREPAL,636,0
+201606,historico,real,Ln,616,0
+201606,historico,real,REPO,569,0
+201606,historico,real,INDEPENDIENTES,547,0
+201606,historico,real,ENTABAN,374,0
+201606,historico,real,IMC,351,0
+201606,historico,real,PUEDE,332,0
+201606,historico,real,FE,254,0
+201606,historico,real,ALCD,210,0
+201606,historico,real,FME,198,0
+201606,historico,real,HRTS-Ln,79,0
+201606,historico,real,UDT,48,0
+201606,historico,mayoria_simple,PP,7800328,273
+201606,historico,mayoria_simple,Podemos–Sumar,5051345,67
+201606,historico,mayoria_simple,PSOE,5424130,34
+201606,historico,mayoria_simple,ERC,629269,18
+201606,historico,mayoria_simple,EAJ-PNV,286187,7
+201606,historico,mayoria_simple,UPN y coaliciones,106433,4
+201606,historico,mayoria_simple,CiU–Junts,481663,3
+201606,historico,mayoria_simple,EH Bildu,184074,1
+201606,historico,mayoria_simple,Cs,3123436,0
+201606,historico,mayoria_simple,PACMA,284772,0
+201606,historico,mayoria_simple,CCa,78080,0
+201606,historico,mayoria_simple,RECORTES CERO,51289,0
+201606,historico,mayoria_simple,UPyD,49510,0
+201606,historico,mayoria_simple,VOX,46714,0
+201606,historico,mayoria_simple,BNG,44902,0
+201606,historico,mayoria_simple,PCPE,20524,0
+201606,historico,mayoria_simple,GBAI,14289,0
+201606,historico,mayoria_simple,ESCAÑOS EN BLANCO,11606,0
+201606,historico,mayoria_simple,FE de las JONS,9859,0
+201606,historico,mayoria_simple,SI,7413,0
+201606,historico,mayoria_simple,SOMVAL,6612,0
+201606,historico,mayoria_simple,CCD,6264,0
+201606,historico,mayoria_simple,PCPC,5853,0
+201606,historico,mayoria_simple,SAIn,3064,0
+201606,historico,mayoria_simple,CENTRO MODERADO,2986,0
+201606,historico,mayoria_simple,PH,2986,0
+201606,historico,mayoria_simple,P-LIB,2962,0
+201606,historico,mayoria_simple,CCD-CI,2668,0
+201606,historico,mayoria_simple,UPL,2264,0
+201606,historico,mayoria_simple,PCOE,1811,0
+201606,historico,mayoria_simple,AND,1697,0
+201606,historico,mayoria_simple,JXC,1184,0
+201606,historico,mayoria_simple,PFyV,838,0
+201606,historico,mayoria_simple,CILUS,829,0
+201606,historico,mayoria_simple,PxC,722,0
+201606,historico,mayoria_simple,MAS,718,0
+201606,historico,mayoria_simple,UNIDAD DEL PUEBLO,684,0
+201606,historico,mayoria_simple,IZAR,680,0
+201606,historico,mayoria_simple,PREPAL,636,0
+201606,historico,mayoria_simple,Ln,616,0
+201606,historico,mayoria_simple,REPO,569,0
+201606,historico,mayoria_simple,INDEPENDIENTES,547,0
+201606,historico,mayoria_simple,ENTABAN,374,0
+201606,historico,mayoria_simple,IMC,351,0
+201606,historico,mayoria_simple,PUEDE,332,0
+201606,historico,mayoria_simple,FE,254,0
+201606,historico,mayoria_simple,ALCD,210,0
+201606,historico,mayoria_simple,FME,198,0
+201606,historico,mayoria_simple,HRTS-Ln,79,0
+201606,historico,mayoria_simple,UDT,48,0
+201606,historico,dv_base,Podemos–Sumar,5051345,149
+201606,historico,dv_base,PSOE,5424130,120
+201606,historico,dv_base,PP,7800328,106
+201606,historico,dv_base,ERC,629269,21
+201606,historico,dv_base,EAJ-PNV,286187,6
+201606,historico,dv_base,CiU–Junts,481663,3
+201606,historico,dv_base,EH Bildu,184074,1
+201606,historico,dv_base,UPN y coaliciones,106433,1
+201606,historico,dv_base,Cs,3123436,0
+201606,historico,dv_base,PACMA,284772,0
+201606,historico,dv_base,CCa,78080,0
+201606,historico,dv_base,RECORTES CERO,51289,0
+201606,historico,dv_base,UPyD,49510,0
+201606,historico,dv_base,VOX,46714,0
+201606,historico,dv_base,BNG,44902,0
+201606,historico,dv_base,PCPE,20524,0
+201606,historico,dv_base,GBAI,14289,0
+201606,historico,dv_base,ESCAÑOS EN BLANCO,11606,0
+201606,historico,dv_base,FE de las JONS,9859,0
+201606,historico,dv_base,SI,7413,0
+201606,historico,dv_base,SOMVAL,6612,0
+201606,historico,dv_base,CCD,6264,0
+201606,historico,dv_base,PCPC,5853,0
+201606,historico,dv_base,SAIn,3064,0
+201606,historico,dv_base,CENTRO MODERADO,2986,0
+201606,historico,dv_base,PH,2986,0
+201606,historico,dv_base,P-LIB,2962,0
+201606,historico,dv_base,CCD-CI,2668,0
+201606,historico,dv_base,UPL,2264,0
+201606,historico,dv_base,PCOE,1811,0
+201606,historico,dv_base,AND,1697,0
+201606,historico,dv_base,JXC,1184,0
+201606,historico,dv_base,PFyV,838,0
+201606,historico,dv_base,CILUS,829,0
+201606,historico,dv_base,PxC,722,0
+201606,historico,dv_base,MAS,718,0
+201606,historico,dv_base,UNIDAD DEL PUEBLO,684,0
+201606,historico,dv_base,IZAR,680,0
+201606,historico,dv_base,PREPAL,636,0
+201606,historico,dv_base,Ln,616,0
+201606,historico,dv_base,REPO,569,0
+201606,historico,dv_base,INDEPENDIENTES,547,0
+201606,historico,dv_base,ENTABAN,374,0
+201606,historico,dv_base,IMC,351,0
+201606,historico,dv_base,PUEDE,332,0
+201606,historico,dv_base,FE,254,0
+201606,historico,dv_base,ALCD,210,0
+201606,historico,dv_base,FME,198,0
+201606,historico,dv_base,HRTS-Ln,79,0
+201606,historico,dv_base,UDT,48,0
+201606,historico,dv_A,bloque:Izquierdas,10503663,273
+201606,historico,dv_A,bloque:Derecha nacional,7964310,103
+201606,historico,dv_A,bloque:Nacionalistas,1720728,31
+201606,historico,dv_A,Cs,3123436,0
+201606,historico,dv_A,PACMA,284772,0
+201606,historico,dv_A,RECORTES CERO,51289,0
+201606,historico,dv_A,UPyD,49510,0
+201606,historico,dv_A,ESCAÑOS EN BLANCO,11606,0
+201606,historico,dv_A,SI,7413,0
+201606,historico,dv_A,SOMVAL,6612,0
+201606,historico,dv_A,CCD,6264,0
+201606,historico,dv_A,SAIn,3064,0
+201606,historico,dv_A,CENTRO MODERADO,2986,0
+201606,historico,dv_A,PH,2986,0
+201606,historico,dv_A,P-LIB,2962,0
+201606,historico,dv_A,CCD-CI,2668,0
+201606,historico,dv_A,AND,1697,0
+201606,historico,dv_A,JXC,1184,0
+201606,historico,dv_A,PFyV,838,0
+201606,historico,dv_A,CILUS,829,0
+201606,historico,dv_A,MAS,718,0
+201606,historico,dv_A,UNIDAD DEL PUEBLO,684,0
+201606,historico,dv_A,IZAR,680,0
+201606,historico,dv_A,PREPAL,636,0
+201606,historico,dv_A,Ln,616,0
+201606,historico,dv_A,REPO,569,0
+201606,historico,dv_A,INDEPENDIENTES,547,0
+201606,historico,dv_A,ENTABAN,374,0
+201606,historico,dv_A,IMC,351,0
+201606,historico,dv_A,PUEDE,332,0
+201606,historico,dv_A,ALCD,210,0
+201606,historico,dv_A,FME,198,0
+201606,historico,dv_A,HRTS-Ln,79,0
+201606,historico,dv_A,UDT,48,0
+201606,historico,dv_B,bloque:Izquierdas,10503663,273
+201606,historico,dv_B,bloque:Derecha nacional,7964310,103
+201606,historico,dv_B,ERC,629269,21
+201606,historico,dv_B,EAJ-PNV,286187,6
+201606,historico,dv_B,CiU–Junts,481663,3
+201606,historico,dv_B,EH Bildu,184074,1
+201606,historico,dv_B,Cs,3123436,0
+201606,historico,dv_B,PACMA,284772,0
+201606,historico,dv_B,CCa,78080,0
+201606,historico,dv_B,RECORTES CERO,51289,0
+201606,historico,dv_B,UPyD,49510,0
+201606,historico,dv_B,BNG,44902,0
+201606,historico,dv_B,GBAI,14289,0
+201606,historico,dv_B,ESCAÑOS EN BLANCO,11606,0
+201606,historico,dv_B,SI,7413,0
+201606,historico,dv_B,SOMVAL,6612,0
+201606,historico,dv_B,CCD,6264,0
+201606,historico,dv_B,SAIn,3064,0
+201606,historico,dv_B,CENTRO MODERADO,2986,0
+201606,historico,dv_B,PH,2986,0
+201606,historico,dv_B,P-LIB,2962,0
+201606,historico,dv_B,CCD-CI,2668,0
+201606,historico,dv_B,UPL,2264,0
+201606,historico,dv_B,AND,1697,0
+201606,historico,dv_B,JXC,1184,0
+201606,historico,dv_B,PFyV,838,0
+201606,historico,dv_B,CILUS,829,0
+201606,historico,dv_B,MAS,718,0
+201606,historico,dv_B,UNIDAD DEL PUEBLO,684,0
+201606,historico,dv_B,IZAR,680,0
+201606,historico,dv_B,PREPAL,636,0
+201606,historico,dv_B,Ln,616,0
+201606,historico,dv_B,REPO,569,0
+201606,historico,dv_B,INDEPENDIENTES,547,0
+201606,historico,dv_B,ENTABAN,374,0
+201606,historico,dv_B,IMC,351,0
+201606,historico,dv_B,PUEDE,332,0
+201606,historico,dv_B,ALCD,210,0
+201606,historico,dv_B,FME,198,0
+201606,historico,dv_B,HRTS-Ln,79,0
+201606,historico,dv_B,UDT,48,0
+201904,historico,real,PSOE,7481667,123
+201904,historico,real,PP,4359373,66
+201904,historico,real,Cs,4136785,57
+201904,historico,real,Podemos–Sumar,3731613,42
+201904,historico,real,VOX,2676822,24
+201904,historico,real,ERC,1015592,15
+201904,historico,real,CiU–Junts,498107,7
+201904,historico,real,EAJ-PNV,394681,6
+201904,historico,real,EH Bildu,258848,4
+201904,historico,real,CCa,137215,2
+201904,historico,real,UPN y coaliciones,107112,2
+201904,historico,real,COMPROMÍS,172906,1
+201904,historico,real,PRC,52156,1
+201904,historico,real,PACMA,325832,0
+201904,historico,real,FRONT REPUB,113052,0
+201904,historico,real,BNG,93813,0
+201904,historico,real,RECORTES CERO,46595,0
+201904,historico,real,NC,36193,0
+201904,historico,real,PACT,30060,0
+201904,historico,real,ARA-MES-ESQ,25117,0
+201904,historico,real,GBAI,22212,0
+201904,historico,real,PUM+J,21479,0
+201904,historico,real,EN MAREA,17721,0
+201904,historico,real,EL PI,11677,0
+201904,historico,real,AxSI,11327,0
+201904,historico,real,PCTE,9908,0
+201904,historico,real,PCOE,9092,0
+201904,historico,real,PCPE,7451,0
+201904,historico,real,AVANT,7256,0
+201904,historico,real,ESCAÑOS EN BLANCO,7020,0
+201904,historico,real,CpM,6857,0
+201904,historico,real,SOMOS REGIÓ,4958,0
+201904,historico,real,PCPC,4838,0
+201904,historico,real,PCPA,4647,0
+201904,historico,real,UIG-SOM-CUIDES,4439,0
+201904,historico,real,PH,4429,0
+201904,historico,real,ERPV,4204,0
+201904,historico,real,IZQP,3470,0
+201904,historico,real,AHORA CANARIAS,3026,0
+201904,historico,real,CxG,2666,0
+201904,historico,real,CNV,2520,0
+201904,historico,real,PCTC,2338,0
+201904,historico,real,PREPAL,2138,0
+201904,historico,real,C.Ex-C.R.Ex,2135,0
+201904,historico,real,PR+,2080,0
+201904,historico,real,PCTG,1611,0
+201904,historico,real,P-LIB,1204,0
+201904,historico,real,CILUS,1079,0
+201904,historico,real,ANDECHA,909,0
+201904,historico,real,"""JF""",858,0
+201904,historico,real,PYLN,823,0
+201904,historico,real,F.I.A.,773,0
+201904,historico,real,FE de las JONS,641,0
+201904,historico,real,F8,571,0
+201904,historico,real,SOLIDARIA,525,0
+201904,historico,real,DPL,500,0
+201904,historico,real,UNIÓN REGIO,483,0
+201904,historico,real,centrados,458,0
+201904,historico,real,DP,308,0
+201904,historico,real,VOU,303,0
+201904,historico,real,PDSJE,276,0
+201904,historico,real,IZAR,253,0
+201904,historico,real,RISA,187,0
+201904,historico,real,C 21,69,0
+201904,historico,real,+MAS+,46,0
+201904,historico,real,UDT,28,0
+201904,historico,mayoria_simple,PSOE,7481667,312
+201904,historico,mayoria_simple,ERC,1015592,38
+201904,historico,mayoria_simple,PP,4359373,29
+201904,historico,mayoria_simple,EAJ-PNV,394681,14
+201904,historico,mayoria_simple,Cs,4136785,7
+201904,historico,mayoria_simple,UPN y coaliciones,107112,4
+201904,historico,mayoria_simple,EH Bildu,258848,2
+201904,historico,mayoria_simple,VOX,2676822,1
+201904,historico,mayoria_simple,Podemos–Sumar,3731613,0
+201904,historico,mayoria_simple,CiU–Junts,498107,0
+201904,historico,mayoria_simple,PACMA,325832,0
+201904,historico,mayoria_simple,COMPROMÍS,172906,0
+201904,historico,mayoria_simple,CCa,137215,0
+201904,historico,mayoria_simple,FRONT REPUB,113052,0
+201904,historico,mayoria_simple,BNG,93813,0
+201904,historico,mayoria_simple,PRC,52156,0
+201904,historico,mayoria_simple,RECORTES CERO,46595,0
+201904,historico,mayoria_simple,NC,36193,0
+201904,historico,mayoria_simple,PACT,30060,0
+201904,historico,mayoria_simple,ARA-MES-ESQ,25117,0
+201904,historico,mayoria_simple,GBAI,22212,0
+201904,historico,mayoria_simple,PUM+J,21479,0
+201904,historico,mayoria_simple,EN MAREA,17721,0
+201904,historico,mayoria_simple,EL PI,11677,0
+201904,historico,mayoria_simple,AxSI,11327,0
+201904,historico,mayoria_simple,PCTE,9908,0
+201904,historico,mayoria_simple,PCOE,9092,0
+201904,historico,mayoria_simple,PCPE,7451,0
+201904,historico,mayoria_simple,AVANT,7256,0
+201904,historico,mayoria_simple,ESCAÑOS EN BLANCO,7020,0
+201904,historico,mayoria_simple,CpM,6857,0
+201904,historico,mayoria_simple,SOMOS REGIÓ,4958,0
+201904,historico,mayoria_simple,PCPC,4838,0
+201904,historico,mayoria_simple,PCPA,4647,0
+201904,historico,mayoria_simple,UIG-SOM-CUIDES,4439,0
+201904,historico,mayoria_simple,PH,4429,0
+201904,historico,mayoria_simple,ERPV,4204,0
+201904,historico,mayoria_simple,IZQP,3470,0
+201904,historico,mayoria_simple,AHORA CANARIAS,3026,0
+201904,historico,mayoria_simple,CxG,2666,0
+201904,historico,mayoria_simple,CNV,2520,0
+201904,historico,mayoria_simple,PCTC,2338,0
+201904,historico,mayoria_simple,PREPAL,2138,0
+201904,historico,mayoria_simple,C.Ex-C.R.Ex,2135,0
+201904,historico,mayoria_simple,PR+,2080,0
+201904,historico,mayoria_simple,PCTG,1611,0
+201904,historico,mayoria_simple,P-LIB,1204,0
+201904,historico,mayoria_simple,CILUS,1079,0
+201904,historico,mayoria_simple,ANDECHA,909,0
+201904,historico,mayoria_simple,"""JF""",858,0
+201904,historico,mayoria_simple,PYLN,823,0
+201904,historico,mayoria_simple,F.I.A.,773,0
+201904,historico,mayoria_simple,FE de las JONS,641,0
+201904,historico,mayoria_simple,F8,571,0
+201904,historico,mayoria_simple,SOLIDARIA,525,0
+201904,historico,mayoria_simple,DPL,500,0
+201904,historico,mayoria_simple,UNIÓN REGIO,483,0
+201904,historico,mayoria_simple,centrados,458,0
+201904,historico,mayoria_simple,DP,308,0
+201904,historico,mayoria_simple,VOU,303,0
+201904,historico,mayoria_simple,PDSJE,276,0
+201904,historico,mayoria_simple,IZAR,253,0
+201904,historico,mayoria_simple,RISA,187,0
+201904,historico,mayoria_simple,C 21,69,0
+201904,historico,mayoria_simple,+MAS+,46,0
+201904,historico,mayoria_simple,UDT,28,0
+201904,historico,dv_base,PSOE,7481667,310
+201904,historico,dv_base,PP,4359373,48
+201904,historico,dv_base,ERC,1015592,32
+201904,historico,dv_base,EAJ-PNV,394681,12
+201904,historico,dv_base,VOX,2676822,3
+201904,historico,dv_base,EH Bildu,258848,1
+201904,historico,dv_base,UPN y coaliciones,107112,1
+201904,historico,dv_base,Cs,4136785,0
+201904,historico,dv_base,Podemos–Sumar,3731613,0
+201904,historico,dv_base,CiU–Junts,498107,0
+201904,historico,dv_base,PACMA,325832,0
+201904,historico,dv_base,COMPROMÍS,172906,0
+201904,historico,dv_base,CCa,137215,0
+201904,historico,dv_base,FRONT REPUB,113052,0
+201904,historico,dv_base,BNG,93813,0
+201904,historico,dv_base,PRC,52156,0
+201904,historico,dv_base,RECORTES CERO,46595,0
+201904,historico,dv_base,NC,36193,0
+201904,historico,dv_base,PACT,30060,0
+201904,historico,dv_base,ARA-MES-ESQ,25117,0
+201904,historico,dv_base,GBAI,22212,0
+201904,historico,dv_base,PUM+J,21479,0
+201904,historico,dv_base,EN MAREA,17721,0
+201904,historico,dv_base,EL PI,11677,0
+201904,historico,dv_base,AxSI,11327,0
+201904,historico,dv_base,PCTE,9908,0
+201904,historico,dv_base,PCOE,9092,0
+201904,historico,dv_base,PCPE,7451,0
+201904,historico,dv_base,AVANT,7256,0
+201904,historico,dv_base,ESCAÑOS EN BLANCO,7020,0
+201904,historico,dv_base,CpM,6857,0
+201904,historico,dv_base,SOMOS REGIÓ,4958,0
+201904,historico,dv_base,PCPC,4838,0
+201904,historico,dv_base,PCPA,4647,0
+201904,historico,dv_base,UIG-SOM-CUIDES,4439,0
+201904,historico,dv_base,PH,4429,0
+201904,historico,dv_base,ERPV,4204,0
+201904,historico,dv_base,IZQP,3470,0
+201904,historico,dv_base,AHORA CANARIAS,3026,0
+201904,historico,dv_base,CxG,2666,0
+201904,historico,dv_base,CNV,2520,0
+201904,historico,dv_base,PCTC,2338,0
+201904,historico,dv_base,PREPAL,2138,0
+201904,historico,dv_base,C.Ex-C.R.Ex,2135,0
+201904,historico,dv_base,PR+,2080,0
+201904,historico,dv_base,PCTG,1611,0
+201904,historico,dv_base,P-LIB,1204,0
+201904,historico,dv_base,CILUS,1079,0
+201904,historico,dv_base,ANDECHA,909,0
+201904,historico,dv_base,"""JF""",858,0
+201904,historico,dv_base,PYLN,823,0
+201904,historico,dv_base,F.I.A.,773,0
+201904,historico,dv_base,FE de las JONS,641,0
+201904,historico,dv_base,F8,571,0
+201904,historico,dv_base,SOLIDARIA,525,0
+201904,historico,dv_base,DPL,500,0
+201904,historico,dv_base,UNIÓN REGIO,483,0
+201904,historico,dv_base,centrados,458,0
+201904,historico,dv_base,DP,308,0
+201904,historico,dv_base,VOU,303,0
+201904,historico,dv_base,PDSJE,276,0
+201904,historico,dv_base,IZAR,253,0
+201904,historico,dv_base,RISA,187,0
+201904,historico,dv_base,C 21,69,0
+201904,historico,dv_base,+MAS+,46,0
+201904,historico,dv_base,UDT,28,0
+201904,historico,dv_A,bloque:Izquierdas,11274356,308
+201904,historico,dv_A,bloque:Derecha nacional,7143948,54
+201904,historico,dv_A,bloque:Nacionalistas,2729322,45
+201904,historico,dv_A,Cs,4136785,0
+201904,historico,dv_A,PACMA,325832,0
+201904,historico,dv_A,FRONT REPUB,113052,0
+201904,historico,dv_A,RECORTES CERO,46595,0
+201904,historico,dv_A,PACT,30060,0
+201904,historico,dv_A,PUM+J,21479,0
+201904,historico,dv_A,AxSI,11327,0
+201904,historico,dv_A,AVANT,7256,0
+201904,historico,dv_A,ESCAÑOS EN BLANCO,7020,0
+201904,historico,dv_A,CpM,6857,0
+201904,historico,dv_A,SOMOS REGIÓ,4958,0
+201904,historico,dv_A,UIG-SOM-CUIDES,4439,0
+201904,historico,dv_A,PH,4429,0
+201904,historico,dv_A,CNV,2520,0
+201904,historico,dv_A,PREPAL,2138,0
+201904,historico,dv_A,C.Ex-C.R.Ex,2135,0
+201904,historico,dv_A,PR+,2080,0
+201904,historico,dv_A,P-LIB,1204,0
+201904,historico,dv_A,CILUS,1079,0
+201904,historico,dv_A,"""JF""",858,0
+201904,historico,dv_A,PYLN,823,0
+201904,historico,dv_A,F.I.A.,773,0
+201904,historico,dv_A,F8,571,0
+201904,historico,dv_A,SOLIDARIA,525,0
+201904,historico,dv_A,DPL,500,0
+201904,historico,dv_A,UNIÓN REGIO,483,0
+201904,historico,dv_A,centrados,458,0
+201904,historico,dv_A,DP,308,0
+201904,historico,dv_A,VOU,303,0
+201904,historico,dv_A,PDSJE,276,0
+201904,historico,dv_A,IZAR,253,0
+201904,historico,dv_A,RISA,187,0
+201904,historico,dv_A,C 21,69,0
+201904,historico,dv_A,+MAS+,46,0
+201904,historico,dv_A,UDT,28,0
+201904,historico,dv_B,bloque:Izquierdas,11274356,308
+201904,historico,dv_B,bloque:Derecha nacional,7143948,54
+201904,historico,dv_B,ERC,1015592,32
+201904,historico,dv_B,EAJ-PNV,394681,12
+201904,historico,dv_B,EH Bildu,258848,1
+201904,historico,dv_B,Cs,4136785,0
+201904,historico,dv_B,CiU–Junts,498107,0
+201904,historico,dv_B,PACMA,325832,0
+201904,historico,dv_B,COMPROMÍS,172906,0
+201904,historico,dv_B,CCa,137215,0
+201904,historico,dv_B,FRONT REPUB,113052,0
+201904,historico,dv_B,BNG,93813,0
+201904,historico,dv_B,PRC,52156,0
+201904,historico,dv_B,RECORTES CERO,46595,0
+201904,historico,dv_B,NC,36193,0
+201904,historico,dv_B,PACT,30060,0
+201904,historico,dv_B,ARA-MES-ESQ,25117,0
+201904,historico,dv_B,GBAI,22212,0
+201904,historico,dv_B,PUM+J,21479,0
+201904,historico,dv_B,EL PI,11677,0
+201904,historico,dv_B,AxSI,11327,0
+201904,historico,dv_B,AVANT,7256,0
+201904,historico,dv_B,ESCAÑOS EN BLANCO,7020,0
+201904,historico,dv_B,CpM,6857,0
+201904,historico,dv_B,SOMOS REGIÓ,4958,0
+201904,historico,dv_B,UIG-SOM-CUIDES,4439,0
+201904,historico,dv_B,PH,4429,0
+201904,historico,dv_B,ERPV,4204,0
+201904,historico,dv_B,AHORA CANARIAS,3026,0
+201904,historico,dv_B,CxG,2666,0
+201904,historico,dv_B,CNV,2520,0
+201904,historico,dv_B,PREPAL,2138,0
+201904,historico,dv_B,C.Ex-C.R.Ex,2135,0
+201904,historico,dv_B,PR+,2080,0
+201904,historico,dv_B,P-LIB,1204,0
+201904,historico,dv_B,CILUS,1079,0
+201904,historico,dv_B,ANDECHA,909,0
+201904,historico,dv_B,"""JF""",858,0
+201904,historico,dv_B,PYLN,823,0
+201904,historico,dv_B,F.I.A.,773,0
+201904,historico,dv_B,F8,571,0
+201904,historico,dv_B,SOLIDARIA,525,0
+201904,historico,dv_B,DPL,500,0
+201904,historico,dv_B,UNIÓN REGIO,483,0
+201904,historico,dv_B,centrados,458,0
+201904,historico,dv_B,DP,308,0
+201904,historico,dv_B,VOU,303,0
+201904,historico,dv_B,PDSJE,276,0
+201904,historico,dv_B,IZAR,253,0
+201904,historico,dv_B,RISA,187,0
+201904,historico,dv_B,C 21,69,0
+201904,historico,dv_B,+MAS+,46,0
+201904,historico,dv_B,UDT,28,0
+201911,historico,real,PSOE,6752314,120
+201911,historico,real,PP,5023073,89
+201911,historico,real,VOX,3640377,52
+201911,historico,real,Podemos–Sumar,3097179,35
+201911,historico,real,ERC,869786,13
+201911,historico,real,Cs,1637341,10
+201911,historico,real,CiU–Junts,526796,8
+201911,historico,real,EAJ-PNV,377502,6
+201911,historico,real,EH Bildu,276535,5
+201911,historico,real,MÁS PAÍS,401615,2
+201911,historico,real,CUP,244932,2
+201911,historico,real,CCa,123978,2
+201911,historico,real,UPN y coaliciones,98450,2
+201911,historico,real,COMPROMÍS,175016,1
+201911,historico,real,BNG,119597,1
+201911,historico,real,PRC,68580,1
+201911,historico,real,EXISTE,19701,1
+201911,historico,real,PACMA,226181,0
+201911,historico,real,PUM+J,26622,0
+201911,historico,real,RECORTES CERO,24997,0
+201911,historico,real,MÉS,18209,0
+201911,historico,real,AxSÍ,13914,0
+201911,historico,real,GBAI,12622,0
+201911,historico,real,UPL,10178,0
+201911,historico,real,PCOE,9661,0
+201911,historico,real,PCTE,9437,0
+201911,historico,real,RECORTES CERO-GV-PCAS-TC,8977,0
+201911,historico,real,CpM,8927,0
+201911,historico,real,PCPE,6952,0
+201911,historico,real,ESCAÑOS EN BLANCO,5897,0
+201911,historico,real,ERPV,5816,0
+201911,historico,real,XAV,5399,0
+201911,historico,real,AVANT,5281,0
+201911,historico,real,PCPA,3392,0
+201911,historico,real,PCPC,3305,0
+201911,historico,real,VERDES,3142,0
+201911,historico,real,PH,3089,0
+201911,historico,real,I.Fem,2968,0
+201911,historico,real,UIG-SOM-CUIDES,2315,0
+201911,historico,real,SOMOS REGIÓ,2305,0
+201911,historico,real,IZQP,2295,0
+201911,historico,real,PCTC,2205,0
+201911,historico,real,AHORA CANARIAS,2016,0
+201911,historico,real,CONTIGO,1984,0
+201911,historico,real,CHA,1980,0
+201911,historico,real,EXTREMADURA UNIDA,1317,0
+201911,historico,real,PDSJE,1250,0
+201911,historico,real,PCTG,1200,0
+201911,historico,real,P-LIB,1156,0
+201911,historico,real,UNIDOS SÍ,1065,0
+201911,historico,real,MAS,1063,0
+201911,historico,real,PREPAL,908,0
+201911,historico,real,ANDECHA,870,0
+201911,historico,real,MDyC,819,0
+201911,historico,real,PYLN,623,0
+201911,historico,real,FE de las JONS,608,0
+201911,historico,real,AUNACV,578,0
+201911,historico,real,CAnda,515,0
+201911,historico,real,UNIÓN REGIO,514,0
+201911,historico,real,F.I.A.,456,0
+201911,historico,real,SOLIDARIA,262,0
+201911,historico,real,centrados,233,0
+201911,historico,real,RISA,229,0
+201911,historico,real,DPL,210,0
+201911,historico,real,IZAR,112,0
+201911,historico,real,LOS VERDES,99,0
+201911,historico,real,C 21,64,0
+201911,historico,real,UDT,26,0
+201911,historico,mayoria_simple,PSOE,6752314,255
+201911,historico,mayoria_simple,PP,5023073,74
+201911,historico,mayoria_simple,ERC,869786,34
+201911,historico,mayoria_simple,VOX,3640377,16
+201911,historico,mayoria_simple,EAJ-PNV,377502,14
+201911,historico,mayoria_simple,CiU–Junts,526796,6
+201911,historico,mayoria_simple,UPN y coaliciones,98450,4
+201911,historico,mayoria_simple,EH Bildu,276535,3
+201911,historico,mayoria_simple,EXISTE,19701,1
+201911,historico,mayoria_simple,Podemos–Sumar,3097179,0
+201911,historico,mayoria_simple,Cs,1637341,0
+201911,historico,mayoria_simple,MÁS PAÍS,401615,0
+201911,historico,mayoria_simple,CUP,244932,0
+201911,historico,mayoria_simple,PACMA,226181,0
+201911,historico,mayoria_simple,COMPROMÍS,175016,0
+201911,historico,mayoria_simple,CCa,123978,0
+201911,historico,mayoria_simple,BNG,119597,0
+201911,historico,mayoria_simple,PRC,68580,0
+201911,historico,mayoria_simple,PUM+J,26622,0
+201911,historico,mayoria_simple,RECORTES CERO,24997,0
+201911,historico,mayoria_simple,MÉS,18209,0
+201911,historico,mayoria_simple,AxSÍ,13914,0
+201911,historico,mayoria_simple,GBAI,12622,0
+201911,historico,mayoria_simple,UPL,10178,0
+201911,historico,mayoria_simple,PCOE,9661,0
+201911,historico,mayoria_simple,PCTE,9437,0
+201911,historico,mayoria_simple,RECORTES CERO-GV-PCAS-TC,8977,0
+201911,historico,mayoria_simple,CpM,8927,0
+201911,historico,mayoria_simple,PCPE,6952,0
+201911,historico,mayoria_simple,ESCAÑOS EN BLANCO,5897,0
+201911,historico,mayoria_simple,ERPV,5816,0
+201911,historico,mayoria_simple,XAV,5399,0
+201911,historico,mayoria_simple,AVANT,5281,0
+201911,historico,mayoria_simple,PCPA,3392,0
+201911,historico,mayoria_simple,PCPC,3305,0
+201911,historico,mayoria_simple,VERDES,3142,0
+201911,historico,mayoria_simple,PH,3089,0
+201911,historico,mayoria_simple,I.Fem,2968,0
+201911,historico,mayoria_simple,UIG-SOM-CUIDES,2315,0
+201911,historico,mayoria_simple,SOMOS REGIÓ,2305,0
+201911,historico,mayoria_simple,IZQP,2295,0
+201911,historico,mayoria_simple,PCTC,2205,0
+201911,historico,mayoria_simple,AHORA CANARIAS,2016,0
+201911,historico,mayoria_simple,CONTIGO,1984,0
+201911,historico,mayoria_simple,CHA,1980,0
+201911,historico,mayoria_simple,EXTREMADURA UNIDA,1317,0
+201911,historico,mayoria_simple,PDSJE,1250,0
+201911,historico,mayoria_simple,PCTG,1200,0
+201911,historico,mayoria_simple,P-LIB,1156,0
+201911,historico,mayoria_simple,UNIDOS SÍ,1065,0
+201911,historico,mayoria_simple,MAS,1063,0
+201911,historico,mayoria_simple,PREPAL,908,0
+201911,historico,mayoria_simple,ANDECHA,870,0
+201911,historico,mayoria_simple,MDyC,819,0
+201911,historico,mayoria_simple,PYLN,623,0
+201911,historico,mayoria_simple,FE de las JONS,608,0
+201911,historico,mayoria_simple,AUNACV,578,0
+201911,historico,mayoria_simple,CAnda,515,0
+201911,historico,mayoria_simple,UNIÓN REGIO,514,0
+201911,historico,mayoria_simple,F.I.A.,456,0
+201911,historico,mayoria_simple,SOLIDARIA,262,0
+201911,historico,mayoria_simple,centrados,233,0
+201911,historico,mayoria_simple,RISA,229,0
+201911,historico,mayoria_simple,DPL,210,0
+201911,historico,mayoria_simple,IZAR,112,0
+201911,historico,mayoria_simple,LOS VERDES,99,0
+201911,historico,mayoria_simple,C 21,64,0
+201911,historico,mayoria_simple,UDT,26,0
+201911,historico,dv_base,PSOE,6752314,210
+201911,historico,dv_base,PP,5023073,111
+201911,historico,dv_base,ERC,869786,35
+201911,historico,dv_base,VOX,3640377,29
+201911,historico,dv_base,EAJ-PNV,377502,13
+201911,historico,dv_base,CiU–Junts,526796,6
+201911,historico,dv_base,EH Bildu,276535,2
+201911,historico,dv_base,UPN y coaliciones,98450,1
+201911,historico,dv_base,Podemos–Sumar,3097179,0
+201911,historico,dv_base,Cs,1637341,0
+201911,historico,dv_base,MÁS PAÍS,401615,0
+201911,historico,dv_base,CUP,244932,0
+201911,historico,dv_base,PACMA,226181,0
+201911,historico,dv_base,COMPROMÍS,175016,0
+201911,historico,dv_base,CCa,123978,0
+201911,historico,dv_base,BNG,119597,0
+201911,historico,dv_base,PRC,68580,0
+201911,historico,dv_base,PUM+J,26622,0
+201911,historico,dv_base,RECORTES CERO,24997,0
+201911,historico,dv_base,EXISTE,19701,0
+201911,historico,dv_base,MÉS,18209,0
+201911,historico,dv_base,AxSÍ,13914,0
+201911,historico,dv_base,GBAI,12622,0
+201911,historico,dv_base,UPL,10178,0
+201911,historico,dv_base,PCOE,9661,0
+201911,historico,dv_base,PCTE,9437,0
+201911,historico,dv_base,RECORTES CERO-GV-PCAS-TC,8977,0
+201911,historico,dv_base,CpM,8927,0
+201911,historico,dv_base,PCPE,6952,0
+201911,historico,dv_base,ESCAÑOS EN BLANCO,5897,0
+201911,historico,dv_base,ERPV,5816,0
+201911,historico,dv_base,XAV,5399,0
+201911,historico,dv_base,AVANT,5281,0
+201911,historico,dv_base,PCPA,3392,0
+201911,historico,dv_base,PCPC,3305,0
+201911,historico,dv_base,VERDES,3142,0
+201911,historico,dv_base,PH,3089,0
+201911,historico,dv_base,I.Fem,2968,0
+201911,historico,dv_base,UIG-SOM-CUIDES,2315,0
+201911,historico,dv_base,SOMOS REGIÓ,2305,0
+201911,historico,dv_base,IZQP,2295,0
+201911,historico,dv_base,PCTC,2205,0
+201911,historico,dv_base,AHORA CANARIAS,2016,0
+201911,historico,dv_base,CONTIGO,1984,0
+201911,historico,dv_base,CHA,1980,0
+201911,historico,dv_base,EXTREMADURA UNIDA,1317,0
+201911,historico,dv_base,PDSJE,1250,0
+201911,historico,dv_base,PCTG,1200,0
+201911,historico,dv_base,P-LIB,1156,0
+201911,historico,dv_base,UNIDOS SÍ,1065,0
+201911,historico,dv_base,MAS,1063,0
+201911,historico,dv_base,PREPAL,908,0
+201911,historico,dv_base,ANDECHA,870,0
+201911,historico,dv_base,MDyC,819,0
+201911,historico,dv_base,PYLN,623,0
+201911,historico,dv_base,FE de las JONS,608,0
+201911,historico,dv_base,AUNACV,578,0
+201911,historico,dv_base,CAnda,515,0
+201911,historico,dv_base,UNIÓN REGIO,514,0
+201911,historico,dv_base,F.I.A.,456,0
+201911,historico,dv_base,SOLIDARIA,262,0
+201911,historico,dv_base,centrados,233,0
+201911,historico,dv_base,RISA,229,0
+201911,historico,dv_base,DPL,210,0
+201911,historico,dv_base,IZAR,112,0
+201911,historico,dv_base,LOS VERDES,99,0
+201911,historico,dv_base,C 21,64,0
+201911,historico,dv_base,UDT,26,0
+201911,historico,dv_A,bloque:Izquierdas,10292796,208
+201911,historico,dv_A,bloque:Derecha nacional,8762508,143
+201911,historico,dv_A,bloque:Nacionalistas,2839812,56
+201911,historico,dv_A,Cs,1637341,0
+201911,historico,dv_A,PACMA,226181,0
+201911,historico,dv_A,PUM+J,26622,0
+201911,historico,dv_A,RECORTES CERO,24997,0
+201911,historico,dv_A,EXISTE,19701,0
+201911,historico,dv_A,AxSÍ,13914,0
+201911,historico,dv_A,RECORTES CERO-GV-PCAS-TC,8977,0
+201911,historico,dv_A,CpM,8927,0
+201911,historico,dv_A,ESCAÑOS EN BLANCO,5897,0
+201911,historico,dv_A,AVANT,5281,0
+201911,historico,dv_A,PH,3089,0
+201911,historico,dv_A,I.Fem,2968,0
+201911,historico,dv_A,UIG-SOM-CUIDES,2315,0
+201911,historico,dv_A,SOMOS REGIÓ,2305,0
+201911,historico,dv_A,CONTIGO,1984,0
+201911,historico,dv_A,EXTREMADURA UNIDA,1317,0
+201911,historico,dv_A,PDSJE,1250,0
+201911,historico,dv_A,P-LIB,1156,0
+201911,historico,dv_A,UNIDOS SÍ,1065,0
+201911,historico,dv_A,MAS,1063,0
+201911,historico,dv_A,PREPAL,908,0
+201911,historico,dv_A,MDyC,819,0
+201911,historico,dv_A,PYLN,623,0
+201911,historico,dv_A,AUNACV,578,0
+201911,historico,dv_A,CAnda,515,0
+201911,historico,dv_A,UNIÓN REGIO,514,0
+201911,historico,dv_A,F.I.A.,456,0
+201911,historico,dv_A,SOLIDARIA,262,0
+201911,historico,dv_A,centrados,233,0
+201911,historico,dv_A,RISA,229,0
+201911,historico,dv_A,DPL,210,0
+201911,historico,dv_A,IZAR,112,0
+201911,historico,dv_A,C 21,64,0
+201911,historico,dv_A,UDT,26,0
+201911,historico,dv_B,bloque:Izquierdas,10292796,209
+201911,historico,dv_B,bloque:Derecha nacional,8762508,143
+201911,historico,dv_B,ERC,869786,35
+201911,historico,dv_B,EAJ-PNV,377502,13
+201911,historico,dv_B,CiU–Junts,526796,5
+201911,historico,dv_B,EH Bildu,276535,2
+201911,historico,dv_B,Cs,1637341,0
+201911,historico,dv_B,CUP,244932,0
+201911,historico,dv_B,PACMA,226181,0
+201911,historico,dv_B,COMPROMÍS,175016,0
+201911,historico,dv_B,CCa,123978,0
+201911,historico,dv_B,BNG,119597,0
+201911,historico,dv_B,PRC,68580,0
+201911,historico,dv_B,PUM+J,26622,0
+201911,historico,dv_B,RECORTES CERO,24997,0
+201911,historico,dv_B,EXISTE,19701,0
+201911,historico,dv_B,MÉS,18209,0
+201911,historico,dv_B,AxSÍ,13914,0
+201911,historico,dv_B,GBAI,12622,0
+201911,historico,dv_B,UPL,10178,0
+201911,historico,dv_B,RECORTES CERO-GV-PCAS-TC,8977,0
+201911,historico,dv_B,CpM,8927,0
+201911,historico,dv_B,ESCAÑOS EN BLANCO,5897,0
+201911,historico,dv_B,ERPV,5816,0
+201911,historico,dv_B,XAV,5399,0
+201911,historico,dv_B,AVANT,5281,0
+201911,historico,dv_B,PH,3089,0
+201911,historico,dv_B,I.Fem,2968,0
+201911,historico,dv_B,UIG-SOM-CUIDES,2315,0
+201911,historico,dv_B,SOMOS REGIÓ,2305,0
+201911,historico,dv_B,AHORA CANARIAS,2016,0
+201911,historico,dv_B,CONTIGO,1984,0
+201911,historico,dv_B,CHA,1980,0
+201911,historico,dv_B,EXTREMADURA UNIDA,1317,0
+201911,historico,dv_B,PDSJE,1250,0
+201911,historico,dv_B,P-LIB,1156,0
+201911,historico,dv_B,UNIDOS SÍ,1065,0
+201911,historico,dv_B,MAS,1063,0
+201911,historico,dv_B,PREPAL,908,0
+201911,historico,dv_B,ANDECHA,870,0
+201911,historico,dv_B,MDyC,819,0
+201911,historico,dv_B,PYLN,623,0
+201911,historico,dv_B,AUNACV,578,0
+201911,historico,dv_B,CAnda,515,0
+201911,historico,dv_B,UNIÓN REGIO,514,0
+201911,historico,dv_B,F.I.A.,456,0
+201911,historico,dv_B,SOLIDARIA,262,0
+201911,historico,dv_B,centrados,233,0
+201911,historico,dv_B,RISA,229,0
+201911,historico,dv_B,DPL,210,0
+201911,historico,dv_B,IZAR,112,0
+201911,historico,dv_B,C 21,64,0
+201911,historico,dv_B,UDT,26,0
+202307,historico,real,PP,8093469,137
+202307,historico,real,PSOE,7762316,121
+202307,historico,real,VOX,3034117,33
+202307,historico,real,Podemos–Sumar,3014755,31
+202307,historico,real,ERC,462890,7
+202307,historico,real,CiU–Junts,392609,7
+202307,historico,real,EH Bildu,333321,6
+202307,historico,real,EAJ-PNV,275859,5
+202307,historico,real,BNG,152348,1
+202307,historico,real,CCa,114707,1
+202307,historico,real,UPN y coaliciones,51778,1
+202307,historico,real,PACMA,165420,0
+202307,historico,real,CUP,98792,0
+202307,historico,real,NC,45528,0
+202307,historico,real,FO,45212,0
+202307,historico,real,PDeCAT,31649,0
+202307,historico,real,UPL,23010,0
+202307,historico,real,RECORTES CERO,23006,0
+202307,historico,real,PUM+J,22344,0
+202307,historico,real,EXISTE,20298,0
+202307,historico,real,PCTE,13249,0
+202307,historico,real,GBAI,9836,0
+202307,historico,real,SY,9626,0
+202307,historico,real,ADELANTE ANDALUCÍA,9066,0
+202307,historico,real,ESCAÑOS EN BLANCO,8298,0
+202307,historico,real,JM+,8234,0
+202307,historico,real,XAV,7321,0
+202307,historico,real,BQEX,5763,0
+202307,historico,real,CJ,5489,0
+202307,historico,real,FE de las JONS,4618,0
+202307,historico,real,PAR,4092,0
+202307,historico,real,PCTC,3782,0
+202307,historico,real,ESPAÑA VACIADA,3073,0
+202307,historico,real,PH,2813,0
+202307,historico,real,ASTURIAS EXISTE EV,2244,0
+202307,historico,real,XH,1915,0
+202307,historico,real,VP,1898,0
+202307,historico,real,Zsi,1797,0
+202307,historico,real,VB,1739,0
+202307,historico,real,POR MI REGIÓN,1653,0
+202307,historico,real,AHORA CANARIAS,1640,0
+202307,historico,real,PARTIDO AUTÓNOMOS,1428,0
+202307,historico,real,EVB,1420,0
+202307,historico,real,CpM,1279,0
+202307,historico,real,EV-PCAS-TC,1156,0
+202307,historico,real,JxG,1099,0
+202307,historico,real,Somos Cc,934,0
+202307,historico,real,PREPAL,884,0
+202307,historico,real,ALM,796,0
+202307,historico,real,PCTG,614,0
+202307,historico,real,F.I.A.,489,0
+202307,historico,real,3e,465,0
+202307,historico,real,Ud.Ca,452,0
+202307,historico,real,GITV,361,0
+202307,historico,real,EVC,261,0
+202307,historico,real,PUEDE,256,0
+202307,historico,real,LB,246,0
+202307,historico,real,UNIDOS SÍ,245,0
+202307,historico,real,+RDS+,164,0
+202307,historico,real,FUERZA CÍVICA,113,0
+202307,historico,real,CCD,99,0
+202307,historico,mayoria_simple,PP,8093469,235
+202307,historico,mayoria_simple,PSOE,7762316,159
+202307,historico,mayoria_simple,EAJ-PNV,275859,7
+202307,historico,mayoria_simple,EH Bildu,333321,5
+202307,historico,mayoria_simple,CiU–Junts,392609,1
+202307,historico,mayoria_simple,VOX,3034117,0
+202307,historico,mayoria_simple,Podemos–Sumar,3014755,0
+202307,historico,mayoria_simple,ERC,462890,0
+202307,historico,mayoria_simple,PACMA,165420,0
+202307,historico,mayoria_simple,BNG,152348,0
+202307,historico,mayoria_simple,CCa,114707,0
+202307,historico,mayoria_simple,CUP,98792,0
+202307,historico,mayoria_simple,UPN y coaliciones,51778,0
+202307,historico,mayoria_simple,NC,45528,0
+202307,historico,mayoria_simple,FO,45212,0
+202307,historico,mayoria_simple,PDeCAT,31649,0
+202307,historico,mayoria_simple,UPL,23010,0
+202307,historico,mayoria_simple,RECORTES CERO,23006,0
+202307,historico,mayoria_simple,PUM+J,22344,0
+202307,historico,mayoria_simple,EXISTE,20298,0
+202307,historico,mayoria_simple,PCTE,13249,0
+202307,historico,mayoria_simple,GBAI,9836,0
+202307,historico,mayoria_simple,SY,9626,0
+202307,historico,mayoria_simple,ADELANTE ANDALUCÍA,9066,0
+202307,historico,mayoria_simple,ESCAÑOS EN BLANCO,8298,0
+202307,historico,mayoria_simple,JM+,8234,0
+202307,historico,mayoria_simple,XAV,7321,0
+202307,historico,mayoria_simple,BQEX,5763,0
+202307,historico,mayoria_simple,CJ,5489,0
+202307,historico,mayoria_simple,FE de las JONS,4618,0
+202307,historico,mayoria_simple,PAR,4092,0
+202307,historico,mayoria_simple,PCTC,3782,0
+202307,historico,mayoria_simple,ESPAÑA VACIADA,3073,0
+202307,historico,mayoria_simple,PH,2813,0
+202307,historico,mayoria_simple,ASTURIAS EXISTE EV,2244,0
+202307,historico,mayoria_simple,XH,1915,0
+202307,historico,mayoria_simple,VP,1898,0
+202307,historico,mayoria_simple,Zsi,1797,0
+202307,historico,mayoria_simple,VB,1739,0
+202307,historico,mayoria_simple,POR MI REGIÓN,1653,0
+202307,historico,mayoria_simple,AHORA CANARIAS,1640,0
+202307,historico,mayoria_simple,PARTIDO AUTÓNOMOS,1428,0
+202307,historico,mayoria_simple,EVB,1420,0
+202307,historico,mayoria_simple,CpM,1279,0
+202307,historico,mayoria_simple,EV-PCAS-TC,1156,0
+202307,historico,mayoria_simple,JxG,1099,0
+202307,historico,mayoria_simple,Somos Cc,934,0
+202307,historico,mayoria_simple,PREPAL,884,0
+202307,historico,mayoria_simple,ALM,796,0
+202307,historico,mayoria_simple,PCTG,614,0
+202307,historico,mayoria_simple,F.I.A.,489,0
+202307,historico,mayoria_simple,3e,465,0
+202307,historico,mayoria_simple,Ud.Ca,452,0
+202307,historico,mayoria_simple,GITV,361,0
+202307,historico,mayoria_simple,EVC,261,0
+202307,historico,mayoria_simple,PUEDE,256,0
+202307,historico,mayoria_simple,LB,246,0
+202307,historico,mayoria_simple,UNIDOS SÍ,245,0
+202307,historico,mayoria_simple,+RDS+,164,0
+202307,historico,mayoria_simple,FUERZA CÍVICA,113,0
+202307,historico,mayoria_simple,CCD,99,0
+202307,historico,dv_base,PP,8093469,228
+202307,historico,dv_base,PSOE,7762316,154
+202307,historico,dv_base,EAJ-PNV,275859,9
+202307,historico,dv_base,CiU–Junts,392609,6
+202307,historico,dv_base,EH Bildu,333321,6
+202307,historico,dv_base,ERC,462890,3
+202307,historico,dv_base,Podemos–Sumar,3014755,1
+202307,historico,dv_base,VOX,3034117,0
+202307,historico,dv_base,PACMA,165420,0
+202307,historico,dv_base,BNG,152348,0
+202307,historico,dv_base,CCa,114707,0
+202307,historico,dv_base,CUP,98792,0
+202307,historico,dv_base,UPN y coaliciones,51778,0
+202307,historico,dv_base,NC,45528,0
+202307,historico,dv_base,FO,45212,0
+202307,historico,dv_base,PDeCAT,31649,0
+202307,historico,dv_base,UPL,23010,0
+202307,historico,dv_base,RECORTES CERO,23006,0
+202307,historico,dv_base,PUM+J,22344,0
+202307,historico,dv_base,EXISTE,20298,0
+202307,historico,dv_base,PCTE,13249,0
+202307,historico,dv_base,GBAI,9836,0
+202307,historico,dv_base,SY,9626,0
+202307,historico,dv_base,ADELANTE ANDALUCÍA,9066,0
+202307,historico,dv_base,ESCAÑOS EN BLANCO,8298,0
+202307,historico,dv_base,JM+,8234,0
+202307,historico,dv_base,XAV,7321,0
+202307,historico,dv_base,BQEX,5763,0
+202307,historico,dv_base,CJ,5489,0
+202307,historico,dv_base,FE de las JONS,4618,0
+202307,historico,dv_base,PAR,4092,0
+202307,historico,dv_base,PCTC,3782,0
+202307,historico,dv_base,ESPAÑA VACIADA,3073,0
+202307,historico,dv_base,PH,2813,0
+202307,historico,dv_base,ASTURIAS EXISTE EV,2244,0
+202307,historico,dv_base,XH,1915,0
+202307,historico,dv_base,VP,1898,0
+202307,historico,dv_base,Zsi,1797,0
+202307,historico,dv_base,VB,1739,0
+202307,historico,dv_base,POR MI REGIÓN,1653,0
+202307,historico,dv_base,AHORA CANARIAS,1640,0
+202307,historico,dv_base,PARTIDO AUTÓNOMOS,1428,0
+202307,historico,dv_base,EVB,1420,0
+202307,historico,dv_base,CpM,1279,0
+202307,historico,dv_base,EV-PCAS-TC,1156,0
+202307,historico,dv_base,JxG,1099,0
+202307,historico,dv_base,Somos Cc,934,0
+202307,historico,dv_base,PREPAL,884,0
+202307,historico,dv_base,ALM,796,0
+202307,historico,dv_base,PCTG,614,0
+202307,historico,dv_base,F.I.A.,489,0
+202307,historico,dv_base,3e,465,0
+202307,historico,dv_base,Ud.Ca,452,0
+202307,historico,dv_base,GITV,361,0
+202307,historico,dv_base,EVC,261,0
+202307,historico,dv_base,PUEDE,256,0
+202307,historico,dv_base,LB,246,0
+202307,historico,dv_base,UNIDOS SÍ,245,0
+202307,historico,dv_base,+RDS+,164,0
+202307,historico,dv_base,FUERZA CÍVICA,113,0
+202307,historico,dv_base,CCD,99,0
+202307,historico,dv_A,bloque:Derecha nacional,11183982,228
+202307,historico,dv_A,bloque:Izquierdas,10794716,155
+202307,historico,dv_A,bloque:Nacionalistas,1958576,24
+202307,historico,dv_A,PACMA,165420,0
+202307,historico,dv_A,FO,45212,0
+202307,historico,dv_A,RECORTES CERO,23006,0
+202307,historico,dv_A,PUM+J,22344,0
+202307,historico,dv_A,EXISTE,20298,0
+202307,historico,dv_A,SY,9626,0
+202307,historico,dv_A,ESCAÑOS EN BLANCO,8298,0
+202307,historico,dv_A,JM+,8234,0
+202307,historico,dv_A,BQEX,5763,0
+202307,historico,dv_A,CJ,5489,0
+202307,historico,dv_A,PAR,4092,0
+202307,historico,dv_A,ESPAÑA VACIADA,3073,0
+202307,historico,dv_A,PH,2813,0
+202307,historico,dv_A,ASTURIAS EXISTE EV,2244,0
+202307,historico,dv_A,XH,1915,0
+202307,historico,dv_A,VP,1898,0
+202307,historico,dv_A,Zsi,1797,0
+202307,historico,dv_A,VB,1739,0
+202307,historico,dv_A,POR MI REGIÓN,1653,0
+202307,historico,dv_A,PARTIDO AUTÓNOMOS,1428,0
+202307,historico,dv_A,EVB,1420,0
+202307,historico,dv_A,CpM,1279,0
+202307,historico,dv_A,EV-PCAS-TC,1156,0
+202307,historico,dv_A,JxG,1099,0
+202307,historico,dv_A,Somos Cc,934,0
+202307,historico,dv_A,PREPAL,884,0
+202307,historico,dv_A,ALM,796,0
+202307,historico,dv_A,F.I.A.,489,0
+202307,historico,dv_A,3e,465,0
+202307,historico,dv_A,Ud.Ca,452,0
+202307,historico,dv_A,GITV,361,0
+202307,historico,dv_A,EVC,261,0
+202307,historico,dv_A,PUEDE,256,0
+202307,historico,dv_A,LB,246,0
+202307,historico,dv_A,UNIDOS SÍ,245,0
+202307,historico,dv_A,+RDS+,164,0
+202307,historico,dv_A,FUERZA CÍVICA,113,0
+202307,historico,dv_A,CCD,99,0
+202307,historico,dv_B,bloque:Derecha nacional,11183982,228
+202307,historico,dv_B,bloque:Izquierdas,10794716,155
+202307,historico,dv_B,EAJ-PNV,275859,9
+202307,historico,dv_B,CiU–Junts,392609,6
+202307,historico,dv_B,EH Bildu,333321,6
+202307,historico,dv_B,ERC,462890,3
+202307,historico,dv_B,PACMA,165420,0
+202307,historico,dv_B,BNG,152348,0
+202307,historico,dv_B,CCa,114707,0
+202307,historico,dv_B,CUP,98792,0
+202307,historico,dv_B,NC,45528,0
+202307,historico,dv_B,FO,45212,0
+202307,historico,dv_B,PDeCAT,31649,0
+202307,historico,dv_B,UPL,23010,0
+202307,historico,dv_B,RECORTES CERO,23006,0
+202307,historico,dv_B,PUM+J,22344,0
+202307,historico,dv_B,EXISTE,20298,0
+202307,historico,dv_B,GBAI,9836,0
+202307,historico,dv_B,SY,9626,0
+202307,historico,dv_B,ADELANTE ANDALUCÍA,9066,0
+202307,historico,dv_B,ESCAÑOS EN BLANCO,8298,0
+202307,historico,dv_B,JM+,8234,0
+202307,historico,dv_B,XAV,7321,0
+202307,historico,dv_B,BQEX,5763,0
+202307,historico,dv_B,CJ,5489,0
+202307,historico,dv_B,PAR,4092,0
+202307,historico,dv_B,ESPAÑA VACIADA,3073,0
+202307,historico,dv_B,PH,2813,0
+202307,historico,dv_B,ASTURIAS EXISTE EV,2244,0
+202307,historico,dv_B,XH,1915,0
+202307,historico,dv_B,VP,1898,0
+202307,historico,dv_B,Zsi,1797,0
+202307,historico,dv_B,VB,1739,0
+202307,historico,dv_B,POR MI REGIÓN,1653,0
+202307,historico,dv_B,AHORA CANARIAS,1640,0
+202307,historico,dv_B,PARTIDO AUTÓNOMOS,1428,0
+202307,historico,dv_B,EVB,1420,0
+202307,historico,dv_B,CpM,1279,0
+202307,historico,dv_B,EV-PCAS-TC,1156,0
+202307,historico,dv_B,JxG,1099,0
+202307,historico,dv_B,Somos Cc,934,0
+202307,historico,dv_B,PREPAL,884,0
+202307,historico,dv_B,ALM,796,0
+202307,historico,dv_B,F.I.A.,489,0
+202307,historico,dv_B,3e,465,0
+202307,historico,dv_B,Ud.Ca,452,0
+202307,historico,dv_B,GITV,361,0
+202307,historico,dv_B,EVC,261,0
+202307,historico,dv_B,PUEDE,256,0
+202307,historico,dv_B,LB,246,0
+202307,historico,dv_B,UNIDOS SÍ,245,0
+202307,historico,dv_B,+RDS+,164,0
+202307,historico,dv_B,FUERZA CÍVICA,113,0
+202307,historico,dv_B,CCD,99,0
+202307,publicado,real,PP,8093469,137
+202307,publicado,real,PSOE,7762316,121
+202307,publicado,real,VOX,3034117,33
+202307,publicado,real,Podemos–Sumar,3014755,31
+202307,publicado,real,ERC,462890,7
+202307,publicado,real,CiU–Junts,392609,7
+202307,publicado,real,EH Bildu,333321,6
+202307,publicado,real,EAJ-PNV,275859,5
+202307,publicado,real,BNG,152348,1
+202307,publicado,real,CCa,114707,1
+202307,publicado,real,UPN y coaliciones,51778,1
+202307,publicado,real,PACMA,165420,0
+202307,publicado,real,CUP,98792,0
+202307,publicado,real,NC,45528,0
+202307,publicado,real,FO,45212,0
+202307,publicado,real,PDeCAT,31649,0
+202307,publicado,real,UPL,23010,0
+202307,publicado,real,RECORTES CERO,23006,0
+202307,publicado,real,PUM+J,22344,0
+202307,publicado,real,EXISTE,20298,0
+202307,publicado,real,PCTE,13249,0
+202307,publicado,real,GBAI,9836,0
+202307,publicado,real,SY,9626,0
+202307,publicado,real,ADELANTE ANDALUCÍA,9066,0
+202307,publicado,real,ESCAÑOS EN BLANCO,8298,0
+202307,publicado,real,JM+,8234,0
+202307,publicado,real,XAV,7321,0
+202307,publicado,real,BQEX,5763,0
+202307,publicado,real,CJ,5489,0
+202307,publicado,real,FE de las JONS,4618,0
+202307,publicado,real,PAR,4092,0
+202307,publicado,real,PCTC,3782,0
+202307,publicado,real,ESPAÑA VACIADA,3073,0
+202307,publicado,real,PH,2813,0
+202307,publicado,real,ASTURIAS EXISTE EV,2244,0
+202307,publicado,real,XH,1915,0
+202307,publicado,real,VP,1898,0
+202307,publicado,real,Zsi,1797,0
+202307,publicado,real,VB,1739,0
+202307,publicado,real,POR MI REGIÓN,1653,0
+202307,publicado,real,AHORA CANARIAS,1640,0
+202307,publicado,real,PARTIDO AUTÓNOMOS,1428,0
+202307,publicado,real,EVB,1420,0
+202307,publicado,real,CpM,1279,0
+202307,publicado,real,EV-PCAS-TC,1156,0
+202307,publicado,real,JxG,1099,0
+202307,publicado,real,Somos Cc,934,0
+202307,publicado,real,PREPAL,884,0
+202307,publicado,real,ALM,796,0
+202307,publicado,real,PCTG,614,0
+202307,publicado,real,F.I.A.,489,0
+202307,publicado,real,3e,465,0
+202307,publicado,real,Ud.Ca,452,0
+202307,publicado,real,GITV,361,0
+202307,publicado,real,EVC,261,0
+202307,publicado,real,PUEDE,256,0
+202307,publicado,real,LB,246,0
+202307,publicado,real,UNIDOS SÍ,245,0
+202307,publicado,real,+RDS+,164,0
+202307,publicado,real,FUERZA CÍVICA,113,0
+202307,publicado,real,CCD,99,0
+202307,publicado,mayoria_simple,PP,8093469,234
+202307,publicado,mayoria_simple,PSOE,7762316,161
+202307,publicado,mayoria_simple,EH Bildu,333321,6
+202307,publicado,mayoria_simple,EAJ-PNV,275859,5
+202307,publicado,mayoria_simple,CiU–Junts,392609,1
+202307,publicado,mayoria_simple,VOX,3034117,0
+202307,publicado,mayoria_simple,Podemos–Sumar,3014755,0
+202307,publicado,mayoria_simple,ERC,462890,0
+202307,publicado,mayoria_simple,PACMA,165420,0
+202307,publicado,mayoria_simple,BNG,152348,0
+202307,publicado,mayoria_simple,CCa,114707,0
+202307,publicado,mayoria_simple,CUP,98792,0
+202307,publicado,mayoria_simple,UPN y coaliciones,51778,0
+202307,publicado,mayoria_simple,NC,45528,0
+202307,publicado,mayoria_simple,FO,45212,0
+202307,publicado,mayoria_simple,PDeCAT,31649,0
+202307,publicado,mayoria_simple,UPL,23010,0
+202307,publicado,mayoria_simple,RECORTES CERO,23006,0
+202307,publicado,mayoria_simple,PUM+J,22344,0
+202307,publicado,mayoria_simple,EXISTE,20298,0
+202307,publicado,mayoria_simple,PCTE,13249,0
+202307,publicado,mayoria_simple,GBAI,9836,0
+202307,publicado,mayoria_simple,SY,9626,0
+202307,publicado,mayoria_simple,ADELANTE ANDALUCÍA,9066,0
+202307,publicado,mayoria_simple,ESCAÑOS EN BLANCO,8298,0
+202307,publicado,mayoria_simple,JM+,8234,0
+202307,publicado,mayoria_simple,XAV,7321,0
+202307,publicado,mayoria_simple,BQEX,5763,0
+202307,publicado,mayoria_simple,CJ,5489,0
+202307,publicado,mayoria_simple,FE de las JONS,4618,0
+202307,publicado,mayoria_simple,PAR,4092,0
+202307,publicado,mayoria_simple,PCTC,3782,0
+202307,publicado,mayoria_simple,ESPAÑA VACIADA,3073,0
+202307,publicado,mayoria_simple,PH,2813,0
+202307,publicado,mayoria_simple,ASTURIAS EXISTE EV,2244,0
+202307,publicado,mayoria_simple,XH,1915,0
+202307,publicado,mayoria_simple,VP,1898,0
+202307,publicado,mayoria_simple,Zsi,1797,0
+202307,publicado,mayoria_simple,VB,1739,0
+202307,publicado,mayoria_simple,POR MI REGIÓN,1653,0
+202307,publicado,mayoria_simple,AHORA CANARIAS,1640,0
+202307,publicado,mayoria_simple,PARTIDO AUTÓNOMOS,1428,0
+202307,publicado,mayoria_simple,EVB,1420,0
+202307,publicado,mayoria_simple,CpM,1279,0
+202307,publicado,mayoria_simple,EV-PCAS-TC,1156,0
+202307,publicado,mayoria_simple,JxG,1099,0
+202307,publicado,mayoria_simple,Somos Cc,934,0
+202307,publicado,mayoria_simple,PREPAL,884,0
+202307,publicado,mayoria_simple,ALM,796,0
+202307,publicado,mayoria_simple,PCTG,614,0
+202307,publicado,mayoria_simple,F.I.A.,489,0
+202307,publicado,mayoria_simple,3e,465,0
+202307,publicado,mayoria_simple,Ud.Ca,452,0
+202307,publicado,mayoria_simple,GITV,361,0
+202307,publicado,mayoria_simple,EVC,261,0
+202307,publicado,mayoria_simple,PUEDE,256,0
+202307,publicado,mayoria_simple,LB,246,0
+202307,publicado,mayoria_simple,UNIDOS SÍ,245,0
+202307,publicado,mayoria_simple,+RDS+,164,0
+202307,publicado,mayoria_simple,FUERZA CÍVICA,113,0
+202307,publicado,mayoria_simple,CCD,99,0
+202307,publicado,dv_base,PP,8093469,225
+202307,publicado,dv_base,PSOE,7762316,156
+202307,publicado,dv_base,EAJ-PNV,275859,8
+202307,publicado,dv_base,CiU–Junts,392609,7
+202307,publicado,dv_base,EH Bildu,333321,7
+202307,publicado,dv_base,ERC,462890,3
+202307,publicado,dv_base,Podemos–Sumar,3014755,1
+202307,publicado,dv_base,VOX,3034117,0
+202307,publicado,dv_base,PACMA,165420,0
+202307,publicado,dv_base,BNG,152348,0
+202307,publicado,dv_base,CCa,114707,0
+202307,publicado,dv_base,CUP,98792,0
+202307,publicado,dv_base,UPN y coaliciones,51778,0
+202307,publicado,dv_base,NC,45528,0
+202307,publicado,dv_base,FO,45212,0
+202307,publicado,dv_base,PDeCAT,31649,0
+202307,publicado,dv_base,UPL,23010,0
+202307,publicado,dv_base,RECORTES CERO,23006,0
+202307,publicado,dv_base,PUM+J,22344,0
+202307,publicado,dv_base,EXISTE,20298,0
+202307,publicado,dv_base,PCTE,13249,0
+202307,publicado,dv_base,GBAI,9836,0
+202307,publicado,dv_base,SY,9626,0
+202307,publicado,dv_base,ADELANTE ANDALUCÍA,9066,0
+202307,publicado,dv_base,ESCAÑOS EN BLANCO,8298,0
+202307,publicado,dv_base,JM+,8234,0
+202307,publicado,dv_base,XAV,7321,0
+202307,publicado,dv_base,BQEX,5763,0
+202307,publicado,dv_base,CJ,5489,0
+202307,publicado,dv_base,FE de las JONS,4618,0
+202307,publicado,dv_base,PAR,4092,0
+202307,publicado,dv_base,PCTC,3782,0
+202307,publicado,dv_base,ESPAÑA VACIADA,3073,0
+202307,publicado,dv_base,PH,2813,0
+202307,publicado,dv_base,ASTURIAS EXISTE EV,2244,0
+202307,publicado,dv_base,XH,1915,0
+202307,publicado,dv_base,VP,1898,0
+202307,publicado,dv_base,Zsi,1797,0
+202307,publicado,dv_base,VB,1739,0
+202307,publicado,dv_base,POR MI REGIÓN,1653,0
+202307,publicado,dv_base,AHORA CANARIAS,1640,0
+202307,publicado,dv_base,PARTIDO AUTÓNOMOS,1428,0
+202307,publicado,dv_base,EVB,1420,0
+202307,publicado,dv_base,CpM,1279,0
+202307,publicado,dv_base,EV-PCAS-TC,1156,0
+202307,publicado,dv_base,JxG,1099,0
+202307,publicado,dv_base,Somos Cc,934,0
+202307,publicado,dv_base,PREPAL,884,0
+202307,publicado,dv_base,ALM,796,0
+202307,publicado,dv_base,PCTG,614,0
+202307,publicado,dv_base,F.I.A.,489,0
+202307,publicado,dv_base,3e,465,0
+202307,publicado,dv_base,Ud.Ca,452,0
+202307,publicado,dv_base,GITV,361,0
+202307,publicado,dv_base,EVC,261,0
+202307,publicado,dv_base,PUEDE,256,0
+202307,publicado,dv_base,LB,246,0
+202307,publicado,dv_base,UNIDOS SÍ,245,0
+202307,publicado,dv_base,+RDS+,164,0
+202307,publicado,dv_base,FUERZA CÍVICA,113,0
+202307,publicado,dv_base,CCD,99,0
+202307,publicado,dv_A,bloque:Derecha nacional,11183982,225
+202307,publicado,dv_A,bloque:Izquierdas,10794716,157
+202307,publicado,dv_A,bloque:Nacionalistas,1958576,25
+202307,publicado,dv_A,PACMA,165420,0
+202307,publicado,dv_A,FO,45212,0
+202307,publicado,dv_A,RECORTES CERO,23006,0
+202307,publicado,dv_A,PUM+J,22344,0
+202307,publicado,dv_A,EXISTE,20298,0
+202307,publicado,dv_A,SY,9626,0
+202307,publicado,dv_A,ESCAÑOS EN BLANCO,8298,0
+202307,publicado,dv_A,JM+,8234,0
+202307,publicado,dv_A,BQEX,5763,0
+202307,publicado,dv_A,CJ,5489,0
+202307,publicado,dv_A,PAR,4092,0
+202307,publicado,dv_A,ESPAÑA VACIADA,3073,0
+202307,publicado,dv_A,PH,2813,0
+202307,publicado,dv_A,ASTURIAS EXISTE EV,2244,0
+202307,publicado,dv_A,XH,1915,0
+202307,publicado,dv_A,VP,1898,0
+202307,publicado,dv_A,Zsi,1797,0
+202307,publicado,dv_A,VB,1739,0
+202307,publicado,dv_A,POR MI REGIÓN,1653,0
+202307,publicado,dv_A,PARTIDO AUTÓNOMOS,1428,0
+202307,publicado,dv_A,EVB,1420,0
+202307,publicado,dv_A,CpM,1279,0
+202307,publicado,dv_A,EV-PCAS-TC,1156,0
+202307,publicado,dv_A,JxG,1099,0
+202307,publicado,dv_A,Somos Cc,934,0
+202307,publicado,dv_A,PREPAL,884,0
+202307,publicado,dv_A,ALM,796,0
+202307,publicado,dv_A,F.I.A.,489,0
+202307,publicado,dv_A,3e,465,0
+202307,publicado,dv_A,Ud.Ca,452,0
+202307,publicado,dv_A,GITV,361,0
+202307,publicado,dv_A,EVC,261,0
+202307,publicado,dv_A,PUEDE,256,0
+202307,publicado,dv_A,LB,246,0
+202307,publicado,dv_A,UNIDOS SÍ,245,0
+202307,publicado,dv_A,+RDS+,164,0
+202307,publicado,dv_A,FUERZA CÍVICA,113,0
+202307,publicado,dv_A,CCD,99,0
+202307,publicado,dv_B,bloque:Derecha nacional,11183982,225
+202307,publicado,dv_B,bloque:Izquierdas,10794716,158
+202307,publicado,dv_B,EAJ-PNV,275859,8
+202307,publicado,dv_B,CiU–Junts,392609,7
+202307,publicado,dv_B,EH Bildu,333321,7
+202307,publicado,dv_B,ERC,462890,2
+202307,publicado,dv_B,PACMA,165420,0
+202307,publicado,dv_B,BNG,152348,0
+202307,publicado,dv_B,CCa,114707,0
+202307,publicado,dv_B,CUP,98792,0
+202307,publicado,dv_B,NC,45528,0
+202307,publicado,dv_B,FO,45212,0
+202307,publicado,dv_B,PDeCAT,31649,0
+202307,publicado,dv_B,UPL,23010,0
+202307,publicado,dv_B,RECORTES CERO,23006,0
+202307,publicado,dv_B,PUM+J,22344,0
+202307,publicado,dv_B,EXISTE,20298,0
+202307,publicado,dv_B,GBAI,9836,0
+202307,publicado,dv_B,SY,9626,0
+202307,publicado,dv_B,ADELANTE ANDALUCÍA,9066,0
+202307,publicado,dv_B,ESCAÑOS EN BLANCO,8298,0
+202307,publicado,dv_B,JM+,8234,0
+202307,publicado,dv_B,XAV,7321,0
+202307,publicado,dv_B,BQEX,5763,0
+202307,publicado,dv_B,CJ,5489,0
+202307,publicado,dv_B,PAR,4092,0
+202307,publicado,dv_B,ESPAÑA VACIADA,3073,0
+202307,publicado,dv_B,PH,2813,0
+202307,publicado,dv_B,ASTURIAS EXISTE EV,2244,0
+202307,publicado,dv_B,XH,1915,0
+202307,publicado,dv_B,VP,1898,0
+202307,publicado,dv_B,Zsi,1797,0
+202307,publicado,dv_B,VB,1739,0
+202307,publicado,dv_B,POR MI REGIÓN,1653,0
+202307,publicado,dv_B,AHORA CANARIAS,1640,0
+202307,publicado,dv_B,PARTIDO AUTÓNOMOS,1428,0
+202307,publicado,dv_B,EVB,1420,0
+202307,publicado,dv_B,CpM,1279,0
+202307,publicado,dv_B,EV-PCAS-TC,1156,0
+202307,publicado,dv_B,JxG,1099,0
+202307,publicado,dv_B,Somos Cc,934,0
+202307,publicado,dv_B,PREPAL,884,0
+202307,publicado,dv_B,ALM,796,0
+202307,publicado,dv_B,F.I.A.,489,0
+202307,publicado,dv_B,3e,465,0
+202307,publicado,dv_B,Ud.Ca,452,0
+202307,publicado,dv_B,GITV,361,0
+202307,publicado,dv_B,EVC,261,0
+202307,publicado,dv_B,PUEDE,256,0
+202307,publicado,dv_B,LB,246,0
+202307,publicado,dv_B,UNIDOS SÍ,245,0
+202307,publicado,dv_B,+RDS+,164,0
+202307,publicado,dv_B,FUERZA CÍVICA,113,0
+202307,publicado,dv_B,CCD,99,0

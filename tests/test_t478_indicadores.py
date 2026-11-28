@@ -84,5 +84,32 @@ class SistemaReal(unittest.TestCase):
         self.assertEqual(sum(self.e23["28"].values()), 37)
 
 
+class MapaPublicado2023(unittest.TestCase):
+    """Votos de los mapas publicados: total de la nota de traspaso (sha256 verificado 52/52) y 407 distritos."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.r = ind.calcular("202307", "publicado")
+
+    def test_votos_y_distritos(self):
+        fila = {f["sistema"]: f for f in self.r["filas"]}
+        self.assertEqual(sum(p["votos"] for p in self.r["partidos"] if p["sistema"] == "real"), 24284335)
+        self.assertEqual(fila["mayoria_simple"]["escanos"], 407)
+        self.assertEqual(fila["real"]["escanos"], 350)
+
+    def test_doble_vuelta_reparte_407(self):
+        for f in self.r["filas"]:
+            if f["sistema"].startswith("dv_"):
+                self.assertEqual(f["escanos"], 407)
+                self.assertEqual(f["distritos_1v"] + f["distritos_2v"], 407)
+
+    def test_real_2023_pp_es_137_de_350(self):
+        pp = [p for p in self.r["partidos"] if p["sistema"] == "real" and p["candidatura"] == "PP"][0]
+        self.assertEqual(pp["escanos"], 137)
+
+    def test_desajuste_albacete_sobre_tope(self):
+        self.assertIn(("02", 0.6348, 0.5), self.r["desajustes"])
+
+
 if __name__ == "__main__":
     unittest.main()
