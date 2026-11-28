@@ -1,0 +1,36 @@
+eleccion,mapa,sistema,escanos,gallagher,loosemore_hanby,np_votos,np_escanos,ganador,pct_votos_ganador,pct_escanos_ganador,prima,mayoria_fabricada,votos_sin_representacion,distritos_1v,distritos_2v
+201111,historico,real,350,6.869,11.295,3.397,2.638,PP,44.74,52.57,7.83,True,10.14,,
+201111,historico,mayoria_simple,407,24.227,35.463,3.397,1.802,PP,44.74,72.73,27.99,True,51.45,,
+201111,historico,dv_base,407,16.027,25.881,3.397,2.152,PP,44.74,63.88,19.14,True,52.02,200,207
+201111,historico,dv_A,407,17.715,21.629,2.752,2.059,bloque:Derecha nacional,45.99,64.86,18.87,True,47.67,255,152
+201111,historico,dv_B,407,17.879,24.913,2.824,2.077,bloque:Derecha nacional,45.99,65.11,19.12,True,49.25,235,172
+201512,historico,real,350,5.859,10.428,5.09,4.181,PP,28.53,34.57,6.04,False,10.38,,
+201512,historico,mayoria_simple,407,23.971,32.523,5.09,2.537,PP,28.53,57.49,28.96,True,66.28,,
+201512,historico,dv_base,407,23.438,38.054,5.09,3.041,PP,28.53,13.02,-15.51,False,70.45,2,405
+201512,historico,dv_A,407,29.686,34.918,3.024,1.465,bloque:Izquierdas,46.82,81.57,34.75,True,51.01,163,244
+201512,historico,dv_B,407,29.879,37.413,3.07,1.465,bloque:Izquierdas,46.82,81.82,34.99,True,52.64,149,258
+201606,historico,real,350,5.187,7.792,4.465,3.865,PP,32.84,38.57,5.73,False,7.42,,
+201606,historico,mayoria_simple,407,28.154,37.063,4.465,2.056,PP,32.84,67.08,34.24,True,62.99,,
+201606,historico,dv_base,407,15.95,24.775,4.465,3.428,PP,32.84,26.04,-6.79,False,66.75,16,391
+201606,historico,dv_A,407,19.553,23.232,3.025,1.924,bloque:Izquierdas,44.22,67.08,22.86,True,52.27,110,297
+201606,historico,dv_B,407,19.66,25.639,3.061,1.935,bloque:Izquierdas,44.22,67.08,22.86,True,53.67,98,309
+201904,historico,real,350,5.633,9.614,5.832,4.821,PSOE,28.9,35.14,6.24,False,9.99,,
+201904,historico,mayoria_simple,407,38.263,55.653,5.832,1.658,PSOE,28.9,76.66,47.76,True,69.08,,
+201904,historico,dv_base,407,37.679,52.627,5.832,1.663,PSOE,28.9,76.17,47.26,True,69.41,0,407
+201904,historico,dv_A,407,27.337,32.633,3.303,1.66,bloque:Izquierdas,43.55,75.68,32.12,True,53.52,97,310
+201904,historico,dv_B,407,27.542,37.483,3.402,1.674,bloque:Izquierdas,43.55,75.68,32.12,True,55.45,78,329
+201911,historico,real,350,6.46,11.416,5.83,4.594,PSOE,28.26,34.29,6.03,False,10.68,,
+201911,historico,mayoria_simple,407,27.988,41.706,5.83,2.295,PSOE,28.26,62.65,34.4,True,68.68,,
+201911,historico,dv_base,407,21.198,36.168,5.83,2.822,PSOE,28.26,51.6,23.34,True,69.38,0,407
+201911,historico,dv_A,407,7.691,9.91,2.951,2.478,bloque:Izquierdas,43.07,51.11,8.03,True,50.48,171,236
+201911,historico,dv_B,407,8.648,14.854,3.057,2.527,bloque:Izquierdas,43.07,51.35,8.28,True,53.7,140,267
+202307,historico,real,350,5.654,9.606,4.076,3.439,PP,33.33,39.14,5.81,False,7.84,,
+202307,historico,mayoria_simple,407,21.953,32.098,4.076,2.056,PP,33.33,57.74,24.41,True,61.44,,
+202307,historico,dv_base,407,20.707,29.742,4.076,2.184,PP,33.33,56.02,22.69,True,62.07,16,391
+202307,historico,dv_A,407,8.517,9.965,2.402,2.163,bloque:Derecha nacional,46.05,56.02,9.97,True,46.29,301,106
+202307,historico,dv_B,407,8.479,11.142,2.434,2.175,bloque:Derecha nacional,46.05,56.02,9.97,True,47.55,291,116
+202307,publicado,real,350,5.654,9.606,4.076,3.439,PP,33.33,39.14,5.81,False,7.84,,
+202307,publicado,mayoria_simple,407,21.896,31.954,4.076,2.052,PP,33.33,57.49,24.17,True,61.37,,
+202307,publicado,dv_base,407,20.375,29.6,4.076,2.205,PP,33.33,55.28,21.95,True,61.95,16,391
+202307,publicado,dv_A,407,7.871,9.228,2.402,2.182,bloque:Derecha nacional,46.05,55.28,9.23,True,46.19,294,113
+202307,publicado,dv_B,407,7.78,10.508,2.434,2.187,bloque:Derecha nacional,46.05,55.28,9.23,True,47.42,285,122
