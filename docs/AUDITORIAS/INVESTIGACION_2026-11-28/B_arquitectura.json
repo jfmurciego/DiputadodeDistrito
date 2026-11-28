@@ -1,236 +1,527 @@
 {
- "ambito": "B_arquitectura",
- "sesion": "agente local de T-509 (sin sesión propia)",
- "veredicto": "La tubería es fiable en lote (95 de 100 runs en éxito) y muy trazable, pero el motor ocupa el 2 % del tiempo de un run: el resto es montar el entorno 15 veces, repetir M01-M03, esperar colas y escribir en main. No es todavía un motor repetible miles de veces: su orquestador es GitHub Actions (11.193 líneas de YAML, 48 % lógica embebida) y su base de datos es la rama main (1.605 commits en 36 h de campaña).",
- "liga_hoy": "Tubería artesanal sobre GitHub Actions: primera división en evidencia y trazabilidad, regional en ingeniería de pipelines (sin grafo declarativo, sin caché por contenido, no se ejecuta entera fuera de Actions).",
- "liga_objetivo": "La de los pipelines científicos reproducibles (Snakemake, Nextflow, ALARM fifty-states): un comando por territorio, igual en un portátil que en CI, que solo recalcula lo que cambió y deja productos direccionados por su sha256.",
- "hallazgos": [
-  {
-   "id": "B-1",
-   "titulo": "El motor ocupa el 2 % de un run «Generar»; el 57 % es montar la imagen Docker 15 veces",
-   "que_pasa_hoy": "Cada etapa (M01…M06, auditoría, verificación de fuentes) es un job en un runner nuevo que hace checkout, reconstruye y carga la imagen Docker y baja el estado acumulado. Muestra de 10 runs «Generar» en éxito de la campaña del 15/16-11 (provincias del Congreso): mediana de 44,6 min de jobs, de los que 0,9 min son pasos de motor (2,0 %; rango 1,4-3,8 %), 25,8 min entorno (56,8 %), 5,5 min checkout (12,1 %) y 2,5 min transporte de artefactos. 31 jobs por run, 15 de ellos con Docker. Reloj: 63,6 min de mediana, con 17,8 min de cola entre jobs. La caché de la imagen tiene ámbito por commit (`scope=ddd-production-${{ github.sha }}`) y main cambia en cada run (88 sha distintos en 100 runs); aun con todas las capas en caché, exportar y cargar la imagen cuesta 53 s por job.",
-   "evidencia": [
-    {"tipo": "VERIFICADO", "ref": "gh api repos/jfmurciego/DiputadodeDistrito/actions/runs/<id>/jobs?per_page=100 sobre 43761322715, 43764666420, 43765769898, 43780088321, 43781442275, 43786502149, 43788811870, 43791386692, 43792330350, 43798914850", "detalle": "Suma de (completed_at − started_at) por paso, clasificado por nombre de paso. Mediana: jobs 44,6 min; motor 0,9 min (2,0 %); entorno 25,8 min (56,8 %); checkout 5,5 min; cola 17,8 min; pared 63,6 min; 15 jobs con buildx."},
-    {"tipo": "VERIFICADO", "ref": "gh api repos/jfmurciego/DiputadodeDistrito/actions/jobs/<job M04 del run 43781442275>/logs", "detalle": "Capas #8-#15 CACHED; «#16 exporting to docker image format DONE 53.4s»; docker run empieza a 01:11:39 y el job acaba a 01:11:53: el M04 de Orense tarda unos 4 s dentro de un job de 103 s."},
-    {"tipo": "LEIDO", "ref": ".github/workflows/p20-distritos.yml (paso «Preparar entorno reproducible con caché compartida», jobs m01…m06 con `steps: *module_steps`)", "detalle": "cache-from/cache-to type=gha con scope ddd-production-${{ github.sha }}; load: true; ningún actions/cache en los 15 workflows."},
-    {"tipo": "LEIDO", "ref": "docs/ESTUDIOS/T378_P00_CAMPANA/DISENO_P00_CAMPANA.md:440-441", "detalle": "El diseño de P00 llama «trabajo real ≈ 3.575 min» a los minutos de job de una campaña de 71; no desglosa por pasos."}
-   ],
-   "por_que_importa": "A 45 min de runner y 64 min de reloj por territorio para 1 min de cálculo, mil ejecuciones son 750 horas de runner y la campaña de 71 no cabe en una tarde. Es también la causa de la cola (cada frontera de job compite por los 20 jobs de la cuenta) y de que iterar sobre el motor en producción sea caro.",
-   "propuesta": "Dos pasos independientes y reversibles. (a) Un solo job para el tramo M01→M06 (procedimiento.sh ya acepta DDD_FROM_STAGE/DDD_TO_STAGE), guardando el checkpoint de cada etapa desde dentro del job. (b) Imagen construida una vez por huella de Dockerfile + ficheros .lock, publicada en el registro de contenedores y usada por digest; el código se monta por volumen como ya se hace (`-v $PWD:/app`).",
-   "criterio_aceptacion": "Con el mismo guion de medida sobre 10 runs «Generar» de provincias: mediana de minutos de job ≤ 12 (hoy 44,6), pasos de entorno ≤ 25 % (hoy 57 %), y el sha256 del M06 de 3 territorios de control idéntico al de la ruta actual.",
-   "impacto": 5,
-   "esfuerzo": "M",
-   "riesgo": "Se pierde el reintento de un job suelto por etapa; se compensa reanudando desde el último checkpoint. Cambia CI de producción: exige detalle aprobado por el propietario (D-216).",
-   "toca": ["ci", "motor"],
-   "necesita": "decision_propietario",
-   "ya_previsto": null,
-   "decisiones_relacionadas": ["D-143", "D-145", "D-216"],
-   "nivel_mundial": "Nextflow y Snakemake ejecutan cada tarea en un contenedor identificado por digest y ya descargado, no reconstruido (Di Tommaso et al., Nat. Biotechnol. 2017, https://doi.org/10.1038/nbt.3820; Mölder et al., F1000Research 2021, https://doi.org/10.12688/f1000research.29032.2). Docker documenta la caché de registro para CI: https://docs.docker.com/build/ci/github-actions/cache/",
-   "confianza": "alta"
-  },
-  {
-   "id": "B-2",
-   "titulo": "El grafo de etapas vive en 11.193 líneas de YAML (48 % lógica embebida), no en un ejecutor propio",
-   "que_pasa_hoy": "Qué etapa va tras cuál, qué se salta, qué se reutiliza y qué se registra está repartido en condiciones `if:` de 15 workflows (la 00 tiene 19 jobs y 1.739 líneas; P20, 2.241). 5.346 de las 11.193 líneas son shell o Python dentro de `run:`. Solo M01-M08 se pueden ejecutar en local (procedimiento.sh); las puertas, la selección de checkpoint, el registro y el encadenado solo existen dentro de Actions. Alrededor hay 269 herramientas (72.617 líneas) para 8 módulos (3.959 líneas) y un núcleo de 16.785.",
-   "evidencia": [
-    {"tipo": "VERIFICADO", "ref": "wc -l .github/workflows/*.yml; recuento de líneas bajo `run: |`", "detalle": "11.193 líneas en 15 ficheros; 5.346 (48 %) dentro de bloques run."},
-    {"tipo": "VERIFICADO", "ref": "wc -l modulos/*.py ddd_core/*.py herramientas/*.py", "detalle": "modulos 3.959; ddd_core 16.785; herramientas 72.617 en 269 ficheros (275 entradas)."},
-    {"tipo": "LEIDO", "ref": ".github/workflows/ejecucion-completa-proyecto.yml:338-852", "detalle": "El job «Planificar» son 514 líneas que deciden el plan con shell y Python embebidos."},
-    {"tipo": "LEIDO", "ref": "procedimiento.sh:28-36", "detalle": "El ejecutor local solo conoce las etapas M01…M08, no puertas ni registro."}
-   ],
-   "por_que_importa": "Un motor que se ejecutará miles de veces necesita que su orquestación se pruebe en segundos y se repita fuera del proveedor. Hoy cada cambio de flujo se prueba lanzando runs reales, y un tercero no puede reproducir una ejecución completa aunque tenga el código.",
-   "propuesta": "Arquitectura objetivo: un fichero declarativo de etapas (entradas, salidas, código que la define, puerta) y un ejecutor único (`python -m ddd.tuberia ejecutar <territorio>`) idéntico en local y en CI; Actions queda como lanzador fino (matriz de territorios + un job por territorio). Migración por etapas, empezando por M01-M06 en sombra.",
-   "criterio_aceptacion": "En un contenedor limpio, `ddd tuberia ejecutar congreso350_orense` produce M06 y M08 con el mismo sha256 que el run de CI; los workflows suman ≤ 3.000 líneas con < 10 % dentro de `run:`; un test recorre el grafo declarado sin red en < 60 s.",
-   "impacto": 5,
-   "esfuerzo": "XL",
-   "riesgo": "Migración larga con dos rutas vivas a la vez; hay que fijar fecha de retirada de la antigua. La regla de cabecera VERSIÓN + copia en legacy encarece cada paso.",
-   "toca": ["motor", "ci", "repo"],
-   "necesita": "decision_propietario",
-   "ya_previsto": null,
-   "decisiones_relacionadas": ["D-129", "D-130", "D-143"],
-   "nivel_mundial": "ALARM fifty-states publica, por estado, tres guiones (preparar, configurar, simular) que cualquiera ejecuta en su máquina, y deposita los resultados con DOI (McCartan et al., Scientific Data 2022, https://doi.org/10.1038/s41597-022-01808-2; https://github.com/alarm-redist/fifty-states). Snakemake define el flujo como reglas declarativas (https://doi.org/10.12688/f1000research.29032.2).",
-   "confianza": "alta"
-  },
-  {
-   "id": "B-3",
-   "titulo": "Los productos se identifican por (run, nombre), no por contenido: búsqueda lineal y copias repetidas",
-   "que_pasa_hoy": "Cuando P20 reanuda un territorio, pide los últimos 100 runs `workflow_dispatch` de todo el repositorio (una página, sin paginar) y, uno a uno, lista artefactos, baja `ddd-decision` y baja el ZIP de estado para validarlo. En campaña se lanzan 100 runs de la 00 en 11,4 h, así que un checkpoint de ayer queda fuera de la ventana aunque no haya caducado. Si el M06 ya está registrado, la 00 va por el catálogo, que apunta a run, nombre de artefacto y sha256. El catálogo (fuente de verdad en main) cita 148 run_id y 0 claves de R2. Hay tres niveles de almacén con cadena de respaldo (artefactos de Actions con 5 retenciones distintas, releases en borrador, R2 con dos árboles de claves) y el índice de R2 tiene 1.459 entradas con solo 1.033 sha256 distintos.",
-   "evidencia": [
-    {"tipo": "LEIDO", "ref": ".github/workflows/p20-distritos.yml, paso `id: checkpoint` («Validar y resolver último checkpoint reutilizable»)", "detalle": "api=\"repos/$GITHUB_REPOSITORY/actions/runs?event=workflow_dispatch&status=completed&per_page=100\" sin --paginate; bucle con `gh run download` por run."},
-    {"tipo": "VERIFICADO", "ref": "gh api .../workflows/ejecucion-completa-proyecto.yml/runs?per_page=100&event=workflow_dispatch", "detalle": "Los 100 últimos runs manuales van de 2026-11-15T21:01Z a 2026-11-16T08:23Z (11,4 h)."},
-    {"tipo": "VERIFICADO", "ref": "python3 sobre orchestracion/archivo_r2.json y configuracion/catalogo_preparacion.yaml", "detalle": "archivo_r2: 1.459 entradas, 1.033 sha256 distintos (426 repetidas, 29 %); claves `<territorio>/<run_id>/<nombre>.zip`. Catálogo: 148 `run_id`, 74 `artifact_name`, 0 menciones de R2."},
-    {"tipo": "VERIFICADO", "ref": "grep -h retention-days .github/workflows/*.yml | sort | uniq -c", "detalle": "54 declaraciones: 1 día ×5, 7 ×2, 14 ×16, 30 ×18, 90 ×13. Los checkpoints `ddd-state-*` duran 14 días."}
-   ],
-   "por_que_importa": "Con miles de ejecuciones, la ventana de 100 runs deja de ver checkpoints válidos sin avisar (se recalcula desde antes de lo necesario), el coste de buscar crece con el historial y el mismo contenido se guarda varias veces. La caducidad convierte un producto válido en no descargable.",
-   "propuesta": "Almacén por contenido en R2: cada salida de etapa se guarda en `cas/<sha256>` y un índice pequeño asocia la huella de entradas de la etapa (B-4) con el sha de su salida. Reutilizar pasa a ser una consulta directa por clave. Los artefactos de Actions quedan solo para diagnóstico. Se introduce en sombra: se escribe junto a lo actual y se compara la decisión.",
-   "criterio_aceptacion": "Relanzar un territorio sin cambios ejecuta 0 etapas y termina en < 5 min con los mismos sha256; sigue acertando con más de 100 runs posteriores y con el artefacto de Actions caducado; en una campaña en sombra, 0 discrepancias sin explicar frente al selector actual; ninguna clave de R2 nueva repite sha.",
-   "impacto": 4,
-   "esfuerzo": "L",
-   "riesgo": "Una huella de entradas incompleta daría aciertos falsos; por eso va en sombra y con B-4. Hay que convivir con el árbol nuevo de R2 de T-443/D-198.",
-   "toca": ["motor", "datos", "ci"],
-   "necesita": "decision_propietario",
-   "ya_previsto": null,
-   "decisiones_relacionadas": ["D-198", "D-143"],
-   "nivel_mundial": "Bazel separa almacén por contenido y caché de acciones (https://bazel.build/remote/caching); DVC guarda cada salida por su hash en un remoto compatible con S3, como R2 (https://dvc.org/doc/user-guide/pipelines); Snakemake reutiliza resultados entre flujos por hash de entradas, código y parámetros.",
-   "confianza": "alta"
-  },
-  {
-   "id": "B-4",
-   "titulo": "Qué recalcular lo decide un modo elegido a mano y huellas parciales hechas por etapa",
-   "que_pasa_hoy": "El botón ofrece tres modos («Reutilizar», «Generar desde fuente», «Ejecutar desde el principio») y CLAUDE.md enseña en prosa cuál usar tras cada tipo de cambio. La compatibilidad de un checkpoint se comprueba con dos huellas escritas a mano (M05 y «motor») que cubren M04-M06; M01-M03 se reutilizan sin huella de código y la regla de huellas admite un «posible hueco» en la capa M04. CLAUDE.md sigue diciendo que «Reutilizar» toma checkpoints M04 aunque cambie el contrato, mientras el selector (T-51) dice comparar contrato y política: una de las dos cosas no está al día.",
-   "evidencia": [
-    {"tipo": "LEIDO", "ref": ".github/workflows/ejecucion-completa-proyecto.yml:270-278", "detalle": "execution_mode con tres opciones; por defecto «Reutilizar progreso existente»."},
-    {"tipo": "LEIDO", "ref": "herramientas/seleccionar_checkpoint_productivo.py:16-19 y 46-97", "detalle": "Validaciones solo para M04/M05/M06 (compatibility/m05.json y motor.json); sin huella, aviso CHECKPOINT_ENGINE_UNVERIFIED."},
-    {"tipo": "LEIDO", "ref": ".claude/rules/huellas.md", "detalle": "«La capa M04 solo mira m04_*.py: posible hueco igual»; «Cambiar M04 o M05 invalida los checkpoints: la 00 siguiente va con Ejecutar desde el principio»."},
-    {"tipo": "LEIDO", "ref": "CLAUDE.md, sección «Ejecución 00»", "detalle": "«Reutilizar progreso existente reutiliza checkpoints M04 aunque haya cambiado el contrato»."}
-   ],
-   "por_que_importa": "La corrección de un run depende de que quien lanza recuerde una regla. En miles de ejecuciones eso falla: o se recalcula de más (coste) o se reutiliza algo incompatible (un mapa mal certificado).",
-   "propuesta": "Una sola función de huella para las 8 etapas: sha256 del cierre de imports de la etapa, del contrato y la política que lee, del sha de sus entradas y del digest de la imagen. El modo de ejecución desaparece del botón: se recalcula lo que cambió y nada más; queda una opción «forzar desde M0x» para diagnóstico.",
-   "criterio_aceptacion": "Tests: cambiar un byte de modulos/02 invalida M02 en adelante y no M01; cambiar el suelo de población del contrato invalida M04 en adelante; sin cambios, 0 etapas. El botón de la 00 (o de P00) no tiene `execution_mode`. CLAUDE.md pierde las tres reglas de «qué modo usar».",
-   "impacto": 4,
-   "esfuerzo": "L",
-   "riesgo": "Al estrenar la huella genérica todos los checkpoints quedan invalidados una vez (regenerar las 71, ya previsto en T-379 PR 3). No pude ejecutar el selector para confirmar cuál de las dos versiones (CLAUDE.md o T-51) es la cierta.",
-   "toca": ["motor", "ci", "docs"],
-   "necesita": "decision_propietario",
-   "ya_previsto": null,
-   "decisiones_relacionadas": ["D-130", "D-166"],
-   "nivel_mundial": "Snakemake relanza una regla si cambian entradas, código, parámetros o entorno, sin que el usuario elija modo (disparadores de reejecución, https://snakemake.readthedocs.io); Nextflow hace lo mismo con `-resume` (https://doi.org/10.1038/nbt.3820).",
-   "confianza": "media"
-  },
-  {
-   "id": "B-5",
-   "titulo": "La rama main hace de base de datos: 1.605 commits en las 36 h de la última campaña",
-   "que_pasa_hoy": "Cada run registra en main, con commits propios, la fuente preparada, el producto territorial, el par, el producto electoral, el manifiesto, el estado operativo y el catálogo de procedencia. Entre el 15-11 00:00Z y el 16-11 12:00Z main recibió 1.605 commits (unos 22 por territorio); 4.454 desde el 1-11; 9.515 en total; el repositorio pesa 467 MB. Para que no choquen hay una herramienta propia de fusión de JSON con hasta 10-20 reintentos. El paso «estado operativo» regenera README y un JSON de 427 KB en cada run y tardó hasta 8,8 min (mediana 0,9-1,5); la cabecera de la 00 reconoce que agotó los reintentos en 4 de 100 runs. Los índices de R2 (905 KB y 268 KB) y el registro del visor (498 KB) también viven en main.",
-   "evidencia": [
-    {"tipo": "VERIFICADO", "ref": "gh api -i 'repos/jfmurciego/DiputadodeDistrito/commits?sha=main&per_page=1&since=2026-11-15T00:00:00Z&until=2026-11-16T12:00:00Z' (página rel=last)", "detalle": "1.605 commits en la ventana; 4.454 desde 2026-11-01; 9.515 en total. `gh api repos/...` size = 466.702 KB."},
-    {"tipo": "VERIFICADO", "ref": "pasos «Regenerar README y dashboard desde la misma fuente» de 16 runs (API de jobs)", "detalle": "Generar: mediana 0,9 min, máx. 3,9; Reutilizar: mediana 1,5 min, máx. 8,8 (run 43763327156, 529 s), con 601 s de espera previa en el run 43781442275."},
-    {"tipo": "LEIDO", "ref": "herramientas/registrar_en_main.py:3-27; .github/workflows/ejecucion-completa-proyecto.yml:16-20", "detalle": "Re-aplicación de deltas JSON sobre el HEAD remoto, espera exponencial, PUSH_RECHAZADO_TRAS_N; «agotó las 10 en 4 de 100 runs»."},
-    {"tipo": "VERIFICADO", "ref": "ls -la orchestracion/", "detalle": "archivo_r2.json 926 KB, publicaciones_visor.json 510 KB, catalogo_procedencia.json 502 KB, estado_operativo.json 437 KB, fuentes_r2.json 274 KB."}
-   ],
-   "por_que_importa": "Git serializa las escrituras: a más cadenas en paralelo, más reintentos y más tiempo perdido, y el historial de código queda enterrado (más de 20 commits de robot por cada PR en campaña). Mil ejecuciones serían decenas de miles de commits y un clon cada vez más pesado para la CI y para quien quiera reproducir.",
-   "propuesta": "Tres clases de estado, cada una en su sitio: (1) registros por run, como objetos de solo añadir en R2, una clave por run y sin choques; (2) estado derivado (estado operativo, README, catálogo de procedencia, status.json), que no se versiona y se genera al publicar; (3) main recibe un commit por campaña con un manifiesto de sha256. T-379 ya prevé (1) y (3) para la ruta de campaña; falta (2) y sacar de main los índices de R2 y el registro del visor.",
-   "criterio_aceptacion": "En una campaña de 71 territorios, los commits de robot en main son ≤ 2 (hoy unos 1.500) y ningún run muestra PUSH_RECHAZADO; `estado_operativo.json`, `catalogo_procedencia.json` y `archivo_r2.json` dejan de cambiar en main entre campañas; la web sigue mostrando el mismo estado.",
-   "impacto": 4,
-   "esfuerzo": "L",
-   "riesgo": "Se pierde el historial de estado en git como registro de auditoría: hay que conservarlo como objetos versionados o inmutables en R2. Tests y dashboard leen hoy esos ficheros de main.",
-   "toca": ["ci", "repo", "datos", "publicacion"],
-   "necesita": "decision_propietario",
-   "ya_previsto": "T-379 (parcial: estado de campaña en R2 y un commit al cierre; no cubre el estado derivado ni los índices)",
-   "decisiones_relacionadas": ["D-140", "D-143", "D-147", "D-198"],
-   "nivel_mundial": "Los pipelines de referencia separan código (git) de datos y estado (almacén de objetos con manifiestos): DVC versiona punteros de pocos bytes y deja los datos en el remoto (https://dvc.org/doc); ALARM deposita resultados en Dataverse, no en el repositorio de código (https://doi.org/10.1038/s41597-022-01808-2).",
-   "confianza": "alta"
-  },
-  {
-   "id": "B-6",
-   "titulo": "M01-M03 y las unidades internas se ejecutan dos veces en cada run «Generar»",
-   "que_pasa_hoy": "La 00 llama dos veces a P20: primero «Acreditar habilitación previa a generación» (fuentes, base territorial, adyacencias, grafo, unidades internas y evidencia pre-M04) y después «02 Generar», que vuelve a hacer las mismas cinco etapas antes de M04. En 9 de los 10 runs medidos la primera pasada costó entre 12,4 y 16,3 min (mediana 13,2, cerca del 30 % de los minutos del run).",
-   "evidencia": [
-    {"tipo": "VERIFICADO", "ref": "API de jobs del run 43781442275 (Orense)", "detalle": "00:42:40-00:56:09 «Acreditar…»: Verificar datos 259 s, Base territorial 169 s, Adyacencias 76 s, Grafo 119 s, Unidades 113 s; 00:57:46-01:10:07 «Generar…» repite las mismas: 162, 162, 114, 113 y 100 s."},
-    {"tipo": "VERIFICADO", "ref": "misma muestra de 10 runs", "detalle": "acreditar_min: mediana 13,2; mín. 0 (Málaga 43798914850, sin acreditación); máx. 16,3."},
-    {"tipo": "LEIDO", "ref": ".github/workflows/ejecucion-completa-proyecto.yml:1123-1160", "detalle": "Jobs `acreditar_generacion` y `generar`, los dos con `uses: ./.github/workflows/p20-distritos.yml`."}
-   ],
-   "por_que_importa": "Es el recálculo innecesario más claro de la cadena: mismas entradas, mismo código, minutos después.",
-   "propuesta": "Que la segunda llamada tome el estado de la primera (el artefacto M03 y las unidades del mismo run) y empiece en M04, o fundir la acreditación como un paso dentro de la cadena, como prevé la decisión B del diseño de P00 para la ruta de campaña. Aplicarlo también a la 00 mientras siga viva.",
-   "criterio_aceptacion": "En un run «Generar» hay exactamente un job «Base territorial y población», uno «Adyacencias», uno «Grafo» y uno «Unidades internas», y el sha256 del M06 no cambia en 3 territorios de control.",
-   "impacto": 4,
-   "esfuerzo": "S",
-   "riesgo": "La acreditación pre-M04 es una puerta de seguridad: hay que mantener que M04 no arranca sin ella.",
-   "toca": ["ci"],
-   "necesita": "decision_propietario",
-   "ya_previsto": "T-379 (parcial: decisión B de D-145, solo en la ruta de campaña)",
-   "decisiones_relacionadas": ["D-145"],
-   "nivel_mundial": "En un flujo con caché por contenido la segunda pasada es un acierto de caché y cuesta segundos (https://bazel.build/remote/caching).",
-   "confianza": "alta"
-  },
-  {
-   "id": "B-7",
-   "titulo": "El encadenado por bot gasta un runner esperando y relanza una 00 que vuelve a planificar todo",
-   "que_pasa_hoy": "Al acabar la parte territorial, un job de hasta 90 min lanza la activación del par por API, la localiza por título y hora, espera con `sleep 30` y lanza otra 00 «Reutilizar» como github-actions[bot]. En los 10 runs medidos esa espera fue de 4,3 min de mediana y 34 min de máximo. La 00 hija repite planificación y cuatro puertas (13 jobs, 11,1 min de jobs) y tarda 42,9 min de reloj, de los que 32,2 son cola. De punta a punta, un territorio necesita unos 105 min de reloj. La deduplicación por título tiene una carrera entre comprobar y lanzar.",
-   "evidencia": [
-    {"tipo": "LEIDO", "ref": ".github/workflows/ejecucion-completa-proyecto.yml:1651-1739", "detalle": "`gh api -X POST …/dispatches`, búsqueda por `display_title`, `while … sleep 30`, `timeout-minutes: 90`."},
-    {"tipo": "VERIFICADO", "ref": "muestra de 10 «Generar» y 6 «Reutilizar» (API de jobs)", "detalle": "espera_cadena: mediana 4,3 min, máx. 34,1. Reutilizar: pared 42,9 min, jobs 11,1 min, cola 32,2 min (medianas)."},
-    {"tipo": "VERIFICADO", "ref": "gh api …/runs?per_page=100&event=workflow_dispatch", "detalle": "51 de los 100 últimos runs manuales son del bot; 3 de sus 51 fallaron."},
-    {"tipo": "LEIDO", "ref": "docs/ESTUDIOS/T378_P00_CAMPANA/DISENO_P00_CAMPANA.md:438-439", "detalle": "649 de 4.005 min del Operador son de este job."}
-   ],
-   "por_que_importa": "Duplica el número de ejecuciones a vigilar, confunde el seguimiento (regla de CLAUDE.md: identificar cada run por territorio, nunca por orden) y alarga el reloj con colas.",
-   "propuesta": "Mantener el plan de T-379 (cadena de un territorio dentro de una sola ejecución) y fijar en su criterio de aceptación las medidas de hoy como línea base.",
-   "criterio_aceptacion": "Una campaña no contiene ningún run lanzado por github-actions[bot]; el número de ejecuciones es 1 por campaña; reloj por territorio ≤ 30 min de mediana (hoy unos 105).",
-   "impacto": 3,
-   "esfuerzo": "L",
-   "riesgo": "Ya asumido en T-379; el límite de 20 jobs de la cuenta sigue mandando.",
-   "toca": ["ci"],
-   "necesita": "fusion",
-   "ya_previsto": "T-379",
-   "decisiones_relacionadas": ["D-140", "D-143", "D-145"],
-   "nivel_mundial": "Un orquestador con grafo propio encadena tareas dentro de una ejecución; GitHub no permite bucles en el árbol de flujos reutilizables (https://docs.github.com/en/actions/using-workflows/reusing-workflows, citado en p20-distritos.yml:21), de ahí el relanzamiento por API.",
-   "confianza": "alta"
-  },
-  {
-   "id": "B-8",
-   "titulo": "El Gestor no lanza desde el 9-11: 22 runs con 59 % de éxito y tres implementaciones vivas",
-   "que_pasa_hoy": "El workflow «P00 Campaña — Gestor» tiene 22 ejecuciones manuales en toda su historia (13 en éxito, 9 fallidas), la última el 9-11. La campaña del 15/16-11 (161 runs) la lanzó el Operador run a run. Conviven tres herramientas de gestor (1.002, 540 y 315 líneas), tres modos (gestor, matriz, continuar) y un job de 355 min de tope que se releva a sí mismo; P00 (T-379) será la cuarta vía, y D-145 pide no borrar la 00 al fusionarla.",
-   "evidencia": [
-    {"tipo": "VERIFICADO", "ref": "gh api …/workflows/gestor-campanas.yml/runs?per_page=100&event=workflow_dispatch", "detalle": "total_count 22; 13 success, 9 failure; de 2026-09-23 a 2026-11-09."},
-    {"tipo": "VERIFICADO", "ref": "wc -l herramientas/gestor_campana.py herramientas/gestor_campana_nacional.py herramientas/gestor_campanas_2.py", "detalle": "1.002 + 540 + 315 líneas."},
-    {"tipo": "LEIDO", "ref": ".github/workflows/gestor-campanas.yml:182-188 y 456-475", "detalle": "Job `legislatura` con timeout-minutes 355 y modo «continuar» solo para el bot; job `territorios` en matriz con max-parallel 5."}
-   ],
-   "por_que_importa": "El objetivo del propietario es un motor que se ejecute «con el Gestor»; hoy el Gestor es la pieza menos probada de la cadena y cada vía añadida multiplica lo que hay que mantener y explicar.",
-   "propuesta": "Que la PR que estrene P00 lleve fecha de retirada de `gestor-campanas.yml`, de las tres herramientas y del encadenador de la 00, con un test que falle si pasada esa fecha siguen en el árbol.",
-   "criterio_aceptacion": "Tras la primera campaña completa con P00: `ls .github/workflows | grep -c gestor` = 0, `ls herramientas/gestor_campa*.py | wc -l` = 0 y un único botón lanza una campaña.",
-   "impacto": 3,
-   "esfuerzo": "M",
-   "riesgo": "Retirar antes de que P00 haya hecho una campaña real dejaría sin respaldo; por eso la condición es «tras la primera campaña completa».",
-   "toca": ["ci", "repo", "proceso"],
-   "necesita": "decision_propietario",
-   "ya_previsto": "T-379 (parcial: absorbe y retira según su §9; D-145 conserva la 00)",
-   "decisiones_relacionadas": ["D-145", "D-129"],
-   "nivel_mundial": "Un solo punto de entrada por flujo (un `snakemake` o un `nextflow run`), con la vía antigua retirada al migrar.",
-   "confianza": "alta"
-  },
-  {
-   "id": "B-9",
-   "titulo": "No hay medida viva de la tubería: métricas paradas desde el 9-11 y éxito inflado por el humo de PR",
-   "que_pasa_hoy": "`orchestracion/metricas_proceso.json` se generó el 9-11 con 13 territorios y no recoge la campaña del 15/16-11. Los 100 últimos runs del workflow de producción son todos de `pull_request` (humo de 1,3 min, 100 % en éxito): 1.481 de sus 2.493 runs no son manuales. La cifra real está en los manuales: 95 de 100 en éxito, con mediana de 45,9 min y percentil 90 de 110 min. Ninguna métrica mide qué parte del tiempo es motor. No hay runs productivos desde el 16-11 08:23Z.",
-   "evidencia": [
-    {"tipo": "VERIFICADO", "ref": "gh api …/workflows/ejecucion-completa-proyecto.yml/runs?per_page=100", "detalle": "total_count 2.493; 100 de 100 con event=pull_request, success, mediana 1,3 min (del 16-11 al 26-11)."},
-    {"tipo": "VERIFICADO", "ref": "gh api …/runs?per_page=100&event=workflow_dispatch", "detalle": "total_count 1.012; últimos 100: 95 success, 5 failure; éxito: mediana 45,9 min, p90 110,3, máx. 147,3; 82,4 h de reloj sumadas en 11,4 h."},
-    {"tipo": "VERIFICADO", "ref": "python3 sobre orchestracion/metricas_proceso.json", "detalle": "generado 2026-11-09T13:51:32Z; ejecuciones_00.territorios = 13; runs_por_actor: bot 9, propietario 10."}
-   ],
-   "por_que_importa": "Sin medida viva, la sobrecarga de B-1 pasó inadvertida y el diseño de P00 se dimensionó tomando los minutos de job como trabajo real. Lo que no se mide en cada campaña vuelve a crecer.",
-   "propuesta": "Tres indicadores calculados al cierre de cada campaña con la API de jobs y guardados con ella: éxito a la primera por territorio, minutos de job por territorio y porcentaje de tiempo de motor. Excluir el humo de PR del recuento.",
-   "criterio_aceptacion": "Tras la próxima campaña existe un fichero de métricas con esos tres valores por territorio y fecha de la campaña, generado sin intervención; relanzar el cálculo da las mismas cifras.",
-   "impacto": 3,
-   "esfuerzo": "S",
-   "riesgo": "Bajo. Unas 150 llamadas a la API por campaña; hay que reintentar los cortes de conexión.",
-   "toca": ["ci", "proceso"],
-   "necesita": "fusion",
-   "ya_previsto": null,
-   "decisiones_relacionadas": ["D-216"],
-   "nivel_mundial": "Nextflow y Snakemake generan por ejecución un informe de tiempo y recursos por tarea (`nextflow -with-report`, `snakemake --report`).",
-   "confianza": "alta"
-  },
-  {
-   "id": "B-10",
-   "titulo": "Capas retiradas en el árbol activo: g10, cuatro motores de semillas y 95 herramientas sin uso",
-   "que_pasa_hoy": "`g10/` (263 líneas) y sus tres JSON de `orchestracion/` (estado del 13-09 y dos planes de lote) no tienen workflow vivo: solo los citan `herramientas/g10_orquestar.py` y copias en legacy. `ddd_core` guarda cuatro versiones del motor de semillas encadenadas por imports. De 269 herramientas, 119 se citan en workflows, 55 solo desde otro código, 68 solo desde tests y 27 desde ningún sitio (17.015 líneas entre las dos últimas). La ruta m05 está «RETIRADA» pero sigue como opción del botón.",
-   "evidencia": [
-    {"tipo": "VERIFICADO", "ref": "git grep -lE 'from g10|import g10|g10\\.' -- '*.py' '*.yml' '*.sh'", "detalle": "Fuera de legacy solo g10/ y herramientas/g10_orquestar.py; ningún workflow de .github/workflows."},
-    {"tipo": "VERIFICADO", "ref": "búsqueda por nombre de módulo de cada herramientas/*.py en workflows, código vivo y tests", "detalle": "119 en workflows (38.626 líneas); 55 solo por otro código (16.977); 68 solo por tests (13.816); 27 por nadie (3.199). Aproximado: no ve llamadas dinámicas ni usos desde documentos."},
-    {"tipo": "LEIDO", "ref": "ddd_core/m04_seed_engine.py:27-28; ddd_core/m04_seed_engine_v7411.py:37", "detalle": "m04_seed_engine importa v7412 y v7411; v7411 y v7412 importan v7410."},
-    {"tipo": "LEIDO", "ref": ".github/workflows/ejecucion-completa-proyecto.yml:289-296", "detalle": "Entrada `motor` con opciones motor2 y m05 («ruta retirada»)."}
-   ],
-   "por_que_importa": "Cada capa muerta entra en huellas, tests y lectura de quien llega. La auditoría del 24-11 dio el total (163.000 líneas de herramientas y pruebas frente a 29.000 de motor); aquí está la lista accionable.",
-   "propuesta": "Una PR de retirada por capa, empezando por lo que nadie cita (27 herramientas y g10 con sus JSON), con la lista generada por guion y revisada. Las 68 que solo citan los tests, decidir una a una.",
-   "criterio_aceptacion": "El guion de referencias da 0 herramientas sin ninguna cita; `ls g10` no existe; la CI sigue en verde; las huellas M05 de 3 territorios no cambian.",
-   "impacto": 2,
-   "esfuerzo": "M",
-   "riesgo": "Las versiones del motor de semillas entran en huellas y evidencias N08: no tocarlas sin regenerar. La gobernanza exige copia en legacy de cada fichero retirado.",
-   "toca": ["repo", "motor"],
-   "necesita": "decision_propietario",
-   "ya_previsto": null,
-   "decisiones_relacionadas": ["D-82", "D-166"],
-   "nivel_mundial": "Los repositorios de referencia del ámbito son pequeños y de una sola vía (GerryChain, https://github.com/mggg/GerryChain; redist, https://github.com/alarm-redist/redist).",
-   "confianza": "media"
+  "ambito": "B_arquitectura",
+  "sesion": "agente local de T-509 (sin sesión propia)",
+  "veredicto": "La tubería es fiable en lote (95 de 100 runs en éxito) y muy trazable, pero el motor ocupa el 2 % del tiempo de un run de provincia del Congreso (9 % en Andalucía): el resto es montar el entorno 15 veces, repetir M01-M03, esperar colas y escribir en main. No es todavía un motor repetible miles de veces: su orquestador es GitHub Actions (11.193 líneas de YAML, 48 % lógica embebida) y su base de datos es la rama main (1.605 commits en 36 h de campaña).",
+  "liga_hoy": "Tubería artesanal sobre GitHub Actions: primera división en evidencia y trazabilidad, regional en ingeniería de pipelines (sin grafo declarativo, sin caché por contenido, no se ejecuta entera fuera de Actions).",
+  "liga_objetivo": "La de los pipelines científicos reproducibles (Snakemake, Nextflow, ALARM fifty-states): un comando por territorio, igual en un portátil que en CI, que solo recalcula lo que cambió y deja productos direccionados por su sha256.",
+  "hallazgos": [
+    {
+      "id": "B-1",
+      "titulo": "En las provincias del Congreso el motor ocupa el 2 % de un run «Generar» (9 % en Andalucía); más de la mitad es montar la imagen Docker 15 veces",
+      "que_pasa_hoy": "Cada etapa (M01…M06, auditoría, verificación de fuentes) es un job en un runner nuevo que hace checkout, reconstruye y carga la imagen Docker y baja el estado acumulado. Muestra de 10 runs «Generar» en éxito de la campaña del 15/16-11 (provincias del Congreso): mediana de 44,6 min de pasos (46,1 min de jobs, contando el arranque de cada runner), de los que 0,9 min son pasos de motor (2,0 %; rango 1,4-3,8 %), 25,3-25,8 min entorno (56-57 %, según qué pasos de `pip` se cuenten), 5,5 min checkout (12,1 %) y 2,5 min transporte de artefactos. 31 jobs por run, 15 de ellos con Docker. Reloj: 63,6 min de mediana, con 17,8 min de cola entre jobs. La caché de la imagen tiene ámbito por commit (`scope=ddd-production-${{ github.sha }}`) y main cambia en cada run (88 sha distintos en 100 runs); aun con todas las capas en caché, exportar y cargar la imagen cuesta 53 s por job. En un territorio grande el motor pesa más, pero sigue siendo poco: Andalucía (run 43728682179, «Generar» en éxito), 6,7 de 75,7 min de pasos son motor (8,9 %) y 33,0 entorno (44 %).",
+      "evidencia": [
+        {
+          "tipo": "VERIFICADO",
+          "ref": "gh api repos/jfmurciego/DiputadodeDistrito/actions/runs/<id>/jobs?per_page=100 sobre 43761322715, 43764666420, 43765769898, 43780088321, 43781442275, 43786502149, 43788811870, 43791386692, 43792330350, 43798914850",
+          "detalle": "Suma de (completed_at − started_at) por paso, clasificado por nombre de paso. Mediana: jobs 44,6 min; motor 0,9 min (2,0 %); entorno 25,8 min (56,8 %); checkout 5,5 min; cola 17,8 min; pared 63,6 min; 15 jobs con buildx."
+        },
+        {
+          "tipo": "VERIFICADO",
+          "ref": "gh api repos/jfmurciego/DiputadodeDistrito/actions/jobs/<job M04 del run 43781442275>/logs",
+          "detalle": "Capas #8-#15 CACHED; «#16 exporting to docker image format DONE 53.4s»; docker run empieza a 01:11:39 y el job acaba a 01:11:53: el M04 de Orense tarda unos 4 s dentro de un job de 103 s."
+        },
+        {
+          "tipo": "LEIDO",
+          "ref": ".github/workflows/p20-distritos.yml (paso «Preparar entorno reproducible con caché compartida», jobs m01…m06 con `steps: *module_steps`)",
+          "detalle": "cache-from/cache-to type=gha con scope ddd-production-${{ github.sha }}; load: true; ningún actions/cache en los 15 workflows."
+        },
+        {
+          "tipo": "LEIDO",
+          "ref": "docs/ESTUDIOS/T378_P00_CAMPANA/DISENO_P00_CAMPANA.md:440-441",
+          "detalle": "El diseño de P00 llama «trabajo real ≈ 3.575 min» a los minutos de job de una campaña de 71; no desglosa por pasos."
+        },
+        {
+          "tipo": "VERIFICADO",
+          "ref": "gh api repos/jfmurciego/DiputadodeDistrito/actions/runs/43728682179/jobs?per_page=100 (añadido en la verificación)",
+          "detalle": "Andalucía, «Generar»: 31 jobs, 14 con Docker; pasos 75,7 min; motor 6,7 min (8,9 %: M05 164 s, competición 121 s, M04 49 s); entorno 33,0 min (43,6 %); encadenado 20,2 min."
+        }
+      ],
+      "por_que_importa": "A 45 min de runner y 64 min de reloj por territorio para 1 min de cálculo, mil ejecuciones son 750 horas de runner y la campaña de 71 no cabe en una tarde. Es también la causa de la cola (cada frontera de job compite por los 20 jobs de la cuenta) y de que iterar sobre el motor en producción sea caro.",
+      "propuesta": "Dos pasos independientes y reversibles. (a) Un solo job para el tramo M01→M06 (procedimiento.sh ya acepta DDD_FROM_STAGE/DDD_TO_STAGE), guardando el checkpoint de cada etapa desde dentro del job. (b) Imagen construida una vez por huella de Dockerfile + ficheros .lock, publicada en el registro de contenedores y usada por digest; el código se monta por volumen como ya se hace (`-v $PWD:/app`).",
+      "criterio_aceptacion": "Con el mismo guion de medida sobre 10 runs «Generar» de provincias: mediana de minutos de job del tramo P20 (jobs «Acreditar…» y «02 Generar…») ≤ 12 (hoy 35,0 en 19 jobs), pasos de entorno ≤ 25 % del run (hoy 56-57 %) y, en 3 territorios de control, la composición sección→distrito (sha256 de su CSV, el `sha256_composicion` de herramientas/archivo_origen.py) idéntica a la de la ruta actual. No se pide «≤ 12 min en todo el run»: fuera de P20 quedan 9-13 min de jobs (planificar, P10, puertas, estado, manifiesto y la espera del encadenado) que esta propuesta no toca. No se compara el sha256 del ZIP M06: no se repite entre runs.",
+      "impacto": 5,
+      "esfuerzo": "M",
+      "riesgo": "Se pierde el reintento de un job suelto por etapa; se compensa reanudando desde el último checkpoint. Cambia CI de producción: exige detalle aprobado por el propietario (D-216). Unidades internas, evidencia pre-M04, competición y auditoría no son etapas de procedimiento.sh: el job único tiene que encadenarlas como pasos.",
+      "toca": [
+        "ci",
+        "motor"
+      ],
+      "necesita": "decision_propietario",
+      "ya_previsto": "No es tarea. D-143 aprobó la cadena A (reutilizables, varios jobs por territorio) y dejó «un job por territorio» como respaldo C (DISENO_P00_CAMPANA.md l. 106; D-130 lo cita como alternativa): la parte (a) reabre esa decisión con un dato que el diseño no tenía (el desglose por pasos). La parte (b) no choca con ninguna decisión.",
+      "decisiones_relacionadas": [
+        "D-130",
+        "D-143",
+        "D-145",
+        "D-216"
+      ],
+      "nivel_mundial": "Nextflow y Snakemake ejecutan cada tarea en un contenedor identificado por digest y ya descargado, no reconstruido (Di Tommaso et al., Nat. Biotechnol. 2017, https://doi.org/10.1038/nbt.3820; Mölder et al., F1000Research 2021, https://doi.org/10.12688/f1000research.29032.2). Docker documenta la caché de registro para CI: https://docs.docker.com/build/ci/github-actions/cache/",
+      "confianza": "alta",
+      "verificacion": {
+        "veredicto": "CORREGIDO",
+        "como": "API de jobs de los 10 runs citados, con mi propio clasificador: pasos 44,6 min, jobs 46,1, motor 0,9 (2,0 %; 1,4-3,8), entorno 25,3 (55,9 %), checkout 5,5 (12,1 %), cola 17,8, reloj 63,7, 31 jobs y 15 con Docker; 88 sha en los 100 runs manuales. Log del job 133029425151 (M04 de Orense): #8-#15 CACHED, «#16 exporting to docker image format DONE 53.4s», módulo de 01:11:39 a 01:11:43. grep en p20-distritos.yml: scope ddd-production-${{ github.sha }} y load: true; ningún actions/cache. Sin cambios en workflows entre 9e630d11d y origin/main 548968c47.",
+        "correccion": "Las cifras salen. Cambios: (1) «44,6 min de jobs» es la suma de pasos (los jobs suman 46,1); (2) el 2 % vale para provincias del Congreso: añadido Andalucía (8,9 %) y acotado el título; (3) criterio reescrito: «≤ 12 min por run» no se alcanza solo con esto (fuera de P20 quedan 9-13 min) y el sha256 del ZIP M06 no es comparable entre runs (en archivo_r2.json, 67 territorios con más de un run y ninguno repite sha); (4) anotado que la parte (a) reabre D-143 (cadena A; un job por territorio era el respaldo C). Impacto 5 se mantiene."
+      }
+    },
+    {
+      "id": "B-2",
+      "titulo": "El grafo de etapas vive en 11.193 líneas de YAML (48 % lógica embebida), no en un ejecutor propio",
+      "que_pasa_hoy": "Qué etapa va tras cuál, qué se salta, qué se reutiliza y qué se registra está repartido en condiciones `if:` de 15 workflows (la 00 tiene 19 jobs y 1.739 líneas; P20, 2.241). 5.346 de las 11.193 líneas son shell o Python dentro de `run:`. Solo M01-M08 se pueden ejecutar en local (procedimiento.sh); las puertas, la selección de checkpoint, el registro y el encadenado solo existen dentro de Actions. Alrededor hay 269 herramientas (72.617 líneas) para 8 módulos (3.959 líneas) y un núcleo de 16.785.",
+      "evidencia": [
+        {
+          "tipo": "VERIFICADO",
+          "ref": "wc -l .github/workflows/*.yml; recuento de líneas bajo `run: |`",
+          "detalle": "11.193 líneas en 15 ficheros; 5.346 (48 %) dentro de bloques run."
+        },
+        {
+          "tipo": "VERIFICADO",
+          "ref": "wc -l modulos/*.py ddd_core/*.py herramientas/*.py",
+          "detalle": "modulos 3.959; ddd_core 16.785; herramientas 72.617 en 269 ficheros (275 entradas)."
+        },
+        {
+          "tipo": "LEIDO",
+          "ref": ".github/workflows/ejecucion-completa-proyecto.yml:338-852",
+          "detalle": "El job «Planificar» son 514 líneas que deciden el plan con shell y Python embebidos."
+        },
+        {
+          "tipo": "LEIDO",
+          "ref": "procedimiento.sh:28-36",
+          "detalle": "El ejecutor local solo conoce las etapas M01…M08, no puertas ni registro."
+        }
+      ],
+      "por_que_importa": "Un motor que se ejecutará miles de veces necesita que su orquestación se pruebe en segundos y se repita fuera del proveedor. Hoy cada cambio de flujo se prueba lanzando runs reales, y un tercero no puede reproducir una ejecución completa aunque tenga el código.",
+      "propuesta": "Arquitectura objetivo: un fichero declarativo de etapas (entradas, salidas, código que la define, puerta) y un ejecutor único (`python -m ddd.tuberia ejecutar <territorio>`) idéntico en local y en CI; Actions queda como lanzador fino (matriz de territorios + un job por territorio). Migración por etapas, empezando por M01-M06 en sombra.",
+      "criterio_aceptacion": "En un contenedor limpio, `ddd tuberia ejecutar congreso350_orense` produce un M06 con la composición sección→distrito (sha256 de su CSV, el `sha256_composicion` de herramientas/archivo_origen.py) igual a la del run de CI y un M08 con la misma tabla de ganador por distrito; los workflows suman ≤ 3.000 líneas (hoy 11.193) con < 10 % dentro de `run:` (hoy 47,8 %); un test recorre el grafo declarado sin red en < 60 s. No se compara el sha256 de los ZIP: no se repite entre runs.",
+      "impacto": 5,
+      "esfuerzo": "XL",
+      "riesgo": "Migración larga con dos rutas vivas a la vez; hay que fijar fecha de retirada de la antigua. La regla de cabecera VERSIÓN + copia en legacy encarece cada paso.",
+      "toca": [
+        "motor",
+        "ci",
+        "repo"
+      ],
+      "necesita": "decision_propietario",
+      "ya_previsto": "No es tarea. D-129/D-130 fijan un workflow por familia y P00 llamando a P10-P40 como reutilizables; D-143 eligió la cadena A y dejó «un job por territorio» como respaldo C. «Actions como lanzador fino con un job por territorio» reabre D-143.",
+      "decisiones_relacionadas": [
+        "D-129",
+        "D-130",
+        "D-143"
+      ],
+      "nivel_mundial": "ALARM fifty-states publica, por estado, tres guiones (preparar, configurar, simular) que cualquiera ejecuta en su máquina, y deposita los resultados con DOI (McCartan et al., Scientific Data 2022, https://doi.org/10.1038/s41597-022-01808-2; https://github.com/alarm-redist/fifty-states). Snakemake define el flujo como reglas declarativas (https://doi.org/10.12688/f1000research.29032.2).",
+      "confianza": "alta",
+      "verificacion": {
+        "veredicto": "CORREGIDO",
+        "como": "wc -l .github/workflows/*.yml = 11.193 en 15 ficheros; recuento propio de líneas bajo `run: |` = 5.346 (47,8 %); la 00 tiene 1.739 líneas y 19 jobs, P20 2.241; modulos 3.959, ddd_core 16.785, herramientas 72.617 en 269 .py (275 entradas); job planificar en las líneas 338-852; procedimiento.sh:28-36 solo M01-M08. `territorios/congreso350_orense` existe.",
+        "correccion": "Cifras confirmadas. Criterio reescrito: el sha256 de los ZIP M06/M08 no sirve de comparación (ningún territorio repite sha entre runs en archivo_r2.json); se compara la composición y la tabla de ganadores. Anotado que la propuesta reabre D-143. Impacto 5 se mantiene (esfuerzo XL)."
+      }
+    },
+    {
+      "id": "B-3",
+      "titulo": "Los productos se identifican por (run, nombre), no por contenido: reanudar es una búsqueda lineal en los últimos 100 runs",
+      "que_pasa_hoy": "Cuando P20 reanuda un territorio, pide los últimos 100 runs `workflow_dispatch` de todo el repositorio (de cualquier workflow, no solo de la 00) (una página, sin paginar) y, uno a uno, lista artefactos, baja `ddd-decision` y baja el ZIP de estado para validarlo. En campaña se lanzan 100 runs de la 00 en 11,4 h, así que un checkpoint de ayer queda fuera de la ventana aunque no haya caducado. Si el M06 ya está registrado, la 00 va por el catálogo, que apunta a run, nombre de artefacto y sha256. El catálogo (fuente de verdad en main) cita 148 run_id y 0 claves de R2. Hay tres niveles de almacén con cadena de respaldo (artefactos de Actions con 5 retenciones distintas, releases en borrador, R2 con dos árboles de claves) y el índice de R2 tiene 1.459 entradas y 1.033 sha256 distintos: las 426 repetidas no son copias entre runs, son la copia al árbol nuevo `interno/estados/<ámbito>/<territorio>/{ultimo,publicado}/` que hizo T-443 el 23-11 (D-198); el árbol viejo `<territorio>/<run>/` se borra tras el 29-11 (D-188). Entre runs ningún artefacto repite sha. P20 no lee ese árbol nuevo (0 menciones de `interno/` en p20-distritos.yml).",
+      "evidencia": [
+        {
+          "tipo": "LEIDO",
+          "ref": ".github/workflows/p20-distritos.yml, paso `id: checkpoint` («Validar y resolver último checkpoint reutilizable»)",
+          "detalle": "api=\"repos/$GITHUB_REPOSITORY/actions/runs?event=workflow_dispatch&status=completed&per_page=100\" sin --paginate; bucle con `gh run download` por run."
+        },
+        {
+          "tipo": "VERIFICADO",
+          "ref": "gh api .../workflows/ejecucion-completa-proyecto.yml/runs?per_page=100&event=workflow_dispatch",
+          "detalle": "Los 100 últimos runs manuales van de 2026-11-15T21:01Z a 2026-11-16T08:23Z (11,4 h)."
+        },
+        {
+          "tipo": "VERIFICADO",
+          "ref": "python3 sobre orchestracion/archivo_r2.json y configuracion/catalogo_preparacion.yaml",
+          "detalle": "archivo_r2: 1.459 entradas (1.459 URL distintas), 1.033 sha256 distintos; las 426 repetidas (219 MB de 2.498) son todas mismo run y mismo artefacto en dos árboles: 1.033 en `<territorio>/<run_id>/` y 426 en `interno/estados/…/{ultimo,publicado}/` (archivadas el 23-11). Ningún sha se repite entre runs distintos. Catálogo: 148 `run_id`, 74 `artifact_name`, 0 menciones de R2."
+        },
+        {
+          "tipo": "VERIFICADO",
+          "ref": "grep -h retention-days .github/workflows/*.yml | sort | uniq -c",
+          "detalle": "54 declaraciones: 1 día ×5, 7 ×2, 14 ×16, 30 ×18, 90 ×13. Los checkpoints `ddd-state-*` duran 14 días."
+        }
+      ],
+      "por_que_importa": "Con miles de ejecuciones, la ventana de 100 runs deja de ver checkpoints válidos sin avisar (se recalcula desde antes de lo necesario) y el coste de buscar crece con el historial. La caducidad convierte un producto válido en no descargable.",
+      "propuesta": "Reanudar por clave directa en R2 en vez de recorrer runs: el selector de P20 lee `interno/estados/<ámbito>/<territorio>/ultimo/` (ya existe, D-198) y lo valida con la huella de entradas (B-4) guardada en su `manifiesto.json`. Los artefactos de Actions quedan para diagnóstico. En sombra primero: se calcula junto al selector actual y se compara la decisión. Un árbol `cas/<sha256>` no aporta hoy (ningún artefacto repite sha entre runs) y choca con D-188 (nombres claros, sin códigos, solo la versión vigente): solo tendría sentido si antes las salidas fueran reproducibles byte a byte.",
+      "criterio_aceptacion": "Relanzar un territorio sin cambios ejecuta 0 etapas de P20 y gasta ≤ 5 min de jobs (el reloj depende de la cola); sigue acertando con más de 100 runs manuales posteriores y con el artefacto de Actions caducado (test con una lista de runs simulada); en una campaña en sombra, 0 discrepancias sin explicar frente al selector actual; p20-distritos.yml no llama a `actions/runs?…per_page=100` para elegir checkpoint.",
+      "impacto": 3,
+      "esfuerzo": "L",
+      "riesgo": "Una huella de entradas incompleta daría aciertos falsos; por eso va en sombra y con B-4. D-198 guarda solo `ultimo` y `publicado` por territorio: no hay historial de checkpoints por etapa; hay que comprobar qué etapas contiene `ultimo/`.",
+      "toca": [
+        "motor",
+        "datos",
+        "ci"
+      ],
+      "necesita": "decision_propietario",
+      "ya_previsto": "Parcial: T-443 (HECHA, D-188/D-198) ya dejó en R2 una clave directa por territorio (`interno/estados/…/ultimo|publicado`) y T-379 PR 2b prevé «ruta de campaña solo R2». Falta que el selector de P20 lea de ahí.",
+      "decisiones_relacionadas": [
+        "D-188",
+        "D-198",
+        "D-143"
+      ],
+      "nivel_mundial": "Bazel separa almacén por contenido y caché de acciones (https://bazel.build/remote/caching); DVC guarda cada salida por su hash en un remoto compatible con S3, como R2 (https://dvc.org/doc/user-guide/pipelines); Snakemake reutiliza resultados entre flujos por hash de entradas, código y parámetros.",
+      "confianza": "alta",
+      "verificacion": {
+        "veredicto": "CORREGIDO",
+        "como": "p20-distritos.yml:250 (`actions/runs?event=workflow_dispatch&status=completed&per_page=100`, sin --paginate) y bucle de `gh run download` en 259-300; API: los 100 últimos runs manuales de la 00 van de 15-11 21:01Z a 16-11 08:23Z (11,4 h); python sobre archivo_r2.json (1.459/1.033; URL de las repetidas) y catalogo_preparacion.yaml (148/74/0); grep de retention-days = 54 (1×5, 7×2, 14×16, 30×18, 90×13); PLAN.md D-188 y D-198; grep -c 'interno/' p20-distritos.yml = 0.",
+        "correccion": "La búsqueda lineal, la ventana y la caducidad se confirman. Corregido: las 426 entradas repetidas son la copia al árbol nuevo de D-198, no contenido duplicado entre runs (ningún sha se repite entre runs), así que «copias repetidas» sale del título y del porqué. Propuesta reformulada: clave directa en el árbol que ya existe en vez de `cas/<sha256>`, que choca con D-188. Criterio reescrito (minutos de job, no reloj; sin «mismos sha256»). Impacto 4 → 3: parte ya hecha (T-443) o prevista (T-379 PR 2b). «Releases en borrador» no lo he comprobado."
+      }
+    },
+    {
+      "id": "B-4",
+      "titulo": "Qué recalcular lo decide un modo elegido a mano y huellas parciales hechas por etapa",
+      "que_pasa_hoy": "El botón ofrece tres modos («Reutilizar», «Generar desde fuente», «Ejecutar desde el principio») y CLAUDE.md enseña en prosa cuál usar tras cada tipo de cambio. La compatibilidad de un checkpoint se comprueba con una huella por capas (M04, M05 y motor2; herramientas/huella_checkpoint_motor.py) que cubre M04-M06 e incluye las secciones del contrato que gobiernan M04 y los límites de población de la política; M01-M03 se reutilizan sin huella de código y la regla de huellas admite un «posible hueco» en la capa M04. CLAUDE.md (línea 46) sigue diciendo que «Reutilizar» toma checkpoints M04 aunque cambie el contrato, pero desde T-51 (7-11) el selector lo rechaza con CHECKPOINT_ENGINE_MISMATCH y hay test (tests/test_huella_checkpoint_motor.py, `test_politica_y_contrato_distintos`): la línea de CLAUDE.md está anticuada. Solo un checkpoint sin huella (anterior al 7-11) se reutiliza con aviso CHECKPOINT_ENGINE_UNVERIFIED.",
+      "evidencia": [
+        {
+          "tipo": "LEIDO",
+          "ref": ".github/workflows/ejecucion-completa-proyecto.yml:270-278",
+          "detalle": "execution_mode con tres opciones; por defecto «Reutilizar progreso existente»."
+        },
+        {
+          "tipo": "LEIDO",
+          "ref": "herramientas/seleccionar_checkpoint_productivo.py:16-19 y 46-97",
+          "detalle": "Validaciones solo para M04/M05/M06 (compatibility/m05.json y motor.json); sin huella, aviso CHECKPOINT_ENGINE_UNVERIFIED."
+        },
+        {
+          "tipo": "LEIDO",
+          "ref": ".claude/rules/huellas.md",
+          "detalle": "«La capa M04 solo mira m04_*.py: posible hueco igual»; «Cambiar M04 o M05 invalida los checkpoints: la 00 siguiente va con Ejecutar desde el principio»."
+        },
+        {
+          "tipo": "LEIDO",
+          "ref": "CLAUDE.md, sección «Ejecución 00»",
+          "detalle": "«Reutilizar progreso existente reutiliza checkpoints M04 aunque haya cambiado el contrato»."
+        }
+      ],
+      "por_que_importa": "El caso grave (reutilizar un M04 de otro motor, contrato o política) está cubierto con test desde T-51. Queda que el coste depende de que quien lanza recuerde qué modo usar, que un cambio de código en M01-M03 no invalida nada y que la capa M04 solo mira `m04_*.py`.",
+      "propuesta": "Una sola función de huella para las 8 etapas: sha256 del cierre de imports de la etapa, del contrato y la política que lee, del sha de sus entradas y del digest de la imagen. El modo de ejecución desaparece del botón: se recalcula lo que cambió y nada más; queda una opción «forzar desde M0x» para diagnóstico.",
+      "criterio_aceptacion": "Tests: cambiar un byte de modulos/02 invalida M02 en adelante y no M01; cambiar el suelo de población del contrato invalida M04 en adelante; sin cambios, 0 etapas. El botón de lanzar no tiene `execution_mode` (grep en el workflow). CLAUDE.md pierde la línea 46 (ya falsa) y las reglas de «qué modo usar».",
+      "impacto": 3,
+      "esfuerzo": "L",
+      "riesgo": "Al estrenar la huella genérica todos los checkpoints quedan invalidados una vez (regenerar las 71, ya previsto en T-379 PR 3).",
+      "toca": [
+        "motor",
+        "ci",
+        "docs"
+      ],
+      "necesita": "decision_propietario",
+      "ya_previsto": "Parcial: T-51 (HECHA) cubre M04-M06 con huella de motor, contrato y política; D-130 fija el botón de P00 sin los tres modos (modo = solo comprobar | comprobar y lanzar). Falta la huella de M01-M03 y el hueco de la capa M04.",
+      "decisiones_relacionadas": [
+        "D-130",
+        "D-166"
+      ],
+      "nivel_mundial": "Snakemake relanza una regla si cambian entradas, código, parámetros o entorno, sin que el usuario elija modo (disparadores de reejecución, https://snakemake.readthedocs.io); Nextflow hace lo mismo con `-resume` (https://doi.org/10.1038/nbt.3820).",
+      "confianza": "alta",
+      "verificacion": {
+        "veredicto": "CORREGIDO",
+        "como": "ejecucion-completa-proyecto.yml:270-278 (tres modos); seleccionar_checkpoint_productivo.py:16-19, 46-97 y 150-205 (para M01-M03 solo `validate_resume_sources`; huella desde M04); cabecera de herramientas/huella_checkpoint_motor.py (capa M04: modulos/04, ddd_core/m04_*.py, secciones del contrato y population_limits de la política); tests/test_huella_checkpoint_motor.py; .claude/rules/huellas.md:19 y 26; CLAUDE.md:46.",
+        "correccion": "Resuelta la duda que el informe dejaba abierta: manda T-51 y la línea de CLAUDE.md está anticuada. «Dos huellas» pasa a huella por capas (M04, M05, motor2). Impacto 4 → 3: el riesgo de «mapa mal certificado» por reutilizar un M04 incompatible ya está cubierto con test; queda coste y el hueco de M01-M03. Confianza media → alta."
+      }
+    },
+    {
+      "id": "B-5",
+      "titulo": "La rama main hace de base de datos: 1.605 commits en las 36 h de la última campaña",
+      "que_pasa_hoy": "Cada run registra en main, con commits propios, la fuente preparada, el producto territorial, el par, el producto electoral, el manifiesto, el estado operativo y el catálogo de procedencia. Entre el 15-11 00:00Z y el 16-11 12:00Z main recibió 1.605 commits (unos 22 por territorio); 4.454 desde el 1-11; 9.515 en total; el repositorio pesa 467 MB. Para que no choquen hay una herramienta propia de fusión de JSON con hasta 10-20 reintentos. El paso «estado operativo» regenera README y un JSON de 437 KB en cada run y tardó hasta 8,8 min (mediana 0,9-1,5); la cabecera de la 00 reconoce que agotó los reintentos en 4 de 100 runs. Los índices de R2 (926 KB y 274 KB) y el registro del visor (510 KB) también viven en main.",
+      "evidencia": [
+        {
+          "tipo": "VERIFICADO",
+          "ref": "gh api -i 'repos/jfmurciego/DiputadodeDistrito/commits?sha=main&per_page=1&since=2026-11-15T00:00:00Z&until=2026-11-16T12:00:00Z' (página rel=last)",
+          "detalle": "1.605 commits en la ventana; 4.454 desde 2026-11-01; 9.515 en total. `gh api repos/...` size = 466.702 KB."
+        },
+        {
+          "tipo": "VERIFICADO",
+          "ref": "pasos «Regenerar README y dashboard desde la misma fuente» de 16 runs (API de jobs)",
+          "detalle": "Generar: mediana 0,9 min, máx. 3,9; Reutilizar: mediana 1,5 min, máx. 8,8 (run 43763327156, 529 s), con 601 s de espera previa en el run 43781442275."
+        },
+        {
+          "tipo": "LEIDO",
+          "ref": "herramientas/registrar_en_main.py:3-27; .github/workflows/ejecucion-completa-proyecto.yml:16-20",
+          "detalle": "Re-aplicación de deltas JSON sobre el HEAD remoto, espera exponencial, PUSH_RECHAZADO_TRAS_N; «agotó las 10 en 4 de 100 runs»."
+        },
+        {
+          "tipo": "VERIFICADO",
+          "ref": "ls -la orchestracion/",
+          "detalle": "archivo_r2.json 926 KB, publicaciones_visor.json 510 KB, catalogo_procedencia.json 502 KB, estado_operativo.json 437 KB, fuentes_r2.json 274 KB."
+        }
+      ],
+      "por_que_importa": "Git serializa las escrituras: a más cadenas en paralelo, más reintentos y más tiempo perdido, y el historial de código queda enterrado (más de 20 commits de robot por cada PR en campaña). Mil ejecuciones serían decenas de miles de commits y un clon cada vez más pesado para la CI y para quien quiera reproducir.",
+      "propuesta": "Tres clases de estado, cada una en su sitio: (1) registros por run, como objetos de solo añadir en R2, una clave por run y sin choques; (2) estado derivado (estado operativo, README, catálogo de procedencia, status.json), que no se versiona y se genera al publicar; (3) main recibe un commit por campaña con un manifiesto de sha256. T-379 ya prevé (1) y (3) para la ruta de campaña; falta (2) y sacar de main los índices de R2 y el registro del visor.",
+      "criterio_aceptacion": "En una campaña de 71 territorios, los commits de robot en main son ≤ 2 (`git log --author`; hoy 1.605 commits en total en las 36 h, sin reparto medido entre robots y personas) y ningún run muestra PUSH_RECHAZADO; `estado_operativo.json`, `catalogo_procedencia.json` y `archivo_r2.json` dejan de cambiar en main entre campañas; el `status.json` publicado es el mismo salvo la fecha.",
+      "impacto": 4,
+      "esfuerzo": "L",
+      "riesgo": "Se pierde el historial de estado en git como registro de auditoría: hay que conservarlo como objetos versionados o inmutables en R2. Tests y dashboard leen hoy esos ficheros de main.",
+      "toca": [
+        "ci",
+        "repo",
+        "datos",
+        "publicacion"
+      ],
+      "necesita": "decision_propietario",
+      "ya_previsto": "T-379 (parcial: estado de campaña en R2 y un commit al cierre; no cubre el estado derivado ni los índices)",
+      "decisiones_relacionadas": [
+        "D-140",
+        "D-143",
+        "D-147",
+        "D-198"
+      ],
+      "nivel_mundial": "Los pipelines de referencia separan código (git) de datos y estado (almacén de objetos con manifiestos): DVC versiona punteros de pocos bytes y deja los datos en el remoto (https://dvc.org/doc); ALARM deposita resultados en Dataverse, no en el repositorio de código (https://doi.org/10.1038/s41597-022-01808-2).",
+      "confianza": "alta",
+      "verificacion": {
+        "veredicto": "CORREGIDO",
+        "como": "gh api -i …/commits?sha=main&per_page=1 con since/until (rel=last): 1.605 en la ventana, 4.454 desde el 1-11, 9.515 en total; `gh api repos/…` size = 466.893 KB hoy; ls -la orchestracion/; cabecera de la 00 (líneas 16-20: «agotó las 10 en 4 de 100 runs», sube a 20) y registrar_en_main.py:3-27; API de jobs: paso «Regenerar README…» 8,8 min en 43763327156 y 602 s de espera antes del job de estado en 43781442275; PLAN.md D-143 y D-147.",
+        "correccion": "Cifras de commits y tiempos confirmadas. Unificados los tamaños (el texto daba KiB y la evidencia KB: 437, 926, 274 y 510 KB). «Unos 1.500 commits de robot» no está medido (la API no filtra por bot y el clon local es superficial): el criterio cita el total. Impacto 4 se mantiene."
+      }
+    },
+    {
+      "id": "B-6",
+      "titulo": "M01-M03 y las unidades internas se ejecutan dos veces en cada run «Generar»",
+      "que_pasa_hoy": "La 00 llama dos veces a P20: primero «Acreditar habilitación previa a generación» (fuentes, base territorial, adyacencias, grafo, unidades internas y evidencia pre-M04) y después «02 Generar», que vuelve a hacer las mismas cinco etapas antes de M04. En 9 de los 10 runs medidos la primera pasada costó entre 12,4 y 16,3 min (mediana 13,2, cerca del 30 % de los minutos del run).",
+      "evidencia": [
+        {
+          "tipo": "VERIFICADO",
+          "ref": "API de jobs del run 43781442275 (Orense)",
+          "detalle": "00:42:40-00:56:09 «Acreditar…»: Verificar datos 259 s, Base territorial 169 s, Adyacencias 76 s, Grafo 119 s, Unidades 113 s; 00:57:46-01:10:07 «Generar…» repite las mismas: 162, 162, 114, 113 y 100 s."
+        },
+        {
+          "tipo": "VERIFICADO",
+          "ref": "misma muestra de 10 runs",
+          "detalle": "acreditar_min: mediana 13,2; mín. 0 (Málaga 43798914850, sin acreditación); máx. 16,3."
+        },
+        {
+          "tipo": "LEIDO",
+          "ref": ".github/workflows/ejecucion-completa-proyecto.yml:1123-1160",
+          "detalle": "Jobs `acreditar_generacion` y `generar`, los dos con `uses: ./.github/workflows/p20-distritos.yml`."
+        }
+      ],
+      "por_que_importa": "Es el recálculo innecesario más claro de la cadena: mismas entradas, mismo código, minutos después.",
+      "propuesta": "En la ruta de campaña ya está decidido (decisión B del diseño de P00: una sola llamada a P20, con `m04` dependiendo de `pre_m04_evidence`). Para la 00, que se retira en la PR 5 de T-379 tras el 29-11, solo compensa tocarla si esa retirada se retrasa: la segunda llamada tomaría el M03 y las unidades de la primera y empezaría en M04.",
+      "criterio_aceptacion": "En una ejecución de P00 (o de la 00, si se toca) hay, por territorio, exactamente un job «Base territorial y población», uno «Adyacencias», uno «Grafo» y uno «Unidades internas» (API de jobs), M04 no arranca sin la evidencia pre-M04, y la composición sección→distrito (sha256 de su CSV, el `sha256_composicion` de herramientas/archivo_origen.py) no cambia en 3 territorios de control.",
+      "impacto": 3,
+      "esfuerzo": "S",
+      "riesgo": "La acreditación pre-M04 es una puerta de seguridad: hay que mantener que M04 no arranca sin ella.",
+      "toca": [
+        "ci"
+      ],
+      "necesita": "decision_propietario",
+      "ya_previsto": "T-379 (decisión B, D-145; DISENO_P00_CAMPANA.md l. 110-112) lo resuelve en la ruta de campaña, y la 00 se retira en su PR 5 tras el 29-11 (§13). Lo único no previsto es arreglar la 00 mientras viva.",
+      "decisiones_relacionadas": [
+        "D-145"
+      ],
+      "nivel_mundial": "En un flujo con caché por contenido la segunda pasada es un acierto de caché y cuesta segundos (https://bazel.build/remote/caching).",
+      "confianza": "alta",
+      "verificacion": {
+        "veredicto": "CORREGIDO",
+        "como": "API de jobs del run 43781442275: «Acreditar…» 259, 169, 76, 119 y 113 s; «02 Generar…» repite 162, 162, 114, 113 y 100 s. En los 10 runs: primera pasada con mediana 13,2 min (mín. 0 en Málaga, máx. 16,3), el 28 % de los minutos de job; «Ejecutar módulo» corre 9 veces por run (6 + 3). ejecucion-completa-proyecto.yml:1123-1160: los dos jobs llaman a p20-distritos.yml, el primero de TERRITORY_PREPARATION a DISTRICT_FORMATION.",
+        "correccion": "El duplicado y sus cifras se confirman. Impacto 4 → 3: ya está decidido para la ruta que sustituye a la 00 y a la 00 le queda la noche del 29-11; tocar la CI de producción la víspera no es realista. Propuesta y criterio reescritos para medirlo en P00 y sin el sha256 del ZIP M06."
+      }
+    },
+    {
+      "id": "B-7",
+      "titulo": "El encadenado por bot gasta un runner esperando y relanza una 00 que vuelve a planificar todo",
+      "que_pasa_hoy": "Al acabar la parte territorial, un job de hasta 90 min lanza la activación del par por API, la localiza por título y hora, espera con `sleep 30` y lanza otra 00 «Reutilizar» como github-actions[bot]. En los 10 runs medidos esa espera fue de 4,3 min de mediana y 34 min de máximo. La 00 hija repite planificación y cuatro puertas (13 jobs, unos 11 min de jobs) y tarda 25,1 min de reloj de mediana (los 51 runs del bot), con una cola que va de 1,5 a 38 min. De punta a punta, un territorio necesita unos 90 min de reloj (64 + 25). La deduplicación por título tiene una carrera entre comprobar y lanzar.",
+      "evidencia": [
+        {
+          "tipo": "LEIDO",
+          "ref": ".github/workflows/ejecucion-completa-proyecto.yml:1651-1739",
+          "detalle": "`gh api -X POST …/dispatches`, búsqueda por `display_title`, `while … sleep 30`, `timeout-minutes: 90`."
+        },
+        {
+          "tipo": "VERIFICADO",
+          "ref": "muestra de 10 «Generar» y 6 «Reutilizar» (API de jobs)",
+          "detalle": "espera_cadena: mediana 4,3 min, máx. 34,1. Reutilizar: 13 jobs, 11,1-11,3 min de jobs. Reloj: mediana 25,1 min en los 51 runs del bot (máx. 58,1); en una muestra propia de 6 (43804263815, 43795542897, 43790313521, 43784516230, 43778101275, 43769013184): reloj 24,8, cola 11,3 (1,5-38,1). La muestra original daba 42,9 y 32,2: no era representativa."
+        },
+        {
+          "tipo": "VERIFICADO",
+          "ref": "gh api …/runs?per_page=100&event=workflow_dispatch",
+          "detalle": "51 de los 100 últimos runs manuales son del bot; 3 de sus 51 fallaron."
+        },
+        {
+          "tipo": "LEIDO",
+          "ref": "docs/ESTUDIOS/T378_P00_CAMPANA/DISENO_P00_CAMPANA.md:438-439",
+          "detalle": "649 de 4.005 min del Operador son de este job."
+        }
+      ],
+      "por_que_importa": "Duplica el número de ejecuciones a vigilar, confunde el seguimiento (regla de CLAUDE.md: identificar cada run por territorio, nunca por orden) y alarga el reloj con colas.",
+      "propuesta": "Mantener el plan de T-379 (cadena de un territorio dentro de una sola ejecución) y fijar en su criterio de aceptación las medidas de hoy como línea base.",
+      "criterio_aceptacion": "Una campaña no contiene ningún run lanzado por github-actions[bot]; el número de ejecuciones es 1 por campaña; reloj por territorio ≤ 30 min de mediana (hoy unos 90).",
+      "impacto": 3,
+      "esfuerzo": "L",
+      "riesgo": "Ya asumido en T-379; el límite de 20 jobs de la cuenta sigue mandando.",
+      "toca": [
+        "ci"
+      ],
+      "necesita": "fusion",
+      "ya_previsto": "T-379",
+      "decisiones_relacionadas": [
+        "D-140",
+        "D-143",
+        "D-145"
+      ],
+      "nivel_mundial": "Un orquestador con grafo propio encadena tareas dentro de una ejecución; GitHub no permite bucles en el árbol de flujos reutilizables (https://docs.github.com/en/actions/using-workflows/reusing-workflows, citado en p20-distritos.yml:21), de ahí el relanzamiento por API.",
+      "confianza": "alta",
+      "verificacion": {
+        "veredicto": "CORREGIDO",
+        "como": "ejecucion-completa-proyecto.yml:1651-1739 (timeout-minutes 90, dispatches, display_title, `sleep 30`); API: 51 de los 100 últimos runs manuales son del bot y 3 fallaron; duración de los 51 (mediana 25,1 min); API de jobs de 6 «Reutilizar» elegidos por mí; DISENO_P00_CAMPANA.md:438-439 (649 de 4.005 min).",
+        "correccion": "El reloj de la 00 hija no es 42,9 min sino 25,1 (mediana de los 51 runs del bot; el propio informe da 24,8 en otra tabla); la cola mediana es de unos 11 min, no 32. Punta a punta: unos 90 min, no 105. El resto se confirma. Impacto 3 se mantiene (ya previsto en T-379)."
+      }
+    },
+    {
+      "id": "B-8",
+      "titulo": "El Gestor no lanza desde el 9-11: 22 runs con 59 % de éxito y tres implementaciones vivas",
+      "que_pasa_hoy": "El workflow «P00 Campaña — Gestor» tiene 22 ejecuciones manuales en toda su historia (13 en éxito, 9 fallidas), la última el 9-11. La campaña del 15/16-11 (161 runs) la lanzó el Operador run a run. Conviven tres herramientas de gestor (1.002, 540 y 315 líneas), tres modos (gestor, matriz, continuar) y un job de 355 min de tope que se releva a sí mismo; P00 (T-379) será la cuarta vía hasta su PR 5 («Retirada, tras el 29-11»), que borra la 00, el Gestor, Legislatura y Elección; D-145 solo impide borrarlos en la PR 3. El diseño no nombra las tres herramientas `gestor_campa*.py`.",
+      "evidencia": [
+        {
+          "tipo": "VERIFICADO",
+          "ref": "gh api …/workflows/gestor-campanas.yml/runs?per_page=100&event=workflow_dispatch",
+          "detalle": "total_count 22; 13 success, 9 failure; de 2026-09-23 a 2026-11-09."
+        },
+        {
+          "tipo": "VERIFICADO",
+          "ref": "wc -l herramientas/gestor_campana.py herramientas/gestor_campana_nacional.py herramientas/gestor_campanas_2.py",
+          "detalle": "1.002 + 540 + 315 líneas."
+        },
+        {
+          "tipo": "LEIDO",
+          "ref": ".github/workflows/gestor-campanas.yml:182-188 y 306-311",
+          "detalle": "Job `legislatura` con timeout-minutes 355 y modo «continuar» solo para el bot; job en matriz con max-parallel configurable (3 por defecto)."
+        }
+      ],
+      "por_que_importa": "El objetivo del propietario es un motor que se ejecute «con el Gestor»; hoy el Gestor es la pieza menos probada de la cadena y cada vía añadida multiplica lo que hay que mantener y explicar.",
+      "propuesta": "Añadir a la PR 5 de T-379 (retirada) las tres herramientas `gestor_campa*.py` y el encadenador de la 00, y un test que falle si tras esa PR siguen en el árbol.",
+      "criterio_aceptacion": "Tras la primera campaña completa con P00: `ls .github/workflows | grep -c gestor` = 0, `ls herramientas/gestor_campa*.py | wc -l` = 0 y un único botón lanza una campaña.",
+      "impacto": 2,
+      "esfuerzo": "M",
+      "riesgo": "Retirar antes de que P00 haya hecho una campaña real dejaría sin respaldo; por eso la condición es «tras la primera campaña completa».",
+      "toca": [
+        "ci",
+        "repo",
+        "proceso"
+      ],
+      "necesita": "decision_propietario",
+      "ya_previsto": "T-379 PR 5 (DISENO_P00_CAMPANA.md §9 y §13): retira el Gestor, Legislatura, Elección y la 00 tras el 29-11. No previsto: las tres herramientas del gestor (1.857 líneas).",
+      "decisiones_relacionadas": [
+        "D-145",
+        "D-129"
+      ],
+      "nivel_mundial": "Un solo punto de entrada por flujo (un `snakemake` o un `nextflow run`), con la vía antigua retirada al migrar.",
+      "confianza": "alta",
+      "verificacion": {
+        "veredicto": "CORREGIDO",
+        "como": "gh api …/workflows/gestor-campanas.yml/runs?per_page=100&event=workflow_dispatch: total 22, 13 success y 9 failure, del 23-09 al 9-11; wc -l de las tres herramientas = 1.002 + 540 + 315; gestor-campanas.yml:188 (355 min) y 311 (max-parallel); DISENO_P00_CAMPANA.md:327-336 y 462-469.",
+        "correccion": "Cifras confirmadas. La retirada del Gestor ya está en la PR 5 de T-379: la propuesta se reduce a incluir las tres herramientas y un test. max-parallel es 3 por defecto, no 5. Impacto 3 → 2. «La campaña la lanzó el Operador run a run» no lo he comprobado."
+      }
+    },
+    {
+      "id": "B-9",
+      "titulo": "La medida de la tubería no está viva: el job semanal de métricas no actualiza desde el 9-11, no mide el tiempo de motor y el humo de PR tapa la tasa real",
+      "que_pasa_hoy": "`orchestracion/metricas_proceso.json` se generó el 9-11 con 13 territorios y no recoge la campaña del 15/16-11, aunque existe un job semanal `metricas` en P90 (lunes 05:17 UTC, T-366) que ejecuta `herramientas/metricas_proceso.py` y ya calcula éxito a la primera y minutos por territorio: desde el 9-11 no ha dejado un fichero nuevo en main (causa sin investigar). Los 100 últimos runs del workflow de producción son todos de `pull_request` (humo de 1,3 min, 100 % en éxito): 1.481 de sus 2.493 runs no son manuales. La cifra real está en los manuales: 95 de 100 en éxito, con mediana de 45,9 min y percentil 90 de 110 min. Ninguna métrica mide qué parte del tiempo es motor. No hay runs manuales de la 00 desde el 16-11 08:23Z.",
+      "evidencia": [
+        {
+          "tipo": "VERIFICADO",
+          "ref": "gh api …/workflows/ejecucion-completa-proyecto.yml/runs?per_page=100",
+          "detalle": "total_count 2.493; 100 de 100 con event=pull_request, success, mediana 1,3 min (del 16-11 al 26-11)."
+        },
+        {
+          "tipo": "VERIFICADO",
+          "ref": "gh api …/runs?per_page=100&event=workflow_dispatch",
+          "detalle": "total_count 1.012; últimos 100: 95 success, 5 failure; éxito: mediana 45,9 min, p90 110,3, máx. 147,3; 82,4 h de reloj sumadas por los 95 en éxito (86,2 h con los 5 fallidos) en 11,4 h."
+        },
+        {
+          "tipo": "VERIFICADO",
+          "ref": "python3 sobre orchestracion/metricas_proceso.json",
+          "detalle": "generado 2026-11-09T13:51:32Z; ejecuciones_00.territorios = 13; runs_por_actor: bot 9, propietario 10."
+        },
+        {
+          "tipo": "LEIDO",
+          "ref": ".github/workflows/p90-automatico.yml:77-79 y 911-958; herramientas/metricas_proceso.py (añadido en la verificación)",
+          "detalle": "cron '17 5 * * 1'; job `metricas` con `if: schedule == '17 5 * * 1'` que ejecuta metricas_proceso.py y registra orchestracion/metricas_proceso.json; la herramienta tiene `calcular_00` (pct_a_la_primera) y `minutos_por_territorio`, y nada sobre pasos de motor."
+        }
+      ],
+      "por_que_importa": "Sin medida viva, la sobrecarga de B-1 pasó inadvertida y el diseño de P00 se dimensionó tomando los minutos de job como trabajo real. Lo que no se mide en cada campaña vuelve a crecer.",
+      "propuesta": "Dos cosas: (1) averiguar por qué el job semanal `metricas` de P90 no deja fichero nuevo desde el 9-11 y arreglarlo; (2) añadir a `herramientas/metricas_proceso.py` el porcentaje de pasos de motor por territorio (API de jobs) y comprobar que el humo de PR queda fuera del recuento. Sin workflow ni vigilante nuevos.",
+      "criterio_aceptacion": "Tras la próxima campaña, `orchestracion/metricas_proceso.json` tiene fecha posterior a ella, incluye sus territorios y trae, por territorio, éxito a la primera, minutos de job y porcentaje de pasos de motor; relanzar `herramientas/metricas_proceso.py` sobre la misma ventana da las mismas cifras.",
+      "impacto": 3,
+      "esfuerzo": "S",
+      "riesgo": "Bajo. Unas 150 llamadas a la API por campaña; hay que reintentar los cortes de conexión.",
+      "toca": [
+        "ci",
+        "proceso"
+      ],
+      "necesita": "fusion",
+      "ya_previsto": "Parcial: T-366 (HECHA) dejó el job semanal `metricas` en P90; dos de los tres indicadores ya los calcula `herramientas/metricas_proceso.py`. Falta que escriba y el porcentaje de motor.",
+      "decisiones_relacionadas": [
+        "D-216"
+      ],
+      "nivel_mundial": "Nextflow y Snakemake generan por ejecución un informe de tiempo y recursos por tarea (`nextflow -with-report`, `snakemake --report`).",
+      "confianza": "alta",
+      "verificacion": {
+        "veredicto": "CORREGIDO",
+        "como": "API: …/ejecucion-completa-proyecto.yml/runs?per_page=100 (total 2.493; 100 de 100 pull_request en éxito, mediana 1,3 min, del 16-11 al 26-11) y con event=workflow_dispatch (total 1.012; 95 y 5; mediana 45,9, p90 110,3, máx. 147,3; último el 16-11 08:23Z); python sobre metricas_proceso.json (generado 2026-11-09T13:51:32Z, 13 territorios, bot 9 y propietario 10); grep de `metricas` en p90-automatico.yml.",
+        "correccion": "Las cifras se confirman. «No hay medida» era inexacto: hay un job semanal (T-366) y una herramienta que ya calcula dos de los tres indicadores; lo que falla es que no actualiza desde el 9-11 y que no mide el motor. Título, propuesta y criterio reescritos sobre lo que existe. Aclarado que las 82,4 h son solo de los runs en éxito. Impacto 3 se mantiene."
+      }
+    },
+    {
+      "id": "B-10",
+      "titulo": "Capas retiradas en el árbol activo: g10, cuatro motores de semillas y 95 herramientas sin uso",
+      "que_pasa_hoy": "`g10/` (263 líneas) y sus tres JSON de `orchestracion/` (estado del 13-09 y dos planes de lote) no tienen workflow vivo: solo los citan `herramientas/g10_orquestar.py` y copias en legacy. `ddd_core` guarda cuatro versiones del motor de semillas encadenadas por imports. De 269 herramientas, 119 se citan en workflows, 55 solo desde otro código, 68 solo desde tests y 27 desde ningún sitio (17.015 líneas entre las dos últimas). La ruta m05 está «RETIRADA» pero sigue como opción del botón.",
+      "evidencia": [
+        {
+          "tipo": "VERIFICADO",
+          "ref": "git grep -lE 'from g10|import g10|g10\\.' -- '*.py' '*.yml' '*.sh'",
+          "detalle": "Fuera de legacy solo g10/ y herramientas/g10_orquestar.py; ningún workflow de .github/workflows."
+        },
+        {
+          "tipo": "VERIFICADO",
+          "ref": "búsqueda por nombre de módulo de cada herramientas/*.py en workflows, código vivo y tests",
+          "detalle": "119 en workflows (38.626 líneas); 55 solo por otro código (16.977); 68 solo por tests (13.816); 27 por nadie (3.199). Aproximado: no ve llamadas dinámicas ni usos desde documentos."
+        },
+        {
+          "tipo": "LEIDO",
+          "ref": "ddd_core/m04_seed_engine.py:27-28; ddd_core/m04_seed_engine_v7411.py:37",
+          "detalle": "m04_seed_engine importa v7412 y v7411; v7411 y v7412 importan v7410."
+        },
+        {
+          "tipo": "LEIDO",
+          "ref": ".github/workflows/ejecucion-completa-proyecto.yml:289-296",
+          "detalle": "Entrada `motor` con opciones motor2 y m05 («ruta retirada»)."
+        }
+      ],
+      "por_que_importa": "Cada capa muerta entra en huellas, tests y lectura de quien llega. La auditoría del 24-11 dio el total (163.000 líneas de herramientas y pruebas frente a 29.000 de motor); aquí está la lista accionable.",
+      "propuesta": "Una PR de retirada por capa, empezando por lo que nadie cita (27 herramientas y g10 con sus JSON), con la lista generada por guion y revisada. Las 68 que solo citan los tests, decidir una a una.",
+      "criterio_aceptacion": "El guion de referencias da 0 herramientas sin ninguna cita; `ls g10` no existe; la CI sigue en verde; las huellas M05 de 3 territorios no cambian.",
+      "impacto": 2,
+      "esfuerzo": "M",
+      "riesgo": "Las versiones del motor de semillas entran en huellas y evidencias N08: no tocarlas sin regenerar. La gobernanza exige copia en legacy de cada fichero retirado.",
+      "toca": [
+        "repo",
+        "motor"
+      ],
+      "necesita": "decision_propietario",
+      "ya_previsto": null,
+      "decisiones_relacionadas": [
+        "D-82",
+        "D-166"
+      ],
+      "nivel_mundial": "Los repositorios de referencia del ámbito son pequeños y de una sola vía (GerryChain, https://github.com/mggg/GerryChain; redist, https://github.com/alarm-redist/redist).",
+      "confianza": "media",
+      "verificacion_pendiente": "Sin revisar: impacto 2, fuera del alcance de la verificación (impactos 5, 4 y 3)."
+    }
+  ],
+  "verificacion": {
+    "fecha": "2026-11-28",
+    "contra": "origin/main 548968c47 (sin cambios en .github/workflows, procedimiento.sh ni en los selectores desde 9e630d11d)",
+    "revisados": 9,
+    "confirmados": 0,
+    "corregidos": 9,
+    "refutados": 0,
+    "no_comprobables": 0,
+    "sin_revisar": [
+      "B-10"
+    ],
+    "impacto_cambiado": {
+      "B-3": "4→3",
+      "B-4": "4→3",
+      "B-6": "4→3",
+      "B-8": "3→2"
+    }
   }
- ]
 }

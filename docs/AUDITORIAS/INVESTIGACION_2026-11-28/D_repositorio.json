@@ -1,14 +1,14 @@
 {
  "ambito": "D_repositorio",
  "sesion": "agente local del flujo T-509 (sin sesión propia)",
- "veredicto": "El repositorio guarda en el mismo árbol código, archivo histórico, entradas de datos y salidas de ejecuciones: 1.068 MB y 14.483 ficheros, de los que 342 MB son copias exactas. El motor (28.822 líneas) está bien protegido por tests de comportamiento, pero a su alrededor hay 95.210 líneas de tests (un 18 % de sus aserciones comprueban texto), 2.675 copias en legacy (el 93 % sin ninguna cita viva) y unas 107 herramientas fuera de la tubería.",
+ "veredicto": "El repositorio guarda en el mismo árbol código, archivo histórico, entradas de datos y salidas de ejecuciones: 1.068 MB y 14.483 ficheros, de los que 342 MB son copias exactas. El motor (28.822 líneas) está bien protegido por tests de comportamiento, pero a su alrededor hay 95.210 líneas de tests (entre un 17 y un 18 % de sus aserciones comprueban texto), 2.675 copias en legacy (el 93 % sin ninguna cita viva) y unas 107 herramientas fuera de la tubería.",
  "liga_hoy": "Segunda: proyecto de investigación serio, con trazabilidad muy por encima de la media, pero con árbol de «todo dentro» que un tercero no puede clonar, entender ni buscar con comodidad.",
  "liga_objetivo": "Primera: repositorio de código de menos de 150 MB, datos y evidencia fuera de git con manifiesto de sha256, tests clasificados por lo que protegen y una guardia automática de tamaño, huérfanos y cabeceras.",
  "hallazgos": [
   {
    "id": "D-1",
-   "titulo": "El 79 % del peso del clon son tres carpetas de binarios, no legacy; 342 MB son copias exactas",
-   "que_pasa_hoy": "El árbol ocupa 1.068 MB (14.483 ficheros) y GitHub da 467 MB de repositorio. Medido por objeto comprimido, el árbol actual pesa 356 MB y tres sitios suman 280 MB: `inputs/partes` (132,5 MB), `docs/AUDITORIAS/F04_F10_20261009` (86,9 MB; 262 MB en disco, con el mismo `seccionado_2025.zip` de 11 MB cinco veces) y `docs/ESTUDIOS` (unos 60 MB). Hay 2.312 ficheros que son copia exacta de otro (342 MB, el 32 % del árbol): `inputs/partes` está entero otra vez en `territorios/aut02/inputs/partes` (136 MB), y `resultados/lotes_autonomos` (119 MB, dos lotes con 6 ficheros iguales) no lo cita ningún workflow, código, test ni configuración. `.gitattributes` declara LFS para dos ZIP que no existen con ese nombre (`git lfs ls-files` da 0).",
+   "titulo": "El 80 % del peso del clon son tres carpetas de binarios, no legacy; 342 MB son copias exactas",
+   "que_pasa_hoy": "El árbol ocupa 1.068 MB (14.483 ficheros) y GitHub da 467 MB de repositorio. Medido por objeto comprimido, el árbol actual pesa 356 MB y tres sitios suman 287 MB (el 80 %): `inputs/partes` (132,5 MB), `docs/AUDITORIAS/F04_F10_20261009` (86,9 MB; 262 MB en disco, con el mismo `seccionado_2025.zip` de 11 MB cinco veces) y `docs/ESTUDIOS` (67,1 MB). Hay 2.312 ficheros que son copia exacta de otro (342 MB, el 32 % del árbol): `inputs/partes` está entero otra vez en `territorios/aut02/inputs/partes` (136 MB), y `resultados/lotes_autonomos` (119 MB, dos lotes con 6 ficheros iguales) no lo cita ningún workflow, código, test ni configuración. `.gitattributes` declara LFS para dos ZIP que no existen con ese nombre (`git lfs ls-files` da 0).",
    "evidencia": [
     {
      "tipo": "VERIFICADO",
@@ -33,7 +33,7 @@
     {
      "tipo": "VERIFICADO",
      "ref": "git grep -l 'lotes_autonomos' -- .github herramientas modulos ddd_core tests configuracion orchestracion",
-     "detalle": "0 ficheros; `F04_F10_20261009` solo lo citan 4 tests; `inputs/partes` lo leen 4 workflows, 12 herramientas y 52 configuraciones"
+     "detalle": "0 ficheros; `F04_F10_20261009` solo lo citan 4 tests; `inputs/partes` lo leen 4 workflows, 12 herramientas y 52 configuraciones de `territorios/*/config` (en `configuracion/` no hay ninguna cita); `legacy/publication` solo aparece en `docs/INVENTARIO_OPERATIVO.md` y en 3 inventarios de auditoría"
     },
     {
      "tipo": "VERIFICADO",
@@ -52,11 +52,11 @@
     }
    ],
    "por_que_importa": "Un tercero que quiera reproducir el trabajo baja medio giga para llegar a 29.000 líneas de motor. Cada sesión en la nube, cada job de CI y cada imagen parten de ese árbol. Las auditorías anteriores señalaron legacy como el peso; la medida dice que legacy son 15 MB del clon y que el peso está en binarios de entrada y de auditorías antiguas.",
-   "propuesta": "Sacar del árbol, a R2 o a un release con su manifiesto de sha256 (el patrón ya existe: `inputs/MANIFEST.sha256`, espejos de P10 y `datos_abiertos/INDEX.json`): (1) `resultados/lotes_autonomos` y `legacy/publication` (nadie los lee); (2) los ZIP de `docs/AUDITORIAS/F04_F10_20261009`, dejando el informe y un índice con huellas; (3) la copia `territorios/aut02/inputs/partes`; (4) al final, `inputs/partes`, con un paso de descarga verificada en los 4 workflows que lo leen. Quitar las dos líneas LFS muertas. No hace falta reescribir el historial: las sesiones y la CI clonan sin historia.",
-   "criterio_aceptacion": "`git ls-files -z | xargs -0 stat -c %s | paste -sd+ | bc` da menos de 600 MB tras los pasos 1 a 3 (hoy 1.068) y menos de 450 MB tras el 4; el guion de duplicados da menos de 50 MB de copias exactas (hoy 342); cada fichero retirado figura en un índice con ruta, sha256 y dirección de descarga, y un test baja uno al azar y comprueba la huella.",
-   "impacto": 4,
+   "propuesta": "Sacar del árbol, a R2 o a un release con su manifiesto de sha256 (el patrón ya existe: `inputs/MANIFEST.sha256`, espejos de P10 y `datos_abiertos/INDEX.json`): (1) `resultados/lotes_autonomos` y `legacy/publication` (nadie los lee); (2) los ZIP de `docs/AUDITORIAS/F04_F10_20261009`, dejando el informe y un índice con huellas, salvo los 5 de `originales/` (28,4 MB), que un test abre y cuya huella comprueba (o adaptando ese test en la misma PR); (3) la copia `territorios/aut02/inputs/partes`; (4) al final, `inputs/partes`, con un paso de descarga verificada en los 4 workflows que lo leen y revisando las 52 configuraciones de `territorios/*/config` y las 12 herramientas que llevan esa ruta. Quitar las dos líneas LFS muertas. No hace falta reescribir el historial: las sesiones y la CI clonan sin historia.",
+   "criterio_aceptacion": "`git ls-files -z | xargs -0 stat -c %s | paste -sd+ | bc` da menos de 600 MB tras los pasos 1 a 3 (hoy 1.068; la cuenta da unos 585 conservando los 5 ZIP de `originales/`) y menos de 450 MB tras el 4; el guion de duplicados, versionado en el repositorio, da menos de 50 MB de copias exactas (hoy 342); cada fichero retirado figura en un índice con ruta, sha256 y dirección de descarga; un paso de la nocturna (no la suite de las PR, que no debe depender de la red) baja los ficheros del índice y comprueba su sha256; `tests.test_f10_receipt_contract`, `tests.test_ddd_auto` y `tests.test_f10_preparacion_aislada` pasan, comparados por nombre de test contra `origin/main`.",
+   "impacto": 3,
    "esfuerzo": "M",
-   "riesgo": "Pasos 1 a 3: bajo. `tests/test_ddd_auto.py:25,176`, `tests/test_f10_preparacion_aislada.py:123` y `tests/test_f10_receipt_contract.py:29` leen evidencia JSON de F04_F10: se retiran solo los ZIP y se dejan los JSON y la carpeta. `territorios/aut02/inputs` lo citan `herramientas/procesar_f10_resultados_aragon_cyl.py` y `tests/test_r039_electoral_contract.py`. Paso 4: medio; toca `p10-fuentes`, `p20-distritos`, `p40-publicacion` y `p90-automatico`, así que es cambio de CI con detalle para el propietario. No toca huellas M05 ni evidencias N08.",
+   "riesgo": "Paso 1: bajo. Paso 2: medio, no bajo: `tests/test_f10_receipt_contract.py:140-146` abre `originales/artifact-<id>.zip` y comprueba su sha256, y `tests/test_ddd_auto.py:176` pasa la carpeta entera al validador F04; retirar todos los ZIP los rompe, así que se conservan los 5 de `originales/` o se adapta el test en la misma PR. `tests/test_f10_preparacion_aislada.py:123` solo lee un JSON. Paso 3: `territorios/aut02/inputs` lo citan `herramientas/procesar_f10_resultados_aragon_cyl.py` y `tests/test_r039_electoral_contract.py`. Paso 4: medio; toca `p10-fuentes`, `p20-distritos`, `p40-publicacion` y `p90-automatico`, 52 configuraciones territoriales y 12 herramientas, así que es cambio de CI con detalle para el propietario. Destino: D-35 deja en R2 solo entradas mínimas, productos y auditorías; los lotes y las copias de entradas encajan mejor en un release, o piden decisión. No toca huellas M05 ni evidencias N08.",
    "toca": [
     "repo",
     "datos",
@@ -69,12 +69,17 @@
     "D-35"
    ],
    "nivel_mundial": "GitHub recomienda repositorios de menos de 1 GB y avisa a partir de 50 MB por fichero (docs.github.com, «About large files on GitHub»). Wilson et al., «Good enough practices in scientific computing», PLOS Comput Biol 2017, doi:10.1371/journal.pcbi.1005510: datos crudos fuera del control de versiones del código, con su huella. GerryChain (github.com/mggg/GerryChain) no guarda datos de entrada en el repositorio del motor.",
-   "confianza": "alta"
+   "confianza": "alta",
+   "verificacion": {
+    "veredicto": "CORREGIDO",
+    "como": "`git ls-files -z | xargs -0 stat -c %s` → 1.068,8 MB (14.497 ficheros con los de esta investigación); `git cat-file --batch-all-objects --batch-check` cruzado con `git ls-files -s` → 356,2 MB: `inputs/partes` 132,5, `F04_F10_20261009` 86,9, `docs/ESTUDIOS` 67,1; 2.312 copias extra y 341,8 MB; `gh api repos/<repo> --jq .size` → 466.893 KB; `git lfs ls-files` → 0; `git grep -l lotes_autonomos` → 0 fuera de este informe; pasos de checkout de los runs 46084926448 y 45903004168 → 13 a 15 s; 82 `actions/checkout` en 15 workflows; `sed -n 136,146p tests/test_f10_receipt_contract.py`. Vigente en origin/main (548968c47); sin T-xx en docs/PLAN.md.",
+    "correccion": "`docs/ESTUDIOS` pesa 67 MB comprimido, no 60: las tres carpetas suman 287 MB, el 80 % (título y texto). Las 52 «configuraciones» están en `territorios/*/config`, no en `configuracion/`. El riesgo decía que los tests solo leen JSON de F04_F10: uno abre 5 ZIP de `originales/` y comprueba su huella; propuesta, riesgo y criterio lo recogen. El criterio «un test baja uno al azar» pasa a un paso de la nocturna, porque la suite de PR no debe depender de la red. Impacto 4 → 3: el coste medido son 13–15 s por checkout y un clon de 467 MB, por debajo de los avisos de GitHub; no hay fallo ni límite alcanzado."
+   }
   },
   {
    "id": "D-2",
-   "titulo": "Gobernanza legacy: 35 MB y 355 ficheros por semana, 93 % sin cita viva, probada en solo 25 ficheros",
-   "que_pasa_hoy": "`legacy/` tiene 2.675 ficheros y 152,7 MB en disco. Por la fecha de sus nombres, del 14 al 28-11 entraron 710 ficheros y 70,2 MB (355 y 35 MB por semana); el 76 % de esos megas son 271 copias enteras de `REGISTRO_DE_CAMBIOS.md`, que `herramientas/numerar_registro.py` copia en cada numeración y que crece (38 KB la primera, 214 KB la última): el coste es cuadrático. Hay además 79 copias del plan (7,5 MB). De los 2.675 ficheros, 2.189 (141,8 MB, el 93 % del peso) no los cita nada vivo: ni código, ni workflow, ni configuración, ni test, ni una cabecera ANTERIOR. La regla tampoco es general: de 1.494 ficheros activos de texto solo 570 (38 %) llevan ANTERIOR; 308 apuntan a legacy (2 a un fichero que no existe), 180 dicen «ninguna» y 82 ya apuntan a un commit o a un número de versión. El test `GovernanceHeaders` solo comprueba 20 ficheros de código y 5 documentos. Corrección a C-10 y a la auditoría del 24-11: en el clon legacy pesa 15,2 MB, porque git comprime las copias casi iguales; su coste está en el árbol, en las búsquedas y en lo que lee cada agente.",
+   "titulo": "Gobernanza legacy: 35 MB y 355 ficheros por semana, 93 % sin cita viva, probada en solo 22 ficheros",
+   "que_pasa_hoy": "`legacy/` tiene 2.675 ficheros y 152,7 MB en disco. Por la fecha de sus nombres, del 14 al 28-11 entraron 710 ficheros y 70,2 MB (355 y 35 MB por semana); el 76 % de esos megas son 271 copias enteras de `REGISTRO_DE_CAMBIOS.md`, que `herramientas/numerar_registro.py` copia en cada numeración y que crece (38 KB la primera, 214 KB la última): el coste es cuadrático. Hay además 79 copias del plan (7,5 MB). De los 2.675 ficheros, 2.189 (141,8 MB, el 93 % del peso) no los cita nada vivo: ni código, ni workflow, ni configuración, ni test, ni una cabecera ANTERIOR. La regla tampoco es general: de 1.494 ficheros activos de texto solo 570 (38 %) llevan ANTERIOR; 307 apuntan a legacy (1 a un fichero que no existe), 180 dicen «ninguna» y 82 ya apuntan a un commit o a un número de versión. El test `GovernanceHeaders` solo comprueba 17 ficheros de código y 5 documentos. Corrección a C-10 y a la auditoría del 24-11: en el clon legacy pesa 15,2 MB, porque git comprime las copias casi iguales; su coste está en el árbol, en las búsquedas y en lo que lee cada agente.",
    "evidencia": [
     {
      "tipo": "VERIFICADO",
@@ -89,7 +94,7 @@
     {
      "tipo": "VERIFICADO",
      "ref": "ls -la legacy/docs | grep REGISTRO_DE_CAMBIOS",
-     "detalle": "648 copias, 104,2 MB; v1.0.1 38.414 bytes, v1.0.228 152.089, v1.0.428 183.036, v1.0.628 213.597"
+     "detalle": "655 copias (656 en origin/main), 104,3 MB; v1.0.1 38.414 bytes, v1.0.228 152.089, v1.0.428 183.036, v1.0.628 213.597"
     },
     {
      "tipo": "VERIFICADO",
@@ -99,12 +104,12 @@
     {
      "tipo": "VERIFICADO",
      "ref": "guion: cabecera ANTERIOR en los primeros 6.000 bytes de 1.494 ficheros activos de texto",
-     "detalle": "sin ANTERIOR 924; ninguna 180; legacy existe 306; legacy no existe 2 (`herramientas/evaluar_preparacion_territorial.py`, `visor/v4/comprender.html`); commit o versión 82"
+     "detalle": "sin ANTERIOR 924; ninguna 180; legacy existe 307; legacy no existe 1 (`herramientas/evaluar_preparacion_territorial.py`; `visor/v4/comprender.html` era un falso positivo: su predecesor `legacy/visor/v4/comprender_v2.2.0_20261120.html` existe y la expresión arrastró el «).» final); commit o versión 82"
     },
     {
      "tipo": "LEIDO",
-     "ref": "tests/test_r015_invariantes.py:262-304",
-     "detalle": "TARGETS con 20 rutas y CANONICAL_VERSIONED_DOCS con 5; exige que el predecesor exista en legacy/"
+     "ref": "tests/test_r015_invariantes.py:258-304",
+     "detalle": "TARGETS con 17 rutas y CANONICAL_VERSIONED_DOCS con 5; exige que el predecesor exista en legacy/. Es el mismo test que corre el paso «Auditar cabeceras y legacy en checkout» de `p90-automatico.yml:201-202`"
     },
     {
      "tipo": "VERIFICADO",
@@ -117,31 +122,36 @@
      "detalle": "unos 0,5 GB más de árbol en 12 semanas"
     }
    ],
-   "por_que_importa": "La regla se paga en cada PR (copiar, renombrar, subir cabecera) y en cada lectura, y no da lo que promete: no es general, no está probada salvo en 25 ficheros y ya tiene dos predecesores rotos. Git guarda las mismas versiones sin trabajo y sin error.",
-   "propuesta": "Tres escalones, cada uno aprobable por separado. (1) Ficheros que solo crecen (registro, plan): `numerar_registro.py` deja de copiar y se retiran las 648 + 79 copias; el predecesor es el commit anterior. (2) ANTERIOR pasa a `git:<sha del blob anterior>` y un test lo comprueba con `git cat-file -e`; es lo que ya hacen de hecho 82 ficheros. (3) Se retira de `legacy/` lo que nadie cita, dejando un índice con ruta, sha del blob y commit donde vivía, y se conservan los 132 con carga y los 7 que exige R015. Las cabeceras VERSIÓN, FECHA, CAMBIOS y MOTIVO no se tocan.",
-   "criterio_aceptacion": "(1) Tras una numeración real, `git status` no muestra ningún fichero nuevo en `legacy/docs/` y `ls legacy/docs | grep -c REGISTRO_DE_CAMBIOS` da 0. (2) `python -m unittest tests.test_r015_invariantes.GovernanceHeaders` pasa y falla si se altera a mano un sha de ANTERIOR. (3) `git ls-files legacy | wc -l` da menos de 550 (hoy 2.675) y un guion comprueba que toda ruta `legacy/` citada en código, workflows, configuración y tests existe. La suite se compara por nombre de test contra `origin/main` (T-460).",
+   "por_que_importa": "La regla se paga en cada PR (copiar, renombrar, subir cabecera) y en cada lectura, y no da lo que promete: no es general, no está probada salvo en 25 ficheros y ya tiene un predecesor roto. Git guarda las mismas versiones sin trabajo y sin error.",
+   "propuesta": "Tres escalones, cada uno aprobable por separado. (1) Ficheros que solo crecen (registro, plan): `numerar_registro.py` deja de copiar y se retiran las 655 + 79 copias; el predecesor es el commit anterior. (2) ANTERIOR pasa a `git:<sha del blob anterior>` y un test lo comprueba con `git cat-file -e`; es lo que ya hacen de hecho 82 ficheros. Se aplica en el siguiente cambio real de cada fichero, nunca reescribiendo cabeceras en bloque: la huella M05 es el sha256 de los bytes de `modulos/05` y de su cierre de `ddd_core`. (3) Se retira de `legacy/` lo que nadie cita, dejando un índice con ruta, sha del blob y commit donde vivía, y se conservan los 132 con carga y los 7 que exige R015. Las cabeceras VERSIÓN, FECHA, CAMBIOS y MOTIVO no se tocan.",
+   "criterio_aceptacion": "(1) Tras una numeración real, `git status` no muestra ningún fichero nuevo en `legacy/docs/` y `ls legacy/docs | grep -c REGISTRO_DE_CAMBIOS` da 0. (2) `python -m unittest tests.test_r015_invariantes.GovernanceHeaders` pasa y, en un clon con historia, falla si se altera a mano un sha de ANTERIOR; `herramientas/huella_checkpoint_m05.py` da la misma huella antes y después de la PR. (3) `git ls-files legacy | wc -l` da menos de 550 (hoy 2.675) y un guion comprueba que toda ruta `legacy/` citada en código, workflows, configuración y tests existe. La suite se compara por nombre de test contra `origin/main` (T-460).",
    "impacto": 4,
    "esfuerzo": "M",
-   "riesgo": "Es una regla del propietario: necesita su sí. Rompe, si no se adapta en la misma PR: `GovernanceHeaders` (exige rutas en legacy), los tests de `numerar_registro`, `CONTRIBUTING.md` punto 3 y `.claude/rules/gobernanza.md`. El sha del blob anterior no está en un clon sin historia: el test completo debe correr en la nocturna con `fetch-depth: 0` y en la PR comprobar solo el formato. No toca huellas M05 (se calculan sobre `ddd_core` y `modulos/05`, no sobre legacy).",
+   "riesgo": "Es una regla del propietario: necesita su sí. Rompe, si no se adapta en la misma PR: `GovernanceHeaders` (exige rutas en legacy), los tests de `numerar_registro`, `CONTRIBUTING.md` punto 3 y `.claude/rules/gobernanza.md`. El sha del blob anterior no está en un clon sin historia: el test completo debe correr en la nocturna con `fetch-depth: 0` y en la PR comprobar solo el formato. Huella M05: los escalones 1 y 3 no la tocan (legacy no entra en ella), pero el 2 sí la cambiaría si se reescribe la línea ANTERIOR de `modulos/05_optimizar_distritos.py` o de un `ddd_core` de su cierre de importaciones (`herramientas/huella_checkpoint_m05.py:93` hace sha256 de los bytes) e invalidaría los M05/M06 previos; por eso la cabecera nueva solo entra con el siguiente cambio real de cada fichero.",
    "toca": [
     "repo",
     "proceso",
     "ci"
    ],
    "necesita": "decision_propietario",
-   "ya_previsto": "T-490 (propuesta de PLAN_MEJORA_2026-11-25; no está en docs/PLAN.md: D-214 la dejó como propuesta)",
+   "ya_previsto": "T-490 «Gobernanza ligera» (docs/AUDITORIAS/PLAN_MEJORA_2026-11-25.md:621; no está en docs/PLAN.md: D-214 dejó «el resto de la auditoría» como propuesta). Las copias del registro son también el hallazgo C-10.",
    "decisiones_relacionadas": [
     "D-214",
     "D-82",
     "D-142"
    ],
    "nivel_mundial": "Los proyectos de referencia usan el historial de git y etiquetas de versión como única memoria de versiones anteriores; ninguno de los revisados (GerryChain, github.com/mggg/GerryChain) guarda copias numeradas en el árbol.",
-   "confianza": "alta"
+   "confianza": "alta",
+   "verificacion": {
+    "veredicto": "CORREGIDO",
+    "como": "`git ls-files legacy | wc -l` → 2.675 (152,7 MB); guion propio por fecha del nombre → W44 279/10,4, W45 296/23,0, W46 662/50,3, W47 367/36,8, W48 156/17,4 y desde el 14-11 710/70,2 MB (REGISTRO 271/53,1; PLAN 36/5,4); `ls legacy/docs | grep -c REGISTRO_DE_CAMBIOS` → 655 (656 en origin/main); 79 copias de PLAN, 7,5 MB; `sed -n 108,120p herramientas/numerar_registro.py`; `sed -n 258,306p tests/test_r015_invariantes.py`; guion independiente de citas → 2.132 ficheros y 140,1 MB sin cita exacta (el informe: 2.189 y 141,8; misma magnitud) y cabecera ANTERIOR en el 32 % de los ficheros activos (el informe: 38 %; depende de la expresión regular); `grep -n hashlib herramientas/huella_checkpoint_m05.py`; `grep T-490 docs/PLAN.md` → nada. Vigente en origin/main.",
+    "correccion": "`GovernanceHeaders` cubre 17 ficheros de código y 5 documentos (22), no 20 y 5 (25): título y texto. Las copias del registro son 655, no 648. El riesgo decía «no toca huellas M05»: el escalón 2 sí la cambiaría si se reescriben cabeceras del motor; propuesta, riesgo y criterio lo acotan. Predecesores rotos: 1, no 2 (`herramientas/evaluar_preparacion_territorial.py`); el de `visor/v4/comprender.html` existe (`ls legacy/visor/v4/`). Impacto 4 se mantiene: el crecimiento está medido."
+   }
   },
   {
    "id": "D-3",
-   "titulo": "Tests: 95.210 líneas para 28.822 de motor; el 18 % de las aserciones comprueba texto, no conducta",
-   "que_pasa_hoy": "Hay 504 ficheros `tests/test_*.py` con 4.462 tests y 15.351 aserciones. Por importaciones: 143 ficheros (1.553 tests) prueban motor y núcleo; 160 (1.008) herramientas y contratos; 85 (1.180) mezclan una herramienta con texto de workflows; y 116 (23 %; 721 tests) no importan código del proyecto: 34 leen documentos y gobernanza, 24 workflows, 3 ambos, 7 HTML o JS del visor y 48 datos. 2.701 aserciones (18 %) son del tipo «este literal está en este texto». 135 ficheros (27 %) leen `.github/workflows` y hay 43 copias de workflows antiguos en `tests/fixtures`. Clasificando por función: 58,5 % comportamiento, 20,5 % texto o datos y 21 % sin determinar por análisis estático. 107 ficheros se llaman `test_tNNN_…`: dicen la tarea que los creó, no lo que protegen.",
+   "titulo": "Tests: 95.210 líneas para 28.822 de motor; entre el 17 y el 18 % de las aserciones comprueba texto, no conducta",
+   "que_pasa_hoy": "Hay 504 ficheros `tests/test_*.py` con 4.462 tests y 15.351 aserciones. Por importaciones: 143 ficheros (1.553 tests) prueban motor y núcleo; 160 (1.008) herramientas y contratos; 85 (1.180) mezclan una herramienta con texto de workflows; y 116 (23 %; 721 tests) no importan código del proyecto: 34 leen documentos y gobernanza, 24 workflows, 3 ambos, 7 HTML o JS del visor y 48 datos. Entre 2.607 y 2.701 aserciones (17–18 %, según la expresión regular) son del tipo «este literal está en este texto». 135 ficheros (27 %) leen `.github/workflows` y hay 43 copias de workflows antiguos en `tests/fixtures`. Clasificando por función: 58,5 % comportamiento, 20,5 % texto o datos y 21 % sin determinar por análisis estático. 107 ficheros se llaman `test_tNNN_…`: dicen la tarea que los creó, no lo que protegen.",
    "evidencia": [
     {
      "tipo": "VERIFICADO",
@@ -169,10 +179,10 @@
      "detalle": "47 tests citados por nombre en workflows, 13 en reglas y skills, 49 tests importan otros tests"
     }
    ],
-   "por_que_importa": "Un test que comprueba una frase de un YAML falla cuando se renombra un paso y no falla cuando el paso deja de funcionar. Con la migración D-129 y la de notación P pendiente (T-313), cada renombrado arrastra decenas de tests sin que cambie ningún comportamiento, y eso es parte de lo que encarece la CI y las PR.",
-   "propuesta": "(1) Sin mover nada: un manifiesto `tests/CLASIFICACION.json` generado por guion (motor, contratos, workflows, textos, visor) y un informe en cada PR con la fracción de aserciones de texto. (2) Regla para tests nuevos: importan código o analizan estructura (`yaml.safe_load` y comprobar el grafo de jobs), no literales. (3) Los 27 ficheros que solo leen workflows se sustituyen por un validador de sintaxis (actionlint) más un test de estructura por familia. (4) Los 34 de documentos quedan en un grupo aparte que no bloquea las PR de motor.",
-   "criterio_aceptacion": "El guion de clasificación corre en CI y deja el recuento por categoría; la fracción de aserciones «literal en texto» baja del 18 % a menos del 10 % sin que desaparezca ningún test de comportamiento (comparación por nombre contra `origin/main`); una PR de prueba que renombra un paso de un workflow sin cambiar su orden ni su comando rompe como mucho 3 tests.",
-   "impacto": 4,
+   "por_que_importa": "Un test que comprueba una frase de un YAML falla cuando se renombra un paso y no falla cuando el paso deja de funcionar. Con la migración D-129 y la de notación P pendiente (T-313), cada renombrado arrastra decenas de tests sin que cambie ningún comportamiento, y eso puede encarecer la CI y las PR (no está medido cuántas PR han tenido que tocar tests de texto).",
+   "propuesta": "(1) Sin mover nada: un manifiesto `tests/CLASIFICACION.json` generado por un guion versionado en `herramientas/` (hoy el recuento solo existe fuera del repositorio) (motor, contratos, workflows, textos, visor) y un informe en cada PR con la fracción de aserciones de texto. (2) Regla para tests nuevos: importan código o analizan estructura (`yaml.safe_load` y comprobar el grafo de jobs), no literales. (3) Los 27 ficheros que solo leen workflows se sustituyen por un validador de sintaxis (actionlint) más un test de estructura por familia. (4) Los 34 de documentos quedan en un grupo aparte que no bloquea las PR de motor.",
+   "criterio_aceptacion": "El guion de clasificación está en el repositorio, corre en CI y deja el recuento por categoría; con ese mismo guion, la fracción de aserciones «literal en texto» baja a menos del 10 % (hoy 17–18 %) sin que desaparezca ningún test de comportamiento (comparación por nombre contra `origin/main`); una PR de prueba que renombra un paso de un workflow sin cambiar su orden ni su comando rompe como mucho 3 tests.",
+   "impacto": 3,
    "esfuerzo": "L",
    "riesgo": "Mover ficheros de test rompería: `herramientas/repartir_tests.py` (descubre `tests/test_*.py` en un solo nivel), los 47 nombres citados en workflows (por ejemplo `p90-automatico.yml:202-212`), 13 en reglas y skills, 49 importaciones entre tests y 4 rutas de test fijadas en las evidencias N08. Por eso el primer paso es un manifiesto y no un `git mv`. La clasificación es estática: el 21 % sin determinar necesita cobertura real para afinarse.",
    "toca": [
@@ -188,7 +198,12 @@
     "D-214"
    ],
    "nivel_mundial": "Google Testing Blog, «Change-Detector Tests Considered Harmful» (2015, testing.googleblog.com): los tests que repiten el texto de lo probado no protegen y frenan. Para workflows, la práctica es actionlint (github.com/rhysd/actionlint) más pruebas del guion que el workflow llama.",
-   "confianza": "media"
+   "confianza": "media",
+   "verificacion": {
+    "veredicto": "CORREGIDO",
+    "como": "`git ls-files 'tests/test_*.py' | wc -l` → 504; `grep -cE 'def test_'` → 4.462; `grep -ohE 'self\\.assert\\w+\\(|^\\s*assert\\b'` → 15.351; assertIn/NotIn/Regex con literal → 2.607 con mi expresión; `wc -l` de los .py rastreados → tests 95.210 (sin fixtures), herramientas 72.617, ddd_core 16.785, paquetes 4.004, modulos 3.959, ddd_motor2 2.257, ddd_ensemble 1.817; 107 `test_tNNN`; 43 workflows en tests/fixtures; 49 tests importan otros tests; 39 aserciones en test_workflows_principales_ligeros.py; T-313 en ESPERA en docs/PLAN.md:394. Vigente en origin/main; sin T-xx.",
+    "correccion": "Las cifras que dependen de una expresión regular no salen idénticas: literal en texto 2.607 frente a 2.701 (17–18 %), ficheros que leen workflows 144 frente a 135, tests citados en workflows 44 frente a 47; misma magnitud, se deja el rango. El guion no está en el repositorio, así que el criterio exige versionarlo. «Encarece la CI y las PR» no está medido: pasa a hipótesis e impacto 4 → 3."
+   }
   },
   {
    "id": "D-4",
@@ -207,11 +222,11 @@
     }
    ],
    "por_que_importa": "La primera regla del propietario es el mínimo consumo. Cada búsqueda de un agente carga en su contexto entre dos y veinte veces más líneas de las útiles, y aumenta el riesgo de leer una versión vieja como si fuera la vigente.",
-   "propuesta": "Un fichero `.ignore` en la raíz con `legacy/`, `docs/registro/`, `docs/AUDITORIAS/*/` (subcarpetas de evidencias), `tests/fixtures/`, `territorios/*/evidencia/`, `resultados/` e `inputs/`. No borra nada y se salta con una opción cuando hace falta buscar en el archivo. Es independiente de D-1 y D-2 y vale desde el primer día.",
-   "criterio_aceptacion": "`rg -c production_run_id | awk -F: '{s+=$2} END {print s}'` da menos de 80 (hoy 1.148 con git grep) y `rg --no-ignore -c production_run_id` sigue dando el total; la suite no cambia (los tests leen con Python, no con rg).",
+   "propuesta": "Un fichero `.ignore` en la raíz con `legacy/`, `docs/registro/`, `docs/AUDITORIAS/*/` (subcarpetas de evidencias), `tests/fixtures/`, `territorios/*/evidencia/`, `resultados/` e `inputs/`. No borra nada. Las rutas de legacy que producción usa (la lista de D-5) se readmiten con líneas `!`, y para buscar en el archivo se usa `git grep`, que no lee `.ignore`. Es independiente de D-1 y D-2 y vale desde el primer día.",
+   "criterio_aceptacion": "`rg -c production_run_id | awk -F: '{s+=$2} END {print s}'` da menos de 80 (hoy 1.154 con git grep; la cuenta con esas exclusiones da unos 57) y `rg --no-ignore -c production_run_id` sigue dando el total; la suite no cambia (los tests leen con Python, no con rg). `rg -l m05_population_repair_v1_6` sigue encontrando el fichero de legacy que va en la imagen.",
    "impacto": 3,
    "esfuerzo": "S",
-   "riesgo": "Bajo. Un agente que busque de verdad en el archivo tiene que saber que existe la opción; una línea en CLAUDE.md lo resuelve.",
+   "riesgo": "Bajo, con una salvedad: la herramienta de búsqueda de los agentes no tiene opción para saltarse `.ignore`, y en `legacy/` hay ficheros que producción usa (D-5: 132 con carga, 32 en la imagen). Si se ignora `legacy/` entero, un agente que depure uno de ellos no lo encuentra. Por eso se readmiten con `!` y se deja en CLAUDE.md una línea: para el archivo, `git grep`.",
    "toca": [
     "repo",
     "skills",
@@ -221,12 +236,17 @@
    "ya_previsto": null,
    "decisiones_relacionadas": [],
    "nivel_mundial": "ripgrep respeta `.ignore` además de `.gitignore` (github.com/BurntSushi/ripgrep, GUIDE.md, «Automatic filtering»); los monorepos grandes lo usan para separar código vivo de material generado.",
-   "confianza": "alta"
+   "confianza": "alta",
+   "verificacion": {
+    "veredicto": "CORREGIDO",
+    "como": "`git grep -c -- <término>` total y limitado a legacy, docs/AUDITORIAS, docs/registro, el registro numerado y tests/fixtures → production_run_id 1.154/1.098 (95 %), p20-distritos 334/199 (60 %), TERRITORIAL_READY_PAIR_INCOMPATIBLE 115/87 (76 %), engine_files 32/13 (suben algo por los propios informes de esta investigación); `git ls-files` y `git ls-tree -r origin/main` sin `.ignore` ni `.rgignore`; `which rg` → /usr/bin/rg. Sin T-xx en docs/PLAN.md.",
+    "correccion": "Cifras confirmadas. Se corrige el riesgo y la propuesta: la herramienta de búsqueda de los agentes no puede saltarse `.ignore`, así que ignorar `legacy/` entero escondería los ficheros de legacy que usa producción; se readmiten con `!` y el archivo se busca con `git grep`. El criterio añade esa comprobación. Impacto 3 se mantiene."
+   }
   },
   {
    "id": "D-5",
-   "titulo": "legacy mezcla archivo y piezas que producción usa: 132 ficheros con carga, 16 en la imagen",
-   "que_pasa_hoy": "`legacy/` no es solo archivo. 132 de sus ficheros (4,75 MB) los cita código, workflows o configuración vivos, y 42 más solo tests. `.dockerignore` excluye `legacy/*` y luego readmite 16 ficheros uno a uno (por ejemplo `legacy/modulo02/02_construir_adyacencias_v7.3.2.py` y `legacy/n08_caceres_20261012/m05_population_repair_v1_6.py`); las evidencias N08 fijan huellas de 7 rutas de legacy. Nadie puede saber, mirando la carpeta, qué se puede retirar.",
+   "titulo": "legacy mezcla archivo y piezas que producción usa: 132 ficheros con carga, 32 en la imagen",
+   "que_pasa_hoy": "`legacy/` no es solo archivo. 132 de sus ficheros (4,75 MB) los cita código, workflows o configuración vivos, y 42 más solo tests. `.dockerignore` excluye `legacy/*` y luego readmite 16 ficheros uno a uno (por ejemplo `legacy/modulo02/02_construir_adyacencias_v7.3.2.py` y `legacy/n08_caceres_20261012/m05_population_repair_v1_6.py`) y la carpeta entera `legacy/workflows/retirados_20261031/`, con otros 16; las evidencias N08 fijan huellas de 7 rutas de legacy. Nadie puede saber, mirando la carpeta, qué se puede retirar.",
    "evidencia": [
     {
      "tipo": "VERIFICADO",
@@ -236,7 +256,7 @@
     {
      "tipo": "LEIDO",
      "ref": ".dockerignore",
-     "detalle": "`legacy/*` seguido de 16 líneas `!legacy/…` con ficheros concretos (grep -c sobre el fichero)"
+     "detalle": "`legacy/*` seguido de 28 líneas `!legacy/…`: 12 de carpeta y 16 de fichero concreto; la última, `!legacy/workflows/retirados_20261031/`, readmite la carpeta entera (16 ficheros)"
     },
     {
      "tipo": "VERIFICADO",
@@ -246,7 +266,7 @@
    ],
    "por_que_importa": "Mientras lo vivo y lo muerto compartan carpeta, cualquier limpieza de legacy es arriesgada y por eso no se hace. Separarlos convierte la limpieza de D-2 en una operación mecánica.",
    "propuesta": "Generar por guion `legacy/CON_CARGA.txt` (las rutas que cita algo vivo) y un test que falle si una cita apunta a una ruta ausente. Sin mover nada. Con esa lista, lo demás de legacy queda marcado como retirable (D-2, escalón 3).",
-   "criterio_aceptacion": "El guion lista las rutas con carga y contiene las 16 excepciones de `.dockerignore`, las 7 de N08 y las 7 de `test_recuperaciones_documentales_r015_presentes`; el test nuevo falla al borrar una de ellas y pasa al borrar una de las 2.189 sin cita.",
+   "criterio_aceptacion": "El guion lista las rutas con carga y contiene los 32 ficheros que `.dockerignore` readmite (16 uno a uno y los 16 de `legacy/workflows/retirados_20261031/`), las 7 de N08 y las 7 de `test_recuperaciones_documentales_r015_presentes`; el test nuevo falla al borrar una de ellas y pasa al borrar una de las 2.189 sin cita.",
    "impacto": 3,
    "esfuerzo": "S",
    "riesgo": "Bajo: no mueve ni cambia contenido, luego no altera huellas M05 ni las de N08. Mover los ficheros con carga a otra carpeta sí rompería N08 (rutas fijadas) y la imagen; no se propone.",
@@ -260,12 +280,17 @@
     "D-82"
    ],
    "nivel_mundial": "Práctica habitual: lo que la producción importa vive en el paquete; lo archivado sale del árbol o va a una rama o etiqueta de archivo.",
-   "confianza": "alta"
+   "confianza": "alta",
+   "verificacion": {
+    "veredicto": "CORREGIDO",
+    "como": "`grep -c '^!legacy/' .dockerignore` → 28 (12 carpetas y 16 ficheros); `git ls-files legacy/workflows/retirados_20261031 | wc -l` → 16; `grep -rhoE '\"legacy/[^\"]+\"' docs/ESTUDIOS/N08_* | sort -u | wc -l` → 7; `sed -n 306,317p tests/test_r015_invariantes.py` → 7 rutas; guion independiente de citas: 352 ficheros de legacy citados por código vivo si se cuentan también las líneas ANTERIOR (el informe da 132 sin ellas; no lo reproduzco al fichero). Sin T-xx en docs/PLAN.md.",
+    "correccion": "En la imagen entran 32 ficheros de legacy, no 16: `.dockerignore` readmite además la carpeta `legacy/workflows/retirados_20261031/` entera. Título, texto y criterio corregidos. La cifra de 132 con carga se deja como del autor (misma magnitud, no reproducida exacta)."
+   }
   },
   {
    "id": "D-6",
-   "titulo": "Código fuera de la tubería, con lista: 20 ficheros sin cita, 9 solo en documentos y 78 solo en tests",
-   "que_pasa_hoy": "De 391 ficheros de código revisados (105.809 líneas), 20 no los cita nadie (2.227 líneas; por ejemplo `herramientas/validar_poblacion_ine_2026_aragon.py`, 453 líneas, las 10 `auditar_*_m05.py` y `receta_cierre.py` en la raíz), 9 solo aparecen en documentos (1.115 líneas) y 78 solo los usa su propio test (16.553 líneas). Entre estos últimos hay 6 módulos de `ddd_core` (2.004 líneas: `congreso_candidate_certifier`, `congreso_national_composer`, `congreso_ign_api_snapshot`, `congreso_cnig_receipt`, `congreso_ign_historical_wms`, `national_campaign_planner`). Profundiza B-10, que dio el recuento (27 y 68) sin lista ni núcleo.",
+   "titulo": "Código fuera de la tubería, con lista: 20 ficheros sin cita, 9 solo en documentos y 78 sin cita de código ni de workflows",
+   "que_pasa_hoy": "De 384 ficheros de código revisados (105.810 líneas), 20 no los cita nadie (2.227 líneas; por ejemplo `herramientas/validar_poblacion_ine_2026_aragon.py`, 453 líneas, 8 `auditar_*_m05.py` y otras 2 `auditar_*` y `receta_cierre.py` en la raíz), 9 solo aparecen en documentos (1.115 líneas) y a 78 no los cita código ni workflows (16.553 líneas): 49 solo aparecen en su test (9.437 líneas), 23 en su test y en documentos, y 6 también en configuración, que puede ser un uso real. Entre estos últimos hay 6 módulos de `ddd_core` (2.004 líneas: `congreso_candidate_certifier`, `congreso_national_composer`, `congreso_ign_api_snapshot`, `congreso_cnig_receipt`, `congreso_ign_historical_wms`, `national_campaign_planner`). Profundiza B-10, que dio el recuento (27 y 68) sin lista ni núcleo.",
    "evidencia": [
     {
      "tipo": "VERIFICADO",
@@ -285,22 +310,27 @@
    ],
    "por_que_importa": "Son 19.895 líneas que se leen, se buscan y se mantienen con cabeceras, y 78 tests que gastan CI para proteger código que la tubería no ejecuta.",
    "propuesta": "Una PR por grupo: primero los 20 sin cita; después los 9; los 78, uno a uno con una pregunta: ¿es una herramienta de una sola vez cuyo resultado ya está en el repositorio? Las que se queden van a una lista `herramientas/DE_UNA_VEZ.txt` con su motivo. Un test de guardia impide que entren huérfanos nuevos.",
-   "criterio_aceptacion": "Test nuevo: todo `.py` de `herramientas/`, `ddd_core/`, `ddd_motor2/` y la raíz está citado por un workflow, por otro código o por la lista de una sola vez; hoy fallaría con 29 nombres y tras la primera PR pasa. `tests/test_huella_m05_motor_activo.py` sigue en verde y la huella M05 no cambia (comprobarlo con `herramientas/huella_checkpoint_m05.py` antes y después).",
+   "criterio_aceptacion": "Test nuevo: todo `.py` de `herramientas/`, `ddd_core/`, `ddd_motor2/` y la raíz está citado por un workflow, por otro código o por la lista de una sola vez; hoy fallaría con 29 nombres (20 sin cita y 9 solo en documentos) y pasa cuando los 20 se retiran y los 9 se retiran o entran en la lista con su motivo. `tests/test_huella_m05_motor_activo.py` sigue en verde y la huella M05 no cambia (comprobarlo con `herramientas/huella_checkpoint_m05.py` antes y después).",
    "impacto": 3,
    "esfuerzo": "M",
-   "riesgo": "Los 6 módulos de `ddd_core` no entran en el cierre de importaciones de `modulos/05` (solo los importan sus tests), así que retirarlos no debería cambiar la huella; hay que demostrarlo con la herramienta, no darlo por hecho. Con la regla actual, borrar un fichero versionado obliga a copiarlo a legacy: conviene aprobar antes D-2. El análisis es por nombre: una carga dinámica con el nombre construido en tiempo de ejecución se me escaparía.",
+   "riesgo": "Los 6 módulos de `ddd_core` no entran en el cierre de importaciones de `modulos/05` (solo los importan sus tests), así que retirarlos no debería cambiar la huella; hay que demostrarlo con la herramienta, no darlo por hecho. Con la regla actual, borrar un fichero versionado obliga a copiarlo a legacy: conviene aprobar antes D-2. «Sin cita» no es «sin uso»: varias son herramientas que se lanzan a mano (por ejemplo `herramientas/ver_visor_v2_local.py`); antes de retirar, preguntar. El análisis es por nombre: una carga dinámica con el nombre construido en tiempo de ejecución se me escaparía.",
    "toca": [
     "repo",
     "motor"
    ],
    "necesita": "fusion",
-   "ya_previsto": "T-263 (solo M04 v745–v754 y M05 v740, en REVISIÓN)",
+   "ya_previsto": "T-263 (solo M04 v745–v754 y M05 v740, en REVISIÓN). La medición de código muerto del motor ya está hecha en T-254 (D-85; `docs/ESTUDIOS/T254_MEDICION_DESLINDE/resultados/codigo_muerto.json`, que ya lista los 6 módulos de `ddd_core`); lo nuevo aquí son las herramientas.",
    "decisiones_relacionadas": [
     "D-85",
     "D-82"
    ],
    "nivel_mundial": "Detección automática de código sin uso en CI con vulture (github.com/jendrikseipp/vulture) o equivalentes; los proyectos de referencia no admiten módulos sin punto de entrada.",
-   "confianza": "media"
+   "confianza": "media",
+   "verificacion": {
+    "veredicto": "CORREGIDO",
+    "como": "Lista del autor (`/tmp/t509_D_repositorio/refs.json`): 384 ficheros y 105.810 líneas; 20 sin ninguna cita (2.227 líneas); 9 solo en documentos o configuración; 78 con test y sin cita de código ni de workflows (16.553 líneas: herramientas 69, ddd_core 6), de los que 49 solo en tests. `git grep -l -w` de 9 nombres fuera de legacy → `validar_poblacion_ine_2026_aragon` y `auditar_swaps_1x2_m05` 0 citas, `receta_cierre` solo en un estudio, los 6 módulos de `ddd_core` solo en sus tests, en docs/ESTUDIOS y en la medición de T-254; `git ls-files 'herramientas/auditar_*_m05.py' | wc -l` → 8; docs/PLAN.md:122 (D-85), :190 (T-254 HECHA) y :199 (T-263 REVISIÓN).",
+    "correccion": "Son 384 ficheros revisados, no 391. Los 78 no son «solo su test»: son los que no cita código ni workflows; solo en tests hay 49, y 6 tienen cita de configuración que hay que mirar antes de retirar. Las `auditar_*_m05.py` sin cita son 8, no 10 (las otras 2 son `auditar_compatibilidad_interanual_f10` y `auditar_relevo_d25_2x2`). `ya_previsto` añade T-254 y D-85: el código muerto del motor ya estaba medido; lo nuevo son las herramientas. El criterio decía que el test pasa tras la primera PR, pero quedarían los 9 citados solo en documentos: reescrito. Riesgo: sin cita no equivale a sin uso en herramientas manuales. Impacto 3 se mantiene."
+   }
   },
   {
    "id": "D-7",
@@ -337,12 +367,17 @@
    "ya_previsto": null,
    "decisiones_relacionadas": [],
    "nivel_mundial": "`check-added-large-files` de pre-commit-hooks (github.com/pre-commit/pre-commit-hooks) es estándar en proyectos científicos de Python.",
-   "confianza": "alta"
+   "confianza": "alta",
+   "verificacion": {
+    "veredicto": "CONFIRMADO",
+    "como": "Suma por extensión sobre `git ls-files` → zip 260,2 MB (73), geojson 172,9 (71), md 117,6 (2.113), partes 271,6 (14), json 60,7, png 51,9 (95); dos `castilla_y_leon_secciones.geojson` de 30.481.513 bytes en `resultados/lotes_autonomos`; `git grep -n -i -E 'check-added-large|MAX_BYTES|max_file_size|ficheros grandes' -- .github herramientas tests .claude` → solo `max_download_bytes`; sin `.pre-commit-config.yaml` en el árbol ni en origin/main; `sed -n 38p docs/AUDITORIAS/INVESTIGACION_2026-11-28/PROTOCOLO.md`. Hoy hay 109 ficheros de más de 1 MB (766 MB): esa sería la lista inicial de excepciones. Sin T-xx en docs/PLAN.md.",
+    "correccion": ""
+   }
   },
   {
    "id": "D-8",
    "titulo": "El reparto de la suite usa tiempos del 07-11: 226 de 504 ficheros sin tiempo y 4 tests son el 38 %",
-   "que_pasa_hoy": "`tests/tiempos_ci.json` se midió en un run del 07-11 y tiene 287 módulos (660 s en total). Hoy hay 504 ficheros de test: 226 (45 %) no tienen tiempo y 9 de los que sí lo tienen ya no existen. `herramientas/repartir_tests.py` reparte los grupos de CI con esos pesos. Cuatro módulos pasan de 50 s y suman 254 s (38 %): `test_pre_m04_evidence_pipeline` (68,7), `test_codauto_preparation_contract` (67,3), `test_gestor_campana_nacional` (65,1) y `test_registro_electoral_comun` (52,6). Los 10 más lentos son el 63 % y los 25 más lentos el 86 %.",
+   "que_pasa_hoy": "`tests/tiempos_ci.json` se midió en un run del 07-11 y tiene 287 módulos (660 s en total). Hoy hay 504 ficheros de test: 226 (45 %) no tienen tiempo y 9 de los que sí lo tienen ya no existen. `herramientas/repartir_tests.py` reparte los grupos de CI con esos pesos; a los que no tienen tiempo les pone la mediana (línea 80). No está medido cuánto desequilibra eso los grupos. Cuatro módulos pasan de 50 s y suman 254 s (38 %): `test_pre_m04_evidence_pipeline` (68,7), `test_codauto_preparation_contract` (67,3), `test_gestor_campana_nacional` (65,1) y `test_registro_electoral_comun` (52,6). Los 10 más lentos son el 63 % y los 25 más lentos el 86 %.",
    "evidencia": [
     {
      "tipo": "VERIFICADO",
@@ -361,9 +396,9 @@
     }
    ],
    "por_que_importa": "Un reparto con pesos viejos deja grupos descompensados y la CI dura lo que dura el grupo más lento. Arreglar cuatro tests da más que reordenar los otros quinientos.",
-   "propuesta": "Que la nocturna regenere el fichero a partir de su propio log y lo proponga en una PR si cambia más de un umbral; perfilar los cuatro de más de 50 s y partirlos o darles datos más pequeños.",
+   "propuesta": "Que la nocturna regenere el fichero a partir de su propio log y lo deje como artefacto, y que un implementador abra la PR cuando cambie más de un umbral (un robot que abre PR es cambio de CI y pide el sí del propietario); perfilar los cuatro de más de 50 s y partirlos o darles datos más pequeños.",
    "criterio_aceptacion": "Menos del 5 % de los ficheros de test sin tiempo registrado y ninguno inexistente en `tests/tiempos_ci.json`; la suma de los cuatro módulos citados baja de 254 s a menos de 100 s en el log de un run de `main`, con los mismos nombres de test.",
-   "impacto": 3,
+   "impacto": 2,
    "esfuerzo": "M",
    "riesgo": "Bajo. `tests/test_repartir_tests.py` lee el mismo fichero y hay que ajustarlo si cambia el formato.",
    "toca": [
@@ -374,25 +409,35 @@
    "ya_previsto": null,
    "decisiones_relacionadas": [],
    "nivel_mundial": "Reparto por duraciones medidas en cada ejecución (pytest-split, github.com/jerry-git/pytest-split) y presupuesto de tiempo por test.",
-   "confianza": "media"
+   "confianza": "media",
+   "verificacion": {
+    "veredicto": "CORREGIDO",
+    "como": "python3 sobre `tests/tiempos_ci.json` (árbol y `git show origin/main:tests/tiempos_ci.json`) → 287 módulos, 660,0 s, `_fuente` «run 42387178092 … 07-11-2026»; 226 de 504 `tests/test_*.py` sin tiempo; los cuatro módulos citados suman 254 s; los 10 primeros, el 63 %; `sed -n 30,34p` y `grep -n defecto herramientas/repartir_tests.py` (líneas 33, 65, 80-81). Sin cambios en origin/main; sin T-xx en docs/PLAN.md.",
+    "correccion": "Cifras confirmadas. Falta la medida del daño: los ficheros sin tiempo pesan la mediana y nadie ha comparado la duración real de los grupos, así que el efecto es una hipótesis: impacto 3 → 2. La propuesta de que un robot abra la PR pasa a artefacto más PR de un implementador."
+   }
   },
   {
    "id": "D-10",
-   "titulo": "Evidencia y datos de ejecución crecen dentro de git: 2.686 ficheros de evidencia y 2.213 de fixtures",
-   "que_pasa_hoy": "`territorios/*/evidencia` suma 2.686 ficheros y 32,2 MB (865 de fuentes territoriales con 26,6 MB; 880 de ejecuciones completas; 322 de generaciones M06), que escriben los robots en `main`. `tests/fixtures` tiene 2.213 ficheros y 12,2 MB, con árboles enteros congelados (`raiz_congelada_aee8215e` 552 ficheros, `t349_flujo` 509, `t349_base` 502). `docs/registro` tiene 544 entradas, una por PR. Complementa B-5 (la rama principal como base de datos) con el recuento por carpeta.",
+   "titulo": "Evidencia y datos de ejecución se guardan dentro de git: 2.686 ficheros de evidencia y 2.213 de fixtures",
+   "que_pasa_hoy": "`territorios/*/evidencia` suma 2.686 ficheros y 32,2 MB (865 de fuentes territoriales con 26,6 MB; 880 de ejecuciones completas; 322 de generaciones M06), que escriben los robots en `main`. `tests/fixtures` tiene 2.213 ficheros y 12,2 MB, con árboles enteros congelados (`raiz_congelada_aee8215e` 552 ficheros, `t349_flujo` 509, `t349_base` 502). `docs/registro` tiene 544 entradas, una por PR. Complementa B-5 (la rama principal como base de datos) con el recuento por carpeta. Medido en `origin/main` desde el 16-11 (487 commits): solo entraron 21 ficheros nuevos de evidencia y 45 de fixtures, frente a 567 de legacy y 204 de `docs/registro`; lo que hay es sobre todo existencia acumulada antes de esa fecha y ficheros que se reescriben.",
    "evidencia": [
     {
      "tipo": "VERIFICADO",
      "ref": "suma por subcarpeta de territorios/*/evidencia y tests/fixtures sobre git ls-files",
      "detalle": "evidencia: fuentes_territoriales 865/26,63 MB; ejecuciones_completas 880/2,63; generaciones_m06 322/1,50; pares_fuentes 208; catalogo 232. fixtures: t349_flujo 509/2,66 MB; raiz_congelada_aee8215e 552/2,05; previo_r3 y previo_r3_canonico 236 cada uno"
+    },
+    {
+     "tipo": "VERIFICADO",
+     "ref": "git log origin/main --diff-filter=A --name-only -- 'territorios/*/evidencia/*' (y tests/fixtures, legacy, docs/registro), sin el commit raíz del clon",
+     "detalle": "ficheros añadidos por semana: evidencia W47 17 y W48 4; fixtures 36 y 9; legacy 380 y 187; docs/registro 137 y 67"
     }
    ],
    "por_que_importa": "El objetivo declarado es un motor que se ejecutará miles de veces. Si cada ejecución deja varios ficheros en git, el recuento de ficheros crece con el uso y no con el código.",
    "propuesta": "La evidencia de ejecución va al archivo (R2) con un índice único por territorio en git (una línea por ejecución con su huella), como ya hace `datos_abiertos/INDEX.json`. Los árboles congelados de fixtures se sustituyen por un commit de referencia leído con `git show` cuando el test lo permita.",
-   "criterio_aceptacion": "Tras una campaña de prueba de un territorio, `git diff --stat` contra el commit anterior muestra como mucho 3 ficheros cambiados en `territorios/<id>/evidencia`; el dashboard y la P40 leen lo mismo que antes (mismo sha256 del estado operativo generado).",
-   "impacto": 3,
+   "criterio_aceptacion": "En la siguiente campaña que el propietario autorice (no se lanza una solo para esto), `git diff --stat` contra el commit anterior muestra como mucho 3 ficheros cambiados en `territorios/<id>/evidencia`; el dashboard y la P40 leen lo mismo que antes (mismo sha256 del estado operativo generado).",
+   "impacto": 2,
    "esfuerzo": "L",
-   "riesgo": "Alto si se hace de golpe: la selección de checkpoints, el dashboard y la publicación leen esa evidencia del árbol. Es cambio de motor y de publicación: diseño aprobado por el propietario antes de tocar. No lo he podido medir por semana porque el clon local no tiene historia anterior al 16-11.",
+   "riesgo": "Alto si se hace de golpe: la selección de checkpoints, el dashboard y la publicación leen esa evidencia del árbol. Es cambio de motor y de publicación: diseño aprobado por el propietario antes de tocar. El ritmo medido desde el 16-11 es bajo (21 ficheros nuevos de evidencia): el beneficio es pequeño para un cambio de riesgo alto.",
    "toca": [
     "repo",
     "datos",
@@ -405,7 +450,12 @@
     "D-35"
    ],
    "nivel_mundial": "Separación entre repositorio de código y almacén de artefactos con índice por contenido (DVC, dvc.org/doc; depósitos con DOI en Zenodo).",
-   "confianza": "media"
+   "confianza": "media",
+   "verificacion": {
+    "veredicto": "CORREGIDO",
+    "como": "Suma por subcarpeta sobre `git ls-files` → evidencia 2.686 ficheros y 32,1 MB (fuentes_territoriales 865/26,63; ejecuciones_completas 880/2,63; generaciones_m06 322/1,50; catalogo 232; pares_fuentes 208); fixtures 2.213/12,2 MB (raiz_congelada_aee8215e 552, t349_flujo 509, t349_base 502); `git ls-files docs/registro | wc -l` → 544; `git log origin/main --diff-filter=A --name-only` por semana, sin el commit raíz. docs/PLAN.md:72 (D-35).",
+    "correccion": "Las existencias se confirman; el «crecen» no: desde el 16-11 entraron 21 ficheros de evidencia y 45 de fixtures (legacy 567, registro 204). Título y texto lo dicen. El criterio no puede exigir una campaña de prueba (lanzar pide permiso del propietario): se comprueba en la siguiente autorizada. Solapa con B-5. Impacto 3 → 2: poco crecimiento, esfuerzo L y riesgo alto."
+   }
   },
   {
    "id": "D-9",
@@ -449,7 +499,28 @@
     "D-166"
    ],
    "nivel_mundial": "Raíz con README, licencia, cita, un fichero de proyecto y poco más (guía de desarrollo de Scientific Python, learn.scientific-python.org/development).",
-   "confianza": "alta"
+   "confianza": "alta",
+   "verificacion": {
+    "veredicto": "CONFIRMADO",
+    "como": "`git ls-files | grep -vc /` → 25; `git grep -l -F <fichero> -- .github tests herramientas modulos ddd_core README.md CLAUDE.md .claude docs/ARQUITECTURA docs/PLAN.md` → 0 para los cinco; `git ls-files docs/auditorias docs/AUDITORIAS | cut -d/ -f2 | sort | uniq -c` → 563 y 3 (549 más los ficheros de esta investigación); 30 carpetas de primer nivel; 8 `requirements*.lock`. No comprobé el solape de `dashboard/` ni las citas de los `.lock`.",
+    "correccion": ""
+   }
   }
- ]
+ ],
+ "verificacion_independiente": {
+  "fecha": "2026-11-28",
+  "base": "origin/main 548968c47",
+  "revisados": 10,
+  "confirmados": 2,
+  "corregidos": 8,
+  "refutados": 0,
+  "no_comprobables": 0,
+  "impacto_rebajado": [
+   "D-1 4→3",
+   "D-3 4→3",
+   "D-8 3→2",
+   "D-10 3→2"
+  ],
+  "nota": "Ningún hallazgo se descarta entero; las afirmaciones sueltas retiradas están en la sección 10 del .md."
+ }
 }

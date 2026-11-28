@@ -1,0 +1,1437 @@
+[
+ {
+  "id": "C-1",
+  "ambito": "C_agentes",
+  "titulo": "La ventana de 5 horas no existe para el aparato: ni presupuesto, ni modelo, ni esfuerzo por rol",
+  "que_pasa_hoy": "Ninguna skill, regla ni decisión nombra la ventana de 5 horas, el esfuerzo ni el modelo por rol, y el relevo manda crear la sucesora con «mismo modelo»; las cifras de la flota de anoche solo constan en el encargo (no comprobables desde el repositorio).",
+  "propuesta": "Skill de presupuesto con guion: modelo y esfuerzo por rol, reparto de la ventana fijado por el propietario y flotas en olas calculadas.",
+  "criterio_aceptacion": "`python herramientas/presupuesto_ventana.py --plan <flota.json>` con 26 sesiones a esfuerzo máximo devuelve salida ≠ 0 y el máximo admisible; con una ola dentro del reparto devuelve 0 (test con dos fixtures; el presupuesto por ventana es una constante versionada que fija el propietario). `grep -c 'five_hour' .claude/skills/presupuesto/SKILL.md` ≥ 1. `grep -c 'mismo modelo' .claude/skills/*/SKILL.md` suma 0. En el libro de costes de 7 días, ninguna fila de cierre anota rate_limit_info.status distinto de «allowed» (se lee al cerrar cada chat; sin vigilante).",
+  "impacto": 5,
+  "esfuerzo": "S",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-46",
+   "D-160",
+   "D-18"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "1. Presupuesto y sistema de agentes",
+  "tarea_propuesta": "T-511"
+ },
+ {
+  "id": "B-1",
+  "ambito": "B_arquitectura",
+  "titulo": "En las provincias del Congreso el motor ocupa el 2 % de un run «Generar» (9 % en Andalucía); más de la mitad es montar la imagen Docker 15 veces",
+  "que_pasa_hoy": "En un run «Generar» de provincia del Congreso el motor ocupa 0,9 de 44,6 min de pasos (2,0 %; 8,9 % en Andalucía) y montar el entorno se lleva el 56-57 %: 31 jobs, 15 de ellos reconstruyen la imagen Docker.",
+  "propuesta": "Imagen construida una vez por huella de dependencias y usada por su huella; y, con decisión aparte (reabre D-143), un solo job para el tramo M01-M06.",
+  "criterio_aceptacion": "Con el mismo guion de medida sobre 10 runs «Generar» de provincias: mediana de minutos de job del tramo P20 (jobs «Acreditar…» y «02 Generar…») ≤ 12 (hoy 35,0 en 19 jobs), pasos de entorno ≤ 25 % del run (hoy 56-57 %) y, en 3 territorios de control, la composición sección→distrito (sha256 de su CSV, el `sha256_composicion` de herramientas/archivo_origen.py) idéntica a la de la ruta actual. No se pide «≤ 12 min en todo el run»: fuera de P20 quedan 9-13 min de jobs (planificar, P10, puertas, estado, manifiesto y la espera del encadenado) que esta propuesta no toca. No se compara el sha256 del ZIP M06: no se repite entre runs.",
+  "impacto": 5,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": "No es tarea. D-143 aprobó la cadena A (reutilizables, varios jobs por territorio) y dejó «un job por territorio» como respaldo C (DISENO_P00_CAMPANA.md l. 106; D-130 lo cita como alternativa): la parte (a) reabre esa decisión con un dato que el diseño no tenía (el desglose por pasos). La parte (b) no choca con ninguna decisión.",
+  "decisiones_relacionadas": [
+   "D-130",
+   "D-143",
+   "D-145",
+   "D-216"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "5. Arquitectura y ejecución",
+  "tarea_propuesta": "T-539 y T-540"
+ },
+ {
+  "id": "C-2",
+  "ambito": "C_agentes",
+  "titulo": "El Planificador gasta ≥ 80 % en releerse; el relevo D-160 llega tarde y ya no puede hacerse solo",
+  "que_pasa_hoy": "El chat del Planificador lleva 216,33 USD y relee 379 tokens por cada token que produce; con el Coordinador, la coordinación es en torno a un tercio del gasto conocido (34-37 %).",
+  "propuesta": "Chats de coordinación efímeros por ola que leen solo tablero y cola generados; mientras tanto, relevo por tamaño absoluto (150.000 tokens).",
+  "criterio_aceptacion": "Una sesión vuelca `get_session` de cada chat de rol a un JSON (el guion no puede llamar a herramientas MCP) y `python herramientas/libro_costes.py --vivos <json>` devuelve 0 solo si ningún chat de rol supera 200.000 used_tokens (el relevo se abre a 150.000) ni tiene lineage.depth ≥ 6; test con dos fixtures (uno pasa, uno falla). En el resumen semanal del libro, las filas con rol planificador, coordinador u operador suman < 15 % del total.",
+  "impacto": 5,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-160",
+   "D-122"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "1. Presupuesto y sistema de agentes",
+  "tarea_propuesta": "T-513"
+ },
+ {
+  "id": "E-2",
+  "ambito": "E_almacenamiento",
+  "titulo": "R2 es copia única de las fuentes preparadas: sin segunda copia, sin bloqueo de borrado y sin prueba de restauración",
+  "que_pasa_hoy": "Las fuentes preparadas (120 paquetes, 9,29 GB), las del INE (1,55 GB) y el espejo del Observatorio (625 ficheros) están en un solo almacén de un solo proveedor, sin segunda copia ni prueba de restauración.",
+  "propuesta": "Regla 3-2-1 mínima: bloqueo de borrado, segunda copia en otro proveedor de lo irrepetible y un simulacro mensual de restauración con informe versionado (revisión periódica: solo si el propietario lo pide).",
+  "criterio_aceptacion": "Existe orchestracion/simulacro_restauracion.json con fecha de menos de 35 días, 3 territorios restaurados desde la segunda copia, sha256 del paquete igual a package_sha256 del contrato y sha256 de cada objeto publicado igual al de orchestracion/archivo_r2.json (no al del registro del visor: su empaquetado es otro y no coincide ninguno); un test falla si el informe caduca. El bloqueo se comprueba sin tocar datos reales: un job de solo lectura imprime las reglas de bloqueo del bucket y el intento de borrar un objeto centinela (fuentes/_centinela-bloqueo) con la llave de los workflows devuelve error.",
+  "impacto": 5,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-176",
+   "D-178",
+   "D-188",
+   "D-190",
+   "D-198",
+   "D-203",
+   "D-146"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "3. Conservación y datos",
+  "tarea_propuesta": "T-528"
+ },
+ {
+  "id": "B-2",
+  "ambito": "B_arquitectura",
+  "titulo": "El grafo de etapas vive en 11.193 líneas de YAML (48 % lógica embebida), no en un ejecutor propio",
+  "que_pasa_hoy": "El grafo de etapas vive en 11.193 líneas de YAML en 15 workflows (48 % es lógica embebida) y solo M01-M08 se pueden ejecutar fuera de GitHub Actions.",
+  "propuesta": "Fichero declarativo de etapas y un ejecutor único idéntico en local y en CI, con Actions como lanzador fino; migración por etapas y en sombra.",
+  "criterio_aceptacion": "En un contenedor limpio, `ddd tuberia ejecutar congreso350_orense` produce un M06 con la composición sección→distrito (sha256 de su CSV, el `sha256_composicion` de herramientas/archivo_origen.py) igual a la del run de CI y un M08 con la misma tabla de ganador por distrito; los workflows suman ≤ 3.000 líneas (hoy 11.193) con < 10 % dentro de `run:` (hoy 47,8 %); un test recorre el grafo declarado sin red en < 60 s. No se compara el sha256 de los ZIP: no se repite entre runs.",
+  "impacto": 5,
+  "esfuerzo": "XL",
+  "necesita": "decision_propietario",
+  "ya_previsto": "No es tarea. D-129/D-130 fijan un workflow por familia y P00 llamando a P10-P40 como reutilizables; D-143 eligió la cadena A y dejó «un job por territorio» como respaldo C. «Actions como lanzador fino con un job por territorio» reabre D-143.",
+  "decisiones_relacionadas": [
+   "D-129",
+   "D-130",
+   "D-143"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "5. Arquitectura y ejecución",
+  "tarea_propuesta": "T-543"
+ },
+ {
+  "id": "A1-1",
+  "ambito": "A1_motor",
+  "titulo": "El exacto no devuelve nada en 5 de 17 territorios; la pista solo de x es causa posible, no probada",
+  "que_pasa_hoy": "En la medición T-507 (PR #1037, sin fusionar) el exacto termina sin solución en 5 de los 17 territorios con K ≥ 5 donde aplica (215 s de reloj sin resultado); la causa no está probada.",
+  "propuesta": "Diagnóstico antes de tocar el modelo: repetir los 5 guardando el estado de cada etapa y si la pista se aplicó; solo si la causa es la pista, darla completa.",
+  "criterio_aceptacion": "Paso 0 (unos 8 min de CPU; entradas con `bateria_motor.py entradas --desde-fuente --seccionado shapefile`): para nac06, nac17, nac18, nac31 y nac45, `PYTHONHASHSEED=0 python -m ddd_motor2.competir --out B <t>` deja en el bloque exacto de la salida las etapas y un dato nuevo «pista aplicada: sí/no»; se entrega una tabla con el estado de la primera etapa de cada uno. Pasos 1-2, solo donde sea UNKNOWN con pista aplicada: exacto.estado != SIN_SOLUCION y la clave D8 del candidato exacto <= la del mejor previo; en los 17 aplicables ninguna clave del ganador empeora; dos ejecuciones dan la misma huella_resultado.",
+  "impacto": 4,
+  "esfuerzo": "S",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-215",
+   "D-216"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "2. Motor",
+  "tarea_propuesta": "T-519"
+ },
+ {
+  "id": "A2-4",
+  "ambito": "A2_estado-arte",
+  "titulo": "Cadenas independientes de 300 pasos: las ráfagas cortas aprovechan mejor el mismo gasto",
+  "que_pasa_hoy": "La búsqueda son cadenas independientes de 300 pasos (5 por defecto, 10 en la competición) que no comparten lo que encuentran; 100.000 pasos de GerryChain puro (6,9 h de CPU) no alcanzaron el óptimo en Burgos, Valladolid ni Sevilla.",
+  "propuesta": "Variante de ráfagas cortas con el mismo total de pasos y las mismas semillas, medida contra la línea base desde el canónico.",
+  "criterio_aceptacion": "Arrancando solo del canónico (sin el candidato vigente, que en Burgos y Valladolid ya es el óptimo, ni el exacto), con el mismo número total de pasos y las mismas semillas: se mide primero la línea base de las cadenas actuales; las ráfagas alcanzan la clave óptima demostrada en al menos 2 de 3 (Burgos, Valladolid, Sevilla) y en más territorios que la línea base, y nunca dan peor clave que ella en los cuatro; el informe da la tasa de rechazo. Si no se cumple, se descarta y se documenta.",
+  "impacto": 4,
+  "esfuerzo": "S",
+  "necesita": "decision_propietario",
+  "ya_previsto": "T-467 (propuesta condicional: «cadenas más largas, más intentos»; el piloto ya mide que más pasos no basta)",
+  "decisiones_relacionadas": [
+   "D-48",
+   "D-73"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "2. Motor",
+  "tarea_propuesta": "T-522"
+ },
+ {
+  "id": "C-3",
+  "ambito": "C_agentes",
+  "titulo": "Libro de costes en prosa y en cuatro sitios (12 ficheros), sin sesión ni roles: coordinación infracontada",
+  "que_pasa_hoy": "El libro de costes está en prosa en cuatro sitios (12 ficheros): 97 partidas y 862,13 USD del 14 al 28-11, sin id de sesión y sin ninguna partida del Planificador ni del Operador.",
+  "propuesta": "Un fichero de una fila por sesión escrito al cierre con get_session y un guion que da el cuadro semanal por rol.",
+  "criterio_aceptacion": "`python herramientas/libro_costes.py --resumen --desde 2026-11-14` reproduce 862,13 USD ± 1 % con las 97 partidas importadas (marcadas `origen: historico`, sin id de sesión) y lista las sesiones de rol; test que falla si una fila no histórica no tiene sesión o rol; `grep -c 'Libro de costes' docs/ESTADO.md` = 0 tras la migración.",
+  "impacto": 4,
+  "esfuerzo": "S",
+  "necesita": "fusion",
+  "ya_previsto": "T-494 (id provisional del plan de mejora; solo como regla, sin guion)",
+  "decisiones_relacionadas": [
+   "D-46"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "1. Presupuesto y sistema de agentes",
+  "tarea_propuesta": "T-512"
+ },
+ {
+  "id": "E-1",
+  "ambito": "E_almacenamiento",
+  "titulo": "Los 479 productos canónicos (245 M06 y 234 M08) del registro son blobs de git sin árbol ni referencia",
+  "que_pasa_hoy": "Los 479 productos canónicos del registro (245 M06 y 234 M08) son objetos de git sin árbol ni referencia: no viajan en un clon y GitHub no promete conservarlos.",
+  "propuesta": "Anclarlos bajo una referencia propia que P40 actualice, copia por sha256 en R2 y un test que exija que todo objeto del registro sea alcanzable.",
+  "criterio_aceptacion": "git clone --mirror del repositorio y, para cada blob_sha de orchestracion/publicaciones_visor.json, git cat-file -e: 481 de 481 presentes. Test nuevo en el guardián: falla si un blob del registro no está en el árbol de refs/ddd/productos.",
+  "impacto": 4,
+  "esfuerzo": "S",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-133",
+   "D-198"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "3. Conservación y datos",
+  "tarea_propuesta": "T-527"
+ },
+ {
+  "id": "F-1",
+  "ambito": "F_publicacion",
+  "titulo": "P40 nunca ha subido la web ni sus datos a R2: pasos en 0 s y en verde en todas las publicaciones medidas (datos 11 de 11; web 9 de 9)",
+  "que_pasa_hoy": "P40 nunca ha subido la web ni sus datos a R2: los pasos terminan en 0 s y en verde en todas las publicaciones medidas (datos 11 de 11, web 9 de 9); ya es T-510.",
+  "propuesta": "Además de T-510: que los pasos de R2 escriban en el resumen cuánto subieron y avisen cuando falte la variable, y corregir la fila del plan que lo da por hecho.",
+  "criterio_aceptacion": "Tras una P40 «Solo el sitio» desde main, el log del paso «Web en R2» imprime «[sitio_r2] N ficheros; M a subir» con N>0 y `_sitio/actual.json` del bucket lleva el `p40_run` de ese run. Un test lee los YAML y exige que los pasos de R2 de P40 y el de `publicar_web` de P90 escriban en `$GITHUB_STEP_SUMMARY` y contengan un `::warning::` para el caso de variable de bucket vacía.",
+  "impacto": 4,
+  "esfuerzo": "S",
+  "necesita": "decision_propietario",
+  "ya_previsto": "T-510 (abierta el 28-11; docs/ESTADO.md:110 y traspaso del Coordinador, pendiente 2 del propietario). La fila de T-430 en PLAN.md:501 sigue dándolo por hecho.",
+  "decisiones_relacionadas": [
+   "D-162",
+   "D-186",
+   "D-193",
+   "D-194"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "4. Publicación y web",
+  "tarea_propuesta": "T-533"
+ },
+ {
+  "id": "A1-4",
+  "ambito": "A1_motor",
+  "titulo": "4 de los 9 mapas que gana el exacto son MEJOR_VALIDO (tope determinista) y entran en la huella",
+  "que_pasa_hoy": "4 de los 9 mapas que gana el exacto (nac12, nac15, nac41 y nac43) son «mejor válido» por tope determinista y entran en la huella; solo Sevilla se ha repetido (misma huella) y siempre en la misma clase de máquina.",
+  "propuesta": "Repetir 5 veces en local los 5 territorios en ese estado antes de la republicación del 29-11 y añadir una etapa final canónica para que el plan dependa solo de la instancia.",
+  "criterio_aceptacion": "Las 25 ejecuciones en local (nac12, nac15, nac20, nac41 y nac43, 5 veces cada uno, unos 60 min de CPU) dan una sola huella_plan del candidato exacto por territorio; la ejecución en runner, si se autoriza, da la misma. Para (2): un test con una instancia con empate exacto (p. ej. el ciclo simétrico de 4 unidades) devuelve el mismo plan con las unidades en cualquier orden y con cualquier pista válida.",
+  "impacto": 4,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-215"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "2. Motor",
+  "tarea_propuesta": "T-519 y T-520"
+ },
+ {
+  "id": "D-2",
+  "ambito": "D_repositorio",
+  "titulo": "Gobernanza legacy: 35 MB y 355 ficheros por semana, 93 % sin cita viva, probada en solo 22 ficheros",
+  "que_pasa_hoy": "legacy/ tiene 2.675 ficheros y 152,7 MB y crece 355 ficheros y 35 MB por semana; el 93 % de su peso no lo cita nada vivo y la regla solo se prueba en 22 ficheros.",
+  "propuesta": "Tres escalones: dejar de copiar los ficheros que solo crecen, predecesor citado por su sha de git y retirar lo que nadie cita dejando un índice.",
+  "criterio_aceptacion": "(1) Tras una numeración real, `git status` no muestra ningún fichero nuevo en `legacy/docs/` y `ls legacy/docs | grep -c REGISTRO_DE_CAMBIOS` da 0. (2) `python -m unittest tests.test_r015_invariantes.GovernanceHeaders` pasa y, en un clon con historia, falla si se altera a mano un sha de ANTERIOR; `herramientas/huella_checkpoint_m05.py` da la misma huella antes y después de la PR. (3) `git ls-files legacy | wc -l` da menos de 550 (hoy 2.675) y un guion comprueba que toda ruta `legacy/` citada en código, workflows, configuración y tests existe. La suite se compara por nombre de test contra `origin/main` (T-460).",
+  "impacto": 4,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": "T-490 «Gobernanza ligera» (docs/AUDITORIAS/PLAN_MEJORA_2026-11-25.md:621; no está en docs/PLAN.md: D-214 dejó «el resto de la auditoría» como propuesta). Las copias del registro son también el hallazgo C-10.",
+  "decisiones_relacionadas": [
+   "D-214",
+   "D-82",
+   "D-142"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "6. Repositorio y CI",
+  "tarea_propuesta": "T-545"
+ },
+ {
+  "id": "E-5",
+  "ambito": "E_almacenamiento",
+  "titulo": "Un tercero no puede repetir un mapa: las fuentes preparadas están en un bucket privado",
+  "que_pasa_hoy": "Un tercero no puede repetir un mapa: el paquete de fuentes que cita cada contrato solo existe en un almacén privado y quedan 10 piezas pendientes de subir.",
+  "propuesta": "Depositar con DOI los paquetes de fuentes cuya licencia lo permita (a confirmar con cada organismo); amplía D-146.",
+  "criterio_aceptacion": "Sin credenciales de R2 ni de GitHub: descargar del DOI el paquete de una provincia y comprobar con sha256sum que es el package_sha256 del contrato de configuracion/. Un test recorre los contratos vigentes y falla si un paquete depositado no figura en la tabla de huellas del depósito con el mismo sha256.",
+  "impacto": 4,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": "T-356 (solo completar los espejos; no su apertura)",
+  "decisiones_relacionadas": [
+   "D-175",
+   "D-198",
+   "D-202",
+   "D-203",
+   "D-146"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "3. Conservación y datos",
+  "tarea_propuesta": "T-532"
+ },
+ {
+  "id": "F-3",
+  "ambito": "F_publicacion",
+  "titulo": "No hay vuelta atrás de una publicación: ni botón, ni versión anterior guardada, ni en Pages ni en R2",
+  "que_pasa_hoy": "No hay vuelta atrás de una publicación: el artefacto de Pages se guarda 1 día, R2 guarda solo la vigente y deshacer un error visible cuesta como mínimo 40 minutos y la frase del propietario.",
+  "propuesta": "En Pages, guardar 14 días y un modo de volver a desplegar el anterior; en R2, versiones con puntero y orden de revertir (exige reabrir D-188).",
+  "criterio_aceptacion": "Test con R2 simulado: publicar A, publicar B, `revertir` → `actual.json` y el índice del sitio son byte a byte los de A, sin llamar al montaje del sitio y escribiendo solo los punteros; durante la subida de B, un cliente con el índice de A lee solo ficheros de A (huella correcta). El tiempo real (objetivo: menos de 2 min) se mide en un simulacro en `nueva.` y se anota. En Pages: una P40 en modo «volver a la anterior» despliega el artefacto de un run dado sin reconstruir.",
+  "impacto": 4,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-188",
+   "D-198"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "4. Publicación y web",
+  "tarea_propuesta": "T-535 (Pages) y T-532 (R2)"
+ },
+ {
+  "id": "F-5",
+  "ambito": "F_publicacion",
+  "titulo": "Al plan de corte a Cloudflare le faltan siete piezas y dos están a medias (carpetas, 404, vuelta atrás, caché…)",
+  "que_pasa_hoy": "Al plan de corte a Cloudflare le faltan siete piezas y dos están a medias (404, www, direcciones antiguas, vuelta atrás real, caché, cabeceras, noindex, umbrales).",
+  "propuesta": "Una lista de corte de una página con prueba por línea y un guion de solo lectura que recorre 20 direcciones antes y después.",
+  "criterio_aceptacion": "`python herramientas/comprobar_corte.py --base https://nueva.diputadodedistrito.es` devuelve 0 con las 20 comprobaciones en verde, y se repite contra el dominio real tras el corte; un simulacro de vuelta atrás cronometrado en `nueva.` queda anotado en la lista con su tiempo real.",
+  "impacto": 4,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": "T-430 (el corte; estas piezas no constan)",
+  "decisiones_relacionadas": [
+   "D-193",
+   "D-194",
+   "D-199",
+   "D-104"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "4. Publicación y web",
+  "tarea_propuesta": "T-534"
+ },
+ {
+  "id": "F-6",
+  "ambito": "F_publicacion",
+  "titulo": "El mapa no tiene enlace por territorio ni por distrito: lo único que guarda la dirección es la regla",
+  "que_pasa_hoy": "El mapa no tiene enlace por territorio ni por distrito: la dirección solo guarda la regla, así que no se puede enviar «mi distrito».",
+  "propuesta": "Estado en la dirección (territorio, distrito, capa, regla), botón de copiar enlace y, después, página ligera por territorio.",
+  "criterio_aceptacion": "Prueba Node del visor: abrir con `?t=nac28&d=7&regla=dos` deja S.province, la unidad y la regla esperadas; cambiar de distrito actualiza la dirección conservando `regla`; con un código inexistente, vista nacional y aviso, sin excepción.",
+  "impacto": 4,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-18",
+   "D-184"
+  ],
+  "veredicto": "CONFIRMADO",
+  "bloque": "4. Publicación y web",
+  "tarea_propuesta": "T-536"
+ },
+ {
+  "id": "A1-3",
+  "ambito": "A1_motor",
+  "titulo": "Escalar: mejora local exacta por grupos de 2-3 distritos y descomposición por circunscripción",
+  "que_pasa_hoy": "El exacto demuestra el óptimo en 7 de los 27 territorios con K ≥ 5 medidos; 7 no caben en el tamaño 2.000 y los 14 contratos con varias circunscripciones no aplican (5 de ellos tienen además exenciones).",
+  "propuesta": "Por orden: descomposición exacta por circunscripción y un candidato de mejora local exacta por grupos de 2 o 3 distritos, nombrado como óptimo local y no como óptimo demostrado.",
+  "criterio_aceptacion": "Experimento (unos 60 min de CPU en local, entradas de T-507 regeneradas con bateria_motor.py). (b) La mejora local alcanza la clave del óptimo demostrado en >= 6 de los 7 territorios OPTIMO (nac04, nac14, nac23, nac33, nac39, aut18, aut19) partiendo del mejor candidato no exacto; mejora estrictamente al ganador en >= 3 de los 7 que no caben; <= 120 s por territorio; misma huella en dos ejecuciones. (a) Tabla previa con el tamaño (átomos x K) de cada circunscripción de los 9 contratos sin exenciones; en nac38 (K=9) el exacto deja de dar NO_APLICA y, en una instancia sintética de dos circunscripciones que quepa entera, la descomposición da la misma clave D8 que el modelo entero.",
+  "impacto": 4,
+  "esfuerzo": "L",
+  "necesita": "decision_propietario",
+  "ya_previsto": "T-468 (cotas y óptimo, para a y c) y T-467 (mejorar la búsqueda, «solo si hace falta», para b): propuestas de docs/AUDITORIAS/PLAN_MEJORA_2026-11-25.md:256-270, sin aprobar (D-214 deja el resto de la auditoría como propuesta) y sin fila en la tabla de tareas de docs/PLAN.md",
+  "decisiones_relacionadas": [
+   "D-73",
+   "D-86",
+   "D-214",
+   "D-215"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "2. Motor",
+  "tarea_propuesta": "T-522 y T-524"
+ },
+ {
+  "id": "A2-1",
+  "ambito": "A2_estado-arte",
+  "titulo": "El exacto es todo o nada: falta el exacto por vecindarios (2 a 4 distritos contiguos cada vez)",
+  "que_pasa_hoy": "El exacto solo se aplica al territorio entero: de 71 territorios, 16 tienen K ≥ 45 y no cabrán nunca, y tampoco entra en las autonómicas con varias circunscripciones; allí solo compiten cadenas.",
+  "propuesta": "Candidato «exacto local»: resolver de forma exacta grupos de 2 a 4 distritos contiguos con el resto fijo, con un certificado honesto de óptimo local.",
+  "criterio_aceptacion": "En Sevilla (nac41), desde el plan de 8 demarcaciones partidas y sin exacto global, el exacto local llega a la clave óptima demostrada (6 · 785,968 km) en menos de 5 minutos de CPU, con la misma huella en dos ejecuciones. En La Rioja autonómica (aut17) termina en menos de 30 minutos de CPU con la misma huella en dos ejecuciones, el plan pasa evaluar(...).valido y el informe dice si mejora la clave del ganador y en qué término (no empeorar está garantizado por construcción y no cuenta como prueba).",
+  "impacto": 4,
+  "esfuerzo": "L",
+  "necesita": "decision_propietario",
+  "ya_previsto": "T-468 solo como propuesta de PLAN_MEJORA_2026-11-25.md (no está en docs/PLAN.md: 0 menciones; D-214 deja el resto de la auditoría como propuesta); no nombra esta técnica",
+  "decisiones_relacionadas": [
+   "D-73",
+   "D-86",
+   "D-215"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "2. Motor",
+  "tarea_propuesta": "T-522"
+ },
+ {
+  "id": "B-5",
+  "ambito": "B_arquitectura",
+  "titulo": "La rama main hace de base de datos: 1.605 commits en las 36 h de la última campaña",
+  "que_pasa_hoy": "La rama main hace de base de datos: 1.605 commits en las 36 h de la última campaña (unos 22 por territorio) y una herramienta propia de fusión con hasta 10-20 reintentos.",
+  "propuesta": "Registros por run como objetos de solo añadir en R2, estado derivado generado al publicar y un commit por campaña con manifiesto de sha256.",
+  "criterio_aceptacion": "En una campaña de 71 territorios, los commits de robot en main son ≤ 2 (`git log --author`; hoy 1.605 commits en total en las 36 h, sin reparto medido entre robots y personas) y ningún run muestra PUSH_RECHAZADO; `estado_operativo.json`, `catalogo_procedencia.json` y `archivo_r2.json` dejan de cambiar en main entre campañas; el `status.json` publicado es el mismo salvo la fecha.",
+  "impacto": 4,
+  "esfuerzo": "L",
+  "necesita": "decision_propietario",
+  "ya_previsto": "T-379 (parcial: estado de campaña en R2 y un commit al cierre; no cubre el estado derivado ni los índices)",
+  "decisiones_relacionadas": [
+   "D-140",
+   "D-143",
+   "D-147",
+   "D-198"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "5. Arquitectura y ejecución",
+  "tarea_propuesta": "T-542"
+ },
+ {
+  "id": "C-5",
+  "ambito": "C_agentes",
+  "titulo": "docs/PLAN.md es una base de datos en prosa: 190 KB y reglas de cabecera caducadas",
+  "que_pasa_hoy": "docs/PLAN.md es una base de datos en prosa: 1.191 líneas y 190 KB (unos 50.000 tokens por lectura), 216 decisiones, 407 tareas y 79 copias en legacy; abre con reglas del 07-11 que contradicen seis vigentes.",
+  "propuesta": "Una ficha por tarea abierta, las decisiones en un fichero de líneas y un PLAN.md generado de menos de 150 líneas.",
+  "criterio_aceptacion": "`wc -c docs/PLAN.md` < 20.000; `python herramientas/plan.py tarea T-505` imprime solo esa tarea; test: toda tarea abierta tiene fichero con criterio de aceptación; `grep -c 'Fusiona el propietario' docs/PLAN.md` = 0.",
+  "impacto": 4,
+  "esfuerzo": "L",
+  "necesita": "decision_propietario",
+  "ya_previsto": "En parte: T-494 (id provisional de PLAN_MEJORA_2026-11-25, no adoptada en PLAN.md) pide una ficha de cinco líneas por decisión.",
+  "decisiones_relacionadas": [
+   "D-216"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "1. Presupuesto y sistema de agentes",
+  "tarea_propuesta": "T-514"
+ },
+ {
+  "id": "A1-2",
+  "ambito": "A1_motor",
+  "titulo": "El «óptimo demostrado» es de otra clave: frontera en mm en el modelo y en metros en la oficial",
+  "que_pasa_hoy": "El modelo exacto minimiza la frontera en milímetros y la clave oficial D8 la redondea a 1 m: dos planes a menos de 1 m pueden ordenarse distinto (reproducido en un caso construido; ningún territorio real).",
+  "propuesta": "Una sola definición entera de la frontera en el modelo y en la clave, y un test de propiedad contra la enumeración.",
+  "criterio_aceptacion": "Test nuevo que hoy falla y tras el cambio pasa: 200 instancias aleatorias de <= 12 unidades, de ellas al menos 50 construidas con fronteras que difieren en menos de 1 m entre planes válidos; en todas, la clave oficial (sin huella) del plan OPTIMO del exacto es igual al mínimo que da reglas.enumerar con esa clave. El camino a-b-c-d (47, 3, 3, 47 hab.; 1000,3, 1000,4 y 1000,3 m) devuelve ab|cd.",
+  "impacto": 3,
+  "esfuerzo": "S",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-98",
+   "D-73"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "2. Motor",
+  "tarea_propuesta": "T-520"
+ },
+ {
+  "id": "A1-5",
+  "ambito": "A1_motor",
+  "titulo": "Al primer tope el exacto se para: los términos siguientes de D8 quedan sin optimizar",
+  "que_pasa_hoy": "En cuanto una etapa no demuestra el óptimo, el exacto se para y los términos siguientes de D8 quedan sin optimizar (en nac43 baja de 7 a 6 demarcaciones partidas, pero la frontera sube de 302,5 a 467,2 km, +54 %).",
+  "propuesta": "Tras una etapa sin cerrar, acotar ese término y seguir con las etapas restantes, marcadas «sin prueba».",
+  "criterio_aceptacion": "En nac12, nac15, nac20, nac41 y nac43 la clave D8 del candidato exacto es lexicográficamente <= la actual (ningún término anterior al que mejora empeora) y en al menos uno baja la frontera o el desvío; cada etapa añadida consume como mucho 60 unidades deterministas y el tiempo por territorio no pasa de 2 x el actual; dos ejecuciones dan la misma huella_plan.",
+  "impacto": 3,
+  "esfuerzo": "S",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-215"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "2. Motor",
+  "tarea_propuesta": "T-520"
+ },
+ {
+  "id": "A1-8",
+  "ambito": "A1_motor",
+  "titulo": "La reproducibilidad depende de PYTHONHASHSEED=0 y la CLI de la batería no lo exige",
+  "que_pasa_hoy": "La reproducibilidad depende de PYTHONHASHSEED=0 y la CLI de medición (ddd_motor2.competir) no lo exige; producción sí está protegida.",
+  "propuesta": "Guarda común en la entrada pública del motor y, con decisión aparte, quitar la causa (orden fijo en vez de orden de hash).",
+  "criterio_aceptacion": "`PYTHONHASHSEED=1 python -m ddd_motor2.competir --out B nac26` sale con código 6 (paso 1) o, tras el paso 2, da la misma huella_resultado con PYTHONHASHSEED=0, 1 y sin fijar.",
+  "impacto": 3,
+  "esfuerzo": "S",
+  "necesita": "fusion",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-90"
+  ],
+  "veredicto": "CONFIRMADO",
+  "bloque": "2. Motor",
+  "tarea_propuesta": "T-521"
+ },
+ {
+  "id": "A1-10",
+  "ambito": "A1_motor",
+  "titulo": "requirements-exacto.lock no basta solo y el test de Sevilla nunca corre en la CI",
+  "que_pasa_hoy": "El lock del exacto no se instala solo (le faltan numpy y pandas) y la única prueba del exacto con K ≥ 5 (Sevilla) se salta siempre en la CI.",
+  "propuesta": "Versionar 3 instancias pequeñas que cierran en óptimo y resolverlas en la CI; completar el lock.",
+  "criterio_aceptacion": "El job «pruebas» ejecuta (no salta) un test que resuelve una instancia versionada que cierra OPTIMO (p. ej. nac39, tamaño 515) y exige estado OPTIMO y los cinco valores de etapa guardados; <= 2 min añadidos a la CI; un venv limpio con solo requirements-exacto.lock importa ortools.sat.python.cp_model.",
+  "impacto": 3,
+  "esfuerzo": "S",
+  "necesita": "fusion",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-215"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "2. Motor",
+  "tarea_propuesta": "T-521"
+ },
+ {
+  "id": "A2-9",
+  "ambito": "A2_estado-arte",
+  "titulo": "El orden D8 da un solo punto; con el exacto se puede publicar lo que cuesta cada renuncia",
+  "que_pasa_hoy": "El orden D8 da un solo punto: en Sevilla bajar de 8 a 6 demarcaciones partidas cuesta 22 km más de frontera y nadie lo ve; la renuncia de Burgos con frontera real no está medida.",
+  "propuesta": "Estudio con el exacto actual: tabla de tres filas por territorio (óptimo, +1 y +2 demarcaciones partidas) con frontera y desvío mínimos.",
+  "criterio_aceptacion": "Para Burgos, Valladolid, La Rioja y Sevilla existe una tabla de tres filas (partidas = óptimo, óptimo + 1 y óptimo + 2), cada una con la frontera mínima y, fijada esta, el desvío mínimo, con su estado (OPTIMAL o «no cierra en el tope»), y la fila elegida por D8 marcada.",
+  "impacto": 3,
+  "esfuerzo": "S",
+  "necesita": "decision_propietario",
+  "ya_previsto": "roza T-470 y T-471 (propuestas)",
+  "decisiones_relacionadas": [
+   "D-68",
+   "D-86",
+   "D-92"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "2. Motor",
+  "tarea_propuesta": "T-526"
+ },
+ {
+  "id": "A2-10",
+  "ambito": "A2_estado-arte",
+  "titulo": "Las comisiones de límites miden la población futura; Deslinde solo la de hoy",
+  "que_pasa_hoy": "La tolerancia de población se mide solo con el padrón del contrato; ninguna métrica dice cuántos distritos seguirán dentro en cuatro años (hay Atlas del INE 2015-2024 medido, no versionado).",
+  "propuesta": "Estudio sin tocar el motor: evaluar los 71 mapas con la población de cuatro años antes y contar distritos fuera de tolerancia.",
+  "criterio_aceptacion": "Tabla por territorio con «distritos fuera de tolerancia» con la población de t − 4 (Atlas del INE, tabla 30832) y con la de t, y la población que no casa con el seccionado del contrato, generada por un guion con fuentes y sha256; el informe dice en cuántos territorios cambia el recuento.",
+  "impacto": 3,
+  "esfuerzo": "S",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-86"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "2. Motor",
+  "tarea_propuesta": "T-526"
+ },
+ {
+  "id": "B-6",
+  "ambito": "B_arquitectura",
+  "titulo": "M01-M03 y las unidades internas se ejecutan dos veces en cada run «Generar»",
+  "que_pasa_hoy": "M01-M03 y las unidades internas se ejecutan dos veces en cada run «Generar»: la primera pasada cuesta 13,2 min de mediana, cerca del 30 % del run.",
+  "propuesta": "Ya decidido para P00 (una sola llamada a P20): fijar la medida de hoy como línea base y no tocar la 00 la víspera del 29-11.",
+  "criterio_aceptacion": "En una ejecución de P00 (o de la 00, si se toca) hay, por territorio, exactamente un job «Base territorial y población», uno «Adyacencias», uno «Grafo» y uno «Unidades internas» (API de jobs), M04 no arranca sin la evidencia pre-M04, y la composición sección→distrito (sha256 de su CSV, el `sha256_composicion` de herramientas/archivo_origen.py) no cambia en 3 territorios de control.",
+  "impacto": 3,
+  "esfuerzo": "S",
+  "necesita": "decision_propietario",
+  "ya_previsto": "T-379 (decisión B, D-145; DISENO_P00_CAMPANA.md l. 110-112) lo resuelve en la ruta de campaña, y la 00 se retira en su PR 5 tras el 29-11 (§13). Lo único no previsto es arreglar la 00 mientras viva.",
+  "decisiones_relacionadas": [
+   "D-145"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "5. Arquitectura y ejecución",
+  "tarea_propuesta": "T-540"
+ },
+ {
+  "id": "B-9",
+  "ambito": "B_arquitectura",
+  "titulo": "La medida de la tubería no está viva: el job semanal de métricas no actualiza desde el 9-11, no mide el tiempo de motor y el humo de PR tapa la tasa real",
+  "que_pasa_hoy": "La medida de la tubería no está viva: el fichero de métricas es del 9-11 (13 territorios), el job semanal no escribe desde entonces y nada mide qué parte del tiempo es motor.",
+  "propuesta": "Arreglar el job semanal y añadir el porcentaje de pasos de motor por territorio, sin workflow nuevo.",
+  "criterio_aceptacion": "Tras la próxima campaña, `orchestracion/metricas_proceso.json` tiene fecha posterior a ella, incluye sus territorios y trae, por territorio, éxito a la primera, minutos de job y porcentaje de pasos de motor; relanzar `herramientas/metricas_proceso.py` sobre la misma ventana da las mismas cifras.",
+  "impacto": 3,
+  "esfuerzo": "S",
+  "necesita": "fusion",
+  "ya_previsto": "Parcial: T-366 (HECHA) dejó el job semanal `metricas` en P90; dos de los tres indicadores ya los calcula `herramientas/metricas_proceso.py`. Falta que escriba y el porcentaje de motor.",
+  "decisiones_relacionadas": [
+   "D-216"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "5. Arquitectura y ejecución",
+  "tarea_propuesta": "T-538"
+ },
+ {
+  "id": "C-7",
+  "ambito": "C_agentes",
+  "titulo": "Nueve contradicciones entre skills, CLAUDE.md y plan: quién edita, a quién se avisa, quién fusiona",
+  "que_pasa_hoy": "Hay nueve contradicciones entre skills, CLAUDE.md y plan (tres de ellas débiles) sobre quién edita, a quién se avisa y quién fusiona; el bloque de relevo está copiado en 5 skills.",
+  "propuesta": "Una PR de solo skills con una fuente única por regla y un test de coherencia.",
+  "criterio_aceptacion": "`tests/test_skills_coherencia.py` en verde: 0 apariciones de «al planificador» en publicar-visor, de «waiting» en lanzar-00, de «lo escribe el Coordinador» en planificador, de «PENDING» en disenar-agente; `grep -c 'Autocomprobación' .claude/skills/*/SKILL.md` suma 0 y hay 1 en relevo.md.",
+  "impacto": 3,
+  "esfuerzo": "S",
+  "necesita": "fusion",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-160",
+   "D-127"
+  ],
+  "veredicto": "CONFIRMADO",
+  "bloque": "1. Presupuesto y sistema de agentes",
+  "tarea_propuesta": "T-515"
+ },
+ {
+  "id": "C-9",
+  "ambito": "C_agentes",
+  "titulo": "El hook de roles solo ata a los subagentes: la rama «operador» no está cableada",
+  "que_pasa_hoy": "El control técnico de roles solo ata a los subagentes revisor y forense; los límites de los chats de rol («no lanza», «no edita el plan», «no fusiona») son prosa.",
+  "propuesta": "Con entornos por rol aprobados por el propietario, que el control bloquee por defecto lo que no corresponde al rol declarado.",
+  "criterio_aceptacion": "Tests nuevos en tests/test_t78_rol_herramientas.py: Bash con `gh api -X POST …/dispatches` sin DDD_ROL → salida 2; con DDD_ROL=operador → 0; Edit sobre docs/PLAN.md sin DDD_ROL=planificador → 2 y con él → 0. list_environments muestra los entornos de rol. `grep -c 'environment_id' .claude/skills/planificador/SKILL.md` ≥ 1.",
+  "impacto": 3,
+  "esfuerzo": "S",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-52",
+   "D-127"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "1. Presupuesto y sistema de agentes",
+  "tarea_propuesta": "T-518"
+ },
+ {
+  "id": "D-4",
+  "ambito": "D_repositorio",
+  "titulo": "Del 58 % al 95 % de lo que devuelve una búsqueda cae en zonas congeladas; no hay fichero .ignore",
+  "que_pasa_hoy": "Entre el 58 % y el 95 % de lo que devuelve una búsqueda cae en zonas congeladas (legacy, registro, auditorías, fixtures) y no hay fichero .ignore.",
+  "propuesta": "Un .ignore en la raíz que excluya esas zonas y readmita las rutas de legacy que producción usa.",
+  "criterio_aceptacion": "`rg -c production_run_id | awk -F: '{s+=$2} END {print s}'` da menos de 80 (hoy 1.154 con git grep; la cuenta con esas exclusiones da unos 57) y `rg --no-ignore -c production_run_id` sigue dando el total; la suite no cambia (los tests leen con Python, no con rg). `rg -l m05_population_repair_v1_6` sigue encontrando el fichero de legacy que va en la imagen.",
+  "impacto": 3,
+  "esfuerzo": "S",
+  "necesita": "fusion",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [],
+  "veredicto": "CORREGIDO",
+  "bloque": "6. Repositorio y CI",
+  "tarea_propuesta": "T-544"
+ },
+ {
+  "id": "D-5",
+  "ambito": "D_repositorio",
+  "titulo": "legacy mezcla archivo y piezas que producción usa: 132 ficheros con carga, 32 en la imagen",
+  "que_pasa_hoy": "legacy mezcla archivo y piezas vivas: 132 ficheros con carga y 32 dentro de la imagen de producción; mirando la carpeta nadie puede saber qué se puede retirar.",
+  "propuesta": "Generar por guion la lista de rutas con carga y un test que falle si una cita apunta a una ruta ausente.",
+  "criterio_aceptacion": "El guion lista las rutas con carga y contiene los 32 ficheros que `.dockerignore` readmite (16 uno a uno y los 16 de `legacy/workflows/retirados_20261031/`), las 7 de N08 y las 7 de `test_recuperaciones_documentales_r015_presentes`; el test nuevo falla al borrar una de ellas y pasa al borrar una de las 2.189 sin cita.",
+  "impacto": 3,
+  "esfuerzo": "S",
+  "necesita": "fusion",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-82"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "6. Repositorio y CI",
+  "tarea_propuesta": "T-544"
+ },
+ {
+  "id": "D-7",
+  "ambito": "D_repositorio",
+  "titulo": "Nada impide que entre un fichero de 30 MB: no hay guardia de tamaño ni presupuesto del repositorio",
+  "que_pasa_hoy": "Nada impide que entre un fichero de 30 MB: no hay guardia de tamaño; el árbol tiene 73 ZIP (260 MB) y 71 GeoJSON (173 MB).",
+  "propuesta": "Test de guardia: ningún fichero nuevo de más de 1 MB fuera de una lista de excepciones que solo puede encoger.",
+  "criterio_aceptacion": "Una PR de prueba que añade un fichero de 2 MB fuera de la lista deja en rojo el test con el nombre del fichero; la lista de excepciones inicial contiene exactamente los ficheros de más de 1 MB de hoy y solo puede encoger.",
+  "impacto": 3,
+  "esfuerzo": "S",
+  "necesita": "fusion",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [],
+  "veredicto": "CONFIRMADO",
+  "bloque": "6. Repositorio y CI",
+  "tarea_propuesta": "T-544"
+ },
+ {
+  "id": "E-6",
+  "ambito": "E_almacenamiento",
+  "titulo": "No hay un mapa declarado de dónde vive cada clase de artefacto, y las copias únicas se descubren tarde",
+  "que_pasa_hoy": "No hay una tabla versionada que diga, por clase de artefacto, dónde están sus copias y cuánto duran (seis sitios, 5 plazos de retención); las copias únicas se han descubierto tarde, sin pérdida irreparable.",
+  "propuesta": "Un fichero declarativo con una fila por clase y un test: ninguna clase irrepetible con menos de dos copias.",
+  "criterio_aceptacion": "El test falla si un upload-artifact de .github/workflows o un prefijo de R2 escrito por el código (constantes de herramientas/ y workflows; el test no lee el bucket) no pertenece a una clase, o si una clase marcada «irrepetible» declara menos de dos ubicaciones. El fichero cubre los cuatro buckets con variable y el de vídeos.",
+  "impacto": 3,
+  "esfuerzo": "S",
+  "necesita": "fusion",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-188",
+   "D-131",
+   "D-176"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "3. Conservación y datos",
+  "tarea_propuesta": "T-529"
+ },
+ {
+  "id": "E-7",
+  "ambito": "E_almacenamiento",
+  "titulo": "El catálogo de procedencia da 284 avisos falsos de «sin copia en R2» y DOI nulo en todo",
+  "que_pasa_hoy": "El catálogo de procedencia da 284 avisos falsos de «sin copia en R2» porque busca con el nombre antiguo, y tiene el DOI nulo en todo.",
+  "propuesta": "Resolver la copia por el índice, anotar el DOI y pasar el aviso a error para los productos vigentes.",
+  "criterio_aceptacion": "python herramientas/catalogo_procedencia.py --comprobar: 0 SIN_COPIA_R2 en los 71 canónicos, doi no nulo en los 71 depositados y 71 composiciones cuyo sha256_m06 es el del M06 vigente; quitar una clave del índice hace fallar la comprobación.",
+  "impacto": 3,
+  "esfuerzo": "S",
+  "necesita": "fusion",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-188",
+   "D-198"
+  ],
+  "veredicto": "CONFIRMADO",
+  "bloque": "3. Conservación y datos",
+  "tarea_propuesta": "T-530"
+ },
+ {
+  "id": "E-8",
+  "ambito": "E_almacenamiento",
+  "titulo": "El índice de fuentes describe su estado en prosa y está desfasado; ninguna fuente lleva licencia",
+  "que_pasa_hoy": "El índice de fuentes describe su estado en texto libre: 633 de 651 entradas dicen «pendiente de subir» aunque 625 ya constan subidas, y ninguna lleva licencia.",
+  "propuesta": "Campos de máquina por entrada (verificado, licencia, oficial) rellenados por el inventario.",
+  "criterio_aceptacion": "Guion de comprobación: 651 de 651 con licencia y con verificado_en de menos de 35 días o marcadas «no subida» con motivo; 0 entradas cuyo estado contradiga el inventario.",
+  "impacto": 3,
+  "esfuerzo": "S",
+  "necesita": "fusion",
+  "ya_previsto": "T-356 (solo las 10 piezas pendientes)",
+  "decisiones_relacionadas": [
+   "D-198",
+   "D-203",
+   "D-202"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "3. Conservación y datos",
+  "tarea_propuesta": "T-530"
+ },
+ {
+  "id": "E-10",
+  "ambito": "E_almacenamiento",
+  "titulo": "Orden de las tareas pendientes: el borrado del 29-11 va antes que la red de seguridad",
+  "que_pasa_hoy": "El plan tiene fechado el borrado de R2 tras el 29-11 (unos 4 GB) y la retirada de Pages, pero ninguna tarea de segunda copia, bloqueo ni simulacro.",
+  "propuesta": "Condicionar el borrado y la retirada de Pages a tres pruebas: productos anclados, segunda copia con simulacro en verde y mapa de almacenamiento.",
+  "criterio_aceptacion": "La ficha de campaña del borrado cita el informe del simulacro (fecha y sha256) y el resultado del test de anclaje; sin ambos, la herramienta de poda sale con error.",
+  "impacto": 3,
+  "esfuerzo": "S",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-176",
+   "D-178",
+   "D-190",
+   "D-194",
+   "D-52"
+  ],
+  "veredicto": "CONFIRMADO",
+  "bloque": "3. Conservación y datos",
+  "tarea_propuesta": "T-529"
+ },
+ {
+  "id": "F-2",
+  "ambito": "F_publicacion",
+  "titulo": "Requisito previo del corte sin guarda: mapa/datos.json sigue vacío y nada impide publicar la web en R2 sin datos",
+  "que_pasa_hoy": "El fichero que dice al mapa dónde están sus datos sigue vacío y nada impide publicar la web en R2 sin datos (el mapa daría error).",
+  "propuesta": "Activarlo cuando el almacén tenga datos y añadir una guarda que avise en el ensayo y falle tras el corte si llega vacío.",
+  "criterio_aceptacion": "Test Node del visor (como los `test_visor_v4_*` actuales, con `fetch` simulado) sobre el árbol que sube `publicar_sitio_r2.py` (sin datos/, data/, mapa/datos/ ni v2/datos/) y un índice simulado: al elegir un territorio hay distritos y `#map-notice` queda vacío. Test Python: `publicar_sitio_r2.py` con `mapa/datos.json` de `actual` vacío imprime el aviso (y sale ≠ 0 con la opción de producción).",
+  "impacto": 3,
+  "esfuerzo": "S",
+  "necesita": "fusion",
+  "ya_previsto": "T-430 (paso 1 de §9, sin cerrar; en espera en el traspaso del 23-11). La guarda no consta.",
+  "decisiones_relacionadas": [
+   "D-188",
+   "D-193",
+   "D-194"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "4. Publicación y web",
+  "tarea_propuesta": "T-533"
+ },
+ {
+  "id": "F-7",
+  "ambito": "F_publicacion",
+  "titulo": "Un fallo de red pasajero queda fijo y se muestra como «provincia sin distrito certificado»",
+  "que_pasa_hoy": "Un fallo de red pasajero queda fijo y se muestra como «provincia sin distrito certificado», que es falso; ninguna petición tiene tiempo límite.",
+  "propuesta": "Distinguir «no publicado» de «no se pudo cargar», con reintento, tiempo límite de 20 s y aviso de errores al contador propio.",
+  "criterio_aceptacion": "Prueba Node: un `fetch` que falla una vez y luego responde → tras «Reintentar» la provincia se pinta y el aviso desaparece; el texto del fallo pasajero no contiene «certificado»; un `fetch` que no responde da aviso a los 20 s.",
+  "impacto": 3,
+  "esfuerzo": "S",
+  "necesita": "fusion",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-101",
+   "D-188"
+  ],
+  "veredicto": "CONFIRMADO",
+  "bloque": "4. Publicación y web",
+  "tarea_propuesta": "T-537"
+ },
+ {
+  "id": "F-8",
+  "ambito": "F_publicacion",
+  "titulo": "El tope de 100 KB de D-192 no está en ninguna prueba; el mapa pesa más de 480 KB al abrir",
+  "que_pasa_hoy": "El tope de 100 KB de D-192 no está en ninguna prueba y el mapa pesa más de 480 KB comprimidos al abrir; el código propio creció un 40 % en seis días.",
+  "propuesta": "Una prueba con un techo de peso que solo baja y una tarea explícita para la vista rápida del móvil.",
+  "criterio_aceptacion": "`python -m unittest tests.test_visor_v4_peso` falla si la suma comprimida de la primera vista de `mapa/` supera el techo guardado; añadir 30 KB a explorar.js en una rama lo pone en rojo.",
+  "impacto": 3,
+  "esfuerzo": "S",
+  "necesita": "fusion",
+  "ya_previsto": "T-441 (diseño hecho; implantación del mapa sin tarea)",
+  "decisiones_relacionadas": [
+   "D-192"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "4. Publicación y web",
+  "tarea_propuesta": "T-537"
+ },
+ {
+  "id": "F-10",
+  "ambito": "F_publicacion",
+  "titulo": "Sin política de seguridad de contenido ni cabeceras; el corte a Cloudflare es el momento de ponerlas",
+  "que_pasa_hoy": "Ninguna página lleva política de seguridad de contenido ni cabeceras de seguridad (Pages no las permite); a favor, no se carga nada de terceros.",
+  "propuesta": "Con el corte a Cloudflare, una regla de cabeceras que pega el propietario, primero en modo solo informe.",
+  "criterio_aceptacion": "`curl -sI https://diputadodedistrito.es/mapa/` muestra las cinco cabeceras; la prueba «sin terceros» comprueba además que ningún HTML publicado tiene `<script>` en línea; nota A en MDN HTTP Observatory.",
+  "impacto": 3,
+  "esfuerzo": "S",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-199",
+   "D-101"
+  ],
+  "veredicto": "CONFIRMADO",
+  "bloque": "4. Publicación y web",
+  "tarea_propuesta": "T-534"
+ },
+ {
+  "id": "A1-6",
+  "ambito": "A1_motor",
+  "titulo": "El exacto multiplica por 2,3 el tiempo de la competición y no se guarda ningún certificado",
+  "que_pasa_hoy": "El exacto multiplica por 2,3 el tiempo de la competición en los 17 territorios donde aplica (de 859 a 1.956 s) y cada P30 lo recalcula todo; no se guarda ningún certificado.",
+  "propuesta": "Instancia canónica exportable con su sha256 y un almacén de certificados cuya clave incluye modelo, versión del resolutor y pista; cadenas en paralelo.",
+  "criterio_aceptacion": "Segunda competición de nac41 con el certificado presente: mismo ganador y misma huella_resultado que sin él, tiempo total <= 40 s (hoy 113-149 s); con el certificado alterado en una unidad, o con otra pista, no se usa y se resuelve de nuevo.",
+  "impacto": 3,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-86"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "2. Motor",
+  "tarea_propuesta": "T-525"
+ },
+ {
+  "id": "A2-2",
+  "ambito": "A2_estado-arte",
+  "titulo": "Sin cota inferior fuera del exacto: hace falta una cota propia de demarcaciones partidas (la de Shahmizad y Buchanan no vale tal cual)",
+  "que_pasa_hoy": "Donde el exacto no aplica o no cierra, el motor no da ninguna cota; la técnica publicada para «condados partidos» no vale tal cual (D8 cuenta demarcaciones partidas: 6 en Sevilla, frente a 20 particiones).",
+  "propuesta": "Modelo propio que maximiza las demarcaciones enteras para acotar el tercer término de D8; se descarta si no mejora la cota trivial.",
+  "criterio_aceptacion": "En Burgos, Valladolid, La Rioja y Sevilla la cota es ≤ el óptimo demostrado (2, 2, 2 y 6) y ≥ la cota trivial (demarcaciones con más población que el techo; en Sevilla, 3); el informe da el hueco de cada uno; menos de 30 s por territorio; en un territorio con K > 37 (por ejemplo Congreso de Madrid, K = 59) termina en menos de 5 minutos y da cota y hueco frente al mapa vigente. Si no mejora la cota trivial en ninguno, se descarta y se deja escrito.",
+  "impacto": 3,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": "T-468 (propuesta, sin método)",
+  "decisiones_relacionadas": [
+   "D-73",
+   "D-86",
+   "D-92"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "2. Motor",
+  "tarea_propuesta": "T-523"
+ },
+ {
+  "id": "A2-3",
+  "ambito": "A2_estado-arte",
+  "titulo": "La contigüidad del exacto usa la formulación padre y nivel; la literatura, cortes o flujos (hipótesis sin medir en CP-SAT)",
+  "que_pasa_hoy": "La contigüidad del exacto usa la formulación de padre y nivel; que sea el cuello de botella en CP-SAT es una hipótesis (en Sevilla la etapa de frontera cierra en el estudio en 42,8 s y no en producción, ni con tope 300).",
+  "propuesta": "Estudio en local de tres variantes (actual, flujos, cortes) con la configuración de producción; solo se adopta la que cierre lo que hoy no cierra.",
+  "criterio_aceptacion": "Tabla con estado y tiempo por etapa de las tres variantes en nac09, nac47, nac26, nac41 y aut17, con la configuración de producción (4 hilos, interleave_search, semilla 0, tope determinista 60) y el mismo valor óptimo en las que cierran; una variante se adopta solo si cierra en OPTIMAL la etapa de frontera de Sevilla dentro del tope 60 (hoy no cierra ni con 300, T-502) o cierra la primera etapa de aut17, y da el mismo plan en dos ejecuciones.",
+  "impacto": 3,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": "T-468 (propuesta genérica: «ampliar el programa exacto»)",
+  "decisiones_relacionadas": [
+   "D-73",
+   "D-215"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "2. Motor",
+  "tarea_propuesta": "T-523"
+ },
+ {
+  "id": "A2-5",
+  "ambito": "A2_estado-arte",
+  "titulo": "Los mapas alternativos piden un muestreador de distribución conocida, validado con el enumerador",
+  "que_pasa_hoy": "La única cadena del paquete no tiene distribución de equilibrio conocida con tres o más distritos, así que una comparación con «mapas alternativos» no se sostendría ante un revisor; las alternativas están retiradas (D-138, D-141).",
+  "propuesta": "Solo si vuelven las alternativas: validar el muestreador contra la enumeración exacta en 2 o 3 territorios antes de publicar conjuntos.",
+  "criterio_aceptacion": "En cada territorio enumerado, la distancia de variación total entre el muestreador elegido y la enumeración es menor que 0,05 para los tres indicadores con 10.000 planes (partidas por valor; frontera y desvío en 10 tramos iguales fijados antes de mirar los datos), y el estadístico R-hat entre 4 ejecuciones independientes es menor que 1,05; la tabla y el guion quedan con el estudio. Si ningún muestreador lo cumple, se deja escrito y T-469 no se propone con él.",
+  "impacto": 3,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": "T-469 (propuesta sin aprobar; no dice cómo se valida la muestra). D-138 y D-141 retiraron las alternativas del motor viejo",
+  "decisiones_relacionadas": [
+   "D-73",
+   "D-86",
+   "D-138",
+   "D-141",
+   "D-214"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "2. Motor",
+  "tarea_propuesta": "sin tarea: solo si el propietario recupera las alternativas (D-138, D-141)"
+ },
+ {
+  "id": "A2-6",
+  "ambito": "A2_estado-arte",
+  "titulo": "No se publica nada con lo que otros puedan medirse: ni instancias, ni cotas, ni mejor valor",
+  "que_pasa_hoy": "No se publica nada con lo que otros puedan medirse (0 datos del exacto, de cotas o de huellas en los datos abiertos; instancias neutras solo de 9 + 4 territorios y sin versionar); es así por D-92 y D-94.",
+  "propuesta": "Primero una decisión del propietario sobre D-92; solo si la revisa, un banco con los 4 territorios del piloto y un verificador de un solo fichero.",
+  "criterio_aceptacion": "Solo si el propietario revisa D-92: existe datos_abiertos/banco/INDEX.json con las instancias de Burgos, Valladolid, La Rioja y Sevilla y su sha256; `python verificar_plan.py <instancia> <plan.csv>` devuelve para las cuatro la misma clave que docs/ESTUDIOS/T465_BANCO_PILOTO/resultados/RESUMEN.json; una prueba de CI lo comprueba. Las 71 son un segundo paso, con su propia tarea.",
+  "impacto": 3,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": "T-472 (kit de reproducción), propuesta sin aprobar. T-465/T-466 (piloto del banco) están HECHAS (#1025); el banco completo queda «después» (D-215). Ninguna incluye instancias neutras ni verificador independiente",
+  "decisiones_relacionadas": [
+   "D-86",
+   "D-92",
+   "D-94",
+   "D-96",
+   "D-214",
+   "D-215"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "2. Motor",
+  "tarea_propuesta": "sin tarea: decisión previa sobre D-92"
+ },
+ {
+  "id": "A2-7",
+  "ambito": "A2_estado-arte",
+  "titulo": "«Óptimo demostrado» depende de un tope de tiempo de producción: separar buscar de certificar",
+  "que_pasa_hoy": "«Óptimo demostrado» depende del tope de la ejecución de producción: en Sevilla el estudio cierra las cinco etapas (60,2 s) y la competición no, ni con tope 300, así que el motor tiene el mapa óptimo y no puede decirlo.",
+  "propuesta": "Certificado fuera de línea por territorio, atado a la huella de reglas y al sha256 de la instancia, con un segundo resolutor para la etapa decisiva.",
+  "criterio_aceptacion": "Para Sevilla existe un certificado atado a la huella de reglas y al sha256 de la instancia (las cinco etapas en OPTIMAL con valor igual a cota ya están en docs/ESTUDIOS/T465_BANCO_PILOTO/resultados/exacto/nac41.json; falta ese atado y el registro del resolutor); un segundo resolutor confirma el valor de «partidas» (6) sobre la instancia neutra; la competición marca OPTIMO cuando la huella del plan coincide con la certificada, y dos ejecuciones dan la misma huella_resultado.",
+  "impacto": 3,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-73",
+   "D-215",
+   "D-92"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "2. Motor",
+  "tarea_propuesta": "T-523"
+ },
+ {
+  "id": "A2-8",
+  "ambito": "A2_estado-arte",
+  "titulo": "Las cadenas tiran los distritos que ven: un problema maestro de selección los recombina",
+  "que_pasa_hoy": "Cada cadena guarda su mejor plan y tira los miles de distritos válidos que ha visto.",
+  "propuesta": "Estudio: un problema maestro que selecciona K distritos entre los vistos por todas las cadenas, como candidato nuevo.",
+  "criterio_aceptacion": "En los cuatro territorios del piloto y sin los candidatos vigente ni exacto, el plan del maestro tiene clave D8 igual o mejor que la mejor cadena (por construcción) y estrictamente mejor en al menos uno; el maestro tarda menos de 60 s; el plan pasa evaluar(...).valido.",
+  "impacto": 3,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-73"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "2. Motor",
+  "tarea_propuesta": "T-522"
+ },
+ {
+  "id": "C-4",
+  "ambito": "C_agentes",
+  "titulo": "docs/ESTADO.md lleva fecha del 28-11 y su tablero no cambia desde el 16-11 o antes",
+  "que_pasa_hoy": "El tablero docs/ESTADO.md lleva cabecera del 28-11, pero el 62 % de sus líneas (70 de 112) es del 16-11 o anterior; aún dice «Visor v2 desplegado».",
+  "propuesta": "Tablero generado por guion desde ficheros versionados, con comprobación en CI y un único bloque manual.",
+  "criterio_aceptacion": "`python herramientas/generar_tablero.py --check` falla en CI si docs/ESTADO.md difiere de lo generado a partir de ficheros versionados (sin llamadas a la API, para que el resultado no cambie con cada PR abierta); `grep -c 'Relevo' docs/ESTADO.md` = 0; `grep -c 'Visor v2' docs/ESTADO.md` = 0; el fichero baja de 22 KB a menos de 6 KB.",
+  "impacto": 3,
+  "esfuerzo": "M",
+  "necesita": "fusion",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-47"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "1. Presupuesto y sistema de agentes",
+  "tarea_propuesta": "T-514"
+ },
+ {
+  "id": "C-6",
+  "ambito": "C_agentes",
+  "titulo": "Lanzar y publicar dependen de pasos en prosa y de una frase que ninguna máquina comprueba",
+  "que_pasa_hoy": "Las comprobaciones previas a lanzar y publicar están en prosa en cuatro skills (151 líneas) y ningún guion lee las fichas de autorización; una skill se contradice sobre si el run espera aprobación.",
+  "propuesta": "Un guion de lanzar, en simulación por defecto, que lee la ficha, comprueba si hay run en curso y compone el envío; las skills quedan en «ejecuta este guion».",
+  "criterio_aceptacion": "Tests con fixtures de `herramientas/lanzar.py`: ficha caducada → salida 2; territorio fuera de ficha → 2; run en curso → 3; dentro de ficha → imprime el dispatch y la anotación sin enviarlo. `grep -c 'waiting' .claude/skills/lanzar-00/SKILL.md` = 0. `cat` de las cuatro skills | `wc -l` ≤ 70.",
+  "impacto": 3,
+  "esfuerzo": "M",
+  "necesita": "fusion",
+  "ya_previsto": "En parte: T-493 «Segundo control al publicar» (id provisional de PLAN_MEJORA_2026-11-25:652-656, no adoptada en PLAN.md) propone revisor obligatorio solo en el paso de publicar; no cubre el guion ni la lectura de la ficha.",
+  "decisiones_relacionadas": [
+   "D-52",
+   "D-127",
+   "D-46",
+   "D-3"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "1. Presupuesto y sistema de agentes",
+  "tarea_propuesta": "T-516"
+ },
+ {
+  "id": "C-8",
+  "ambito": "C_agentes",
+  "titulo": "Evaluaciones: 2 subagentes de 15 piezas, una sola ejecución (07-11), sin roles ni coste",
+  "que_pasa_hoy": "Solo 2 de las 15 piezas del sistema de agentes tienen evaluación, con una única ejecución del 07-11; desde el 16-11 las reglas y CLAUDE.md han cambiado en 27 commits y ninguna skill de rol se evalúa.",
+  "propuesta": "Tres escenarios de autoridad por rol, casos retenidos y reejecución por modelo cuando cambien las reglas.",
+  "criterio_aceptacion": "`ls evals/skills/*.json | wc -l` ≥ 15 (3 por cada uno de los 5 roles); `python herramientas/evaluar_oro.py --resumen` muestra un resultado por agente y modelo posterior al último cambio de `.claude/agents` o `.claude/rules`; el informe semanal del libro incluye los cuatro indicadores.",
+  "impacto": 3,
+  "esfuerzo": "M",
+  "necesita": "fusion",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [],
+  "veredicto": "CONFIRMADO",
+  "bloque": "1. Presupuesto y sistema de agentes",
+  "tarea_propuesta": "T-517"
+ },
+ {
+  "id": "C-10",
+  "ambito": "C_agentes",
+  "titulo": "Robots y gobierno: 58 % de los commits de main son de robots; 101 MB de copias del registro",
+  "que_pasa_hoy": "281 de los 487 commits de main desde el 16-11 son de robots (58 %), 186 de ellos solo de numerar el registro, y cada numeración copia el registro entero a legacy.",
+  "propuesta": "Eximir de copia en legacy a los ficheros que solo crecen y numerar el registro al publicar una versión, no en cada fusión.",
+  "criterio_aceptacion": "En una semana: `git ls-tree -r --name-only origin/main legacy/docs | grep -c REGISTRO_DE_CAMBIOS` no crece; `git log origin/main --since=<lunes> --format=%s | grep -c '^registro: numerar'` = 0; PR de gobierno < 10 % de las fusionadas. Los demás robots (95 commits «chore» en 12 días) no los toca esta propuesta: se cuentan aparte.",
+  "impacto": 3,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [],
+  "veredicto": "CORREGIDO",
+  "bloque": "6. Repositorio y CI",
+  "tarea_propuesta": "T-545"
+ },
+ {
+  "id": "D-1",
+  "ambito": "D_repositorio",
+  "titulo": "El 80 % del peso del clon son tres carpetas de binarios, no legacy; 342 MB son copias exactas",
+  "que_pasa_hoy": "El árbol ocupa 1.068 MB en 14.483 ficheros; tres carpetas de binarios suman el 80 % del peso comprimido y 342 MB (2.312 ficheros) son copias exactas.",
+  "propuesta": "Sacar a R2 o a un release, con manifiesto de sha256, los lotes que nadie lee, los ZIP de auditoría y la copia duplicada de entradas; al final, inputs/partes.",
+  "criterio_aceptacion": "`git ls-files -z | xargs -0 stat -c %s | paste -sd+ | bc` da menos de 600 MB tras los pasos 1 a 3 (hoy 1.068; la cuenta da unos 585 conservando los 5 ZIP de `originales/`) y menos de 450 MB tras el 4; el guion de duplicados, versionado en el repositorio, da menos de 50 MB de copias exactas (hoy 342); cada fichero retirado figura en un índice con ruta, sha256 y dirección de descarga; un paso de la nocturna (no la suite de las PR, que no debe depender de la red) baja los ficheros del índice y comprueba su sha256; `tests.test_f10_receipt_contract`, `tests.test_ddd_auto` y `tests.test_f10_preparacion_aislada` pasan, comparados por nombre de test contra `origin/main`.",
+  "impacto": 3,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-82",
+   "D-35"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "6. Repositorio y CI",
+  "tarea_propuesta": "T-546"
+ },
+ {
+  "id": "D-6",
+  "ambito": "D_repositorio",
+  "titulo": "Código fuera de la tubería, con lista: 20 ficheros sin cita, 9 solo en documentos y 78 sin cita de código ni de workflows",
+  "que_pasa_hoy": "De 384 ficheros de código, 20 no los cita nadie, 9 solo aparecen en documentos y a 78 no los cita código ni workflows (19.895 líneas en total).",
+  "propuesta": "Una PR por grupo, una lista de herramientas de una sola vez con su motivo y un test de guardia contra huérfanos nuevos.",
+  "criterio_aceptacion": "Test nuevo: todo `.py` de `herramientas/`, `ddd_core/`, `ddd_motor2/` y la raíz está citado por un workflow, por otro código o por la lista de una sola vez; hoy fallaría con 29 nombres (20 sin cita y 9 solo en documentos) y pasa cuando los 20 se retiran y los 9 se retiran o entran en la lista con su motivo. `tests/test_huella_m05_motor_activo.py` sigue en verde y la huella M05 no cambia (comprobarlo con `herramientas/huella_checkpoint_m05.py` antes y después).",
+  "impacto": 3,
+  "esfuerzo": "M",
+  "necesita": "fusion",
+  "ya_previsto": "T-263 (solo M04 v745–v754 y M05 v740, en REVISIÓN). La medición de código muerto del motor ya está hecha en T-254 (D-85; `docs/ESTUDIOS/T254_MEDICION_DESLINDE/resultados/codigo_muerto.json`, que ya lista los 6 módulos de `ddd_core`); lo nuevo aquí son las herramientas.",
+  "decisiones_relacionadas": [
+   "D-85",
+   "D-82"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "6. Repositorio y CI",
+  "tarea_propuesta": "T-548"
+ },
+ {
+  "id": "E-3",
+  "ambito": "E_almacenamiento",
+  "titulo": "La doble vuelta y los datos de la web no tienen versión fijada: «solo la vigente» y claves fijas que se pisan",
+  "que_pasa_hoy": "La doble vuelta y los datos de la web viven en claves fijas que se pisan («solo la vigente», D-188); un recálculo cambió el informe bajo el valor fijado dos veces y P40 falló cerrado las dos.",
+  "propuesta": "Separar servir de conservar: lo publicado se guarda una vez por sha256, inmutable, y lo fijado cita la huella; exige reabrir D-188.",
+  "criterio_aceptacion": "Desde la fecha de entrada en vigor (lo ya pisado no se puede recuperar): para cada sha256 fijado en configuracion/doble_vuelta_publicada.json y cada producto nuevo de publicaciones_visor.json, head-object de publicado/<sha256> responde 200 (lo comprueba P40 al promover). Test sin red con dos informes distintos: relanzar P75 entre el pin y P40 no cambia lo que P40 publica.",
+  "impacto": 3,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-188",
+   "D-198",
+   "D-178",
+   "D-146"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "3. Conservación y datos",
+  "tarea_propuesta": "T-532"
+ },
+ {
+  "id": "E-4",
+  "ambito": "E_almacenamiento",
+  "titulo": "Los datos abiertos no pasan FAIR: sin metadatos de máquina, sin DOI propio y con la geometría solo en la web",
+  "que_pasa_hoy": "Los datos abiertos no llevan metadatos legibles por máquina, versión ni DOI propio, cubren solo las 52 provincias del Congreso y la geometría solo existe en la web.",
+  "propuesta": "Ampliar T-476 con un descriptor del paquete de datos, datos estructurados de conjunto de datos, licencia propia y autonómicas.",
+  "criterio_aceptacion": "En un directorio vacío, con solo el DOI: se descarga el paquete, «frictionless validate datapackage.json» sale sin errores, todos los sha256 coinciden y un guion de 10 líneas pinta los distritos de una provincia sin leer ningún otro documento. Test en el repositorio: datos_abiertos/index.html lleva un bloque application/ld+json que se analiza como JSON, con @type Dataset, name, license, version y distribution con URL y sha256 iguales a INDEX.json.",
+  "impacto": 3,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": "T-476 (PENDIENTE, tanda 2, aprobada por D-214: tabla por partido, diccionario de campos, validador, contraste y DOI; no cubre metadatos de máquina, licencia detectable ni autonómicas)",
+  "decisiones_relacionadas": [
+   "D-214",
+   "D-146",
+   "D-205"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "3. Conservación y datos",
+  "tarea_propuesta": "T-531"
+ },
+ {
+  "id": "E-9",
+  "ambito": "E_almacenamiento",
+  "titulo": "La estructura D-188 está a medias: dos árboles conviven y solo se inventaría un bucket de cinco",
+  "que_pasa_hoy": "La estructura nueva de R2 está a medias: 426 claves nuevas frente a 1.033 viejas, el almacén en 16,47 GB, el último inventario es del 21-11 y solo cubre uno de los cinco almacenes.",
+  "propuesta": "Inventario semanal de los cinco almacenes y cerrar la migración con una prueba (0 claves viejas), no con una fecha.",
+  "criterio_aceptacion": "orchestracion/inventario_r2.json con los 5 buckets y fecha de menos de 8 días; tras la migración, 0 claves que empiecen por arc-e/, arc-p/, congreso_ o un id antiguo, y git grep 'clave_anterior' sin resultados en herramientas/.",
+  "impacto": 3,
+  "esfuerzo": "M",
+  "necesita": "lanzamiento",
+  "ya_previsto": "T-416 y la tarea nueva de T-435 (el borrado y la migración; no el inventario periódico ni los otros cuatro buckets)",
+  "decisiones_relacionadas": [
+   "D-188",
+   "D-190",
+   "D-198",
+   "D-176",
+   "D-178"
+  ],
+  "veredicto": "CONFIRMADO",
+  "bloque": "3. Conservación y datos",
+  "tarea_propuesta": "T-530"
+ },
+ {
+  "id": "F-4",
+  "ambito": "F_publicacion",
+  "titulo": "4 de 18 publicaciones en rojo y ninguna comprobación de lo que queda público tras desplegar",
+  "que_pasa_hoy": "4 de las 18 publicaciones acabaron en rojo (22 %), una de ellas después de desplegar, y nada comprueba lo que queda público tras el despliegue.",
+  "propuesta": "Adelantar la comprobación del informe fijado, humo con navegador sobre el sitio candidato y verificar la versión en la dirección pública.",
+  "criterio_aceptacion": "Repetir el caso del 26-11 en simulación (informe con huella distinta): el job falla ANTES de `deploy-pages`. Un `throw` metido en explorar.js en una rama de prueba hace fallar el humo. En una P40 real, el log imprime «version.json público = <run>».",
+  "impacto": 3,
+  "esfuerzo": "M",
+  "necesita": "fusion",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-172",
+   "D-198",
+   "D-199"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "4. Publicación y web",
+  "tarea_propuesta": "T-535"
+ },
+ {
+  "id": "G-5",
+  "ambito": "G_ci-seguridad",
+  "titulo": "CI sin niveles: entre el 26 % y el 40 % de las PR son solo documentación y pasan la batería entera dos veces",
+  "que_pasa_hoy": "La CI no tiene niveles: cada PR fusionada gasta unos 70 min de jobs (37 en la PR y 33 al fusionar) y entre el 26 % y el 40 % de las PR son solo documentación.",
+  "propuesta": "Cuatro niveles con vía rápida para documentación que falle cerrado, imagen construida una vez y tiempos de reparto regenerados; los ahorros son estimación del autor, sin medir.",
+  "criterio_aceptacion": "(1) Una PR que solo toca docs/ termina `pruebas` en <3 min y con <6 min de jobs. (2) max/min de duración entre fragmentos <1,5 en tres runs seguidos. (3) «Construir entorno» aparece una vez por run. (4) Minutos de jobs de P90 por PR fusionada (run de la PR + run del push, misma consulta de la API) bajan ≥30 % en una semana frente a la línea base de 70 min (37,4 + 33,1). (5) Control negativo: una PR que toca docs/ y un .py, o .claude/hooks/, ejecuta la batería completa.",
+  "impacto": 3,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-49",
+   "D-194",
+   "D-129"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "6. Repositorio y CI",
+  "tarea_propuesta": "T-547"
+ },
+ {
+  "id": "B-3",
+  "ambito": "B_arquitectura",
+  "titulo": "Los productos se identifican por (run, nombre), no por contenido: reanudar es una búsqueda lineal en los últimos 100 runs",
+  "que_pasa_hoy": "Para reanudar, P20 recorre uno a uno los últimos 100 runs manuales del repositorio; en campaña se lanzan 100 runs en 11,4 h, así que un checkpoint de ayer queda fuera aunque no haya caducado.",
+  "propuesta": "Reanudar por clave directa en el árbol de R2 que ya existe (interno/estados/…/ultimo), validado con la huella de entradas y en sombra primero.",
+  "criterio_aceptacion": "Relanzar un territorio sin cambios ejecuta 0 etapas de P20 y gasta ≤ 5 min de jobs (el reloj depende de la cola); sigue acertando con más de 100 runs manuales posteriores y con el artefacto de Actions caducado (test con una lista de runs simulada); en una campaña en sombra, 0 discrepancias sin explicar frente al selector actual; p20-distritos.yml no llama a `actions/runs?…per_page=100` para elegir checkpoint.",
+  "impacto": 3,
+  "esfuerzo": "L",
+  "necesita": "decision_propietario",
+  "ya_previsto": "Parcial: T-443 (HECHA, D-188/D-198) ya dejó en R2 una clave directa por territorio (`interno/estados/…/ultimo|publicado`) y T-379 PR 2b prevé «ruta de campaña solo R2». Falta que el selector de P20 lea de ahí.",
+  "decisiones_relacionadas": [
+   "D-188",
+   "D-198",
+   "D-143"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "5. Arquitectura y ejecución",
+  "tarea_propuesta": "T-541"
+ },
+ {
+  "id": "B-4",
+  "ambito": "B_arquitectura",
+  "titulo": "Qué recalcular lo decide un modo elegido a mano y huellas parciales hechas por etapa",
+  "que_pasa_hoy": "Qué se recalcula depende de un modo elegido a mano entre tres y de huellas por capas que cubren M04-M06; M01-M03 se reutilizan sin huella de código y una línea de CLAUDE.md sobre «Reutilizar» está anticuada.",
+  "propuesta": "Una sola función de huella para las 8 etapas y quitar el modo del botón: se recalcula lo que cambió.",
+  "criterio_aceptacion": "Tests: cambiar un byte de modulos/02 invalida M02 en adelante y no M01; cambiar el suelo de población del contrato invalida M04 en adelante; sin cambios, 0 etapas. El botón de lanzar no tiene `execution_mode` (grep en el workflow). CLAUDE.md pierde la línea 46 (ya falsa) y las reglas de «qué modo usar».",
+  "impacto": 3,
+  "esfuerzo": "L",
+  "necesita": "decision_propietario",
+  "ya_previsto": "Parcial: T-51 (HECHA) cubre M04-M06 con huella de motor, contrato y política; D-130 fija el botón de P00 sin los tres modos (modo = solo comprobar | comprobar y lanzar). Falta la huella de M01-M03 y el hueco de la capa M04.",
+  "decisiones_relacionadas": [
+   "D-130",
+   "D-166"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "5. Arquitectura y ejecución",
+  "tarea_propuesta": "T-541"
+ },
+ {
+  "id": "B-7",
+  "ambito": "B_arquitectura",
+  "titulo": "El encadenado por bot gasta un runner esperando y relanza una 00 que vuelve a planificar todo",
+  "que_pasa_hoy": "El encadenado por bot gasta un runner esperando y relanza una 00 que vuelve a planificar: un territorio tarda unos 90 min de reloj de punta a punta.",
+  "propuesta": "Mantener el plan de T-379 y fijar en su criterio las medidas de hoy como línea base.",
+  "criterio_aceptacion": "Una campaña no contiene ningún run lanzado por github-actions[bot]; el número de ejecuciones es 1 por campaña; reloj por territorio ≤ 30 min de mediana (hoy unos 90).",
+  "impacto": 3,
+  "esfuerzo": "L",
+  "necesita": "fusion",
+  "ya_previsto": "T-379",
+  "decisiones_relacionadas": [
+   "D-140",
+   "D-143",
+   "D-145"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "5. Arquitectura y ejecución",
+  "tarea_propuesta": "T-540"
+ },
+ {
+  "id": "D-3",
+  "ambito": "D_repositorio",
+  "titulo": "Tests: 95.210 líneas para 28.822 de motor; entre el 17 y el 18 % de las aserciones comprueba texto, no conducta",
+  "que_pasa_hoy": "Hay 95.210 líneas de tests para 28.822 de motor; entre el 17 y el 18 % de las 15.351 aserciones comprueba que un literal está en un texto, y 135 ficheros de test leen los workflows.",
+  "propuesta": "Clasificar los tests por lo que protegen con un guion versionado y sustituir los de texto por tests de estructura.",
+  "criterio_aceptacion": "El guion de clasificación está en el repositorio, corre en CI y deja el recuento por categoría; con ese mismo guion, la fracción de aserciones «literal en texto» baja a menos del 10 % (hoy 17–18 %) sin que desaparezca ningún test de comportamiento (comparación por nombre contra `origin/main`); una PR de prueba que renombra un paso de un workflow sin cambiar su orden ni su comando rompe como mucho 3 tests.",
+  "impacto": 3,
+  "esfuerzo": "L",
+  "necesita": "fusion",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-129",
+   "D-166",
+   "D-214"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "6. Repositorio y CI",
+  "tarea_propuesta": "T-548"
+ },
+ {
+  "id": "A1-7",
+  "ambito": "A1_motor",
+  "titulo": "El candidato «exhaustivo» optimiza la clave A aunque la competición elija con D8",
+  "que_pasa_hoy": "El candidato exhaustivo optimiza la función A aunque la competición elige con D8; sin efecto demostrado en ningún mapa.",
+  "propuesta": "Pasar a la enumeración la clave de la competición y anotar con qué función se enumeró.",
+  "criterio_aceptacion": "Test: en un territorio de <= 40 unidades con D8, el candidato exhaustivo tiene clave D8 <= la de todos los demás candidatos, y coincide con el exacto donde ambos aplican.",
+  "impacto": 2,
+  "esfuerzo": "S",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-98"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "2. Motor",
+  "tarea_propuesta": "T-520"
+ },
+ {
+  "id": "C-11",
+  "ambito": "C_agentes",
+  "titulo": "Los límites se miden en líneas y no en tamaño: reglas de 47 KB con líneas de 2.700 caracteres",
+  "que_pasa_hoy": "Los límites de las reglas se miden en líneas y no en tamaño: workflows.md pesa 47 KB en 152 líneas (unos 12.500 tokens), con líneas de hasta 2.723 caracteres.",
+  "propuesta": "Límite en bytes por fichero y por línea, y partir workflows.md por familia de workflow.",
+  "criterio_aceptacion": "Test: `os.path.getsize('CLAUDE.md')` ≤ 8.192 y cada `.claude/rules/*.md` ≤ 12.288; ninguna línea de más de 400 caracteres.",
+  "impacto": 2,
+  "esfuerzo": "S",
+  "necesita": "fusion",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [],
+  "veredicto": "CONFIRMADO",
+  "bloque": "1. Presupuesto y sistema de agentes",
+  "tarea_propuesta": "T-515"
+ },
+ {
+  "id": "D-9",
+  "ambito": "D_repositorio",
+  "titulo": "Raíz y carpetas: 5 ficheros sueltos sin cita, 30 carpetas de primer nivel y dos que chocan en un Mac",
+  "que_pasa_hoy": "La raíz tiene 25 ficheros (5 sin ninguna cita) y 30 carpetas de primer nivel; docs/AUDITORIAS y docs/auditorias chocan en el disco por defecto de un Mac.",
+  "propuesta": "Unir las dos carpetas, retirar los 5 sueltos y ordenar los .lock, dentro de la ventana de renombrado ya aprobada (T-313).",
+  "criterio_aceptacion": "El guion `git ls-files | awk -F/ 'NF>1 {p=$1; for(i=2;i<NF;i++) p=p\"/\"$i; print p}' | sort -u | awk '{l=tolower($0); if(l in s && s[l]!=$0) print; s[l]=$0}'` no imprime nada (hoy imprime `docs/auditorias`); `git ls-files | grep -vc /` da 15 o menos (hoy 25); la suite pasa por nombre contra `origin/main`.",
+  "impacto": 2,
+  "esfuerzo": "S",
+  "necesita": "fusion",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-166"
+  ],
+  "veredicto": "CONFIRMADO",
+  "bloque": "6. Repositorio y CI",
+  "tarea_propuesta": "T-544"
+ },
+ {
+  "id": "F-9",
+  "ambito": "F_publicacion",
+  "titulo": "P40 tarda 17 min en publicar «Solo el sitio» y 7 se van en dos pasadas de la misma comprobación (sobra una: unos 3,5 min)",
+  "que_pasa_hoy": "P40 tarda 17 min en publicar «Solo el sitio» (de 565 a 1.635 s en 11 runs) y repite una comprobación de unos 3,5 min.",
+  "propuesta": "Reutilizar la comprobación si el registro candidato es idéntico al vigente y promover solo si lo fijado cambió.",
+  "criterio_aceptacion": "En una P40 «Solo el sitio» sin cambios de datos, el paso «Preflight completo del registro candidato» dura menos de 15 s y el log dice «candidato idéntico al vigente: se reutiliza la comprobación»; «Promover la doble vuelta» dura menos de 30 s si el fijado no cambió; con una entrada nueva, las dos comprobaciones siguen corriendo (test con registro candidato distinto).",
+  "impacto": 2,
+  "esfuerzo": "S",
+  "necesita": "fusion",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-194"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "4. Publicación y web",
+  "tarea_propuesta": "T-535"
+ },
+ {
+  "id": "F-11",
+  "ambito": "F_publicacion",
+  "titulo": "Faltan robots.txt, mapa del sitio, página 404 y datos estructurados; título y tarjeta sí están",
+  "que_pasa_hoy": "Faltan robots.txt, mapa del sitio, página 404 y datos estructurados; título, descripción y tarjeta sí están.",
+  "propuesta": "Que P40 genere los tres ficheros y añada los datos estructurados del conjunto de datos.",
+  "criterio_aceptacion": "La validación del sitio candidato exige `robots.txt`, `sitemap.xml` y `404.html`; el mapa del sitio lista tantas direcciones como páginas HTML públicas; el JSON-LD pasa un validador de schema.org en un test.",
+  "impacto": 2,
+  "esfuerzo": "S",
+  "necesita": "fusion",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-18"
+  ],
+  "veredicto": "SIN_VERIFICAR",
+  "bloque": "4. Publicación y web",
+  "tarea_propuesta": "T-534"
+ },
+ {
+  "id": "A1-9",
+  "ambito": "A1_motor",
+  "titulo": "Unas 50 lecturas del mismo grafo M03 por competición y una cota 3 veces más lenta de lo necesario",
+  "que_pasa_hoy": "Cada competición relee y analiza unas 50 veces el mismo grafo M03 (28 + 24 lecturas contadas en el código) y la cota de nodos reconstruye el contexto en cada una de hasta 20.000 llamadas.",
+  "propuesta": "Cargar grafo, problema y clave una vez por competición y reutilizarlos.",
+  "criterio_aceptacion": "cProfile de una competición de nac41: json.loads del grafo M03 se llama <= 2 veces; misma huella_resultado; cota_nodos da la misma cota y tarda <= 40 % del tiempo actual.",
+  "impacto": 2,
+  "esfuerzo": "M",
+  "necesita": "fusion",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-89"
+  ],
+  "veredicto": "SIN_VERIFICAR",
+  "bloque": "2. Motor",
+  "tarea_propuesta": "T-525"
+ },
+ {
+  "id": "A2-11",
+  "ambito": "A2_estado-arte",
+  "titulo": "Diagramas de potencia equilibrados: encaje bajo; solo como semilla de reserva en lo grande",
+  "que_pasa_hoy": "Los diagramas de potencia equilibrados dan distritos compactos pero no conocen municipios, partidos judiciales ni núcleos; arrancar una semilla válida cuesta de 1 a 31 intentos en el piloto.",
+  "propuesta": "No implementar ahora; solo como semilla de reserva si las ráfagas muestran que el arranque limita con K > 37.",
+  "criterio_aceptacion": "Solo si se prueba: en un territorio con K > 37, la semilla reparada pasa evaluar(...).valido en menos intentos que la semilla por árboles y la mejor clave tras las cadenas no empeora.",
+  "impacto": 2,
+  "esfuerzo": "M",
+  "necesita": "nada",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [],
+  "veredicto": "SIN_VERIFICAR",
+  "bloque": "2. Motor",
+  "tarea_propuesta": "sin tarea (no implementar ahora)"
+ },
+ {
+  "id": "B-8",
+  "ambito": "B_arquitectura",
+  "titulo": "El Gestor no lanza desde el 9-11: 22 runs con 59 % de éxito y tres implementaciones vivas",
+  "que_pasa_hoy": "El Gestor no lanza desde el 9-11 (22 runs en su historia, 13 en éxito) y conviven tres herramientas de gestor (1.857 líneas) que la retirada prevista no nombra.",
+  "propuesta": "Añadir las tres herramientas y el encadenador a la retirada de T-379, con un test que falle si siguen en el árbol.",
+  "criterio_aceptacion": "Tras la primera campaña completa con P00: `ls .github/workflows | grep -c gestor` = 0, `ls herramientas/gestor_campa*.py | wc -l` = 0 y un único botón lanza una campaña.",
+  "impacto": 2,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": "T-379 PR 5 (DISENO_P00_CAMPANA.md §9 y §13): retira el Gestor, Legislatura, Elección y la 00 tras el 29-11. No previsto: las tres herramientas del gestor (1.857 líneas).",
+  "decisiones_relacionadas": [
+   "D-145",
+   "D-129"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "5. Arquitectura y ejecución",
+  "tarea_propuesta": "T-540"
+ },
+ {
+  "id": "B-10",
+  "ambito": "B_arquitectura",
+  "titulo": "Capas retiradas en el árbol activo: g10, cuatro motores de semillas y 95 herramientas sin uso",
+  "que_pasa_hoy": "Hay capas retiradas en el árbol activo: g10 (263 líneas y tres JSON), cuatro versiones del motor de semillas y 95 de 269 herramientas que solo citan sus tests (68) o nadie (27).",
+  "propuesta": "Una PR de retirada por capa, empezando por lo que nadie cita, con la lista generada por guion.",
+  "criterio_aceptacion": "El guion de referencias da 0 herramientas sin ninguna cita; `ls g10` no existe; la CI sigue en verde; las huellas M05 de 3 territorios no cambian.",
+  "impacto": 2,
+  "esfuerzo": "M",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-82",
+   "D-166"
+  ],
+  "veredicto": "SIN_VERIFICAR",
+  "bloque": "6. Repositorio y CI",
+  "tarea_propuesta": "T-548"
+ },
+ {
+  "id": "D-8",
+  "ambito": "D_repositorio",
+  "titulo": "El reparto de la suite usa tiempos del 07-11: 226 de 504 ficheros sin tiempo y 4 tests son el 38 %",
+  "que_pasa_hoy": "El reparto de la suite usa tiempos del 07-11: 226 de 504 ficheros de test no tienen tiempo y 4 módulos suman el 38 % (254 de 660 s).",
+  "propuesta": "Regenerar los tiempos desde la nocturna y partir los cuatro módulos de más de 50 s.",
+  "criterio_aceptacion": "Menos del 5 % de los ficheros de test sin tiempo registrado y ninguno inexistente en `tests/tiempos_ci.json`; la suma de los cuatro módulos citados baja de 254 s a menos de 100 s en el log de un run de `main`, con los mismos nombres de test.",
+  "impacto": 2,
+  "esfuerzo": "M",
+  "necesita": "fusion",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [],
+  "veredicto": "CORREGIDO",
+  "bloque": "6. Repositorio y CI",
+  "tarea_propuesta": "T-547"
+ },
+ {
+  "id": "D-10",
+  "ambito": "D_repositorio",
+  "titulo": "Evidencia y datos de ejecución se guardan dentro de git: 2.686 ficheros de evidencia y 2.213 de fixtures",
+  "que_pasa_hoy": "La evidencia de ejecución vive en git: 2.686 ficheros (32,2 MB) en territorios/*/evidencia y 2.213 de fixtures; desde el 16-11 solo entraron 21 y 45 nuevos.",
+  "propuesta": "Evidencia al archivo con un índice por territorio en git; con diseño aprobado, porque la leen la selección de checkpoints, el dashboard y la publicación.",
+  "criterio_aceptacion": "En la siguiente campaña que el propietario autorice (no se lanza una solo para esto), `git diff --stat` contra el commit anterior muestra como mucho 3 ficheros cambiados en `territorios/<id>/evidencia`; el dashboard y la P40 leen lo mismo que antes (mismo sha256 del estado operativo generado).",
+  "impacto": 2,
+  "esfuerzo": "L",
+  "necesita": "decision_propietario",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-35"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "5. Arquitectura y ejecución",
+  "tarea_propuesta": "T-542"
+ },
+ {
+  "id": "G-11",
+  "ambito": "G_ci-seguridad",
+  "titulo": "Workflows: 11.193 líneas con bloques de pasos repetidos (uno de ellos, 24 veces)",
+  "que_pasa_hoy": "Los 15 workflows suman 11.193 líneas y un mismo bloque de pasos está copiado 24 veces; 51 PR tocaron workflows en 12 días.",
+  "propuesta": "Acciones compuestas locales para los bloques repetidos, con objetivo de menos de 8.000 líneas sin cambiar comportamiento.",
+  "criterio_aceptacion": "Los workflows suman menos de 8.000 líneas sin cambiar comportamiento; el bloque repetido 24 veces queda en un solo sitio, con su test; una P00 de un territorio registra en main.",
+  "impacto": 2,
+  "esfuerzo": "L",
+  "necesita": "fusion",
+  "ya_previsto": null,
+  "decisiones_relacionadas": [
+   "D-129",
+   "D-130"
+  ],
+  "veredicto": "CORREGIDO",
+  "bloque": "6. Repositorio y CI",
+  "tarea_propuesta": "T-549"
+ }
+]
