@@ -33,7 +33,7 @@ Autocomprobación en tu propio turno (no es un vigilante): al empezar cada turno
 `external_metadata.context_usage.used_tokens` ≥ 70 % de `autocompact_state.threshold`, abre el relevo (D-160).
 1. Lecciones con `/cierre-sesion`.
 2. `docs/TRASPASO_COORDINADOR_AAAA-MM-DD.md`: estado, sesiones vivas con sus ids, pendientes y encargos; PR de solo docs.
-3. Crea tu sucesora con `create_session` (mismo modelo y repositorio); su prompt carga la skill `coordinador` y lee el traspaso y los ids.
+3. Crea tu sucesora con `create_session` (modelo y esfuerzo de tu rol en `configuracion/presupuesto_ventana.json`, siempre `model` y `effort` explícitos, y el repositorio); su prompt carga la skill `coordinador` y lee el traspaso y los ids.
 4. Avisa con `send_message` a los otros dos roles (Planificador y Operador), no a ti.
 5. La sucesora confirma que ha leído y archiva a la predecesora.
 Relevo de implementadores: lo hace el Coordinador igual; la PR y su registro hacen de traspaso.

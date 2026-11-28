@@ -1,0 +1,26 @@
+{
+  "_descripcion": "Presupuesto de la ventana de 5 horas (T-511, D-217). Las cifras son del propietario y se cambian aquí, sin tocar código. Los costes por sesión son estimaciones en USD de equivalencia, ancladas al libro de costes (mediana de implementador 2,95; media 6,47) y a calibrar con T-512.",
+  "ventana_usd": 90,
+  "reparto": {
+    "reserva_propietario": 0.30,
+    "coordinacion": 0.15,
+    "trabajo": 0.55
+  },
+  "coste_sesion_usd": {
+    "sonnet": {"low": 1.0, "medium": 2.95, "high": 4.5, "xhigh": 7.0, "max": 10.0},
+    "opus":   {"low": 2.5, "medium": 4.5,  "high": 6.5, "xhigh": 11.0, "max": 16.0},
+    "fable":  {"low": 4.0, "medium": 7.0,  "high": 11.0, "xhigh": 16.0, "max": 24.0}
+  },
+  "orden_modelos": ["sonnet", "opus", "fable"],
+  "orden_esfuerzo": ["low", "medium", "high", "xhigh", "max"],
+  "roles": {
+    "planificador":      {"categoria": "coordinacion", "modelo": "opus",   "esfuerzo": "medium"},
+    "coordinador":       {"categoria": "coordinacion", "modelo": "sonnet", "esfuerzo": "medium"},
+    "operador":          {"categoria": "coordinacion", "modelo": "sonnet", "esfuerzo": "medium"},
+    "implementador":     {"categoria": "trabajo",      "modelo": "sonnet", "esfuerzo": "high"},
+    "implementador_docs": {"categoria": "trabajo",     "modelo": "sonnet", "esfuerzo": "medium"},
+    "ingeniero_motor":   {"categoria": "trabajo",      "modelo": "opus",   "esfuerzo": "high"},
+    "revisor":           {"categoria": "trabajo",      "modelo": "sonnet", "esfuerzo": "medium"},
+    "forense":           {"categoria": "trabajo",      "modelo": "sonnet", "esfuerzo": "medium"}
+  }
+}

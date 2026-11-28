@@ -1,0 +1,24 @@
+{
+  "sesiones": [
+    {
+      "rol": "planificador"
+    },
+    {
+      "rol": "coordinador"
+    },
+    {
+      "rol": "operador"
+    },
+    {
+      "rol": "implementador",
+      "cantidad": 5
+    },
+    {
+      "rol": "ingeniero_motor"
+    },
+    {
+      "rol": "revisor",
+      "cantidad": 2
+    }
+  ]
+}
