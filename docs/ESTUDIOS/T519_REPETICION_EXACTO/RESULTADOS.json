@@ -634,5 +634,201 @@
   "reloj_s": 138,
   "rc": 0,
   "nucleos": "4"
+ },
+ {
+  "territorio": "nac43",
+  "condicion": "a1",
+  "ganador": "exacto",
+  "clave_d8": [
+   0,
+   0.06104540226634235,
+   6,
+   467.184,
+   0.14104540226634235
+  ],
+  "ganador_huella_plan": "a747bb8915c9e38d7240e117e2e6beaafbfbd162faf6ebdfc466017c3d2d797f",
+  "exacto_estado": "MEJOR_VALIDO",
+  "exacto_etapas": [
+   [
+    "fuera",
+    "OPTIMAL",
+    0,
+    0
+   ],
+   [
+    "exceso_8",
+    "OPTIMAL",
+    2992250,
+    2992250
+   ],
+   [
+    "partidas",
+    "OPTIMAL",
+    6,
+    6
+   ],
+   [
+    "frontera_mm",
+    "UNKNOWN",
+    null,
+    124035942
+   ]
+  ],
+  "exacto_huella_plan": "a747bb8915c9e38d7240e117e2e6beaafbfbd162faf6ebdfc466017c3d2d797f",
+  "exacto_composicion_sha256": "61c7a48fa08fc0044171bf716aeafd6950bb482ce3a7ed6833604c04c1fda036",
+  "huella_resultado": "ff878f74cca4cc52de654657d7fb4d104d368cfd7fd04d3c774eab2547694d44",
+  "composicion_sha256": "61c7a48fa08fc0044171bf716aeafd6950bb482ce3a7ed6833604c04c1fda036",
+  "ortools": "9.14.6206",
+  "tiempo_total_s": 200.792,
+  "reloj_s": 201,
+  "rc": 0,
+  "nucleos": "4"
+ },
+ {
+  "territorio": "nac43",
+  "condicion": "a2",
+  "ganador": "exacto",
+  "clave_d8": [
+   0,
+   0.06104540226634235,
+   6,
+   386.804,
+   0.14104540226634235
+  ],
+  "ganador_huella_plan": "4fcbb66c4cb7005876dd7ff385ec395ca0273960905bb5d7081c2d933287fee3",
+  "exacto_estado": "MEJOR_VALIDO",
+  "exacto_etapas": [
+   [
+    "fuera",
+    "OPTIMAL",
+    0,
+    0
+   ],
+   [
+    "exceso_8",
+    "OPTIMAL",
+    2992250,
+    2992250
+   ],
+   [
+    "partidas",
+    "OPTIMAL",
+    6,
+    6
+   ],
+   [
+    "frontera_mm",
+    "FEASIBLE",
+    386803706,
+    110730470
+   ]
+  ],
+  "exacto_huella_plan": "4fcbb66c4cb7005876dd7ff385ec395ca0273960905bb5d7081c2d933287fee3",
+  "exacto_composicion_sha256": "847f87edf1821ddc16a9b6523df5700f5f92e2d9917ca848fd480ea9d72b04c9",
+  "huella_resultado": "e1415f76031d670deea06e58cdbaa67a30ed6687a4d4cf6ef28d4212d7dc1871",
+  "composicion_sha256": "847f87edf1821ddc16a9b6523df5700f5f92e2d9917ca848fd480ea9d72b04c9",
+  "ortools": "9.14.6206",
+  "tiempo_total_s": 197.785,
+  "reloj_s": 198,
+  "rc": 0,
+  "nucleos": "4"
+ },
+ {
+  "territorio": "nac43",
+  "condicion": "b",
+  "ganador": "exacto",
+  "clave_d8": [
+   0,
+   0.06104540226634235,
+   6,
+   467.184,
+   0.14104540226634235
+  ],
+  "ganador_huella_plan": "a747bb8915c9e38d7240e117e2e6beaafbfbd162faf6ebdfc466017c3d2d797f",
+  "exacto_estado": "MEJOR_VALIDO",
+  "exacto_etapas": [
+   [
+    "fuera",
+    "OPTIMAL",
+    0,
+    0
+   ],
+   [
+    "exceso_8",
+    "OPTIMAL",
+    2992250,
+    2992250
+   ],
+   [
+    "partidas",
+    "OPTIMAL",
+    6,
+    6
+   ],
+   [
+    "frontera_mm",
+    "UNKNOWN",
+    null,
+    126751937
+   ]
+  ],
+  "exacto_huella_plan": "a747bb8915c9e38d7240e117e2e6beaafbfbd162faf6ebdfc466017c3d2d797f",
+  "exacto_composicion_sha256": "61c7a48fa08fc0044171bf716aeafd6950bb482ce3a7ed6833604c04c1fda036",
+  "huella_resultado": "ff878f74cca4cc52de654657d7fb4d104d368cfd7fd04d3c774eab2547694d44",
+  "composicion_sha256": "61c7a48fa08fc0044171bf716aeafd6950bb482ce3a7ed6833604c04c1fda036",
+  "ortools": "9.14.6206",
+  "tiempo_total_s": 357.335,
+  "reloj_s": 358,
+  "rc": 0,
+  "nucleos": "4"
+ },
+ {
+  "territorio": "nac43",
+  "condicion": "c",
+  "ganador": "exacto",
+  "clave_d8": [
+   0,
+   0.06104540226634235,
+   6,
+   386.804,
+   0.14104540226634235
+  ],
+  "ganador_huella_plan": "4fcbb66c4cb7005876dd7ff385ec395ca0273960905bb5d7081c2d933287fee3",
+  "exacto_estado": "MEJOR_VALIDO",
+  "exacto_etapas": [
+   [
+    "fuera",
+    "OPTIMAL",
+    0,
+    0
+   ],
+   [
+    "exceso_8",
+    "OPTIMAL",
+    2992250,
+    2992250
+   ],
+   [
+    "partidas",
+    "OPTIMAL",
+    6,
+    6
+   ],
+   [
+    "frontera_mm",
+    "FEASIBLE",
+    386803706,
+    105003911
+   ]
+  ],
+  "exacto_huella_plan": "4fcbb66c4cb7005876dd7ff385ec395ca0273960905bb5d7081c2d933287fee3",
+  "exacto_composicion_sha256": "847f87edf1821ddc16a9b6523df5700f5f92e2d9917ca848fd480ea9d72b04c9",
+  "huella_resultado": "e1415f76031d670deea06e58cdbaa67a30ed6687a4d4cf6ef28d4212d7dc1871",
+  "composicion_sha256": "847f87edf1821ddc16a9b6523df5700f5f92e2d9917ca848fd480ea9d72b04c9",
+  "ortools": "9.14.6206",
+  "tiempo_total_s": 199.773,
+  "reloj_s": 200,
+  "rc": 0,
+  "nucleos": "4"
  }
 ]
