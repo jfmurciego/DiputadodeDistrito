@@ -1,14 +1,14 @@
 {
  "ambito": "C_agentes",
  "sesion": "session_01KQDtFtbjHrVwhhgHnNE6nU (agente local dentro del chat del Planificador)",
- "veredicto": "Disciplina de reglas y control humano por encima de la media, pero el estado vive en prosa y en chats residentes que se releen: la coordinación cuesta al menos el 35 % del gasto conocido y nada presupuesta la ventana de 5 horas, que es el recurso que paró el proyecto esta noche.",
+ "veredicto": "Disciplina de reglas y control humano por encima de la media, pero el estado vive en prosa y en chats residentes que se releen: la coordinación cuesta en torno a un tercio del gasto conocido (34–37 % según la lectura) y nada presupuesta la ventana de 5 horas, que según el encargo es el recurso que paró el proyecto esta noche.",
  "liga_hoy": "Segunda división alta: skills cortas, subagentes de solo lectura con salida JSON, hooks y un conjunto de oro; sin presupuesto de ventana, sin libro de costes fiable, con tablero y plan a mano y evaluaciones de una sola vez.",
  "liga_objetivo": "Primera: estado en ficheros pequeños y tableros generados, chats de coordinación efímeros, guiones para todo lo determinista, presupuesto por ventana aplicado por guion y evaluaciones por rol y por modelo que se reejecutan al cambiar las reglas.",
  "hallazgos": [
   {
    "id": "C-1",
    "titulo": "La ventana de 5 horas no existe para el aparato: ni presupuesto, ni modelo, ni esfuerzo por rol",
-   "que_pasa_hoy": "Ninguna skill, regla, ficha ni decisión nombra el límite de 5 horas, el esfuerzo ni el modelo Fable. La skill presupuesto dice «Sonnet por defecto; Opus solo para el motor» y deja el tope semanal en «el que fije el propietario». En la práctica el chat del Planificador corre en claude-fable-5-2 a esfuerzo max, y el bloque «Relevo» de las skills ordena crear la sucesora con «mismo modelo», así que el modelo caro se hereda. Una flota de 26 sesiones Fable a esfuerzo máximo más 7 de trabajo agotó la ventana (≈115 USD de equivalencia) en unos 6 minutos.",
+   "que_pasa_hoy": "Ninguna skill, regla, ficha ni decisión nombra el límite de 5 horas, el esfuerzo ni el modelo Fable. La skill presupuesto dice «Sonnet por defecto; Opus solo para el motor» y deja el tope semanal en «el que fije el propietario». En la práctica el chat del Planificador corre en claude-fable-5-2 a esfuerzo max, y el bloque «Relevo» de tres skills (planificador, operador, coordinador) ordena crear la sucesora con «mismo modelo», así que el modelo caro se hereda. Según el encargo (no reproducible desde el repositorio), una flota de 26 sesiones Fable a esfuerzo máximo más 7 de trabajo agotó la ventana (≈115 USD de equivalencia) en unos 6 minutos.",
    "evidencia": [
     {
      "tipo": "VERIFICADO",
@@ -26,9 +26,9 @@
      "detalle": "model claude-fable-5-2 (configured_model claude-opus-5-5, cambiado a mano), effort_level max, ultracode true; rate_limit_info {rateLimitType: five_hour, status: allowed, resetsAt}. El estado de la ventana es legible por herramienta."
     },
     {
-     "tipo": "LEIDO",
+     "tipo": "NO_COMPROBABLE",
      "ref": "dato del encargo T-509 (noche del 27/28-11)",
-     "detalle": "26 sesiones Fable a esfuerzo máximo + 7 de trabajo agotaron la ventana en ~6 min; una sesión gastó 11,4 USD en 6,5 min (1,75 USD/min)."
+     "detalle": "26 sesiones Fable a esfuerzo máximo + 7 de trabajo agotaron la ventana en ~6 min; una sesión gastó 11,4 USD en 6,5 min (1,75 USD/min). No consta en PROTOCOLO.md ni en ningún fichero del repositorio: es dato del encargo, sin fuente que el verificador pueda leer."
     },
     {
      "tipo": "LEIDO",
@@ -41,12 +41,12 @@
      "detalle": "«multi-agent systems use about 15× more tokens than chats»; «Agents struggle to judge appropriate effort for different tasks, so we embedded scaling rules in the prompts»."
     }
    ],
-   "por_que_importa": "La ventana es el recurso más escaso del proyecto y el único que deja a todos los chats parados a la vez, incluido el del propietario. Con el libro reconstruido (media 6,47 USD por tarea, mediana 2,95) una ventana de 115 USD da para unas 17 tareas medias; la flota la gastó en 6 minutos sin cerrar ninguna.",
-   "propuesta": "Skill presupuesto 2.0 con guion: (1) tabla modelo y esfuerzo por rol (coordinación y subagentes: Sonnet u Opus a esfuerzo medio; implementador: Opus alto; Fable y max solo con frase del propietario); (2) antes de abrir chats o subagentes, leer rate_limit_info y el libro; (3) reparto de la ventana: 30 % reserva del propietario, 15 % coordinación, 55 % trabajo; (4) flotas en olas de N sesiones calculadas por el guion, nunca todas a la vez; (5) create_session siempre con model y effort explícitos; quitar «mismo modelo» del bloque Relevo.",
-   "criterio_aceptacion": "`python herramientas/presupuesto_ventana.py --plan` con 26 sesiones Fable max devuelve salida ≠ 0 y el máximo admisible; con una ola dentro del reparto devuelve 0 (test con dos fixtures). `grep -c 'five_hour' .claude/skills/presupuesto/SKILL.md` ≥ 1. Durante 7 días ninguna ventana se agota (rate_limit_info.status ≠ rejected en el registro diario).",
+   "por_que_importa": "La ventana es el recurso que deja a todos los chats parados a la vez, incluido el del propietario. Si la equivalencia de 115 USD del encargo es correcta, con el libro reconstruido (media 6,47 USD por tarea, mediana 2,95) una ventana da para unas 17 tareas medias; la flota la gastó sin cerrar ninguna.",
+   "propuesta": "Skill presupuesto 2.0 con guion: (1) tabla modelo y esfuerzo por rol (coordinación y subagentes: Sonnet u Opus a esfuerzo medio; implementador: Opus alto; Fable y max solo con frase del propietario); (2) antes de abrir chats o subagentes, leer rate_limit_info y el libro; (3) reparto de la ventana: 30 % reserva del propietario, 15 % coordinación, 55 % trabajo, sobre un presupuesto por ventana que fija el propietario (rate_limit_info solo da estado y hora de reinicio, no el saldo); (4) flotas en olas de N sesiones calculadas por el guion, nunca todas a la vez; (5) create_session siempre con model y effort explícitos; quitar «mismo modelo» del bloque Relevo.",
+   "criterio_aceptacion": "`python herramientas/presupuesto_ventana.py --plan <flota.json>` con 26 sesiones Fable max devuelve salida ≠ 0 y el máximo admisible; con una ola dentro del reparto devuelve 0 (test con dos fixtures; el presupuesto por ventana es una constante versionada que fija el propietario). `grep -c 'five_hour' .claude/skills/presupuesto/SKILL.md` ≥ 1. `grep -c 'mismo modelo' .claude/skills/*/SKILL.md` suma 0. En el libro de costes de 7 días, ninguna fila de cierre anota rate_limit_info.status distinto de «allowed» (se lee al cerrar cada chat; sin vigilante).",
    "impacto": 5,
    "esfuerzo": "S",
-   "riesgo": "Modelos más baratos en coordinación pueden errar más; se mide con el libro y las evaluaciones antes de fijarlo.",
+   "riesgo": "Modelos más baratos en coordinación pueden errar más; se mide con el libro y las evaluaciones antes de fijarlo. La herramienta create_session solo admite `effort` si lo piden el propietario o las instrucciones permanentes, y lo rechaza donde create_session está preaprobado: la tabla tiene que estar en la skill.",
    "toca": [
     "proceso",
     "skills"
@@ -59,22 +59,27 @@
     "D-18"
    ],
    "nivel_mundial": "Anthropic escala el esfuerzo con reglas escritas en el prompt y advierte del coste 15× del multiagente (https://www.anthropic.com/engineering/multi-agent-research-system (Anthropic, 13-06-2025)).",
-   "confianza": "alta"
+   "confianza": "media",
+   "verificacion": {
+    "veredicto": "CORREGIDO",
+    "como": "Mismo grep sobre .claude, CLAUDE.md, fichas, framework, gobierno y PLAN.md, en el árbol y con `git grep` en origin/main: 0 coincidencias. PLAN.md: opus 39, sonnet 36, haiku 1, fable 0. presupuesto/SKILL.md:16 y 24 leídas (24 líneas). `grep -rn 'mismo modelo' .claude`: planificador:51, operador:50, coordinador:36. get_session (05:03Z): model claude-fable-5-2, configured_model claude-opus-5-5, effort max, ultracode, rate_limit_info {five_hour, allowed, resetsAt}. PROTOCOLO.md:49 «Usa subagentes». Sin T-xx ni D-xx en PLAN.md sobre ventana o esfuerzo.",
+    "correccion": "La flota (26+7 sesiones, ≈115 USD, 6 min, 11,4 USD) pasa a NO_COMPROBABLE: solo consta en el encargo. Criterio reescrito: rate_limit_info no da saldo (el guion necesita un presupuesto fijado por el propietario) y el «registro diario» no existe y sería un vigilante; se sustituye por la lectura al cierre de cada chat. Confianza de alta a media. Impacto 5 se mantiene."
+   }
   },
   {
    "id": "C-2",
-   "titulo": "El Planificador gasta ≥ 86 % en releerse; el relevo D-160 llega tarde y ya no puede hacerse solo",
-   "que_pasa_hoy": "El chat del Planificador (creado el 20-11) lleva 186,34 USD: 326,4 millones de tokens leídos de caché y 12,0 millones escritos frente a 0,52 millones de salida (632 tokens releídos por cada token producido). Su contexto es de 605.791 tokens. El relevo D-160 se dispara al 70 % del umbral de compactación, que en una ventana de 1M es 784.000: el 70 % son 548.800 tokens, ya superados sin relevo, y el linaje está en 7 de 8, donde la skill prohíbe crear sucesora. El Coordinador ha escrito 8 traspasos en 14 días (15, 16, 17, 20, 21, 23, 26 y 28-11) y sus tres chats anotados costaron 33–76 USD cada uno.",
+   "titulo": "El Planificador gasta ≥ 80 % en releerse; el relevo D-160 llega tarde y ya no puede hacerse solo",
+   "que_pasa_hoy": "El chat del Planificador (creado el 20-11) lleva 216,33 USD (lectura del verificador, 05:03Z; el autor leyó 186,34 a las 04:37Z, y la diferencia es sobre todo la propia investigación T-509, que corre dentro de este chat): 351,5 millones de tokens leídos de caché y 12,9 millones escritos frente a 0,93 millones de salida (379 tokens releídos por cada token producido; 632 en la lectura del autor). Su contexto es de 605.791 tokens. El relevo D-160 se dispara al 70 % del umbral de compactación, que en una ventana de 1M es 784.000: el 70 % son 548.800 tokens, ya superados sin relevo, y el linaje está en 7 de 8, donde la skill prohíbe crear sucesora. El Coordinador ha escrito 8 traspasos en 14 días (15, 16, 17, 20, 21, 23, 26 y 28-11) y sus tres chats anotados costaron 33–76 USD cada uno.",
    "evidencia": [
     {
      "tipo": "VERIFICADO",
      "ref": "mcp claude-code-remote get_session → external_metadata.usage, context_usage, autocompact_state, lineage",
-     "detalle": "cost_usd 186,34; cache_read_tokens 326.365.633; cache_write_tokens 12.045.712; input_tokens 547.324; output_tokens 516.371; used_tokens 605.791; threshold 784.000; lineage depth 7, limit 8."
+     "detalle": "Lectura del verificador (05:03Z): cost_usd 216,33; cache_read_tokens 351.460.549; cache_write_tokens 12.865.672; input_tokens 574.116; output_tokens 928.123; used_tokens 605.791; threshold 784.000; lineage depth 7, limit 8. Lectura del autor (04:37Z, ya no reproducible): 186,34 USD; 326.365.633; 12.045.712; 547.324; 516.371."
     },
     {
      "tipo": "VERIFICADO",
-     "ref": "cálculo con la tabla de precios de la skill claude-api (caché 03-11-2026: Fable 5.2 a 8/40 USD por MTok)",
-     "detalle": "Salida ≤ 516.371 × 40/1e6 = 20,65 USD (11,1 %); entrada ≤ 4,38 USD (2,4 %); resto ≥ 161,3 USD (86,6 %) es leer y reescribir su propio historial."
+     "ref": "cálculo con la tabla de precios de la skill claude-api (shared/models.md: Fable 5.2 a 8/40 USD por MTok; lectura de caché 0,20; escritura 10 a 5 min y 16 a 1 h; Opus 5.5 a 4/20)",
+     "detalle": "Con la lectura de las 05:03Z: salida ≤ 928.123 × 40/1e6 = 37,12 USD (17,2 %); entrada ≤ 4,59 USD (2,1 %); resto ≥ 174,62 USD (80,7 %) es leer y reescribir su propio historial. Con la lectura del autor: 20,65 (11,1 %), 4,38 y ≥ 161,3 (86,6 %). Es una cota: parte del chat corrió en Opus 5.5, más barato, lo que solo sube el resto."
     },
     {
      "tipo": "LEIDO",
@@ -84,7 +89,7 @@
     {
      "tipo": "VERIFICADO",
      "ref": "ls docs/TRASPASO_* docs/traspasos; git diff --stat HEAD origin/main",
-     "detalle": "13 traspasos en 15 días en dos carpetas (11 en docs/TRASPASO_*, 1 en docs/traspasos/, 1 nuevo del 28-11 en main); 8 del Coordinador."
+     "detalle": "15 traspasos en 15 días en dos carpetas: 12 en docs/TRASPASO_* (incluido el del 28-11, ya en main) y 3 en docs/traspasos/ (coordinador, t349, auditoría); 8 del Coordinador."
     },
     {
      "tipo": "VERIFICADO",
@@ -94,7 +99,7 @@
     {
      "tipo": "HIPOTESIS",
      "ref": "skill claude-api, sección Prompt Caching (TTL 5 min por defecto, 1 h opcional; escritura ≈1,25×)",
-     "detalle": "Con 606k tokens de contexto, cada despertar con la caché caducada reescribe el prefijo: ≈6 USD a precio de lista; en caliente ≈0,12 USD. No pude comprobar qué TTL usa la sesión."
+     "detalle": "Con 606k tokens de contexto, cada despertar con la caché caducada reescribe el prefijo: ≈6 USD a precio de lista (10 USD/MTok a 5 min); en caliente ≈0,12 USD (0,20 USD/MTok). Aritmética comprobada; sigue sin saberse qué TTL usa la sesión."
     },
     {
      "tipo": "EXTERNO",
@@ -102,9 +107,9 @@
      "detalle": "El contexto «must be treated as a finite resource with diminishing marginal returns»; el objetivo es «the smallest possible set of high-signal tokens»; memoria: «the agent regularly writes notes persisted to memory outside of the context window»."
     }
    ],
-   "por_que_importa": "El coste de un chat residente crece con el cuadrado de su longitud: cada llamada paga todo lo anterior. Planificador (186) y Coordinador (183) suman 370 USD frente a 602 USD de los 93 chats de trabajo anotados: la coordinación es ≥ 35 % del gasto conocido, sin contar al Operador. Y la cadena de relevo «sin intervención del propietario» se agota en el linaje 8.",
+   "por_que_importa": "El coste de un chat residente crece con el cuadrado de su longitud: cada llamada paga todo lo anterior. Planificador (186–216) y Coordinador (183) suman 370–400 USD frente a 602 USD de los 93 chats de trabajo anotados: la coordinación es en torno a un tercio del gasto conocido (33,7 % con los 162 USD previos a la investigación, 35,3 % a las 04:37Z, 37,1 % a las 05:03Z), sin contar al Operador; parte del coste de esta noche del Planificador es la investigación T-509 y no coordinación. Y la cadena de relevo «sin intervención del propietario» se agota en el linaje 8.",
    "propuesta": "Chats de coordinación efímeros: uno nuevo por ola, que lee solo el tablero y la cola generados (≤ 20.000 tokens) y se archiva al cerrar la ola. Mientras se decide: relevo por tamaño absoluto (150.000 tokens usados) en vez de por porcentaje del umbral, y sucesora creada por el propietario o por un disparo programado, no por linaje.",
-   "criterio_aceptacion": "Guion `herramientas/libro_costes.py --vivos`: ningún chat de rol supera 200.000 used_tokens; coste de coordinación de la semana < 15 % del total del libro; ningún chat de rol con lineage.depth ≥ 6.",
+   "criterio_aceptacion": "Una sesión vuelca `get_session` de cada chat de rol a un JSON (el guion no puede llamar a herramientas MCP) y `python herramientas/libro_costes.py --vivos <json>` devuelve 0 solo si ningún chat de rol supera 200.000 used_tokens (el relevo se abre a 150.000) ni tiene lineage.depth ≥ 6; test con dos fixtures (uno pasa, uno falla). En el resumen semanal del libro, las filas con rol planificador, coordinador u operador suman < 15 % del total.",
    "impacto": 5,
    "esfuerzo": "M",
    "riesgo": "Un chat nuevo pierde matices que no estén escritos; es la prueba de que el estado está de verdad en el repositorio. Reversible: las skills actuales siguen en git.",
@@ -119,11 +124,16 @@
     "D-122"
    ],
    "nivel_mundial": "Notas persistentes fuera del contexto y subagentes que devuelven resúmenes de 1.000–2.000 tokens (https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents (Anthropic, 29-09-2025)).",
-   "confianza": "alta"
+   "confianza": "alta",
+   "verificacion": {
+    "veredicto": "CORREGIDO",
+    "como": "get_session sin id (05:03Z); precios en claude-api/shared/models.md; `sed -n 46,55p` de planificador/SKILL.md (70 % del umbral; «En profundidad 7 o más NO crees sucesora»); `ls docs/TRASPASO_* docs/traspasos` y `git ls-tree origin/main docs/`; libro.py del autor (Coordinador 183,39) con las cifras cotejadas contra las líneas fuente. D-160 sigue vigente en PLAN.md y CLAUDE.md; ninguna tarea lo cambia.",
+    "correccion": "Cifras del chat actualizadas a la lectura reproducible (216,33 USD; salida 0,93 M): la cota baja de ≥ 86 % a ≥ 80 % y el título cambia. Traspasos: 15, no 13 (docs/traspasos/ tiene 3, no 1). Coordinación: «≥ 35 %» pasa a «en torno a un tercio (34–37 %)», con el aviso de que T-509 infla al Planificador. Criterio reescrito: el guion no puede llamar a MCP. Impacto 5 se mantiene."
+   }
   },
   {
    "id": "C-3",
-   "titulo": "Libro de costes en prosa y en cinco sitios, sin sesión ni roles: coordinación infracontada",
+   "titulo": "Libro de costes en prosa y en cuatro sitios (12 ficheros), sin sesión ni roles: coordinación infracontada",
    "que_pasa_hoy": "La skill presupuesto define una línea de libro pero no un fichero. El Coordinador copia a mano el cost_usd de cada chat archivado en docs/ESTADO.md, docs/TRASPASO_*, docs/traspasos/ y docs/registro/, con tres notaciones («13,09 USD», «($24,48)», «(33,3 USD)»). Reconstruido: 97 partidas, 862,13 USD del 14 al 28-11. El Planificador y el Operador no aparecen nunca (0 partidas). Hay partidas ambiguas (T-430: 40,7 y 15,95; T-443: 25,1 y 10,83; T-325: 4,80 y 6,46) que no se pueden conciliar porque no llevan id de sesión.",
    "evidencia": [
     {
@@ -134,7 +144,7 @@
     {
      "tipo": "VERIFICADO",
      "ref": "grep -rnoiE '(planificador|operador)[^·.;]{0,40}[0-9]+,[0-9]{2}' docs/ESTADO.md docs/TRASPASO_* docs/traspasos docs/registro",
-     "detalle": "0 coincidencias: ningún coste de Planificador ni de Operador anotado. Con los 186,34 USD del Planificador (get_session) la coordinación conocida sube al 35 %."
+     "detalle": "0 coincidencias: ningún coste de Planificador ni de Operador anotado. Con el Planificador (186,34 USD a las 04:37Z; 216,33 a las 05:03Z) la coordinación conocida sube al 35–37 %."
     },
     {
      "tipo": "VERIFICADO",
@@ -143,7 +153,7 @@
     },
     {
      "tipo": "LEIDO",
-     "ref": "docs/AUDITORIAS/PLAN_MEJORA_2026-11-25.md:648-650",
+     "ref": "docs/AUDITORIAS/PLAN_MEJORA_2026-11-25.md:646-650",
      "detalle": "T-494 (provisional) ya pide «un libro de costes único», como regla de trabajo, sin guion ni esquema."
     },
     {
@@ -154,7 +164,7 @@
    ],
    "por_que_importa": "Sin libro fiable no se puede presupuestar una ventana ni saber qué rol o qué talla de tarea se come el gasto. El dato que más importa (cuánto cuesta coordinar) es justo el que no se anota.",
    "propuesta": "`docs/costes/libro.jsonl` (una fila por sesión: id, rol, tarea, modelo, esfuerzo, tokens por tipo, cost_usd, PR, a la primera) escrito por un paso de la skill de cierre con get_session; `herramientas/libro_costes.py --resumen` genera el cuadro semanal por rol y por talla. Los 97 apuntes históricos se importan una vez.",
-   "criterio_aceptacion": "`python herramientas/libro_costes.py --resumen --desde 2026-11-14` reproduce 862,13 USD ± 1 % con las 97 partidas importadas y lista las sesiones de rol; test que falla si una fila no tiene sesión o rol; `grep -c 'Libro de costes' docs/ESTADO.md` = 0 tras la migración.",
+   "criterio_aceptacion": "`python herramientas/libro_costes.py --resumen --desde 2026-11-14` reproduce 862,13 USD ± 1 % con las 97 partidas importadas (marcadas `origen: historico`, sin id de sesión) y lista las sesiones de rol; test que falla si una fila no histórica no tiene sesión o rol; `grep -c 'Libro de costes' docs/ESTADO.md` = 0 tras la migración.",
    "impacto": 4,
    "esfuerzo": "S",
    "riesgo": "Bajo. list_sessions solo existe como herramienta MCP, no en CI: el guion lo ejecuta una sesión, no un workflow.",
@@ -169,22 +179,27 @@
     "D-46"
    ],
    "nivel_mundial": "Operaciones deterministas como guion, no como prosa: «Prefer scripts for deterministic operations» (https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices (Anthropic, consultada 28-11-2026)).",
-   "confianza": "alta"
+   "confianza": "alta",
+   "verificacion": {
+    "veredicto": "CORREGIDO",
+    "como": "`python3 /tmp/t509_C_agentes/libro.py` → 97 partidas, 862,13 USD, 93 implementadores 602,00, mediana 2,95, media 6,47, p90 15,95, máx 40,7, 21 ≥ 10 USD = 408,02; transcripción cotejada con las líneas fuente (traspasos/2026-11-15, ESTADO:68 y 71, TRASPASO 16/17/20/23, registro 20/26-11 y origin/main ESTADO). `grep -l` de costes: 12 ficheros. grep de planificador/operador con cifra: 0. PR del 20 al 26-11: 96. PLAN_MEJORA:646-650 (T-494, «un libro de costes único»); T-494 no está en PLAN.md.",
+    "correccion": "«Cinco sitios» era cuatro (ESTADO, TRASPASO_*, traspasos/, registro/; 12 ficheros): origin/main no es un sitio. Criterio: las 97 partidas históricas no tienen id de sesión, así que el test las exime. Referencia de líneas de T-494 afinada. Impacto 4 se mantiene."
+   }
   },
   {
    "id": "C-4",
-   "titulo": "docs/ESTADO.md lleva fecha del 26-11 y su tablero no cambia desde el 16-11 o antes",
-   "que_pasa_hoy": "La cabecera se actualiza y debajo se apilan secciones de relevo (10 secciones «Relevo/Cierre», una titulada «Relevo 11-12»). Las 41 líneas del tablero por tema y de «Tareas del motor y derivadas (10-11)» (l. 5–45) tienen autoría ≤ 16-11, que es el límite del clon. El tablero dice «Visor v2 desplegado» cuando el repositorio tiene 12 ficheros de test de visor_v4 y el plan da la V5 por hecha (T-500). El 68 % del fichero (72 de 106 líneas) es ≤ 16-11.",
+   "titulo": "docs/ESTADO.md lleva fecha del 28-11 y su tablero no cambia desde el 16-11 o antes",
+   "que_pasa_hoy": "La cabecera se actualiza (en main ya dice «2026-11-28 (madrugada)») y debajo se apilan secciones de relevo (10 con «Relevo» o «Cierre» en el título, una titulada «Relevo 11-12»; la del 27/28-11 se añadió anoche). Las 41 líneas del tablero por tema y de «Tareas del motor y derivadas (10-11)» (l. 5–45) tienen autoría ≤ 16-11, que es el límite del clon. El tablero dice «Visor v2 desplegado» cuando el repositorio tiene 12 ficheros de test de visor_v4 y el plan da la V5 por hecha (T-500). El 62 % del fichero en main (70 de 112 líneas) es ≤ 16-11.",
    "evidencia": [
     {
      "tipo": "VERIFICADO",
      "ref": "git blame --date=short -L5,45 docs/ESTADO.md | grep -oE '2026-[0-9-]+' | sort | uniq -c",
-     "detalle": "41 2026-11-16 (primer commit del clon superficial: la fecha real es igual o anterior). Fichero entero: 70 líneas del 16-11, 9 del 17-11, 16 del 24-11, 12 del 26-11."
+     "detalle": "41 2026-11-16 (primer commit del clon superficial: la fecha real es igual o anterior). Fichero entero en origin/main (112 líneas, 22.119 bytes): 70 líneas del 16-11, 9 del 17-11, 16 del 24-11, 10 del 26-11 y 8 del 28-11."
     },
     {
      "tipo": "VERIFICADO",
      "ref": "head -3 docs/ESTADO.md; grep -n '^#' docs/ESTADO.md",
-     "detalle": "«Fecha: 2026-11-26 (noche)»; l. 23 «## Tareas del motor y derivadas (10-11)»; l. 55 «## Relevo 11-12»."
+     "detalle": "En main: «Fecha: 2026-11-28 (madrugada)» (era «2026-11-26 (noche)» hasta #1038); l. 23 «## Tareas del motor y derivadas (10-11)»; l. 55 «## Relevo 11-12»; l. 108 «## 27/28-11 (relevo del Coordinador)»."
     },
     {
      "tipo": "VERIFICADO",
@@ -197,10 +212,10 @@
      "detalle": "El tablero se mantiene a mano «en cada PR de lecciones o de estado»; la skill planificador manda a cada ola nueva leerlo."
     }
    ],
-   "por_que_importa": "Es el documento que cada chat nuevo lee para saber dónde está el proyecto, y el que se enseña al propietario. Un tablero viejo con fecha nueva es peor que no tenerlo: nadie sabe qué líneas creer.",
-   "propuesta": "`herramientas/generar_estado.py`: PR abiertas y runs en curso (gh api REST), publicados (orchestracion/publicaciones_visor.json), tareas abiertas (ficheros de tarea, C-5) y un único bloque manual «Pendientes del propietario». Cada línea con su fecha de dato. Los relevos salen del tablero.",
-   "criterio_aceptacion": "`python herramientas/generar_estado.py --check` falla en CI si docs/ESTADO.md difiere de lo generado; ninguna línea del tablero con dato de más de 48 h; `grep -c 'Relevo' docs/ESTADO.md` = 0; el fichero baja de 21 KB a menos de 6 KB.",
-   "impacto": 4,
+   "por_que_importa": "Es el documento que la skill del planificador manda leer a cada ola nueva. Un tablero viejo con fecha nueva es peor que no tenerlo: nadie sabe qué líneas creer. No hay constancia de un error concreto causado por él.",
+   "propuesta": "`herramientas/generar_tablero.py` (nombre distinto de `generar_estado_operativo.py`, que ya existe para el dashboard): publicados (orchestracion/publicaciones_visor.json), tareas abiertas (ficheros de tarea, C-5) y un único bloque manual «Pendientes del propietario», todo desde ficheros versionados; las PR abiertas y los runs en curso (gh api REST) se imprimen a demanda y no se versionan. Cada línea con su fecha de dato. Los relevos salen del tablero.",
+   "criterio_aceptacion": "`python herramientas/generar_tablero.py --check` falla en CI si docs/ESTADO.md difiere de lo generado a partir de ficheros versionados (sin llamadas a la API, para que el resultado no cambie con cada PR abierta); `grep -c 'Relevo' docs/ESTADO.md` = 0; `grep -c 'Visor v2' docs/ESTADO.md` = 0; el fichero baja de 22 KB a menos de 6 KB.",
+   "impacto": 3,
    "esfuerzo": "M",
    "riesgo": "La valoración verde/amarillo/rojo por tema necesita un criterio escrito por tema; mientras no exista, esa columna queda manual y fechada.",
    "toca": [
@@ -214,12 +229,17 @@
     "D-47"
    ],
    "nivel_mundial": "Recuperación en el momento con identificadores ligeros en vez de cargar todo por adelantado (https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents (Anthropic, 29-09-2025)).",
-   "confianza": "alta"
+   "confianza": "alta",
+   "verificacion": {
+    "veredicto": "CORREGIDO",
+    "como": "`git blame --date=short -L5,45 docs/ESTADO.md` → 41 del 16-11; `git blame origin/main -- docs/ESTADO.md` → 70/9/16/10/8; `git diff HEAD origin/main -- docs/ESTADO.md` (cabecera nueva y sección 27/28-11); `grep -n 'Visor v'` → l. 14; tests: 4 visor_v2, 1 visor_v3, 12 visor_v4; PLAN.md:534 T-500 HECHA; coordinador/SKILL.md:23-24. Sin T-xx ni D-xx que lo cubra.",
+    "correccion": "La fecha de cabecera ya es 28-11 en main (#1038): cambia el título; el tablero sigue igual de viejo. Líneas ≤ 16-11: 70 de 112 (62 %), no 72 de 106 (68 %). El `--check` contra datos vivos de la API no es comprobable en CI: se limita a ficheros versionados. Nombre del guion cambiado para no chocar con `generar_estado_operativo.py`. Impacto de 4 a 3: no se cita ningún error causado por el tablero y el dashboard operativo ya se genera por guion."
+   }
   },
   {
    "id": "C-5",
-   "titulo": "docs/PLAN.md es una base de datos en prosa: 189 KB y reglas de cabecera caducadas",
-   "que_pasa_hoy": "PLAN.md tiene 1.191 líneas y 189 KB (unos 50.000 tokens), 216 decisiones (hasta D-216), 407 tareas (hasta T-505) y 79 copias en legacy (7,4 MB; 13 versiones solo el 08-11). Las tareas nuevas T-500 a T-505 viven en la sección titulada «Cola T-291 a T-367 (14 a 16-11)». Las líneas 579–1191 (51 %) son estado del 01 al 07-11. El fichero abre con «Reglas para todos los chats», que contradicen seis reglas vigentes. La skill implementador manda leer «la tarea en docs/PLAN.md».",
+   "titulo": "docs/PLAN.md es una base de datos en prosa: 190 KB y reglas de cabecera caducadas",
+   "que_pasa_hoy": "PLAN.md tiene 1.191 líneas y 190 KB (unos 50.000 tokens), 216 decisiones (hasta D-216), 407 tareas (hasta T-505) y 79 copias en legacy (7,4 MB; 13 versiones solo el 08-11). Las tareas nuevas T-500 a T-505 viven en la sección titulada «Cola T-291 a T-367 (14 a 16-11)». Las líneas 579–1191 (51 %) son estado del 01 al 07-11. El fichero abre con «Reglas para todos los chats», que contradicen seis reglas vigentes. La skill implementador manda leer «la tarea en docs/PLAN.md».",
    "evidencia": [
     {
      "tipo": "VERIFICADO",
@@ -238,42 +258,47 @@
     },
     {
      "tipo": "VERIFICADO",
-     "ref": "grep -oE estados en docs/PLAN.md",
-     "detalle": "161 HECHA, 35 PENDIENTE, 16 REVISIÓN, 10 LISTA, 8 EN_CURSO, 1 BLOQUEADA, 1 ESPERA_APROBACIÓN: unas 70 tareas abiertas enterradas entre 161 cerradas."
+     "ref": "for e in HECHA PENDIENTE …; do grep -o \"$e\" docs/PLAN.md | wc -l; done",
+     "detalle": "Menciones: HECHA 165, PENDIENTE 36, REVISIÓN 16, LISTA 10, EN_CURSO 8 y «EN CURSO» (con espacio) 17, BLOQUEADA 6, ESPERA_APROBACIÓN 1. Entre 70 y 95 tareas abiertas según el patrón, enterradas entre unas 165 cerradas; la misma columna usa dos grafías del mismo estado."
     }
    ],
    "por_que_importa": "Cada chat que abre el plan paga 50.000 tokens y se encuentra primero con reglas del 07-11. El análisis de dirección ya contó decisiones y versiones; lo nuevo es que el fichero se contradice con las reglas vigentes y que su estructura no deja encontrar una tarea sin leerlo entero.",
-   "propuesta": "Una ficha por tarea abierta en `docs/plan/tareas/T-xxx.md` (cabecera: estado, criterio de aceptación, dependencias, ficheros, talla), `docs/plan/decisiones.jsonl` (id, fecha, texto, sustituye_a, vigente) y un PLAN.md generado de menos de 150 líneas (cola abierta y decisiones vigentes). El histórico queda en git, sin copias en legacy.",
+   "propuesta": "Una ficha por tarea abierta (entre 70 y 95) en `docs/plan/tareas/T-xxx.md` (cabecera: estado, criterio de aceptación, dependencias, ficheros, talla), `docs/plan/decisiones.jsonl` (id, fecha, texto, sustituye_a, vigente) y un PLAN.md generado de menos de 150 líneas (cola abierta y decisiones vigentes). El histórico queda en git, sin copias en legacy.",
    "criterio_aceptacion": "`wc -c docs/PLAN.md` < 20.000; `python herramientas/plan.py tarea T-505` imprime solo esa tarea; test: toda tarea abierta tiene fichero con criterio de aceptación; `grep -c 'Fusiona el propietario' docs/PLAN.md` = 0.",
    "impacto": 4,
    "esfuerzo": "L",
-   "riesgo": "Migración de 70 tareas abiertas y 216 decisiones; se hace en doble escritura una semana y se compara.",
+   "riesgo": "Migración de 70–95 tareas abiertas y 216 decisiones; se hace en doble escritura una semana y se compara.",
    "toca": [
     "proceso",
     "docs",
     "repo"
    ],
    "necesita": "decision_propietario",
-   "ya_previsto": null,
+   "ya_previsto": "En parte: T-494 (id provisional de PLAN_MEJORA_2026-11-25, no adoptada en PLAN.md) pide una ficha de cinco líneas por decisión.",
    "decisiones_relacionadas": [
     "D-216"
    ],
    "nivel_mundial": "Estado como artefactos pequeños y recuperables, no como un documento que se relee entero (https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents (Anthropic, 29-09-2025)).",
-   "confianza": "alta"
+   "confianza": "alta",
+   "verificacion": {
+    "veredicto": "CORREGIDO",
+    "como": "`wc -lc docs/PLAN.md` → 1.191 líneas, 190.105 bytes; 216 D (hasta D-216); 407 T (hasta T-505); 79 copias PLAN_v* (7,4 MB; 13 del 08-11); `grep -n '^#'` → l. 371 «Cola T-291 a T-367» contiene T-500 a T-505 (l. 534–539) y l. 579 «Estado al cierre del 07-11»; l. 13–39 leídas y cotejadas con CLAUDE.md e implementador/SKILL.md (las seis contradicciones existen). PLAN.md no cambia entre HEAD y origin/main.",
+    "correccion": "Tamaño: 190 KB (190.105 bytes), no 189. Recuento de estados rehecho: el original omitía «EN CURSO» con espacio (17) y contaba 1 BLOQUEADA (hay 6 menciones); las abiertas son 70–95, no «unas 70». Añadido el solape parcial con T-494. Impacto 4 se mantiene."
+   }
   },
   {
    "id": "C-6",
    "titulo": "Lanzar y publicar dependen de pasos en prosa y de una frase que ninguna máquina comprueba",
-   "que_pasa_hoy": "Cuatro skills (operador, lanzar-00, lanzar-campana, publicar-visor; 151 líneas) describen en prosa las comprobaciones previas: run en curso del territorio, ficha D-52 vigente, topes, inputs vigentes del workflow. Ningún workflow ni herramienta lee docs/autorizaciones/. Desde D-127 el entorno produccion no pide revisor, así que la frase D-52 es el único control y solo existe como texto. La skill lanzar-00 se contradice: l. 33 «el run arranca al hacer el dispatch», l. 38 «todo dispatch manual queda en waiting hasta el Approve del propietario».",
+   "que_pasa_hoy": "Cuatro skills (operador, lanzar-00, lanzar-campana, publicar-visor; 151 líneas) describen en prosa las comprobaciones previas: run en curso del territorio, ficha D-52 vigente, topes, inputs vigentes del workflow. Ningún workflow ni herramienta lee docs/autorizaciones/. Desde D-127 (decisión expresa del propietario) el entorno produccion no pide revisor, así que la frase D-52 es el único control y solo existe como texto. La skill lanzar-00 se contradice: l. 34 «el run arranca al hacer el dispatch», l. 38 «todo dispatch manual queda en waiting hasta el Approve del propietario».",
    "evidencia": [
     {
      "tipo": "VERIFICADO",
      "ref": "grep -nE 'docs/autorizaciones' .github/workflows/*.yml herramientas/*.py",
-     "detalle": "0 coincidencias: la autorización de campaña no se verifica en ningún paso ejecutable."
+     "detalle": "0 coincidencias: la autorización de campaña no se verifica en ningún paso ejecutable. Búsqueda ampliada a todo .py/.yml/.sh/.json: solo la nombran tests/test_t403_relevo_skills.py y un ENTREGA.json de legacy."
     },
     {
      "tipo": "LEIDO",
-     "ref": ".claude/skills/lanzar-00/SKILL.md:33-34,38",
+     "ref": ".claude/skills/lanzar-00/SKILL.md:34-35,38-39",
      "detalle": "Dos afirmaciones opuestas sobre si el dispatch espera aprobación, en la misma skill."
     },
     {
@@ -284,7 +309,7 @@
     {
      "tipo": "VERIFICADO",
      "ref": "wc -l .claude/skills/{operador,lanzar-00,lanzar-campana,publicar-visor}/SKILL.md",
-     "detalle": "60 + 38 + 31 + 22 = 151 líneas de procedimiento; 31 referencias fechadas (D-xx, #PR, dd-11) entre las cuatro."
+     "detalle": "60 + 38 + 31 + 22 = 151 líneas de procedimiento; 26 referencias fechadas (D-xx, #PR, dd-11) entre las cuatro."
     },
     {
      "tipo": "EXTERNO",
@@ -292,10 +317,10 @@
      "detalle": "Baja libertad «when operations are fragile and error-prone»: «Run exactly this script»; «Prefer scripts for deterministic operations»."
     }
    ],
-   "por_que_importa": "Es el único punto del sistema con efecto público e irreversible, y un lanzamiento duplicado o fuera de ficha cuesta minutos de Actions y credibilidad. Un modelo que resume mal la skill, o lee la nota vieja de la l. 38, actúa con una idea falsa del control.",
+   "por_que_importa": "Es el punto del sistema con efecto público. Un lanzamiento duplicado o fuera de ficha no cuesta minutos facturables (repositorio público) pero sí cola, contención y credibilidad, y una publicación errónea se ve hasta que se revierte. Un modelo que resume mal la skill, o lee la nota vieja de la l. 38, actúa con una idea falsa del control. No se cita ningún incidente posterior a D-127.",
    "propuesta": "`herramientas/lanzar.py` (simulación por defecto): lee la ficha con cabecera legible por máquina (territorios, modos, publica, topes, caducidad), comprueba run en curso por REST, compone el dispatch, lo anota en la ficha y solo con `--ejecutar` lo envía. Las cuatro skills quedan en «ejecuta este guion» y los casos que exigen juicio.",
-   "criterio_aceptacion": "Tests con fixtures: ficha caducada → salida 2; territorio fuera de ficha → 2; run en curso → 3; dentro de ficha → imprime el dispatch y la anotación. `grep -c 'waiting' .claude/skills/lanzar-00/SKILL.md` = 0. Las cuatro skills suman ≤ 70 líneas.",
-   "impacto": 4,
+   "criterio_aceptacion": "Tests con fixtures de `herramientas/lanzar.py`: ficha caducada → salida 2; territorio fuera de ficha → 2; run en curso → 3; dentro de ficha → imprime el dispatch y la anotación sin enviarlo. `grep -c 'waiting' .claude/skills/lanzar-00/SKILL.md` = 0. `cat` de las cuatro skills | `wc -l` ≤ 70.",
+   "impacto": 3,
    "esfuerzo": "M",
    "riesgo": "El guion no puede comprobar que la frase la escribió el propietario: eso sigue siendo del Operador; el guion comprueba todo lo demás.",
    "toca": [
@@ -305,7 +330,7 @@
     "publicacion"
    ],
    "necesita": "fusion",
-   "ya_previsto": null,
+   "ya_previsto": "En parte: T-493 «Segundo control al publicar» (id provisional de PLAN_MEJORA_2026-11-25:652-656, no adoptada en PLAN.md) propone revisor obligatorio solo en el paso de publicar; no cubre el guion ni la lectura de la ficha.",
    "decisiones_relacionadas": [
     "D-52",
     "D-127",
@@ -313,7 +338,12 @@
     "D-3"
    ],
    "nivel_mundial": "Guiones empaquetados con la skill para lo frágil, y plan validado por máquina antes de ejecutar («plan-validate-execute») (https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices (Anthropic, consultada 28-11-2026)).",
-   "confianza": "alta"
+   "confianza": "alta",
+   "verificacion": {
+    "veredicto": "CORREGIDO",
+    "como": "`grep -nE 'docs/autorizaciones' .github/workflows/*.yml herramientas/*.py` → 0; `sed -n 28,39p` de lanzar-00 (l. 34–35 frente a l. 38–39); operador/SKILL.md:16 y 21–23; `wc -l` → 60+38+31+22 = 151; PLAN.md:278 (D-127). La API de entornos de GitHub no es accesible desde la nube (403 del proxy): que `produccion` no tiene revisor consta por D-127, no por lectura directa.",
+    "correccion": "Líneas citadas afinadas (34 y 38). Referencias fechadas: 26, no 31. «Irreversible» y «minutos de Actions» retirados: las publicaciones ya se han revertido antes (revert de robots) y el repositorio público no factura minutos. Añadido el solape con T-493 (provisional). Impacto de 4 a 3: D-127 es una decisión expresa del propietario, T-493 ya propone un segundo control y no hay incidente citado."
+   }
   },
   {
    "id": "C-7",
@@ -388,7 +418,12 @@
     "D-127"
    ],
    "nivel_mundial": "Terminología única, sin información con caducidad en el cuerpo, referencias a un nivel (https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices (Anthropic, consultada 28-11-2026)).",
-   "confianza": "alta"
+   "confianza": "alta",
+   "verificacion": {
+    "veredicto": "CONFIRMADO",
+    "como": "Leídas todas las líneas citadas: planificador:10 y 42 frente a coordinador:21 y 29; publicar-visor:22 frente a operador:29 (no 28); implementador:9-10 frente a 23-24; cierre-sesion:23 frente a coordinador:16; revisar-pr:3 frente a operador:37; presupuesto:16; planificador:12 y 28; disenar-agente:17-18 y 26; diagnosticar-run:14. `wc -lc` → 13 skills, 22–60 líneas, 36.084 bytes. `grep -c` → Relevo en 5 skills, «Límite de linaje» en 3; test_t403 con 6 tests. Las skills no cambian entre HEAD y origin/main.",
+    "correccion": "Ninguna de fondo. Tres de las nueve son débiles (aviso al planificador solo para ficheros compartidos; «no en dólares» se refiere a lo que se cuenta al propietario; el Mac de diagnosticar-run es para volcados, no para cadenas). Al mover el bloque Relevo a un fichero enlazado conviene dejar en cada skill la línea que dispara la autocomprobación."
+   }
   },
   {
    "id": "C-8",
@@ -436,7 +471,12 @@
    "ya_previsto": null,
    "decisiones_relacionadas": [],
    "nivel_mundial": "Desarrollo guiado por evaluaciones y prueba con todos los modelos previstos (https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices (Anthropic, consultada 28-11-2026)).",
-   "confianza": "alta"
+   "confianza": "alta",
+   "verificacion": {
+    "veredicto": "CONFIRMADO",
+    "como": "`find evals -type f | wc -l` → 48; casos 43 (16 ADV, 3 CAL, 18 CR, 3 CTRL, 3 REV); resultados forense_v1_20261107 y revisor_v1_20261107 (modelo sonnet); LIBRO_DE_COSTES.md:12 (17/18), :14 («memoria de defectos conocidos»), :17 (92.390 tokens), :19 (12/12); CAL-01 revisor, CAL-02 cualquiera, CAL-03 forense; `git log origin/main -- .claude/rules CLAUDE.md` → 26 commits del 16 al 26-11 y uno más el 28-11; evals y .claude/agents sin commits desde el 16-11; 206 PR en main; `herramientas/evaluar_oro.py` existe. Sin tarea en PLAN.md.",
+    "correccion": "Ninguna. Con #1038 son ya 27 commits en reglas y CLAUDE.md sin nueva ejecución."
+   }
   },
   {
    "id": "C-9",
@@ -465,8 +505,8 @@
     }
    ],
    "por_que_importa": "La separación de poderes entre chats, que es el diseño central del proyecto, descansa en que cada modelo obedezca su skill. El día que uno no lo haga no hay segunda barrera, salvo el control de seguridad genérico de la plataforma.",
-   "propuesta": "Invertir el defecto: sin rol declarado, el hook bloquea los dispatch de workflows con efecto y la edición de docs/PLAN.md y docs/autorizaciones/; el entorno «DDD Operador» con DDD_ROL=operador los permite. Crear ese entorno (lo aprueba el propietario).",
-   "criterio_aceptacion": "Tests nuevos en tests/test_t78_rol_herramientas.py: Bash con `gh api -X POST …/dispatches` sin DDD_ROL → salida 2; con DDD_ROL=operador → 0; Edit sobre docs/PLAN.md sin rol planificador → 2. list_environments muestra el entorno de operador.",
+   "propuesta": "Invertir el defecto: sin rol declarado, el hook bloquea los dispatch de workflows con efecto y la edición de docs/PLAN.md y docs/autorizaciones/; un entorno «DDD Operador» con DDD_ROL=operador permite el dispatch y otro con DDD_ROL=planificador permite editar el plan (hoy todos los chats comparten «Default», sin variables). Los entornos los aprueba el propietario. Ojo: create_session hereda el entorno de quien la crea, así que las skills deben pasar `environment_id` explícito al abrir implementadores, o heredarían el rol.",
+   "criterio_aceptacion": "Tests nuevos en tests/test_t78_rol_herramientas.py: Bash con `gh api -X POST …/dispatches` sin DDD_ROL → salida 2; con DDD_ROL=operador → 0; Edit sobre docs/PLAN.md sin DDD_ROL=planificador → 2 y con él → 0. list_environments muestra los entornos de rol. `grep -c 'environment_id' .claude/skills/planificador/SKILL.md` ≥ 1.",
    "impacto": 3,
    "esfuerzo": "S",
    "riesgo": "Un bloqueo de más frena un turno; el mensaje del hook debe decir a quién pedirlo.",
@@ -482,17 +522,22 @@
     "D-127"
    ],
    "nivel_mundial": "Autoridad por configuración, no por instrucción; baja libertad en lo frágil (https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices (Anthropic, consultada 28-11-2026)).",
-   "confianza": "media"
+   "confianza": "media",
+   "verificacion": {
+    "veredicto": "CORREGIDO",
+    "como": "rol_herramientas.py:14 («Sin rol: deja pasar») y :133-138 (rol de --rol, agent_type o DDD_ROL); 9 tests en test_t78; list_environments → «Default» ×2 y «DiputadodeDistrito (artefactos de Actions)»; get_environment del Default en uso → environment_variable_names: null; GOBIERNO_RUNTIME.md:43 y 52; registro del 07-11:12; .claude/settings.json (deny: create_repository y fork_repository; dos hooks). Sin cambios en origin/main ni tarea en PLAN.md.",
+    "correccion": "La evidencia se confirma entera. Propuesta y criterio completados para que sean realizables: bloquear PLAN.md «sin rol planificador» exige también un entorno para ese rol, y create_session hereda el entorno del creador (los implementadores heredarían el rol si no se pasa environment_id)."
+   }
   },
   {
    "id": "C-10",
-   "titulo": "Robots y gobierno: 51 % de los commits de main son de robots; 101 MB de copias del registro",
-   "que_pasa_hoy": "De los 487 commits de main desde el 16-11, 186 son del robot que numera el registro y 62 de otros robots (51 % entre ambos); 84 más (17 %) son documentos de gobierno. De las 206 PR fusionadas, 50 (24 %) son lecciones, traspasos o plan. La regla «cada cambio deja copia en legacy» se aplica también a ficheros que solo crecen: hay 655 copias de REGISTRO_DE_CAMBIOS (101 MB de los 153 MB de legacy) y cada numeración copia 2.213 líneas.",
+   "titulo": "Robots y gobierno: 58 % de los commits de main son de robots; 101 MB de copias del registro",
+   "que_pasa_hoy": "De los 487 commits de main desde el 16-11, 281 son de robots (58 %): 186 del que numera el registro y 95 de otros (34 «sincronizar estado», 16 de procedencia, el resto registros de ejecución, producto, activos y archivo). Los 206 restantes son PR fusionadas (204 del propietario y 2 de dependabot), y 50 de ellas (24 % de las PR, 10 % de los commits) son lecciones, traspasos o plan. La regla «cada cambio deja copia en legacy» se aplica también a ficheros que solo crecen: hay 656 copias de REGISTRO_DE_CAMBIOS en main (101 MB de los 153 MB de legacy) y cada numeración copia unas 2.200 líneas (216 KB la última).",
    "evidencia": [
     {
      "tipo": "VERIFICADO",
-     "ref": "git log origin/main --format=%s | awk (clasificación por prefijo)",
-     "detalle": "487 commits: 186 «registro: numerar», 62 «chore: registrar…», 84 de Coordinador/traspaso/lecciones/plan, 155 resto."
+     "ref": "git log origin/main --format='%an|%s' agrupado por autor y prefijo",
+     "detalle": "487 commits: ddd-registro[bot] 202 (186 «registro: numerar» + 16 «chore(procedencia)»), github-actions 77, ddd-registro 2, dependabot 2, propietario 204 (todos PR). Robots sin dependabot: 281 (57,7 %)."
     },
     {
      "tipo": "VERIFICADO",
@@ -502,12 +547,12 @@
     {
      "tipo": "VERIFICADO",
      "ref": "ls legacy/docs | grep -c REGISTRO_DE_CAMBIOS; du -ch legacy/docs/REGISTRO_DE_CAMBIOS_*; du -sh legacy",
-     "detalle": "655 copias, 101 MB; legacy 153 MB; última: REGISTRO_DE_CAMBIOS_v1.0.648_registro_20261127.md (2.213 líneas)."
+     "detalle": "655 copias en el árbol y 656 en origin/main, 101 MB; legacy 153 MB; última: REGISTRO_DE_CAMBIOS_v1.0.648_registro_20261127.md (2.213 líneas); el registro vivo tiene 2.214 líneas y 216.576 bytes."
     }
    ],
-   "por_que_importa": "Cada PR de gobierno pasa la CI y ocupa cola de fusión; el historial de main se vuelve ilegible y el repositorio engorda unos 150 KB por PR fusionada solo por el registro.",
+   "por_que_importa": "Cada PR de gobierno pasa la CI y ocupa cola de fusión; el historial de main se vuelve ilegible y el repositorio engorda unos 150–220 KB por PR fusionada solo por el registro.",
    "propuesta": "Eximir de la copia en legacy a los ficheros de solo adición (registro, plan, tablero): git ya es su historial. El registro numerado se genera al publicar una versión, no en cada fusión. Lecciones dentro de la PR de la tarea, no en una PR aparte del Coordinador.",
-   "criterio_aceptacion": "En una semana: `ls legacy/docs | grep -c REGISTRO_DE_CAMBIOS` no crece; commits de robots en main < 10 %; PR de gobierno < 10 % de las fusionadas.",
+   "criterio_aceptacion": "En una semana: `git ls-tree -r --name-only origin/main legacy/docs | grep -c REGISTRO_DE_CAMBIOS` no crece; `git log origin/main --since=<lunes> --format=%s | grep -c '^registro: numerar'` = 0; PR de gobierno < 10 % de las fusionadas. Los demás robots (95 commits «chore» en 12 días) no los toca esta propuesta: se cuentan aparte.",
    "impacto": 3,
    "esfuerzo": "M",
    "riesgo": "Toca la regla de gobernanza y su test (R015): decisión del propietario.",
@@ -520,7 +565,12 @@
    "ya_previsto": null,
    "decisiones_relacionadas": [],
    "nivel_mundial": "El control de versiones es la memoria; no se duplica en ficheros (https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents (Anthropic, 29-09-2025), notas persistentes mínimas).",
-   "confianza": "media"
+   "confianza": "media",
+   "verificacion": {
+    "veredicto": "CORREGIDO",
+    "como": "`git log origin/main --format='%an|%s'` agrupado; `… | grep -E '\\(#[0-9]+\\)$' | grep -ciE 'coordinador|traspaso|lecciones|plan 1\\.|planificador|experiencia'` → 50 de 206 (21 de 96 del 20 al 26-11); `ls legacy/docs | grep -c REGISTRO_DE_CAMBIOS` → 655 (656 en main); `du` → 101 MB y 153 MB. gobernanza.md y registro.md mantienen la copia en legacy; ninguna D-xx la exime.",
+    "correccion": "Robots: 281 de 487 (58 %), no 248 (51 %): los «otros robots» son 95, no 62. Gobierno: 50 commits (10 %), no «84 más (17 %)»: todos los commits humanos son PR y 50 son de gobierno. El criterio «robots < 10 %» no se alcanza con la propuesta (solo quita los 186 de numeración): se cambia por 0 commits de numeración. Impacto 3 se mantiene."
+   }
   },
   {
    "id": "C-11",
@@ -557,7 +607,12 @@
    "ya_previsto": null,
    "decisiones_relacionadas": [],
    "nivel_mundial": "Divulgación progresiva y concisión (https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices (Anthropic, consultada 28-11-2026)).",
-   "confianza": "alta"
+   "confianza": "alta",
+   "verificacion": {
+    "veredicto": "CONFIRMADO",
+    "como": "`wc -lc CLAUDE.md .claude/rules/*` → CLAUDE.md 99 líneas y 10.805 bytes; workflows.md 152 y 47.598 (línea más larga 2.723); contratos.md 85 y 20.678 (2.526); reglas 89.622 bytes en 7 ficheros; test_t403_relevo_skills.py:51; diagnostico-local.md con paths modulos, ddd_core, territorios y tests.",
+    "correccion": "Ninguna. En origin/main workflows.md ya tiene 153 líneas y 48.987 bytes."
+   }
   }
  ],
  "anexos": {
@@ -609,15 +664,31 @@
    },
    "coordinador_3_chats": 183.39,
    "auditoria": 76.74,
-   "planificador_get_session_28_11": 186.34,
+   "planificador_get_session_28_11": 216.33,
    "operador": null,
-   "coordinacion_sobre_gasto_conocido_pct": 35.3,
-   "guion": "/tmp/t509_C_agentes/libro.py"
+   "coordinacion_sobre_gasto_conocido_pct": 37.1,
+   "guion": "/tmp/t509_C_agentes/libro.py",
+   "planificador_get_session_28_11_0437Z_autor": 186.34,
+   "coordinacion_sobre_gasto_conocido_pct_rango": [
+    33.7,
+    37.1
+   ],
+   "nota_verificacion": "97 partidas y 862,13 USD reproducidos con el guion del autor y cotejo de las líneas fuente. El coste del Planificador sube mientras corre T-509 dentro de su chat."
   },
   "fuentes_externas": [
    "https://www.anthropic.com/engineering/multi-agent-research-system (Anthropic, 13-06-2025)",
    "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents (Anthropic, 29-09-2025)",
    "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices (Anthropic, consultada 28-11-2026)"
   ]
+ },
+ "verificacion_independiente": {
+  "fecha": "2026-11-28T05:10Z",
+  "origin_main": "548968c47",
+  "revisados": 11,
+  "confirmados": 3,
+  "corregidos": 8,
+  "refutados": 0,
+  "no_comprobables": 0,
+  "nota": "Ningún hallazgo se refuta entero. Se descartan afirmaciones sueltas (ver cada «verificacion.correccion»). Lo que solo consta en el encargo (26+7 sesiones, ≈115 USD, 6 minutos) no se pudo reproducir."
  }
 }

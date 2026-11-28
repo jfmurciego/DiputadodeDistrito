@@ -3,19 +3,24 @@
 Fecha: 2026-11-28. Agente local, solo lectura. Código de `main` en 9e630d11. No se ha ejecutado el motor ni ningún
 experimento: todo lo propuesto lleva su prueba, sin hacer. Hallazgos en `A2_estado-arte.json` (11, con evidencia).
 
+**Verificación independiente (28-11, contra `origin/main` 548968c4).** Revisados A2-1 a A2-10: 0 confirmados sin
+cambios, 10 corregidos, 0 refutados; A2-11 sin revisar. Las cifras internas salen iguales; se corrigen propuestas,
+criterios de aceptación, impactos y tres afirmaciones (sección 10). Detalle en el campo `verificacion` del JSON.
+
 ## 1. Veredicto
 
 1. Deslinde juega hoy en **segunda alta**. Tiene algo que GerryChain y `redist` no dan: un óptimo demostrado y
    reproducible bit a bit, con un resolutor abierto, en los territorios pequeños.
 2. Pero el exacto es **todo o nada**: territorio entero, una circunscripción, sin exenciones y átomos × K ≤ 2.000.
-3. Medido en los 71 territorios: K va de 1 a **135**, no de 1 a 37. Hay 24 con K ≤ 4, 20 entre 5 y 10, 11 entre 11
-   y 37 y **16 con K > 37**. En esos 16, y en las autonómicas con varias circunscripciones, el exacto no entra nunca.
+3. Medido en los 71 territorios: K va de 1 a **135**, no de 1 a 37. Hay 24 con K ≤ 4 (8 de ellos con K = 1, sin
+   nada que trazar), 20 entre 5 y 10, 11 entre 11 y 37 y **16 con K > 37**. En esos 16, y en las autonómicas con varias circunscripciones, el exacto no entra nunca.
 4. Fuera del exacto la búsqueda es ReCom básico (2019): N cadenas independientes de 300 pasos. Ya perdió en
-   Burgos, Valladolid y Sevilla (8 demarcaciones partidas frente a 6 demostradas).
-5. Más pasos no lo arreglan: GerryChain puro con 100.000 pasos y 6,9 h de CPU tampoco llegó (T-466).
+   Burgos, Valladolid y Sevilla (8 demarcaciones partidas frente a 6 demostradas; desde T-503 ahí gana el exacto).
+5. Más pasos ayudan poco: GerryChain puro con 100.000 pasos y 6,9 h de CPU tampoco llegó (T-466).
 6. No hay ninguna cota donde el exacto no cierra: en esos territorios no se sabe a cuánto está el mapa del mejor.
 7. No se publica nada con lo que otros puedan medirse: ni instancias, ni cotas, ni conjuntos de mapas.
-8. La literatura de 2021 a 2026 tiene resuelto, con código, casi todo lo que falta. Son cinco técnicas.
+8. La literatura de 2021 a 2026 tiene publicado, con código, casi todo lo que falta. Son cinco técnicas; la de
+   cotas no se traslada tal cual (A2-2).
 9. Tres de ellas son baratas (una sesión o dos) y se prueban en local con los cuatro territorios del piloto.
 10. Con ellas y con un banco público de instancias, el proyecto puede jugar en **primera**.
 
@@ -42,12 +47,12 @@ Fuentes numeradas en la sección 9. «Encaje» dice el fichero de `paquetes/desl
 | Forest ReCom y multiescala (3) | Metropolis sobre bosques; respeta jerarquías (condados) | Carolina del Norte por recintos | Código de Duke, licencia sin comprobar | Encaja con municipio → sección. Coste alto; solo si (2) no mezcla |
 | SMC, `redist` (4) y SMC generalizado (5) | Planes en paralelo, distrito a distrito; (5) añade distritos plurinominales y pasos de fusión | 50 estados (ALARM); validado contra enumeración | GPL | Solo comparación externa (D-73). No se puede enlazar al paquete |
 | Ráfagas cortas (6) | Optimizar con una cadena neutra: ráfagas de b pasos desde el mejor visto | Luisiana, cámaras estatales | BSD (`SingleMetricOptimizer`) | `ponderado.py`, pocas líneas, mismo gasto. Lo más barato de probar |
-| Contigüidad por cortes y flujos (7); lineal en grafos planos (12) | Modelos enteros fuertes de contigüidad | Óptimo en 21 estados a nivel de tramo censal | GPL-3.0 y exige Gurobi: se reimplementa la idea | `exacto.py` (modelo 2.0). Sube el techo de 2.000 |
-| Mínimo de condados partidos (8) | Cota por agrupaciones más plan que la alcanza | Todas las cámaras de EE. UU. salvo Hawái; p. ej. 95 condados, K = 33 | Repositorio público, licencia no visible | `cotas.py` nuevo. Cota del tercer término de D8 en segundos, también en lo grande |
-| Generación de columnas (9) y reoptimización local (10) | Muchos distritos candidatos y un problema maestro; mejora por fragmentos | Estados enteros; (10) supera a las ráfagas | Sin comprobar | `exacto_local.py` y candidato «maestro». La vía para K > 37 |
+| Contigüidad por cortes y flujos (7); lineal en grafos planos (12) | Modelos enteros fuertes de contigüidad | Óptimo en 21 estados a nivel de tramo censal | GPL-3.0 y exige Gurobi: se reimplementa la idea | `exacto.py` (modelo 2.0). Hipótesis sin medir: podría subir el techo de 2.000 |
+| Mínimo de condados partidos (8) | Cota por agrupaciones más plan que la alcanza | Todas las cámaras de EE. UU. salvo Hawái; p. ej. 95 condados, K = 33 | Repositorio público, licencia no visible | `cotas.py` nuevo, con modelo propio: la cota k − q acota particiones y D8 cuenta demarcaciones partidas |
+| Generación de columnas (9) y reoptimización local (10) | Muchos distritos candidatos y un problema maestro; mejora por fragmentos | Estados enteros; en (10) la generación de columnas supera a las ráfagas | Sin comprobar | `exacto_local.py` y candidato «maestro». La vía para K > 37 |
 | Diagramas de potencia equilibrados (11) | Distritos compactos de población exacta | Seis estados más poblados, por manzana | Académico | Encaje bajo: ignora municipios y núcleos. Solo semilla de reserva |
 | Multiobjetivo multinivel (13) | Frente de Pareto con restricción ε tras contraer el grafo | Wisconsin | Datos y código públicos | Estudio con el exacto actual; contenido para T-470 y T-471 |
-| Validación por enumeración (15) | Comprobar un muestreador contra todos los planes | 70 recintos, 44 millones de planes | GPL (`redist`) | `exhaustivo.py` ya enumera: ventaja propia para validar T-469 |
+| Validación por enumeración (15) | Comprobar un muestreador contra todos los planes | 70 recintos (número de planes sin confirmar) | GPL (`redist`) | `exhaustivo.py` ya enumera: ventaja propia para validar T-469 |
 
 Comisiones de límites (18, 19, 20): no usan optimizador como árbitro. Inglaterra fija ±5 % (69.724 a 77.062
 electores) y trabaja por barrios, con propuestas iniciales, revisadas e informe final. Australia exige ±10 % hoy y
@@ -56,88 +61,124 @@ escritos, una comisión independiente por provincia y audiencias públicas.
 
 ## 4. Hallazgos, de mayor a menor impacto
 
-### A2-1 · El exacto es todo o nada: falta el exacto por vecindarios (impacto 5, esfuerzo L)
-- **Hoy.** `exacto.py:54,61-79`: solo territorio entero, D8, una circunscripción, sin exenciones, tamaño ≤ 2.000.
-  16 de 71 territorios tienen K > 37 (medido en `T180_CADENAS/todos_71/TERRITORIOS.csv`). La Rioja autonómica
-  (K = 33) no cierra ni la primera etapa (`T296_OPTIMO_D8/README.md:69`).
+### A2-1 · El exacto es todo o nada: falta el exacto por vecindarios (impacto 4, esfuerzo L)
+- **Hoy.** `exacto.py:54,61-79`: solo territorio entero, D8, una circunscripción, sin exenciones, 2 ≤ K ≤ 4 o
+  tamaño ≤ 2.000. 16 de 71 territorios tienen K > 37 (todos K ≥ 45: no caben nunca, átomos × K ≥ 2.025). La Rioja
+  autonómica (K = 33) no cierra ni la primera etapa (`T296_OPTIMO_D8/README.md:69`).
 - **Propongo.** Candidato «exacto local» (`exacto_local.py`, reutiliza `_Modelo`): desde el mejor candidato, tomar
   en orden fijo grupos de 2 a 4 distritos contiguos, fijar el resto, resolver D8 exacto en el fragmento y aceptar
-  solo si mejora la clave oficial completa. Certificado nuevo: «ningún grupo de hasta 3 distritos vecinos mejora».
+  solo si mejora la clave oficial completa. Certificado nuevo: «ningún grupo de hasta 4 distritos vecinos que quepa
+  en 2.000 mejora» (óptimo local, no global).
 - **Aceptación.** En Sevilla, desde el plan de 8 partidas y sin exacto global, llega a 6 · 785,968 km en menos de
-  5 min de CPU con la misma huella dos veces; en La Rioja autonómica acaba con clave igual o mejor y plan válido.
+  5 min de CPU con la misma huella dos veces. En La Rioja autonómica acaba en menos de 30 min de CPU, con la misma
+  huella dos veces y plan válido, y el informe dice si mejora y en qué término.
 - **Riesgo.** Cambio de motor (solo en regeneración). Los términos globales de D8 hay que modelarlos con cuidado.
+  El modelo excluye hoy varias circunscripciones y exenciones, que es el caso de casi todas las autonómicas grandes.
 - **Ya previsto.** T-468 solo como propuesta de la auditoría; no está en `docs/PLAN.md` ni nombra la técnica.
+- **Verificación: corregido.** Impacto 5 → 4: da un óptimo local, no demostración ni cota, y no hay experimento. En
+  la fuente (10) lo que supera a las ráfagas es la generación de columnas, no la reoptimización local.
 
-### A2-2 · Sin cota fuera del exacto: la da la técnica de agrupaciones (impacto 4, esfuerzo M)
+### A2-2 · Sin cota fuera del exacto: hace falta una cota propia (impacto 3, esfuerzo M, confianza baja)
 - **Hoy.** La cota sale solo de CP-SAT y solo donde el modelo entero aplica (`exacto.py:354-358`). El término que
-  decide es «demarcaciones partidas» (`T465…/INFORME.md:8-10`), el mismo problema que «condados partidos».
-- **Propongo.** `cotas.py`: programa entero sobre el grafo de demarcaciones (decenas de piezas por provincia) que da
-  el máximo de agrupaciones; K menos ese máximo acota las partidas, por familia. Va a `COMPETICION.json` como dato.
-- **Aceptación.** En los cuatro del piloto la cota es ≤ el óptimo (2, 2, 2, 6) y lo iguala en al menos dos, en
-  menos de 30 s; en un territorio con K > 37 da una cota mayor que 0 en menos de 5 min.
-- **Riesgo.** Dos familias que se solapan: la suma puede quedar floja. Válida siempre, ajustada no siempre.
+  decide es «demarcaciones partidas» (`T465…/INFORME.md:8-10`). Se parece a «condados partidos», pero D8 cuenta las
+  demarcaciones repartidas en más de un distrito (`naturalidad_clave.py:52-53`) y la técnica de (8) acota las
+  particiones (partes − 1): en Sevilla, tres comarcas partidas en 4, 6 y 13 son 3 para D8 y 20 particiones.
+- **Propongo.** `cotas.py` con modelo propio: programa entero sobre las piezas partido judicial ∩ comarca que
+  maximiza las demarcaciones enteras (cada una en un solo distrito, sin pasar del techo). Demarcaciones menos ese
+  máximo acota el tercer término de D8. Va a `COMPETICION.json` como dato.
+- **Aceptación.** En los cuatro del piloto la cota es ≤ el óptimo (2, 2, 2, 6) y ≥ la cota trivial (demarcaciones
+  mayores que el techo; en Sevilla, 3), con su hueco, en menos de 30 s; en un territorio con K > 37 da cota y hueco
+  en menos de 5 min. Si no mejora la trivial en ninguno, se descarta y se deja escrito.
+- **Riesgo.** Ignora contigüidad y R012: válida siempre, ajustada quizá no. El repositorio de (8) no muestra licencia.
+- **Verificación: corregido.** La cota «K menos el máximo de agrupaciones» no vale para D8 (sección 10). Impacto 4 → 3.
 
-### A2-3 · La contigüidad del exacto es la formulación débil (impacto 4, esfuerzo M)
-- **Hoy.** Árbol padre/nivel con un entero 0..n−1 por átomo (`exacto.py:218-234`). En Sevilla la etapa de frontera
-  se lleva 42,8 de 60,2 s (`resultados/exacto/nac41.json`) y en producción no cierra (`T502…/INFORME.md:49-61`).
+### A2-3 · La contigüidad del exacto es la formulación padre y nivel (impacto 3, esfuerzo M)
+- **Hoy.** Árbol padre/nivel con un entero 0..n−1 por átomo (`exacto.py:218-234`). En el estudio de Sevilla la etapa
+  de frontera se lleva 42,8 de 60,2 s y cierra (`resultados/exacto/nac41.json`); en producción no cierra ni con tope
+  60 ni con 300 (`T502…/INFORME.md:49-61`). Que la causa sea la contigüidad es una hipótesis: CP-SAT no depende de
+  la relajación lineal como un resolutor entero clásico, y la configuración del estudio no se ha comparado.
 - **Propongo.** Estudio con tres variantes sobre las instancias neutras: la actual, flujo por distrito, y sin
   contigüidad más bucle de cortes separadores. Solo si una gana, se propone como modelo 2.0.
-- **Aceptación.** Tabla de tiempo determinista por etapa en nac09, nac47, nac26, nac41 y aut17; se adopta una
-  variante solo si cierra la frontera de Sevilla en menos de la mitad o cierra la primera etapa de aut17, con el
-  mismo plan dos veces.
+- **Aceptación.** Tabla de estado y tiempo por etapa en nac09, nac47, nac26, nac41 y aut17 con la configuración de
+  producción; se adopta una variante solo si cierra la frontera de Sevilla dentro del tope 60 (hoy no cierra ni con
+  300) o cierra la primera etapa de aut17, con el mismo plan dos veces.
 - **Riesgo.** CP-SAT no admite cortes dentro de la búsqueda; el bucle puede no ganar.
+- **Verificación: corregido.** Impacto 4 → 3 (estudio de resultado incierto). Necesita aprobación del propietario
+  (D-18, D-216), no «nada». El criterio anterior («la mitad del tiempo actual») no se podía medir.
 
 ### A2-4 · Cadenas independientes de 300 pasos: probar ráfagas cortas (impacto 4, esfuerzo S)
 - **Hoy.** `candidatos.py:301` (300 pasos), `competicion.py:450` (5 cadenas por defecto), `ponderado.py:101-115`.
-  En el estudio de las 71, el ganador por naturalidad aún cambiaba con la cadena 15 o posterior en 26 territorios y
-  con la 20 (tope probado) en 11.
+  En el estudio de las 71 (cadena de entonces, función B) el N de saturación fue 15 o 20 en 26 territorios y 20,
+  el tope probado, en 11; cuenta también cambios de ganador por desempate de huella.
 - **Propongo.** Mismo total de pasos en ráfagas de b pasos desde el mejor plan según D8; registrar la tasa de
   rechazo del núcleo, que hoy no se guarda. Prueba con b = 5, 20 y 50, sin el candidato exacto.
-- **Aceptación.** Alcanza el óptimo demostrado en 2 de 3 (Burgos, Valladolid, Sevilla) y nunca empeora la clave de
-  las cadenas actuales en los cuatro. Si no, se descarta y se deja escrito.
-- **Ya previsto.** T-467 (propuesta: «cadenas más largas»). El piloto ya mide que más pasos no basta.
+- **Aceptación.** Arrancando solo del canónico (sin vigente ni exacto) y con línea base de las cadenas actuales:
+  alcanza el óptimo demostrado en 2 de 3 (Burgos, Valladolid, Sevilla) y en más que la línea base, y nunca empeora
+  su clave en los cuatro. Si no, se descarta y se deja escrito.
+- **Ya previsto.** T-467 (propuesta: «cadenas más largas»). El piloto mide que más pasos ayudan poco.
+- **Verificación: corregido.** En Burgos y Valladolid el candidato vigente ya es el óptimo: sin fijar el arranque
+  y la línea base, el criterio se cumplía solo. Impacto sin cambio.
 
-### A2-5 · Los mapas alternativos piden un muestreador validado (impacto 4, esfuerzo M)
+### A2-5 · Los mapas alternativos piden un muestreador validado (impacto 3, esfuerzo M)
 - **Hoy.** La única cadena es ReCom con recargos y rechazo duro (`ponderado.py:46-66,81-102`): buena para buscar,
-  sin distribución conocida. `exhaustivo.py:50` enumera todos los planes válidos en lo pequeño.
+  sin distribución conocida. `exhaustivo.py:50` enumera todos los planes válidos en lo pequeño. Las alternativas
+  se retiraron el 16-11 (D-138, D-141) y T-469 no está aprobada (D-214).
 - **Propongo.** Antes de T-469: en 2 o 3 territorios enumerables, comparar cadena actual, ReCom reversible y
-  `redist` (fuera del paquete) contra la enumeración. Elegir con esa tabla y publicarla con el conjunto.
-- **Aceptación.** Distancia de variación total menor que 0,05 en partidas, frontera y desvío con 10.000 planes, y
-  R-hat menor que 1,05 entre 4 ejecuciones.
+  `redist` (fuera del paquete) contra la enumeración. Elegir con esa tabla.
+- **Aceptación.** Distancia de variación total menor que 0,05 en partidas (por valor), frontera y desvío (10 tramos
+  fijados antes) con 10.000 planes, y R-hat menor que 1,05 entre 4 ejecuciones. Si nadie lo cumple, se deja escrito.
+- **Verificación: corregido.** Depende de una tarea que no existe: impacto 4 → 3. Publicar la prueba choca con D-92.
 
-### A2-6 · No se publica nada con lo que otros puedan medirse (impacto 4, esfuerzo M)
-- **Hoy (verificado).** `datos_abiertos/INDEX.json` no tiene ninguna clave de exacto, cota, huella, semilla ni
-  competición. `paquetes/deslinde/MAPAS.json` tiene 0 mapas y dice versión 1.0.0 (el paquete va por 1.2.0). Las
-  instancias neutras de T-296 «no se versionan». El README del paquete no menciona banco ni cota.
-- **Propongo.** «Banco DDD»: 71 instancias neutras con sha256, mejor clave conocida, cota y estado, y un
-  verificador de un fichero con solo biblioteca estándar. No abre el motor.
-- **Aceptación.** `datos_abiertos/banco/INDEX.json` con 71 instancias; `verificar_plan.py` da en los cuatro del
-  piloto la clave de `T465_BANCO_PILOTO/resultados/RESUMEN.json`; una prueba de CI lo comprueba.
-- **Necesita.** Decisión del propietario: choca con D-92 y D-94 (privado) y con la licencia pendiente (T-473).
+### A2-6 · No se publica nada con lo que otros puedan medirse (impacto 3, esfuerzo M)
+- **Hoy (verificado).** `datos_abiertos/INDEX.json` (52 territorios) no tiene ninguna clave de exacto, cota, huella,
+  semilla ni competición. `paquetes/deslinde/MAPAS.json` tiene 0 mapas y dice versión 1.0.0 (el paquete va por
+  1.2.0). Las instancias neutras de T-296 «no se versionan». Es así por decisión: D-92 declara secretos el código,
+  la definición formal de D8 y los estudios y mediciones.
+- **Propongo.** Primero, que el propietario decida si revisa D-92: un verificador que da la clave D8 publica la
+  definición de D8, y la mejor clave y la cota son mediciones. Solo entonces, «Banco DDD» empezando por los cuatro
+  del piloto: instancia neutra con sha256, mejor clave, cota, estado y verificador de un fichero.
+- **Aceptación.** Solo si se revisa D-92: `datos_abiertos/banco/INDEX.json` con las cuatro instancias del piloto;
+  `verificar_plan.py` da la clave de `T465_BANCO_PILOTO/resultados/RESUMEN.json`; una prueba de CI lo comprueba.
+- **Necesita.** Decisión del propietario: va contra D-92 y D-94 y depende de la licencia pendiente (T-473).
+- **Verificación: corregido.** Hay decisión en contra en vigor (D-92): impacto 4 → 3. Las 71 instancias no existen
+  (solo 9 de T-296 y 4 del piloto; Madrid falla en la nube). T-466 no es propuesta: está hecha (#1025).
 
 ### A2-7 · Separar buscar de certificar (impacto 3, esfuerzo M)
-- **Hoy.** La prueba depende del tope de 60 por etapa (`exacto.py:56,389-390`): Sevilla tiene el plan óptimo y
-  sale «MEJOR_VALIDO». D-73 nombraba HiGHS o CBC; solo hay CP-SAT, nadie cruza la prueba.
-- **Propongo.** Certificado fuera de línea por territorio (sin tope, con registro y versión) y segundo resolutor
-  abierto para la etapa decisiva. La competición compara la huella del plan con la certificada.
-- **Aceptación.** Certificado de Sevilla con cinco etapas OPTIMAL; un segundo resolutor confirma «partidas = 6».
+- **Hoy.** En producción la etapa de frontera de Sevilla no cierra ni con tope 60 ni con 300 (`exacto.py:56,389-390`;
+  T-502): tiene el plan óptimo y sale «MEJOR_VALIDO». El estudio T-465 sí cierra las cinco etapas. D-73 nombraba
+  HiGHS o CBC; solo hay CP-SAT, nadie cruza la prueba.
+- **Propongo.** Certificado fuera de línea por territorio (con la configuración que cierra, registro y versión) y
+  segundo resolutor abierto para la etapa decisiva. La competición compara la huella del plan con la certificada.
+- **Aceptación.** Certificado de Sevilla atado a la huella de reglas y al sha256 de la instancia (las cinco etapas
+  OPTIMAL ya están en `resultados/exacto/nac41.json`); un segundo resolutor confirma «partidas = 6»; la competición
+  marca OPTIMO si la huella del plan coincide, con la misma `huella_resultado` dos veces.
+- **Verificación: corregido.** Subir el tope no basta (T-502) y media aceptación ya se cumplía con el estudio.
 
 ### A2-8 · Recombinar los distritos que las cadenas tiran (impacto 3, esfuerzo M, confianza baja)
 - **Hoy.** `ponderado.py:104-115` guarda el mejor plan y solo la huella del resto.
 - **Propongo.** Guardar los distritos vistos y resolver con CP-SAT la selección de K que cubren el territorio.
-- **Aceptación.** En el piloto, clave igual o mejor que la mejor cadena y estrictamente mejor en uno; menos de 60 s.
+- **Aceptación.** En el piloto, sin vigente ni exacto: clave igual o mejor que la mejor cadena y estrictamente mejor
+  en uno; menos de 60 s.
+- **Verificación: corregido.** Es un estudio: necesita aprobación del propietario (D-18, D-216), no «nada».
 
-### A2-9 · Publicar lo que cuesta cada renuncia de D8 (impacto 3, esfuerzo S)
-- **Hoy.** Burgos: de 3 a 2 partidas sube el desvío del 0,02 % al 4,23 %. Sevilla: de 8 a 6 cuesta 22 km.
-- **Propongo.** Con el exacto actual, la tabla de puntos no dominados (partidas, frontera, desvío) por territorio.
-- **Aceptación.** Tabla de los cuatro del piloto, cada punto con estado OPTIMAL y el elegido por D8 marcado.
+### A2-9 · Medir lo que cuesta cada renuncia de D8 (impacto 3, esfuerzo S)
+- **Hoy.** Sevilla: de 8 a 6 partidas cuesta 22 km de frontera. La cifra de Burgos de T-296 (de 3 a 2 partidas, el
+  desvío sube del 0,02 % al 4,23 %) es de cuando la frontera valía 0; hoy su óptimo es 2 · 315,8 km · 7,84 %.
+- **Propongo.** Con el exacto actual, por territorio: partidas = óptimo, + 1 y + 2, con frontera y desvío mínimos.
+- **Aceptación.** Tabla de tres filas por cada uno de los cuatro del piloto, cada fila con su estado (OPTIMAL o «no
+  cierra») y la elegida por D8 marcada.
+- **Verificación: corregido.** Cifra de Burgos no vigente; el criterio pedía «todos los puntos no dominados», que la
+  propuesta no calcula. Publicar la tabla fuera exige revisar D-92.
 
 ### A2-10 · Medir la población futura, como Australia (impacto 3, esfuerzo S)
 - **Hoy.** La tolerancia usa una sola fecha (`exacto.py:168,188-198`).
-- **Propongo.** Estudio: los 71 mapas vigentes evaluados con el padrón de cuatro años antes.
-- **Aceptación.** Tabla por territorio de distritos fuera de tolerancia en t − 4 y en t, con fuentes y sha256.
+- **Propongo.** Estudio: los 71 mapas vigentes evaluados con la población de cuatro años antes.
+- **Aceptación.** Tabla por territorio de distritos fuera de tolerancia en t − 4 (Atlas del INE, tabla 30832) y en
+  t, con la población que no casa, fuentes y sha256.
+- **Verificación: corregido.** No hay «padrón por sección de 2011 a 2025»: T-357 midió el Atlas 2015-2024 (lista
+  única de 37.229 secciones) y el censo de 2011, sin versionar; no existe padrón por sección anterior a 2015.
 
-### A2-11 · Diagramas de potencia: encaje bajo (impacto 2)
+### A2-11 · Diagramas de potencia: encaje bajo (impacto 2; sin revisar en la verificación)
 - Ignoran municipios, partidos y núcleos; D8 no premia la compacidad geométrica. No implementar ahora.
 
 ## 5. Las cinco técnicas que más suben de liga, con su experimento barato
@@ -145,12 +186,13 @@ escritos, una comisión independiente por provincia y audiencias públicas.
 | # | Técnica | Experimento (local, sin lanzar nada) | Criterio de aceptación |
 |---|---|---|---|
 | 1 | Exacto por vecindarios (A2-1) | Sevilla y La Rioja autonómica desde el ganador de las cadenas | Sevilla llega a 6 · 785,968 km en < 5 min de CPU, huella repetida |
-| 2 | Cotas por agrupaciones (A2-2) | Programa sobre demarcaciones en los cuatro del piloto y en uno con K > 37 | Cota ≤ óptimo en los cuatro, igual en dos, < 30 s |
-| 3 | Ráfagas cortas (A2-4) | Mismas semillas y pasos, b = 5, 20, 50, sin exacto | Óptimo en 2 de 3; nunca peor que hoy |
-| 4 | Contigüidad por cortes o flujos (A2-3) | Tres variantes del modelo en cinco instancias neutras | Frontera de Sevilla en la mitad de tiempo, o aut17 cierra la etapa 1 |
-| 5 | Muestreador validado (A2-5) | Tres muestreadores contra `enumerar_exacto` en 2 o 3 territorios | Variación total < 0,05 y R-hat < 1,05 |
+| 2 | Cota de demarcaciones partidas, modelo propio (A2-2) | Programa sobre demarcaciones en los cuatro del piloto y en uno con K > 37 | Cota ≤ óptimo y ≥ la trivial en los cuatro, con su hueco, < 30 s |
+| 3 | Ráfagas cortas (A2-4) | Mismas semillas y pasos, b = 5, 20, 50, desde el canónico, sin vigente ni exacto | Óptimo en 2 de 3 y en más que la línea base; nunca peor |
+| 4 | Contigüidad por cortes o flujos (A2-3) | Tres variantes del modelo en cinco instancias neutras | Frontera de Sevilla cierra dentro del tope 60, o aut17 cierra la etapa 1 |
+| 5 | Muestreador validado (A2-5) | Tres muestreadores contra `enumerar_exacto` en 2 o 3 territorios | Variación total < 0,05 (tramos fijados antes) y R-hat < 1,05 |
 
-Orden por coste: 3 (una sesión), 2 y 4 (dos o tres), 5 (dos o tres), 1 (una semana).
+Orden por coste: 3 (una sesión), 2 y 4 (dos o tres), 5 (dos o tres), 1 (una semana). Tras la verificación, solo
+A2-1 y A2-4 quedan con impacto 4; las otras tres, con 3.
 
 ## 6. Qué publican los mejores y este proyecto aún no
 
@@ -167,17 +209,19 @@ Orden por coste: 3 (una sesión), 2 y 4 (dos o tres), 5 (dos o tres), 1 (una sem
 
 ## 7. Camino en tres pasos
 
-1. **Esta semana (sin tocar el motor).** Ráfagas cortas (A2-4) y tabla de renuncias (A2-9) como estudios en
-   `docs/ESTUDIOS/`. Prueba: las dos tablas de aceptación, reproducibles con un comando.
-2. **Este mes.** Cotas por agrupaciones (A2-2), variantes de contigüidad (A2-3) y validación del muestreador
+1. **Esta semana (sin tocar el motor), si el propietario los aprueba (D-216).** Ráfagas cortas (A2-4) y tabla de
+   renuncias (A2-9) como estudios en `docs/ESTUDIOS/`. Prueba: las dos tablas de aceptación, reproducibles con un comando.
+2. **Este mes.** Cota de demarcaciones partidas (A2-2), variantes de contigüidad (A2-3) y validación del muestreador
    (A2-5). Prueba: una línea por territorio del piloto, «óptimo» o «a N como mucho», y la tabla de validación.
 3. **Este trimestre.** Exacto por vecindarios (A2-1) como Deslinde 1.3 en la siguiente regeneración; banco público
-   (A2-6) y certificados (A2-7). Prueba: los 71 territorios con estado «óptimo demostrado», «óptimo local
+   (A2-6, solo si se revisa D-92) y certificados (A2-7). Prueba: los 71 territorios con estado «óptimo demostrado», «óptimo local
    certificado» o «a N como mucho», y `datos_abiertos/banco/` con verificador en CI.
 
 ## 8. Lo que no pude comprobar, y objeciones
 
 **No comprobado**
+- Verificación: los 44 millones de planes de (15); cuántos territorios con K ≥ 5 caben en 2.000 (T-503 da 27
+  candidatos y confirma Sevilla); por qué la frontera de Sevilla cierra en el estudio y no en producción.
 - Tamaños exactos de las instancias de (7) y planes por estado de ALARM: `arxiv.org`, `par.nsf.gov` y
   `pmc.ncbi.nlm.nih.gov` no se resuelven desde esta sesión; habría que permitirlos en la red del entorno.
 - Átomos × K de los 71 territorios: no hay tabla versionada. Se obtiene con `bateria_motor.py entradas` y
@@ -230,3 +274,20 @@ Orden por coste: 3 (una sesión), 2 y 4 (dos o tres), 5 (dos o tres), 1 (una sem
     https://www.aec.gov.au/redistributions/2023/wa/enrolment-projections-overview.html
 20. Biblioteca del Parlamento de Canadá (2022). https://lop.parl.ca/en/researchpublications/202227e
 21. PlanScore. https://planscore.org/about/ · Dave's Redistricting. https://davesredistricting.org
+
+## 10. Descartados en la verificación
+
+Ningún hallazgo queda refutado entero: los diez revisados siguen en pie, corregidos. Se descartan estas afirmaciones:
+
+- **«K menos el máximo de agrupaciones acota el tercer término de D8» (A2-2).** Esa cota es de particiones (partes
+  − 1 por demarcación) y D8 cuenta demarcaciones partidas. En Sevilla el plan óptimo tiene 20 particiones solo en
+  tres comarcas y D8 cuenta 6 en total: con menos de 10 comarcas, esa cota ya pasaría del óptimo demostrado.
+- **«Óptimo demostrado en 24 de 71 territorios (K ≤ 4)» (liga de hoy).** 8 de los 24 tienen K = 1 y el exacto no
+  aplica; con 2 ≤ K ≤ 4 hay 16, y el óptimo está medido en 8 provincias (T-296) y en el piloto.
+- **«El proyecto ya tiene padrón por sección de 2011 a 2025» (A2-10).** T-357: Atlas del INE 2015-2024 y censo de
+  2011, sin versionar; no existe padrón por sección anterior a 2015.
+- **«El banco no abre el motor» y «los datos ya existen» (A2-6).** El verificador publica la definición de D8, que
+  D-92 declara secreta; instancias neutras solo hay de 9 territorios más los 4 del piloto.
+- **«La reoptimización local supera a las ráfagas cortas» (A2-1, fuente 10).** Lo que las supera es la generación
+  de columnas; la reoptimización local mejora cualquier plan de partida.
+- **Burgos, «el desvío sube del 0,02 % al 4,23 %» (A2-9).** Medido en T-296 con la frontera a 0; ya no es vigente.
