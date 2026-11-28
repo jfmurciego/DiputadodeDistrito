@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.654
+Versión: 1.0.655
 Fecha: 2026-11-28
-Alcance: T-511 — Presupuesto de la ventana de 5 horas (D-217)
+Alcance: T-510 — P40: la subida a R2 de la web, en un job con el entorno `publicacion` (solución B)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-28_implementador-t511-presupuesto-ventana.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.653_registro_20261128.md
+Cambios/motivo: entrada docs/registro/2026-11-28_t510-p40-r2-job-publicacion.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.654_registro_20261128.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.653_registro_20261128.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.655 · [2026-11-28 — T-510 — P40: la subida a R2 de la web, en un job con el entorno `publicacion` (solución B)](registro/2026-11-28_t510-p40-r2-job-publicacion.md)
 - 1.0.654 · [2026-11-28 — T-511 — Presupuesto de la ventana de 5 horas (D-217)](registro/2026-11-28_implementador-t511-presupuesto-ventana.md)
 - 1.0.653 · [2026-11-28 — T-512 — Libro de costes por guion (`libro_costes.py` y `libro.jsonl`)](registro/2026-11-28_implementador-t-512-libro-costes.md)
 - 1.0.652 · [2026-11-28 — T-555 — Plan 1.0.80 y traspaso del Planificador](registro/2026-11-28_planificador-plan-1-0-80.md)
