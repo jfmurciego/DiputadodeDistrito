@@ -1,4 +1,4 @@
-"""Versión 1.0.0 — T-325 (D-123, decisión del propietario 2026-11-15): LICENSE recoge el material de terceros de la galería.
+"""Versión 1.1.0 — T-557 (D-218): la cláusula de terceros vive ahora en AVISOS_LICENCIA.md (LICENSE es el texto oficial de PolyForm). 1.0.0 — T-325 (D-123, decisión del propietario 2026-11-15): LICENSE recoge el material de terceros de la galería.
 Fecha: 2026-11-15. Estado: candidato. Anterior: ninguna (fichero nuevo).
 El cambio de LICENSE se limita al texto literal acordado en el apartado 3 y a su cabecera; todo lo demás queda byte a byte igual.
 """
@@ -21,28 +21,14 @@ def _plano(t):
 
 class LicenciaTerceros(unittest.TestCase):
     def setUp(self):
-        self.t = (R / "LICENSE").read_text(encoding="utf-8")
+        self.t = (R / "AVISOS_LICENCIA.md").read_text(encoding="utf-8")
 
-    def test_clausula_literal_en_el_apartado_3(self):
-        a3 = self.t.split("3. Excepciones", 1)[1].split("4. Versiones anteriores", 1)[0]
-        self.assertIn(CLAUSULA, _plano(a3))
-        self.assertEqual(_plano(self.t).count(CLAUSULA), 1)
-
-    def test_cabecera_con_version_anterior_y_decision(self):
-        cab = self.t.split("\n", 1)[0]
-        self.assertIn("VERSIÓN: 1.1.0", cab)
-        self.assertIn("ANTERIOR: legacy/licencias/LICENSE_pre_t325_20261115.txt", cab)
-        self.assertIn("D-123", cab)
+    def test_clausula_literal_una_sola_vez(self):
+        self.assertEqual(_plano(self.t).count(CLAUSULA.replace("- ", "")), 1)
 
     @unittest.skipUnless(LEGACY.is_file(), "legacy/ no entra en la imagen de CI (.dockerignore)")
-    def test_copia_anterior_intacta_y_resto_de_license_sin_cambios(self):
-        antes = LEGACY.read_bytes()
-        self.assertEqual(hashlib.sha256(antes).hexdigest(), SHA_LICENSE_ANTERIOR)
-        # Quitando la cláusula y la cabecera, el texto nuevo es exactamente el anterior: nada más cambió.
-        ant = antes.decode("utf-8").split("\n", 1)[1]
-        nuevo = self.t.split("\n", 1)[1]
-        bloque = re.search(r"   - Material de terceros\..*?`, y no por esta licencia\.\n", nuevo, re.S).group(0)
-        self.assertEqual(nuevo.replace(bloque, "", 1), ant)
+    def test_copia_anterior_intacta(self):
+        self.assertEqual(hashlib.sha256(LEGACY.read_bytes()).hexdigest(), SHA_LICENSE_ANTERIOR)
 
     def test_notice_existe_y_se_rige_cada_foto_por_su_licencia(self):
         n = (R / "visor" / "v2" / "galeria" / "NOTICE.md").read_text(encoding="utf-8")

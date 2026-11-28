@@ -1,5 +1,5 @@
 # PROYECTO: Diputado de Distrito · Deslinde 1.0.0 (T-257, D-88). VERSIÓN: 1.0.0 · FECHA: 2026-11-14.
-# ANTERIOR: ninguna (fichero nuevo). Paquete privado (D-94); licencia: #744. Rangos compatibles; la reproducibilidad bit a bit solo con requirements-deslinde.lock.
+# ANTERIOR: ninguna (fichero nuevo). Paquete privado (D-94); licencia: PolyForm-Strict-1.0.0 (T-557, D-218). Rangos compatibles; la reproducibilidad bit a bit solo con requirements-deslinde.lock.
 [build-system]
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
@@ -9,6 +9,7 @@ name = "deslinde"
 version = "1.2.0"
 description = "Deslinde: delimitación reproducible de distritos uninominales desde secciones censales"
 readme = "README.md"
+license = {text = "PolyForm-Strict-1.0.0"}
 authors = [{name = "Jesus Murciego"}]
 requires-python = ">=3.11"
 dependencies = [

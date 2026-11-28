@@ -55,8 +55,8 @@ class LicenciaPropietaria(unittest.TestCase):
     """T-280 (D-95): LICENSE propietaria, nota de la Apache-2.0 anterior y excepciones de D-92."""
 
     def test_license(self):
-        t = (R / "LICENSE").read_text(encoding="utf-8")
-        self.assertIn("Copyright (c) 2026 Jesus Murciego. Todos los derechos reservados.", t)
+        t = (R / "AVISOS_LICENCIA.md").read_text(encoding="utf-8")  # T-557: LICENSE es el texto oficial de PolyForm
+        self.assertIn("Copyright (c) 2026 Jesus Murciego.", t)
         self.assertIn("Apache-2.0", t)
         self.assertIn("14 de noviembre de 2026", t)
         self.assertIn("CC BY 4.0", t)
@@ -70,7 +70,7 @@ class LicenciaPropietaria(unittest.TestCase):
     def test_readme_sin_apache_como_licencia_vigente(self):
         readme = (R / "README.md").read_text(encoding="utf-8")
         self.assertNotIn("**Código**: Apache-2.0", readme)
-        self.assertIn("licencia propietaria", readme)
+        self.assertIn("PolyForm Strict 1.0.0", readme)
 
 
 if __name__ == "__main__":

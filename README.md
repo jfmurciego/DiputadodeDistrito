@@ -1,7 +1,7 @@
 # Diputado de Distrito — motor de distritos uninominales
 
-**README rev. 5.0.0-r2** (BORRADOR para el corte 5.0.0; revisión del documento: DOI de la serie de mapas, T-463)  
-**Anterior:** `legacy/docs/README_v5.0.0-r1.md`
+**README rev. 5.0.0-r3** (BORRADOR para el corte 5.0.0; revisión del documento: licencia del código PolyForm Strict 1.0.0, T-557)  
+**Anterior:** `legacy/docs/README_v5.0.0-r2.md`
 
 [![DOI de concepto](https://zenodo.org/badge/DOI/10.5281/zenodo.24448721.svg)](https://doi.org/10.5281/zenodo.24448721) Serie de versiones de mapa publicadas en Zenodo; no es la cita del proyecto entero. Cada depósito contiene el código fuente del repositorio en esa versión, no el paquete firmado `.tar.gz`.
 
@@ -234,7 +234,7 @@ El visor solo muestra lo registrado en `orchestracion/publicaciones_visor.json`.
 
 Las fuentes oficiales conservan sus propias condiciones de reutilización.
 
-- **Código y resto del repositorio**: licencia propietaria, todos los derechos reservados (`LICENSE`), desde el 14-11-2026. Lo publicado antes bajo Apache-2.0 conserva esa licencia para quien lo recibió. Las excepciones abiertas (D-92) están en `LICENSE`.
+- **Código**: [PolyForm Strict 1.0.0](https://polyformproject.org/licenses/strict/1.0.0) (`LICENSE`), desde el 14-11-2026: se puede leer y ejecutar sin fines comerciales (investigación, comprobación); no se puede distribuir ni modificar. Lo publicado antes bajo Apache-2.0 conserva esa licencia para quien lo recibió. Material de terceros y demás avisos: `AVISOS_LICENCIA.md`.
 - **Datos** (`datos_abiertos/`): CC BY 4.0, citando «Diputado de Distrito» y el run de procedencia.
 
 ## Cómo citar
