@@ -202,10 +202,13 @@ class PasoP40(unittest.TestCase):
     def test_solo_desde_main_y_secretos_en_el_paso(self):
         import yaml
         wf = yaml.safe_load((Path(__file__).resolve().parents[1] / ".github/workflows/p40-publicacion.yml").read_text(encoding="utf-8"))
-        pasos = [s for s in wf["jobs"]["publicar"]["steps"] if s.get("name") == "Datos de la web en R2 (T-430)"]
+        # T-510 (P40 1.8.0): el paso vive en el job `subir_r2` (entorno publicacion); «solo main» va en la condición del job
+        pasos = [(j, s) for j, job in wf["jobs"].items() for s in job["steps"] if s.get("name") == "Datos de la web en R2 (T-430)"]
         self.assertEqual(len(pasos), 1)
-        p = pasos[0]
-        self.assertEqual(p.get("if"), "${{ github.ref == 'refs/heads/main' }}")  # otra rama no reescribe actual.json de producción
+        j, p = pasos[0]
+        self.assertEqual(j, "subir_r2")
+        self.assertIn("github.ref == 'refs/heads/main'", wf["jobs"][j]["if"])  # otra rama no reescribe actual.json de producción
+        self.assertEqual(p.get("if"), "${{ steps.sitio.outcome == 'success' }}")
         self.assertEqual(p["env"]["R2_WEB_BUCKET"], "${{ vars.R2_WEB_BUCKET }}")
         self.assertEqual(p["env"]["R2_BUCKET"], "${{ vars.R2_BUCKET }}")  # para rechazar el bucket de trabajo
         self.assertNotIn("--permitir-borrado", p["run"])  # la anulación del tope nunca va en el workflow

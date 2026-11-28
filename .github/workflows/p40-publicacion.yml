@@ -861,7 +861,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          # El artefacto de upload-pages-artifact es un único artifact.tar con el sitio tal cual lo sirve Pages.
+          # El artefacto de Pages es un único artifact.tar con el sitio tal cual lo sirve Pages.
           rm -rf /tmp/site-candidate
           mkdir -p /tmp/site-candidate
           tar -xf "$RUNNER_TEMP/pages/artifact.tar" -C /tmp/site-candidate

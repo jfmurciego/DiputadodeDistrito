@@ -135,7 +135,8 @@ class SitioR2(unittest.TestCase):
 class PasoP40(unittest.TestCase):
     def test_paso_solo_main_con_secretos_propios(self):
         wf = yaml.safe_load((Path(__file__).resolve().parents[1] / ".github/workflows/p40-publicacion.yml").read_text(encoding="utf-8"))
-        pasos = wf["jobs"]["publicar"]["steps"]
+        self.assertIn("github.ref == 'refs/heads/main'", wf["jobs"]["subir_r2"]["if"])  # T-510 (P40 1.8.0): job propio, solo main
+        pasos = wf["jobs"]["subir_r2"]["steps"]
         nombres = [p.get("name") for p in pasos]
         p = pasos[nombres.index("Web en R2 (T-430)")]
         self.assertGreater(nombres.index("Web en R2 (T-430)"), nombres.index("Datos de la web en R2 (T-430)"))  # datos antes que la web
@@ -146,7 +147,7 @@ class PasoP40(unittest.TestCase):
         self.assertIn("publicar_sitio_r2.py --sitio /tmp/site-candidate", p["run"])
         datos = pasos[nombres.index("Datos de la web en R2 (T-430)")]
         self.assertEqual(datos.get("id"), "datos_web")
-        self.assertEqual(p.get("if"), "${{ github.ref == 'refs/heads/main' && steps.datos_web.outcome == 'success' }}")  # sin datos, no se sube la web
+        self.assertEqual(p.get("if"), "${{ steps.datos_web.outcome == 'success' }}")  # sin datos, no se sube la web
         self.assertNotIn("--permitir-borrado", p["run"])
 
 

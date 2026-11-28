@@ -224,9 +224,12 @@ class SinPartir(Base):
 
     def test_p40_y_p70_sin_jobs_nuevos(self):
         antes = {n: yaml.safe_load((FIX / f"{n}_{HUELLAS[n][0]}.yml").read_text(encoding="utf-8")) for n in ("p40-publicacion", "p70-archivo")}
+        nuevos = {"p40-publicacion": {"subir_r2"}, "p70-archivo": set()}  # T-510 (P40 1.8.0): solo la subida a R2 de la web, sin app ni push
         for n, d in antes.items():
-            self.assertEqual(set(self.docs[f"{n}.yml"]["jobs"]), set(d["jobs"]), n)
+            self.assertEqual(set(self.docs[f"{n}.yml"]["jobs"]), set(d["jobs"]) | nuevos[n], n)
         j = self.docs["p40-publicacion.yml"]["jobs"]
+        self.assertNotIn(APP, yaml.safe_dump(j["subir_r2"]))  # no registra: el despliegue y el registro siguen juntos en `publicar`
+        self.assertNotIn("git push", yaml.safe_dump(j["subir_r2"]))
         self.assertEqual(j["publicar"]["concurrency"]["group"], "ddd-pages-prod")
         self.assertIn("git push origin HEAD:main", yaml.safe_dump(j["publicar"]))
         self.assertEqual(self.docs["p70-archivo.yml"]["jobs"]["podar"]["concurrency"]["group"], "archivar-artefactos-r2")
