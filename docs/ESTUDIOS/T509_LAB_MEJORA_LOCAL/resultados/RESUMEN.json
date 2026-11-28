@@ -80,6 +80,46 @@
   "mejoras_trios": 3
  },
  {
+  "territorio": "aut06",
+  "k": 35,
+  "atomos": 160,
+  "tamano": 5600,
+  "ganador": "ponderado-s1810203965",
+  "d8_antes": [
+   8,
+   0.02945517151126724,
+   13,
+   762.147,
+   0.7229731452258462
+  ],
+  "d8_despues": [
+   5,
+   0.029931048782518982,
+   10,
+   623.187,
+   0.7229731452258462
+  ],
+  "mejora": true,
+  "termino_que_mejora": "fuera",
+  "tiempo_s": [
+   900.0,
+   899.2
+  ],
+  "tiempo_competicion_s": 341.6,
+  "reglas_duras_ok": true,
+  "repeticiones": 2,
+  "se_repite": false,
+  "tope_total_alcanzado": [
+   true,
+   true
+  ],
+  "optimo_local_demostrado": false,
+  "subproblemas": 678,
+  "sin_cerrar": 3,
+  "mejoras_pares": 38,
+  "mejoras_trios": 10
+ },
+ {
   "territorio": "nac46",
   "k": 23,
   "atomos": 272,
